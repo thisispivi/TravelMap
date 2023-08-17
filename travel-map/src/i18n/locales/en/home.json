@@ -1,0 +1,36 @@
+{
+  "home": {
+    "title": "Who am I?",
+    "description": "I'm a <b>Computer Science</b> student at the <b>University of Cagliari</b>. I'm passionate about <b>programming</b> and <b>finance</b>.",
+    "links": {
+      "github": "GitHub",
+      "linkedin": "LinkedIn",
+      "email": "Email"
+    }
+  },
+  "education": {
+    "title": "Education",
+    "events": {
+      "high-school": {
+        "title": "High School",
+        "date": "SEP 2011 - JUL 2016",
+        "description": "Diploma of Scientific High School with a focus on Applied Sciences with a score of <b>96/100</b>",
+        "location": "Liceo Scientifico Giordano Bruno, Muravera(SU)"
+      },
+      "college": {
+        "title": "Bachelor Degree",
+        "date": "SEP 2016 - JUL 2019",
+        "description": "Bachelor's Degree in Computer Science with a score of <b>110/110</b> cum laude",
+        "thesis": "A Python Framework for Trading",
+        "location": "University of Cagliari"
+      },
+      "master": {
+        "title": "Master Degree",
+        "date": "SEP 2019 - FEB 2023",
+        "description": "Master's Degree in Computer Science with a score of <b>106/110</b>",
+        "thesis": "A data-driven framework for analyzing and predicting financial statements",
+        "location": "University of Cagliari"
+      }
+    }
+  }
+}
