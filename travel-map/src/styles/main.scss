@@ -3,6 +3,71 @@
   padding: 0;
   box-sizing: border-box;
   font-family: "Titillium Web", sans-serif;
+
+  --marker-color: red;
+  --marker-circle-color: white;
+  --marker-transformation: translate(-5px, -9px);
+  --marker-transformation-hover: translate(-8px, -12px);
+  --marker-transformation-circle-hover: translate(-1px, -1px);
+  --marker-stroke-width: 3;
+  --marker-scale: 0.1;
+  --marker-opacity: 0.7;
+  --marker-scale-hover: 0.12;
+  --marker-opacity-hover: 1;
+  --marker-circle-scale-hover: 1.2;
+
+  --tooltip-background-color: white;
+  --tooltip-box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+  --tooltip-border-radius: 0.5rem;
+  --tooltip-padding: 0.3rem 0.4rem;
+  --tooltip-opacity: 0;
+  --tooltip-transform: translateY(-6px);
+  --tooltip-transition: opacity 0.2s ease, transform 0.2s ease;
+  --tooltip-opacity-hover: 1;
+  --tooltip-transform-hover: translateY(0);
+  --tooltip-title-font-size: 0.5rem;
+  --tooltip-title-font-weight: 700;
+  --tooltip-title-margin-bottom: 0.2rem;
+  --tooltip-content-font-size: 0.45rem;
+  --tooltip-content-font-weight: 500;
+  --tooltip-margin: 0.2rem;
+
+  --button-background-color: #80669d;
+  --button-background-color-hover: #9a7bbc;
+  --button-color: white;
+  --button-border-radius: 0.2rem;
+  --button-padding: 0.1rem 0.2rem;
+  --button-border: 0;
+
+  --webkit-scrollbar-bg: white;
+  --webkit-scrollbar-bar: #b7b7b7;
+  --webkit-scrollbar-bar-hover: #9e9e9e;
+  --webkit-scrollbar-bar-active: #898989;
+  --webkit-scrollbar-border: 8px solid var(--webkit-scrollbar-bg);
+  --webkit-scrollbar-size: 1.5rem;
+}
+
+::-webkit-scrollbar {
+  width: var(--webkit-scrollbar-size);
+  height: var(--webkit-scrollbar-size);
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--webkit-scrollbar-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--webkit-scrollbar-bar);
+  border-radius: var(--webkit-scrollbar-size);
+  border: var(--webkit-scrollbar-border);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--webkit-scrollbar-bar-hover);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: var(--webkit-scrollbar-bar-active);
 }
 
 .container {
@@ -11,67 +76,67 @@
   height: 100vh;
 
   .marker-icon {
-    transform: translate(-5px, -9px);
+    transform: var(--marker-transformation);
 
     path,
     circle {
-      opacity: 0.7;
+      opacity: var(--marker-base-opacity);
       transition: all 0.2s ease-in-out;
     }
 
     path {
-      fill: red;
-      stroke: white;
-      stroke-width: 3;
-      scale: 0.1;
+      fill: var(--marker-color);
+      stroke: var(--marker-color);
+      stroke-width: var(--marker-stroke-width);
+      scale: var(--marker-scale);
     }
 
     &.active path {
-      transform: translate(-8px, -12px);
-      scale: 0.12;
-      opacity: 1;
+      transform: var(--marker-transformation-hover);
+      scale: var(--marker-scale-hover);
+      opacity: var(--marker-base-opacity-hover);
     }
 
     &.active circle {
-      transform: translate(-1px, -1px);
-      scale: 1.2;
-      opacity: 1;
+      transform: var(--marker-transformation-circle-hover);
+      scale: var(--marker-circle-scale-hover);
+      opacity: var(--marker-base-opacity-hover);
     }
   }
 
   .tooltip {
-    border-radius: 0.5rem;
-    background-color: white;
-    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
-    margin: 0.2rem;
-    padding: 0.3rem 0.4rem;
-    opacity: 0;
-    transform: translateY(-6px);
-    transition: opacity 0.2s ease, transform 0.2s ease;
+    border-radius: var(--tooltip-border-radius);
+    background-color: var(--tooltip-background-color);
+    box-shadow: var(--tooltip-box-shadow);
+    padding: var(--tooltip-padding);
+    opacity: var(--tooltip-opacity);
+    transform: var(--tooltip-transform);
+    transition: var(--tooltip-transition);
+    margin: var(--tooltip-margin);
 
     &.active {
-      opacity: 1;
-      transform: translateY(0);
+      opacity: var(--tooltip-opacity-hover);
+      transform: var(--tooltip-transform-hover);
     }
 
     .title {
-      font-weight: 700;
-      font-size: 0.5rem;
+      font-size: var(--tooltip-title-font-size);
+      font-weight: var(--tooltip-title-font-weight);
+      margin-bottom: var(--tooltip-title-margin-bottom);
       display: flex;
-      margin-bottom: 0.2rem;
     }
 
     .content {
       & > * {
-        font-size: 0.45rem;
+        font-size: var(--tooltip-content-font-size);
+        font-weight: var(--tooltip-content-font-weight);
+        margin-top: 0rem;
       }
 
       .start,
       .end,
       .population {
         display: flex;
-        margin-top: 0rem;
-        font-weight: 500;
         p {
           margin-top: auto;
           margin-bottom: auto;
@@ -85,6 +150,56 @@
       }
     }
   }
+
+  --box-margin: 4rem;
+  --box-padding: 2rem;
+  --box-background-color: white;
+  --box-border-radius: 0.5rem;
+  --box-box-shadow: 0 0 500px rgba(0, 0, 0, 0.8);
+  --box-title-height: 2rem;
+  --box-title-margin-bottom: 1rem;
+  --box-title-font-size: 1.5rem;
+
+  .box {
+    grid-area: 1 / 1 / 2 / 2;
+    margin: var(--box-margin);
+    padding: var(--box-padding);
+    background-color: var(--box-background-color);
+    border-radius: var(--box-border-radius);
+    box-shadow: var(--box-box-shadow);
+    display: flex;
+    flex-direction: column;
+
+    .title {
+      height: var(--box-title-height);
+      font-size: var(--box-title-font-size);
+      margin-bottom: var(--box-title-margin-bottom);
+      display: flex;
+
+      p {
+        height: var(--box-title-height);
+        margin: auto 0 auto 0;
+      }
+
+      .flag {
+        height: var(--box-title-height);
+        width: 3rem;
+        margin: auto 0 auto 0.5rem;
+      }
+    }
+
+    .content {
+      overflow-y: auto;
+      height: calc(
+        100vh - (var(--box-margin) * 2) - (var(--box-padding) * 2) -
+          var(--box-title-height) - var(--box-title-margin-bottom)
+      );
+    }
+
+    & > * {
+      width: 100%;
+    }
+  }
 }
 
 .flag {
@@ -93,4 +208,20 @@
   margin-left: auto;
   margin-top: auto;
   margin-bottom: auto;
+}
+
+.base-btn {
+  font-size: var(--tooltip-content-font-size);
+  width: 100%;
+  background-color: var(--button-background-color);
+  color: var(--button-color);
+  border-radius: var(--button-border-radius);
+  padding: var(--button-padding);
+  border: var(--button-border);
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+
+  &:hover {
+    cursor: pointer;
+    background-color: var(--button-background-color-hover);
+  }
 }

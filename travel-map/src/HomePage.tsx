@@ -7,8 +7,29 @@ import { ReactComponent as BelgiumFlag } from "./icons/Belgium.svg";
 import { ReactComponent as GermanyFlag } from "./icons/Germany.svg";
 import { ReactComponent as SpainFlag } from "./icons/Spain.svg";
 import { ReactComponent as HungaryFlag } from "./icons/Hungary.svg";
+import { useCallback, useState } from "react";
+import Gallery from "react-photo-album";
+import Carousel from "react-responsive-carousel";
+import { City } from "./utils/city";
+import { getCityPhotos } from "./utils/photos";
+import { Box } from "./components/Box";
 
 export default function HomePage() {
+  const [currentCity, setCurrentCity] = useState<undefined | City>();
+  const [galleryIsOpen, setGalleryIsOpen] = useState(false);
+  const [viewerIsOpen, setViewerIsOpen] = useState(false);
+  const [currentImage, setCurrentImage] = useState(0);
+
+  const openLightbox = useCallback(({ photo, index }: any) => {
+    setCurrentImage(index);
+    setViewerIsOpen(true);
+  }, []);
+
+  const closeLightbox = () => {
+    setCurrentImage(0);
+    setViewerIsOpen(false);
+  };
+
   const visited = [
     {
       name: "Belgium",
@@ -61,13 +82,41 @@ export default function HomePage() {
     }
   };
 
+  console.log(currentCity);
+  console.log(galleryIsOpen);
+
   return (
     <div className="container">
       <MapChart
         visited={visited}
         markers={cities}
         getCountryFlag={getCountryFlag}
+        onClick={(city) => {
+          setCurrentCity(city);
+          setGalleryIsOpen(true);
+        }}
       />
+      {galleryIsOpen && (
+        <Box
+          title={
+            <>
+              <p>{currentCity?.name}</p>
+              {currentCity && getCountryFlag(currentCity.country)}
+            </>
+          }
+          content={
+            <Gallery
+              photos={getCityPhotos(currentCity?.name || "")}
+              onClick={openLightbox}
+              layout="rows"
+            />
+          }
+          onClose={() => {
+            setCurrentCity(undefined);
+            setGalleryIsOpen(false);
+          }}
+        />
+      )}
     </div>
   );
 }

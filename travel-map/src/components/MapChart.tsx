@@ -24,12 +24,14 @@ interface MapChartProps {
   visited?: VisitedType[];
   markers?: City[];
   getCountryFlag: (country: Country) => JSX.Element | null;
+  onClick?: (city: City) => void;
 }
 
 export default function MapChart({
   visited = [],
   markers = [],
   getCountryFlag,
+  onClick,
 }: MapChartProps) {
   const [hoveredMarker, setHoveredMarker] = useState<City | undefined>();
 
@@ -42,7 +44,7 @@ export default function MapChart({
       }}
       width={800}
       height={400}
-      style={{ width: "100vw", height: "100vh" }}
+      style={{ width: "100vw", height: "100vh", gridArea: "1 / 1 / 2 / 2" }}
     >
       <ZoomableGroup zoom={1}>
         <Geographies geography={geoUrl}>
@@ -87,6 +89,7 @@ export default function MapChart({
               city={hoveredMarker}
               getCountryFlag={getCountryFlag}
               active={hoveredMarker?.name === city.name}
+              onClick={onClick}
             />
           </Marker>
         ))}

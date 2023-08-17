@@ -3,16 +3,19 @@ import { Country } from "../utils/country";
 import { ReactComponent as DepartureIcon } from "../icons/Departure.svg";
 import { ReactComponent as ArrivalIcon } from "../icons/Arrival.svg";
 import { ReactComponent as PeopleIcon } from "../icons/People.svg";
+import { Button } from "./Button";
 
 interface TooltipProps {
   city?: City;
   getCountryFlag: (country: Country) => JSX.Element | null;
   active?: boolean;
+  onClick?: (city: City) => void;
 }
 
 export function Tooltip({
   city,
   active = false,
+  onClick,
   getCountryFlag,
 }: TooltipProps) {
   return (
@@ -38,6 +41,10 @@ export function Tooltip({
                 <p>{city.endDate.toLocaleDateString()}</p>
               </div>
             </div>
+            <Button
+              text={"Open slideshow"}
+              onClick={() => onClick && onClick(city)}
+            />
           </>
         )}
       </div>

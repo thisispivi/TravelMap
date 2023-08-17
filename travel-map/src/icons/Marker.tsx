@@ -3,8 +3,6 @@ interface MarkerIconProps {
 }
 
 export default function MarkerIcon({ active = false }: MarkerIconProps) {
-  console.log(active);
-
   return (
     <g className={`marker-icon ${active ? "active" : ""}`}>
       <circle cx="5" cy="3.9" r="1.6" fill="white" />
