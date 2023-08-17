@@ -1,7 +1,13 @@
-export default function MarkerIcon() {
+interface MarkerIconProps {
+  active?: boolean;
+}
+
+export default function MarkerIcon({ active = false }: MarkerIconProps) {
+  console.log(active);
+
   return (
-    <g className="marker-icon">
-      <circle cx="5" cy="4" r="2" fill="white" />
+    <g className={`marker-icon ${active ? "active" : ""}`}>
+      <circle cx="5" cy="3.9" r="1.6" fill="white" />
       <path
         d="M50,10.417c-15.581,0-28.201,12.627-28.201,28.201c0,6.327,2.083,12.168,5.602,16.873L45.49,86.823
   c0.105,0.202,0.21,0.403,0.339,0.588l0.04,0.069l0.011-0.006c0.924,1.278,2.411,2.111,4.135,2.111c1.556,0,2.912-0.708,3.845-1.799

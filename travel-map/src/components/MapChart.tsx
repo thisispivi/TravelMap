@@ -71,10 +71,23 @@ export default function MapChart({
             onMouseEnter={() => setHoveredMarker(city)}
             onMouseLeave={() => setHoveredMarker(undefined)}
           >
-            <MarkerIcon />
-            {hoveredMarker && hoveredMarker.name === city.name && (
-              <Tooltip city={city} getCountryFlag={getCountryFlag} />
-            )}
+            <MarkerIcon
+              active={hoveredMarker && hoveredMarker.name === city.name}
+            />
+          </Marker>
+        ))}
+        {markers.map((city) => (
+          <Marker
+            key={city.name}
+            coordinates={city.coordinates}
+            onMouseEnter={() => setHoveredMarker(city)}
+            onMouseLeave={() => setHoveredMarker(undefined)}
+          >
+            <Tooltip
+              city={hoveredMarker}
+              getCountryFlag={getCountryFlag}
+              active={hoveredMarker?.name === city.name}
+            />
           </Marker>
         ))}
       </ZoomableGroup>
