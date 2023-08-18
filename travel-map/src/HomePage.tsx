@@ -13,21 +13,24 @@ import { City } from "./utils/city";
 import { getCityPhotos } from "./utils/photos";
 import { Box } from "./components/Box";
 import ImageGallery from "react-image-gallery";
+import { BackButtonWText, Button } from "./components/Button";
+import { ReactComponent as DepartureIcon } from "./icons/Departure.svg";
+import { ReactComponent as ArrivalIcon } from "./icons/Arrival.svg";
+import { ReactComponent as PeopleIcon } from "./icons/People.svg";
+import { Tooltip } from "./components/Tooltip";
 
 export default function HomePage() {
+  const [hoveredCity, setHoveredCity] = useState<undefined | City>();
   const [currentCity, setCurrentCity] = useState<undefined | City>();
   const [galleryIsOpen, setGalleryIsOpen] = useState(false);
-  const [viewerIsOpen, setViewerIsOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState<undefined | number>();
 
   const openLightbox = useCallback(({ photo, index }: any) => {
     setCurrentImage(index);
-    setViewerIsOpen(true);
   }, []);
 
   const closeLightbox = () => {
-    setCurrentImage(0);
-    setViewerIsOpen(false);
+    setCurrentImage(undefined);
   };
 
   const visited = [
@@ -82,20 +85,29 @@ export default function HomePage() {
     }
   };
 
-  console.log(currentCity);
-  console.log(currentImage);
-
   return (
     <div className="container">
       <MapChart
         visited={visited}
         markers={cities}
-        getCountryFlag={getCountryFlag}
-        onClick={(city) => {
-          setCurrentCity(city);
-          setGalleryIsOpen(true);
-        }}
+        hoveredCity={hoveredCity}
+        setHoveredCity={setHoveredCity}
       />
+      {cities.map((city) => (
+        <>
+          {!currentCity && (
+            <Tooltip
+              city={city}
+              getCountryFlag={getCountryFlag}
+              onClick={(city) => {
+                setHoveredCity(undefined);
+                setCurrentCity(city);
+                setGalleryIsOpen(true);
+              }}
+            />
+          )}
+        </>
+      ))}
       {galleryIsOpen && (
         <Box
           title={
@@ -121,9 +133,27 @@ export default function HomePage() {
                         <source src={item.original} type="video/mp4" />
                       </video>
                     );
+                  } else if (item.youtube) {
+                    return (
+                      <iframe
+                        src="https://www.youtube.com/embed/_CaBMaSUx_w"
+                        title="YouTube video player"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowFullScreen
+                      ></iframe>
+                    );
                   } else {
                     return <img className="media" src={item.original} alt="" />;
                   }
+                }}
+                renderCustomControls={() => {
+                  return (
+                    <BackButtonWText
+                      text="To gallery"
+                      onClick={() => setCurrentImage(undefined)}
+                    />
+                  );
                 }}
               />
             ) : (
@@ -145,69 +175,6 @@ export default function HomePage() {
           }}
         />
       )}
-    </div>
-  );
-}
-
-interface CarouselProps {
-  photos: {
-    src: string;
-    width: number;
-    height: number;
-    video?: string;
-  }[];
-  index: number;
-  next: () => void;
-  previous: () => void;
-  back: () => void;
-}
-
-function Carousel({ photos, index, next, previous, back }: CarouselProps) {
-  const total = photos.length;
-
-  // Take the previous and next photos
-  const previousPhoto = index === 0 ? undefined : photos[index - 1];
-  const currentPhoto = photos[index];
-  const nextPhoto = photos[index + 1];
-
-  const media = (photo: any) => {
-    const isCurrent = photos.indexOf(photo) === index;
-    const mediaClassName = isCurrent ? "media current" : "media";
-
-    return photo.video ? (
-      <video className={mediaClassName} controls>
-        <source src={photo.video} type="video/mp4" />
-      </video>
-    ) : (
-      <img className={mediaClassName} src={photo.src} alt="" />
-    );
-  };
-
-  const slideTransform = -index * 100; // Calculate transform based on index
-
-  return (
-    <div className="carousel">
-      <button onClick={previous}>Prev</button>
-      <div
-        className="previous"
-        style={{ transform: `translateX(${slideTransform + 100}%)` }}
-      >
-        {previousPhoto && media(previousPhoto)}
-      </div>
-      <div
-        className="current"
-        onClick={next}
-        style={{ transform: `translateX(${slideTransform}%)` }}
-      >
-        {currentPhoto && media(currentPhoto)}
-      </div>
-      <div
-        className="next"
-        style={{ transform: `translateX(${slideTransform - 100}%)` }}
-      >
-        {nextPhoto && media(nextPhoto)}
-      </div>
-      <button onClick={next}>Next</button>
     </div>
   );
 }

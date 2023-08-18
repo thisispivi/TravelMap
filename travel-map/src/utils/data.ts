@@ -17,7 +17,7 @@ export const cities: City[] = [
     [3.22424, 51.209348],
     new Date(2023, 8, 9),
     new Date(2023, 8, 9)
-  ) /*
+  ),
   new City(
     "Anderlecht",
     Country.Belgium,
@@ -25,7 +25,7 @@ export const cities: City[] = [
     [4.2360105, 50.8127957],
     new Date(2023, 8, 6),
     new Date(2023, 8, 6)
-  ),*/,
+  ),
   new City(
     "Budapest",
     Country.Hungary,

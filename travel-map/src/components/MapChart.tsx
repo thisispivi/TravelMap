@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   ComposableMap,
   Geographies,
@@ -8,8 +7,6 @@ import {
 } from "react-simple-maps";
 import MarkerIcon from "../icons/Marker";
 import { City } from "../utils/city";
-import { Country } from "../utils/country";
-import { Tooltip } from "./Tooltip";
 
 const geoUrl =
   "https://raw.githubusercontent.com/deldersveld/topojson/master/world-countries.json";
@@ -23,17 +20,17 @@ export type VisitedType = {
 interface MapChartProps {
   visited?: VisitedType[];
   markers?: City[];
-  getCountryFlag: (country: Country) => JSX.Element | null;
-  onClick?: (city: City) => void;
+  hoveredCity?: City;
+  setHoveredCity: (city: City | undefined) => void;
 }
 
 export default function MapChart({
   visited = [],
   markers = [],
-  getCountryFlag,
-  onClick,
+  hoveredCity,
+  setHoveredCity,
 }: MapChartProps) {
-  const [hoveredMarker, setHoveredMarker] = useState<City | undefined>();
+  const otherMarkers = markers.filter((m) => m !== hoveredCity);
 
   return (
     <ComposableMap
@@ -70,27 +67,11 @@ export default function MapChart({
           <Marker
             key={city.name}
             coordinates={city.coordinates}
-            onMouseEnter={() => setHoveredMarker(city)}
-            onMouseLeave={() => setHoveredMarker(undefined)}
+            onMouseEnter={() => setHoveredCity(city)}
+            onMouseLeave={() => setHoveredCity(undefined)}
+            data-tooltip-id={city.name}
           >
-            <MarkerIcon
-              active={hoveredMarker && hoveredMarker.name === city.name}
-            />
-          </Marker>
-        ))}
-        {markers.map((city) => (
-          <Marker
-            key={city.name}
-            coordinates={city.coordinates}
-            onMouseEnter={() => setHoveredMarker(city)}
-            onMouseLeave={() => setHoveredMarker(undefined)}
-          >
-            <Tooltip
-              city={hoveredMarker}
-              getCountryFlag={getCountryFlag}
-              active={hoveredMarker?.name === city.name}
-              onClick={onClick}
-            />
+            <MarkerIcon active={false} />
           </Marker>
         ))}
       </ZoomableGroup>

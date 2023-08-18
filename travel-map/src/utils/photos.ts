@@ -4,12 +4,83 @@ export function getCityPhotos(cityName: string) {
       return photos.Bruges;
     case "Brussels":
       return photos.Brussels;
+    case "Anderlecht":
+      return photos.Anderlecht;
     default:
       return [];
   }
 }
 
 export const photos = {
+  Anderlecht: [
+    {
+      original: "Anderlecht/1.jpg",
+      thumbnail: "Anderlecht/1_thumb.jpg",
+      alt: "",
+      width: 9,
+      height: 16,
+    },
+    {
+      original: "Anderlecht/2.jpg",
+      thumbnail: "Anderlecht/2_thumb.jpg",
+      alt: "",
+      width: 16,
+      height: 9,
+    },
+    {
+      original: "Anderlecht/3.jpg",
+      thumbnail: "Anderlecht/3_thumb.jpg",
+      alt: "",
+      width: 16,
+      height: 9,
+    },
+    {
+      original: "Anderlecht/4.jpg",
+      thumbnail: "Anderlecht/4_thumb.jpg",
+      alt: "",
+      width: 16,
+      height: 9,
+    },
+    {
+      original: "Anderlecht/5.mp4",
+      thumbnail: "Anderlecht/5_thumb.jpg",
+      alt: "",
+      width: 9,
+      height: 16,
+      video: true,
+    },
+    {
+      original: "Anderlecht/6.jpg",
+      thumbnail: "Anderlecht/6_thumb.jpg",
+      alt: "",
+      width: 4,
+      height: 3,
+    },
+    {
+      original: "Anderlecht/7.mp4",
+      thumbnail: "Anderlecht/7_thumb.jpg",
+      alt: "",
+      width: 9,
+      height: 16,
+      video: true,
+    },
+    {
+      original: "Anderlecht/8.mp4",
+      thumbnail: "Anderlecht/8_thumb.jpg",
+      alt: "",
+      width: 9,
+      height: 16,
+      video: true,
+    },
+    {
+      original: "https://www.youtube.com/watch?v=_CaBMaSUx_w",
+      thumbnail: "Anderlecht/9_thumb.jpg",
+      alt: "",
+      width: 16,
+      height: 9,
+      youtube: true,
+    },
+  ],
   Bruges: [
     {
       original: "Bruges/1.jpg",

@@ -4,33 +4,33 @@
   box-sizing: border-box;
   font-family: "Titillium Web", sans-serif;
 
-  --marker-color: red;
+  --marker-color: rgb(190, 0, 0);
+  --marker-color-active: #ff0000;
   --marker-circle-color: white;
   --marker-transformation: translate(-5px, -9px);
   --marker-transformation-hover: translate(-8px, -12px);
   --marker-transformation-circle-hover: translate(-1px, -1px);
   --marker-stroke-width: 3;
+  --makrer-stroke-color: rgb(146, 0, 0);
   --marker-scale: 0.1;
-  --marker-opacity: 0.7;
   --marker-scale-hover: 0.12;
-  --marker-opacity-hover: 1;
   --marker-circle-scale-hover: 1.2;
 
-  --tooltip-background-color: white;
-  --tooltip-box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
-  --tooltip-border-radius: 0.5rem;
-  --tooltip-padding: 0.3rem 0.4rem;
-  --tooltip-opacity: 0;
-  --tooltip-transform: translateY(-6px);
-  --tooltip-transition: opacity 0.2s ease, transform 0.2s ease;
-  --tooltip-opacity-hover: 1;
-  --tooltip-transform-hover: translateY(0);
-  --tooltip-title-font-size: 0.5rem;
+  --tooltip-box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  --tooltip-title-font-size: 0.9rem;
   --tooltip-title-font-weight: 700;
   --tooltip-title-margin-bottom: 0.2rem;
-  --tooltip-content-font-size: 0.45rem;
+  --tooltip-content-font-size: 0.8rem;
   --tooltip-content-font-weight: 500;
   --tooltip-margin: 0.2rem;
+
+  --rt-color-white: #fff;
+  --rt-color-dark: #222;
+  --rt-color-success: #8dc572;
+  --rt-color-error: #be6464;
+  --rt-color-warning: #f0ad4e;
+  --rt-color-info: #337ab7;
+  --rt-opacity: 1;
 
   --button-background-color: #80669d;
   --button-background-color-hover: #9a7bbc;
@@ -98,15 +98,9 @@
   .marker-icon {
     transform: var(--marker-transformation);
 
-    path,
-    circle {
-      opacity: var(--marker-base-opacity);
-      transition: all 0.2s ease-in-out;
-    }
-
     path {
       fill: var(--marker-color);
-      stroke: var(--marker-color);
+      stroke: var(--makrer-stroke-color);
       stroke-width: var(--marker-stroke-width);
       scale: var(--marker-scale);
     }
@@ -115,59 +109,13 @@
       transform: var(--marker-transformation-hover);
       scale: var(--marker-scale-hover);
       opacity: var(--marker-base-opacity-hover);
+      fill: var(--marker-color-active);
     }
 
     &.active circle {
       transform: var(--marker-transformation-circle-hover);
       scale: var(--marker-circle-scale-hover);
       opacity: var(--marker-base-opacity-hover);
-    }
-  }
-
-  .tooltip {
-    border-radius: var(--tooltip-border-radius);
-    background-color: var(--tooltip-background-color);
-    box-shadow: var(--tooltip-box-shadow);
-    padding: var(--tooltip-padding);
-    opacity: var(--tooltip-opacity);
-    transform: var(--tooltip-transform);
-    transition: var(--tooltip-transition);
-    margin: var(--tooltip-margin);
-
-    &.active {
-      opacity: var(--tooltip-opacity-hover);
-      transform: var(--tooltip-transform-hover);
-    }
-
-    .title {
-      font-size: var(--tooltip-title-font-size);
-      font-weight: var(--tooltip-title-font-weight);
-      margin-bottom: var(--tooltip-title-margin-bottom);
-      display: flex;
-    }
-
-    .content {
-      & > * {
-        font-size: var(--tooltip-content-font-size);
-        font-weight: var(--tooltip-content-font-weight);
-        margin-top: 0rem;
-      }
-
-      .start,
-      .end,
-      .population {
-        display: flex;
-        p {
-          margin-top: auto;
-          margin-bottom: auto;
-        }
-        .flag {
-          margin-left: 0;
-          margin-right: 0.15rem;
-          width: 9px;
-          height: 8px;
-        }
-      }
     }
   }
 
@@ -213,8 +161,28 @@
           100vw - (var(--box-margin-x) * 2) - (var(--box-padding) * 2)
         );
 
+        iframe {
+          height: var(--box-content-height);
+          width: calc(var(--box-content-height) * (16 / 9)) !important;
+        }
+
         & * {
           max-height: var(--box-content-height);
+        }
+
+        .back-btn-text {
+          right: 0;
+          top: 10px;
+          bottom: initial;
+          position: absolute;
+          z-index: 100;
+        }
+
+        .image-gallery-index {
+          left: 0;
+          bottom: 0;
+          right: initial;
+          top: initial;
         }
       }
     }
@@ -248,6 +216,9 @@
   padding: var(--button-padding);
   border: var(--button-border);
   transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+  button:focus {
+    outline: 0;
+  }
 
   &:hover {
     cursor: pointer;
@@ -255,7 +226,8 @@
   }
 }
 
-.close-btn {
+.close-btn,
+.back-btn {
   cursor: pointer;
   height: var(--close-btn-size);
   width: var(--close-btn-size);
@@ -277,32 +249,83 @@
   }
 }
 
-.carousel {
+.back-btn-text {
+  width: 6.5rem;
+  height: 2rem;
+  font-size: 1rem;
   display: flex;
 
-  .previous,
-  .next {
-    img,
-    video {
-      width: 0;
+  p {
+    margin: auto;
+  }
+
+  .back-btn {
+    margin: auto;
+    width: 1rem;
+    height: 1rem;
+
+    path {
+      fill: white;
+    }
+
+    &:hover {
+      path {
+        fill: white;
+      }
+    }
+
+    &:active {
+      path {
+        fill: white;
+      }
+    }
+  }
+}
+
+.react-tooltip {
+  border-radius: 0.5rem !important;
+  box-shadow: var(--tooltip-box-shadow) !important;
+  .title {
+    font-size: var(--tooltip-title-font-size);
+    font-weight: var(--tooltip-title-font-weight);
+    margin-bottom: var(--tooltip-title-margin-bottom);
+    display: flex;
+    svg {
+      width: var(--tooltip-title-font-size);
+      height: var(--tooltip-title-font-size);
     }
   }
 
-  .current {
-    margin-left: auto;
-    margin-right: auto;
-    height: calc(var(--box-content-height) - 1rem);
+  .content {
+    margin-bottom: var(--tooltip-margin);
+    & > * {
+      font-size: var(--tooltip-content-font-size);
+      font-weight: var(--tooltip-content-font-weight);
+      margin-top: 0rem;
+    }
+
+    .start,
+    .end,
+    .population {
+      display: flex;
+      p {
+        margin-top: auto;
+        margin-bottom: auto;
+      }
+      .flag {
+        margin-left: 0;
+        margin-right: 0.15rem;
+      }
+    }
+
+    svg {
+      width: var(--tooltip-content-font-size);
+      height: var(--tooltip-content-font-size);
+    }
   }
 
-  img,
-  video {
-    width: auto;
-    height: 100%;
+  .base-btn {
+    margin-top: 0.4rem;
+    margin-bottom: 0.2rem;
   }
-
-  position: relative; /* Add this for positioning the slides */
-}
-
-.carousel > * {
-  transition: transform 0.3s ease; /* Add transition property */
 }
