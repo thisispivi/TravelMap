@@ -19,7 +19,7 @@ export function Tooltip({
   getCountryFlag,
 }: TooltipProps) {
   return (
-    <foreignObject x={-38} y={0} width={active ? 76 : 0} height={90}>
+    <foreignObject x={-43} y={0} width={active ? 86 : 0} height={90}>
       <div className={`tooltip ${active ? "active" : ""}`}>
         {city && (
           <>
@@ -34,11 +34,11 @@ export function Tooltip({
               </div>
               <div className="start">
                 <DepartureIcon className="flag" />
-                <p>{city.startDate.toLocaleDateString()}</p>
+                <p>{city.startDate.toDateString()}</p>
               </div>
               <div className="end">
                 <ArrivalIcon className="flag" />
-                <p>{city.endDate.toLocaleDateString()}</p>
+                <p>{city.endDate.toDateString()}</p>
               </div>
             </div>
             <Button

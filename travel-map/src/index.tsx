@@ -7,6 +7,7 @@ import "tippy.js/animations/scale-extreme.css";
 import "tippy.js/animations/shift-away.css";
 import "tippy.js/animations/shift-toward.css";
 import "tippy.js/animations/perspective.css";
+import "react-image-gallery/styles/scss/image-gallery.scss";
 import reportWebVitals from "./reportWebVitals";
 import HomePage from "./HomePage";
 import "./i18n/i18n";

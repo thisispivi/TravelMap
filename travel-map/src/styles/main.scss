@@ -45,6 +45,26 @@
   --webkit-scrollbar-bar-active: #898989;
   --webkit-scrollbar-border: 8px solid var(--webkit-scrollbar-bg);
   --webkit-scrollbar-size: 1.5rem;
+
+  --box-margin-x: 4rem;
+  --box-margin-y: 2rem;
+  --box-padding: 2rem;
+  --box-background-color: white;
+  --box-border-radius: 0.5rem;
+  --box-box-shadow: 0 0 500px rgba(0, 0, 0, 0.8);
+  --box-title-height: 2rem;
+  --box-title-margin-bottom: 1rem;
+  --box-title-font-size: 1.5rem;
+  --box-content-height: calc(
+    100vh - (var(--box-margin-y) * 2) - (var(--box-padding) * 2) -
+      var(--box-title-height) - var(--box-title-margin-bottom)
+  );
+
+  --close-btn-size: 2rem;
+  --close-btn-fill: #b7b7b7;
+  --close-btn-fill-hover: #9e9e9e;
+  --close-btn-fill-active: #898989;
+  --close-btn-transition: fill 0.2s ease-in-out;
 }
 
 ::-webkit-scrollbar {
@@ -151,18 +171,9 @@
     }
   }
 
-  --box-margin: 4rem;
-  --box-padding: 2rem;
-  --box-background-color: white;
-  --box-border-radius: 0.5rem;
-  --box-box-shadow: 0 0 500px rgba(0, 0, 0, 0.8);
-  --box-title-height: 2rem;
-  --box-title-margin-bottom: 1rem;
-  --box-title-font-size: 1.5rem;
-
   .box {
     grid-area: 1 / 1 / 2 / 2;
-    margin: var(--box-margin);
+    margin: var(--box-margin-y) var(--box-margin-x);
     padding: var(--box-padding);
     background-color: var(--box-background-color);
     border-radius: var(--box-border-radius);
@@ -186,18 +197,36 @@
         width: 3rem;
         margin: auto 0 auto 0.5rem;
       }
+
+      .close-btn {
+        margin-left: auto;
+      }
     }
 
     .content {
       overflow-y: auto;
-      height: calc(
-        100vh - (var(--box-margin) * 2) - (var(--box-padding) * 2) -
-          var(--box-title-height) - var(--box-title-margin-bottom)
-      );
+      height: var(--box-content-height);
+
+      .image-gallery {
+        max-height: var(--box-content-height);
+        max-width: calc(
+          100vw - (var(--box-margin-x) * 2) - (var(--box-padding) * 2)
+        );
+
+        & * {
+          max-height: var(--box-content-height);
+        }
+      }
     }
 
     & > * {
       width: 100%;
+    }
+  }
+
+  .react-photo-album {
+    img {
+      cursor: pointer;
     }
   }
 }
@@ -224,4 +253,56 @@
     cursor: pointer;
     background-color: var(--button-background-color-hover);
   }
+}
+
+.close-btn {
+  cursor: pointer;
+  height: var(--close-btn-size);
+  width: var(--close-btn-size);
+  transition: var(--close-btn-transition);
+  path {
+    fill: var(--close-btn-fill);
+  }
+
+  &:hover {
+    path {
+      fill: var(--close-btn-fill-hover);
+    }
+  }
+
+  &:active {
+    path {
+      fill: var(--close-btn-fill-active);
+    }
+  }
+}
+
+.carousel {
+  display: flex;
+
+  .previous,
+  .next {
+    img,
+    video {
+      width: 0;
+    }
+  }
+
+  .current {
+    margin-left: auto;
+    margin-right: auto;
+    height: calc(var(--box-content-height) - 1rem);
+  }
+
+  img,
+  video {
+    width: auto;
+    height: 100%;
+  }
+
+  position: relative; /* Add this for positioning the slides */
+}
+
+.carousel > * {
+  transition: transform 0.3s ease; /* Add transition property */
 }

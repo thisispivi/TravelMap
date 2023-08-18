@@ -9,16 +9,16 @@ import { ReactComponent as SpainFlag } from "./icons/Spain.svg";
 import { ReactComponent as HungaryFlag } from "./icons/Hungary.svg";
 import { useCallback, useState } from "react";
 import Gallery from "react-photo-album";
-import Carousel from "react-responsive-carousel";
 import { City } from "./utils/city";
 import { getCityPhotos } from "./utils/photos";
 import { Box } from "./components/Box";
+import ImageGallery from "react-image-gallery";
 
 export default function HomePage() {
   const [currentCity, setCurrentCity] = useState<undefined | City>();
   const [galleryIsOpen, setGalleryIsOpen] = useState(false);
   const [viewerIsOpen, setViewerIsOpen] = useState(false);
-  const [currentImage, setCurrentImage] = useState(0);
+  const [currentImage, setCurrentImage] = useState<undefined | number>();
 
   const openLightbox = useCallback(({ photo, index }: any) => {
     setCurrentImage(index);
@@ -83,7 +83,7 @@ export default function HomePage() {
   };
 
   console.log(currentCity);
-  console.log(galleryIsOpen);
+  console.log(currentImage);
 
   return (
     <div className="container">
@@ -105,18 +105,109 @@ export default function HomePage() {
             </>
           }
           content={
-            <Gallery
-              photos={getCityPhotos(currentCity?.name || "")}
-              onClick={openLightbox}
-              layout="rows"
-            />
+            currentImage !== undefined ? (
+              <ImageGallery
+                lazyLoad={true}
+                infinite={true}
+                showIndex={true}
+                showPlayButton={false}
+                showThumbnails={false}
+                startIndex={currentImage}
+                items={getCityPhotos(currentCity?.name || "")}
+                renderItem={(item: any) => {
+                  if (item.video) {
+                    return (
+                      <video className="media" controls>
+                        <source src={item.original} type="video/mp4" />
+                      </video>
+                    );
+                  } else {
+                    return <img className="media" src={item.original} alt="" />;
+                  }
+                }}
+              />
+            ) : (
+              <Gallery
+                photos={getCityPhotos(currentCity?.name || "").map((photo) => ({
+                  src: photo.thumbnail,
+                  width: photo.width,
+                  height: photo.height,
+                }))}
+                onClick={openLightbox}
+                layout="rows"
+              />
+            )
           }
           onClose={() => {
             setCurrentCity(undefined);
             setGalleryIsOpen(false);
+            setCurrentImage(undefined);
           }}
         />
       )}
+    </div>
+  );
+}
+
+interface CarouselProps {
+  photos: {
+    src: string;
+    width: number;
+    height: number;
+    video?: string;
+  }[];
+  index: number;
+  next: () => void;
+  previous: () => void;
+  back: () => void;
+}
+
+function Carousel({ photos, index, next, previous, back }: CarouselProps) {
+  const total = photos.length;
+
+  // Take the previous and next photos
+  const previousPhoto = index === 0 ? undefined : photos[index - 1];
+  const currentPhoto = photos[index];
+  const nextPhoto = photos[index + 1];
+
+  const media = (photo: any) => {
+    const isCurrent = photos.indexOf(photo) === index;
+    const mediaClassName = isCurrent ? "media current" : "media";
+
+    return photo.video ? (
+      <video className={mediaClassName} controls>
+        <source src={photo.video} type="video/mp4" />
+      </video>
+    ) : (
+      <img className={mediaClassName} src={photo.src} alt="" />
+    );
+  };
+
+  const slideTransform = -index * 100; // Calculate transform based on index
+
+  return (
+    <div className="carousel">
+      <button onClick={previous}>Prev</button>
+      <div
+        className="previous"
+        style={{ transform: `translateX(${slideTransform + 100}%)` }}
+      >
+        {previousPhoto && media(previousPhoto)}
+      </div>
+      <div
+        className="current"
+        onClick={next}
+        style={{ transform: `translateX(${slideTransform}%)` }}
+      >
+        {currentPhoto && media(currentPhoto)}
+      </div>
+      <div
+        className="next"
+        style={{ transform: `translateX(${slideTransform - 100}%)` }}
+      >
+        {nextPhoto && media(nextPhoto)}
+      </div>
+      <button onClick={next}>Next</button>
     </div>
   );
 }
