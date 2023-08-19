@@ -14,6 +14,7 @@ import { getCityPhotos } from "./utils/photos";
 import { Box } from "./components/Box";
 import { Tooltip } from "./components/Tooltip";
 import { CustomImageGallery } from "./components/ImageGallery";
+import { DarkModeToggle } from "./components/Toogle";
 
 export default function HomePage() {
   // States
@@ -127,6 +128,8 @@ export default function HomePage() {
 
   return (
     <div className="container">
+      <DarkModeToggle />
+
       {/* Map Chart */}
       <MapChart
         visited={visited}
