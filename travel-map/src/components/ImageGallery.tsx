@@ -7,14 +7,15 @@ interface CustomImageGalleryProps {
   currentCity?: City;
   currentImage?: number;
   onBackClick?: () => void;
+  baseUrl?: string;
 }
 
 export function CustomImageGallery({
   currentCity,
   currentImage,
   onBackClick,
+  baseUrl = "",
 }: CustomImageGalleryProps) {
-  const baseUrl = "TravelMap/";
   const renderItems = (item: any) => {
     if (item.video) {
       return (

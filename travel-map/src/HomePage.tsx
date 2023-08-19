@@ -17,6 +17,8 @@ import { CustomImageGallery } from "./components/ImageGallery";
 import { DarkModeToggle } from "./components/Toogle";
 
 export default function HomePage() {
+  const urlPrefix = "";
+
   // States
   const [hoveredCity, setHoveredCity] = useState<City | undefined>();
   const [currentCity, setCurrentCity] = useState<City | undefined>();
@@ -172,11 +174,12 @@ export default function HomePage() {
                 currentCity={currentCity}
                 currentImage={currentImage}
                 onBackClick={closeLightbox}
+                baseUrl={urlPrefix}
               />
             ) : (
               <Gallery
                 photos={getCityPhotos(currentCity?.name || "").map((photo) => ({
-                  src: `TravelMap/${photo.thumbnail}`,
+                  src: `${urlPrefix}${photo.thumbnail}`,
                   width: photo.width,
                   height: photo.height,
                 }))}
