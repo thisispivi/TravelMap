@@ -30,8 +30,6 @@ export default function MapChart({
   hoveredCity,
   setHoveredCity,
 }: MapChartProps) {
-  const otherMarkers = markers.filter((m) => m !== hoveredCity);
-
   return (
     <ComposableMap
       projectionConfig={{
@@ -50,6 +48,14 @@ export default function MapChart({
               <Geography
                 key={geo.rsmKey}
                 geography={geo}
+                className={
+                  visited.find(
+                    (country) => country.name === geo.properties.name
+                  )
+                    ? "visited"
+                    : "not-visited"
+                }
+                strokeWidth={0.3}
                 fill={
                   visited.find((v) => v.name === geo.properties.name)?.fill ||
                   "#DDD"
@@ -58,22 +64,23 @@ export default function MapChart({
                   visited.find((v) => v.name === geo.properties.name)?.stroke ||
                   "#999"
                 }
-                strokeWidth={0.3}
               />
             ))
           }
         </Geographies>
         {markers.map((city) => (
           <Marker
+            id={city.name + "-marker"}
             key={city.name}
             coordinates={city.coordinates}
+            data-tooltip-id={city.name}
             onMouseEnter={() => setHoveredCity(city)}
             onMouseLeave={() => setHoveredCity(undefined)}
-            data-tooltip-id={city.name}
           >
-            <MarkerIcon active={false} />
+            <MarkerIcon active={hoveredCity?.name === city.name} />
           </Marker>
         ))}
+        <use xlinkHref={hoveredCity?.name + "-marker"} />
       </ZoomableGroup>
     </ComposableMap>
   );

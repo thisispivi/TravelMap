@@ -1,9 +1,13 @@
+/* Reset and Global Styles */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: "Titillium Web", sans-serif;
+}
 
+/* Custom Variables */
+:root {
   --marker-color: rgb(190, 0, 0);
   --marker-color-active: #ff0000;
   --marker-circle-color: white;
@@ -11,10 +15,12 @@
   --marker-transformation-hover: translate(-8px, -12px);
   --marker-transformation-circle-hover: translate(-1px, -1px);
   --marker-stroke-width: 3;
-  --makrer-stroke-color: rgb(146, 0, 0);
+  --marker-stroke-color: rgb(146, 0, 0);
   --marker-scale: 0.1;
   --marker-scale-hover: 0.12;
   --marker-circle-scale-hover: 1.2;
+  --marker-transition: transform 0.2s ease-in-out, scale 0.2s ease-in-out,
+    opacity 0.2s ease-in-out;
 
   --tooltip-box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
   --tooltip-title-font-size: 0.9rem;
@@ -23,6 +29,7 @@
   --tooltip-content-font-size: 0.8rem;
   --tooltip-content-font-weight: 500;
   --tooltip-margin: 0.2rem;
+  --tooltip-title-height: calc(var(--tooltip-title-font-size) * 1.5);
 
   --rt-color-white: #fff;
   --rt-color-dark: #222;
@@ -67,6 +74,25 @@
   --close-btn-transition: fill 0.2s ease-in-out;
 }
 
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+  * {
+    --box-background-color: #1f1f1f;
+    --webkit-scrollbar-bg: #1f1f1f !important;
+    --rt-opacity: 1;
+    --rt-color-white: #1f1f1f;
+    color: rgb(207, 207, 207);
+  }
+  .container {
+    background-color: #121212;
+  }
+  path.not-visited {
+    fill: #1f1f1f;
+    stroke: #3d3d3d;
+  }
+}
+
+/* Scrollbar Styles */
 ::-webkit-scrollbar {
   width: var(--webkit-scrollbar-size);
   height: var(--webkit-scrollbar-size);
@@ -90,115 +116,109 @@
   background: var(--webkit-scrollbar-bar-active);
 }
 
+/* Container Styles */
 .container {
   display: grid;
   width: 100vw;
   height: 100vh;
+}
 
-  .marker-icon {
-    transform: var(--marker-transformation);
-
-    path {
-      fill: var(--marker-color);
-      stroke: var(--makrer-stroke-color);
-      stroke-width: var(--marker-stroke-width);
-      scale: var(--marker-scale);
-    }
-
-    &.active path {
-      transform: var(--marker-transformation-hover);
-      scale: var(--marker-scale-hover);
-      opacity: var(--marker-base-opacity-hover);
-      fill: var(--marker-color-active);
-    }
-
-    &.active circle {
-      transform: var(--marker-transformation-circle-hover);
-      scale: var(--marker-circle-scale-hover);
-      opacity: var(--marker-base-opacity-hover);
-    }
+/* Marker Icon Styles */
+.marker-icon {
+  transform: var(--marker-transformation);
+  path {
+    fill: var(--marker-color);
+    stroke: var(--marker-stroke-color);
+    stroke-width: var(--marker-stroke-width);
+    scale: var(--marker-scale);
+    transition: var(--marker-transition);
   }
+  circle {
+    transition: var(--marker-transition);
+  }
+  &.active path {
+    transform: var(--marker-transformation-hover);
+    scale: var(--marker-scale-hover);
+    opacity: var(--marker-base-opacity-hover);
+    fill: var(--marker-color-active);
+  }
+  &.active circle {
+    transform: var(--marker-transformation-circle-hover);
+    scale: var(--marker-circle-scale-hover);
+    opacity: var(--marker-base-opacity-hover);
+  }
+}
 
-  .box {
-    grid-area: 1 / 1 / 2 / 2;
-    margin: var(--box-margin-y) var(--box-margin-x);
-    padding: var(--box-padding);
-    background-color: var(--box-background-color);
-    border-radius: var(--box-border-radius);
-    box-shadow: var(--box-box-shadow);
-    display: flex;
-    flex-direction: column;
+/* Box Styles */
+.box {
+  grid-area: 1 / 1 / 2 / 2;
+  margin: var(--box-margin-y) var(--box-margin-x);
+  padding: var(--box-padding);
+  background-color: var(--box-background-color);
+  border-radius: var(--box-border-radius);
+  box-shadow: var(--box-box-shadow);
+  display: flex;
+  flex-direction: column;
+}
 
-    .title {
-      height: var(--box-title-height);
-      font-size: var(--box-title-font-size);
-      margin-bottom: var(--box-title-margin-bottom);
-      display: flex;
+/* Title Styles */
+.title {
+  height: var(--box-title-height);
+  font-size: var(--box-title-font-size);
+  margin-bottom: var(--box-title-margin-bottom);
+  display: flex;
+  p {
+    height: var(--box-title-height);
+    margin: auto 0 auto 0;
+  }
+  .flag {
+    height: var(--box-title-height);
+    width: 3rem;
+    margin: auto 0 auto 0.5rem;
+  }
+  .close-btn {
+    margin-left: auto;
+  }
+}
 
-      p {
-        height: var(--box-title-height);
-        margin: auto 0 auto 0;
-      }
-
-      .flag {
-        height: var(--box-title-height);
-        width: 3rem;
-        margin: auto 0 auto 0.5rem;
-      }
-
-      .close-btn {
-        margin-left: auto;
-      }
-    }
-
-    .content {
-      overflow-y: auto;
+/* Content Styles */
+.content {
+  overflow-y: auto;
+  height: var(--box-content-height);
+  .image-gallery {
+    height: var(--box-content-height);
+    max-width: calc(
+      100vw - (var(--box-margin-x) * 2) - (var(--box-padding) * 2)
+    );
+    iframe {
       height: var(--box-content-height);
-
-      .image-gallery {
-        max-height: var(--box-content-height);
-        max-width: calc(
-          100vw - (var(--box-margin-x) * 2) - (var(--box-padding) * 2)
-        );
-
-        iframe {
-          height: var(--box-content-height);
-          width: calc(var(--box-content-height) * (16 / 9)) !important;
-        }
-
-        & * {
-          max-height: var(--box-content-height);
-        }
-
-        .back-btn-text {
-          right: 0;
-          top: 10px;
-          bottom: initial;
-          position: absolute;
-          z-index: 100;
-        }
-
-        .image-gallery-index {
-          left: 0;
-          bottom: 0;
-          right: initial;
-          top: initial;
-        }
-      }
+      width: calc(var(--box-content-height) * (16 / 9)) !important;
     }
-
-    & > * {
-      width: 100%;
+    & * {
+      max-height: var(--box-content-height);
     }
-  }
-
-  .react-photo-album {
-    img {
-      cursor: pointer;
+    .back-btn-text {
+      right: 0;
+      top: 10px;
+      bottom: initial;
+      position: absolute;
+      z-index: 100;
+    }
+    .image-gallery-index {
+      left: 0;
+      bottom: 0;
+      right: initial;
+      top: initial;
     }
   }
 }
 
+/* Image Gallery Styles */
+.react-photo-album img {
+  cursor: pointer;
+}
+
+/* Flag Styles */
 .flag {
   width: 10px;
   height: 9px;
@@ -207,6 +227,7 @@
   margin-bottom: auto;
 }
 
+/* Button Styles */
 .base-btn {
   font-size: var(--tooltip-content-font-size);
   width: 100%;
@@ -219,13 +240,13 @@
   button:focus {
     outline: 0;
   }
-
   &:hover {
     cursor: pointer;
     background-color: var(--button-background-color-hover);
   }
 }
 
+/* Close and Back Button Styles */
 .close-btn,
 .back-btn {
   cursor: pointer;
@@ -235,13 +256,11 @@
   path {
     fill: var(--close-btn-fill);
   }
-
   &:hover {
     path {
       fill: var(--close-btn-fill-hover);
     }
   }
-
   &:active {
     path {
       fill: var(--close-btn-fill-active);
@@ -249,31 +268,27 @@
   }
 }
 
+/* Back Button Text Styles */
 .back-btn-text {
   width: 6.5rem;
   height: 2rem;
   font-size: 1rem;
   display: flex;
-
   p {
     margin: auto;
   }
-
   .back-btn {
     margin: auto;
     width: 1rem;
     height: 1rem;
-
     path {
       fill: white;
     }
-
     &:hover {
       path {
         fill: white;
       }
     }
-
     &:active {
       path {
         fill: white;
@@ -282,28 +297,35 @@
   }
 }
 
+/* Tooltip Styles */
 .react-tooltip {
   border-radius: 0.5rem !important;
   box-shadow: var(--tooltip-box-shadow) !important;
+  opacity: var(--rt-opacity) !important;
+
   .title {
     font-size: var(--tooltip-title-font-size);
     font-weight: var(--tooltip-title-font-weight);
     margin-bottom: var(--tooltip-title-margin-bottom);
     display: flex;
+    height: var(--tooltip-title-height);
+    p {
+      margin: auto 0 auto 0;
+    }
     svg {
       width: var(--tooltip-title-font-size);
       height: var(--tooltip-title-font-size);
+      margin-left: auto;
     }
   }
-
   .content {
+    height: auto;
     margin-bottom: var(--tooltip-margin);
     & > * {
       font-size: var(--tooltip-content-font-size);
       font-weight: var(--tooltip-content-font-weight);
       margin-top: 0rem;
     }
-
     .start,
     .end,
     .population {
@@ -317,13 +339,11 @@
         margin-right: 0.15rem;
       }
     }
-
     svg {
       width: var(--tooltip-content-font-size);
       height: var(--tooltip-content-font-size);
     }
   }
-
   .base-btn {
     margin-top: 0.4rem;
     margin-bottom: 0.2rem;

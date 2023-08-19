@@ -1,36 +1,12 @@
 {
-  "home": {
-    "title": "Chi sono?",
-    "description": "Sono uno studente di <b>Informatica</b> all' <b>Università di Cagliari</b>. Sono appassionato di <b>programmazione</b> e <b>finanza</b>.",
-    "links": {
-      "github": "GitHub",
-      "linkedin": "LinkedIn",
-      "email": "Email"
-    }
-  },
-  "education": {
-    "title": "Istruzione",
-    "events": {
-      "high-school": {
-        "title": "Scuola Superiore",
-        "date": "SET 2011 - LUG 2016",
-        "description": "Diploma di Scuola Superiore Scientifica con un focus sulle Scienze Applicate con un punteggio di <b>96/100</b>",
-        "location": "Liceo Scientifico Giordano Bruno, Muravera(SU)"
-      },
-      "college": {
-        "title": "Laurea Triennale",
-        "date": "SET 2016 - LUG 2019",
-        "description": "Laurea Triennale in Informatica con un punteggio di <b>110/110</b> con lode",
-        "thesis": "Un Framework in Python per il Trading",
-        "location": "Università di Cagliari"
-      },
-      "master": {
-        "title": "Laurea Magistrale",
-        "date": "SET 2019 - FEB 2023",
-        "description": "Laurea Magistrale in Informatica con un punteggio di <b>106/110</b>",
-        "thesis": "Un framework basato sui dati per l'analisi e la previsione dei bilanci finanziari",
-        "location": "Università di Cagliari"
-      }
-    }
-  }
+  "Berlin": "Berlino",
+  "Brussels": "Bruxelles",
+  "Bruges": "Bruges",
+  "Budapest": "Budapest",
+  "Barcelona": "Barcellona",
+  "London": "Londra",
+  "Turin": "Torino",
+  "Padua": "Padova",
+  "Rome": "Roma",
+  "Anderlecht": "Anderlecht"
 }

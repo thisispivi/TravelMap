@@ -26,6 +26,7 @@ export const cities: City[] = [
     new Date(2023, 8, 6),
     new Date(2023, 8, 6)
   ),
+
   new City(
     "Budapest",
     Country.Hungary,
@@ -34,6 +35,7 @@ export const cities: City[] = [
     new Date(2023, 8, 11),
     new Date(2023, 8, 15)
   ),
+
   new City(
     "Berlin",
     Country.Germany,
@@ -42,13 +44,14 @@ export const cities: City[] = [
     new Date(2023, 8, 16),
     new Date(2023, 8, 20)
   ),
+
   new City(
     "Barcelona",
     Country.Spain,
     1620000,
     [2.173403, 41.385064],
-    new Date(2023, 8, 21),
-    new Date(2023, 8, 25)
+    new Date(2016, 4, 11),
+    new Date(2016, 4, 15)
   ),
   new City(
     "London",

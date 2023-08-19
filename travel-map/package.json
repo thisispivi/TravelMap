@@ -1,6 +1,7 @@
 {
   "name": "travel-map",
   "version": "0.1.0",
+  "homepage": "https://thisispivi.github.io/TravelMap",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
@@ -53,6 +54,7 @@
   },
   "devDependencies": {
     "@types/react-image-gallery": "^1.2.0",
-    "@types/react-simple-maps": "^3.0.0"
+    "@types/react-simple-maps": "^3.0.0",
+    "gh-pages": "^6.0.0"
   }
 }

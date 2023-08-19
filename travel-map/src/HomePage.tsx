@@ -1,3 +1,5 @@
+import React, { useState, useCallback, useRef } from "react";
+import Gallery from "react-photo-album";
 import MapChart from "./components/MapChart";
 import { Country } from "./utils/country";
 import { cities } from "./utils/data";
@@ -7,32 +9,69 @@ import { ReactComponent as BelgiumFlag } from "./icons/Belgium.svg";
 import { ReactComponent as GermanyFlag } from "./icons/Germany.svg";
 import { ReactComponent as SpainFlag } from "./icons/Spain.svg";
 import { ReactComponent as HungaryFlag } from "./icons/Hungary.svg";
-import { useCallback, useState } from "react";
-import Gallery from "react-photo-album";
 import { City } from "./utils/city";
 import { getCityPhotos } from "./utils/photos";
 import { Box } from "./components/Box";
-import ImageGallery from "react-image-gallery";
-import { BackButtonWText, Button } from "./components/Button";
-import { ReactComponent as DepartureIcon } from "./icons/Departure.svg";
-import { ReactComponent as ArrivalIcon } from "./icons/Arrival.svg";
-import { ReactComponent as PeopleIcon } from "./icons/People.svg";
 import { Tooltip } from "./components/Tooltip";
+import { CustomImageGallery } from "./components/ImageGallery";
 
 export default function HomePage() {
-  const [hoveredCity, setHoveredCity] = useState<undefined | City>();
-  const [currentCity, setCurrentCity] = useState<undefined | City>();
+  // States
+  const [hoveredCity, setHoveredCity] = useState<City | undefined>();
+  const [currentCity, setCurrentCity] = useState<City | undefined>();
   const [galleryIsOpen, setGalleryIsOpen] = useState(false);
-  const [currentImage, setCurrentImage] = useState<undefined | number>();
+  const [currentImage, setCurrentImage] = useState<number | undefined>();
 
-  const openLightbox = useCallback(({ photo, index }: any) => {
+  // Create a ref to hold a timeout ID
+  const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Open the lightbox for an image
+  const openLightbox = useCallback(({ index }: { index: number }) => {
     setCurrentImage(index);
   }, []);
 
+  // Close the lightbox
   const closeLightbox = () => {
     setCurrentImage(undefined);
   };
 
+  // Close the tooltip and gallery box
+  const closeBox = () => {
+    setCurrentCity(undefined);
+    setGalleryIsOpen(false);
+    setCurrentImage(undefined);
+  };
+
+  // Handle mouse enter on a city
+  const handleMouseEnter = (city: City) => {
+    // Clear any existing timeout
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+    }
+
+    // Set the hovered city
+    setHoveredCity(city);
+
+    // Create a new timeout to clear the hover after 500ms
+    hoverTimeoutRef.current = setTimeout(() => {
+      // Check if a new city value has appeared within 500ms
+      if (hoveredCity === city) {
+        setHoveredCity(undefined);
+      }
+    }, 1000);
+  };
+
+  // Handle mouse leave on a city
+  const handleMouseLeave = () => {
+    // Clear the timeout when the mouse leaves
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+    }
+    // Set the hovered city to undefined immediately
+    setHoveredCity(undefined);
+  };
+
+  // List of visited countries with their styles
   const visited = [
     {
       name: "Belgium",
@@ -66,6 +105,7 @@ export default function HomePage() {
     },
   ];
 
+  // Function to get the flag component for a given country
   const getCountryFlag = (country: Country) => {
     switch (country) {
       case Country.Belgium:
@@ -87,27 +127,34 @@ export default function HomePage() {
 
   return (
     <div className="container">
+      {/* Map Chart */}
       <MapChart
         visited={visited}
         markers={cities}
         hoveredCity={hoveredCity}
         setHoveredCity={setHoveredCity}
       />
-      {cities.map((city) => (
-        <>
-          {!currentCity && (
+
+      {/* Render tooltips for each city */}
+      {cities.map(
+        (city) =>
+          !currentCity && (
             <Tooltip
+              key={city.name}
               city={city}
               getCountryFlag={getCountryFlag}
-              onClick={(city) => {
+              onClick={() => {
                 setHoveredCity(undefined);
                 setCurrentCity(city);
                 setGalleryIsOpen(true);
               }}
+              onMouseEnter={() => handleMouseEnter(city)}
+              onMouseLeave={() => handleMouseLeave()}
             />
-          )}
-        </>
-      ))}
+          )
+      )}
+
+      {/* Render gallery if it's open */}
       {galleryIsOpen && (
         <Box
           title={
@@ -118,48 +165,15 @@ export default function HomePage() {
           }
           content={
             currentImage !== undefined ? (
-              <ImageGallery
-                lazyLoad={true}
-                infinite={true}
-                showIndex={true}
-                showPlayButton={false}
-                showThumbnails={false}
-                startIndex={currentImage}
-                items={getCityPhotos(currentCity?.name || "")}
-                renderItem={(item: any) => {
-                  if (item.video) {
-                    return (
-                      <video className="media" controls>
-                        <source src={item.original} type="video/mp4" />
-                      </video>
-                    );
-                  } else if (item.youtube) {
-                    return (
-                      <iframe
-                        src="https://www.youtube.com/embed/_CaBMaSUx_w"
-                        title="YouTube video player"
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        allowFullScreen
-                      ></iframe>
-                    );
-                  } else {
-                    return <img className="media" src={item.original} alt="" />;
-                  }
-                }}
-                renderCustomControls={() => {
-                  return (
-                    <BackButtonWText
-                      text="To gallery"
-                      onClick={() => setCurrentImage(undefined)}
-                    />
-                  );
-                }}
+              <CustomImageGallery
+                currentCity={currentCity}
+                currentImage={currentImage}
+                onBackClick={closeLightbox}
               />
             ) : (
               <Gallery
                 photos={getCityPhotos(currentCity?.name || "").map((photo) => ({
-                  src: photo.thumbnail,
+                  src: `TravelMap/${photo.thumbnail}`,
                   width: photo.width,
                   height: photo.height,
                 }))}
@@ -168,11 +182,7 @@ export default function HomePage() {
               />
             )
           }
-          onClose={() => {
-            setCurrentCity(undefined);
-            setGalleryIsOpen(false);
-            setCurrentImage(undefined);
-          }}
+          onClose={closeBox}
         />
       )}
     </div>
