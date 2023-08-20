@@ -4,7 +4,11 @@ import { useEffect, useMemo, useState } from "react";
 import { ReactComponent as MoonIcon } from "../icons/Moon.svg";
 import { ReactComponent as SunIcon } from "../icons/Sun.svg";
 
-export const DarkModeToggle = () => {
+interface DarkModeToggleProps {
+  className?: string;
+}
+
+export function DarkModeToggle({ className }: DarkModeToggleProps) {
   const systemPrefersDark = useMediaQuery(
     {
       query: "(prefers-color-scheme: dark)",
@@ -39,6 +43,7 @@ export const DarkModeToggle = () => {
       onChange={({ target }) => setIsDark(target.checked)}
       icons={{ checked: <SunIcon />, unchecked: <MoonIcon /> }}
       aria-label="Dark mode toggle"
+      className={className}
     />
   );
-};
+}

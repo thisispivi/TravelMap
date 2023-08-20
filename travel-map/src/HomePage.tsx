@@ -15,9 +15,17 @@ import { Box } from "./components/Box";
 import { Tooltip } from "./components/Tooltip";
 import { CustomImageGallery } from "./components/ImageGallery";
 import { DarkModeToggle } from "./components/Toogle";
+import { LanguageDropdown } from "./components/Language";
+import { useTranslation } from "react-i18next";
+
+const urlPrefix = "TravelMap/";
 
 export default function HomePage() {
-  const urlPrefix = "";
+  const { i18n, t } = useTranslation(["home"]);
+  const currentLanguage = i18n.language;
+  const changeLanguage = (lang: string) => {
+    i18n.changeLanguage(lang);
+  };
 
   // States
   const [hoveredCity, setHoveredCity] = useState<City | undefined>();
@@ -130,7 +138,12 @@ export default function HomePage() {
 
   return (
     <div className="container">
-      <DarkModeToggle />
+      <DarkModeToggle className={currentCity ? "hidden" : ""} />
+      <LanguageDropdown
+        currentLanguage={currentLanguage}
+        onClick={changeLanguage}
+        className={currentCity ? "hidden" : ""}
+      />
 
       {/* Map Chart */}
       <MapChart

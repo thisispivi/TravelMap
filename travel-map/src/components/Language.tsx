@@ -1,18 +1,18 @@
 import { useState, useEffect, useRef } from "react";
 import { LanguageIcon } from "../icons/Language";
 import { ReactComponent as ItalianIcon } from "../icons/Italian.svg";
-import { ReactComponent as EnglishIcon } from "../icons/English.svg";
+import { ReactComponent as EnglishIcon } from "../icons/UnitedKingdom.svg";
 
 interface LanguageDropdownProps {
   onClick: (lang: string) => void;
   currentLanguage: string;
-  iconColorClass?: string;
+  className?: string;
 }
 
 export const LanguageDropdown = ({
   onClick,
   currentLanguage,
-  iconColorClass = "",
+  className = "",
 }: LanguageDropdownProps) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef<any>(null);
@@ -54,24 +54,24 @@ export const LanguageDropdown = ({
   }, []);
 
   const getFlag = (lang: string) => {
-    const style = {
-      marginLeft: "8px",
-      width: "20px",
-      height: "20px",
-    };
     switch (lang) {
       case "en":
-        return <EnglishIcon style={style} />;
+        return <EnglishIcon />;
       case "it":
-        return <ItalianIcon style={style} />;
+        return <ItalianIcon />;
       default:
-        return <EnglishIcon style={style} />;
+        return <EnglishIcon />;
     }
   };
 
   return (
-    <div className="dropdown-wrapper" ref={dropdownRef}>
-      <LanguageIcon onClick={handleDropdownToggle} className={iconColorClass} />
+    <div
+      className={`dropdown-wrapper ${className}`}
+      ref={dropdownRef}
+      onClick={handleDropdownToggle}
+    >
+      <LanguageIcon />
+      <div className="current-language">{getFlag(currentLanguage)}</div>
       <div className={`menu ${showDropdown ? "active" : ""}`}>
         {items.map((item) => (
           <div
