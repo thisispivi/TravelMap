@@ -1,13 +1,13 @@
-import { ReactNode, useRef, useEffect } from "react";
+import { ReactNode, useRef, useEffect, PropsWithChildren } from "react";
 import { CloseButton } from "./Button";
 
-interface BoxProps {
+interface BoxProps extends PropsWithChildren {
   title: ReactNode;
-  content: ReactNode;
   onClose: () => void;
+  className?: string;
 }
 
-export function Box({ title, content, onClose }: BoxProps) {
+export function Box({ title, children, onClose, className = "" }: BoxProps) {
   const boxRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -23,12 +23,12 @@ export function Box({ title, content, onClose }: BoxProps) {
   }, [boxRef, onClose]);
 
   return (
-    <div className="box-container">
+    <div className={`box-container ${className}`}>
       <div className="box" ref={boxRef}>
         <div className="title">
           {title} <CloseButton onClick={onClose} />
         </div>
-        <div className="content">{content}</div>
+        <div className="content">{children}</div>
       </div>
     </div>
   );

@@ -30,8 +30,8 @@ export default function HomePage() {
   // States
   const [hoveredCity, setHoveredCity] = useState<City | undefined>();
   const [currentCity, setCurrentCity] = useState<City | undefined>();
-  const [galleryIsOpen, setGalleryIsOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState<number | undefined>();
+  const [galleryClass, setGalleryClass] = useState("hidden");
 
   // Create a ref to hold a timeout ID
   const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -46,11 +46,23 @@ export default function HomePage() {
     setCurrentImage(undefined);
   };
 
+  // Open the tooltip and gallery box
+  const openBox = (city: City) => {
+    setGalleryClass("active");
+    setHoveredCity(undefined);
+    setCurrentCity(city);
+  };
+
   // Close the tooltip and gallery box
   const closeBox = () => {
-    setCurrentCity(undefined);
-    setGalleryIsOpen(false);
-    setCurrentImage(undefined);
+    if (currentCity) {
+      setGalleryClass("closing");
+      setTimeout(() => {
+        setCurrentCity(undefined);
+        setCurrentImage(undefined);
+        setGalleryClass("hidden");
+      }, 500);
+    }
   };
 
   // Handle mouse enter on a city
@@ -144,7 +156,6 @@ export default function HomePage() {
         onClick={changeLanguage}
         className={currentCity ? "hidden" : ""}
       />
-
       {/* Map Chart */}
       <MapChart
         visited={visited}
@@ -152,7 +163,6 @@ export default function HomePage() {
         hoveredCity={hoveredCity}
         setHoveredCity={setHoveredCity}
       />
-
       {/* Render tooltips for each city */}
       {cities.map(
         (city) =>
@@ -161,49 +171,42 @@ export default function HomePage() {
               key={city.name}
               city={city}
               getCountryFlag={getCountryFlag}
-              onClick={() => {
-                setHoveredCity(undefined);
-                setCurrentCity(city);
-                setGalleryIsOpen(true);
-              }}
+              onClick={openBox}
               onMouseEnter={() => handleMouseEnter(city)}
               onMouseLeave={() => handleMouseLeave()}
             />
           )
       )}
-
       {/* Render gallery if it's open */}
-      {galleryIsOpen && (
-        <Box
-          title={
-            <>
-              <p>{currentCity?.name}</p>
-              {currentCity && getCountryFlag(currentCity.country)}
-            </>
-          }
-          content={
-            currentImage !== undefined ? (
-              <CustomImageGallery
-                currentCity={currentCity}
-                currentImage={currentImage}
-                onBackClick={closeLightbox}
-                baseUrl={urlPrefix}
-              />
-            ) : (
-              <Gallery
-                photos={getCityPhotos(currentCity?.name || "").map((photo) => ({
-                  src: `${urlPrefix}${photo.thumbnail}`,
-                  width: photo.width,
-                  height: photo.height,
-                }))}
-                onClick={openLightbox}
-                layout="rows"
-              />
-            )
-          }
-          onClose={closeBox}
-        />
-      )}
+      <Box
+        title={
+          <>
+            <p>{currentCity?.name}</p>
+            {currentCity && getCountryFlag(currentCity.country)}
+          </>
+        }
+        className={galleryClass}
+        onClose={closeBox}
+      >
+        {currentImage !== undefined ? (
+          <CustomImageGallery
+            currentCity={currentCity}
+            currentImage={currentImage}
+            onBackClick={closeLightbox}
+            baseUrl={urlPrefix}
+          />
+        ) : (
+          <Gallery
+            photos={getCityPhotos(currentCity?.name || "").map((photo) => ({
+              src: `${urlPrefix}${photo.thumbnail}`,
+              width: photo.width,
+              height: photo.height,
+            }))}
+            onClick={openLightbox}
+            layout="rows"
+          />
+        )}
+      </Box>
     </div>
   );
 }
