@@ -1,14 +1,7 @@
 import React, { useState, useCallback, useRef } from "react";
 import Gallery from "react-photo-album";
 import MapChart from "./components/MapChart";
-import { Country } from "./utils/country";
-import { cities } from "./utils/data";
-import { ReactComponent as ItalyFlag } from "./icons/Italian.svg";
-import { ReactComponent as EnglandFlag } from "./icons/England.svg";
-import { ReactComponent as BelgiumFlag } from "./icons/Belgium.svg";
-import { ReactComponent as GermanyFlag } from "./icons/Germany.svg";
-import { ReactComponent as SpainFlag } from "./icons/Spain.svg";
-import { ReactComponent as HungaryFlag } from "./icons/Hungary.svg";
+import { cities, visited } from "./utils/data";
 import { City } from "./utils/city";
 import { getCityPhotos } from "./utils/photos";
 import { Box } from "./components/Box";
@@ -17,6 +10,12 @@ import { CustomImageGallery } from "./components/ImageGallery";
 import { DarkModeToggle } from "./components/Toogle";
 import { LanguageDropdown } from "./components/Language";
 import { useTranslation } from "react-i18next";
+import { ReactComponent as ItalyFlag } from "./icons/Italian.svg";
+import { ReactComponent as EnglandFlag } from "./icons/England.svg";
+import { ReactComponent as BelgiumFlag } from "./icons/Belgium.svg";
+import { ReactComponent as GermanyFlag } from "./icons/Germany.svg";
+import { ReactComponent as SpainFlag } from "./icons/Spain.svg";
+import { ReactComponent as HungaryFlag } from "./icons/Hungary.svg";
 
 const urlPrefix = "TravelMap/";
 
@@ -94,59 +93,26 @@ export default function HomePage() {
     setHoveredCity(undefined);
   };
 
-  // List of visited countries with their styles
-  const visited = [
-    {
-      name: "Belgium",
-      fill: "rgba(213, 48, 50, 0.4)",
-      stroke: "rgba(213, 48, 50, 1)",
-    },
-    {
-      name: "Spain",
-      fill: "rgba(243, 159, 24, 0.4)",
-      stroke: "rgba(243, 159, 24, 1)",
-    },
-    {
-      name: "Italy",
-      fill: "rgba(0, 86, 185, 0.4)",
-      stroke: "rgba(0, 86, 185, 1)",
-    },
-    {
-      name: "Hungary",
-      fill: "rgba(217, 80, 48, 0.4)",
-      stroke: "rgba(217, 80, 48, 1)",
-    },
-    {
-      name: "Germany",
-      fill: "rgba(49, 127, 67, 0.4)",
-      stroke: "rgba(49, 127, 67, 1)",
-    },
-    {
-      name: "United Kingdom",
-      fill: "rgba(132, 195, 190, 0.4)",
-      stroke: "rgba(132, 195, 190, 1)",
-    },
-  ];
+  console.log(visited);
 
-  // Function to get the flag component for a given country
-  const getCountryFlag = (country: Country) => {
-    switch (country) {
-      case Country.Belgium:
+  function getCountryFlag(id: string) {
+    switch (id) {
+      case "Belgium":
         return <BelgiumFlag className="flag" />;
-      case Country.England:
+      case "UnitedKingdom":
         return <EnglandFlag className="flag" />;
-      case Country.Italy:
+      case "Italy":
         return <ItalyFlag className="flag" />;
-      case Country.Germany:
+      case "Germany":
         return <GermanyFlag className="flag" />;
-      case Country.Spain:
+      case "Spain":
         return <SpainFlag className="flag" />;
-      case Country.Hungary:
+      case "Hungary":
         return <HungaryFlag className="flag" />;
       default:
         return null;
     }
-  };
+  }
 
   return (
     <div className="container">
@@ -174,6 +140,7 @@ export default function HomePage() {
               onClick={openBox}
               onMouseEnter={() => handleMouseEnter(city)}
               onMouseLeave={() => handleMouseLeave()}
+              t={t}
             />
           )
       )}
@@ -182,7 +149,7 @@ export default function HomePage() {
         title={
           <>
             <p>{currentCity?.name}</p>
-            {currentCity && getCountryFlag(currentCity.country)}
+            {currentCity && getCountryFlag(currentCity.country.id)}
           </>
         }
         className={galleryClass}

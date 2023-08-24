@@ -1,3 +1,4 @@
+import { i18n } from "i18next";
 import { Country } from "./country";
 
 interface CityInterface {
@@ -31,5 +32,9 @@ export class City implements CityInterface {
     this.coordinates = coordinates;
     this.startDate = startDate;
     this.endDate = endDate;
+  }
+
+  getCountryName(t: i18n["t"]) {
+    return t(`cities.${this.name}`);
   }
 }

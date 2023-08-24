@@ -7,25 +7,20 @@ import {
 } from "react-simple-maps";
 import MarkerIcon from "../icons/Marker";
 import { City } from "../utils/city";
+import { Country } from "../utils/country";
 
 const geoUrl =
   "https://raw.githubusercontent.com/deldersveld/topojson/master/world-countries.json";
 
-export type VisitedType = {
-  name: string;
-  fill: string;
-  stroke: string;
-};
-
 interface MapChartProps {
-  visited?: VisitedType[];
+  visited?: Record<string, Country>;
   markers?: City[];
   hoveredCity?: City;
   setHoveredCity: (city: City | undefined) => void;
 }
 
 export default function MapChart({
-  visited = [],
+  visited = {},
   markers = [],
   hoveredCity,
   setHoveredCity,
@@ -49,20 +44,18 @@ export default function MapChart({
                 key={geo.rsmKey}
                 geography={geo}
                 className={
-                  visited.find(
-                    (country) => country.name === geo.properties.name
-                  )
-                    ? "visited"
-                    : "not-visited"
+                  visited[geo.properties.name] ? "visited" : "not-visited"
                 }
                 strokeWidth={0.3}
                 fill={
-                  visited.find((v) => v.name === geo.properties.name)?.fill ||
-                  "#DDD"
+                  visited[geo.properties.name]
+                    ? visited[geo.properties.name].fillColor
+                    : "#DDD"
                 }
                 stroke={
-                  visited.find((v) => v.name === geo.properties.name)?.stroke ||
-                  "#999"
+                  visited[geo.properties.name]
+                    ? visited[geo.properties.name].borderColor
+                    : "#999"
                 }
               />
             ))

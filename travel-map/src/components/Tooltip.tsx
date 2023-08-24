@@ -1,17 +1,18 @@
 import { City } from "../utils/city";
-import { Country } from "../utils/country";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import { ReactComponent as DepartureIcon } from "../icons/Departure.svg";
 import { ReactComponent as ArrivalIcon } from "../icons/Arrival.svg";
 import { ReactComponent as PeopleIcon } from "../icons/People.svg";
 import { Button } from "./Button";
+import { i18n } from "i18next";
 
 interface TooltipProps {
   city: City;
-  getCountryFlag: (country: Country) => JSX.Element | null;
+  getCountryFlag: (id: string) => JSX.Element | null;
   onClick?: (city: City) => void;
   onMouseEnter?: (city: City) => void;
   onMouseLeave?: () => void;
+  t: i18n["t"];
 }
 
 export function Tooltip({
@@ -20,6 +21,7 @@ export function Tooltip({
   getCountryFlag,
   onMouseEnter,
   onMouseLeave,
+  t,
 }: TooltipProps) {
   return (
     <div
@@ -29,8 +31,8 @@ export function Tooltip({
     >
       <ReactTooltip clickable id={city.name} variant="light" key={city.name}>
         <div className="title">
-          <p>{city.name}</p>
-          {getCountryFlag(city.country)}
+          <p>{city.getCountryName(t)}</p>
+          {getCountryFlag(city.country.id)}
         </div>
         <div className="content">
           <div className="population">

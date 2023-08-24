@@ -1,12 +1,22 @@
 {
-  "Berlin": "Berlino",
-  "Brussels": "Bruxelles",
-  "Bruges": "Bruges",
-  "Budapest": "Budapest",
-  "Barcelona": "Barcellona",
-  "London": "Londra",
-  "Turin": "Torino",
-  "Padua": "Padova",
-  "Rome": "Roma",
-  "Anderlecht": "Anderlecht"
+  "cities": {
+    "Berlin": "Berlino",
+    "Brussels": "Bruxelles",
+    "Bruges": "Bruges",
+    "Budapest": "Budapest",
+    "Barcelona": "Barcellona",
+    "London": "Londra",
+    "Turin": "Torino",
+    "Padua": "Padova",
+    "Rome": "Roma",
+    "Anderlecht": "Anderlecht"
+  },
+  "countries": {
+    "Belgium": "Belgio",
+    "Hungary": "Ungheria",
+    "Italy": "Italia",
+    "Spain": "Spagna",
+    "UnitedKingdom": "Regno Unito",
+    "Germany": "Germania"
+  }
 }

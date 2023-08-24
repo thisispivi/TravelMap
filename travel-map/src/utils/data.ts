@@ -1,10 +1,19 @@
 import { City } from "./city";
 import { Country } from "./country";
 
+export const visited = {
+  Belgium: new Country("Belgium", { r: 213, g: 48, b: 50 }),
+  Spain: new Country("Spain", { r: 243, g: 159, b: 24 }),
+  Italy: new Country("Italy", { r: 0, g: 86, b: 185 }),
+  Hungary: new Country("Hungary", { r: 217, g: 80, b: 48 }),
+  Germany: new Country("Germany", { r: 49, g: 127, b: 67 }),
+  UnitedKingdom: new Country("UnitedKingdom", { r: 132, g: 195, b: 190 }),
+};
+
 export const cities: City[] = [
   new City(
     "Brussels",
-    Country.Belgium,
+    visited.Belgium,
     1180531,
     [4.34878, 50.85045],
     new Date(2023, 8, 5),
@@ -12,7 +21,7 @@ export const cities: City[] = [
   ),
   new City(
     "Bruges",
-    Country.Belgium,
+    visited.Belgium,
     118284,
     [3.22424, 51.209348],
     new Date(2023, 8, 9),
@@ -20,7 +29,7 @@ export const cities: City[] = [
   ),
   new City(
     "Anderlecht",
-    Country.Belgium,
+    visited.Belgium,
     119714,
     [4.2360105, 50.8127957],
     new Date(2023, 8, 6),
@@ -29,7 +38,7 @@ export const cities: City[] = [
 
   new City(
     "Budapest",
-    Country.Hungary,
+    visited.Hungary,
     1756000,
     [19.040236, 47.497913],
     new Date(2023, 8, 11),
@@ -38,7 +47,7 @@ export const cities: City[] = [
 
   new City(
     "Berlin",
-    Country.Germany,
+    visited.Germany,
     3769000,
     [13.404954, 52.520008],
     new Date(2023, 8, 16),
@@ -47,7 +56,7 @@ export const cities: City[] = [
 
   new City(
     "Barcelona",
-    Country.Spain,
+    visited.Spain,
     1620000,
     [2.173403, 41.385064],
     new Date(2016, 4, 11),
@@ -55,7 +64,7 @@ export const cities: City[] = [
   ),
   new City(
     "London",
-    Country.England,
+    visited.UnitedKingdom,
     8900000,
     [-0.118092, 51.509865],
     new Date(2023, 8, 26),
@@ -63,7 +72,7 @@ export const cities: City[] = [
   ),
   new City(
     "Turin",
-    Country.Italy,
+    visited.Italy,
     886837,
     [7.686856, 45.070312],
     new Date(2023, 9, 1),
@@ -71,7 +80,7 @@ export const cities: City[] = [
   ),
   new City(
     "Padua",
-    Country.Italy,
+    visited.Italy,
     214198,
     [11.876761, 45.406435],
     new Date(2023, 9, 6),
@@ -79,7 +88,7 @@ export const cities: City[] = [
   ),
   new City(
     "Rome",
-    Country.Italy,
+    visited.Italy,
     2872800,
     [12.496366, 41.902782],
     new Date(2023, 10, 11),
