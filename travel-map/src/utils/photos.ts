@@ -438,11 +438,12 @@ export const photos = {
       height: 9,
     },
     {
-      original: "Anderlecht/5.jpg",
+      original: "Anderlecht/5.mp4",
       thumbnail: "Anderlecht/5_thumb.jpg",
       alt: "",
       width: 9,
       height: 16,
+      video: true,
     },
     {
       original: "Anderlecht/6.jpg",
@@ -452,18 +453,20 @@ export const photos = {
       height: 3,
     },
     {
-      original: "Anderlecht/7.jpg",
+      original: "Anderlecht/7.mp4",
       thumbnail: "Anderlecht/7_thumb.jpg",
       alt: "",
       width: 9,
       height: 16,
+      video: true,
     },
     {
-      original: "Anderlecht/8.jpg",
+      original: "Anderlecht/8.mp4",
       thumbnail: "Anderlecht/8_thumb.jpg",
       alt: "",
       width: 9,
       height: 16,
+      video: true,
     },
     {
       original: "https://www.youtube.com/watch?v=_CaBMaSUx_w",

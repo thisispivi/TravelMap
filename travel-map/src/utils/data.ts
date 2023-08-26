@@ -94,4 +94,84 @@ export const cities: City[] = [
     new Date(2023, 10, 11),
     new Date(2023, 10, 15)
   ),
+  new City(
+    "Verona",
+    visited.Italy,
+    258108,
+    [10.991621, 45.438384],
+    new Date(2023, 10, 16),
+    new Date(2023, 10, 20)
+  ),
+  new City(
+    "Venice",
+    visited.Italy,
+    261905,
+    [12.315515, 45.440847],
+    new Date(2023, 10, 21),
+    new Date(2023, 10, 25)
+  ),
+  new City(
+    "Terni",
+    visited.Italy,
+    112528,
+    [12.646361, 42.560253],
+    new Date(2023, 10, 26),
+    new Date(2023, 10, 30)
+  ),
+  new City(
+    "Perugia",
+    visited.Italy,
+    168066,
+    [12.38878, 43.110717],
+    new Date(2023, 11, 1),
+    new Date(2023, 11, 5)
+  ),
+  new City(
+    "Assisi",
+    visited.Italy,
+    28403,
+    [12.619786, 43.070702],
+    new Date(2023, 11, 6),
+    new Date(2023, 11, 10)
+  ),
+  new City(
+    "Cuneo",
+    visited.Italy,
+    56048,
+    [7.55, 44.383331],
+    new Date(2023, 11, 6),
+    new Date(2023, 11, 10)
+  ),
+  new City(
+    "Gressoney-La-Trinité",
+    visited.Italy,
+    392,
+    [7.833333, 45.833332],
+    new Date(2023, 11, 11),
+    new Date(2023, 11, 15)
+  ),
+  new City(
+    "Genoa",
+    visited.Italy,
+    583601,
+    [8.946256, 44.40565],
+    new Date(2023, 11, 16),
+    new Date(2023, 11, 20)
+  ),
+  new City(
+    "Livorno",
+    visited.Italy,
+    158493,
+    [10.310567, 43.551876],
+    new Date(2023, 11, 6),
+    new Date(2023, 11, 10)
+  ),
+  new City(
+    "Pisa",
+    visited.Italy,
+    90127,
+    [10.401682, 43.722839],
+    new Date(2023, 11, 6),
+    new Date(2023, 11, 10)
+  ),
 ];

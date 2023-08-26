@@ -6,9 +6,13 @@ import { ReactComponent as SunIcon } from "../icons/Sun.svg";
 
 interface DarkModeToggleProps {
   className?: string;
+  setDarkMode: (isDark: boolean) => void;
 }
 
-export function DarkModeToggle({ className }: DarkModeToggleProps) {
+export function DarkModeToggle({
+  className,
+  setDarkMode,
+}: DarkModeToggleProps) {
   const systemPrefersDark = useMediaQuery(
     {
       query: "(prefers-color-scheme: dark)",
@@ -28,10 +32,12 @@ export function DarkModeToggle({ className }: DarkModeToggleProps) {
   useEffect(() => {
     if (isDark) {
       document.body.classList.add("dark");
+      setDarkMode(true);
     } else {
       document.body.classList.remove("dark");
+      setDarkMode(false);
     }
-  }, [isDark]);
+  }, [isDark, setDarkMode]);
 
   useEffect(() => {
     localStorage.setItem("darkMode", isDark.toString());

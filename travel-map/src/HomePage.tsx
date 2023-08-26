@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import Gallery from "react-photo-album";
 import MapChart from "./components/MapChart";
 import { cities, visited } from "./utils/data";
@@ -25,6 +25,8 @@ export default function HomePage() {
   const changeLanguage = (lang: string) => {
     i18n.changeLanguage(lang);
   };
+
+  const [isDarkMode, setIsDarkMode] = useState(true);
 
   // States
   const [hoveredCity, setHoveredCity] = useState<City | undefined>();
@@ -60,7 +62,7 @@ export default function HomePage() {
         setCurrentCity(undefined);
         setCurrentImage(undefined);
         setGalleryClass("hidden");
-      }, 500);
+      }, 490);
     }
   };
 
@@ -93,8 +95,6 @@ export default function HomePage() {
     setHoveredCity(undefined);
   };
 
-  console.log(visited);
-
   function getCountryFlag(id: string) {
     switch (id) {
       case "Belgium":
@@ -116,7 +116,16 @@ export default function HomePage() {
 
   return (
     <div className="container">
-      <DarkModeToggle className={currentCity ? "hidden" : ""} />
+      <img
+        src={`${urlPrefix}logo-full-${isDarkMode ? "white" : "black"}.png`}
+        alt="logo"
+        className="logo"
+      />
+
+      <DarkModeToggle
+        className={currentCity ? "hidden" : ""}
+        setDarkMode={setIsDarkMode}
+      />
       <LanguageDropdown
         currentLanguage={currentLanguage}
         onClick={changeLanguage}
@@ -128,6 +137,7 @@ export default function HomePage() {
         markers={cities}
         hoveredCity={hoveredCity}
         setHoveredCity={setHoveredCity}
+        geoUrl={`${urlPrefix}map.json`}
       />
       {/* Render tooltips for each city */}
       {cities.map(

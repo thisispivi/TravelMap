@@ -320,6 +320,14 @@ body.dark {
     }
     & * {
       max-height: var(--box-content-height);
+
+      height: 100%;
+    }
+    .image-gallery-content {
+      height: 100%;
+    }
+    .image-gallery-fullscreen-button {
+      height: auto;
     }
     .back-btn-text {
       right: 0;
@@ -327,12 +335,14 @@ body.dark {
       bottom: initial;
       position: absolute;
       z-index: 100;
+      height: auto;
     }
     .image-gallery-index {
       left: 0;
       bottom: 0;
       right: initial;
       top: initial;
+      height: auto;
     }
   }
 }
@@ -634,4 +644,12 @@ body.dark {
       height: 1rem;
     }
   }
+}
+
+.logo {
+  grid-area: 1 / 1 / 2 / 2;
+  margin: 1rem 0 0 1rem;
+  z-index: 1000;
+  width: 15rem;
+  display: none;
 }

@@ -9,14 +9,12 @@ import MarkerIcon from "../icons/Marker";
 import { City } from "../utils/city";
 import { Country } from "../utils/country";
 
-const geoUrl =
-  "https://raw.githubusercontent.com/deldersveld/topojson/master/world-countries.json";
-
 interface MapChartProps {
   visited?: Record<string, Country>;
   markers?: City[];
   hoveredCity?: City;
   setHoveredCity: (city: City | undefined) => void;
+  geoUrl?: string;
 }
 
 export default function MapChart({
@@ -24,6 +22,7 @@ export default function MapChart({
   markers = [],
   hoveredCity,
   setHoveredCity,
+  geoUrl = "",
 }: MapChartProps) {
   return (
     <ComposableMap
