@@ -1,6 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./styles/main.scss";
+import "./styles/animations.scss";
+import "./styles/scrollbar.scss";
+import "./styles/toggle.scss";
+import "./styles/map.scss";
+import "./styles/buttons.scss";
+import "./styles/language.scss";
+import "./styles/box.scss";
 import "tippy.js/animations/scale.css";
 import "tippy.js/animations/scale-subtle.css";
 import "tippy.js/animations/scale-extreme.css";

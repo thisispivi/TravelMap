@@ -1,0 +1,69 @@
+.react-toggle {
+  grid-area: 1 / 1 / 2 / 2;
+  width: var(--toggle-width);
+  height: var(--toggle-height);
+  border-radius: var(--toggle-border-radius);
+  margin: auto 0 1rem 1rem;
+  transition: transform 0.2s ease-in-out;
+
+  &.hidden {
+    transform: translate(0, 100px);
+  }
+
+  & * {
+    box-shadow: none !important;
+  }
+
+  & svg {
+    width: 0.7rem;
+    height: 0.7rem;
+    & * {
+      fill: var(--light-icon-color);
+    }
+  }
+
+  .react-toggle-track {
+    background-color: var(--dark-color);
+    &:hover {
+      background-color: var(--dark-color-hover);
+    }
+  }
+
+  .react-toggle-thumb {
+    top: 4px;
+    border: 0;
+    background-color: var(--light-icon-color);
+    width: 16px;
+    height: 16px;
+    left: 5px;
+  }
+
+  .react-toggle-track-x {
+    height: 12px;
+  }
+
+  &.react-toggle--checked {
+    svg {
+      & * {
+        fill: var(--dark-icon-color);
+      }
+    }
+    &:hover:not(.react-toggle--disabled) .react-toggle-track {
+      background-color: var(--light-color-hover);
+    }
+    .react-toggle-track {
+      background-color: var(--light-color);
+      &:hover:not(.react-toggle--disabled) {
+        background-color: var(--light-color-hover);
+      }
+    }
+    .react-toggle-thumb {
+      background-color: var(--dark-color);
+      left: 29px;
+    }
+  }
+
+  .react-toggle-track-check {
+    height: 12px;
+  }
+}

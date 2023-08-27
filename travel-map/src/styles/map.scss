@@ -1,0 +1,80 @@
+/* Marker Icon Styles */
+.marker-icon {
+  transform: var(--marker-transformation);
+  path {
+    fill: var(--marker-color);
+    stroke: var(--marker-stroke-color);
+    stroke-width: var(--marker-stroke-width);
+    scale: var(--marker-scale);
+    transition: var(--marker-transition);
+  }
+  circle {
+    transition: var(--marker-transition);
+  }
+  &.active {
+    path {
+      transform: var(--marker-transformation-hover);
+      scale: var(--marker-scale-hover);
+      opacity: var(--marker-base-opacity-hover);
+      fill: var(--marker-color-active);
+    }
+    circle {
+      transform: var(--marker-transformation-circle-hover);
+      scale: var(--marker-circle-scale-hover);
+      opacity: var(--marker-base-opacity-hover);
+    }
+  }
+}
+
+/* Tooltip Styles */
+.react-tooltip {
+  border-radius: 0.5rem !important;
+  box-shadow: var(--tooltip-box-shadow) !important;
+  opacity: var(--rt-opacity) !important;
+
+  .title {
+    font-size: var(--tooltip-title-font-size);
+    font-weight: var(--tooltip-title-font-weight);
+    margin-bottom: var(--tooltip-title-margin-bottom);
+    display: flex;
+    height: var(--tooltip-title-height);
+    p {
+      margin: auto 0 auto 0;
+    }
+    svg {
+      width: var(--tooltip-title-font-size);
+      height: var(--tooltip-title-font-size);
+      margin-left: auto;
+    }
+  }
+  .content {
+    height: auto;
+    margin-bottom: var(--tooltip-margin);
+    & > * {
+      font-size: var(--tooltip-content-font-size);
+      font-weight: var(--tooltip-content-font-weight);
+      margin-top: 0rem;
+    }
+    .start,
+    .end,
+    .population {
+      display: flex;
+      p {
+        margin-top: auto;
+        margin-bottom: auto;
+      }
+      .flag {
+        margin-left: 0;
+        margin-right: 0.15rem;
+      }
+    }
+    svg {
+      width: var(--tooltip-content-font-size);
+      height: var(--tooltip-content-font-size);
+    }
+  }
+  .base-btn {
+    margin-top: 0.4rem;
+    margin-bottom: 0.2rem;
+  }
+}

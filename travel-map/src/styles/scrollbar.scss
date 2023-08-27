@@ -1,0 +1,23 @@
+/* Scrollbar Styles */
+::-webkit-scrollbar {
+  width: var(--webkit-scrollbar-size);
+  height: var(--webkit-scrollbar-size);
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--webkit-scrollbar-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--webkit-scrollbar-bar);
+  border-radius: var(--webkit-scrollbar-size);
+  border: var(--webkit-scrollbar-border);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--webkit-scrollbar-bar-hover);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: var(--webkit-scrollbar-bar-active);
+}

@@ -33,7 +33,7 @@ export default function MapChart({
       }}
       width={800}
       height={400}
-      style={{ width: "100vw", height: "100vh", gridArea: "1 / 1 / 2 / 2" }}
+      style={{ width: "100dvw", height: "100dvh", gridArea: "1 / 1 / 2 / 2" }}
     >
       <ZoomableGroup zoom={1}>
         <Geographies geography={geoUrl}>

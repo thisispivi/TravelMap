@@ -1,0 +1,90 @@
+/* Box Styles */
+.box-container {
+  grid-area: 1 / 1 / 2 / 2;
+  background-color: rgba(0, 0, 0, 0.5);
+  width: inherit;
+  height: inherit;
+
+  &.hidden {
+    display: none;
+  }
+
+  &.closing .box {
+    animation: backOutDown 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  &.active .box {
+    animation: backInUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  .box {
+    margin: var(--box-margin-y) var(--box-margin-x);
+    padding: var(--box-padding);
+    background-color: var(--box-background-color);
+    border-radius: var(--box-border-radius);
+    display: flex;
+    flex-direction: column;
+
+    /* Title Styles */
+    .title {
+      height: var(--box-title-height);
+      font-size: var(--box-title-font-size);
+      margin-bottom: var(--box-title-margin-bottom);
+      display: flex;
+      p {
+        height: var(--box-title-height);
+        margin: auto 0 auto 0;
+      }
+      .flag {
+        height: var(--box-title-height);
+        width: 3rem;
+        margin: auto 0 auto 0.5rem;
+      }
+      .close-btn {
+        margin-left: auto;
+      }
+    }
+
+    .content {
+      overflow-y: auto;
+      height: var(--box-content-height);
+      width: auto;
+      .image-gallery {
+        height: var(--box-content-height);
+        max-width: calc(
+          100vw - (var(--box-margin-x) * 2) - (var(--box-padding) * 2)
+        );
+        iframe {
+          height: var(--box-content-height);
+          width: calc(var(--box-content-height) * (16 / 9)) !important;
+        }
+        & * {
+          max-height: var(--box-content-height);
+
+          height: 100%;
+        }
+        .image-gallery-content {
+          height: 100%;
+        }
+        .image-gallery-fullscreen-button {
+          height: auto;
+        }
+        .back-btn-text {
+          right: 0;
+          top: 10px;
+          bottom: initial;
+          position: absolute;
+          z-index: 100;
+          height: auto;
+        }
+        .image-gallery-index {
+          left: 0;
+          bottom: 0;
+          right: initial;
+          top: initial;
+          height: auto;
+        }
+      }
+    }
+  }
+}

@@ -1,7 +1,7 @@
-import React, { useState, useCallback, useRef, useEffect } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import Gallery from "react-photo-album";
 import MapChart from "./components/MapChart";
-import { cities, visited } from "./utils/data";
+import { orderedCities, visited } from "./utils/data";
 import { City } from "./utils/city";
 import { getCityPhotos } from "./utils/photos";
 import { Box } from "./components/Box";
@@ -131,16 +131,14 @@ export default function HomePage() {
         onClick={changeLanguage}
         className={currentCity ? "hidden" : ""}
       />
-      {/* Map Chart */}
       <MapChart
         visited={visited}
-        markers={cities}
+        markers={orderedCities}
         hoveredCity={hoveredCity}
         setHoveredCity={setHoveredCity}
         geoUrl={`${urlPrefix}map.json`}
       />
-      {/* Render tooltips for each city */}
-      {cities.map(
+      {orderedCities.map(
         (city) =>
           !currentCity && (
             <Tooltip
@@ -154,7 +152,6 @@ export default function HomePage() {
             />
           )
       )}
-      {/* Render gallery if it's open */}
       <Box
         title={
           <>

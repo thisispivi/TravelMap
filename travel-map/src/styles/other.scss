@@ -1,0 +1,22 @@
+/* Content Styles */
+
+/* Image Gallery Styles */
+.react-photo-album img {
+  cursor: pointer;
+}
+/* Flag Styles */
+.flag {
+  width: 10px;
+  height: 9px;
+  margin-left: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.logo {
+  grid-area: 1 / 1 / 2 / 2;
+  margin: 1rem 0 0 1rem;
+  z-index: 1000;
+  width: 15rem;
+  display: none;
+}
