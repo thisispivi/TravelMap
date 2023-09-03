@@ -1,133 +1,8 @@
 /* Reset and Global Styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Titillium Web", sans-serif;
-}
-
-body,
-.root,
-.container {
-  height: 100dvh;
-  width: 100dvw;
-}
 
 /* Custom Variables */
-:root {
-  --marker-color: rgb(190, 0, 0);
-  --marker-color-active: #ff0000;
-  --marker-circle-color: white;
-  --marker-transformation: translate(-5px, -9px);
-  --marker-transformation-hover: translate(-8px, -12px);
-  --marker-transformation-circle-hover: translate(-1px, -1px);
-  --marker-stroke-width: 3;
-  --marker-stroke-color: rgb(146, 0, 0);
-  --marker-scale: 0.1;
-  --marker-scale-hover: 0.12;
-  --marker-circle-scale-hover: 1.2;
-  --marker-transition: transform 0.2s ease-in-out, scale 0.2s ease-in-out,
-    opacity 0.2s ease-in-out;
 
-  --tooltip-box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-  --tooltip-title-font-size: 0.9rem;
-  --tooltip-title-font-weight: 700;
-  --tooltip-title-margin-bottom: 0.2rem;
-  --tooltip-content-font-size: 0.8rem;
-  --tooltip-content-font-weight: 500;
-  --tooltip-margin: 0.2rem;
-  --tooltip-title-height: calc(var(--tooltip-title-font-size) * 1.5);
-
-  --rt-color-white: #fff;
-  --rt-color-dark: #222;
-  --rt-color-success: #8dc572;
-  --rt-color-error: #be6464;
-  --rt-color-warning: #f0ad4e;
-  --rt-color-info: #337ab7;
-  --rt-opacity: 1;
-
-  --webkit-scrollbar-bg: white;
-  --webkit-scrollbar-bar: #b7b7b7;
-  --webkit-scrollbar-bar-hover: #9e9e9e;
-  --webkit-scrollbar-bar-active: #898989;
-  --webkit-scrollbar-border: 8px solid var(--webkit-scrollbar-bg);
-  --webkit-scrollbar-size: 1.5rem;
-
-  --box-margin-x: 4rem;
-  --box-margin-y: 2rem;
-  --box-padding-top: 1.5rem;
-  --box-padding-bottom: 2rem;
-  --box-padding-y: calc(var(--box-padding-top) + var(--box-padding-bottom));
-  --box-padding-x: 2rem;
-  --box-padding: var(--box-padding-top) var(--box-padding-x)
-    var(--box-padding-bottom) var(--box-padding-x);
-  --box-background-color: white;
-  --box-border-radius: 0.5rem;
-  --box-box-shadow: 0 0 500px rgba(0, 0, 0, 0.8);
-  --box-title-height: 2rem;
-  --box-title-margin-bottom: 1.5rem;
-  --box-title-font-size: 1.5rem;
-  --box-content-height: calc(
-    100dvh - (var(--box-margin-y) * 2) - (var(--box-padding-y)) -
-      var(--box-title-height) - var(--box-title-margin-bottom)
-  );
-
-  --button-background-color: #80669d;
-  --button-background-color-hover: #9a7bbc;
-  --button-color: white;
-  --button-border-radius: 0.2rem;
-  --button-padding: 0.1rem 0.2rem;
-  --button-border: 0;
-
-  --close-btn-size: 2rem;
-  --close-btn-fill: #b7b7b7;
-  --close-btn-fill-hover: #9e9e9e;
-  --close-btn-fill-active: #898989;
-  --close-btn-transition: fill 0.2s ease-in-out;
-
-  --light-color: #d0d0d0;
-  --light-color-hover: rgba(255, 255, 255, 1);
-  --dark-color: rgba(0, 0, 0, 0.8);
-  --dark-color-hover: #1f1f1f;
-  --light-icon-color: white;
-  --dark-icon-color: #1f1f1f;
-  --toggle-width: 50px;
-  --toggle-height: 24px;
-  --toggle-border-radius: 30px;
-  --dropdown-color: var(--dark-color);
-  --dropdown-color-hover: var(--dark-color-hover);
-  --dropdown-icon-color: var(--light-icon-color);
-  --menu-color: var(--rt-color-white);
-  --menu-item-hover-color: #d9d9d9;
-  --menu-item-active-color: #80669d;
-}
-
-/* Dark Mode */
-body.dark {
-  * {
-    --box-background-color: #1f1f1f;
-    --webkit-scrollbar-bg: #1f1f1f !important;
-    --webkit-scrollbar-border: 8px solid var(--webkit-scrollbar-bg) !important;
-    --rt-opacity: 1;
-    --rt-color-white: #1f1f1f;
-    color: rgb(207, 207, 207);
-    --dropdown-color: var(--light-color);
-    --dropdown-color-hover: var(--light-color-hover);
-    --dropdown-icon-color: var(--dark-icon-color);
-    --menu-color: var(--rt-color-dark);
-    --menu-item-hover-color: #313131;
-    --menu-item-active-color: #80669d;
-  }
-  .container {
-    background-color: #121212;
-  }
-  path.not-visited {
-    fill: #1f1f1f;
-    stroke: #3d3d3d;
-  }
-}
-
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 1100px) {
   :root {
     --box-margin-x: 1rem;
     --box-margin-y: 1rem;
@@ -136,8 +11,29 @@ body.dark {
   }
 }
 
+// if height or width is below 800px, then change the font size to 0.8rem
+@media screen and (max-height: 600px) {
+  :root {
+    --tooltip-title-font-size: 0.8rem;
+    --tooltip-content-font-size: 0.7rem;
+    --box-title-font-size: 1.2rem;
+  }
+}
+
 /* Container Styles */
-.container {
-  display: grid;
-  overflow: hidden;
+.react-photo-album {
+  img {
+    cursor: pointer;
+  }
+}
+
+.image-gallery-slide {
+  display: flex !important;
+  padding: 0.1rem;
+  max-width: inherit !important;
+  img {
+    margin: auto;
+    align-self: center;
+    flex: 0 0 auto;
+  }
 }

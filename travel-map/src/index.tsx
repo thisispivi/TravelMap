@@ -1,13 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./styles/main.scss";
+import "./styles/global.scss";
+import "./styles/typography.scss";
 import "./styles/animations.scss";
 import "./styles/scrollbar.scss";
-import "./styles/toggle.scss";
 import "./styles/map.scss";
-import "./styles/buttons.scss";
 import "./styles/language.scss";
-import "./styles/box.scss";
 import "tippy.js/animations/scale.css";
 import "tippy.js/animations/scale-subtle.css";
 import "tippy.js/animations/scale-extreme.css";
@@ -30,7 +29,4 @@ root.render(
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();

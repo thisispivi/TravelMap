@@ -1,0 +1,20 @@
+.footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  padding: 0.7rem 1rem;
+  overflow: hidden;
+  transform: translateY(10vh);
+  transition: transform 0.3s ease-in-out;
+
+  * > div {
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+
+  &.footer-active {
+    transform: translateY(0);
+  }
+}

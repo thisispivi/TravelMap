@@ -1,8 +1,9 @@
 import Toggle from "react-toggle";
 import { useMediaQuery } from "react-responsive";
 import { useEffect, useMemo, useState } from "react";
-import { ReactComponent as MoonIcon } from "../icons/Moon.svg";
-import { ReactComponent as SunIcon } from "../icons/Sun.svg";
+import { ReactComponent as MoonIcon } from "../../../icons/Moon.svg";
+import { ReactComponent as SunIcon } from "../../../icons/Sun.svg";
+import "./Toggle.scss";
 
 interface DarkModeToggleProps {
   className?: string;

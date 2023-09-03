@@ -1,5 +1,5 @@
-import { City } from "./city";
-import { Country } from "./country";
+import { City } from "../classes/City";
+import { Country } from "../classes/Country";
 
 export const visited = {
   Belgium: new Country("Belgium", { r: 213, g: 48, b: 50 }),

@@ -1,7 +1,7 @@
 import ImageGallery from "react-image-gallery";
 import { getCityPhotos } from "../utils/photos";
-import { City } from "../utils/city";
-import { BackButtonWText } from "./Button";
+import { City } from "../classes/City";
+import { TextBackButton } from "./atoms";
 
 interface CustomImageGalleryProps {
   currentCity?: City;
@@ -41,7 +41,7 @@ export function CustomImageGallery({
   return (
     <ImageGallery
       lazyLoad={true}
-      infinite={true}
+      infinite={false}
       showIndex={true}
       showPlayButton={false}
       showThumbnails={false}
@@ -50,7 +50,7 @@ export function CustomImageGallery({
       renderItem={renderItems}
       renderCustomControls={() => {
         return (
-          <BackButtonWText
+          <TextBackButton
             text="To gallery"
             onClick={() => onBackClick && onBackClick()}
           />

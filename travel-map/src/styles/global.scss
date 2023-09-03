@@ -1,0 +1,33 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Titillium Web", sans-serif;
+}
+
+body,
+.root,
+.container {
+  height: 100dvh;
+  width: 100dvw;
+  overflow: hidden;
+}
+
+.container {
+  display: grid;
+  overflow: hidden;
+}
+
+body {
+  background-color: white;
+}
+
+body.dark {
+  .container {
+    background-color: var(--darker);
+  }
+  path.not-visited {
+    fill: var(--dark);
+    stroke: var(--gray-dark);
+  }
+}

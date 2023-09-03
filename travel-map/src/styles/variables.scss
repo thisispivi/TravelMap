@@ -1,0 +1,55 @@
+:root {
+  --darkest: #080808;
+  --darker: #121212;
+  --dark: #1f1f1f;
+  --light: #d0d0d0;
+
+  --purple: #80669d;
+  --purple-light: #9376b2;
+
+  --gray-lighter: #b7b7b7;
+  --gray-light: #9e9e9e;
+  --gray: #898989;
+  --gray-dark: #3d3d3d;
+
+  --marker-color: rgb(190, 0, 0);
+  --marker-color-active: #ff0000;
+  --marker-circle-color: white;
+  --marker-transformation: translate(-5px, -9px);
+  --marker-transformation-hover: translate(-8px, -12px);
+  --marker-transformation-circle-hover: translate(-1px, -1px);
+  --marker-stroke-width: 3;
+  --marker-stroke-color: rgb(146, 0, 0);
+  --marker-scale: 0.1;
+  --marker-scale-hover: 0.12;
+  --marker-circle-scale-hover: 1.2;
+  --marker-transition: transform 0.2s ease-in-out, scale 0.2s ease-in-out,
+    opacity 0.2s ease-in-out;
+
+  /**
+  --light: #d0d0d0;
+  --light-hover: rgba(255, 255, 255, 1);
+  //
+  --dark-hover: #1f1f1f;
+  --light-icon-color: white;
+  --dark-icon-color: #1f1f1f;
+  --dropdown-color: var(--dark);
+  --dropdown-color-hover: var(--dark-hover);
+  --dropdown-icon-color: var(--light-icon-color);
+  --menu-color: var(--rt-color-white);
+  --menu-item-hover-color: #d9d9d9;
+  --menu-item-active-color: #80669d;*/
+}
+
+/* Dark Mode */
+body.dark {
+  * {
+    color: rgb(207, 207, 207);
+    --dropdown-color: var(--light);
+    --dropdown-color-hover: var(--light-hover);
+    --dropdown-icon-color: var(--dark-icon-color);
+    --menu-color: var(--rt-color-dark);
+    --menu-item-hover-color: #313131;
+    --menu-item-active-color: #80669d;
+  }
+}

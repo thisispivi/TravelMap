@@ -1,14 +1,16 @@
-import { City } from "../utils/city";
+import { City } from "../../../classes/City";
 import { Tooltip as ReactTooltip } from "react-tooltip";
-import { ReactComponent as DepartureIcon } from "../icons/Departure.svg";
-import { ReactComponent as ArrivalIcon } from "../icons/Arrival.svg";
-import { ReactComponent as PeopleIcon } from "../icons/People.svg";
-import { Button } from "./Button";
+import { ReactComponent as DepartureIcon } from "../../../icons/Departure.svg";
+import { ReactComponent as ArrivalIcon } from "../../../icons/Arrival.svg";
+import { ReactComponent as PeopleIcon } from "../../../icons/People.svg";
+import { TextButton } from "../../atoms/button/Button";
 import { i18n } from "i18next";
+import { CountryFlag } from "../../atoms/flag/Flag";
+import { Column, Row } from "../../molecules";
+import "./Tooltip.scss";
 
 interface TooltipProps {
   city: City;
-  getCountryFlag: (id: string) => JSX.Element | null;
   onClick?: (city: City) => void;
   onMouseEnter?: (city: City) => void;
   onMouseLeave?: () => void;
@@ -18,7 +20,6 @@ interface TooltipProps {
 export function Tooltip({
   city,
   onClick,
-  getCountryFlag,
   onMouseEnter,
   onMouseLeave,
   t,
@@ -30,25 +31,25 @@ export function Tooltip({
       onMouseMove={() => onMouseEnter && onMouseEnter(city)}
     >
       <ReactTooltip clickable id={city.name} variant="light" key={city.name}>
-        <div className="title">
-          <p>{city.getCountryName(t)}</p>
-          {getCountryFlag(city.country.id)}
-        </div>
-        <div className="content">
-          <div className="population">
-            <PeopleIcon className="flag" />
+        <Row className="header">
+          <h2>{city.getCountryName(t)}</h2>
+          <CountryFlag id={city.country.id} />
+        </Row>
+        <Column>
+          <Row>
+            <PeopleIcon className="icon" />
             <p>{city.population.toLocaleString()}</p>
-          </div>
-          <div className="start">
-            <DepartureIcon className="flag" />
+          </Row>
+          <Row>
+            <DepartureIcon className="icon" />
             <p>{city.startDate.toDateString()}</p>
-          </div>
-          <div className="end">
-            <ArrivalIcon className="flag" />
+          </Row>
+          <Row>
+            <ArrivalIcon className="icon" />
             <p>{city.endDate.toDateString()}</p>
-          </div>
-        </div>
-        <Button
+          </Row>
+        </Column>
+        <TextButton
           text={"Open slideshow"}
           onClick={() => onClick && onClick(city)}
         />

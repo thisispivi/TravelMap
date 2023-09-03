@@ -6,8 +6,8 @@ import {
   ZoomableGroup,
 } from "react-simple-maps";
 import MarkerIcon from "../icons/Marker";
-import { City } from "../utils/city";
-import { Country } from "../utils/country";
+import { City } from "../classes/City";
+import { Country } from "../classes/Country";
 
 interface MapChartProps {
   visited?: Record<string, Country>;
@@ -29,7 +29,7 @@ export default function MapChart({
       projectionConfig={{
         rotate: [0, 0, 0],
         center: [10, 48],
-        scale: 600,
+        scale: 800,
       }}
       width={800}
       height={400}
@@ -43,17 +43,19 @@ export default function MapChart({
                 key={geo.rsmKey}
                 geography={geo}
                 className={
-                  visited[geo.properties.name] ? "visited" : "not-visited"
+                  visited[geo.properties.name.replace(" ", "")]
+                    ? "visited"
+                    : "not-visited"
                 }
                 strokeWidth={0.3}
                 fill={
-                  visited[geo.properties.name]
-                    ? visited[geo.properties.name].fillColor
+                  visited[geo.properties.name.replace(" ", "")]
+                    ? visited[geo.properties.name.replace(" ", "")].fillColor
                     : "#DDD"
                 }
                 stroke={
-                  visited[geo.properties.name]
-                    ? visited[geo.properties.name].borderColor
+                  visited[geo.properties.name.replace(" ", "")]
+                    ? visited[geo.properties.name.replace(" ", "")].borderColor
                     : "#999"
                 }
               />

@@ -1,0 +1,12 @@
+.flag {
+  width: auto;
+  height: auto;
+}
+
+.box {
+  .flag {
+    margin-left: 0.5rem;
+    padding: 0.2rem;
+    margin-bottom: 0.2rem;
+  }
+}

@@ -1,4 +1,21 @@
-/* Scrollbar Styles */
+@import "variables";
+
+:root {
+  --webkit-scrollbar-bg: white;
+  --webkit-scrollbar-bar: #b7b7b7;
+  --webkit-scrollbar-bar-hover: #9e9e9e;
+  --webkit-scrollbar-bar-active: #898989;
+  --webkit-scrollbar-border: 8px solid var(--webkit-scrollbar-bg);
+  --webkit-scrollbar-size: 1.5rem;
+}
+
+:root {
+  .dark {
+    --webkit-scrollbar-bg: var(--dark) !important;
+    --webkit-scrollbar-border: 8px solid var(--webkit-scrollbar-bg) !important;
+  }
+}
+
 ::-webkit-scrollbar {
   width: var(--webkit-scrollbar-size);
   height: var(--webkit-scrollbar-size);

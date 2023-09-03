@@ -1,5 +1,5 @@
 import { i18n } from "i18next";
-import { Country } from "./country";
+import { Country } from "./Country";
 
 interface CityInterface {
   name: string;

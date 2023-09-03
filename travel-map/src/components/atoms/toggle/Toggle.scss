@@ -1,0 +1,97 @@
+@import "../../../styles/variables";
+
+:root {
+  --toggle-width: 50px;
+  --toggle-height: 24px;
+  --toggle-border-radius: 30px;
+  --toggle-thumb-top: 4px;
+  --toggle-thumb-size: 16px;
+  --toggle-thumb-left: 5px;
+  --toogle-svg-size: 0.7rem;
+  --toggle-svg-right: 0.4rem;
+  --toggle-track-x-height: 12px;
+  --toggle-track-x-width: 12px;
+  --toggle-thumb-left-active: 29px;
+}
+
+@media screen and (max-width: 768px) {
+  :root {
+    --toggle-width: 70px;
+    --toggle-height: 33px;
+    --toggle-border-radius: 50px;
+    --toggle-thumb-top: 6px;
+    --toggle-thumb-size: 19px;
+    --toggle-thumb-left: 8px;
+    --toogle-svg-size: 1rem;
+    --toggle-svg-right: 0.5rem;
+    --toggle-track-x-height: 17px;
+    --toggle-track-x-width: 17px;
+    --toggle-thumb-left-active: 45px;
+  }
+}
+
+.react-toggle {
+  width: var(--toggle-width);
+  height: var(--toggle-height);
+  border-radius: var(--toggle-border-radius);
+  z-index: 10000;
+
+  & * {
+    box-shadow: none !important;
+  }
+
+  & svg {
+    width: var(--toogle-svg-size);
+    height: var(--toogle-svg-size);
+    & * {
+      fill: white;
+    }
+  }
+
+  .react-toggle-track {
+    background-color: var(--dark);
+    width: var(--toggle-width);
+    height: var(--toggle-height);
+  }
+
+  .react-toggle-thumb {
+    top: var(--toggle-thumb-top);
+    border: 0;
+    background-color: white;
+    width: var(--toggle-thumb-size);
+    height: var(--toggle-thumb-size);
+    left: var(--toggle-thumb-left);
+  }
+
+  .react-toggle-track-x {
+    height: var(--toggle-track-x-height);
+    width: var(--toggle-track-x-width);
+    right: var(--toggle-svg-right);
+  }
+
+  &.react-toggle--checked {
+    svg {
+      & * {
+        fill: var(--dark);
+      }
+    }
+    &:hover:not(.react-toggle--disabled) .react-toggle-track {
+      background-color: white;
+    }
+    .react-toggle-track {
+      background-color: var(--light);
+      &:hover:not(.react-toggle--disabled) {
+        background-color: white;
+      }
+    }
+    .react-toggle-thumb {
+      background-color: var(--dark);
+      left: var(--toggle-thumb-left-active);
+    }
+  }
+
+  .react-toggle-track-check {
+    height: var(--toggle-track-x-height);
+    width: var(--toggle-track-x-width);
+  }
+}
