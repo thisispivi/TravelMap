@@ -6,7 +6,6 @@ import "./styles/typography.scss";
 import "./styles/animations.scss";
 import "./styles/scrollbar.scss";
 import "./styles/map.scss";
-import "./styles/language.scss";
 import "tippy.js/animations/scale.css";
 import "tippy.js/animations/scale-subtle.css";
 import "tippy.js/animations/scale-extreme.css";

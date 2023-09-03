@@ -3,11 +3,15 @@ import "./Backdrop.scss";
 
 interface BackdropProps extends PropsWithChildren {
   onClick: () => void;
+  visible?: boolean;
 }
 
-export function Backdrop({ onClick, children }: BackdropProps) {
+export function Backdrop({ onClick, children, visible = true }: BackdropProps) {
   return (
-    <div className="backdrop" onClick={onClick}>
+    <div
+      className={`backdrop ${visible ? "backdrop-visible" : ""}`}
+      onClick={onClick}
+    >
       {children}
     </div>
   );

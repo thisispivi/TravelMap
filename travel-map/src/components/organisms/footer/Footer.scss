@@ -3,18 +3,27 @@
   bottom: 0;
   left: 0;
   width: 100%;
+  height: 2.6rem;
   display: flex;
-  padding: 0.7rem 1rem;
+  padding: 0rem 1rem 1rem 1rem;
   overflow: hidden;
   transform: translateY(10vh);
-  transition: transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out, height 0.3s ease-in-out;
 
-  * > div {
+  .dropdown-wrapper,
+  .react-toggle {
     margin-top: auto;
-    margin-bottom: auto;
+  }
+
+  .dropdown-wrapper {
+    margin-left: 0.5rem;
   }
 
   &.footer-active {
     transform: translateY(0);
+  }
+
+  &.footer-dropdown-active {
+    height: 100%;
   }
 }

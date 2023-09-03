@@ -7,7 +7,7 @@ import { getCityPhotos } from "./utils/photos";
 import { Tooltip } from "./components/organisms/tooltip/Tooltip";
 import { CustomImageGallery } from "./components/ImageGallery";
 import { DarkModeToggle } from "./components/atoms/toggle/Toogle";
-import { LanguageDropdown } from "./components/Language";
+import { LanguageDropdown } from "./components/atoms/language/Language";
 import { useTranslation } from "react-i18next";
 import { Box, Footer } from "./components/organisms";
 
@@ -75,10 +75,6 @@ export default function HomePage() {
 
   return (
     <div className="container">
-      <LanguageDropdown
-        currentLanguage={currentLanguage}
-        onClick={changeLanguage}
-      />
       <MapChart
         visited={visited}
         markers={orderedCities}
@@ -121,7 +117,12 @@ export default function HomePage() {
           )}
         </Box>
       )}
-      <Footer setDarkMode={setIsDarkMode} active={currentCity === undefined} />
+      <Footer
+        setDarkMode={setIsDarkMode}
+        active={currentCity === undefined}
+        changeLanguage={changeLanguage}
+        currentLanguage={currentLanguage}
+      />
     </div>
   );
 }

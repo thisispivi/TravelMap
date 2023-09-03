@@ -8,5 +8,7 @@
   display: flex;
   z-index: 1;
   cursor: pointer;
-  background-color: rgba(0, 0, 0, 0.5);
+  &.backdrop-visible {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
 }
