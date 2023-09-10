@@ -10,17 +10,17 @@ export function CountryFlag({ id }: { id: string }) {
   function getCountryFlag(id: string) {
     switch (id) {
       case "Belgium":
-        return <BelgiumFlag className="flag" width={"auto"} height={"auto"} />;
+        return <BelgiumFlag className="flag" width={"100%"} height={"100%"} />;
       case "United Kingdom":
-        return <EnglandFlag className="flag" width={"auto"} height={"auto"} />;
+        return <EnglandFlag className="flag" width={"100%"} height={"100%"} />;
       case "Italy":
-        return <ItalyFlag className="flag" width={"auto"} height={"auto"} />;
+        return <ItalyFlag className="flag" width={"100%"} height={"100%"} />;
       case "Germany":
-        return <GermanyFlag className="flag" width={"auto"} height={"auto"} />;
+        return <GermanyFlag className="flag" width={"100%"} height={"100%"} />;
       case "Spain":
-        return <SpainFlag className="flag" width={"auto"} height={"auto"} />;
+        return <SpainFlag className="flag" width={"100%"} height={"100%"} />;
       case "Hungary":
-        return <HungaryFlag className="flag" width={"auto"} height={"auto"} />;
+        return <HungaryFlag className="flag" width={"100%"} height={"100%"} />;
       default:
         return null;
     }

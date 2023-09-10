@@ -10,9 +10,16 @@ interface BoxProps extends PropsWithChildren {
   city: City;
   className?: string;
   onClose: () => void;
+  overflow?: string;
 }
 
-export function Box({ city, className = "", onClose, children }: BoxProps) {
+export function Box({
+  city,
+  className = "",
+  onClose,
+  children,
+  overflow = "auto",
+}: BoxProps) {
   const [showContent, setShowContent] = useState(false);
 
   useEffect(() => {
@@ -37,7 +44,9 @@ export function Box({ city, className = "", onClose, children }: BoxProps) {
           </Row>
           <CloseButton onClick={closeBox} />
         </div>
-        <div className="content">{children}</div>
+        <div className="content" style={{ overflow: overflow }}>
+          {children}
+        </div>
       </div>
     </>
   );

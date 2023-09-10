@@ -94,7 +94,11 @@ export default function HomePage() {
           )
       )}
       {currentCity && (
-        <Box city={currentCity} onClose={closeBox}>
+        <Box
+          city={currentCity}
+          onClose={closeBox}
+          overflow={currentImage !== undefined ? "hidden" : "auto"}
+        >
           {currentImage !== undefined ? (
             <CustomImageGallery
               currentCity={currentCity}

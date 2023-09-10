@@ -64,6 +64,7 @@ export default function MapChart({
         </Geographies>
         {markers.map((city) => (
           <Marker
+            key={city.name}
             city={city}
             hoveredCity={hoveredCity}
             setHoveredCity={setHoveredCity}
