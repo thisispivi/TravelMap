@@ -2,12 +2,12 @@ import {
   ComposableMap,
   Geographies,
   Geography,
-  Marker,
   ZoomableGroup,
 } from "react-simple-maps";
-import MarkerIcon from "../icons/Marker";
-import { City } from "../classes/City";
-import { Country } from "../classes/Country";
+import { Country } from "../../../classes/Country";
+import { City } from "../../../classes/City";
+import { Marker } from "../../atoms";
+import "./Map.scss";
 
 interface MapChartProps {
   visited?: Record<string, Country>;
@@ -33,7 +33,7 @@ export default function MapChart({
       }}
       width={800}
       height={400}
-      style={{ width: "100dvw", height: "100dvh", gridArea: "1 / 1 / 2 / 2" }}
+      className="map"
     >
       <ZoomableGroup zoom={1}>
         <Geographies geography={geoUrl}>
@@ -64,15 +64,10 @@ export default function MapChart({
         </Geographies>
         {markers.map((city) => (
           <Marker
-            id={city.name + "-marker"}
-            key={city.name}
-            coordinates={city.coordinates}
-            data-tooltip-id={city.name}
-            onMouseEnter={() => setHoveredCity(city)}
-            onMouseLeave={() => setHoveredCity(undefined)}
-          >
-            <MarkerIcon active={hoveredCity?.name === city.name} />
-          </Marker>
+            city={city}
+            hoveredCity={hoveredCity}
+            setHoveredCity={setHoveredCity}
+          />
         ))}
         <use xlinkHref={hoveredCity?.name + "-marker"} />
       </ZoomableGroup>

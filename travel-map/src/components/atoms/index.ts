@@ -7,6 +7,7 @@ import {
   CloseButton,
   TextBackButton,
 } from "./button/Button";
+import { Marker } from "./marker/Marker";
 
 export {
   Backdrop,
@@ -16,4 +17,5 @@ export {
   BackButton,
   CloseButton,
   TextBackButton,
+  Marker,
 };

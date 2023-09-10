@@ -1,33 +1,17 @@
 @import "../../../styles/variables";
 
 :root {
-  --toggle-width: 50px;
-  --toggle-height: 24px;
-  --toggle-border-radius: 30px;
-  --toggle-thumb-top: 4px;
-  --toggle-thumb-size: 16px;
-  --toggle-thumb-left: 5px;
-  --toogle-svg-size: 0.7rem;
-  --toggle-svg-right: 0.4rem;
-  --toggle-track-x-height: 12px;
-  --toggle-track-x-width: 12px;
-  --toggle-thumb-left-active: 29px;
-}
-
-@media screen and (max-width: 768px) {
-  :root {
-    --toggle-width: 60px;
-    --toggle-height: 30px;
-    --toggle-border-radius: 35px;
-    --toggle-thumb-top: 6px;
-    --toggle-thumb-size: 19px;
-    --toggle-thumb-left: 8px;
-    --toogle-svg-size: 1rem;
-    --toggle-svg-right: 0.5rem;
-    --toggle-track-x-height: 16px;
-    --toggle-track-x-width: 16px;
-    --toggle-thumb-left-active: 35px;
-  }
+  --toggle-width: 60px;
+  --toggle-height: 30px;
+  --toggle-border-radius: 35px;
+  --toggle-thumb-top: 6px;
+  --toggle-thumb-size: 19px;
+  --toggle-thumb-left: 8px;
+  --toogle-svg-size: 1rem;
+  --toggle-svg-right: 0.5rem;
+  --toggle-track-x-height: 16px;
+  --toggle-track-x-width: 16px;
+  --toggle-thumb-left-active: 35px;
 }
 
 .react-toggle {

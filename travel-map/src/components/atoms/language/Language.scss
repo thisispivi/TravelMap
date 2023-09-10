@@ -2,22 +2,9 @@
 @import "../../../styles/variables";
 
 :root {
-  --current-language-size: 1rem;
-  --language-svg-size: 0.9rem;
-  --language-margin-left-icon: 0;
-}
-
-@media screen and (max-width: 768px) {
-  :root {
-    --current-language-size: 1.5rem;
-    --language-margin-left-icon: 0rem;
-    --language-svg-size: 1.1rem;
-  }
-
-  .menu {
-    left: 4rem !important;
-    bottom: 4rem !important;
-  }
+  --current-language-size: 1.5rem;
+  --language-margin-left-icon: 0rem;
+  --language-svg-size: 1.1rem;
 }
 
 .dropdown-wrapper {
@@ -62,8 +49,8 @@
     opacity: 0;
     overflow: hidden;
     position: absolute;
-    left: 3.1rem;
-    bottom: 3.2rem;
+    left: 4rem;
+    bottom: 4rem;
     transition: all 0.2s ease-in-out;
     background-color: var(--menu-color);
     box-shadow: var(--tooltip-box-shadow);

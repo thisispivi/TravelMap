@@ -1,15 +1,13 @@
 import { useState, useCallback, useRef } from "react";
 import Gallery from "react-photo-album";
-import MapChart from "./components/MapChart";
 import { orderedCities, visited } from "./utils/data";
 import { City } from "./classes/City";
 import { getCityPhotos } from "./utils/photos";
 import { Tooltip } from "./components/organisms/tooltip/Tooltip";
 import { CustomImageGallery } from "./components/ImageGallery";
-import { DarkModeToggle } from "./components/atoms/toggle/Toogle";
-import { LanguageDropdown } from "./components/atoms/language/Language";
 import { useTranslation } from "react-i18next";
 import { Box, Footer } from "./components/organisms";
+import MapChart from "./components/organisms/map/Map";
 
 const urlPrefix = "TravelMap/";
 
