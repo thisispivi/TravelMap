@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/TravelMap/static/css/main.39bbab01.css",
-    "main.js": "/TravelMap/static/js/main.de8a16d0.js",
+    "main.js": "/TravelMap/static/js/main.5b5083aa.js",
     "static/js/787.c1dc2c99.chunk.js": "/TravelMap/static/js/787.c1dc2c99.chunk.js",
     "static/media/People.svg": "/TravelMap/static/media/People.21668a2caf24ffa0c51c325888125c49.svg",
     "static/media/Arrival.svg": "/TravelMap/static/media/Arrival.728aeb9a936c5917b071d461e42712f6.svg",
@@ -19,11 +19,11 @@
     "static/media/Hungary.svg": "/TravelMap/static/media/Hungary.86a1570f864c89402462a6700e40c86d.svg",
     "static/media/England.svg": "/TravelMap/static/media/England.8063b0108c9afae86a338377e7c5ca3d.svg",
     "main.39bbab01.css.map": "/TravelMap/static/css/main.39bbab01.css.map",
-    "main.de8a16d0.js.map": "/TravelMap/static/js/main.de8a16d0.js.map",
+    "main.5b5083aa.js.map": "/TravelMap/static/js/main.5b5083aa.js.map",
     "787.c1dc2c99.chunk.js.map": "/TravelMap/static/js/787.c1dc2c99.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.39bbab01.css",
-    "static/js/main.de8a16d0.js"
+    "static/js/main.5b5083aa.js"
   ]
 }
