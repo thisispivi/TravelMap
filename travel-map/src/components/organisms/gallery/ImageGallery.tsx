@@ -1,7 +1,8 @@
 import ImageGallery from "react-image-gallery";
-import { getCityPhotos } from "../utils/photos";
-import { City } from "../classes/City";
-import { TextBackButton } from "./atoms";
+import { getCityPhotos } from "../../../utils/photos";
+import { City } from "../../../classes/City";
+import { TextBackButton } from "../../atoms";
+import "./ImageGallery.scss";
 
 interface CustomImageGalleryProps {
   currentCity?: City;
@@ -16,10 +17,17 @@ export function CustomImageGallery({
   onBackClick,
   baseUrl = "",
 }: CustomImageGalleryProps) {
+  const items = getCityPhotos(currentCity?.name || "");
+
   const renderItems = (item: any) => {
     if (item.video) {
       return (
-        <video className="image-gallery-video" controls>
+        <video
+          className="image-gallery-video"
+          controls
+          id={item.original}
+          key={item.original}
+        >
           <source src={baseUrl + item.original} type="video/mp4" />
         </video>
       );
@@ -32,7 +40,7 @@ export function CustomImageGallery({
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowFullScreen
-        ></iframe>
+        />
       );
     } else {
       return (
@@ -53,7 +61,7 @@ export function CustomImageGallery({
       showPlayButton={false}
       showThumbnails={false}
       startIndex={currentImage}
-      items={getCityPhotos(currentCity?.name || "")}
+      items={items}
       renderItem={renderItems}
       renderCustomControls={() => {
         return (
