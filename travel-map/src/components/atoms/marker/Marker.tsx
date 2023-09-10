@@ -18,6 +18,11 @@ export function Marker({ city, hoveredCity, setHoveredCity }: MarkerProps) {
       data-tooltip-id={city.name}
       onMouseEnter={() => setHoveredCity(city)}
       onMouseLeave={() => setHoveredCity(undefined)}
+      style={{
+        default: { outline: "none" },
+        hover: { outline: "none" },
+        pressed: { outline: "none" },
+      }}
     >
       <MarkerIcon active={hoveredCity?.name === city.name} />
     </MarkerMap>

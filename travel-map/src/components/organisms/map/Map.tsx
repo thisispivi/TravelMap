@@ -25,7 +25,7 @@ export default function MapChart({
   setHoveredCity,
   geoUrl = "",
 }: MapChartProps) {
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [, setWindowWidth] = useState(window.innerWidth);
   const handleResize = () => {
     setWindowWidth(window.innerWidth);
   };
