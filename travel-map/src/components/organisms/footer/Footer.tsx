@@ -25,13 +25,13 @@ export function Footer({
         showDropdown ? "footer-dropdown-active" : ""
       }`}
     >
-      <DarkModeToggle setDarkMode={setDarkMode} />
       <LanguageDropdown
         currentLanguage={currentLanguage}
         onClick={changeLanguage}
         showDropdown={showDropdown}
         setShowDropdown={setShowDropdown}
       />
+      <DarkModeToggle setDarkMode={setDarkMode} />
     </div>
   );
 }

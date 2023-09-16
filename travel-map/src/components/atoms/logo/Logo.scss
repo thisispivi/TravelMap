@@ -1,0 +1,15 @@
+.logo {
+  width: 12rem;
+  height: auto;
+  left: 0;
+  top: 0;
+  position: absolute;
+  padding: 1rem 0 0 1rem;
+}
+
+@media screen and (orientation: portrait) {
+  .logo {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}

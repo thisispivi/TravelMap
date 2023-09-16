@@ -8,6 +8,7 @@ import {
   TextBackButton,
 } from "./button/Button";
 import { Marker } from "./marker/Marker";
+import { Logo } from "./logo/Logo";
 
 export {
   Backdrop,
@@ -18,4 +19,5 @@ export {
   CloseButton,
   TextBackButton,
   Marker,
+  Logo,
 };

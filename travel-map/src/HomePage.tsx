@@ -8,8 +8,9 @@ import { CustomImageGallery } from "./components/organisms/gallery/ImageGallery"
 import { useTranslation } from "react-i18next";
 import { Box, Footer } from "./components/organisms";
 import MapChart from "./components/organisms/map/Map";
+import { Logo } from "./components/atoms";
 
-const urlPrefix = "TravelMap/";
+const urlPrefix = "";
 
 export default function HomePage() {
   const { i18n, t } = useTranslation(["home"]);
@@ -18,7 +19,7 @@ export default function HomePage() {
     i18n.changeLanguage(lang);
   };
 
-  const [, setIsDarkMode] = useState(true);
+  const [isDarkMode, setIsDarkMode] = useState(true);
 
   // States
   const [hoveredCity, setHoveredCity] = useState<City | undefined>();
@@ -73,6 +74,7 @@ export default function HomePage() {
 
   return (
     <div className="container">
+      <Logo urlPrefix={urlPrefix} isDarkMode={isDarkMode} />
       <MapChart
         visited={visited}
         markers={orderedCities}
