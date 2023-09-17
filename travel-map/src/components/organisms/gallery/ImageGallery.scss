@@ -37,3 +37,9 @@
     right: 0;
   }
 }
+
+.image-gallery-content.fullscreen {
+  .image-gallery-slide .image-gallery-image {
+    max-height: 100dvh;
+  }
+}

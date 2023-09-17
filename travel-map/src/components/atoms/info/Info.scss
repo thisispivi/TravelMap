@@ -5,9 +5,15 @@
   border-radius: 1rem;
   display: flex;
   flex-direction: column;
-  transition: all 0.3s ease-in-out;
+  transition: all 0.5s ease-in-out;
   color: white;
   z-index: 1000;
+
+  .close-btn {
+    margin: auto 0 auto auto;
+    width: 1.5rem;
+    height: 1.5rem;
+  }
 
   &:hover {
     cursor: pointer;
@@ -30,6 +36,7 @@
       display: flex;
       flex-direction: column;
       padding: 0 1rem;
+      visibility: visible;
     }
 
     &:hover {
@@ -59,7 +66,7 @@
     opacity: 0;
     width: 0;
     height: 0;
-    display: none;
+    visibility: hidden;
   }
 
   .profile {

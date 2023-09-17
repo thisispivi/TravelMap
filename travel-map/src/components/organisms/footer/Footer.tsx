@@ -20,14 +20,25 @@ export function Footer({
   changeLanguage,
 }: FooterProps) {
   const [showDropdown, setShowDropdown] = useState(false);
-  const [isOpened, setIsOpened] = useState(false);
+  const [isOpened, setIsOpened] = useState(0);
+
+  const handleToggle = () => {
+    if (isOpened === 0) {
+      setIsOpened(1);
+      setTimeout(() => {
+        setIsOpened(2);
+      }, 400);
+    } else {
+      setIsOpened(0);
+    }
+  };
   return (
     <div
       className={`footer ${className} ${active ? "footer-active" : ""} ${
         showDropdown || isOpened ? "footer-dropdown-active" : ""
       }`}
     >
-      <Info isOpened={isOpened} setIsOpened={setIsOpened} />
+      <Info isOpened={isOpened} setIsOpened={handleToggle} />
       <LanguageDropdown
         currentLanguage={currentLanguage}
         onClick={changeLanguage}
