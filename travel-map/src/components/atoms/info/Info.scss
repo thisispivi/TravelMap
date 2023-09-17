@@ -160,5 +160,10 @@
       }
     }
     background-color: var(--light);
+    &.info-active {
+      &:hover {
+        background-color: var(--light);
+      }
+    }
   }
 }
