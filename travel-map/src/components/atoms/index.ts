@@ -9,6 +9,8 @@ import {
 } from "./button/Button";
 import { Marker } from "./marker/Marker";
 import { Logo } from "./logo/Logo";
+import { LanguageDropdown } from "./language/Language";
+import { DarkModeToggle } from "./toggle/Toogle";
 
 export {
   Backdrop,
@@ -20,4 +22,6 @@ export {
   TextBackButton,
   Marker,
   Logo,
+  LanguageDropdown,
+  DarkModeToggle,
 };

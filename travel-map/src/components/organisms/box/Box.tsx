@@ -1,5 +1,5 @@
 import { PropsWithChildren, useEffect, useState } from "react";
-import { CloseButton } from "../../atoms/button/Button";
+import { CloseButton } from "../../atoms";
 import { Backdrop, CountryFlag } from "../../atoms";
 
 import "./Box.scss";

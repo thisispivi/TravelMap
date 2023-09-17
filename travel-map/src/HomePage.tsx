@@ -3,14 +3,14 @@ import Gallery from "react-photo-album";
 import { orderedCities, visited } from "./utils/data";
 import { City } from "./classes/City";
 import { getCityPhotos } from "./utils/photos";
-import { Tooltip } from "./components/organisms/tooltip/Tooltip";
-import { CustomImageGallery } from "./components/organisms/gallery/ImageGallery";
+import { Tooltip } from "./components/organisms";
+import { CustomImageGallery } from "./components/organisms";
 import { useTranslation } from "react-i18next";
 import { Box, Footer } from "./components/organisms";
-import MapChart from "./components/organisms/map/Map";
+import { MapChart } from "./components/organisms";
 import { Logo } from "./components/atoms";
 
-const urlPrefix = "";
+const urlPrefix = "TravelMap/";
 
 export default function HomePage() {
   const { i18n, t } = useTranslation(["home"]);

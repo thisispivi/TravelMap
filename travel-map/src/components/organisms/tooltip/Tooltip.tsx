@@ -3,9 +3,9 @@ import { Tooltip as ReactTooltip } from "react-tooltip";
 import { ReactComponent as DepartureIcon } from "../../../icons/Departure.svg";
 import { ReactComponent as ArrivalIcon } from "../../../icons/Arrival.svg";
 import { ReactComponent as PeopleIcon } from "../../../icons/People.svg";
-import { TextButton } from "../../atoms/button/Button";
+import { TextButton } from "../../atoms";
 import { i18n } from "i18next";
-import { CountryFlag } from "../../atoms/flag/Flag";
+import { CountryFlag } from "../../atoms";
 import { Column, Row } from "../../molecules";
 import "./Tooltip.scss";
 

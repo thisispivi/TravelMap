@@ -12,7 +12,7 @@
   --gray: #898989;
   --gray-dark: #3d3d3d;
 
-  --menu-color: var(--rt-color-light);
+  --menu-color: white;
   --menu-item-hover-color: #d0d0d0;
   --menu-item-active-color: #80669d;
 }
@@ -23,7 +23,7 @@ body.dark {
     --dropdown-color: var(--light);
     --dropdown-color-hover: var(--light-hover);
     --dropdown-icon-color: var(--dark-icon-color);
-    --menu-color: var(--rt-color-dark);
+    --menu-color: #222;
     --menu-item-hover-color: #313131;
     --menu-item-active-color: #80669d;
   }
