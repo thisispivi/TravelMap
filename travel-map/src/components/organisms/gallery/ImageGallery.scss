@@ -32,10 +32,17 @@
   }
 
   .back-btn-text {
-    left: 0;
     position: absolute;
     right: 0;
+    z-index: 10000;
   }
+}
+
+.image-gallery-index {
+  bottom: initial;
+  left: 0;
+  right: initial;
+  top: 0;
 }
 
 .image-gallery-content.fullscreen {

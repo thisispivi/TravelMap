@@ -48,9 +48,15 @@
   height: 2rem;
   font-size: 1rem;
   display: flex;
-  p {
-    margin: auto;
+  .row {
+    height: 100%;
   }
+  p {
+    font-weight: 700;
+    font-size: 1rem;
+    margin: auto auto auto 0;
+  }
+
   .back-btn {
     margin: auto;
     width: 1rem;
@@ -68,5 +74,20 @@
         fill: white;
       }
     }
+  }
+}
+
+.dark {
+  .back-btn path {
+    fill: var(--dark) !important;
+  }
+  .back-btn:hover path {
+    fill: var(--dark) !important;
+  }
+  .back-btn:active path {
+    fill: var(--dark) !important;
+  }
+  .back-btn-text p {
+    color: var(--dark) !important;
   }
 }
