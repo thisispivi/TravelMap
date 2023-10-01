@@ -10,7 +10,7 @@ import { Box, Footer } from "./components/organisms";
 import { MapChart } from "./components/organisms";
 import { Logo } from "./components/atoms";
 
-const urlPrefix = "TravelMap/";
+const urlPrefix = "";
 
 export default function HomePage() {
   const { i18n, t } = useTranslation(["home"]);
@@ -69,7 +69,6 @@ export default function HomePage() {
     if (hoverTimeoutRef.current) {
       clearTimeout(hoverTimeoutRef.current);
     }
-    setHoveredCity(undefined);
   };
 
   return (
