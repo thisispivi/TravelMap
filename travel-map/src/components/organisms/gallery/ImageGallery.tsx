@@ -18,6 +18,7 @@ export function CustomImageGallery({
   baseUrl = "",
 }: CustomImageGalleryProps) {
   const items = getCityPhotos(currentCity?.name || "");
+  console.log("items", items);
 
   type ItemType = ReactImageGalleryItem & {
     video?: boolean;

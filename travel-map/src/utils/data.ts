@@ -41,8 +41,8 @@ export const cities: City[] = [
     visited.Hungary,
     1756000,
     [19.040236, 47.497913],
-    new Date(2023, 8, 11),
-    new Date(2023, 8, 15)
+    new Date(2023, 5, 6),
+    new Date(2023, 5, 9)
   ),
 
   new City(
@@ -70,6 +70,7 @@ export const cities: City[] = [
     new Date(2023, 8, 26),
     new Date(2023, 8, 30)
   ),
+  /*
   new City(
     "Turin",
     visited.Italy,
@@ -85,7 +86,7 @@ export const cities: City[] = [
     [11.876761, 45.406435],
     new Date(2023, 9, 6),
     new Date(2023, 9, 10)
-  ),
+  ),*/
   new City(
     "Rome",
     visited.Italy,
@@ -94,6 +95,7 @@ export const cities: City[] = [
     new Date(2023, 10, 11),
     new Date(2023, 10, 15)
   ),
+  /*
   new City(
     "Verona",
     visited.Italy,
@@ -173,7 +175,7 @@ export const cities: City[] = [
     [10.401682, 43.722839],
     new Date(2023, 11, 6),
     new Date(2023, 11, 10)
-  ),
+  ),*/
 ];
 
 function getCitiesOrderedByCoordinates(): City[] {

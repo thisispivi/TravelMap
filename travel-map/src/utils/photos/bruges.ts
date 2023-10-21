@@ -111,4 +111,18 @@ export const bruges = [
     width: 5,
     height: 4,
   },
+  {
+    original: "Bruges/17.jpg",
+    thumbnail: "Bruges/17_thumb.jpg",
+    alt: "",
+    width: 3,
+    height: 4,
+  },
+  {
+    original: "Bruges/18.jpg",
+    thumbnail: "Bruges/18_thumb.jpg",
+    alt: "",
+    width: 3,
+    height: 4,
+  },
 ];

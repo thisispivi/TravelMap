@@ -73,6 +73,14 @@ export default function HomePage() {
     }
   };
 
+  console.log(
+    getCityPhotos(currentCity?.name || "").map((photo) => ({
+      src: `${urlPrefix}${photo.thumbnail}`,
+      width: photo.width,
+      height: photo.height,
+    }))
+  );
+
   return (
     <div className="container">
       <Logo urlPrefix={urlPrefix} isDarkMode={isDarkMode} />

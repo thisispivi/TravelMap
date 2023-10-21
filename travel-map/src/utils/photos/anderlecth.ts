@@ -66,4 +66,18 @@ export const anderlecht = [
     height: 9,
     youtube: true,
   },
+  {
+    original: "Anderlecht/10.jpg",
+    thumbnail: "Anderlecht/10_thumb.jpg",
+    alt: "",
+    width: 3,
+    height: 4,
+  },
+  {
+    original: "Anderlecht/11.jpg",
+    thumbnail: "Anderlecht/11_thumb.jpg",
+    alt: "",
+    width: 3,
+    height: 4,
+  },
 ];
