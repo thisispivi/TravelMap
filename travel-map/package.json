@@ -11,6 +11,7 @@
     "@types/node": "^20.8.7",
     "@types/react-dom": "^18.2.14",
     "@types/react-responsive": "^8.0.7",
+    "husky": "^8.0.3",
     "i18next": "^23.6.0",
     "i18next-browser-languagedetector": "^7.1.0",
     "lightgallery": "^2.7.2",
@@ -33,7 +34,10 @@
     "deploy": "npx gh-pages -d build",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "prepare": "cd .. & husky install",
+    "lint": "eslint . --fix --max-warnings=0",
+    "format": "prettier . --write"
   },
   "eslintConfig": {
     "extends": [
@@ -59,6 +63,12 @@
     "@types/react-image-gallery": "^1.2.2",
     "@types/react-simple-maps": "^3.0.2",
     "@types/react-toggle": "^4.0.4",
+    "eslint": "^8.52.0",
+    "eslint-config-prettier": "^9.0.0",
     "gh-pages": "^6.0.0"
+  },
+  "lint-staged": {
+    "*.js": "eslint --fix ",
+    "*.{js,css,md,html,json}": "prettier --cache --write"
   }
 }
