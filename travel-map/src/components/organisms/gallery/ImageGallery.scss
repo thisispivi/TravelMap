@@ -46,6 +46,9 @@
 }
 
 .image-gallery-content.fullscreen {
+  .back-btn-text {
+    display: none;
+  }
   .image-gallery-slide .image-gallery-image {
     max-height: 100dvh;
   }

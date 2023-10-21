@@ -73,14 +73,6 @@ export default function HomePage() {
     }
   };
 
-  console.log(
-    getCityPhotos(currentCity?.name || "").map((photo) => ({
-      src: `${urlPrefix}${photo.thumbnail}`,
-      width: photo.width,
-      height: photo.height,
-    }))
-  );
-
   return (
     <div className="container">
       <Logo urlPrefix={urlPrefix} isDarkMode={isDarkMode} />
@@ -108,16 +100,29 @@ export default function HomePage() {
         <Box
           city={currentCity}
           onClose={closeBox}
-          overflow={currentImage !== undefined ? "hidden" : "auto"}
+          overflow="hidden"
+          className={currentImage !== undefined ? "show-single" : "show-all"}
         >
-          {currentImage !== undefined ? (
+          <div
+            className="single-container"
+            style={{
+              overflow: "hidden",
+            }}
+          >
             <CustomImageGallery
               currentCity={currentCity}
               currentImage={currentImage}
               onBackClick={closeLightbox}
               baseUrl={urlPrefix}
             />
-          ) : (
+          </div>
+          <div
+            className="all-container"
+            style={{
+              overflowX: "hidden",
+              overflowY: currentImage !== undefined ? "hidden" : "scroll",
+            }}
+          >
             <Gallery
               photos={getCityPhotos(currentCity?.name || "").map((photo) => ({
                 src: `${urlPrefix}${photo.thumbnail}`,
@@ -127,7 +132,7 @@ export default function HomePage() {
               onClick={openLightbox}
               layout="rows"
             />
-          )}
+          </div>
         </Box>
       )}
       <Footer

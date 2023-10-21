@@ -11,6 +11,32 @@ body,
   height: 100dvh;
   width: 100dvw;
   overflow: hidden;
+
+  .box {
+    .single-container,
+    .all-container {
+      grid-area: 1/1/2/2;
+      display: block;
+      width: 100%;
+      height: calc(100dvh - 10dvh - 3rem);
+    }
+    &.show-single {
+      .single-container {
+        visibility: visible;
+      }
+      .react-photo-album {
+        visibility: hidden;
+      }
+    }
+    &.show-all {
+      .single-container {
+        visibility: hidden;
+      }
+      .all-container {
+        visibility: visible;
+      }
+    }
+  }
 }
 
 .container {

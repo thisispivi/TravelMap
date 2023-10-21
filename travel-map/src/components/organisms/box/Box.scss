@@ -33,6 +33,9 @@
   .content {
     overflow-y: auto;
     height: calc(100% - 4.5rem);
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr;
   }
 
   &.show {
