@@ -10,7 +10,9 @@ import { Box, Footer } from "./components/organisms";
 import { MapChart } from "./components/organisms";
 import { Logo } from "./components/atoms";
 
-const urlPrefix = "";
+const urlPrefix = process.env.REACT_APP_BASE_URL || "";
+
+console.log("urlPrefix", urlPrefix);
 
 export default function HomePage() {
   const { i18n, t } = useTranslation(["home"]);
