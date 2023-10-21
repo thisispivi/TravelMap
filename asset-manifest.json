@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/TravelMap/static/css/main.3648325d.css",
-    "main.js": "/TravelMap/static/js/main.da7778ce.js",
-    "static/js/787.c1dc2c99.chunk.js": "/TravelMap/static/js/787.c1dc2c99.chunk.js",
+    "main.css": "/TravelMap/static/css/main.b8db62e7.css",
+    "main.js": "/TravelMap/static/js/main.6d181e11.js",
+    "static/js/496.d72005f3.chunk.js": "/TravelMap/static/js/496.d72005f3.chunk.js",
     "static/media/People.svg": "/TravelMap/static/media/People.21668a2caf24ffa0c51c325888125c49.svg",
     "static/media/Portfolio.svg": "/TravelMap/static/media/Portfolio.75aae8ca26d98183bc5dbf78cb371afd.svg",
     "static/media/Arrival.svg": "/TravelMap/static/media/Arrival.728aeb9a936c5917b071d461e42712f6.svg",
@@ -22,12 +22,12 @@
     "static/media/Hungary.svg": "/TravelMap/static/media/Hungary.86a1570f864c89402462a6700e40c86d.svg",
     "static/media/England.svg": "/TravelMap/static/media/England.8063b0108c9afae86a338377e7c5ca3d.svg",
     "static/media/Info.svg": "/TravelMap/static/media/Info.68cf370631161fbedf4808ffe059beae.svg",
-    "main.3648325d.css.map": "/TravelMap/static/css/main.3648325d.css.map",
-    "main.da7778ce.js.map": "/TravelMap/static/js/main.da7778ce.js.map",
-    "787.c1dc2c99.chunk.js.map": "/TravelMap/static/js/787.c1dc2c99.chunk.js.map"
+    "main.b8db62e7.css.map": "/TravelMap/static/css/main.b8db62e7.css.map",
+    "main.6d181e11.js.map": "/TravelMap/static/js/main.6d181e11.js.map",
+    "496.d72005f3.chunk.js.map": "/TravelMap/static/js/496.d72005f3.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.3648325d.css",
-    "static/js/main.da7778ce.js"
+    "static/css/main.b8db62e7.css",
+    "static/js/main.6d181e11.js"
   ]
 }
