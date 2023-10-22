@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback } from "react";
 import Gallery from "react-photo-album";
 import { orderedCities, visited } from "./utils/data";
 import { City } from "./classes/City";
@@ -28,9 +28,6 @@ export default function HomePage() {
   const [currentCity, setCurrentCity] = useState<City | undefined>();
   const [currentImage, setCurrentImage] = useState<number | undefined>();
 
-  // Create a ref to hold a timeout ID
-  const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-
   // Open the lightbox for an image
   const openLightbox = useCallback(({ index }: { index: number }) => {
     setCurrentImage(index);
@@ -56,21 +53,11 @@ export default function HomePage() {
   };
 
   const handleMouseEnter = (city: City) => {
-    if (hoverTimeoutRef.current) {
-      clearTimeout(hoverTimeoutRef.current);
-    }
     setHoveredCity(city);
-    hoverTimeoutRef.current = setTimeout(() => {
-      if (hoveredCity === city) {
-        setHoveredCity(undefined);
-      }
-    }, 1000);
   };
 
   const handleMouseLeave = () => {
-    if (hoverTimeoutRef.current) {
-      clearTimeout(hoverTimeoutRef.current);
-    }
+    setHoveredCity(undefined);
   };
 
   return (
