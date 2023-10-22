@@ -29,6 +29,7 @@
     "UnitedKingdom": "Regno Unito",
     "Germany": "Germania"
   },
+  "gallery-open": "Apri galleria",
   "first": "Salve! Sono Andrea Piras, spesso chiamato Pivi. Ho 25 anni e sono un programmatore fullstack e consulente di machine learning.",
   "second": "Ho creato questa web app per mostrare le mie esperienze di viaggio in giro per il mondo. All'interno troverai una galleria di fotografie scattate in ogni città che ho visitato. L'applicazione web è stata realizzata utilizzando React, TypeScript e molte altre librerie.",
   "months": {

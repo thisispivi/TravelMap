@@ -1,3 +1,4 @@
+import React, { useCallback } from "react";
 import ImageGallery, { ReactImageGalleryItem } from "react-image-gallery";
 import { getCityPhotos } from "../../../utils/photos";
 import { City } from "../../../classes/City";
@@ -7,6 +8,7 @@ import "./ImageGallery.scss";
 interface CustomImageGalleryProps {
   currentCity?: City;
   currentImage?: number;
+  setCurrentImage: (index: number | undefined) => void;
   onBackClick?: () => void;
   baseUrl?: string;
 }
@@ -14,6 +16,7 @@ interface CustomImageGalleryProps {
 export function CustomImageGallery({
   currentCity,
   currentImage,
+  setCurrentImage,
   onBackClick,
   baseUrl = "",
 }: CustomImageGalleryProps) {
@@ -39,7 +42,7 @@ export function CustomImageGallery({
     );
   };
 
-  const renderItems = (item: ItemType) => {
+  const handleRenderItem = (item: ItemType) => {
     const media = (item: ItemType) => {
       if (item.video) {
         return (
@@ -56,7 +59,7 @@ export function CustomImageGallery({
         return (
           <iframe
             className="image-gallery-video"
-            src="https://www.youtube.com/embed/_CaBMaSUx_w"
+            src={item.original}
             title="YouTube video player"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -82,6 +85,40 @@ export function CustomImageGallery({
     );
   };
 
+  const handleChange = useCallback(
+    (currentIndex: number | undefined) => {
+      if (currentImage !== undefined) {
+        const element = document.querySelector(
+          `[aria-label="Go to Slide ${currentImage + 1}"]`
+        );
+        if (element) {
+          const child = element.children[0];
+          if (child) {
+            console.log("child", child.tagName);
+            if (child.tagName === "VIDEO") {
+              (child as HTMLVideoElement).pause();
+            }
+            if (child.tagName === "IFRAME") {
+              const iframeSrc = (child as HTMLIFrameElement).src;
+              (child as HTMLIFrameElement).src = iframeSrc;
+            }
+          }
+        }
+        setCurrentImage(currentIndex);
+      }
+    },
+    [currentImage]
+  );
+
+  const handleSlide = (currentIndex: number) => handleChange(currentIndex);
+
+  const handleBackClick = () => {
+    onBackClick && onBackClick();
+    handleChange(undefined);
+  };
+
+  console.log("currentImage", currentImage);
+
   return (
     <ImageGallery
       lazyLoad={true}
@@ -91,15 +128,13 @@ export function CustomImageGallery({
       showThumbnails={false}
       startIndex={currentImage}
       items={items}
-      renderItem={renderItems}
+      renderItem={handleRenderItem}
       renderCustomControls={() => {
         return (
-          <TextBackButton
-            text="To gallery"
-            onClick={() => onBackClick && onBackClick()}
-          />
+          <TextBackButton text="To gallery" onClick={() => handleBackClick()} />
         );
       }}
+      onSlide={handleSlide}
     />
   );
 }

@@ -59,7 +59,7 @@ export const anderlecht = [
     video: true,
   },
   {
-    original: "https://www.youtube.com/watch?v=_CaBMaSUx_w",
+    original: "https://www.youtube.com/embed/_CaBMaSUx_w",
     thumbnail: "Anderlecht/9_thumb.jpg",
     alt: "",
     width: 16,

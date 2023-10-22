@@ -51,7 +51,7 @@ export function Tooltip({
           </Row>
         </Column>
         <TextButton
-          text={"Open slideshow"}
+          text={t("gallery-open")}
           onClick={() => onClick && onClick(city)}
         />
       </ReactTooltip>

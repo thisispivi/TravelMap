@@ -29,6 +29,7 @@
     "UnitedKingdom": "United Kingdom",
     "Germany": "Germany"
   },
+  "gallery-open": "Open gallery",
   "first": "Greetings! I'm Andrea Piras, often referred to as Pivi. I'm a 25-year-old Italian fullstack developer and machine learning consultant.",
   "second": "I've crafted this web application to showcase my travel experiences across the globe. Within, you'll find a curated gallery of photographs captured in each city I've had the pleasure of visiting. The webapp was constructed utilizing React, TypeScript, and many other libraries",
   "months": {

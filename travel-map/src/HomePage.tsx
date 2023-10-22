@@ -114,6 +114,7 @@ export default function HomePage() {
               currentImage={currentImage}
               onBackClick={closeLightbox}
               baseUrl={urlPrefix}
+              setCurrentImage={setCurrentImage}
             />
           </div>
           <div
