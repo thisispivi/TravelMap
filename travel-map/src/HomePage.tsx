@@ -12,8 +12,6 @@ import { Logo } from "./components/atoms";
 
 const urlPrefix = process.env.REACT_APP_BASE_URL || "";
 
-console.log("urlPrefix", urlPrefix);
-
 export default function HomePage() {
   const { i18n, t } = useTranslation(["home"]);
   const currentLanguage = i18n.language;
@@ -62,7 +60,7 @@ export default function HomePage() {
 
   return (
     <div className="container">
-      <Logo urlPrefix={urlPrefix} isDarkMode={isDarkMode} />
+      <Logo isDarkMode={isDarkMode} />
       <MapChart
         visited={visited}
         markers={orderedCities}

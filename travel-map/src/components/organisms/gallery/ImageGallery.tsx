@@ -94,7 +94,6 @@ export function CustomImageGallery({
         if (element) {
           const child = element.children[0];
           if (child) {
-            console.log("child", child.tagName);
             if (child.tagName === "VIDEO") {
               (child as HTMLVideoElement).pause();
             }
@@ -116,8 +115,6 @@ export function CustomImageGallery({
     onBackClick && onBackClick();
     handleChange(undefined);
   };
-
-  console.log("currentImage", currentImage);
 
   return (
     <ImageGallery
