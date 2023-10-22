@@ -8,7 +8,7 @@ export function Logo({ isDarkMode = false }: LogoProps) {
   return (
     <img
       className="logo"
-      src={`TravelMap/logo-${isDarkMode ? "dark" : "light"}.png`}
+      src={`/TravelMap/logo-${isDarkMode ? "dark" : "light"}.png`}
       alt="logo"
     />
   );
