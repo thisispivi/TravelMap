@@ -8,6 +8,7 @@ import { i18n } from "i18next";
 import { CountryFlag } from "../../atoms";
 import { Column, Row } from "../../molecules";
 import "./Tooltip.scss";
+import { showDate } from "../../../utils/date";
 
 interface TooltipProps {
   city: City;
@@ -42,11 +43,11 @@ export function Tooltip({
           </Row>
           <Row>
             <DepartureIcon className="icon" />
-            <p>{city.startDate.toDateString()}</p>
+            <p>{showDate(city.startDate, t, "short")}</p>
           </Row>
           <Row>
             <ArrivalIcon className="icon" />
-            <p>{city.endDate.toDateString()}</p>
+            <p>{showDate(city.endDate, t, "short")}</p>
           </Row>
         </Column>
         <TextButton

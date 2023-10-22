@@ -16,14 +16,16 @@ interface InfoProps {
 export function Info({
   className = "",
   isOpened = 0,
-  setIsOpened = () => {},
+  setIsOpened = () => {
+    return;
+  },
 }: InfoProps) {
   const { t } = useTranslation(["home"]);
   const handleToggle = () => setIsOpened();
   return (
     <>
       {isOpened > 0 && <Backdrop onClick={handleToggle} visible={false} />}
-      <div className={`info ${isOpened > 0 ? "info-active" : ""}`}>
+      <div className={`info ${className} ${isOpened > 0 ? "info-active" : ""}`}>
         <div className="title">
           <InfoIcon onClick={handleToggle} className="info-icon" />
           {isOpened > 0 && <h3>Info</h3>}

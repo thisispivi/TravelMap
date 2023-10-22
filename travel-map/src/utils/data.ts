@@ -16,24 +16,24 @@ export const cities: City[] = [
     visited.Belgium,
     1180531,
     [4.34878, 50.85045],
-    new Date(2023, 8, 5),
-    new Date(2023, 8, 10)
+    new Date(2023, 7, 5),
+    new Date(2023, 7, 10)
   ),
   new City(
     "Bruges",
     visited.Belgium,
     118284,
     [3.22424, 51.209348],
-    new Date(2023, 8, 9),
-    new Date(2023, 8, 9)
+    new Date(2023, 7, 9),
+    new Date(2023, 7, 9)
   ),
   new City(
     "Anderlecht",
     visited.Belgium,
     119714,
     [4.2360105, 50.8127957],
-    new Date(2023, 8, 6),
-    new Date(2023, 8, 6)
+    new Date(2023, 7, 6),
+    new Date(2023, 7, 6)
   ),
 
   new City(
@@ -41,8 +41,8 @@ export const cities: City[] = [
     visited.Hungary,
     1756000,
     [19.040236, 47.497913],
-    new Date(2023, 5, 6),
-    new Date(2023, 5, 9)
+    new Date(2023, 4, 6),
+    new Date(2023, 4, 9)
   ),
 
   new City(
@@ -59,8 +59,8 @@ export const cities: City[] = [
     visited.Spain,
     1620000,
     [2.173403, 41.385064],
-    new Date(2016, 4, 11),
-    new Date(2016, 4, 15)
+    new Date(2016, 3, 11),
+    new Date(2016, 3, 15)
   ),
   new City(
     "London",

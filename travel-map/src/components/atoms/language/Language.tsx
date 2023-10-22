@@ -18,9 +18,11 @@ export const LanguageDropdown = ({
   currentLanguage,
   className = "",
   showDropdown = false,
-  setShowDropdown = () => {},
+  setShowDropdown = () => {
+    return;
+  },
 }: LanguageDropdownProps) => {
-  const dropdownRef = useRef<any>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const items = [
     {
       label: "English",
@@ -44,14 +46,9 @@ export const LanguageDropdown = ({
   };
 
   const getFlag = (lang: string) => {
-    switch (lang) {
-      case "en":
-        return <EnglishIcon />;
-      case "it":
-        return <ItalianIcon />;
-      default:
-        return <EnglishIcon />;
-    }
+    if (lang.includes("en")) return <EnglishIcon />;
+    if (lang.includes("it")) return <ItalianIcon />;
+    return <EnglishIcon />;
   };
 
   return (
@@ -72,7 +69,7 @@ export const LanguageDropdown = ({
               onClick={() => handleItemClick(item.value)}
               key={item.value}
               className={`menu-item ${
-                item.value === currentLanguage ? "active" : ""
+                currentLanguage.includes(item.value) ? "active" : ""
               }`}
             >
               {item.label}
