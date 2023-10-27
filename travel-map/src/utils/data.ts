@@ -95,6 +95,14 @@ export const cities: City[] = [
     new Date(2023, 10, 11),
     new Date(2023, 10, 15)
   ),
+  new City(
+    "Imola",
+    visited.Italy,
+    69815,
+    [11.716667, 44.350555],
+    new Date(2022, 3, 22),
+    new Date(2022, 3, 24)
+  ),
   /*
   new City(
     "Verona",
