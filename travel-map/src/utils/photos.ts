@@ -3,6 +3,7 @@ import { barcellona } from "./photos/barcelona";
 import { bruges } from "./photos/bruges";
 import { brussels } from "./photos/brussels";
 import { budapest } from "./photos/budapest";
+import { imola } from "./photos/imola";
 
 export function getCityPhotos(cityName: string) {
   switch (cityName) {
@@ -16,6 +17,8 @@ export function getCityPhotos(cityName: string) {
       return barcellona;
     case "Budapest":
       return budapest;
+    case "Imola":
+      return imola;
     default:
       return [];
   }
