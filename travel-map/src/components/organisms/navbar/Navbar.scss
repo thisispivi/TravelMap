@@ -1,0 +1,14 @@
+.navbar {
+  position: absolute;
+  width: 11rem;
+  height: 3.82rem;
+  left: 1rem;
+  top: 1rem;
+  display: flex;
+  overflow: hidden;
+  transform: translateY(-10vh);
+  transition: transform 0.5s ease-in-out;
+  &.navbar-active {
+    transform: translateY(0);
+  }
+}

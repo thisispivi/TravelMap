@@ -3,12 +3,11 @@ import Gallery from "react-photo-album";
 import { orderedCities, visited } from "./utils/data";
 import { City } from "./classes/City";
 import { getCityPhotos } from "./utils/photos";
-import { Tooltip } from "./components/organisms";
+import { Navbar, Tooltip } from "./components/organisms";
 import { CustomImageGallery } from "./components/organisms";
 import { useTranslation } from "react-i18next";
 import { Box, Footer } from "./components/organisms";
 import { MapChart } from "./components/organisms";
-import { Logo } from "./components/atoms";
 
 const urlPrefix = process.env.REACT_APP_BASE_URL || "";
 
@@ -60,7 +59,7 @@ export default function HomePage() {
 
   return (
     <div className="container">
-      <Logo isDarkMode={isDarkMode} />
+      <Navbar isDarkMode={isDarkMode} active={currentCity === undefined} />
       <MapChart
         visited={visited}
         markers={orderedCities}
