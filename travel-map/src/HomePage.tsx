@@ -67,6 +67,7 @@ export default function HomePage() {
         hoveredCity={hoveredCity}
         setHoveredCity={setHoveredCity}
         geoUrl={`${urlPrefix}map.json`}
+        isDarkMode={isDarkMode}
       />
       {orderedCities.map(
         (city) =>

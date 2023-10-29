@@ -31,7 +31,7 @@ export const cities: City[] = [
     "Anderlecht",
     visited.Belgium,
     119714,
-    [4.2360105, 50.8127957],
+    [4.1360105, 50.8127957],
     new Date(2023, 7, 6),
     new Date(2023, 7, 6)
   ),
