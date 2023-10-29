@@ -78,7 +78,7 @@ export function Marker({
                 : "#c4c4c4"
               : hoveredCity?.name === city.name
               ? "#000"
-              : "#FFF"
+              : "#4d4d4d"
           }
         >
           {t("cities." + city.name)}
