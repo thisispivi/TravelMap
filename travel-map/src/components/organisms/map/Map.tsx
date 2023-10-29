@@ -16,6 +16,7 @@ interface MapChartProps {
   hoveredCity?: City;
   setHoveredCity: (city: City | undefined) => void;
   geoUrl?: string;
+  isDarkMode?: boolean;
 }
 
 export default function MapChart({
@@ -24,6 +25,7 @@ export default function MapChart({
   hoveredCity,
   setHoveredCity,
   geoUrl = "",
+  isDarkMode = false,
 }: MapChartProps) {
   const [, setWindowWidth] = useState(window.innerWidth);
   const handleResize = () => {
@@ -37,18 +39,24 @@ export default function MapChart({
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  const [currentZoom, setCurrentZoom] = useState(
+    window.innerWidth > 1000 ? 4 : 5
+  );
   return (
-    <ComposableMap
-      projectionConfig={{
-        rotate: [0, 0, 0],
-        center: [8, 48],
-        scale: 800,
-      }}
-      width={800}
-      height={400}
-      className="map"
-    >
-      <ZoomableGroup zoom={1}>
+    <ComposableMap className="map" projection={"geoMercator"}>
+      <ZoomableGroup
+        maxZoom={22}
+        minZoom={1}
+        zoom={window.innerWidth > 1000 ? 4 : 5}
+        center={[7, 49]}
+        onMoveEnd={({ zoom }) => {
+          setCurrentZoom(zoom);
+        }}
+        onMove={({ zoom }) => {
+          setCurrentZoom(zoom);
+        }}
+      >
         <Geographies geography={geoUrl}>
           {({ geographies }) =>
             geographies.map((geo) => (
@@ -86,6 +94,8 @@ export default function MapChart({
             city={city}
             hoveredCity={hoveredCity}
             setHoveredCity={setHoveredCity}
+            currentZoom={currentZoom}
+            isDarkMode={isDarkMode}
           />
         ))}
         <use xlinkHref={hoveredCity?.name + "-marker"} />

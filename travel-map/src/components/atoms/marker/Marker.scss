@@ -6,27 +6,28 @@
   --marker-transition: transform 0.2s ease-in-out, scale 0.2s ease-in-out,
     opacity 0.2s ease-in-out;
 
-  transform: translate(-5px, -9px);
+  transform: translate(-2.5px, -4.5px);
   path {
     fill: var(--marker-color);
     stroke: var(--marker-stroke-color);
     stroke-width: 3;
-    scale: 0.1;
+    scale: 0.05;
     transition: var(--marker-transition);
   }
   circle {
+    scale: 0.5;
     transition: var(--marker-transition);
   }
   &.active {
     path {
       transform: translate(-8px, -12px);
-      scale: 0.12;
+      scale: 0.06;
       opacity: 1;
       fill: var(--marker-color-active);
     }
     circle {
       transform: translate(-1px, -1px);
-      scale: 1.2;
+      scale: 0.66;
       opacity: 1;
     }
   }
