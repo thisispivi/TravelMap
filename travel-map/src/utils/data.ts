@@ -7,7 +7,7 @@ export const visited = {
   Italy: new Country("Italy", { r: 0, g: 86, b: 185 }),
   Hungary: new Country("Hungary", { r: 217, g: 80, b: 48 }),
   Germany: new Country("Germany", { r: 49, g: 127, b: 67 }),
-  UnitedKingdom: new Country("United Kingdom", { r: 132, g: 195, b: 190 }),
+  UnitedKingdom: new Country("United Kingdom", { r: 10, g: 190, b: 190 }),
 };
 
 export const cities: City[] = [
