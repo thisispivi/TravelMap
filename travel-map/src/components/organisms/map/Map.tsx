@@ -72,12 +72,12 @@ export default function MapChart({
                 fill={
                   visited[geo.properties.name.replace(" ", "")]
                     ? visited[geo.properties.name.replace(" ", "")].fillColor
-                    : "#DDD"
+                    : "#eaeaec"
                 }
                 stroke={
                   visited[geo.properties.name.replace(" ", "")]
                     ? visited[geo.properties.name.replace(" ", "")].borderColor
-                    : "#999"
+                    : "#b7b7b9"
                 }
                 style={{
                   default: { outline: "none" },
