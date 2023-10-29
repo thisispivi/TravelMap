@@ -46,7 +46,7 @@ export default function MapChart({
   return (
     <ComposableMap className="map" projection={"geoMercator"}>
       <ZoomableGroup
-        maxZoom={22}
+        maxZoom={30}
         minZoom={1}
         zoom={window.innerWidth > 1000 ? 4 : 5}
         center={[7, 49]}

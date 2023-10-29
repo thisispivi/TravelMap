@@ -20,7 +20,6 @@ export function Marker({
   isDarkMode = false,
 }: MarkerProps) {
   const { t } = useTranslation(["home"]);
-  console.log("isDarkMode", isDarkMode);
 
   const setXOffset = () => {
     switch (city.name) {
