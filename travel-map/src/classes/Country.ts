@@ -20,7 +20,7 @@ export class Country {
   constructor(id: string, color: Color) {
     this.id = id;
     this.borderColor = `rgba(${color.r}, ${color.g}, ${color.b}, 1)`;
-    this.fillColor = `rgba(${color.r}, ${color.g}, ${color.b}, 0.4)`;
+    this.fillColor = `rgba(${color.r}, ${color.g}, ${color.b}, 0.6)`;
   }
 
   getName(t: i18n["t"]) {

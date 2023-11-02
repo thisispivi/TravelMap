@@ -68,7 +68,7 @@ export default function MapChart({
                     ? "visited"
                     : "not-visited"
                 }
-                strokeWidth={0.3}
+                strokeWidth={0.1}
                 fill={
                   visited[geo.properties.name.replace(" ", "")]
                     ? visited[geo.properties.name.replace(" ", "")].fillColor
