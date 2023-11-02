@@ -2,12 +2,12 @@ import { City } from "../classes/City";
 import { Country } from "../classes/Country";
 
 export const visited = {
-  Belgium: new Country("Belgium", { r: 213, g: 48, b: 50 }),
-  Spain: new Country("Spain", { r: 243, g: 159, b: 24 }),
-  Italy: new Country("Italy", { r: 0, g: 86, b: 185 }),
-  Hungary: new Country("Hungary", { r: 217, g: 80, b: 48 }),
-  Germany: new Country("Germany", { r: 49, g: 127, b: 67 }),
-  UnitedKingdom: new Country("United Kingdom", { r: 10, g: 190, b: 190 }),
+  Belgium: new Country("Belgium", { h: 158, s: 72, l: 42 }),
+  Spain: new Country("Spain", { h: 175, s: 92, l: 19 }),
+  Italy: new Country("Italy", { h: 5, s: 80, l: 67 }),
+  Hungary: new Country("Hungary", { h: 45, s: 80, l: 63 }),
+  Germany: new Country("Germany", { h: 290, s: 70, l: 40 }),
+  UnitedKingdom: new Country("United Kingdom", { h: 201, s: 80, l: 47 }),
 };
 
 export const cities: City[] = [

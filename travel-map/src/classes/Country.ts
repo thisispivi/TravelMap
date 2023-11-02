@@ -1,9 +1,9 @@
 import { i18n } from "i18next";
 
 export interface Color {
-  r: number;
-  g: number;
-  b: number;
+  h: number;
+  s: number;
+  l: number;
 }
 
 export interface CountryData {
@@ -19,8 +19,8 @@ export class Country {
 
   constructor(id: string, color: Color) {
     this.id = id;
-    this.borderColor = `rgba(${color.r}, ${color.g}, ${color.b}, 1)`;
-    this.fillColor = `rgba(${color.r}, ${color.g}, ${color.b}, 0.6)`;
+    this.borderColor = `hsl(${color.h}, ${color.s}%, ${color.l - 10}%)`;
+    this.fillColor = `hsl(${color.h}, ${color.s}%, ${color.l}%)`;
   }
 
   getName(t: i18n["t"]) {

@@ -67,6 +67,7 @@ export function Marker({
           style={{
             fontSize: "0.1rem",
             fontWeight: "600",
+            width: "1rem",
           }}
           x={setXOffset()}
           y={setYOffset()}

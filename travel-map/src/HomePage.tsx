@@ -1,61 +1,33 @@
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import Gallery from "react-photo-album";
 import { orderedCities, visited } from "./utils/data";
-import { City } from "./classes/City";
 import { getCityPhotos } from "./utils/photos";
 import { Navbar, Tooltip } from "./components/organisms";
 import { CustomImageGallery } from "./components/organisms";
-import { useTranslation } from "react-i18next";
 import { Box, Footer } from "./components/organisms";
 import { MapChart } from "./components/organisms";
+import { useLanguage } from "./hooks/language";
+import { useCitiesSelectors } from "./hooks/cities";
 
 const urlPrefix = process.env.REACT_APP_BASE_URL || "";
 
 export default function HomePage() {
-  const { i18n, t } = useTranslation(["home"]);
-  const currentLanguage = i18n.language;
-  const changeLanguage = (lang: string) => {
-    i18n.changeLanguage(lang);
-  };
-
+  const { t, currentLanguage, changeLanguage } = useLanguage(["home"]);
   const [isDarkMode, setIsDarkMode] = useState(true);
 
-  // States
-  const [hoveredCity, setHoveredCity] = useState<City | undefined>();
-  const [currentCity, setCurrentCity] = useState<City | undefined>();
-  const [currentImage, setCurrentImage] = useState<number | undefined>();
-
-  // Open the lightbox for an image
-  const openLightbox = useCallback(({ index }: { index: number }) => {
-    setCurrentImage(index);
-  }, []);
-
-  // Close the lightbox
-  const closeLightbox = () => {
-    setCurrentImage(undefined);
-  };
-
-  // Open the tooltip and gallery box
-  const openBox = (city: City) => {
-    setHoveredCity(undefined);
-    setCurrentCity(city);
-  };
-
-  // Close the tooltip and gallery box
-  const closeBox = () => {
-    if (currentCity) {
-      setCurrentCity(undefined);
-      setCurrentImage(undefined);
-    }
-  };
-
-  const handleMouseEnter = (city: City) => {
-    setHoveredCity(city);
-  };
-
-  const handleMouseLeave = () => {
-    setHoveredCity(undefined);
-  };
+  const {
+    hoveredCity,
+    currentCity,
+    currentImage,
+    openLightbox,
+    closeLightbox,
+    openBox,
+    closeBox,
+    handleMouseEnter,
+    handleMouseLeave,
+    setHoveredCity,
+    setCurrentImage,
+  } = useCitiesSelectors();
 
   return (
     <div className="container">
