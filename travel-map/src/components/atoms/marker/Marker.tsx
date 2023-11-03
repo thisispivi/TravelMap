@@ -8,7 +8,7 @@ interface MarkerProps {
   city: City;
   hoveredCity?: City;
   setHoveredCity: (city: City | undefined) => void;
-  currentZoom: number;
+  showNames?: boolean;
   isDarkMode?: boolean;
 }
 
@@ -16,7 +16,7 @@ export function Marker({
   city,
   hoveredCity,
   setHoveredCity,
-  currentZoom,
+  showNames = false,
   isDarkMode = false,
 }: MarkerProps) {
   const { t } = useTranslation(["home"]);
@@ -27,8 +27,6 @@ export function Marker({
         return "0.3rem";
       case "Bruges":
         return "-0.1rem";
-      case "Barcelona":
-        return "0.08rem";
       default:
         return "0rem";
     }
@@ -39,10 +37,8 @@ export function Marker({
         return "-0.07rem";
       case "Bruges":
         return "0.08rem";
-      case "Barcelona":
-        return "0.14rem";
       default:
-        return "0.1rem";
+        return "0.11rem";
     }
   };
 
@@ -61,13 +57,16 @@ export function Marker({
       }}
     >
       <MarkerIcon active={hoveredCity?.name === city.name} />
-      {currentZoom > 10 && (
+      {showNames && (
         <text
           textAnchor="middle"
           style={{
             fontSize: "0.1rem",
             fontWeight: "600",
             width: "1rem",
+            filter: `drop-shadow(0 0 0.12px rgb(${
+              isDarkMode ? "0 0 0" : "255 255 255"
+            }))`,
           }}
           x={setXOffset()}
           y={setYOffset()}

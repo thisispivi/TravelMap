@@ -37,7 +37,7 @@ export default function HomePage() {
         markers={orderedCities}
         hoveredCity={hoveredCity}
         setHoveredCity={setHoveredCity}
-        geoUrl={`${urlPrefix}map.json`}
+        geoUrl={`https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json`}
         isDarkMode={isDarkMode}
       />
       {orderedCities.map(
