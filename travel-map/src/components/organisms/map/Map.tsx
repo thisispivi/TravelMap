@@ -28,21 +28,14 @@ export default function MapChart({
   isDarkMode = false,
 }: MapChartProps) {
   const [, setWindowWidth] = useState(window.innerWidth);
-  const handleResize = () => {
-    setWindowWidth(window.innerWidth);
-  };
-
-  // Add this useEffect to listen for window resize events and update the windowWidth state accordingly
+  const handleResize = () => setWindowWidth(window.innerWidth);
   useEffect(() => {
     window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const [currentZoom, setCurrentZoom] = useState(
-    window.innerWidth > 1000 ? 4 : 5
-  );
+  const [showNames, setShowNames] = useState(false);
+
   return (
     <ComposableMap className="map" projection={"geoMercator"}>
       <ZoomableGroup
@@ -51,13 +44,11 @@ export default function MapChart({
         zoom={window.innerWidth > 1000 ? 4 : 5}
         center={[7, 49]}
         onMoveEnd={({ zoom }) => {
-          setCurrentZoom(zoom);
-        }}
-        onMove={({ zoom }) => {
-          setCurrentZoom(zoom);
+          if (zoom > 10 && !showNames) setShowNames(true);
+          if (zoom <= 10 && showNames) setShowNames(false);
         }}
       >
-        <Geographies geography={geoUrl}>
+        <Geographies geography={geoUrl} style={{ pointerEvents: "none" }}>
           {({ geographies }) =>
             geographies.map((geo) => (
               <Geography
@@ -74,11 +65,7 @@ export default function MapChart({
                     ? visited[geo.properties.name.replace(" ", "")].fillColor
                     : "#eaeaec"
                 }
-                stroke={
-                  visited[geo.properties.name.replace(" ", "")]
-                    ? visited[geo.properties.name.replace(" ", "")].borderColor
-                    : "#b7b7b9"
-                }
+                stroke={"#b7b7b9"}
                 style={{
                   default: { outline: "none" },
                   hover: { outline: "none" },
@@ -94,7 +81,7 @@ export default function MapChart({
             city={city}
             hoveredCity={hoveredCity}
             setHoveredCity={setHoveredCity}
-            currentZoom={currentZoom}
+            showNames={showNames}
             isDarkMode={isDarkMode}
           />
         ))}
