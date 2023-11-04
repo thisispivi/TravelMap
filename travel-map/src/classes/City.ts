@@ -6,8 +6,7 @@ interface CityInterface {
   country: Country;
   population: number;
   coordinates: [number, number];
-  startDate: Date;
-  endDate: Date;
+  travels: [Date, Date][];
 }
 
 export class City implements CityInterface {
@@ -15,23 +14,20 @@ export class City implements CityInterface {
   country: Country;
   population: number;
   coordinates: [number, number];
-  startDate: Date;
-  endDate: Date;
+  travels: [Date, Date][];
 
   constructor(
     name: string,
     country: Country,
     population: number,
     coordinates: [number, number],
-    startDate: Date,
-    endDate: Date
+    travels: [Date, Date][]
   ) {
     this.name = name;
     this.country = country;
     this.population = population;
     this.coordinates = coordinates;
-    this.startDate = startDate;
-    this.endDate = endDate;
+    this.travels = travels;
   }
 
   getCountryName(t: i18n["t"]) {

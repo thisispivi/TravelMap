@@ -54,7 +54,7 @@ export const LanguageDropdown = ({
   return (
     <>
       {showDropdown && (
-        <Backdrop onClick={() => setShowDropdown(false)} visible={false} />
+        <Backdrop onClick={() => setShowDropdown(false)} isVisible={false} />
       )}
       <div
         className={`dropdown-wrapper ${className}`}

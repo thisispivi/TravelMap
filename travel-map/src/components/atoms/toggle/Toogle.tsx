@@ -20,11 +20,10 @@ export function DarkModeToggle({
     },
     undefined
   );
+
   const value = useMemo(() => {
     const localValue = localStorage.getItem("darkMode");
-    if (localValue) {
-      return localValue === "true";
-    }
+    if (localValue) return localValue === "true";
     return systemPrefersDark;
   }, [systemPrefersDark]);
 
@@ -40,9 +39,10 @@ export function DarkModeToggle({
     }
   }, [isDark, setDarkMode]);
 
-  useEffect(() => {
-    localStorage.setItem("darkMode", isDark.toString());
-  }, [isDark]);
+  useEffect(
+    () => localStorage.setItem("darkMode", isDark.toString()),
+    [isDark]
+  );
 
   return (
     <Toggle

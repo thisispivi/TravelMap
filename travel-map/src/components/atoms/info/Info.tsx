@@ -24,7 +24,7 @@ export function Info({
   const handleToggle = () => setIsOpened();
   return (
     <>
-      {isOpened > 0 && <Backdrop onClick={handleToggle} visible={false} />}
+      {isOpened > 0 && <Backdrop onClick={handleToggle} isVisible={false} />}
       <div className={`info ${className} ${isOpened > 0 ? "info-active" : ""}`}>
         <div className="title">
           <InfoIcon onClick={handleToggle} className="info-icon" />

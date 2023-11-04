@@ -1,0 +1,14 @@
+.marker-icon {
+  g {
+    transition: all 0.1s ease-in-out;
+    .marker-circle {
+      stroke: #ffffff;
+      stroke-width: 6;
+    }
+    .marker-component {
+      fill: #e74c3c;
+      stroke: #c0392b;
+      stroke-width: 1;
+    }
+  }
+}

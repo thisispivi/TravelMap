@@ -12,7 +12,7 @@ import { useCitiesSelectors } from "./hooks/cities";
 const urlPrefix = process.env.REACT_APP_BASE_URL || "";
 
 export default function HomePage() {
-  const { t, currentLanguage, changeLanguage } = useLanguage(["home"]);
+  const { currentLanguage, changeLanguage } = useLanguage(["home"]);
   const [isDarkMode, setIsDarkMode] = useState(true);
 
   const {
@@ -49,7 +49,6 @@ export default function HomePage() {
               onClick={openBox}
               onMouseEnter={() => handleMouseEnter(city)}
               onMouseLeave={() => handleMouseLeave()}
-              t={t}
             />
           )
       )}
@@ -60,12 +59,7 @@ export default function HomePage() {
           overflow="hidden"
           className={currentImage !== undefined ? "show-single" : "show-all"}
         >
-          <div
-            className="single-container"
-            style={{
-              overflow: "hidden",
-            }}
-          >
+          <div className="single-container" style={{ overflow: "hidden" }}>
             <CustomImageGallery
               currentCity={currentCity}
               currentImage={currentImage}

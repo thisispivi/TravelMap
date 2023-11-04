@@ -4,18 +4,17 @@ import { ReactComponent as DepartureIcon } from "../../../icons/Departure.svg";
 import { ReactComponent as ArrivalIcon } from "../../../icons/Arrival.svg";
 import { ReactComponent as PeopleIcon } from "../../../icons/People.svg";
 import { TextButton } from "../../atoms";
-import { i18n } from "i18next";
 import { CountryFlag } from "../../atoms";
 import { Column, Row } from "../../molecules";
 import "./Tooltip.scss";
 import { showDate } from "../../../utils/date";
+import { useLanguage } from "../../../hooks/language";
 
 interface TooltipProps {
   city: City;
   onClick?: (city: City) => void;
   onMouseEnter?: (city: City) => void;
   onMouseLeave?: () => void;
-  t: i18n["t"];
 }
 
 export function Tooltip({
@@ -23,8 +22,8 @@ export function Tooltip({
   onClick,
   onMouseEnter,
   onMouseLeave,
-  t,
 }: TooltipProps) {
+  const { t } = useLanguage(["home"]);
   return (
     <div
       onMouseEnter={() => onMouseEnter && onMouseEnter(city)}
@@ -43,11 +42,11 @@ export function Tooltip({
           </Row>
           <Row>
             <DepartureIcon className="icon" />
-            <p>{showDate(city.startDate, t, "short")}</p>
+            <p>{showDate(city.travels[0][0], t, "short")}</p>
           </Row>
           <Row>
             <ArrivalIcon className="icon" />
-            <p>{showDate(city.endDate, t, "short")}</p>
+            <p>{showDate(city.travels[0][1], t, "short")}</p>
           </Row>
         </Column>
         <TextButton
