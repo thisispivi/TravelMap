@@ -6,7 +6,7 @@ import {
 } from "react-simple-maps";
 import { Country } from "../../../classes/Country";
 import { City } from "../../../classes/City";
-import { Marker } from "../../atoms";
+import { Marker } from "../../molecules";
 import "./Map.scss";
 import { useEffect, useState } from "react";
 
@@ -34,19 +34,18 @@ export default function MapChart({
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const [showNames, setShowNames] = useState(false);
+  const [scaleFactor, setScaleFactor] = useState(
+    window.innerWidth > 1000 ? 4 : 5
+  );
 
   return (
     <ComposableMap className="map" projection={"geoMercator"}>
       <ZoomableGroup
-        maxZoom={30}
+        maxZoom={100}
         minZoom={1}
         zoom={window.innerWidth > 1000 ? 4 : 5}
         center={[7, 49]}
-        onMoveEnd={({ zoom }) => {
-          if (zoom > 10 && !showNames) setShowNames(true);
-          if (zoom <= 10 && showNames) setShowNames(false);
-        }}
+        onMove={({ zoom }) => setScaleFactor(zoom)}
       >
         <Geographies geography={geoUrl} style={{ pointerEvents: "none" }}>
           {({ geographies }) =>
@@ -65,7 +64,11 @@ export default function MapChart({
                     ? visited[geo.properties.name.replace(" ", "")].fillColor
                     : "#eaeaec"
                 }
-                stroke={"#b7b7b9"}
+                stroke={
+                  visited[geo.properties.name.replace(" ", "")]
+                    ? visited[geo.properties.name.replace(" ", "")].borderColor
+                    : "#b7b7b9"
+                }
                 style={{
                   default: { outline: "none" },
                   hover: { outline: "none" },
@@ -81,7 +84,7 @@ export default function MapChart({
             city={city}
             hoveredCity={hoveredCity}
             setHoveredCity={setHoveredCity}
-            showNames={showNames}
+            scaleFactor={scaleFactor}
             isDarkMode={isDarkMode}
           />
         ))}

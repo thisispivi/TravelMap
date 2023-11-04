@@ -1,14 +1,14 @@
 import { City } from "../../../classes/City";
 import { Marker as MarkerMap } from "react-simple-maps";
-import MarkerIcon from "../../../icons/Marker";
 import "./Marker.scss";
 import { useTranslation } from "react-i18next";
+import { MarkerIcon } from "../../atoms";
 
 interface MarkerProps {
   city: City;
   hoveredCity?: City;
   setHoveredCity: (city: City | undefined) => void;
-  showNames?: boolean;
+  scaleFactor?: number;
   isDarkMode?: boolean;
 }
 
@@ -16,7 +16,7 @@ export function Marker({
   city,
   hoveredCity,
   setHoveredCity,
-  showNames = false,
+  scaleFactor = 1,
   isDarkMode = false,
 }: MarkerProps) {
   const { t } = useTranslation(["home"]);
@@ -56,12 +56,15 @@ export function Marker({
         pressed: { outline: "none" },
       }}
     >
-      <MarkerIcon active={hoveredCity?.name === city.name} />
-      {showNames && (
+      <MarkerIcon
+        active={hoveredCity?.name === city.name}
+        scaleFactor={scaleFactor}
+      />
+      {scaleFactor > 10 && (
         <text
           textAnchor="middle"
           style={{
-            fontSize: "0.1rem",
+            fontSize: `${1 / scaleFactor}rem`,
             fontWeight: "600",
             width: "1rem",
             filter: `drop-shadow(0 0 0.12px rgb(${

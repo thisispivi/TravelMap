@@ -1,10 +1,5 @@
 import { i18n } from "i18next";
-
-export interface Color {
-  h: number;
-  s: number;
-  l: number;
-}
+import { Color, ColorData } from "./Color";
 
 export interface CountryData {
   id: string;
@@ -17,10 +12,10 @@ export class Country {
   borderColor: string;
   fillColor: string;
 
-  constructor(id: string, color: Color) {
+  constructor(id: string, color: ColorData) {
     this.id = id;
-    this.borderColor = `hsl(${color.h}, ${color.s}%, ${color.l - 10}%)`;
-    this.fillColor = `hsl(${color.h}, ${color.s}%, ${color.l}%)`;
+    this.borderColor = new Color(color).toHSL();
+    this.fillColor = new Color(color).toHSLA(0.5);
   }
 
   getName(t: i18n["t"]) {

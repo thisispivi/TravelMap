@@ -7,10 +7,10 @@ import {
   CloseButton,
   TextBackButton,
 } from "./button/Button";
-import { Marker } from "./marker/Marker";
 import { Logo } from "./logo/Logo";
 import { LanguageDropdown } from "./language/Language";
 import { DarkModeToggle } from "./toggle/Toogle";
+import MarkerIcon from "./markerIcon/MarkerIcon";
 
 export {
   Backdrop,
@@ -20,8 +20,8 @@ export {
   BackButton,
   CloseButton,
   TextBackButton,
-  Marker,
   Logo,
   LanguageDropdown,
   DarkModeToggle,
+  MarkerIcon,
 };

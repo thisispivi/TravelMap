@@ -25,13 +25,12 @@ export function Footer({
   const handleToggle = () => {
     if (isOpened === 0) {
       setIsOpened(1);
-      setTimeout(() => {
-        setIsOpened(2);
-      }, 400);
+      setTimeout(() => setIsOpened(2), 400);
     } else {
       setIsOpened(0);
     }
   };
+
   return (
     <div
       className={`footer ${className} ${active ? "footer-active" : ""} ${
