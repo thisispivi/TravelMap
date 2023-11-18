@@ -34,16 +34,14 @@ export default function MapChart({
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const [scaleFactor, setScaleFactor] = useState(
-    window.innerWidth > 1000 ? 4 : 5
-  );
+  const [scaleFactor, setScaleFactor] = useState(10);
 
   return (
     <ComposableMap className="map" projection={"geoMercator"}>
       <ZoomableGroup
         maxZoom={100}
         minZoom={1}
-        zoom={window.innerWidth > 1000 ? 4 : 5}
+        zoom={10}
         center={[7, 49]}
         onMove={({ zoom }) => setScaleFactor(zoom)}
       >

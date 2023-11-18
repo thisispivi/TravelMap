@@ -11,6 +11,7 @@ import { Logo } from "./logo/Logo";
 import { LanguageDropdown } from "./language/Language";
 import { DarkModeToggle } from "./toggle/Toogle";
 import MarkerIcon from "./markerIcon/MarkerIcon";
+import { MarkerText } from "./markerText/MarkerText";
 
 export {
   Backdrop,
@@ -24,4 +25,5 @@ export {
   LanguageDropdown,
   DarkModeToggle,
   MarkerIcon,
+  MarkerText,
 };
