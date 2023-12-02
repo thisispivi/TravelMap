@@ -4,7 +4,7 @@ import { Backdrop, CountryFlag } from "../../atoms";
 
 import "./Box.scss";
 import { Row } from "../../molecules";
-import { City } from "../../../classes/City";
+import { City } from "../../../core/classes/City";
 
 interface BoxProps extends PropsWithChildren {
   city: City;

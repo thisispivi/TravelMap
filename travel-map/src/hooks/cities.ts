@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { City } from "../classes/City";
+import { City } from "../core/classes/City";
 
 export const useCitiesSelectors = () => {
   // States

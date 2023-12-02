@@ -1,7 +1,6 @@
 import React, { useCallback } from "react";
 import ImageGallery, { ReactImageGalleryItem } from "react-image-gallery";
-import { getCityPhotos } from "../../../utils/photos";
-import { City } from "../../../classes/City";
+import { City } from "../../../core/classes/City";
 import { TextBackButton } from "../../atoms";
 import "./ImageGallery.scss";
 
@@ -18,9 +17,8 @@ export function CustomImageGallery({
   currentImage,
   setCurrentImage,
   onBackClick,
-  baseUrl = "",
 }: CustomImageGalleryProps) {
-  const items = getCityPhotos(currentCity?.name || "");
+  const items: any = [];
 
   type ItemType = ReactImageGalleryItem & {
     video?: boolean;
@@ -52,7 +50,7 @@ export function CustomImageGallery({
             id={item.original}
             key={item.original}
           >
-            <source src={baseUrl + item.original} type="video/mp4" />
+            <source src={item.original} type="video/mp4" />
           </video>
         );
       } else if (item.youtube) {
@@ -68,11 +66,7 @@ export function CustomImageGallery({
         );
       } else {
         return (
-          <img
-            className="image-gallery-image"
-            src={baseUrl + item.original}
-            alt=""
-          />
+          <img className="image-gallery-image" src={item.original} alt="" />
         );
       }
     };
