@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { City } from "../../../classes/City";
+import { City } from "../../../core/classes/City";
 
 export interface MarkerTextProps {
   city: City;

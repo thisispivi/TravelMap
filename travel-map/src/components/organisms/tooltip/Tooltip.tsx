@@ -1,4 +1,4 @@
-import { City } from "../../../classes/City";
+import { City } from "../../../core/classes/City";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import { ReactComponent as DepartureIcon } from "../../../icons/Departure.svg";
 import { ReactComponent as ArrivalIcon } from "../../../icons/Arrival.svg";
@@ -7,7 +7,6 @@ import { TextButton } from "../../atoms";
 import { CountryFlag } from "../../atoms";
 import { Column, Row } from "../../molecules";
 import "./Tooltip.scss";
-import { showDate } from "../../../utils/date";
 import { useLanguage } from "../../../hooks/language";
 
 interface TooltipProps {
@@ -36,6 +35,7 @@ export function Tooltip({
           <CountryFlag id={city.country.id} />
         </Row>
         <Column>
+          {/*
           <Row>
             <PeopleIcon className="icon" />
             <p>{city.population.toLocaleString()}</p>
@@ -47,7 +47,7 @@ export function Tooltip({
           <Row>
             <ArrivalIcon className="icon" />
             <p>{showDate(city.travels[0][1], t, "short")}</p>
-          </Row>
+          </Row> */}
         </Column>
         <TextButton
           text={t("gallery-open")}

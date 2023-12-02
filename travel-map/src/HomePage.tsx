@@ -1,13 +1,12 @@
 import { useState } from "react";
 import Gallery from "react-photo-album";
-import { orderedCities, visited } from "./utils/data";
-import { getCityPhotos } from "./utils/photos";
 import { Navbar, Tooltip } from "./components/organisms";
 import { CustomImageGallery } from "./components/organisms";
 import { Box, Footer } from "./components/organisms";
-import { MapChart } from "./components/organisms";
 import { useLanguage } from "./hooks/language";
 import { useCitiesSelectors } from "./hooks/cities";
+import { cities, visited } from "./data";
+import { Image } from "./core/typings/Image";
 
 const urlPrefix = process.env.REACT_APP_BASE_URL || "";
 
@@ -32,15 +31,15 @@ export default function HomePage() {
   return (
     <div className="container">
       <Navbar isDarkMode={isDarkMode} active={currentCity === undefined} />
-      <MapChart
+      {/* <MapChart
         visited={visited}
-        markers={orderedCities}
+        markers={cities}
         hoveredCity={hoveredCity}
         setHoveredCity={setHoveredCity}
         geoUrl={`https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json`}
         isDarkMode={isDarkMode}
-      />
-      {orderedCities.map(
+      /> */}
+      {/* {cities.map(
         (city) =>
           !currentCity && (
             <Tooltip
@@ -51,7 +50,7 @@ export default function HomePage() {
               onMouseLeave={() => handleMouseLeave()}
             />
           )
-      )}
+      )} */}
       {currentCity && (
         <Box
           city={currentCity}
@@ -75,15 +74,17 @@ export default function HomePage() {
               overflowY: currentImage !== undefined ? "hidden" : "scroll",
             }}
           >
-            <Gallery
-              photos={getCityPhotos(currentCity?.name || "").map((photo) => ({
-                src: `${urlPrefix}${photo.thumbnail}`,
-                width: photo.width,
-                height: photo.height,
-              }))}
+            {/* <Gallery
+              photos={getCityPhotos(currentCity?.name || "").map(
+                (photo: Image) => ({
+                  src: `${photo.thumbnail}`,
+                  width: photo.width,
+                  height: photo.height,
+                })
+              )}
               onClick={openLightbox}
               layout="rows"
-            />
+            /> */}
           </div>
         </Box>
       )}
