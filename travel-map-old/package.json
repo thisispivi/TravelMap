@@ -1,0 +1,80 @@
+{
+  "name": "travel-map",
+  "version": "0.1.1",
+  "homepage": "https://thisispivi.github.io/TravelMap",
+  "private": true,
+  "dependencies": {
+    "@testing-library/jest-dom": "^6.1.4",
+    "@testing-library/react": "^14.0.0",
+    "@testing-library/user-event": "^14.5.1",
+    "@types/jest": "^29.5.6",
+    "@types/node": "^20.8.7",
+    "@types/react-dom": "^18.2.14",
+    "@types/react-responsive": "^8.0.7",
+    "husky": "^8.0.3",
+    "i18next": "^23.6.0",
+    "i18next-browser-languagedetector": "^7.1.0",
+    "lightgallery": "^2.7.2",
+    "prettier": "^3.0.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-i18next": "^13.3.1",
+    "react-image-gallery": "^1.3.0",
+    "react-photo-album": "^2.3.0",
+    "react-responsive": "^9.0.2",
+    "react-scripts": "^5.0.1",
+    "react-toggle": "^4.1.3",
+    "react-tooltip": "^5.21.5",
+    "sass": "^1.69.4",
+    "typescript": "^3.0.0",
+    "web-vitals": "^3.5.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "deploy": "npx gh-pages -d build",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "prepare": "cd .. & husky install",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "format": "prettier . --write"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@types/react": "^18.2.31",
+    "@types/react-image-gallery": "^1.2.2",
+    "@types/react-toggle": "^4.0.4",
+    "eslint": "^8.52.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-config-standard-with-typescript": "^38.0.0",
+    "eslint-plugin-import": "^2.28.1",
+    "eslint-plugin-n": "^16.0.2",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.3",
+    "gh-pages": "^6.0.0"
+  },
+  "lint-staged": {
+    "*.js": "eslint --fix ",
+    "*.{js,css,md,html,json}": "prettier --cache --write"
+  }
+}
