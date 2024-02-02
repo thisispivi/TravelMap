@@ -1,13 +1,10 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import "./styles/global.scss";
-import "./styles/typography.scss";
-import "./styles/animations.scss";
-import "./styles/scrollbar.scss";
-import { Home } from "./components/pages";
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App.tsx'
+import './index.css'
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
+ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <Home />
-  </React.StrictMode>
-);
+    <App />
+  </React.StrictMode>,
+)
