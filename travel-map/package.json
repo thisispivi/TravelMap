@@ -8,7 +8,7 @@
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "prepare": "cd .. & husky install",
+    "prepare": "cd .. & husky",
     "format": "prettier . --write"
   },
   "dependencies": {
@@ -25,6 +25,7 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
+    "husky": "^9.0.10",
     "prettier": "3.2.4",
     "typescript": "^5.2.2",
     "vite": "^5.0.8"
