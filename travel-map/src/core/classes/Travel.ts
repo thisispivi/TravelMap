@@ -20,17 +20,17 @@ export class Travel implements TravelInterface {
 
   showSDate(t: i18n["t"], length: "short" | "long") {
     return `${t(
-      "weekdays." + this.sDate.getDay() + "." + length
+      "weekdays." + this.sDate.getDay() + "." + length,
     )} ${this.sDate.getDate()} ${t(
-      "months." + this.sDate.getMonth() + "." + length
+      "months." + this.sDate.getMonth() + "." + length,
     )} ${this.sDate.getFullYear()}  `;
   }
 
   showEDate(t: i18n["t"], length: "short" | "long") {
     return `${t(
-      "weekdays." + this.eDate.getDay() + "." + length
+      "weekdays." + this.eDate.getDay() + "." + length,
     )} ${this.eDate.getDate()} ${t(
-      "months." + this.eDate.getMonth() + "." + length
+      "months." + this.eDate.getMonth() + "." + length,
     )} ${this.eDate.getFullYear()}  `;
   }
 }
