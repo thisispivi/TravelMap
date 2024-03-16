@@ -9,7 +9,7 @@ import * as THREE from "three";
  * @returns {WorldFeatureCollection} - The converted data
  */
 export function convertTopoJsonToWorldFeaturesCollection(
-  data: WorldTopoJson
+  data: WorldTopoJson,
 ): WorldFeatureCollection {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
@@ -24,7 +24,7 @@ export function convertTopoJsonToWorldFeaturesCollection(
  */
 export function getFirstPoint(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  g: any
+  g: any,
 ): {
   firstX: number | null;
   firstY: number | null;
@@ -43,7 +43,7 @@ export function getFirstPoint(
  */
 export function moveToPoint(
   shape: THREE.Shape,
-  p: (number | number[] | null)[] | null
+  p: (number | number[] | null)[] | null,
 ) {
   const { firstX, firstY } = getFirstPoint(p);
   if (!firstX || !firstY) return;
