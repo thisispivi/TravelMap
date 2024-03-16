@@ -55,3 +55,8 @@ export function drawShapeLine(shape: THREE.Shape, p: any) {
   const point = new THREE.Vector2(p[0] as number, p[1] as number);
   shape.lineTo(point.x, point.y);
 }
+
+// export function drawLine(line: THREE.Line, p: any) {
+//   if (!p || !(p instanceof Array)) return;
+//   const point = new THREE.Vector2(p[0] as number, p[1] as number);
+// }
