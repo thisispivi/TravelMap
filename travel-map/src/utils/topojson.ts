@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { WorldFeatureCollection } from "../typings/feature";
 import { WorldTopoJson } from "../typings/topojson";
 import * as topojson from "topojson-client";
@@ -9,7 +10,7 @@ import * as THREE from "three";
  * @returns {WorldFeatureCollection} - The converted data
  */
 export function convertTopoJsonToWorldFeaturesCollection(
-  data: WorldTopoJson,
+  data: WorldTopoJson
 ): WorldFeatureCollection {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
@@ -22,10 +23,7 @@ export function convertTopoJsonToWorldFeaturesCollection(
  * @param {Geometry} g - The geometry
  * @returns {{firstX: number | null; firstY: number | null}} - The first point
  */
-export function getFirstPoint(
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  g: any,
-): {
+export function getFirstPoint(g: any): {
   firstX: number | null;
   firstY: number | null;
 } {
@@ -39,12 +37,9 @@ export function getFirstPoint(
 /**
  * Move to a point
  * @param {THREE.Shape} shape - The shape
- * @param {(number | number[] | null)[]} p - The point
+ * @param {any} p - The point
  */
-export function moveToPoint(
-  shape: THREE.Shape,
-  p: (number | number[] | null)[] | null,
-) {
+export function moveToPoint(shape: THREE.Shape, p: any) {
   const { firstX, firstY } = getFirstPoint(p);
   if (!firstX || !firstY) return;
   shape.moveTo(firstX as number, firstY as number);
@@ -53,9 +48,9 @@ export function moveToPoint(
 /**
  * Draw a shape line
  * @param {THREE.Shape} shape - The shape
- * @param {number | number[] | null} p - The point
+ * @param {any} p - The point
  */
-export function drawShapeLine(shape: THREE.Shape, p: number | number[] | null) {
+export function drawShapeLine(shape: THREE.Shape, p: any) {
   if (!p || !(p instanceof Array)) return;
   const point = new THREE.Vector2(p[0] as number, p[1] as number);
   shape.lineTo(point.x, point.y);
