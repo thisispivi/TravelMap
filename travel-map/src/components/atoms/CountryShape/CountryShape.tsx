@@ -1,5 +1,6 @@
 import { Geometry } from "../../../typings/feature";
 import * as THREE from "three";
+import { drawShapeLine, moveToPoint } from "../../../utils/topojson";
 
 interface CountryShapeProps {
   geoCoords: Geometry;
@@ -16,20 +17,11 @@ export default function CountryShape({
   }
 
   const shape = new THREE.Shape();
-  const coordinates = geoCoords.coordinates;
-  const firstPoint = coordinates?.[0]?.[0];
-  const firstX = firstPoint?.[0];
-  const firstY = firstPoint?.[1];
-  if (!firstX || !firstY) return <></>;
-  shape.moveTo(firstX as number, firstY as number);
+  moveToPoint(shape, geoCoords.coordinates?.[0]);
 
-  coordinates?.forEach((g) => {
+  geoCoords.coordinates?.forEach((g) => {
     if (!g) return;
-    g.forEach((p) => {
-      if (!p || p.length < 2 || !p[0] || !p[1]) return;
-      const point = new THREE.Vector2(p[0] as number, p[1] as number);
-      shape.lineTo(point.x, point.y);
-    });
+    g.forEach((p) => drawShapeLine(shape, p));
   });
 
   return (
