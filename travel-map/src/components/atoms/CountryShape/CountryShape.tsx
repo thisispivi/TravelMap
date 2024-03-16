@@ -11,11 +11,6 @@ export default function CountryShape({
   geoCoords,
   shapeColor,
 }: CountryShapeProps): JSX.Element {
-  if (geoCoords.type === "MultiPolygon") {
-    console.log("multi polygon", geoCoords.type, geoCoords.coordinates);
-    return <></>;
-  }
-
   const shape = new THREE.Shape();
   moveToPoint(shape, geoCoords.coordinates?.[0]);
 
