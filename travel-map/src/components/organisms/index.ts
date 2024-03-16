@@ -1,3 +1,3 @@
-import Viewport from "./Viewport/Viewport";
+import Map from "./Map/Map";
 
-export { Viewport };
+export { Map };

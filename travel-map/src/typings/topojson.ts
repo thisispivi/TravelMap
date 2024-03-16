@@ -1,48 +1,36 @@
-export interface WorldData {
+export interface WorldTopoJson {
   type: string;
   objects: Objects;
-  arcs: Array<Array<number[]>>;
-  bbox: number[];
+  arcs?: ((number[] | null)[] | null)[] | null;
+  bbox?: number[] | null;
   transform: Transform;
 }
-
 export interface Objects {
   countries: Countries;
   land: Land;
 }
-
 export interface Countries {
   type: string;
-  geometries: CountriesGeometry[];
+  geometries?: GeometriesEntity[] | null;
 }
-
-export interface CountriesGeometry {
-  type: Type;
-  arcs: Array<Array<number[] | number>>;
-  id?: string;
+export interface GeometriesEntity {
+  type: string;
+  arcs?: ((number | number[] | null)[] | null)[] | null;
+  id?: string | null;
   properties: Properties;
 }
-
 export interface Properties {
   name: string;
 }
-
-export enum Type {
-  MultiPolygon = "MultiPolygon",
-  Polygon = "Polygon",
-}
-
 export interface Land {
   type: string;
-  geometries: LandGeometry[];
+  geometries?: GeometriesEntity1[] | null;
 }
-
-export interface LandGeometry {
-  type: Type;
-  arcs: Array<Array<number[]>>;
+export interface GeometriesEntity1 {
+  type: string;
+  arcs?: ((number[] | null)[] | null)[] | null;
 }
-
 export interface Transform {
-  scale: number[];
-  translate: number[];
+  scale?: number[] | null;
+  translate?: number[] | null;
 }
