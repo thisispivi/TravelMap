@@ -1,3 +1,4 @@
-import Countries from "./Countries/Countries";
+import CountryShape from "./CountryShape/CountryShape";
+import CountryShapeMulti from "./CountryShape/CountryShapeMulti";
 
-export default Countries;
+export { CountryShape, CountryShapeMulti };

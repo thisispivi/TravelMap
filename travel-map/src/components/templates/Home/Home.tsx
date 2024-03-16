@@ -1,37 +1,14 @@
-import { Stage } from "@pixi/react";
-import useResize from "../../../hooks/viewport";
-import { Viewport } from "../../organisms";
-import Countries from "../../atoms";
+import { WorldFeatureCollection } from "../../../typings/feature";
+import { Map } from "../../organisms";
 
 interface HomeTemplateProps {
-  countries: {
-    type: string;
-    features: {
-      geometry: {
-        type: string;
-        coordinates: number[][];
-      };
-    }[];
-  };
+  countriesFeatures: WorldFeatureCollection;
 }
 
-export default function HomeTemplate({ countries }: HomeTemplateProps) {
-  const size = useResize();
-
+export default function HomeTemplate({ countriesFeatures }: HomeTemplateProps) {
   return (
     <div className="home-template">
-      <Stage
-        width={size[0]}
-        height={size[1]}
-        options={{
-          antialias: true,
-          resolution: 1,
-        }}
-      >
-        <Viewport width={1000} height={600}>
-          <Countries data={countries} />
-        </Viewport>
-      </Stage>
+      <Map data={countriesFeatures} />
     </div>
   );
 }
