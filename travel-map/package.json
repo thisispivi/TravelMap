@@ -14,17 +14,20 @@
   "dependencies": {
     "@react-three/drei": "^9.102.5",
     "@react-three/fiber": "^8.15.16",
+    "@types/react-transition-group": "^4.4.10",
     "d3": "^7.8.5",
     "i18next": "^23.8.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-i18next": "^14.0.1",
+    "react-transition-group": "^4.4.5",
     "sass": "^1.70.0",
     "three": "^0.161.0",
     "topojson-client": "^3.1.0",
     "vite-plugin-svgr": "^4.2.0"
   },
   "devDependencies": {
+    "@rollup/plugin-node-resolve": "^15.2.3",
     "@types/d3": "^7.4.3",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
@@ -33,17 +36,16 @@
     "@typescript-eslint/eslint-plugin": "^6.14.0",
     "@typescript-eslint/parser": "^6.14.0",
     "@vitejs/plugin-react-swc": "^3.5.0",
+    "autoprefixer": "^10.4.18",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
     "husky": "^9.0.10",
+    "postcss": "^8.4.35",
     "prettier": "3.2.4",
     "typescript": "^5.2.2",
-    "vite": "^5.0.8",
-    "@rollup/plugin-node-resolve": "^15.2.3",
-    "autoprefixer": "^10.4.18",
-    "postcss": "^8.4.35"
+    "vite": "^5.0.8"
   },
   "lint-staged": {
     "*.js": "npm run lint",

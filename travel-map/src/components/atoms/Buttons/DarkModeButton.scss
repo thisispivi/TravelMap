@@ -1,0 +1,59 @@
+@use "../../../styles/variables" as v;
+
+.dark-mode-button {
+  width: auto;
+  height: auto;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  border: 0;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+
+  svg {
+    width: 60%;
+  }
+
+  .dark-mode-button__icon-enter {
+    scale: 0.2;
+  }
+  .dark-mode-button__icon-enter-active {
+    scale: 1;
+    transition: scale 300ms ease-in-out;
+  }
+  .dark-mode-button__icon-exit {
+    scale: 0.2;
+  }
+  .dark-mode-button__icon-exit-active {
+    scale: 1;
+    transition: scale 300ms ease-in-out;
+  }
+}
+
+.home--light {
+  .dark-mode-button {
+    background-color: v.$lightButton;
+    color: v.$lightButtonContent;
+    &:hover {
+      background-color: v.$lightButtonHover;
+    }
+    svg * {
+      fill: v.$lightButtonContent;
+    }
+  }
+}
+
+.home--dark {
+  .dark-mode-button {
+    background-color: v.$darkButton;
+    color: v.$darkButtonContent;
+    &:hover {
+      background-color: v.$darkButtonHover;
+    }
+    svg * {
+      fill: v.$darkButtonContent;
+    }
+  }
+}
