@@ -21,7 +21,8 @@
     "react-i18next": "^14.0.1",
     "sass": "^1.70.0",
     "three": "^0.161.0",
-    "topojson-client": "^3.1.0"
+    "topojson-client": "^3.1.0",
+    "vite-plugin-svgr": "^4.2.0"
   },
   "devDependencies": {
     "@types/d3": "^7.4.3",
@@ -39,10 +40,26 @@
     "husky": "^9.0.10",
     "prettier": "3.2.4",
     "typescript": "^5.2.2",
-    "vite": "^5.0.8"
+    "vite": "^5.0.8",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "autoprefixer": "^10.4.18",
+    "postcss": "^8.4.35"
   },
   "lint-staged": {
     "*.js": "npm run lint",
     "*.{js,css,md,html,json}": "npm run format"
+  },
+  "browserslist": {
+    "production": [
+      ">0.01%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      ">0.01%",
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
