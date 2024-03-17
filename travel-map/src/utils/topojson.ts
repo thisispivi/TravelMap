@@ -10,7 +10,7 @@ import * as THREE from "three";
  * @returns {WorldFeatureCollection} - The converted data
  */
 export function convertTopoJsonToWorldFeaturesCollection(
-  data: WorldTopoJson
+  data: WorldTopoJson,
 ): WorldFeatureCollection {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore

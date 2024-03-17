@@ -4,24 +4,30 @@ import { WorldFeatureCollection } from "../../../typings/feature";
 import { Country } from "../../molecules";
 import { OrbitControls } from "@react-three/drei";
 import { MOUSE, TOUCH } from "three";
+import useThemeDetector from "../../../hooks/style/theme";
 
 export interface MapProps {
   data: WorldFeatureCollection;
 }
 
 export default function Map({ data }: MapProps): JSX.Element {
+  const isDarkTheme = useThemeDetector();
   const mapRef = useRef<HTMLDivElement>(null);
 
-  const x = 10;
-  const y = 43;
+  const x = 6;
+  const y = 46;
   const z = 30;
 
   const countries = useMemo(
     () =>
       data.features?.map((feature) => (
-        <Country key={feature.id} country={feature} />
+        <Country
+          key={feature.id}
+          country={feature}
+          shapeColor={isDarkTheme ? "#2c2c2c" : "#ffffff"}
+        />
       )),
-    [data.features]
+    [data.features, isDarkTheme]
   ) as JSX.Element[];
 
   const cameraControls = (
@@ -48,19 +54,22 @@ export default function Map({ data }: MapProps): JSX.Element {
       className="map"
       ref={mapRef}
       style={{
-        height: "100dvh",
-        width: "100dvw",
+        width: window.innerWidth,
+        height: window.innerHeight,
       }}
     >
       <Canvas
         camera={{
           position: [x, y, z],
-          fov: 75,
+          scale: [1, 0.8, 1],
+        }}
+        style={{
+          backgroundColor: isDarkTheme ? "#121212" : "#ffffff",
         }}
       >
         {cameraControls}
-        <ambientLight intensity={0.1} />
-        <directionalLight position={[0, 10, 5]} />
+        <ambientLight intensity={2000} color={"#ffffff"} />
+        <directionalLight position={[x, y, z]} />
         <mesh>{countries}</mesh>
       </Canvas>
     </div>

@@ -21,12 +21,13 @@ export default function CountryShape({
 
   return (
     <mesh>
-      <shapeGeometry attach="geometry" args={[shape]} />
       <meshBasicMaterial
         attach="material"
         color={shapeColor}
         side={THREE.DoubleSide}
+        opacity={1}
       />
+      <shapeGeometry attach="geometry" args={[shape]} />
     </mesh>
   );
 }
