@@ -27,7 +27,7 @@ export default function Map({ data }: MapProps): JSX.Element {
           shapeColor={isDarkTheme ? "#2c2c2c" : "#ffffff"}
         />
       )),
-    [data.features, isDarkTheme]
+    [data.features, isDarkTheme],
   ) as JSX.Element[];
 
   const cameraControls = (
