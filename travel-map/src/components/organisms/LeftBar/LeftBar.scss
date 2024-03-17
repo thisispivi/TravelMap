@@ -1,0 +1,23 @@
+.left-bar {
+  height: 100%;
+  width: 5rem;
+  position: fixed;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.home--light {
+  .left-bar {
+    background-color: #ffffff;
+    color: #242526;
+  }
+}
+
+.home--dark {
+  .left-bar {
+    background-color: #242526;
+    color: #ffffff;
+  }
+}
