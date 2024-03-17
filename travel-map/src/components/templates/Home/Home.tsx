@@ -1,5 +1,5 @@
 import { WorldFeatureCollection } from "../../../typings/feature";
-import { Map } from "../../organisms";
+import { LeftBar, Map } from "../../organisms";
 
 interface HomeTemplateProps {
   countriesFeatures: WorldFeatureCollection;
@@ -8,6 +8,7 @@ interface HomeTemplateProps {
 export default function HomeTemplate({ countriesFeatures }: HomeTemplateProps) {
   return (
     <div className="home-template">
+      <LeftBar />
       <Map data={countriesFeatures} />
     </div>
   );

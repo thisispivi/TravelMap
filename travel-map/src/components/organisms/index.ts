@@ -1,3 +1,4 @@
+import LeftBar from "./LeftBar/LeftBar";
 import Map from "./Map/Map";
 
-export { Map };
+export { LeftBar, Map };
