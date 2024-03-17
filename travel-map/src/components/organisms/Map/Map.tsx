@@ -1,17 +1,18 @@
-import { useMemo, useRef } from "react";
+import { useContext, useMemo, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
 import { WorldFeatureCollection } from "../../../typings/feature";
 import { Country } from "../../molecules";
 import { OrbitControls } from "@react-three/drei";
 import { MOUSE, TOUCH } from "three";
-import useThemeDetector from "../../../hooks/style/theme";
+import { HomeContext } from "../../pages/Home/Home";
 
 export interface MapProps {
   data: WorldFeatureCollection;
 }
 
 export default function Map({ data }: MapProps): JSX.Element {
-  const isDarkTheme = useThemeDetector();
+  const context = useContext(HomeContext);
+  const { isDarkTheme } = context!;
   const mapRef = useRef<HTMLDivElement>(null);
 
   const x = 6;
@@ -27,7 +28,7 @@ export default function Map({ data }: MapProps): JSX.Element {
           shapeColor={isDarkTheme ? "#2c2c2c" : "#ffffff"}
         />
       )),
-    [data.features, isDarkTheme],
+    [data.features, isDarkTheme]
   ) as JSX.Element[];
 
   const cameraControls = (
@@ -65,6 +66,7 @@ export default function Map({ data }: MapProps): JSX.Element {
         }}
         style={{
           backgroundColor: isDarkTheme ? "#121212" : "#ffffff",
+          transition: "background-color 0.3s ease-in-out",
         }}
       >
         {cameraControls}
