@@ -1,13 +1,16 @@
+@use "../../../styles/variables" as v;
+
 .left-bar {
   height: 100%;
   width: 5rem;
   position: fixed;
-  z-index: 1;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   padding: 1rem;
   align-items: center;
   transition: background-color 0.3s ease-in-out;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
   .left-bar__container {
     width: 100%;
     height: 100%;
@@ -15,24 +18,32 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    .dark-mode-button {
+    .left-bar__buttons {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .button {
+        margin: 0.5rem 0;
+      }
+    }
+    .dark-mode-button,
+    .button {
       width: 2.5rem;
       height: 2.5rem;
     }
   }
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
 }
 
 .home--light {
   .left-bar {
-    background-color: #ffffff;
-    color: #242526;
+    background-color: v.$lightLeftBar;
+    color: v.$darkLeftBar;
   }
 }
 
 .home--dark {
   .left-bar {
-    background-color: #242526;
-    color: #ffffff;
+    background-color: v.$darkLeftBar;
+    color: v.$lightLeftBar;
   }
 }

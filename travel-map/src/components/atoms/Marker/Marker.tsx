@@ -18,7 +18,7 @@ export default function Marker({ city }: MarkerProps): JSX.Element {
     sizeAttenuation: false,
   });
   const sprite = new THREE.Sprite(material);
-  sprite.scale.set(0.06, 0.12, 1);
+  sprite.scale.set(0.05, 0.1, 1);
   sprite.position.set(city.coordinates[0], city.coordinates[1], 0);
   sprite.center.set(0.5, 0.5);
   return <primitive object={sprite} />;
