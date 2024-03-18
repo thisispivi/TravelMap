@@ -8,6 +8,19 @@ interface CountryProps {
   isDarkTheme?: boolean;
 }
 
+/**
+ * Country component
+ *
+ * The country component is used to display a country on the map.
+ *
+ * @component
+ *
+ * @param {CountryProps} props - The props of the component
+ * @param {FeaturesEntity} props.country - The country to display
+ * @param {Record<string, CountryCore>} [props.visitedCountries] - The visited countries
+ * @param {boolean} [props.isDarkTheme] - The theme of the map
+ * @returns {JSX.Element} - The country
+ */
 export default function Country({
   country: { geometry, properties },
   isDarkTheme = false,

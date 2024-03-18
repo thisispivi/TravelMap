@@ -7,6 +7,18 @@ interface CountryShapeProps {
   shapeColor: string;
 }
 
+/**
+ * CountryShape component
+ *
+ * The country shape component is used to display a country on the map.
+ *
+ * @component
+ *
+ * @param {CountryShapeProps} props - The props of the component
+ * @param {Geometry} props.geoCoords - The coordinates of the country
+ * @param {string} props.shapeColor - The color of the country
+ * @returns {JSX.Element} - The country shape
+ */
 export default function CountryShape({
   geoCoords,
   shapeColor,

@@ -7,6 +7,11 @@ interface MarkerProps {
 
 /**
  * Marker component for the map
+ *
+ * The marker component is used to display a marker on the map.
+ *
+ * @component
+ *
  * @param {City} city - City object
  * @returns {JSX.Element} - Marker component
  */

@@ -7,6 +7,17 @@ export interface CountryData {
   fillColor: string;
 }
 
+/**
+ * Country class
+ *
+ * The country class is used to represent a country.
+ *
+ * @class
+ *
+ * @param {CountryData} countryData - The data of the country
+ * @param {string} countryData.id - The id of the country
+ * @param {ColorData} countryData.color - The color of the country
+ */
 export class Country {
   id: string;
   borderColor: string;

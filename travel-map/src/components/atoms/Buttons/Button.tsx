@@ -8,6 +8,11 @@ interface ButtonProps extends PropsWithChildren {
 
 /**
  * A button
+ *
+ * The button component is used to create a button.
+ *
+ * @component
+ *
  * @param {ButtonProps} props - The props of the component
  * @param {string} props.className - The class to apply to the button
  * @param {() => void} props.onClick - Function to call when the button is clicked

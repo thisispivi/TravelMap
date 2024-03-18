@@ -10,6 +10,11 @@ interface DarkModeButtonProps {
 
 /**
  * Button to toggle dark mode
+ *
+ * The dark mode button is used to toggle the dark mode.
+ *
+ * @component
+ *
  * @param {DarkModeButtonProps} props - The props of the component
  * @param {string} props.className - The class to apply to the button
  * @param {boolean} props.isDarkTheme - Whether the dark mode is currently active

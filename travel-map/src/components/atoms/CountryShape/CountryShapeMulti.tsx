@@ -7,6 +7,19 @@ interface CountryShapeMultiProps {
   shapeColor: string;
 }
 
+/**
+ * CountryShapeMulti component
+ *
+ * The country shape multi component is used to display a country on the map.
+ * It is used to display a country with multiple shapes.
+ *
+ * @component
+ *
+ * @param {CountryShapeMultiProps} props - The props of the component
+ * @param {Geometry} props.geoCoords - The coordinates of the country
+ * @param {string} props.shapeColor - The color of the country
+ * @returns {JSX.Element} - The country shape multi
+ */
 export default function CountryShapeMulti({
   geoCoords,
   shapeColor,

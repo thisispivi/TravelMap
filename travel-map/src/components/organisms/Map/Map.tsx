@@ -14,6 +14,21 @@ export interface MapProps {
   visitedCities: City[];
 }
 
+/**
+ * Map component
+ *
+ * The map component is used to display the map of the world. Uses three.js and react-three-fiber.
+ * It displays the countries and the visited cities. It also handles the camera controls.
+ * It uses the HomeContext to get the dark theme.
+ *
+ * @component
+ *
+ * @param {MapProps} props - The props of the component
+ * @param {WorldFeatureCollection} props.data - The data of the map
+ * @param {Record<string, CountryCore>} props.visitedCountries - The visited countries
+ * @param {City[]} props.visitedCities - The visited cities
+ * @returns {JSX.Element} - The map
+ */
 export default function Map({
   data,
   visitedCountries,

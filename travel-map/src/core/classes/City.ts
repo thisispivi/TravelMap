@@ -9,6 +9,19 @@ interface CityInterface {
   travels?: Travel[];
 }
 
+/**
+ * City class
+ *
+ * The city class is used to represent a city.
+ *
+ * @class
+ *
+ * @param {CityInterface} cityData - The data of the city
+ * @param {string} cityData.name - The name of the city
+ * @param {Country} cityData.country - The country of the city
+ * @param {[number, number]} cityData.coordinates - The coordinates of the city
+ * @param {Travel[]} [cityData.travels] - The travels of the city
+ */
 export class City implements CityInterface {
   name: string;
   country: Country;

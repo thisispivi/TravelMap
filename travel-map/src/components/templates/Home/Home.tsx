@@ -22,7 +22,11 @@ export default function HomeTemplate({
         onFutureTravelsClick={() => modeHandler.onModeChange(Mode.FUTURE)}
         onVisitedCitiesClick={() => modeHandler.onModeChange(Mode.VISITED)}
       />
-      <InfoTab modeHandler={modeHandler} />
+      <InfoTab
+        modeHandler={modeHandler}
+        visitedCountries={visitedCountries}
+        visitedCities={visitedCities}
+      />
       <Map
         data={countriesFeatures}
         visitedCountries={visitedCountries}
