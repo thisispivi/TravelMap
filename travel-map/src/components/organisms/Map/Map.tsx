@@ -5,12 +5,20 @@ import { Country } from "../../molecules";
 import { OrbitControls } from "@react-three/drei";
 import { MOUSE, TOUCH } from "three";
 import { HomeContext } from "../../pages/Home/Home";
+import { City, Country as CountryCore } from "../../../core";
+import { Marker } from "../../atoms";
 
 export interface MapProps {
   data: WorldFeatureCollection;
+  visitedCountries: Record<string, CountryCore>;
+  visitedCities: City[];
 }
 
-export default function Map({ data }: MapProps): JSX.Element {
+export default function Map({
+  data,
+  visitedCountries,
+  visitedCities,
+}: MapProps): JSX.Element {
   const context = useContext(HomeContext);
   const { isDarkTheme } = context!;
   const mapRef = useRef<HTMLDivElement>(null);
@@ -18,24 +26,29 @@ export default function Map({ data }: MapProps): JSX.Element {
   const x = 6;
   const y = 46;
   const z = 30;
-
   const countries = useMemo(
     () =>
       data.features?.map((feature) => (
         <Country
           key={feature.id}
           country={feature}
-          shapeColor={isDarkTheme ? "#2c2c2c" : "#ffffff"}
+          visitedCountries={visitedCountries}
+          isDarkTheme={isDarkTheme}
         />
       )),
-    [data.features, isDarkTheme],
+    [data, visitedCountries, isDarkTheme]
   ) as JSX.Element[];
+
+  const markerIcons = visitedCities.map((city) => (
+    <Marker key={city.name} city={city} />
+  ));
 
   const cameraControls = (
     <OrbitControls
       enableRotate={false}
       zoomToCursor
-      enableDamping={false}
+      enableDamping={true}
+      dampingFactor={0.2}
       mouseButtons={{
         LEFT: MOUSE.PAN,
       }}
@@ -44,7 +57,7 @@ export default function Map({ data }: MapProps): JSX.Element {
         TWO: TOUCH.DOLLY_PAN,
       }}
       target={[x, y, 0]}
-      zoomSpeed={2}
+      zoomSpeed={1.5}
       maxDistance={100}
       minDistance={2}
     />
@@ -73,6 +86,7 @@ export default function Map({ data }: MapProps): JSX.Element {
         <ambientLight intensity={2000} color={"#ffffff"} />
         <directionalLight position={[x, y, z]} />
         <mesh>{countries}</mesh>
+        {markerIcons}
       </Canvas>
     </div>
   );

@@ -1,17 +1,26 @@
 import { CountryShape, CountryShapeMulti } from "../../atoms";
 import { FeaturesEntity } from "../../../typings/feature";
+import { Country as CountryCore } from "../../../core";
 
 interface CountryProps {
   country: FeaturesEntity;
-  lineColor?: string;
-  shapeColor?: string;
+  visitedCountries?: Record<string, CountryCore>;
+  isDarkTheme?: boolean;
 }
 
 export default function Country({
-  country: { geometry },
-  shapeColor = "#000000",
+  country: { geometry, properties },
+  isDarkTheme = false,
+  visitedCountries = {},
 }: CountryProps): JSX.Element {
   const isMultiPolygon = geometry.type === "MultiPolygon";
+
+  const shapeColor = Object.keys(visitedCountries).includes(properties.name)
+    ? visitedCountries[properties.name as keyof typeof visitedCountries]
+        .fillColor
+    : isDarkTheme
+      ? "#2c2c2c"
+      : "#ffffff";
 
   return (
     <>
