@@ -8,11 +8,19 @@ interface DarkModeButtonProps {
   handleDarkModeSwitch: () => void;
 }
 
+/**
+ * Button to toggle dark mode
+ * @param {DarkModeButtonProps} props - The props of the component
+ * @param {string} props.className - The class to apply to the button
+ * @param {boolean} props.isDarkTheme - Whether the dark mode is currently active
+ * @param {() => void} props.handleDarkModeSwitch - Function to switch the dark mode
+ * @returns {JSX.Element} - The dark mode button
+ */
 export default function DarkModeButton({
   isDarkTheme,
   handleDarkModeSwitch,
   className = "",
-}: DarkModeButtonProps) {
+}: DarkModeButtonProps): JSX.Element {
   return (
     <button
       className={`dark-mode-button ${className}`}
