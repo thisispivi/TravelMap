@@ -10,7 +10,7 @@ export const Anderlecth = new City({
     new Travel(
       new Date(2023, 7, 6),
       new Date(2023, 7, 6),
-      tr_060823_060823_images
+      tr_060823_060823_images,
     ),
   ],
 });

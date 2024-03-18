@@ -10,7 +10,7 @@ import { i18n } from "i18next";
  */
 export function formatDate(
   date: Date | undefined,
-  lang: i18n["language"]
+  lang: i18n["language"],
 ): string {
   if (!lang.includes("en") && !lang.includes("it"))
     return "Unsupported language";
@@ -37,7 +37,7 @@ export function formatDate(
  */
 export function formatDateMonthYear(
   date: Date | undefined,
-  lang: i18n["language"]
+  lang: i18n["language"],
 ): string {
   if (!lang.includes("en") && !lang.includes("it"))
     return "Unsupported language";
