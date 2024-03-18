@@ -1,0 +1,34 @@
+{
+  "cities": {
+    "Berlin": "Berlin",
+    "Brussels": "Brussels",
+    "Bruges": "Bruges",
+    "Budapest": "Budapest",
+    "Barcelona": "Barcelona",
+    "London": "London",
+    "Turin": "Turin",
+    "Padua": "Padua",
+    "Rome": "Rome",
+    "Anderlecht": "Anderlecht",
+    "Livorno": "Livorno",
+    "Pisa": "Pisa",
+    "Genoa": "Genoa",
+    "Gressoney-La-Trinité": "Gressoney-La-Trinité",
+    "Cuneo": "Cuneo",
+    "Assisi": "Assisi",
+    "Perugia": "Perugia",
+    "Terni": "Terni",
+    "Venice": "Venice",
+    "Verona": "Verona",
+    "Imola": "Imola"
+  },
+  "countries": {
+    "Belgium": "Belgium",
+    "Hungary": "Hungary",
+    "Italy": "Italy",
+    "Spain": "Spain",
+    "UnitedKingdom": "United Kingdom",
+    "Germany": "Germany"
+  },
+  "visited": { "title": "Visited Cities" }
+}

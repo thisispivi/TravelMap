@@ -6,7 +6,21 @@ interface InfoTabFutureProps {
   modeHandler: ModeHandler;
 }
 
-export default function InfoTabFuture({ className = "" }: InfoTabFutureProps) {
+/**
+ * InfoTabFuture component
+ *
+ * The info tab future component is used to display the future travels.
+ *
+ * @component
+ *
+ * @param {InfoTabFutureProps} props - The props of the component
+ * @param {string} props.className - The class to apply to the info tab future
+ * @param {ModeHandler} props.modeHandler - The mode handler
+ * @returns {JSX.Element} - The info tab future
+ */
+export default function InfoTabFuture({
+  className = "",
+}: InfoTabFutureProps): JSX.Element {
   return (
     <div className={`info-tab-future ${className}`}>
       <div className="info-tab-future__header">

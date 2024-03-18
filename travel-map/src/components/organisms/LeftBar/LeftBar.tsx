@@ -11,6 +11,19 @@ interface LeftBarProps {
   onVisitedCitiesClick?: () => void;
 }
 
+/**
+ * The left bar of the home page
+ *
+ * The left bar is used to display the logo and the buttons to switch
+ *
+ * @component
+ *
+ * @param {LeftBarProps} props - The props of the component
+ * @param {string} props.className - The class to apply to the left bar
+ * @param {() => void} props.onFutureTravelsClick - Function to call when the future travels button is clicked
+ * @param {() => void} props.onVisitedCitiesClick - Function to call when the visited cities button is clicked
+ * @returns {JSX.Element} - The left bar
+ */
 export default function LeftBar({
   className = "",
   onFutureTravelsClick,

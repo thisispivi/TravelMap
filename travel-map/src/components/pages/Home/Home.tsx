@@ -9,7 +9,16 @@ import { visitedCities, visitedCountries } from "../../../data";
 
 export const HomeContext = createContext<ThemeDetector | undefined>(undefined);
 
-export default function Home() {
+/**
+ * Home component
+ *
+ * The home component is the main component of the application. It is used to display the map and the left bar.
+ *
+ * @component
+ *
+ * @returns {JSX.Element} - The home
+ */
+export default function Home(): JSX.Element {
   const { isDarkTheme, handleDarkModeSwitch } = useThemeDetector();
 
   const data = worldData as WorldTopoJson;
