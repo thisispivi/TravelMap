@@ -51,7 +51,7 @@ export default function Map({
           isDarkTheme={isDarkTheme}
         />
       )),
-    [data, visitedCountries, isDarkTheme]
+    [data, visitedCountries, isDarkTheme],
   ) as JSX.Element[];
 
   const markerIcons = visitedCities.map((city) => (
