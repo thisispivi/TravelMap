@@ -1,0 +1,19 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 550.38 800">
+    <defs>
+        <style>
+            .visited-1 {
+                fill: none !important;
+                stroke-linecap: round;
+                stroke-linejoin: round;
+                stroke-width: 65px;
+            }
+        </style>
+    </defs>
+    <path
+        d="M400,0C248,0,124.81,123.21,124.81,275.2c0,115.86,160,382.81,236,503.14a46.37,46.37,0,0,0,78.45,0c76-120.33,236-387.32,236-503.18C675.19,123.21,552,0,400,0Zm0,490.57c-111.44,0-203-91.8-203-203,.05-112.14,93.32-203.9,205-202.79C512.21,85.86,603,177,603,287.57,603.05,398.74,511.46,490.57,400,490.57Z"
+        transform="translate(-124.81)" />
+    <g id="Interface_Check" data-name="Interface / Check">
+        <path id="Vector" class="visited-1" d="M309.15,287.67l60.57,60.57L490.85,227.1"
+            transform="translate(-124.81)" />
+    </g>
+</svg>

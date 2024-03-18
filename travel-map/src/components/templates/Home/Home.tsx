@@ -1,6 +1,8 @@
 import { City, Country } from "../../../core";
+import useMode from "../../../hooks/mode/mode";
 import { WorldFeatureCollection } from "../../../typings/feature";
-import { LeftBar, Map } from "../../organisms";
+import { Mode } from "../../../typings/mode";
+import { InfoTab, LeftBar, Map } from "../../organisms";
 
 interface HomeTemplateProps {
   countriesFeatures: WorldFeatureCollection;
@@ -13,9 +15,14 @@ export default function HomeTemplate({
   visitedCountries,
   visitedCities,
 }: HomeTemplateProps) {
+  const modeHandler = useMode();
   return (
     <div className="home-template">
-      <LeftBar />
+      <LeftBar
+        onFutureTravelsClick={() => modeHandler.onModeChange(Mode.FUTURE)}
+        onVisitedCitiesClick={() => modeHandler.onModeChange(Mode.VISITED)}
+      />
+      <InfoTab modeHandler={modeHandler} />
       <Map
         data={countriesFeatures}
         visitedCountries={visitedCountries}

@@ -1,0 +1,50 @@
+@use "../../../styles/variables" as v;
+
+.button {
+  width: auto;
+  height: auto;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  border: 0;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+  svg {
+    width: 60%;
+    height: 60%;
+  }
+}
+
+.home--light {
+  .button {
+    background-color: v.$lightButton;
+    color: v.$lightButtonContent;
+    &:hover {
+      background-color: v.$lightButtonHover;
+    }
+    svg * {
+      fill: v.$lightButtonContent;
+      .visited-1 {
+        stroke: v.$lightButtonContent;
+      }
+    }
+  }
+}
+
+.home--dark {
+  .button {
+    background-color: v.$darkButton;
+    color: v.$darkButtonContent;
+    &:hover {
+      background-color: v.$darkButtonHover;
+    }
+    svg * {
+      fill: v.$darkButtonContent;
+      .visited-1 {
+        stroke: v.$darkButtonContent;
+      }
+    }
+  }
+}
