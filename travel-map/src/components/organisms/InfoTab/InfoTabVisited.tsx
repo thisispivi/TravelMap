@@ -1,6 +1,7 @@
 import { City, Country } from "../../../core";
 import useLanguage from "../../../hooks/language/language";
 import { ModeHandler } from "../../../hooks/mode/mode";
+import { CityCard, CountryCard } from "../../molecules";
 import "./InfoTabVisited.scss";
 
 interface InfoTabVisitedProps {
@@ -27,6 +28,8 @@ interface InfoTabVisitedProps {
  */
 export default function InfoTabVisited({
   className = "",
+  visitedCities,
+  visitedCountries,
 }: InfoTabVisitedProps): JSX.Element {
   const { t } = useLanguage(["home"]);
   return (
@@ -35,10 +38,16 @@ export default function InfoTabVisited({
         <h1>{t("visited.title")}</h1>
       </div>
       <div className="info-tab-visited__content">
-        <p>
-          I am planning to visit these countries in the visited. If you have any
-          recommendations, feel free to reach out to me.
-        </p>
+        {Object.keys(visitedCountries).map((country) => (
+          <CountryCard key={country} countryName={country}>
+            {visitedCities
+              .filter((city) => city.country.id === country)
+              .map((city) => {
+                const c = new City(city);
+                return <CityCard key={c.name} city={c} />;
+              })}
+          </CountryCard>
+        ))}
       </div>
     </div>
   );

@@ -5,3 +5,27 @@
   -o-transition: $property $duration $timing;
   -ms-transition: $property $duration $timing;
 }
+
+@mixin city-card-background($url) {
+  background: linear-gradient(
+      to bottom,
+      rgba(74, 74, 74, 0.32),
+      rgba(26, 26, 26, 0.7)
+    ),
+    url($url);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+@mixin country-card-background($url) {
+  background: linear-gradient(
+      to bottom,
+      rgba(22, 22, 22, 0.7),
+      rgba(0, 0, 0, 0.8)
+    ),
+    url($url);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}

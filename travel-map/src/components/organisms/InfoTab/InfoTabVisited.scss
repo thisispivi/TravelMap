@@ -1,10 +1,22 @@
 .info-tab-visited {
   padding: 1rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 
   .info-tab-visited__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1rem;
+  }
+
+  .info-tab-visited__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-height: calc(100% - 5rem);
+    overflow-y: auto;
+    padding-right: 1rem;
   }
 }

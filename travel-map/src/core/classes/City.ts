@@ -35,7 +35,7 @@ export class City implements CityInterface {
     this.travels = cityData.travels ?? [];
   }
 
-  getCountryName(t: i18n["t"]) {
+  getName(t: i18n["t"]) {
     return t(`cities.${this.name}`);
   }
 

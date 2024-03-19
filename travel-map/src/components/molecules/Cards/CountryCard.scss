@@ -1,0 +1,38 @@
+@use "../../../styles/mixins" as m;
+@use "../../../styles/variables" as v;
+
+.country-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 1rem 1rem;
+  border-radius: 1rem;
+  margin: 1rem 0;
+  background-color: #000000;
+
+  .country-card__content,
+  .country-card__header {
+    opacity: 1;
+  }
+
+  .country-card__header {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    h2 {
+      margin-bottom: 1rem;
+    }
+  }
+
+  &.Italy {
+    @include m.country-card-background(
+      "https://images.pexels.com/photos/19546814/pexels-photo-19546814/free-photo-of-mare-paesaggio-spiaggia-acqua.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+    );
+  }
+
+  &.Belgium {
+    @include m.country-card-background(
+      "https://images.pexels.com/photos/17111341/pexels-photo-17111341/free-photo-of-citta-punto-di-riferimento-edificio-viaggio.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+    );
+  }
+}
