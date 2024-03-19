@@ -59,4 +59,28 @@
       "https://www.civitatis.com/blog/wp-content/uploads/2023/03/panoramica-brujas-flandes.jpg"
     );
   }
+
+  &.Budapest {
+    @include m.city-card-background(
+      "https://images.pexels.com/photos/4377310/pexels-photo-4377310.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+    );
+  }
+
+  &.London {
+    @include m.city-card-background(
+      "https://images.pexels.com/photos/726484/pexels-photo-726484.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+    );
+  }
+
+  &.Barcelona {
+    @include m.city-card-background(
+      "https://images.pexels.com/photos/16841068/pexels-photo-16841068/free-photo-of-citta-punto-di-riferimento-skyline-edifici.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+    );
+  }
+
+  &.Berlin {
+    @include m.city-card-background(
+      "https://images.pexels.com/photos/109630/pexels-photo-109630.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+    );
+  }
 }

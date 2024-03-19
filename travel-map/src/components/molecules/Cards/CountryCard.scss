@@ -35,4 +35,28 @@
       "https://images.pexels.com/photos/17111341/pexels-photo-17111341/free-photo-of-citta-punto-di-riferimento-edificio-viaggio.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
     );
   }
+
+  &.Germany {
+    @include m.country-card-background(
+      "https://images.pexels.com/photos/1002244/pexels-photo-1002244.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+    );
+  }
+
+  &.Hungary {
+    @include m.country-card-background(
+      "https://images.pexels.com/photos/2350351/pexels-photo-2350351.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+    );
+  }
+
+  &.Spain {
+    @include m.country-card-background(
+      "https://images.pexels.com/photos/3290070/pexels-photo-3290070.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+    );
+  }
+
+  &.UnitedKingdom {
+    @include m.country-card-background(
+      "https://images.pexels.com/photos/77171/pexels-photo-77171.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+    );
+  }
 }

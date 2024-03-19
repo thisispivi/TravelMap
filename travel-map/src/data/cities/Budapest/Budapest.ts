@@ -1,0 +1,16 @@
+import { City, Travel } from "../../../core";
+import { Hungary } from "../../countries/countries";
+import { tr_060523_090523_images } from "./photos/tr_060523_090523";
+
+export const Budapest = new City({
+  name: "Budapest",
+  country: Hungary,
+  coordinates: [19.040235, 47.497912],
+  travels: [
+    new Travel(
+      new Date(2023, 4, 6),
+      new Date(2023, 4, 9),
+      tr_060523_090523_images
+    ),
+  ],
+});

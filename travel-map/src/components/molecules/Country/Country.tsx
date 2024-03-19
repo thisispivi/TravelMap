@@ -28,9 +28,12 @@ export default function Country({
 }: CountryProps): JSX.Element {
   const isMultiPolygon = geometry.type === "MultiPolygon";
 
-  const shapeColor = Object.keys(visitedCountries).includes(properties.name)
-    ? visitedCountries[properties.name as keyof typeof visitedCountries]
-        .fillColor
+  const shapeColor = Object.keys(visitedCountries).includes(
+    properties.name.replace(" ", "")
+  )
+    ? visitedCountries[
+        properties.name.replace(" ", "") as keyof typeof visitedCountries
+      ].fillColor
     : isDarkTheme
       ? "#2c2c2c"
       : "#ffffff";

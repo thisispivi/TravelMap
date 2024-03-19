@@ -41,7 +41,10 @@ export default function InfoTabVisited({
         {Object.keys(visitedCountries).map((country) => (
           <CountryCard key={country} countryName={country}>
             {visitedCities
-              .filter((city) => city.country.id === country)
+              .filter(
+                (city) =>
+                  city.country.id.replace(" ", "") === country.replace(" ", "")
+              )
               .map((city) => {
                 const c = new City(city);
                 return <CityCard key={c.name} city={c} />;
