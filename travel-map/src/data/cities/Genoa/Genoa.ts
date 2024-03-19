@@ -1,0 +1,16 @@
+import { City, Travel } from "../../../core";
+import { Italy } from "../../countries/countries";
+import { tr_141123_141123_images } from "./photos/tr_141123_141123";
+
+export const Genoa = new City({
+  name: "Genoa",
+  country: Italy,
+  coordinates: [8.946256, 44.4056499],
+  travels: [
+    new Travel(
+      new Date(2023, 10, 14),
+      new Date(2023, 10, 14),
+      tr_141123_141123_images
+    ),
+  ],
+});
