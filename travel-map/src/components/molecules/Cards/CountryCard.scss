@@ -4,11 +4,12 @@
 .country-card {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: calc(100% - 2rem);
   padding: 1rem 1rem;
   border-radius: 1rem;
   margin: 1rem 0;
   background-color: #000000;
+  box-shadow: 0 1rem 1.5rem 0 rgba(0, 0, 0, 0.4);
 
   .country-card__content,
   .country-card__header {
@@ -17,10 +18,13 @@
 
   .country-card__header {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
     align-items: center;
-    h2 {
-      margin-bottom: 1rem;
+    margin-bottom: 1rem;
+    .country-flag {
+      width: 1.8rem;
+      height: auto;
+      margin-left: 0.5rem;
     }
   }
 

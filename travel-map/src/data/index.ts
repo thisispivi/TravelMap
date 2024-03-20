@@ -40,3 +40,9 @@ export const visitedCities = [
   Budapest,
   Barcelona,
 ];
+
+export const futureCountries = {
+  Italy,
+};
+
+export const futureCities = [Rome];

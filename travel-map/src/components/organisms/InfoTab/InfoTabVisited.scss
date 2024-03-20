@@ -1,5 +1,5 @@
 .info-tab-visited {
-  padding: 1rem 1.5rem;
+  padding: 1rem 0;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -9,14 +9,20 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1rem;
+    padding-inline: 1.5rem;
   }
 
   .info-tab-visited__content {
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-height: calc(100% - 5rem);
+    max-height: 100%;
     overflow-y: auto;
-    padding-right: 1rem;
+    color: white;
+    padding-bottom: 1rem;
+
+    &.scroll {
+      margin-right: 0.7rem;
+    }
   }
 }

@@ -1,8 +1,10 @@
+import { useRef } from "react";
 import { City, Country } from "../../../core";
 import useLanguage from "../../../hooks/language/language";
 import { ModeHandler } from "../../../hooks/mode/mode";
 import { CityCard, CountryCard } from "../../molecules";
 import "./InfoTabVisited.scss";
+import { componentHasOverflow } from "../../../utils/overflow";
 
 interface InfoTabVisitedProps {
   className?: string;
@@ -32,12 +34,19 @@ export default function InfoTabVisited({
   visitedCountries,
 }: InfoTabVisitedProps): JSX.Element {
   const { t } = useLanguage(["home"]);
+  const contentRef = useRef<HTMLDivElement>(null);
   return (
     <div className={`info-tab-visited ${className}`}>
       <div className="info-tab-visited__header">
         <h1>{t("visited.title")}</h1>
       </div>
-      <div className="info-tab-visited__content">
+      <div
+        className={`info-tab-visited__content ${
+          componentHasOverflow(contentRef) ? "scroll" : ""
+        }`}
+        id="info-tab"
+        ref={contentRef}
+      >
         {Object.keys(visitedCountries).map((country) => (
           <CountryCard key={country} countryName={country}>
             {visitedCities

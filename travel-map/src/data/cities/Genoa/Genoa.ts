@@ -7,10 +7,10 @@ export const Genoa = new City({
   country: Italy,
   coordinates: [8.946256, 44.4056499],
   travels: [
-    new Travel(
-      new Date(2023, 10, 14),
-      new Date(2023, 10, 14),
-      tr_141123_141123_images
-    ),
+    new Travel({
+      sDate: new Date(2023, 10, 14),
+      eDate: new Date(2023, 10, 14),
+      photos: tr_141123_141123_images,
+    }),
   ],
 });

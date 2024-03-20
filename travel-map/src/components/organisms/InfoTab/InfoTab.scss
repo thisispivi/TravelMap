@@ -2,18 +2,18 @@
 @use "../../../styles/mixins" as m;
 
 .info-tab {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   height: 100%;
-  width: 30rem;
+  width: 26rem;
   z-index: 1;
   @include m.transition(all, 0.3s, ease-in-out);
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
   transform: translateX(-100%);
 
   &.info-tab--open {
-    transform: translateX(5rem);
+    transform: translateX(v.$leftBarWidth);
   }
 }
 

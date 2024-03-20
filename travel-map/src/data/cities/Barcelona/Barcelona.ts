@@ -7,10 +7,10 @@ export const Barcelona = new City({
   country: Spain,
   coordinates: [2.1734035, 41.3850639],
   travels: [
-    new Travel(
-      new Date(2016, 3, 11),
-      new Date(2016, 3, 15),
-      tr_110416_150416_images
-    ),
+    new Travel({
+      sDate: new Date(2016, 3, 11),
+      eDate: new Date(2016, 3, 15),
+      photos: tr_110416_150416_images,
+    }),
   ],
 });

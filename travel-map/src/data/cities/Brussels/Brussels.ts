@@ -5,12 +5,12 @@ import { tr_050823_100823_images } from "./photos/tr_050823_100823";
 export const Brussels = new City({
   name: "Brussels",
   country: Belgium,
-  coordinates: [7.6868565, 45.070312],
+  coordinates: [4.34878, 50.85045],
   travels: [
-    new Travel(
-      new Date(2023, 7, 5),
-      new Date(2023, 7, 10),
-      tr_050823_100823_images
-    ),
+    new Travel({
+      sDate: new Date(2023, 7, 5),
+      eDate: new Date(2023, 7, 10),
+      photos: tr_050823_100823_images,
+    }),
   ],
 });
