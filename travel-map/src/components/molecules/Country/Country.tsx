@@ -29,7 +29,7 @@ export default function Country({
   const isMultiPolygon = geometry.type === "MultiPolygon";
 
   const shapeColor = Object.keys(visitedCountries).includes(
-    properties.name.replace(" ", "")
+    properties.name.replace(" ", ""),
   )
     ? visitedCountries[
         properties.name.replace(" ", "") as keyof typeof visitedCountries

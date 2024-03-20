@@ -30,7 +30,7 @@ export default function CityCard({
 
   const travels = useMemo(() => {
     return city.travels.filter((travel) =>
-      isFuture ? travel.isFuture : !travel.isFuture
+      isFuture ? travel.isFuture : !travel.isFuture,
     );
   }, [city.travels, isFuture]);
 

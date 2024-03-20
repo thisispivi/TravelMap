@@ -54,7 +54,7 @@ export default memo(function Map({
           isDarkTheme={isDarkTheme}
         />
       )),
-    [data, visitedCountries, isDarkTheme]
+    [data, visitedCountries, isDarkTheme],
   ) as JSX.Element[];
 
   const sortByLongitude = (a: City, b: City) =>
@@ -64,7 +64,7 @@ export default memo(function Map({
       visitedCities
         .sort(sortByLongitude)
         .map((city) => <Marker key={city.name} city={city} />),
-    [visitedCities]
+    [visitedCities],
   );
 
   const futureMarkerIcons = useMemo(
@@ -72,7 +72,7 @@ export default memo(function Map({
       futureCities
         .sort(sortByLongitude)
         .map((city) => <Marker key={city.name} city={city} isFuture />),
-    [futureCities]
+    [futureCities],
   );
 
   const cameraControls = (
