@@ -36,9 +36,9 @@ export default memo(function InfoTabFuture({
   const filteredCities = useCallback(
     (country: string) =>
       futureCities.filter(
-        (c) => c.country.id.replace(" ", "") === country.replace(" ", "")
+        (c) => c.country.id.replace(" ", "") === country.replace(" ", ""),
       ),
-    [futureCities]
+    [futureCities],
   );
 
   return (

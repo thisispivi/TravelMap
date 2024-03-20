@@ -40,10 +40,10 @@ export default memo(function InfoTabVisited({
     (country: string) =>
       visitedCities
         .filter(
-          (c) => c.country.id.replace(" ", "") === country.replace(" ", "")
+          (c) => c.country.id.replace(" ", "") === country.replace(" ", ""),
         )
         .filter((city) => city.travels.some((travel) => !travel.isFuture)),
-    [visitedCities]
+    [visitedCities],
   );
 
   return (
