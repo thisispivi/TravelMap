@@ -3,6 +3,7 @@ import * as THREE from "three";
 
 interface MarkerProps {
   city: City;
+  isFuture?: boolean;
 }
 
 /**
@@ -12,11 +13,15 @@ interface MarkerProps {
  *
  * @component
  *
- * @param {City} city - City object
+ * @param {MarkerProps} props - The props of the component
+ * @param {City} props.city - City object
+ * @param {boolean} [props.isFuture=false] - If the marker is for a future city
  * @returns {JSX.Element} - Marker component
  */
-export default function Marker({ city }: MarkerProps): JSX.Element {
-  const map = new THREE.TextureLoader().load("Marker.svg");
+export default function Marker({ city, isFuture }: MarkerProps): JSX.Element {
+  const map = new THREE.TextureLoader().load(
+    isFuture ? "FutureMarker.svg" : "Marker.svg"
+  );
   const material = new THREE.SpriteMaterial({
     map,
     color: 0xffffff,

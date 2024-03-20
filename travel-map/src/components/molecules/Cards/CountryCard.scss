@@ -63,4 +63,16 @@
       "https://images.pexels.com/photos/77171/pexels-photo-77171.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
     );
   }
+
+  &.Portugal {
+    @include m.country-card-background(
+      "https://images.pexels.com/photos/3780224/pexels-photo-3780224.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+    );
+  }
+
+  &.Japan {
+    @include m.country-card-background(
+      "https://images.unsplash.com/photo-1576675466969-38eeae4b41f6?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    );
+  }
 }

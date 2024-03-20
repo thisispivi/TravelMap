@@ -20,7 +20,16 @@
     "Terni": "Terni",
     "Venice": "Venice",
     "Verona": "Verona",
-    "Imola": "Imola"
+    "Imola": "Imola",
+    "Braga": "Braga",
+    "Porto": "Porto",
+    "Tokyo": "Tokyo",
+    "Takayama": "Takayama",
+    "Shirawakago": "Shirawakago",
+    "Kanazawa": "Kanazawa",
+    "Kyoto": "Kyoto",
+    "Osaka": "Osaka",
+    "Nara": "Nara"
   },
   "countries": {
     "Belgium": "Belgium",
@@ -28,7 +37,10 @@
     "Italy": "Italy",
     "Spain": "Spain",
     "UnitedKingdom": "United Kingdom",
-    "Germany": "Germany"
+    "Germany": "Germany",
+    "Japan": "Japan",
+    "Portugal": "Portugal"
   },
-  "visited": { "title": "Visited Cities" }
+  "visited": { "title": "Visited Cities" },
+  "future": { "title": "Future Destinations" }
 }

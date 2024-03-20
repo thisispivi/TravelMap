@@ -83,4 +83,58 @@
       "https://images.pexels.com/photos/109630/pexels-photo-109630.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
     );
   }
+
+  &.Porto {
+    @include m.city-card-background(
+      "https://images.pexels.com/photos/17276769/pexels-photo-17276769/free-photo-of-citta-strada-skyline-edificio.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+    );
+  }
+
+  &.Braga {
+    @include m.city-card-background(
+      "https://images.pexels.com/photos/17651977/pexels-photo-17651977/free-photo-of-citta-tramonto-strada-estate.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+    );
+  }
+
+  &.Tokyo {
+    @include m.city-card-background(
+      "https://images.pexels.com/photos/1510595/pexels-photo-1510595.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+    );
+  }
+
+  &.Takayama {
+    @include m.city-card-background(
+      "https://a2.cdn.japantravel.com/photo/330-191930/1440x960!/gifu-takayama-191930.jpg"
+    );
+  }
+
+  &.Shirawakago {
+    @include m.city-card-background(
+      "https://images.unsplash.com/photo-1610508783164-238397cfd37b?q=80&w=2076&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    );
+  }
+
+  &.Kanazawa {
+    @include m.city-card-background(
+      "https://images.unsplash.com/photo-1593297218477-294fb502b560?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    );
+  }
+
+  &.Kyoto {
+    @include m.city-card-background(
+      "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    );
+  }
+
+  &.Nara {
+    @include m.city-card-background(
+      "https://images.unsplash.com/photo-1617538316045-bf8d0d06c782?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    );
+  }
+
+  &.Osaka {
+    @include m.city-card-background(
+      "https://images.unsplash.com/photo-1589452271712-64b8a66c7b71?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    );
+  }
 }
