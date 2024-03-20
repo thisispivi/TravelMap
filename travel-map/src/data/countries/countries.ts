@@ -15,3 +15,7 @@ export const UnitedKingdom = new Country("United Kingdom", {
   s: 80,
   l: 47,
 });
+
+export const Portugal = new Country("Portugal", { h: 200, s: 100, l: 50 });
+
+export const Japan = new Country("Japan", { h: 0, s: 100, l: 50 });

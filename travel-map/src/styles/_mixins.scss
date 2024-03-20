@@ -29,3 +29,20 @@
   background-position: center;
   background-repeat: no-repeat;
 }
+
+@mixin set-button-colors($button, $buttonContent, $buttonHover) {
+  background-color: $button;
+  color: $buttonContent;
+  &:hover {
+    background-color: $buttonHover;
+  }
+  svg {
+    fill: $buttonContent;
+    .visited-1 {
+      stroke: $buttonContent;
+    }
+    .future-2 {
+      stroke: $buttonContent;
+    }
+  }
+}

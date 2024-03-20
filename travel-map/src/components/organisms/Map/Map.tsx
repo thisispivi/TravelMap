@@ -1,4 +1,4 @@
-import { useContext, useMemo, useRef } from "react";
+import { memo, useContext, useMemo, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
 import { WorldFeatureCollection } from "../../../typings/feature";
 import { Country } from "../../molecules";
@@ -12,6 +12,7 @@ export interface MapProps {
   data: WorldFeatureCollection;
   visitedCountries: Record<string, CountryCore>;
   visitedCities: City[];
+  futureCities: City[];
 }
 
 /**
@@ -27,12 +28,14 @@ export interface MapProps {
  * @param {WorldFeatureCollection} props.data - The data of the map
  * @param {Record<string, CountryCore>} props.visitedCountries - The visited countries
  * @param {City[]} props.visitedCities - The visited cities
+ * @param {City[]} props.futureCities - The future cities
  * @returns {JSX.Element} - The map
  */
-export default function Map({
+export default memo(function Map({
   data,
   visitedCountries,
   visitedCities,
+  futureCities,
 }: MapProps): JSX.Element {
   const context = useContext(HomeContext);
   const { isDarkTheme } = context!;
@@ -51,12 +54,26 @@ export default function Map({
           isDarkTheme={isDarkTheme}
         />
       )),
-    [data, visitedCountries, isDarkTheme],
+    [data, visitedCountries, isDarkTheme]
   ) as JSX.Element[];
 
-  const markerIcons = visitedCities.map((city) => (
-    <Marker key={city.name} city={city} />
-  ));
+  const sortByLongitude = (a: City, b: City) =>
+    b.coordinates[1] - a.coordinates[1];
+  const markerIcons = useMemo(
+    () =>
+      visitedCities
+        .sort(sortByLongitude)
+        .map((city) => <Marker key={city.name} city={city} />),
+    [visitedCities]
+  );
+
+  const futureMarkerIcons = useMemo(
+    () =>
+      futureCities
+        .sort(sortByLongitude)
+        .map((city) => <Marker key={city.name} city={city} isFuture />),
+    [futureCities]
+  );
 
   const cameraControls = (
     <OrbitControls
@@ -72,7 +89,7 @@ export default function Map({
         TWO: TOUCH.DOLLY_PAN,
       }}
       target={[x, y, 0]}
-      zoomSpeed={1.5}
+      zoomSpeed={1.1}
       maxDistance={100}
       minDistance={2}
     />
@@ -101,8 +118,9 @@ export default function Map({
         <ambientLight intensity={2000} color={"#ffffff"} />
         <directionalLight position={[x, y, z]} />
         <mesh>{countries}</mesh>
+        {futureMarkerIcons}
         {markerIcons}
       </Canvas>
     </div>
   );
-}
+});

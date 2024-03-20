@@ -1,9 +1,16 @@
+import { memo, useCallback, useRef } from "react";
 import { ModeHandler } from "../../../hooks/mode/mode";
 import "./InfoTabFuture.scss";
+import useLanguage from "../../../hooks/language/language";
+import { componentHasOverflow } from "../../../utils/overflow";
+import { City, Country } from "../../../core";
+import { CityCard, CountryCard } from "../../molecules";
 
 interface InfoTabFutureProps {
   className?: string;
   modeHandler: ModeHandler;
+  futureCountries: Record<string, Country>;
+  futureCities: City[];
 }
 
 /**
@@ -18,20 +25,42 @@ interface InfoTabFutureProps {
  * @param {ModeHandler} props.modeHandler - The mode handler
  * @returns {JSX.Element} - The info tab future
  */
-export default function InfoTabFuture({
+export default memo(function InfoTabFuture({
   className = "",
+  futureCities,
+  futureCountries,
 }: InfoTabFutureProps): JSX.Element {
+  const { t } = useLanguage(["home"]);
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  const filteredCities = useCallback(
+    (country: string) =>
+      futureCities.filter(
+        (c) => c.country.id.replace(" ", "") === country.replace(" ", "")
+      ),
+    [futureCities]
+  );
+
   return (
     <div className={`info-tab-future ${className}`}>
       <div className="info-tab-future__header">
-        <h1>Future Travels</h1>
+        <h1>{t("future.title")}</h1>
       </div>
-      <div className="info-tab-future__content">
-        <p>
-          I am planning to visit these countries in the future. If you have any
-          recommendations, feel free to reach out to me.
-        </p>
+      <div
+        className={`info-tab-future__content ${
+          componentHasOverflow(contentRef) ? "scroll" : ""
+        }`}
+        id="info-tab"
+        ref={contentRef}
+      >
+        {Object.keys(futureCountries).map((country) => (
+          <CountryCard key={country} countryName={country}>
+            {filteredCities(country).map((city) => (
+              <CityCard key={city.name} city={new City(city)} isFuture />
+            ))}
+          </CountryCard>
+        ))}
       </div>
     </div>
   );
-}
+});

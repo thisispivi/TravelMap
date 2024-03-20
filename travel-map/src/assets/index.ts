@@ -12,6 +12,8 @@ import ItalyFlag from "./icons/flags/Italy.svg?react";
 import BelgiumFlag from "./icons/flags/Belgium.svg?react";
 import SpainFlag from "./icons/flags/Spain.svg?react";
 import HungaryFlag from "./icons/flags/Hungary.svg?react";
+import PortugalFlag from "./icons/flags/Portugal.svg?react";
+import JapanFlag from "./icons/flags/Japan.svg?react";
 
 export {
   UnitedKingdomFlag,
@@ -20,6 +22,8 @@ export {
   BelgiumFlag,
   SpainFlag,
   HungaryFlag,
+  PortugalFlag,
+  JapanFlag,
 };
 
 import worldData from "./json/countries-50m.json";

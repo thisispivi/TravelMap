@@ -6,6 +6,7 @@ import { useMemo } from "react";
 interface CityCardProps {
   className?: string;
   city: City;
+  isFuture?: boolean;
 }
 
 /**
@@ -17,17 +18,21 @@ interface CityCardProps {
  * @param {CityCardProps} data - The data that will be used to display the component.
  * @param {string} [data.className=""] - The class name that will be added to the component.
  * @param {City} data.city - The city object that will be displayed.
+ * @param {boolean} [data.isFuture=false] - If the city is a future city or not.
  * @returns {JSX.Element} The CityCard component
  */
 export default function CityCard({
   className = "",
   city,
+  isFuture = false,
 }: CityCardProps): JSX.Element {
   const { t } = useLanguage(["home"]);
 
   const travels = useMemo(() => {
-    return city.travels.filter((travel) => !travel.isFuture);
-  }, [city.travels]);
+    return city.travels.filter((travel) =>
+      isFuture ? travel.isFuture : !travel.isFuture
+    );
+  }, [city.travels, isFuture]);
 
   return (
     <div className={`city-card ${className} ${city.name}`}>

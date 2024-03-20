@@ -1,3 +1,28 @@
 .info-tab-future {
-  padding: 1rem;
+  padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .info-tab-future__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-inline: 1.5rem;
+  }
+
+  .info-tab-future__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-height: 100%;
+    overflow-y: auto;
+    color: white;
+    padding-bottom: 1rem;
+
+    &.scroll {
+      margin-right: 0.7rem;
+    }
+  }
 }

@@ -5,6 +5,8 @@ import {
   ItalyFlag,
   SpainFlag,
   UnitedKingdomFlag,
+  JapanFlag,
+  PortugalFlag,
 } from "../../../assets";
 
 interface CountryFlagProps {
@@ -40,6 +42,10 @@ export default function CountryFlag({
       return <BelgiumFlag className={className} />;
     case "Hungary":
       return <HungaryFlag className={className} />;
+    case "Japan":
+      return <JapanFlag className={className} />;
+    case "Portugal":
+      return <PortugalFlag className={className} />;
     default:
       return <></>;
   }

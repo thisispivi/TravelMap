@@ -1,4 +1,5 @@
 @use "../../../styles/variables" as v;
+@use "../../../styles/mixins" as m;
 
 .left-bar {
   height: 100%;
@@ -24,6 +25,20 @@
       align-items: center;
       .button {
         margin: 0.5rem 0;
+      }
+      .left-bar__button--visited--active {
+        @include m.set-button-colors(
+          v.$visitedButton,
+          v.$visitedButtonContent,
+          v.$visitedButtonHover
+        );
+      }
+      .left-bar__button--future--active {
+        @include m.set-button-colors(
+          v.$futureButton,
+          v.$futureButtonContent,
+          v.$futureButtonHover
+        );
       }
     }
     .dark-mode-button,

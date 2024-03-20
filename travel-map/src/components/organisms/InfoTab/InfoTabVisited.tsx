@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { memo, useCallback, useRef } from "react";
 import { City, Country } from "../../../core";
 import useLanguage from "../../../hooks/language/language";
 import { ModeHandler } from "../../../hooks/mode/mode";
@@ -28,13 +28,24 @@ interface InfoTabVisitedProps {
  * @param {City[]} props.visitedCities - The visited cities
  * @returns {JSX.Element} - The info tab visited
  */
-export default function InfoTabVisited({
+export default memo(function InfoTabVisited({
   className = "",
   visitedCities,
   visitedCountries,
 }: InfoTabVisitedProps): JSX.Element {
   const { t } = useLanguage(["home"]);
   const contentRef = useRef<HTMLDivElement>(null);
+
+  const filteredCities = useCallback(
+    (country: string) =>
+      visitedCities
+        .filter(
+          (c) => c.country.id.replace(" ", "") === country.replace(" ", "")
+        )
+        .filter((city) => city.travels.some((travel) => !travel.isFuture)),
+    [visitedCities]
+  );
+
   return (
     <div className={`info-tab-visited ${className}`}>
       <div className="info-tab-visited__header">
@@ -49,18 +60,12 @@ export default function InfoTabVisited({
       >
         {Object.keys(visitedCountries).map((country) => (
           <CountryCard key={country} countryName={country}>
-            {visitedCities
-              .filter(
-                (city) =>
-                  city.country.id.replace(" ", "") === country.replace(" ", "")
-              )
-              .map((city) => {
-                const c = new City(city);
-                return <CityCard key={c.name} city={c} />;
-              })}
+            {filteredCities(country).map((city) => (
+              <CityCard key={city.name} city={new City(city)} />
+            ))}
           </CountryCard>
         ))}
       </div>
     </div>
   );
-}
+});

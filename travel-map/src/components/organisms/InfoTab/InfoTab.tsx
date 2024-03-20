@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { InfoTabFuture, InfoTabVisited } from "..";
 import { City, Country } from "../../../core";
 import { ModeHandler } from "../../../hooks/mode/mode";
@@ -9,6 +10,8 @@ interface InfoTabProps {
   modeHandler: ModeHandler;
   visitedCountries: Record<string, Country>;
   visitedCities: City[];
+  futureCountries: Record<string, Country>;
+  futureCities: City[];
 }
 
 /**
@@ -25,13 +28,17 @@ interface InfoTabProps {
  * @param {ModeHandler} props.modeHandler - The mode handler
  * @param {Record<string, Country>} props.visitedCountries - The visited countries
  * @param {City[]} props.visitedCities - The visited cities
+ * @param {Record<string, Country>} props.futureCountries - The future countries
+ * @param {City[]} props.futureCities - The future cities
  * @returns {JSX.Element} - The info tab
  */
-export default function InfoTab({
+export default memo(function InfoTab({
   className = "",
   modeHandler,
   visitedCountries,
   visitedCities,
+  futureCountries,
+  futureCities,
 }: InfoTabProps): JSX.Element {
   return (
     <div
@@ -40,7 +47,11 @@ export default function InfoTab({
       }`}
     >
       {modeHandler.currMode === Mode.FUTURE && (
-        <InfoTabFuture modeHandler={modeHandler} />
+        <InfoTabFuture
+          modeHandler={modeHandler}
+          futureCountries={futureCountries}
+          futureCities={futureCities}
+        />
       )}
       {modeHandler.currMode === Mode.VISITED && (
         <InfoTabVisited
@@ -51,4 +62,4 @@ export default function InfoTab({
       )}
     </div>
   );
-}
+});
