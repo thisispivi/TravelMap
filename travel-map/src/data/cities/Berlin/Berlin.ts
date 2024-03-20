@@ -7,10 +7,10 @@ export const Berlin = new City({
   country: Germany,
   coordinates: [13.404954, 52.520008],
   travels: [
-    new Travel(
-      new Date(2023, 4, 6),
-      new Date(2023, 4, 9),
-      tr_060523_090523_images
-    ),
+    new Travel({
+      sDate: new Date(2023, 4, 6),
+      eDate: new Date(2023, 4, 9),
+      photos: tr_060523_090523_images,
+    }),
   ],
 });

@@ -8,10 +8,10 @@ export const London = new City({
   country: UnitedKingdom,
   coordinates: [-0.1276474, 51.5073219],
   travels: [
-    new Travel(
-      new Date(2016, 3, 11),
-      new Date(2016, 3, 15),
-      tr_110416_150416_images
-    ),
+    new Travel({
+      sDate: new Date(2016, 3, 11),
+      eDate: new Date(2016, 3, 15),
+      photos: tr_110416_150416_images,
+    }),
   ],
 });

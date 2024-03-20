@@ -1,0 +1,44 @@
+@use "variables" as v;
+
+$scrollbarSize: 0.7rem;
+::-webkit-scrollbar {
+  width: $scrollbarSize;
+  height: $scrollbarSize;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: $scrollbarSize;
+}
+
+@mixin setScrollbar($bg, $bar, $barHover, $barActive) {
+  &::-webkit-scrollbar-track {
+    background-color: $bg;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: $bar;
+    border: 0.126rem solid $bg;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: $barHover;
+  }
+  &::-webkit-scrollbar-thumb:active {
+    background: $barActive;
+  }
+}
+
+.home--light #info-tab {
+  @include setScrollbar(
+    v.$lightInfoTab,
+    v.$darkButton,
+    v.$darkInfoTab,
+    v.$darkLeftBar
+  );
+}
+
+.home--dark #info-tab {
+  @include setScrollbar(
+    v.$darkInfoTab,
+    v.$lightButton,
+    v.$lightInfoTab,
+    v.$lightLeftBar
+  );
+}
