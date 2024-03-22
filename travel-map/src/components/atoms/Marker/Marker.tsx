@@ -15,7 +15,7 @@ export default function Marker({
   transitionDuration = 150,
 }: MarkerProps): JSX.Element {
   const map = new THREE.TextureLoader().load(
-    isFuture ? "FutureMarker.svg" : "Marker.svg"
+    isFuture ? "FutureMarker.svg" : "Marker.svg",
   );
   const material = new THREE.SpriteMaterial({
     map,
