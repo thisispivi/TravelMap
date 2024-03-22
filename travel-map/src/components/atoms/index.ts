@@ -7,4 +7,13 @@ import CountryShapeMulti from "./CountryShape/CountryShapeMulti";
 
 import Marker from "./Marker/Marker";
 
-export { DarkModeButton, CountryFlag, CountryShape, CountryShapeMulti, Marker };
+import Tween from "./Tween/Tween";
+
+export {
+  DarkModeButton,
+  CountryFlag,
+  CountryShape,
+  CountryShapeMulti,
+  Marker,
+  Tween,
+};

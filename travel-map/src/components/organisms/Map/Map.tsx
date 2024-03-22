@@ -6,7 +6,7 @@ import { OrbitControls } from "@react-three/drei";
 import { MOUSE, TOUCH } from "three";
 import { HomeContext } from "../../pages/Home/Home";
 import { City, Country as CountryCore } from "../../../core";
-import { Marker } from "../../atoms";
+import { Marker, Tween } from "../../atoms";
 
 export interface MapProps {
   data: WorldFeatureCollection;
@@ -54,17 +54,18 @@ export default memo(function Map({
           isDarkTheme={isDarkTheme}
         />
       )),
-    [data, visitedCountries, isDarkTheme],
+    [data, visitedCountries, isDarkTheme]
   ) as JSX.Element[];
 
   const sortByLongitude = (a: City, b: City) =>
     b.coordinates[1] - a.coordinates[1];
+
   const markerIcons = useMemo(
     () =>
       visitedCities
         .sort(sortByLongitude)
         .map((city) => <Marker key={city.name} city={city} />),
-    [visitedCities],
+    [visitedCities]
   );
 
   const futureMarkerIcons = useMemo(
@@ -72,7 +73,7 @@ export default memo(function Map({
       futureCities
         .sort(sortByLongitude)
         .map((city) => <Marker key={city.name} city={city} isFuture />),
-    [futureCities],
+    [futureCities]
   );
 
   const cameraControls = (
@@ -114,6 +115,7 @@ export default memo(function Map({
           transition: "background-color 0.3s ease-in-out",
         }}
       >
+        <Tween />
         {cameraControls}
         <ambientLight intensity={2000} color={"#ffffff"} />
         <directionalLight position={[x, y, z]} />
