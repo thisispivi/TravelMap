@@ -13,6 +13,8 @@ export interface MapProps {
   visitedCountries: Record<string, CountryCore>;
   visitedCities: City[];
   futureCities: City[];
+  currHoveredCity: City | null;
+  setCurrentHoveredCity: (city: City | null) => void;
 }
 
 /**
@@ -29,6 +31,8 @@ export interface MapProps {
  * @param {Record<string, CountryCore>} props.visitedCountries - The visited countries
  * @param {City[]} props.visitedCities - The visited cities
  * @param {City[]} props.futureCities - The future cities
+ * @param {City | null} props.currHoveredCity - The current hovered city
+ * @param {function} props.setCurrentHoveredCity - The function to set the current hovered city
  * @returns {JSX.Element} - The map
  */
 export default memo(function Map({
@@ -36,6 +40,7 @@ export default memo(function Map({
   visitedCountries,
   visitedCities,
   futureCities,
+  setCurrentHoveredCity,
 }: MapProps): JSX.Element {
   const context = useContext(HomeContext);
   const { isDarkTheme } = context!;
@@ -54,7 +59,7 @@ export default memo(function Map({
           isDarkTheme={isDarkTheme}
         />
       )),
-    [data, visitedCountries, isDarkTheme],
+    [data, visitedCountries, isDarkTheme]
   ) as JSX.Element[];
 
   const sortByLongitude = (a: City, b: City) =>
@@ -64,16 +69,29 @@ export default memo(function Map({
     () =>
       visitedCities
         .sort(sortByLongitude)
-        .map((city) => <Marker key={city.name} city={city} />),
-    [visitedCities],
+        .map((city) => (
+          <Marker
+            key={city.name}
+            city={city}
+            setCurrHoveredCity={setCurrentHoveredCity}
+          />
+        )),
+    [visitedCities, setCurrentHoveredCity]
   );
 
   const futureMarkerIcons = useMemo(
     () =>
       futureCities
         .sort(sortByLongitude)
-        .map((city) => <Marker key={city.name} city={city} isFuture />),
-    [futureCities],
+        .map((city) => (
+          <Marker
+            key={city.name}
+            city={city}
+            isFuture
+            setCurrHoveredCity={setCurrentHoveredCity}
+          />
+        )),
+    [futureCities, setCurrentHoveredCity]
   );
 
   const cameraControls = (
@@ -119,9 +137,25 @@ export default memo(function Map({
         {cameraControls}
         <ambientLight intensity={2000} color={"#ffffff"} />
         <directionalLight position={[x, y, z]} />
-        <mesh>{countries}</mesh>
+        <mesh key="countries-mesh">{countries}</mesh>
         {futureMarkerIcons}
         {markerIcons}
+        {/* {currHoveredCity && (
+          <Html
+            position={
+              new THREE.Vector3(
+                currHoveredCity.coordinates[0],
+                currHoveredCity.coordinates[1],
+                0
+              )
+            }
+            onMouseEnter={() => {
+              setCurrentHoveredCity(currHoveredCity);
+            }}
+          >
+            <div className="tooltip">{currHoveredCity.name}</div>
+          </Html>
+        )} */}
       </Canvas>
     </div>
   );

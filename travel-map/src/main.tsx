@@ -6,11 +6,12 @@ import "./styles/_typography.scss";
 import "./styles/_variables.scss";
 import "./styles/_mixins.scss";
 import "./styles/_scrollbar.scss";
+import "react-tooltip/dist/react-tooltip.css";
 
 import "./i18n/i18n";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Home />
-  </React.StrictMode>,
+  </React.StrictMode>
 );

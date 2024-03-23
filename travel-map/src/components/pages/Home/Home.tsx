@@ -4,15 +4,19 @@ import { HomeTemplate } from "../../templates";
 import { WorldTopoJson } from "../../../typings/topojson";
 import { convertTopoJsonToWorldFeaturesCollection } from "../../../utils/topojson";
 import useThemeDetector, { ThemeDetector } from "../../../hooks/style/theme";
-import { createContext } from "react";
+import { createContext, useState } from "react";
 import {
   futureCities,
   futureCountries,
   visitedCities,
   visitedCountries,
 } from "../../../data";
+import { City } from "../../../core";
 
-export const HomeContext = createContext<ThemeDetector | undefined>(undefined);
+export type HomeContextType = ThemeDetector;
+export const HomeContext = createContext<HomeContextType | undefined>(
+  undefined
+);
 
 /**
  * Home component
@@ -25,13 +29,20 @@ export const HomeContext = createContext<ThemeDetector | undefined>(undefined);
  */
 export default function Home(): JSX.Element {
   const { isDarkTheme, handleDarkModeSwitch } = useThemeDetector();
+  const [currHoveredCity, setCurrHoveredCity] = useState<City | null>(null);
+  const context = {
+    isDarkTheme,
+    handleDarkModeSwitch,
+    currHoveredCity,
+    setCurrHoveredCity,
+  };
 
   const data = worldData as WorldTopoJson;
   const features = convertTopoJsonToWorldFeaturesCollection(data);
 
   return (
     <div className={`home ${isDarkTheme ? "home--dark" : "home--light"}`}>
-      <HomeContext.Provider value={{ isDarkTheme, handleDarkModeSwitch }}>
+      <HomeContext.Provider value={context}>
         <HomeTemplate
           countriesFeatures={features}
           visitedCountries={visitedCountries}

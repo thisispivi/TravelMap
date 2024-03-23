@@ -3,6 +3,7 @@ import * as THREE from "three";
 import { drawShapeLine, moveToPoint } from "../../../utils/topojson";
 
 interface CountryShapeProps {
+  keyId: string;
   geoCoords: Geometry;
   shapeColor: string;
 }
@@ -15,11 +16,13 @@ interface CountryShapeProps {
  * @component
  *
  * @param {CountryShapeProps} props - The props of the component
+ * @param {string} props.keyId - The key of the country
  * @param {Geometry} props.geoCoords - The coordinates of the country
  * @param {string} props.shapeColor - The color of the country
  * @returns {JSX.Element} - The country shape
  */
 export default function CountryShape({
+  keyId,
   geoCoords,
   shapeColor,
 }: CountryShapeProps): JSX.Element {
@@ -32,7 +35,7 @@ export default function CountryShape({
   });
 
   return (
-    <mesh>
+    <mesh key={keyId}>
       <meshBasicMaterial
         attach="material"
         color={shapeColor}
