@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useState } from "react";
 import { City, Country } from "../../../core";
 import useMode from "../../../hooks/mode/mode";
 import { WorldFeatureCollection } from "../../../typings/feature";
@@ -29,9 +29,11 @@ interface HomeTemplateProps {
  * @returns {JSX.Element} - The home template
  */
 export default memo(function HomeTemplate(
-  props: HomeTemplateProps,
+  props: HomeTemplateProps
 ): JSX.Element {
+  const [currHoveredCity, setCurrHoveredCity] = useState<City | null>(null);
   const modeHandler = useMode();
+  console.log(currHoveredCity);
   return (
     <div className="home-template">
       <LeftBar
@@ -40,7 +42,12 @@ export default memo(function HomeTemplate(
         onVisitedCitiesClick={() => modeHandler.onModeChange(Mode.VISITED)}
       />
       <InfoTab {...props} modeHandler={modeHandler} />
-      <Map data={props.countriesFeatures} {...props} />
+      <Map
+        data={props.countriesFeatures}
+        {...props}
+        currHoveredCity={currHoveredCity}
+        setCurrentHoveredCity={setCurrHoveredCity}
+      />
     </div>
   );
 });
