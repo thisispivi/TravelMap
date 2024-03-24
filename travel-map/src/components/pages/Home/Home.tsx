@@ -15,7 +15,7 @@ import { Outlet, useNavigate, useSearchParams } from "react-router-dom";
 
 export type HomeContextType = ThemeDetector;
 export const HomeContext = createContext<HomeContextType | undefined>(
-  undefined
+  undefined,
 );
 
 /**
