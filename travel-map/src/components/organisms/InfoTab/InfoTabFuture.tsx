@@ -1,16 +1,13 @@
-import { memo, useCallback, useRef } from "react";
-import { ModeHandler } from "../../../hooks/mode/mode";
+import { memo, useRef } from "react";
 import "./InfoTabFuture.scss";
 import useLanguage from "../../../hooks/language/language";
 import { componentHasOverflow } from "../../../utils/overflow";
-import { City, Country } from "../../../core";
+import { City } from "../../../core";
 import { CityCard, CountryCard } from "../../molecules";
+import { futureCities, futureCountries } from "../../../data";
 
 interface InfoTabFutureProps {
   className?: string;
-  modeHandler: ModeHandler;
-  futureCountries: Record<string, Country>;
-  futureCities: City[];
 }
 
 /**
@@ -27,19 +24,14 @@ interface InfoTabFutureProps {
  */
 export default memo(function InfoTabFuture({
   className = "",
-  futureCities,
-  futureCountries,
 }: InfoTabFutureProps): JSX.Element {
   const { t } = useLanguage(["home"]);
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const filteredCities = useCallback(
-    (country: string) =>
-      futureCities.filter(
-        (c) => c.country.id.replace(" ", "") === country.replace(" ", ""),
-      ),
-    [futureCities],
-  );
+  const filteredCities = (country: string) =>
+    futureCities.filter(
+      (c) => c.country.id.replace(" ", "") === country.replace(" ", "")
+    );
 
   return (
     <div className={`info-tab-future ${className}`}>
