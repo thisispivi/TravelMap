@@ -1,3 +1,5 @@
+import Backdrop from "./Backdrop/Backdrop";
+
 import DarkModeButton from "./Buttons/DarkModeButton";
 
 import CountryFlag from "./CountryFlag/CountryFlag";
@@ -10,6 +12,7 @@ import Marker from "./Marker/Marker";
 import Tween from "./Tween/Tween";
 
 export {
+  Backdrop,
   DarkModeButton,
   CountryFlag,
   CountryShape,

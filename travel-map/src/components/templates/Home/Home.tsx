@@ -3,6 +3,9 @@ import { City, Country } from "../../../core";
 import { WorldFeatureCollection } from "../../../typings/feature";
 import { InfoTab, LeftBar, Map } from "../../organisms";
 import useLocation from "../../../hooks/location/location";
+import { Backdrop } from "../../atoms";
+import { useNavigate } from "react-router-dom";
+import { Container } from "../../molecules";
 
 interface HomeTemplateProps extends PropsWithChildren {
   countriesFeatures: WorldFeatureCollection;
@@ -30,13 +33,18 @@ interface HomeTemplateProps extends PropsWithChildren {
 export default memo(function HomeTemplate(
   props: HomeTemplateProps
 ): JSX.Element {
-  const { isInfoTabOpen } = useLocation();
+  const navigate = useNavigate();
+  const { isInfoTabOpen, isGallery } = useLocation();
   const [currHoveredCity, setCurrHoveredCity] = useState<City | null>(null);
 
   return (
     <div className="home-template">
       <LeftBar />
       <InfoTab>{isInfoTabOpen ? props.children : null}</InfoTab>
+      {isGallery ? <Backdrop onClick={() => navigate("/")} /> : null}
+      <Container isVisible={isGallery}>
+        {isGallery ? props.children : null}
+      </Container>
       <Map
         data={props.countriesFeatures}
         {...props}

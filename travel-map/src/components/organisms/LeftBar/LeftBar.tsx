@@ -25,11 +25,13 @@ interface LeftBarProps {
 export default memo(function LeftBar({
   className = "",
 }: LeftBarProps): JSX.Element {
-  const { isVisited, isFuture } = useLocation();
+  const { isVisited, isFuture, isGallery } = useLocation();
   const context = useContext(HomeContext);
   const { isDarkTheme, handleDarkModeSwitch } = context!;
   return (
-    <div className={`left-bar ${className}`}>
+    <div
+      className={`left-bar ${className} ${isGallery ? "left-bar--close" : ""}`}
+    >
       <div className="left-bar__container">
         <LogoIcon />
         <div className="left-bar__buttons">
@@ -41,6 +43,13 @@ export default memo(function LeftBar({
             </Button>
           </Link>
           <Link to={isFuture ? "/" : isVisited ? "/?to=future" : "/future"}>
+            <Button
+              className={`left-bar__button ${isFuture ? "left-bar__button--future--active" : ""}`}
+            >
+              <FutureTravelsIcon />
+            </Button>
+          </Link>
+          <Link to={"/gallery/Rome/0"}>
             <Button
               className={`left-bar__button ${isFuture ? "left-bar__button--future--active" : ""}`}
             >
