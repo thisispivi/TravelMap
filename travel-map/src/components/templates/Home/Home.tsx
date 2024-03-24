@@ -1,11 +1,10 @@
-import { memo, useState } from "react";
+import { PropsWithChildren, memo, useState } from "react";
 import { City, Country } from "../../../core";
-import useMode from "../../../hooks/mode/mode";
 import { WorldFeatureCollection } from "../../../typings/feature";
-import { Mode } from "../../../typings/mode";
 import { InfoTab, LeftBar, Map } from "../../organisms";
+import { useLocation } from "react-router-dom";
 
-interface HomeTemplateProps {
+interface HomeTemplateProps extends PropsWithChildren {
   countriesFeatures: WorldFeatureCollection;
   visitedCountries: Record<string, Country>;
   visitedCities: City[];
@@ -31,17 +30,15 @@ interface HomeTemplateProps {
 export default memo(function HomeTemplate(
   props: HomeTemplateProps
 ): JSX.Element {
+  const location = useLocation();
+  const isInfoTabOpen =
+    location.pathname === "/visited" || location.pathname === "/future";
   const [currHoveredCity, setCurrHoveredCity] = useState<City | null>(null);
-  const modeHandler = useMode();
-  console.log(currHoveredCity);
+
   return (
     <div className="home-template">
-      <LeftBar
-        currMode={modeHandler.currMode}
-        onFutureTravelsClick={() => modeHandler.onModeChange(Mode.FUTURE)}
-        onVisitedCitiesClick={() => modeHandler.onModeChange(Mode.VISITED)}
-      />
-      <InfoTab {...props} modeHandler={modeHandler} />
+      <LeftBar />
+      <InfoTab>{isInfoTabOpen ? props.children : null}</InfoTab>
       <Map
         data={props.countriesFeatures}
         {...props}

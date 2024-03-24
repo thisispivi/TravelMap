@@ -6,12 +6,23 @@ import "./styles/_typography.scss";
 import "./styles/_variables.scss";
 import "./styles/_mixins.scss";
 import "./styles/_scrollbar.scss";
-import "react-tooltip/dist/react-tooltip.css";
-
 import "./i18n/i18n";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { InfoTabFuture, InfoTabVisited } from "./components/organisms";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <Home />
+    <RouterProvider
+      router={createBrowserRouter([
+        {
+          path: "/",
+          element: <Home />,
+          children: [
+            { path: "visited", element: <InfoTabVisited /> },
+            { path: "future", element: <InfoTabFuture /> },
+          ],
+        },
+      ])}
+    />
   </React.StrictMode>
 );

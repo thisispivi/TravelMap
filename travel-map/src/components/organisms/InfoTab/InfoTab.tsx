@@ -1,17 +1,9 @@
-import { memo } from "react";
-import { InfoTabFuture, InfoTabVisited } from "..";
-import { City, Country } from "../../../core";
-import { ModeHandler } from "../../../hooks/mode/mode";
-import { Mode } from "../../../typings/mode";
+import { PropsWithChildren, memo } from "react";
 import "./InfoTab.scss";
+import { useLocation } from "react-router-dom";
 
-interface InfoTabProps {
+interface InfoTabProps extends PropsWithChildren {
   className?: string;
-  modeHandler: ModeHandler;
-  visitedCountries: Record<string, Country>;
-  visitedCities: City[];
-  futureCountries: Record<string, Country>;
-  futureCities: City[];
 }
 
 /**
@@ -25,41 +17,18 @@ interface InfoTabProps {
  *
  * @param {InfoTabProps} props - The props of the component
  * @param {string} props.className - The class to apply to the info tab
- * @param {ModeHandler} props.modeHandler - The mode handler
- * @param {Record<string, Country>} props.visitedCountries - The visited countries
- * @param {City[]} props.visitedCities - The visited cities
- * @param {Record<string, Country>} props.futureCountries - The future countries
- * @param {City[]} props.futureCities - The future cities
  * @returns {JSX.Element} - The info tab
  */
 export default memo(function InfoTab({
   className = "",
-  modeHandler,
-  visitedCountries,
-  visitedCities,
-  futureCountries,
-  futureCities,
+  children,
 }: InfoTabProps): JSX.Element {
+  const location = useLocation();
+  const isOpen =
+    location.pathname === "/visited" || location.pathname === "/future";
   return (
-    <div
-      className={`info-tab ${className} ${
-        modeHandler.currMode ? "info-tab--open" : ""
-      }`}
-    >
-      {modeHandler.currMode === Mode.FUTURE && (
-        <InfoTabFuture
-          modeHandler={modeHandler}
-          futureCountries={futureCountries}
-          futureCities={futureCities}
-        />
-      )}
-      {modeHandler.currMode === Mode.VISITED && (
-        <InfoTabVisited
-          modeHandler={modeHandler}
-          visitedCountries={visitedCountries}
-          visitedCities={visitedCities}
-        />
-      )}
+    <div className={`info-tab ${className} ${isOpen ? "info-tab--open" : ""}`}>
+      {children}
     </div>
   );
 });

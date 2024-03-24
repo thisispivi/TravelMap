@@ -18,123 +18,127 @@
     text-shadow: 0.1rem 0.1rem 0.1rem rgba(0, 0, 0, 0.5);
   }
 
+  &:nth-last-child(1) {
+    margin-bottom: 0;
+  }
+
   &.Turin {
     @include m.city-card-background(
-      "https://scontent.fcag1-1.fna.fbcdn.net/v/t39.30808-6/423236971_10222589662882968_4931582873222709500_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=5f2048&_nc_ohc=4EiD11c31p8AX95oWvi&_nc_ht=scontent.fcag1-1.fna&oh=00_AfCOz_5AQdfWQL5OKOTcpS_nEwe8H3GOz_2DYEx-WA6mhQ&oe=66006D5F"
+      "https://lh3.googleusercontent.com/drive-viewer/AKGpiha9DhnjKNXNcZfcBomw_oz0kBTeJXce5TuzKdhSnzCeAgE1SkfMm1MUQ09IwgHM07_w8foGvpCdUIvsKygDicIY60JjdA=s2560"
     );
   }
 
   &.Imola {
     @include m.city-card-background(
-      "https://scontent.fcag1-1.fna.fbcdn.net/v/t39.30808-6/432085760_10222589660922919_6177967817862517627_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=5f2048&_nc_ohc=ahHRw3foWdAAX-LYb8k&_nc_ht=scontent.fcag1-1.fna&oh=00_AfBP8WyIwnlJyvmPHPMMaguwpTN8GdN22Hm0Rwe_VnbOHg&oe=65FF9F8C"
+      "https://lh3.googleusercontent.com/drive-viewer/AKGpihYAjz3V9C__LHLXvdCb6Td7ic0Y7EwlEkKurqHdzE-0ogmNpewnloZj1N86eijwfM8PIcetBSqWnBe8xwx9ZEtM47LA=s1600"
     );
   }
 
   &.Genoa {
     @include m.city-card-background(
-      "https://scontent.fcag1-1.fna.fbcdn.net/v/t39.30808-6/434148854_10222589657442832_8632971917274310439_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=5f2048&_nc_ohc=-M13LlHjipYAX-7oJhR&_nc_ht=scontent.fcag1-1.fna&oh=00_AfC014rKr3uyKDRgjZcQ_YLlWKA86dQU6z1qy2sKTJ8Yhg&oe=66002EE0"
+      "https://lh3.googleusercontent.com/drive-viewer/AKGpihbstO4hU70WZ5BQaviP0205UzsGiRcBC8k5vcwZVdf_kXVk9_CYME-khmCDOOrCCojU4tdXEgjcKf7542eaAWHckuqo=s2560"
     );
   }
 
   &.Rome {
     @include m.city-card-background(
-      "https://scontent.fcag1-1.fna.fbcdn.net/v/t39.30808-6/432661017_10222589658202851_826842576995233971_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=5f2048&_nc_ohc=bTXR2qY2Il8AX_XnG1b&_nc_ht=scontent.fcag1-1.fna&oh=00_AfCm3RX68qdk5CN7EIpiJevhLLtsPCSu-eUyyexawsWqbw&oe=660026F9"
+      "https://lh3.googleusercontent.com/drive-viewer/AKGpihaPYCdzhSnuDB5tHEpbb7sqN6d_8CY0lm6o3Ir36K_xXQv9-a1uwHmE9zsqsL8Yl-5iK62TygYcTcD6OMezBJJCMc3YXA=s1600"
     );
   }
 
   &.Anderlecht {
     @include m.city-card-background(
-      "https://scontent.fcag1-1.fna.fbcdn.net/v/t39.30808-6/432691404_10222589665883043_8823141760193714072_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_ohc=dL90_LktDhkAX9ZlKFO&_nc_ht=scontent.fcag1-1.fna&oh=00_AfBDw9OzW-k2Cy4rVVNmf2oUCmyWRyX4jhln-CT9WU-G9A&oe=6600B893"
+      "https://lh3.googleusercontent.com/drive-viewer/AKGpihaWdkJGdSXuqsnYE4BrH5zKANjo5Z2_RMRdYLxIYPnY39MSL_TtW5JdoE8rbVqtQW8AhIy3H1gGVECXvRhrUCy4XXazSg=s2560"
     );
   }
 
   &.Brussels {
     @include m.city-card-background(
-      "https://scontent.fcag1-1.fna.fbcdn.net/v/t39.30808-6/432775172_10222589658482858_4196006315471032050_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=5f2048&_nc_ohc=y7GtpDZGaZIAX-1EHG6&_nc_ht=scontent.fcag1-1.fna&oh=00_AfA8EHohCfHocm6Njr3IiHQQdlsTctKAhC8X94wUMYOpbQ&oe=660084C0"
+      "https://lh3.googleusercontent.com/drive-viewer/AKGpihasrId9gMwFj5o_OzM7Sh-HzVpGbCU9WWpcJrkJZXtllxX42IWe4CfNDTSYCmyc62Ls6D74sf5RouiQiny8Jiu-nyBb4g=s1600"
     );
   }
 
   &.Bruges {
     @include m.city-card-background(
-      "https://scontent.fcag1-1.fna.fbcdn.net/v/t39.30808-6/432720017_10222589659442882_6322156407431330154_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=5f2048&_nc_ohc=heDNasU6bs0AX_PJ9JM&_nc_ht=scontent.fcag1-1.fna&oh=00_AfDtwofovUNA7RsLhSodEydWSzMGYwyZJ-E9gkfn1YhCpg&oe=66007FC3"
+      "https://lh3.googleusercontent.com/drive-viewer/AKGpihZVb9ssX77fE8BYi2WQ1aIoE83GxqqO65rrzn-ItQDKSJjNCWbe_UDs1uyruwzOwNwZMNc1t5HThPcxlB48JYcstJaW=s1600"
     );
   }
 
   &.Budapest {
     @include m.city-card-background(
-      "https://scontent.fcag1-1.fna.fbcdn.net/v/t39.30808-6/432748913_10222589661722939_8834776575265140645_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=5f2048&_nc_ohc=67QZlJkYzrQAX_GCKjW&_nc_ht=scontent.fcag1-1.fna&oh=00_AfCqbfvpzMZQASo70eZzMraDh9HWepXzZLHago2OHW63Cg&oe=6600EEAA"
+      "https://lh3.googleusercontent.com/drive-viewer/AKGpihZRbhBCWYiGT5Bo1V2vvTJJgegnyrsagqoE65uF7H9_ZZFZPOQppX_pggKND4jF5_qMn2HnKOJZ699vawR3x-6WPJhDMw=s2560"
     );
   }
 
   &.London {
     @include m.city-card-background(
-      "https://scontent.fcag1-1.fna.fbcdn.net/v/t39.30808-6/423236718_10222589659402881_6309360696343290863_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=5f2048&_nc_ohc=4cP5Qkchvd0AX8pFWB1&_nc_ht=scontent.fcag1-1.fna&oh=00_AfBSSXTh8z4177H_age8MhVw95piJrVuxVGr1-LiEJiwvw&oe=66004244"
+      "https://lh3.googleusercontent.com/drive-viewer/AKGpiha_wdCP-bFMKcDH77c9rJ0EDlJQQeAir2h0nF8W_FUfQjGzSMvX0EhMXHnKIPWWtVRj5DqASkBB-GY10tf4-VPVEKNnZQ=s2560"
     );
   }
 
   &.Barcelona {
     @include m.city-card-background(
-      "https://scontent.fcag1-1.fna.fbcdn.net/v/t39.30808-6/432743960_10222589657322829_2989750590710137961_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=5f2048&_nc_ohc=1AKJjcS9JAkAX-j66CS&_nc_ht=scontent.fcag1-1.fna&oh=00_AfCcoCMzG6J6fhcU3oZvpTksvU2agz0RqWzHFMvahti8dg&oe=65FF90B7"
+      "https://lh3.googleusercontent.com/drive-viewer/AKGpihbHCOPejFs8rRnJ7leCbTdBa8XkULXTtDIQNpVIQiLKtc7x4IgGUJocl8ftj_oBhISlX0LRqwKVoDzZ2ONAcg06jSdRSA=s2560"
     );
   }
 
   &.Berlin {
     @include m.city-card-background(
-      "https://scontent.fcag1-1.fna.fbcdn.net/v/t39.30808-6/432768193_10222589662082948_4424475272133748100_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=5f2048&_nc_ohc=VqnX1w5UCWsAX-SeeFP&_nc_ht=scontent.fcag1-1.fna&oh=00_AfCWYefaxeUFqXBrXt_-Kh4RXbY2l3icq_S46Jh4lcYbeA&oe=65FF5DEE"
+      "https://lh3.googleusercontent.com/drive-viewer/AKGpihZBlX4266nsxMJaAYvbXinr7HrCoOl4-zF5L9vscP34LuWq2piivVQTzxIYVNX6V6JGcppOkOOjtI-qLz8amomAspA1AQ=s1600"
     );
   }
 
   &.Porto {
     @include m.city-card-background(
-      "https://scontent.fcag1-1.fna.fbcdn.net/v/t39.30808-6/423161001_10222589666003046_2601931905653331044_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=5f2048&_nc_ohc=9VxnYQkPN8oAX91OgXR&_nc_ht=scontent.fcag1-1.fna&oh=00_AfA-Stkkin7GQqCiUEt9CBkMc9FeMoOw9PwobVAHk7iBjw&oe=66009BD1"
+      "https://lh3.googleusercontent.com/drive-viewer/AKGpihbE-J4OKwm4PfCFENnAY7h_XMjqWoGcq6sdJ8HR3QNpamoNS312Q0IU8WFGry_AjIHqQCNNz5DfxIGQlss44Q04bxFBdw=s2560"
     );
   }
 
   &.Braga {
     @include m.city-card-background(
-      "https://scontent.fcag1-1.fna.fbcdn.net/v/t39.30808-6/432775176_10222589660482908_6882764267143941144_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=5f2048&_nc_ohc=r5wr_1iPO-gAX99fN5F&_nc_ht=scontent.fcag1-1.fna&oh=00_AfBokvNqqzd4p7ND5Fp3k0rqpWCezcsyX29VRmCUvDWpEg&oe=65FF9524"
+      "https://lh3.googleusercontent.com/drive-viewer/AKGpihaVcYDdoEChH7fa5LlF49J6MIYgxKPa_1Zz9ZTRVnvrRw57_Oy0kQvUdd0bJiE0g2jDn8PGCKlomnZWOzb1-7bCb5W-PA=s2560"
     );
   }
 
   &.Tokyo {
     @include m.city-card-background(
-      "https://scontent.fcag1-1.fna.fbcdn.net/v/t39.30808-6/432745190_10222589664723014_3993461935694488873_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=5f2048&_nc_ohc=wsu7Y4SjGDQAX-2IU_4&_nc_oc=AdhCDrzgiCGUPn9YuzNvXwN-HoZbIRatbGvtjHw8eX1FaHnbSK2pJCKnIXzMryvv5rQ&_nc_ht=scontent.fcag1-1.fna&oh=00_AfCIh8qH5qk6tjlmRIeqUrhRm7nq88OHxuR8QmH9R69uqA&oe=65FFD35C"
+      "https://lh3.googleusercontent.com/drive-viewer/AKGpihYLdYfkhz22cEqJlREWNeNXnpB7bhVBM48Clqi6lBbvKs4AsqSoNMFLZ-CG24FT1P7jf6FOsINTKBOu8GvwyQcaJe5z=s2560"
     );
   }
 
   &.Takayama {
     @include m.city-card-background(
-      "https://scontent.fcag1-1.fna.fbcdn.net/v/t39.30808-6/432734428_10222589658362855_4219134524727166835_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=5f2048&_nc_ohc=pWbFV2TNVz8AX_hpHtR&_nc_ht=scontent.fcag1-1.fna&oh=00_AfBAZlDRxqTKnGF5TxNHzA5M-Kf076Q9ULzAYFSGwghhCA&oe=65FFEE15"
+      "https://lh3.googleusercontent.com/drive-viewer/AKGpihYeOuuvRVB1xbQMgMJi6uA23lHuNw3P-LjTm8gvJbg-hRExk7PJ5AT0wA4-YCTYAZXruJbjpu6UZ4YxpB8lPQVjFRLMow=s2560"
     );
   }
 
   &.Shirawakago {
     @include m.city-card-background(
-      "https://scontent.fcag1-1.fna.fbcdn.net/v/t39.30808-6/432049266_10222589664002996_1845986316359407624_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=5f2048&_nc_ohc=BhfqFigo9DkAX_YkOpw&_nc_ht=scontent.fcag1-1.fna&oh=00_AfB1CNyv_lpR03p1Cef0SoNSBx3VkjvnMhPkAJwRmbmODg&oe=65FF9ADE"
+      "https://lh3.googleusercontent.com/drive-viewer/AKGpihab7cmTmT0-3SFMPTgmOJC3JehNd80zDHQxkohdOOBPi4jtH3m6wQzJZUBKoPW0BMPAjmBhJ86QPVvyfogUxve3Kpagww=s2560"
     );
   }
 
   &.Kanazawa {
     @include m.city-card-background(
-      "https://scontent.fcag1-1.fna.fbcdn.net/v/t39.30808-6/432738312_10222589660562910_6571432433667008429_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=5f2048&_nc_ohc=fx9rWuaa64MAX9d_DqF&_nc_ht=scontent.fcag1-1.fna&oh=00_AfBykuseTPAZXzxq52mKzexCliwKMT6O1hlqC1LBI9gYnA&oe=65FF8DC0"
+      "https://lh3.googleusercontent.com/drive-viewer/AKGpihaamBQ6aZrzaSsxIDvbvn22767OUR2vwnmTRkcCWyGTvnUUXYP_Ocq3rzD5L5zrpUJ1OGrNdf9CKt21rkP85ey-PJ7Y8A=s2560"
     );
   }
 
   &.Kyoto {
     @include m.city-card-background(
-      "https://scontent.fcag1-1.fna.fbcdn.net/v/t39.30808-6/432070612_10222589666283053_5999916081900823749_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=5f2048&_nc_ohc=WV7d6RctK4wAX8Yhdzj&_nc_ht=scontent.fcag1-1.fna&oh=00_AfA3uRh6sCV5gzhI9BNk1yJbmabqzTsJdg1hJGGcImfFEg&oe=65FF65CA"
+      "https://lh3.googleusercontent.com/drive-viewer/AKGpihbbrKFv45WN99JZKXpNlueWVK9EO2wEHE8eDya9h6WNxahYaVOF1I2oDnYKCEM8pvpftG7zp42Kbu2u8ubDUeWTPgvmVA=s2560"
     );
   }
 
   &.Nara {
     @include m.city-card-background(
-      "https://scontent.fcag1-1.fna.fbcdn.net/v/t39.30808-6/432675273_10222589664243002_7489819765410940472_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=5f2048&_nc_ohc=3eamUY2GZesAX-kF3eM&_nc_ht=scontent.fcag1-1.fna&oh=00_AfDI5forNWziV8eoRuZUEPOBJv_jDudtWfiU9BV3cVA2UQ&oe=6600D253"
+      "https://lh3.googleusercontent.com/drive-viewer/AKGpihb424s-c4b-_k8vd14XGfRIb7dtnx8FXMfjqolTROFfcHN77yzZND5FvRlU-GfE6K0RZKlWhDhVU5bCc9qdGgVnYesjag=s2560"
     );
   }
 
   &.Osaka {
     @include m.city-card-background(
-      "https://scontent.fcag1-1.fna.fbcdn.net/v/t39.30808-6/432748919_10222589666883068_8284864878738951913_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=5f2048&_nc_ohc=qNNzVQTEg0YAX_UhrWc&_nc_ht=scontent.fcag1-1.fna&oh=00_AfBFaiSceNKHN__dxCIy_iKpKQmi6R_jfc1DunM8u_yRXA&oe=65FFD756"
+      "https://lh3.googleusercontent.com/drive-viewer/AKGpihZSx-Iwx5fOet0n3y54e13uUOsalZYkrljK73veSG0rX1ywHGDVUBJts4o6el9ZQF-4rHOESv43RsGeWYqhtFI6yXeIbQ=s2560"
     );
   }
 }
