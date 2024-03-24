@@ -1,0 +1,43 @@
+@use "../../../styles/mixins" as m;
+
+.gallery-container {
+  position: absolute;
+  z-index: 3;
+  transform: translateY(100%) scale(0.5);
+  @include m.transition(all, 0.5s, cubic-bezier(0.175, 0.885, 0.32, 1.075));
+
+  &.gallery-container--visible {
+    transform: translateY(0);
+    scale: 1;
+    $margin: 2rem;
+    left: $margin;
+    top: $margin;
+    width: calc(100% - #{$margin * 2});
+    height: calc(100% - #{$margin * 2});
+  }
+
+  .box {
+    z-index: 4;
+    border-radius: 1rem;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .gallery-container {
+    @include m.transition(all, 0.5s, ease-in-out);
+    &.gallery-container--visible {
+      $margin: 0rem;
+      left: $margin;
+      top: $margin;
+      width: calc(100% - #{$margin * 2});
+      height: calc(100% - #{$margin * 2});
+    }
+    .box {
+      width: 100%;
+      height: 100%;
+      border-radius: 0;
+    }
+  }
+}

@@ -8,7 +8,8 @@ import "./styles/_mixins.scss";
 import "./styles/_scrollbar.scss";
 import "./i18n/i18n";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { InfoTabFuture, InfoTabVisited } from "./components/organisms";
+import { Gallery, InfoTabFuture, InfoTabVisited } from "./components/organisms";
+import { loader } from "./components/organisms/Gallery/loader";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -20,9 +21,14 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           children: [
             { path: "visited", element: <InfoTabVisited /> },
             { path: "future", element: <InfoTabFuture /> },
+            {
+              path: "gallery/:cityName/:travelIdx",
+              element: <Gallery />,
+              loader: loader,
+            },
           ],
         },
       ])}
     />
-  </React.StrictMode>,
+  </React.StrictMode>
 );
