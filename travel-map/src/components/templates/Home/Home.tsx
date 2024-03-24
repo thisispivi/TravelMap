@@ -2,7 +2,7 @@ import { PropsWithChildren, memo, useState } from "react";
 import { City, Country } from "../../../core";
 import { WorldFeatureCollection } from "../../../typings/feature";
 import { InfoTab, LeftBar, Map } from "../../organisms";
-import { useLocation } from "react-router-dom";
+import useLocation from "../../../hooks/location/location";
 
 interface HomeTemplateProps extends PropsWithChildren {
   countriesFeatures: WorldFeatureCollection;
@@ -28,11 +28,9 @@ interface HomeTemplateProps extends PropsWithChildren {
  * @returns {JSX.Element} - The home template
  */
 export default memo(function HomeTemplate(
-  props: HomeTemplateProps,
+  props: HomeTemplateProps
 ): JSX.Element {
-  const location = useLocation();
-  const isInfoTabOpen =
-    location.pathname === "/visited" || location.pathname === "/future";
+  const { isInfoTabOpen } = useLocation();
   const [currHoveredCity, setCurrHoveredCity] = useState<City | null>(null);
 
   return (
