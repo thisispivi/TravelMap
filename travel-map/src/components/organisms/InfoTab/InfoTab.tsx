@@ -1,6 +1,6 @@
 import { PropsWithChildren, memo } from "react";
 import "./InfoTab.scss";
-import { useLocation } from "react-router-dom";
+import useLocation from "../../../hooks/location/location";
 
 interface InfoTabProps extends PropsWithChildren {
   className?: string;
@@ -23,11 +23,11 @@ export default memo(function InfoTab({
   className = "",
   children,
 }: InfoTabProps): JSX.Element {
-  const location = useLocation();
-  const isOpen =
-    location.pathname === "/visited" || location.pathname === "/future";
+  const { isInfoTabOpen } = useLocation();
   return (
-    <div className={`info-tab ${className} ${isOpen ? "info-tab--open" : ""}`}>
+    <div
+      className={`info-tab ${className} ${isInfoTabOpen ? "info-tab--open" : ""}`}
+    >
       {children}
     </div>
   );

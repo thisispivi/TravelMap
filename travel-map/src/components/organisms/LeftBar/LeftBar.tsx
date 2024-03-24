@@ -4,7 +4,8 @@ import "./LeftBar.scss";
 import { HomeContext } from "../../pages/Home/Home";
 import { memo, useContext } from "react";
 import Button from "../../atoms/Buttons/Button";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
+import useLocation from "../../../hooks/location/location";
 
 interface LeftBarProps {
   className?: string;
@@ -24,9 +25,7 @@ interface LeftBarProps {
 export default memo(function LeftBar({
   className = "",
 }: LeftBarProps): JSX.Element {
-  const location = useLocation();
-  const isVisited = location.pathname === "/visited";
-  const isFuture = location.pathname === "/future";
+  const { isVisited, isFuture } = useLocation();
   const context = useContext(HomeContext);
   const { isDarkTheme, handleDarkModeSwitch } = context!;
   return (
