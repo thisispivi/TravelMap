@@ -6,6 +6,7 @@ import { memo, useContext } from "react";
 import Button from "../../atoms/Buttons/Button";
 import { Link } from "react-router-dom";
 import useLocation from "../../../hooks/location/location";
+import { LanguageSelctor } from "..";
 
 interface LeftBarProps {
   className?: string;
@@ -50,10 +51,14 @@ export default memo(function LeftBar({
             </Button>
           </Link>
         </div>
-        <DarkModeButton
-          isDarkTheme={isDarkTheme}
-          handleDarkModeSwitch={handleDarkModeSwitch}
-        />
+
+        <div className="left-bar__buttons--bottom">
+          <LanguageSelctor />
+          <DarkModeButton
+            isDarkTheme={isDarkTheme}
+            handleDarkModeSwitch={handleDarkModeSwitch}
+          />
+        </div>
       </div>
     </div>
   );

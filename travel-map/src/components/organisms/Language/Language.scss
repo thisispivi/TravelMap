@@ -1,0 +1,73 @@
+@use "../../../styles/mixins" as m;
+@use "../../../styles/variables" as v;
+
+.language-selector {
+  display: flex;
+  flex-direction: column-reverse;
+  & * {
+    flex-shrink: 0;
+  }
+  .language-selector__activator {
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    padding: 0.5rem;
+    height: 4.1rem !important;
+    border-radius: 3rem !important;
+
+    .language-selector__language-icon,
+    .language-selector__language-flag-icon {
+      grid-area: 1 / 1 / 2 / 2;
+      width: 100%;
+    }
+
+    .language-selector__language-icon {
+      margin-bottom: auto;
+      height: 1.3rem;
+    }
+
+    .language-selector__language-flag-icon {
+      margin-top: auto;
+      height: 1.4rem;
+    }
+  }
+  .language-selector__button,
+  .language-selector__activator {
+    @include m.transition(all, 0.3s, ease-in-out);
+  }
+
+  .language-selector__button--it,
+  .language-selector__button--en {
+    &.language-selector__button--active {
+      @include m.set-button-colors(
+        v.$languageButton,
+        v.$languageButtonContent,
+        v.$languageButtonHover
+      );
+    }
+  }
+
+  .language-selector__activator {
+    &.language-selector__activator--open {
+      @include m.set-button-colors(
+        v.$languageButton,
+        v.$languageButtonContent,
+        v.$languageButtonHover
+      );
+    }
+  }
+
+  .language-selector__button--it {
+    transform: translateY(2.5rem) scale(0.6);
+    &.language-selector__button--open {
+      transform: translateY(-1rem);
+    }
+  }
+  .language-selector__button--en {
+    transform: translateY(5rem) scale(0.6);
+    &.language-selector__button--open {
+      transform: translateY(-1.5rem);
+    }
+  }
+}
