@@ -1,10 +1,18 @@
 import FutureTravelsIcon from "./icons/FutureTravels.svg?react";
+import LanguageIcon from "./icons/Language.svg?react";
 import LogoIcon from "./icons/Logo.svg?react";
 import MoonIcon from "./icons/Moon.svg?react";
 import SunIcon from "./icons/Sun.svg?react";
 import VisitedIcon from "./icons/Visited.svg?react";
 
-export { FutureTravelsIcon, LogoIcon, MoonIcon, SunIcon, VisitedIcon };
+export {
+  FutureTravelsIcon,
+  LanguageIcon,
+  LogoIcon,
+  MoonIcon,
+  SunIcon,
+  VisitedIcon,
+};
 
 import UnitedKingdomFlag from "./icons/flags/UnitedKingdom.svg?react";
 import GermanyFlag from "./icons/flags/Germany.svg?react";

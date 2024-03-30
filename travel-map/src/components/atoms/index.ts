@@ -7,6 +7,8 @@ import CountryFlag from "./CountryFlag/CountryFlag";
 import CountryShape from "./CountryShape/CountryShape";
 import CountryShapeMulti from "./CountryShape/CountryShapeMulti";
 
+import LanguageFlag from "./LanguageFlag/LanguageFlag";
+
 import Marker from "./Marker/Marker";
 
 import Tween from "./Tween/Tween";
@@ -17,6 +19,7 @@ export {
   CountryFlag,
   CountryShape,
   CountryShapeMulti,
+  LanguageFlag,
   Marker,
   Tween,
 };
