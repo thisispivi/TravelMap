@@ -36,14 +36,14 @@ def get_image_info(cityUrl, filename, city_folder_path, logger):
     image["alt"] = ""
 
     if filename.endswith(".jpg"):
-        image["thumbnail"] = cityUrl + filename.replace(".jpg", "_thumb.jpg")
+        image["thumbnail"] = cityUrl + filename.replace(".jpg", "t.jpg")
         width, height = Image.open(
             os.path.join(city_folder_path, filename)).size
         max_common_divisor = get_max_common_divisor(width, height)
         image["width"] = int(width / max_common_divisor)
         image["height"] = int(height / max_common_divisor)
     else:
-        image["thumbnail"] = cityUrl + filename.split(".")[0] + "_thumb.jpg"
+        image["thumbnail"] = cityUrl + filename.split(".")[0] + "t.jpg"
         image["width"], image["height"] = 1, 1
         logger.warning("Image %s is not a jpg file", filename)
 

@@ -25,20 +25,40 @@ $scrollbarSize: 0.7rem;
   }
 }
 
-.home--light #info-tab {
-  @include setScrollbar(
-    v.$lightInfoTab,
-    v.$darkButton,
-    v.$darkInfoTab,
-    v.$darkLeftBar
-  );
+.home--light {
+  #info-tab {
+    @include setScrollbar(
+      v.$lightInfoTab,
+      v.$darkButton,
+      v.$darkInfoTab,
+      v.$darkLeftBar
+    );
+  }
+  #gallery {
+    @include setScrollbar(
+      v.$lightLeftBar,
+      v.$darkButton,
+      v.$darkInfoTab,
+      v.$darkLeftBar
+    );
+  }
 }
 
-.home--dark #info-tab {
-  @include setScrollbar(
-    v.$darkInfoTab,
-    v.$lightButton,
-    v.$lightInfoTab,
-    v.$lightLeftBar
-  );
+.home--dark {
+  #info-tab {
+    @include setScrollbar(
+      v.$darkInfoTab,
+      v.$lightButton,
+      v.$lightInfoTab,
+      v.$lightLeftBar
+    );
+  }
+  #gallery {
+    @include setScrollbar(
+      v.$darkLeftBar,
+      v.$lightButton,
+      v.$lightInfoTab,
+      v.$lightLeftBar
+    );
+  }
 }

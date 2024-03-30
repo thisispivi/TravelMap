@@ -8,8 +8,9 @@ import { RefObject } from "react";
  */
 export function componentHasOverflow(
   ref: RefObject<HTMLElement>,
-  mode: "vertical" | "horizontal" | "both" = "vertical",
+  mode: "vertical" | "horizontal" | "both" = "vertical"
 ): boolean {
+  console.log(ref.current);
   if (ref.current) {
     if (mode === "both") {
       return (
@@ -18,6 +19,7 @@ export function componentHasOverflow(
       );
     }
     if (mode === "vertical") {
+      console.log(ref.current.scrollHeight, ref.current.clientHeight);
       return ref.current.scrollHeight > ref.current.clientHeight;
     } else if (mode === "horizontal") {
       return ref.current.scrollWidth > ref.current.clientWidth;

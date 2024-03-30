@@ -18,6 +18,11 @@
     text-shadow: 0.1rem 0.1rem 0.1rem rgba(0, 0, 0, 0.5);
   }
 
+  .city-card__travel {
+    display: flex;
+    justify-content: space-between;
+  }
+
   &:nth-last-child(1) {
     margin-bottom: 0;
   }

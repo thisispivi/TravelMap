@@ -1,18 +1,15 @@
 import { PropsWithChildren, memo, useState } from "react";
-import { City, Country } from "../../../core";
+import { City } from "../../../core";
 import { WorldFeatureCollection } from "../../../typings/feature";
 import { InfoTab, LeftBar, Map } from "../../organisms";
 import useLocation from "../../../hooks/location/location";
 import { Backdrop } from "../../atoms";
 import { useNavigate } from "react-router-dom";
 import { Container } from "../../molecules";
+import { futureCities, visitedCities, visitedCountries } from "../../../data";
 
 interface HomeTemplateProps extends PropsWithChildren {
   countriesFeatures: WorldFeatureCollection;
-  visitedCountries: Record<string, Country>;
-  visitedCities: City[];
-  futureCountries: Record<string, Country>;
-  futureCities: City[];
 }
 
 /**
@@ -47,7 +44,9 @@ export default memo(function HomeTemplate(
       </Container>
       <Map
         data={props.countriesFeatures}
-        {...props}
+        visitedCountries={visitedCountries}
+        visitedCities={visitedCities}
+        futureCities={futureCities}
         currHoveredCity={currHoveredCity}
         setCurrentHoveredCity={setCurrHoveredCity}
       />

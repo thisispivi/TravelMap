@@ -49,13 +49,6 @@ export default memo(function LeftBar({
               <FutureTravelsIcon />
             </Button>
           </Link>
-          <Link to={"/gallery/Rome/0"}>
-            <Button
-              className={`left-bar__button ${isFuture ? "left-bar__button--future--active" : ""}`}
-            >
-              <FutureTravelsIcon />
-            </Button>
-          </Link>
         </div>
         <DarkModeButton
           isDarkTheme={isDarkTheme}
