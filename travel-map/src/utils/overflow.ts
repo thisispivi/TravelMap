@@ -8,7 +8,7 @@ import { RefObject } from "react";
  */
 export function componentHasOverflow(
   ref: RefObject<HTMLElement>,
-  mode: "vertical" | "horizontal" | "both" = "vertical"
+  mode: "vertical" | "horizontal" | "both" = "vertical",
 ): boolean {
   console.log(ref.current);
   if (ref.current) {
