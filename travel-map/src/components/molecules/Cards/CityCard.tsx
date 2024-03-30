@@ -2,6 +2,7 @@ import useLanguage from "../../../hooks/language/language";
 import { City } from "../../../core";
 import "./CityCard.scss";
 import { useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface CityCardProps {
   className?: string;
@@ -26,11 +27,12 @@ export default function CityCard({
   city,
   isFuture = false,
 }: CityCardProps): JSX.Element {
+  const navigate = useNavigate();
   const { t } = useLanguage(["home"]);
 
   const travels = useMemo(() => {
     return city.travels.filter((travel) =>
-      isFuture ? travel.isFuture : !travel.isFuture,
+      isFuture ? travel.isFuture : !travel.isFuture
     );
   }, [city.travels, isFuture]);
 
@@ -39,7 +41,11 @@ export default function CityCard({
       <h3>{city.getName(t)}</h3>
       <div className="city-card__content">
         {travels.map((travel, i) => (
-          <div key={i}>
+          <div
+            className="city-card__travel"
+            key={i}
+            onClick={() => navigate(`/gallery/${city.name}/${i}`)}
+          >
             <span>{travel.sDate.toDateString()}</span>
             <span>{travel.eDate.toDateString()}</span>
           </div>

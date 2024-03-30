@@ -5,17 +5,11 @@ import { WorldTopoJson } from "../../../typings/topojson";
 import { convertTopoJsonToWorldFeaturesCollection } from "../../../utils/topojson";
 import useThemeDetector, { ThemeDetector } from "../../../hooks/style/theme";
 import { createContext } from "react";
-import {
-  futureCities,
-  futureCountries,
-  visitedCities,
-  visitedCountries,
-} from "../../../data";
 import { Outlet, useNavigate, useSearchParams } from "react-router-dom";
 
 export type HomeContextType = ThemeDetector;
 export const HomeContext = createContext<HomeContextType | undefined>(
-  undefined,
+  undefined
 );
 
 /**
@@ -44,13 +38,7 @@ export default function Home(): JSX.Element {
   return (
     <div className={`home ${isDarkTheme ? "home--dark" : "home--light"}`}>
       <HomeContext.Provider value={context}>
-        <HomeTemplate
-          countriesFeatures={features}
-          visitedCountries={visitedCountries}
-          visitedCities={visitedCities}
-          futureCities={futureCities}
-          futureCountries={futureCountries}
-        >
+        <HomeTemplate countriesFeatures={features}>
           <Outlet />
         </HomeTemplate>
       </HomeContext.Provider>

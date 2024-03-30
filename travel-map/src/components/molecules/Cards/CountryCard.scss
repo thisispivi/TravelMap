@@ -7,9 +7,8 @@
   width: calc(100% - 2rem);
   padding: 1rem 1rem;
   border-radius: 1rem;
-  margin: 1rem 0;
-  background-color: #1c1e21;
-  box-shadow: 0 1rem 1.5rem 0 rgba(0, 0, 0, 0.4);
+  margin: 0.4rem 0;
+  box-shadow: 0 0.15rem 0.2rem 0 rgba(0, 0, 0, 0.4);
 
   .country-card__content,
   .country-card__header {
@@ -27,12 +26,6 @@
       margin-left: 0.5rem;
     }
   }
-
-  // &.Italy {
-  //   @include m.country-card-background(
-  //     "https://scontent.fcag1-1.fna.fbcdn.net/v/t39.30808-6/432683609_10222589664963020_2476096372518334825_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=5f2048&_nc_ohc=5k--VqNJiCAAX_y69JU&_nc_ht=scontent.fcag1-1.fna&oh=00_AfD4lI5bpW0miG28vTze30gniK9UnAYA7dh2728b-D3e9A&oe=6600FF3A"
-  //   );
-  // }
 
   // &.Belgium {
   //   @include m.country-card-background(

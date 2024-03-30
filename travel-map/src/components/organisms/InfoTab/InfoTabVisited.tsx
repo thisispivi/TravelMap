@@ -31,7 +31,13 @@ export default memo(function InfoTabVisited({
   const filteredCities = (country: string) =>
     visitedCities
       .filter((c) => c.country.id.replace(" ", "") === country.replace(" ", ""))
-      .filter((city) => city.travels.some((travel) => !travel.isFuture));
+      .filter((city) => city.travels.some((travel) => !travel.isFuture))
+      .sort((a, b) => {
+        const aDate = a.travels.find((travel) => !travel.isFuture)?.sDate;
+        const bDate = b.travels.find((travel) => !travel.isFuture)?.sDate;
+        if (aDate && bDate) return aDate.getTime() - bDate.getTime();
+        return 0;
+      });
 
   return (
     <div className={`info-tab-visited ${className}`}>

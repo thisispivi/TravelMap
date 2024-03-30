@@ -3,10 +3,11 @@ import react from "@vitejs/plugin-react-swc";
 import svgr from "vite-plugin-svgr";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
 import autoprefixer from "autoprefixer";
+import { qrcode } from "vite-plugin-qrcode";
 
 export default defineConfig(() => {
   return defineConfig({
-    plugins: [react(), svgr(), nodeResolve()],
+    plugins: [react(), svgr(), nodeResolve(), qrcode()],
     server: {
       watch: {
         usePolling: true,
