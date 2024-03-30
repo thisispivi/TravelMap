@@ -7,7 +7,7 @@ type GalleryLoader = {
   travelIdx: number;
 };
 export function loader(
-  data: LoaderFunctionArgs<GalleryLoader>
+  data: LoaderFunctionArgs<GalleryLoader>,
 ): GalleryProps | null {
   const { cityName, travelIdx } = data.params;
   const city = visitedCities.find((city) => city.name === cityName);
