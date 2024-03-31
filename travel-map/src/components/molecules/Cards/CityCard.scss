@@ -1,4 +1,5 @@
 @use "../../../styles/mixins" as m;
+@use "../../../styles/variables" as v;
 
 .city-card {
   display: flex;
@@ -6,10 +7,20 @@
   width: 100%;
   height: 7rem;
   padding: 1rem 1rem;
-  border-radius: 1rem;
   // box-shadow: 0 0.15rem 0.2rem 0 rgba(0, 0, 0, 0.4);
-  margin: 1rem 0;
   color: white;
+
+  &:nth-child(1) {
+    border-radius: 0.5rem 0.5rem 0 0;
+  }
+
+  &:nth-last-child(1) {
+    border-radius: 0 0 0.5rem 0.5rem;
+  }
+
+  &:only-child {
+    border-radius: 0.5rem;
+  }
 
   h3 {
     margin-bottom: auto;
@@ -23,5 +34,23 @@
 
   &:nth-last-child(1) {
     margin-bottom: 0;
+  }
+}
+
+.home--light {
+  .city-card {
+    border-bottom: 0.2rem solid v.$lightLeftBar;
+    &:nth-last-child(1) {
+      border-bottom: 0;
+    }
+  }
+}
+
+.home--dark {
+  .city-card {
+    border-bottom: 0.2rem solid v.$darkLeftBar;
+    &:nth-last-child(1) {
+      border-bottom: 0;
+    }
   }
 }
