@@ -24,6 +24,19 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+
+    .left-bar__buttons--top {
+      height: 12.5rem;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      .logo-icon {
+        cursor: pointer;
+      }
+    }
+
     .left-bar__buttons {
       display: flex;
       flex-direction: column;
