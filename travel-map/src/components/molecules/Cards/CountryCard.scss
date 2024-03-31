@@ -7,8 +7,9 @@
   width: calc(100% - 2rem);
   padding: 1rem 1rem;
   border-radius: 1rem;
-  margin: 0.4rem 0;
+  margin: 0.75rem 0;
   box-shadow: 0 0.15rem 0.2rem 0 rgba(0, 0, 0, 0.4);
+  @include m.transition(all, 0.3s, ease-in-out);
 
   .country-card__content,
   .country-card__header {
@@ -20,52 +21,25 @@
     justify-content: center;
     align-items: center;
     margin-bottom: 1rem;
+    // text-shadow: 0.1rem 0.1rem 0.1rem rgba(0, 0, 0, 0.5);
     .country-flag {
       width: 1.8rem;
       height: auto;
       margin-left: 0.5rem;
     }
   }
+}
 
-  // &.Belgium {
-  //   @include m.country-card-background(
-  //     "https://scontent.fcag1-1.fna.fbcdn.net/v/t39.30808-6/432697589_10222589662562960_2112889347361206626_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=5f2048&_nc_ohc=hh1U2iImD7UAX9OCLkj&_nc_ht=scontent.fcag1-1.fna&oh=00_AfBqXNRV0Mws7TCmJoDGAhve5VBY5xTMvooMT6oQj5f1XA&oe=65FF82AA"
-  //   );
-  // }
+.home--light {
+  .country-card {
+    background-color: v.$lightLeftBar;
+    color: v.$darkLeftBar;
+  }
+}
 
-  // &.Germany {
-  //   @include m.country-card-background(
-  //     "https://scontent.fcag1-1.fna.fbcdn.net/v/t39.30808-6/434161439_10222589659762890_4155596866055741669_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=5f2048&_nc_ohc=kmI1RCUl0uIAX9QnetV&_nc_ht=scontent.fcag1-1.fna&oh=00_AfD4aII6cZGiweU9d2kptiUOUz1IedWJhTDaj41OnFGdLw&oe=6600E8B5"
-  //   );
-  // }
-
-  // &.Hungary {
-  //   @include m.country-card-background(
-  //     "https://scontent.fcag1-1.fna.fbcdn.net/v/t39.30808-6/423236630_10222589661482933_9091147808919104978_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=5f2048&_nc_ohc=nsZuf3Y0NdsAX-rw-ij&_nc_oc=AdghOsang-DpdNjtFpqEMKQ3IdXHZOxKbH2tsI60-jhzWlkZ5NL1Pz485dVosvLsrkw&_nc_ht=scontent.fcag1-1.fna&oh=00_AfCu20Uy33sFoStgpqSGCSjvWvdCsRbO5eRlyv712CS6Fw&oe=660084B1"
-  //   );
-  // }
-
-  // &.Spain {
-  //   @include m.country-card-background(
-  //     "https://scontent.fcag1-1.fna.fbcdn.net/v/t39.30808-6/432725406_10222589665163025_7390218105511351336_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=5f2048&_nc_ohc=d_uQ3RnrRVAAX_aYVti&_nc_ht=scontent.fcag1-1.fna&oh=00_AfBGh5drevqfs90N24NluVoJ40sZEn6kQvkBZJvzUpZvGg&oe=65FF6EDB"
-  //   );
-  // }
-
-  // &.UnitedKingdom {
-  //   @include m.country-card-background(
-  //     "https://scontent.fcag1-1.fna.fbcdn.net/v/t39.30808-6/432768193_10222589662082948_4424475272133748100_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=5f2048&_nc_ohc=U6Vwh3_sYVMAX8ydDV5&_nc_ht=scontent.fcag1-1.fna&oh=00_AfD8SkwDKlUJQNP8zmj9EFVJTpa31UzPJbi6cixEVVW4eQ&oe=66054CAE"
-  //   );
-  // }
-
-  // &.Portugal {
-  //   @include m.country-card-background(
-  //     "https://scontent.fcag1-1.fna.fbcdn.net/v/t39.30808-6/432702814_10222589657202826_1674745041524572918_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=5f2048&_nc_ohc=S1mFukiqKYYAX9Ack6s&_nc_ht=scontent.fcag1-1.fna&oh=00_AfALcW8G8wR9_m6Z6PaGnWFmGPVysFZP6pEQC5YN13x9pw&oe=65FF452B"
-  //   );
-  // }
-
-  // &.Japan {
-  //   @include m.country-card-background(
-  //     "https://scontent.fcag1-1.fna.fbcdn.net/v/t39.30808-6/432762123_10222589663122974_1701671720286242147_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=5f2048&_nc_ohc=gVUgC75lcvQAX_2A-Rd&_nc_ht=scontent.fcag1-1.fna&oh=00_AfBBoKNrP6pe8IWxoRTurhXaGOyVht8G2dgtZ6pdUHbTyQ&oe=6600FE8A"
-  //   );
-  // }
+.home--dark {
+  .country-card {
+    background-color: v.$darkLeftBar;
+    color: #ffffff;
+  }
 }

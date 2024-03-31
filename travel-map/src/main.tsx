@@ -6,6 +6,7 @@ import "./styles/_typography.scss";
 import "./styles/_variables.scss";
 import "./styles/_mixins.scss";
 import "./styles/_scrollbar.scss";
+import "./styles/_images.scss";
 import "./i18n/i18n";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Gallery, InfoTabFuture, InfoTabVisited } from "./components/organisms";
@@ -30,5 +31,5 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         },
       ])}
     />
-  </React.StrictMode>,
+  </React.StrictMode>
 );

@@ -32,7 +32,7 @@ export default function Gallery(): JSX.Element {
     <div className="gallery">
       <h1>{city.name}</h1>
       <div className={`gallery__content`} id={"gallery"}>
-        <PhotoAlbum photos={photos} layout="masonry" />
+        <PhotoAlbum photos={photos} layout="rows" />
       </div>
     </div>
   );
