@@ -3,556 +3,443 @@ import { Image } from "../../../../core";
 export const tr_111123_141123_images: Image[] = [
   {
     original:
-      "https://lh3.googleusercontent.com/drive-viewer/AKGpihbiWJIzkazKG0TdXzil_oq-Y82E_VAxip5sQsfS5ECnoLv_76aGFG2dk9MYwlXD4CcDB0vwm5aEITPzRKUheBz0nwbAjw=s1600-v0",
-    alt: "Piazza castello",
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/001.jpg",
+    alt: "",
     thumbnail:
-      "https://lh3.googleusercontent.com/drive-viewer/AKGpihYE8ZdLjPxa1DuxoQPT9KIhX6ggHWzHuaXYOSAvVPs4_u3X29FIIZEut1lQB7_Jo4CmjZj73_Gpnh2fquwSaZry4gmCRw=s2560",
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/001t.jpg",
     width: 64,
     height: 85,
   },
   {
     original:
-      "https://lh3.googleusercontent.com/drive-viewer/AKGpiha4ldIRCv1gQdVmwlYQt5zyqdfkDTSMihRb2TpEkLF0X2NdVfv06yAQHdJRKu-30bm6Fb7Yvmch0QNtrbOQRm1gKPoZ4A=s1600-v0",
-    alt: "Piazza castello 2",
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/002.jpg",
+    alt: "",
     thumbnail:
-      "https://lh3.googleusercontent.com/drive-viewer/AKGpihYyHrWfB1SJJCshYk6Vkr7ecBbVFYwMvw-0fYAPALpeKz_4HerG1R7k1boQ9lBmypYZK5edlejx_XYCY7UXCSLFacPL_A=s2560",
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/002t.jpg",
     width: 64,
     height: 85,
   },
   {
     original:
-      "https://lh3.googleusercontent.com/drive-viewer/AKGpihZ1oc3mbi1GX8cJzDvzO1t0COpDC0Xp7GKx6DUyaKNnQ232m7JDj4lvgdhZEhc8JwzLR_SPn2PyII4ZJGJrylMa7zJ-=s1600-v0",
-    alt: "Una delle palle da tennis sparse per la città",
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/003.jpg",
+    alt: "",
     thumbnail:
-      "https://lh3.googleusercontent.com/drive-viewer/AKGpihZrHa25PctuTPW8MQPgCSC23RTuDfjsDGA42VjbGfsW_pa8f6IwrQRPGw5ZNij0pUk60xqbUgUe2HsH1VSyrh2PLhZTSQ=s2560",
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/003t.jpg",
     width: 64,
     height: 85,
   },
   {
     original:
-      "https://lh3.googleusercontent.com/drive-viewer/AKGpiha3Di3iuClStvgyRga67AUWwRgcYGGfg1k5stllNYUaySRq_ZlODZRq4kCxvRTjCLlGhQzuhBQFOX_aSF04OtEujsyf6A=s1600-v0",
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/004.jpg",
     alt: "",
     thumbnail:
-      "https://lh3.googleusercontent.com/drive-viewer/AKGpihb3spyeLfNHQWL1nzxaeu9VgoNZEc47UdA3MzZQKF5gygwI2HQkRXcBkmAdwUm34gpeRzL2gkRqEjAGGC5A3TdSnY_w0A=s2560",
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/004t.jpg",
     width: 64,
     height: 85,
   },
   {
     original:
-      "https://lh3.googleusercontent.com/drive-viewer/AKGpihZVyIZgHQbirvTlWrKM_b_n0YgB3U-ufmQHHQOr48ZQDcsqHAnmvHHCSgnzUhvkk6FvOunSxlha8MhP2vakmzQPeKfb=s1600-v0",
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/005.jpg",
     alt: "",
     thumbnail:
-      "https://lh3.googleusercontent.com/drive-viewer/AKGpihYKKQxtgP3RDmzY20Ddl93WAxe-w6QHqQWKRtGgnGsopiwcoDsvHQWfiVj8dCEghDv46xocY_l9pPdtiPcnPUMZrNudzA=s2560",
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/005t.jpg",
     width: 85,
     height: 64,
   },
   {
     original:
-      "https://lh3.googleusercontent.com/drive-viewer/AKGpihavOQJun_oxAZLsEfbm1UAmSqLSL4ejJWE-uk51mGNiWjTa9k3TTYvPHR5cID0fQY4mpCraGcb5W9nfLSs12CIAsLsF=s1600-v0",
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/006.jpg",
     alt: "",
     thumbnail:
-      "https://lh3.googleusercontent.com/drive-viewer/AKGpiha87aNMELRB2XxkiTH21t5qrBzwXOuWstHx1V0mE-SZ7qd6rrRq1lnuScpwqQUL1KAyDqMwoJqE2lHzNYuAKm25dFF9rw=s2560",
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/006t.jpg",
     width: 64,
     height: 85,
   },
   {
     original:
-      "https://drive.google.com/file/d/1L4v5mO4l-_jmcQEsra9umwDIC3_OkOC8/view?usp=sharing",
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/007.jpg",
     alt: "",
     thumbnail:
-      "https://drive.google.com/file/d/1FZqzUM4D050JpyYA2e4x0G4_UuIiICIu/view?usp=sharing",
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/007t.jpg",
     width: 64,
     height: 85,
   },
   {
     original:
-      "https://lh3.googleusercontent.com/drive-viewer/AKGpihZMjtoEblk5-XJDVM-DALiHiqLxrK4txf0vlIRAMdGUzMoGev7mzEqYvPpkRaSc8E3IvZd1cOxr_nxrW2H--76qG6yx0g=s1600-v0",
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/008.jpg",
     alt: "",
-    thumbnail: "Turin/008t.jpg",
+    thumbnail:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/008t.jpg",
     width: 64,
     height: 85,
   },
   {
-    original: "Turin/009.jpg",
+    original:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/009.jpg",
     alt: "",
-    thumbnail: "Turin/009t.jpg",
+    thumbnail:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/009t.jpg",
     width: 64,
     height: 85,
   },
   {
-    original: "Turin/010.jpg",
+    original:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/010.jpg",
     alt: "",
-    thumbnail: "Turin/010t.jpg",
+    thumbnail:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/010t.jpg",
     width: 85,
     height: 64,
   },
   {
-    original: "Turin/011.jpg",
+    original:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/011.jpg",
     alt: "",
-    thumbnail: "Turin/011t.jpg",
+    thumbnail:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/011t.jpg",
     width: 85,
     height: 64,
   },
   {
-    original: "Turin/012.jpg",
+    original:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/012.jpg",
     alt: "",
-    thumbnail: "Turin/012t.jpg",
+    thumbnail:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/012t.jpg",
     width: 85,
     height: 64,
   },
   {
-    original: "Turin/013.jpg",
+    original:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/013.jpg",
     alt: "",
-    thumbnail: "Turin/013t.jpg",
+    thumbnail:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/013t.jpg",
     width: 85,
     height: 64,
   },
   {
-    original: "Turin/014.jpg",
+    original:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/014.jpg",
     alt: "",
-    thumbnail: "Turin/014t.jpg",
+    thumbnail:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/014t.jpg",
     width: 85,
     height: 64,
   },
   {
-    original: "Turin/015.jpg",
+    original:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/015.jpg",
     alt: "",
-    thumbnail: "Turin/015t.jpg",
+    thumbnail:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/015t.jpg",
     width: 64,
     height: 85,
   },
   {
-    original: "Turin/016.jpg",
+    original:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/016.jpg",
     alt: "",
-    thumbnail: "Turin/016t.jpg",
+    thumbnail:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/016t.jpg",
     width: 85,
     height: 64,
   },
   {
-    original: "Turin/017.jpg",
+    original:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/017.jpg",
     alt: "",
-    thumbnail: "Turin/017t.jpg",
+    thumbnail:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/017t.jpg",
     width: 85,
     height: 64,
   },
   {
-    original: "Turin/018.jpg",
+    original:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/018.jpg",
     alt: "",
-    thumbnail: "Turin/018t.jpg",
+    thumbnail:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/018t.jpg",
     width: 16,
     height: 9,
   },
   {
-    original: "Turin/019.jpg",
+    original:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/019.jpg",
     alt: "",
-    thumbnail: "Turin/019t.jpg",
+    thumbnail:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/019t.jpg",
     width: 16,
     height: 9,
   },
   {
-    original: "Turin/020.jpg",
+    original:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/020.jpg",
     alt: "",
-    thumbnail: "Turin/020t.jpg",
+    thumbnail:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/020t.jpg",
     width: 16,
     height: 9,
   },
   {
-    original: "Turin/021.mp4",
+    original:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/024.jpg",
     alt: "",
-    thumbnail: "Turin/021t.jpg",
-    width: 1,
-    height: 1,
-  },
-  {
-    original: "Turin/022.mp4",
-    alt: "",
-    thumbnail: "Turin/022t.jpg",
-    width: 1,
-    height: 1,
-  },
-  {
-    original: "Turin/023.mp4",
-    alt: "",
-    thumbnail: "Turin/023t.jpg",
-    width: 1,
-    height: 1,
-  },
-  {
-    original: "Turin/024.jpg",
-    alt: "",
-    thumbnail: "Turin/024t.jpg",
+    thumbnail:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/024t.jpg",
     width: 9,
     height: 16,
   },
   {
-    original: "Turin/025.jpg",
+    original:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/025.jpg",
     alt: "",
-    thumbnail: "Turin/025t.jpg",
+    thumbnail:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/025t.jpg",
     width: 16,
     height: 9,
   },
   {
-    original: "Turin/026.mp4",
+    original:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/032.jpg",
     alt: "",
-    thumbnail: "Turin/026t.jpg",
-    width: 1,
-    height: 1,
-  },
-  {
-    original: "Turin/027.mp4",
-    alt: "",
-    thumbnail: "Turin/027t.jpg",
-    width: 1,
-    height: 1,
-  },
-  {
-    original: "Turin/028.mp4",
-    alt: "",
-    thumbnail: "Turin/028t.jpg",
-    width: 1,
-    height: 1,
-  },
-  {
-    original: "Turin/029.mp4",
-    alt: "",
-    thumbnail: "Turin/029t.jpg",
-    width: 1,
-    height: 1,
-  },
-  {
-    original: "Turin/030.mp4",
-    alt: "",
-    thumbnail: "Turin/030t.jpg",
-    width: 1,
-    height: 1,
-  },
-  {
-    original: "Turin/031.mp4",
-    alt: "",
-    thumbnail: "Turin/031t.jpg",
-    width: 1,
-    height: 1,
-  },
-  {
-    original: "Turin/032.jpg",
-    alt: "",
-    thumbnail: "Turin/032t.jpg",
+    thumbnail:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/032t.jpg",
     width: 9,
     height: 16,
   },
   {
-    original: "Turin/033.jpg",
+    original:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/033.jpg",
     alt: "",
-    thumbnail: "Turin/033t.jpg",
+    thumbnail:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/033t.jpg",
     width: 9,
     height: 16,
   },
   {
-    original: "Turin/034.jpg",
+    original:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/034.jpg",
     alt: "",
-    thumbnail: "Turin/034t.jpg",
+    thumbnail:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/034t.jpg",
     width: 16,
     height: 9,
   },
   {
-    original: "Turin/035.jpg",
+    original:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/035.jpg",
     alt: "",
-    thumbnail: "Turin/035t.jpg",
+    thumbnail:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/035t.jpg",
     width: 16,
     height: 9,
   },
   {
-    original: "Turin/036.mp4",
+    original:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/037.jpg",
     alt: "",
-    thumbnail: "Turin/036t.jpg",
-    width: 1,
-    height: 1,
-  },
-  {
-    original: "Turin/037.jpg",
-    alt: "",
-    thumbnail: "Turin/037t.jpg",
+    thumbnail:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/037t.jpg",
     width: 9,
     height: 16,
   },
   {
-    original: "Turin/038.jpg",
+    original:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/038.jpg",
     alt: "",
-    thumbnail: "Turin/038t.jpg",
+    thumbnail:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/038t.jpg",
     width: 16,
     height: 9,
   },
   {
-    original: "Turin/039.jpg",
+    original:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/039.jpg",
     alt: "",
-    thumbnail: "Turin/039t.jpg",
+    thumbnail:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/039t.jpg",
     width: 9,
     height: 16,
   },
   {
-    original: "Turin/040.jpg",
+    original:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/040.jpg",
     alt: "",
-    thumbnail: "Turin/040t.jpg",
+    thumbnail:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/040t.jpg",
     width: 16,
     height: 9,
   },
   {
-    original: "Turin/041.jpg",
+    original:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/041.jpg",
     alt: "",
-    thumbnail: "Turin/041t.jpg",
+    thumbnail:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/041t.jpg",
     width: 16,
     height: 9,
   },
   {
-    original: "Turin/042.mp4",
+    original:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/044.jpg",
     alt: "",
-    thumbnail: "Turin/042t.jpg",
-    width: 1,
-    height: 1,
-  },
-  {
-    original: "Turin/043.mp4",
-    alt: "",
-    thumbnail: "Turin/043t.jpg",
-    width: 1,
-    height: 1,
-  },
-  {
-    original: "Turin/044.jpg",
-    alt: "",
-    thumbnail: "Turin/044t.jpg",
+    thumbnail:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/044t.jpg",
     width: 9,
     height: 16,
   },
   {
-    original: "Turin/045.jpg",
+    original:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/045.jpg",
     alt: "",
-    thumbnail: "Turin/045t.jpg",
+    thumbnail:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/045t.jpg",
     width: 16,
     height: 9,
   },
   {
-    original: "Turin/046.jpg",
+    original:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/046.jpg",
     alt: "",
-    thumbnail: "Turin/046t.jpg",
+    thumbnail:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/046t.jpg",
     width: 9,
     height: 16,
   },
   {
-    original: "Turin/047.mp4",
+    original:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/049.jpg",
     alt: "",
-    thumbnail: "Turin/047t.jpg",
-    width: 1,
-    height: 1,
-  },
-  {
-    original: "Turin/048.mp4",
-    alt: "",
-    thumbnail: "Turin/048t.jpg",
-    width: 1,
-    height: 1,
-  },
-  {
-    original: "Turin/049.jpg",
-    alt: "",
-    thumbnail: "Turin/049t.jpg",
+    thumbnail:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/049t.jpg",
     width: 16,
     height: 9,
   },
   {
-    original: "Turin/050.jpg",
+    original:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/050.jpg",
     alt: "",
-    thumbnail: "Turin/050t.jpg",
+    thumbnail:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/050t.jpg",
     width: 16,
     height: 9,
   },
   {
-    original: "Turin/051.mp4",
+    original:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/052.jpg",
     alt: "",
-    thumbnail: "Turin/051t.jpg",
-    width: 1,
-    height: 1,
-  },
-  {
-    original: "Turin/052.jpg",
-    alt: "",
-    thumbnail: "Turin/052t.jpg",
+    thumbnail:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/052t.jpg",
     width: 9,
     height: 16,
   },
   {
-    original: "Turin/053.mp4",
+    original:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/054.jpg",
     alt: "",
-    thumbnail: "Turin/053t.jpg",
-    width: 1,
-    height: 1,
-  },
-  {
-    original: "Turin/054.jpg",
-    alt: "",
-    thumbnail: "Turin/054t.jpg",
+    thumbnail:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/054t.jpg",
     width: 9,
     height: 16,
   },
   {
-    original: "Turin/055.jpg",
+    original:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/055.jpg",
     alt: "",
-    thumbnail: "Turin/055t.jpg",
+    thumbnail:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/055t.jpg",
     width: 9,
     height: 16,
   },
   {
-    original: "Turin/056.jpg",
+    original:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/056.jpg",
     alt: "",
-    thumbnail: "Turin/056t.jpg",
+    thumbnail:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/056t.jpg",
     width: 9,
     height: 16,
   },
   {
-    original: "Turin/057.jpg",
+    original:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/057.jpg",
     alt: "",
-    thumbnail: "Turin/057t.jpg",
+    thumbnail:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/057t.jpg",
     width: 9,
     height: 16,
   },
   {
-    original: "Turin/058.mp4",
+    original:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/059.jpg",
     alt: "",
-    thumbnail: "Turin/058t.jpg",
-    width: 1,
-    height: 1,
-  },
-  {
-    original: "Turin/059.jpg",
-    alt: "",
-    thumbnail: "Turin/059t.jpg",
+    thumbnail:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/059t.jpg",
     width: 9,
     height: 16,
   },
   {
-    original: "Turin/060.mp4",
+    original:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/062.jpg",
     alt: "",
-    thumbnail: "Turin/060t.jpg",
-    width: 1,
-    height: 1,
-  },
-  {
-    original: "Turin/061.mp4",
-    alt: "",
-    thumbnail: "Turin/061t.jpg",
-    width: 1,
-    height: 1,
-  },
-  {
-    original: "Turin/062.jpg",
-    alt: "",
-    thumbnail: "Turin/062t.jpg",
+    thumbnail:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/062t.jpg",
     width: 9,
     height: 16,
   },
   {
-    original: "Turin/063.jpg",
+    original:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/063.jpg",
     alt: "",
-    thumbnail: "Turin/063t.jpg",
+    thumbnail:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/063t.jpg",
     width: 9,
     height: 16,
   },
   {
-    original: "Turin/064.jpg",
+    original:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/064.jpg",
     alt: "",
-    thumbnail: "Turin/064t.jpg",
+    thumbnail:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/064t.jpg",
     width: 9,
     height: 16,
   },
   {
-    original: "Turin/065.mp4",
+    original:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/067.jpg",
     alt: "",
-    thumbnail: "Turin/065t.jpg",
-    width: 1,
-    height: 1,
-  },
-  {
-    original: "Turin/066.mp4",
-    alt: "",
-    thumbnail: "Turin/066t.jpg",
-    width: 1,
-    height: 1,
-  },
-  {
-    original: "Turin/067.jpg",
-    alt: "",
-    thumbnail: "Turin/067t.jpg",
+    thumbnail:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/067t.jpg",
     width: 9,
     height: 16,
   },
   {
-    original: "Turin/068.jpg",
+    original:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/068.jpg",
     alt: "",
-    thumbnail: "Turin/068t.jpg",
+    thumbnail:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/068t.jpg",
     width: 9,
     height: 16,
   },
   {
-    original: "Turin/069.jpg",
+    original:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/069.jpg",
     alt: "",
-    thumbnail: "Turin/069t.jpg",
+    thumbnail:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/069t.jpg",
     width: 9,
     height: 16,
   },
   {
-    original: "Turin/070.mp4",
+    original:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/073.jpg",
     alt: "",
-    thumbnail: "Turin/070t.jpg",
-    width: 1,
-    height: 1,
-  },
-  {
-    original: "Turin/071.mp4",
-    alt: "",
-    thumbnail: "Turin/071t.jpg",
-    width: 1,
-    height: 1,
-  },
-  {
-    original: "Turin/072.mp4",
-    alt: "",
-    thumbnail: "Turin/072t.jpg",
-    width: 1,
-    height: 1,
-  },
-  {
-    original: "Turin/073.jpg",
-    alt: "",
-    thumbnail: "Turin/073t.jpg",
+    thumbnail:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/818446548014d16b4fd4595c629a6584beb65ed0/Turin/073t.jpg",
     width: 9,
     height: 16,
-  },
-  {
-    original: "Turin/074.mp4",
-    alt: "",
-    thumbnail: "Turin/074t.jpg",
-    width: 1,
-    height: 1,
-  },
-  {
-    original: "Turin/075.mp4",
-    alt: "",
-    thumbnail: "Turin/075t.jpg",
-    width: 1,
-    height: 1,
-  },
-  {
-    original: "Turin/076.mp4",
-    alt: "",
-    thumbnail: "Turin/076t.jpg",
-    width: 1,
-    height: 1,
-  },
-  {
-    original: "Turin/077.mp4",
-    alt: "",
-    thumbnail: "Turin/077t.jpg",
-    width: 1,
-    height: 1,
   },
 ];
