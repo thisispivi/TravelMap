@@ -10,7 +10,7 @@ import { i18n } from "i18next";
  */
 export function formatDate(
   date: Date | undefined,
-  lang: i18n["language"],
+  lang: i18n["language"]
 ): string {
   if (!lang.includes("en") && !lang.includes("it"))
     return "Unsupported language";
@@ -18,9 +18,9 @@ export function formatDate(
   if (!date) return "No date";
 
   const formattedDate = new Intl.DateTimeFormat(lang, {
-    weekday: "long",
+    weekday: "short",
     day: "numeric",
-    month: "long",
+    month: "short",
     year: "numeric",
   }).format(date);
 
@@ -37,7 +37,7 @@ export function formatDate(
  */
 export function formatDateMonthYear(
   date: Date | undefined,
-  lang: i18n["language"],
+  lang: i18n["language"]
 ): string {
   if (!lang.includes("en") && !lang.includes("it"))
     return "Unsupported language";

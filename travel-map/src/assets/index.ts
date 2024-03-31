@@ -1,3 +1,5 @@
+import ArrivalIcon from "./icons/Arrival.svg?react";
+import DepartureIcon from "./icons/Departure.svg?react";
 import FutureTravelsIcon from "./icons/FutureTravels.svg?react";
 import LanguageIcon from "./icons/Language.svg?react";
 import LogoIcon from "./icons/Logo.svg?react";
@@ -6,6 +8,8 @@ import SunIcon from "./icons/Sun.svg?react";
 import VisitedIcon from "./icons/Visited.svg?react";
 
 export {
+  ArrivalIcon,
+  DepartureIcon,
   FutureTravelsIcon,
   LanguageIcon,
   LogoIcon,
