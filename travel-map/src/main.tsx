@@ -17,7 +17,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <RouterProvider
       router={createBrowserRouter([
         {
-          path: "/",
+          path: "/TravelMap/",
           element: <Home />,
           children: [
             { path: "visited", element: <InfoTabVisited /> },
@@ -31,5 +31,5 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         },
       ])}
     />
-  </React.StrictMode>,
+  </React.StrictMode>
 );
