@@ -36,36 +36,17 @@ export default memo(function LeftBar({
     >
       <div className="left-bar__container">
         <div className="left-bar__buttons--top">
-          <LogoIcon
-            className="logo-icon"
-            onClick={() => navigate("/TravelMap/")}
-          />
+          <LogoIcon className="logo-icon" onClick={() => navigate("/")} />
         </div>
         <div className="left-bar__buttons">
-          <Link
-            to={
-              isVisited
-                ? "/"
-                : isFuture
-                  ? "/TravelMap/?to=visited"
-                  : "/TravelMap/visited"
-            }
-          >
+          <Link to={isVisited ? "/" : isFuture ? "/?to=visited" : "/visited"}>
             <Button
               className={`left-bar__button ${isVisited ? "left-bar__button--visited--active" : ""}`}
             >
               <VisitedIcon />
             </Button>
           </Link>
-          <Link
-            to={
-              isFuture
-                ? "/"
-                : isVisited
-                  ? "/TravelMap/?to=future"
-                  : "/TravelMap/future"
-            }
-          >
+          <Link to={isFuture ? "/" : isVisited ? "/?to=future" : "/future"}>
             <Button
               className={`left-bar__button ${isFuture ? "left-bar__button--future--active" : ""}`}
             >
