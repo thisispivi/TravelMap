@@ -3,6 +3,7 @@ import { City } from "../../../core";
 import "./CityCard.scss";
 import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
+import { TravelCard } from "..";
 
 interface CityCardProps {
   className?: string;
@@ -32,7 +33,7 @@ export default function CityCard({
 
   const travels = useMemo(() => {
     return city.travels.filter((travel) =>
-      isFuture ? travel.isFuture : !travel.isFuture,
+      isFuture ? travel.isFuture : !travel.isFuture
     );
   }, [city.travels, isFuture]);
 
@@ -41,14 +42,11 @@ export default function CityCard({
       <h3>{city.getName(t)}</h3>
       <div className="city-card__content">
         {travels.map((travel, i) => (
-          <div
-            className="city-card__travel"
+          <TravelCard
+            travel={travel}
             key={i}
             onClick={() => navigate(`/gallery/${city.name}/${i}`)}
-          >
-            <span>{travel.sDate.toDateString()}</span>
-            <span>{travel.eDate.toDateString()}</span>
-          </div>
+          />
         ))}
       </div>
     </div>

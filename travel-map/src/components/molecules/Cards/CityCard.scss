@@ -5,35 +5,29 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 7rem;
+  min-height: 7rem;
   padding: 1rem 1rem;
   // box-shadow: 0 0.15rem 0.2rem 0 rgba(0, 0, 0, 0.4);
   color: white;
 
+  $cityCardRadius: 0.6rem;
   &:nth-child(1) {
-    border-radius: 0.5rem 0.5rem 0 0;
+    border-radius: $cityCardRadius $cityCardRadius 0 0;
   }
-
   &:nth-last-child(1) {
-    border-radius: 0 0 0.5rem 0.5rem;
+    border-radius: 0 0 $cityCardRadius $cityCardRadius;
   }
-
   &:only-child {
-    border-radius: 0.5rem;
+    border-radius: $cityCardRadius;
   }
 
   h3 {
-    margin-bottom: auto;
-    // text-shadow: 0.1rem 0.1rem 0.1rem rgba(0, 0, 0, 0.5);
+    margin-bottom: 1.5rem;
   }
 
   .city-card__travel {
     display: flex;
     justify-content: space-between;
-  }
-
-  &:nth-last-child(1) {
-    margin-bottom: 0;
   }
 }
 
