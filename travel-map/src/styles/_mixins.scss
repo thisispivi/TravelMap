@@ -6,11 +6,11 @@
   -ms-transition: $property $duration $timing;
 }
 
-@mixin city-card-background($url) {
+@mixin city-card-background($url, $opacity) {
   background: linear-gradient(
       to bottom,
-      rgba(74, 74, 74, 0.32),
-      rgba(26, 26, 26, 0.7)
+      rgba(0, 0, 0, $opacity),
+      rgba(0, 0, 0, $opacity)
     ),
     url($url);
   background-size: cover;
@@ -21,8 +21,8 @@
 @mixin country-card-background($url) {
   background: linear-gradient(
       to bottom,
-      rgba(36, 37, 38, 0.7),
-      rgba(36, 37, 38, 0.95) 30%
+      rgba(0, 0, 0, 0.479),
+      rgba(36, 37, 38, 1) 4rem
     ),
     url($url);
   background-size: cover;

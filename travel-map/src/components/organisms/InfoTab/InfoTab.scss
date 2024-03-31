@@ -6,7 +6,7 @@
   top: 0;
   left: 0;
   height: 100%;
-  width: 26rem;
+  width: 30rem;
   z-index: 1;
   @include m.transition(all, 0.3s, ease-in-out);
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
@@ -14,6 +14,12 @@
 
   &.info-tab--open {
     transform: translateX(v.$leftBarWidth);
+  }
+
+  .country-card {
+    &:nth-child(1) {
+      margin-top: 0;
+    }
   }
 }
 
@@ -28,5 +34,11 @@
   .info-tab {
     background-color: v.$darkInfoTab;
     color: #ffffff;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .info-tab {
+    width: calc(100% - 3.5rem);
   }
 }

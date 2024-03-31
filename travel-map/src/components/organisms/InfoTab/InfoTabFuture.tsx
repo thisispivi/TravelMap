@@ -29,9 +29,14 @@ export default memo(function InfoTabFuture({
   const contentRef = useRef<HTMLDivElement>(null);
 
   const filteredCities = (country: string) =>
-    futureCities.filter(
-      (c) => c.country.id.replace(" ", "") === country.replace(" ", ""),
-    );
+    futureCities
+      .filter((c) => c.country.id.replace(" ", "") === country.replace(" ", ""))
+      .sort((a, b) => {
+        const aDate = a.travels.find((travel) => travel.isFuture)?.sDate;
+        const bDate = b.travels.find((travel) => travel.isFuture)?.sDate;
+        if (aDate && bDate) return aDate.getTime() - bDate.getTime();
+        return 0;
+      });
 
   return (
     <div className={`info-tab-future ${className}`}>
