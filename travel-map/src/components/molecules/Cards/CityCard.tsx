@@ -45,7 +45,7 @@ export default function CityCard({
           <TravelCard
             travel={travel}
             key={i}
-            onClick={() => navigate(`/gallery/${city.name}/${i}`)}
+            onClick={() => navigate(`/TravelMap/gallery/${city.name}/${i}`)}
           />
         ))}
       </div>
