@@ -4,7 +4,7 @@ import "./LeftBar.scss";
 import { HomeContext } from "../../pages/Home/Home";
 import { memo, useContext } from "react";
 import Button from "../../atoms/Buttons/Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useLocation from "../../../hooks/location/location";
 import { LanguageSelctor } from "..";
 
@@ -26,6 +26,7 @@ interface LeftBarProps {
 export default memo(function LeftBar({
   className = "",
 }: LeftBarProps): JSX.Element {
+  const navigate = useNavigate();
   const { isVisited, isFuture, isGallery } = useLocation();
   const context = useContext(HomeContext);
   const { isDarkTheme, handleDarkModeSwitch } = context!;
@@ -34,7 +35,9 @@ export default memo(function LeftBar({
       className={`left-bar ${className} ${isGallery ? "left-bar--close" : ""}`}
     >
       <div className="left-bar__container">
-        <LogoIcon />
+        <div className="left-bar__buttons--top">
+          <LogoIcon className="logo-icon" onClick={() => navigate("/")} />
+        </div>
         <div className="left-bar__buttons">
           <Link to={isVisited ? "/" : isFuture ? "/?to=visited" : "/visited"}>
             <Button
