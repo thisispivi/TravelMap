@@ -13,23 +13,25 @@ if "__main__" == __name__:
 
         logger.info("JSON generator for city images")
 
-        city = get_city_from_args(sys.argv, logger)
-        cityUrl = city + "/"
+        data = get_city_from_args(sys.argv, logger)
+        city = data["city"]
+        statically_path = data["statically_path"]
+        cityUrl = statically_path + "/" + city + "/"
 
         root_path = os.path.dirname(os.path.realpath(__file__))
-        public_folder_path = os.path.abspath(os.path.join(
-            root_path, "..", "..", "travel-map", "public"))
-        city_folder_path = os.path.join(public_folder_path, city)
+        base_folder_path = os.path.abspath(os.path.join(root_path, "photos"))
+        city_folder_path = os.path.join(base_folder_path, city)
 
         logger.info("Root path: %s", root_path)
-        logger.info("Public folder path: %s", public_folder_path)
+        logger.info("Base folder path: %s", base_folder_path)
         logger.info("City folder path: %s", city_folder_path)
 
         images = []
         for filename in os.listdir(city_folder_path):
             if not filename.endswith("t.jpg"):
-                images.append(get_image_info(
-                    cityUrl, filename, city_folder_path, logger))
+                images.append(
+                    get_image_info(cityUrl, filename, city_folder_path, logger)
+                )
 
         sorted_images = sort_images_by_index_in_filename(images)
 
