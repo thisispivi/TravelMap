@@ -33,7 +33,7 @@ export default function CityCard({
 
   const travels = useMemo(() => {
     return city.travels.filter((travel) =>
-      isFuture ? travel.isFuture : !travel.isFuture,
+      isFuture ? travel.isFuture : !travel.isFuture
     );
   }, [city.travels, isFuture]);
 
@@ -45,7 +45,7 @@ export default function CityCard({
           <TravelCard
             travel={travel}
             key={i}
-            onClick={() => navigate(`/TravelMap/gallery/${city.name}/${i}`)}
+            onClick={() => navigate(`/gallery/${city.name}/${i}`)}
           />
         ))}
       </div>
