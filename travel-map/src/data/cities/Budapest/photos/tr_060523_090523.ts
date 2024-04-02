@@ -119,13 +119,13 @@ export const tr_060523_090523_images: Image[] = [
     height: 4,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Budapest/014.mp4",
-    alt: "",
+    original: "https://youtube.com/embed/7R_tGgueEqw",
+    alt: "Serenade in Budapest (06/05/2023)",
     thumbnail:
       "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Budapest/014t.jpg",
     width: 432,
     height: 768,
+    youtube: true,
   },
   {
     original:
@@ -299,13 +299,13 @@ export const tr_060523_090523_images: Image[] = [
     height: 4,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Budapest/034.mp4",
-    alt: "",
+    original: "https://youtube.com/embed/mT0BMZPmiaA",
+    alt: "The Magic Budapes Cauldron (06/05/2023)",
     thumbnail:
       "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Budapest/034t.jpg",
     width: 432,
     height: 768,
+    youtube: true,
   },
   {
     original:
@@ -749,13 +749,13 @@ export const tr_060523_090523_images: Image[] = [
     height: 9,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Budapest/084.mp4",
-    alt: "",
+    original: "https://youtube.com/shorts/JrXVPbWkItI",
+    alt: "Budapest's Citadel (07/05/2023)",
     thumbnail:
       "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Budapest/084t.jpg",
     width: 432,
     height: 768,
+    youtube: true,
   },
   {
     original:
