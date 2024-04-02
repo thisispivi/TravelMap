@@ -164,22 +164,31 @@ export const tr_050823_100823_images: Image[] = [
     height: 427,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Brussels/019.mp4",
-    alt: "",
+    original: "https://www.youtube.com/embed/HLAngSzvfy4",
+    alt: "Atomium Entrance (07/08/2023)",
+    thumbnail:
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/42f38173cf18d3fb2ccbd6bbe6b736eed378738c/Brussels/073t.jpg",
+    width: 432,
+    height: 768,
+    youtube: true,
+  },
+  {
+    original: "https://youtube.com/embed/ZsbkXr6EI2w",
+    alt: "Atomium Light Show 1 (07/08/2023)",
     thumbnail:
       "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Brussels/019t.jpg",
     width: 432,
     height: 768,
+    youtube: true,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Brussels/020.mp4",
-    alt: "",
+    original: "https://youtube.com/embed/hTEev3aiGcU",
+    alt: "Atomium Light Show 2 (07/08/2023)",
     thumbnail:
       "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Brussels/020t.jpg",
     width: 432,
     height: 768,
+    youtube: true,
   },
   {
     original:
