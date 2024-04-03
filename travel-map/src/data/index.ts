@@ -5,6 +5,7 @@ import { Braga } from "./cities/Braga/Braga";
 import { Bruges } from "./cities/Bruges/Bruges";
 import { Brussels } from "./cities/Brussels/Brussels";
 import { Budapest } from "./cities/Budapest/Budapest";
+import { Cefalù } from "./cities/Cefalù/Cefalù";
 import { Genoa } from "./cities/Genoa/Genoa";
 import { Imola } from "./cities/Imola/Imola";
 import { Kanazawa } from "./cities/Kanazawa/Kanazawa";
@@ -50,6 +51,7 @@ export const visitedCities = [
   Berlin,
   Budapest,
   Barcelona,
+  Cefalù,
 ];
 
 export const futureCountries = {
