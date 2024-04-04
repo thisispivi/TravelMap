@@ -3,7 +3,7 @@ import "./InfoTabFuture.scss";
 import useLanguage from "../../../hooks/language/language";
 import { componentHasOverflow } from "../../../utils/overflow";
 import { City } from "../../../core";
-import { CityCard, CountryCard } from "../../molecules";
+import { CityCard } from "../../molecules";
 import { futureCities, futureCountries } from "../../../data";
 
 interface InfoTabFutureProps {
@@ -28,15 +28,29 @@ export default memo(function InfoTabFuture({
   const { t } = useLanguage(["home"]);
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const filteredCities = (country: string) =>
-    futureCities
+  const filteredCities = (country: string) => {
+    const filtered = futureCities
       .filter((c) => c.country.id.replace(" ", "") === country.replace(" ", ""))
-      .sort((a, b) => {
-        const aDate = a.travels.find((travel) => travel.isFuture)?.sDate;
-        const bDate = b.travels.find((travel) => travel.isFuture)?.sDate;
-        if (aDate && bDate) return aDate.getTime() - bDate.getTime();
-        return 0;
+      .filter((city) => city.travels.some((travel) => travel.isFuture));
+    const cities: City[] = [];
+    filtered.forEach((city) => {
+      city.travels.forEach((travel) => {
+        if (travel.isFuture) {
+          cities.push(new City({ ...city, travels: [travel] }));
+        }
       });
+    });
+    return cities;
+  };
+
+  const allCities = Object.keys(futureCountries)
+    .map((country) => filteredCities(country))
+    .flat()
+    .sort((a, b) => {
+      const aDate = a.travels[0].sDate;
+      const bDate = b.travels[0].sDate;
+      return aDate < bDate ? -1 : aDate > bDate ? 1 : 0;
+    });
 
   return (
     <div className={`info-tab-future ${className}`}>
@@ -50,12 +64,14 @@ export default memo(function InfoTabFuture({
         id="info-tab"
         ref={contentRef}
       >
-        {Object.keys(futureCountries).map((country) => (
-          <CountryCard key={country} countryName={country}>
-            {filteredCities(country).map((city) => (
-              <CityCard key={city.name} city={new City(city)} isFuture />
-            ))}
-          </CountryCard>
+        {allCities.map((city, idx) => (
+          <CityCard
+            key={idx}
+            city={city}
+            travel={city.travels[0]}
+            idx={idx}
+            isClickable={false}
+          />
         ))}
       </div>
     </div>

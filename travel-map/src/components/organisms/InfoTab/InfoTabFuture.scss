@@ -8,17 +8,26 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    margin-top: 1rem;
     padding-inline: 1.5rem;
   }
 
   .info-tab-future__content {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-wrap: wrap;
     max-height: 100%;
     overflow-y: auto;
     color: white;
     margin-right: 0.7rem;
+    gap: 1.2rem;
+    justify-content: center;
+    padding: 0.5rem 0;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .info-tab-future__content {
+    gap: 0.5rem !important;
   }
 }

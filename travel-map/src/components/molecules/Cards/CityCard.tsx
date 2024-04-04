@@ -1,14 +1,17 @@
 import useLanguage from "../../../hooks/language/language";
-import { City } from "../../../core";
+import { City, Travel } from "../../../core";
 import "./CityCard.scss";
-import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { TravelCard } from "..";
+import { ArrivalIcon, DepartureIcon } from "../../../assets";
+import { formatDate } from "../../../i18n/functions/date";
+import { CountryFlag } from "../../atoms";
 
 interface CityCardProps {
   className?: string;
   city: City;
-  isFuture?: boolean;
+  travel: Travel;
+  idx: number;
+  isClickable?: boolean;
 }
 
 /**
@@ -26,28 +29,33 @@ interface CityCardProps {
 export default function CityCard({
   className = "",
   city,
-  isFuture = false,
+  travel,
+  idx,
+  isClickable = false,
 }: CityCardProps): JSX.Element {
+  const lang = useLanguage([]).currentLanguage;
   const navigate = useNavigate();
   const { t } = useLanguage(["home"]);
 
-  const travels = useMemo(() => {
-    return city.travels.filter((travel) =>
-      isFuture ? travel.isFuture : !travel.isFuture,
-    );
-  }, [city.travels, isFuture]);
-
   return (
-    <div className={`city-card ${className} ${city.name}`}>
-      <h3>{city.getName(t)}</h3>
+    <div
+      className={`city-card ${isClickable ? "city-card--clickable" : "city-card--not-clickable"}`}
+      onClick={() => isClickable && navigate(`/gallery/${city.name}/${idx}`)}
+    >
+      <div className={`city-card__top ${className} ${city.name}`}>
+        <h3>{city.getName(t)}</h3>
+        <CountryFlag countryName={city.country.id} />
+      </div>
+
       <div className="city-card__content">
-        {travels.map((travel, i) => (
-          <TravelCard
-            travel={travel}
-            key={i}
-            onClick={() => navigate(`/gallery/${city.name}/${i}`)}
-          />
-        ))}
+        <div className="travel-card__info">
+          <DepartureIcon className={"travel-card__icon"} />
+          <p>{formatDate(travel.sDate, lang)}</p>
+        </div>
+        <div className="travel-card__info">
+          <ArrivalIcon className={"travel-card__icon"} />
+          <p>{formatDate(travel.eDate, lang)}</p>
+        </div>
       </div>
     </div>
   );

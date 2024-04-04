@@ -1,144 +1,304 @@
 @use "mixins" as m;
 
-.city-card {
-  &.Turin {
-    @include m.city-card-background(
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Turin.jpg",
-      0.529
-    );
-  }
+.home--dark {
+  .city-card__top {
+    &.Turin {
+      @include m.city-card-background(
+        "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Turin.jpg",
+        0.529
+      );
+    }
 
-  &.Imola {
-    @include m.city-card-background(
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Imola.jpg",
-      0.514
-    );
-  }
+    &.Imola {
+      @include m.city-card-background(
+        "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Imola.jpg",
+        0.514
+      );
+    }
 
-  &.Genoa {
-    @include m.city-card-background(
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Genoa.jpg",
-      0.529
-    );
-  }
+    &.Genoa {
+      @include m.city-card-background(
+        "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Genoa.jpg",
+        0.529
+      );
+    }
 
-  &.Rome {
-    @include m.city-card-background(
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Rome.jpg",
-      0.412
-    );
-  }
+    &.Rome {
+      @include m.city-card-background(
+        "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Rome.jpg",
+        0.412
+      );
+    }
 
-  &.Anderlecht {
-    @include m.city-card-background(
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Anderlecht.jpg",
-      0.533
-    );
-  }
+    &.Anderlecht {
+      @include m.city-card-background(
+        "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Anderlecht.jpg",
+        0.533
+      );
+    }
 
-  &.Brussels {
-    @include m.city-card-background(
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Brussels.jpg",
-      0.518
-    );
-  }
+    &.Brussels {
+      @include m.city-card-background(
+        "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Brussels.jpg",
+        0.518
+      );
+    }
 
-  &.Bruges {
-    @include m.city-card-background(
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Bruges.jpg",
-      0.533
-    );
-  }
+    &.Bruges {
+      @include m.city-card-background(
+        "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Bruges.jpg",
+        0.533
+      );
+    }
 
-  &.Budapest {
-    @include m.city-card-background(
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Budapest.jpg",
-      0.506
-    );
-  }
+    &.Cefalù {
+      @include m.city-card-background(
+        "https://cdn.statically.io/gh/iampivi/PhotoLake1/5ea882d78f6bbf7cfc8626444ecd70951a4770a1/Backgrounds/Cities/Cefalu.jpg",
+        0.533
+      );
+    }
 
-  &.London {
-    @include m.city-card-background(
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/London.jpg",
-      0.533
-    );
-  }
+    &.Budapest {
+      @include m.city-card-background(
+        "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Budapest.jpg",
+        0.506
+      );
+    }
 
-  &.Barcelona {
-    @include m.city-card-background(
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Barcelona.jpg",
-      0.498
-    );
-  }
+    &.London {
+      @include m.city-card-background(
+        "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/London.jpg",
+        0.533
+      );
+    }
 
-  &.Berlin {
-    @include m.city-card-background(
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Berlin.jpg",
-      0.533
-    );
-  }
+    &.Barcelona {
+      @include m.city-card-background(
+        "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Barcelona.jpg",
+        0.498
+      );
+    }
 
-  &.Porto {
-    @include m.city-card-background(
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Porto.jpg",
-      0.525
-    );
-  }
+    &.Berlin {
+      @include m.city-card-background(
+        "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Berlin.jpg",
+        0.533
+      );
+    }
 
-  &.Braga {
-    @include m.city-card-background(
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Braga.jpg",
-      0.533
-    );
-  }
+    &.Porto {
+      @include m.city-card-background(
+        "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Porto.jpg",
+        0.525
+      );
+    }
 
-  &.Tokyo {
-    @include m.city-card-background(
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Tokyo.jpg",
-      0.521
-    );
-  }
+    &.Braga {
+      @include m.city-card-background(
+        "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Braga.jpg",
+        0.533
+      );
+    }
 
-  &.Takayama {
-    @include m.city-card-background(
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Takayama.jpg",
-      0.521
-    );
-  }
+    &.Tokyo {
+      @include m.city-card-background(
+        "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Tokyo.jpg",
+        0.521
+      );
+    }
 
-  &.Shirawakago {
-    @include m.city-card-background(
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Shirawakago.jpg",
-      0.533
-    );
-  }
+    &.Takayama {
+      @include m.city-card-background(
+        "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Takayama.jpg",
+        0.521
+      );
+    }
 
-  &.Kanazawa {
-    @include m.city-card-background(
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Kanazawa.jpg",
-      0.533
-    );
-  }
+    &.Shirawakago {
+      @include m.city-card-background(
+        "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Shirawakago.jpg",
+        0.533
+      );
+    }
 
-  &.Kyoto {
-    @include m.city-card-background(
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Kyoto.jpg",
-      0.521
-    );
-  }
+    &.Kanazawa {
+      @include m.city-card-background(
+        "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Kanazawa.jpg",
+        0.533
+      );
+    }
 
-  &.Nara {
-    @include m.city-card-background(
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Nara.jpg",
-      0.529
-    );
-  }
+    &.Kyoto {
+      @include m.city-card-background(
+        "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Kyoto.jpg",
+        0.521
+      );
+    }
 
-  &.Osaka {
-    @include m.city-card-background(
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Osaka.jpg",
-      0.486
-    );
+    &.Nara {
+      @include m.city-card-background(
+        "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Nara.jpg",
+        0.529
+      );
+    }
+
+    &.Osaka {
+      @include m.city-card-background(
+        "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Osaka.jpg",
+        0.486
+      );
+    }
+  }
+}
+
+.home--light {
+  .city-card__top {
+    &.Turin {
+      @include m.city-card-background(
+        "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Turin.jpg",
+        0.329
+      );
+    }
+
+    &.Imola {
+      @include m.city-card-background(
+        "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Imola.jpg",
+        0.314
+      );
+    }
+
+    &.Genoa {
+      @include m.city-card-background(
+        "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Genoa.jpg",
+        0.329
+      );
+    }
+
+    &.Rome {
+      @include m.city-card-background(
+        "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Rome.jpg",
+        0.212
+      );
+    }
+
+    &.Anderlecht {
+      @include m.city-card-background(
+        "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Anderlecht.jpg",
+        0.333
+      );
+    }
+
+    &.Brussels {
+      @include m.city-card-background(
+        "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Brussels.jpg",
+        0.318
+      );
+    }
+
+    &.Bruges {
+      @include m.city-card-background(
+        "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Bruges.jpg",
+        0.333
+      );
+    }
+
+    &.Cefalù {
+      @include m.city-card-background(
+        "https://cdn.statically.io/gh/iampivi/PhotoLake1/5ea882d78f6bbf7cfc8626444ecd70951a4770a1/Backgrounds/Cities/Cefalu.jpg",
+        0.333
+      );
+    }
+
+    &.Budapest {
+      @include m.city-card-background(
+        "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Budapest.jpg",
+        0.306
+      );
+    }
+
+    &.London {
+      @include m.city-card-background(
+        "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/London.jpg",
+        0.333
+      );
+    }
+
+    &.Barcelona {
+      @include m.city-card-background(
+        "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Barcelona.jpg",
+        0.298
+      );
+    }
+
+    &.Berlin {
+      @include m.city-card-background(
+        "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Berlin.jpg",
+        0.333
+      );
+    }
+
+    &.Porto {
+      @include m.city-card-background(
+        "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Porto.jpg",
+        0.325
+      );
+    }
+
+    &.Braga {
+      @include m.city-card-background(
+        "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Braga.jpg",
+        0.333
+      );
+    }
+
+    &.Tokyo {
+      @include m.city-card-background(
+        "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Tokyo.jpg",
+        0.321
+      );
+    }
+
+    &.Takayama {
+      @include m.city-card-background(
+        "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Takayama.jpg",
+        0.321
+      );
+    }
+
+    &.Shirawakago {
+      @include m.city-card-background(
+        "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Shirawakago.jpg",
+        0.333
+      );
+    }
+
+    &.Kanazawa {
+      @include m.city-card-background(
+        "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Kanazawa.jpg",
+        0.333
+      );
+    }
+
+    &.Kyoto {
+      @include m.city-card-background(
+        "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Kyoto.jpg",
+        0.321
+      );
+    }
+
+    &.Nara {
+      @include m.city-card-background(
+        "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Nara.jpg",
+        0.329
+      );
+    }
+
+    &.Osaka {
+      @include m.city-card-background(
+        "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Osaka.jpg",
+        0.286
+      );
+    }
   }
 }
 
