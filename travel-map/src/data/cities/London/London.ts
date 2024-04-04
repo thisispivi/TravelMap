@@ -1,6 +1,6 @@
 import { City, Travel } from "../../../core";
 import { UnitedKingdom } from "../../countries/countries";
-import { tr_110416_150416_images } from "./photos/tr_110416_150416";
+import { tr_090511_120511_images } from "./photos/tr_090511_120511";
 
 // TODO : Set right dates
 export const London = new City({
@@ -9,9 +9,9 @@ export const London = new City({
   coordinates: [-0.1276474, 51.5073219],
   travels: [
     new Travel({
-      sDate: new Date(2016, 3, 11),
-      eDate: new Date(2016, 3, 15),
-      photos: tr_110416_150416_images,
+      sDate: new Date(2011, 4, 9),
+      eDate: new Date(2011, 4, 12),
+      photos: tr_090511_120511_images,
     }),
   ],
 });

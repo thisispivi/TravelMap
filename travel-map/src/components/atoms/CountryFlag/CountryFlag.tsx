@@ -29,7 +29,7 @@ export default function CountryFlag({
   countryName,
   className = "",
 }: CountryFlagProps): JSX.Element {
-  switch (countryName) {
+  switch (countryName.replace(" ", "")) {
     case "Germany":
       return <GermanyFlag className={className} />;
     case "Italy":

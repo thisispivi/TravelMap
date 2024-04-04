@@ -1,7 +1,7 @@
 import { memo, useRef } from "react";
-import { City } from "../../../core";
+import { City, Travel } from "../../../core";
 import useLanguage from "../../../hooks/language/language";
-import { CityCard, CountryCard } from "../../molecules";
+import { CityCard } from "../../molecules";
 import "./InfoTabVisited.scss";
 import { componentHasOverflow } from "../../../utils/overflow";
 import { visitedCities, visitedCountries } from "../../../data";
@@ -28,16 +28,35 @@ export default memo(function InfoTabVisited({
   const { t } = useLanguage(["home"]);
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const filteredCities = (country: string) =>
-    visitedCities
+  const filteredCities = (country: string) => {
+    const filtered = visitedCities
       .filter((c) => c.country.id.replace(" ", "") === country.replace(" ", ""))
-      .filter((city) => city.travels.some((travel) => !travel.isFuture))
-      .sort((a, b) => {
-        const aDate = a.travels.find((travel) => !travel.isFuture)?.sDate;
-        const bDate = b.travels.find((travel) => !travel.isFuture)?.sDate;
-        if (aDate && bDate) return aDate.getTime() - bDate.getTime();
-        return 0;
+      .filter((city) => city.travels.some((travel) => !travel.isFuture));
+    const cities: City[] = [];
+    filtered.forEach((city) => {
+      city.travels.forEach((travel) => {
+        if (!travel.isFuture) {
+          cities.push(new City({ ...city, travels: [travel] }));
+        }
       });
+    });
+    return cities;
+  };
+
+  const allCities = Object.keys(visitedCountries)
+    .map((country) => filteredCities(country))
+    .flat()
+    .sort((a, b) => {
+      const aDate = a.travels[0].sDate;
+      const bDate = b.travels[0].sDate;
+      return aDate < bDate ? -1 : aDate > bDate ? 1 : 0;
+    });
+
+  const getTravelIdx = (city: City, travel: Travel) => {
+    const allTravels = visitedCities.filter((c) => c.name === city.name)[0]
+      .travels;
+    return allTravels.indexOf(travel);
+  };
 
   return (
     <div className={`info-tab-visited ${className}`}>
@@ -51,12 +70,14 @@ export default memo(function InfoTabVisited({
         id="info-tab"
         ref={contentRef}
       >
-        {Object.keys(visitedCountries).map((country) => (
-          <CountryCard key={country} countryName={country}>
-            {filteredCities(country).map((city) => (
-              <CityCard key={city.name} city={new City(city)} />
-            ))}
-          </CountryCard>
+        {allCities.map((city) => (
+          <CityCard
+            key={city.name}
+            city={new City(city)}
+            travel={city.travels[0]}
+            idx={getTravelIdx(city, city.travels[0])}
+            isClickable={city.travels[0].photos.length > 0}
+          />
         ))}
       </div>
     </div>

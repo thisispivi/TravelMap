@@ -1,7 +1,7 @@
 @use "variables" as v;
 @use "mixins" as m;
 
-$scrollbarSize: 0.7rem;
+$scrollbarSize: 0.6rem;
 ::-webkit-scrollbar {
   width: $scrollbarSize;
   height: $scrollbarSize;
