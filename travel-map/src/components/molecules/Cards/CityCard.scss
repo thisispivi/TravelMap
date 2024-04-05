@@ -16,6 +16,18 @@
     transform: scale(1.05);
   }
 
+  // .city-card__triangle {
+  //   position: absolute;
+  //   top: 10.1rem;
+  //   left: 0;
+  //   width: 0;
+  //   height: 0;
+  //   border-right: 12rem solid transparent;
+  //   border-left: 0rem solid transparent;
+  //   z-index: 0;
+  //   @include m.transition(all, 0.15s, ease-in-out);
+  // }
+
   .city-card__top {
     display: flex;
     height: 100%;
@@ -39,7 +51,7 @@
     justify-content: space-between;
     flex-direction: column;
     border-radius: 0 0 0.6rem 0.6rem;
-    padding: 0.4rem 1rem;
+    padding: 0.4rem 1rem 0.4rem 1rem;
     box-shadow: 0 0.15rem 0.2rem 0 rgba(0, 0, 0, 0.4);
     @include m.transition(all, 0.15s, ease-in-out);
 
@@ -62,6 +74,9 @@
 
 .home--light {
   .city-card {
+    .city-card__triangle {
+      border-bottom: 1.5rem solid v.$lightLeftBar;
+    }
     .city-card__content {
       background-color: v.$lightLeftBar;
       .travel-card__info {
@@ -75,12 +90,18 @@
       .city-card__content {
         filter: brightness(0.8);
       }
+      .city-card__triangle {
+        filter: brightness(0.8);
+      }
     }
   }
 }
 
 .home--dark {
   .city-card {
+    .city-card__triangle {
+      border-bottom: 1.5rem solid v.$darkLeftBar;
+    }
     .city-card__content {
       background-color: v.$darkLeftBar;
       .travel-card__info {
@@ -95,6 +116,9 @@
 
     &.city-card--clickable:hover {
       .city-card__content {
+        filter: brightness(1.2);
+      }
+      .city-card__triangle {
         filter: brightness(1.2);
       }
     }

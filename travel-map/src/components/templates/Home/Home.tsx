@@ -21,14 +21,11 @@ interface HomeTemplateProps extends PropsWithChildren {
  *
  * @param {HomeTemplateProps} props - The props of the component
  * @param {WorldFeatureCollection} props.countriesFeatures - The countries features
- * @param {Record<string, Country>} props.visitedCountries - The visited countries
- * @param {City[]} props.visitedCities - The visited cities
- * @param {Record<string, Country>} props.futureCountries - The future countries
- * @param {City[]} props.futureCities - The future cities
+ * @param {ReactNode} props.children - The children of the component
  * @returns {JSX.Element} - The home template
  */
 export default memo(function HomeTemplate(
-  props: HomeTemplateProps,
+  props: HomeTemplateProps
 ): JSX.Element {
   const navigate = useNavigate();
   const { isInfoTabOpen, isGallery } = useLocation();

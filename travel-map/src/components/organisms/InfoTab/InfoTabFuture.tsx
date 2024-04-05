@@ -2,7 +2,7 @@ import { memo, useRef } from "react";
 import "./InfoTabFuture.scss";
 import useLanguage from "../../../hooks/language/language";
 import { componentHasOverflow } from "../../../utils/overflow";
-import { City } from "../../../core";
+import { City, Travel } from "../../../core";
 import { CityCard } from "../../molecules";
 import { futureCities, futureCountries } from "../../../data";
 
@@ -52,6 +52,12 @@ export default memo(function InfoTabFuture({
       return aDate < bDate ? -1 : aDate > bDate ? 1 : 0;
     });
 
+  const getTravelIdx = (city: City, travel: Travel) => {
+    const allTravels = futureCities.filter((c) => c.name === city.name)[0]
+      .travels;
+    return allTravels.indexOf(travel);
+  };
+
   return (
     <div className={`info-tab-future ${className}`}>
       <div className="info-tab-future__header">
@@ -64,12 +70,12 @@ export default memo(function InfoTabFuture({
         id="info-tab"
         ref={contentRef}
       >
-        {allCities.map((city, idx) => (
+        {allCities.map((city) => (
           <CityCard
-            key={idx}
+            key={city.name}
             city={city}
             travel={city.travels[0]}
-            idx={idx}
+            idx={getTravelIdx(city, city.travels[0])}
             isClickable={false}
           />
         ))}

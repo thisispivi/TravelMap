@@ -10,6 +10,20 @@ interface MarkerProps {
   setCurrHoveredCity: (city: City | null) => void;
 }
 
+/**
+ * Marker component
+ *
+ * The marker component is used to display a marker. It is used in the map.
+ *
+ * @component
+ *
+ * @param {MarkerProps} props - The props of the component
+ * @param {City} props.city - The city of the marker
+ * @param {boolean} [props.isFuture] - The is future of the marker
+ * @param {number} [props.transitionDuration] - The transition duration of the marker
+ * @param {(city: City | null) => void} props.setCurrHoveredCity - The set current hovered city
+ * @returns {JSX.Element} - The marker
+ */
 export default function Marker({
   city,
   isFuture,
@@ -17,7 +31,7 @@ export default function Marker({
   setCurrHoveredCity,
 }: MarkerProps): JSX.Element {
   const map = new THREE.TextureLoader().load(
-    isFuture ? "FutureMarker.svg" : "Marker.svg",
+    isFuture ? "FutureMarker.svg" : "Marker.svg"
   );
   const material = new THREE.SpriteMaterial({
     map,

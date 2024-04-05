@@ -5,6 +5,15 @@ import useLanguage from "../../../hooks/language/language";
 import { LanguageFlag } from "../../atoms";
 import { LanguageIcon } from "../../../assets";
 
+/**
+ * LanguageSelctor component
+ *
+ * The language selector component is used to change the language of the app.
+ *
+ * @component
+ *
+ * @returns {JSX.Element} - The language selector
+ */
 export default function LanguageSelctor() {
   const [isOpen, setIsOpen] = useState(false);
   const { currentLanguage, changeLanguage } = useLanguage([]);
@@ -29,7 +38,7 @@ export default function LanguageSelctor() {
         <Button
           key={language}
           className={`language-selector__button ${
-            currentLanguage === language
+            currentLanguage.includes(language)
               ? "language-selector__button--active"
               : ""
           } language-selector__button--${language}
