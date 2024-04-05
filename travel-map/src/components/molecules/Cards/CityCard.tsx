@@ -21,9 +21,11 @@ interface CityCardProps {
  * It also adds an image background based on the city name.
  *
  * @param {CityCardProps} data - The data that will be used to display the component.
- * @param {string} [data.className=""] - The class name that will be added to the component.
- * @param {City} data.city - The city object that will be displayed.
- * @param {boolean} [data.isFuture=false] - If the city is a future city or not.
+ * @param {string} data.className - The class to apply to the city card
+ * @param {City} data.city - The city
+ * @param {Travel} data.travel - The travel
+ * @param {number} data.idx - The index of the travel used to retrieve the travel photos
+ * @param {boolean} data.isClickable - Whether the card is clickable
  * @returns {JSX.Element} The CityCard component
  */
 export default function CityCard({
@@ -42,11 +44,12 @@ export default function CityCard({
       className={`city-card ${isClickable ? "city-card--clickable" : "city-card--not-clickable"}`}
       onClick={() => isClickable && navigate(`/gallery/${city.name}/${idx}`)}
     >
-      <div className={`city-card__top ${className} ${city.name}`}>
+      <div
+        className={`city-card__top ${className} ${city.name} ${city.name}-${idx}`}
+      >
         <h3>{city.getName(t)}</h3>
         <CountryFlag countryName={city.country.id} />
       </div>
-
       <div className="city-card__content">
         <div className="travel-card__info">
           <DepartureIcon className={"travel-card__icon"} />
