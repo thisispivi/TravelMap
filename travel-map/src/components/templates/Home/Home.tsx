@@ -35,7 +35,7 @@ export default memo(function HomeTemplate(
     <div className="home-template">
       <LeftBar />
       <InfoTab>{isInfoTabOpen ? props.children : null}</InfoTab>
-      {isGallery ? <Backdrop onClick={() => navigate("/")} /> : null}
+      {isGallery ? <Backdrop onClick={() => navigate("/?to=visited")} /> : null}
       <Container isVisible={isGallery}>
         {isGallery ? props.children : null}
       </Container>
