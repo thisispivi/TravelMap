@@ -96,7 +96,7 @@ export const tr_110416_150416_images: Image[] = [
       "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Barcelona/011.jpg",
     alt: "",
     thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Barcelona/011t.jpg",
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Barcelona/011.jpg",
     width: 1366,
     height: 451,
   },
@@ -249,7 +249,7 @@ export const tr_110416_150416_images: Image[] = [
       "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Barcelona/028.jpg",
     alt: "",
     thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Barcelona/028t.jpg",
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Barcelona/028.jpg",
     width: 1366,
     height: 333,
   },
@@ -258,7 +258,7 @@ export const tr_110416_150416_images: Image[] = [
       "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Barcelona/029.jpg",
     alt: "",
     thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Barcelona/029t.jpg",
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Barcelona/029.jpg",
     width: 1366,
     height: 327,
   },
@@ -267,7 +267,7 @@ export const tr_110416_150416_images: Image[] = [
       "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Barcelona/030.jpg",
     alt: "",
     thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Barcelona/030t.jpg",
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Barcelona/030.jpg",
     width: 1366,
     height: 317,
   },
@@ -276,7 +276,7 @@ export const tr_110416_150416_images: Image[] = [
       "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Barcelona/031.jpg",
     alt: "",
     thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Barcelona/031t.jpg",
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Barcelona/031.jpg",
     width: 1366,
     height: 303,
   },
@@ -285,7 +285,7 @@ export const tr_110416_150416_images: Image[] = [
       "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Barcelona/032.jpg",
     alt: "",
     thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Barcelona/032t.jpg",
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Barcelona/032.jpg",
     width: 683,
     height: 191,
   },
@@ -348,7 +348,7 @@ export const tr_110416_150416_images: Image[] = [
       "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Barcelona/039.jpg",
     alt: "",
     thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Barcelona/039t.jpg",
+      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Barcelona/039.jpg",
     width: 683,
     height: 130,
   },

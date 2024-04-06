@@ -5,10 +5,26 @@
   display: flex;
   flex-direction: column;
 
+  .gallery__header {
+    display: flex;
+    align-items: center;
+
+    .gallery__header__flag {
+      width: 2rem;
+      height: 2rem;
+      margin-left: 0.5rem;
+      margin-right: auto;
+    }
+
+    .close-button {
+      margin-left: 1rem;
+    }
+  }
+
   .gallery__content {
     overflow-y: auto;
     margin-top: auto;
-    height: calc(100% - 5rem);
+    height: calc(100% - 3rem);
     padding-right: 0.5rem;
   }
 }
