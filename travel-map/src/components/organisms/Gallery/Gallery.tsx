@@ -1,8 +1,8 @@
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import { City } from "../../../core";
 import "./Gallery.scss";
 import PhotoAlbum from "react-photo-album";
-import { useMemo } from "react";
+import { memo, useMemo } from "react";
 import { CloseButton, CountryFlag } from "../../atoms";
 import { TravelSelector } from "../../molecules";
 
@@ -20,8 +20,10 @@ export interface GalleryProps {
  *
  * @returns {JSX.Element} - The gallery
  */
-export default function Gallery(): JSX.Element {
+export default memo(function Gallery(): JSX.Element {
+  const navigate = useNavigate();
   const { city, travelIdx } = useLoaderData() as GalleryProps;
+
   const photos = useMemo(() => {
     return city.travels[travelIdx].photos.map((p) => ({
       src: p.thumbnail,
@@ -43,11 +45,11 @@ export default function Gallery(): JSX.Element {
           travels={city.travels}
           selectedTravelIdx={travelIdx}
         />
-        <CloseButton onClick={() => window.history.back()} />
+        <CloseButton onClick={() => navigate("/?to=visited")} />
       </div>
       <div className={`gallery__content`} id={"gallery"}>
         <PhotoAlbum photos={photos} layout="rows" />
       </div>
     </div>
   );
-}
+});

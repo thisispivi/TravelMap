@@ -1,19 +1,18 @@
 @use "../../../styles/mixins" as m;
 
 .gallery-container {
+  $margin: 2rem;
   position: absolute;
   z-index: 3;
   transform: translateY(100%) scale(0.5);
+  width: calc(100% - #{$margin * 2});
+  height: calc(100% - #{$margin * 2});
   @include m.transition(all, 0.5s, cubic-bezier(0.175, 0.885, 0.32, 1.075));
 
   &.gallery-container--visible {
-    transform: translateY(0);
-    scale: 1;
-    $margin: 2rem;
     left: $margin;
     top: $margin;
-    width: calc(100% - #{$margin * 2});
-    height: calc(100% - #{$margin * 2});
+    transform: translateY(0) scale(1);
   }
 
   .box {
