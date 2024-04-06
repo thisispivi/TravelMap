@@ -1,4 +1,4 @@
-import { memo, useContext, useMemo, useRef } from "react";
+import { memo, useContext, useEffect, useMemo, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
 import { WorldFeatureCollection } from "../../../typings/feature";
 import { Country } from "../../molecules";
@@ -59,7 +59,7 @@ export default memo(function Map({
           isDarkTheme={isDarkTheme}
         />
       )),
-    [data, visitedCountries, isDarkTheme],
+    [data, visitedCountries, isDarkTheme]
   ) as JSX.Element[];
 
   const sortByLongitude = (a: City, b: City) =>
@@ -76,7 +76,7 @@ export default memo(function Map({
             setCurrHoveredCity={setCurrentHoveredCity}
           />
         )),
-    [visitedCities, setCurrentHoveredCity],
+    [visitedCities, setCurrentHoveredCity]
   );
 
   const futureMarkerIcons = useMemo(
@@ -91,7 +91,7 @@ export default memo(function Map({
             setCurrHoveredCity={setCurrentHoveredCity}
           />
         )),
-    [futureCities, setCurrentHoveredCity],
+    [futureCities, setCurrentHoveredCity]
   );
 
   const cameraControls = (
@@ -113,6 +113,20 @@ export default memo(function Map({
       minDistance={2}
     />
   );
+
+  useEffect(() => {
+    const resize = () => {
+      if (mapRef.current) {
+        const { innerWidth, innerHeight } = window;
+        mapRef.current.style.width = `${innerWidth}px`;
+        mapRef.current.style.height = `${innerHeight}px`;
+      }
+    };
+    window.addEventListener("resize", resize);
+    return () => {
+      window.removeEventListener("resize", resize);
+    };
+  }, []);
 
   return (
     <div
