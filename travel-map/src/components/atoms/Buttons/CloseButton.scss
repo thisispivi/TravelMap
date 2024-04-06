@@ -1,0 +1,37 @@
+@use "../../../styles/variables" as v;
+@use "../../../styles/mixins" as m;
+
+.close-button {
+  width: 1.5rem;
+  height: 1.5rem;
+  cursor: pointer;
+  path {
+    @include m.transition(all, 0.15s, ease-in-out);
+  }
+}
+
+.home--light {
+  .close-button {
+    path {
+      fill: v.$darkButton;
+    }
+    &:hover {
+      path {
+        fill: #080808;
+      }
+    }
+  }
+}
+
+.home--dark {
+  .close-button {
+    path {
+      fill: v.$lightButton;
+    }
+    &:hover {
+      path {
+        fill: #929292;
+      }
+    }
+  }
+}

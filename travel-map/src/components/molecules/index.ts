@@ -6,4 +6,6 @@ import Country from "./Country/Country";
 
 import Container from "./Container/Container";
 
-export { Box, CityCard, Country, Container };
+import TravelSelector from "./TravelSelector/TravelSelector";
+
+export { Box, CityCard, Country, Container, TravelSelector };
