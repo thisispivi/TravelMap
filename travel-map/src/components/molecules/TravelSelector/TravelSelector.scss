@@ -42,15 +42,18 @@
   }
 }
 
-@media screen and (max-width: 550px) {
+@media screen and (max-width: 680px) {
   .travel-selector__bar {
     display: none;
   }
   .travel-selector__info {
     flex-direction: column;
     .travel-selector__dates {
-      padding: 0.1rem 0;
+      padding: 0.3rem 0;
     }
+  }
+  .travel-selector__chevron-icon {
+    margin: 0 0.75rem !important;
   }
 }
 
