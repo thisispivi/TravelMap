@@ -1,7 +1,7 @@
 @use "variables" as v;
 @use "mixins" as m;
 
-$scrollbarSize: 0.6rem;
+$scrollbarSize: 0.4rem;
 ::-webkit-scrollbar {
   width: $scrollbarSize;
   height: $scrollbarSize;
@@ -13,12 +13,12 @@ $scrollbarSize: 0.6rem;
 @mixin setScrollbar($bg, $bar, $barHover, $barActive) {
   &::-webkit-scrollbar-track {
     background-color: $bg;
+    -webkit-background-clip: text;
     @include m.transition(all, 0.3s, ease-in-out);
   }
   &::-webkit-scrollbar-thumb {
     background-color: $bar;
-    border: 0.126rem solid $bg;
-    @include m.transition(all, 0.3s, ease-in-out);
+    border: 0 solid $bg;
   }
   &::-webkit-scrollbar-thumb:hover {
     background: $barHover;
