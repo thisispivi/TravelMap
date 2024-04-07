@@ -155,6 +155,13 @@
         0.486
       );
     }
+
+    &.Terni {
+      @include m.city-card-background(
+        "https://cdn.statically.io/gh/iampivi/PhotoLake1/8b8e445710614e6342fea8e816184372aca8f15d/Backgrounds/Cities/Terni.jpg",
+        0.533
+      );
+    }
   }
 }
 
@@ -311,6 +318,13 @@
       @include m.city-card-background(
         "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Osaka.jpg",
         0.286
+      );
+    }
+
+    &.Terni {
+      @include m.city-card-background(
+        "https://cdn.statically.io/gh/iampivi/PhotoLake1/8b8e445710614e6342fea8e816184372aca8f15d/Backgrounds/Cities/Terni.jpg",
+        0.333
       );
     }
   }
