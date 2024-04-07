@@ -31,7 +31,7 @@ export default function Marker({
   setCurrHoveredCity,
 }: MarkerProps): JSX.Element {
   const map = new THREE.TextureLoader().load(
-    isFuture ? "FutureMarker.svg" : "Marker.svg"
+    isFuture ? "FutureMarker.svg" : "Marker.svg",
   );
   const material = new THREE.SpriteMaterial({
     map,
