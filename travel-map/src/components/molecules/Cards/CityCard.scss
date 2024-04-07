@@ -16,18 +16,6 @@
     transform: scale(1.05);
   }
 
-  // .city-card__triangle {
-  //   position: absolute;
-  //   top: 10.1rem;
-  //   left: 0;
-  //   width: 0;
-  //   height: 0;
-  //   border-right: 12rem solid transparent;
-  //   border-left: 0rem solid transparent;
-  //   z-index: 0;
-  //   @include m.transition(all, 0.15s, ease-in-out);
-  // }
-
   .city-card__top {
     display: flex;
     height: 100%;
@@ -43,6 +31,7 @@
     svg {
       width: 1.6rem;
       height: 1.4rem;
+      flex-shrink: 0;
     }
   }
 

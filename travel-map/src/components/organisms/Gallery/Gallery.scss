@@ -1,3 +1,6 @@
+@use "../../../styles/mixins.scss" as m;
+@use "../../../styles/variables.scss" as v;
+
 .gallery {
   width: 100%;
   height: 100%;
@@ -9,15 +12,25 @@
     display: flex;
     align-items: center;
 
+    h2 {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
     .gallery__header__flag {
-      width: 2rem;
-      height: 2rem;
+      width: 1.6rem;
+      height: 1.6rem;
       margin-left: 0.5rem;
       margin-right: auto;
     }
 
     .close-button {
       margin-left: 1rem;
+    }
+
+    svg {
+      flex-shrink: 0;
     }
   }
 
@@ -26,5 +39,40 @@
     margin-top: auto;
     height: calc(100% - 3.5rem);
     padding-right: 0.5rem;
+    position: relative;
+    overflow: hidden;
+
+    .gallery__content__photo-album {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      overflow-y: auto;
+      padding-right: 1rem;
+    }
+
+    .lightbox {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: 5;
+    }
+  }
+}
+
+@media screen and (max-width: 680px) {
+  .close-button {
+    margin-left: 0.25rem !important;
+  }
+}
+
+.home--light {
+  .lightbox {
+    background-color: v.$lightLeftBar;
+  }
+}
+
+.home--dark {
+  .lightbox {
+    background-color: v.$darkLeftBar;
   }
 }

@@ -1,4 +1,4 @@
-import { useLoaderData, useNavigate } from "react-router-dom";
+import { Outlet, useLoaderData, useNavigate } from "react-router-dom";
 import { City } from "../../../core";
 import "./Gallery.scss";
 import PhotoAlbum from "react-photo-album";
@@ -35,7 +35,7 @@ export default memo(function Gallery(): JSX.Element {
   return (
     <div className="gallery">
       <div className="gallery__header">
-        <h1>{city.name}</h1>
+        <h2>{city.name}</h2>
         <CountryFlag
           countryName={city.country.id}
           className={"gallery__header__flag"}
@@ -47,8 +47,15 @@ export default memo(function Gallery(): JSX.Element {
         />
         <CloseButton onClick={() => navigate("/?to=visited")} />
       </div>
-      <div className={`gallery__content`} id={"gallery"}>
-        <PhotoAlbum photos={photos} layout="rows" />
+      <div className={`gallery__content`}>
+        <div className="gallery__content__photo-album" id={"gallery"}>
+          <PhotoAlbum
+            photos={photos}
+            layout="rows"
+            onClick={({ index }) => navigate(`./${index}`)}
+          />
+        </div>
+        <Outlet />
       </div>
     </div>
   );

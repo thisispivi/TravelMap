@@ -1,9 +1,9 @@
-import { PropsWithChildren } from "react";
+import { MouseEventHandler, PropsWithChildren } from "react";
 import "./Button.scss";
 
 interface ButtonProps extends PropsWithChildren {
   className?: string;
-  onClick?: () => void;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
 /**

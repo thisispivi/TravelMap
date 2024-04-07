@@ -52,8 +52,11 @@
       padding: 0.3rem 0;
     }
   }
-  .travel-selector__chevron-icon {
-    margin: 0 0.75rem !important;
+}
+
+@media screen and (max-width: 473px) {
+  .travel-selector {
+    display: none;
   }
 }
 
