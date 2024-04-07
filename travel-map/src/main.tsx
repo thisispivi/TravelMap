@@ -9,8 +9,14 @@ import "./styles/_scrollbar.scss";
 import "./styles/_images.scss";
 import "./i18n/i18n";
 import { RouterProvider, createHashRouter } from "react-router-dom";
-import { Gallery, InfoTabFuture, InfoTabVisited } from "./components/organisms";
-import { loader } from "./components/organisms/Gallery/loader";
+import {
+  Gallery,
+  InfoTabFuture,
+  InfoTabVisited,
+  Lightbox,
+} from "./components/organisms";
+import { loader as galleryLoader } from "./components/organisms/Gallery/loader";
+import { loader as lightboxLoader } from "./components/organisms/Lightbox/loader";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -25,11 +31,18 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
             {
               path: "gallery/:cityName/:travelIdx",
               element: <Gallery />,
-              loader: loader,
+              loader: galleryLoader,
+              children: [
+                {
+                  path: ":photoIdx",
+                  element: <Lightbox />,
+                  loader: lightboxLoader,
+                },
+              ],
             },
           ],
         },
       ])}
     />
-  </React.StrictMode>,
+  </React.StrictMode>
 );

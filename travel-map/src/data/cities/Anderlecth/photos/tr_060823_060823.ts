@@ -71,6 +71,7 @@ export const tr_060823_060823_images: Image[] = [
       "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Anderlecht/008t.jpg",
     width: 432,
     height: 768,
+    youtube: true,
   },
   {
     original: "https://www.youtube.com/embed/_CaBMaSUx_w?si=YfsFGg2kr9537FcK",
@@ -79,6 +80,7 @@ export const tr_060823_060823_images: Image[] = [
       "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Anderlecht/009t.jpg",
     width: 16,
     height: 9,
+    youtube: true,
   },
   {
     original:

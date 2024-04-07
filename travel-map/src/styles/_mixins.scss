@@ -48,4 +48,13 @@
       fill: $buttonContent;
     }
   }
+  .chevron path {
+    fill: none;
+    stroke: $buttonContent;
+  }
+  #gallery-1,
+  #fullscreen-enter path,
+  #fullscreen-exit path {
+    fill: $buttonContent;
+  }
 }
