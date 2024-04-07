@@ -21,14 +21,14 @@
 
 .home--light {
   .box {
-    background-color: v.$lightLeftBar;
+    background-color: v.$lightInfoTab;
     color: v.$darkLeftBar;
   }
 }
 
 .home--dark {
   .box {
-    background-color: v.$darkLeftBar;
+    background-color: v.$darkInfoTab;
     color: v.$lightLeftBar;
   }
 }

@@ -48,7 +48,7 @@ export default memo(function Gallery(): JSX.Element {
         <CloseButton onClick={() => navigate("/?to=visited")} />
       </div>
       <div className={`gallery__content`}>
-        <div className="gallery__content__photo-album" id={"gallery"}>
+        <div className="gallery__content__photo-album" id="info-tab">
           <PhotoAlbum
             photos={photos}
             layout="rows"
