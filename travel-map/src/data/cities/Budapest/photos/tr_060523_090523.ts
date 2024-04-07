@@ -749,7 +749,7 @@ export const tr_060523_090523_images: Image[] = [
     height: 9,
   },
   {
-    original: "https://youtube.com/shorts/JrXVPbWkItI",
+    original: "https://youtube.com/embed/JrXVPbWkItI",
     alt: "Budapest's Citadel (07/05/2023)",
     thumbnail:
       "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Budapest/084t.jpg",

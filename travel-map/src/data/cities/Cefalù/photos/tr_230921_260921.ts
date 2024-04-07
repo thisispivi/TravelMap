@@ -614,22 +614,22 @@ export const tr_230921_260921_images: Image[] = [
     height: 4,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/6052efde5716ba624482331503ce7b8792e5297b/Cefal%C3%B9/069.mp4",
+    original: "https://youtube.com/embed/jaoTv98YrDI",
     alt: "",
     thumbnail:
       "https://cdn.statically.io/gh/iampivi/PhotoLake1/6052efde5716ba624482331503ce7b8792e5297b/Cefal%C3%B9/069t.jpg",
     width: 9,
     height: 16,
+    youtube: true,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/6052efde5716ba624482331503ce7b8792e5297b/Cefal%C3%B9/070.mp4",
+    original: "https://youtube.com/embed/whFBnOI6wPc",
     alt: "",
     thumbnail:
       "https://cdn.statically.io/gh/iampivi/PhotoLake1/6052efde5716ba624482331503ce7b8792e5297b/Cefal%C3%B9/070t.jpg",
     width: 9,
     height: 16,
+    youtube: true,
   },
   {
     original:
@@ -668,13 +668,13 @@ export const tr_230921_260921_images: Image[] = [
     height: 9,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/6052efde5716ba624482331503ce7b8792e5297b/Cefal%C3%B9/075.mp4",
+    original: "https://youtube.com/embed/1sMwnJ4AH0o",
     alt: "",
     thumbnail:
       "https://cdn.statically.io/gh/iampivi/PhotoLake1/6052efde5716ba624482331503ce7b8792e5297b/Cefal%C3%B9/075t.jpg",
     width: 9,
     height: 16,
+    youtube: true,
   },
   {
     original:
@@ -695,40 +695,40 @@ export const tr_230921_260921_images: Image[] = [
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/6052efde5716ba624482331503ce7b8792e5297b/Cefal%C3%B9/078.mp4",
+    original: "https://youtube.com/embed/bW9be2UMBgA",
     alt: "",
     thumbnail:
       "https://cdn.statically.io/gh/iampivi/PhotoLake1/6052efde5716ba624482331503ce7b8792e5297b/Cefal%C3%B9/078t.jpg",
     width: 9,
     height: 16,
+    youtube: true,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/6052efde5716ba624482331503ce7b8792e5297b/Cefal%C3%B9/079.mp4",
+    original: "https://youtube.com/embed/rVT69eLgoyY",
     alt: "",
     thumbnail:
       "https://cdn.statically.io/gh/iampivi/PhotoLake1/6052efde5716ba624482331503ce7b8792e5297b/Cefal%C3%B9/079t.jpg",
     width: 9,
     height: 16,
+    youtube: true,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/6052efde5716ba624482331503ce7b8792e5297b/Cefal%C3%B9/080.mp4",
+    original: "https://youtube.com/embed/F0Ny_EOipts",
     alt: "",
     thumbnail:
       "https://cdn.statically.io/gh/iampivi/PhotoLake1/6052efde5716ba624482331503ce7b8792e5297b/Cefal%C3%B9/080t.jpg",
     width: 9,
     height: 16,
+    youtube: true,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/6052efde5716ba624482331503ce7b8792e5297b/Cefal%C3%B9/081.mp4",
+    original: "https://youtube.com/embed/6Z9oUguN7TE",
     alt: "",
     thumbnail:
       "https://cdn.statically.io/gh/iampivi/PhotoLake1/6052efde5716ba624482331503ce7b8792e5297b/Cefal%C3%B9/081t.jpg",
     width: 9,
     height: 16,
+    youtube: true,
   },
   {
     original:
