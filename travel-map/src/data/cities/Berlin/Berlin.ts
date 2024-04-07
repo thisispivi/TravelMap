@@ -1,6 +1,6 @@
 import { City, Travel } from "../../../core";
 import { Germany } from "../../countries/countries";
-import { tr_190415_220415_images } from "./photos/tr_190415_220415";
+import { tr_150415_190415_images } from "./photos/tr_150415_190415";
 
 export const Berlin = new City({
   name: "Berlin",
@@ -8,9 +8,9 @@ export const Berlin = new City({
   coordinates: [13.404954, 52.520008],
   travels: [
     new Travel({
-      sDate: new Date(2015, 3, 19),
-      eDate: new Date(2015, 3, 22),
-      photos: tr_190415_220415_images,
+      sDate: new Date(2015, 3, 15),
+      eDate: new Date(2015, 3, 19),
+      photos: tr_150415_190415_images,
     }),
   ],
 });
