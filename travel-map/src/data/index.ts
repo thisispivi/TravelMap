@@ -17,6 +17,7 @@ import { Porto } from "./cities/Porto/Porto";
 import { Rome } from "./cities/Rome/Rome";
 import { Shirawakago } from "./cities/Shirawakago/Shirawakago";
 import { Takayama } from "./cities/Takayama/Takayama";
+import { Terni } from "./cities/Terni/Terni";
 import { Tokyo } from "./cities/Tokyo/Tokyo";
 import { Turin } from "./cities/Turin/Turin";
 import {
@@ -52,6 +53,7 @@ export const visitedCities = [
   Budapest,
   Barcelona,
   Cefalù,
+  Terni,
 ];
 
 export const futureCountries = {
