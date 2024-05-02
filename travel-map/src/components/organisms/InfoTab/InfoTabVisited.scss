@@ -21,13 +21,8 @@
     color: white;
     margin-right: 0.7rem;
     gap: 1.2rem;
-    justify-content: center;
-    padding: 1rem 0;
-  }
-}
-
-@media screen and (max-width: 550px) {
-  .info-tab-visited__content {
-    gap: 0.5rem !important;
+    justify-content: space-between;
+    padding-inline: 1.8rem;
+    padding-block: 1rem;
   }
 }
