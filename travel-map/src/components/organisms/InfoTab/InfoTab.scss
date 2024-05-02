@@ -37,8 +37,58 @@
   }
 }
 
-@media screen and (max-width: 550px) {
+@media screen and (max-width: 540px) {
   .info-tab {
     width: calc(100% - 3.5rem);
+  }
+}
+
+@mixin info-tab-content($padding, $gap: null, $card-width: null) {
+  .info-tab-visited__content,
+  .info-tab-future__content {
+    padding-inline: $padding !important;
+    @if $gap != null {
+      gap: $gap !important;
+    }
+    @if $card-width != null {
+      .city-card {
+        width: $card-width;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 520px) and (max-width: 540px) {
+  @include info-tab-content(1.3rem);
+}
+
+@media screen and (min-width: 509px) and (max-width: 520px) {
+  @include info-tab-content(1.2rem, 1.2rem 0.8rem);
+}
+
+@media screen and (min-width: 500px) and (max-width: 509px) {
+  @include info-tab-content(1rem, 1.2rem 0.5rem);
+}
+
+@media screen and (min-width: 490px) and (max-width: 500px) {
+  @include info-tab-content(1rem, 1.2rem 0.5rem, 11.5rem);
+}
+
+@media screen and (min-width: 480px) and (max-width: 490px) {
+  @include info-tab-content(0.9rem, 1.2rem 0.5rem, 11.5rem);
+}
+
+@media screen and (min-width: 475px) and (max-width: 480px) {
+  @include info-tab-content(0.8rem, 1.2rem 0.5rem, 11.5rem);
+}
+
+@media screen and (min-width: 470px) and (max-width: 475px) {
+  @include info-tab-content(0.8rem, 1.2rem 0.5rem, 11.3rem);
+}
+
+@media screen and (max-width: 470px) {
+  .info-tab-visited__content,
+  .info-tab-future__content {
+    justify-content: center !important;
   }
 }
