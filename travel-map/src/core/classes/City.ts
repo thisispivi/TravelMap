@@ -7,6 +7,7 @@ interface CityInterface {
   country: Country;
   coordinates: [number, number];
   travels?: Travel[];
+  backgroundImgsSrc?: string[];
 }
 
 /**
@@ -21,18 +22,21 @@ interface CityInterface {
  * @param {Country} cityData.country - The country of the city
  * @param {[number, number]} cityData.coordinates - The coordinates of the city
  * @param {Travel[]} [cityData.travels] - The travels of the city
+ * @param {string[]} [cityData.backgroundImgsSrc] - The background image source of the city
  */
 export class City implements CityInterface {
   name: string;
   country: Country;
   coordinates: [number, number];
   travels: Travel[];
+  backgroundImgsSrc: string[];
 
   constructor(cityData: CityInterface) {
     this.name = cityData.name;
     this.country = cityData.country;
     this.coordinates = cityData.coordinates;
     this.travels = cityData.travels ?? [];
+    this.backgroundImgsSrc = cityData.backgroundImgsSrc ?? [];
   }
 
   getName(t: i18n["t"]) {

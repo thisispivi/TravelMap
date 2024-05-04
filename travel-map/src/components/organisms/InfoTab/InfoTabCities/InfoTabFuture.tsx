@@ -1,10 +1,8 @@
-import { memo, useRef } from "react";
+import { memo } from "react";
 import "./InfoTabFuture.scss";
-import useLanguage from "../../../hooks/language/language";
-import { componentHasOverflow } from "../../../utils/overflow";
-import { City, Travel } from "../../../core";
-import { CityCard } from "../../molecules";
-import { futureCities, futureCountries } from "../../../data";
+import { City, Travel } from "../../../../core";
+import { futureCities, futureCountries } from "../../../../data";
+import InfoTabCities from "./InfoTabCities";
 
 interface InfoTabFutureProps {
   className?: string;
@@ -25,9 +23,6 @@ interface InfoTabFutureProps {
 export default memo(function InfoTabFuture({
   className = "",
 }: InfoTabFutureProps): JSX.Element {
-  const { t } = useLanguage(["home"]);
-  const contentRef = useRef<HTMLDivElement>(null);
-
   const filteredCities = (country: string) => {
     const filtered = futureCities
       .filter((c) => c.country.id.replace(" ", "") === country.replace(" ", ""))
@@ -59,27 +54,11 @@ export default memo(function InfoTabFuture({
   };
 
   return (
-    <div className={`info-tab-future ${className}`}>
-      <div className="info-tab-future__header">
-        <h1>{t("future.title")}</h1>
-      </div>
-      <div
-        className={`info-tab-future__content ${
-          componentHasOverflow(contentRef) ? "scroll" : ""
-        }`}
-        id="info-tab"
-        ref={contentRef}
-      >
-        {allCities.map((city) => (
-          <CityCard
-            key={city.name}
-            city={city}
-            travel={city.travels[0]}
-            idx={getTravelIdx(city, city.travels[0])}
-            isClickable={false}
-          />
-        ))}
-      </div>
-    </div>
+    <InfoTabCities
+      className={className}
+      id="future"
+      cities={allCities}
+      getTravelIdx={getTravelIdx}
+    />
   );
 });
