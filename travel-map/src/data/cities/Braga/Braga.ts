@@ -9,7 +9,7 @@ export const Braga = new City({
     new Travel({
       sDate: new Date(2024, 3, 21),
       eDate: new Date(2024, 3, 21),
-      isFuture: true,
+      isFuture: false,
     }),
   ],
 });

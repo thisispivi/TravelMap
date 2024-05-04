@@ -20,9 +20,8 @@
     overflow-y: auto;
     color: white;
     margin-right: 0.7rem;
-    gap: 1.2rem;
-    justify-content: space-between;
-    padding-inline: 1.8rem;
-    padding-block: 1rem;
+    justify-content: space-evenly;
+    gap: 1.2rem 0;
+    padding-bottom: 1rem;
   }
 }

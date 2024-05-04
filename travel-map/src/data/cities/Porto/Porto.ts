@@ -9,7 +9,7 @@ export const Porto = new City({
     new Travel({
       sDate: new Date(2024, 3, 19),
       eDate: new Date(2024, 3, 22),
-      isFuture: true,
+      isFuture: false,
     }),
   ],
 });
