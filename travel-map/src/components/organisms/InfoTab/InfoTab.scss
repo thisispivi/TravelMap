@@ -54,8 +54,8 @@
 }
 
 @include responsive-info-tab(280, 460, 16rem, 12rem);
-@include responsive-info-tab(460, 490, calc(100% - 3.5rem), 11.3rem);
-@include responsive-info-tab(null, 280, 16rem, 11.3rem);
+@include responsive-info-tab(460, 490, calc(100% - 3.5rem), 11.5rem);
+@include responsive-info-tab(null, 280, 16rem, 11.5rem);
 
 @media screen and (max-width: 460px) {
   .info-tab-visited__void-city {

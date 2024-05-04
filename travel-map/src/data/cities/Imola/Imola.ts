@@ -1,6 +1,6 @@
 import { City, Travel } from "../../../core";
 import { Italy } from "../../countries/countries";
-import { tr_220422_240422_images } from "./photos/tr_220422_240422";
+import { tr_220422_250422_images } from "./photos/tr_220422_250422";
 
 export const Imola = new City({
   name: "Imola",
@@ -9,8 +9,8 @@ export const Imola = new City({
   travels: [
     new Travel({
       sDate: new Date(2022, 3, 22),
-      eDate: new Date(2022, 3, 24),
-      photos: tr_220422_240422_images,
+      eDate: new Date(2022, 3, 25),
+      photos: tr_220422_250422_images,
     }),
   ],
 });
