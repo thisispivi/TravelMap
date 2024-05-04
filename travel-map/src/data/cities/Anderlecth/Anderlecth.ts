@@ -13,4 +13,7 @@ export const Anderlecth = new City({
       photos: tr_060823_060823_images,
     }),
   ],
+  backgroundImgsSrc: [
+    "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Anderlecht.jpg",
+  ],
 });

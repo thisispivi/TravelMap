@@ -7,9 +7,12 @@ export const Braga = new City({
   coordinates: [-8.4167, 41.5333],
   travels: [
     new Travel({
-      sDate: new Date(2024, 3, 21),
-      eDate: new Date(2024, 3, 21),
+      sDate: new Date(2024, 3, 20),
+      eDate: new Date(2024, 3, 20),
       isFuture: false,
     }),
+  ],
+  backgroundImgsSrc: [
+    "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Braga.jpg",
   ],
 });

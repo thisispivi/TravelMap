@@ -4,7 +4,9 @@ import "./CityCard.scss";
 import { useNavigate } from "react-router-dom";
 import { ArrivalIcon, DepartureIcon } from "../../../assets";
 import { formatDate } from "../../../i18n/functions/date";
-import { CountryFlag } from "../../atoms";
+import { CountryFlag, Loading } from "../../atoms";
+import { useState } from "react";
+import useThrottle from "../../../hooks/throttle/throttle";
 
 interface CityCardProps {
   className?: string;
@@ -39,6 +41,13 @@ export default function CityCard({
   const navigate = useNavigate();
   const { t } = useLanguage(["home"]);
 
+  const [isLoading, setIsLoading] = useState(true);
+  const isLoadingThrottled = useThrottle({ status: isLoading, delay: 200 });
+
+  const handleImageLoad = () => {
+    setIsLoading(false);
+  };
+
   return (
     <div
       className={`city-card ${isClickable ? "city-card--clickable" : "city-card--not-clickable"}`}
@@ -47,8 +56,19 @@ export default function CityCard({
       <div
         className={`city-card__top ${className} ${city.name} ${city.name}-${idx}`}
       >
-        <h3>{city.getName(t)}</h3>
-        <CountryFlag countryName={city.country.id} />
+        <div className="city-card__background">
+          {isLoadingThrottled && <Loading />}
+          <img
+            src={city.backgroundImgsSrc[idx]}
+            alt={city.getName(t)}
+            onLoad={handleImageLoad}
+            style={{ display: isLoadingThrottled ? "none" : "block" }}
+          />
+        </div>
+        <div className="city-card__title">
+          <h3>{city.getName(t)}</h3>
+          <CountryFlag countryName={city.country.id} />
+        </div>
       </div>
       <div className="city-card__content">
         <div className="travel-card__info">

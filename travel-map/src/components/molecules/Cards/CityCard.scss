@@ -17,21 +17,40 @@
   }
 
   .city-card__top {
-    display: flex;
-    height: 100%;
     border-radius: 1.4rem 1.4rem 0 0;
-    justify-content: space-between;
-    padding: 1rem;
-    h3 {
-      text-shadow: 0 0 0.3rem black;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+    height: 100%;
+    .city-card__title {
+      position: absolute;
+      display: flex;
+      justify-content: space-between;
+      padding: 1rem;
+      width: 100%;
+      h3 {
+        text-shadow: 0 0 0.3rem black;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      svg {
+        width: 1.6rem;
+        height: 1.4rem;
+        flex-shrink: 0;
+      }
     }
-    svg {
-      width: 1.6rem;
-      height: 1.4rem;
-      flex-shrink: 0;
+    .city-card__background {
+      position: absolute;
+      height: calc(100% - 3.75rem);
+      width: 100%;
+      border-radius: 1.4rem 1.4rem 0 0;
+      display: flex;
+      img {
+        border-radius: 1.4rem 1.4rem 0 0;
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        z-index: -1;
+        position: absolute;
+      }
     }
   }
 
@@ -111,5 +130,101 @@
         filter: brightness(1.2);
       }
     }
+  }
+}
+
+.home--dark {
+  .Anderlecht-0,
+  .Berlin-0,
+  .Braga-0,
+  .London-0,
+  .Shirawakago-0,
+  .Kanazawa-0,
+  .Terni-0,
+  .Cefalù-0,
+  .Bruges-0 {
+    @include m.city-card-background(0.533);
+  }
+  .Barcelona-0 {
+    @include m.city-card-background(0.498);
+  }
+  .Brussels-0 {
+    @include m.city-card-background(0.518);
+  }
+  .Osaka-0,
+  .Nara-0 {
+    @include m.city-card-background(0.486);
+  }
+  .Kyoto-0,
+  .Takayama-0,
+  .Tokyo-0 {
+    @include m.city-card-background(0.521);
+  }
+  .Porto-0 {
+    @include m.city-card-background(0.525);
+  }
+  .Budapest-0 {
+    @include m.city-card-background(0.506);
+  }
+  .Rome-0 {
+    @include m.city-card-background(0.412);
+  }
+  .Rome-1 {
+    @include m.city-card-background(0.459);
+  }
+  .Genoa-0,
+  .Turin-0 {
+    @include m.city-card-background(0.529);
+  }
+  .Imola-0 {
+    @include m.city-card-background(0.514);
+  }
+}
+
+.home--light {
+  .Anderlecht-0,
+  .Berlin-0,
+  .Braga-0,
+  .London-0,
+  .Shirawakago-0,
+  .Kanazawa-0,
+  .Terni-0,
+  .Cefalù-0,
+  .Bruges-0 {
+    @include m.city-card-background(0.333);
+  }
+  .Barcelona-0 {
+    @include m.city-card-background(0.298);
+  }
+  .Brussels-0 {
+    @include m.city-card-background(0.318);
+  }
+  .Osaka-0,
+  .Nara-0 {
+    @include m.city-card-background(0.286);
+  }
+  .Kyoto-0,
+  .Takayama-0,
+  .Tokyo-0 {
+    @include m.city-card-background(0.321);
+  }
+  .Porto-0 {
+    @include m.city-card-background(0.325);
+  }
+  .Budapest-0 {
+    @include m.city-card-background(0.306);
+  }
+  .Rome-0 {
+    @include m.city-card-background(0.212);
+  }
+  .Rome-1 {
+    @include m.city-card-background(0.259);
+  }
+  .Genoa-0,
+  .Turin-0 {
+    @include m.city-card-background(0.329);
+  }
+  .Imola-0 {
+    @include m.city-card-background(0.314);
   }
 }

@@ -11,6 +11,8 @@ import CountryShapeMulti from "./CountryShape/CountryShapeMulti";
 
 import LanguageFlag from "./LanguageFlag/LanguageFlag";
 
+import Loading from "./Loading/Loading";
+
 import Marker from "./Marker/Marker";
 
 import Tween from "./Tween/Tween";
@@ -23,6 +25,7 @@ export {
   CountryShape,
   CountryShapeMulti,
   LanguageFlag,
+  Loading,
   Marker,
   Tween,
 };

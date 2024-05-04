@@ -1,10 +1,8 @@
-import { memo, useRef } from "react";
-import { City, Travel } from "../../../core";
-import useLanguage from "../../../hooks/language/language";
-import { CityCard } from "../../molecules";
+import { memo } from "react";
+import { City, Travel } from "../../../../core";
 import "./InfoTabVisited.scss";
-import { componentHasOverflow } from "../../../utils/overflow";
-import { visitedCities, visitedCountries } from "../../../data";
+import { visitedCities, visitedCountries } from "../../../../data";
+import InfoTabCities from "./InfoTabCities";
 
 interface InfoTabVisitedProps {
   className?: string;
@@ -25,9 +23,6 @@ interface InfoTabVisitedProps {
 export default memo(function InfoTabVisited({
   className = "",
 }: InfoTabVisitedProps): JSX.Element {
-  const { t } = useLanguage(["home"]);
-  const contentRef = useRef<HTMLDivElement>(null);
-
   const filteredCities = (country: string) => {
     const filtered = visitedCities
       .filter((c) => c.country.id.replace(" ", "") === country.replace(" ", ""))
@@ -59,30 +54,11 @@ export default memo(function InfoTabVisited({
   };
 
   return (
-    <div className={`info-tab-visited ${className}`}>
-      <div className="info-tab-visited__header">
-        <h1>{t("visited.title")}</h1>
-      </div>
-      <div
-        className={`info-tab-visited__content ${
-          componentHasOverflow(contentRef) ? "scroll" : ""
-        }`}
-        id="info-tab"
-        ref={contentRef}
-      >
-        {allCities.map((city) => (
-          <CityCard
-            key={city.name}
-            city={new City(city)}
-            travel={city.travels[0]}
-            idx={getTravelIdx(city, city.travels[0])}
-            isClickable={city.travels[0].photos.length > 0}
-          />
-        ))}
-        {allCities.length % 2 !== 0 && (
-          <div className="info-tab-visited__void-city city-card" />
-        )}
-      </div>
-    </div>
+    <InfoTabCities
+      className={className}
+      id="visited"
+      cities={allCities}
+      getTravelIdx={getTravelIdx}
+    />
   );
 });

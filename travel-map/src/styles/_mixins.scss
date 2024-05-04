@@ -6,28 +6,14 @@
   -ms-transition: $property $duration $timing;
 }
 
-@mixin city-card-background($url, $opacity) {
-  background: linear-gradient(
+@mixin city-card-background($opacity) {
+  .city-card__background {
+    background: linear-gradient(
       to bottom,
       rgba(0, 0, 0, $opacity),
       rgba(0, 0, 0, 0.1)
-    ),
-    url($url);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-@mixin country-card-background($url) {
-  background: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 0.479),
-      rgba(36, 37, 38, 1) 4rem
-    ),
-    url($url);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+    );
+  }
 }
 
 @mixin set-button-colors($button, $buttonContent, $buttonHover) {

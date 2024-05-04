@@ -13,4 +13,7 @@ export const Cefalù = new City({
       photos: tr_230921_260921_images,
     }),
   ],
+  backgroundImgsSrc: [
+    "https://cdn.statically.io/gh/iampivi/PhotoLake1/5ea882d78f6bbf7cfc8626444ecd70951a4770a1/Backgrounds/Cities/Cefalu.jpg",
+  ],
 });

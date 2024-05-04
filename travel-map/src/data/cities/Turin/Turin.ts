@@ -13,4 +13,7 @@ export const Turin = new City({
       photos: tr_111123_141123_images,
     }),
   ],
+  backgroundImgsSrc: [
+    "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Turin.jpg",
+  ],
 });
