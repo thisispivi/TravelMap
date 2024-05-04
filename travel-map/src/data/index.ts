@@ -38,6 +38,7 @@ export const visitedCountries = {
   Germany,
   Hungary,
   Spain,
+  Portugal,
 };
 
 export const visitedCities = [
@@ -54,17 +55,16 @@ export const visitedCities = [
   Barcelona,
   Cefalù,
   Terni,
+  Porto,
+  Braga,
 ];
 
 export const futureCountries = {
-  Portugal,
   Italy,
   Japan,
 };
 
 export const futureCities = [
-  Porto,
-  Braga,
   Rome,
   Tokyo,
   Takayama,

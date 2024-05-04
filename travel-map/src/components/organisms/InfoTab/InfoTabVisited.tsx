@@ -79,6 +79,9 @@ export default memo(function InfoTabVisited({
             isClickable={city.travels[0].photos.length > 0}
           />
         ))}
+        {allCities.length % 2 !== 0 && (
+          <div className="info-tab-visited__void-city city-card" />
+        )}
       </div>
     </div>
   );

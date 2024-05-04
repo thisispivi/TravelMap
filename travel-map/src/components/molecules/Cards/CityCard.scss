@@ -19,7 +19,7 @@
   .city-card__top {
     display: flex;
     height: 100%;
-    border-radius: 0.6rem 0.6rem 0 0;
+    border-radius: 1.4rem 1.4rem 0 0;
     justify-content: space-between;
     padding: 1rem;
     h3 {
@@ -39,7 +39,7 @@
     display: flex;
     justify-content: space-between;
     flex-direction: column;
-    border-radius: 0 0 0.6rem 0.6rem;
+    border-radius: 0 0 1.4rem 1.4rem;
     padding: 0.4rem 1rem 0.4rem 1rem;
     box-shadow: 0 0.15rem 0.2rem 0 rgba(0, 0, 0, 0.4);
     @include m.transition(all, 0.15s, ease-in-out);
