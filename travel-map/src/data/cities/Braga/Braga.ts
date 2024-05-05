@@ -1,5 +1,6 @@
 import { City, Travel } from "../../../core";
 import { Portugal } from "../../countries/countries";
+import { tr_200424_200424_images } from "./photos/tr_200424_200424";
 
 export const Braga = new City({
   name: "Braga",
@@ -9,6 +10,7 @@ export const Braga = new City({
     new Travel({
       sDate: new Date(2024, 3, 20),
       eDate: new Date(2024, 3, 20),
+      photos: tr_200424_200424_images,
       isFuture: false,
     }),
   ],
