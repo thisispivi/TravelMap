@@ -3,7 +3,7 @@ $color-2: #ffffff;
 $color-3: #ea4335;
 $color-4: #a0d468;
 
-$ball-size: 0.5rem;
+$ballSize: 0.5rem;
 $jump: 0.5rem;
 $diam: 2 * $jump;
 
@@ -26,13 +26,13 @@ $duration: 1.2s;
   &:after {
     content: "";
     position: absolute;
-    width: $ball-size;
-    height: $ball-size;
+    width: $ballSize;
+    height: $ballSize;
     top: 50%;
     left: 50%;
-    margin-top: -$ball-size / 2;
-    margin-left: -$ball-size / 2;
-    border-radius: $ball-size / 2;
+    margin-top: -$ballSize / 2;
+    margin-left: -$ballSize / 2;
+    border-radius: calc($ballSize / 2);
     opacity: 0.9;
   }
 

@@ -1,15 +1,16 @@
-import { memo, useContext, useEffect, useMemo, useRef } from "react";
-import { Canvas } from "@react-three/fiber";
-import { WorldFeatureCollection } from "../../../typings/feature";
-import { Country } from "../../molecules";
-import { OrbitControls } from "@react-three/drei";
-import { MOUSE, TOUCH } from "three";
+import { Suspense, memo, useContext, useEffect, useRef } from "react";
 import { HomeContext } from "../../pages/Home/Home";
 import { City, Country as CountryCore } from "../../../core";
-import { Marker, Tween } from "../../atoms";
+import map from "../../../assets/json/map.svg";
+import * as THREE from "three";
+import { Canvas } from "@react-three/fiber";
+import { extend } from "@react-three/fiber";
+import { OrbitControls } from "@react-three/drei";
+import { MOUSE, TOUCH } from "three";
+import { Countries } from "../../molecules";
+extend({ ShapeBufferGeometry: THREE.ShapeGeometry });
 
 export interface MapProps {
-  data: WorldFeatureCollection;
   visitedCountries: Record<string, CountryCore>;
   visitedCities: City[];
   futureCities: City[];
@@ -36,82 +37,23 @@ export interface MapProps {
  * @returns {JSX.Element} - The map
  */
 export default memo(function Map({
-  data,
   visitedCountries,
   visitedCities,
   futureCities,
+  currHoveredCity,
   setCurrentHoveredCity,
 }: MapProps): JSX.Element {
   const context = useContext(HomeContext);
   const { isDarkTheme } = context!;
   const mapRef = useRef<HTMLDivElement>(null);
 
-  const x = 6;
-  const y = 46;
-  const z = 30;
-  const countries = useMemo(
-    () =>
-      data.features?.map((feature) => (
-        <Country
-          key={feature.id}
-          country={feature}
-          visitedCountries={visitedCountries}
-          isDarkTheme={isDarkTheme}
-        />
-      )),
-    [data, visitedCountries, isDarkTheme],
-  ) as JSX.Element[];
-
-  const sortByLongitude = (a: City, b: City) =>
-    b.coordinates[1] - a.coordinates[1];
-
-  const markerIcons = useMemo(
-    () =>
-      visitedCities
-        .sort(sortByLongitude)
-        .map((city) => (
-          <Marker
-            key={city.name}
-            city={city}
-            setCurrHoveredCity={setCurrentHoveredCity}
-          />
-        )),
-    [visitedCities, setCurrentHoveredCity],
-  );
-
-  const futureMarkerIcons = useMemo(
-    () =>
-      futureCities
-        .sort(sortByLongitude)
-        .map((city) => (
-          <Marker
-            key={city.name}
-            city={city}
-            isFuture
-            setCurrHoveredCity={setCurrentHoveredCity}
-          />
-        )),
-    [futureCities, setCurrentHoveredCity],
-  );
-
-  const cameraControls = (
-    <OrbitControls
-      enableRotate={false}
-      zoomToCursor
-      enableDamping={true}
-      dampingFactor={0.2}
-      mouseButtons={{
-        LEFT: MOUSE.PAN,
-      }}
-      touches={{
-        ONE: TOUCH.PAN,
-        TWO: TOUCH.DOLLY_PAN,
-      }}
-      target={[x, y, 0]}
-      zoomSpeed={1.1}
-      maxDistance={100}
-      minDistance={2}
-    />
+  console.log(
+    "Map component rendered with visitedCountries, visitedCities, futureCities, currHoveredCity, setCurrentHoveredCity",
+    visitedCountries,
+    visitedCities,
+    futureCities,
+    currHoveredCity,
+    setCurrentHoveredCity
   );
 
   useEffect(() => {
@@ -128,6 +70,26 @@ export default memo(function Map({
     };
   }, []);
 
+  const cameraControls = (
+    <OrbitControls
+      enableRotate={false}
+      zoomToCursor
+      enableDamping={true}
+      dampingFactor={0.2}
+      mouseButtons={{
+        LEFT: MOUSE.PAN,
+      }}
+      touches={{
+        ONE: TOUCH.PAN,
+        TWO: TOUCH.DOLLY_PAN,
+      }}
+      target={[0, 0, 0]}
+      zoomSpeed={1.1}
+      minZoom={2}
+      maxZoom={20}
+    />
+  );
+
   return (
     <div
       className="map"
@@ -138,38 +100,25 @@ export default memo(function Map({
       }}
     >
       <Canvas
-        camera={{
-          position: [x, y, z],
-          scale: [1, 0.8, 1],
-        }}
+        frameloop="demand"
+        orthographic
         style={{
           backgroundColor: isDarkTheme ? "#121212" : "#ffffff",
           transition: "background-color 0.3s ease-in-out",
         }}
+        camera={{
+          position: [0, 0, 1],
+          zoom: 6,
+        }}
       >
-        <Tween />
-        {cameraControls}
-        <ambientLight intensity={2000} color={"#ffffff"} />
-        <directionalLight position={[x, y, z]} />
-        <mesh key="countries-mesh">{countries}</mesh>
-        {futureMarkerIcons}
-        {markerIcons}
-        {/* {currHoveredCity && (
-          <Html
-            position={
-              new THREE.Vector3(
-                currHoveredCity.coordinates[0],
-                currHoveredCity.coordinates[1],
-                0
-              )
-            }
-            onMouseEnter={() => {
-              setCurrentHoveredCity(currHoveredCity);
-            }}
-          >
-            <div className="tooltip">{currHoveredCity.name}</div>
-          </Html>
-        )} */}
+        <Suspense fallback={null}>
+          {cameraControls}
+          <Countries
+            url={map}
+            visitedCountries={visitedCountries}
+            isDarkTheme={isDarkTheme}
+          />
+        </Suspense>
       </Canvas>
     </div>
   );
