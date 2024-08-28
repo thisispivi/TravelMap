@@ -5,7 +5,7 @@ import { tr_190424_220424_images } from "./photos/tr_190424_220424";
 export const Porto = new City({
   name: "Porto",
   country: Portugal,
-  coordinates: [-8.6291053, 41.1579438],
+  coordinates: [-40.5291053, -23.4579438],
   travels: [
     new Travel({
       sDate: new Date(2024, 3, 19),

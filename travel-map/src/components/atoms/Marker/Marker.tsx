@@ -1,7 +1,9 @@
-import { City } from "../../../core";
+import { useEffect } from "react";
 import * as THREE from "three";
+import { useThree } from "@react-three/fiber";
 import { Tween, Easing } from "@tweenjs/tween.js";
 import "./Marker.scss";
+import { City } from "../../../core";
 
 interface MarkerProps {
   city: City;
@@ -10,26 +12,27 @@ interface MarkerProps {
   setCurrHoveredCity: (city: City | null) => void;
 }
 
-/**
- * Marker component
- *
- * The marker component is used to display a marker. It is used in the map.
- *
- * @component
- *
- * @param {MarkerProps} props - The props of the component
- * @param {City} props.city - The city of the marker
- * @param {boolean} [props.isFuture] - The is future of the marker
- * @param {number} [props.transitionDuration] - The transition duration of the marker
- * @param {(city: City | null) => void} props.setCurrHoveredCity - The set current hovered city
- * @returns {JSX.Element} - The marker
- */
 export default function Marker({
   city,
   isFuture,
   transitionDuration = 150,
   setCurrHoveredCity,
 }: MarkerProps): JSX.Element {
+  const { camera } = useThree();
+
+  useEffect(() => {
+    const handleZoomChange = () => {
+      console.log("Zoom changed");
+    };
+
+    const typedCamera = camera as THREE.OrthographicCamera;
+    typedCamera.addEventListener("change", handleZoomChange);
+
+    return () => {
+      typedCamera.removeEventListener("change", handleZoomChange);
+    };
+  }, [camera]);
+
   const map = new THREE.TextureLoader().load(
     isFuture ? "FutureMarker.svg" : "Marker.svg"
   );
@@ -44,7 +47,7 @@ export default function Marker({
   sprite.position.set(city.coordinates[0], city.coordinates[1], 0);
   sprite.center.set(0.5, 0.5);
 
-  const defaultScale = { x: 0.027, y: 0.08 };
+  const defaultScale = { x: 0.27, y: 0.8 };
   const hoverScale = { x: 0.033, y: 0.1 };
   sprite.scale.set(defaultScale.x, defaultScale.y, 1);
 

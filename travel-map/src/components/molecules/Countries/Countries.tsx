@@ -33,8 +33,9 @@ export default function Countries({
 }: CountriesProps): JSX.Element {
   const { paths } = useLoader(SVGLoader, url);
 
-  const data = paths.map((path) => (
+  const data = paths.map((path, i) => (
     <Country
+      key={i}
       path={path}
       visitedCountries={visitedCountries}
       isDarkTheme={isDarkTheme}

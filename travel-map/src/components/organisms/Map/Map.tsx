@@ -1,4 +1,14 @@
-import { Suspense, memo, useContext, useEffect, useRef } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import {
+  Suspense,
+  memo,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { HomeContext } from "../../pages/Home/Home";
 import { City, Country as CountryCore } from "../../../core";
 import map from "../../../assets/json/map.svg";
@@ -8,6 +18,7 @@ import { extend } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import { MOUSE, TOUCH } from "three";
 import { Countries } from "../../molecules";
+import { Marker, Tween } from "../../atoms";
 extend({ ShapeBufferGeometry: THREE.ShapeGeometry });
 
 export interface MapProps {
@@ -39,22 +50,11 @@ export interface MapProps {
 export default memo(function Map({
   visitedCountries,
   visitedCities,
-  futureCities,
-  currHoveredCity,
   setCurrentHoveredCity,
 }: MapProps): JSX.Element {
   const context = useContext(HomeContext);
   const { isDarkTheme } = context!;
   const mapRef = useRef<HTMLDivElement>(null);
-
-  console.log(
-    "Map component rendered with visitedCountries, visitedCities, futureCities, currHoveredCity, setCurrentHoveredCity",
-    visitedCountries,
-    visitedCities,
-    futureCities,
-    currHoveredCity,
-    setCurrentHoveredCity
-  );
 
   useEffect(() => {
     const resize = () => {
@@ -69,6 +69,21 @@ export default memo(function Map({
       window.removeEventListener("resize", resize);
     };
   }, []);
+
+  const [zoom] = useState<number | undefined>(6);
+
+  // function debounce<Params extends never[]>(
+  //   func: (...args: Params) => any,
+  //   timeout: number
+  // ): (...args: Params) => void {
+  //   let timer: number | undefined = undefined;
+  //   return (...args: Params) => {
+  //     clearTimeout(timer);
+  //     timer = setTimeout(() => {
+  //       func(...args);
+  //     }, timeout);
+  //   };
+  // }
 
   const cameraControls = (
     <OrbitControls
@@ -85,9 +100,31 @@ export default memo(function Map({
       }}
       target={[0, 0, 0]}
       zoomSpeed={1.1}
-      minZoom={2}
-      maxZoom={20}
+      // minZoom={2}
+      // maxZoom={20}
+      onChange={() => {
+        // setZoom(e?.target?.object?.zoom);
+      }}
     />
+  );
+
+  console.log(zoom);
+
+  const sortByLongitude = (a: City, b: City) =>
+    b.coordinates[1] - a.coordinates[1];
+
+  const markerIcons = useMemo(
+    () =>
+      visitedCities
+        .sort(sortByLongitude)
+        .map((city) => (
+          <Marker
+            key={city.name}
+            city={city}
+            setCurrHoveredCity={setCurrentHoveredCity}
+          />
+        )),
+    [visitedCities, setCurrentHoveredCity]
   );
 
   return (
@@ -118,6 +155,8 @@ export default memo(function Map({
             visitedCountries={visitedCountries}
             isDarkTheme={isDarkTheme}
           />
+          <Tween />
+          {markerIcons}
         </Suspense>
       </Canvas>
     </div>
