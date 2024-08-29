@@ -9,6 +9,7 @@ import FutureTravelsIcon from "./icons/FutureTravels.svg?react";
 import LanguageIcon from "./icons/Language.svg?react";
 import GalleryIcon from "./icons/Gallery.svg?react";
 import LogoIcon from "./icons/Logo.svg?react";
+import MarkerIcon from "./icons/Marker.svg?react";
 import MoonIcon from "./icons/Moon.svg?react";
 import SunIcon from "./icons/Sun.svg?react";
 import VisitedIcon from "./icons/Visited.svg?react";
@@ -25,6 +26,7 @@ export {
   GalleryIcon,
   LanguageIcon,
   LogoIcon,
+  MarkerIcon,
   MoonIcon,
   SunIcon,
   VisitedIcon,

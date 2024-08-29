@@ -1,4 +1,4 @@
-import { memo, useContext, useEffect, useState } from "react";
+import { memo, Suspense, useContext, useEffect, useState } from "react";
 import { HomeContext } from "../../pages/Home/Home";
 import { City, Country as CountryCore } from "../../../core";
 import {
@@ -9,6 +9,7 @@ import {
 } from "react-simple-maps";
 import { worldData } from "../../../assets";
 import "./Map.scss";
+import { Marker } from "../../atoms";
 
 export interface MapProps {
   visitedCountries: Record<string, CountryCore>;
@@ -36,7 +37,10 @@ export interface MapProps {
  * @param {function} props.setCurrentHoveredCity - The function to set the current hovered city
  * @returns {JSX.Element} - The map
  */
-export default memo(function Map({ visitedCountries }: MapProps): JSX.Element {
+export default memo(function Map({
+  visitedCountries,
+  visitedCities,
+}: MapProps): JSX.Element {
   const context = useContext(HomeContext);
   const { isDarkTheme } = context!;
   const [, setWindowWidth] = useState(window.innerWidth);
@@ -44,15 +48,12 @@ export default memo(function Map({ visitedCountries }: MapProps): JSX.Element {
     setWindowWidth(window.innerWidth);
   };
 
-  // Add this useEffect to listen for window resize events and update the windowWidth state accordingly
   useEffect(() => {
     window.addEventListener("resize", handleResize);
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-
-  const [, setCurrentZoom] = useState(window.innerWidth > 1000 ? 4 : 5);
 
   const getCountryFillColor = (country: string) => {
     const visitedCountry = visitedCountries[country.replace(" ", "")];
@@ -69,47 +70,41 @@ export default memo(function Map({ visitedCountries }: MapProps): JSX.Element {
       width={window.innerWidth}
       height={window.innerHeight}
     >
-      <ZoomableGroup
-        maxZoom={30}
-        minZoom={1}
-        zoom={window.innerWidth > 1000 ? 4 : 5}
-        center={[7, 49]}
-        onMoveEnd={({ zoom }) => {
-          setCurrentZoom(zoom);
-        }}
-        onMove={({ zoom }) => {
-          setCurrentZoom(zoom);
-        }}
-      >
-        <Geographies geography={worldData}>
-          {({ geographies }) =>
-            geographies.map((geo) => (
-              <Geography
-                key={geo.rsmKey}
-                geography={geo}
-                strokeWidth={0}
-                fill={getCountryFillColor(geo.properties.name)}
-                style={{
-                  default: { outline: "none" },
-                  hover: { outline: "none" },
-                  pressed: { outline: "none" },
-                }}
-              />
-            ))
-          }
-        </Geographies>
-        {/* {markers.map((city) => (
-          <Marker
-            key={city.name}
-            city={city}
-            hoveredCity={hoveredCity}
-            setHoveredCity={setHoveredCity}
-            currentZoom={currentZoom}
-            isDarkMode={isDarkMode}
-          />
-        ))} */}
-        {/* <use xlinkHref={hoveredCity?.name + "-marker"} /> */}
-      </ZoomableGroup>
+      <Suspense fallback={<div>LOAD</div>}>
+        <ZoomableGroup
+          maxZoom={30}
+          minZoom={1}
+          zoom={window.innerWidth > 1000 ? 4 : 5}
+          center={[7, 49]}
+        >
+          <Geographies geography={worldData}>
+            {({ geographies }) =>
+              geographies.map((geo) => (
+                <Geography
+                  key={geo.rsmKey}
+                  geography={geo}
+                  strokeWidth={0}
+                  fill={getCountryFillColor(geo.properties.name)}
+                  style={{
+                    default: { outline: "none" },
+                    hover: { outline: "none" },
+                    pressed: { outline: "none" },
+                  }}
+                />
+              ))
+            }
+          </Geographies>
+          {visitedCities.map((city) => (
+            <Marker
+              key={city.name}
+              city={city}
+              // hoveredCity={hoveredCity}
+              // setHoveredCity={setHoveredCity}
+            />
+          ))}
+          {/* <use xlinkHref={hoveredCity?.name + "-marker"} /> */}
+        </ZoomableGroup>
+      </Suspense>
     </ComposableMap>
   );
 });
