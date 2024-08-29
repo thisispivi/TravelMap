@@ -44,9 +44,7 @@ export default memo(function Map({
   const context = useContext(HomeContext);
   const { isDarkTheme, hoveredCity, setHoveredCity } = context!;
   const [, setWindowWidth] = useState(window.innerWidth);
-  const handleResize = () => {
-    setWindowWidth(window.innerWidth);
-  };
+  const handleResize = () => setWindowWidth(window.innerWidth);
 
   useEffect(() => {
     window.addEventListener("resize", handleResize);
@@ -63,9 +61,23 @@ export default memo(function Map({
     return isDarkTheme ? "#1a1a1a" : "#eaeaec";
   };
 
-  const [currentZoom, setCurrentZoom] = useState(
-    window.innerWidth > 1000 ? 4 : 5
-  );
+  const [currentZoom, setCurrentZoom] = useState(5);
+
+  const sortedCities = visitedCities.sort((a, b) => {
+    const fCordA = a.coordinates[0];
+    const fCordB = b.coordinates[0];
+    const sCordA = a.coordinates[1];
+    const sCordB = b.coordinates[1];
+    return sCordA < sCordB
+      ? 1
+      : sCordA > sCordB
+        ? -1
+        : fCordA < fCordB
+          ? -1
+          : fCordA > fCordB
+            ? 1
+            : 0;
+  });
 
   return (
     <ComposableMap
@@ -77,7 +89,7 @@ export default memo(function Map({
       <ZoomableGroup
         maxZoom={30}
         minZoom={1}
-        zoom={window.innerWidth > 1000 ? 4 : 5}
+        zoom={5}
         center={[7, 49]}
         onMoveEnd={(event) => {
           setCurrentZoom(event.zoom);
@@ -106,7 +118,7 @@ export default memo(function Map({
             ))
           }
         </Geographies>
-        {visitedCities.map((city, i) => (
+        {sortedCities.map((city, i) => (
           <Marker
             key={i}
             city={city}
@@ -115,7 +127,7 @@ export default memo(function Map({
             currentZoom={currentZoom}
           />
         ))}
-        {/* <use xlinkHref={hoveredCity?.name + "-marker"} /> */}
+        <use xlinkHref={hoveredCity?.name + "-marker"} />
       </ZoomableGroup>
     </ComposableMap>
   );

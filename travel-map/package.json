@@ -27,6 +27,7 @@
     "react-photo-album": "^2.3.1",
     "react-router-dom": "^6.22.3",
     "react-simple-maps": "^3.0.0",
+    "react-tooltip": "^5.28.0",
     "react-transition-group": "^4.4.5",
     "sass": "^1.70.0",
     "topojson-client": "^3.1.0",

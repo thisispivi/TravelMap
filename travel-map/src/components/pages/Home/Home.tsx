@@ -6,8 +6,8 @@ import { Outlet, useNavigate, useSearchParams } from "react-router-dom";
 import { City } from "../../../core";
 
 export type HomeContextType = ThemeDetector & {
-  hoveredCity: City | undefined;
-  setHoveredCity: (city: City | undefined) => void;
+  hoveredCity: City | null;
+  setHoveredCity: (city: City | null) => void;
 };
 export const HomeContext = createContext<HomeContextType | undefined>(
   undefined
@@ -28,7 +28,7 @@ export default function Home(): JSX.Element {
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get("to");
 
-  const [hoveredCity, setHoveredCity] = useState<City | undefined>(undefined);
+  const [hoveredCity, setHoveredCity] = useState<City | null>(null);
   const { isDarkTheme, handleDarkModeSwitch } = useThemeDetector();
   const context = {
     isDarkTheme,
