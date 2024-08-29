@@ -9,7 +9,7 @@ export const Nara = new City({
     new Travel({
       sDate: new Date(2024, 7, 23),
       eDate: new Date(2024, 7, 23),
-      isFuture: true,
+      isFuture: false,
     }),
   ],
   backgroundImgsSrc: [

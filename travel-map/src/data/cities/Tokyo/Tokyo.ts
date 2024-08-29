@@ -9,7 +9,7 @@ export const Tokyo = new City({
     new Travel({
       sDate: new Date(2024, 7, 13),
       eDate: new Date(2024, 7, 18),
-      isFuture: true,
+      isFuture: false,
     }),
   ],
   backgroundImgsSrc: [
