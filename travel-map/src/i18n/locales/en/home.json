@@ -25,12 +25,15 @@
     "Porto": "Porto",
     "Tokyo": "Tokyo",
     "Takayama": "Takayama",
-    "Shirawakago": "Shirawakago",
+    "Shirakawago": "Shirakawa-go",
     "Kanazawa": "Kanazawa",
     "Kyoto": "Kyoto",
     "Osaka": "Osaka",
     "Nara": "Nara",
-    "Cefalù": "Cefalù"
+    "Cefalù": "Cefalù",
+    "Matsumoto": "Matsumoto",
+    "Kobe": "Kobe",
+    "Himeji": "Himeji"
   },
   "countries": {
     "Belgium": "Belgium",

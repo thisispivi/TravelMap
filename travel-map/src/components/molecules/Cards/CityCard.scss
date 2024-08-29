@@ -138,17 +138,20 @@
   .Berlin-0,
   .Braga-0,
   .London-0,
-  .Shirawakago-0,
+  .Shirakawago-0,
   .Kanazawa-0,
   .Terni-0,
   .Cefalù-0,
-  .Bruges-0 {
+  .Bruges-0,
+  .Kobe-0,
+  .Matsumoto-0 {
     @include m.city-card-background(0.533);
   }
   .Barcelona-0 {
     @include m.city-card-background(0.498);
   }
-  .Brussels-0 {
+  .Brussels-0,
+  .Himeji-0 {
     @include m.city-card-background(0.518);
   }
   .Osaka-0,
@@ -186,7 +189,7 @@
   .Berlin-0,
   .Braga-0,
   .London-0,
-  .Shirawakago-0,
+  .Shirakawago-0,
   .Kanazawa-0,
   .Terni-0,
   .Cefalù-0,
