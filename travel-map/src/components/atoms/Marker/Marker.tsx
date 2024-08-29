@@ -7,9 +7,27 @@ interface MarkerProps {
   city: City;
   hoveredCity?: City;
   setHoveredCity?: (city: City | undefined) => void;
+  currentZoom: number;
+  baseZoom?: number;
+  defaultScale?: number;
+  minScale?: number;
+  maxScale?: number;
 }
 
-export function Marker({ city, hoveredCity, setHoveredCity }: MarkerProps) {
+export function Marker({
+  city,
+  hoveredCity,
+  setHoveredCity,
+  currentZoom,
+  baseZoom = 5,
+  defaultScale = 0.15,
+  minScale = 0.1,
+  maxScale = 0.2,
+}: MarkerProps) {
+  const currScale = defaultScale * (baseZoom / currentZoom);
+  const scale = Math.min(Math.max(currScale, minScale), maxScale);
+  const isHovered = hoveredCity?.name === city.name;
+
   return (
     <MarkerMap
       id={city.name + "-marker"}
@@ -25,11 +43,8 @@ export function Marker({ city, hoveredCity, setHoveredCity }: MarkerProps) {
       }}
     >
       <MarkerIcon
-        className={
-          hoveredCity?.name === city.name
-            ? "marker-icon marker-icon--hovered"
-            : "marker-icon"
-        }
+        className={isHovered ? "marker-icon--hovered" : ""}
+        scale={isHovered ? scale * 1.1 : scale}
       />
     </MarkerMap>
   );

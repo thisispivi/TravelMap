@@ -1,12 +1,16 @@
 import "./Home.scss";
 import { HomeTemplate } from "../../templates";
 import useThemeDetector, { ThemeDetector } from "../../../hooks/style/theme";
-import { createContext } from "react";
+import { createContext, useState } from "react";
 import { Outlet, useNavigate, useSearchParams } from "react-router-dom";
+import { City } from "../../../core";
 
-export type HomeContextType = ThemeDetector;
+export type HomeContextType = ThemeDetector & {
+  hoveredCity: City | undefined;
+  setHoveredCity: (city: City | undefined) => void;
+};
 export const HomeContext = createContext<HomeContextType | undefined>(
-  undefined,
+  undefined
 );
 
 /**
@@ -24,8 +28,14 @@ export default function Home(): JSX.Element {
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get("to");
 
+  const [hoveredCity, setHoveredCity] = useState<City | undefined>(undefined);
   const { isDarkTheme, handleDarkModeSwitch } = useThemeDetector();
-  const context = { isDarkTheme, handleDarkModeSwitch };
+  const context = {
+    isDarkTheme,
+    handleDarkModeSwitch,
+    hoveredCity,
+    setHoveredCity,
+  };
 
   if (redirectTo) setTimeout(() => navigate("/" + redirectTo), 300);
 

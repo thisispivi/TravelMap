@@ -1,4 +1,4 @@
-import { memo, Suspense, useContext, useEffect, useState } from "react";
+import { memo, useContext, useEffect, useState } from "react";
 import { HomeContext } from "../../pages/Home/Home";
 import { City, Country as CountryCore } from "../../../core";
 import {
@@ -42,7 +42,7 @@ export default memo(function Map({
   visitedCities,
 }: MapProps): JSX.Element {
   const context = useContext(HomeContext);
-  const { isDarkTheme } = context!;
+  const { isDarkTheme, hoveredCity, setHoveredCity } = context!;
   const [, setWindowWidth] = useState(window.innerWidth);
   const handleResize = () => {
     setWindowWidth(window.innerWidth);
@@ -63,6 +63,10 @@ export default memo(function Map({
     return isDarkTheme ? "#1a1a1a" : "#eaeaec";
   };
 
+  const [currentZoom, setCurrentZoom] = useState(
+    window.innerWidth > 1000 ? 4 : 5
+  );
+
   return (
     <ComposableMap
       className="map"
@@ -70,41 +74,49 @@ export default memo(function Map({
       width={window.innerWidth}
       height={window.innerHeight}
     >
-      <Suspense fallback={<div>LOAD</div>}>
-        <ZoomableGroup
-          maxZoom={30}
-          minZoom={1}
-          zoom={window.innerWidth > 1000 ? 4 : 5}
-          center={[7, 49]}
-        >
-          <Geographies geography={worldData}>
-            {({ geographies }) =>
-              geographies.map((geo) => (
-                <Geography
-                  key={geo.rsmKey}
-                  geography={geo}
-                  strokeWidth={0}
-                  fill={getCountryFillColor(geo.properties.name)}
-                  style={{
-                    default: { outline: "none" },
-                    hover: { outline: "none" },
-                    pressed: { outline: "none" },
-                  }}
-                />
-              ))
-            }
-          </Geographies>
-          {visitedCities.map((city) => (
-            <Marker
-              key={city.name}
-              city={city}
-              // hoveredCity={hoveredCity}
-              // setHoveredCity={setHoveredCity}
-            />
-          ))}
-          {/* <use xlinkHref={hoveredCity?.name + "-marker"} /> */}
-        </ZoomableGroup>
-      </Suspense>
+      <ZoomableGroup
+        maxZoom={30}
+        minZoom={1}
+        zoom={window.innerWidth > 1000 ? 4 : 5}
+        center={[7, 49]}
+        onMoveEnd={(event) => {
+          setCurrentZoom(event.zoom);
+        }}
+        onMove={(event) => {
+          setCurrentZoom(event.zoom);
+        }}
+        onMoveStart={(event) => {
+          setCurrentZoom(event.zoom);
+        }}
+      >
+        <Geographies geography={worldData}>
+          {({ geographies }) =>
+            geographies.map((geo) => (
+              <Geography
+                key={geo.rsmKey}
+                geography={geo}
+                strokeWidth={0}
+                fill={getCountryFillColor(geo.properties.name)}
+                style={{
+                  default: { outline: "none" },
+                  hover: { outline: "none" },
+                  pressed: { outline: "none" },
+                }}
+              />
+            ))
+          }
+        </Geographies>
+        {visitedCities.map((city, i) => (
+          <Marker
+            key={i}
+            city={city}
+            hoveredCity={hoveredCity}
+            setHoveredCity={setHoveredCity}
+            currentZoom={currentZoom}
+          />
+        ))}
+        {/* <use xlinkHref={hoveredCity?.name + "-marker"} /> */}
+      </ZoomableGroup>
     </ComposableMap>
   );
 });
