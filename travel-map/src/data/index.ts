@@ -1,3 +1,4 @@
+import { City } from "../core";
 import { Anderlecth } from "./cities/Anderlecth/Anderlecth";
 import { Barcelona } from "./cities/Barcelona/Barcelona";
 import { Berlin } from "./cities/Berlin/Berlin";
@@ -39,9 +40,10 @@ export const visitedCountries = {
   Hungary,
   Spain,
   Portugal,
+  Japan,
 };
 
-export const visitedCities = [
+export const visitedCities: City[] = [
   Brussels,
   Anderlecth,
   Bruges,
@@ -57,15 +59,6 @@ export const visitedCities = [
   Terni,
   Porto,
   Braga,
-];
-
-export const futureCountries = {
-  Italy,
-  Japan,
-};
-
-export const futureCities = [
-  Rome,
   Tokyo,
   Takayama,
   Shirawakago,
@@ -74,3 +67,7 @@ export const futureCities = [
   Osaka,
   Nara,
 ];
+
+export const futureCountries = {};
+
+export const futureCities: City[] = [];

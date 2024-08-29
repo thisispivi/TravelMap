@@ -9,7 +9,7 @@ export const Kanazawa = new City({
     new Travel({
       sDate: new Date(2024, 7, 19),
       eDate: new Date(2024, 7, 21),
-      isFuture: true,
+      isFuture: false,
     }),
   ],
   backgroundImgsSrc: [

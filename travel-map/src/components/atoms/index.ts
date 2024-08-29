@@ -6,26 +6,15 @@ import CloseButton from "./Buttons/CloseButton";
 
 import CountryFlag from "./CountryFlag/CountryFlag";
 
-import CountryShape from "./CountryShape/CountryShape";
-import CountryShapeMulti from "./CountryShape/CountryShapeMulti";
-
 import LanguageFlag from "./LanguageFlag/LanguageFlag";
 
 import Loading from "./Loading/Loading";
-
-import Marker from "./Marker/Marker";
-
-import Tween from "./Tween/Tween";
 
 export {
   Backdrop,
   CloseButton,
   DarkModeButton,
   CountryFlag,
-  CountryShape,
-  CountryShapeMulti,
   LanguageFlag,
   Loading,
-  Marker,
-  Tween,
 };

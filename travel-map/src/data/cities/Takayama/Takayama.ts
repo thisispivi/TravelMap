@@ -9,7 +9,7 @@ export const Takayama = new City({
     new Travel({
       sDate: new Date(2024, 7, 18),
       eDate: new Date(2024, 7, 19),
-      isFuture: true,
+      isFuture: false,
     }),
   ],
   backgroundImgsSrc: [

@@ -1,15 +1,16 @@
-import { memo, useContext, useEffect, useMemo, useRef } from "react";
-import { Canvas } from "@react-three/fiber";
-import { WorldFeatureCollection } from "../../../typings/feature";
-import { Country } from "../../molecules";
-import { OrbitControls } from "@react-three/drei";
-import { MOUSE, TOUCH } from "three";
+import { memo, useContext, useEffect, useState } from "react";
 import { HomeContext } from "../../pages/Home/Home";
 import { City, Country as CountryCore } from "../../../core";
-import { Marker, Tween } from "../../atoms";
+import {
+  ComposableMap,
+  Geographies,
+  Geography,
+  ZoomableGroup,
+} from "react-simple-maps";
+import { worldData } from "../../../assets";
+import "./Map.scss";
 
 export interface MapProps {
-  data: WorldFeatureCollection;
   visitedCountries: Record<string, CountryCore>;
   visitedCities: City[];
   futureCities: City[];
@@ -35,142 +36,80 @@ export interface MapProps {
  * @param {function} props.setCurrentHoveredCity - The function to set the current hovered city
  * @returns {JSX.Element} - The map
  */
-export default memo(function Map({
-  data,
-  visitedCountries,
-  visitedCities,
-  futureCities,
-  setCurrentHoveredCity,
-}: MapProps): JSX.Element {
+export default memo(function Map({ visitedCountries }: MapProps): JSX.Element {
   const context = useContext(HomeContext);
   const { isDarkTheme } = context!;
-  const mapRef = useRef<HTMLDivElement>(null);
+  const [, setWindowWidth] = useState(window.innerWidth);
+  const handleResize = () => {
+    setWindowWidth(window.innerWidth);
+  };
 
-  const x = 6;
-  const y = 46;
-  const z = 30;
-  const countries = useMemo(
-    () =>
-      data.features?.map((feature) => (
-        <Country
-          key={feature.id}
-          country={feature}
-          visitedCountries={visitedCountries}
-          isDarkTheme={isDarkTheme}
-        />
-      )),
-    [data, visitedCountries, isDarkTheme],
-  ) as JSX.Element[];
-
-  const sortByLongitude = (a: City, b: City) =>
-    b.coordinates[1] - a.coordinates[1];
-
-  const markerIcons = useMemo(
-    () =>
-      visitedCities
-        .sort(sortByLongitude)
-        .map((city) => (
-          <Marker
-            key={city.name}
-            city={city}
-            setCurrHoveredCity={setCurrentHoveredCity}
-          />
-        )),
-    [visitedCities, setCurrentHoveredCity],
-  );
-
-  const futureMarkerIcons = useMemo(
-    () =>
-      futureCities
-        .sort(sortByLongitude)
-        .map((city) => (
-          <Marker
-            key={city.name}
-            city={city}
-            isFuture
-            setCurrHoveredCity={setCurrentHoveredCity}
-          />
-        )),
-    [futureCities, setCurrentHoveredCity],
-  );
-
-  const cameraControls = (
-    <OrbitControls
-      enableRotate={false}
-      zoomToCursor
-      enableDamping={true}
-      dampingFactor={0.2}
-      mouseButtons={{
-        LEFT: MOUSE.PAN,
-      }}
-      touches={{
-        ONE: TOUCH.PAN,
-        TWO: TOUCH.DOLLY_PAN,
-      }}
-      target={[x, y, 0]}
-      zoomSpeed={1.1}
-      maxDistance={100}
-      minDistance={2}
-    />
-  );
-
+  // Add this useEffect to listen for window resize events and update the windowWidth state accordingly
   useEffect(() => {
-    const resize = () => {
-      if (mapRef.current) {
-        const { innerWidth, innerHeight } = window;
-        mapRef.current.style.width = `${innerWidth}px`;
-        mapRef.current.style.height = `${innerHeight}px`;
-      }
-    };
-    window.addEventListener("resize", resize);
+    window.addEventListener("resize", handleResize);
     return () => {
-      window.removeEventListener("resize", resize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
+  const [, setCurrentZoom] = useState(window.innerWidth > 1000 ? 4 : 5);
+
+  const getCountryFillColor = (country: string) => {
+    const visitedCountry = visitedCountries[country.replace(" ", "")];
+    if (visitedCountry) {
+      return visitedCountry.fillColor;
+    }
+    return isDarkTheme ? "#1a1a1a" : "#eaeaec";
+  };
+
   return (
-    <div
+    <ComposableMap
       className="map"
-      ref={mapRef}
-      style={{
-        width: window.innerWidth,
-        height: window.innerHeight,
-      }}
+      projection={"geoMercator"}
+      width={window.innerWidth}
+      height={window.innerHeight}
     >
-      <Canvas
-        camera={{
-          position: [x, y, z],
-          scale: [1, 0.8, 1],
+      <ZoomableGroup
+        maxZoom={30}
+        minZoom={1}
+        zoom={window.innerWidth > 1000 ? 4 : 5}
+        center={[7, 49]}
+        onMoveEnd={({ zoom }) => {
+          setCurrentZoom(zoom);
         }}
-        style={{
-          backgroundColor: isDarkTheme ? "#121212" : "#ffffff",
-          transition: "background-color 0.3s ease-in-out",
+        onMove={({ zoom }) => {
+          setCurrentZoom(zoom);
         }}
       >
-        <Tween />
-        {cameraControls}
-        <ambientLight intensity={2000} color={"#ffffff"} />
-        <directionalLight position={[x, y, z]} />
-        <mesh key="countries-mesh">{countries}</mesh>
-        {futureMarkerIcons}
-        {markerIcons}
-        {/* {currHoveredCity && (
-          <Html
-            position={
-              new THREE.Vector3(
-                currHoveredCity.coordinates[0],
-                currHoveredCity.coordinates[1],
-                0
-              )
-            }
-            onMouseEnter={() => {
-              setCurrentHoveredCity(currHoveredCity);
-            }}
-          >
-            <div className="tooltip">{currHoveredCity.name}</div>
-          </Html>
-        )} */}
-      </Canvas>
-    </div>
+        <Geographies geography={worldData}>
+          {({ geographies }) =>
+            geographies.map((geo) => (
+              <Geography
+                key={geo.rsmKey}
+                geography={geo}
+                strokeWidth={0}
+                fill={getCountryFillColor(geo.properties.name)}
+                style={{
+                  default: { outline: "none" },
+                  hover: { outline: "none" },
+                  pressed: { outline: "none" },
+                }}
+              />
+            ))
+          }
+        </Geographies>
+        {/* {markers.map((city) => (
+          <Marker
+            key={city.name}
+            city={city}
+            hoveredCity={hoveredCity}
+            setHoveredCity={setHoveredCity}
+            currentZoom={currentZoom}
+            isDarkMode={isDarkMode}
+          />
+        ))} */}
+        {/* <use xlinkHref={hoveredCity?.name + "-marker"} /> */}
+      </ZoomableGroup>
+    </ComposableMap>
   );
 });
