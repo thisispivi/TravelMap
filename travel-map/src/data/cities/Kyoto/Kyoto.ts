@@ -1,5 +1,6 @@
 import { City, Travel } from "../../../core";
 import { Japan } from "../../countries/countries";
+import { tr_210824_270824_images } from "./photos/tr_210824_270824";
 
 export const Kyoto = new City({
   name: "Kyoto",
@@ -10,6 +11,7 @@ export const Kyoto = new City({
       sDate: new Date(2024, 7, 21),
       eDate: new Date(2024, 7, 27),
       isFuture: false,
+      photos: tr_210824_270824_images,
     }),
   ],
   backgroundImgsSrc: [

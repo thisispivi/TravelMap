@@ -8,15 +8,18 @@ import { Brussels } from "./cities/Brussels/Brussels";
 import { Budapest } from "./cities/Budapest/Budapest";
 import { Cefalù } from "./cities/Cefalù/Cefalù";
 import { Genoa } from "./cities/Genoa/Genoa";
+import { Himeji } from "./cities/Himeji/Himeji";
 import { Imola } from "./cities/Imola/Imola";
 import { Kanazawa } from "./cities/Kanazawa/Kanazawa";
+import { Kobe } from "./cities/Kobe/Kobe";
 import { Kyoto } from "./cities/Kyoto/Kyoto";
 import { London } from "./cities/London/London";
+import { Matsumoto } from "./cities/Matsumoto/Matsumoto";
 import { Nara } from "./cities/Nara/Nara";
 import { Osaka } from "./cities/Osaka/Osaka";
 import { Porto } from "./cities/Porto/Porto";
 import { Rome } from "./cities/Rome/Rome";
-import { Shirawakago } from "./cities/Shirawakago/Shirawakago";
+import { Shirakawago } from "./cities/Shirakawago/Shirakawago";
 import { Takayama } from "./cities/Takayama/Takayama";
 import { Terni } from "./cities/Terni/Terni";
 import { Tokyo } from "./cities/Tokyo/Tokyo";
@@ -60,10 +63,13 @@ export const visitedCities: City[] = [
   Porto,
   Braga,
   Tokyo,
+  Matsumoto,
   Takayama,
-  Shirawakago,
+  Shirakawago,
   Kanazawa,
   Kyoto,
+  Himeji,
+  Kobe,
   Osaka,
   Nara,
 ];

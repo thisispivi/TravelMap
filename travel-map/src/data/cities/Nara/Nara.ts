@@ -1,5 +1,6 @@
 import { City, Travel } from "../../../core";
 import { Japan } from "../../countries/countries";
+import { tr_240824_240824_images } from "./photos/tr_240824_240824";
 
 export const Nara = new City({
   name: "Nara",
@@ -7,9 +8,10 @@ export const Nara = new City({
   coordinates: [135.8048, 34.6851],
   travels: [
     new Travel({
-      sDate: new Date(2024, 7, 23),
-      eDate: new Date(2024, 7, 23),
+      sDate: new Date(2024, 7, 24),
+      eDate: new Date(2024, 7, 24),
       isFuture: false,
+      photos: tr_240824_240824_images,
     }),
   ],
   backgroundImgsSrc: [

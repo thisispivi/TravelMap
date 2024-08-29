@@ -1,5 +1,6 @@
 import { City, Travel } from "../../../core";
 import { Japan } from "../../countries/countries";
+import { tr_250824_250824_images } from "./photos/tr_250824_250824";
 
 export const Osaka = new City({
   name: "Osaka",
@@ -7,9 +8,10 @@ export const Osaka = new City({
   coordinates: [135.5023, 34.6937],
   travels: [
     new Travel({
-      sDate: new Date(2024, 7, 22),
-      eDate: new Date(2024, 7, 22),
+      sDate: new Date(2024, 7, 25),
+      eDate: new Date(2024, 7, 25),
       isFuture: false,
+      photos: tr_250824_250824_images,
     }),
   ],
   backgroundImgsSrc: [
