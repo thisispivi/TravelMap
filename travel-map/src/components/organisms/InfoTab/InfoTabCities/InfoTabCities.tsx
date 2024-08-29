@@ -1,8 +1,9 @@
-import { memo } from "react";
+import { memo, useContext } from "react";
 import { City, Travel } from "../../../../core";
 import useLanguage from "../../../../hooks/language/language";
 import { CityCard } from "../../../molecules";
 import "./InfoTabCities.scss";
+import { HomeContext } from "../../../pages/Home/Home";
 
 interface InfoTabCitiesProps {
   className?: string;
@@ -33,6 +34,7 @@ export default memo(function InfoTabCities({
   getTravelIdx,
 }: InfoTabCitiesProps): JSX.Element {
   const { t } = useLanguage(["home"]);
+  const { hoveredCity, setHoveredCity } = useContext(HomeContext)!;
   return (
     <div className={`info-tab-cities info-tab-${id} ${className}`}>
       <div className={`info-tab-cities__header info-tab-${id}__header`}>
@@ -42,13 +44,15 @@ export default memo(function InfoTabCities({
         className={`info-tab-cities__content info-tab-${id}__content`}
         id="info-tab"
       >
-        {cities.map((city) => (
+        {cities.map((city, i) => (
           <CityCard
-            key={city.name}
+            key={i}
             city={new City(city)}
             travel={city.travels[0]}
             idx={getTravelIdx(city, city.travels[0])}
             isClickable={city.travels[0].photos.length > 0}
+            hoveredCity={hoveredCity}
+            setHoveredCity={setHoveredCity}
           />
         ))}
         {cities.length % 2 !== 0 && (

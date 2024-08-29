@@ -14,6 +14,8 @@ interface CityCardProps {
   travel: Travel;
   idx: number;
   isClickable?: boolean;
+  hoveredCity?: City;
+  setHoveredCity?: (city: City | undefined) => void;
 }
 
 /**
@@ -28,6 +30,8 @@ interface CityCardProps {
  * @param {Travel} data.travel - The travel
  * @param {number} data.idx - The index of the travel used to retrieve the travel photos
  * @param {boolean} data.isClickable - Whether the card is clickable
+ * @param {City} data.hoveredCity - The hovered city
+ * @param {function} data.setHoveredCity - The function to set the hovered city
  * @returns {JSX.Element} The CityCard component
  */
 export default function CityCard({
@@ -36,6 +40,8 @@ export default function CityCard({
   travel,
   idx,
   isClickable = false,
+  hoveredCity,
+  setHoveredCity,
 }: CityCardProps): JSX.Element {
   const lang = useLanguage([]).currentLanguage;
   const navigate = useNavigate();
@@ -50,8 +56,12 @@ export default function CityCard({
 
   return (
     <div
-      className={`city-card ${isClickable ? "city-card--clickable" : "city-card--not-clickable"}`}
+      className={`city-card ${isClickable ? "city-card--clickable" : "city-card--not-clickable"} 
+      ${hoveredCity && hoveredCity.name === city.name ? "city-card--hovered" : ""}
+      `}
       onClick={() => isClickable && navigate(`/gallery/${city.name}/${idx}`)}
+      onMouseEnter={() => setHoveredCity && setHoveredCity(city)}
+      onMouseLeave={() => setHoveredCity && setHoveredCity(undefined)}
     >
       <div
         className={`city-card__top ${className} ${city.name} ${city.name}-${idx}`}
