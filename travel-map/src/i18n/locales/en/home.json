@@ -47,5 +47,6 @@
   },
   "visited": { "title": "Visited Cities" },
   "future": { "title": "Future Destinations" },
-  "gallery": "To Gallery"
+  "gallery": "To Gallery",
+  "galleryAlt": "Open the gallery"
 }

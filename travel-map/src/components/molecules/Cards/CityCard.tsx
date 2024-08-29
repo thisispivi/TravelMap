@@ -14,8 +14,8 @@ interface CityCardProps {
   travel: Travel;
   idx: number;
   isClickable?: boolean;
-  hoveredCity?: City;
-  setHoveredCity?: (city: City | undefined) => void;
+  hoveredCity: City | null;
+  setHoveredCity: (city: City | null) => void;
 }
 
 /**
@@ -61,7 +61,7 @@ export default function CityCard({
       `}
       onClick={() => isClickable && navigate(`/gallery/${city.name}/${idx}`)}
       onMouseEnter={() => setHoveredCity && setHoveredCity(city)}
-      onMouseLeave={() => setHoveredCity && setHoveredCity(undefined)}
+      onMouseLeave={() => setHoveredCity && setHoveredCity(null)}
     >
       <div
         className={`city-card__top ${className} ${city.name} ${city.name}-${idx}`}

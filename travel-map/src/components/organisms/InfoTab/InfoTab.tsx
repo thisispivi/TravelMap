@@ -9,7 +9,7 @@ interface InfoTabProps extends PropsWithChildren {
 /**
  * InfoTab component
  *
- * The info tab component is used to display some informations on the
+ * The info tab component is used to display some information on the
  * right of the left bar. It can display the future travels or the
  * visited cities and countries.
  *

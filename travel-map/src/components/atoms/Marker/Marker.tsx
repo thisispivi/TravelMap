@@ -5,8 +5,8 @@ import { MarkerIcon } from "../../../assets";
 
 interface MarkerProps {
   city: City;
-  hoveredCity?: City;
-  setHoveredCity?: (city: City | undefined) => void;
+  hoveredCity: City | null;
+  setHoveredCity: (city: City | null) => void;
   currentZoom: number;
   baseZoom?: number;
   defaultScale?: number;
@@ -35,7 +35,7 @@ export function Marker({
       coordinates={city.coordinates}
       data-tooltip-id={city.name}
       onMouseEnter={() => setHoveredCity && setHoveredCity(city)}
-      onMouseLeave={() => setHoveredCity && setHoveredCity(undefined)}
+      onMouseLeave={() => setHoveredCity && setHoveredCity(null)}
       style={{
         default: { outline: "none" },
         hover: { outline: "none" },
@@ -44,7 +44,7 @@ export function Marker({
     >
       <MarkerIcon
         className={isHovered ? "marker-icon--hovered" : ""}
-        scale={isHovered ? scale * 1.1 : scale}
+        scale={scale}
       />
     </MarkerMap>
   );

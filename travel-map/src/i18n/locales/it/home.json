@@ -47,5 +47,6 @@
   },
   "visited": { "title": "Città visitate" },
   "future": { "title": "Prossime destinazioni" },
-  "gallery": "Alla galleria"
+  "gallery": "Alla galleria",
+  "galleryAlt": "Apri la galleria"
 }
