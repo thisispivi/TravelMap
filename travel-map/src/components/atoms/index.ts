@@ -10,6 +10,8 @@ import LanguageFlag from "./LanguageFlag/LanguageFlag";
 
 import Loading from "./Loading/Loading";
 
+import { Marker } from "./Marker/Marker";
+
 export {
   Backdrop,
   CloseButton,
@@ -17,4 +19,5 @@ export {
   CountryFlag,
   LanguageFlag,
   Loading,
+  Marker,
 };

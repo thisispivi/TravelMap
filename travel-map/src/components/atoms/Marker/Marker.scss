@@ -1,0 +1,13 @@
+.rsm-marker {
+  --marker-color: rgb(190, 0, 0);
+  --marker-color-active: #ff0000;
+  --marker-circle-color: white;
+  --marker-transition: transform 0.2s ease-in-out, scale 0.2s ease-in-out,
+    opacity 0.2s ease-in-out;
+
+  path {
+    fill: var(--marker-color);
+    transition: var(--marker-transition);
+    scale: 0.15;
+  }
+}
