@@ -1,4 +1,4 @@
-import { memo, useContext, useEffect, useState } from "react";
+import { memo, useContext, useEffect, useRef, useState } from "react";
 import { HomeContext } from "../../pages/Home/Home";
 import { City, Country as CountryCore } from "../../../core";
 import {
@@ -7,9 +7,8 @@ import {
   Geography,
   ZoomableGroup,
 } from "react-simple-maps";
-import { worldData } from "../../../assets";
 import "./Map.scss";
-import { Marker } from "../../atoms";
+import { Loading, Marker } from "../../atoms";
 
 export interface MapProps {
   visitedCountries: Record<string, CountryCore>;
@@ -19,25 +18,7 @@ export interface MapProps {
   setCurrentHoveredCity: (city: City | null) => void;
 }
 
-/**
- * Map component
- *
- * The map component is used to display the map of the world. Uses three.js and react-three-fiber.
- * It displays the countries and the visited cities. It also handles the camera controls.
- * It uses the HomeContext to get the dark theme.
- *
- * @component
- *
- * @param {MapProps} props - The props of the component
- * @param {WorldFeatureCollection} props.data - The data of the map
- * @param {Record<string, CountryCore>} props.visitedCountries - The visited countries
- * @param {City[]} props.visitedCities - The visited cities
- * @param {City[]} props.futureCities - The future cities
- * @param {City | null} props.currHoveredCity - The current hovered city
- * @param {function} props.setCurrentHoveredCity - The function to set the current hovered city
- * @returns {JSX.Element} - The map
- */
-export default memo(function Map({
+export default memo(function MapA({
   visitedCountries,
   visitedCities,
 }: MapProps): JSX.Element {
@@ -45,6 +26,24 @@ export default memo(function Map({
   const { isDarkTheme, hoveredCity, setHoveredCity } = context!;
   const [, setWindowWidth] = useState(window.innerWidth);
   const handleResize = () => setWindowWidth(window.innerWidth);
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [worldData, setWorldData] = useState<any>();
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    if (!worldData) {
+      fetch(
+        "https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-50m.json"
+      ).then((response) => {
+        response.json().then((data) => {
+          setWorldData(data);
+          setIsLoading(false);
+        });
+      });
+    }
+  }, [worldData]);
+
+  const nLoaded = useRef(0);
 
   useEffect(() => {
     window.addEventListener("resize", handleResize);
@@ -60,8 +59,6 @@ export default memo(function Map({
     }
     return isDarkTheme ? "#1a1a1a" : "#eaeaec";
   };
-
-  const [currentZoom, setCurrentZoom] = useState(5);
 
   const sortedCities = visitedCities.sort((a, b) => {
     const fCordA = a.coordinates[0];
@@ -80,55 +77,56 @@ export default memo(function Map({
   });
 
   return (
-    <ComposableMap
-      className="map"
-      projection={"geoMercator"}
-      width={window.innerWidth}
-      height={window.innerHeight}
+    <div
+      className="map-container"
+      style={{ height: window.innerHeight, width: window.innerWidth }}
     >
-      <ZoomableGroup
-        maxZoom={30}
-        minZoom={1}
-        zoom={5}
-        center={[7, 49]}
-        onMoveEnd={(event) => {
-          setCurrentZoom(event.zoom);
-        }}
-        onMove={(event) => {
-          setCurrentZoom(event.zoom);
-        }}
-        onMoveStart={(event) => {
-          setCurrentZoom(event.zoom);
-        }}
+      {isLoading || !worldData || nLoaded.current < 240 ? (
+        <div
+          className="loading"
+          style={{ height: window.innerHeight, width: window.innerWidth }}
+        >
+          <Loading />
+        </div>
+      ) : null}
+      <ComposableMap
+        className="map"
+        projection={"geoMercator"}
+        width={window.innerWidth}
+        height={window.innerHeight}
       >
-        <Geographies geography={worldData}>
-          {({ geographies }) =>
-            geographies.map((geo) => (
-              <Geography
-                key={geo.rsmKey}
-                geography={geo}
-                strokeWidth={0}
-                fill={getCountryFillColor(geo.properties.name)}
-                style={{
-                  default: { outline: "none" },
-                  hover: { outline: "none" },
-                  pressed: { outline: "none" },
-                }}
+        <ZoomableGroup maxZoom={30} minZoom={1} zoom={5} center={[7, 49]}>
+          <Geographies geography={worldData}>
+            {({ geographies }) =>
+              geographies.map((geo) => {
+                nLoaded.current += 1;
+                return (
+                  <Geography
+                    key={geo.rsmKey}
+                    geography={geo}
+                    strokeWidth={0}
+                    fill={getCountryFillColor(geo.properties.name)}
+                    style={{
+                      default: { outline: "none" },
+                      hover: { outline: "none" },
+                      pressed: { outline: "none" },
+                    }}
+                  />
+                );
+              })
+            }
+          </Geographies>
+          {nLoaded.current > 240 &&
+            sortedCities.map((city, i) => (
+              <Marker
+                key={i}
+                city={city}
+                hoveredCity={hoveredCity}
+                setHoveredCity={setHoveredCity}
               />
-            ))
-          }
-        </Geographies>
-        {sortedCities.map((city, i) => (
-          <Marker
-            key={i}
-            city={city}
-            hoveredCity={hoveredCity}
-            setHoveredCity={setHoveredCity}
-            currentZoom={currentZoom}
-          />
-        ))}
-        <use xlinkHref={hoveredCity?.name + "-marker"} />
-      </ZoomableGroup>
-    </ComposableMap>
+            ))}
+        </ZoomableGroup>
+      </ComposableMap>
+    </div>
   );
 });

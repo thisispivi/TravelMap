@@ -1,5 +1,5 @@
 import { PropsWithChildren, memo, useContext } from "react";
-import { InfoTab, LeftBar, Map, Tooltip } from "../../organisms";
+import { InfoTab, LeftBar, Map } from "../../organisms";
 import useLocation from "../../../hooks/location/location";
 import { Container } from "../../molecules";
 import { futureCities, visitedCities, visitedCountries } from "../../../data";
@@ -38,14 +38,6 @@ export default memo(function HomeTemplate(
         currHoveredCity={hoveredCity}
         setCurrentHoveredCity={setHoveredCity}
       />
-      {visitedCities.map((city) => (
-        <Tooltip
-          key={city.name}
-          city={city}
-          onMouseEnter={() => setHoveredCity(city)}
-          onMouseLeave={() => setHoveredCity(null)}
-        />
-      ))}
     </div>
   );
 });

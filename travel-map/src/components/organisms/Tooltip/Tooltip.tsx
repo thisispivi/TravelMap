@@ -20,60 +20,56 @@ interface TooltipProps {
   onMouseLeave?: () => void;
 }
 
-export default function Tooltip({
-  city,
-  onMouseEnter,
-  onMouseLeave,
-}: TooltipProps) {
+export default function Tooltip({ city }: TooltipProps) {
   const { t, currentLanguage: lang } = useLanguage(["home"]);
   const [travelIdx, setTravelIdx] = useState(0);
   const filteredTravels = city.travels.filter((travel) => !travel.isFuture);
   const navigate = useNavigate();
   return (
-    <div
-      onMouseEnter={() => onMouseEnter && onMouseEnter(city)}
-      onMouseLeave={() => onMouseLeave && onMouseLeave()}
-      onMouseMove={() => onMouseEnter && onMouseEnter(city)}
-      className="tooltip"
+    <ReactTooltip
+      clickable
+      id={city.name}
+      variant="light"
+      key={city.name}
+      delayHide={100}
+      delayShow={100}
     >
-      <ReactTooltip clickable id={city.name} variant="light" key={city.name}>
-        <div className="tooltip__header">
-          <h3>{city.getName(t)}</h3>
-          <CountryFlag countryName={city.country.id} />
-        </div>
-        <div className="tooltip__content">
-          <DoubleChevronIcon
-            className={`tooltip__content__chevron-icon tooltip__content__chevron-icon--left ${travelIdx > 0 ? "" : "tooltip__content__chevron-icon--disabled"}`}
-            onClick={() => travelIdx > 0 && setTravelIdx(travelIdx - 1)}
-          />
-          <div className="tooltip__content__travel">
-            <div className="tooltip__content__travel__info">
-              <DepartureIcon className={"tooltip__content__travel__icon"} />
-              <p>{formatDate(filteredTravels[travelIdx].sDate, lang)}</p>
-            </div>
-            <div className="tooltip__content__travel__info">
-              <ArrivalIcon className={"tooltip__content__travel__icon"} />
-              <p>{formatDate(filteredTravels[travelIdx].eDate, lang)}</p>
-            </div>
+      <div className="tooltip__header">
+        <h3>{city.getName(t)}</h3>
+        <CountryFlag countryName={city.country.id} />
+      </div>
+      <div className="tooltip__content">
+        <DoubleChevronIcon
+          className={`tooltip__content__chevron-icon tooltip__content__chevron-icon--left ${travelIdx > 0 ? "" : "tooltip__content__chevron-icon--disabled"}`}
+          onClick={() => travelIdx > 0 && setTravelIdx(travelIdx - 1)}
+        />
+        <div className="tooltip__content__travel">
+          <div className="tooltip__content__travel__info">
+            <DepartureIcon className={"tooltip__content__travel__icon"} />
+            <p>{formatDate(filteredTravels[travelIdx].sDate, lang)}</p>
           </div>
-          <DoubleChevronIcon
-            className={`tooltip__content__chevron-icon ${travelIdx < filteredTravels.length - 1 ? "" : "tooltip__content__chevron-icon--disabled"}`}
-            onClick={() =>
-              travelIdx < filteredTravels.length - 1 &&
-              setTravelIdx(travelIdx + 1)
-            }
-          />
+          <div className="tooltip__content__travel__info">
+            <ArrivalIcon className={"tooltip__content__travel__icon"} />
+            <p>{formatDate(filteredTravels[travelIdx].eDate, lang)}</p>
+          </div>
         </div>
-        <div className="tooltip__footer">
-          <Button
-            className="tooltip__footer__button"
-            onClick={() => navigate(`/gallery/${city.name}/${travelIdx}`)}
-          >
-            <GalleryIcon />
-            <p>{t("galleryAlt")}</p>
-          </Button>
-        </div>
-      </ReactTooltip>
-    </div>
+        <DoubleChevronIcon
+          className={`tooltip__content__chevron-icon ${travelIdx < filteredTravels.length - 1 ? "" : "tooltip__content__chevron-icon--disabled"}`}
+          onClick={() =>
+            travelIdx < filteredTravels.length - 1 &&
+            setTravelIdx(travelIdx + 1)
+          }
+        />
+      </div>
+      <div className="tooltip__footer">
+        <Button
+          className="tooltip__footer__button"
+          onClick={() => navigate(`/gallery/${city.name}/${travelIdx}`)}
+        >
+          <GalleryIcon />
+          <p>{t("galleryAlt")}</p>
+        </Button>
+      </div>
+    </ReactTooltip>
   );
 }

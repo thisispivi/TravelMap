@@ -10,7 +10,7 @@ export type HomeContextType = ThemeDetector & {
   setHoveredCity: (city: City | null) => void;
 };
 export const HomeContext = createContext<HomeContextType | undefined>(
-  undefined
+  undefined,
 );
 
 /**
