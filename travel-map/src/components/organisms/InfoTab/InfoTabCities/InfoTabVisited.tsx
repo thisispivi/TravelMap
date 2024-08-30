@@ -6,6 +6,7 @@ import InfoTabCities from "./InfoTabCities";
 
 interface InfoTabVisitedProps {
   className?: string;
+  isVisible?: boolean;
 }
 
 /**
@@ -18,10 +19,12 @@ interface InfoTabVisitedProps {
  *
  * @param {InfoTabVisitedProps} props - The props of the component
  * @param {string} props.className - The class to apply to the info tab visited
+ * @param {boolean} props.isVisible - The visibility of the info tab visited
  * @returns {JSX.Element} - The info tab visited
  */
 export default memo(function InfoTabVisited({
   className = "",
+  isVisible = false,
 }: InfoTabVisitedProps): JSX.Element {
   const filteredCities = (country: string) => {
     const filtered = visitedCities
@@ -59,6 +62,7 @@ export default memo(function InfoTabVisited({
       id="visited"
       cities={allCities}
       getTravelIdx={getTravelIdx}
+      isVisible={isVisible}
     />
   );
 });

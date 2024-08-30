@@ -10,6 +10,7 @@ interface InfoTabCitiesProps {
   id: string;
   cities: City[];
   getTravelIdx: (city: City, travel: Travel) => number;
+  isVisible?: boolean;
 }
 
 /**
@@ -25,6 +26,7 @@ interface InfoTabCitiesProps {
  * @param {string} props.id - The id of the info tab
  * @param {City[]} props.cities - The cities to display
  * @param {(city: City, travel: Travel) => number} props.getTravelIdx - The function to get the travel index
+ * @param {boolean} props.isVisible - The visibility of the info tab cities
  * @returns {JSX.Element} - The info tab cities
  */
 export default memo(function InfoTabCities({
@@ -32,11 +34,16 @@ export default memo(function InfoTabCities({
   id,
   cities,
   getTravelIdx,
+  isVisible = false,
 }: InfoTabCitiesProps): JSX.Element {
   const { t } = useLanguage(["home"]);
   const { hoveredCity, setHoveredCity } = useContext(HomeContext)!;
   return (
-    <div className={`info-tab-cities info-tab-${id} ${className}`}>
+    <div
+      className={`info-tab-cities info-tab-${id} ${className} 
+    ${isVisible ? "info-tab-cities--visible" : ""}
+    `}
+    >
       <div className={`info-tab-cities__header info-tab-${id}__header`}>
         <h1>{t(id + ".title")}</h1>
       </div>

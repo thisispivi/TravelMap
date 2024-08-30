@@ -1,8 +1,11 @@
 .info-tab-cities {
   padding: 1rem 0;
-  display: flex;
   flex-direction: column;
   height: 100%;
+  display: none;
+  &.info-tab-cities--visible {
+    display: flex;
+  }
 
   .info-tab-cities__header {
     display: flex;

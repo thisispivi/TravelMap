@@ -1,5 +1,11 @@
 import { PropsWithChildren, memo, useContext } from "react";
-import { InfoTab, LeftBar, Map } from "../../organisms";
+import {
+  InfoTab,
+  InfoTabFuture,
+  InfoTabVisited,
+  LeftBar,
+  Map,
+} from "../../organisms";
 import useLocation from "../../../hooks/location/location";
 import { Container } from "../../molecules";
 import { futureCities, visitedCities, visitedCountries } from "../../../data";
@@ -21,13 +27,16 @@ interface HomeTemplateProps extends PropsWithChildren {}
 export default memo(function HomeTemplate(
   props: HomeTemplateProps
 ): JSX.Element {
-  const { isInfoTabOpen, isGallery } = useLocation();
+  const { isVisited, isFuture, isGallery } = useLocation();
   const { hoveredCity, setHoveredCity } = useContext(HomeContext)!;
 
   return (
     <div className="home-template">
       <LeftBar />
-      <InfoTab>{isInfoTabOpen ? props.children : null}</InfoTab>
+      <InfoTab>
+        <InfoTabVisited isVisible={isVisited} />
+        <InfoTabFuture isVisible={isFuture} />
+      </InfoTab>
       <Container isVisible={isGallery}>
         {isGallery ? props.children : null}
       </Container>

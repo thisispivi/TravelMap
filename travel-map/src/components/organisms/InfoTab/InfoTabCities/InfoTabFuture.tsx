@@ -6,6 +6,7 @@ import InfoTabCities from "./InfoTabCities";
 
 interface InfoTabFutureProps {
   className?: string;
+  isVisible?: boolean;
 }
 
 /**
@@ -18,10 +19,12 @@ interface InfoTabFutureProps {
  * @param {InfoTabFutureProps} props - The props of the component
  * @param {string} props.className - The class to apply to the info tab future
  * @param {ModeHandler} props.modeHandler - The mode handler
+ * @param {boolean} props.isVisible - The visibility of the info tab future
  * @returns {JSX.Element} - The info tab future
  */
 export default memo(function InfoTabFuture({
   className = "",
+  isVisible = false,
 }: InfoTabFutureProps): JSX.Element {
   const filteredCities = (country: string) => {
     const filtered = futureCities
@@ -59,6 +62,7 @@ export default memo(function InfoTabFuture({
       id="future"
       cities={allCities}
       getTravelIdx={getTravelIdx}
+      isVisible={isVisible}
     />
   );
 });
