@@ -15,6 +15,6 @@ export const Kobe = new City({
     }),
   ],
   backgroundImgsSrc: [
-    "https://cdn.statically.io/gh/iampivi/PhotoLake1/34b01ca98aecc070663a73d83e0720701e88b8a1/Backgrounds/Cities/Kobe.jpg",
+    "https://pivi-travel-map.b-cdn.net/Backgrounds/Cities/Kobe.jpg",
   ],
 });
