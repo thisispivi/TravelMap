@@ -2,1271 +2,989 @@ import { Image } from "../../../../core";
 
 export const tr_090511_120511_images: Image[] = [
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/001.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/001.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/001t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/001t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/002.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/002.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/002t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/002t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/003.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/003.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/003t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/003t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/004.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/004.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/004t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/004t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/005.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/005.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/005t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/005t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/006.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/006.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/006t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/006t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/007.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/007.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/007t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/007t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/008.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/008.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/008t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/008t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/009.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/009.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/009t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/009t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/010.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/010.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/010t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/010t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/011.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/011.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/011t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/011t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/012.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/012.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/012t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/012t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/013.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/013.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/013t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/013t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/014.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/014.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/014t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/014t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/015.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/015.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/015t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/015t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/016.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/016.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/016t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/016t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/017.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/017.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/017t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/017t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/018.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/018.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/018t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/018t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/019.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/019.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/019t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/019t.jpg",
     width: 1237,
     height: 927,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/020.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/020.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/020t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/020t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/021.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/021.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/021t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/021t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/022.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/022.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/022t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/022t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/023.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/023.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/023t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/023t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/024.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/024.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/024t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/024t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/025.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/025.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/025t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/025t.jpg",
     width: 1245,
     height: 934,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/026.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/026.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/026t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/026t.jpg",
     width: 1239,
     height: 929,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/027.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/027.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/027t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/027t.jpg",
     width: 640,
     height: 451,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/028.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/028.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/028t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/028t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/029.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/029.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/029t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/029t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/030.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/030.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/030t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/030t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/031.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/031.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/031t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/031t.jpg",
     width: 1226,
     height: 919,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/032.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/032.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/032t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/032t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/033.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/033.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/033t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/033t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/034.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/034.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/034t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/034t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/035.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/035.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/035t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/035t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/036.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/036.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/036t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/036t.jpg",
     width: 1223,
     height: 917,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/037.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/037.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/037t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/037t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/038.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/038.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/038t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/038t.jpg",
     width: 1253,
     height: 939,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/039.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/039.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/039t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/039t.jpg",
     width: 1237,
     height: 927,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/040.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/040.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/040t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/040t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/041.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/041.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/041t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/041t.jpg",
     width: 1239,
     height: 929,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/042.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/042.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/042t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/042t.jpg",
     width: 1218,
     height: 913,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/043.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/043.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/043t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/043t.jpg",
     width: 1205,
     height: 904,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/044.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/044.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/044t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/044t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/045.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/045.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/045t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/045t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/046.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/046.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/046t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/046t.jpg",
     width: 480,
     height: 319,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/047.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/047.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/047t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/047t.jpg",
     width: 1271,
     height: 953,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/048.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/048.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/048t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/048t.jpg",
     width: 1274,
     height: 955,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/049.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/049.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/049t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/049t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/050.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/050.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/050t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/050t.jpg",
     width: 631,
     height: 473,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/051.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/051.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/051t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/051t.jpg",
     width: 1201,
     height: 900,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/052.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/052.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/052t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/052t.jpg",
     width: 640,
     height: 423,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/053.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/053.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/053t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/053t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/054.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/054.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/054t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/054t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/055.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/055.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/055t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/055t.jpg",
     width: 1234,
     height: 925,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/056.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/056.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/056t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/056t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/057.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/057.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/057t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/057t.jpg",
     width: 1173,
     height: 880,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/058.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/058.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/058t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/058t.jpg",
     width: 1237,
     height: 928,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/059.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/059.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/059t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/059t.jpg",
     width: 1213,
     height: 909,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/060.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/060.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/060t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/060t.jpg",
     width: 1253,
     height: 939,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/061.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/061.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/061t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/061t.jpg",
     width: 1257,
     height: 943,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/062.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/062.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/062t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/062t.jpg",
     width: 1253,
     height: 939,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/063.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/063.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/063t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/063t.jpg",
     width: 1234,
     height: 925,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/064.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/064.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/064t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/064t.jpg",
     width: 1259,
     height: 944,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/065.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/065.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/065t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/065t.jpg",
     width: 1223,
     height: 917,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/066.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/066.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/066t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/066t.jpg",
     width: 631,
     height: 473,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/067.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/067.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/067t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/067t.jpg",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/068.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/068.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/068t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/068t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/069.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/069.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/069t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/069t.jpg",
     width: 1259,
     height: 944,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/070.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/070.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/070t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/070t.jpg",
     width: 631,
     height: 473,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/071.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/071.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/071t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/071t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/072.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/072.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/072t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/072t.jpg",
     width: 1215,
     height: 911,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/073.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/073.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/073t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/073t.jpg",
     width: 1223,
     height: 917,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/074.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/074.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/074t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/074t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/075.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/075.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/075t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/075t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/076.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/076.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/076t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/076t.jpg",
     width: 480,
     height: 319,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/077.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/077.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/077t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/077t.jpg",
     width: 1229,
     height: 921,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/078.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/078.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/078t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/078t.jpg",
     width: 1234,
     height: 925,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/079.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/079.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/079t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/079t.jpg",
     width: 1121,
     height: 960,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/080.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/080.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/080t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/080t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/081.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/081.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/081t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/081t.jpg",
     width: 407,
     height: 305,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/082.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/082.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/082t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/082t.jpg",
     width: 1181,
     height: 885,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/083.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/083.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/083t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/083t.jpg",
     width: 1218,
     height: 913,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/084.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/084.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/084t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/084t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/085.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/085.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/085t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/085t.jpg",
     width: 1215,
     height: 911,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/086.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/086.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/086t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/086t.jpg",
     width: 1234,
     height: 925,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/087.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/087.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/087t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/087t.jpg",
     width: 1227,
     height: 920,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/088.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/088.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/088t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/088t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/089.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/089.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/089t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/089t.jpg",
     width: 1267,
     height: 950,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/090.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/090.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/090t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/090t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/091.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/091.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/091t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/091t.jpg",
     width: 480,
     height: 319,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/092.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/092.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/092t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/092t.jpg",
     width: 1234,
     height: 925,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/093.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/093.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/093t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/093t.jpg",
     width: 605,
     height: 454,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/094.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/094.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/094t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/094t.jpg",
     width: 1167,
     height: 875,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/095.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/095.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/095t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/095t.jpg",
     width: 1239,
     height: 929,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/096.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/096.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/096t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/096t.jpg",
     width: 480,
     height: 319,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/097.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/097.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/097t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/097t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/098.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/098.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/098t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/098t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/099.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/099.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/099t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/099t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/100.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/100.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/100t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/100t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/101.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/101.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/101t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/101t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/102.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/102.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/102t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/102t.jpg",
     width: 1218,
     height: 913,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/103.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/103.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/103t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/103t.jpg",
     width: 423,
     height: 344,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/104.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/104.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/104t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/104t.jpg",
     width: 631,
     height: 473,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/105.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/105.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/105t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/105t.jpg",
     width: 337,
     height: 480,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/106.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/106.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/106t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/106t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/107.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/107.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/107t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/107t.jpg",
     width: 480,
     height: 319,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/108.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/108.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/108t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/108t.jpg",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/109.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/109.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/109t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/109t.jpg",
     width: 1234,
     height: 775,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/110.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/110.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/110t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/110t.jpg",
     width: 1245,
     height: 934,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/111.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/111.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/111t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/111t.jpg",
     width: 1205,
     height: 904,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/112.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/112.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/112t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/112t.jpg",
     width: 1146,
     height: 859,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/113.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/113.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/113t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/113t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/114.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/114.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/114t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/114t.jpg",
     width: 480,
     height: 319,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/115.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/115.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/115t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/115t.jpg",
     width: 1143,
     height: 857,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/116.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/116.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/116t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/116t.jpg",
     width: 1036,
     height: 753,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/117.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/117.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/117t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/117t.jpg",
     width: 480,
     height: 319,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/118.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/118.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/118t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/118t.jpg",
     width: 79,
     height: 80,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/119.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/119.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/119t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/119t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/120.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/120.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/120t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/120t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/121.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/121.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/121t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/121t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/122.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/122.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/122t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/122t.jpg",
     width: 921,
     height: 691,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/123.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/123.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/123t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/123t.jpg",
     width: 259,
     height: 480,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/124.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/124.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/124t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/124t.jpg",
     width: 471,
     height: 313,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/125.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/125.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/125t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/125t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/126.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/126.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/126t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/126t.jpg",
     width: 565,
     height: 424,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/127.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/127.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/127t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/127t.jpg",
     width: 943,
     height: 707,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/128.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/128.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/128t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/128t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/129.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/129.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/129t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/129t.jpg",
     width: 319,
     height: 480,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/130.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/130.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/130t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/130t.jpg",
     width: 480,
     height: 319,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/131.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/131.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/131t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/131t.jpg",
     width: 923,
     height: 614,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/132.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/132.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/132t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/132t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/133.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/133.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/133t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/133t.jpg",
     width: 480,
     height: 319,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/134.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/134.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/134t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/134t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/135.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/135.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/135t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/135t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/136.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/136.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/136t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/136t.jpg",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/137.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/137.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/137t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/137t.jpg",
     width: 480,
     height: 319,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/138.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/138.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/138t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/138t.jpg",
     width: 938,
     height: 703,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/139.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/139.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/139t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/139t.jpg",
     width: 471,
     height: 353,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/140.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/140.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/140t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/140t.jpg",
     width: 319,
     height: 480,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/141.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/London/141.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/c498eb9af68ee2a2caa5939e4b936b6bb9bbd013/London/141t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/London/141t.jpg",
     width: 4,
     height: 3,
   },

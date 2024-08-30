@@ -14,6 +14,6 @@ export const Cefalù = new City({
     }),
   ],
   backgroundImgsSrc: [
-    "https://cdn.statically.io/gh/iampivi/PhotoLake1/5ea882d78f6bbf7cfc8626444ecd70951a4770a1/Backgrounds/Cities/Cefalu.jpg",
+    "https://pivi-travel-map.b-cdn.net/Backgrounds/Cities/Cefalu.jpg",
   ],
 });

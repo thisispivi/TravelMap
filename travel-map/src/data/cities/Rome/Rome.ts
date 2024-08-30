@@ -20,7 +20,7 @@ export const Rome = new City({
     }),
   ],
   backgroundImgsSrc: [
-    "https://cdn.statically.io/gh/iampivi/PhotoLake1/c3c78a72d14e8092556836839ec1dcf0dcdd4098/Backgrounds/Cities/Rome.jpg",
-    "https://cdn.statically.io/gh/iampivi/PhotoLake1/2623cbbef6f2286b5c7461fd37a2cef0d0b0e1a1/Backgrounds/Cities/Rome-1.jpg",
+    "https://pivi-travel-map.b-cdn.net/Backgrounds/Cities/Rome.jpg",
+    "https://pivi-travel-map.b-cdn.net/Backgrounds/Cities/Rome-1.jpg",
   ],
 });

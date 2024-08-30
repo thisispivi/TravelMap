@@ -14,6 +14,6 @@ export const Terni = new City({
     }),
   ],
   backgroundImgsSrc: [
-    "https://cdn.statically.io/gh/iampivi/PhotoLake1/8b8e445710614e6342fea8e816184372aca8f15d/Backgrounds/Cities/Terni.jpg",
+    "https://pivi-travel-map.b-cdn.net/Backgrounds/Cities/Terni.jpg",
   ],
 });

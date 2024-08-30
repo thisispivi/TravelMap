@@ -2,155 +2,121 @@ import { Image } from "../../../../core";
 
 export const tr_141123_141123_images: Image[] = [
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/12dd671033b6dd1be8fd74f9720fc4fafecc6876/Genoa/001.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/Genoa/001.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/12dd671033b6dd1be8fd74f9720fc4fafecc6876/Genoa/001t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/Genoa/001t.jpg",
     width: 16,
     height: 9,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/12dd671033b6dd1be8fd74f9720fc4fafecc6876/Genoa/002.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/Genoa/002.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/12dd671033b6dd1be8fd74f9720fc4fafecc6876/Genoa/002t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/Genoa/002t.jpg",
     width: 9,
     height: 16,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/12dd671033b6dd1be8fd74f9720fc4fafecc6876/Genoa/003.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/Genoa/003.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/12dd671033b6dd1be8fd74f9720fc4fafecc6876/Genoa/003t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/Genoa/003t.jpg",
     width: 85,
     height: 64,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/12dd671033b6dd1be8fd74f9720fc4fafecc6876/Genoa/004.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/Genoa/004.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/12dd671033b6dd1be8fd74f9720fc4fafecc6876/Genoa/004t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/Genoa/004t.jpg",
     width: 64,
     height: 85,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/12dd671033b6dd1be8fd74f9720fc4fafecc6876/Genoa/005.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/Genoa/005.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/12dd671033b6dd1be8fd74f9720fc4fafecc6876/Genoa/005t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/Genoa/005t.jpg",
     width: 64,
     height: 85,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/12dd671033b6dd1be8fd74f9720fc4fafecc6876/Genoa/006.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/Genoa/006.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/12dd671033b6dd1be8fd74f9720fc4fafecc6876/Genoa/006t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/Genoa/006t.jpg",
     width: 85,
     height: 64,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/12dd671033b6dd1be8fd74f9720fc4fafecc6876/Genoa/007.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/Genoa/007.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/12dd671033b6dd1be8fd74f9720fc4fafecc6876/Genoa/007t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/Genoa/007t.jpg",
     width: 85,
     height: 64,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/12dd671033b6dd1be8fd74f9720fc4fafecc6876/Genoa/008.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/Genoa/008.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/12dd671033b6dd1be8fd74f9720fc4fafecc6876/Genoa/008t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/Genoa/008t.jpg",
     width: 85,
     height: 64,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/12dd671033b6dd1be8fd74f9720fc4fafecc6876/Genoa/009.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/Genoa/009.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/12dd671033b6dd1be8fd74f9720fc4fafecc6876/Genoa/009t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/Genoa/009t.jpg",
     width: 85,
     height: 64,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/12dd671033b6dd1be8fd74f9720fc4fafecc6876/Genoa/010.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/Genoa/010.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/12dd671033b6dd1be8fd74f9720fc4fafecc6876/Genoa/010t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/Genoa/010t.jpg",
     width: 85,
     height: 64,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/12dd671033b6dd1be8fd74f9720fc4fafecc6876/Genoa/011.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/Genoa/011.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/12dd671033b6dd1be8fd74f9720fc4fafecc6876/Genoa/011t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/Genoa/011t.jpg",
     width: 85,
     height: 64,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/12dd671033b6dd1be8fd74f9720fc4fafecc6876/Genoa/012.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/Genoa/012.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/12dd671033b6dd1be8fd74f9720fc4fafecc6876/Genoa/012t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/Genoa/012t.jpg",
     width: 16,
     height: 9,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/12dd671033b6dd1be8fd74f9720fc4fafecc6876/Genoa/013.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/Genoa/013.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/12dd671033b6dd1be8fd74f9720fc4fafecc6876/Genoa/013t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/Genoa/013t.jpg",
     width: 16,
     height: 9,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/12dd671033b6dd1be8fd74f9720fc4fafecc6876/Genoa/014.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/Genoa/014.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/12dd671033b6dd1be8fd74f9720fc4fafecc6876/Genoa/014t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/Genoa/014t.jpg",
     width: 9,
     height: 16,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/12dd671033b6dd1be8fd74f9720fc4fafecc6876/Genoa/015.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/Genoa/015.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/12dd671033b6dd1be8fd74f9720fc4fafecc6876/Genoa/015t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/Genoa/015t.jpg",
     width: 9,
     height: 16,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/12dd671033b6dd1be8fd74f9720fc4fafecc6876/Genoa/016.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/Genoa/016.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/12dd671033b6dd1be8fd74f9720fc4fafecc6876/Genoa/016t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/Genoa/016t.jpg",
     width: 16,
     height: 9,
   },
   {
-    original:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/12dd671033b6dd1be8fd74f9720fc4fafecc6876/Genoa/017.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/Genoa/017.jpg",
     alt: "",
-    thumbnail:
-      "https://cdn.statically.io/gh/iampivi/PhotoLake1/12dd671033b6dd1be8fd74f9720fc4fafecc6876/Genoa/017t.jpg",
+    thumbnail: "https://pivi-travel-map.b-cdn.net/Genoa/017t.jpg",
     width: 16,
     height: 9,
   },
