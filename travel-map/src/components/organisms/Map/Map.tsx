@@ -9,6 +9,7 @@ import {
 } from "react-simple-maps";
 import "./Map.scss";
 import { Loading, Marker } from "../../atoms";
+import { worldData } from "../../../assets";
 
 export interface MapProps {
   visitedCountries: Record<string, CountryCore>;
@@ -26,22 +27,6 @@ export default memo(function MapA({
   const { isDarkTheme, hoveredCity, setHoveredCity } = context!;
   const [, setWindowWidth] = useState(window.innerWidth);
   const handleResize = () => setWindowWidth(window.innerWidth);
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [worldData, setWorldData] = useState<any>();
-  const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-    if (!worldData) {
-      fetch(
-        "https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-50m.json"
-      ).then((response) => {
-        response.json().then((data) => {
-          setWorldData(data);
-          setIsLoading(false);
-        });
-      });
-    }
-  }, [worldData]);
 
   const nLoaded = useRef(0);
 
@@ -81,7 +66,7 @@ export default memo(function MapA({
       className="map-container"
       style={{ height: window.innerHeight, width: window.innerWidth }}
     >
-      {isLoading || !worldData || nLoaded.current < 240 ? (
+      {nLoaded.current < 240 ? (
         <div
           className="loading"
           style={{ height: window.innerHeight, width: window.innerWidth }}
