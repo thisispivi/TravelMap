@@ -1,0 +1,32 @@
+@use "../../../styles/variables" as v;
+
+.map-container {
+  position: relative;
+  z-index: 0;
+  .loading {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+  }
+  .map {
+    position: absolute;
+  }
+}
+
+.home--dark {
+  .map-container {
+    .loading {
+      background-color: #121212;
+    }
+  }
+}
+
+.home--light {
+  .map-container {
+    .loading {
+      background-color: white;
+    }
+  }
+}
