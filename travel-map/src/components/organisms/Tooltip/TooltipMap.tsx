@@ -40,7 +40,7 @@ export default function MapTooltip({
   onMouseEnter,
   onMouseLeave,
   isOpen,
-}: MapTooltipProps) {
+}: MapTooltipProps): JSX.Element {
   const { t, currentLanguage: lang } = useLanguage(["home"]);
   const [travelIdx, setTravelIdx] = useState(0);
   const filteredTravels = city.travels.filter((travel) => !travel.isFuture);
@@ -103,7 +103,9 @@ export default function MapTooltip({
         <div className="map-tooltip__footer">
           <Button
             className="map-tooltip__footer__button"
-            onClick={() => navigate(`/gallery/${city.name}/${travelIdx}`)}
+            onClick={() =>
+              navigate(`/gallery/${city.name}/${travelIdx}?from=map`)
+            }
           >
             <GalleryIcon />
             <p>{t("galleryAlt")}</p>

@@ -6,6 +6,6 @@
 }
 
 .home--light {
-  background-color: white;
+  background-color: #ededed;
   @include m.transition(background-color, 0.2s, ease-in-out);
 }

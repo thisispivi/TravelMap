@@ -17,7 +17,7 @@ export type HomeContextType = ThemeDetector & {
   setIsAutoPosition: (isAutoPosition: boolean) => void;
 };
 export const HomeContext = createContext<HomeContextType | undefined>(
-  undefined
+  undefined,
 );
 
 /**
@@ -37,7 +37,7 @@ export default function Home(): JSX.Element {
 
   const [isAutoPosition, setIsAutoPosition] = useState<boolean>(false);
   const [mapCenter, setMapCenter] = useState<[number, number]>(
-    parameters.map.defaultCenter
+    parameters.map.defaultCenter,
   );
   const [mapZoom, setMapZoom] = useState<number>(parameters.map.defaultZoom);
   const [hoveredCity, setHoveredCity] = useState<City | null>(null);
