@@ -7,6 +7,7 @@ import LanguageSelctor from "./Language/Language";
 import LeftBar from "./LeftBar/LeftBar";
 import Lightbox from "./Lightbox/Lightbox";
 import Map from "./Map/Map";
+import MapTooltip from "./Tooltip/TooltipMap";
 import Tooltip from "./Tooltip/Tooltip";
 
 export {
@@ -19,5 +20,6 @@ export {
   LeftBar,
   Lightbox,
   Map,
+  MapTooltip,
   Tooltip,
 };

@@ -1,3 +1,6 @@
+@use "../../../../styles/variables" as v;
+@use "../../../../styles/mixins" as m;
+
 .info-tab-cities {
   padding: 1rem 0;
   flex-direction: column;
@@ -14,6 +17,17 @@
     margin-bottom: 1.5rem;
     margin-top: 1rem;
     padding-inline: 1.5rem;
+    .info-tab-cities__position-button {
+      width: 2.5rem;
+      height: 2.5rem;
+      &.info-tab-cities__position-button--auto-position {
+        @include m.set-button-colors(
+          v.$autoPositionButton,
+          v.$autoPositionButtonContent,
+          v.$autoPositionButtonHover
+        );
+      }
+    }
   }
 
   .info-tab-cities__content {
