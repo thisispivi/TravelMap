@@ -7,6 +7,7 @@ import { formatDate } from "../../../i18n/functions/date";
 import { CountryFlag, Loading } from "../../atoms";
 import { useState } from "react";
 import useThrottle from "../../../hooks/throttle/throttle";
+import { mobileAndTabletCheck } from "../../../utils/responsive";
 
 interface CityCardProps {
   className?: string;
@@ -62,16 +63,29 @@ export default function CityCard({
     <div
       className={`city-card ${isClickable ? "city-card--clickable" : "city-card--not-clickable"} 
       ${hoveredCity && hoveredCity.name === city.name ? "city-card--hovered" : ""}
+      ${mobileAndTabletCheck() ? "city-card--mobile" : "city-card--desktop"}
       `}
-      onClick={() => isClickable && navigate(`/gallery/${city.name}/${idx}`)}
-      onMouseEnter={() => {
-        if (setMapCenter && setMapZoom && city.mapCoordinates) {
-          setMapZoom(30);
-          setMapCenter(city.mapCoordinates);
-        }
-        setHoveredCity && setHoveredCity(city);
-      }}
-      onMouseLeave={() => setHoveredCity && setHoveredCity(null)}
+      onClick={
+        isClickable ? () => navigate(`/gallery/${city.name}/${idx}`) : undefined
+      }
+      onMouseEnter={
+        !mobileAndTabletCheck()
+          ? () => {
+              if (setMapCenter && setMapZoom && city.mapCoordinates) {
+                setMapZoom(0);
+                setMapCenter([0, 0]);
+                setMapZoom(30);
+                setMapCenter(city.mapCoordinates);
+              }
+              setHoveredCity && setHoveredCity(city);
+            }
+          : undefined
+      }
+      onMouseLeave={
+        !mobileAndTabletCheck()
+          ? () => setHoveredCity && setHoveredCity(null)
+          : undefined
+      }
     >
       <div
         className={`city-card__top ${className} ${city.name} ${city.name}-${idx}`}

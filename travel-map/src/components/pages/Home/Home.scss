@@ -1,7 +1,11 @@
+@use "../../../styles/mixins.scss" as m;
+
 .home--dark {
   background-color: #121212;
+  @include m.transition(background-color, 0.2s, ease-in-out);
 }
 
 .home--light {
   background-color: white;
+  @include m.transition(background-color, 0.2s, ease-in-out);
 }
