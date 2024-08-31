@@ -8,7 +8,7 @@ import { qrcode } from "vite-plugin-qrcode";
 export default defineConfig(() => {
   return defineConfig({
     plugins: [react(), svgr(), nodeResolve(), qrcode()],
-    base: "/",
+    base: "/TravelMap/",
     server: {
       watch: {
         usePolling: true,
