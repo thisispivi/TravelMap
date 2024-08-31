@@ -31,6 +31,14 @@ export default function Tooltip({
   const [travelIdx, setTravelIdx] = useState(0);
   const filteredTravels = city.travels.filter((travel) => !travel.isFuture);
   const navigate = useNavigate();
+  const createBackdrop = (className: string) => (
+    <div
+      className={`tooltip__backdrop ${className}`}
+      onMouseEnter={() => onMouseEnter && onMouseEnter(city)}
+      onMouseLeave={() => onMouseLeave && onMouseLeave()}
+    />
+  );
+
   return (
     <ReactTooltip
       clickable
@@ -42,11 +50,10 @@ export default function Tooltip({
       isOpen={isOpen}
       opacity={1}
     >
-      <div
-        className="backdrop"
-        onMouseEnter={() => onMouseEnter && onMouseEnter(city)}
-        onMouseLeave={() => onMouseLeave && onMouseLeave()}
-      />
+      {createBackdrop("tooltip__backdrop--top")}
+      {createBackdrop("tooltip__backdrop--right")}
+      {createBackdrop("tooltip__backdrop--bottom")}
+      {createBackdrop("tooltip__backdrop--left")}
       <div
         className="tooltip__container"
         onMouseEnter={() => onMouseEnter && onMouseEnter(city)}
