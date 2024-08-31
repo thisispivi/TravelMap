@@ -11,6 +11,7 @@ import "./Map.scss";
 import { Loading, Marker } from "../../atoms";
 import { worldData } from "../../../assets";
 import { MapTooltip } from "..";
+import { parameters } from "../../../utils/parameters";
 
 export interface MapProps {
   visitedCountries: Record<string, CountryCore>;
@@ -25,8 +26,7 @@ export default memo(function Map({
   visitedCities,
 }: MapProps): JSX.Element {
   const context = useContext(HomeContext);
-  const { isDarkTheme, hoveredCity, setHoveredCity, mapCenter, mapZoom } =
-    context!;
+  const { isDarkTheme, hoveredCity, setHoveredCity, mapPosition } = context!;
   const [, setWindowWidth] = useState(window.innerWidth);
   const handleResize = () => setWindowWidth(window.innerWidth);
 
@@ -83,10 +83,10 @@ export default memo(function Map({
         data-tip=""
       >
         <ZoomableGroup
-          maxZoom={30}
-          minZoom={1}
-          zoom={mapZoom}
-          center={mapCenter}
+          maxZoom={parameters.map.defaultMaxZoom}
+          minZoom={parameters.map.defaultMinZoom}
+          zoom={mapPosition.zoom}
+          center={mapPosition.center}
         >
           <Geographies geography={worldData}>
             {({ geographies }) =>

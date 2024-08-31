@@ -44,8 +44,7 @@ export default memo(function InfoTabCities({
   const {
     hoveredCity,
     setHoveredCity,
-    setMapCenter,
-    setMapZoom,
+    setMapPosition,
     isAutoPosition,
     setIsAutoPosition,
   } = useContext(HomeContext)!;
@@ -88,8 +87,7 @@ export default memo(function InfoTabCities({
             isClickable={city.travels[0].photos.length > 0}
             hoveredCity={hoveredCity}
             setHoveredCity={setHoveredCity}
-            setMapCenter={setMapCenter}
-            setMapZoom={setMapZoom}
+            setMapPosition={setMapPosition}
             isAutoPosition={isAutoPosition}
           />
         ))}

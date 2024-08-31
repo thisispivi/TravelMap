@@ -9,13 +9,13 @@ import { parameters } from "../../../utils/parameters";
 export type HomeContextType = ThemeDetector & {
   hoveredCity: City | null;
   setHoveredCity: (city: City | null) => void;
-  mapCenter: [number, number];
-  setMapCenter: (center: [number, number]) => void;
-  mapZoom: number;
-  setMapZoom: (zoom: number) => void;
+  mapPosition: { center: [number, number]; zoom: number };
+  setMapPosition: (position: {
+    center: [number, number];
+    zoom: number;
+  }) => void;
   isAutoPosition: boolean;
   setIsAutoPosition: (isAutoPosition: boolean) => void;
-  onResetMapPosition: () => void;
 };
 export const HomeContext = createContext<HomeContextType | undefined>(
   undefined
@@ -38,14 +38,10 @@ export default function Home(): JSX.Element {
 
   const [isAutoPosition, setIsAutoPosition] = useState<boolean>(false);
 
-  const [mapCenter, setMapCenter] = useState<[number, number]>(
-    parameters.map.defaultCenter
-  );
-  const [mapZoom, setMapZoom] = useState<number>(parameters.map.defaultZoom);
-  const onResetMapPosition = () => {
-    setMapCenter(parameters.map.defaultCenter);
-    setMapZoom(parameters.map.defaultZoom);
-  };
+  const [mapPosition, setMapPosition] = useState({
+    center: parameters.map.defaultCenter,
+    zoom: parameters.map.defaultZoom,
+  });
 
   const [hoveredCity, setHoveredCity] = useState<City | null>(null);
 
@@ -56,11 +52,8 @@ export default function Home(): JSX.Element {
     handleDarkModeSwitch,
     hoveredCity,
     setHoveredCity,
-    mapCenter,
-    setMapCenter,
-    mapZoom,
-    setMapZoom,
-    onResetMapPosition,
+    mapPosition,
+    setMapPosition,
     isAutoPosition,
     setIsAutoPosition,
   };
