@@ -16,6 +16,8 @@ interface CityCardProps {
   isClickable?: boolean;
   hoveredCity: City | null;
   setHoveredCity: (city: City | null) => void;
+  setMapCenter?: (center: [number, number]) => void;
+  setMapZoom?: (zoom: number) => void;
 }
 
 /**
@@ -32,6 +34,8 @@ interface CityCardProps {
  * @param {boolean} data.isClickable - Whether the card is clickable
  * @param {City} data.hoveredCity - The hovered city
  * @param {function} data.setHoveredCity - The function to set the hovered city
+ * @param {function} data.setMapCenter - The function to set the map center
+ * @param {function} data.setMapZoom - The function to set the map zoom
  * @returns {JSX.Element} The CityCard component
  */
 export default function CityCard({
@@ -42,6 +46,8 @@ export default function CityCard({
   isClickable = false,
   hoveredCity,
   setHoveredCity,
+  setMapCenter,
+  setMapZoom,
 }: CityCardProps): JSX.Element {
   const lang = useLanguage([]).currentLanguage;
   const navigate = useNavigate();
@@ -50,9 +56,7 @@ export default function CityCard({
   const [isLoading, setIsLoading] = useState(true);
   const isLoadingThrottled = useThrottle({ status: isLoading, delay: 200 });
 
-  const handleImageLoad = () => {
-    setIsLoading(false);
-  };
+  const handleImageLoad = () => setIsLoading(false);
 
   return (
     <div
@@ -60,7 +64,13 @@ export default function CityCard({
       ${hoveredCity && hoveredCity.name === city.name ? "city-card--hovered" : ""}
       `}
       onClick={() => isClickable && navigate(`/gallery/${city.name}/${idx}`)}
-      onMouseEnter={() => setHoveredCity && setHoveredCity(city)}
+      onMouseEnter={() => {
+        if (setMapCenter && setMapZoom && city.mapCoordinates) {
+          setMapZoom(30);
+          setMapCenter(city.mapCoordinates);
+        }
+        setHoveredCity && setHoveredCity(city);
+      }}
       onMouseLeave={() => setHoveredCity && setHoveredCity(null)}
     >
       <div

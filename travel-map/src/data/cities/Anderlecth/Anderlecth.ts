@@ -16,4 +16,5 @@ export const Anderlecth = new City({
   backgroundImgsSrc: [
     "https://pivi-travel-map.b-cdn.net/Backgrounds/Cities/Anderlecht.jpg",
   ],
+  mapCoordinates: [1, 51],
 });

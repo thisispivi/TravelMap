@@ -16,4 +16,5 @@ export const Budapest = new City({
   backgroundImgsSrc: [
     "https://pivi-travel-map.b-cdn.net/Backgrounds/Cities/Budapest.jpg",
   ],
+  mapCoordinates: [15.5, 47.5],
 });

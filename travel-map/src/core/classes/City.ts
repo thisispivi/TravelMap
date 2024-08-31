@@ -8,6 +8,7 @@ interface CityInterface {
   coordinates: [number, number];
   travels?: Travel[];
   backgroundImgsSrc?: string[];
+  mapCoordinates?: [number, number];
 }
 
 /**
@@ -23,6 +24,7 @@ interface CityInterface {
  * @param {[number, number]} cityData.coordinates - The coordinates of the city
  * @param {Travel[]} [cityData.travels] - The travels of the city
  * @param {string[]} [cityData.backgroundImgsSrc] - The background image source of the city
+ * @param {[number, number]} [cityData.mapCoordinates] - The map coordinates of the city
  */
 export class City implements CityInterface {
   name: string;
@@ -30,6 +32,7 @@ export class City implements CityInterface {
   coordinates: [number, number];
   travels: Travel[];
   backgroundImgsSrc: string[];
+  mapCoordinates?: [number, number];
 
   constructor(cityData: CityInterface) {
     this.name = cityData.name;
@@ -37,6 +40,7 @@ export class City implements CityInterface {
     this.coordinates = cityData.coordinates;
     this.travels = cityData.travels ?? [];
     this.backgroundImgsSrc = cityData.backgroundImgsSrc ?? [];
+    this.mapCoordinates = cityData.mapCoordinates;
   }
 
   getName(t: i18n["t"]) {

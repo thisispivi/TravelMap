@@ -17,4 +17,5 @@ export const Nara = new City({
   backgroundImgsSrc: [
     "https://pivi-travel-map.b-cdn.net/Backgrounds/Cities/Nara.jpg",
   ],
+  mapCoordinates: [132.6, 35],
 });
