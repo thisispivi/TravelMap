@@ -20,12 +20,13 @@ export interface MapProps {
   setCurrentHoveredCity: (city: City | null) => void;
 }
 
-export default memo(function MapA({
+export default memo(function Map({
   visitedCountries,
   visitedCities,
 }: MapProps): JSX.Element {
   const context = useContext(HomeContext);
-  const { isDarkTheme, hoveredCity, setHoveredCity } = context!;
+  const { isDarkTheme, hoveredCity, setHoveredCity, mapCenter, mapZoom } =
+    context!;
   const [, setWindowWidth] = useState(window.innerWidth);
   const handleResize = () => setWindowWidth(window.innerWidth);
 
@@ -81,7 +82,12 @@ export default memo(function MapA({
         height={window.innerHeight}
         data-tip=""
       >
-        <ZoomableGroup maxZoom={30} minZoom={1} zoom={5} center={[7, 49]}>
+        <ZoomableGroup
+          maxZoom={30}
+          minZoom={1}
+          zoom={mapZoom}
+          center={mapCenter}
+        >
           <Geographies geography={worldData}>
             {({ geographies }) =>
               geographies.map((geo, i) => {

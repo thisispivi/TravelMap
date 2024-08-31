@@ -70,8 +70,8 @@ export const visitedCities: City[] = [
   Kyoto,
   Himeji,
   Kobe,
-  Osaka,
   Nara,
+  Osaka,
 ];
 
 export const futureCountries = {};

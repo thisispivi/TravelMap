@@ -17,4 +17,5 @@ export const Porto = new City({
   backgroundImgsSrc: [
     "https://pivi-travel-map.b-cdn.net/Backgrounds/Cities/Porto.jpg",
   ],
+  mapCoordinates: [-12, 41.5],
 });

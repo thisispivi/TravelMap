@@ -16,4 +16,5 @@ export const Barcelona = new City({
   backgroundImgsSrc: [
     "https://pivi-travel-map.b-cdn.net/Backgrounds/Cities/Barcelona.jpg",
   ],
+  mapCoordinates: [-1.3, 42],
 });

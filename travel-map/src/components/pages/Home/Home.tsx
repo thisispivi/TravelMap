@@ -8,6 +8,10 @@ import { City } from "../../../core";
 export type HomeContextType = ThemeDetector & {
   hoveredCity: City | null;
   setHoveredCity: (city: City | null) => void;
+  mapCenter: [number, number];
+  setMapCenter: (center: [number, number]) => void;
+  mapZoom: number;
+  setMapZoom: (zoom: number) => void;
 };
 export const HomeContext = createContext<HomeContextType | undefined>(
   undefined
@@ -28,6 +32,8 @@ export default function Home(): JSX.Element {
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get("to");
 
+  const [mapCenter, setMapCenter] = useState<[number, number]>([7, 49]);
+  const [mapZoom, setMapZoom] = useState<number>(5);
   const [hoveredCity, setHoveredCity] = useState<City | null>(null);
   const { isDarkTheme, handleDarkModeSwitch } = useThemeDetector();
   const context = {
@@ -35,6 +41,10 @@ export default function Home(): JSX.Element {
     handleDarkModeSwitch,
     hoveredCity,
     setHoveredCity,
+    mapCenter,
+    setMapCenter,
+    mapZoom,
+    setMapZoom,
   };
 
   if (redirectTo) setTimeout(() => navigate("/" + redirectTo), 300);

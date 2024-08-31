@@ -37,7 +37,8 @@ export default memo(function InfoTabCities({
   isVisible = false,
 }: InfoTabCitiesProps): JSX.Element {
   const { t } = useLanguage(["home"]);
-  const { hoveredCity, setHoveredCity } = useContext(HomeContext)!;
+  const { hoveredCity, setHoveredCity, setMapCenter, setMapZoom } =
+    useContext(HomeContext)!;
   return (
     <div
       className={`info-tab-cities info-tab-${id} ${className} 
@@ -60,6 +61,8 @@ export default memo(function InfoTabCities({
             isClickable={city.travels[0].photos.length > 0}
             hoveredCity={hoveredCity}
             setHoveredCity={setHoveredCity}
+            setMapCenter={setMapCenter}
+            setMapZoom={setMapZoom}
           />
         ))}
         {cities.length % 2 !== 0 && (
