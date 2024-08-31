@@ -2,6 +2,7 @@ import { Marker as MarkerMap, useZoomPanContext } from "react-simple-maps";
 import "./Marker.scss";
 import { City } from "../../../core";
 import { MarkerIcon } from "../../../assets";
+import { parameters } from "../../../utils/parameters";
 
 interface MarkerProps {
   city: City;
@@ -17,7 +18,7 @@ export function Marker({
   city,
   hoveredCity,
   setHoveredCity,
-  baseZoom = 5,
+  baseZoom = parameters.map.defaultZoom,
   defaultScale = 0.15,
   minScale = 0.1,
   maxScale = 0.2,
