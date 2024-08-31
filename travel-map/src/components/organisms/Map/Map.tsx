@@ -1,4 +1,4 @@
-import { memo, useContext, useEffect, useRef, useState } from "react";
+import { memo, useContext, useEffect, useState } from "react";
 import { HomeContext } from "../../pages/Home/Home";
 import { City, Country as CountryCore } from "../../../core";
 import {
@@ -28,8 +28,7 @@ export default memo(function MapA({
   const [, setWindowWidth] = useState(window.innerWidth);
   const handleResize = () => setWindowWidth(window.innerWidth);
 
-  const nLoaded = useRef(0);
-
+  const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
     window.addEventListener("resize", handleResize);
     return () => {
@@ -66,7 +65,7 @@ export default memo(function MapA({
       className="map-container"
       style={{ height: window.innerHeight, width: window.innerWidth }}
     >
-      {nLoaded.current < 240 ? (
+      {!isLoaded ? (
         <div
           className="loading"
           style={{ height: window.innerHeight, width: window.innerWidth }}
@@ -83,8 +82,8 @@ export default memo(function MapA({
         <ZoomableGroup maxZoom={30} minZoom={1} zoom={5} center={[7, 49]}>
           <Geographies geography={worldData}>
             {({ geographies }) =>
-              geographies.map((geo) => {
-                nLoaded.current += 1;
+              geographies.map((geo, i) => {
+                if (i === geographies.length - 1) setIsLoaded(true);
                 return (
                   <Geography
                     key={geo.rsmKey}
@@ -101,7 +100,7 @@ export default memo(function MapA({
               })
             }
           </Geographies>
-          {nLoaded.current > 240 &&
+          {isLoaded &&
             sortedCities.map((city, i) => (
               <Marker
                 key={i}
