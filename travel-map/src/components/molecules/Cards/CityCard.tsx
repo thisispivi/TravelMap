@@ -17,8 +17,10 @@ interface CityCardProps {
   isClickable?: boolean;
   hoveredCity: City | null;
   setHoveredCity: (city: City | null) => void;
-  setMapCenter?: (center: [number, number]) => void;
-  setMapZoom?: (zoom: number) => void;
+  setMapPosition?: (position: {
+    center: [number, number];
+    zoom: number;
+  }) => void;
   isAutoPosition?: boolean;
 }
 
@@ -36,8 +38,7 @@ interface CityCardProps {
  * @param {boolean} data.isClickable - Whether the card is clickable
  * @param {City} data.hoveredCity - The hovered city
  * @param {function} data.setHoveredCity - The function to set the hovered city
- * @param {function} data.setMapCenter - The function to set the map center
- * @param {function} data.setMapZoom - The function to set the map zoom
+ * @param {function} data.setMapPosition - The function to set the map position
  * @param {boolean} data.isAutoPosition - Whether the map should auto position to the city when hovered
  * @returns {JSX.Element} The CityCard component
  */
@@ -49,8 +50,7 @@ export default function CityCard({
   isClickable = false,
   hoveredCity,
   setHoveredCity,
-  setMapCenter,
-  setMapZoom,
+  setMapPosition,
   isAutoPosition = false,
 }: CityCardProps): JSX.Element {
   const lang = useLanguage([]).currentLanguage;
@@ -74,12 +74,8 @@ export default function CityCard({
       onMouseEnter={
         !mobileAndTabletCheck() && isAutoPosition
           ? () => {
-              if (setMapCenter && setMapZoom && city.mapCoordinates) {
-                setTimeout(() => {
-                  setMapZoom(30);
-                  city.mapCoordinates && setMapCenter(city.mapCoordinates);
-                }, 0);
-              }
+              if (setMapPosition && city.mapCoordinates)
+                setMapPosition({ center: city.mapCoordinates, zoom: 30 });
               setHoveredCity && setHoveredCity(city);
             }
           : undefined
