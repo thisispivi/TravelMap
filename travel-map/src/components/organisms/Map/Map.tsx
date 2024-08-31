@@ -43,7 +43,7 @@ export default memo(function Map({
     if (visitedCountry) {
       return visitedCountry.fillColor;
     }
-    return isDarkTheme ? "#1a1a1a" : "#eaeaec";
+    return isDarkTheme ? "#1a1a1a" : "#dadada";
   };
 
   const sortedCities = visitedCities.sort((a, b) => {

@@ -1,4 +1,9 @@
-import { Outlet, useLoaderData, useNavigate } from "react-router-dom";
+import {
+  Outlet,
+  useLoaderData,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import { City } from "../../../core";
 import "./Gallery.scss";
 import PhotoAlbum from "react-photo-album";
@@ -24,6 +29,8 @@ export interface GalleryProps {
 export default memo(function Gallery(): JSX.Element {
   const navigate = useNavigate();
   const { city, travelIdx } = useLoaderData() as GalleryProps;
+  const [searchParams] = useSearchParams();
+  const from = searchParams.get("from");
 
   const photos = useMemo(() => {
     return city.travels[travelIdx].photos.map((p) => ({
@@ -46,7 +53,9 @@ export default memo(function Gallery(): JSX.Element {
           travels={city.travels}
           selectedTravelIdx={travelIdx}
         />
-        <CloseButton onClick={() => navigate("/?to=visited")} />
+        <CloseButton
+          onClick={() => navigate(from === "map" ? "/" : "/?to=visited")}
+        />
       </div>
       <div className={`gallery__content`}>
         <div className="gallery__content__photo-album" id="info-tab">

@@ -65,7 +65,7 @@ export default function Lightbox(): JSX.Element {
     (currentIndex: number | undefined) => {
       if (photoIdx !== undefined) {
         const element = document.querySelector(
-          `[aria-label="Go to Slide ${photoIdx + 1}"]`
+          `[aria-label="Go to Slide ${photoIdx + 1}"]`,
         );
         if (element) {
           const child = element.children[0];
@@ -80,13 +80,13 @@ export default function Lightbox(): JSX.Element {
         navigate(`../${currentIndex}`);
       }
     },
-    [photoIdx, navigate]
+    [photoIdx, navigate],
   );
 
   const renderNavigationButton = (
     onClick: MouseEventHandler<HTMLElement>,
     disabled: boolean,
-    direction: "left" | "right"
+    direction: "left" | "right",
   ) => (
     <Button
       className={`image-gallery-icon image-gallery-${direction}-nav ${
