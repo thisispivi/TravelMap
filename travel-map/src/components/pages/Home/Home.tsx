@@ -15,9 +15,10 @@ export type HomeContextType = ThemeDetector & {
   setMapZoom: (zoom: number) => void;
   isAutoPosition: boolean;
   setIsAutoPosition: (isAutoPosition: boolean) => void;
+  onResetMapPosition: () => void;
 };
 export const HomeContext = createContext<HomeContextType | undefined>(
-  undefined,
+  undefined
 );
 
 /**
@@ -36,12 +37,20 @@ export default function Home(): JSX.Element {
   const redirectTo = searchParams.get("to");
 
   const [isAutoPosition, setIsAutoPosition] = useState<boolean>(false);
+
   const [mapCenter, setMapCenter] = useState<[number, number]>(
-    parameters.map.defaultCenter,
+    parameters.map.defaultCenter
   );
   const [mapZoom, setMapZoom] = useState<number>(parameters.map.defaultZoom);
+  const onResetMapPosition = () => {
+    setMapCenter(parameters.map.defaultCenter);
+    setMapZoom(parameters.map.defaultZoom);
+  };
+
   const [hoveredCity, setHoveredCity] = useState<City | null>(null);
+
   const { isDarkTheme, handleDarkModeSwitch } = useThemeDetector();
+
   const context = {
     isDarkTheme,
     handleDarkModeSwitch,
@@ -51,6 +60,7 @@ export default function Home(): JSX.Element {
     setMapCenter,
     mapZoom,
     setMapZoom,
+    onResetMapPosition,
     isAutoPosition,
     setIsAutoPosition,
   };

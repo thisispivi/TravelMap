@@ -1,4 +1,4 @@
-const isShowPhotos = false; // Used in dev mode to not show photos
+const isShowPhotos = true; // Used in dev mode to not show photos
 const defaultMapZoom = 5;
 const defaultMapMinZoom = 1;
 const defaultMapMaxZoom = 30;
