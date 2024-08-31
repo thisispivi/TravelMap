@@ -45,9 +45,12 @@
     "Japan": "Japan",
     "Portugal": "Portugal"
   },
+  "home": "Home",
   "visited": { "title": "Visited Cities" },
   "future": { "title": "Future Destinations" },
   "gallery": "To Gallery",
   "galleryAlt": "Open the gallery",
-  "autoPositionTooltip": "When active, the map will center on the city you hover over in"
+  "autoPositionTooltip": "When active, the map will center on the city you hover over in",
+  "language": "Language",
+  "theme": "Theme"
 }

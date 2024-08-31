@@ -6,7 +6,7 @@ import { LanguageFlag } from "../../atoms";
 import { LanguageIcon } from "../../../assets";
 
 /**
- * LanguageSelctor component
+ * LanguageSelector component
  *
  * The language selector component is used to change the language of the app.
  *
@@ -14,7 +14,7 @@ import { LanguageIcon } from "../../../assets";
  *
  * @returns {JSX.Element} - The language selector
  */
-export default function LanguageSelctor() {
+export default function LanguageSelector() {
   const [isOpen, setIsOpen] = useState(false);
   const { currentLanguage, changeLanguage } = useLanguage([]);
 
