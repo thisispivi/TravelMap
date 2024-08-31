@@ -14,7 +14,7 @@ export type HomeContextType = ThemeDetector & {
   setMapZoom: (zoom: number) => void;
 };
 export const HomeContext = createContext<HomeContextType | undefined>(
-  undefined
+  undefined,
 );
 
 /**
