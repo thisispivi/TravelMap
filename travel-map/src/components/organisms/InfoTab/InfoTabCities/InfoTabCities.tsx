@@ -4,6 +4,10 @@ import useLanguage from "../../../../hooks/language/language";
 import { CityCard } from "../../../molecules";
 import "./InfoTabCities.scss";
 import { HomeContext } from "../../../pages/Home/Home";
+import Button from "../../../atoms/Buttons/Button";
+import { PositionIcon } from "../../../../assets";
+import { mobileAndTabletCheck } from "../../../../utils/responsive";
+import Tooltip from "../../Tooltip/Tooltip";
 
 interface InfoTabCitiesProps {
   className?: string;
@@ -37,8 +41,14 @@ export default memo(function InfoTabCities({
   isVisible = false,
 }: InfoTabCitiesProps): JSX.Element {
   const { t } = useLanguage(["home"]);
-  const { hoveredCity, setHoveredCity, setMapCenter, setMapZoom } =
-    useContext(HomeContext)!;
+  const {
+    hoveredCity,
+    setHoveredCity,
+    setMapCenter,
+    setMapZoom,
+    isAutoPosition,
+    setIsAutoPosition,
+  } = useContext(HomeContext)!;
   return (
     <div
       className={`info-tab-cities info-tab-${id} ${className} 
@@ -47,6 +57,22 @@ export default memo(function InfoTabCities({
     >
       <div className={`info-tab-cities__header info-tab-${id}__header`}>
         <h1>{t(id + ".title")}</h1>
+        {!mobileAndTabletCheck() && (
+          <Button
+            className={`info-tab-cities__position-button ${
+              isAutoPosition
+                ? "info-tab-cities__position-button--auto-position"
+                : ""
+            }`}
+            onClick={() => setIsAutoPosition(!isAutoPosition)}
+          >
+            <PositionIcon />
+          </Button>
+        )}
+        <Tooltip
+          text={t("autoPositionTooltip")}
+          anchorSelect=".info-tab-cities__position-button"
+        />
       </div>
       <div
         className={`info-tab-cities__content info-tab-${id}__content`}
@@ -63,6 +89,7 @@ export default memo(function InfoTabCities({
             setHoveredCity={setHoveredCity}
             setMapCenter={setMapCenter}
             setMapZoom={setMapZoom}
+            isAutoPosition={isAutoPosition}
           />
         ))}
         {cities.length % 2 !== 0 && (

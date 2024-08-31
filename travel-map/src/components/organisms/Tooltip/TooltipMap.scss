@@ -1,0 +1,158 @@
+@use "../../../styles/mixins" as m;
+@use "../../../styles/variables" as v;
+
+.map-tooltip {
+  border-radius: 0.25rem !important;
+  padding: 0 !important;
+  box-shadow:
+    rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+
+  .map-tooltip__backdrop {
+    z-index: 0;
+    position: absolute;
+    &.map-tooltip__backdrop--bottom,
+    &.map-tooltip__backdrop--top {
+      height: 0.6rem;
+      width: 100%;
+    }
+    &.map-tooltip__backdrop--bottom {
+      bottom: -0.6rem;
+      margin-top: 0.6rem;
+    }
+    &.map-tooltip__backdrop--top {
+      top: -0.6rem;
+      margin-bottom: 0.6rem;
+    }
+    &.map-tooltip__backdrop--right,
+    &.map-tooltip__backdrop--left {
+      height: 100%;
+      width: 0.6rem;
+    }
+    &.map-tooltip__backdrop--left {
+      left: -0.6rem;
+      margin-right: 0.6rem;
+    }
+    &.map-tooltip__backdrop--right {
+      right: -0.6rem;
+      margin-left: 0.6rem;
+    }
+  }
+
+  .map-tooltip__container {
+    padding: 0.6rem 1rem;
+    .map-tooltip__header {
+      display: flex;
+      margin-bottom: 1rem;
+      justify-content: space-between;
+      h3 {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      svg {
+        width: 1.6rem;
+        height: 1.4rem;
+        flex-shrink: 0;
+      }
+    }
+    .map-tooltip__content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .map-tooltip__content__chevron-icon {
+        width: 1rem;
+        height: 1rem;
+        cursor: pointer;
+        &.map-tooltip__content__chevron-icon--left {
+          transform: rotate(180deg);
+        }
+        &.map-tooltip__content__chevron-icon--disabled {
+          cursor: not-allowed;
+        }
+      }
+      .map-tooltip__content__travel {
+        display: flex;
+        flex-direction: column;
+        margin: 0 0.5rem;
+        .map-tooltip__content__travel__info {
+          display: flex;
+          margin-block: 0.15rem;
+          opacity: 0.8;
+          svg {
+            width: 1rem;
+            height: 1rem;
+            margin-right: 0.4rem;
+          }
+        }
+      }
+    }
+    .map-tooltip__footer {
+      margin-top: 1rem;
+      margin-bottom: 0.3rem;
+      .map-tooltip__footer__button {
+        border-radius: 0.25rem;
+        height: 2rem;
+        width: 100%;
+        svg {
+          width: 0.8rem;
+          height: 0.8rem;
+          margin-right: 0.5rem;
+        }
+      }
+    }
+  }
+  .react-tooltip-arrow {
+    z-index: -1;
+  }
+}
+
+.home--light {
+  .react-tooltip {
+    background-color: v.$lightLeftBar;
+  }
+  .map-tooltip {
+    color: v.$darkLeftBar;
+  }
+  .map-tooltip__content__travel {
+    color: v.$darkLeftBar;
+  }
+  .map-tooltip__content__travel__icon {
+    fill: v.$darkLeftBar;
+  }
+  .map-tooltip__content__chevron-icon {
+    path {
+      fill: v.$darkLeftBar;
+    }
+    &.map-tooltip__content__chevron-icon--disabled {
+      path {
+        fill: #c2c2c2;
+      }
+    }
+  }
+}
+
+.home--dark {
+  .react-tooltip {
+    background-color: v.$darkLeftBar;
+  }
+  .map-tooltip {
+    color: v.$lightLeftBar;
+  }
+  .map-tooltip__content__travel {
+    color: white;
+  }
+  .map-tooltip__content__travel__icon {
+    fill: white;
+  }
+  .map-tooltip__content__chevron-icon {
+    path {
+      fill: white;
+    }
+    &.map-tooltip__content__chevron-icon--disabled {
+      path {
+        fill: #484848;
+      }
+    }
+  }
+}

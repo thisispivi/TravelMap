@@ -10,7 +10,7 @@ import {
 import "./Map.scss";
 import { Loading, Marker } from "../../atoms";
 import { worldData } from "../../../assets";
-import Tooltip from "../Tooltip/Tooltip";
+import { MapTooltip } from "..";
 
 export interface MapProps {
   visitedCountries: Record<string, CountryCore>;
@@ -120,7 +120,7 @@ export default memo(function Map({
         </ZoomableGroup>
       </ComposableMap>
       {sortedCities.map((city, i) => (
-        <Tooltip
+        <MapTooltip
           key={i}
           city={city}
           onMouseEnter={(city: City) => setHoveredCity(city)}

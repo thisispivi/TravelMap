@@ -12,9 +12,11 @@ export type HomeContextType = ThemeDetector & {
   setMapCenter: (center: [number, number]) => void;
   mapZoom: number;
   setMapZoom: (zoom: number) => void;
+  isAutoPosition: boolean;
+  setIsAutoPosition: (isAutoPosition: boolean) => void;
 };
 export const HomeContext = createContext<HomeContextType | undefined>(
-  undefined,
+  undefined
 );
 
 /**
@@ -32,6 +34,7 @@ export default function Home(): JSX.Element {
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get("to");
 
+  const [isAutoPosition, setIsAutoPosition] = useState<boolean>(false);
   const [mapCenter, setMapCenter] = useState<[number, number]>([7, 49]);
   const [mapZoom, setMapZoom] = useState<number>(5);
   const [hoveredCity, setHoveredCity] = useState<City | null>(null);
@@ -45,6 +48,8 @@ export default function Home(): JSX.Element {
     setMapCenter,
     mapZoom,
     setMapZoom,
+    isAutoPosition,
+    setIsAutoPosition,
   };
 
   if (redirectTo) setTimeout(() => navigate("/" + redirectTo), 300);
