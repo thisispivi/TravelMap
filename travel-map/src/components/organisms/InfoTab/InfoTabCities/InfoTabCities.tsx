@@ -72,6 +72,7 @@ export default memo(function InfoTabCities({
         <Tooltip
           text={t("autoPositionTooltip")}
           anchorSelect=".info-tab-cities__position-button"
+          delayShow={300}
         />
       </div>
       <div

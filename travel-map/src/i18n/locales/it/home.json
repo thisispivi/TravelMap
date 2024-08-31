@@ -45,9 +45,12 @@
     "Japan": "Giappone",
     "Portugal": "Portogallo"
   },
+  "home": "Home",
   "visited": { "title": "Città visitate" },
   "future": { "title": "Prossime destinazioni" },
   "gallery": "Alla galleria",
   "galleryAlt": "Apri la galleria",
-  "autoPositionTooltip": "Quando attivo, la mappa si centrerà sulla città di questa scheda su cui passi il mouse"
+  "autoPositionTooltip": "Quando attivo, la mappa si centrerà sulla città di questa scheda su cui passi il mouse",
+  "language": "Lingua",
+  "theme": "Tema"
 }

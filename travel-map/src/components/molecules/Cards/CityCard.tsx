@@ -75,10 +75,10 @@ export default function CityCard({
         !mobileAndTabletCheck() && isAutoPosition
           ? () => {
               if (setMapCenter && setMapZoom && city.mapCoordinates) {
-                setMapZoom(0);
-                setMapCenter([0, 0]);
-                setMapZoom(30);
-                setMapCenter(city.mapCoordinates);
+                setTimeout(() => {
+                  setMapZoom(30);
+                  city.mapCoordinates && setMapCenter(city.mapCoordinates);
+                }, 0);
               }
               setHoveredCity && setHoveredCity(city);
             }
