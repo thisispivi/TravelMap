@@ -16,7 +16,7 @@ export type HomeContextType = ThemeDetector & {
   setIsAutoPosition: (isAutoPosition: boolean) => void;
 };
 export const HomeContext = createContext<HomeContextType | undefined>(
-  undefined
+  undefined,
 );
 
 /**
