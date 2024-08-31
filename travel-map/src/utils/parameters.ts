@@ -1,1 +1,1 @@
-export const isShowPhotos = true;
+export const isShowPhotos = false;

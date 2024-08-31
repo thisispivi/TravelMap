@@ -10,7 +10,7 @@ export type HomeContextType = ThemeDetector & {
   setHoveredCity: (city: City | null) => void;
 };
 export const HomeContext = createContext<HomeContextType | undefined>(
-  undefined,
+  undefined
 );
 
 /**
@@ -29,6 +29,7 @@ export default function Home(): JSX.Element {
   const redirectTo = searchParams.get("to");
 
   const [hoveredCity, setHoveredCity] = useState<City | null>(null);
+
   const { isDarkTheme, handleDarkModeSwitch } = useThemeDetector();
   const context = {
     isDarkTheme,

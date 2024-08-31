@@ -10,6 +10,7 @@ import {
 import "./Map.scss";
 import { Loading, Marker } from "../../atoms";
 import { worldData } from "../../../assets";
+import Tooltip from "../Tooltip/Tooltip";
 
 export interface MapProps {
   visitedCountries: Record<string, CountryCore>;
@@ -65,19 +66,20 @@ export default memo(function MapA({
       className="map-container"
       style={{ height: window.innerHeight, width: window.innerWidth }}
     >
-      {!isLoaded ? (
+      {!isLoaded && (
         <div
           className="loading"
           style={{ height: window.innerHeight, width: window.innerWidth }}
         >
           <Loading />
         </div>
-      ) : null}
+      )}
       <ComposableMap
         className="map"
         projection={"geoMercator"}
         width={window.innerWidth}
         height={window.innerHeight}
+        data-tip=""
       >
         <ZoomableGroup maxZoom={30} minZoom={1} zoom={5} center={[7, 49]}>
           <Geographies geography={worldData}>
@@ -111,6 +113,14 @@ export default memo(function MapA({
             ))}
         </ZoomableGroup>
       </ComposableMap>
+      {sortedCities.map((city, i) => (
+        <Tooltip
+          key={i}
+          city={city}
+          onMouseEnter={(city: City) => setHoveredCity(city)}
+          onMouseLeave={() => setHoveredCity(null)}
+        />
+      ))}
     </div>
   );
 });
