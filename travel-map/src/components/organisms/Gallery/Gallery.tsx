@@ -5,6 +5,7 @@ import PhotoAlbum from "react-photo-album";
 import { memo, useMemo } from "react";
 import { CloseButton, CountryFlag } from "../../atoms";
 import { TravelSelector } from "../../molecules";
+import { isShowPhotos } from "../../../utils/parameters";
 
 export interface GalleryProps {
   city: City;
@@ -26,7 +27,7 @@ export default memo(function Gallery(): JSX.Element {
 
   const photos = useMemo(() => {
     return city.travels[travelIdx].photos.map((p) => ({
-      src: p.thumbnail,
+      src: isShowPhotos ? p.thumbnail : "",
       width: p.width,
       height: p.height,
     }));
