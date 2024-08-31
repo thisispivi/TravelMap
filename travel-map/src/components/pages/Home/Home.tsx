@@ -4,6 +4,7 @@ import useThemeDetector, { ThemeDetector } from "../../../hooks/style/theme";
 import { createContext, useState } from "react";
 import { Outlet, useNavigate, useSearchParams } from "react-router-dom";
 import { City } from "../../../core";
+import { parameters } from "../../../utils/parameters";
 
 export type HomeContextType = ThemeDetector & {
   hoveredCity: City | null;
@@ -16,7 +17,7 @@ export type HomeContextType = ThemeDetector & {
   setIsAutoPosition: (isAutoPosition: boolean) => void;
 };
 export const HomeContext = createContext<HomeContextType | undefined>(
-  undefined,
+  undefined
 );
 
 /**
@@ -35,8 +36,10 @@ export default function Home(): JSX.Element {
   const redirectTo = searchParams.get("to");
 
   const [isAutoPosition, setIsAutoPosition] = useState<boolean>(false);
-  const [mapCenter, setMapCenter] = useState<[number, number]>([7, 49]);
-  const [mapZoom, setMapZoom] = useState<number>(5);
+  const [mapCenter, setMapCenter] = useState<[number, number]>(
+    parameters.map.defaultCenter
+  );
+  const [mapZoom, setMapZoom] = useState<number>(parameters.map.defaultZoom);
   const [hoveredCity, setHoveredCity] = useState<City | null>(null);
   const { isDarkTheme, handleDarkModeSwitch } = useThemeDetector();
   const context = {
