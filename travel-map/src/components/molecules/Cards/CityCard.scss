@@ -15,6 +15,9 @@
     cursor: pointer;
     transform: scale(1.05);
   }
+  &.city-card--mobile:hover {
+    transform: scale(1);
+  }
 
   .city-card__top {
     border-radius: 1.4rem 1.4rem 0 0;
