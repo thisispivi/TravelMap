@@ -119,6 +119,7 @@ export default memo(function MapA({
           city={city}
           onMouseEnter={(city: City) => setHoveredCity(city)}
           onMouseLeave={() => setHoveredCity(null)}
+          isOpen={hoveredCity?.name === city.name}
         />
       ))}
     </div>

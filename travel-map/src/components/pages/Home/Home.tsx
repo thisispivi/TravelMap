@@ -29,7 +29,6 @@ export default function Home(): JSX.Element {
   const redirectTo = searchParams.get("to");
 
   const [hoveredCity, setHoveredCity] = useState<City | null>(null);
-
   const { isDarkTheme, handleDarkModeSwitch } = useThemeDetector();
   const context = {
     isDarkTheme,
