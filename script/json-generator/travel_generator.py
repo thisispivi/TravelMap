@@ -15,8 +15,8 @@ if "__main__" == __name__:
 
         data = get_city_from_args(sys.argv, logger)
         city = data["city"]
-        statically_path = data["statically_path"]
-        cityUrl = statically_path + "/" + city + "/"
+        cdn_base_folder_path = data["cdn_base_folder_path"]
+        cityUrl = cdn_base_folder_path + "/" + city + "/"
 
         root_path = os.path.dirname(os.path.realpath(__file__))
         base_folder_path = os.path.abspath(os.path.join(root_path, "photos"))
