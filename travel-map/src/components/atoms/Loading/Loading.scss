@@ -1,3 +1,5 @@
+@use "sass:math";
+
 $color-1: #5d9cec;
 $color-2: #ffffff;
 $color-3: #ea4335;
@@ -30,9 +32,9 @@ $duration: 1.2s;
     height: $ball-size;
     top: 50%;
     left: 50%;
-    margin-top: -$ball-size / 2;
-    margin-left: -$ball-size / 2;
-    border-radius: $ball-size / 2;
+    margin-top: math.div(-$ball-size, 2);
+    margin-left: math.div(-$ball-size, 2);
+    border-radius: math.div($ball-size, 2);
     opacity: 0.9;
   }
 
