@@ -15,7 +15,7 @@ export const Matsumoto = new City({
     }),
   ],
   backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/Backgrounds/Cities/Matsumoto.jpg",
+    "https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/Cities/Matsumoto.jpg",
   ],
   mapCoordinates: [134.5, 36.5],
 });

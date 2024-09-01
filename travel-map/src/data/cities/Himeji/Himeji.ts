@@ -15,7 +15,7 @@ export const Himeji = new City({
     }),
   ],
   backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/Backgrounds/Cities/Himeji.jpg",
+    "https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/Cities/Himeji.jpg",
   ],
   mapCoordinates: [131.3, 35],
 });
