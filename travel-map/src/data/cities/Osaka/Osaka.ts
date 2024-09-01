@@ -15,7 +15,7 @@ export const Osaka = new City({
     }),
   ],
   backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/Backgrounds/Cities/Osaka.jpg",
+    "https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/Cities/Osaka.jpg",
   ],
   mapCoordinates: [132, 35],
 });

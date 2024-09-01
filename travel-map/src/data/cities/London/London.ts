@@ -15,7 +15,7 @@ export const London = new City({
     }),
   ],
   backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/Backgrounds/Cities/London.jpg",
+    "https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/Cities/London.jpg",
   ],
   mapCoordinates: [-3.5, 51.5],
 });
