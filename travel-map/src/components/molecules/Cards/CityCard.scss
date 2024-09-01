@@ -147,7 +147,8 @@
   .Cefalù-0,
   .Bruges-0,
   .Kobe-0,
-  .Matsumoto-0 {
+  .Matsumoto-0,
+  .Fujikawaguchiko-0 {
     @include m.city-card-background(0.533);
   }
   .Barcelona-0 {
@@ -166,7 +167,8 @@
   .Tokyo-0 {
     @include m.city-card-background(0.521);
   }
-  .Porto-0 {
+  .Porto-0,
+  .Oshino-0 {
     @include m.city-card-background(0.525);
   }
   .Budapest-0 {
@@ -196,13 +198,17 @@
   .Kanazawa-0,
   .Terni-0,
   .Cefalù-0,
-  .Bruges-0 {
+  .Bruges-0,
+  .Kobe-0,
+  .Matsumoto-0,
+  .Fujikawaguchiko-0 {
     @include m.city-card-background(0.333);
   }
   .Barcelona-0 {
     @include m.city-card-background(0.298);
   }
-  .Brussels-0 {
+  .Brussels-0,
+  .Himeji-0 {
     @include m.city-card-background(0.318);
   }
   .Osaka-0,
@@ -214,7 +220,8 @@
   .Tokyo-0 {
     @include m.city-card-background(0.321);
   }
-  .Porto-0 {
+  .Porto-0,
+  .Oshino-0 {
     @include m.city-card-background(0.325);
   }
   .Budapest-0 {
