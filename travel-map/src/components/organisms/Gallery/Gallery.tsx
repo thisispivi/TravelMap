@@ -11,6 +11,7 @@ import { memo, useMemo } from "react";
 import { CloseButton, CountryFlag } from "../../atoms";
 import { TravelSelector } from "../../molecules";
 import { parameters } from "../../../utils/parameters";
+import { PlayIcon } from "../../../assets";
 
 export interface GalleryProps {
   city: City;
@@ -33,10 +34,12 @@ export default memo(function Gallery(): JSX.Element {
   const from = searchParams.get("from");
 
   const photos = useMemo(() => {
-    return city.travels[travelIdx].photos.map((p) => ({
+    return city.travels[travelIdx].photos.map((p, i) => ({
       src: parameters.isShowPhotos ? p.thumbnail : "",
       width: p.width,
       height: p.height,
+      youtube: p.youtube,
+      index: i,
     }));
   }, [city, travelIdx]);
 
@@ -63,6 +66,23 @@ export default memo(function Gallery(): JSX.Element {
             photos={photos}
             layout="rows"
             onClick={({ index }) => navigate(`./${index}`)}
+            renderPhoto={({ photo, wrapperStyle, renderDefaultPhoto }) => (
+              <div className="gallery__content__image" style={wrapperStyle}>
+                {photo.youtube && (
+                  <>
+                    <PlayIcon
+                      className="gallery__content__image__play"
+                      onClick={() => navigate(`./${photo.index}`)}
+                    />
+                    <div
+                      className="gallery__content__image__gradient"
+                      onClick={() => navigate(`./${photo.index}`)}
+                    />
+                  </>
+                )}
+                {renderDefaultPhoto({ wrapped: true })}
+              </div>
+            )}
           />
         </div>
         <Outlet />

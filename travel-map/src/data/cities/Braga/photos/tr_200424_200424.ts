@@ -14,6 +14,7 @@ export const tr_200424_200424_images: Image[] = [
     thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Braga/002t.jpg",
     width: 9,
     height: 16,
+    youtube: true,
   },
   {
     original: "https://pivi-travel-map.b-cdn.net/TravelMap/Braga/003.jpg",
