@@ -479,7 +479,7 @@ export const tr_220422_250422_images: Image[] = [
     height: 2,
   },
   {
-    original: "https://youtube.com/shorts/9RpeyFMFUeg",
+    original: "https://youtube.com/embed/9RpeyFMFUeg",
     alt: "F1 Imola - Walk to the track (24/04/2022)",
     thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Imola/068t.jpg",
     width: 9,
@@ -588,7 +588,7 @@ export const tr_220422_250422_images: Image[] = [
     height: 2,
   },
   {
-    original: "https://youtube.com/shorts/VyGKh-ZYWzg",
+    original: "https://youtube.com/embed/VyGKh-ZYWzg",
     alt: "F3 Imola - Straight after Tosa (23/04/2022)",
     thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Imola/083t.jpg",
     width: 9,
