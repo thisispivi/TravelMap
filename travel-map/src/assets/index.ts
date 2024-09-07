@@ -11,6 +11,7 @@ import GalleryIcon from "./icons/Gallery.svg?react";
 import LogoIcon from "./icons/Logo.svg?react";
 import MarkerIcon from "./icons/Marker";
 import MoonIcon from "./icons/Moon.svg?react";
+import PlayIcon from "./icons/Play.svg?react";
 import PositionIcon from "./icons/Position.svg?react";
 import SunIcon from "./icons/Sun.svg?react";
 import VisitedIcon from "./icons/Visited.svg?react";
@@ -29,6 +30,7 @@ export {
   LogoIcon,
   MarkerIcon,
   MoonIcon,
+  PlayIcon,
   PositionIcon,
   SunIcon,
   VisitedIcon,
