@@ -360,7 +360,7 @@ export const tr_230824_230824_images: Image[] = [
   },
   {
     original: "https://youtube.com/embed/-alVbYmN7KQ",
-    alt: "Himeji Kokoen garden 1 (23/08/24)",
+    alt: "Himeji Kokoen garden 1 (23/08/2024)",
     thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/052t.jpg",
     width: 16,
     height: 9,
@@ -368,7 +368,7 @@ export const tr_230824_230824_images: Image[] = [
   },
   {
     original: "https://youtube.com/embed/NxWvneZG8gM",
-    alt: "Himeji Kokoen garden 2 (23/08/24)",
+    alt: "Himeji Kokoen garden 2 (23/08/2024)",
     thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/053t.jpg",
     width: 9,
     height: 16,
@@ -439,7 +439,7 @@ export const tr_230824_230824_images: Image[] = [
   },
   {
     original: "https://youtube.com/embed/diGQVqnOZBc",
-    alt: "Himeji Kokoen garden 3 (23/08/24)",
+    alt: "Himeji Kokoen garden 3 (23/08/2024)",
     thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/063t.jpg",
     width: 9,
     height: 16,

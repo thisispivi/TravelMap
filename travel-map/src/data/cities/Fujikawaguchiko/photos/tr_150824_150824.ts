@@ -165,7 +165,7 @@ export const tr_150824_150824_images: Image[] = [
   },
   {
     original: "https://youtube.com/embed/HaLnem5L2B4",
-    alt: "Fujikawaguchiko Strange guy (15/08/24)",
+    alt: "Fujikawaguchiko Strange guy (15/08/2024)",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/019t.jpg",
     width: 9,
@@ -183,7 +183,7 @@ export const tr_150824_150824_images: Image[] = [
   },
   {
     original: "https://youtube.com/embed/xRj_1VsglcE",
-    alt: "Fujikawaguchiko ropeway (15/08/24)",
+    alt: "Fujikawaguchiko ropeway (15/08/2024)",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/021t.jpg",
     width: 9,
