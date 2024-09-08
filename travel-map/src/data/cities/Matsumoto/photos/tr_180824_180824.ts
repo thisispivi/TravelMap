@@ -31,7 +31,7 @@ export const tr_180824_180824_images: Image[] = [
   },
   {
     original: "https://youtube.com/embed/R2klWJRj2Zc",
-    alt: "Matusmoto School band (18/08/24)",
+    alt: "Matusmoto School band (18/08/2024)",
     thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Matsumoto/005t.jpg",
     width: 9,
     height: 16,
@@ -39,7 +39,7 @@ export const tr_180824_180824_images: Image[] = [
   },
   {
     original: "https://youtube.com/embed/xoG4vIM6iRc",
-    alt: "Matusmoto School band 2 (18/08/24)",
+    alt: "Matusmoto School band 2 (18/08/2024)",
     thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Matsumoto/006t.jpg",
     width: 9,
     height: 16,
@@ -47,7 +47,7 @@ export const tr_180824_180824_images: Image[] = [
   },
   {
     original: "https://youtube.com/shorts/lRCx0s2LXGg",
-    alt: "Matusmoto School band 3 (18/08/24)",
+    alt: "Matusmoto School band 3 (18/08/2024)",
     thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Matsumoto/007t.jpg",
     width: 9,
     height: 16,

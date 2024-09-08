@@ -423,7 +423,7 @@ export const tr_190824_210824_images: Image[] = [
   },
   {
     original: "https://youtube.com/embed/_dD9ug6nm0A",
-    alt: "Kanazawa Sushi Shinkansen (20/08/24)",
+    alt: "Kanazawa Sushi Shinkansen (20/08/2024)",
     thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kanazawa/062t.jpg",
     width: 9,
     height: 16,
@@ -453,7 +453,7 @@ export const tr_190824_210824_images: Image[] = [
   {
     thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kanazawa/001t.jpg",
     original: "https://youtube.com/embed/0sAdBzxoR1g",
-    alt: "Kanazawa Shinkansen (21/08/24)",
+    alt: "Kanazawa Shinkansen (21/08/2024)",
     width: 9,
     height: 16,
     youtube: true,

@@ -136,7 +136,7 @@ export const tr_130824_180824_images: Image[] = [
   },
   {
     original: "https://youtube.com/embed/p706dVbd6P0",
-    alt: "Tokyo Skytree (13/08/24)",
+    alt: "Tokyo Skytree (13/08/2024)",
     thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Tokyo/020t.jpg",
     width: 270,
     height: 480,
@@ -225,7 +225,7 @@ export const tr_130824_180824_images: Image[] = [
     width: 360,
     height: 480,
     youtube: true,
-    alt: "Tokyo first dinner (13/08/24)",
+    alt: "Tokyo first dinner (13/08/2024)",
   },
   {
     original: "https://pivi-travel-map.b-cdn.net/TravelMap/Tokyo/033.jpg",
@@ -523,7 +523,7 @@ export const tr_130824_180824_images: Image[] = [
   },
   {
     original: "https://youtube.com/embed/syMLOQNZtzI",
-    alt: "Tokyo Nissan crossing (14/08/24)",
+    alt: "Tokyo Nissan crossing (14/08/2024)",
     thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Tokyo/075t.jpg",
     width: 9,
     height: 16,
@@ -622,7 +622,7 @@ export const tr_130824_180824_images: Image[] = [
   },
   {
     original: "https://youtube.com/embed/N7WeUX3QZ4U",
-    alt: "Tokyo Teamlab Planets (14/08/24)",
+    alt: "Tokyo Teamlab Planets (14/08/2024)",
     thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Tokyo/089t.jpg",
     width: 9,
     height: 16,
@@ -644,7 +644,7 @@ export const tr_130824_180824_images: Image[] = [
   },
   {
     original: "https://youtube.com/embed/xS4_63yNYdk",
-    alt: "Tokyo Teamlab Planets 2 (14/08/24)",
+    alt: "Tokyo Teamlab Planets 2 (14/08/2024)",
     thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Tokyo/092t.jpg",
     width: 9,
     height: 16,
@@ -652,7 +652,7 @@ export const tr_130824_180824_images: Image[] = [
   },
   {
     original: "https://youtube.com/embed/jBxNQpumkGY",
-    alt: "Tokyo Teamlab Planets 3 (14/08/24)",
+    alt: "Tokyo Teamlab Planets 3 (14/08/2024)",
     thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Tokyo/093t.jpg",
     width: 9,
     height: 16,
@@ -695,7 +695,7 @@ export const tr_130824_180824_images: Image[] = [
   },
   {
     original: "https://youtube.com/embed/7TRxkRAxcXg",
-    alt: "Tokyo Teamlab Planets 4 (14/08/24)",
+    alt: "Tokyo Teamlab Planets 4 (14/08/2024)",
     thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Tokyo/099t.jpg",
     width: 9,
     height: 16,
@@ -738,7 +738,7 @@ export const tr_130824_180824_images: Image[] = [
   },
   {
     original: "https://youtube.com/embed/ete3Wdw44uM",
-    alt: "Tokyo Teamlab Planets 5 (14/08/24)",
+    alt: "Tokyo Teamlab Planets 5 (14/08/2024)",
     thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Tokyo/105t.jpg",
     width: 9,
     height: 16,
@@ -746,7 +746,7 @@ export const tr_130824_180824_images: Image[] = [
   },
   {
     original: "https://youtube.com/embed/Vh4TzQ8NFWQ",
-    alt: "Tokyo Teamlab Planets 6 (14/08/24)",
+    alt: "Tokyo Teamlab Planets 6 (14/08/2024)",
     thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Tokyo/106t.jpg",
     width: 9,
     height: 16,
@@ -761,7 +761,7 @@ export const tr_130824_180824_images: Image[] = [
   },
   {
     original: "https://youtube.com/embed/ZXkc3ciAmHw",
-    alt: "Tokyo Teamlab Planets 7 (14/08/24)",
+    alt: "Tokyo Teamlab Planets 7 (14/08/2024)",
     thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Tokyo/108t.jpg",
     width: 9,
     height: 16,
@@ -776,7 +776,7 @@ export const tr_130824_180824_images: Image[] = [
   },
   {
     original: "https://youtube.com/embed/_dJKGJkgybc",
-    alt: "Tokyo Teamlab Planets 8 (14/08/24)",
+    alt: "Tokyo Teamlab Planets 8 (14/08/2024)",
     thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Tokyo/110t.jpg",
     width: 9,
     height: 16,
@@ -791,7 +791,7 @@ export const tr_130824_180824_images: Image[] = [
   },
   {
     original: "https://youtube.com/embed/lL8kfNBb1Bc",
-    alt: "Tokyo Teamlab Planets 9 (14/08/24)",
+    alt: "Tokyo Teamlab Planets 9 (14/08/2024)",
     thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Tokyo/112t.jpg",
     width: 9,
     height: 16,
@@ -806,7 +806,7 @@ export const tr_130824_180824_images: Image[] = [
   },
   {
     original: "https://youtube.com/embed/MDqZ66Hn4qM",
-    alt: "Tokyo Teamlab Planets 10 (14/08/24)",
+    alt: "Tokyo Teamlab Planets 10 (14/08/2024)",
     thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Tokyo/114t.jpg",
     width: 16,
     height: 9,
@@ -842,7 +842,7 @@ export const tr_130824_180824_images: Image[] = [
   },
   {
     original: "https://youtube.com/embed/HdoYm93ChQ8",
-    alt: "Tokyo Teamlab Planets 11 (14/08/24)",
+    alt: "Tokyo Teamlab Planets 11 (14/08/2024)",
     thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Tokyo/119t.jpg",
     width: 9,
     height: 16,
@@ -864,7 +864,7 @@ export const tr_130824_180824_images: Image[] = [
   },
   {
     original: "https://youtube.com/embed/xkxjiCk6RoA",
-    alt: "Tokyo Joypolis monkey (14/08/24)",
+    alt: "Tokyo Joypolis monkey (14/08/2024)",
     thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Tokyo/121t.jpg",
     width: 9,
     height: 16,
@@ -921,7 +921,7 @@ export const tr_130824_180824_images: Image[] = [
   },
   {
     original: "https://youtube.com/embed/BbvLqdYKc4U",
-    alt: "Tokyo Waifu concert (14/08/24)",
+    alt: "Tokyo Waifu concert (14/08/2024)",
     thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Tokyo/130t.jpg",
     width: 9,
     height: 16,
@@ -929,7 +929,7 @@ export const tr_130824_180824_images: Image[] = [
   },
   {
     original: "https://youtube.com/embed/zXTEqVQALpI",
-    alt: "Tokyo Waifu concert 2 (14/08/24)",
+    alt: "Tokyo Waifu concert 2 (14/08/2024)",
     thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Tokyo/131t.jpg",
     width: 9,
     height: 16,
@@ -937,7 +937,7 @@ export const tr_130824_180824_images: Image[] = [
   },
   {
     original: "https://youtube.com/embed/b7m1BEBoQrE",
-    alt: "Tokyo Waifu concert 3 (14/08/24)",
+    alt: "Tokyo Waifu concert 3 (14/08/2024)",
     thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Tokyo/132t.jpg",
     width: 9,
     height: 16,
@@ -1050,7 +1050,7 @@ export const tr_130824_180824_images: Image[] = [
   },
   {
     original: "https://youtube.com/embed/4bdEd7-PXOI",
-    alt: "Tokyo Shinjuku Mario Kart (15/08/24)",
+    alt: "Tokyo Shinjuku Mario Kart (15/08/2024)",
     thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Tokyo/148t.jpg",
     width: 9,
     height: 16,
@@ -1065,7 +1065,7 @@ export const tr_130824_180824_images: Image[] = [
   },
   {
     original: "https://youtube.com/embed/4Lpli0kZzvU",
-    alt: "Tokyo Shinjuku Karaoke (15/08/24)",
+    alt: "Tokyo Shinjuku Karaoke (15/08/2024)",
     thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Tokyo/255t.jpg",
     width: 9,
     height: 16,
@@ -1073,7 +1073,7 @@ export const tr_130824_180824_images: Image[] = [
   },
   {
     original: "https://youtube.com/embed/oabd1iNpevU",
-    alt: "Tokyo Shinjuku Karaoke 2 (15/08/24)",
+    alt: "Tokyo Shinjuku Karaoke 2 (15/08/2024)",
     thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Tokyo/150t.jpg",
     width: 9,
     height: 16,
@@ -1431,7 +1431,7 @@ export const tr_130824_180824_images: Image[] = [
   },
   {
     original: "https://youtube.com/embed/n8Bl7suDu0E",
-    alt: "Tokyo Shibuya crossing (17/08/24)",
+    alt: "Tokyo Shibuya crossing (17/08/2024)",
     thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Tokyo/201t.jpg",
     width: 9,
     height: 16,
@@ -1628,7 +1628,7 @@ export const tr_130824_180824_images: Image[] = [
   },
   {
     original: "https://youtube.com/embed/XJ9vbHOlLiE",
-    alt: "Tokyo Shibuya crossing night (17/08/24)",
+    alt: "Tokyo Shibuya crossing night (17/08/2024)",
     thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Tokyo/229t.jpg",
     width: 9,
     height: 16,
@@ -1706,7 +1706,7 @@ export const tr_130824_180824_images: Image[] = [
   },
   {
     original: "https://youtube.com/embed/75Ln6WNTsBU",
-    alt: "Tokyo Shibuya Sky (17/08/24)",
+    alt: "Tokyo Shibuya Sky (17/08/2024)",
     thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Tokyo/240t.jpg",
     width: 9,
     height: 16,
@@ -1721,7 +1721,7 @@ export const tr_130824_180824_images: Image[] = [
   },
   {
     original: "https://youtube.com/embed/At4Hh-Hh0k8",
-    alt: "Tokyo Shibuya Sky 2 (17/08/24)",
+    alt: "Tokyo Shibuya Sky 2 (17/08/2024)",
     thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Tokyo/242t.jpg",
     width: 9,
     height: 16,
@@ -1785,7 +1785,7 @@ export const tr_130824_180824_images: Image[] = [
   },
   {
     original: "https://youtube.com/embed/ZidW1KYQSOs",
-    alt: "Tokyo Shibuya Sky 3 (17/08/24)",
+    alt: "Tokyo Shibuya Sky 3 (17/08/2024)",
     thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Tokyo/251t.jpg",
     width: 9,
     height: 16,

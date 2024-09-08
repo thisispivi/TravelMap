@@ -3,7 +3,7 @@ import { Image } from "../../../../core";
 export const tr_270721_030821_images: Image[] = [
   {
     original: "https://www.youtube.com/embed/AT7B5-5EJaA",
-    alt: "Rome Flight (27/08/21)",
+    alt: "Rome Flight (27/08/2021)",
     thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Rome/001t.jpg",
     width: 30,
     height: 53,
@@ -1628,7 +1628,7 @@ export const tr_270721_030821_images: Image[] = [
   },
   {
     original: "https://youtube.com/embed/NQCzyq76Omk",
-    alt: "Rome Castel Sant'Angelo (01/08/21)",
+    alt: "Rome Castel Sant'Angelo (01/08/2021)",
     thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Rome/234t.jpg",
     width: 30,
     height: 53,
@@ -1839,7 +1839,7 @@ export const tr_270721_030821_images: Image[] = [
   },
   {
     original: "https://youtube.com/embed/uaPzJzA9L8c",
-    alt: "Rome Altare della Patria (01/08/21)",
+    alt: "Rome Altare della Patria (01/08/2021)",
     thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Rome/264t.jpg",
     width: 30,
     height: 53,
@@ -1847,7 +1847,7 @@ export const tr_270721_030821_images: Image[] = [
   },
   {
     original: "https://youtube.com/embed/JE8H7rzbVdo",
-    alt: "Rome Altare della Patria 2 (01/08/21)",
+    alt: "Rome Altare della Patria 2 (01/08/2021)",
     thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Rome/265t.jpg",
     width: 30,
     height: 53,
