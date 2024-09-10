@@ -26,6 +26,9 @@ if "__main__" == __name__:
         logger.info("Results folder path: %s", results_folder_path)
         logger.info("Results city folder path: %s", results_city_folder_path)
 
+        if not os.path.exists(results_city_folder_path):
+            os.mkdir(results_city_folder_path)
+
         for filename in os.listdir(city_folder_path):
             if is_video(filename):
                 logger.video("Processing video file: %s", filename)
@@ -45,7 +48,8 @@ if "__main__" == __name__:
             )
             if is_video(filename):
                 os.remove(os.path.join(city_folder_path, new_filename))
-                os.remove(os.path.join(results_city_folder_path, new_compress_filename))
+                os.remove(os.path.join(
+                    results_city_folder_path, new_compress_filename))
 
     except Exception as e:
         logger.error(str(e))
