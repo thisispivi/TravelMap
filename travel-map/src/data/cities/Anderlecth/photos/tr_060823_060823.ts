@@ -2,7 +2,7 @@ import { Image } from "../../../../core";
 
 export const tr_060823_060823_images: Image[] = [
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Anderlecht/001.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Anderlecht/001c.jpg",
     alt: "Lotto Park vertical",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Anderlecht/001t.jpg",
@@ -10,7 +10,7 @@ export const tr_060823_060823_images: Image[] = [
     height: 16,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Anderlecht/002.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Anderlecht/002c.jpg",
     alt: "Lotto Park wide",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Anderlecht/002t.jpg",
@@ -18,7 +18,7 @@ export const tr_060823_060823_images: Image[] = [
     height: 9,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Anderlecht/003.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Anderlecht/003c.jpg",
     alt: "Lotto Park Grandstand",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Anderlecht/003t.jpg",
@@ -26,7 +26,7 @@ export const tr_060823_060823_images: Image[] = [
     height: 9,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Anderlecht/004.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Anderlecht/004c.jpg",
     alt: "Lotto Park Grandstand full",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Anderlecht/004t.jpg",
@@ -43,7 +43,7 @@ export const tr_060823_060823_images: Image[] = [
     youtube: true,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Anderlecht/006.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Anderlecht/006c.jpg",
     alt: "RCSA Objectif Coupe d'Europe",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Anderlecht/006t.jpg",
@@ -78,7 +78,7 @@ export const tr_060823_060823_images: Image[] = [
     youtube: true,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Anderlecht/010.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Anderlecht/010c.jpg",
     alt: "RCSA Vertonghen shirt front",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Anderlecht/010t.jpg",
@@ -86,7 +86,7 @@ export const tr_060823_060823_images: Image[] = [
     height: 85,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Anderlecht/011.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Anderlecht/011c.jpg",
     alt: "RCSA Vertonghen shirt back",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Anderlecht/011t.jpg",

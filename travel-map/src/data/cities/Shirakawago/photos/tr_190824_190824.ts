@@ -2,7 +2,8 @@ import { Image } from "../../../../core";
 
 export const tr_190824_190824_images: Image[] = [
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/001.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/001c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/001t.jpg",
@@ -10,7 +11,8 @@ export const tr_190824_190824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/002.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/002c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/002t.jpg",
@@ -18,7 +20,8 @@ export const tr_190824_190824_images: Image[] = [
     height: 3822,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/003.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/003c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/003t.jpg",
@@ -26,7 +29,8 @@ export const tr_190824_190824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/004.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/004c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/004t.jpg",
@@ -34,7 +38,8 @@ export const tr_190824_190824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/005.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/005c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/005t.jpg",
@@ -42,7 +47,8 @@ export const tr_190824_190824_images: Image[] = [
     height: 85,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/006.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/006c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/006t.jpg",
@@ -50,7 +56,8 @@ export const tr_190824_190824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/007.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/007c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/007t.jpg",
@@ -58,7 +65,8 @@ export const tr_190824_190824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/008.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/008c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/008t.jpg",
@@ -66,7 +74,8 @@ export const tr_190824_190824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/009.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/009c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/009t.jpg",
@@ -74,7 +83,8 @@ export const tr_190824_190824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/010.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/010c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/010t.jpg",
@@ -82,7 +92,8 @@ export const tr_190824_190824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/011.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/011c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/011t.jpg",
@@ -90,7 +101,8 @@ export const tr_190824_190824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/012.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/012c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/012t.jpg",
@@ -98,7 +110,8 @@ export const tr_190824_190824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/013.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/013c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/013t.jpg",
@@ -106,7 +119,8 @@ export const tr_190824_190824_images: Image[] = [
     height: 64,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/014.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/014c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/014t.jpg",
@@ -114,7 +128,8 @@ export const tr_190824_190824_images: Image[] = [
     height: 64,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/015.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/015c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/015t.jpg",
@@ -122,7 +137,8 @@ export const tr_190824_190824_images: Image[] = [
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/016.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/016c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/016t.jpg",
@@ -130,7 +146,8 @@ export const tr_190824_190824_images: Image[] = [
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/017.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/017c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/017t.jpg",
@@ -138,7 +155,8 @@ export const tr_190824_190824_images: Image[] = [
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/018.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/018c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/018t.jpg",
@@ -146,7 +164,8 @@ export const tr_190824_190824_images: Image[] = [
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/019.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/019c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/019t.jpg",
@@ -154,7 +173,8 @@ export const tr_190824_190824_images: Image[] = [
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/020.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/020c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/020t.jpg",
@@ -162,7 +182,8 @@ export const tr_190824_190824_images: Image[] = [
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/021.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/021c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/021t.jpg",
@@ -170,7 +191,8 @@ export const tr_190824_190824_images: Image[] = [
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/022.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/022c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/022t.jpg",
@@ -178,7 +200,8 @@ export const tr_190824_190824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/023.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/023c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/023t.jpg",
@@ -186,7 +209,8 @@ export const tr_190824_190824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/024.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/024c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/024t.jpg",
@@ -194,7 +218,8 @@ export const tr_190824_190824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/025.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/025c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/025t.jpg",
@@ -202,7 +227,8 @@ export const tr_190824_190824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/026.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/026c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/026t.jpg",
@@ -210,7 +236,8 @@ export const tr_190824_190824_images: Image[] = [
     height: 64,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/027.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/027c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/027t.jpg",
@@ -218,7 +245,8 @@ export const tr_190824_190824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/028.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/028c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/028t.jpg",
@@ -226,7 +254,8 @@ export const tr_190824_190824_images: Image[] = [
     height: 64,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/029.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/029c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/029t.jpg",
@@ -234,7 +263,8 @@ export const tr_190824_190824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/030.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/030c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/030t.jpg",
@@ -242,7 +272,8 @@ export const tr_190824_190824_images: Image[] = [
     height: 85,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/031.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/031c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/031t.jpg",
@@ -250,7 +281,8 @@ export const tr_190824_190824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/032.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/032c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/032t.jpg",
@@ -258,7 +290,8 @@ export const tr_190824_190824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/033.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/033c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/033t.jpg",
@@ -266,7 +299,8 @@ export const tr_190824_190824_images: Image[] = [
     height: 85,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/034.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/034c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/034t.jpg",
@@ -274,7 +308,8 @@ export const tr_190824_190824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/035.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/035c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/035t.jpg",
@@ -282,7 +317,8 @@ export const tr_190824_190824_images: Image[] = [
     height: 85,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/036.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/036c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/036t.jpg",
@@ -290,7 +326,8 @@ export const tr_190824_190824_images: Image[] = [
     height: 64,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/037.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/037c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/037t.jpg",
