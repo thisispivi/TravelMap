@@ -3,7 +3,7 @@ import { Image } from "../../../../core";
 export const tr_150824_150824_images: Image[] = [
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/001.jpg",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/001c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/001t.jpg",
@@ -12,7 +12,7 @@ export const tr_150824_150824_images: Image[] = [
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/002.jpg",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/002c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/002t.jpg",
@@ -21,7 +21,7 @@ export const tr_150824_150824_images: Image[] = [
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/003.jpg",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/003c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/003t.jpg",
@@ -30,7 +30,7 @@ export const tr_150824_150824_images: Image[] = [
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/004.jpg",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/004c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/004t.jpg",
@@ -39,7 +39,7 @@ export const tr_150824_150824_images: Image[] = [
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/005.jpg",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/005c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/005t.jpg",
@@ -48,7 +48,7 @@ export const tr_150824_150824_images: Image[] = [
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/006.jpg",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/006c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/006t.jpg",
@@ -57,7 +57,7 @@ export const tr_150824_150824_images: Image[] = [
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/007.jpg",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/007c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/007t.jpg",
@@ -66,7 +66,7 @@ export const tr_150824_150824_images: Image[] = [
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/008.jpg",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/008c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/008t.jpg",
@@ -75,7 +75,7 @@ export const tr_150824_150824_images: Image[] = [
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/009.jpg",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/009c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/009t.jpg",
@@ -84,7 +84,7 @@ export const tr_150824_150824_images: Image[] = [
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/010.jpg",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/010c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/010t.jpg",
@@ -93,7 +93,7 @@ export const tr_150824_150824_images: Image[] = [
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/011.jpg",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/011c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/011t.jpg",
@@ -102,7 +102,7 @@ export const tr_150824_150824_images: Image[] = [
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/012.jpg",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/012c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/012t.jpg",
@@ -111,7 +111,7 @@ export const tr_150824_150824_images: Image[] = [
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/013.jpg",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/013c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/013t.jpg",
@@ -120,7 +120,7 @@ export const tr_150824_150824_images: Image[] = [
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/014.jpg",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/014c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/014t.jpg",
@@ -129,7 +129,7 @@ export const tr_150824_150824_images: Image[] = [
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/015.jpg",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/015c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/015t.jpg",
@@ -138,7 +138,7 @@ export const tr_150824_150824_images: Image[] = [
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/016.jpg",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/016c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/016t.jpg",
@@ -147,7 +147,7 @@ export const tr_150824_150824_images: Image[] = [
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/017.jpg",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/017c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/017t.jpg",
@@ -156,7 +156,7 @@ export const tr_150824_150824_images: Image[] = [
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/018.jpg",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/018c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/018t.jpg",
@@ -174,7 +174,7 @@ export const tr_150824_150824_images: Image[] = [
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/020.jpg",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/020c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/020t.jpg",
@@ -192,7 +192,7 @@ export const tr_150824_150824_images: Image[] = [
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/022.jpg",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/022c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/022t.jpg",
@@ -201,7 +201,7 @@ export const tr_150824_150824_images: Image[] = [
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/023.jpg",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/023c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/023t.jpg",
@@ -210,7 +210,7 @@ export const tr_150824_150824_images: Image[] = [
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/024.jpg",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/024c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/024t.jpg",
@@ -219,7 +219,7 @@ export const tr_150824_150824_images: Image[] = [
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/025.jpg",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/025c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/025t.jpg",
@@ -228,7 +228,7 @@ export const tr_150824_150824_images: Image[] = [
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/026.jpg",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/026c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/026t.jpg",
@@ -237,7 +237,7 @@ export const tr_150824_150824_images: Image[] = [
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/027.jpg",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/027c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/027t.jpg",
@@ -246,7 +246,7 @@ export const tr_150824_150824_images: Image[] = [
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/028.jpg",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/028c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/028t.jpg",
@@ -255,7 +255,7 @@ export const tr_150824_150824_images: Image[] = [
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/029.jpg",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/029c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/029t.jpg",
@@ -264,7 +264,7 @@ export const tr_150824_150824_images: Image[] = [
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/030.jpg",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/030c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/030t.jpg",
@@ -273,7 +273,7 @@ export const tr_150824_150824_images: Image[] = [
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/031.jpg",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/031c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Fujikawaguchiko/031t.jpg",

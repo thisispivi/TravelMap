@@ -2,7 +2,8 @@ import { Image } from "../../../../core";
 
 export const tr_230921_260921_images: Image[] = [
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/001.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/001c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/001t.jpg",
@@ -10,7 +11,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/002.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/002c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/002t.jpg",
@@ -18,7 +20,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/003.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/003c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/003t.jpg",
@@ -26,7 +29,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/004.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/004c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/004t.jpg",
@@ -34,7 +38,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 2048,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/005.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/005c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/005t.jpg",
@@ -42,7 +47,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 2048,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/006.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/006c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/006t.jpg",
@@ -50,7 +56,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 16,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/007.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/007c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/007t.jpg",
@@ -58,7 +65,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 2048,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/008.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/008c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/008t.jpg",
@@ -66,7 +74,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 16,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/009.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/009c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/009t.jpg",
@@ -74,7 +83,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 16,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/010.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/010c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/010t.jpg",
@@ -82,7 +92,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/011.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/011c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/011t.jpg",
@@ -90,7 +101,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 16,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/012.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/012c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/012t.jpg",
@@ -98,7 +110,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 1079,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/013.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/013c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/013t.jpg",
@@ -106,7 +119,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/014.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/014c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/014t.jpg",
@@ -114,7 +128,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/015.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/015c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/015t.jpg",
@@ -122,7 +137,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/016.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/016c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/016t.jpg",
@@ -130,7 +146,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/017.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/017c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/017t.jpg",
@@ -138,7 +155,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/018.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/018c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/018t.jpg",
@@ -146,7 +164,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 16,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/019.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/019c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/019t.jpg",
@@ -154,7 +173,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 9,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/020.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/020c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/020t.jpg",
@@ -162,7 +182,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 1599,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/021.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/021c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/021t.jpg",
@@ -170,7 +191,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/022.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/022c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/022t.jpg",
@@ -178,7 +200,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/023.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/023c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/023t.jpg",
@@ -186,7 +209,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/024.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/024c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/024t.jpg",
@@ -194,7 +218,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 1599,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/025.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/025c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/025t.jpg",
@@ -202,7 +227,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 1,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/026.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/026c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/026t.jpg",
@@ -210,7 +236,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/027.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/027c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/027t.jpg",
@@ -218,7 +245,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/028.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/028c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/028t.jpg",
@@ -226,7 +254,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/029.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/029c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/029t.jpg",
@@ -234,7 +263,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 800,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/030.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/030c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/030t.jpg",
@@ -242,7 +272,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/031.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/031c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/031t.jpg",
@@ -250,7 +281,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/032.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/032c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/032t.jpg",
@@ -258,7 +290,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/033.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/033c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/033t.jpg",
@@ -266,7 +299,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/034.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/034c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/034t.jpg",
@@ -274,7 +308,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/035.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/035c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/035t.jpg",
@@ -282,7 +317,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/036.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/036c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/036t.jpg",
@@ -290,7 +326,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/037.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/037c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/037t.jpg",
@@ -298,7 +335,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/038.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/038c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/038t.jpg",
@@ -306,7 +344,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/039.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/039c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/039t.jpg",
@@ -314,7 +353,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/040.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/040c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/040t.jpg",
@@ -322,7 +362,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/041.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/041c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/041t.jpg",
@@ -330,7 +371,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/042.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/042c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/042t.jpg",
@@ -338,7 +380,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/043.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/043c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/043t.jpg",
@@ -346,7 +389,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/044.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/044c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/044t.jpg",
@@ -354,7 +398,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/045.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/045c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/045t.jpg",
@@ -362,7 +407,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/046.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/046c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/046t.jpg",
@@ -370,7 +416,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/047.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/047c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/047t.jpg",
@@ -378,7 +425,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/048.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/048c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/048t.jpg",
@@ -386,7 +434,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/049.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/049c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/049t.jpg",
@@ -394,7 +443,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/050.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/050c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/050t.jpg",
@@ -402,7 +452,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/051.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/051c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/051t.jpg",
@@ -410,7 +461,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/052.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/052c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/052t.jpg",
@@ -418,7 +470,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/053.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/053c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/053t.jpg",
@@ -426,7 +479,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/054.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/054c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/054t.jpg",
@@ -434,7 +488,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/055.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/055c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/055t.jpg",
@@ -442,7 +497,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/056.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/056c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/056t.jpg",
@@ -450,7 +506,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/057.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/057c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/057t.jpg",
@@ -458,7 +515,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/058.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/058c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/058t.jpg",
@@ -466,7 +524,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/059.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/059c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/059t.jpg",
@@ -474,7 +533,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/060.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/060c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/060t.jpg",
@@ -482,7 +542,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/061.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/061c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/061t.jpg",
@@ -490,7 +551,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/062.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/062c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/062t.jpg",
@@ -498,7 +560,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/063.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/063c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/063t.jpg",
@@ -506,7 +569,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/064.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/064c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/064t.jpg",
@@ -514,7 +578,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/065.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/065c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/065t.jpg",
@@ -522,7 +587,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 512,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/066.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/066c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/066t.jpg",
@@ -530,7 +596,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 16,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/067.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/067c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/067t.jpg",
@@ -538,7 +605,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/068.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/068c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/068t.jpg",
@@ -564,7 +632,8 @@ export const tr_230921_260921_images: Image[] = [
     youtube: true,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/071.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/071c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/071t.jpg",
@@ -572,7 +641,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 1,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/072.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/072c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/072t.jpg",
@@ -580,7 +650,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 9,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/073.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/073c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/073t.jpg",
@@ -588,7 +659,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 9,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/074.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/074c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/074t.jpg",
@@ -605,7 +677,8 @@ export const tr_230921_260921_images: Image[] = [
     youtube: true,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/076.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/076c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/076t.jpg",
@@ -613,7 +686,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/077.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/077c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/077t.jpg",
@@ -657,7 +731,8 @@ export const tr_230921_260921_images: Image[] = [
     youtube: true,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/082.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/082c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/082t.jpg",
@@ -665,7 +740,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/083.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/083c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/083t.jpg",
@@ -673,7 +749,8 @@ export const tr_230921_260921_images: Image[] = [
     height: 9,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/084.jpg",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/084c.jpg",
     alt: "",
     thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Cefal%C3%B9/084t.jpg",
