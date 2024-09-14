@@ -5,3 +5,10 @@ __pycache__
 *.mov
 *.avi
 *.png
+*.webp
+*.m4a
+*.opus
+*.srt
+*.mkv
+*.zip
+*.rar

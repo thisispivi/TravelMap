@@ -39,17 +39,22 @@ if "__main__" == __name__:
                 logger.photo("Processing image file: %s", filename)
             file_number = filename.split(".")[0]
             new_filename = file_number + ".jpg"
-            new_compress_filename = file_number + "c.jpg"
+            new_compress_filename = file_number + "c.webp"
             compress(
                 new_filename,
                 city_folder_path,
                 results_city_folder_path,
-                is_video(filename),
+                logger,
             )
             if is_video(filename):
-                os.remove(os.path.join(city_folder_path, new_filename))
-                os.remove(os.path.join(
-                    results_city_folder_path, new_compress_filename))
+                if os.path.exists(
+                    os.path.join(results_city_folder_path, new_compress_filename)
+                ):
+                    os.remove(
+                        os.path.join(results_city_folder_path, new_compress_filename)
+                    )
+                if os.path.exists(os.path.join(city_folder_path, new_filename)):
+                    os.remove(os.path.join(city_folder_path, new_filename))
 
     except Exception as e:
         logger.error(str(e))

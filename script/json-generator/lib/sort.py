@@ -9,5 +9,5 @@ def sort_images_by_index_in_filename(images):
         list: The sorted list of images.
     """
     return sorted(
-        images, key=lambda x: float(x["original"].split("/")[-1].split(".")[0])
+        images, key=lambda x: float(x["original"].split("/")[-1].split("c.")[0])
     )
