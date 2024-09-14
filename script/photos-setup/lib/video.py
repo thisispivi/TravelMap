@@ -16,6 +16,18 @@ def is_video(filename: str) -> bool:
 
 
 def extract_first_frame(filename, city_folder_path, results_city_folder_path, logger):
+    """
+    Extract the first frame from the video and save it as an image.
+
+    Args:
+        filename (str): Video filename.
+        city_folder_path (str): Path to the city folder.
+        results_city_folder_path (str): Path to save the extracted image.
+        logger (Logger): Logger instance.
+
+    Returns:
+        None
+    """
     video_path = os.path.join(city_folder_path, filename)
     vidcap = cv2.VideoCapture(video_path)
     success, image = vidcap.read()
