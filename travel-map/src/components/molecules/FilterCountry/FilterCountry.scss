@@ -40,7 +40,6 @@
       padding-right: 0.6rem;
       .filter__option {
         display: flex;
-        height: 2.5rem;
         align-items: center;
         padding: 0.5rem;
         border-radius: 0.25rem;
@@ -113,4 +112,12 @@
   transition:
     opacity 200ms,
     transform 200ms;
+}
+
+@media (max-width: 460px) {
+  .filter {
+    .filter__options {
+      width: 13rem;
+    }
+  }
 }

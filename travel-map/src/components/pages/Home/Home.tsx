@@ -5,6 +5,7 @@ import { createContext, useState } from "react";
 import { Outlet, useNavigate, useSearchParams } from "react-router-dom";
 import { City } from "../../../core";
 import { parameters } from "../../../utils/parameters";
+import useResponsive, { ResponsiveType } from "../../../hooks/style/responsive";
 
 export type HomeContextType = ThemeDetector & {
   hoveredCity: City | null;
@@ -16,9 +17,10 @@ export type HomeContextType = ThemeDetector & {
   }) => void;
   isAutoPosition: boolean;
   setIsAutoPosition: (isAutoPosition: boolean) => void;
+  responsive: ResponsiveType;
 };
 export const HomeContext = createContext<HomeContextType | undefined>(
-  undefined,
+  undefined
 );
 
 /**
@@ -32,6 +34,7 @@ export const HomeContext = createContext<HomeContextType | undefined>(
  */
 export default function Home(): JSX.Element {
   const navigate = useNavigate();
+  const responsive = useResponsive();
 
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get("to");
@@ -56,6 +59,7 @@ export default function Home(): JSX.Element {
     setMapPosition,
     isAutoPosition,
     setIsAutoPosition,
+    responsive,
   };
 
   if (redirectTo) setTimeout(() => navigate("/" + redirectTo), 300);
