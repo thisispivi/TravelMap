@@ -110,7 +110,7 @@ The JSON structure will list the travels and their associated images.
       import { Belgium } from "../../countries/countries";
       import { example_travel } from "./photos/example_travel";
 
-      export const Anderlecth = new City({
+      export const Anderlecht = new City({
         name: "Anderlecht",
         country: Belgium,
         coordinates: [4.1299, 50.8383],
