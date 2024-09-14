@@ -21,4 +21,14 @@
       stroke-width: 0.063rem;
     }
   }
+  .marker-icon--future {
+    path {
+      fill: #8e24aa;
+    }
+    &.marker-icon--hovered {
+      path {
+        fill: #b02fd4;
+      }
+    }
+  }
 }

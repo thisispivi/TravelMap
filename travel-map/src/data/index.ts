@@ -1,7 +1,8 @@
 import { City } from "../core";
-import { Anderlecth } from "./cities/Anderlecth/Anderlecth";
+import { Anderlecht } from "./cities/Anderlecht/Anderlecht";
 import { Barcelona } from "./cities/Barcelona/Barcelona";
 import { Berlin } from "./cities/Berlin/Berlin";
+import { Bologna } from "./cities/Bologna/Bologna";
 import { Braga } from "./cities/Braga/Braga";
 import { Bruges } from "./cities/Bruges/Bruges";
 import { Brussels } from "./cities/Brussels/Brussels";
@@ -26,6 +27,7 @@ import { Takayama } from "./cities/Takayama/Takayama";
 import { Terni } from "./cities/Terni/Terni";
 import { Tokyo } from "./cities/Tokyo/Tokyo";
 import { Turin } from "./cities/Turin/Turin";
+import { Verona } from "./cities/Verona/Verona";
 import {
   Belgium,
   UnitedKingdom,
@@ -50,7 +52,7 @@ export const visitedCountries = {
 
 export const visitedCities: City[] = [
   Brussels,
-  Anderlecth,
+  Anderlecht,
   Bruges,
   Rome,
   Imola,
@@ -76,8 +78,11 @@ export const visitedCities: City[] = [
   Kobe,
   Nara,
   Osaka,
+  Bologna,
 ];
 
-export const futureCountries = {};
+export const futureCountries = {
+  Italy,
+};
 
-export const futureCities: City[] = [];
+export const futureCities: City[] = [Verona];
