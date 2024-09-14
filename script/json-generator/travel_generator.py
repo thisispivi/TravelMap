@@ -7,7 +7,7 @@ from lib.args import get_city_from_args
 from lib.logging import get_custom_logger
 
 
-if "__main__" == __name__:
+if __name__ == "__main__":
     try:
         logger = get_custom_logger()
 
