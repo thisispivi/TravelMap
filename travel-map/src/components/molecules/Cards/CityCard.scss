@@ -148,11 +148,15 @@
   .Bruges-0,
   .Kobe-0,
   .Matsumoto-0,
-  .Fujikawaguchiko-0 {
+  .Fujikawaguchiko-0,
+  .Bologna-0 {
     @include m.city-card-background(0.533);
   }
   .Barcelona-0 {
     @include m.city-card-background(0.498);
+  }
+  .Verona-0 {
+    @include m.city-card-background(0.482);
   }
   .Brussels-0,
   .Himeji-0 {
@@ -201,11 +205,15 @@
   .Bruges-0,
   .Kobe-0,
   .Matsumoto-0,
-  .Fujikawaguchiko-0 {
+  .Fujikawaguchiko-0,
+  .Bologna-0 {
     @include m.city-card-background(0.333);
   }
   .Barcelona-0 {
     @include m.city-card-background(0.298);
+  }
+  .Verona-0 {
+    @include m.city-card-background(0.282);
   }
   .Brussels-0,
   .Himeji-0 {

@@ -24,6 +24,7 @@ export interface MapProps {
 export default memo(function Map({
   visitedCountries,
   visitedCities,
+  futureCities,
 }: MapProps): JSX.Element {
   const context = useContext(HomeContext);
   const { isDarkTheme, hoveredCity, setHoveredCity, mapPosition } = context!;
@@ -46,7 +47,7 @@ export default memo(function Map({
     return isDarkTheme ? "#1a1a1a" : "#dadada";
   };
 
-  const sortedCities = visitedCities.sort((a, b) => {
+  const sortByLatitudeAndLongitude = (a: City, b: City) => {
     const fCordA = a.coordinates[0];
     const fCordB = b.coordinates[0];
     const sCordA = a.coordinates[1];
@@ -60,7 +61,9 @@ export default memo(function Map({
           : fCordA > fCordB
             ? 1
             : 0;
-  });
+  };
+  const sortedVisitedCities = visitedCities.sort(sortByLatitudeAndLongitude);
+  const sortedFutureCities = futureCities.sort(sortByLatitudeAndLongitude);
 
   return (
     <div
@@ -109,7 +112,7 @@ export default memo(function Map({
             }
           </Geographies>
           {isLoaded &&
-            sortedCities.map((city, i) => (
+            sortedVisitedCities.map((city, i) => (
               <Marker
                 key={i}
                 city={city}
@@ -117,9 +120,19 @@ export default memo(function Map({
                 setHoveredCity={setHoveredCity}
               />
             ))}
+          {isLoaded &&
+            sortedFutureCities.map((city, i) => (
+              <Marker
+                key={i}
+                city={city}
+                hoveredCity={hoveredCity}
+                setHoveredCity={setHoveredCity}
+                isFuture
+              />
+            ))}
         </ZoomableGroup>
       </ComposableMap>
-      {sortedCities.map((city, i) => (
+      {[...sortedVisitedCities, ...sortedFutureCities].map((city, i) => (
         <MapTooltip
           key={i}
           city={city}

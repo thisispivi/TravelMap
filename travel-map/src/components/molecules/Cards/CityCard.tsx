@@ -81,7 +81,7 @@ export default function CityCard({
           : undefined
       }
       onMouseLeave={
-        !mobileAndTabletCheck() && isAutoPosition
+        !mobileAndTabletCheck()
           ? () => setHoveredCity && setHoveredCity(null)
           : undefined
       }

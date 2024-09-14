@@ -77,40 +77,49 @@ export default function MapTooltip({
           <h3>{city.getName(t)}</h3>
           <CountryFlag countryName={city.country.id} />
         </div>
-        <div className="map-tooltip__content">
-          <DoubleChevronIcon
-            className={`map-tooltip__content__chevron-icon map-tooltip__content__chevron-icon--left ${travelIdx > 0 ? "" : "map-tooltip__content__chevron-icon--disabled"}`}
-            onClick={() => travelIdx > 0 && setTravelIdx(travelIdx - 1)}
-          />
-          <div className="map-tooltip__content__travel">
-            <div className="map-tooltip__content__travel__info">
-              <DepartureIcon className={"map-tooltip__content__travel__icon"} />
-              <p>{formatDate(filteredTravels[travelIdx].sDate, lang)}</p>
+        {filteredTravels[travelIdx] && (
+          <>
+            <div className="map-tooltip__content">
+              <DoubleChevronIcon
+                className={`map-tooltip__content__chevron-icon map-tooltip__content__chevron-icon--left ${travelIdx > 0 ? "" : "map-tooltip__content__chevron-icon--disabled"}`}
+                onClick={() => travelIdx > 0 && setTravelIdx(travelIdx - 1)}
+              />
+
+              <div className="map-tooltip__content__travel">
+                <div className="map-tooltip__content__travel__info">
+                  <DepartureIcon
+                    className={"map-tooltip__content__travel__icon"}
+                  />
+                  <p>{formatDate(filteredTravels[travelIdx].sDate, lang)}</p>
+                </div>
+                <div className="map-tooltip__content__travel__info">
+                  <ArrivalIcon
+                    className={"map-tooltip__content__travel__icon"}
+                  />
+                  <p>{formatDate(filteredTravels[travelIdx].eDate, lang)}</p>
+                </div>
+              </div>
+              <DoubleChevronIcon
+                className={`map-tooltip__content__chevron-icon ${travelIdx < filteredTravels.length - 1 ? "" : "map-tooltip__content__chevron-icon--disabled"}`}
+                onClick={() =>
+                  travelIdx < filteredTravels.length - 1 &&
+                  setTravelIdx(travelIdx + 1)
+                }
+              />
             </div>
-            <div className="map-tooltip__content__travel__info">
-              <ArrivalIcon className={"map-tooltip__content__travel__icon"} />
-              <p>{formatDate(filteredTravels[travelIdx].eDate, lang)}</p>
+            <div className="map-tooltip__footer">
+              <Button
+                className="map-tooltip__footer__button"
+                onClick={() =>
+                  navigate(`/gallery/${city.name}/${travelIdx}?from=map`)
+                }
+              >
+                <GalleryIcon />
+                <p>{t("galleryAlt")}</p>
+              </Button>
             </div>
-          </div>
-          <DoubleChevronIcon
-            className={`map-tooltip__content__chevron-icon ${travelIdx < filteredTravels.length - 1 ? "" : "map-tooltip__content__chevron-icon--disabled"}`}
-            onClick={() =>
-              travelIdx < filteredTravels.length - 1 &&
-              setTravelIdx(travelIdx + 1)
-            }
-          />
-        </div>
-        <div className="map-tooltip__footer">
-          <Button
-            className="map-tooltip__footer__button"
-            onClick={() =>
-              navigate(`/gallery/${city.name}/${travelIdx}?from=map`)
-            }
-          >
-            <GalleryIcon />
-            <p>{t("galleryAlt")}</p>
-          </Button>
-        </div>
+          </>
+        )}
       </div>
     </ReactTooltip>
   );

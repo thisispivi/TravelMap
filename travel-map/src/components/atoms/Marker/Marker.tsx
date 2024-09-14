@@ -12,8 +12,25 @@ interface MarkerProps {
   defaultScale?: number;
   minScale?: number;
   maxScale?: number;
+  isFuture?: boolean;
 }
 
+/**
+ * Marker component
+ *
+ * The Marker component is an atom that displays a marker on the map.
+ *
+ * @param {MarkerProps} data - The data that will be used to display the component.
+ * @param {City} data.city - The city
+ * @param {City} data.hoveredCity - The hovered city
+ * @param {function} data.setHoveredCity - The function to set the hovered city
+ * @param {number} data.baseZoom - The base zoom of the map
+ * @param {number} data.defaultScale - The default scale of the marker
+ * @param {number} data.minScale - The minimum scale of the marker
+ * @param {number} data.maxScale - The maximum scale of the marker
+ * @param {boolean} data.isFuture - Whether the marker is for a future city
+ * @returns {JSX.Element} The Marker component
+ */
 export function Marker({
   city,
   hoveredCity,
@@ -22,7 +39,8 @@ export function Marker({
   defaultScale = 0.15,
   minScale = 0.1,
   maxScale = 0.2,
-}: MarkerProps) {
+  isFuture = false,
+}: MarkerProps): JSX.Element {
   const { k } = useZoomPanContext();
   const currScale = defaultScale * (baseZoom / k);
   const scale = Math.min(Math.max(currScale, minScale), maxScale);
@@ -42,7 +60,9 @@ export function Marker({
       }}
     >
       <MarkerIcon
-        className={isHovered ? "marker-icon--hovered" : ""}
+        className={`${isHovered ? "marker-icon--hovered" : ""}
+          ${isFuture ? "marker-icon--future" : ""}
+        `}
         scale={scale}
       />
     </MarkerMap>

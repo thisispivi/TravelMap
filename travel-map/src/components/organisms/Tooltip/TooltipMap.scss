@@ -43,7 +43,6 @@
     padding: 0.6rem 1rem;
     .map-tooltip__header {
       display: flex;
-      margin-bottom: 1rem;
       justify-content: space-between;
       h3 {
         overflow: hidden;
@@ -54,12 +53,14 @@
         width: 1.6rem;
         height: 1.4rem;
         flex-shrink: 0;
+        margin-left: 1rem;
       }
     }
     .map-tooltip__content {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      margin-top: 1rem;
       .map-tooltip__content__chevron-icon {
         width: 1rem;
         height: 1rem;
