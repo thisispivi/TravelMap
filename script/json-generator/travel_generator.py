@@ -28,7 +28,7 @@ if "__main__" == __name__:
 
         images = []
         for filename in os.listdir(city_folder_path):
-            if not filename.endswith("t.jpg"):
+            if not filename.endswith("t.webp"):
                 images.append(
                     get_image_info(cityUrl, filename, city_folder_path, logger)
                 )

@@ -2,394 +2,450 @@ import { Image } from "../../../../core";
 
 export const tr_110416_150416_images: Image[] = [
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/001c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/001c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/001t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/001t.webp",
     width: 1599,
     height: 899,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/002c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/002c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/002t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/002t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/003c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/003c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/003t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/003t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/004c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/004c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/004t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/004t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/005c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/005c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/005t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/005t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/006c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/006c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/006t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/006t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/007c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/007c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/007t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/007t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/008c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/008c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/008t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/008t.webp",
     width: 683,
     height: 281,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/009c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/009c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/009t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/009t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/010c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/010c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/010t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/010t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/011c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/011c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/011c.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/011c.webp",
     width: 1366,
     height: 451,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/012c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/012c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/012t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/012t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/013c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/013c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/013t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/013t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/014c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/014c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/014t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/014t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/015c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/015c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/015t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/015t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/016c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/016c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/016t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/016t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/017c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/017c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/017t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/017t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/018c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/018c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/018t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/018t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/019c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/019c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/019t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/019t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/020c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/020c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/020t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/020t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/021c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/021c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/021t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/021t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/022c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/022c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/022t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/022t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/023c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/023c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/023t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/023t.webp",
     width: 455,
     height: 256,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/024c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/024c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/024t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/024t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/025c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/025c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/025t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/025t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/026c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/026c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/026t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/026t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/027c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/027c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/027t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/027t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/028c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/028c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/028c.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/028c.webp",
     width: 1366,
     height: 333,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/029c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/029c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/029c.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/029c.webp",
     width: 1366,
     height: 327,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/030c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/030c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/030c.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/030c.webp",
     width: 1366,
     height: 317,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/031c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/031c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/031c.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/031c.webp",
     width: 1366,
     height: 303,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/032c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/032c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/032c.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/032c.webp",
     width: 683,
     height: 191,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/033c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/033c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/033t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/033t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/034c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/034c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/034t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/034t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/035c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/035c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/035t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/035t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/036c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/036c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/036t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/036t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/037c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/037c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/037t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/037t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/038c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/038c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/038t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/038t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/039c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/039c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/039c.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/039c.webp",
     width: 683,
     height: 130,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/040c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/040c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/040t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/040t.webp",
     width: 686,
     height: 915,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/041c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/041c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/041t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/041t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/042c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/042c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/042t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/042t.webp",
     width: 5,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/043c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/043c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/043t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/043t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/044c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/044c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/044t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/044t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/045c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/045c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/045t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/045t.webp",
     width: 733,
     height: 977,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/046c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/046c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/046t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/046t.webp",
     width: 707,
     height: 942,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/047c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/047c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/047t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/047t.webp",
     width: 726,
     height: 967,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/048c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/048c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/048t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/048t.webp",
     width: 656,
     height: 875,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/049c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/049c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/049t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/049t.webp",
     width: 362,
     height: 483,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/050c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/050c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/050t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/050t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/051c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/051c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/051t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/051t.webp",
     width: 371,
     height: 297,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/052c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/052c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/052t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/052t.webp",
     width: 1001,
     height: 751,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/053c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/053c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/053t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/053t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/054c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/054c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/054t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/054t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/055c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/055c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/055t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/055t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/056c.jpg",
+    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/056c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/056t.jpg",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Barcelona/056t.webp",
     width: 899,
     height: 1123,
   },
