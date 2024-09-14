@@ -12,6 +12,7 @@
   border: 0;
   cursor: pointer;
   transition: background-color 0.3s ease-in-out;
+  flex-shrink: 0;
   svg {
     width: 60%;
     height: 60%;

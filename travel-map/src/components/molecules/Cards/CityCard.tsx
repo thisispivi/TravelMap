@@ -22,6 +22,7 @@ interface CityCardProps {
     zoom: number;
   }) => void;
   isAutoPosition?: boolean;
+  isHidden?: boolean;
 }
 
 /**
@@ -40,6 +41,7 @@ interface CityCardProps {
  * @param {function} data.setHoveredCity - The function to set the hovered city
  * @param {function} data.setMapPosition - The function to set the map position
  * @param {boolean} data.isAutoPosition - Whether the map should auto position to the city when hovered
+ * @param {boolean} data.isHidden - Whether the card is hidden
  * @returns {JSX.Element} The CityCard component
  */
 export default function CityCard({
@@ -52,6 +54,7 @@ export default function CityCard({
   setHoveredCity,
   setMapPosition,
   isAutoPosition = false,
+  isHidden = false,
 }: CityCardProps): JSX.Element {
   const lang = useLanguage([]).currentLanguage;
   const navigate = useNavigate();
@@ -67,6 +70,7 @@ export default function CityCard({
       className={`city-card ${isClickable ? "city-card--clickable" : "city-card--not-clickable"} 
       ${hoveredCity && hoveredCity.name === city.name ? "city-card--hovered" : ""}
       ${mobileAndTabletCheck() ? "city-card--mobile" : "city-card--desktop"}
+      ${isHidden ? "city-card--hidden" : "city-card--visible"}
       `}
       onClick={
         isClickable ? () => navigate(`/gallery/${city.name}/${idx}`) : undefined
@@ -100,7 +104,7 @@ export default function CityCard({
         </div>
         <div className="city-card__title">
           <h3>{city.getName(t)}</h3>
-          <CountryFlag countryName={city.country.id} />
+          <CountryFlag countryId={city.country.id} />
         </div>
       </div>
       <div className="city-card__content">

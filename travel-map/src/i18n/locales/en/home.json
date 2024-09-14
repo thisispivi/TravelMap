@@ -55,5 +55,8 @@
   "galleryAlt": "Open the gallery",
   "autoPositionTooltip": "When active, the map will center on the city you hover over in",
   "language": "Language",
-  "theme": "Theme"
+  "theme": "Theme",
+  "filterTooltip": "Select which countries to show",
+  "selectAll": "Select all",
+  "deselectAll": "Deselect all"
 }

@@ -11,6 +11,10 @@
   transform: scale(1);
   @include m.transition(all, 0.15s, ease-in-out);
 
+  &.city-card--hidden {
+    display: none;
+  }
+
   &.city-card--clickable:hover {
     cursor: pointer;
     transform: scale(1.05);

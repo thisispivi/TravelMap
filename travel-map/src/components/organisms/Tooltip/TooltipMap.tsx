@@ -75,7 +75,7 @@ export default function MapTooltip({
       >
         <div className="map-tooltip__header">
           <h3>{city.getName(t)}</h3>
-          <CountryFlag countryName={city.country.id} />
+          <CountryFlag countryId={city.country.id} />
         </div>
         {filteredTravels[travelIdx] && (
           <>

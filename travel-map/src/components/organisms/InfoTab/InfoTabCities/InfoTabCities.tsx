@@ -1,13 +1,14 @@
-import { memo, useContext } from "react";
-import { City, Travel } from "../../../../core";
+import { memo, useContext, useState } from "react";
+import { City, Country, Travel } from "../../../../core";
 import useLanguage from "../../../../hooks/language/language";
-import { CityCard } from "../../../molecules";
+import { CityCard, FilterCountry } from "../../../molecules";
 import "./InfoTabCities.scss";
 import { HomeContext } from "../../../pages/Home/Home";
 import Button from "../../../atoms/Buttons/Button";
-import { PositionIcon } from "../../../../assets";
+import { FilterIcon, PositionIcon } from "../../../../assets";
 import { mobileAndTabletCheck } from "../../../../utils/responsive";
 import Tooltip from "../../Tooltip/Tooltip";
+import { visitedCountries } from "../../../../data";
 
 interface InfoTabCitiesProps {
   className?: string;
@@ -48,6 +49,10 @@ export default memo(function InfoTabCities({
     isAutoPosition,
     setIsAutoPosition,
   } = useContext(HomeContext)!;
+
+  const allCountries = Object.values(visitedCountries);
+  const [countries, setCountries] = useState<Country[]>(allCountries);
+  const onCountryChange = (selected: Country[]) => setCountries(selected);
   return (
     <div
       className={`info-tab-cities info-tab-${id} ${className} 
@@ -56,23 +61,38 @@ export default memo(function InfoTabCities({
     >
       <div className={`info-tab-cities__header info-tab-${id}__header`}>
         <h1>{t(id + ".title")}</h1>
-        {!mobileAndTabletCheck() && (
-          <Button
-            className={`info-tab-cities__position-button ${
-              isAutoPosition
-                ? "info-tab-cities__position-button--auto-position"
-                : ""
-            }`}
-            onClick={() => setIsAutoPosition(!isAutoPosition)}
-          >
-            <PositionIcon />
-          </Button>
-        )}
-        <Tooltip
-          text={t("autoPositionTooltip")}
-          anchorSelect=".info-tab-cities__position-button"
-          delayShow={300}
-        />
+        <div className={`info-tab-cities__header__buttons`}>
+          {!mobileAndTabletCheck() && (
+            <Button
+              className={`info-tab-cities__position-button ${
+                isAutoPosition
+                  ? "info-tab-cities__position-button--auto-position"
+                  : ""
+              }`}
+              onClick={() => setIsAutoPosition(!isAutoPosition)}
+            >
+              <PositionIcon />
+            </Button>
+          )}
+          <Tooltip
+            text={t("autoPositionTooltip")}
+            anchorSelect=".info-tab-cities__position-button"
+            delayShow={300}
+          />
+          {id === "visited" && (
+            <FilterCountry
+              options={allCountries}
+              selected={countries}
+              onChange={onCountryChange}
+              buttonIcon={<FilterIcon className="filter__icon" />}
+            />
+          )}
+          <Tooltip
+            text={t("filterTooltip")}
+            anchorSelect=".filter__button"
+            delayShow={300}
+          />
+        </div>
       </div>
       <div
         className={`info-tab-cities__content info-tab-${id}__content`}
@@ -89,6 +109,7 @@ export default memo(function InfoTabCities({
             setHoveredCity={setHoveredCity}
             setMapPosition={setMapPosition}
             isAutoPosition={isAutoPosition}
+            isHidden={!countries.includes(city.country)}
           />
         ))}
         {cities.length % 2 !== 0 && (
