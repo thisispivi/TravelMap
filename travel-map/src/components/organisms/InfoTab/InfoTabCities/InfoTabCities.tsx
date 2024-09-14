@@ -1,4 +1,4 @@
-import { memo, useContext, useState } from "react";
+import { memo, useContext, useMemo, useState } from "react";
 import { City, Country, Travel } from "../../../../core";
 import useLanguage from "../../../../hooks/language/language";
 import { CityCard, FilterCountry } from "../../../molecules";
@@ -48,11 +48,29 @@ export default memo(function InfoTabCities({
     setMapPosition,
     isAutoPosition,
     setIsAutoPosition,
+    responsive,
   } = useContext(HomeContext)!;
 
   const allCountries = Object.values(visitedCountries);
   const [countries, setCountries] = useState<Country[]>(allCountries);
   const onCountryChange = (selected: Country[]) => setCountries(selected);
+
+  const positionButton = useMemo(() => {
+    if (mobileAndTabletCheck() || responsive.window.width <= 460) return null;
+    return (
+      <Button
+        className={`info-tab-cities__position-button ${
+          isAutoPosition
+            ? "info-tab-cities__position-button--auto-position"
+            : ""
+        }`}
+        onClick={() => setIsAutoPosition(!isAutoPosition)}
+      >
+        <PositionIcon />
+      </Button>
+    );
+  }, [isAutoPosition, setIsAutoPosition, responsive.window]);
+
   return (
     <div
       className={`info-tab-cities info-tab-${id} ${className} 
@@ -62,18 +80,7 @@ export default memo(function InfoTabCities({
       <div className={`info-tab-cities__header info-tab-${id}__header`}>
         <h1>{t(id + ".title")}</h1>
         <div className={`info-tab-cities__header__buttons`}>
-          {!mobileAndTabletCheck() && (
-            <Button
-              className={`info-tab-cities__position-button ${
-                isAutoPosition
-                  ? "info-tab-cities__position-button--auto-position"
-                  : ""
-              }`}
-              onClick={() => setIsAutoPosition(!isAutoPosition)}
-            >
-              <PositionIcon />
-            </Button>
-          )}
+          {positionButton}
           <Tooltip
             text={t("autoPositionTooltip")}
             anchorSelect=".info-tab-cities__position-button"

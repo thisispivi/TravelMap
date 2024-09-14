@@ -1,4 +1,4 @@
-import { memo, useContext, useEffect, useState } from "react";
+import { memo, useContext, useState } from "react";
 import { HomeContext } from "../../pages/Home/Home";
 import { City, Country as CountryCore } from "../../../core";
 import {
@@ -27,17 +27,10 @@ export default memo(function Map({
   futureCities,
 }: MapProps): JSX.Element {
   const context = useContext(HomeContext);
-  const { isDarkTheme, hoveredCity, setHoveredCity, mapPosition } = context!;
-  const [, setWindowWidth] = useState(window.innerWidth);
-  const handleResize = () => setWindowWidth(window.innerWidth);
+  const { isDarkTheme, hoveredCity, setHoveredCity, mapPosition, responsive } =
+    context!;
 
   const [isLoaded, setIsLoaded] = useState(false);
-  useEffect(() => {
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
 
   const getCountryFillColor = (country: string) => {
     const visitedCountry = visitedCountries[country.replace(" ", "")];
@@ -66,24 +59,17 @@ export default memo(function Map({
   const sortedFutureCities = futureCities.sort(sortByLatitudeAndLongitude);
 
   return (
-    <div
-      className="map-container"
-      style={{ height: window.innerHeight, width: window.innerWidth }}
-    >
+    <div className="map-container" style={{ ...responsive.window }}>
       {!isLoaded && (
-        <div
-          className="loading"
-          style={{ height: window.innerHeight, width: window.innerWidth }}
-        >
+        <div className="loading" style={{ ...responsive.window }}>
           <Loading />
         </div>
       )}
       <ComposableMap
         className="map"
         projection={"geoMercator"}
-        width={window.innerWidth}
-        height={window.innerHeight}
         data-tip=""
+        {...responsive.window}
       >
         <ZoomableGroup
           maxZoom={parameters.map.defaultMaxZoom}
