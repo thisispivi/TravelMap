@@ -56,7 +56,7 @@ Before generating the JSON file:
 You can generate the JSON file with the following command:
 
 ```bash
-python3 travel_generator.py -c <city_name> -p <cdn_base_folder_path>
+python3 main.py -c <city_name> -p <cdn_base_folder_path>
 ```
 
 - `<city_name>`: The name of the city folder.
@@ -65,7 +65,7 @@ python3 travel_generator.py -c <city_name> -p <cdn_base_folder_path>
 Example
 
 ```bash
-python3 travel_generator.py -c Paris -p https://example.com/TravelMap/
+python3 main.py -c Paris -p https://example.com/TravelMap/
 ```
 
 This will generate a JSON file named `Paris.json` in the `root` folder.
