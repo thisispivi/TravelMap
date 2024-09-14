@@ -72,9 +72,9 @@ export default function CityCard({
         isClickable ? () => navigate(`/gallery/${city.name}/${idx}`) : undefined
       }
       onMouseEnter={
-        !mobileAndTabletCheck() && isAutoPosition
+        !mobileAndTabletCheck()
           ? () => {
-              if (setMapPosition && city.mapCoordinates)
+              if (setMapPosition && city.mapCoordinates && isAutoPosition)
                 setMapPosition({ center: city.mapCoordinates, zoom: 30 });
               setHoveredCity && setHoveredCity(city);
             }
