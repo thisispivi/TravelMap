@@ -3,6 +3,7 @@ import "./Backdrop.scss";
 interface BackdropProps {
   onClick?: () => void;
   isVisible?: boolean;
+  className?: string;
 }
 
 /**
@@ -15,17 +16,18 @@ interface BackdropProps {
  * @param {BackdropProps} props - The props of the component
  * @param {() => void} [props.onClick] - The function to call on click
  * @param {boolean} [props.isVisible=true] - The visibility of the backdrop
+ * @param {string} [props.className] - The class to apply to
  * @returns {JSX.Element} - The backdrop
  */
 export default function Backdrop({
   onClick,
   isVisible = true,
+  className = "",
 }: BackdropProps): JSX.Element {
   return (
     <div
-      className={`backdrop ${onClick ? "backdrop--clickable" : ""} ${
-        isVisible ? "backdrop--visible" : ""
-      }`}
+      className={`backdrop  ${isVisible ? "backdrop--visible" : ""} ${className}
+      `}
       onClick={onClick}
     />
   );

@@ -55,5 +55,8 @@
   "galleryAlt": "Apri la galleria",
   "autoPositionTooltip": "Quando attivo, la mappa si centrerà sulla città di questa scheda su cui passi il mouse",
   "language": "Lingua",
-  "theme": "Tema"
+  "theme": "Tema",
+  "filterTooltip": "Seleziona i paesi da mostrare",
+  "selectAll": "Seleziona tutti",
+  "deselectAll": "Deseleziona tutti"
 }

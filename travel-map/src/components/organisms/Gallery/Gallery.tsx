@@ -48,7 +48,7 @@ export default memo(function Gallery(): JSX.Element {
       <div className="gallery__header">
         <h2>{city.name}</h2>
         <CountryFlag
-          countryName={city.country.id}
+          countryId={city.country.id}
           className={"gallery__header__flag"}
         />
         <TravelSelector

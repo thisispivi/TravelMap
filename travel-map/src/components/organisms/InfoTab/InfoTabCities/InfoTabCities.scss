@@ -17,6 +17,10 @@
     margin-bottom: 1.5rem;
     margin-top: 1rem;
     padding-inline: 1.5rem;
+    .info-tab-cities__header__buttons {
+      display: flex;
+      gap: 1rem;
+    }
     .info-tab-cities__position-button {
       width: 2.5rem;
       height: 2.5rem;

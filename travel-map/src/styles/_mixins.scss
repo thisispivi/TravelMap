@@ -34,6 +34,12 @@
       fill: $buttonContent;
     }
   }
+  .filter__icon {
+    path {
+      fill: none;
+      stroke: $buttonContent;
+    }
+  }
   .chevron path {
     fill: none;
     stroke: $buttonContent;

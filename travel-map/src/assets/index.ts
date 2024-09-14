@@ -4,6 +4,7 @@ import CloseIcon from "./icons/Close.svg?react";
 import DepartureIcon from "./icons/Departure.svg?react";
 import DoubleChevronIcon from "./icons/DoubleChevron.svg?react";
 import FullscreenEnterIcon from "./icons/FullscreenEnter.svg?react";
+import FilterIcon from "./icons/Filter.svg?react";
 import FullscreenExitIcon from "./icons/FullscreenExit.svg?react";
 import FutureTravelsIcon from "./icons/FutureTravels.svg?react";
 import LanguageIcon from "./icons/Language.svg?react";
@@ -22,6 +23,7 @@ export {
   CloseIcon,
   DepartureIcon,
   DoubleChevronIcon,
+  FilterIcon,
   FullscreenEnterIcon,
   FullscreenExitIcon,
   FutureTravelsIcon,

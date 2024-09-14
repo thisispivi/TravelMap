@@ -10,7 +10,7 @@ import {
 } from "../../../assets";
 
 interface CountryFlagProps {
-  countryName: string;
+  countryId: string;
   className?: string;
 }
 
@@ -21,15 +21,16 @@ interface CountryFlagProps {
  *
  * @component
  *
- * @param {string} countryName - The name of the country
- * @param {string} [className=""] - The class name of the component
+ * @param {CountryFlagProps} props - The props of the component
+ * @param {string} props.countryId - The id of the country
+ * @param {string} [props.className=""] - The class name of the component
  * @returns {JSX.Element} The country flag
  */
 export default function CountryFlag({
-  countryName,
+  countryId,
   className = "",
 }: CountryFlagProps): JSX.Element {
-  switch (countryName.replace(" ", "")) {
+  switch (countryId.replace(" ", "")) {
     case "Germany":
       return <GermanyFlag className={className} />;
     case "Italy":
