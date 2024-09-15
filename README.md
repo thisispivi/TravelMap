@@ -1,12 +1,9 @@
-<div align="center">
-   <div style="display: flex;padding-block:40px;margin-bottom:20px;background-color:#1f1f1f">
+
       <picture>
         <source media="(prefers-color-scheme: dark)" srcset="./logos/Pivi Travel Logo Alt Dark Mode.png">
-        <img  style="vertical-align: top;height:100px;margin:auto" src="./logos/Pivi Travel Logo Alt Light Mode.png">
+        <img  style="vertical-align: top;height:75px;margin:auto" src="./logos/Pivi Travel Logo Alt Light Mode.png">
       </picture>
-   </div>
-</div>
-
+      
 # TravelMap
 
 Travel Map is a web app I’m building to keep track of my travels and the places I’ve visited. It features an interactive map with markers for each location I’ve been to and future destinations I want to explore, creating a visual log of my journeys. For each visited place, there’s a photo gallery with images and videos that helps me document my adventures and share the experiences visually!
