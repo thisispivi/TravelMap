@@ -1,5 +1,11 @@
-<div style="display: flex;padding-block:40px;margin-bottom:20px;background-color:#1f1f1f">
-   <img src="./logos/Pivi Travel Logo Alt Dark Mode.png" style="vertical-align: top;height:50px;margin:auto" />
+<div align="center">
+   <div style="display: flex;padding-block:40px;margin-bottom:20px;background-color:#1f1f1f">
+      <picture>
+         <source media="(prefers-color-scheme: dark)" srcset="./logos/Pivi Travel Logo Alt Dark Mode.png">
+         <source media="(prefers-color-scheme: light)" srcset="./logos/Pivi Travel Logo Alt Light Mode.png">
+         <img alt="logo" src="./logos/Pivi Travel Logo Alt Dark Mode.png" height="25">
+      </picture>
+   </div>
 </div>
 
 # TravelMap
