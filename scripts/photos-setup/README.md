@@ -1,4 +1,4 @@
-# City Image and Video Processing
+# City Image and Video Processing • ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 
 This script allows you to create the compressed and thumbnail images for the TravelMap project. It processes images and videos for a specific city, generating a compressed image and a thumbnail for each file. The compressed images are optimized for both thumbnail and regular resolutions, and the results are saved in a separate folder.
 

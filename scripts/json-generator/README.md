@@ -1,4 +1,4 @@
-# JSON Travel generator for Travel Map
+# JSON Travel generator for Travel Map • ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 
 This Python script automates the generation of a JSON file that can be used within the Travel Map project. The script is designed to work with a collection of travel photos taken in a specific city, organizing them into a JSON structure that aligns with the web application's data model.
 
