@@ -1,5 +1,5 @@
 <div style="display: flex;padding-block:40px;margin-bottom:20px;background-color:#1f1f1f">
-   <img src="./logos/Pivi Travel Logo Alt Dark Mode.png" style="vertical-align: top;max-height:100px;margin:auto" />
+   <img src="./logos/Pivi Travel Logo Alt Dark Mode.png" style="vertical-align: top;height:50px;margin:auto" />
 </div>
 
 # TravelMap
