@@ -1,9 +1,9 @@
 <div align="center">
    <div style="display: flex;padding-block:40px;margin-bottom:20px;background-color:#1f1f1f">
       <picture>
-         <source media="(prefers-color-scheme: dark)" srcset="./logos/Pivi Travel Logo Alt Dark Mode.png">
-         <source media="(prefers-color-scheme: light)" srcset="./logos/Pivi Travel Logo Alt Light Mode.png">
-         <img alt="logo" src="./logos/Pivi Travel Logo Alt Dark Mode.png" height="25">
+         <source media="(prefers-color-scheme: dark)" srcset="./logos/logo_dark.png">
+         <source media="(prefers-color-scheme: light)" srcset="./logos/logo_light.png">
+         <img alt="logo" src="./logos/logo_dark.png" height="25">
       </picture>
    </div>
 </div>
