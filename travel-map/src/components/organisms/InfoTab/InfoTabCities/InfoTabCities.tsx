@@ -119,7 +119,9 @@ export default memo(function InfoTabCities({
             isHidden={!countries.includes(city.country)}
           />
         ))}
-        {cities.length % 2 !== 0 && (
+        {cities.filter((city) => countries.includes(city.country)).length %
+          2 !==
+          0 && (
           <div
             className={`info-tab-cities__void-city info-tab-${id}__void-city city-card`}
           />

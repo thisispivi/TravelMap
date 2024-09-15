@@ -5,6 +5,7 @@ import { Country } from "../../../core";
 import { Backdrop, CountryFlag } from "../../atoms";
 import useLanguage from "../../../hooks/language/language";
 import { CSSTransition } from "react-transition-group";
+import { mobileAndTabletCheck } from "../../../utils/responsive";
 
 interface FilterCountryProps {
   options: Country[];
@@ -52,7 +53,9 @@ export default function FilterCountry({
               {options.map((option) => (
                 <div
                   key={option.id}
-                  className={`filter__option ${selected.includes(option) ? "filter__option--selected" : ""}`}
+                  className={`filter__option ${selected.includes(option) ? "filter__option--selected" : ""}
+                    ${mobileAndTabletCheck() ? "filter__option--mobile" : ""}
+                  `}
                   onClick={() => {
                     const newSelected = selected.includes(option)
                       ? selected.filter((s) => s !== option)
