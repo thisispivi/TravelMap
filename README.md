@@ -1,6 +1,9 @@
 <div align="center">
    <div style="display: flex;padding-block:40px;margin-bottom:20px;background-color:#1f1f1f">
-   <img src="./logos/Pivi Travel Logo Alt Dark Mode.png" style="vertical-align: top;height:100px;margin:auto" />
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="./logos/Pivi Travel Logo Alt Dark Mode.png">
+        <img  style="vertical-align: top;height:100px;margin:auto" src="../logos/Pivi Travel Logo Alt Light Mode.png">
+      </picture>
    </div>
 </div>
 
