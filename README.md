@@ -1,8 +1,8 @@
 
-      <picture>
-        <source media="(prefers-color-scheme: dark)" srcset="./logos/Pivi Travel Logo Alt Dark Mode.png">
-        <img  style="vertical-align: top;height:75px;margin:auto" src="./logos/Pivi Travel Logo Alt Light Mode.png">
-      </picture>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./logos/Pivi Travel Logo Alt Dark Mode.png">
+  <img  style="vertical-align: top;height:75px;margin:auto" src="./logos/Pivi Travel Logo Alt Light Mode.png">
+</picture>
       
 # TravelMap
 
