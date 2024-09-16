@@ -11,6 +11,7 @@ import { RouterProvider, createHashRouter } from "react-router-dom";
 import {
   Gallery,
   InfoTabFuture,
+  InfoTabStats,
   InfoTabVisited,
   Lightbox,
 } from "./components/organisms";
@@ -27,6 +28,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           children: [
             { path: "visited", element: <InfoTabVisited /> },
             { path: "future", element: <InfoTabFuture /> },
+            { path: "stats", element: <InfoTabStats /> },
             {
               path: "gallery/:cityName/:travelIdx",
               element: <Gallery />,
@@ -43,5 +45,5 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         },
       ])}
     />
-  </React.StrictMode>,
+  </React.StrictMode>
 );

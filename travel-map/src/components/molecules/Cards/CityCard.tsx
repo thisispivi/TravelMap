@@ -102,12 +102,12 @@ export default function CityCard({
             style={{ display: isLoadingThrottled ? "none" : "block" }}
           />
         </div>
+      </div>
+      <div className="city-card__content">
         <div className="city-card__title">
           <h3>{city.getName(t)}</h3>
           <CountryFlag countryId={city.country.id} />
         </div>
-      </div>
-      <div className="city-card__content">
         <div className="travel-card__info">
           <DepartureIcon className={"travel-card__icon"} />
           <p>{formatDate(travel.sDate, lang)}</p>

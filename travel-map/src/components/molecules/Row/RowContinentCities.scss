@@ -1,0 +1,61 @@
+@use "../../../styles/mixins" as m;
+@use "../../../styles/variables" as v;
+
+$continents-colors: (
+  "Africa": v.$continentsAfrica,
+  "Asia": v.$continentsAsia,
+  "Europe": v.$continentsEurope,
+  "NorthAmerica": v.$continentsNorthAmerica,
+  "Oceania": v.$continentsOceania,
+  "SouthAmerica": v.$continentsSouthAmerica,
+);
+
+@mixin continent-row($continent) {
+  &.continent-cities-row--#{$continent} {
+    background-color: map-get($continents-colors, $continent);
+  }
+}
+
+.continent-cities-row {
+  display: flex;
+  padding: 0.25rem 0.5rem 0.25rem 0.75rem;
+  border-radius: 0.6rem;
+  align-items: center;
+
+  @include continent-row("Africa");
+  @include continent-row("Asia");
+  @include continent-row("Europe");
+  @include continent-row("NorthAmerica");
+  @include continent-row("Oceania");
+  @include continent-row("SouthAmerica");
+
+  .continent-cities-row__name {
+    font-weight: 700;
+  }
+  .continent-cities-row__cities {
+    $size: 1.4rem;
+    width: $size;
+    height: $size;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 0.5rem;
+    background-color: #ffffff;
+    color: black;
+    border-radius: 2rem;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+}
+
+.home--light {
+  .continent-row {
+    color: v.$darkLeftBar;
+  }
+}
+
+.home--dark {
+  .continent-row {
+    color: v.$lightLeftBar;
+  }
+}

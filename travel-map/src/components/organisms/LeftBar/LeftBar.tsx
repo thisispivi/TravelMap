@@ -1,4 +1,9 @@
-import { FutureTravelsIcon, LogoIcon, VisitedIcon } from "../../../assets";
+import {
+  FutureTravelsIcon,
+  LogoIcon,
+  StatsIcon,
+  VisitedIcon,
+} from "../../../assets";
 import { DarkModeButton } from "../../atoms";
 import "./LeftBar.scss";
 import { HomeContext } from "../../pages/Home/Home";
@@ -28,10 +33,47 @@ export default memo(function LeftBar({
   className = "",
 }: LeftBarProps): JSX.Element {
   const navigate = useNavigate();
-  const { isVisited, isFuture, isGallery } = useLocation();
+  const { isVisited, isFuture, isGallery, isStats } = useLocation();
   const { t } = useTranslation("home");
   const context = useContext(HomeContext);
   const { isDarkTheme, handleDarkModeSwitch } = context!;
+
+  const buttonsConfig = [
+    {
+      id: "visited",
+      isButtonActive: isVisited,
+      defaultPath: "/visited",
+      isOtherButtonsActive: isFuture || isStats,
+      alternativePath: "/?to=visited",
+      icon: <VisitedIcon />,
+      tooltipText: t("visited.title"),
+      activeClass: "left-bar__button--visited--active",
+      className: "left-bar__button--visited",
+    },
+    {
+      id: "future",
+      isButtonActive: isFuture,
+      defaultPath: "/future",
+      isOtherButtonsActive: isVisited || isStats,
+      alternativePath: "/?to=future",
+      icon: <FutureTravelsIcon />,
+      tooltipText: t("future.title"),
+      activeClass: "left-bar__button--future--active",
+      className: "left-bar__button--future",
+    },
+    {
+      id: "stats",
+      isButtonActive: isStats,
+      defaultPath: "/stats",
+      isOtherButtonsActive: isVisited || isFuture,
+      alternativePath: "/?to=stats",
+      icon: <StatsIcon />,
+      tooltipText: t("stats.title"),
+      activeClass: "left-bar__button--stats--active",
+      className: "left-bar__button--stats",
+    },
+  ];
+
   return (
     <div
       className={`left-bar ${className} ${isGallery ? "left-bar--close" : ""}`}
@@ -47,32 +89,42 @@ export default memo(function LeftBar({
           />
         </div>
         <div className="left-bar__buttons">
-          <Link to={isVisited ? "/" : isFuture ? "/?to=visited" : "/visited"}>
-            <Button
-              className={`left-bar__button ${isVisited ? "left-bar__button--visited--active" : ""} left-bar__button--visited`}
-            >
-              <VisitedIcon />
-            </Button>
-            <Tooltip
-              text={t("visited.title")}
-              anchorSelect=".left-bar__button--visited"
-              delayShow={300}
-              noArrow
-            />
-          </Link>
-          <Link to={isFuture ? "/" : isVisited ? "/?to=future" : "/future"}>
-            <Button
-              className={`left-bar__button ${isFuture ? "left-bar__button--future--active" : ""} left-bar__button--future`}
-            >
-              <FutureTravelsIcon />
-            </Button>
-            <Tooltip
-              text={t("future.title")}
-              anchorSelect=".left-bar__button--future"
-              delayShow={300}
-              noArrow
-            />
-          </Link>
+          {buttonsConfig.map(
+            ({
+              id,
+              isButtonActive,
+              defaultPath,
+              isOtherButtonsActive,
+              alternativePath,
+              icon,
+              tooltipText,
+              activeClass,
+              className,
+            }) => (
+              <Link
+                to={
+                  isButtonActive
+                    ? "/"
+                    : isOtherButtonsActive
+                      ? alternativePath
+                      : defaultPath
+                }
+                key={id}
+              >
+                <Button
+                  className={`${className} ${isButtonActive ? activeClass : ""}`}
+                >
+                  {icon}
+                </Button>
+                <Tooltip
+                  text={tooltipText}
+                  anchorSelect={`.${className}`}
+                  delayShow={300}
+                  noArrow
+                />
+              </Link>
+            )
+          )}
         </div>
         <div className="left-bar__buttons--bottom">
           <LanguageSelector />

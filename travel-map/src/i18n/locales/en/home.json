@@ -48,9 +48,18 @@
     "Japan": "Japan",
     "Portugal": "Portugal"
   },
+  "continents": {
+    "Europe": "Europe",
+    "Asia": "Asia",
+    "SouthAmerica": "South America",
+    "Oceania": "Oceania",
+    "Africa": "Africa",
+    "NorthAmerica": "North America"
+  },
   "home": "Home",
   "visited": { "title": "Visited Cities" },
   "future": { "title": "Future Destinations" },
+  "stats": { "title": "Statistics" },
   "gallery": "To Gallery",
   "galleryAlt": "Open the gallery",
   "autoPositionTooltip": "When active, the map will center on the city you hover over in",

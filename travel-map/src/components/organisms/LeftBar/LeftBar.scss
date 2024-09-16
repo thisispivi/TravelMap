@@ -55,6 +55,13 @@
           v.$futureButtonHover
         );
       }
+      .left-bar__button--stats--active {
+        @include m.set-button-colors(
+          v.$statsButton,
+          v.$statsButtonContent,
+          v.$statsButtonHover
+        );
+      }
     }
     .dark-mode-button,
     .button {
