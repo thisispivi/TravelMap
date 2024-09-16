@@ -1,6 +1,7 @@
 import ArrivalIcon from "./icons/Arrival.svg?react";
 import ChevronIcon from "./icons/Chevron.svg?react";
 import CloseIcon from "./icons/Close.svg?react";
+import ContinentsIcon from "./icons/Continents.svg?react";
 import DepartureIcon from "./icons/Departure.svg?react";
 import DoubleChevronIcon from "./icons/DoubleChevron.svg?react";
 import FullscreenEnterIcon from "./icons/FullscreenEnter.svg?react";
@@ -14,6 +15,7 @@ import MarkerIcon from "./icons/Marker";
 import MoonIcon from "./icons/Moon.svg?react";
 import PlayIcon from "./icons/Play.svg?react";
 import PositionIcon from "./icons/Position.svg?react";
+import StatsIcon from "./icons/Stats.svg?react";
 import SunIcon from "./icons/Sun.svg?react";
 import VisitedIcon from "./icons/Visited.svg?react";
 
@@ -21,6 +23,7 @@ export {
   ArrivalIcon,
   ChevronIcon,
   CloseIcon,
+  ContinentsIcon,
   DepartureIcon,
   DoubleChevronIcon,
   FilterIcon,
@@ -34,6 +37,7 @@ export {
   MoonIcon,
   PlayIcon,
   PositionIcon,
+  StatsIcon,
   SunIcon,
   VisitedIcon,
 };

@@ -1,0 +1,80 @@
+@use "../../../../styles/variables" as v;
+@use "../../../../styles/mixins" as m;
+
+.home--dark {
+  --not-visited-color: #242526;
+}
+
+.home--light {
+  --not-visited-color: #dadada;
+}
+
+@mixin not-visited($continent, $id) {
+  &.#{$continent}--not-visited {
+    ##{$id} {
+      * {
+        fill: var(--not-visited-color) !important;
+      }
+    }
+  }
+}
+
+.info-tab-stats {
+  padding: 1rem 0;
+  flex-direction: column;
+  height: 100%;
+  display: none;
+  &.info-tab-stats--visible {
+    display: flex;
+  }
+
+  .info-tab-stats__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    margin-top: 1rem;
+    padding-inline: 1.5rem;
+  }
+
+  .info-tab-stats__content {
+    display: flex;
+    flex-wrap: wrap;
+    max-height: 100%;
+    overflow-y: auto;
+    margin-right: 0.7rem;
+    justify-content: space-evenly;
+    gap: 1.2rem 0;
+    padding: 1rem;
+
+    .continents-row {
+      padding-block: 0.5rem;
+      .continents__icon {
+        width: inherit;
+        height: inherit;
+
+        @include not-visited("africa", "Africa");
+        @include not-visited("asia", "Asia");
+        @include not-visited("europe", "Europe");
+        @include not-visited("north-america", "NorthAmerica");
+        @include not-visited("oceania", "Oceania");
+        @include not-visited("south-america", "SouthAmerica");
+      }
+      .continents__wrap {
+        margin-top: -1rem;
+      }
+      h2 {
+        margin-bottom: 0.4rem;
+      }
+      h3 {
+        margin-top: 1rem;
+        margin-bottom: 0.4rem;
+      }
+      .continents__cities__wrap {
+        .continent-cities-row {
+          margin-right: 0.5rem;
+        }
+      }
+    }
+  }
+}

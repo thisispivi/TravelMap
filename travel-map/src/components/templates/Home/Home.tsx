@@ -2,6 +2,7 @@ import { PropsWithChildren, memo, useContext } from "react";
 import {
   InfoTab,
   InfoTabFuture,
+  InfoTabStats,
   InfoTabVisited,
   LeftBar,
   Map,
@@ -25,9 +26,9 @@ interface HomeTemplateProps extends PropsWithChildren {}
  * @returns {JSX.Element} - The home template
  */
 export default memo(function HomeTemplate(
-  props: HomeTemplateProps,
+  props: HomeTemplateProps
 ): JSX.Element {
-  const { isVisited, isFuture, isGallery } = useLocation();
+  const { isVisited, isFuture, isGallery, isStats } = useLocation();
   const { hoveredCity, setHoveredCity } = useContext(HomeContext)!;
 
   return (
@@ -36,6 +37,7 @@ export default memo(function HomeTemplate(
       <InfoTab>
         <InfoTabVisited isVisible={isVisited} />
         <InfoTabFuture isVisible={isFuture} />
+        <InfoTabStats isVisible={isStats} />
       </InfoTab>
       <Container isVisible={isGallery}>
         {isGallery ? props.children : null}

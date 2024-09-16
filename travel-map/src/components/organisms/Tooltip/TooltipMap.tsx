@@ -63,6 +63,7 @@ export default function MapTooltip({
       className="map-tooltip"
       isOpen={isOpen}
       opacity={1}
+      noArrow
     >
       {createBackdrop("map-tooltip__backdrop--top")}
       {createBackdrop("map-tooltip__backdrop--right")}

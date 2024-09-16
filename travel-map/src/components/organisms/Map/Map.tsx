@@ -98,15 +98,6 @@ export default memo(function Map({
             }
           </Geographies>
           {isLoaded &&
-            sortedVisitedCities.map((city, i) => (
-              <Marker
-                key={i}
-                city={city}
-                hoveredCity={hoveredCity}
-                setHoveredCity={setHoveredCity}
-              />
-            ))}
-          {isLoaded &&
             sortedFutureCities.map((city, i) => (
               <Marker
                 key={i}
@@ -114,6 +105,15 @@ export default memo(function Map({
                 hoveredCity={hoveredCity}
                 setHoveredCity={setHoveredCity}
                 isFuture
+              />
+            ))}
+          {isLoaded &&
+            sortedVisitedCities.map((city, i) => (
+              <Marker
+                key={i}
+                city={city}
+                hoveredCity={hoveredCity}
+                setHoveredCity={setHoveredCity}
               />
             ))}
         </ZoomableGroup>
