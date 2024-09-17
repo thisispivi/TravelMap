@@ -123,7 +123,7 @@ export default memo(function LeftBar({
                   noArrow
                 />
               </Link>
-            )
+            ),
           )}
         </div>
         <div className="left-bar__buttons--bottom">

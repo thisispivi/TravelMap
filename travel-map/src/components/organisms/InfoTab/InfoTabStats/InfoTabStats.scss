@@ -45,7 +45,54 @@
     margin-right: 0.7rem;
     justify-content: space-evenly;
     gap: 1.2rem 0;
-    padding: 1rem;
+    padding: 0 1rem 0.7rem 1.6rem;
+
+    .info-tab-stats__first-column {
+      width: 100%;
+      h2 {
+        margin-bottom: 0.5rem;
+      }
+      .first-row {
+        justify-content: space-between;
+        width: 100%;
+        gap: 1rem;
+        flex-wrap: wrap;
+        .cities-card {
+          background: url("https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/General/Beach.jpg")
+            no-repeat center center;
+        }
+        .countries-card {
+          background: url("https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/General/City.jpg")
+            no-repeat center center;
+        }
+        .continents-card {
+          background: url("https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/General/Winter.jpg")
+            no-repeat center center;
+        }
+        .countries-card,
+        .cities-card,
+        .continents-card {
+          padding: 2rem 1rem;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          color: v.$darkLeftBar;
+          filter: grayscale(30%);
+          background-size: cover;
+          flex: 1;
+          b {
+            font-size: 2.2rem;
+            font-weight: 800;
+            text-shadow: 0 0 1rem rgba(255, 255, 255, 0.5);
+          }
+          .text {
+            margin-top: -0.5rem;
+            font-size: 1.3rem;
+          }
+        }
+      }
+    }
 
     .continents-row {
       padding-block: 0.5rem;
@@ -78,3 +125,57 @@
     }
   }
 }
+
+.earth-card {
+  background: url("/image6.jpg") no-repeat center center;
+  filter: grayscale(30%);
+  color: v.$darkLeftBar;
+  .text-container {
+    margin-top: 0.5rem;
+    b {
+      font-size: 2rem;
+      font-weight: 800;
+      text-shadow: 0 0 1rem rgba(255, 255, 255, 0.5);
+    }
+    .text {
+      font-size: 1.2rem;
+      line-height: 1rem;
+    }
+  }
+}
+
+// .earth-card {
+//   position: relative;
+//   flex-shrink: 0;
+//   flex: 1;
+//   .text-container {
+//     position: absolute;
+//     top: 50%;
+//     left: 50%;
+//     transform: translate(-50%, -50%);
+//     text-align: center;
+//     z-index: 2;
+//     display: flex;
+//     flex-direction: column;
+//   }
+//   .earth-card__icon {
+//     position: relative;
+//     z-index: 2;
+//     padding: 1rem;
+//     margin-bottom: 1rem;
+//     svg {
+//       width: auto !important;
+//       height: auto !important;
+//       position: absolute;
+//       top: 0;
+//       left: 0;
+//     }
+//     .colored {
+//       z-index: 1;
+//     }
+//     .bw {
+//       z-index: 2;
+//       filter: grayscale(100%);
+//     }
+//   }
+// }

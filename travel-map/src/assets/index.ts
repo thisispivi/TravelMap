@@ -18,6 +18,7 @@ import PositionIcon from "./icons/Position.svg?react";
 import StatsIcon from "./icons/Stats.svg?react";
 import SunIcon from "./icons/Sun.svg?react";
 import VisitedIcon from "./icons/Visited.svg?react";
+import WorldIcon from "./icons/World.svg?react";
 
 export {
   ArrivalIcon,
@@ -40,6 +41,7 @@ export {
   StatsIcon,
   SunIcon,
   VisitedIcon,
+  WorldIcon,
 };
 
 import UnitedKingdomFlag from "./icons/flags/UnitedKingdom.svg?react";
