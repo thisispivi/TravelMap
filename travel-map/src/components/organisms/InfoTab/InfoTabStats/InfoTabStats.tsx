@@ -27,17 +27,17 @@ export default memo(function InfoTabStats({
   const furthestCity = visitedCities.reduce((prev, current) => {
     const prevDist = Math.sqrt(
       Math.pow(prev.coordinates[0] - muraveraCoords.lat, 2) +
-        Math.pow(prev.coordinates[1] - muraveraCoords.lng, 2)
+        Math.pow(prev.coordinates[1] - muraveraCoords.lng, 2),
     );
     const currDist = Math.sqrt(
       Math.pow(current.coordinates[0] - muraveraCoords.lat, 2) +
-        Math.pow(current.coordinates[1] - muraveraCoords.lng, 2)
+        Math.pow(current.coordinates[1] - muraveraCoords.lng, 2),
     );
     return prevDist > currDist ? prev : current;
   });
   const distance = Math.sqrt(
     Math.pow(furthestCity.coordinates[0] - muraveraCoords.lat, 2) +
-      Math.pow(furthestCity.coordinates[1] - muraveraCoords.lng, 2)
+      Math.pow(furthestCity.coordinates[1] - muraveraCoords.lng, 2),
   );
 
   const visitedContinents = visitedCities.reduce((prev, current) => {
