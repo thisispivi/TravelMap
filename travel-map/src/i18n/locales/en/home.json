@@ -59,7 +59,14 @@
   "home": "Home",
   "visited": { "title": "Visited Cities" },
   "future": { "title": "Future Destinations" },
-  "stats": { "title": "Statistics" },
+  "stats": {
+    "title": "Statistics",
+    "visited": "I've visited",
+    "cities": "Cities",
+    "countries": "Countries",
+    "continents": "Continents",
+    "countriesPerContinent": "Countries per continent"
+  },
   "gallery": "To Gallery",
   "galleryAlt": "Open the gallery",
   "autoPositionTooltip": "When active, the map will center on the city you hover over in",

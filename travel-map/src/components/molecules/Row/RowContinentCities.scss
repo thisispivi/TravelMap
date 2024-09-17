@@ -13,6 +13,9 @@ $continents-colors: (
 @mixin continent-row($continent) {
   &.continent-cities-row--#{$continent} {
     background-color: map-get($continents-colors, $continent);
+    .continent-cities-row__cities {
+      background-color: darken(map-get($continents-colors, $continent), 12.5%);
+    }
   }
 }
 
@@ -21,6 +24,7 @@ $continents-colors: (
   padding: 0.25rem 0.5rem 0.25rem 0.75rem;
   border-radius: 0.6rem;
   align-items: center;
+  color: v.$lightLeftBar;
 
   @include continent-row("Africa");
   @include continent-row("Asia");
@@ -33,18 +37,17 @@ $continents-colors: (
     font-weight: 700;
   }
   .continent-cities-row__cities {
-    $size: 1.4rem;
+    $size: 1.3rem;
     width: $size;
     height: $size;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-left: 0.5rem;
-    background-color: #ffffff;
-    color: black;
     border-radius: 2rem;
     font-weight: 800;
     flex-shrink: 0;
+    font-size: 0.8rem;
   }
 }
 

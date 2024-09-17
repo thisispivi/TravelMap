@@ -4,6 +4,7 @@ import { visitedCities, visitedCountries } from "../../../../data";
 import useLanguage from "../../../../hooks/language/language";
 import { Continent } from "../../../../core/typings/Continent";
 import {
+  Card,
   Column,
   ContinentCitiesRow,
   ContinentRow,
@@ -21,8 +22,6 @@ export default memo(function InfoTabStats({
   isVisible = false,
 }: InfoTabStatsProps): JSX.Element {
   const { t } = useLanguage(["home"]);
-
-  const allCities = Object.keys(visitedCountries);
 
   const muraveraCoords = { lat: 39.2536, lng: 9.5956 };
   const furthestCity = visitedCities.reduce((prev, current) => {
@@ -66,22 +65,46 @@ export default memo(function InfoTabStats({
         <h1>{t("stats.title")}</h1>
       </div>
       <div className={`info-tab-stats__content`} id="info-tab">
-        <div className="card">
-          Countries Visited: {Object.keys(visitedCountries).length}
-          Total Countries: 195 Percentage:{" "}
-          {((Object.keys(visitedCountries).length / 195) * 100).toFixed(2)}%
-        </div>
-        <div className="card">
-          Cities Visited: {visitedCities.length} Total Cities:{" "}
-          {allCities.length} Percentage:{" "}
-          {((visitedCities.length / allCities.length) * 100).toFixed(2)}%
-        </div>
+        <Column className="info-tab-stats__first-column">
+          <h2>{t("stats.visited")}</h2>
+          <Row className="first-row">
+            <Card className="cities-card">
+              <b>{visitedCities.length}</b>
+              <b className="text">{t("stats.cities")}</b>
+            </Card>
+            <Card className="countries-card">
+              <b>{Object.keys(visitedCountries).length}</b>
+              <b className="text">{t("stats.countries")}</b>
+            </Card>
+            <Card className="continents-card">
+              <b>{visitedContinents.length}</b>
+              <b className="text">{t("stats.continents")}</b>
+            </Card>
+          </Row>
+        </Column>
+        {/* <Card className="earth-card">
+          <div className="earth-card__icon">
+            <WorldIcon className="colored" />
+            <WorldIcon
+              className="bw"
+              style={{
+                clipPath: `inset(0 0 ${(Object.keys(visitedCountries).length / 195) * 100}%)`,
+              }}
+            />
+          </div>
+          <div className="text-container">
+            <b>
+              {((Object.keys(visitedCountries).length / 195) * 100).toFixed(2)}%
+            </b>
+            <b className="text">of the world</b>
+          </div>
+        </Card> */}
         <div className="card">
           Furthest City: {furthestCity.name} ({furthestCity.country.id})
           Distance: {distance.toFixed(2)} km
         </div>
         <Column className="continents-row column--w-100">
-          <h2>Continents</h2>
+          <h2>{t("stats.continents")}</h2>
           <ContinentsIcon
             className={`continents__icon
             ${visitedContinents.includes(Continent.Africa) ? "" : "africa--not-visited"}
@@ -101,7 +124,7 @@ export default memo(function InfoTabStats({
               />
             ))}
           </Row>
-          <h3>Countries per Continent:</h3>
+          <h3>{t("stats.countriesPerContinent")}</h3>
           <Row className="row--wrap continents__cities__wrap">
             {continentCountries.map((continent) => (
               <ContinentCitiesRow

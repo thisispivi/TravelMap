@@ -4,10 +4,11 @@
 .card {
   border-radius: 1.4rem;
   padding: 1rem;
-  box-shadow:
-    rgba(0, 0, 0, 0.19) 0px 10px 20px,
-    rgba(0, 0, 0, 0.23) 0px 6px 6px;
-  width: 100%;
+  &.card--box-shadow {
+    box-shadow:
+      rgba(0, 0, 0, 0.19) 0px 10px 20px,
+      rgba(0, 0, 0, 0.23) 0px 6px 6px;
+  }
 }
 
 .home--light {

@@ -48,10 +48,25 @@
     "Japan": "Giappone",
     "Portugal": "Portogallo"
   },
+  "continents": {
+    "Europe": "Europa",
+    "Asia": "Asia",
+    "SouthAmerica": "Sud America",
+    "Oceania": "Oceania",
+    "Africa": "Africa",
+    "NorthAmerica": "Nord America"
+  },
   "home": "Home",
   "visited": { "title": "Città visitate" },
   "future": { "title": "Prossime destinazioni" },
-  "stats": { "title": "Statistiche" },
+  "stats": {
+    "title": "Statistiche",
+    "visited": "Ho visitato",
+    "cities": "Città",
+    "countries": "Paesi",
+    "continents": "Continenti",
+    "countriesPerContinent": "Paesi per continente"
+  },
   "gallery": "Alla galleria",
   "galleryAlt": "Apri la galleria",
   "autoPositionTooltip": "Quando attivo, la mappa si centrerà sulla città di questa scheda su cui passi il mouse",
