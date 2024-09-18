@@ -28,14 +28,14 @@ export default function FilterCountry({
 
   return (
     <>
-      {isOpen && (
+      {isOpen ? (
         <Backdrop
           className="filter-backdrop"
-          onClick={onIsOpenChange}
           isVisible={false}
+          onClick={onIsOpenChange}
         />
-      )}
-      <div className={`filter`}>
+      ) : null}
+      <div className="filter">
         <Button
           className={`filter__button ${className} ${isOpen ? "filter__button--open" : ""}`}
           onClick={onIsOpenChange}
@@ -43,19 +43,19 @@ export default function FilterCountry({
           {buttonIcon}
         </Button>
         <CSSTransition
+          classNames="filter-transition"
           in={isOpen}
           timeout={200}
-          classNames="filter-transition"
           unmountOnExit
         >
-          <div className={`filter__options`}>
-            <div className={`filter__options__list`} id="info-tab">
+          <div className="filter__options">
+            <div className="filter__options__list" id="info-tab">
               {options.map((option) => (
                 <div
-                  key={option.id}
                   className={`filter__option ${selected.includes(option) ? "filter__option--selected" : ""}
                     ${mobileAndTabletCheck() ? "filter__option--mobile" : ""}
                   `}
+                  key={option.id}
                   onClick={() => {
                     const newSelected = selected.includes(option)
                       ? selected.filter((s) => s !== option)

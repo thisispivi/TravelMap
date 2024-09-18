@@ -82,10 +82,10 @@ export default memo(function LeftBar({
         <div className="left-bar__buttons--top">
           <LogoIcon className="logo-icon" onClick={() => navigate("/")} />
           <Tooltip
-            text={t("home")}
             anchorSelect=".logo-icon"
             delayShow={300}
             noArrow
+            text={t("home")}
           />
         </div>
         <div className="left-bar__buttons">
@@ -102,6 +102,7 @@ export default memo(function LeftBar({
               className,
             }) => (
               <Link
+                key={id}
                 to={
                   isButtonActive
                     ? "/"
@@ -109,7 +110,6 @@ export default memo(function LeftBar({
                       ? alternativePath
                       : defaultPath
                 }
-                key={id}
               >
                 <Button
                   className={`${className} ${isButtonActive ? activeClass : ""}`}
@@ -117,10 +117,10 @@ export default memo(function LeftBar({
                   {icon}
                 </Button>
                 <Tooltip
-                  text={tooltipText}
                   anchorSelect={`.${className}`}
                   delayShow={300}
                   noArrow
+                  text={tooltipText}
                 />
               </Link>
             ),
@@ -129,20 +129,20 @@ export default memo(function LeftBar({
         <div className="left-bar__buttons--bottom">
           <LanguageSelector />
           <Tooltip
-            text={t("language")}
             anchorSelect=".language-selector__activator"
             delayShow={300}
             noArrow
+            text={t("language")}
           />
           <DarkModeButton
-            isDarkTheme={isDarkTheme}
             handleDarkModeSwitch={handleDarkModeSwitch}
+            isDarkTheme={isDarkTheme}
           />
           <Tooltip
-            text={t("theme")}
             anchorSelect=".dark-mode-button"
             delayShow={300}
             noArrow
+            text={t("theme")}
           />
         </div>
       </div>

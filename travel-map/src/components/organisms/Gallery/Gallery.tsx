@@ -48,27 +48,27 @@ export default memo(function Gallery(): JSX.Element {
       <div className="gallery__header">
         <h2>{city.name}</h2>
         <CountryFlag
+          className="gallery__header__flag"
           countryId={city.country.id}
-          className={"gallery__header__flag"}
         />
         <TravelSelector
           cityName={city.name}
-          travels={city.travels}
           selectedTravelIdx={travelIdx}
+          travels={city.travels}
         />
         <CloseButton
           onClick={() => navigate(from === "map" ? "/" : "/?to=visited")}
         />
       </div>
-      <div className={`gallery__content`}>
+      <div className="gallery__content">
         <div className="gallery__content__photo-album" id="info-tab">
           <PhotoAlbum
-            photos={photos}
             layout="rows"
             onClick={({ index }) => navigate(`./${index}`)}
+            photos={photos}
             renderPhoto={({ photo, wrapperStyle, renderDefaultPhoto }) => (
               <div className="gallery__content__image" style={wrapperStyle}>
-                {photo.youtube && (
+                {photo.youtube ? (
                   <>
                     <PlayIcon
                       className="gallery__content__image__play"
@@ -79,7 +79,7 @@ export default memo(function Gallery(): JSX.Element {
                       onClick={() => navigate(`./${photo.index}`)}
                     />
                   </>
-                )}
+                ) : null}
                 {renderDefaultPhoto({ wrapped: true })}
               </div>
             )}

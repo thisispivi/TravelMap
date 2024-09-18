@@ -28,14 +28,15 @@ export default function DarkModeButton({
 }: DarkModeButtonProps): JSX.Element {
   return (
     <button
+      aria-label="Toggle dark mode"
       className={`dark-mode-button ${className}`}
       onClick={handleDarkModeSwitch}
-      aria-label="Toggle dark mode"
+      type="button"
     >
       <CSSTransition
+        classNames="dark-mode-button__icon"
         in={isDarkTheme}
         timeout={300}
-        classNames="dark-mode-button__icon"
       >
         {isDarkTheme ? <MoonIcon /> : <SunIcon />}
       </CSSTransition>

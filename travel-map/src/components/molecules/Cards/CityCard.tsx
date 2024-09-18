@@ -94,11 +94,11 @@ export default function CityCard({
         className={`city-card__top ${className} ${city.name} ${city.name}-${idx}`}
       >
         <div className="city-card__background">
-          {isLoadingThrottled && <Loading />}
+          {isLoadingThrottled ? <Loading /> : null}
           <img
-            src={city.backgroundImgsSrc[idx]}
             alt={city.getName(t)}
             onLoad={handleImageLoad}
+            src={city.backgroundImgsSrc[idx]}
             style={{ display: isLoadingThrottled ? "none" : "block" }}
           />
         </div>
@@ -109,11 +109,11 @@ export default function CityCard({
           <CountryFlag countryId={city.country.id} />
         </div>
         <div className="travel-card__info">
-          <DepartureIcon className={"travel-card__icon"} />
+          <DepartureIcon className="travel-card__icon" />
           <p>{formatDate(travel.sDate, lang)}</p>
         </div>
         <div className="travel-card__info">
-          <ArrivalIcon className={"travel-card__icon"} />
+          <ArrivalIcon className="travel-card__icon" />
           <p>{formatDate(travel.eDate, lang)}</p>
         </div>
       </div>

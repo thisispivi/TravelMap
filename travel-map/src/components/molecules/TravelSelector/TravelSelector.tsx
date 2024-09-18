@@ -41,12 +41,12 @@ export default function TravelSelector({
       />
       <div className="travel-selector__info">
         <div className="travel-selector__dates">
-          <DepartureIcon className={"travel-selector__travel-icon"} />
+          <DepartureIcon className="travel-selector__travel-icon" />
           <p>{formatDate(currTravel.sDate, currentLanguage)}</p>
         </div>
         <p className="travel-selector__bar">-</p>
         <div className="travel-selector__dates">
-          <ArrivalIcon className={"travel-selector__travel-icon"} />
+          <ArrivalIcon className="travel-selector__travel-icon" />
           <p>{formatDate(currTravel.eDate, currentLanguage)}</p>
         </div>
       </div>

@@ -55,15 +55,15 @@ export default function MapTooltip({
 
   return (
     <ReactTooltip
-      clickable
-      id={city.name}
-      variant="light"
-      key={city.name}
       anchorSelect={`#${city.name}-marker`}
       className="map-tooltip"
+      clickable
+      id={city.name}
       isOpen={isOpen}
-      opacity={1}
+      key={city.name}
       noArrow
+      opacity={1}
+      variant="light"
     >
       {createBackdrop("map-tooltip__backdrop--top")}
       {createBackdrop("map-tooltip__backdrop--right")}
@@ -78,7 +78,7 @@ export default function MapTooltip({
           <h3>{city.getName(t)}</h3>
           <CountryFlag countryId={city.country.id} />
         </div>
-        {filteredTravels[travelIdx] && (
+        {filteredTravels[travelIdx] ? (
           <>
             <div className="map-tooltip__content">
               <DoubleChevronIcon
@@ -88,15 +88,11 @@ export default function MapTooltip({
 
               <div className="map-tooltip__content__travel">
                 <div className="map-tooltip__content__travel__info">
-                  <DepartureIcon
-                    className={"map-tooltip__content__travel__icon"}
-                  />
+                  <DepartureIcon className="map-tooltip__content__travel__icon" />
                   <p>{formatDate(filteredTravels[travelIdx].sDate, lang)}</p>
                 </div>
                 <div className="map-tooltip__content__travel__info">
-                  <ArrivalIcon
-                    className={"map-tooltip__content__travel__icon"}
-                  />
+                  <ArrivalIcon className="map-tooltip__content__travel__icon" />
                   <p>{formatDate(filteredTravels[travelIdx].eDate, lang)}</p>
                 </div>
               </div>
@@ -120,7 +116,7 @@ export default function MapTooltip({
               </Button>
             </div>
           </>
-        )}
+        ) : null}
       </div>
     </ReactTooltip>
   );

@@ -27,17 +27,17 @@ export default memo(function InfoTabStats({
   const furthestCity = visitedCities.reduce((prev, current) => {
     const prevDist = Math.sqrt(
       Math.pow(prev.coordinates[0] - muraveraCoords.lat, 2) +
-        Math.pow(prev.coordinates[1] - muraveraCoords.lng, 2)
+        Math.pow(prev.coordinates[1] - muraveraCoords.lng, 2),
     );
     const currDist = Math.sqrt(
       Math.pow(current.coordinates[0] - muraveraCoords.lat, 2) +
-        Math.pow(current.coordinates[1] - muraveraCoords.lng, 2)
+        Math.pow(current.coordinates[1] - muraveraCoords.lng, 2),
     );
     return prevDist > currDist ? prev : current;
   });
   const distance = Math.sqrt(
     Math.pow(furthestCity.coordinates[0] - muraveraCoords.lat, 2) +
-      Math.pow(furthestCity.coordinates[1] - muraveraCoords.lng, 2)
+      Math.pow(furthestCity.coordinates[1] - muraveraCoords.lng, 2),
   );
 
   const visitedContinents = visitedCities.reduce((prev, current) => {
@@ -61,10 +61,10 @@ export default memo(function InfoTabStats({
     <div
       className={`info-tab-stats ${className} ${isVisible ? "info-tab-stats--visible" : ""}`}
     >
-      <div className={`info-tab-stats__header`}>
+      <div className="info-tab-stats__header">
         <h1>{t("stats.title")}</h1>
       </div>
-      <div className={`info-tab-stats__content`} id="info-tab">
+      <div className="info-tab-stats__content" id="info-tab">
         <Column className="info-tab-stats__first-column">
           <h2>{t("stats.visited")}</h2>
           <Row className="first-row">
@@ -96,7 +96,7 @@ export default memo(function InfoTabStats({
             <div className="text-container">
               <b>
                 {((Object.keys(visitedCountries).length / 195) * 100).toFixed(
-                  2
+                  2,
                 )}
                 %
               </b>
@@ -133,8 +133,8 @@ export default memo(function InfoTabStats({
           <Row className="row--wrap continents__cities__wrap">
             {continentCountries.map((continent) => (
               <ContinentCitiesRow
-                key={continent.continent}
                 continent={continent.continent}
+                key={continent.continent}
                 numberOfCities={continent.countries.length}
               />
             ))}

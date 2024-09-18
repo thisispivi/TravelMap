@@ -60,22 +60,22 @@ export default memo(function Map({
 
   return (
     <div className="map-container" style={{ ...responsive.window }}>
-      {!isLoaded && (
+      {!isLoaded ? (
         <div className="loading" style={{ ...responsive.window }}>
           <Loading />
         </div>
-      )}
+      ) : null}
       <ComposableMap
         className="map"
-        projection={"geoMercator"}
         data-tip=""
+        projection="geoMercator"
         {...responsive.window}
       >
         <ZoomableGroup
+          center={mapPosition.center}
           maxZoom={parameters.map.defaultMaxZoom}
           minZoom={parameters.map.defaultMinZoom}
           zoom={mapPosition.zoom}
-          center={mapPosition.center}
         >
           <Geographies geography={worldData}>
             {({ geographies }) =>
@@ -83,10 +83,10 @@ export default memo(function Map({
                 if (i === geographies.length - 1) setIsLoaded(true);
                 return (
                   <Geography
-                    key={geo.rsmKey}
-                    geography={geo}
-                    strokeWidth={0}
                     fill={getCountryFillColor(geo.properties.name)}
+                    geography={geo}
+                    key={geo.rsmKey}
+                    strokeWidth={0}
                     style={{
                       default: { outline: "none" },
                       hover: { outline: "none" },
@@ -97,34 +97,36 @@ export default memo(function Map({
               })
             }
           </Geographies>
-          {isLoaded &&
-            sortedFutureCities.map((city, i) => (
-              <Marker
-                key={i}
-                city={city}
-                hoveredCity={hoveredCity}
-                setHoveredCity={setHoveredCity}
-                isFuture
-              />
-            ))}
-          {isLoaded &&
-            sortedVisitedCities.map((city, i) => (
-              <Marker
-                key={i}
-                city={city}
-                hoveredCity={hoveredCity}
-                setHoveredCity={setHoveredCity}
-              />
-            ))}
+          {isLoaded
+            ? sortedFutureCities.map((city, i) => (
+                <Marker
+                  city={city}
+                  hoveredCity={hoveredCity}
+                  isFuture
+                  key={i}
+                  setHoveredCity={setHoveredCity}
+                />
+              ))
+            : null}
+          {isLoaded
+            ? sortedVisitedCities.map((city, i) => (
+                <Marker
+                  city={city}
+                  hoveredCity={hoveredCity}
+                  key={i}
+                  setHoveredCity={setHoveredCity}
+                />
+              ))
+            : null}
         </ZoomableGroup>
       </ComposableMap>
       {[...sortedVisitedCities, ...sortedFutureCities].map((city, i) => (
         <MapTooltip
-          key={i}
           city={city}
+          isOpen={hoveredCity?.name === city.name}
+          key={i}
           onMouseEnter={(city: City) => setHoveredCity(city)}
           onMouseLeave={() => setHoveredCity(null)}
-          isOpen={hoveredCity?.name === city.name}
         />
       ))}
     </div>

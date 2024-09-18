@@ -28,15 +28,14 @@ export default function LanguageSelector() {
         }`}
         onClick={() => setIsOpen(!isOpen)}
       >
-        <LanguageIcon className={`language-selector__language-icon`} />
+        <LanguageIcon className="language-selector__language-icon" />
         <LanguageFlag
+          className="language-selector__language-flag-icon"
           language={currentLanguage}
-          className={`language-selector__language-flag-icon`}
         />
       </Button>
       {possibleLanguages.map((language) => (
         <Button
-          key={language}
           className={`language-selector__button ${
             currentLanguage.includes(language)
               ? "language-selector__button--active"
@@ -44,6 +43,7 @@ export default function LanguageSelector() {
           } language-selector__button--${language}
             ${isOpen ? "language-selector__button--open" : ""}
           `}
+          key={language}
           onClick={() => {
             changeLanguage(language);
             setIsOpen(false);
