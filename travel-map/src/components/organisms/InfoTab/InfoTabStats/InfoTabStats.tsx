@@ -10,7 +10,7 @@ import {
   ContinentRow,
   Row,
 } from "../../../molecules";
-import { ContinentsIcon } from "../../../../assets";
+import { ContinentsIcon, WorldIcon } from "../../../../assets";
 
 interface InfoTabStatsProps {
   className?: string;
@@ -27,17 +27,17 @@ export default memo(function InfoTabStats({
   const furthestCity = visitedCities.reduce((prev, current) => {
     const prevDist = Math.sqrt(
       Math.pow(prev.coordinates[0] - muraveraCoords.lat, 2) +
-        Math.pow(prev.coordinates[1] - muraveraCoords.lng, 2),
+        Math.pow(prev.coordinates[1] - muraveraCoords.lng, 2)
     );
     const currDist = Math.sqrt(
       Math.pow(current.coordinates[0] - muraveraCoords.lat, 2) +
-        Math.pow(current.coordinates[1] - muraveraCoords.lng, 2),
+        Math.pow(current.coordinates[1] - muraveraCoords.lng, 2)
     );
     return prevDist > currDist ? prev : current;
   });
   const distance = Math.sqrt(
     Math.pow(furthestCity.coordinates[0] - muraveraCoords.lat, 2) +
-      Math.pow(furthestCity.coordinates[1] - muraveraCoords.lng, 2),
+      Math.pow(furthestCity.coordinates[1] - muraveraCoords.lng, 2)
   );
 
   const visitedContinents = visitedCities.reduce((prev, current) => {
@@ -82,23 +82,28 @@ export default memo(function InfoTabStats({
             </Card>
           </Row>
         </Column>
-        {/* <Card className="earth-card">
-          <div className="earth-card__icon">
-            <WorldIcon className="colored" />
-            <WorldIcon
-              className="bw"
-              style={{
-                clipPath: `inset(0 0 ${(Object.keys(visitedCountries).length / 195) * 100}%)`,
-              }}
-            />
-          </div>
-          <div className="text-container">
-            <b>
-              {((Object.keys(visitedCountries).length / 195) * 100).toFixed(2)}%
-            </b>
-            <b className="text">of the world</b>
-          </div>
-        </Card> */}
+        <Column className="earth-row column--w-100">
+          <Card className="earth-card">
+            <div className="earth-card__icon">
+              <WorldIcon className="colored" />
+              <WorldIcon
+                className="bw"
+                style={{
+                  clipPath: `inset(0 0 ${(Object.keys(visitedCountries).length / 195) * 100}%)`,
+                }}
+              />
+            </div>
+            <div className="text-container">
+              <b>
+                {((Object.keys(visitedCountries).length / 195) * 100).toFixed(
+                  2
+                )}
+                %
+              </b>
+              <b className="text">{t("stats.ofTheWorld")}</b>
+            </div>
+          </Card>
+        </Column>
         <div className="card">
           Furthest City: {furthestCity.name} ({furthestCity.country.id})
           Distance: {distance.toFixed(2)} km
