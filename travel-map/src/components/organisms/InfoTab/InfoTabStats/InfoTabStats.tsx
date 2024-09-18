@@ -10,7 +10,15 @@ import {
   ContinentRow,
   Row,
 } from "../../../molecules";
-import { ContinentsIcon, WorldIcon } from "../../../../assets";
+import {
+  ChevronIcon,
+  ContinentsIcon,
+  HomeIcon,
+  ItalyFlag,
+  MarkerBWIcon,
+  WorldIcon,
+} from "../../../../assets";
+import { CountryFlag } from "../../../atoms";
 
 interface InfoTabStatsProps {
   className?: string;
@@ -23,22 +31,45 @@ export default memo(function InfoTabStats({
 }: InfoTabStatsProps): JSX.Element {
   const { t } = useLanguage(["home"]);
 
+  function haversineDistance(
+    lat1: number,
+    lon1: number,
+    lat2: number,
+    lon2: number
+  ): number {
+    const toRadians = (degrees: number) => degrees * (Math.PI / 180);
+
+    const R = 6371; // Radius of the Earth in kilometers
+    const dLat = toRadians(lat2 - lat1);
+    const dLon = toRadians(lon2 - lon1);
+
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(toRadians(lat1)) *
+        Math.cos(toRadians(lat2)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    return R * c; // Distance in kilometers
+  }
   const muraveraCoords = { lat: 39.2536, lng: 9.5956 };
-  const furthestCity = visitedCities.reduce((prev, current) => {
-    const prevDist = Math.sqrt(
-      Math.pow(prev.coordinates[0] - muraveraCoords.lat, 2) +
-        Math.pow(prev.coordinates[1] - muraveraCoords.lng, 2),
-    );
-    const currDist = Math.sqrt(
-      Math.pow(current.coordinates[0] - muraveraCoords.lat, 2) +
-        Math.pow(current.coordinates[1] - muraveraCoords.lng, 2),
-    );
-    return prevDist > currDist ? prev : current;
-  });
-  const distance = Math.sqrt(
-    Math.pow(furthestCity.coordinates[0] - muraveraCoords.lat, 2) +
-      Math.pow(furthestCity.coordinates[1] - muraveraCoords.lng, 2),
-  );
+  const distances = visitedCities.map((city) => ({
+    distance: haversineDistance(
+      city.coordinates[0],
+      city.coordinates[1],
+      muraveraCoords.lat,
+      muraveraCoords.lng
+    ),
+    city,
+  }));
+  const furthestCity = distances.reduce((prev, current) =>
+    prev.distance > current.distance ? prev : current
+  ).city;
+  const distance = distances.reduce((prev, current) =>
+    prev.distance > current.distance ? prev : current
+  ).distance;
 
   const visitedContinents = visitedCities.reduce((prev, current) => {
     if (!prev.includes(current.country.continent)) {
@@ -96,7 +127,7 @@ export default memo(function InfoTabStats({
             <div className="text-container">
               <b>
                 {((Object.keys(visitedCountries).length / 195) * 100).toFixed(
-                  2,
+                  2
                 )}
                 %
               </b>
@@ -104,10 +135,33 @@ export default memo(function InfoTabStats({
             </div>
           </Card>
         </Column>
-        <div className="card">
-          Furthest City: {furthestCity.name} ({furthestCity.country.id})
-          Distance: {distance.toFixed(2)} km
-        </div>
+        <Column className="furthest-city-row column--w-100">
+          <h2>{t("stats.furthestCity")}</h2>
+          <Card className="furthest-city__card">
+            <div className="furthest-city__start">
+              <span>
+                <p>{t("cities.Muravera")}</p>
+                <ItalyFlag className="flag" />
+              </span>
+              <HomeIcon className="home__icon" />
+            </div>
+            <div className="furthest-city__distance">
+              <b>{distance.toFixed(2)} km</b>
+              <div className="border" />
+              <ChevronIcon className="chevron__icon" />
+            </div>
+            <div className="furthest-city__end">
+              <span>
+                <p>{furthestCity.name}</p>
+                <CountryFlag
+                  className="flag"
+                  countryId={furthestCity.country.id}
+                />
+              </span>
+              <MarkerBWIcon className="marker__icon" />
+            </div>
+          </Card>
+        </Column>
         <Column className="continents-row column--w-100">
           <h2>{t("stats.continents")}</h2>
           <ContinentsIcon

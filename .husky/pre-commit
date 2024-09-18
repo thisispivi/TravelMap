@@ -5,3 +5,4 @@ cd "$(dirname "$0")/../travel-map"
 
 npx tsc --noEmit
 npx lint-staged
+npm run lint
