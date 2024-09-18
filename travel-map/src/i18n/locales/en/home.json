@@ -65,7 +65,8 @@
     "cities": "Cities",
     "countries": "Countries",
     "continents": "Continents",
-    "countriesPerContinent": "Countries per continent"
+    "countriesPerContinent": "Countries per continent",
+    "ofTheWorld": "of the world"
   },
   "gallery": "To Gallery",
   "galleryAlt": "Open the gallery",
