@@ -48,9 +48,9 @@ export function Marker({
 
   return (
     <MarkerMap
+      coordinates={city.coordinates}
       id={city.name + "-marker"}
       key={city.name}
-      coordinates={city.coordinates}
       onMouseEnter={() => setHoveredCity && setHoveredCity(city)}
       onMouseLeave={() => setHoveredCity && setHoveredCity(null)}
       style={{

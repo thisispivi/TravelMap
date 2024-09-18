@@ -58,10 +58,10 @@ export default memo(function InfoTabVisited({
 
   return (
     <InfoTabCities
-      className={className}
-      id="visited"
       cities={allCities}
+      className={className}
       getTravelIdx={getTravelIdx}
+      id="visited"
       isVisible={isVisible}
     />
   );

@@ -6,8 +6,8 @@ interface MarkerIconProps {
 export default function MarkerIcon({ scale, className }: MarkerIconProps) {
   return (
     <g
-      style={{ transform: `scale(${scale})` }}
       className={`${className} marker-icon`}
+      style={{ transform: `scale(${scale})` }}
     >
       <circle className="st0" cx="0" cy="-14.2" r="4.8" />
       <path

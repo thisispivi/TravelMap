@@ -43,11 +43,11 @@ export default memo(function HomeTemplate(
         {isGallery ? props.children : null}
       </Container>
       <Map
-        visitedCountries={visitedCountries}
-        visitedCities={visitedCities}
-        futureCities={futureCities}
         currHoveredCity={hoveredCity}
+        futureCities={futureCities}
         setCurrentHoveredCity={setHoveredCity}
+        visitedCities={visitedCities}
+        visitedCountries={visitedCountries}
       />
     </div>
   );

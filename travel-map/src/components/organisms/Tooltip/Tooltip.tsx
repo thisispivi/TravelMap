@@ -25,7 +25,7 @@ interface TooltipProps {
  * @param {number} [props.opacity] - The opacity of the tooltip
  * @param {number} [props.delayShow] - The delay show of the tooltip
  * @param {boolean} [props.noArrow] - The no arrow of the tooltip
- * @returns {JSX.Element} - The tooltip
+ * @returns {JSX.Element|null} - The tooltip
  */
 export default function Tooltip({
   className = "",
@@ -34,18 +34,18 @@ export default function Tooltip({
   opacity = 1,
   delayShow = 0,
   noArrow = false,
-}: TooltipProps): JSX.Element {
-  if (mobileAndTabletCheck()) return <></>;
+}: TooltipProps): JSX.Element | null {
+  if (mobileAndTabletCheck()) return null;
   return (
     <ReactTooltip
-      clickable
+      anchorSelect={anchorSelect}
       className={`tooltip ${className}`}
+      clickable
+      delayShow={delayShow}
       id={text}
       key={text}
-      anchorSelect={anchorSelect}
-      opacity={opacity}
-      delayShow={delayShow}
       noArrow={noArrow}
+      opacity={opacity}
     >
       {text}
     </ReactTooltip>

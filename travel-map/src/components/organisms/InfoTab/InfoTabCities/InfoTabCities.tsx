@@ -79,25 +79,25 @@ export default memo(function InfoTabCities({
     >
       <div className={`info-tab-cities__header info-tab-${id}__header`}>
         <h1>{t(id + ".title")}</h1>
-        <div className={`info-tab-cities__header__buttons`}>
+        <div className="info-tab-cities__header__buttons">
           {positionButton}
           <Tooltip
-            text={t("autoPositionTooltip")}
             anchorSelect=".info-tab-cities__position-button"
             delayShow={300}
+            text={t("autoPositionTooltip")}
           />
-          {id === "visited" && (
+          {id === "visited" ? (
             <FilterCountry
+              buttonIcon={<FilterIcon className="filter__icon" />}
+              onChange={onCountryChange}
               options={allCountries}
               selected={countries}
-              onChange={onCountryChange}
-              buttonIcon={<FilterIcon className="filter__icon" />}
             />
-          )}
+          ) : null}
           <Tooltip
-            text={t("filterTooltip")}
             anchorSelect=".filter__button"
             delayShow={300}
+            text={t("filterTooltip")}
           />
         </div>
       </div>
@@ -107,25 +107,25 @@ export default memo(function InfoTabCities({
       >
         {cities.map((city, i) => (
           <CityCard
-            key={i}
             city={new City(city)}
-            travel={city.travels[0]}
-            idx={getTravelIdx(city, city.travels[0])}
-            isClickable={city.travels[0].photos.length > 0}
             hoveredCity={hoveredCity}
+            idx={getTravelIdx(city, city.travels[0])}
+            isAutoPosition={isAutoPosition}
+            isClickable={city.travels[0].photos.length > 0}
+            isHidden={!countries.includes(city.country)}
+            key={i}
             setHoveredCity={setHoveredCity}
             setMapPosition={setMapPosition}
-            isAutoPosition={isAutoPosition}
-            isHidden={!countries.includes(city.country)}
+            travel={city.travels[0]}
           />
         ))}
         {cities.filter((city) => countries.includes(city.country)).length %
           2 !==
-          0 && (
+        0 ? (
           <div
             className={`info-tab-cities__void-city info-tab-${id}__void-city city-card`}
           />
-        )}
+        ) : null}
       </div>
     </div>
   );

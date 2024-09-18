@@ -43,19 +43,19 @@ export default function Lightbox(): JSX.Element {
     if (item.youtube) {
       return (
         <iframe
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowFullScreen
           className="image-gallery-video"
           src={parameters.isShowPhotos ? item.original : ""}
           title={item.alt || ""}
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowFullScreen
         />
       );
     } else {
       return (
         <img
+          alt=""
           className="image-gallery-image"
           src={parameters.isShowPhotos ? item.original : ""}
-          alt=""
         />
       );
     }
@@ -89,11 +89,11 @@ export default function Lightbox(): JSX.Element {
     direction: "left" | "right",
   ) => (
     <Button
+      aria-label={direction === "left" ? "Previous Slide" : "Next Slide"}
       className={`image-gallery-icon image-gallery-${direction}-nav ${
         disabled ? "image-gallery-icon--disabled" : ""
       }`}
       onClick={onClick}
-      aria-label={direction === "left" ? "Previous Slide" : "Next Slide"}
     >
       <ChevronIcon className="chevron" />
     </Button>
@@ -103,38 +103,38 @@ export default function Lightbox(): JSX.Element {
   return (
     <div className="lightbox">
       <ImageGallery
-        lazyLoad={true}
         infinite={false}
-        showIndex={true}
-        showPlayButton={false}
-        showThumbnails={false}
-        startIndex={photoIdx}
         items={photos}
-        renderItem={handleRenderItem}
+        lazyLoad={true}
+        onSlide={handleSlide}
         renderCustomControls={() => (
           <Button className="back-button-text" onClick={() => navigate(`..`)}>
             <GalleryIcon />
             <p>{t("gallery")}</p>
           </Button>
         )}
+        renderFullscreenButton={(onClick, isFullscreen: boolean) => (
+          <Button
+            aria-label={t("fullscreen")}
+            className={`image-gallery-icon image-gallery-fullscreen ${
+              isFullscreen ? "image-gallery-fullscreen--active" : ""
+            }`}
+            onClick={onClick}
+          >
+            {isFullscreen ? <FullscreenExitIcon /> : <FullscreenEnterIcon />}
+          </Button>
+        )}
+        renderItem={handleRenderItem}
         renderLeftNav={(onClick, disabled) =>
           renderNavigationButton(onClick, disabled, "left")
         }
         renderRightNav={(onClick, disabled) =>
           renderNavigationButton(onClick, disabled, "right")
         }
-        renderFullscreenButton={(onClick, isFullscreen: boolean) => (
-          <Button
-            className={`image-gallery-icon image-gallery-fullscreen ${
-              isFullscreen ? "image-gallery-fullscreen--active" : ""
-            }`}
-            onClick={onClick}
-            aria-label={t("fullscreen")}
-          >
-            {isFullscreen ? <FullscreenExitIcon /> : <FullscreenEnterIcon />}
-          </Button>
-        )}
-        onSlide={handleSlide}
+        showIndex={true}
+        showPlayButton={false}
+        showThumbnails={false}
+        startIndex={photoIdx}
       />
     </div>
   );

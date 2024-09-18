@@ -58,10 +58,10 @@ export default memo(function InfoTabFuture({
 
   return (
     <InfoTabCities
-      className={className}
-      id="future"
       cities={allCities}
+      className={className}
       getTravelIdx={getTravelIdx}
+      id="future"
       isVisible={isVisible}
     />
   );

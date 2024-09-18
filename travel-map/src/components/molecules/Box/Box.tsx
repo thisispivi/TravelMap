@@ -16,6 +16,6 @@ interface BoxProps extends PropsWithChildren {
  * @param {string} [props.className] - The class name of the box
  * @returns {JSX.Element} - The box
  */
-export default function Box(props: BoxProps): JSX.Element {
-  return <div className={`box ${props.className || ""}`}>{props.children}</div>;
+export default function Box({ className, children }: BoxProps): JSX.Element {
+  return <div className={`box ${className || ""}`}>{children}</div>;
 }

@@ -24,12 +24,12 @@ interface CountryFlagProps {
  * @param {CountryFlagProps} props - The props of the component
  * @param {string} props.countryId - The id of the country
  * @param {string} [props.className=""] - The class name of the component
- * @returns {JSX.Element} The country flag
+ * @returns {JSX.Element|null} The country flag
  */
 export default function CountryFlag({
   countryId,
   className = "",
-}: CountryFlagProps): JSX.Element {
+}: CountryFlagProps): JSX.Element | null {
   switch (countryId.replace(" ", "")) {
     case "Germany":
       return <GermanyFlag className={className} />;
@@ -48,6 +48,6 @@ export default function CountryFlag({
     case "Portugal":
       return <PortugalFlag className={className} />;
     default:
-      return <></>;
+      return null;
   }
 }
