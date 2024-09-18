@@ -35,7 +35,7 @@ export default memo(function InfoTabStats({
     lat1: number,
     lon1: number,
     lat2: number,
-    lon2: number
+    lon2: number,
   ): number {
     const toRadians = (degrees: number) => degrees * (Math.PI / 180);
 
@@ -60,15 +60,15 @@ export default memo(function InfoTabStats({
       city.coordinates[0],
       city.coordinates[1],
       muraveraCoords.lat,
-      muraveraCoords.lng
+      muraveraCoords.lng,
     ),
     city,
   }));
   const furthestCity = distances.reduce((prev, current) =>
-    prev.distance > current.distance ? prev : current
+    prev.distance > current.distance ? prev : current,
   ).city;
   const distance = distances.reduce((prev, current) =>
-    prev.distance > current.distance ? prev : current
+    prev.distance > current.distance ? prev : current,
   ).distance;
 
   const visitedContinents = visitedCities.reduce((prev, current) => {
@@ -127,7 +127,7 @@ export default memo(function InfoTabStats({
             <div className="text-container">
               <b>
                 {((Object.keys(visitedCountries).length / 195) * 100).toFixed(
-                  2
+                  2,
                 )}
                 %
               </b>
