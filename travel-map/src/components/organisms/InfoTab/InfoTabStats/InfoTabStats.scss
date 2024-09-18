@@ -45,11 +45,15 @@
     margin-right: 0.7rem;
     gap: 1.2rem 0;
     padding: 0 1rem 0.7rem 1.6rem;
+    h2 {
+      margin-bottom: 0.8rem;
+      margin-top: 2rem;
+    }
 
     .info-tab-stats__first-column {
       width: 100%;
       h2 {
-        margin-bottom: 0.5rem;
+        margin-top: 0;
       }
       .first-row {
         justify-content: space-between;
@@ -151,6 +155,77 @@
         }
       }
     }
+    .furthest-city-row {
+      .furthest-city__card {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        padding: 1.5rem;
+      }
+      .furthest-city__start,
+      .furthest-city__end,
+      .furthest-city__distance {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      .furthest-city__start,
+      .furthest-city__end {
+        width: 8rem;
+        span {
+          display: flex;
+          align-items: center;
+          p {
+            margin-right: 0.4rem;
+            font-size: 1rem;
+          }
+          .flag {
+            width: 1.2rem;
+            height: 1.2rem;
+          }
+        }
+      }
+      .marker__icon,
+      .home__icon {
+        margin-top: 0.8rem;
+        width: 2rem;
+        height: 2rem;
+      }
+      .home-icon {
+        margin-left: -0.7rem;
+      }
+      .furthest-city__distance {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        b {
+          width: 100%;
+          text-align: center;
+          margin-bottom: 1rem;
+          font-size: 1.2rem;
+        }
+        .border {
+          position: absolute;
+          left: -1.4rem;
+          bottom: 0.9rem;
+          width: calc(100% + 2.4rem);
+          border-bottom: 0.125rem dashed gray;
+        }
+        .chevron__icon {
+          width: 1.5rem;
+          height: 1.5rem;
+          position: absolute;
+          right: -1.65rem;
+          rotate: 180deg;
+          top: 2.46rem;
+          path {
+            stroke: gray;
+          }
+        }
+      }
+    }
     .continents-row {
       padding-block: 0.5rem;
       .continents__icon {
@@ -167,9 +242,6 @@
       .continents__wrap {
         margin-top: -1rem;
       }
-      h2 {
-        margin-bottom: 0.4rem;
-      }
       h3 {
         margin-top: 1rem;
         margin-bottom: 0.4rem;
@@ -180,5 +252,19 @@
         }
       }
     }
+  }
+}
+
+.home--dark {
+  .home__icon path,
+  .marker__icon path {
+    stroke: v.$lightLeftBar;
+  }
+}
+
+.home--light {
+  .home__icon path,
+  .marker__icon path {
+    stroke: v.$darkLeftBar;
   }
 }

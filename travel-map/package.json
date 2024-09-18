@@ -57,7 +57,7 @@
     "postcss": "^8.4.35",
     "prettier": "3.2.4",
     "typescript": "^5.2.2",
-    "vite": "^5.0.13",
+    "vite": "^5.2.14",
     "vite-plugin-qrcode": "^0.2.3"
   },
   "lint-staged": {

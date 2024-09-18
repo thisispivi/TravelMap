@@ -36,7 +36,8 @@
     "Himeji": "Himeji",
     "Oshino": "Oshino",
     "Fujikawaguchiko": "Fujikawaguchiko",
-    "Bologna": "Bologna"
+    "Bologna": "Bologna",
+    "Muravela": "Muravera"
   },
   "countries": {
     "Belgium": "Belgio",
@@ -66,7 +67,8 @@
     "countries": "Paesi",
     "continents": "Continenti",
     "countriesPerContinent": "Paesi per continente",
-    "ofTheWorld": "del mondo"
+    "ofTheWorld": "del mondo",
+    "furthestCity": "Città più lontana"
   },
   "gallery": "Alla galleria",
   "galleryAlt": "Apri la galleria",
