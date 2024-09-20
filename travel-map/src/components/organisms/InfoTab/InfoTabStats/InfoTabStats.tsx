@@ -35,7 +35,7 @@ export default memo(function InfoTabStats({
     lat1: number,
     lon1: number,
     lat2: number,
-    lon2: number,
+    lon2: number
   ): number {
     const toRadians = (degrees: number) => degrees * (Math.PI / 180);
 
@@ -60,15 +60,15 @@ export default memo(function InfoTabStats({
       city.coordinates[0],
       city.coordinates[1],
       muraveraCoords.lat,
-      muraveraCoords.lng,
+      muraveraCoords.lng
     ),
     city,
   }));
   const furthestCity = distances.reduce((prev, current) =>
-    prev.distance > current.distance ? prev : current,
+    prev.distance > current.distance ? prev : current
   ).city;
   const distance = distances.reduce((prev, current) =>
-    prev.distance > current.distance ? prev : current,
+    prev.distance > current.distance ? prev : current
   ).distance;
 
   const visitedContinents = visitedCities.reduce((prev, current) => {
@@ -100,14 +100,26 @@ export default memo(function InfoTabStats({
           <h2>{t("stats.visited")}</h2>
           <Row className="first-row">
             <Card className="cities-card">
+              <img
+                alt="Beach"
+                src="https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/General/Beach.jpg"
+              />
               <b>{visitedCities.length}</b>
               <b className="text">{t("stats.cities")}</b>
             </Card>
             <Card className="countries-card">
+              <img
+                alt="City"
+                src="https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/General/City.jpg"
+              />
               <b>{Object.keys(visitedCountries).length}</b>
               <b className="text">{t("stats.countries")}</b>
             </Card>
             <Card className="continents-card">
+              <img
+                alt="Japan"
+                src="https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/General/Japan.jpg"
+              />
               <b>{visitedContinents.length}</b>
               <b className="text">{t("stats.continents")}</b>
             </Card>
@@ -115,6 +127,10 @@ export default memo(function InfoTabStats({
         </Column>
         <Column className="earth-row column--w-100">
           <Card className="earth-card">
+            <img
+              alt="CityNight"
+              src="https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/General/CityNight.jpg"
+            />
             <div className="earth-card__icon">
               <WorldIcon className="colored" />
               <WorldIcon
@@ -127,7 +143,7 @@ export default memo(function InfoTabStats({
             <div className="text-container">
               <b>
                 {((Object.keys(visitedCountries).length / 195) * 100).toFixed(
-                  2,
+                  2
                 )}
                 %
               </b>
@@ -136,36 +152,47 @@ export default memo(function InfoTabStats({
           </Card>
         </Column>
         <Column className="furthest-city-row column--w-100">
-          <h2>{t("stats.furthestCity")}</h2>
           <Card className="furthest-city__card">
-            <div className="furthest-city__start">
-              <span>
-                <p>{t("cities.Muravera")}</p>
-                <ItalyFlag className="flag" />
-              </span>
-              <HomeIcon className="home__icon" />
-            </div>
-            <div className="furthest-city__distance">
-              <b>{distance.toFixed(2)} km</b>
-              <div className="border" />
-              <ChevronIcon className="chevron__icon" />
-            </div>
-            <div className="furthest-city__end">
-              <span>
-                <p>{furthestCity.name}</p>
-                <CountryFlag
-                  className="flag"
-                  countryId={furthestCity.country.id}
-                />
-              </span>
-              <MarkerBWIcon className="marker__icon" />
-            </div>
+            <h2>{t("stats.furthestCity")}</h2>
+            <img
+              alt="Winter"
+              src="https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/General/Winter.jpg"
+            />
+            <Row>
+              <div className="furthest-city__start">
+                <span>
+                  <p>{t("cities.Muravera")}</p>
+                  <ItalyFlag className="flag" />
+                </span>
+                <HomeIcon className="home__icon" />
+              </div>
+              <div className="furthest-city__distance">
+                <b>{distance.toFixed(2)} km</b>
+                <div className="border" />
+                <ChevronIcon className="chevron__icon" />
+              </div>
+              <div className="furthest-city__end">
+                <span>
+                  <p>{furthestCity.name}</p>
+                  <CountryFlag
+                    className="flag"
+                    countryId={furthestCity.country.id}
+                  />
+                </span>
+                <MarkerBWIcon className="marker__icon" />
+              </div>
+            </Row>
           </Card>
         </Column>
         <Column className="continents-row column--w-100">
-          <h2>{t("stats.continents")}</h2>
-          <ContinentsIcon
-            className={`continents__icon
+          <Card className="continents__card">
+            <img
+              alt="Canyon"
+              src="https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/General/Canyon.jpg"
+            />
+            <h2>{t("stats.continents")}</h2>
+            <ContinentsIcon
+              className={`continents__icon
             ${visitedContinents.includes(Continent.Africa) ? "" : "africa--not-visited"}
             ${visitedContinents.includes(Continent.Asia) ? "" : "asia--not-visited"}
             ${visitedContinents.includes(Continent.Europe) ? "" : "europe--not-visited"}
@@ -173,16 +200,17 @@ export default memo(function InfoTabStats({
             ${visitedContinents.includes(Continent.Oceania) ? "" : "oceania--not-visited"}
             ${visitedContinents.includes(Continent.SouthAmerica) ? "" : "south-america--not-visited"}
             `}
-          />
-          <Row className="row--wrap row--center continents__wrap">
-            {Object.keys(Continent).map((continent) => (
-              <ContinentRow
-                continent={continent as Continent}
-                isVisited={visitedContinents.includes(continent as Continent)}
-                key={continent}
-              />
-            ))}
-          </Row>
+            />
+            <Row className="row--wrap row--center continents__wrap">
+              {Object.keys(Continent).map((continent) => (
+                <ContinentRow
+                  continent={continent as Continent}
+                  isVisited={visitedContinents.includes(continent as Continent)}
+                  key={continent}
+                />
+              ))}
+            </Row>
+          </Card>
           <h3>{t("stats.countriesPerContinent")}</h3>
           <Row className="row--wrap continents__cities__wrap">
             {continentCountries.map((continent) => (
