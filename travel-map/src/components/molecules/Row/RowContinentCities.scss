@@ -25,6 +25,7 @@ $continents-colors: (
   border-radius: 0.6rem;
   align-items: center;
   color: v.$lightLeftBar;
+  @include m.transition(all, 0.3s, ease-in-out);
 
   @include continent-row("Africa");
   @include continent-row("Asia");
@@ -35,6 +36,8 @@ $continents-colors: (
 
   .continent-cities-row__name {
     font-weight: 700;
+    font-size: 0.8rem;
+    @include m.transition(all, 0.3s, ease-in-out);
   }
   .continent-cities-row__cities {
     $size: 1.3rem;
@@ -43,22 +46,47 @@ $continents-colors: (
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-left: 0.5rem;
+    margin-left: 0.4rem;
     border-radius: 2rem;
     font-weight: 800;
     flex-shrink: 0;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
+    @include m.transition(all, 0.3s, ease-in-out);
   }
 }
 
 .home--light {
-  .continent-row {
+  .continent-cities-row {
     color: v.$darkLeftBar;
+    .continent-cities-row__name,
+    .continent-cities-row__cities {
+      color: v.$lightLeftBar;
+    }
+    &.continent-cities-row--empty {
+      background-color: v.$lightInfoTab;
+      .continent-cities-row__name {
+        color: v.$darkLeftBar;
+      }
+      .continent-cities-row__cities {
+        color: v.$darkLeftBar;
+        background-color: v.$lightLeftBar;
+      }
+    }
   }
 }
 
 .home--dark {
-  .continent-row {
+  .continent-cities-row {
     color: v.$lightLeftBar;
+    .continent-cities-row__name,
+    .continent-cities-row__cities {
+      color: v.$lightLeftBar;
+    }
+    &.continent-cities-row--empty {
+      background-color: v.$darkInfoTab;
+      .continent-cities-row__cities {
+        background-color: v.$darkLeftBar;
+      }
+    }
   }
 }

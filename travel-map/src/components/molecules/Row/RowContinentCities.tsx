@@ -31,7 +31,7 @@ export default function ContinentCitiesRow({
       className={`continent-cities-row ${numberOfCities === 0 ? "continent-cities-row--empty" : ""} continent-cities-row--${continent}`}
     >
       <div className="continent-cities-row__name">
-        {t(`continents.${continent}`)}
+        {t(`continents.${continent.replace(" ", "")}`)}
       </div>
       <div className="continent-cities-row__cities">{numberOfCities}</div>
     </Row>

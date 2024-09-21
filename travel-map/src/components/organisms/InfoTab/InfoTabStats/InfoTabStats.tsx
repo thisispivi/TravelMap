@@ -10,15 +10,7 @@ import {
   ContinentRow,
   Row,
 } from "../../../molecules";
-import {
-  ChevronIcon,
-  ContinentsIcon,
-  HomeIcon,
-  ItalyFlag,
-  MarkerBWIcon,
-  WorldIcon,
-} from "../../../../assets";
-import { CountryFlag } from "../../../atoms";
+import { ContinentsIcon } from "../../../../assets";
 
 interface InfoTabStatsProps {
   className?: string;
@@ -31,45 +23,45 @@ export default memo(function InfoTabStats({
 }: InfoTabStatsProps): JSX.Element {
   const { t } = useLanguage(["home"]);
 
-  function haversineDistance(
-    lat1: number,
-    lon1: number,
-    lat2: number,
-    lon2: number
-  ): number {
-    const toRadians = (degrees: number) => degrees * (Math.PI / 180);
+  // function haversineDistance(
+  //   lat1: number,
+  //   lon1: number,
+  //   lat2: number,
+  //   lon2: number
+  // ): number {
+  //   const toRadians = (degrees: number) => degrees * (Math.PI / 180);
 
-    const R = 6371; // Radius of the Earth in kilometers
-    const dLat = toRadians(lat2 - lat1);
-    const dLon = toRadians(lon2 - lon1);
+  //   const R = 6371; // Radius of the Earth in kilometers
+  //   const dLat = toRadians(lat2 - lat1);
+  //   const dLon = toRadians(lon2 - lon1);
 
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(toRadians(lat1)) *
-        Math.cos(toRadians(lat2)) *
-        Math.sin(dLon / 2) *
-        Math.sin(dLon / 2);
+  //   const a =
+  //     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+  //     Math.cos(toRadians(lat1)) *
+  //       Math.cos(toRadians(lat2)) *
+  //       Math.sin(dLon / 2) *
+  //       Math.sin(dLon / 2);
 
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  //   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-    return R * c; // Distance in kilometers
-  }
-  const muraveraCoords = { lat: 39.2536, lng: 9.5956 };
-  const distances = visitedCities.map((city) => ({
-    distance: haversineDistance(
-      city.coordinates[0],
-      city.coordinates[1],
-      muraveraCoords.lat,
-      muraveraCoords.lng
-    ),
-    city,
-  }));
-  const furthestCity = distances.reduce((prev, current) =>
-    prev.distance > current.distance ? prev : current
-  ).city;
-  const distance = distances.reduce((prev, current) =>
-    prev.distance > current.distance ? prev : current
-  ).distance;
+  //   return R * c;
+  // }
+  // const muraveraCoords = { lat: 39.2536, lng: 9.5956 };
+  // const distances = visitedCities.map((city) => ({
+  //   distance: haversineDistance(
+  //     city.coordinates[0],
+  //     city.coordinates[1],
+  //     muraveraCoords.lat,
+  //     muraveraCoords.lng
+  //   ),
+  //   city,
+  // }));
+  // const furthestCity = distances.reduce((prev, current) =>
+  //   prev.distance > current.distance ? prev : current
+  // ).city;
+  // const distance = distances.reduce((prev, current) =>
+  //   prev.distance > current.distance ? prev : current
+  // ).distance;
 
   const visitedContinents = visitedCities.reduce((prev, current) => {
     if (!prev.includes(current.country.continent)) {
@@ -78,15 +70,21 @@ export default memo(function InfoTabStats({
     return prev;
   }, [] as Continent[]);
 
-  const continentCountries = visitedContinents.map((continent) => {
-    const countries = visitedCities.reduce((prev, current) => {
-      if (current.country.continent === continent) {
-        prev.push(current.country.id);
-      }
-      return prev;
-    }, [] as string[]);
-    return { continent, countries: [...new Set(countries)] };
-  });
+  const continentCities = Object.values(Continent)
+    .map((continent) => {
+      const numberOfCities = visitedCities.filter(
+        (country) => country.country.continent === continent
+      ).length;
+      const numberOfCountries = Object.values(visitedCountries).filter(
+        (country) => country.continent === continent
+      ).length;
+      return {
+        continent,
+        countries: numberOfCountries,
+        cities: numberOfCities,
+      };
+    })
+    .sort((a, b) => b.countries - a.countries);
 
   return (
     <div
@@ -96,101 +94,9 @@ export default memo(function InfoTabStats({
         <h1>{t("stats.title")}</h1>
       </div>
       <div className="info-tab-stats__content" id="info-tab">
-        <Column className="info-tab-stats__first-column">
-          <h2>{t("stats.visited")}</h2>
-          <Row className="first-row">
-            <Card className="cities-card">
-              <img
-                alt="Beach"
-                src="https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/General/Beach.jpg"
-              />
-              <b>{visitedCities.length}</b>
-              <b className="text">{t("stats.cities")}</b>
-            </Card>
-            <Card className="countries-card">
-              <img
-                alt="City"
-                src="https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/General/City.jpg"
-              />
-              <b>{Object.keys(visitedCountries).length}</b>
-              <b className="text">{t("stats.countries")}</b>
-            </Card>
-            <Card className="continents-card">
-              <img
-                alt="Japan"
-                src="https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/General/Japan.jpg"
-              />
-              <b>{visitedContinents.length}</b>
-              <b className="text">{t("stats.continents")}</b>
-            </Card>
-          </Row>
-        </Column>
-        <Column className="earth-row column--w-100">
-          <Card className="earth-card">
-            <img
-              alt="CityNight"
-              src="https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/General/CityNight.jpg"
-            />
-            <div className="earth-card__icon">
-              <WorldIcon className="colored" />
-              <WorldIcon
-                className="bw"
-                style={{
-                  clipPath: `inset(0 0 ${(Object.keys(visitedCountries).length / 195) * 100}%)`,
-                }}
-              />
-            </div>
-            <div className="text-container">
-              <b>
-                {((Object.keys(visitedCountries).length / 195) * 100).toFixed(
-                  2
-                )}
-                %
-              </b>
-              <b className="text">{t("stats.ofTheWorld")}</b>
-            </div>
-          </Card>
-        </Column>
-        <Column className="furthest-city-row column--w-100">
-          <Card className="furthest-city__card">
-            <h2>{t("stats.furthestCity")}</h2>
-            <img
-              alt="Winter"
-              src="https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/General/Winter.jpg"
-            />
-            <Row>
-              <div className="furthest-city__start">
-                <span>
-                  <p>{t("cities.Muravera")}</p>
-                  <ItalyFlag className="flag" />
-                </span>
-                <HomeIcon className="home__icon" />
-              </div>
-              <div className="furthest-city__distance">
-                <b>{distance.toFixed(2)} km</b>
-                <div className="border" />
-                <ChevronIcon className="chevron__icon" />
-              </div>
-              <div className="furthest-city__end">
-                <span>
-                  <p>{furthestCity.name}</p>
-                  <CountryFlag
-                    className="flag"
-                    countryId={furthestCity.country.id}
-                  />
-                </span>
-                <MarkerBWIcon className="marker__icon" />
-              </div>
-            </Row>
-          </Card>
-        </Column>
-        <Column className="continents-row column--w-100">
-          <Card className="continents__card">
-            <img
-              alt="Canyon"
-              src="https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/General/Canyon.jpg"
-            />
-            <h2>{t("stats.continents")}</h2>
+        <Card className="info-tab-stats__card info-tab-stats__card--continents card--box-shadow">
+          <Column className="info-tab-stats__card__main">
+            <h2 className="continents__title">{t("stats.continents")}</h2>
             <ContinentsIcon
               className={`continents__icon
             ${visitedContinents.includes(Continent.Africa) ? "" : "africa--not-visited"}
@@ -210,18 +116,32 @@ export default memo(function InfoTabStats({
                 />
               ))}
             </Row>
-          </Card>
-          <h3>{t("stats.countriesPerContinent")}</h3>
-          <Row className="row--wrap continents__cities__wrap">
-            {continentCountries.map((continent) => (
-              <ContinentCitiesRow
-                continent={continent.continent}
-                key={continent.continent}
-                numberOfCities={continent.countries.length}
-              />
-            ))}
-          </Row>
-        </Column>
+          </Column>
+          <Column className="info-tab-stats__card__row">
+            <h4>{t("stats.countriesPerContinent")}</h4>
+            <Row className="row--wrap continents__countries__wrap">
+              {continentCities.map((continent) => (
+                <ContinentCitiesRow
+                  continent={continent.continent}
+                  key={continent.continent}
+                  numberOfCities={continent.countries}
+                />
+              ))}
+            </Row>
+          </Column>
+          <Column className="info-tab-stats__card__row">
+            <h4>{t("stats.citiesPerContinent")}</h4>
+            <Row className="row--wrap continents__cities__wrap">
+              {continentCities.map((continent) => (
+                <ContinentCitiesRow
+                  continent={continent.continent}
+                  key={continent.continent}
+                  numberOfCities={continent.cities}
+                />
+              ))}
+            </Row>
+          </Column>
+        </Card>
       </div>
     </div>
   );
