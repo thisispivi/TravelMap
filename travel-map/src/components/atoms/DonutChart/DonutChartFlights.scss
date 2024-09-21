@@ -1,0 +1,58 @@
+@use "../../../styles/mixins" as m;
+@use "../../../styles/variables.module" as v;
+
+.flights-donut-chart {
+  .apexcharts-legend-text {
+    font-size: 0.9rem !important;
+    @include m.transition(all, 0.3s, ease-in-out);
+  }
+  .apexcharts-datalabels {
+    text {
+      transform: translateY(0.35rem);
+    }
+  }
+  .apexcharts-datalabels-group {
+    text {
+      fill: v.$darkButtonContent !important;
+      @include m.transition(all, 0.3s, ease-in-out);
+    }
+  }
+  .apexcharts-tooltip {
+    box-shadow: 0 0.063rem 0.125rem 0rem rgba(0, 0, 0, 0.2);
+  }
+}
+
+@media (max-width: 460px) {
+  .flights-donut-chart {
+    .apexcharts-datalabels,
+    .apexcharts-datalabels-group {
+      font-size: 0.75rem !important;
+    }
+  }
+}
+
+.home--light {
+  .flights-donut-chart {
+    .apexcharts-legend-text {
+      color: v.$lightButtonContent !important;
+    }
+    .apexcharts-datalabels-group {
+      text {
+        fill: v.$lightButtonContent !important;
+      }
+    }
+  }
+}
+
+.home--dark {
+  .flights-donut-chart {
+    .apexcharts-legend-text {
+      color: v.$darkButtonContent !important;
+    }
+    .apexcharts-datalabels-group {
+      text {
+        fill: v.$darkButtonContent !important;
+      }
+    }
+  }
+}

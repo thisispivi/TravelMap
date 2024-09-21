@@ -1,5 +1,5 @@
 @use "../../../styles/mixins" as m;
-@use "../../../styles/variables" as v;
+@use "../../../styles/variables.module" as v;
 
 $continents-colors: (
   "Africa": v.$continentsAfrica,
@@ -26,10 +26,10 @@ $continents-colors: (
     font-size: 0.9rem;
   }
   .continent-row__circle {
-    $size: 0.6rem;
+    $size: 0.8rem;
     width: $size;
     height: $size;
-    margin-left: 0.3rem;
+    margin-right: 0.3rem;
     border-radius: 50%;
     background-color: gray;
     flex-shrink: 0;

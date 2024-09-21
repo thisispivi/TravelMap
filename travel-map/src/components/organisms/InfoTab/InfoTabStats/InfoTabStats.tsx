@@ -1,6 +1,10 @@
 import { memo } from "react";
 import "./InfoTabStats.scss";
-import { visitedCities, visitedCountries } from "../../../../data";
+import {
+  takenFlights,
+  visitedCities,
+  visitedCountries,
+} from "../../../../data";
 import useLanguage from "../../../../hooks/language/language";
 import { Continent } from "../../../../core/typings/Continent";
 import {
@@ -8,9 +12,11 @@ import {
   Column,
   ContinentCitiesRow,
   ContinentRow,
+  FlightRow,
   Row,
 } from "../../../molecules";
 import { ContinentsIcon } from "../../../../assets";
+import { FlightsDonutChart } from "../../../atoms";
 
 interface InfoTabStatsProps {
   className?: string;
@@ -23,29 +29,6 @@ export default memo(function InfoTabStats({
 }: InfoTabStatsProps): JSX.Element {
   const { t } = useLanguage(["home"]);
 
-  // function haversineDistance(
-  //   lat1: number,
-  //   lon1: number,
-  //   lat2: number,
-  //   lon2: number
-  // ): number {
-  //   const toRadians = (degrees: number) => degrees * (Math.PI / 180);
-
-  //   const R = 6371; // Radius of the Earth in kilometers
-  //   const dLat = toRadians(lat2 - lat1);
-  //   const dLon = toRadians(lon2 - lon1);
-
-  //   const a =
-  //     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-  //     Math.cos(toRadians(lat1)) *
-  //       Math.cos(toRadians(lat2)) *
-  //       Math.sin(dLon / 2) *
-  //       Math.sin(dLon / 2);
-
-  //   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-  //   return R * c;
-  // }
   // const muraveraCoords = { lat: 39.2536, lng: 9.5956 };
   // const distances = visitedCities.map((city) => ({
   //   distance: haversineDistance(
@@ -62,6 +45,13 @@ export default memo(function InfoTabStats({
   // const distance = distances.reduce((prev, current) =>
   //   prev.distance > current.distance ? prev : current
   // ).distance;
+
+  const maxFlight = takenFlights.reduce((prev, current) =>
+    prev.distanceInKm > current.distanceInKm ? prev : current
+  );
+  const minFlight = takenFlights.reduce((prev, current) =>
+    prev.distanceInKm < current.distanceInKm ? prev : current
+  );
 
   const visitedContinents = visitedCities.reduce((prev, current) => {
     if (!prev.includes(current.country.continent)) {
@@ -94,6 +84,20 @@ export default memo(function InfoTabStats({
         <h1>{t("stats.title")}</h1>
       </div>
       <div className="info-tab-stats__content" id="info-tab">
+        <Card className="info-tab-stats__card info-tab-stats__card--flights card--box-shadow">
+          <Column className="info-tab-stats__card__main">
+            <h2>{t("stats.flights")}</h2>
+            <FlightsDonutChart takenFlights={takenFlights} />
+          </Column>
+          <Column className="info-tab-stats__card__row">
+            <h4>{t("stats.longestFlight")}</h4>
+            <FlightRow flight={maxFlight} />
+          </Column>
+          <Column className="info-tab-stats__card__row">
+            <h4>{t("stats.shortestFlight")}</h4>
+            <FlightRow flight={minFlight} />
+          </Column>
+        </Card>
         <Card className="info-tab-stats__card info-tab-stats__card--continents card--box-shadow">
           <Column className="info-tab-stats__card__main">
             <h2 className="continents__title">{t("stats.continents")}</h2>

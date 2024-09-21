@@ -1,5 +1,5 @@
 @use "../../../styles/mixins" as m;
-@use "../../../styles/variables" as v;
+@use "../../../styles/variables.module" as v;
 
 .card {
   border-radius: 1rem;

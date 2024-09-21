@@ -4,11 +4,10 @@ import {
   StatsIcon,
   VisitedIcon,
 } from "../../../assets";
-import { DarkModeButton } from "../../atoms";
+import { Button, DarkModeButton } from "../../atoms";
 import "./LeftBar.scss";
 import { HomeContext } from "../../pages/Home/Home";
 import { memo, useContext } from "react";
-import Button from "../../atoms/Buttons/Button";
 import { Link, useNavigate } from "react-router-dom";
 import useLocation from "../../../hooks/location/location";
 import { LanguageSelector, Tooltip } from "..";
@@ -123,7 +122,7 @@ export default memo(function LeftBar({
                   text={tooltipText}
                 />
               </Link>
-            ),
+            )
           )}
         </div>
         <div className="left-bar__buttons--bottom">

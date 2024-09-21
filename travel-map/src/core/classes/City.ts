@@ -9,6 +9,7 @@ interface CityInterface {
   travels?: Travel[];
   backgroundImgsSrc?: string[];
   mapCoordinates?: [number, number];
+  isLived?: boolean;
 }
 
 /**
@@ -21,10 +22,11 @@ interface CityInterface {
  * @param {CityInterface} cityData - The data of the city
  * @param {string} cityData.name - The name of the city
  * @param {Country} cityData.country - The country of the city
- * @param {[number, number]} cityData.coordinates - The coordinates of the city
+ * @param {[number, number]} cityData.coordinates - The coordinates of the city [longitude, latitude]
  * @param {Travel[]} [cityData.travels] - The travels of the city
  * @param {string[]} [cityData.backgroundImgsSrc] - The background image source of the city
  * @param {[number, number]} [cityData.mapCoordinates] - The map coordinates of the city
+ * @param {boolean} [cityData.isLived] - If the city is lived
  */
 export class City implements CityInterface {
   name: string;
@@ -33,6 +35,7 @@ export class City implements CityInterface {
   travels: Travel[];
   backgroundImgsSrc: string[];
   mapCoordinates?: [number, number];
+  isLived?: boolean | undefined;
 
   constructor(cityData: CityInterface) {
     this.name = cityData.name;
@@ -41,6 +44,7 @@ export class City implements CityInterface {
     this.travels = cityData.travels ?? [];
     this.backgroundImgsSrc = cityData.backgroundImgsSrc ?? [];
     this.mapCoordinates = cityData.mapCoordinates;
+    this.isLived = cityData.isLived;
   }
 
   getName(t: i18n["t"]) {
