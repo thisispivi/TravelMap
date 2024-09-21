@@ -47,10 +47,10 @@ export default memo(function InfoTabStats({
   // ).distance;
 
   const maxFlight = takenFlights.reduce((prev, current) =>
-    prev.distanceInKm > current.distanceInKm ? prev : current
+    prev.distanceInKm > current.distanceInKm ? prev : current,
   );
   const minFlight = takenFlights.reduce((prev, current) =>
-    prev.distanceInKm < current.distanceInKm ? prev : current
+    prev.distanceInKm < current.distanceInKm ? prev : current,
   );
 
   const visitedContinents = visitedCities.reduce((prev, current) => {
@@ -63,10 +63,10 @@ export default memo(function InfoTabStats({
   const continentCities = Object.values(Continent)
     .map((continent) => {
       const numberOfCities = visitedCities.filter(
-        (country) => country.country.continent === continent
+        (country) => country.country.continent === continent,
       ).length;
       const numberOfCountries = Object.values(visitedCountries).filter(
-        (country) => country.continent === continent
+        (country) => country.continent === continent,
       ).length;
       return {
         continent,

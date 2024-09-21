@@ -40,7 +40,7 @@ export class Flight implements FlightInterface {
       sCity.coordinates[1],
       sCity.coordinates[0],
       eCity.coordinates[1],
-      eCity.coordinates[0]
+      eCity.coordinates[0],
     );
   }
 }
