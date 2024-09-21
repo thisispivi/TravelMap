@@ -1,8 +1,7 @@
 import { useState } from "react";
-import Button from "../../atoms/Buttons/Button";
 import "./Language.scss";
 import useLanguage from "../../../hooks/language/language";
-import { LanguageFlag } from "../../atoms";
+import { Button, LanguageFlag } from "../../atoms";
 import { LanguageIcon } from "../../../assets";
 
 /**

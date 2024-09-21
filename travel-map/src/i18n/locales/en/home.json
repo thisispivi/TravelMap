@@ -69,7 +69,17 @@
     "countriesPerContinent": "Countries per continent",
     "citiesPerContinent": "Cities per continent",
     "ofTheWorld": "of the world",
-    "furthestCity": "Furthest City"
+    "furthestCity": "Furthest City",
+    "nearestCity": "Nearest City",
+    "longestFlight": "Longest Flight",
+    "shortestFlight": "Shortest Flight",
+    "flights": "Flights",
+    "flight_one": "flight",
+    "flight_other": "flights",
+    "national": "National",
+    "international": "International",
+    "intercontinental": "Intercontinental",
+    "total": "Total Flights"
   },
   "gallery": "To Gallery",
   "galleryAlt": "Open the gallery",

@@ -2,7 +2,7 @@ import { Tooltip as ReactTooltip } from "react-tooltip";
 import "./TooltipMap.scss";
 import { City } from "../../../core";
 import useLanguage from "../../../hooks/language/language";
-import { CountryFlag } from "../../atoms";
+import { Button, CountryFlag } from "../../atoms";
 import {
   ArrivalIcon,
   DepartureIcon,
@@ -12,7 +12,6 @@ import {
 import { useState } from "react";
 import { formatDate } from "../../../i18n/functions/date";
 import { useNavigate } from "react-router-dom";
-import Button from "../../atoms/Buttons/Button";
 
 interface MapTooltipProps {
   city: City;

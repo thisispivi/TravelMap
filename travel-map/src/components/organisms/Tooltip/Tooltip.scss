@@ -1,5 +1,5 @@
 @use "../../../styles/mixins" as m;
-@use "../../../styles/variables" as v;
+@use "../../../styles/variables.module" as v;
 
 .tooltip {
   border-radius: 0.25rem !important;

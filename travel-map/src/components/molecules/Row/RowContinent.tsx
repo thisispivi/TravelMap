@@ -27,12 +27,12 @@ export default function ContinentRow({
   const { t } = useLanguage(["home"]);
   return (
     <Row className={`continent-row continent-row--${continent}`}>
-      <div className="continent-row__name">{t(`continents.${continent}`)}</div>{" "}
       <div
         className={`continent-row__circle continent-row__circle--${
           isVisited ? "visited" : "not-visited"
         }`}
       />
+      <div className="continent-row__name">{t(`continents.${continent}`)}</div>{" "}
     </Row>
   );
 }

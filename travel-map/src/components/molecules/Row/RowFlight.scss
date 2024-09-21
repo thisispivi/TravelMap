@@ -1,0 +1,45 @@
+@use "../../../styles/variables.module" as v;
+@use "../../../styles/mixins" as m;
+
+.flight-row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+  .flight-row__city {
+    display: flex;
+    align-items: center;
+    .flight-row__icon {
+      width: 1rem;
+      height: 1rem;
+      rotate: 90deg;
+      margin-inline: 0.5rem;
+    }
+  }
+}
+
+.home--light {
+  .flight-row {
+    .flight-row__distance,
+    b {
+      color: v.$darkLeftBar;
+      @include m.transition(all, 0.3s, ease-in-out);
+    }
+  }
+}
+
+.home--dark {
+  .flight-row {
+    .flight-row__distance,
+    b {
+      color: v.$lightLeftBar;
+      @include m.transition(all, 0.3s, ease-in-out);
+    }
+  }
+}
+
+@media (max-width: 460px) {
+  .flight-row {
+    justify-content: center;
+  }
+}

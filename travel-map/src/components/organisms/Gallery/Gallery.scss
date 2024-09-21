@@ -1,5 +1,5 @@
 @use "../../../styles/mixins.scss" as m;
-@use "../../../styles/variables.scss" as v;
+@use "../../../styles/variables.module.scss" as v;
 
 .gallery {
   width: 100%;

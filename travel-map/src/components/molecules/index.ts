@@ -13,6 +13,7 @@ import FilterCountry from "./FilterCountry/FilterCountry";
 import Row from "./Row/Row";
 import ContinentRow from "./Row/RowContinent";
 import ContinentCitiesRow from "./Row/RowContinentCities";
+import FlightRow from "./Row/RowFlight";
 
 import TravelSelector from "./TravelSelector/TravelSelector";
 
@@ -27,4 +28,5 @@ export {
   ContinentRow,
   ContinentCitiesRow,
   TravelSelector,
+  FlightRow,
 };

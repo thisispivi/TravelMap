@@ -1,4 +1,4 @@
-@use "../../../../styles/variables" as v;
+@use "../../../../styles/variables.module" as v;
 @use "../../../../styles/mixins" as m;
 
 .home--dark {
@@ -39,6 +39,7 @@
 
   .info-tab-stats__content {
     display: flex;
+    flex-direction: column;
     max-height: 100%;
     overflow-y: auto;
     margin-right: 0.7rem;
@@ -47,7 +48,8 @@
     h2 {
       margin-bottom: 0.8rem;
     }
-    .info-tab-stats__card--continents {
+    .info-tab-stats__card--continents,
+    .info-tab-stats__card--flights {
       position: relative;
       flex-direction: column;
       padding: 0;
@@ -85,6 +87,7 @@
         h4 {
           margin-top: 0.8rem;
           margin-bottom: 0.4rem;
+          font-weight: 400;
         }
         .continents__cities__wrap,
         .continents__countries__wrap {

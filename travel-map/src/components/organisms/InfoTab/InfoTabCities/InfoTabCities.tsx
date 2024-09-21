@@ -4,11 +4,11 @@ import useLanguage from "../../../../hooks/language/language";
 import { CityCard, FilterCountry } from "../../../molecules";
 import "./InfoTabCities.scss";
 import { HomeContext } from "../../../pages/Home/Home";
-import Button from "../../../atoms/Buttons/Button";
 import { FilterIcon, PositionIcon } from "../../../../assets";
 import { mobileAndTabletCheck } from "../../../../utils/responsive";
 import Tooltip from "../../Tooltip/Tooltip";
 import { visitedCountries } from "../../../../data";
+import { Button } from "../../../atoms";
 
 interface InfoTabCitiesProps {
   className?: string;
