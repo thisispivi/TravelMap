@@ -4,6 +4,7 @@
 .card {
   border-radius: 1rem;
   padding: 1rem;
+  @include m.transition(all, 0.3s, ease-in-out);
   &.card--box-shadow {
     box-shadow: 0 0.063rem 0.125rem 0rem rgba(0, 0, 0, 0.2);
   }
@@ -12,11 +13,29 @@
 .home--light {
   .card {
     background-color: v.$lightLeftBar;
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: v.$lightButtonContent;
+      @include m.transition(all, 0.3s, ease-in-out);
+    }
   }
 }
 
 .home--dark {
   .card {
     background-color: v.$darkLeftBar;
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: v.$darkButtonContent;
+      @include m.transition(all, 0.3s, ease-in-out);
+    }
   }
 }

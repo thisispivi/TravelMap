@@ -39,7 +39,6 @@
 
   .info-tab-stats__content {
     display: flex;
-    flex-wrap: wrap;
     max-height: 100%;
     overflow-y: auto;
     margin-right: 0.7rem;
@@ -48,263 +47,64 @@
     h2 {
       margin-bottom: 0.8rem;
     }
-    .card {
-      box-shadow: 0 0.063rem 0.125rem 0rem rgba(0, 0, 0, 0.2);
-    }
-
-    .info-tab-stats__first-column {
-      width: 100%;
-      h2 {
-        margin-top: 0;
-      }
-      .first-row {
-        justify-content: space-between;
-        width: 100%;
-        gap: 1rem;
-        flex-wrap: wrap;
-        .countries-card,
-        .cities-card,
-        .continents-card {
-          padding: 2.5rem 1rem;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          color: v.$darkLeftBar;
-          background-size: cover;
-          flex: 1;
-          position: relative;
-          background: linear-gradient(0deg, #00000088 30%, #ffffff44 100%);
-          b {
-            color: white;
-            font-size: 2.2rem;
-            font-weight: bold;
-            margin-bottom: -0.3rem;
-          }
-          .text {
-            font-size: 1.3rem;
-          }
-          img {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -1;
-            border-radius: 1rem;
-          }
-        }
-      }
-    }
-
-    .earth-row {
-      .earth-card {
-        position: relative;
-        flex-shrink: 0;
-        height: 8rem;
-        width: 100%;
-        background: linear-gradient(0deg, #00000088 30%, #ffffff44 100%);
-        img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          border-radius: 1rem;
-          z-index: -1;
-          position: absolute;
-          left: 0;
-          top: 0;
-        }
-        .text-container {
-          z-index: 2;
-          display: flex;
-          align-items: center;
-          position: absolute;
-          top: 50%;
-          left: 2rem;
-          transform: translateY(-50%);
-          width: calc(100% - 10rem);
-          color: white;
-          b {
-            font-size: 2.2rem;
-            font-weight: bold;
-            margin-bottom: -0.3rem;
-          }
-          .text {
-            font-size: 1.3rem;
-            line-height: 1.3rem;
-            margin-left: 1rem;
-          }
-        }
-        .earth-card__icon {
-          position: relative;
-          z-index: 2;
-          width: 100%;
-          height: 6rem;
-          svg {
-            width: 6rem;
-            height: 6rem;
-            position: absolute;
-            top: 0;
-            right: 0;
-          }
-          .colored {
-            z-index: 1;
-          }
-          .bw {
-            z-index: 2;
-            filter: grayscale(90%) brightness(0.75);
-          }
-        }
-      }
-    }
-    .furthest-city-row {
-      .furthest-city__card {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-        padding: 1.5rem;
-        position: relative;
-        background: linear-gradient(0deg, #00000088 30%, #ffffff44 100%);
-        img {
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          z-index: -1;
-          border-radius: 1rem;
-          left: 0;
-          top: 0;
-        }
+    .info-tab-stats__card--continents {
+      position: relative;
+      flex-direction: column;
+      padding: 0;
+      .info-tab-stats__card__main {
+        padding: 1rem;
         p,
         b,
-        h2 {
+        h3 {
           color: white;
         }
-        h2 {
+        .continents__title {
           margin: 0;
           margin-bottom: 0.75rem;
-        }
-      }
-      .furthest-city__start,
-      .furthest-city__end,
-      .furthest-city__distance {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-      }
-      .furthest-city__start,
-      .furthest-city__end {
-        width: 8rem;
-        span {
-          display: flex;
-          align-items: center;
-          p {
-            margin-right: 0.4rem;
-            font-size: 1rem;
-          }
-          .flag {
-            width: 1.2rem;
-            height: 1.2rem;
-          }
-        }
-      }
-      .marker__icon,
-      .home__icon {
-        margin-top: 0.8rem;
-        width: 2rem;
-        height: 2rem;
-        path {
-          stroke: white;
-          opacity: 0.8;
-        }
-      }
-      .home__icon {
-        margin-left: -0.8rem;
-      }
-      .furthest-city__distance {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        b {
-          width: 100%;
-          text-align: center;
-          margin-bottom: 1rem;
-          font-size: 1.2rem;
-        }
-        .border {
-          position: absolute;
-          left: -1.9rem;
-          bottom: 0.9rem;
-          width: calc(100% + 2.4rem);
-          border-bottom: 0.125rem dashed gray;
-        }
-        .chevron__icon {
-          width: 1.5rem;
-          height: 1.5rem;
-          position: absolute;
-          right: -1.5rem;
-          rotate: 180deg;
-          top: 2.46rem;
-          path {
-            stroke: gray;
-          }
-        }
-      }
-    }
-    .continents-row {
-      .continents__card {
-        position: relative;
-        flex-direction: column;
-        background: linear-gradient(0deg, #00000088 30%, #ffffff44 100%);
-        p,
-        b,
-        h2 {
-          color: white;
-        }
-        h2 {
-          margin: 0;
-          margin-bottom: 0.75rem;
-          text-align: center;
-        }
-        img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          z-index: -1;
-          border-radius: 1rem;
-          position: absolute;
-          left: 0;
-          top: 0;
-        }
-        .continents__icon {
-          width: 100%;
-          height: auto;
-          left: 0;
-          top: 0;
-
-          @include not-visited("africa", "Africa");
-          @include not-visited("asia", "Asia");
-          @include not-visited("europe", "Europe");
-          @include not-visited("north-america", "NorthAmerica");
-          @include not-visited("oceania", "Oceania");
-          @include not-visited("south-america", "SouthAmerica");
         }
         .continents__wrap {
           margin-top: -1rem;
         }
-        h3 {
-          margin-top: 1rem;
+      }
+      .continents__icon {
+        width: 100%;
+        height: auto;
+        left: 0;
+        top: 0;
+        @include not-visited("africa", "Africa");
+        @include not-visited("asia", "Asia");
+        @include not-visited("europe", "Europe");
+        @include not-visited("north-america", "NorthAmerica");
+        @include not-visited("oceania", "Oceania");
+        @include not-visited("south-america", "SouthAmerica");
+      }
+      .info-tab-stats__card__row {
+        margin-bottom: 1rem;
+        padding-inline: 1rem;
+        @include m.transition(all, 0.3s, ease-in-out);
+        h4 {
+          margin-top: 0.8rem;
           margin-bottom: 0.4rem;
         }
-        .continents__cities__wrap {
-          .continent-cities-row {
-            margin-right: 0.5rem;
-          }
+        .continents__cities__wrap,
+        .continents__countries__wrap {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+          justify-content: center;
         }
       }
     }
+  }
+}
+
+.home--light {
+  .home__icon path,
+  .marker__icon path {
+    stroke: v.$darkLeftBar;
+  }
+  .info-tab-stats__card__row {
+    border-top: 1px solid v.$lightInfoTab;
   }
 }
 
@@ -313,11 +113,7 @@
   .marker__icon path {
     stroke: v.$lightLeftBar;
   }
-}
-
-.home--light {
-  .home__icon path,
-  .marker__icon path {
-    stroke: v.$darkLeftBar;
+  .info-tab-stats__card__row {
+    border-top: 1px solid v.$darkInfoTab;
   }
 }

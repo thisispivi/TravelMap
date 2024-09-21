@@ -21,11 +21,15 @@ $continents-colors: (
 .continent-row {
   align-items: center;
   padding: 0.2rem 0.5rem;
+  @include m.transition(all, 0.3s, ease-in-out);
+  .continent-row__name {
+    font-size: 0.9rem;
+  }
   .continent-row__circle {
-    $size: 0.7rem;
+    $size: 0.6rem;
     width: $size;
     height: $size;
-    margin-left: 0.4rem;
+    margin-left: 0.3rem;
     border-radius: 50%;
     background-color: gray;
     flex-shrink: 0;

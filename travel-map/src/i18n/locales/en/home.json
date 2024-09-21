@@ -67,6 +67,7 @@
     "countries": "Countries",
     "continents": "Continents",
     "countriesPerContinent": "Countries per continent",
+    "citiesPerContinent": "Cities per continent",
     "ofTheWorld": "of the world",
     "furthestCity": "Furthest City"
   },
