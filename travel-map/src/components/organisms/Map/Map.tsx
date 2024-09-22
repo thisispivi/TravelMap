@@ -142,7 +142,7 @@ export default memo(function Map({
             onMouseEnter={(city: City) => setHoveredCity(city)}
             onMouseLeave={() => setHoveredCity(null)}
           />
-        )
+        ),
       )}
     </div>
   );

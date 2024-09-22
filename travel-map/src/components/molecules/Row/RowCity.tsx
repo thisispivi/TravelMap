@@ -21,7 +21,7 @@ export default function CityRow({
     sCity.coordinates[1],
     sCity.coordinates[0],
     eCity.coordinates[1],
-    eCity.coordinates[0]
+    eCity.coordinates[0],
   );
   return (
     <Row className={`city-row ${className} row--wrap`}>
