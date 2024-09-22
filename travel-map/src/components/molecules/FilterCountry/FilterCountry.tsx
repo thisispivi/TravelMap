@@ -14,13 +14,28 @@ interface FilterCountryProps {
   className?: string;
 }
 
+/**
+ * FilterCountry component
+ *
+ * The filter country component is used to filter countries.
+ *
+ * @component
+ *
+ * @param {FilterCountryProps} props - The props of the component
+ * @param {Country[]} props.options - The options
+ * @param {Country[]} props.selected - The selected options
+ * @param {(selected: Country[]) => void} props.onChange - The function to call when the selection changes
+ * @param {ReactNode} props.buttonIcon - The icon of the button
+ * @param {string} props.className - The class to apply to the filter country
+ * @returns {JSX.Element} - The filter country
+ */
 export default function FilterCountry({
   options,
   selected,
   onChange,
   buttonIcon,
   className = "",
-}: FilterCountryProps) {
+}: FilterCountryProps): JSX.Element {
   const { t } = useLanguage(["home"]);
   const [isOpen, setIsOpen] = useState(false);
   const onIsOpenChange = () => setIsOpen(!isOpen);

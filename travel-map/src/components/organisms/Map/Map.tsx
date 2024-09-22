@@ -22,6 +22,22 @@ export interface MapProps {
   setCurrentHoveredCity: (city: City | null) => void;
 }
 
+/**
+ * The map component
+ *
+ * The map component is used to create a map.
+ *
+ * @component
+ *
+ * @param {MapProps} props - The props of the component
+ * @param {City[]} props.livedCities - The cities where the user lived
+ * @param {Record<string, CountryCore>} props.visitedCountries - The visited countries
+ * @param {City[]} props.visitedCities - The visited cities
+ * @param {City[]} props.futureCities - The future cities
+ * @param {City | null} props.currHoveredCity - The current hovered city
+ * @param {function} props.setCurrentHoveredCity - The function to set the current hovered city
+ * @returns {JSX.Element} - The map
+ */
 export default memo(function Map({
   visitedCountries,
   visitedCities,
@@ -142,7 +158,7 @@ export default memo(function Map({
             onMouseEnter={(city: City) => setHoveredCity(city)}
             onMouseLeave={() => setHoveredCity(null)}
           />
-        ),
+        )
       )}
     </div>
   );
