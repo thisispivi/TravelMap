@@ -48,18 +48,19 @@
     h2 {
       margin-bottom: 0.8rem;
     }
+    p,
+    b,
+    h3 {
+      @include m.transition(all, 0.3s, ease-in-out);
+    }
     .info-tab-stats__card--continents,
-    .info-tab-stats__card--flights {
+    .info-tab-stats__card--flights,
+    .info-tab-stats__card--mileage {
       position: relative;
       flex-direction: column;
       padding: 0;
       .info-tab-stats__card__main {
         padding: 1rem;
-        p,
-        b,
-        h3 {
-          color: white;
-        }
         .continents__title {
           margin: 0;
           margin-bottom: 0.75rem;
@@ -84,7 +85,7 @@
         margin-bottom: 1rem;
         padding-inline: 1rem;
         @include m.transition(all, 0.3s, ease-in-out);
-        h4 {
+        p {
           margin-top: 0.8rem;
           margin-bottom: 0.4rem;
           font-weight: 400;
@@ -98,25 +99,87 @@
         }
       }
     }
+    .info-tab-stats__card--mileage {
+      .info-tab-stats__card__main__total-mileage {
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .info-tab-stats__card__main__mileage-planets {
+        margin-top: 1.5rem;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+        .info-tab-stats__card__main__mileage-planets--earth,
+        .info-tab-stats__card__main__mileage-planets--moon {
+          min-width: none;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          p {
+            text-align: center;
+            padding-inline: 1.5rem;
+            margin-block: 0.5rem;
+          }
+          b {
+            margin-top: 0.5rem;
+            @include m.transition(all, 0.3s, ease-in-out);
+            padding: 0.25rem 0.5rem;
+            border-radius: 1rem;
+          }
+          .info-tab-stats__card__main__mileage-planets__earth-icon,
+          .info-tab-stats__card__main__mileage-planets__moon-icon {
+            border-radius: 50%;
+            z-index: 2;
+            $size: 6rem;
+            width: $size;
+            height: $size;
+          }
+        }
+      }
+    }
   }
 }
 
 .home--light {
-  .home__icon path,
-  .marker__icon path {
-    stroke: v.$darkLeftBar;
-  }
-  .info-tab-stats__card__row {
-    border-top: 1px solid v.$lightInfoTab;
+  .info-tab-stats {
+    .home__icon path,
+    .marker__icon path {
+      stroke: v.$darkLeftBar;
+    }
+    .info-tab-stats__card__row {
+      border-top: 1px solid v.$lightInfoTab;
+    }
+    .info-tab-stats__card__main__mileage-planets {
+      b {
+        border: 0.063rem solid v.$darkLeftBar;
+      }
+    }
+    p,
+    b,
+    h3 {
+      color: v.$darkLeftBar;
+    }
   }
 }
 
 .home--dark {
-  .home__icon path,
-  .marker__icon path {
-    stroke: v.$lightLeftBar;
-  }
-  .info-tab-stats__card__row {
-    border-top: 1px solid v.$darkInfoTab;
+  .info-tab-stats {
+    .home__icon path,
+    .marker__icon path {
+      stroke: v.$lightLeftBar;
+    }
+    .info-tab-stats__card__row {
+      border-top: 1px solid v.$darkInfoTab;
+    }
+    .info-tab-stats__card__main__mileage-planets {
+      b {
+        border: 0.063rem solid v.$lightLeftBar;
+      }
+    }
+    p,
+    b,
+    h3 {
+      color: v.$lightLeftBar;
+    }
   }
 }

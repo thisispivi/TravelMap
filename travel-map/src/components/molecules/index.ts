@@ -11,6 +11,7 @@ import Container from "./Container/Container";
 import FilterCountry from "./FilterCountry/FilterCountry";
 
 import Row from "./Row/Row";
+import CityRow from "./Row/RowCity";
 import ContinentRow from "./Row/RowContinent";
 import ContinentCitiesRow from "./Row/RowContinentCities";
 import FlightRow from "./Row/RowFlight";
@@ -25,6 +26,7 @@ export {
   Container,
   FilterCountry,
   Row,
+  CityRow,
   ContinentRow,
   ContinentCitiesRow,
   TravelSelector,
