@@ -55,6 +55,13 @@
           v.$futureButtonHover
         );
       }
+      .left-bar__button--lived--active {
+        @include m.set-button-colors(
+          v.$livedButton,
+          v.$livedButtonContent,
+          v.$livedButtonHover
+        );
+      }
       .left-bar__button--stats--active {
         @include m.set-button-colors(
           v.$statsButton,

@@ -14,6 +14,7 @@ import { MapTooltip } from "..";
 import { parameters } from "../../../utils/parameters";
 
 export interface MapProps {
+  livedCities: City[];
   visitedCountries: Record<string, CountryCore>;
   visitedCities: City[];
   futureCities: City[];
@@ -25,6 +26,7 @@ export default memo(function Map({
   visitedCountries,
   visitedCities,
   futureCities,
+  livedCities,
 }: MapProps): JSX.Element {
   const context = useContext(HomeContext);
   const { isDarkTheme, hoveredCity, setHoveredCity, mapPosition, responsive } =
@@ -118,17 +120,30 @@ export default memo(function Map({
                 />
               ))
             : null}
+          {isLoaded
+            ? livedCities.map((city, i) => (
+                <Marker
+                  city={city}
+                  hoveredCity={hoveredCity}
+                  isLived
+                  key={i}
+                  setHoveredCity={setHoveredCity}
+                />
+              ))
+            : null}
         </ZoomableGroup>
       </ComposableMap>
-      {[...sortedVisitedCities, ...sortedFutureCities].map((city, i) => (
-        <MapTooltip
-          city={city}
-          isOpen={hoveredCity?.name === city.name}
-          key={i}
-          onMouseEnter={(city: City) => setHoveredCity(city)}
-          onMouseLeave={() => setHoveredCity(null)}
-        />
-      ))}
+      {[...sortedVisitedCities, ...sortedFutureCities, ...livedCities].map(
+        (city, i) => (
+          <MapTooltip
+            city={city}
+            isOpen={hoveredCity?.name === city.name}
+            key={i}
+            onMouseEnter={(city: City) => setHoveredCity(city)}
+            onMouseLeave={() => setHoveredCity(null)}
+          />
+        )
+      )}
     </div>
   );
 });

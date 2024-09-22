@@ -1,5 +1,6 @@
 import {
   FutureTravelsIcon,
+  HomeIcon,
   LogoIcon,
   StatsIcon,
   VisitedIcon,
@@ -32,17 +33,28 @@ export default memo(function LeftBar({
   className = "",
 }: LeftBarProps): JSX.Element {
   const navigate = useNavigate();
-  const { isVisited, isFuture, isGallery, isStats } = useLocation();
+  const { isVisited, isFuture, isGallery, isStats, isLived } = useLocation();
   const { t } = useTranslation("home");
   const context = useContext(HomeContext);
   const { isDarkTheme, handleDarkModeSwitch } = context!;
 
   const buttonsConfig = [
     {
+      id: "lived",
+      isButtonActive: isLived,
+      defaultPath: "/lived",
+      isOtherButtonsActive: isFuture || isStats || isVisited,
+      alternativePath: "/?to=lived",
+      icon: <HomeIcon />,
+      tooltipText: t("lived.title"),
+      activeClass: "left-bar__button--lived--active",
+      className: "left-bar__button--lived",
+    },
+    {
       id: "visited",
       isButtonActive: isVisited,
       defaultPath: "/visited",
-      isOtherButtonsActive: isFuture || isStats,
+      isOtherButtonsActive: isFuture || isStats || isLived,
       alternativePath: "/?to=visited",
       icon: <VisitedIcon />,
       tooltipText: t("visited.title"),
@@ -53,7 +65,7 @@ export default memo(function LeftBar({
       id: "future",
       isButtonActive: isFuture,
       defaultPath: "/future",
-      isOtherButtonsActive: isVisited || isStats,
+      isOtherButtonsActive: isVisited || isStats || isLived,
       alternativePath: "/?to=future",
       icon: <FutureTravelsIcon />,
       tooltipText: t("future.title"),
@@ -122,7 +134,7 @@ export default memo(function LeftBar({
                   text={tooltipText}
                 />
               </Link>
-            ),
+            )
           )}
         </div>
         <div className="left-bar__buttons--bottom">

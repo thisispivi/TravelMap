@@ -6,6 +6,7 @@ type LocationHook = {
   isInfoTabOpen: boolean;
   isGallery: boolean;
   isStats: boolean;
+  isLived: boolean;
 };
 
 /**
@@ -21,6 +22,7 @@ export default function useLocation(): LocationHook {
   const isFuture = location.pathname.includes("future");
   const isGallery = location.pathname.includes("gallery");
   const isStats = location.pathname.includes("stats");
-  const isInfoTabOpen = isVisited || isFuture || isStats;
-  return { isVisited, isFuture, isInfoTabOpen, isGallery, isStats };
+  const isLived = location.pathname.includes("lived");
+  const isInfoTabOpen = isVisited || isFuture || isStats || isLived;
+  return { isVisited, isFuture, isInfoTabOpen, isGallery, isStats, isLived };
 }

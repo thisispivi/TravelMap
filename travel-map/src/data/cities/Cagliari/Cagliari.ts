@@ -1,12 +1,13 @@
 import { City } from "../../../core";
 import { Italy } from "../../countries/countries";
 
-export const Muravera = new City({
-  name: "Muravera",
+export const Cagliari = new City({
+  name: "Cagliari",
   country: Italy,
-  coordinates: [9.5833, 39.25],
+  coordinates: [9.1167, 39.2167],
   backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/Cities/Muravera.jpg",
+    "https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/Cities/Cagliari.webp",
   ],
-  mapCoordinates: [15.5, 47.5],
+  travels: [],
+  mapCoordinates: [5.7, 39.4],
 });

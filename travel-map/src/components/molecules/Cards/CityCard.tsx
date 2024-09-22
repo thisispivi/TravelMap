@@ -12,7 +12,7 @@ import { mobileAndTabletCheck } from "../../../utils/responsive";
 interface CityCardProps {
   className?: string;
   city: City;
-  travel: Travel;
+  travel?: Travel;
   idx: number;
   isClickable?: boolean;
   hoveredCity: City | null;
@@ -34,7 +34,7 @@ interface CityCardProps {
  * @param {CityCardProps} data - The data that will be used to display the component.
  * @param {string} data.className - The class to apply to the city card
  * @param {City} data.city - The city
- * @param {Travel} data.travel - The travel
+ * @param {Travel} [data.travel] - The travel
  * @param {number} data.idx - The index of the travel used to retrieve the travel photos
  * @param {boolean} data.isClickable - Whether the card is clickable
  * @param {City} data.hoveredCity - The hovered city
@@ -108,14 +108,18 @@ export default function CityCard({
           <h3>{city.getName(t)}</h3>
           <CountryFlag countryId={city.country.id} />
         </div>
-        <div className="travel-card__info">
-          <DepartureIcon className="travel-card__icon" />
-          <p>{formatDate(travel.sDate, lang)}</p>
-        </div>
-        <div className="travel-card__info">
-          <ArrivalIcon className="travel-card__icon" />
-          <p>{formatDate(travel.eDate, lang)}</p>
-        </div>
+        {travel?.sDate ? (
+          <div className="travel-card__info">
+            <DepartureIcon className="travel-card__icon" />
+            <p>{formatDate(travel.sDate, lang)}</p>
+          </div>
+        ) : null}
+        {travel?.eDate ? (
+          <div className="travel-card__info">
+            <ArrivalIcon className="travel-card__icon" />
+            <p>{formatDate(travel.eDate, lang)}</p>
+          </div>
+        ) : null}
       </div>
     </div>
   );

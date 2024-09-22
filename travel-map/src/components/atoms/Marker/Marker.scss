@@ -31,4 +31,14 @@
       }
     }
   }
+  .marker-icon--lived {
+    path {
+      fill: #fbc02d;
+    }
+    &.marker-icon--hovered {
+      path {
+        fill: #ffcc4a;
+      }
+    }
+  }
 }

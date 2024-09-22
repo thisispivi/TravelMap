@@ -2,6 +2,7 @@ import Gallery from "./Gallery/Gallery";
 import InfoTab from "./InfoTab/InfoTab";
 import InfoTabCities from "./InfoTab/InfoTabCities/InfoTabCities";
 import InfoTabFuture from "./InfoTab/InfoTabCities/InfoTabFuture";
+import InfoTabLived from "./InfoTab/InfoTabCities/InfoTabLived";
 import InfoTabVisited from "./InfoTab/InfoTabCities/InfoTabVisited";
 import InfoTabStats from "./InfoTab/InfoTabStats/InfoTabStats";
 import LanguageSelector from "./Language/Language";
@@ -16,6 +17,7 @@ export {
   InfoTab,
   InfoTabCities,
   InfoTabFuture,
+  InfoTabLived,
   InfoTabVisited,
   InfoTabStats,
   LanguageSelector,

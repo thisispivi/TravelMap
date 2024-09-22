@@ -11,6 +11,7 @@ import { RouterProvider, createHashRouter } from "react-router-dom";
 import {
   Gallery,
   InfoTabFuture,
+  InfoTabLived,
   InfoTabStats,
   InfoTabVisited,
   Lightbox,
@@ -26,6 +27,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           path: "/",
           element: <Home />,
           children: [
+            { path: "lived", element: <InfoTabLived /> },
             { path: "visited", element: <InfoTabVisited /> },
             { path: "future", element: <InfoTabFuture /> },
             { path: "stats", element: <InfoTabStats /> },
@@ -45,5 +47,5 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         },
       ])}
     />
-  </React.StrictMode>,
+  </React.StrictMode>
 );
