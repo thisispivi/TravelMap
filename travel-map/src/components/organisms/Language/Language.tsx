@@ -13,7 +13,7 @@ import { LanguageIcon } from "../../../assets";
  *
  * @returns {JSX.Element} - The language selector
  */
-export default function LanguageSelector() {
+export default function LanguageSelector(): JSX.Element {
   const [isOpen, setIsOpen] = useState(false);
   const { currentLanguage, changeLanguage } = useLanguage([]);
 
