@@ -37,6 +37,18 @@ interface InfoTabStatsProps {
   isVisible?: boolean;
 }
 
+/**
+ * The info tab stats component
+ *
+ * The info tab stats component is used to display the stats of the user.
+ *
+ * @component
+ *
+ * @param {InfoTabStatsProps} props - The props of the component
+ * @param {string} props.className - The class to apply to the info tab stats
+ * @param {boolean} props.isVisible - The visibility of the info tab stats
+ * @returns {JSX.Element} - The info tab stats
+ */
 export default memo(function InfoTabStats({
   className = "",
   isVisible = false,
