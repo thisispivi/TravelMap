@@ -23,6 +23,9 @@
     background-color: $buttonHover;
   }
   svg {
+    path {
+      @include transition(all, 0.3s, ease-in-out);
+    }
     fill: $buttonContent;
     .visited-1 {
       stroke: $buttonContent;
