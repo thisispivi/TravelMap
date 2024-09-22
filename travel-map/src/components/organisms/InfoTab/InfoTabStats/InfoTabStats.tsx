@@ -22,7 +22,7 @@ import {
   MoonFlatIcon,
 } from "../../../../assets";
 import { FlightsDonutChart } from "../../../atoms";
-import { Muravera } from "../../../../data/cities/Cagliari/Cagliari";
+import { Muravera } from "../../../../data/cities/Muravera/Muravera";
 import {
   getFurthestAndNearestCity,
   getMinAndMaxFlight,
@@ -55,10 +55,10 @@ export default memo(function InfoTabStats({
   const continentCities = Object.values(Continent)
     .map((continent) => {
       const numberOfCities = visitedCities.filter(
-        (country) => country.country.continent === continent,
+        (country) => country.country.continent === continent
       ).length;
       const numberOfCountries = Object.values(visitedCountries).filter(
-        (country) => country.continent === continent,
+        (country) => country.continent === continent
       ).length;
       return {
         continent,

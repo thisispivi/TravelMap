@@ -2,6 +2,7 @@ import { PropsWithChildren, memo, useContext } from "react";
 import {
   InfoTab,
   InfoTabFuture,
+  InfoTabLived,
   InfoTabStats,
   InfoTabVisited,
   LeftBar,
@@ -9,7 +10,12 @@ import {
 } from "../../organisms";
 import useLocation from "../../../hooks/location/location";
 import { Container } from "../../molecules";
-import { futureCities, visitedCities, visitedCountries } from "../../../data";
+import {
+  futureCities,
+  livedCities,
+  visitedCities,
+  visitedCountries,
+} from "../../../data";
 import { HomeContext } from "../../pages/Home/Home";
 
 interface HomeTemplateProps extends PropsWithChildren {}
@@ -26,15 +32,16 @@ interface HomeTemplateProps extends PropsWithChildren {}
  * @returns {JSX.Element} - The home template
  */
 export default memo(function HomeTemplate(
-  props: HomeTemplateProps,
+  props: HomeTemplateProps
 ): JSX.Element {
-  const { isVisited, isFuture, isGallery, isStats } = useLocation();
+  const { isVisited, isFuture, isGallery, isStats, isLived } = useLocation();
   const { hoveredCity, setHoveredCity } = useContext(HomeContext)!;
 
   return (
     <div className="home-template">
       <LeftBar />
       <InfoTab>
+        <InfoTabLived isVisible={isLived} />
         <InfoTabVisited isVisible={isVisited} />
         <InfoTabFuture isVisible={isFuture} />
         <InfoTabStats isVisible={isStats} />
@@ -45,6 +52,7 @@ export default memo(function HomeTemplate(
       <Map
         currHoveredCity={hoveredCity}
         futureCities={futureCities}
+        livedCities={livedCities}
         setCurrentHoveredCity={setHoveredCity}
         visitedCities={visitedCities}
         visitedCountries={visitedCountries}

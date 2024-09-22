@@ -37,7 +37,8 @@
     "Oshino": "Oshino",
     "Fujikawaguchiko": "Fujikawaguchiko",
     "Bologna": "Bologna",
-    "Muravera": "Muravera"
+    "Muravera": "Muravera",
+    "Cagliari": "Cagliari"
   },
   "countries": {
     "Belgium": "Belgium",
@@ -58,6 +59,7 @@
     "NorthAmerica": "North America"
   },
   "home": "Home",
+  "lived": { "title": "Lived Cities" },
   "visited": { "title": "Visited Cities" },
   "future": { "title": "Future Destinations" },
   "stats": {

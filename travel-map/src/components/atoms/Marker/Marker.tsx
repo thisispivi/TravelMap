@@ -13,6 +13,7 @@ interface MarkerProps {
   minScale?: number;
   maxScale?: number;
   isFuture?: boolean;
+  isLived?: boolean;
 }
 
 /**
@@ -29,6 +30,7 @@ interface MarkerProps {
  * @param {number} data.minScale - The minimum scale of the marker
  * @param {number} data.maxScale - The maximum scale of the marker
  * @param {boolean} data.isFuture - Whether the marker is for a future city
+ * @param {boolean} data.isLived - Whether the marker is for a lived city
  * @returns {JSX.Element} The Marker component
  */
 export function Marker({
@@ -40,6 +42,7 @@ export function Marker({
   minScale = 0.1,
   maxScale = 0.2,
   isFuture = false,
+  isLived = false,
 }: MarkerProps): JSX.Element {
   const { k } = useZoomPanContext();
   const currScale = defaultScale * (baseZoom / k);
@@ -62,6 +65,7 @@ export function Marker({
       <MarkerIcon
         className={`${isHovered ? "marker-icon--hovered" : ""}
           ${isFuture ? "marker-icon--future" : ""}
+          ${isLived ? "marker-icon--lived" : ""}
         `}
         scale={scale}
       />

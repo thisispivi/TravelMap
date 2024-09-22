@@ -1,5 +1,3 @@
-import { City } from "../core";
-import { Flight } from "../core/classes/Flight";
 import { Anderlecht } from "./cities/Anderlecht/Anderlecht";
 import { Barcelona } from "./cities/Barcelona/Barcelona";
 import { Berlin } from "./cities/Berlin/Berlin";
@@ -8,8 +6,10 @@ import { Braga } from "./cities/Braga/Braga";
 import { Bruges } from "./cities/Bruges/Bruges";
 import { Brussels } from "./cities/Brussels/Brussels";
 import { Budapest } from "./cities/Budapest/Budapest";
-import { Muravera } from "./cities/Cagliari/Cagliari";
+import { Cagliari } from "./cities/Cagliari/Cagliari";
 import { Cefalù } from "./cities/Cefalù/Cefalù";
+import { City } from "../core";
+import { Flight } from "../core/classes/Flight";
 import { Fujikawaguchiko } from "./cities/Fujikawaguchiko/Fujikawaguchiko";
 import { Genoa } from "./cities/Genoa/Genoa";
 import { Himeji } from "./cities/Himeji/Himeji";
@@ -19,7 +19,7 @@ import { Kobe } from "./cities/Kobe/Kobe";
 import { Kyoto } from "./cities/Kyoto/Kyoto";
 import { London } from "./cities/London/London";
 import { Matsumoto } from "./cities/Matsumoto/Matsumoto";
-import { Cagliari } from "./cities/Muravera/Muravera";
+import { Muravera } from "./cities/Muravera/Muravera";
 import { Nara } from "./cities/Nara/Nara";
 import { Osaka } from "./cities/Osaka/Osaka";
 import { Oshino } from "./cities/Oshino/Oshino";
@@ -33,57 +33,57 @@ import { Turin } from "./cities/Turin/Turin";
 import { Verona } from "./cities/Verona/Verona";
 import {
   Belgium,
-  UnitedKingdom,
   Germany,
   Hungary,
   Italy,
-  Spain,
-  Portugal,
   Japan,
+  Portugal,
+  Spain,
+  UnitedKingdom,
 } from "./countries/countries";
 
 export const livedCountries = { Italy };
 export const livedCities: City[] = [Muravera, Cagliari];
 
 export const visitedCountries = {
-  Italy,
   Belgium,
-  UnitedKingdom,
   Germany,
   Hungary,
-  Spain,
-  Portugal,
+  Italy,
   Japan,
+  Portugal,
+  Spain,
+  UnitedKingdom,
 };
 export const visitedCities: City[] = [
-  Brussels,
   Anderlecht,
-  Bruges,
-  Rome,
-  Imola,
-  Turin,
-  Genoa,
-  London,
-  Berlin,
-  Budapest,
   Barcelona,
-  Cefalù,
-  Terni,
-  Porto,
+  Berlin,
+  Bologna,
   Braga,
-  Tokyo,
-  Oshino,
+  Bruges,
+  Brussels,
+  Budapest,
+  Cefalù,
   Fujikawaguchiko,
-  Matsumoto,
-  Takayama,
-  Shirakawago,
-  Kanazawa,
-  Kyoto,
+  Genoa,
   Himeji,
+  Imola,
+  Kanazawa,
   Kobe,
+  Kyoto,
+  London,
+  Matsumoto,
   Nara,
   Osaka,
-  Bologna,
+  Oshino,
+  Porto,
+  Rome,
+  Shirakawago,
+  Takayama,
+  Terni,
+  Tokyo,
+  Turin,
 ];
 
 export const takenFlights: Flight[] = [

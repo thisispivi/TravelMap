@@ -111,7 +111,11 @@ export default memo(function InfoTabCities({
             hoveredCity={hoveredCity}
             idx={getTravelIdx(city, city.travels[0])}
             isAutoPosition={isAutoPosition}
-            isClickable={city.travels[0].photos.length > 0}
+            isClickable={
+              city.travels.length > 0 && city.travels[0].photos.length > 0
+                ? true
+                : false
+            }
             isHidden={!countries.includes(city.country)}
             key={i}
             setHoveredCity={setHoveredCity}
