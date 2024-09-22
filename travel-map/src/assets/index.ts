@@ -1,5 +1,7 @@
+import AirportIcon from "./icons/Airport.svg?react";
 import ArrivalIcon from "./icons/Arrival.svg?react";
 import ChevronIcon from "./icons/Chevron.svg?react";
+import CityIcon from "./icons/City.svg?react";
 import CloseIcon from "./icons/Close.svg?react";
 import ContinentsIcon from "./icons/Continents.svg?react";
 import DepartureIcon from "./icons/Departure.svg?react";
@@ -11,6 +13,7 @@ import FullscreenEnterIcon from "./icons/FullscreenEnter.svg?react";
 import FullscreenExitIcon from "./icons/FullscreenExit.svg?react";
 import FutureTravelsIcon from "./icons/FutureTravels.svg?react";
 import GalleryIcon from "./icons/Gallery.svg?react";
+import GlobeIcon from "./icons/Globe.svg?react";
 import HomeIcon from "./icons/Home.svg?react";
 import LanguageIcon from "./icons/Language.svg?react";
 import LogoIcon from "./icons/Logo.svg?react";
@@ -26,8 +29,10 @@ import SunIcon from "./icons/Sun.svg?react";
 import VisitedIcon from "./icons/Visited.svg?react";
 
 export {
+  AirportIcon,
   ArrivalIcon,
   ChevronIcon,
+  CityIcon,
   CloseIcon,
   ContinentsIcon,
   DepartureIcon,
@@ -39,6 +44,7 @@ export {
   FullscreenExitIcon,
   FutureTravelsIcon,
   GalleryIcon,
+  GlobeIcon,
   HomeIcon,
   LanguageIcon,
   LogoIcon,

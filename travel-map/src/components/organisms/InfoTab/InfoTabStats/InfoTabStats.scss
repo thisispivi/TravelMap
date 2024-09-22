@@ -53,6 +53,41 @@
     h3 {
       @include m.transition(all, 0.3s, ease-in-out);
     }
+    .info-tab-stats__cards {
+      gap: 1rem;
+      .card {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        svg {
+          $size: 1.25rem;
+          width: $size;
+          height: $size;
+        }
+        .info-tab-stats__card__countries__icon {
+          stroke-width: 0;
+          path {
+            @include m.transition(fill, 0.3s, ease-in-out);
+          }
+        }
+        .info-tab-stats__card__cities__icon {
+          path {
+            @include m.transition(stroke, 0.3s, ease-in-out);
+          }
+        }
+        .info-tab-stats__card__flights__icon {
+          path {
+            @include m.transition(all, 0.3s, ease-in-out);
+          }
+        }
+        p {
+          margin-top: 0.5rem;
+        }
+        b {
+          margin-top: 1rem;
+        }
+      }
+    }
     .info-tab-stats__card--continents,
     .info-tab-stats__card--flights,
     .info-tab-stats__card--mileage {
@@ -159,6 +194,21 @@
     h3 {
       color: v.$darkLeftBar;
     }
+    .info-tab-stats__cards {
+      .card {
+        svg {
+          path {
+            stroke: v.$darkLeftBar;
+          }
+        }
+        .info-tab-stats__card__countries__icon,
+        .info-tab-stats__card__flights__icon {
+          path {
+            fill: v.$darkLeftBar;
+          }
+        }
+      }
+    }
   }
 }
 
@@ -180,6 +230,21 @@
     b,
     h3 {
       color: v.$lightLeftBar;
+    }
+    .info-tab-stats__cards {
+      .card {
+        svg {
+          path {
+            stroke: v.$lightLeftBar;
+          }
+        }
+        .info-tab-stats__card__countries__icon,
+        .info-tab-stats__card__flights__icon {
+          path {
+            fill: v.$lightLeftBar;
+          }
+        }
+      }
     }
   }
 }
