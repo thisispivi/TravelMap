@@ -123,7 +123,7 @@ export default memo(function InfoTabCities({
           2 !==
         0 ? (
           <div
-            className={`info-tab-cities__void-city info-tab-${id}__void-city city-card`}
+            className={`info-tab-cities__void-city info-tab-${id}__void-city city-card city-card--no-box-shadow`}
           />
         ) : null}
       </div>
