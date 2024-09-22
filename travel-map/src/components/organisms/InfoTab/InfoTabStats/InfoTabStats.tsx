@@ -17,8 +17,11 @@ import {
   Row,
 } from "../../../molecules";
 import {
+  AirportIcon,
+  CityIcon,
   ContinentsIcon,
   EarthFlatIcon,
+  GlobeIcon,
   MoonFlatIcon,
 } from "../../../../assets";
 import { FlightsDonutChart } from "../../../atoms";
@@ -55,10 +58,10 @@ export default memo(function InfoTabStats({
   const continentCities = Object.values(Continent)
     .map((continent) => {
       const numberOfCities = visitedCities.filter(
-        (country) => country.country.continent === continent,
+        (country) => country.country.continent === continent
       ).length;
       const numberOfCountries = Object.values(visitedCountries).filter(
-        (country) => country.continent === continent,
+        (country) => country.continent === continent
       ).length;
       return {
         continent,
@@ -76,6 +79,23 @@ export default memo(function InfoTabStats({
         <h1>{t("stats.title")}</h1>
       </div>
       <div className="info-tab-stats__content" id="info-tab">
+        <Row className="info-tab-stats__cards row--wrap">
+          <Card className="info-tab-stats__card__countries card--box-shadow">
+            <GlobeIcon className="info-tab-stats__card__countries__icon" />
+            <p>{t("stats.countries")}</p>
+            <b>{Object.keys(visitedCountries).length}</b>
+          </Card>
+          <Card className="info-tab-stats__card__cities card--box-shadow">
+            <CityIcon className="info-tab-stats__card__cities__icon" />
+            <p>{t("stats.cities")}</p>
+            <b>{visitedCities.length}</b>
+          </Card>
+          <Card className="info-tab-stats__card__flights card--box-shadow">
+            <AirportIcon className="info-tab-stats__card__flights__icon" />
+            <p>{t("stats.flights")}</p>
+            <b>{takenFlights.length}</b>
+          </Card>
+        </Row>
         <Card className="info-tab-stats__card info-tab-stats__card--flights card--box-shadow">
           <Column className="info-tab-stats__card__main">
             <h2>{t("stats.flights")}</h2>
