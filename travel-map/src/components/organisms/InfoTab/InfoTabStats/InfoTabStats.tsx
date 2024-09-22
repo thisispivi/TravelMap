@@ -9,14 +9,25 @@ import useLanguage from "../../../../hooks/language/language";
 import { Continent } from "../../../../core/typings/Continent";
 import {
   Card,
+  CityRow,
   Column,
   ContinentCitiesRow,
   ContinentRow,
   FlightRow,
   Row,
 } from "../../../molecules";
-import { ContinentsIcon } from "../../../../assets";
+import {
+  ContinentsIcon,
+  EarthFlatIcon,
+  MoonFlatIcon,
+} from "../../../../assets";
 import { FlightsDonutChart } from "../../../atoms";
+import { Muravera } from "../../../../data/cities/Cagliari/Cagliari";
+import {
+  getFurthestAndNearestCity,
+  getMinAndMaxFlight,
+  getTotalMileage,
+} from "../../../../utils/distance";
 
 interface InfoTabStatsProps {
   className?: string;
@@ -29,29 +40,10 @@ export default memo(function InfoTabStats({
 }: InfoTabStatsProps): JSX.Element {
   const { t } = useLanguage(["home"]);
 
-  // const muraveraCoords = { lat: 39.2536, lng: 9.5956 };
-  // const distances = visitedCities.map((city) => ({
-  //   distance: haversineDistance(
-  //     city.coordinates[0],
-  //     city.coordinates[1],
-  //     muraveraCoords.lat,
-  //     muraveraCoords.lng
-  //   ),
-  //   city,
-  // }));
-  // const furthestCity = distances.reduce((prev, current) =>
-  //   prev.distance > current.distance ? prev : current
-  // ).city;
-  // const distance = distances.reduce((prev, current) =>
-  //   prev.distance > current.distance ? prev : current
-  // ).distance;
-
-  const maxFlight = takenFlights.reduce((prev, current) =>
-    prev.distanceInKm > current.distanceInKm ? prev : current,
-  );
-  const minFlight = takenFlights.reduce((prev, current) =>
-    prev.distanceInKm < current.distanceInKm ? prev : current,
-  );
+  const { furthest: furthestCity, nearest: nearestCity } =
+    getFurthestAndNearestCity(visitedCities, Muravera);
+  const { max: maxFlight, min: minFlight } = getMinAndMaxFlight(takenFlights);
+  const totalMileage = getTotalMileage(takenFlights);
 
   const visitedContinents = visitedCities.reduce((prev, current) => {
     if (!prev.includes(current.country.continent)) {
@@ -63,10 +55,10 @@ export default memo(function InfoTabStats({
   const continentCities = Object.values(Continent)
     .map((continent) => {
       const numberOfCities = visitedCities.filter(
-        (country) => country.country.continent === continent,
+        (country) => country.country.continent === continent
       ).length;
       const numberOfCountries = Object.values(visitedCountries).filter(
-        (country) => country.continent === continent,
+        (country) => country.continent === continent
       ).length;
       return {
         continent,
@@ -90,12 +82,41 @@ export default memo(function InfoTabStats({
             <FlightsDonutChart takenFlights={takenFlights} />
           </Column>
           <Column className="info-tab-stats__card__row">
-            <h4>{t("stats.longestFlight")}</h4>
+            <p>{t("stats.longestFlight")}</p>
             <FlightRow flight={maxFlight} />
           </Column>
           <Column className="info-tab-stats__card__row">
-            <h4>{t("stats.shortestFlight")}</h4>
+            <p>{t("stats.shortestFlight")}</p>
             <FlightRow flight={minFlight} />
+          </Column>
+        </Card>
+        <Card className="info-tab-stats__card info-tab-stats__card--mileage card--box-shadow">
+          <Column className="info-tab-stats__card__main">
+            <h2>{t("stats.mileage")}</h2>
+            <Column className="info-tab-stats__card__main__total-mileage">
+              <p>{t("stats.totalMileage")}</p>
+              <b>{`${totalMileage} km`}</b>
+            </Column>
+            <Row className="info-tab-stats__card__main__mileage-planets">
+              <Column className="info-tab-stats__card__main__mileage-planets--earth">
+                <EarthFlatIcon className="info-tab-stats__card__main__mileage-planets__earth-icon" />
+                <b>{(Number(totalMileage) / 40075).toFixed(2)}x</b>
+                <p>{t("stats.aroundEarth")}</p>
+              </Column>
+              <Column className="info-tab-stats__card__main__mileage-planets--moon">
+                <MoonFlatIcon className="info-tab-stats__card__main__mileage-planets__moon-icon" />
+                <b>{(Number(totalMileage) / 384400).toFixed(2)}x</b>
+                <p>{t("stats.toMoon")}</p>
+              </Column>
+            </Row>
+          </Column>
+          <Column className="info-tab-stats__card__row">
+            <p>{t("stats.furthestCity")}</p>
+            <CityRow eCity={furthestCity} />
+          </Column>
+          <Column className="info-tab-stats__card__row">
+            <p>{t("stats.nearestCity")}</p>
+            <CityRow eCity={nearestCity} />
           </Column>
         </Card>
         <Card className="info-tab-stats__card info-tab-stats__card--continents card--box-shadow">
@@ -122,7 +143,7 @@ export default memo(function InfoTabStats({
             </Row>
           </Column>
           <Column className="info-tab-stats__card__row">
-            <h4>{t("stats.countriesPerContinent")}</h4>
+            <p>{t("stats.countriesPerContinent")}</p>
             <Row className="row--wrap continents__countries__wrap">
               {continentCities.map((continent) => (
                 <ContinentCitiesRow
@@ -134,7 +155,7 @@ export default memo(function InfoTabStats({
             </Row>
           </Column>
           <Column className="info-tab-stats__card__row">
-            <h4>{t("stats.citiesPerContinent")}</h4>
+            <p>{t("stats.citiesPerContinent")}</p>
             <Row className="row--wrap continents__cities__wrap">
               {continentCities.map((continent) => (
                 <ContinentCitiesRow

@@ -79,7 +79,11 @@
     "national": "National",
     "international": "International",
     "intercontinental": "Intercontinental",
-    "total": "Total Flights"
+    "total": "Total Flights",
+    "mileage": "Mileage",
+    "totalMileage": "Total Mileage",
+    "aroundEarth": "around earth",
+    "toMoon": "to the moon"
   },
   "gallery": "To Gallery",
   "galleryAlt": "Open the gallery",

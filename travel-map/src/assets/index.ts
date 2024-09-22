@@ -3,17 +3,20 @@ import ChevronIcon from "./icons/Chevron.svg?react";
 import CloseIcon from "./icons/Close.svg?react";
 import ContinentsIcon from "./icons/Continents.svg?react";
 import DepartureIcon from "./icons/Departure.svg?react";
+import DistanceIcon from "./icons/Distance.svg?react";
 import DoubleChevronIcon from "./icons/DoubleChevron.svg?react";
-import FullscreenEnterIcon from "./icons/FullscreenEnter.svg?react";
+import EarthFlatIcon from "./icons/EarthFlat.svg?react";
 import FilterIcon from "./icons/Filter.svg?react";
+import FullscreenEnterIcon from "./icons/FullscreenEnter.svg?react";
 import FullscreenExitIcon from "./icons/FullscreenExit.svg?react";
 import FutureTravelsIcon from "./icons/FutureTravels.svg?react";
-import LanguageIcon from "./icons/Language.svg?react";
 import GalleryIcon from "./icons/Gallery.svg?react";
 import HomeIcon from "./icons/Home.svg?react";
+import LanguageIcon from "./icons/Language.svg?react";
 import LogoIcon from "./icons/Logo.svg?react";
-import MarkerIcon from "./icons/Marker";
 import MarkerBWIcon from "./icons/MarkerBW.svg?react";
+import MarkerIcon from "./icons/Marker";
+import MoonFlatIcon from "./icons/MoonFlat.svg?react";
 import MoonIcon from "./icons/Moon.svg?react";
 import PlaneIcon from "./icons/Plane.svg?react";
 import PlayIcon from "./icons/Play.svg?react";
@@ -21,7 +24,6 @@ import PositionIcon from "./icons/Position.svg?react";
 import StatsIcon from "./icons/Stats.svg?react";
 import SunIcon from "./icons/Sun.svg?react";
 import VisitedIcon from "./icons/Visited.svg?react";
-import WorldIcon from "./icons/World.svg?react";
 
 export {
   ArrivalIcon,
@@ -29,7 +31,9 @@ export {
   CloseIcon,
   ContinentsIcon,
   DepartureIcon,
+  DistanceIcon,
   DoubleChevronIcon,
+  EarthFlatIcon,
   FilterIcon,
   FullscreenEnterIcon,
   FullscreenExitIcon,
@@ -38,8 +42,9 @@ export {
   HomeIcon,
   LanguageIcon,
   LogoIcon,
-  MarkerIcon,
   MarkerBWIcon,
+  MarkerIcon,
+  MoonFlatIcon,
   MoonIcon,
   PlaneIcon,
   PlayIcon,
@@ -47,27 +52,26 @@ export {
   StatsIcon,
   SunIcon,
   VisitedIcon,
-  WorldIcon,
 };
 
-import UnitedKingdomFlag from "./icons/flags/UnitedKingdom.svg?react";
-import GermanyFlag from "./icons/flags/Germany.svg?react";
-import ItalyFlag from "./icons/flags/Italy.svg?react";
 import BelgiumFlag from "./icons/flags/Belgium.svg?react";
-import SpainFlag from "./icons/flags/Spain.svg?react";
+import GermanyFlag from "./icons/flags/Germany.svg?react";
 import HungaryFlag from "./icons/flags/Hungary.svg?react";
-import PortugalFlag from "./icons/flags/Portugal.svg?react";
+import ItalyFlag from "./icons/flags/Italy.svg?react";
 import JapanFlag from "./icons/flags/Japan.svg?react";
+import PortugalFlag from "./icons/flags/Portugal.svg?react";
+import SpainFlag from "./icons/flags/Spain.svg?react";
+import UnitedKingdomFlag from "./icons/flags/UnitedKingdom.svg?react";
 
 export {
-  UnitedKingdomFlag,
-  GermanyFlag,
-  ItalyFlag,
   BelgiumFlag,
-  SpainFlag,
+  GermanyFlag,
   HungaryFlag,
-  PortugalFlag,
+  ItalyFlag,
   JapanFlag,
+  PortugalFlag,
+  SpainFlag,
+  UnitedKingdomFlag,
 };
 
 import worldData from "./json/countries-50m.json";
