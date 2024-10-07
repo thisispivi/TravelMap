@@ -23,6 +23,7 @@ import { Muravera } from "./cities/Muravera/Muravera";
 import { Nara } from "./cities/Nara/Nara";
 import { Osaka } from "./cities/Osaka/Osaka";
 import { Oshino } from "./cities/Oshino/Oshino";
+import { PeschieraDelGarda } from "./cities/PeschieraDelGarda/PeschieraDelGarda";
 import { Porto } from "./cities/Porto/Porto";
 import { Rome } from "./cities/Rome/Rome";
 import { Shirakawago } from "./cities/Shirakawago/Shirakawago";
@@ -77,6 +78,7 @@ export const visitedCities: City[] = [
   Nara,
   Osaka,
   Oshino,
+  PeschieraDelGarda,
   Porto,
   Rome,
   Shirakawago,
@@ -84,6 +86,7 @@ export const visitedCities: City[] = [
   Terni,
   Tokyo,
   Turin,
+  Verona,
 ];
 
 export const takenFlights: Flight[] = [
@@ -114,7 +117,9 @@ export const takenFlights: Flight[] = [
   new Flight({ sCity: Osaka, eCity: Tokyo }),
   new Flight({ sCity: Tokyo, eCity: Rome }),
   new Flight({ sCity: Rome, eCity: Cagliari }),
+  new Flight({ sCity: Cagliari, eCity: Verona }),
+  new Flight({ sCity: Verona, eCity: Cagliari }),
 ];
 
 export const futureCountries = { Italy };
-export const futureCities: City[] = [Verona];
+export const futureCities: City[] = [];
