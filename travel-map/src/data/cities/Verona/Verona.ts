@@ -1,5 +1,6 @@
 import { City, Travel } from "../../../core";
 import { Italy } from "../../countries/countries";
+import { tr_061024_061024_images } from "./photos/tr_061024_061024";
 
 export const Verona = new City({
   name: "Verona",
@@ -8,12 +9,13 @@ export const Verona = new City({
   travels: [
     new Travel({
       sDate: new Date(2024, 9, 6),
-      eDate: new Date(2024, 9, 4),
-      isFuture: true,
+      eDate: new Date(2024, 9, 6),
+      isFuture: false,
+      photos: tr_061024_061024_images,
     }),
   ],
   backgroundImgsSrc: [
     "https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/Cities/Verona.jpg",
   ],
-  mapCoordinates: [7, 45],
+  mapCoordinates: [8, 45],
 });
