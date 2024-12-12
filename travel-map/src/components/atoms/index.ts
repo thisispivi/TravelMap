@@ -11,6 +11,7 @@ import FlightsDonutChart from "./DonutChart/DonutChartFlights";
 import LanguageFlag from "./LanguageFlag/LanguageFlag";
 
 import Loading from "./Loading/Loading";
+import LoadingCircles from "./Loading/LoadingCircles";
 
 import { Marker } from "./Marker/Marker";
 
@@ -23,5 +24,6 @@ export {
   CountryFlag,
   LanguageFlag,
   Loading,
+  LoadingCircles,
   Marker,
 };

@@ -94,7 +94,6 @@ export default function CityCard({
         className={`city-card__top ${className} ${city.name} ${city.name}-${idx}`}
       >
         <div className="city-card__background">
-          {isLoadingThrottled ? <Loading /> : null}
           <img
             alt={city.getName(t)}
             onLoad={handleImageLoad}
@@ -102,6 +101,7 @@ export default function CityCard({
             style={{ display: isLoadingThrottled ? "none" : "block" }}
           />
         </div>
+        {isLoadingThrottled ? <Loading /> : null}
       </div>
       <div className="city-card__content">
         <div className="city-card__title">

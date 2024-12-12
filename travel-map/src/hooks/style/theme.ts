@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 /**
  * Hook to detect the current theme of the user's system
@@ -18,6 +18,17 @@ export default function useThemeDetector(): ThemeDetector {
     localStorage.setItem("theme", newTheme);
     setIsDarkTheme(!isDarkTheme);
   };
+
+  useEffect(() => {
+    const body = document.querySelector("body");
+    if (isDarkTheme) {
+      body?.classList.add("body--dark");
+      body?.classList.remove("body--light");
+    } else {
+      body?.classList.add("body--light");
+      body?.classList.remove("body--dark");
+    }
+  }, [isDarkTheme]);
 
   return { isDarkTheme, handleDarkModeSwitch };
 }
