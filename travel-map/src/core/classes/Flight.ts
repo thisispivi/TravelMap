@@ -30,11 +30,13 @@ export class Flight implements FlightInterface {
   distanceInKm: number = 0;
 
   constructor({ sCity, eCity }: FlightInterface) {
-    const isIntercontinental = sCity.country.continent !== eCity.country.continent
+    const isIntercontinental =
+      sCity.country.continent !== eCity.country.continent;
     this.sCity = sCity;
     this.eCity = eCity;
     this.isNational = sCity.country === eCity.country;
-    this.isInternational = sCity.country !== eCity.country && !isIntercontinental;
+    this.isInternational =
+      sCity.country !== eCity.country && !isIntercontinental;
     this.isIntercontinental = isIntercontinental;
     this.distanceInKm = haversineDistance(
       sCity.coordinates[1],
