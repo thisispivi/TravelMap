@@ -15,5 +15,5 @@ export const Mdina = new City({
   backgroundImgsSrc: [
     "https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/Cities/Mdina.jpg",
   ],
-  mapCoordinates: [8, 45],
+  mapCoordinates: [10.8, 36.1],
 });
