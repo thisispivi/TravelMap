@@ -25,12 +25,12 @@ import {
   MoonFlatIcon,
 } from "../../../../assets";
 import { FlightsDonutChart } from "../../../atoms";
-import { Muravera } from "../../../../data/cities/Muravera/Muravera";
 import {
   getFurthestAndNearestCity,
   getMinAndMaxFlight,
   getTotalMileage,
 } from "../../../../utils/distance";
+import { Muravera } from "../../../../data/Italy/Muravera/Muravera";
 
 interface InfoTabStatsProps {
   className?: string;
@@ -70,10 +70,10 @@ export default memo(function InfoTabStats({
   const continentCities = Object.values(Continent)
     .map((continent) => {
       const numberOfCities = visitedCities.filter(
-        (country) => country.country.continent === continent,
+        (country) => country.country.continent === continent
       ).length;
       const numberOfCountries = Object.values(visitedCountries).filter(
-        (country) => country.continent === continent,
+        (country) => country.continent === continent
       ).length;
       return {
         continent,

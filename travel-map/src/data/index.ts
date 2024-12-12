@@ -1,47 +1,52 @@
-import { Anderlecht } from "./cities/Anderlecht/Anderlecht";
-import { Barcelona } from "./cities/Barcelona/Barcelona";
-import { Berlin } from "./cities/Berlin/Berlin";
-import { Bologna } from "./cities/Bologna/Bologna";
-import { Braga } from "./cities/Braga/Braga";
-import { Bruges } from "./cities/Bruges/Bruges";
-import { Brussels } from "./cities/Brussels/Brussels";
-import { Budapest } from "./cities/Budapest/Budapest";
-import { Cagliari } from "./cities/Cagliari/Cagliari";
-import { Cefalù } from "./cities/Cefalù/Cefalù";
 import { City } from "../core";
 import { Flight } from "../core/classes/Flight";
-import { Fujikawaguchiko } from "./cities/Fujikawaguchiko/Fujikawaguchiko";
-import { Genoa } from "./cities/Genoa/Genoa";
-import { Himeji } from "./cities/Himeji/Himeji";
-import { Imola } from "./cities/Imola/Imola";
-import { Kanazawa } from "./cities/Kanazawa/Kanazawa";
-import { Kobe } from "./cities/Kobe/Kobe";
-import { Kyoto } from "./cities/Kyoto/Kyoto";
-import { London } from "./cities/London/London";
-import { Matsumoto } from "./cities/Matsumoto/Matsumoto";
-import { Muravera } from "./cities/Muravera/Muravera";
-import { Nara } from "./cities/Nara/Nara";
-import { Osaka } from "./cities/Osaka/Osaka";
-import { Oshino } from "./cities/Oshino/Oshino";
-import { PeschieraDelGarda } from "./cities/PeschieraDelGarda/PeschieraDelGarda";
-import { Porto } from "./cities/Porto/Porto";
-import { Rome } from "./cities/Rome/Rome";
-import { Shirakawago } from "./cities/Shirakawago/Shirakawago";
-import { Takayama } from "./cities/Takayama/Takayama";
-import { Terni } from "./cities/Terni/Terni";
-import { Tokyo } from "./cities/Tokyo/Tokyo";
-import { Turin } from "./cities/Turin/Turin";
-import { Verona } from "./cities/Verona/Verona";
-import {
-  Belgium,
-  Germany,
-  Hungary,
-  Italy,
-  Japan,
-  Portugal,
-  Spain,
-  UnitedKingdom,
-} from "./countries/countries";
+
+import { Anderlecht } from "./Belgium/Anderlecht/Anderlecht";
+import { Barcelona } from "./Spain/Barcelona/Barcelona";
+import { Berlin } from "./Germany/Berlin/Berlin";
+import { Bologna } from "./Italy/Bologna/Bologna";
+import { Braga } from "./Portugal/Braga/Braga";
+import { Bruges } from "./Belgium/Bruges/Bruges";
+import { Brussels } from "./Belgium/Brussels/Brussels";
+import { Budapest } from "./Hungary/Budapest/Budapest";
+import { Cagliari } from "./Italy/Cagliari/Cagliari";
+import { Cefalù } from "./Italy/Cefalù/Cefalù";
+import { Fujikawaguchiko } from "./Japan/Fujikawaguchiko/Fujikawaguchiko";
+import { Genoa } from "./Italy/Genoa/Genoa";
+import { Himeji } from "./Japan/Himeji/Himeji";
+import { Imola } from "./Italy/Imola/Imola";
+import { Kanazawa } from "./Japan/Kanazawa/Kanazawa";
+import { Kobe } from "./Japan/Kobe/Kobe";
+import { Kyoto } from "./Japan/Kyoto/Kyoto";
+import { London } from "./UnitedKingdom/London/London";
+import { Matsumoto } from "./Japan/Matsumoto/Matsumoto";
+import { Mdina } from "./Malta/Mdina/Mdina";
+import { Muravera } from "./Italy/Muravera/Muravera";
+import { Nara } from "./Japan/Nara/Nara";
+import { Osaka } from "./Japan/Osaka/Osaka";
+import { Oshino } from "./Japan/Oshino/Oshino";
+import { PeschieraDelGarda } from "./Italy/PeschieraDelGarda/PeschieraDelGarda";
+import { Porto } from "./Portugal/Porto/Porto";
+import { Rabat } from "./Malta/Rabat/Rabat";
+import { Rome } from "./Italy/Rome/Rome";
+import { Shirakawago } from "./Japan/Shirakawago/Shirakawago";
+import { Sliema } from "./Malta/Sliema/Sliema";
+import { Takayama } from "./Japan/Takayama/Takayama";
+import { Terni } from "./Italy/Terni/Terni";
+import { Tokyo } from "./Japan/Tokyo/Tokyo";
+import { Turin } from "./Italy/Turin/Turin";
+import { Valletta } from "./Malta/Valletta/Valletta";
+import { Verona } from "./Italy/Verona/Verona";
+
+import { Belgium } from "./Belgium/Belgium";
+import { Germany } from "./Germany/Germany";
+import { Hungary } from "./Hungary/Hungary";
+import { Italy } from "./Italy/Italy";
+import { Japan } from "./Japan/Japan";
+import { Malta } from "./Malta/Malta";
+import { Portugal } from "./Portugal/Portugal";
+import { Spain } from "./Spain/Spain";
+import { UnitedKingdom } from "./UnitedKingdom/UnitedKingdom";
 
 export const livedCountries = { Italy };
 export const livedCities: City[] = [Muravera, Cagliari];
@@ -121,5 +126,5 @@ export const takenFlights: Flight[] = [
   new Flight({ sCity: Verona, eCity: Cagliari }),
 ];
 
-export const futureCountries = { Italy };
-export const futureCities: City[] = [];
+export const futureCountries = { Malta };
+export const futureCities: City[] = [Sliema, Valletta, Rabat, Mdina];
