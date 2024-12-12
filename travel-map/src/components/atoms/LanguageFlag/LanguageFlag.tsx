@@ -6,6 +6,7 @@ import {
   UnitedKingdomFlag,
   JapanFlag,
   PortugalFlag,
+  MaltaFlag,
 } from "../../../assets";
 
 interface LanguageFlagProps {
@@ -38,5 +39,6 @@ export default function LanguageFlag({
   if (language.includes("hu")) return <HungaryFlag className={className} />;
   if (language.includes("ja")) return <JapanFlag className={className} />;
   if (language.includes("pt")) return <PortugalFlag className={className} />;
+  if (language.includes("mt")) return <MaltaFlag className={className} />;
   return null;
 }

@@ -58,6 +58,7 @@ export default memo(function InfoTabFuture({
 
   return (
     <InfoTabCities
+      allCountries={futureCountries}
       cities={allCities}
       className={className}
       getTravelIdx={getTravelIdx}

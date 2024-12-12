@@ -65,6 +65,7 @@ import GermanyFlag from "./icons/flags/Germany.svg?react";
 import HungaryFlag from "./icons/flags/Hungary.svg?react";
 import ItalyFlag from "./icons/flags/Italy.svg?react";
 import JapanFlag from "./icons/flags/Japan.svg?react";
+import MaltaFlag from "./icons/flags/Malta.svg?react";
 import PortugalFlag from "./icons/flags/Portugal.svg?react";
 import SpainFlag from "./icons/flags/Spain.svg?react";
 import UnitedKingdomFlag from "./icons/flags/UnitedKingdom.svg?react";
@@ -75,6 +76,7 @@ export {
   HungaryFlag,
   ItalyFlag,
   JapanFlag,
+  MaltaFlag,
   PortugalFlag,
   SpainFlag,
   UnitedKingdomFlag,

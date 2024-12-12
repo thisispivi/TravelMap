@@ -7,7 +7,6 @@ import { HomeContext } from "../../../pages/Home/Home";
 import { FilterIcon, PositionIcon } from "../../../../assets";
 import { mobileAndTabletCheck } from "../../../../utils/responsive";
 import Tooltip from "../../Tooltip/Tooltip";
-import { visitedCountries } from "../../../../data";
 import { Button } from "../../../atoms";
 
 interface InfoTabCitiesProps {
@@ -16,6 +15,7 @@ interface InfoTabCitiesProps {
   cities: City[];
   getTravelIdx: (city: City, travel: Travel) => number;
   isVisible?: boolean;
+  allCountries: Record<string, Country>;
 }
 
 /**
@@ -40,6 +40,7 @@ export default memo(function InfoTabCities({
   cities,
   getTravelIdx,
   isVisible = false,
+  allCountries,
 }: InfoTabCitiesProps): JSX.Element {
   const { t } = useLanguage(["home"]);
   const {
@@ -51,8 +52,8 @@ export default memo(function InfoTabCities({
     responsive,
   } = useContext(HomeContext)!;
 
-  const allCountries = Object.values(visitedCountries);
-  const [countries, setCountries] = useState<Country[]>(allCountries);
+  const allCountriesValues = Object.values(allCountries);
+  const [countries, setCountries] = useState<Country[]>(allCountriesValues);
   const onCountryChange = (selected: Country[]) => setCountries(selected);
 
   const positionButton = useMemo(() => {
@@ -90,7 +91,7 @@ export default memo(function InfoTabCities({
             <FilterCountry
               buttonIcon={<FilterIcon className="filter__icon" />}
               onChange={onCountryChange}
-              options={allCountries}
+              options={allCountriesValues}
               selected={countries}
             />
           ) : null}
