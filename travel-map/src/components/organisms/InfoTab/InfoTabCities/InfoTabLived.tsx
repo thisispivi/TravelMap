@@ -1,6 +1,6 @@
 import { memo } from "react";
 import "./InfoTabLived.scss";
-import { livedCities } from "../../../../data";
+import { livedCities, livedCountries } from "../../../../data";
 import InfoTabCities from "./InfoTabCities";
 
 interface InfoTabLivedProps {
@@ -27,6 +27,7 @@ export default memo(function InfoTabLived({
 }: InfoTabLivedProps): JSX.Element {
   return (
     <InfoTabCities
+      allCountries={livedCountries}
       cities={livedCities}
       className={className}
       getTravelIdx={() => 0}
