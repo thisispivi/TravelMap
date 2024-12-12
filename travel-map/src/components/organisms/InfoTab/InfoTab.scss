@@ -11,6 +11,7 @@
   @include m.transition(all, 0.3s, ease-in-out);
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
   transform: translateX(-100%);
+  will-change: all;
 
   &.info-tab--open {
     transform: translateX(v.$leftBarWidth);

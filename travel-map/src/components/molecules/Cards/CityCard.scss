@@ -11,6 +11,7 @@
   transform: scale(1);
   @include m.transition(all, 0.15s, ease-in-out);
   border-radius: 1rem;
+  box-shadow: 0 0.063rem 0.125rem 0rem rgba(0, 0, 0, 0.2);
 
   &.city-card--hidden {
     display: none;
@@ -30,17 +31,20 @@
 
   .city-card__top {
     height: 100%;
+    display: flex;
     .city-card__background {
       position: absolute;
       height: 100%;
       width: 100%;
       display: flex;
+      border-radius: 1rem;
+      @include m.transition(all, 0.15s, ease-in-out);
       img {
         border-radius: 1rem;
         height: 100%;
         width: 100%;
         object-fit: cover;
-        z-index: -1;
+        z-index: 0;
         position: absolute;
         box-shadow: 0 0.063rem 0.125rem 0rem rgba(0, 0, 0, 0.2);
       }
@@ -57,6 +61,7 @@
       white-space: nowrap;
       font-weight: bold;
       font-size: 1.1rem;
+      @include m.transition(all, 0.15s, ease-in-out);
     }
     svg {
       width: 1.6rem;
@@ -72,6 +77,7 @@
     padding: 0.5rem 0.9rem;
     @include m.transition(all, 0.15s, ease-in-out);
     margin: 0.5rem;
+    margin-top: 0;
     border-radius: 0.625rem;
     backdrop-filter: blur(0.6rem);
     .city-card__title {
@@ -101,6 +107,9 @@
     h3 {
       color: v.$darkLeftBar;
     }
+    .city-card__background {
+      background-color: v.$lightLeftBarOpacityLighter;
+    }
     .city-card__content {
       background-color: v.$lightLeftBarOpacity;
       .travel-card__info {
@@ -118,6 +127,9 @@
     h3 {
       color: v.$lightLeftBar;
     }
+    .city-card__background {
+      background-color: v.$darkLeftBarOpacityLighter;
+    }
     .city-card__content {
       background-color: v.$darkLeftBarOpacity;
       .travel-card__info {
@@ -129,117 +141,3 @@
     }
   }
 }
-
-// .home--dark {
-//   .Anderlecht-0,
-//   .Berlin-0,
-//   .Braga-0,
-//   .London-0,
-//   .Shirakawago-0,
-//   .Kanazawa-0,
-//   .Terni-0,
-//   .Cefalù-0,
-//   .Bruges-0,
-//   .Kobe-0,
-//   .Matsumoto-0,
-//   .Fujikawaguchiko-0,
-//   .Bologna-0 {
-//     @include m.city-card-background(0.533);
-//   }
-//   .Barcelona-0 {
-//     @include m.city-card-background(0.498);
-//   }
-//   .Verona-0 {
-//     @include m.city-card-background(0.482);
-//   }
-//   .Brussels-0,
-//   .Himeji-0 {
-//     @include m.city-card-background(0.518);
-//   }
-//   .Osaka-0,
-//   .Nara-0 {
-//     @include m.city-card-background(0.486);
-//   }
-//   .Kyoto-0,
-//   .Takayama-0,
-//   .Tokyo-0 {
-//     @include m.city-card-background(0.521);
-//   }
-//   .Porto-0,
-//   .Oshino-0 {
-//     @include m.city-card-background(0.525);
-//   }
-//   .Budapest-0 {
-//     @include m.city-card-background(0.506);
-//   }
-//   .Rome-0 {
-//     @include m.city-card-background(0.412);
-//   }
-//   .Rome-1 {
-//     @include m.city-card-background(0.459);
-//   }
-//   .Genoa-0,
-//   .Turin-0 {
-//     @include m.city-card-background(0.529);
-//   }
-//   .Imola-0 {
-//     @include m.city-card-background(0.514);
-//   }
-// }
-
-// .home--light {
-//   .Anderlecht-0,
-//   .Berlin-0,
-//   .Braga-0,
-//   .London-0,
-//   .Shirakawago-0,
-//   .Kanazawa-0,
-//   .Terni-0,
-//   .Cefalù-0,
-//   .Bruges-0,
-//   .Kobe-0,
-//   .Matsumoto-0,
-//   .Fujikawaguchiko-0,
-//   .Bologna-0 {
-//     @include m.city-card-background(0.333);
-//   }
-//   .Barcelona-0 {
-//     @include m.city-card-background(0.298);
-//   }
-//   .Verona-0 {
-//     @include m.city-card-background(0.282);
-//   }
-//   .Brussels-0,
-//   .Himeji-0 {
-//     @include m.city-card-background(0.318);
-//   }
-//   .Osaka-0,
-//   .Nara-0 {
-//     @include m.city-card-background(0.286);
-//   }
-//   .Kyoto-0,
-//   .Takayama-0,
-//   .Tokyo-0 {
-//     @include m.city-card-background(0.321);
-//   }
-//   .Porto-0,
-//   .Oshino-0 {
-//     @include m.city-card-background(0.325);
-//   }
-//   .Budapest-0 {
-//     @include m.city-card-background(0.306);
-//   }
-//   .Rome-0 {
-//     @include m.city-card-background(0.212);
-//   }
-//   .Rome-1 {
-//     @include m.city-card-background(0.259);
-//   }
-//   .Genoa-0,
-//   .Turin-0 {
-//     @include m.city-card-background(0.329);
-//   }
-//   .Imola-0 {
-//     @include m.city-card-background(0.314);
-//   }
-// }

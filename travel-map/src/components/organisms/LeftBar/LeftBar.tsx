@@ -76,7 +76,7 @@ export default memo(function LeftBar({
       id: "stats",
       isButtonActive: isStats,
       defaultPath: "/stats",
-      isOtherButtonsActive: isVisited || isFuture,
+      isOtherButtonsActive: isVisited || isFuture || isLived,
       alternativePath: "/?to=stats",
       icon: <StatsIcon />,
       tooltipText: t("stats.title"),
@@ -134,7 +134,7 @@ export default memo(function LeftBar({
                   text={tooltipText}
                 />
               </Link>
-            ),
+            )
           )}
         </div>
         <div className="left-bar__buttons--bottom">

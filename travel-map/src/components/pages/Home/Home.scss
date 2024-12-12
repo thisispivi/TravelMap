@@ -1,11 +1,12 @@
 @use "../../../styles/mixins.scss" as m;
+@use "../../../styles/variables.module" as v;
 
 .home--dark {
-  background-color: #121212;
+  background-color: v.$darkBackground;
   @include m.transition(background-color, 0.2s, ease-in-out);
 }
 
 .home--light {
-  background-color: #ededed;
+  background-color: v.$lightBackground;
   @include m.transition(background-color, 0.2s, ease-in-out);
 }
