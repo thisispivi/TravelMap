@@ -1,3 +1,6 @@
+@use "variables.module" as v;
+@use "mixins" as m;
+
 * {
   margin: 0;
   padding: 0;
@@ -6,6 +9,13 @@
 }
 
 body,
-.root {
+#root {
   overflow: hidden;
+  @include m.transition(background-color, 0.3s, ease-in-out);
+}
+.body--dark {
+  background-color: v.$darkBackground;
+}
+.body--light {
+  background-color: v.$lightBackground;
 }
