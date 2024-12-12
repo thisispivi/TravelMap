@@ -1,6 +1,6 @@
 import { DistanceIcon } from "../../../assets";
 import { City } from "../../../core/classes/City";
-import { Muravera } from "../../../data/cities/Muravera/Muravera";
+import { Muravera } from "../../../data/Italy/Muravera/Muravera";
 import { haversineDistance } from "../../../utils/distance";
 import { CountryFlag } from "../../atoms";
 import Row from "./Row";
@@ -34,7 +34,7 @@ export default function CityRow({
     sCity.coordinates[1],
     sCity.coordinates[0],
     eCity.coordinates[1],
-    eCity.coordinates[0],
+    eCity.coordinates[0]
   );
   return (
     <Row className={`city-row ${className} row--wrap`}>
