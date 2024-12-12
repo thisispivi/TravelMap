@@ -15,5 +15,5 @@ export const Valletta = new City({
   backgroundImgsSrc: [
     "https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/Cities/Valletta.jpg",
   ],
-  mapCoordinates: [8, 45],
+  mapCoordinates: [11, 36],
 });
