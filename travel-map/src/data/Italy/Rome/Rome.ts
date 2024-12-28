@@ -23,5 +23,4 @@ export const Rome = new City({
     "https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/Cities/Rome.jpg",
     "https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/Cities/Rome-1.jpg",
   ],
-  mapCoordinates: [9.3, 42],
 });

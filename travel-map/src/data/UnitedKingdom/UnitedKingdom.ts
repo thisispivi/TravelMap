@@ -1,6 +1,4 @@
-import { Country } from "../../core";
-import { Continent } from "../../core/typings/Continent";
-
+import { Continent, Country } from "../../core";
 export const UnitedKingdom = new Country(
   "United Kingdom",
   {
@@ -8,5 +6,5 @@ export const UnitedKingdom = new Country(
     s: 80,
     l: 47,
   },
-  Continent.Europe,
+  Continent.Europe
 );

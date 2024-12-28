@@ -17,5 +17,4 @@ export const PeschieraDelGarda = new City({
   backgroundImgsSrc: [
     "https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/Cities/PeschieraDelGarda.jpg",
   ],
-  mapCoordinates: [7.5, 45],
 });

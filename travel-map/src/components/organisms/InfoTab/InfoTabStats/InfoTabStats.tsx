@@ -6,7 +6,6 @@ import {
   visitedCountries,
 } from "../../../../data";
 import useLanguage from "../../../../hooks/language/language";
-import { Continent } from "../../../../core/typings/Continent";
 import {
   Card,
   CityRow,
@@ -31,6 +30,7 @@ import {
   getTotalMileage,
 } from "../../../../utils/distance";
 import { Muravera } from "../../../../data/Italy/Muravera/Muravera";
+import { Continent } from "../../../../core";
 
 interface InfoTabStatsProps {
   className?: string;
@@ -70,10 +70,10 @@ export default memo(function InfoTabStats({
   const continentCities = Object.values(Continent)
     .map((continent) => {
       const numberOfCities = visitedCities.filter(
-        (country) => country.country.continent === continent,
+        (country) => country.country.continent === continent
       ).length;
       const numberOfCountries = Object.values(visitedCountries).filter(
-        (country) => country.continent === continent,
+        (country) => country.continent === continent
       ).length;
       return {
         continent,

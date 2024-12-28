@@ -56,9 +56,6 @@
     justify-content: space-between;
     width: 100%;
     h3 {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
       font-weight: bold;
       font-size: 1.1rem;
       @include m.transition(all, 0.15s, ease-in-out);

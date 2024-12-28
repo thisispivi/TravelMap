@@ -16,5 +16,4 @@ export const Oshino = new City({
   backgroundImgsSrc: [
     "https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/Cities/Oshino.jpg",
   ],
-  mapCoordinates: [135.5, 35.5],
 });

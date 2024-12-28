@@ -8,5 +8,4 @@ export const Muravera = new City({
   backgroundImgsSrc: [
     "https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/Cities/Muravera.jpg",
   ],
-  mapCoordinates: [5.8, 39.5],
 });

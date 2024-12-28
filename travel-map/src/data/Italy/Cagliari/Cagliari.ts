@@ -9,5 +9,4 @@ export const Cagliari = new City({
     "https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/Cities/Cagliari.webp",
   ],
   travels: [],
-  mapCoordinates: [5.7, 39.4],
 });

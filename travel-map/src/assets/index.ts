@@ -69,6 +69,7 @@ import MaltaFlag from "./icons/flags/Malta.svg?react";
 import PortugalFlag from "./icons/flags/Portugal.svg?react";
 import SpainFlag from "./icons/flags/Spain.svg?react";
 import UnitedKingdomFlag from "./icons/flags/UnitedKingdom.svg?react";
+import VaticanFlag from "./icons/flags/Vatican.svg?react";
 
 export {
   BelgiumFlag,
@@ -80,6 +81,7 @@ export {
   PortugalFlag,
   SpainFlag,
   UnitedKingdomFlag,
+  VaticanFlag,
 };
 
 import worldData from "./json/countries-50m.json";

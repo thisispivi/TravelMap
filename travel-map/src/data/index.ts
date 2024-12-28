@@ -36,6 +36,7 @@ import { Terni } from "./Italy/Terni/Terni";
 import { Tokyo } from "./Japan/Tokyo/Tokyo";
 import { Turin } from "./Italy/Turin/Turin";
 import { Valletta } from "./Malta/Valletta/Valletta";
+import { VaticanCity } from "./Vatican/Vatican/VaticanCity";
 import { Verona } from "./Italy/Verona/Verona";
 
 import { Belgium } from "./Belgium/Belgium";
@@ -47,6 +48,7 @@ import { Malta } from "./Malta/Malta";
 import { Portugal } from "./Portugal/Portugal";
 import { Spain } from "./Spain/Spain";
 import { UnitedKingdom } from "./UnitedKingdom/UnitedKingdom";
+import { Vatican } from "./Vatican/Vatican";
 
 export const livedCountries = { Italy };
 export const livedCities: City[] = [Muravera, Cagliari];
@@ -60,6 +62,7 @@ export const visitedCountries = {
   Portugal,
   Spain,
   UnitedKingdom,
+  Vatican,
 };
 export const visitedCities: City[] = [
   Anderlecht,
@@ -91,6 +94,7 @@ export const visitedCities: City[] = [
   Terni,
   Tokyo,
   Turin,
+  VaticanCity,
   Verona,
 ];
 
