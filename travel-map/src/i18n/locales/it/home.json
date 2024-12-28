@@ -4,6 +4,7 @@
     "Assisi": "Assisi",
     "Barcelona": "Barcellona",
     "Berlin": "Berlino",
+    "Birgu": "Vittoriosa",
     "Bologna": "Bologna",
     "Braga": "Braga",
     "Bruges": "Bruges",
@@ -11,7 +12,10 @@
     "Budapest": "Budapest",
     "Cagliari": "Cagliari",
     "Cefalù": "Cefalù",
+    "Comino": "Comino",
+    "Cospicua": "Cospicua",
     "Cuneo": "Cuneo",
+    "Dingli": "Dingli",
     "Fujikawaguchiko": "Fujikawaguchiko",
     "Genoa": "Genova",
     "Gressoney-La-Trinité": "Gressoney-La-Trinité",
@@ -35,6 +39,7 @@
     "Porto": "Porto",
     "Rabat": "Rabat",
     "Rome": "Roma",
+    "Senglea": "Senglea",
     "Shirakawago": "Shirakawa-go",
     "Sliema": "Sliema",
     "Takayama": "Takayama",
@@ -44,7 +49,8 @@
     "Valletta": "La Valletta",
     "VaticanCity": "Città del Vaticano",
     "Venice": "Venezia",
-    "Verona": "Verona"
+    "Verona": "Verona",
+    "Victoria": "Victoria"
   },
   "countries": {
     "Belgium": "Belgio",

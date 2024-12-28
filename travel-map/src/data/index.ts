@@ -11,6 +11,9 @@ import { Brussels } from "./Belgium/Brussels/Brussels";
 import { Budapest } from "./Hungary/Budapest/Budapest";
 import { Cagliari } from "./Italy/Cagliari/Cagliari";
 import { Cefalù } from "./Italy/Cefalù/Cefalù";
+import { Comino } from "./Malta/Comino/Comino";
+import { Cospicua } from "./Malta/Cospicua/Cospicua";
+import { Dingli } from "./Malta/Dingli/Dingli";
 import { Fujikawaguchiko } from "./Japan/Fujikawaguchiko/Fujikawaguchiko";
 import { Genoa } from "./Italy/Genoa/Genoa";
 import { Himeji } from "./Japan/Himeji/Himeji";
@@ -29,6 +32,7 @@ import { PeschieraDelGarda } from "./Italy/PeschieraDelGarda/PeschieraDelGarda";
 import { Porto } from "./Portugal/Porto/Porto";
 import { Rabat } from "./Malta/Rabat/Rabat";
 import { Rome } from "./Italy/Rome/Rome";
+import { Senglea } from "./Malta/Senglea/Senglea";
 import { Shirakawago } from "./Japan/Shirakawago/Shirakawago";
 import { Sliema } from "./Malta/Sliema/Sliema";
 import { Takayama } from "./Japan/Takayama/Takayama";
@@ -38,6 +42,8 @@ import { Turin } from "./Italy/Turin/Turin";
 import { Valletta } from "./Malta/Valletta/Valletta";
 import { VaticanCity } from "./Vatican/Vatican/VaticanCity";
 import { Verona } from "./Italy/Verona/Verona";
+import { Victoria } from "./Malta/Victoria/Victoria";
+import { Birgu } from "./Malta/Birgu/Birgu";
 
 import { Belgium } from "./Belgium/Belgium";
 import { Germany } from "./Germany/Germany";
@@ -49,7 +55,6 @@ import { Portugal } from "./Portugal/Portugal";
 import { Spain } from "./Spain/Spain";
 import { UnitedKingdom } from "./UnitedKingdom/UnitedKingdom";
 import { Vatican } from "./Vatican/Vatican";
-
 export const livedCountries = { Italy };
 export const livedCities: City[] = [Muravera, Cagliari];
 
@@ -131,4 +136,15 @@ export const takenFlights: Flight[] = [
 ];
 
 export const futureCountries = { Malta };
-export const futureCities: City[] = [Sliema, Valletta, Rabat, Mdina];
+export const futureCities: City[] = [
+  Sliema,
+  Valletta,
+  Rabat,
+  Mdina,
+  Victoria,
+  Comino,
+  Dingli,
+  Birgu,
+  Senglea,
+  Cospicua,
+];
