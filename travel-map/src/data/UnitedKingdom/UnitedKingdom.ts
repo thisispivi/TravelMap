@@ -6,5 +6,5 @@ export const UnitedKingdom = new Country(
     s: 80,
     l: 47,
   },
-  Continent.Europe
+  Continent.Europe,
 );
