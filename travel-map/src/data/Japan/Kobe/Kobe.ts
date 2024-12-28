@@ -17,5 +17,4 @@ export const Kobe = new City({
   backgroundImgsSrc: [
     "https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/Cities/Kobe.jpg",
   ],
-  mapCoordinates: [131.8, 35],
 });

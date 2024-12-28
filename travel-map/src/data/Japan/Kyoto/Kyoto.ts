@@ -17,5 +17,4 @@ export const Kyoto = new City({
   backgroundImgsSrc: [
     "https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/Cities/Kyoto.jpg",
   ],
-  mapCoordinates: [132.3, 35],
 });

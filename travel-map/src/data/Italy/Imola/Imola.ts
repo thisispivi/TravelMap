@@ -16,5 +16,4 @@ export const Imola = new City({
   backgroundImgsSrc: [
     "https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/Cities/Imola.jpg",
   ],
-  mapCoordinates: [8.5, 44.5],
 });

@@ -42,6 +42,7 @@
     "Tokyo": "Tokyo",
     "Turin": "Turin",
     "Valletta": "Valletta",
+    "VaticanCity": "Vatican City",
     "Venice": "Venice",
     "Verona": "Verona"
   },
@@ -51,10 +52,11 @@
     "Hungary": "Hungary",
     "Italy": "Italy",
     "Japan": "Japan",
+    "Malta": "Malta",
     "Portugal": "Portugal",
     "Spain": "Spain",
     "UnitedKingdom": "United Kingdom",
-    "Malta": "Malta"
+    "Vatican": "Vatican"
   },
   "continents": {
     "Africa": "Africa",

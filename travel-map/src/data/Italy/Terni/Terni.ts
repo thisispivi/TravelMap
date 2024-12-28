@@ -16,5 +16,4 @@ export const Terni = new City({
   backgroundImgsSrc: [
     "https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/Cities/Terni.jpg",
   ],
-  mapCoordinates: [9.5, 42.5],
 });

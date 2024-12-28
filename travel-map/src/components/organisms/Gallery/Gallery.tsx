@@ -12,6 +12,7 @@ import { CloseButton, CountryFlag } from "../../atoms";
 import { TravelSelector } from "../../molecules";
 import { parameters } from "../../../utils/parameters";
 import { PlayIcon } from "../../../assets";
+import useLanguage from "../../../hooks/language/language";
 
 export interface GalleryProps {
   city: City;
@@ -28,6 +29,7 @@ export interface GalleryProps {
  * @returns {JSX.Element} - The gallery
  */
 export default memo(function Gallery(): JSX.Element {
+  const { t } = useLanguage(["home"]);
   const navigate = useNavigate();
   const { city, travelIdx } = useLoaderData() as GalleryProps;
   const [searchParams] = useSearchParams();
@@ -46,7 +48,7 @@ export default memo(function Gallery(): JSX.Element {
   return (
     <div className="gallery">
       <div className="gallery__header">
-        <h2>{city.name}</h2>
+        <h2>{city.getName(t)}</h2>
         <CountryFlag
           className="gallery__header__flag"
           countryId={city.country.id}

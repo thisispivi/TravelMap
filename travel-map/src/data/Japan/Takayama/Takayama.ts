@@ -17,5 +17,4 @@ export const Takayama = new City({
   backgroundImgsSrc: [
     "https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/Cities/Takayama.jpg",
   ],
-  mapCoordinates: [133.5, 36.5],
 });
