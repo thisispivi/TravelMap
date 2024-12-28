@@ -134,7 +134,7 @@ export default memo(function LeftBar({
                   text={tooltipText}
                 />
               </Link>
-            )
+            ),
           )}
         </div>
         <div className="left-bar__buttons--bottom">
