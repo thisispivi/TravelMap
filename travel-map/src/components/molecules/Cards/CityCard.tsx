@@ -8,6 +8,7 @@ import { CountryFlag, Loading } from "../../atoms";
 import { useState } from "react";
 import useThrottle from "../../../hooks/throttle/throttle";
 import { mobileAndTabletCheck } from "../../../utils/responsive";
+import { parameters } from "../../../utils/parameters";
 
 interface CityCardProps {
   className?: string;
@@ -79,7 +80,10 @@ export default function CityCard({
         !mobileAndTabletCheck()
           ? () => {
               if (setMapPosition && city.mapCoordinates && isAutoPosition)
-                setMapPosition({ center: city.mapCoordinates, zoom: 30 });
+                setMapPosition({
+                  center: city.mapCoordinates,
+                  zoom: parameters.map.hoveredCityZoom,
+                });
               setHoveredCity && setHoveredCity(city);
             }
           : undefined

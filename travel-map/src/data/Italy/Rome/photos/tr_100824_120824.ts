@@ -61,8 +61,8 @@ export const tr_100824_120824_images: Image[] = [
     original: "https://pivi-travel-map.b-cdn.net/TravelMap/Rome2/009c.webp",
     alt: "",
     thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Rome2/009t.webp",
-    width: 4,
-    height: 3,
+    width: 3,
+    height: 4,
   },
   {
     original: "https://pivi-travel-map.b-cdn.net/TravelMap/Rome2/010c.webp",

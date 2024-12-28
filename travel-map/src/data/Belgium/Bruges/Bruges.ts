@@ -16,5 +16,4 @@ export const Bruges = new City({
   backgroundImgsSrc: [
     "https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/Cities/Bruges.jpg",
   ],
-  mapCoordinates: [0, 51],
 });

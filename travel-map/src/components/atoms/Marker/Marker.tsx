@@ -38,9 +38,9 @@ export function Marker({
   hoveredCity,
   setHoveredCity,
   baseZoom = parameters.map.defaultZoom,
-  defaultScale = 0.15,
-  minScale = 0.1,
-  maxScale = 0.2,
+  defaultScale = parameters.map.marker.defaultScale,
+  minScale = parameters.map.marker.minScale,
+  maxScale = parameters.map.marker.maxScale,
   isFuture = false,
   isLived = false,
 }: MarkerProps): JSX.Element {

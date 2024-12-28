@@ -2,8 +2,7 @@
   --marker-color: rgb(190, 0, 0);
   --marker-color-active: #ff4040;
   --marker-circle-color: white;
-  --marker-transition: transform 0.2s ease-in-out, scale 0.2s ease-in-out,
-    opacity 0.2s ease-in-out;
+  --marker-transition: stroke 0.2s ease-in-out, fill 0.2s ease-in-out;
 
   g {
     transition: var(--marker-transition);

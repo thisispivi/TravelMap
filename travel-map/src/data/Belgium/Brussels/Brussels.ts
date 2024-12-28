@@ -16,5 +16,4 @@ export const Brussels = new City({
   backgroundImgsSrc: [
     "https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/Cities/Brussels.jpg",
   ],
-  mapCoordinates: [1, 51],
 });

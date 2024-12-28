@@ -1,15 +1,31 @@
-const isShowPhotos = true; // Used in dev mode to not show photos
-const defaultMapZoom = 5;
-const defaultMapMinZoom = 1;
-const defaultMapMaxZoom = 30;
-const defaultMapCenter: [number, number] = [7, 49];
-
-export const parameters = {
-  isShowPhotos,
+export type ParametersType = {
+  isShowPhotos: boolean;
   map: {
-    defaultZoom: defaultMapZoom,
-    defaultMinZoom: defaultMapMinZoom,
-    defaultMaxZoom: defaultMapMaxZoom,
-    defaultCenter: defaultMapCenter,
+    defaultZoom: number;
+    defaultMinZoom: number;
+    defaultMaxZoom: number;
+    defaultCenter: [number, number];
+    hoveredCityZoom: number;
+    marker: {
+      defaultScale: number;
+      minScale: number;
+      maxScale: number;
+    };
+  };
+};
+
+export const parameters: ParametersType = {
+  isShowPhotos: true, // Used to show or hide the photos on the city card and not waste cdn bandwidth
+  map: {
+    defaultZoom: 5,
+    defaultMinZoom: 1,
+    defaultMaxZoom: 150,
+    defaultCenter: [7, 49],
+    hoveredCityZoom: 100,
+    marker: {
+      defaultScale: 0.15,
+      minScale: 0.05,
+      maxScale: 0.2,
+    },
   },
 };

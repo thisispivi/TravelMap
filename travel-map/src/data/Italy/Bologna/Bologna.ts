@@ -16,5 +16,4 @@ export const Bologna = new City({
   backgroundImgsSrc: [
     "https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/Cities/Bologna.jpg",
   ],
-  mapCoordinates: [8, 44.5],
 });

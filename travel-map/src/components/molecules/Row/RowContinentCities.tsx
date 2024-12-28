@@ -1,4 +1,4 @@
-import { Continent } from "../../../core/typings/Continent";
+import { Continent } from "../../../core";
 import useLanguage from "../../../hooks/language/language";
 import Row from "./Row";
 import "./RowContinentCities.scss";
