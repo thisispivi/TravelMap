@@ -4,6 +4,8 @@ import "./Button.scss";
 interface ButtonProps extends PropsWithChildren {
   className?: string;
   onClick?: MouseEventHandler<HTMLButtonElement>;
+  onMouseEnter?: MouseEventHandler<HTMLButtonElement>;
+  onMouseLeave?: MouseEventHandler<HTMLButtonElement>;
 }
 
 /**
@@ -23,9 +25,17 @@ export default function Button({
   onClick,
   className = "",
   children,
+  onMouseEnter,
+  onMouseLeave,
 }: ButtonProps): JSX.Element {
   return (
-    <button className={`button ${className}`} onClick={onClick} type="button">
+    <button
+      className={`button ${className}`}
+      onClick={onClick}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      type="button"
+    >
       {children}
     </button>
   );

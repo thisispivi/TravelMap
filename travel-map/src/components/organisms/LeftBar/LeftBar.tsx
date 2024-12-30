@@ -8,7 +8,7 @@ import {
 import { Button, DarkModeButton } from "../../atoms";
 import "./LeftBar.scss";
 import { HomeContext } from "../../pages/Home/Home";
-import { memo, useContext } from "react";
+import { memo, useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import useLocation from "../../../hooks/location/location";
 import { LanguageSelector, Tooltip } from "..";
@@ -37,6 +37,29 @@ export default memo(function LeftBar({
   const { t } = useTranslation("home");
   const context = useContext(HomeContext);
   const { isDarkTheme, handleDarkModeSwitch } = context!;
+
+  const [isTooltipVisible, setIsTooltipVisible] = useState(false);
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        setIsTooltipVisible(false);
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, []);
+
+  const handleMouseEnter = () => {
+    setIsTooltipVisible(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsTooltipVisible(false);
+  };
 
   const buttonsConfig = [
     {
@@ -124,17 +147,21 @@ export default memo(function LeftBar({
               >
                 <Button
                   className={`${className} ${isButtonActive ? activeClass : ""}`}
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
                 >
                   {icon}
                 </Button>
-                <Tooltip
-                  anchorSelect={`.${className}`}
-                  delayShow={300}
-                  noArrow
-                  text={tooltipText}
-                />
+                {isTooltipVisible ? (
+                  <Tooltip
+                    anchorSelect={`.${className}`}
+                    delayShow={300}
+                    noArrow
+                    text={tooltipText}
+                  />
+                ) : null}
               </Link>
-            ),
+            )
           )}
         </div>
         <div className="left-bar__buttons--bottom">

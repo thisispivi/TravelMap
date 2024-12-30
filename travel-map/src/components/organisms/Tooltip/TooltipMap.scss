@@ -2,12 +2,10 @@
 @use "../../../styles/variables.module" as v;
 
 .map-tooltip {
-  max-width: 13rem;
+  width: 13rem !important;
   border-radius: 0.625rem !important;
   padding: 0 !important;
-  box-shadow:
-    rgba(0, 0, 0, 0.25) 0px 14px 28px,
-    rgba(0, 0, 0, 0.22) 0px 10px 10px;
+  box-shadow: 0 0.126rem 0.188rem 0rem rgba(0, 0, 0, 0.2);
 
   .map-tooltip__backdrop {
     z-index: 0;
@@ -86,6 +84,7 @@
           p {
             text-transform: capitalize;
             font-size: 0.8rem;
+            white-space: nowrap;
           }
           svg {
             width: 0.9rem;
