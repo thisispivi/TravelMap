@@ -1,17 +1,15 @@
-import { lazy } from "react";
-
-const Box = lazy(() => import("./Box/Box"));
-const Card = lazy(() => import("./Cards/Card"));
-const Column = lazy(() => import("./Column/Column"));
-const CityCard = lazy(() => import("./Cards/CityCard"));
-const Container = lazy(() => import("./Container/Container"));
-const FilterCountry = lazy(() => import("./FilterCountry/FilterCountry"));
-const Row = lazy(() => import("./Row/Row"));
-const CityRow = lazy(() => import("./Row/RowCity"));
-const ContinentRow = lazy(() => import("./Row/RowContinent"));
-const ContinentCitiesRow = lazy(() => import("./Row/RowContinentCities"));
-const FlightRow = lazy(() => import("./Row/RowFlight"));
-const TravelSelector = lazy(() => import("./TravelSelector/TravelSelector"));
+import Box from "./Box/Box";
+import Card from "./Cards/Card";
+import Column from "./Column/Column";
+import CityCard from "./Cards/CityCard";
+import Container from "./Container/Container";
+import FilterCountry from "./FilterCountry/FilterCountry";
+import Row from "./Row/Row";
+import CityRow from "./Row/RowCity";
+import ContinentRow from "./Row/RowContinent";
+import ContinentCitiesRow from "./Row/RowContinentCities";
+import FlightRow from "./Row/RowFlight";
+import TravelSelector from "./TravelSelector/TravelSelector";
 
 export {
   Box,
