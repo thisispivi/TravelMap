@@ -33,7 +33,7 @@ interface MarkerProps {
  * @param {boolean} data.isLived - Whether the marker is for a lived city
  * @returns {JSX.Element} The Marker component
  */
-export function Marker({
+export default function Marker({
   city,
   hoveredCity,
   setHoveredCity,

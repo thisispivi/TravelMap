@@ -1,19 +1,15 @@
-import Backdrop from "./Backdrop/Backdrop";
+import { lazy } from "react";
 
-import Button from "./Buttons/Button";
-import CloseButton from "./Buttons/CloseButton";
-import DarkModeButton from "./Buttons/DarkModeButton";
-
-import CountryFlag from "./CountryFlag/CountryFlag";
-
-import FlightsDonutChart from "./DonutChart/DonutChartFlights";
-
-import LanguageFlag from "./LanguageFlag/LanguageFlag";
-
-import Loading from "./Loading/Loading";
-import LoadingCircles from "./Loading/LoadingCircles";
-
-import { Marker } from "./Marker/Marker";
+const Backdrop = lazy(() => import("./Backdrop/Backdrop"));
+const Button = lazy(() => import("./Buttons/Button"));
+const CloseButton = lazy(() => import("./Buttons/CloseButton"));
+const DarkModeButton = lazy(() => import("./Buttons/DarkModeButton"));
+const CountryFlag = lazy(() => import("./CountryFlag/CountryFlag"));
+const FlightsDonutChart = lazy(() => import("./DonutChart/DonutChartFlights"));
+const LanguageFlag = lazy(() => import("./LanguageFlag/LanguageFlag"));
+const Loading = lazy(() => import("./Loading/Loading"));
+const LoadingCircles = lazy(() => import("./Loading/LoadingCircles"));
+const Marker = lazy(() => import("./Marker/Marker"));
 
 export {
   Backdrop,
