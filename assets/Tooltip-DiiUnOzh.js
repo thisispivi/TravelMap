@@ -1,0 +1,1 @@
+import{m as a,j as s}from"./index-CBHbNybt.js";import{M as m}from"./react-tooltip.min-ZSIsEzrY.js";function c({className:o="",text:l="",anchorSelect:r="",opacity:e=1,delayShow:i=0,noArrow:t=!1}){return a()?null:s.jsx(m,{anchorSelect:r,className:`tooltip ${o}`,clickable:!0,delayShow:i,id:l,noArrow:t,opacity:e,children:l},l)}export{c as default};

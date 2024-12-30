@@ -1,1 +1,0 @@
-import{j as e,V as i}from"./index-sh0UKyrn.js";function t({className:r="",children:a,isVisible:n}){return e.jsx("div",{className:`gallery-container ${r} ${n?"gallery-container--visible":""}`,children:e.jsx(i,{children:a})})}export{t as default};
