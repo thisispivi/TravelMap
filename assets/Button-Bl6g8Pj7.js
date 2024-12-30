@@ -1,0 +1,1 @@
+import{j as e}from"./index-sh0UKyrn.js";function a({onClick:t,className:o="",children:n,onMouseEnter:u,onMouseLeave:s}){return e.jsx("button",{className:`button ${o}`,onClick:t,onMouseEnter:u,onMouseLeave:s,type:"button",children:n})}export{a as default};
