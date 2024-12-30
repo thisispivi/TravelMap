@@ -2,7 +2,8 @@
 @use "../../../styles/variables.module" as v;
 
 .map-tooltip {
-  border-radius: 1rem !important;
+  max-width: 13rem;
+  border-radius: 0.625rem !important;
   padding: 0 !important;
   box-shadow:
     rgba(0, 0, 0, 0.25) 0px 14px 28px,
@@ -40,30 +41,33 @@
   }
 
   .map-tooltip__container {
-    padding: 0.8rem 1.2rem;
+    padding: 0.5rem 0.9rem;
     .map-tooltip__header {
       display: flex;
       justify-content: space-between;
+      padding-top: 0.2rem;
       h3 {
+        line-height: 1.4rem;
+        font-weight: bold;
+        font-size: 1.1rem;
         overflow: hidden;
         text-overflow: ellipsis;
-        white-space: nowrap;
       }
       svg {
         width: 1.6rem;
         height: 1.4rem;
         flex-shrink: 0;
-        margin-left: 1rem;
+        margin-left: 0.5rem;
       }
     }
     .map-tooltip__content {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-top: 0.8rem;
+      margin-top: 0.5rem;
       .map-tooltip__content__chevron-icon {
-        width: 1rem;
-        height: 1rem;
+        width: 0.9rem;
+        height: 0.9rem;
         cursor: pointer;
         &.map-tooltip__content__chevron-icon--left {
           transform: rotate(180deg);
@@ -79,20 +83,23 @@
         .map-tooltip__content__travel__info {
           display: flex;
           margin: 0.15rem 0.2rem;
-          text-transform: capitalize;
+          p {
+            text-transform: capitalize;
+            font-size: 0.8rem;
+          }
           svg {
-            width: 1rem;
-            height: 1rem;
+            width: 0.9rem;
+            height: 0.9rem;
             margin-right: 0.4rem;
           }
         }
       }
     }
     .map-tooltip__footer {
-      margin-top: 0.8rem;
+      margin-top: 0.5rem;
       margin-bottom: 0.3rem;
       .map-tooltip__footer__button {
-        border-radius: 0.75rem;
+        border-radius: 0.25rem;
         height: 2rem;
         width: 100%;
         svg {

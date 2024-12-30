@@ -55,9 +55,13 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
+    padding-top: 0.1rem;
     h3 {
+      line-height: 1.4rem;
       font-weight: bold;
       font-size: 1.1rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
       @include m.transition(all, 0.15s, ease-in-out);
     }
     svg {
@@ -72,11 +76,12 @@
     justify-content: space-between;
     flex-direction: column;
     padding: 0.5rem 0.9rem;
-    @include m.transition(all, 0.15s, ease-in-out);
     margin: 0.5rem;
     margin-top: 0;
     border-radius: 0.625rem;
     backdrop-filter: blur(0.6rem);
+    @include m.transition(all, 0.15s, ease-in-out);
+
     .city-card__title {
       margin-bottom: 0.5rem;
     }
