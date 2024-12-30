@@ -157,8 +157,11 @@ export default memo(function Map({
             key={i}
             onMouseEnter={(city: City) => setHoveredCity(city)}
             onMouseLeave={() => setHoveredCity(null)}
+            setIsOpen={(isOpen: boolean) =>
+              isOpen ? setHoveredCity(city) : setHoveredCity(null)
+            }
           />
-        ),
+        )
       )}
     </div>
   );
