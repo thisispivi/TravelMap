@@ -9,7 +9,7 @@ import {
   DoubleChevronIcon,
   GalleryIcon,
 } from "../../../assets";
-import { useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { formatDate } from "../../../i18n/functions/date";
 import { useNavigate } from "react-router-dom";
 
@@ -18,6 +18,7 @@ interface MapTooltipProps {
   onMouseEnter?: (city: City) => void;
   onMouseLeave?: () => void;
   isOpen?: boolean;
+  setIsOpen: (isOpen: boolean) => void;
 }
 
 /**
@@ -34,11 +35,12 @@ interface MapTooltipProps {
  * @param {boolean} [props.isOpen] - The visibility of the tooltip
  * @returns {JSX.Element} - The map tooltip
  */
-export default function MapTooltip({
+function MapTooltip({
   city,
   onMouseEnter,
   onMouseLeave,
   isOpen,
+  setIsOpen,
 }: MapTooltipProps): JSX.Element {
   const { t, currentLanguage: lang } = useLanguage(["home"]);
   const [travelIdx, setTravelIdx] = useState(0);
@@ -51,6 +53,14 @@ export default function MapTooltip({
       onMouseLeave={() => onMouseLeave && onMouseLeave()}
     />
   );
+
+  useEffect(() => {
+    const handleVisibilityChange = () => document.hidden && setIsOpen(false);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [setIsOpen]);
 
   return (
     <ReactTooltip
@@ -120,3 +130,6 @@ export default function MapTooltip({
     </ReactTooltip>
   );
 }
+
+const MemoizedMapTooltip = memo(MapTooltip);
+export default MemoizedMapTooltip;
