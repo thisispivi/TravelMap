@@ -1,7 +1,7 @@
 import { lazy } from "react";
 
-const Gallery = lazy(() => import("./Gallery/Gallery"));
-const InfoTab = lazy(() => import("./InfoTab/InfoTab"));
+import Gallery from "./Gallery/Gallery";
+import InfoTab from "./InfoTab/InfoTab";
 const InfoTabCities = lazy(
   () => import("./InfoTab/InfoTabCities/InfoTabCities")
 );
@@ -13,9 +13,9 @@ const InfoTabVisited = lazy(
   () => import("./InfoTab/InfoTabCities/InfoTabVisited")
 );
 const InfoTabStats = lazy(() => import("./InfoTab/InfoTabStats/InfoTabStats"));
-const LanguageSelector = lazy(() => import("./Language/Language"));
-const LeftBar = lazy(() => import("./LeftBar/LeftBar"));
-const Lightbox = lazy(() => import("./Lightbox/Lightbox"));
+import LanguageSelector from "./Language/Language";
+import LeftBar from "./LeftBar/LeftBar";
+import Lightbox from "./Lightbox/Lightbox";
 const Map = lazy(() => import("./Map/Map"));
 const MapTooltip = lazy(() => import("./Tooltip/TooltipMap"));
 const Tooltip = lazy(() => import("./Tooltip/Tooltip"));
