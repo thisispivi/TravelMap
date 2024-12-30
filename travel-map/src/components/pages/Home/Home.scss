@@ -1,6 +1,11 @@
 @use "../../../styles/mixins.scss" as m;
 @use "../../../styles/variables.module" as v;
 
+.home {
+  height: 100%;
+  width: 100%;
+}
+
 .home--dark {
   background-color: v.$darkBackground;
   @include m.transition(background-color, 0.2s, ease-in-out);
