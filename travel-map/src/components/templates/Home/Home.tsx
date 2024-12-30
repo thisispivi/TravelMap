@@ -1,4 +1,4 @@
-import { PropsWithChildren, memo, useContext } from "react";
+import { PropsWithChildren, Suspense, memo, useContext } from "react";
 import {
   InfoTab,
   InfoTabFuture,
@@ -17,6 +17,8 @@ import {
   visitedCountries,
 } from "../../../data";
 import { HomeContext } from "../../pages/Home/Home";
+import { Loading } from "../../atoms";
+import "./Home.scss";
 
 interface HomeTemplateProps extends PropsWithChildren {}
 
@@ -32,31 +34,39 @@ interface HomeTemplateProps extends PropsWithChildren {}
  * @returns {JSX.Element} - The home template
  */
 export default memo(function HomeTemplate(
-  props: HomeTemplateProps,
+  props: HomeTemplateProps
 ): JSX.Element {
   const { isVisited, isFuture, isGallery, isStats, isLived } = useLocation();
   const { hoveredCity, setHoveredCity } = useContext(HomeContext)!;
 
   return (
     <div className="home-template">
-      <LeftBar />
-      <InfoTab>
-        <InfoTabLived isVisible={isLived} />
-        <InfoTabVisited isVisible={isVisited} />
-        <InfoTabFuture isVisible={isFuture} />
-        <InfoTabStats isVisible={isStats} />
-      </InfoTab>
-      <Container isVisible={isGallery}>
-        {isGallery ? props.children : null}
-      </Container>
-      <Map
-        currHoveredCity={hoveredCity}
-        futureCities={futureCities}
-        livedCities={livedCities}
-        setCurrentHoveredCity={setHoveredCity}
-        visitedCities={visitedCities}
-        visitedCountries={visitedCountries}
-      />
+      <Suspense
+        fallback={
+          <div className="centered">
+            <Loading />
+          </div>
+        }
+      >
+        <LeftBar />
+        <InfoTab>
+          <InfoTabLived isVisible={isLived} />
+          <InfoTabVisited isVisible={isVisited} />
+          <InfoTabFuture isVisible={isFuture} />
+          <InfoTabStats isVisible={isStats} />
+        </InfoTab>
+        <Container isVisible={isGallery}>
+          {isGallery ? props.children : null}
+        </Container>
+        <Map
+          currHoveredCity={hoveredCity}
+          futureCities={futureCities}
+          livedCities={livedCities}
+          setCurrentHoveredCity={setHoveredCity}
+          visitedCities={visitedCities}
+          visitedCountries={visitedCountries}
+        />
+      </Suspense>
     </div>
   );
 });

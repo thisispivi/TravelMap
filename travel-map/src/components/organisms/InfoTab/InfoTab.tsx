@@ -1,6 +1,7 @@
-import { PropsWithChildren, memo } from "react";
+import { PropsWithChildren, Suspense, memo } from "react";
 import "./InfoTab.scss";
 import useLocation from "../../../hooks/location/location";
+import { Loading } from "../../atoms";
 
 interface InfoTabProps extends PropsWithChildren {
   className?: string;
@@ -28,7 +29,15 @@ export default memo(function InfoTab({
     <div
       className={`info-tab ${className} ${isInfoTabOpen ? "info-tab--open" : ""}`}
     >
-      {children}
+      <Suspense
+        fallback={
+          <div className="centered">
+            <Loading />
+          </div>
+        }
+      >
+        {children}
+      </Suspense>
     </div>
   );
 });
