@@ -2,8 +2,8 @@
 @use "../../../styles/variables.module" as v;
 
 .home {
-  height: 100%;
-  width: 100%;
+  height: inherit;
+  width: inherit;
 }
 
 .home--dark {
