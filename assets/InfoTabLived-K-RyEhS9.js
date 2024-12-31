@@ -1,1 +1,0 @@
-import{r as t,j as o,l as r,b as s}from"./index-CBHbNybt.js";import a from"./InfoTabCities-CcU9obIt.js";import"./Tooltip-DiiUnOzh.js";import"./react-tooltip.min-ZSIsEzrY.js";const p=t.memo(function({className:i="",isVisible:e=!1}){return o.jsx(a,{allCountries:r,cities:s,className:i,getTravelIdx:()=>0,id:"lived",isVisible:e})});export{p as default};
