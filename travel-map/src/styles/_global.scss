@@ -13,15 +13,15 @@
     "YTLC" 500;
 }
 
-html,
-body,
-#root {
+html {
   height: 100%;
   width: 100%;
 }
 
 body,
 #root {
+  height: inherit;
+  width: inherit;
   overflow: hidden;
   @include m.transition(background-color, 0.3s, ease-in-out);
 }
