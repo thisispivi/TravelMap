@@ -6,12 +6,12 @@
   align-items: center;
   width: 100%;
   justify-content: space-between;
-  .city-row__city {
+  .city-row__cities {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
     justify-content: center;
-    b {
+    .city-row__cities__city {
       display: flex;
       align-items: center;
       svg {

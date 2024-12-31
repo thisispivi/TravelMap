@@ -42,7 +42,7 @@ function MapTooltip({
   isOpen,
   setIsOpen,
 }: MapTooltipProps): JSX.Element {
-  const { t, currentLanguage: lang } = useLanguage(["home"]);
+  const { t, currLanguage: lang } = useLanguage(["home"]);
   const [travelIdx, setTravelIdx] = useState(0);
   const filteredTravels = city.travels.filter((travel) => !travel.isFuture);
   const navigate = useNavigate();

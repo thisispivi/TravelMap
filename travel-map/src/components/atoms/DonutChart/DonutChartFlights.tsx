@@ -121,7 +121,7 @@ export default function FlightsDonutChart({
       },
       enabledOnSeries: [0, 1, 2],
     },
-    colors: ["#107895", "#c02e1d", "#F5A300"],
+    colors: ["#107895", "#c02e1d", "#79a14e"],
   } as ApexCharts.ApexOptions;
 
   return (

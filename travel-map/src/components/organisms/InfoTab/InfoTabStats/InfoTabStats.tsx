@@ -31,6 +31,7 @@ import {
 } from "../../../../utils/distance";
 import { Muravera } from "../../../../data/Italy/Muravera/Muravera";
 import { Continent } from "../../../../core";
+import { formatMileage } from "../../../../utils/format";
 
 interface InfoTabStatsProps {
   className?: string;
@@ -53,7 +54,7 @@ export default memo(function InfoTabStats({
   className = "",
   isVisible = false,
 }: InfoTabStatsProps): JSX.Element {
-  const { t } = useLanguage(["home"]);
+  const { t, currLanguage } = useLanguage(["home"]);
 
   const { furthest: furthestCity, nearest: nearestCity } =
     getFurthestAndNearestCity(visitedCities, Muravera);
@@ -70,10 +71,10 @@ export default memo(function InfoTabStats({
   const continentCities = Object.values(Continent)
     .map((continent) => {
       const numberOfCities = visitedCities.filter(
-        (country) => country.country.continent === continent,
+        (country) => country.country.continent === continent
       ).length;
       const numberOfCountries = Object.values(visitedCountries).filter(
-        (country) => country.continent === continent,
+        (country) => country.continent === continent
       ).length;
       return {
         continent,
@@ -114,11 +115,15 @@ export default memo(function InfoTabStats({
             <FlightsDonutChart takenFlights={takenFlights} />
           </Column>
           <Column className="info-tab-stats__card__row">
-            <p>{t("stats.longestFlight")}</p>
+            <p className="info-tab-stats__card__row__title">
+              {t("stats.longestFlight")}
+            </p>
             <FlightRow flight={maxFlight} />
           </Column>
           <Column className="info-tab-stats__card__row">
-            <p>{t("stats.shortestFlight")}</p>
+            <p className="info-tab-stats__card__row__title">
+              {t("stats.shortestFlight")}
+            </p>
             <FlightRow flight={minFlight} />
           </Column>
         </Card>
@@ -127,7 +132,7 @@ export default memo(function InfoTabStats({
             <h2>{t("stats.mileage")}</h2>
             <Column className="info-tab-stats__card__main__total-mileage">
               <p>{t("stats.totalMileage")}</p>
-              <b>{`${totalMileage} km`}</b>
+              <b>{`${formatMileage(totalMileage, currLanguage)} km`}</b>
             </Column>
             <Row className="info-tab-stats__card__main__mileage-planets">
               <Column className="info-tab-stats__card__main__mileage-planets--earth">
@@ -143,11 +148,15 @@ export default memo(function InfoTabStats({
             </Row>
           </Column>
           <Column className="info-tab-stats__card__row">
-            <p>{t("stats.furthestCity")}</p>
+            <p className="info-tab-stats__card__row__title">
+              {t("stats.furthestCity")}
+            </p>
             <CityRow eCity={furthestCity} />
           </Column>
           <Column className="info-tab-stats__card__row">
-            <p>{t("stats.nearestCity")}</p>
+            <p className="info-tab-stats__card__row__title">
+              {t("stats.nearestCity")}
+            </p>
             <CityRow eCity={nearestCity} />
           </Column>
         </Card>
@@ -175,7 +184,9 @@ export default memo(function InfoTabStats({
             </Row>
           </Column>
           <Column className="info-tab-stats__card__row">
-            <p>{t("stats.countriesPerContinent")}</p>
+            <p className="info-tab-stats__card__row__title">
+              {t("stats.countriesPerContinent")}
+            </p>
             <Row className="row--wrap continents__countries__wrap">
               {continentCities.map((continent) => (
                 <ContinentCitiesRow
@@ -187,7 +198,9 @@ export default memo(function InfoTabStats({
             </Row>
           </Column>
           <Column className="info-tab-stats__card__row">
-            <p>{t("stats.citiesPerContinent")}</p>
+            <p className="info-tab-stats__card__row__title">
+              {t("stats.citiesPerContinent")}
+            </p>
             <Row className="row--wrap continents__cities__wrap">
               {continentCities.map((continent) => (
                 <ContinentCitiesRow

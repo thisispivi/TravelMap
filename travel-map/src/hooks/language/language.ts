@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 
 export type LanguageHook = {
   t: i18n["t"];
-  currentLanguage: string;
+  currLanguage: string;
   changeLanguage: (lang: string) => void;
 };
 
@@ -14,9 +14,9 @@ export type LanguageHook = {
  */
 export default function useLanguage(namespaces: string[]): LanguageHook {
   const { i18n, t } = useTranslation(namespaces);
-  const currentLanguage = i18n.language;
+  const currLanguage = i18n.language;
   const changeLanguage = (lang: string) => {
     i18n.changeLanguage(lang);
   };
-  return { t, currentLanguage, changeLanguage };
+  return { t, currLanguage, changeLanguage };
 }
