@@ -6,12 +6,12 @@
   align-items: center;
   width: 100%;
   justify-content: space-between;
-  .flight-row__city {
+  .flight-row__cities {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
     justify-content: center;
-    b {
+    .flight-row__cities__city {
       display: flex;
       align-items: center;
       svg {
@@ -32,7 +32,8 @@
 .home--light {
   .flight-row {
     .flight-row__distance,
-    b {
+    b,
+    p {
       color: v.$darkLeftBar;
       @include m.transition(all, 0.3s, ease-in-out);
     }
@@ -42,7 +43,8 @@
 .home--dark {
   .flight-row {
     .flight-row__distance,
-    b {
+    b,
+    p {
       color: v.$lightLeftBar;
       @include m.transition(all, 0.3s, ease-in-out);
     }

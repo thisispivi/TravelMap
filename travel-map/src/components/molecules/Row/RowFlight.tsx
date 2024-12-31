@@ -1,5 +1,7 @@
 import { PlaneIcon } from "../../../assets";
 import { Flight } from "../../../core/classes/Flight";
+import useLanguage from "../../../hooks/language/language";
+import { formatMileage } from "../../../utils/format";
 import { CountryFlag } from "../../atoms";
 import Row from "./Row";
 import "./RowFlight.scss";
@@ -25,21 +27,22 @@ export default function FlightRow({
   flight,
   className = "",
 }: FlightRowProps): JSX.Element {
+  const { t, currLanguage } = useLanguage(["home"]);
   return (
     <Row className={`flight-row ${className} row--wrap`}>
-      <div className="flight-row__city">
-        <b>
+      <div className="flight-row__cities">
+        <p className="flight-row__cities__city">
           <CountryFlag countryId={flight.sCity.country.id} />
-          {flight.sCity.name}
-        </b>
+          {t(`cities.${flight.sCity.name}`)}
+        </p>
         <PlaneIcon className="flight-row__icon" />
-        <b>
+        <p className="flight-row__cities__city">
           <CountryFlag countryId={flight.eCity.country.id} />
-          {flight.eCity.name}
-        </b>
+          {t(`cities.${flight.eCity.name}`)}
+        </p>
       </div>
       <b className="flight-row__distance">
-        {flight.distanceInKm.toFixed(2)} km
+        {formatMileage(flight.distanceInKm, currLanguage)} km
       </b>
     </Row>
   );

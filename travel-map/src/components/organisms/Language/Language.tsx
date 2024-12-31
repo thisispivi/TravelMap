@@ -15,7 +15,7 @@ import { LanguageIcon } from "../../../assets";
  */
 export default function LanguageSelector(): JSX.Element {
   const [isOpen, setIsOpen] = useState(false);
-  const { currentLanguage, changeLanguage } = useLanguage([]);
+  const { currLanguage, changeLanguage } = useLanguage([]);
 
   const possibleLanguages = ["it", "en"];
 
@@ -30,13 +30,13 @@ export default function LanguageSelector(): JSX.Element {
         <LanguageIcon className="language-selector__language-icon" />
         <LanguageFlag
           className="language-selector__language-flag-icon"
-          language={currentLanguage}
+          language={currLanguage}
         />
       </Button>
       {possibleLanguages.map((language) => (
         <Button
           className={`language-selector__button ${
-            currentLanguage.includes(language)
+            currLanguage.includes(language)
               ? "language-selector__button--active"
               : ""
           } language-selector__button--${language}
