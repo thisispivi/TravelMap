@@ -84,7 +84,8 @@
           margin-top: 0.5rem;
         }
         b {
-          margin-top: 1rem;
+          margin-top: 0.8rem;
+          font-size: 1.2rem;
         }
       }
     }
@@ -120,7 +121,7 @@
         margin-bottom: 1rem;
         padding-inline: 1rem;
         @include m.transition(all, 0.3s, ease-in-out);
-        p {
+        .info-tab-stats__card__row__title {
           margin-top: 0.8rem;
           margin-bottom: 0.4rem;
           font-weight: 400;

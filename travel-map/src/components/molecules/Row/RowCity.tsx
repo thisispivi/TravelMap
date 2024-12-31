@@ -1,7 +1,9 @@
 import { DistanceIcon } from "../../../assets";
 import { City } from "../../../core/classes/City";
 import { Muravera } from "../../../data/Italy/Muravera/Muravera";
+import useLanguage from "../../../hooks/language/language";
 import { haversineDistance } from "../../../utils/distance";
+import { formatMileage } from "../../../utils/format";
 import { CountryFlag } from "../../atoms";
 import Row from "./Row";
 import "./RowCity.scss";
@@ -30,26 +32,29 @@ export default function CityRow({
   eCity,
   className = "",
 }: CityRowProps): JSX.Element {
+  const { t, currLanguage } = useLanguage(["home"]);
   const distanceInKm = haversineDistance(
     sCity.coordinates[1],
     sCity.coordinates[0],
     eCity.coordinates[1],
-    eCity.coordinates[0],
+    eCity.coordinates[0]
   );
   return (
     <Row className={`city-row ${className} row--wrap`}>
-      <div className="city-row__city">
-        <b>
+      <div className="city-row__cities">
+        <p className="city-row__cities__city">
           <CountryFlag countryId={sCity.country.id} />
-          {sCity.name}
-        </b>
+          {t(`cities.${sCity.name}`)}
+        </p>
         <DistanceIcon className="city-row__icon" />
-        <b>
+        <p className="city-row__cities__city">
           <CountryFlag countryId={eCity.country.id} />
-          {eCity.name}
-        </b>
+          {t(`cities.${eCity.name}`)}
+        </p>
       </div>
-      <b className="city-row__distance">{distanceInKm.toFixed(2)} km</b>
+      <b className="city-row__distance">
+        {formatMileage(distanceInKm, currLanguage)} km
+      </b>
     </Row>
   );
 }

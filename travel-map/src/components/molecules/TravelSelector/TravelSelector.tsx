@@ -25,7 +25,7 @@ export default function TravelSelector({
   selectedTravelIdx,
   cityName,
 }: TravelSelectorProps): JSX.Element {
-  const { currentLanguage } = useLanguage([]);
+  const { currLanguage } = useLanguage([]);
   const navigate = useNavigate();
   const currTravel = travels[selectedTravelIdx];
   const filteredTravels = travels.filter((t) => !t.isFuture);
@@ -42,12 +42,12 @@ export default function TravelSelector({
       <div className="travel-selector__info">
         <div className="travel-selector__dates">
           <DepartureIcon className="travel-selector__travel-icon" />
-          <p>{formatDate(currTravel.sDate, currentLanguage)}</p>
+          <p>{formatDate(currTravel.sDate, currLanguage)}</p>
         </div>
         <p className="travel-selector__bar">-</p>
         <div className="travel-selector__dates">
           <ArrivalIcon className="travel-selector__travel-icon" />
-          <p>{formatDate(currTravel.eDate, currentLanguage)}</p>
+          <p>{formatDate(currTravel.eDate, currLanguage)}</p>
         </div>
       </div>
       <DoubleChevronIcon

@@ -57,7 +57,7 @@ const CityCard = ({
   isAutoPosition = false,
   isHidden = false,
 }: CityCardProps): JSX.Element => {
-  const lang = useLanguage([]).currentLanguage;
+  const lang = useLanguage([]).currLanguage;
   const navigate = useNavigate();
   const { t } = useLanguage(["home"]);
 
