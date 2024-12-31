@@ -41,6 +41,7 @@ export default memo(function HomeTemplate(
 
   return (
     <div className="home-template">
+      <LeftBar />
       <Suspense
         fallback={
           <div className="centered">
@@ -48,7 +49,6 @@ export default memo(function HomeTemplate(
           </div>
         }
       >
-        <LeftBar />
         <InfoTab>
           <InfoTabLived isVisible={isLived} />
           <InfoTabVisited isVisible={isVisited} />
