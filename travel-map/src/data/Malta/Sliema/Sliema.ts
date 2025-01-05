@@ -1,5 +1,6 @@
 import { City, Travel } from "../../../core";
 import { Malta } from "../Malta";
+import { tr_010125_050125_images } from "./photos/tr_010125_050125";
 
 export const Sliema = new City({
   name: "Sliema",
@@ -9,10 +10,10 @@ export const Sliema = new City({
     new Travel({
       sDate: new Date(2025, 0, 1),
       eDate: new Date(2025, 0, 5),
-      isFuture: true,
+      photos: tr_010125_050125_images,
     }),
   ],
   backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/Cities/Sliema.jpg",
+    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Sliema/Sliema.jpg",
   ],
 });

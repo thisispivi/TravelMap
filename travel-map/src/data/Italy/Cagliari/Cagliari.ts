@@ -6,7 +6,7 @@ export const Cagliari = new City({
   country: Italy,
   coordinates: [9.1167, 39.2167],
   backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/Cities/Cagliari.webp",
+    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cagliari/Cagliari.webp",
   ],
   travels: [],
 });

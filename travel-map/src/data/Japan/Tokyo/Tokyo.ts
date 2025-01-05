@@ -15,6 +15,6 @@ export const Tokyo = new City({
     }),
   ],
   backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/Cities/Tokyo.jpg",
+    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Tokyo/Tokyo.jpg",
   ],
 });

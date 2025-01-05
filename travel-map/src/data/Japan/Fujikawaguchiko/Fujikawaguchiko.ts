@@ -14,6 +14,6 @@ export const Fujikawaguchiko = new City({
     }),
   ],
   backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/Cities/Fujikawaguchiko.jpg",
+    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Fujikawaguchiko/Fujikawaguchiko.jpg",
   ],
 });

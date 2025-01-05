@@ -14,6 +14,6 @@ export const Bruges = new City({
     }),
   ],
   backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/Cities/Bruges.jpg",
+    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Belgium/Bruges/Bruges.jpg",
   ],
 });

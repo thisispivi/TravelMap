@@ -3,334 +3,334 @@ import { Image } from "../../../../core";
 export const tr_190824_190824_images: Image[] = [
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/001c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/001c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/001t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/001t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/002c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/002c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/002t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/002t.webp",
     width: 2867,
     height: 3822,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/003c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/003c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/003t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/003t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/004c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/004c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/004t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/004t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/005c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/005c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/005t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/005t.webp",
     width: 64,
     height: 85,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/006c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/006c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/006t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/006t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/007c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/007c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/007t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/007t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/008c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/008c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/008t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/008t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/009c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/009c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/009t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/009t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/010c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/010c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/010t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/010t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/011c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/011c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/011t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/011t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/012c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/012c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/012t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/012t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/013c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/013c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/013t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/013t.webp",
     width: 85,
     height: 64,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/014c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/014c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/014t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/014t.webp",
     width: 85,
     height: 64,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/015c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/015c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/015t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/015t.webp",
     width: 4,
     height: 3,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/016c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/016c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/016t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/016t.webp",
     width: 4,
     height: 3,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/017c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/017c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/017t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/017t.webp",
     width: 4,
     height: 3,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/018c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/018c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/018t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/018t.webp",
     width: 4,
     height: 3,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/019c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/019c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/019t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/019t.webp",
     width: 4,
     height: 3,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/020c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/020c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/020t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/020t.webp",
     width: 4,
     height: 3,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/021c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/021c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/021t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/021t.webp",
     width: 4,
     height: 3,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/022c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/022c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/022t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/022t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/023c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/023c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/023t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/023t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/024c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/024c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/024t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/024t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/025c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/025c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/025t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/025t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/026c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/026c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/026t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/026t.webp",
     width: 85,
     height: 64,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/027c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/027c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/027t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/027t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/028c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/028c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/028t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/028t.webp",
     width: 85,
     height: 64,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/029c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/029c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/029t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/029t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/030c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/030c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/030t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/030t.webp",
     width: 64,
     height: 85,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/031c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/031c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/031t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/031t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/032c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/032c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/032t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/032t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/033c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/033c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/033t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/033t.webp",
     width: 64,
     height: 85,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/034c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/034c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/034t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/034t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/035c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/035c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/035t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/035t.webp",
     width: 64,
     height: 85,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/036c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/036c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/036t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/036t.webp",
     width: 85,
     height: 64,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/037c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/037c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Shirakawago/037t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/037t.webp",
     width: 85,
     height: 64,
   },

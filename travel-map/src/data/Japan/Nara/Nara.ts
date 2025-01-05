@@ -15,6 +15,6 @@ export const Nara = new City({
     }),
   ],
   backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/Cities/Nara.jpg",
+    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Nara/Nara.jpg",
   ],
 });
