@@ -161,7 +161,7 @@ export default memo(function LeftBar({
                   />
                 ) : null}
               </Link>
-            )
+            ),
           )}
         </div>
         <div className="left-bar__buttons--bottom">
