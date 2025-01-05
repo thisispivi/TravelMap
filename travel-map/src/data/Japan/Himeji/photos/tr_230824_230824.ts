@@ -2,366 +2,469 @@ import { Image } from "../../../../core";
 
 export const tr_230824_230824_images: Image[] = [
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/001c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/001c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/001t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/001t.webp",
     width: 1,
     height: 1,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/002c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/002c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/002t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/002t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/003c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/003c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/003t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/003t.webp",
     width: 64,
     height: 85,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/004c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/004c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/004t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/004t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/005c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/005c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/005t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/005t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/006c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/006c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/006t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/006t.webp",
     width: 64,
     height: 85,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/007c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/007c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/007t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/007t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/008c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/008c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/008t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/008t.webp",
     width: 1536,
     height: 1229,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/009c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/009c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/009t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/009t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/010c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/010c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/010t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/010t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/011c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/011c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/011t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/011t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/012c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/012c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/012t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/012t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/013c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/013c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/013t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/013t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/014c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/014c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/014t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/014t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/015c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/015c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/015t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/015t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/016c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/016c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/016t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/016t.webp",
     width: 64,
     height: 85,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/017c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/017c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/017t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/017t.webp",
     width: 85,
     height: 64,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/018c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/018c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/018t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/018t.webp",
     width: 5,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/019c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/019c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/019t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/019t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/020c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/020c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/020t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/020t.webp",
     width: 85,
     height: 64,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/021c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/021c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/021t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/021t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/022c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/022c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/022t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/022t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/023c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/023c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/023t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/023t.webp",
     width: 64,
     height: 85,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/024c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/024c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/024t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/024t.webp",
     width: 64,
     height: 85,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/025c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/025c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/025t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/025t.webp",
     width: 85,
     height: 64,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/026c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/026c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/026t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/026t.webp",
     width: 85,
     height: 64,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/027c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/027c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/027t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/027t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/028c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/028c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/028t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/028t.webp",
     width: 64,
     height: 85,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/029c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/029c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/029t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/029t.webp",
     width: 85,
     height: 64,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/030c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/030c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/030t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/030t.webp",
     width: 64,
     height: 85,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/031c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/031c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/031t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/031t.webp",
     width: 85,
     height: 64,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/032c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/032c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/032t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/032t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/033c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/033c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/033t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/033t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/034c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/034c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/034t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/034t.webp",
     width: 2865,
     height: 3821,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/035c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/035c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/035t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/035t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/036c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/036c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/036t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/036t.webp",
     width: 64,
     height: 85,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/037c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/037c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/037t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/037t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/038c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/038c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/038t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/038t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/039c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/039c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/039t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/039t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/040c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/040c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/040t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/040t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/041c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/041c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/041t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/041t.webp",
     width: 85,
     height: 64,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/042c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/042c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/042t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/042t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/043c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/043c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/043t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/043t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/044c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/044c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/044t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/044t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/045c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/045c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/045t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/045t.webp",
     width: 85,
     height: 64,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/046c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/046c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/046t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/046t.webp",
     width: 85,
     height: 64,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/047c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/047c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/047t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/047t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/048c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/048c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/048t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/048t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/049c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/049c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/049t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/049t.webp",
     width: 85,
     height: 64,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/050c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/050c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/050t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/050t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/051c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/051c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/051t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/051t.webp",
     width: 64,
     height: 85,
   },
   {
     original: "https://youtube.com/embed/-alVbYmN7KQ",
     alt: "Himeji - Kokoen garden 1 (23/08/2024)",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/052t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/052t.webp",
     width: 16,
     height: 9,
     youtube: true,
@@ -369,93 +472,117 @@ export const tr_230824_230824_images: Image[] = [
   {
     original: "https://youtube.com/embed/NxWvneZG8gM",
     alt: "Himeji - Kokoen garden 2 (23/08/2024)",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/053t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/053t.webp",
     width: 9,
     height: 16,
     youtube: true,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/054c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/054c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/054t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/054t.webp",
     width: 85,
     height: 64,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/055c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/055c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/055t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/055t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/056c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/056c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/056t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/056t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/057c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/057c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/057t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/057t.webp",
     width: 64,
     height: 85,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/058c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/058c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/058t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/058t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/059c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/059c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/059t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/059t.webp",
     width: 64,
     height: 85,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/060c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/060c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/060t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/060t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/061c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/061c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/061t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/061t.webp",
     width: 64,
     height: 85,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/062c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/062c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/062t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/062t.webp",
     width: 4,
     height: 3,
   },
   {
     original: "https://youtube.com/embed/diGQVqnOZBc",
     alt: "Himeji - Kokoen garden 3 (23/08/2024)",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/063t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/063t.webp",
     width: 9,
     height: 16,
     youtube: true,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/064c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/064c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/064t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/064t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/065c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/065c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Himeji/065t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/065t.webp",
     width: 3,
     height: 4,
   },

@@ -14,6 +14,6 @@ export const Anderlecht = new City({
     }),
   ],
   backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/Cities/Anderlecht.jpg",
+    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Belgium/Anderlecht/Anderlecht.jpg",
   ],
 });

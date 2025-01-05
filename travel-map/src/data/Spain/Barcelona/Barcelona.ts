@@ -14,6 +14,6 @@ export const Barcelona = new City({
     }),
   ],
   backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/Cities/Barcelona.jpg",
+    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Spain/Barcelona/Barcelona.jpg",
   ],
 });

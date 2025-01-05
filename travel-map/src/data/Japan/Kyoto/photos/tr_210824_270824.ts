@@ -2,565 +2,721 @@ import { Image } from "../../../../core";
 
 export const tr_210824_270824_images: Image[] = [
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/001c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/001c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/001t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/001t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/002c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/002c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/002t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/002t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/003c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/003c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/003t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/003t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/004c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/004c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/004t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/004t.webp",
     width: 576,
     height: 433,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/005c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/005c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/005t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/005t.webp",
     width: 576,
     height: 433,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/006c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/006c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/006t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/006t.webp",
     width: 576,
     height: 433,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/007c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/007c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/007t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/007t.webp",
     width: 2000,
     height: 1503,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/008c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/008c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/008t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/008t.webp",
     width: 2000,
     height: 1503,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/009c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/009c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/009t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/009t.webp",
     width: 2000,
     height: 1503,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/010c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/010c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/010t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/010t.webp",
     width: 2000,
     height: 1503,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/011c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/011c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/011t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/011t.webp",
     width: 2000,
     height: 1503,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/012c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/012c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/012t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/012t.webp",
     width: 1503,
     height: 2000,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/013c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/013c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/013t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/013t.webp",
     width: 1000,
     height: 753,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/014c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/014c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/014t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/014t.webp",
     width: 753,
     height: 1000,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/015c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/015c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/015t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/015t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/016c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/016c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/016t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/016t.webp",
     width: 1000,
     height: 753,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/017c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/017c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/017t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/017t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/018c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/018c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/018t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/018t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/019c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/019c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/019t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/019t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/020c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/020c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/020t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/020t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/021c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/021c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/021t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/021t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/022c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/022c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/022t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/022t.webp",
     width: 753,
     height: 1000,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/023c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/023c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/023t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/023t.webp",
     width: 753,
     height: 1000,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/024c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/024c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/024t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/024t.webp",
     width: 753,
     height: 1000,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/025c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/025c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/025t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/025t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/026c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/026c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/026t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/026t.webp",
     width: 753,
     height: 1000,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/027c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/027c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/027t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/027t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/028c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/028c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/028t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/028t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/029c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/029c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/029t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/029t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/030c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/030c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/030t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/030t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/031c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/031c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/031t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/031t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/032c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/032c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/032t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/032t.webp",
     width: 3,
     height: 4,
   },
   {
     original: "https://youtube.com/embed/bp2YwZWUtjo",
     alt: "Kyoto - Kiyomizu-dera (21/08/2024)",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/033t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/033t.webp",
     width: 9,
     height: 16,
     youtube: true,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/034c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/034c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/034t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/034t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/035c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/035c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/035t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/035t.webp",
     width: 753,
     height: 1000,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/036c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/036c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/036t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/036t.webp",
     width: 1000,
     height: 753,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/037c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/037c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/037t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/037t.webp",
     width: 753,
     height: 1000,
   },
   {
     original: "https://youtube.com/embed/5vJq19KH0W8",
     alt: "Kyoto - Kiyomizu-dera 2 (21/08/2024)",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/038t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/038t.webp",
     width: 9,
     height: 16,
     youtube: true,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/039c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/039c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/039t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/039t.webp",
     width: 1000,
     height: 753,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/040c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/040c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/040t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/040t.webp",
     width: 753,
     height: 1000,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/041c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/041c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/041t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/041t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/042c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/042c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/042t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/042t.webp",
     width: 753,
     height: 1000,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/043c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/043c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/043t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/043t.webp",
     width: 753,
     height: 1000,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/044c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/044c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/044t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/044t.webp",
     width: 1000,
     height: 753,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/045c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/045c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/045t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/045t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/046c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/046c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/046t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/046t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/047c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/047c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/047t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/047t.webp",
     width: 753,
     height: 1000,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/048c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/048c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/048t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/048t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/049c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/049c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/049t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/049t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/050c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/050c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/050t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/050t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/051c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/051c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/051t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/051t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/052c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/052c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/052t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/052t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/053c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/053c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/053t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/053t.webp",
     width: 1000,
     height: 753,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/054c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/054c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/054t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/054t.webp",
     width: 753,
     height: 1000,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/055c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/055c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/055t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/055t.webp",
     width: 753,
     height: 1000,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/056c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/056c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/056t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/056t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/057c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/057c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/057t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/057t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/058c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/058c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/058t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/058t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/059c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/059c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/059t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/059t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/060c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/060c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/060t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/060t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/061c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/061c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/061t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/061t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/062c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/062c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/062t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/062t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/063c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/063c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/063t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/063t.webp",
     width: 753,
     height: 1000,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/064c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/064c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/064t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/064t.webp",
     width: 753,
     height: 1000,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/065c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/065c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/065t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/065t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/066c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/066c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/066t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/066t.webp",
     width: 753,
     height: 1000,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/067c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/067c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/067t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/067t.webp",
     width: 753,
     height: 1000,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/068c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/068c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/068t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/068t.webp",
     width: 1000,
     height: 753,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/069c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/069c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/069t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/069t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/070c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/070c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/070t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/070t.webp",
     width: 2000,
     height: 1503,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/071c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/071c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/071t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/071t.webp",
     width: 753,
     height: 1000,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/072c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/072c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/072t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/072t.webp",
     width: 2000,
     height: 1503,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/073c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/073c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/073t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/073t.webp",
     width: 1000,
     height: 753,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/074c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/074c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/074t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/074t.webp",
     width: 753,
     height: 1000,
   },
   {
     original: "https://youtube.com/embed/qQ-LWf8BMjI",
     alt: "Kyoto - Nijo Castle Naked festival (21/08/2024)",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/075t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/075t.webp",
     width: 16,
     height: 9,
     youtube: true,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/076c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/076c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/076t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/076t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/077c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/077c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/077t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/077t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/078c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/078c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/078t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/078t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/079c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/079c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/079t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/079t.webp",
     width: 753,
     height: 1000,
   },
   {
     original: "https://youtube.com/embed/s0VAPcvuTBY",
     alt: "Kyoto - Nijo Castle Naked festival 2 (21/08/2024)",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/080t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/080t.webp",
     width: 9,
     height: 16,
     youtube: true,
@@ -568,1165 +724,1484 @@ export const tr_210824_270824_images: Image[] = [
   {
     original: "https://youtube.com/embed/vcrsG6Rc4FY",
     alt: "Kyoto - Nijo Castle Naked festival 3 (21/08/2024)",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/081t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/081t.webp",
     width: 9,
     height: 16,
     youtube: true,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/082c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/082c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/082t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/082t.webp",
     width: 753,
     height: 1000,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/083c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/083c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/083t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/083t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/084c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/084c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/084t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/084t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/085c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/085c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/085t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/085t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/086c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/086c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/086t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/086t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/087c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/087c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/087t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/087t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/088c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/088c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/088t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/088t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/089c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/089c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/089t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/089t.webp",
     width: 753,
     height: 1000,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/090c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/090c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/090t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/090t.webp",
     width: 753,
     height: 1000,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/091c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/091c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/091t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/091t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/092c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/092c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/092t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/092t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/093c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/093c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/093t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/093t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/094c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/094c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/094t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/094t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/095c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/095c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/095t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/095t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/096c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/096c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/096t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/096t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/097c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/097c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/097t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/097t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/098c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/098c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/098t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/098t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/099c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/099c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/099t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/099t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/100c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/100c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/100t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/100t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/101c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/101c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/101t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/101t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/102c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/102c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/102t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/102t.webp",
     width: 753,
     height: 1000,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/103c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/103c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/103t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/103t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/104c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/104c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/104t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/104t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/105c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/105c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/105t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/105t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/106c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/106c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/106t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/106t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/107c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/107c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/107t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/107t.webp",
     width: 753,
     height: 1000,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/108c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/108c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/108t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/108t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/109c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/109c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/109t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/109t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/110c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/110c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/110t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/110t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/111c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/111c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/111t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/111t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/112c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/112c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/112t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/112t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/113c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/113c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/113t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/113t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/114c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/114c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/114t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/114t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/115c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/115c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/115t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/115t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/116c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/116c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/116t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/116t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/117c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/117c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/117t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/117t.webp",
     width: 1000,
     height: 753,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/118c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/118c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/118t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/118t.webp",
     width: 576,
     height: 433,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/119c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/119c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/119t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/119t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/120c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/120c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/120t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/120t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/121c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/121c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/121t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/121t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/122c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/122c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/122t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/122t.webp",
     width: 1503,
     height: 2000,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/123c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/123c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/123t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/123t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/124c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/124c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/124t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/124t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/125c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/125c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/125t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/125t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/126c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/126c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/126t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/126t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/127c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/127c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/127t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/127t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/128c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/128c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/128t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/128t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/129c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/129c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/129t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/129t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/130c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/130c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/130t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/130t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/131c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/131c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/131t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/131t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/132c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/132c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/132t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/132t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/133c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/133c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/133t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/133t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/134c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/134c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/134t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/134t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/135c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/135c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/135t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/135t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/136c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/136c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/136t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/136t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/137c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/137c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/137t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/137t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/138c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/138c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/138t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/138t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/139c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/139c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/139t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/139t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/140c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/140c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/140t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/140t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/141c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/141c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/141t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/141t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/142c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/142c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/142t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/142t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/143c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/143c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/143t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/143t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/144c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/144c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/144t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/144t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/145c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/145c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/145t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/145t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/146c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/146c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/146t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/146t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/147c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/147c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/147t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/147t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/148c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/148c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/148t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/148t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/149c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/149c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/149t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/149t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/150c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/150c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/150t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/150t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/151c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/151c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/151t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/151t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/152c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/152c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/152t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/152t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/153c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/153c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/153t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/153t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/154c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/154c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/154t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/154t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/155c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/155c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/155t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/155t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/156c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/156c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/156t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/156t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/157c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/157c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/157t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/157t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/158c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/158c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/158t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/158t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/159c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/159c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/159t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/159t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/160c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/160c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/160t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/160t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/161c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/161c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/161t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/161t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/162c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/162c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/162t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/162t.webp",
     width: 753,
     height: 1000,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/163c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/163c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/163t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/163t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/164c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/164c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/164t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/164t.webp",
     width: 1000,
     height: 753,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/165c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/165c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/165t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/165t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/166c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/166c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/166t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/166t.webp",
     width: 753,
     height: 1000,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/167c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/167c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/167t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/167t.webp",
     width: 1000,
     height: 753,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/168c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/168c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/168t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/168t.webp",
     width: 753,
     height: 1000,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/169c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/169c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/169t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/169t.webp",
     width: 753,
     height: 1000,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/170c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/170c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/170t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/170t.webp",
     width: 1000,
     height: 753,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/171c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/171c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/171t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/171t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/172c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/172c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/172t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/172t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/173c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/173c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/173t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/173t.webp",
     width: 753,
     height: 1000,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/174c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/174c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/174t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/174t.webp",
     width: 753,
     height: 1000,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/175c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/175c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/175t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/175t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/176c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/176c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/176t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/176t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/177c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/177c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/177t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/177t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/178c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/178c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/178t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/178t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/179c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/179c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/179t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/179t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/180c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/180c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/180t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/180t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/181c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/181c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/181t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/181t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/182c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/182c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/182t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/182t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/183c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/183c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/183t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/183t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/184c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/184c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/184t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/184t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/185c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/185c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/185t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/185t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/186c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/186c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/186t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/186t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/187c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/187c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/187t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/187t.webp",
     width: 753,
     height: 1000,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/188c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/188c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/188t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/188t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/189c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/189c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/189t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/189t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/190c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/190c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/190t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/190t.webp",
     width: 753,
     height: 1000,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/191c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/191c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/191t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/191t.webp",
     width: 753,
     height: 1000,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/192c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/192c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/192t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/192t.webp",
     width: 753,
     height: 1000,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/193c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/193c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/193t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/193t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/194c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/194c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/194t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/194t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/195c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/195c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/195t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/195t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/196c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/196c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/196t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/196t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/197c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/197c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/197t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/197t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/198c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/198c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/198t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/198t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/199c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/199c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/199t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/199t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/200c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/200c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/200t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/200t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/201c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/201c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/201t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/201t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/202c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/202c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/202t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/202t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/203c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/203c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/203t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/203t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/204c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/204c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/204t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/204t.webp",
     width: 1000,
     height: 753,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/205c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/205c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/205t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/205t.webp",
     width: 1000,
     height: 753,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/206c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/206c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/206t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/206t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/207c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/207c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/207t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/207t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/208c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/208c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/208t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/208t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/209c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/209c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/209t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/209t.webp",
     width: 3,
     height: 4,
   },
   {
     original: "https://youtube.com/embed/c6l7gndmlKU",
     alt: "Kyoto - Nishiki Market (26/08/2024)",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/210t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/210t.webp",
     width: 9,
     height: 16,
     youtube: true,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/211c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/211c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/211t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/211t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/212c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/212c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/212t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/212t.webp",
     width: 1000,
     height: 753,
   },
   {
     original: "https://youtube.com/embed/sXhLC4CDIyY",
     alt: "Kyoto - Nishiki Sushi Shin (26/08/2024)",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/213t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/213t.webp",
     width: 9,
     height: 16,
     youtube: true,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/214c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/214c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/214t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/214t.webp",
     width: 3,
     height: 4,
   },
   {
     original: "https://youtube.com/embed/kF0IIjgP1go",
     alt: "Kyoto - Nishiki Sushi Shin 2 (26/08/2024)",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/215t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/215t.webp",
     width: 9,
     height: 16,
     youtube: true,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/216c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/216c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/216t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/216t.webp",
     width: 3,
     height: 4,
   },
   {
     original: "https://youtube.com/embed/_3JEuUBXM2s",
     alt: "Kyoto - Nishiki Sushi Shin 3 (26/08/2024)",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/217t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/217t.webp",
     width: 9,
     height: 16,
     youtube: true,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/218c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/218c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/218t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/218t.webp",
     width: 3,
     height: 4,
   },
   {
     original: "https://youtube.com/embed/E1K1GN3X8Bg",
     alt: "Kyoto - Nishiki Sushi Shin 4 (26/08/2024)",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/219t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/219t.webp",
     width: 9,
     height: 16,
     youtube: true,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/220c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/220c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/220t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/220t.webp",
     width: 1000,
     height: 753,
   },
   {
     original: "https://youtube.com/embed/rwZQRFA6ko8",
     alt: "Kyoto - Nishiki Sushi Shin 5 (26/08/2024)",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/221t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/221t.webp",
     width: 9,
     height: 16,
     youtube: true,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/222c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/222c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/222t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/222t.webp",
     width: 3,
     height: 4,
   },
   {
     original: "https://youtube.com/embed/4PGhQvSzyzs",
     alt: "Kyoto - Nishiki Sushi Shin 6 (26/08/2024)",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/223t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/223t.webp",
     width: 9,
     height: 16,
     youtube: true,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/224c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/224c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/224t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/224t.webp",
     width: 1000,
     height: 753,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/225c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/225c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/225t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/225t.webp",
     width: 1000,
     height: 753,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/226c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/226c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/226t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/226t.webp",
     width: 753,
     height: 1000,
   },
   {
     original: "https://youtube.com/embed/NJCcqnsoR7k",
     alt: "Kyoto - Nishiki Sushi Shin 7 (26/08/2024)",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/227t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/227t.webp",
     width: 9,
     height: 16,
     youtube: true,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/228c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/228c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/228t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/228t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/229c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/229c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/229t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/229t.webp",
     width: 753,
     height: 1000,
   },
   {
     original: "https://youtube.com/embed/K1WZnZuOEiw",
     alt: "Kyoto - Nishiki Sushi Shin 8 (26/08/2024)",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/230t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/230t.webp",
     width: 9,
     height: 16,
     youtube: true,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/231c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/231c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/231t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/231t.webp",
     width: 1000,
     height: 753,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/232c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/232c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/232t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/232t.webp",
     width: 753,
     height: 1000,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/233c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/233c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/233t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/233t.webp",
     width: 1000,
     height: 753,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/234c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/234c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/234t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/234t.webp",
     width: 753,
     height: 1000,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/235c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/235c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/235t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/235t.webp",
     width: 753,
     height: 1000,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/236c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/236c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/236t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/236t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/237c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/237c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/237t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/237t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/238c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/238c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/238t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/238t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/239c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/239c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/239t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/239t.webp",
     width: 1497,
     height: 2000,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/240c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/240c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/240t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/240t.webp",
     width: 753,
     height: 1000,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/241c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/241c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/241t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/241t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/242c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/242c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/242t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/242t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/243c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/243c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/243t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/243t.webp",
     width: 3,
     height: 4,
   },
   {
     original: "https://youtube.com/embed/Qa2tyfh_1DI",
     alt: "Kyoto - Night (26/08/2024)",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/244t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/244t.webp",
     width: 9,
     height: 16,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/245c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/245c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kyoto/245t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/245t.webp",
     width: 3,
     height: 4,
   },

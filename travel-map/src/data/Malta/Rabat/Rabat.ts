@@ -7,12 +7,11 @@ export const Rabat = new City({
   coordinates: [14.4039, 35.8822],
   travels: [
     new Travel({
-      sDate: new Date(2025, 0, 1),
-      eDate: new Date(2025, 0, 1),
-      isFuture: true,
+      sDate: new Date(2025, 0, 2),
+      eDate: new Date(2025, 0, 2),
     }),
   ],
   backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/Cities/Rabat.jpg",
+    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Rabat/Rabat.jpg",
   ],
 });

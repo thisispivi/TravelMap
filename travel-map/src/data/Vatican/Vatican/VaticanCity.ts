@@ -14,6 +14,6 @@ export const VaticanCity = new City({
     }),
   ],
   backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/Cities/VaticanCity.jpg",
+    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/VaticanCity.jpg",
   ],
 });

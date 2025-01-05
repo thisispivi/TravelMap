@@ -1,5 +1,6 @@
 import { City, Travel } from "../../../core";
 import { Malta } from "../Malta";
+import { tr_040125_040125_images } from "./photos/tr_040125_040125";
 
 export const Victoria = new City({
   name: "Victoria",
@@ -7,12 +8,12 @@ export const Victoria = new City({
   coordinates: [14.2291969, 36.0432112],
   travels: [
     new Travel({
-      sDate: new Date(2025, 0, 2),
-      eDate: new Date(2025, 0, 2),
-      isFuture: true,
+      sDate: new Date(2025, 0, 4, 15),
+      eDate: new Date(2025, 0, 4, 15),
+      photos: tr_040125_040125_images,
     }),
   ],
   backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/Cities/Victoria.jpg",
+    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Victoria/Victoria.jpg",
   ],
 });

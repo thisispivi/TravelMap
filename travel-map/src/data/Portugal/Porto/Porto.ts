@@ -15,6 +15,6 @@ export const Porto = new City({
     }),
   ],
   backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/Cities/Porto.jpg",
+    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Portugal/Porto/Porto.jpg",
   ],
 });

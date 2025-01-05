@@ -12,8 +12,6 @@ import { Budapest } from "./Hungary/Budapest/Budapest";
 import { Cagliari } from "./Italy/Cagliari/Cagliari";
 import { Cefalù } from "./Italy/Cefalù/Cefalù";
 import { Comino } from "./Malta/Comino/Comino";
-import { Cospicua } from "./Malta/Cospicua/Cospicua";
-import { Dingli } from "./Malta/Dingli/Dingli";
 import { Fujikawaguchiko } from "./Japan/Fujikawaguchiko/Fujikawaguchiko";
 import { Genoa } from "./Italy/Genoa/Genoa";
 import { Himeji } from "./Japan/Himeji/Himeji";
@@ -22,6 +20,7 @@ import { Kanazawa } from "./Japan/Kanazawa/Kanazawa";
 import { Kobe } from "./Japan/Kobe/Kobe";
 import { Kyoto } from "./Japan/Kyoto/Kyoto";
 import { London } from "./UnitedKingdom/London/London";
+import { Luqa } from "./Malta/Luqa/Luqa";
 import { Matsumoto } from "./Japan/Matsumoto/Matsumoto";
 import { Mdina } from "./Malta/Mdina/Mdina";
 import { Muravera } from "./Italy/Muravera/Muravera";
@@ -32,7 +31,8 @@ import { PeschieraDelGarda } from "./Italy/PeschieraDelGarda/PeschieraDelGarda";
 import { Porto } from "./Portugal/Porto/Porto";
 import { Rabat } from "./Malta/Rabat/Rabat";
 import { Rome } from "./Italy/Rome/Rome";
-import { Senglea } from "./Malta/Senglea/Senglea";
+import { SanGiljan } from "./Malta/SanGiljan/SanGiljan";
+import { SanPawlIlBahar } from "./Malta/SanPawlIlBahar/SanPawlIlBahar";
 import { Shirakawago } from "./Japan/Shirakawago/Shirakawago";
 import { Sliema } from "./Malta/Sliema/Sliema";
 import { Takayama } from "./Japan/Takayama/Takayama";
@@ -43,7 +43,6 @@ import { Valletta } from "./Malta/Valletta/Valletta";
 import { VaticanCity } from "./Vatican/Vatican/VaticanCity";
 import { Verona } from "./Italy/Verona/Verona";
 import { Victoria } from "./Malta/Victoria/Victoria";
-import { Birgu } from "./Malta/Birgu/Birgu";
 
 import { Belgium } from "./Belgium/Belgium";
 import { Germany } from "./Germany/Germany";
@@ -68,6 +67,7 @@ export const visitedCountries = {
   Spain,
   UnitedKingdom,
   Vatican,
+  Malta,
 };
 export const visitedCities: City[] = [
   Anderlecht,
@@ -79,6 +79,7 @@ export const visitedCities: City[] = [
   Brussels,
   Budapest,
   Cefalù,
+  Comino,
   Fujikawaguchiko,
   Genoa,
   Himeji,
@@ -88,19 +89,26 @@ export const visitedCities: City[] = [
   Kyoto,
   London,
   Matsumoto,
+  Mdina,
   Nara,
   Osaka,
   Oshino,
   PeschieraDelGarda,
   Porto,
+  Rabat,
   Rome,
+  SanGiljan,
   Shirakawago,
+  Sliema,
   Takayama,
   Terni,
   Tokyo,
   Turin,
+  Valletta,
   VaticanCity,
   Verona,
+  Victoria,
+  SanPawlIlBahar,
 ];
 
 export const takenFlights: Flight[] = [
@@ -133,18 +141,9 @@ export const takenFlights: Flight[] = [
   new Flight({ sCity: Rome, eCity: Cagliari }),
   new Flight({ sCity: Cagliari, eCity: Verona }),
   new Flight({ sCity: Verona, eCity: Cagliari }),
+  new Flight({ sCity: Cagliari, eCity: Luqa }),
+  new Flight({ sCity: Luqa, eCity: Cagliari }),
 ];
 
-export const futureCountries = { Malta };
-export const futureCities: City[] = [
-  Sliema,
-  Valletta,
-  Rabat,
-  Mdina,
-  Victoria,
-  Comino,
-  Dingli,
-  Birgu,
-  Senglea,
-  Cospicua,
-];
+export const futureCountries = {};
+export const futureCities: City[] = [];

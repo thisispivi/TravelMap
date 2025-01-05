@@ -15,6 +15,6 @@ export const Braga = new City({
     }),
   ],
   backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/Cities/Braga.jpg",
+    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Portugal/Braga/Braga.jpg",
   ],
 });

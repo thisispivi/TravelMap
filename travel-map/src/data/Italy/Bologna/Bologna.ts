@@ -14,6 +14,6 @@ export const Bologna = new City({
     }),
   ],
   backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/Cities/Bologna.jpg",
+    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Bologna/Bologna.jpg",
   ],
 });
