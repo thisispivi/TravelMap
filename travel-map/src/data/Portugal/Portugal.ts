@@ -1,6 +1,6 @@
 import { Continent, Country } from "../../core";
 export const Portugal = new Country(
   "Portugal",
-  { h: 66, s: 70, l: 54 },
-  Continent.Europe,
+  { h: 120, s: 86, l: 23 },
+  Continent.Europe
 );

@@ -7,6 +7,8 @@ export interface CountryData {
   borderColor: string;
   fillColor: string;
   continent: Continent;
+  minMarkerScale?: number;
+  maxMarkerScale?: number;
 }
 
 /**
@@ -20,18 +22,30 @@ export interface CountryData {
  * @param {string} countryData.id - The id of the country
  * @param {ColorData} countryData.color - The color of the country
  * @param {Continent} countryData.continent - The continent of the country
+ * @param {number} countryData.minMarkerScale - The minimum scale of the marker
+ * @param {number} countryData.maxMarkerScale - The maximum scale of the marker
  */
 export class Country {
   id: string;
   borderColor: string;
   fillColor: string;
   continent: Continent;
+  minMarkerScale?: number;
+  maxMarkerScale?: number;
 
-  constructor(id: string, color: ColorData, continent: Continent) {
+  constructor(
+    id: string,
+    color: ColorData,
+    continent: Continent,
+    minMarkerScale?: number,
+    maxMarkerScale?: number
+  ) {
     this.id = id;
     this.borderColor = new Color(color).toHSL();
     this.fillColor = new Color(color).toHSLA(0.5);
     this.continent = continent;
+    this.minMarkerScale = minMarkerScale;
+    this.maxMarkerScale = maxMarkerScale;
   }
 
   getName(t: i18n["t"]) {
