@@ -14,6 +14,6 @@ export const Oshino = new City({
     }),
   ],
   backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/Cities/Oshino.jpg",
+    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Oshino/Oshino.jpg",
   ],
 });

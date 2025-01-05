@@ -12,6 +12,7 @@ export type ParametersType = {
       maxScale: number;
     };
   };
+  cdnPath: string;
 };
 
 export const parameters: ParametersType = {
@@ -28,4 +29,5 @@ export const parameters: ParametersType = {
       maxScale: 0.2,
     },
   },
+  cdnPath: "https://pivi-travel-map.b-cdn.net/TravelMap/",
 };

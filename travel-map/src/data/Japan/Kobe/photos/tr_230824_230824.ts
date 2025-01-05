@@ -2,368 +2,470 @@ import { Image } from "../../../../core";
 
 export const tr_230824_230824_images: Image[] = [
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/001c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/001c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/001t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/001t.webp",
     width: 64,
     height: 85,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/002c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/002c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/002t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/002t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/003c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/003c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/003t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/003t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/004c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/004c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/004t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/004t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/005c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/005c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/005t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/005t.webp",
     width: 64,
     height: 85,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/006c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/006c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/006t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/006t.webp",
     width: 2496,
     height: 1997,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/007c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/007c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/007t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/007t.webp",
     width: 64,
     height: 85,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/008c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/008c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/008t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/008t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/009c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/009c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/009t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/009t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/010c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/010c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/010t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/010t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/011c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/011c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/011t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/011t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/012c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/012c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/012t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/012t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/013c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/013c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/013t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/013t.webp",
     width: 85,
     height: 64,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/014c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/014c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/014t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/014t.webp",
     width: 64,
     height: 85,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/015c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/015c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/015t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/015t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/016c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/016c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/016t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/016t.webp",
     width: 1536,
     height: 1229,
   },
   {
     original: "https://youtube.com/embed/XpqKPKQGJn4",
     alt: "Kobe - Chinatown (23/08/2024)",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/017t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/017t.webp",
     width: 9,
     height: 16,
     youtube: true,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/018c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/018c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/018t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/018t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/019c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/019c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/019t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/019t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/020c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/020c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/020t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/020t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/021c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/021c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/021t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/021t.webp",
     width: 64,
     height: 85,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/022c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/022c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/022t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/022t.webp",
     width: 64,
     height: 85,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/023c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/023c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/023t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/023t.webp",
     width: 64,
     height: 85,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/024c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/024c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/024t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/024t.webp",
     width: 64,
     height: 85,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/025c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/025c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/025t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/025t.webp",
     width: 2,
     height: 1,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/026c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/026c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/026t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/026t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/027c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/027c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/027t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/027t.webp",
     width: 4049,
     height: 2024,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/028c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/028c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/028t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/028t.webp",
     width: 64,
     height: 85,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/029c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/029c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/029t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/029t.webp",
     width: 85,
     height: 64,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/030c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/030c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/030t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/030t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/031c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/031c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/031t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/031t.webp",
     width: 85,
     height: 64,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/032c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/032c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/032t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/032t.webp",
     width: 85,
     height: 64,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/033c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/033c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/033t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/033t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/034c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/034c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/034t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/034t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/035c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/035c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/035t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/035t.webp",
     width: 85,
     height: 64,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/036c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/036c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/036t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/036t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/037c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/037c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/037t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/037t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/038c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/038c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/038t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/038t.webp",
     width: 85,
     height: 64,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/039c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/039c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/039t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/039t.webp",
     width: 85,
     height: 64,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/040c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/040c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/040t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/040t.webp",
     width: 85,
     height: 64,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/041c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/041c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/041t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/041t.webp",
     width: 85,
     height: 64,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/042c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/042c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/042t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/042t.webp",
     width: 1,
     height: 1,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/043c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/043c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/043t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/043t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/044c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/044c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/044t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/044t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/045c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/045c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/045t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/045t.webp",
     width: 4,
     height: 3,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/046c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/046c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/046t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/046t.webp",
     width: 64,
     height: 85,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/047c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/047c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/047t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/047t.webp",
     width: 3,
     height: 4,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/048c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/048c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/048t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/048t.webp",
     width: 64,
     height: 85,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/049c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/049c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/049t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/049t.webp",
     width: 85,
     height: 64,
   },
   {
     original: "https://youtube.com/embed/oDRQNzonnO0",
     alt: "Kobe - Station (23/08/2024)",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/050t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/050t.webp",
     width: 9,
     height: 16,
     youtube: true,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/051c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/051c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/051t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/051t.webp",
     width: 64,
     height: 85,
   },
   {
-    original: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/052c.webp",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/052c.webp",
     alt: "",
-    thumbnail: "https://pivi-travel-map.b-cdn.net/TravelMap/Kobe/052t.webp",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/052t.webp",
     width: 85,
     height: 64,
   },

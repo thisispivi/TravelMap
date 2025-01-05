@@ -3,1144 +3,1144 @@ import { Image } from "../../../../core";
 export const tr_041024_061024_images: Image[] = [
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/001c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/001c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/001t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/001t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/002c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/002c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/002t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/002t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/003c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/003c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/003t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/003t.webp",
     width: 753,
     height: 1000,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/004c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/004c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/004t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/004t.webp",
     width: 1000,
     height: 753,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/005c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/005c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/005t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/005t.webp",
     width: 753,
     height: 1000,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/006c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/006c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/006t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/006t.webp",
     width: 1000,
     height: 753,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/007c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/007c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/007t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/007t.webp",
     width: 753,
     height: 1000,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/008c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/008c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/008t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/008t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/009c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/009c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/009t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/009t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/010c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/010c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/010t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/010t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/011c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/011c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/011t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/011t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/012c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/012c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/012t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/012t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/013c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/013c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/013t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/013t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/014c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/014c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/014t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/014t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/015c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/015c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/015t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/015t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/016c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/016c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/016t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/016t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/017c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/017c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/017t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/017t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/018c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/018c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/018t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/018t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/019c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/019c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/019t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/019t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/020c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/020c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/020t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/020t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/021c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/021c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/021t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/021t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/022c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/022c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/022t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/022t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/023c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/023c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/023t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/023t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/024c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/024c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/024t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/024t.webp",
     width: 4,
     height: 3,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/025c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/025c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/025t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/025t.webp",
     width: 4,
     height: 3,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/026c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/026c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/026t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/026t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/027c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/027c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/027t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/027t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/028c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/028c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/028t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/028t.webp",
     width: 4,
     height: 3,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/029c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/029c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/029t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/029t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/030c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/030c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/030t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/030t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/031c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/031c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/031t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/031t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/032c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/032c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/032t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/032t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/033c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/033c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/033t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/033t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/034c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/034c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/034t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/034t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/035c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/035c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/035t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/035t.webp",
     width: 753,
     height: 1000,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/036c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/036c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/036t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/036t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/037c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/037c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/037t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/037t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/038c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/038c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/038t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/038t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/039c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/039c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/039t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/039t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/040c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/040c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/040t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/040t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/041c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/041c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/041t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/041t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/042c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/042c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/042t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/042t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/043c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/043c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/043t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/043t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/044c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/044c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/044t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/044t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/045c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/045c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/045t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/045t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/046c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/046c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/046t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/046t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/047c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/047c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/047t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/047t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/048c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/048c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/048t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/048t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/049c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/049c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/049t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/049t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/050c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/050c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/050t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/050t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/051c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/051c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/051t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/051t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/052c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/052c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/052t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/052t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/053c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/053c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/053t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/053t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/054c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/054c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/054t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/054t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/055c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/055c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/055t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/055t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/056c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/056c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/056t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/056t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/057c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/057c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/057t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/057t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/058c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/058c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/058t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/058t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/059c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/059c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/059t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/059t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/060c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/060c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/060t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/060t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/061c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/061c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/061t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/061t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/062c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/062c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/062t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/062t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/063c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/063c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/063t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/063t.webp",
     width: 1000,
     height: 753,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/064c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/064c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/064t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/064t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/065c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/065c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/065t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/065t.webp",
     width: 753,
     height: 1000,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/066c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/066c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/066t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/066t.webp",
     width: 1000,
     height: 753,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/067c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/067c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/067t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/067t.webp",
     width: 753,
     height: 1000,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/068c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/068c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/068t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/068t.webp",
     width: 753,
     height: 1000,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/069c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/069c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/069t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/069t.webp",
     width: 753,
     height: 1000,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/070c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/070c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/070t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/070t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/071c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/071c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/071t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/071t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/072c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/072c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/072t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/072t.webp",
     width: 753,
     height: 1000,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/073c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/073c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/073t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/073t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/074c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/074c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/074t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/074t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/075c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/075c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/075t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/075t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/076c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/076c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/076t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/076t.webp",
     width: 4,
     height: 3,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/077c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/077c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/077t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/077t.webp",
     width: 753,
     height: 1000,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/078c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/078c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/078t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/078t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/079c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/079c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/079t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/079t.webp",
     width: 4,
     height: 3,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/080c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/080c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/080t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/080t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/081c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/081c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/081t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/081t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/082c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/082c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/082t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/082t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/083c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/083c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/083t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/083t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/084c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/084c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/084t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/084t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/085c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/085c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/085t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/085t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/086c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/086c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/086t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/086t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/087c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/087c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/087t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/087t.webp",
     width: 1000,
     height: 753,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/088c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/088c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/088t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/088t.webp",
     width: 1000,
     height: 753,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/089c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/089c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/089t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/089t.webp",
     width: 1000,
     height: 753,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/090c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/090c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/090t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/090t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/091c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/091c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/091t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/091t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/092c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/092c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/092t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/092t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/093c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/093c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/093t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/093t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/094c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/094c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/094t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/094t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/095c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/095c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/095t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/095t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/096c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/096c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/096t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/096t.webp",
     width: 1000,
     height: 753,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/097c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/097c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/097t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/097t.webp",
     width: 753,
     height: 1000,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/098c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/098c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/098t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/098t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/099c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/099c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/099t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/099t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/100c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/100c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/100t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/100t.webp",
     width: 753,
     height: 1000,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/101c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/101c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/101t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/101t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/102c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/102c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/102t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/102t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/103c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/103c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/103t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/103t.webp",
     width: 753,
     height: 1000,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/104c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/104c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/104t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/104t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/105c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/105c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/105t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/105t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/106c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/106c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/106t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/106t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/107c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/107c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/107t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/107t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/108c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/108c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/108t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/108t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/109c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/109c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/109t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/109t.webp",
     width: 1000,
     height: 753,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/110c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/110c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/110t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/110t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/111c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/111c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/111t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/111t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/112c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/112c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/112t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/112t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/113c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/113c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/113t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/113t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/114c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/114c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/114t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/114t.webp",
     width: 753,
     height: 1000,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/115c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/115c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/115t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/115t.webp",
     width: 1000,
     height: 753,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/116c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/116c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/116t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/116t.webp",
     width: 753,
     height: 1000,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/117c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/117c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/117t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/117t.webp",
     width: 753,
     height: 1000,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/118c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/118c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/118t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/118t.webp",
     width: 1000,
     height: 753,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/119c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/119c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/119t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/119t.webp",
     width: 1000,
     height: 753,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/120c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/120c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/120t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/120t.webp",
     width: 1000,
     height: 753,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/121c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/121c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/121t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/121t.webp",
     width: 1000,
     height: 753,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/122c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/122c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/122t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/122t.webp",
     width: 3,
     height: 4,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/123c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/123c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/123t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/123t.webp",
     width: 753,
     height: 1000,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/124c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/124c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/124t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/124t.webp",
     width: 753,
     height: 1000,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/125c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/125c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/125t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/125t.webp",
     width: 1000,
     height: 753,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/126c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/126c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/126t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/126t.webp",
     width: 1000,
     height: 753,
   },
   {
     original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/127c.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/127c.webp",
     alt: "",
     thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/PeschieraDelGarda/127t.webp",
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/127t.webp",
     width: 753,
     height: 1000,
   },

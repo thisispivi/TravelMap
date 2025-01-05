@@ -6,6 +6,6 @@ export const Muravera = new City({
   country: Italy,
   coordinates: [9.5833, 39.25],
   backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/Cities/Muravera.jpg",
+    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Muravera/Muravera.jpg",
   ],
 });

@@ -15,6 +15,6 @@ export const Verona = new City({
     }),
   ],
   backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/Cities/Verona.jpg",
+    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Verona/Verona.jpg",
   ],
 });

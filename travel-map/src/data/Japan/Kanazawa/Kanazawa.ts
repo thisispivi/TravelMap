@@ -15,6 +15,6 @@ export const Kanazawa = new City({
     }),
   ],
   backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/Cities/Kanazawa.jpg",
+    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kanazawa/Kanazawa.jpg",
   ],
 });

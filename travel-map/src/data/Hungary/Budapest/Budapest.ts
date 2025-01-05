@@ -14,6 +14,6 @@ export const Budapest = new City({
     }),
   ],
   backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Backgrounds/Cities/Budapest.jpg",
+    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Hungary/Budapest/Budapest.jpg",
   ],
 });
