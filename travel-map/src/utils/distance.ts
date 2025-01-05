@@ -13,7 +13,7 @@ export function haversineDistance(
   lat1: number,
   lon1: number,
   lat2: number,
-  lon2: number
+  lon2: number,
 ): number {
   const toRadians = (degrees: number) => degrees * (Math.PI / 180);
 
@@ -44,7 +44,7 @@ export function getCitiesDistance(city1: City, city2: City): number {
     city1.coordinates[1],
     city1.coordinates[0],
     city2.coordinates[1],
-    city2.coordinates[0]
+    city2.coordinates[0],
   );
 }
 
@@ -56,7 +56,7 @@ export function getCitiesDistance(city1: City, city2: City): number {
  */
 export function getFurthestAndNearestCity(
   cities: City[],
-  referenceCity: City
+  referenceCity: City,
 ): { furthest: City; nearest: City } {
   const distances = cities.map((city) => ({
     distance: getCitiesDistance(city, referenceCity),
@@ -65,10 +65,10 @@ export function getFurthestAndNearestCity(
 
   return {
     furthest: distances.reduce((prev, current) =>
-      prev.distance > current.distance ? prev : current
+      prev.distance > current.distance ? prev : current,
     ).city,
     nearest: distances.reduce((prev, current) =>
-      prev.distance < current.distance ? prev : current
+      prev.distance < current.distance ? prev : current,
     ).city,
   };
 }
@@ -84,10 +84,10 @@ export function getMinAndMaxFlight(takenFlights: Flight[]): {
 } {
   return {
     min: takenFlights.reduce((prev, current) =>
-      prev.distanceInKm < current.distanceInKm ? prev : current
+      prev.distanceInKm < current.distanceInKm ? prev : current,
     ),
     max: takenFlights.reduce((prev, current) =>
-      prev.distanceInKm > current.distanceInKm ? prev : current
+      prev.distanceInKm > current.distanceInKm ? prev : current,
     ),
   };
 }
