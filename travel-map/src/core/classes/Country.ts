@@ -38,7 +38,7 @@ export class Country {
     color: ColorData,
     continent: Continent,
     minMarkerScale?: number,
-    maxMarkerScale?: number
+    maxMarkerScale?: number,
   ) {
     this.id = id;
     this.borderColor = new Color(color).toHSL();
