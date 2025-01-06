@@ -34,7 +34,7 @@ interface HomeTemplateProps extends PropsWithChildren {}
  * @returns {JSX.Element} - The home template
  */
 export default memo(function HomeTemplate(
-  props: HomeTemplateProps,
+  props: HomeTemplateProps
 ): JSX.Element {
   const { isVisited, isFuture, isGallery, isStats, isLived } = useLocation();
   const { hoveredCity, setHoveredCity } = useContext(HomeContext)!;

@@ -1,0 +1,87 @@
+@use "../../../styles/mixins" as m;
+@use "../../../styles/variables.module" as v;
+
+.continents-bar-chart {
+  .apexcharts-legend-text {
+    font-size: 0.9rem !important;
+    @include m.transition(all, 0.3s, ease-in-out);
+  }
+  .apexcharts-datalabels {
+    text {
+      transform: translateY(0.35rem);
+    }
+  }
+  .apexcharts-datalabels-group {
+    text {
+      fill: v.$darkButtonContent !important;
+      @include m.transition(all, 0.3s, ease-in-out);
+    }
+  }
+  .apexcharts-tooltip {
+    box-shadow: 0 0.063rem 0.125rem 0rem rgba(0, 0, 0, 0.2);
+  }
+  .apexcharts-xaxis {
+    display: none;
+  }
+  .apexcharts-yaxis {
+    line {
+      @include m.transition(all, 0.3s, ease-in-out);
+    }
+    tspan {
+      @include m.transition(all, 0.3s, ease-in-out);
+    }
+  }
+}
+
+@media (max-width: 460px) {
+  .continents-bar-chart {
+    .apexcharts-datalabels,
+    .apexcharts-datalabels-group {
+      font-size: 0.75rem !important;
+    }
+  }
+}
+
+.home--light {
+  .continents-bar-chart {
+    .apexcharts-legend-text,
+    .apexcharts-text.apexcharts-yaxis-label {
+      color: v.$lightButtonContent !important;
+    }
+    .apexcharts-datalabels-group {
+      text {
+        fill: v.$lightButtonContent !important;
+      }
+    }
+    .apexcharts-yaxis {
+      line {
+        stroke: v.$lightInfoTab;
+      }
+      tspan {
+        fill: v.$lightButtonContent;
+      }
+    }
+  }
+}
+
+.home--dark {
+  .continents-bar-chart {
+    .apexcharts-legend-text,
+    .apexcharts-text.apexcharts-yaxis-label {
+      color: v.$darkButtonContent !important;
+    }
+    .apexcharts-datalabels-group {
+      text {
+        fill: v.$darkButtonContent !important;
+      }
+    }
+    .apexcharts-yaxis {
+      line {
+        stroke: v.$darkInfoTab;
+      }
+      tspan {
+        fill: v.$darkButtonContent;
+      }
+    }
+  }
+}

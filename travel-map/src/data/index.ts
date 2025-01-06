@@ -63,11 +63,11 @@ export const visitedCountries = {
   Hungary,
   Italy,
   Japan,
+  Malta,
   Portugal,
   Spain,
   UnitedKingdom,
   Vatican,
-  Malta,
 };
 export const visitedCities: City[] = [
   Anderlecht,
