@@ -1,8 +1,9 @@
 import Backdrop from "./Backdrop/Backdrop";
 import Button from "./Buttons/Button";
 import CloseButton from "./Buttons/CloseButton";
-import DarkModeButton from "./Buttons/DarkModeButton";
+import ContinentsBarChart from "./BarChart/BarChartContinents";
 import CountryFlag from "./CountryFlag/CountryFlag";
+import DarkModeButton from "./Buttons/DarkModeButton";
 import FlightsDonutChart from "./DonutChart/DonutChartFlights";
 import LanguageFlag from "./LanguageFlag/LanguageFlag";
 import Loading from "./Loading/Loading";
@@ -13,9 +14,10 @@ export {
   Backdrop,
   Button,
   CloseButton,
+  ContinentsBarChart,
+  CountryFlag,
   DarkModeButton,
   FlightsDonutChart,
-  CountryFlag,
   LanguageFlag,
   Loading,
   LoadingCircles,

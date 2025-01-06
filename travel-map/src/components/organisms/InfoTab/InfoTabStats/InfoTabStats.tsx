@@ -10,7 +10,6 @@ import {
   Card,
   CityRow,
   Column,
-  ContinentCitiesRow,
   ContinentRow,
   FlightRow,
   Row,
@@ -23,7 +22,7 @@ import {
   GlobeIcon,
   MoonFlatIcon,
 } from "../../../../assets";
-import { FlightsDonutChart } from "../../../atoms";
+import { ContinentsBarChart, FlightsDonutChart } from "../../../atoms";
 import {
   getFurthestAndNearestCity,
   getMinAndMaxFlight,
@@ -71,10 +70,10 @@ export default memo(function InfoTabStats({
   const continentCities = Object.values(Continent)
     .map((continent) => {
       const numberOfCities = visitedCities.filter(
-        (country) => country.country.continent === continent,
+        (country) => country.country.continent === continent
       ).length;
       const numberOfCountries = Object.values(visitedCountries).filter(
-        (country) => country.continent === continent,
+        (country) => country.continent === continent
       ).length;
       return {
         continent,
@@ -113,6 +112,18 @@ export default memo(function InfoTabStats({
           <Column className="info-tab-stats__card__main">
             <h2>{t("stats.flights")}</h2>
             <FlightsDonutChart takenFlights={takenFlights} />
+          </Column>
+          <Column className="info-tab-stats__card__row">
+            <p className="info-tab-stats__card__row__title">
+              {t("stats.firstFlight")}
+            </p>
+            <FlightRow flight={takenFlights[0]} />
+          </Column>
+          <Column className="info-tab-stats__card__row">
+            <p className="info-tab-stats__card__row__title">
+              {t("stats.lastFlight")}
+            </p>
+            <FlightRow flight={takenFlights[takenFlights.length - 1]} />
           </Column>
           <Column className="info-tab-stats__card__row">
             <p className="info-tab-stats__card__row__title">
@@ -184,32 +195,7 @@ export default memo(function InfoTabStats({
             </Row>
           </Column>
           <Column className="info-tab-stats__card__row">
-            <p className="info-tab-stats__card__row__title">
-              {t("stats.countriesPerContinent")}
-            </p>
-            <Row className="row--wrap continents__countries__wrap">
-              {continentCities.map((continent) => (
-                <ContinentCitiesRow
-                  continent={continent.continent}
-                  key={continent.continent}
-                  numberOfCities={continent.countries}
-                />
-              ))}
-            </Row>
-          </Column>
-          <Column className="info-tab-stats__card__row">
-            <p className="info-tab-stats__card__row__title">
-              {t("stats.citiesPerContinent")}
-            </p>
-            <Row className="row--wrap continents__cities__wrap">
-              {continentCities.map((continent) => (
-                <ContinentCitiesRow
-                  continent={continent.continent}
-                  key={continent.continent}
-                  numberOfCities={continent.cities}
-                />
-              ))}
-            </Row>
+            <ContinentsBarChart data={continentCities} />
           </Column>
         </Card>
       </div>
