@@ -9,8 +9,8 @@ export const Valletta = new City({
   coordinates: [14.5147, 35.8989],
   travels: [
     new Travel({
-      sDate: new Date(2025, 0, 2),
-      eDate: new Date(2025, 0, 2),
+      sDate: new Date(2025, 0, 2, 2),
+      eDate: new Date(2025, 0, 2, 2),
       photos: tr_020125_020125_images,
     }),
     new Travel({
