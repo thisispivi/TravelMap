@@ -1,5 +1,6 @@
 import { City, Travel } from "../../../core";
 import { Malta } from "../Malta";
+import { tr_020125_020125_images } from "./photos/tr_020125_020125";
 
 export const Rabat = new City({
   name: "Rabat",
@@ -7,8 +8,9 @@ export const Rabat = new City({
   coordinates: [14.4039, 35.8822],
   travels: [
     new Travel({
-      sDate: new Date(2025, 0, 2),
-      eDate: new Date(2025, 0, 2),
+      sDate: new Date(2025, 0, 2, 1),
+      eDate: new Date(2025, 0, 2, 1),
+      photos: tr_020125_020125_images,
     }),
   ],
   backgroundImgsSrc: [
