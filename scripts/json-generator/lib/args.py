@@ -26,7 +26,7 @@ def get_city_from_args(argumentList, logger):
 
     args = parser.parse_args(argumentList[1:])
 
-    city = args.city.capitalize()
+    city = args.city
     path = args.cdn_base_folder_path
 
     logger.info("Generating JSON for city: %s", city)

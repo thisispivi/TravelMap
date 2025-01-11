@@ -46,7 +46,7 @@ def get_city_from_args(argumentList, logger):
 
         for currentArgument, currentValue in arguments:
             if currentArgument in ("-c", "--city"):
-                city = currentValue.capitalize()
+                city = currentValue
                 logger.info("Generating JSON for city: %s", city)
                 data["city"] = city
             elif currentArgument in ("-tmin", "--thumbnail-min"):
