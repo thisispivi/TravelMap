@@ -35,15 +35,17 @@ export default memo(function Gallery(): JSX.Element {
   const [searchParams] = useSearchParams();
   const from = searchParams.get("from");
 
+  const travel = city.travels[travelIdx];
+
   const photos = useMemo(() => {
-    return city.travels[travelIdx].photos.map((p, i) => ({
+    return travel.photos.map((p, i) => ({
       src: parameters.isShowPhotos ? p.thumbnail : "",
       width: p.width,
       height: p.height,
       youtube: p.youtube,
       index: i,
     }));
-  }, [city, travelIdx]);
+  }, [travel.photos]);
 
   return (
     <div className="gallery">
@@ -85,6 +87,8 @@ export default memo(function Gallery(): JSX.Element {
                 {renderDefaultPhoto({ wrapped: true })}
               </div>
             )}
+            rowConstraints={travel.rowCostraints}
+            targetRowHeight={travel.targetRowHeight}
           />
         </div>
         <Outlet />

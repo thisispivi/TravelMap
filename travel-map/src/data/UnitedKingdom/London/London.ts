@@ -17,3 +17,5 @@ export const London = new City({
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/UnitedKingdom/London/London.jpg",
   ],
 });
+
+console.log(London);

@@ -18,10 +18,10 @@ export type ParametersType = {
 export const parameters: ParametersType = {
   isShowPhotos: true, // Used to show or hide the photos on the city card and not waste cdn bandwidth
   map: {
-    defaultZoom: 5,
+    defaultZoom: 4,
     defaultMinZoom: 1,
     defaultMaxZoom: 150,
-    defaultCenter: [7, 49],
+    defaultCenter: [4, 48],
     hoveredCityZoom: 100,
     marker: {
       defaultScale: 0.15,
