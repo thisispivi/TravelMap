@@ -919,4 +919,40 @@ export const tr_010125_050125_images: Image[] = [
     width: 3,
     height: 4,
   },
+  {
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Sliema/103c.webp",
+    alt: "",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Sliema/103t.webp",
+    width: 3,
+    height: 4,
+  },
+  {
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Sliema/104c.webp",
+    alt: "",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Sliema/104t.webp",
+    width: 3,
+    height: 4,
+  },
+  {
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Sliema/105c.webp",
+    alt: "",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Sliema/105t.webp",
+    width: 3,
+    height: 4,
+  },
+  {
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Sliema/106c.webp",
+    alt: "",
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Sliema/106t.webp",
+    width: 3,
+    height: 4,
+  },
 ];
