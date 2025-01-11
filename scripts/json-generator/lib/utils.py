@@ -32,20 +32,35 @@ def get_image_info(cityUrl, filename, city_folder_path, logger):
         dict: The image info.
     """
     image = {}
-    image["original"] = cityUrl + filename
+    image["thumbnail"] = cityUrl + filename
     image["alt"] = ""
 
-    if filename.endswith("c.webp"):
-        image["thumbnail"] = cityUrl + filename.replace("c.webp", "t.webp")
-        width, height = Image.open(os.path.join(city_folder_path, filename)).size
-        max_common_divisor = get_max_common_divisor(width, height)
-        image["width"] = int(width / max_common_divisor)
-        image["height"] = int(height / max_common_divisor)
+    original_file_name = filename.replace("t.webp", "c.webp")
+    if is_file_exist(os.path.join(city_folder_path, original_file_name)):
+        image["original"] = cityUrl + original_file_name
     else:
-        image["thumbnail"] = cityUrl + filename.split(".")[0] + "t.webp"
-        image["width"], image["height"] = 1, 1
-        logger.warning("Image %s is not a webp file", filename)
+        image["youtube"] = True
+        image["original"] = ""
+        logger.warning("Video file found: %s", filename)
+
+    width, height = Image.open(os.path.join(city_folder_path, filename)).size
+    max_common_divisor = get_max_common_divisor(width, height)
+    image["width"] = int(width / max_common_divisor)
+    image["height"] = int(height / max_common_divisor)
 
     logger.info("Image info: %s", image)
 
     return image
+
+
+def is_file_exist(file_path):
+    """
+    Check if the file exists.
+
+    Args:
+        file_path (str): The file path.
+
+    Returns:
+        bool: True if the file exists, False otherwise.
+    """
+    return os.path.exists(file_path)

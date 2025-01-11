@@ -25,10 +25,9 @@ if __name__ == "__main__":
         logger.info("Root path: %s", root_path)
         logger.info("Base folder path: %s", base_folder_path)
         logger.info("City folder path: %s", city_folder_path)
-
         images = []
         for filename in os.listdir(city_folder_path):
-            if not filename.endswith("t.webp"):
+            if not filename.endswith("c.webp"):
                 images.append(
                     get_image_info(cityUrl, filename, city_folder_path, logger)
                 )
