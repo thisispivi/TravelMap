@@ -53,13 +53,8 @@ export default memo(function LeftBar({
     };
   }, []);
 
-  const handleMouseEnter = () => {
-    setIsTooltipVisible(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsTooltipVisible(false);
-  };
+  const handleMouseEnter = () => setIsTooltipVisible(true);
+  const handleMouseLeave = () => setIsTooltipVisible(false);
 
   const buttonsConfig = [
     {
@@ -161,7 +156,7 @@ export default memo(function LeftBar({
                   />
                 ) : null}
               </Link>
-            ),
+            )
           )}
         </div>
         <div className="left-bar__buttons--bottom">
