@@ -6,13 +6,14 @@ import {
 } from "react-router-dom";
 import { City } from "../../../core";
 import "./Gallery.scss";
-import PhotoAlbum from "react-photo-album";
-import { memo, useMemo } from "react";
+import { RowsPhotoAlbum } from "react-photo-album";
+import { JSX, memo, useMemo } from "react";
 import { CloseButton, CountryFlag } from "../../atoms";
 import { TravelSelector } from "../../molecules";
 import { parameters } from "../../../utils/parameters";
 import { PlayIcon } from "../../../assets";
 import useLanguage from "../../../hooks/language/language";
+import "react-photo-album/rows.css";
 
 export interface GalleryProps {
   city: City;
@@ -66,27 +67,28 @@ export default memo(function Gallery(): JSX.Element {
       </div>
       <div className="gallery__content">
         <div className="gallery__content__photo-album" id="info-tab">
-          <PhotoAlbum
-            layout="rows"
+          <RowsPhotoAlbum
             onClick={({ index }) => navigate(`./${index}`)}
             photos={photos}
-            renderPhoto={({ photo, wrapperStyle, renderDefaultPhoto }) => (
-              <div className="gallery__content__image" style={wrapperStyle}>
-                {photo.youtube ? (
-                  <>
-                    <PlayIcon
-                      className="gallery__content__image__play"
-                      onClick={() => navigate(`./${photo.index}`)}
-                    />
-                    <div
-                      className="gallery__content__image__gradient"
-                      onClick={() => navigate(`./${photo.index}`)}
-                    />
-                  </>
-                ) : null}
-                {renderDefaultPhoto({ wrapped: true })}
-              </div>
-            )}
+            render={{
+              image: (props, { photo }) => (
+                <div className="gallery__content__image">
+                  <img {...props} className={`${props.className ?? ""}`} />
+                  {photo.youtube ? (
+                    <>
+                      <PlayIcon
+                        className="gallery__content__image__play"
+                        onClick={() => navigate(`./${photo.index}`)}
+                      />
+                      <div
+                        className="gallery__content__image__gradient"
+                        onClick={() => navigate(`./${photo.index}`)}
+                      />
+                    </>
+                  ) : null}
+                </div>
+              ),
+            }}
             rowConstraints={travel.rowCostraints}
             targetRowHeight={travel.targetRowHeight}
           />

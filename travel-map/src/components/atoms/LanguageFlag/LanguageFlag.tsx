@@ -8,6 +8,7 @@ import {
   PortugalFlag,
   MaltaFlag,
 } from "../../../assets";
+import { JSX } from "react";
 
 interface LanguageFlagProps {
   language: string;

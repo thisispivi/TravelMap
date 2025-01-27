@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, JSX } from "react";
 import "./InfoTabStats.scss";
 import {
   takenFlights,
@@ -70,10 +70,10 @@ export default memo(function InfoTabStats({
   const continentCities = Object.values(Continent)
     .map((continent) => {
       const numberOfCities = visitedCities.filter(
-        (country) => country.country.continent === continent,
+        (country) => country.country.continent === continent
       ).length;
       const numberOfCountries = Object.values(visitedCountries).filter(
-        (country) => country.continent === continent,
+        (country) => country.continent === continent
       ).length;
       return {
         continent,

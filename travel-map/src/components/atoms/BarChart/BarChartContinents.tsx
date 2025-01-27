@@ -1,4 +1,4 @@
-import { lazy } from "react";
+import { JSX, lazy } from "react";
 import useLanguage from "../../../hooks/language/language";
 import "./BarChartContinents.scss";
 import { Continent } from "../../../core";
@@ -22,7 +22,7 @@ export default function ContinentsBarChart({
   const { t } = useLanguage(["home"]);
 
   const filteredData = data.filter(
-    (continent) => continent.cities > 0 || continent.countries > 0,
+    (continent) => continent.cities > 0 || continent.countries > 0
   );
 
   const series = ["countries", "cities"].map((key) => ({
@@ -46,7 +46,7 @@ export default function ContinentsBarChart({
     stroke: { width: 0 },
     xaxis: {
       categories: filteredData.map((continent) =>
-        t(`continents.${continent.continent.replace(" ", "")}`),
+        t(`continents.${continent.continent.replace(" ", "")}`)
       ),
       labels: { show: false },
       tickAmount: 0,

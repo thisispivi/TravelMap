@@ -1,6 +1,7 @@
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import "./Tooltip.scss";
 import { mobileAndTabletCheck } from "../../../utils/responsive";
+import { JSX } from "react";
 
 interface TooltipProps {
   className?: string;

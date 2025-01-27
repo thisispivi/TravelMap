@@ -1,4 +1,4 @@
-import { PropsWithChildren, Suspense, memo, useContext } from "react";
+import { JSX, PropsWithChildren, Suspense, memo, useContext } from "react";
 import {
   InfoTab,
   InfoTabFuture,
@@ -20,8 +20,6 @@ import { HomeContext } from "../../pages/Home/Home";
 import { Loading } from "../../atoms";
 import "./Home.scss";
 
-interface HomeTemplateProps extends PropsWithChildren {}
-
 /**
  * HomeTemplate component
  *
@@ -34,7 +32,7 @@ interface HomeTemplateProps extends PropsWithChildren {}
  * @returns {JSX.Element} - The home template
  */
 export default memo(function HomeTemplate(
-  props: HomeTemplateProps,
+  props: PropsWithChildren
 ): JSX.Element {
   const { isVisited, isFuture, isGallery, isStats, isLived } = useLocation();
   const { hoveredCity, setHoveredCity } = useContext(HomeContext)!;

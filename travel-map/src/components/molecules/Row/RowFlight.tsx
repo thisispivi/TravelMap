@@ -5,6 +5,7 @@ import { formatMileage } from "../../../utils/format";
 import { CountryFlag } from "../../atoms";
 import Row from "./Row";
 import "./RowFlight.scss";
+import { JSX } from "react";
 
 interface FlightRowProps {
   className?: string;

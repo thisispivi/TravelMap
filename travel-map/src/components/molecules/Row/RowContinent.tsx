@@ -2,6 +2,7 @@ import { Continent } from "../../../core";
 import useLanguage from "../../../hooks/language/language";
 import Row from "./Row";
 import "./RowContinent.scss";
+import { JSX } from "react";
 
 interface ContinentRowProps {
   continent: Continent;

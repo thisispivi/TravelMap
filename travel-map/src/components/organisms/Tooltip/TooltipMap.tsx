@@ -9,7 +9,7 @@ import {
   DoubleChevronIcon,
   GalleryIcon,
 } from "../../../assets";
-import { memo, useEffect, useState } from "react";
+import { memo, useEffect, useState, JSX } from "react";
 import { formatDate } from "../../../i18n/functions/date";
 import { useNavigate } from "react-router-dom";
 

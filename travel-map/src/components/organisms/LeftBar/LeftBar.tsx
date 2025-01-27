@@ -8,7 +8,7 @@ import {
 import { Button, DarkModeButton } from "../../atoms";
 import "./LeftBar.scss";
 import { HomeContext } from "../../pages/Home/Home";
-import { memo, useContext, useEffect, useState } from "react";
+import { JSX, memo, useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import useLocation from "../../../hooks/location/location";
 import { LanguageSelector, Tooltip } from "..";
@@ -161,7 +161,7 @@ export default memo(function LeftBar({
                   />
                 ) : null}
               </Link>
-            ),
+            )
           )}
         </div>
         <div className="left-bar__buttons--bottom">
