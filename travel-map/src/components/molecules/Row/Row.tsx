@@ -1,4 +1,4 @@
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, JSX } from "react";
 import "./Row.scss";
 
 interface Row extends PropsWithChildren {

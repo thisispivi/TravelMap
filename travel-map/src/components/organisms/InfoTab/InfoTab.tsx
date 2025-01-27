@@ -1,4 +1,4 @@
-import { PropsWithChildren, Suspense, memo } from "react";
+import { PropsWithChildren, Suspense, memo, JSX } from "react";
 import "./InfoTab.scss";
 import useLocation from "../../../hooks/location/location";
 import { Loading } from "../../atoms";

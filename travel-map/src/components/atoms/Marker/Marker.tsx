@@ -3,6 +3,7 @@ import "./Marker.scss";
 import { City } from "../../../core";
 import { MarkerIcon } from "../../../assets";
 import { parameters } from "../../../utils/parameters";
+import { JSX } from "react";
 
 interface MarkerProps {
   city: City;

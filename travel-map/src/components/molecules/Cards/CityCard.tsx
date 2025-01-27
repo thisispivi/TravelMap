@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { ArrivalIcon, DepartureIcon } from "../../../assets";
 import { formatDate } from "../../../i18n/functions/date";
 import { CountryFlag, Loading } from "../../atoms";
-import { memo, useState } from "react";
+import { memo, useState, JSX } from "react";
 import useThrottle from "../../../hooks/throttle/throttle";
 import { mobileAndTabletCheck } from "../../../utils/responsive";
 import { parameters } from "../../../utils/parameters";

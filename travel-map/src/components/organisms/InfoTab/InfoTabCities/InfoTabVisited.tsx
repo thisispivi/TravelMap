@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, JSX } from "react";
 import { City, Travel } from "../../../../core";
 import "./InfoTabVisited.scss";
 import { visitedCities, visitedCountries } from "../../../../data";

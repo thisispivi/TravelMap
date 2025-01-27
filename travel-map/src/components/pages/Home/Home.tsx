@@ -1,7 +1,7 @@
 import "./Home.scss";
 import { HomeTemplate } from "../../templates";
 import useThemeDetector, { ThemeDetector } from "../../../hooks/style/theme";
-import { createContext, useState } from "react";
+import { createContext, JSX, useState } from "react";
 import { Outlet, useNavigate, useSearchParams } from "react-router-dom";
 import { City } from "../../../core";
 import { parameters } from "../../../utils/parameters";
@@ -20,7 +20,7 @@ export type HomeContextType = ThemeDetector & {
   responsive: ResponsiveType;
 };
 export const HomeContext = createContext<HomeContextType | undefined>(
-  undefined,
+  undefined
 );
 
 /**
