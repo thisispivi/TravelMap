@@ -24,8 +24,8 @@ export default [
       "eslint:recommended",
       "plugin:react-hooks/recommended",
       "plugin:@typescript-eslint/recommended",
-      "prettier"
-    )
+      "prettier",
+    ),
   ),
   {
     plugins: {
