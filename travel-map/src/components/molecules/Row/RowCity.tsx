@@ -1,3 +1,4 @@
+import { JSX } from "react";
 import { DistanceIcon } from "../../../assets";
 import { City } from "../../../core/classes/City";
 import { Muravera } from "../../../data/Italy/Muravera/Muravera";
@@ -5,8 +6,8 @@ import useLanguage from "../../../hooks/language/language";
 import { haversineDistance } from "../../../utils/distance";
 import { formatMileage } from "../../../utils/format";
 import { CountryFlag } from "../../atoms";
-import Row from "./Row";
 import "./RowCity.scss";
+import { Row } from "..";
 
 interface CityRowProps {
   className?: string;
@@ -37,7 +38,7 @@ export default function CityRow({
     sCity.coordinates[1],
     sCity.coordinates[0],
     eCity.coordinates[1],
-    eCity.coordinates[0],
+    eCity.coordinates[0]
   );
   return (
     <Row className={`city-row ${className} row--wrap`}>

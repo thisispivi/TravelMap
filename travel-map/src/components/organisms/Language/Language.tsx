@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { JSX, useState } from "react";
 import "./Language.scss";
 import useLanguage from "../../../hooks/language/language";
 import { Button, LanguageFlag } from "../../atoms";

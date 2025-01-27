@@ -1,4 +1,4 @@
-import { memo, useContext, useState } from "react";
+import { JSX, memo, useContext, useState } from "react";
 import { HomeContext } from "../../pages/Home/Home";
 import { City, Country as CountryCore } from "../../../core";
 import {
@@ -161,7 +161,7 @@ export default memo(function Map({
               isOpen ? setHoveredCity(city) : setHoveredCity(null)
             }
           />
-        ),
+        )
       )}
     </div>
   );

@@ -1,4 +1,4 @@
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, JSX } from "react";
 import "./Column.scss";
 
 interface ColumnProps extends PropsWithChildren {

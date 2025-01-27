@@ -10,6 +10,7 @@ import {
   MaltaFlag,
   VaticanFlag,
 } from "../../../assets";
+import { JSX } from "react";
 
 interface CountryFlagProps {
   countryId: string;

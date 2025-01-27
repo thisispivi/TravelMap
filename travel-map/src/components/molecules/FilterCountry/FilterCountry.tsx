@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, useState, JSX } from "react";
 import "./FilterCountry.scss";
 import { Country } from "../../../core";
 import { Backdrop, Button, CountryFlag } from "../../atoms";

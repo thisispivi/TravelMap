@@ -4,6 +4,7 @@ import { Travel } from "../../../core";
 import "./TravelSelector.scss";
 import { formatDate } from "../../../i18n/functions/date";
 import useLanguage from "../../../hooks/language/language";
+import { JSX } from "react";
 
 export interface TravelSelectorProps {
   travels: Travel[];
