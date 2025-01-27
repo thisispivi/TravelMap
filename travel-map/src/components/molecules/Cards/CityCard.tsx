@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { ArrivalIcon, DepartureIcon } from "../../../assets";
 import { formatDate } from "../../../i18n/functions/date";
 import { CountryFlag, Loading } from "../../atoms";
-import { memo, useState, JSX } from "react";
+import { memo, useState, JSX, useCallback } from "react";
 import useThrottle from "../../../hooks/throttle/throttle";
 import { mobileAndTabletCheck } from "../../../utils/responsive";
 import { parameters } from "../../../utils/parameters";
@@ -66,6 +66,24 @@ const CityCard = ({
 
   const handleImageLoad = () => setIsLoading(false);
 
+  const handleMouseEnter = useCallback(() => {
+    if (!mobileAndTabletCheck()) {
+      if (setMapPosition && city.mapCoordinates && isAutoPosition) {
+        setMapPosition({
+          center: city.mapCoordinates,
+          zoom: parameters.map.hoveredCityZoom,
+        });
+      }
+      setHoveredCity && setHoveredCity(city);
+    }
+  }, [city, setHoveredCity, setMapPosition, isAutoPosition]);
+
+  const handleMouseLeave = useCallback(() => {
+    if (!mobileAndTabletCheck()) {
+      setHoveredCity && setHoveredCity(null);
+    }
+  }, [setHoveredCity]);
+
   return (
     <div
       className={`city-card ${isClickable ? "city-card--clickable" : "city-card--not-clickable"} 
@@ -76,23 +94,8 @@ const CityCard = ({
       onClick={
         isClickable ? () => navigate(`/gallery/${city.name}/${idx}`) : undefined
       }
-      onMouseEnter={
-        !mobileAndTabletCheck()
-          ? () => {
-              if (setMapPosition && city.mapCoordinates && isAutoPosition)
-                setMapPosition({
-                  center: city.mapCoordinates,
-                  zoom: parameters.map.hoveredCityZoom,
-                });
-              setHoveredCity && setHoveredCity(city);
-            }
-          : undefined
-      }
-      onMouseLeave={
-        !mobileAndTabletCheck()
-          ? () => setHoveredCity && setHoveredCity(null)
-          : undefined
-      }
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       <div
         className={`city-card__top ${className} ${city.name} ${city.name}-${idx}`}

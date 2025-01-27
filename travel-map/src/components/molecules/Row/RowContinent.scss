@@ -1,5 +1,6 @@
 @use "../../../styles/mixins" as m;
 @use "../../../styles/variables.module" as v;
+@use "sass:map";
 
 $continents-colors: (
   "Africa": v.$continentsAfrica,
@@ -13,7 +14,7 @@ $continents-colors: (
 @mixin continent-row($continent) {
   &.continent-row--#{$continent} {
     .continent-row__circle--visited {
-      background-color: map-get($continents-colors, $continent);
+      background-color: map.get($continents-colors, $continent);
     }
   }
 }
