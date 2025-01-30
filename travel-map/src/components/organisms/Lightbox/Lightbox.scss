@@ -60,10 +60,12 @@
       &.image-gallery-left-nav {
         margin-left: 0.35rem;
         margin-top: 1.5rem;
+        @include m.transition(all, 0.3s, ease-in-out);
       }
       &.image-gallery-right-nav {
         margin-right: 0.35rem;
         margin-top: 1.5rem;
+        @include m.transition(all, 0.3s, ease-in-out);
         .chevron {
           transform: rotate(180deg);
         }
@@ -79,9 +81,13 @@
       width: auto;
       padding: 0 1rem;
       svg {
+        width: 1.2rem;
+        height: 1.2rem;
         margin-right: 0.5rem;
       }
       p {
+        font-size: 0.9rem;
+        font-weight: 700;
         text-wrap: nowrap;
       }
     }
@@ -98,11 +104,16 @@
       @include m.transition(all, 0.3s, ease-in-out);
     }
 
+    .image-gallery-index-current {
+      font-weight: 700;
+    }
+
     .image-gallery-fullscreen {
       width: 2.5rem;
       height: 2.5rem;
       top: 0;
       right: 0.5rem;
+      @include m.transition(all, 0.3s, ease-in-out);
     }
   }
 }

@@ -14,9 +14,9 @@
     .flight-row__cities__city {
       display: flex;
       align-items: center;
-      font-size: 0.9rem;
       margin-block: 0;
-      font-weight: 600;
+      font-size: 1.1rem;
+      font-weight: 500;
       svg {
         width: 1rem;
         height: 1rem;
@@ -29,6 +29,10 @@
       rotate: 90deg;
       margin-inline: 0.5rem;
     }
+  }
+  .flight-row__distance {
+    font-size: 1.1rem;
+    font-weight: 800;
   }
 }
 

@@ -16,37 +16,43 @@ interface ContinentsBarChartProps {
 
 export default function ContinentsBarChart({
   data,
-  barColors = ["#79a14e", "#107895"],
+  barColors = ["#107895", "#79a14e"],
   isDarkTheme = false,
 }: ContinentsBarChartProps): JSX.Element {
   const { t } = useLanguage(["home"]);
 
   const filteredData = data.filter(
-    (continent) => continent.cities > 0 || continent.countries > 0,
+    (continent) => continent.cities > 0 || continent.countries > 0
   );
+  const incrementedData = filteredData.map((continent) => ({
+    ...continent,
+    cities: continent.cities + 1,
+    countries: continent.countries + 1,
+  }));
 
   const series = ["countries", "cities"].map((key) => ({
     name: t(`stats.${key}PerContinent`),
-    data: filteredData.map((c) => c[key as "cities" | "countries"]),
+    data: incrementedData.map((c) => c[key as "cities" | "countries"]),
   }));
 
   const maxValue =
-    Math.max(...filteredData.map((c) => Math.max(c.cities, c.countries))) *
+    Math.max(...incrementedData.map((c) => Math.max(c.cities, c.countries))) *
     1.05;
 
   const options = {
     plotOptions: {
       bar: {
         horizontal: true,
-        borderRadius: 6,
+        borderRadius: 9,
         borderRadiusApplication: "end",
-        barHeight: "15px",
+        barHeight: "17px",
+        barMinWidth: 10,
       },
     },
     stroke: { width: 0 },
     xaxis: {
-      categories: filteredData.map((continent) =>
-        t(`continents.${continent.continent.replace(" ", "")}`),
+      categories: incrementedData.map((continent) =>
+        t(`continents.${continent.continent.replace(" ", "")}`)
       ),
       labels: { show: false },
       tickAmount: 0,
@@ -58,7 +64,7 @@ export default function ContinentsBarChart({
       labels: {
         style: {
           fontSize: "0.9em",
-          fontFamily: "Manrope",
+          fontFamily: "Urbanist",
           fontWeight: 700,
         },
       },
@@ -69,8 +75,8 @@ export default function ContinentsBarChart({
     legend: {
       position: "top",
       horizontalAlign: "center",
-      fontSize: "0.9em",
-      fontFamily: "Manrope",
+      fontSize: "1em",
+      fontFamily: "Urbanist",
       fontWeight: 400,
       menu: { show: false },
       onItemClick: { toggleDataSeries: false },
@@ -90,15 +96,14 @@ export default function ContinentsBarChart({
     dataLabels: {
       enabled: true,
       formatter: function (val: number) {
-        return val === 0 ? "" : val;
+        return val === 0 ? "" : (val - 1).toString();
       },
       style: {
-        fontSize: "0.8em",
-        fontFamily: "Manrope",
-        fontWeight: 700,
+        fontSize: "1em",
+        fontFamily: "Urbanist",
         colors: ["#fff"],
       },
-      offsetY: 1,
+      offsetY: 2,
     },
     chart: { toolbar: { show: false } },
     states: {
@@ -110,7 +115,7 @@ export default function ContinentsBarChart({
   return (
     <div className="continents-bar-chart">
       <ReactApexChart
-        height={170}
+        height={180}
         key={JSON.stringify({ series, options, isDarkTheme })}
         options={options}
         series={series}

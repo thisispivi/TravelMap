@@ -32,6 +32,7 @@
     padding: 1rem;
     box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
     width: 16rem;
+    @include m.transition(all, 0.3s, ease-in-out);
     .filter__options__list {
       display: flex;
       max-height: 14rem;
@@ -47,6 +48,9 @@
         opacity: 0.2;
         cursor: pointer;
         @include m.transition(all, 0.3s, ease-in-out);
+        h4 {
+          @include m.transition(all, 0.3s, ease-in-out);
+        }
         svg {
           width: 1.5rem;
           height: 1.5rem;
@@ -66,6 +70,9 @@
     background-color: v.$lightInfoTab;
     color: v.$darkLeftBar;
     .filter__option {
+      h4 {
+        color: v.$darkLeftBar;
+      }
       &.filter__option--selected {
         background-color: v.$lightButton;
       }
@@ -81,6 +88,9 @@
     background-color: v.$darkInfoTab;
     color: v.$lightLeftBar;
     .filter__option {
+      h4 {
+        color: v.$lightLeftBar;
+      }
       &.filter__option--selected {
         background-color: v.$darkButton;
       }

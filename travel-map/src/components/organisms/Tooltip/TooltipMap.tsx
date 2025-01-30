@@ -84,7 +84,7 @@ function MapTooltip({
         onMouseLeave={() => onMouseLeave && onMouseLeave()}
       >
         <div className="map-tooltip__header">
-          <h3>{city.getName(t)}</h3>
+          <h2>{city.getName(t)}</h2>
           <CountryFlag countryId={city.country.id} />
         </div>
         {filteredTravels[travelIdx] ? (
