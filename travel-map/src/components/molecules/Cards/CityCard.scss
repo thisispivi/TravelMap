@@ -56,12 +56,12 @@
     justify-content: space-between;
     width: 100%;
     padding-top: 0.1rem;
-    h3 {
+    h2 {
       line-height: 1.4rem;
-      font-weight: bold;
-      font-size: 1.1rem;
+      font-size: 1rem;
       overflow: hidden;
       text-overflow: ellipsis;
+      font-weight: 600;
       @include m.transition(all, 0.15s, ease-in-out);
     }
     svg {

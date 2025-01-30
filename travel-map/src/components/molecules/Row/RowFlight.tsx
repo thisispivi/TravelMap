@@ -32,15 +32,15 @@ export default function FlightRow({
   return (
     <Row className={`flight-row ${className} row--wrap`}>
       <div className="flight-row__cities">
-        <p className="flight-row__cities__city">
+        <h2 className="flight-row__cities__city">
           <CountryFlag countryId={flight.sCity.country.id} />
           {t(`cities.${flight.sCity.name}`)}
-        </p>
+        </h2>
         <PlaneIcon className="flight-row__icon" />
-        <p className="flight-row__cities__city">
+        <h2 className="flight-row__cities__city">
           <CountryFlag countryId={flight.eCity.country.id} />
           {t(`cities.${flight.eCity.name}`)}
-        </p>
+        </h2>
       </div>
       <b className="flight-row__distance">
         {formatMileage(flight.distanceInKm, currLanguage)} km

@@ -4,6 +4,7 @@
 .continents-bar-chart {
   .apexcharts-legend-text {
     font-size: 0.9rem !important;
+    font-weight: 300 !important;
     @include m.transition(all, 0.3s, ease-in-out);
   }
   .apexcharts-datalabels {
@@ -28,6 +29,7 @@
       @include m.transition(all, 0.3s, ease-in-out);
     }
     tspan {
+      font-weight: 300;
       @include m.transition(all, 0.3s, ease-in-out);
     }
   }

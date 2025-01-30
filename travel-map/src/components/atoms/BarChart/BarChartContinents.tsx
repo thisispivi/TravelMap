@@ -22,7 +22,7 @@ export default function ContinentsBarChart({
   const { t } = useLanguage(["home"]);
 
   const filteredData = data.filter(
-    (continent) => continent.cities > 0 || continent.countries > 0,
+    (continent) => continent.cities > 0 || continent.countries > 0
   );
 
   const series = ["countries", "cities"].map((key) => ({
@@ -46,7 +46,7 @@ export default function ContinentsBarChart({
     stroke: { width: 0 },
     xaxis: {
       categories: filteredData.map((continent) =>
-        t(`continents.${continent.continent.replace(" ", "")}`),
+        t(`continents.${continent.continent.replace(" ", "")}`)
       ),
       labels: { show: false },
       tickAmount: 0,
@@ -58,7 +58,7 @@ export default function ContinentsBarChart({
       labels: {
         style: {
           fontSize: "0.9em",
-          fontFamily: "Nunito",
+          fontFamily: "Manrope",
           fontWeight: 700,
         },
       },
@@ -70,7 +70,7 @@ export default function ContinentsBarChart({
       position: "top",
       horizontalAlign: "center",
       fontSize: "0.9em",
-      fontFamily: "Nunito",
+      fontFamily: "Manrope",
       fontWeight: 400,
       menu: { show: false },
       onItemClick: { toggleDataSeries: false },
@@ -94,7 +94,7 @@ export default function ContinentsBarChart({
       },
       style: {
         fontSize: "0.8em",
-        fontFamily: "Nunito",
+        fontFamily: "Manrope",
         fontWeight: 700,
         colors: ["#fff"],
       },
