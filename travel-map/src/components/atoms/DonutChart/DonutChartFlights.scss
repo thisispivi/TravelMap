@@ -3,13 +3,19 @@
 
 .flights-donut-chart {
   .apexcharts-legend-text {
-    font-size: 0.9rem !important;
+    font-size: 1rem !important;
     @include m.transition(all, 0.3s, ease-in-out);
   }
   .apexcharts-datalabels {
     text {
       transform: translateY(0.35rem);
+      font-weight: 700;
+      font-size: 1.1rem !important;
     }
+  }
+  .apexcharts-datalabel-value {
+    font-weight: 700;
+    font-size: 1.2rem !important;
   }
   .apexcharts-datalabels-group {
     text {

@@ -35,9 +35,6 @@
     margin-bottom: 1.5rem;
     margin-top: 1rem;
     padding-inline: 1.5rem;
-    h1 {
-      font-weight: 600;
-    }
   }
 
   .info-tab-stats__content {
@@ -49,8 +46,9 @@
     gap: 1.2rem 0;
     padding: 0 1rem 0.7rem 1.6rem;
     h2 {
-      font-weight: 600;
+      font-size: 1.4rem;
       margin-bottom: 0.8rem;
+      font-weight: 600;
     }
     p,
     b,
@@ -90,7 +88,7 @@
         b {
           margin-top: 0.8rem;
           font-size: 1.2rem;
-          font-weight: 500;
+          font-weight: 700;
         }
       }
     }
@@ -123,12 +121,12 @@
         @include not-visited("south-america", "SouthAmerica");
       }
       .info-tab-stats__card__row {
-        margin-bottom: 1rem;
+        margin-bottom: 0.9rem;
         padding-inline: 1rem;
         @include m.transition(all, 0.3s, ease-in-out);
         .info-tab-stats__card__row__title {
-          margin-top: 0.8rem;
-          margin-bottom: 0.4rem;
+          margin-top: 0.9rem;
+          margin-bottom: 0.6rem;
         }
         .continents__cities__wrap,
         .continents__countries__wrap {
@@ -144,6 +142,13 @@
         justify-content: center;
         align-items: center;
         flex-wrap: wrap;
+        p {
+          margin-bottom: 0.25rem;
+        }
+        b {
+          font-size: 1rem;
+          font-weight: 800;
+        }
       }
       .info-tab-stats__card__main__mileage-planets {
         margin-top: 1.5rem;

@@ -13,9 +13,11 @@
     align-items: center;
 
     h2 {
+      font-size: 1.4rem;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      @include m.transition(all, 0.3s, ease-in-out);
     }
 
     .gallery__header__flag {
@@ -27,6 +29,9 @@
 
     .close-button {
       margin-left: 1rem;
+      path {
+        @include m.transition(all, 0.3s, ease-in-out);
+      }
     }
 
     svg {
@@ -86,6 +91,11 @@
       width: 100%;
       height: 100%;
       z-index: 3;
+      @include m.transition(all, 0.3s, ease-in-out);
+
+      .image-gallery-image {
+        @include m.transition(all, 0.3s, ease-in-out);
+      }
     }
   }
 }
@@ -100,10 +110,24 @@
   .lightbox {
     background-color: v.$lightInfoTab;
   }
+  .gallery {
+    .gallery__header {
+      h2 {
+        color: v.$lightButtonContent;
+      }
+    }
+  }
 }
 
 .home--dark {
   .lightbox {
     background-color: v.$darkInfoTab;
+  }
+  .gallery {
+    .gallery__header {
+      h2 {
+        color: v.$darkButtonContent;
+      }
+    }
   }
 }
