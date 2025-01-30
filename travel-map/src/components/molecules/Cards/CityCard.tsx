@@ -112,7 +112,7 @@ const CityCard = ({
       </div>
       <div className="city-card__content">
         <div className="city-card__title">
-          <h3>{city.getName(t)}</h3>
+          <h2>{city.getName(t)}</h2>
           <CountryFlag countryId={city.country.id} />
         </div>
         {travel?.sDate ? (
