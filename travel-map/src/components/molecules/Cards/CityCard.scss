@@ -48,42 +48,43 @@
         position: absolute;
         box-shadow: 0 0.063rem 0.125rem 0rem rgba(0, 0, 0, 0.2);
       }
-    }
-  }
-
-  .city-card__title {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    padding-top: 0.1rem;
-    h2 {
-      line-height: 1.4rem;
-      font-size: 1rem;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      font-weight: 600;
-      @include m.transition(all, 0.15s, ease-in-out);
-    }
-    svg {
-      width: 1.6rem;
-      height: 1.4rem;
-      flex-shrink: 0;
+      .city-card__background-overlay {
+        border-radius: 0.95rem;
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        z-index: 1;
+      }
     }
   }
 
   .city-card__content {
+    z-index: 2;
     display: flex;
     justify-content: space-between;
     flex-direction: column;
-    padding: 0.5rem 0.9rem;
-    margin: 0.5rem;
+    padding: 1rem 1rem;
     margin-top: 0;
     border-radius: 0.625rem;
-    backdrop-filter: blur(0.6rem);
     @include m.transition(all, 0.15s, ease-in-out);
-
     .city-card__title {
-      margin-bottom: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      margin-bottom: 0.75rem;
+
+      h2 {
+        font-size: 1.4rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        @include m.transition(all, 0.3s, ease-in-out);
+      }
+      svg {
+        padding-block: 0.1rem;
+        width: 1.6rem;
+        height: 1.625rem;
+        flex-shrink: 0;
+      }
     }
 
     .travel-card__info {
@@ -91,14 +92,17 @@
       justify-content: flex-start;
       align-items: center;
       padding: 0.1rem 0;
+      color: v.$darkAltText;
       p {
         text-transform: capitalize;
-        font-size: 0.8rem;
+        font-weight: 300;
+        font-size: 0.9rem;
       }
       .travel-card__icon {
         width: 0.9rem;
         height: 0.9rem;
         margin-right: 0.5rem;
+        fill: v.$darkAltText;
       }
     }
   }
@@ -106,40 +110,32 @@
 
 .home--light {
   .city-card {
-    h2 {
-      color: v.$darkLeftBar;
-    }
     .city-card__background {
       background-color: v.$lightLeftBarOpacityLighter;
     }
-    .city-card__content {
-      background-color: v.$lightLeftBarOpacity;
-      .travel-card__info {
-        color: v.$lightAltText;
-      }
-      .travel-card__icon {
-        fill: v.$lightAltText;
-      }
+    .city-card__background-overlay {
+      background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(30, 30, 30, 0.4) 60%,
+        rgba(30, 30, 30, 0.75) 100%
+      );
     }
   }
 }
 
 .home--dark {
   .city-card {
-    h2 {
-      color: v.$lightLeftBar;
-    }
     .city-card__background {
       background-color: v.$darkLeftBarOpacityLighter;
     }
-    .city-card__content {
-      background-color: v.$darkLeftBarOpacity;
-      .travel-card__info {
-        color: v.$darkAltText;
-      }
-      .travel-card__icon {
-        fill: v.$darkAltText;
-      }
+    .city-card__background-overlay {
+      background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(30, 30, 30, 0.6) 60%,
+        rgba(30, 30, 30, 0.95) 100%
+      );
     }
   }
 }
