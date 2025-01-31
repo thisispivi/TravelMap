@@ -18,6 +18,7 @@ interface CityCardProps {
   isClickable?: boolean;
   hoveredCity: City | null;
   setHoveredCity: (city: City | null) => void;
+  mapPosition?: { center: [number, number]; zoom: number };
   setMapPosition?: (position: {
     center: [number, number];
     zoom: number;
@@ -68,15 +69,15 @@ const CityCard = ({
 
   const handleMouseEnter = useCallback(() => {
     if (!mobileAndTabletCheck()) {
-      if (setMapPosition && city.mapCoordinates && isAutoPosition) {
+      if (setMapPosition && city.mapCoordinates && isAutoPosition)
         setMapPosition({
           center: city.mapCoordinates,
           zoom: parameters.map.hoveredCityZoom,
         });
-      }
+
       setHoveredCity && setHoveredCity(city);
     }
-  }, [city, setHoveredCity, setMapPosition, isAutoPosition]);
+  }, [setMapPosition, city, isAutoPosition, setHoveredCity]);
 
   const handleMouseLeave = useCallback(() => {
     if (!mobileAndTabletCheck()) {

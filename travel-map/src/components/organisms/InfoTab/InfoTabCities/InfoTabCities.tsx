@@ -50,6 +50,7 @@ export default memo(function InfoTabCities({
     isAutoPosition,
     setIsAutoPosition,
     responsive,
+    mapPosition,
   } = useContext(HomeContext)!;
 
   const allCountriesValues = Object.values(allCountries);
@@ -119,6 +120,7 @@ export default memo(function InfoTabCities({
             }
             isHidden={!countries.includes(city.country)}
             key={i}
+            mapPosition={mapPosition}
             setHoveredCity={setHoveredCity}
             setMapPosition={setMapPosition}
             travel={city.travels[0]}
