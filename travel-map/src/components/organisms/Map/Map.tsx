@@ -45,8 +45,14 @@ export default memo(function Map({
   livedCities,
 }: MapProps): JSX.Element {
   const context = useContext(HomeContext);
-  const { isDarkTheme, hoveredCity, setHoveredCity, mapPosition, responsive } =
-    context!;
+  const {
+    isDarkTheme,
+    hoveredCity,
+    setHoveredCity,
+    mapPosition,
+    responsive,
+    setMapPosition,
+  } = context!;
 
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -97,6 +103,12 @@ export default memo(function Map({
           center={mapPosition.center}
           maxZoom={parameters.map.defaultMaxZoom}
           minZoom={parameters.map.defaultMinZoom}
+          onMoveEnd={(position) =>
+            setMapPosition({
+              center: position.coordinates,
+              zoom: position.zoom,
+            })
+          }
           translateExtent={[
             [0, -mapHeight],
             [mapWidth, mapHeight],
