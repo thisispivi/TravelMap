@@ -76,6 +76,9 @@ export default memo(function Map({
   const sortedVisitedCities = visitedCities.sort(sortByLatitudeAndLongitude);
   const sortedFutureCities = futureCities.sort(sortByLatitudeAndLongitude);
 
+  const mapWidth = responsive.window.width;
+  const mapHeight = responsive.window.height;
+
   return (
     <div className="map-container" style={{ ...responsive.window }}>
       {!isLoaded ? (
@@ -87,12 +90,17 @@ export default memo(function Map({
         className="map"
         data-tip=""
         projection="geoMercator"
+        projectionConfig={{ scale: 160 }}
         {...responsive.window}
       >
         <ZoomableGroup
           center={mapPosition.center}
           maxZoom={parameters.map.defaultMaxZoom}
           minZoom={parameters.map.defaultMinZoom}
+          translateExtent={[
+            [0, -mapHeight],
+            [mapWidth, mapHeight],
+          ]}
           zoom={mapPosition.zoom}
         >
           <Geographies geography={worldData}>
@@ -161,7 +169,7 @@ export default memo(function Map({
               isOpen ? setHoveredCity(city) : setHoveredCity(null)
             }
           />
-        ),
+        )
       )}
     </div>
   );
