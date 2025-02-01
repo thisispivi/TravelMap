@@ -10,7 +10,7 @@ export function getContinentsByCities(cities: City[]): Continent[] {
   return pipe(
     cities,
     map((city) => city.country.continent),
-    unique()
+    unique(),
   ) as Continent[];
 }
 
@@ -24,14 +24,14 @@ export function getContinentsByCities(cities: City[]): Continent[] {
 export function getContinentStats(
   continent: Continent,
   cities: City[],
-  countries: Country[]
+  countries: Country[],
 ): { continent: Continent; countries: number; cities: number } {
   const numberOfCities = cities.filter(
-    (city) => city.country.continent === continent
+    (city) => city.country.continent === continent,
   ).length;
 
   const numberOfCountries = countries.filter(
-    (country) => country.continent === continent
+    (country) => country.continent === continent,
   ).length;
 
   return {
