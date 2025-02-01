@@ -101,10 +101,12 @@
     "nearestCity": "Città più vicina",
     "ofTheWorld": "del mondo",
     "shortestFlight": "Volo più corto",
+    "timezoneJumped": "Fusi orari attraversati",
     "title": "Statistiche",
     "toMoon": "verso la luna",
     "total": "Voli totali",
     "totalMileage": "Distanza totale percorsa",
+    "unesco": "Siti Unesco",
     "visited": "Ho visitato"
   },
   "autoPositionTooltip": "Quando attivo, la mappa si centrerà sulla città di questa scheda su cui passi il mouse",
