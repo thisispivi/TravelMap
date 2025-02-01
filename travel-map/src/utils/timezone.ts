@@ -1,4 +1,4 @@
-import { firstBy, pipe } from "remeda";
+import { filter, firstBy, pipe, uniqueBy } from "remeda";
 import { Country } from "../core";
 import { parameters } from "./parameters";
 
@@ -8,11 +8,24 @@ import { parameters } from "./parameters";
  * @returns {Country | undefined} - The country with the biggest timezone jump
  */
 export function getCountryBiggestTimezoneJump(
-  countries: Country[],
+  countries: Country[]
 ): Country | undefined {
   const initialTimezone = parameters.birthCity.country.timezoneGMT;
   return pipe(
     countries,
-    firstBy((country) => -Math.abs(country.timezoneGMT - initialTimezone)),
+    firstBy((country) => -Math.abs(country.timezoneGMT - initialTimezone))
   );
+}
+
+/**
+ * Get the number of timezones jumped.
+ * @param {Country[]} countries - The list of countries
+ * @returns {number} - The number of timezones jumped
+ */
+export function getNumberOfTimezonesJumped(countries: Country[]): number {
+  const initialTimezone = parameters.birthCity.country.timezoneGMT;
+  return pipe(
+    filter(countries, (country) => country.timezoneGMT !== initialTimezone),
+    uniqueBy((country) => country.timezoneGMT)
+  ).length;
 }

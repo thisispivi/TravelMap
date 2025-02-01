@@ -57,10 +57,15 @@
     }
     .info-tab-stats__cards {
       gap: 1rem;
+
       .card {
         display: flex;
         flex-direction: column;
         flex: 1;
+        min-height: 7.125rem;
+        &.info-tab-stats__card__unesco {
+          flex: 0.7;
+        }
         svg {
           $size: 1.25rem;
           width: $size;
@@ -77,7 +82,9 @@
             @include m.transition(stroke, 0.3s, ease-in-out);
           }
         }
-        .info-tab-stats__card__flights__icon {
+        .info-tab-stats__card__flights__icon,
+        .info-tab-stats__card__timezone-jumped__icon,
+        .info-tab-stats__card__unesco__icon {
           path {
             @include m.transition(all, 0.3s, ease-in-out);
           }
@@ -86,9 +93,21 @@
           margin-top: 0.5rem;
         }
         b {
-          margin-top: 0.8rem;
+          margin-top: auto;
           font-size: 1.2rem;
           font-weight: 700;
+        }
+        span {
+          margin-top: auto;
+          display: flex;
+          align-items: center;
+          p,
+          b {
+            margin-top: 0;
+          }
+          p {
+            margin-left: 0.3rem;
+          }
         }
       }
     }
@@ -219,7 +238,9 @@
           }
         }
         .info-tab-stats__card__countries__icon,
-        .info-tab-stats__card__flights__icon {
+        .info-tab-stats__card__flights__icon,
+        .info-tab-stats__card__timezone-jumped__icon,
+        .info-tab-stats__card__unesco__icon {
           path {
             fill: v.$darkLeftBar;
           }
@@ -256,7 +277,9 @@
           }
         }
         .info-tab-stats__card__countries__icon,
-        .info-tab-stats__card__flights__icon {
+        .info-tab-stats__card__flights__icon,
+        .info-tab-stats__card__timezone-jumped__icon,
+        .info-tab-stats__card__unesco__icon {
           path {
             fill: v.$lightLeftBar;
           }
