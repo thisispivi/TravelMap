@@ -15,7 +15,7 @@ import { parameters } from "../../../utils/parameters";
 
 export interface MapProps {
   livedCities: City[];
-  visitedCountries: Record<string, CountryCore>;
+  visitedCountries: CountryCore[];
   visitedCities: City[];
   futureCities: City[];
   currHoveredCity: City | null;
@@ -31,7 +31,7 @@ export interface MapProps {
  *
  * @param {MapProps} props - The props of the component
  * @param {City[]} props.livedCities - The cities where the user lived
- * @param {Record<string, CountryCore>} props.visitedCountries - The visited countries
+ * @param {Country[]} props.visitedCountries - The visited countries
  * @param {City[]} props.visitedCities - The visited cities
  * @param {City[]} props.futureCities - The future cities
  * @param {City | null} props.currHoveredCity - The current hovered city
@@ -57,10 +57,8 @@ export default memo(function Map({
   const [isLoaded, setIsLoaded] = useState(false);
 
   const getCountryFillColor = (country: string) => {
-    const visitedCountry = visitedCountries[country.replace(" ", "")];
-    if (visitedCountry) {
-      return visitedCountry.fillColor;
-    }
+    const visitedCountry = visitedCountries.find((c) => c.id === country);
+    if (visitedCountry) return visitedCountry.fillColor;
     return isDarkTheme ? "#1a1a1a" : "#dadada";
   };
 
@@ -181,7 +179,7 @@ export default memo(function Map({
               isOpen ? setHoveredCity(city) : setHoveredCity(null)
             }
           />
-        ),
+        )
       )}
     </div>
   );

@@ -1,13 +1,13 @@
 import { JSX } from "react";
 import { DistanceIcon } from "../../../assets";
 import { City } from "../../../core/classes/City";
-import { Muravera } from "../../../data/Italy/Muravera/Muravera";
 import useLanguage from "../../../hooks/language/language";
-import { haversineDistance } from "../../../utils/distance";
+import { getCitiesDistance } from "../../../utils/distance";
 import { formatMileage } from "../../../utils/format";
 import { CountryFlag } from "../../atoms";
 import "./RowCity.scss";
 import { Row } from "..";
+import { parameters } from "../../../utils/parameters";
 
 interface CityRowProps {
   className?: string;
@@ -29,17 +29,12 @@ interface CityRowProps {
  * @returns {JSX.Element} - The city row
  */
 export default function CityRow({
-  sCity = Muravera,
+  sCity = parameters.birthCity,
   eCity,
   className = "",
 }: CityRowProps): JSX.Element {
   const { t, currLanguage } = useLanguage(["home"]);
-  const distanceInKm = haversineDistance(
-    sCity.coordinates[1],
-    sCity.coordinates[0],
-    eCity.coordinates[1],
-    eCity.coordinates[0],
-  );
+  const distanceInKm = getCitiesDistance(sCity, eCity);
   return (
     <Row className={`city-row ${className} row--wrap`}>
       <div className="city-row__cities">

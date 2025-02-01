@@ -38,15 +38,17 @@ export default memo(function Gallery(): JSX.Element {
 
   const travel = city.travels[travelIdx];
 
-  const photos = useMemo(() => {
-    return travel.photos.map((p, i) => ({
-      src: parameters.isShowPhotos ? p.thumbnail : "",
-      width: p.width,
-      height: p.height,
-      youtube: p.youtube,
-      index: i,
-    }));
-  }, [travel.photos]);
+  const photos = useMemo(
+    () =>
+      travel.photos.map((p, i) => ({
+        src: parameters.isShowPhotos ? p.thumbnail : "",
+        width: p.width,
+        height: p.height,
+        youtube: p.youtube,
+        index: i,
+      })),
+    [travel.photos]
+  );
 
   return (
     <div className="gallery">

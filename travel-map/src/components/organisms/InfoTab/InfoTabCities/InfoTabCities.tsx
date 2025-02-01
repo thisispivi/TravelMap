@@ -10,12 +10,12 @@ import Tooltip from "../../Tooltip/Tooltip";
 import { Button } from "../../../atoms";
 
 interface InfoTabCitiesProps {
-  className?: string;
-  id: string;
+  allCountries: Country[];
   cities: City[];
-  getTravelIdx: (city: City, travel: Travel) => number;
+  className?: string;
+  getTravelIdx?: (city: City, travel: Travel) => number;
+  id: string;
   isVisible?: boolean;
-  allCountries: Record<string, Country>;
 }
 
 /**
@@ -27,20 +27,22 @@ interface InfoTabCitiesProps {
  * @component
  *
  * @param {InfoTabCitiesProps} props - The props of the component
+ * @param {Country[]} props.allCountries - The list of all countries
+ * @param {City[]} props.cities - The list of cities
  * @param {string} props.className - The class to apply to the info tab cities
- * @param {string} props.id - The id of the info tab
- * @param {City[]} props.cities - The cities to display
- * @param {(city: City, travel: Travel) => number} props.getTravelIdx - The function to get the travel index
+ * @param {function} [props.getTravelIdx] - The function to get the travel index
+ * @param {string} props.id - The id of the info tab cities
  * @param {boolean} props.isVisible - The visibility of the info tab cities
+ *
  * @returns {JSX.Element} - The info tab cities
  */
 export default memo(function InfoTabCities({
-  className = "",
-  id,
-  cities,
-  getTravelIdx,
-  isVisible = false,
   allCountries,
+  cities,
+  className = "",
+  getTravelIdx,
+  id,
+  isVisible = false,
 }: InfoTabCitiesProps): JSX.Element {
   const { t } = useLanguage(["home"]);
   const {
@@ -111,7 +113,6 @@ export default memo(function InfoTabCities({
           <CityCard
             city={new City(city)}
             hoveredCity={hoveredCity}
-            idx={getTravelIdx(city, city.travels[0])}
             isAutoPosition={isAutoPosition}
             isClickable={
               city.travels.length > 0 && city.travels[0].photos.length > 0
@@ -124,6 +125,7 @@ export default memo(function InfoTabCities({
             setHoveredCity={setHoveredCity}
             setMapPosition={setMapPosition}
             travel={city.travels[0]}
+            travelIdx={getTravelIdx?.(city, city.travels[0])}
           />
         ))}
         {cities.filter((city) => countries.includes(city.country)).length %

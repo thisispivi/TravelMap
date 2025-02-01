@@ -54,6 +54,10 @@ export class City implements CityInterface {
     return [x - 0.95, y + 0.18];
   }
 
+  getCoordinatesAsLatLon(): { lat: number; lon: number } {
+    return { lat: this.coordinates[1], lon: this.coordinates[0] };
+  }
+
   getName(t: i18n["t"]) {
     return t(`cities.${this.name}`);
   }

@@ -45,7 +45,7 @@ export default function TimezoneRow({
         </h2>
       </div>
       <b className="timezone-row__distance">
-        {Math.abs(sCountry.timezoneGMT - eCountry.timezoneGMT)}h
+        {eCountry.timezoneGMT - sCountry.timezoneGMT}h
       </b>
     </Row>
   );

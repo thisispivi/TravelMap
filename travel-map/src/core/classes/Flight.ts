@@ -1,4 +1,4 @@
-import { haversineDistance } from "../../utils/distance";
+import { getCitiesDistance } from "../../utils/distance";
 import { City } from "./City";
 
 export interface FlightInterface {
@@ -38,11 +38,6 @@ export class Flight implements FlightInterface {
     this.isInternational =
       sCity.country !== eCity.country && !isIntercontinental;
     this.isIntercontinental = isIntercontinental;
-    this.distanceInKm = haversineDistance(
-      sCity.coordinates[1],
-      sCity.coordinates[0],
-      eCity.coordinates[1],
-      eCity.coordinates[0],
-    );
+    this.distanceInKm = getCitiesDistance(sCity, eCity);
   }
 }

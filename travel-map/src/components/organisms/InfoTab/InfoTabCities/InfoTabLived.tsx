@@ -17,8 +17,8 @@ interface InfoTabLivedProps {
  *
  * @param {InfoTabLivedProps} props - The props of the component
  * @param {string} props.className - The class to apply to the info tab lived
- * @param {ModeHandler} props.modeHandler - The mode handler
  * @param {boolean} props.isVisible - The visibility of the info tab lived
+ *
  * @returns {JSX.Element} - The info tab lived
  */
 export default memo(function InfoTabLived({
