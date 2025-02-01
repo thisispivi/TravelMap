@@ -14,7 +14,7 @@ interface CityCardProps {
   className?: string;
   city: City;
   travel?: Travel;
-  idx: number;
+  travelIdx?: number;
   isClickable?: boolean;
   hoveredCity: City | null;
   setHoveredCity: (city: City | null) => void;
@@ -37,7 +37,7 @@ interface CityCardProps {
  * @param {string} data.className - The class to apply to the city card
  * @param {City} data.city - The city
  * @param {Travel} [data.travel] - The travel
- * @param {number} data.idx - The index of the travel used to retrieve the travel photos
+ * @param {number} [data.travelIdx = 0] - The index of the travel used to retrieve the travel photos
  * @param {boolean} data.isClickable - Whether the card is clickable
  * @param {City} data.hoveredCity - The hovered city
  * @param {function} data.setHoveredCity - The function to set the hovered city
@@ -50,7 +50,7 @@ const CityCard = ({
   className = "",
   city,
   travel,
-  idx,
+  travelIdx = 0,
   isClickable = false,
   hoveredCity,
   setHoveredCity,
@@ -93,20 +93,22 @@ const CityCard = ({
       ${isHidden ? "city-card--hidden" : "city-card--visible"}
       `}
       onClick={
-        isClickable ? () => navigate(`/gallery/${city.name}/${idx}`) : undefined
+        isClickable
+          ? () => navigate(`/gallery/${city.name}/${travelIdx}`)
+          : undefined
       }
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       <div
-        className={`city-card__top ${className} ${city.name} ${city.name}-${idx}`}
+        className={`city-card__top ${className} ${city.name} ${city.name}-${travelIdx}`}
       >
         <div className="city-card__background">
           <div className="city-card__background-overlay" />
           <img
             alt={city.getName(t)}
             onLoad={handleImageLoad}
-            src={city.backgroundImgsSrc[idx]}
+            src={city.backgroundImgsSrc[travelIdx]}
             style={{ display: isLoadingThrottled ? "none" : "block" }}
           />
         </div>
