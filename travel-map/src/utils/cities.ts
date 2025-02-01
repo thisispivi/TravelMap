@@ -28,15 +28,15 @@ export function getCitiesByCountriesAndIsFuture({
         filter(
           (city) =>
             city.country.id === country.id &&
-            city.travels.some((travel) => travel.isFuture === isFuture)
+            city.travels.some((travel) => travel.isFuture === isFuture),
         ),
         flatMap((city) =>
           city.travels
             .filter((travel) => !travel.isFuture)
-            .map((travel) => new City({ ...city, travels: [travel] }))
-        )
-      )
-    )
+            .map((travel) => new City({ ...city, travels: [travel] })),
+        ),
+      ),
+    ),
   );
 }
 
