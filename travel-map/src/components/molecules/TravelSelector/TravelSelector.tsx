@@ -35,6 +35,7 @@ export default function TravelSelector({
   const navigate = useNavigate();
   const currTravel = travels[selectedTravelIdx];
   const filteredTravels = travels.filter((t) => !t.isFuture);
+
   return (
     <div className="travel-selector">
       <DoubleChevronIcon

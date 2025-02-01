@@ -3,6 +3,10 @@ import { City, Travel } from "../../../../core";
 import "./InfoTabVisited.scss";
 import { visitedCities, visitedCountries } from "../../../../data";
 import InfoTabCities from "./InfoTabCities";
+import {
+  getCitiesByCountriesAndIsFuture,
+  sortByTravelStartDate,
+} from "../../../../utils/cities";
 
 interface InfoTabVisitedProps {
   className?: string;
@@ -26,29 +30,11 @@ export default memo(function InfoTabVisited({
   className = "",
   isVisible = false,
 }: InfoTabVisitedProps): JSX.Element {
-  const filteredCities = (country: string) => {
-    const filtered = visitedCities
-      .filter((c) => c.country.id.replace(" ", "") === country.replace(" ", ""))
-      .filter((city) => city.travels.some((travel) => !travel.isFuture));
-    const cities: City[] = [];
-    filtered.forEach((city) => {
-      city.travels.forEach((travel) => {
-        if (!travel.isFuture) {
-          cities.push(new City({ ...city, travels: [travel] }));
-        }
-      });
-    });
-    return cities;
-  };
-
-  const allCities = Object.keys(visitedCountries)
-    .map((country) => filteredCities(country))
-    .flat()
-    .sort((a, b) => {
-      const aDate = a.travels[0].sDate;
-      const bDate = b.travels[0].sDate;
-      return aDate < bDate ? -1 : aDate > bDate ? 1 : 0;
-    });
+  const allCities = getCitiesByCountriesAndIsFuture({
+    cities: visitedCities,
+    countries: visitedCountries,
+    isFuture: false,
+  }).sort(sortByTravelStartDate);
 
   const getTravelIdx = (city: City, travel: Travel) => {
     const allTravels = visitedCities.filter((c) => c.name === city.name)[0]

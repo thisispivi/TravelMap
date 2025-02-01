@@ -8,9 +8,7 @@
 export function formatMileage(
   mileage: number,
   language: string,
-  digits: number = 2,
+  digits: number = 2
 ): string {
-  return mileage.toLocaleString(language, {
-    maximumFractionDigits: digits,
-  });
+  return mileage.toLocaleString(language, { maximumFractionDigits: digits });
 }

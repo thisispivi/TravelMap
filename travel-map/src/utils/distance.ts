@@ -1,50 +1,46 @@
+import { firstBy, sumBy } from "remeda";
 import { City } from "../core";
 import { Flight } from "../core/classes/Flight";
+import { toRadians } from "./convert";
 
 /**
- * Calculate the distance between two points on the Earth's surface using the Haversine formula.
- * @param {number} lat1 - The latitude of the first point
- * @param {number} lon1 - The longitude of the first point
- * @param {number} lat2 - The latitude of the second point
- * @param {number} lon2 - The longitude of the second point
+ * Get the haversine distance between two points.
+ * @param {{ lat: number; lon: number }} start - The start point
+ * @param {{ lat: number; lon: number }} end - The end point
  * @returns {number} - The distance between the two points in kilometers
  */
 export function haversineDistance(
-  lat1: number,
-  lon1: number,
-  lat2: number,
-  lon2: number,
+  start: { lat: number; lon: number },
+  end: { lat: number; lon: number }
 ): number {
-  const toRadians = (degrees: number) => degrees * (Math.PI / 180);
+  const RADIUS_EARTH_KM = 6371;
 
-  const R = 6371;
-  const dLat = toRadians(lat2 - lat1);
-  const dLon = toRadians(lon2 - lon1);
+  // Convert degrees to radians
+  const dLat = toRadians(end.lat - start.lat);
+  const dLon = toRadians(end.lon - start.lon);
+  const lat1 = toRadians(start.lat);
+  const lat2 = toRadians(end.lat);
 
+  // Haversine formula
   const a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(toRadians(lat1)) *
-      Math.cos(toRadians(lat2)) *
-      Math.sin(dLon / 2) *
-      Math.sin(dLon / 2);
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) ** 2;
 
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-  return R * c;
+  return RADIUS_EARTH_KM * c;
 }
 
 /**
  * Get the distance between two cities.
- * @param {City} city1 - The first city
- * @param {City} city2 - The second city
+ * @param {City} start - The start city
+ * @param {City} end - The end city
  * @returns {number} - The distance between the two cities in kilometers
  */
-export function getCitiesDistance(city1: City, city2: City): number {
+export function getCitiesDistance(start: City, end: City): number {
   return haversineDistance(
-    city1.coordinates[1],
-    city1.coordinates[0],
-    city2.coordinates[1],
-    city2.coordinates[0],
+    start.getCoordinatesAsLatLon(),
+    end.getCoordinatesAsLatLon()
   );
 }
 
@@ -56,7 +52,7 @@ export function getCitiesDistance(city1: City, city2: City): number {
  */
 export function getFurthestAndNearestCity(
   cities: City[],
-  referenceCity: City,
+  referenceCity: City
 ): { furthest: City; nearest: City } {
   const distances = cities.map((city) => ({
     distance: getCitiesDistance(city, referenceCity),
@@ -64,12 +60,8 @@ export function getFurthestAndNearestCity(
   }));
 
   return {
-    furthest: distances.reduce((prev, current) =>
-      prev.distance > current.distance ? prev : current,
-    ).city,
-    nearest: distances.reduce((prev, current) =>
-      prev.distance < current.distance ? prev : current,
-    ).city,
+    furthest: firstBy(distances, (d) => -d.distance)!.city,
+    nearest: firstBy(distances, (d) => d.distance)!.city,
   };
 }
 
@@ -83,12 +75,8 @@ export function getMinAndMaxFlight(takenFlights: Flight[]): {
   max: Flight;
 } {
   return {
-    min: takenFlights.reduce((prev, current) =>
-      prev.distanceInKm < current.distanceInKm ? prev : current,
-    ),
-    max: takenFlights.reduce((prev, current) =>
-      prev.distanceInKm > current.distanceInKm ? prev : current,
-    ),
+    min: firstBy(takenFlights, (f) => f.distanceInKm)!,
+    max: firstBy(takenFlights, (f) => -f.distanceInKm)!,
   };
 }
 
@@ -98,5 +86,5 @@ export function getMinAndMaxFlight(takenFlights: Flight[]): {
  * @returns {string} - The total mileage in kilometers
  */
 export function getTotalMileage(takenFlights: Flight[]): number {
-  return takenFlights.reduce((prev, current) => prev + current.distanceInKm, 0);
+  return sumBy(takenFlights, (f) => f.distanceInKm);
 }
