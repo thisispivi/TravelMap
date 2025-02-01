@@ -1,25 +1,27 @@
 import Box from "./Box/Box";
 import Card from "./Cards/Card";
-import Column from "./Column/Column";
 import CityCard from "./Cards/CityCard";
-import Container from "./Container/Container";
-import FilterCountry from "./FilterCountry/FilterCountry";
-import Row from "./Row/Row";
 import CityRow from "./Row/RowCity";
+import Column from "./Column/Column";
+import Container from "./Container/Container";
 import ContinentRow from "./Row/RowContinent";
+import FilterCountry from "./FilterCountry/FilterCountry";
 import FlightRow from "./Row/RowFlight";
+import Row from "./Row/Row";
+import TimezoneRow from "./Row/RowTimezone";
 import TravelSelector from "./TravelSelector/TravelSelector";
 
 export {
   Box,
   Card,
-  Column,
   CityCard,
-  Container,
-  FilterCountry,
-  Row,
   CityRow,
+  Column,
+  Container,
   ContinentRow,
-  TravelSelector,
+  FilterCountry,
   FlightRow,
+  Row,
+  TimezoneRow,
+  TravelSelector,
 };

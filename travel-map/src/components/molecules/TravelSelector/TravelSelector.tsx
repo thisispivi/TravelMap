@@ -19,6 +19,11 @@ export interface TravelSelectorProps {
  *
  * @component
  *
+ * @param {TravelSelectorProps} props - The props of the component
+ * @param {Travel[]} props.travels - The travels
+ * @param {number} props.selectedTravelIdx - The selected travel index
+ * @param {string} props.cityName - The city name
+ *
  * @returns {JSX.Element} - The travel selector
  */
 export default function TravelSelector({

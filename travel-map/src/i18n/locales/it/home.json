@@ -81,6 +81,7 @@
   "future": { "title": "Prossime destinazioni" },
   "stats": {
     "aroundEarth": "intorno alla terra",
+    "biggestTimezoneJump": "Salto di fuso orario più grande",
     "cities": "Città",
     "citiesPerContinent": "Città per continente",
     "continents": "Continenti",

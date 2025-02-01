@@ -81,6 +81,7 @@
   "future": { "title": "Future Destinations" },
   "stats": {
     "aroundEarth": "around earth",
+    "biggestTimezoneJump": "Biggest Timezone Jump",
     "cities": "Cities",
     "citiesPerContinent": "Cities per continent",
     "continents": "Continents",
