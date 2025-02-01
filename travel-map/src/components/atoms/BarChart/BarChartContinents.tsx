@@ -14,6 +14,19 @@ interface ContinentsBarChartProps {
   isDarkTheme?: boolean;
 }
 
+/**
+ * ContinentsBarChart component
+ *
+ * The continents bar chart component is used to display the number of cities and countries per continent.
+ *
+ * @component
+ *
+ * @param {ContinentsBarChartProps} props - The props of the component
+ * @param {Array<{ continent: Continent, cities: number, countries: number }>} props.data - The data to display
+ * @param {string[]} [props.barColors=["#107895", "#79a14e"]] - The colors of the bars
+ * @param {boolean} [props.isDarkTheme=false] - The theme of the chart
+ * @returns {JSX.Element} - The continents bar chart
+ */
 export default function ContinentsBarChart({
   data,
   barColors = ["#107895", "#79a14e"],
@@ -22,7 +35,7 @@ export default function ContinentsBarChart({
   const { t } = useLanguage(["home"]);
 
   const filteredData = data.filter(
-    (continent) => continent.cities > 0 || continent.countries > 0,
+    (continent) => continent.cities > 0 || continent.countries > 0
   );
   const incrementedData = filteredData.map((continent) => ({
     ...continent,
@@ -52,7 +65,7 @@ export default function ContinentsBarChart({
     stroke: { width: 0 },
     xaxis: {
       categories: incrementedData.map((continent) =>
-        t(`continents.${continent.continent.replace(" ", "")}`),
+        t(`continents.${continent.continent.replace(" ", "")}`)
       ),
       labels: { show: false },
       tickAmount: 0,

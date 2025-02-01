@@ -18,6 +18,8 @@ interface ButtonProps extends PropsWithChildren {
  * @param {ButtonProps} props - The props of the component
  * @param {string} props.className - The class to apply to the button
  * @param {() => void} props.onClick - Function to call when the button is clicked
+ * @param {() => void} props.onMouseEnter - Function to call when the mouse enters the button
+ * @param {() => void} props.onMouseLeave - Function to call when the mouse leaves the button
  * @param {React.ReactNode} props.children - The content of the button
  * @returns {JSX.Element} - The button
  */

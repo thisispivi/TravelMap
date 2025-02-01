@@ -1,6 +1,8 @@
 import { Continent, Country } from "../../core";
-export const UnitedKingdom = new Country(
-  "United Kingdom",
-  { h: 352, s: 78, l: 46 },
-  Continent.Europe,
-);
+
+export const UnitedKingdom = new Country({
+  id: "United Kingdom",
+  color: { h: 352, s: 78, l: 46 },
+  continent: Continent.Europe,
+  timezoneGMT: 0,
+});
