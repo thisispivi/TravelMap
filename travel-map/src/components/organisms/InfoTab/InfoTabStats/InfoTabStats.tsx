@@ -22,6 +22,8 @@ import {
   EarthFlatIcon,
   GlobeIcon,
   MoonFlatIcon,
+  TimezoneIcon,
+  UnescoIcon,
 } from "../../../../assets";
 import { ContinentsBarChart, FlightsDonutChart } from "../../../atoms";
 import {
@@ -36,7 +38,10 @@ import {
   getContinentsByCities,
   getContinentStats,
 } from "../../../../utils/continent";
-import { getCountryBiggestTimezoneJump } from "../../../../utils/timezone";
+import {
+  getCountryBiggestTimezoneJump,
+  getNumberOfTimezonesJumped,
+} from "../../../../utils/timezone";
 
 interface InfoTabStatsProps {
   className?: string;
@@ -61,7 +66,12 @@ export default memo(function InfoTabStats({
   isVisible = false,
 }: InfoTabStatsProps): JSX.Element {
   const { t, currLanguage } = useLanguage(["home"]);
-  const { EARTH_CIRCUMFERENCE, MOON_DISTANCE } = constants;
+  const {
+    EARTH_CIRCUMFERENCE,
+    MOON_DISTANCE,
+    TOTAL_COUNTRIES,
+    TOTAL_UNESCO_SITES,
+  } = constants;
 
   const { furthest: furthestCity, nearest: nearestCity } =
     getFurthestAndNearestCity(visitedCities, parameters.birthCity);
@@ -76,6 +86,7 @@ export default memo(function InfoTabStats({
 
   const countryBiggestTimezoneJump =
     getCountryBiggestTimezoneJump(visitedCountries);
+  const numberTimezonesJumped = getNumberOfTimezonesJumped(visitedCountries);
 
   return (
     <div
@@ -89,7 +100,10 @@ export default memo(function InfoTabStats({
           <Card className="info-tab-stats__card__countries card--box-shadow">
             <GlobeIcon className="info-tab-stats__card__countries__icon" />
             <p>{t("stats.countries")}</p>
-            <b>{Object.keys(visitedCountries).length}</b>
+            <span>
+              <b>{Object.keys(visitedCountries).length}</b>
+              <p>{`  / ${TOTAL_COUNTRIES}`}</p>
+            </span>
           </Card>
           <Card className="info-tab-stats__card__cities card--box-shadow">
             <CityIcon className="info-tab-stats__card__cities__icon" />
@@ -124,22 +138,18 @@ export default memo(function InfoTabStats({
               </Column>
             </Row>
           </Column>
-          {furthestCity ? (
-            <Column className="info-tab-stats__card__row">
-              <p className="info-tab-stats__card__row__title">
-                {t("stats.furthestCity")}
-              </p>
-              <CityRow eCity={furthestCity} />
-            </Column>
-          ) : null}
-          {nearestCity ? (
-            <Column className="info-tab-stats__card__row">
-              <p className="info-tab-stats__card__row__title">
-                {t("stats.nearestCity")}
-              </p>
-              <CityRow eCity={nearestCity} />
-            </Column>
-          ) : null}
+          <Column className="info-tab-stats__card__row">
+            <p className="info-tab-stats__card__row__title">
+              {t("stats.furthestCity")}
+            </p>
+            <CityRow eCity={furthestCity} />
+          </Column>
+          <Column className="info-tab-stats__card__row">
+            <p className="info-tab-stats__card__row__title">
+              {t("stats.nearestCity")}
+            </p>
+            <CityRow eCity={nearestCity} />
+          </Column>
         </Card>
         <Card className="info-tab-stats__card info-tab-stats__card--flights card--box-shadow">
           <Column className="info-tab-stats__card__main">
@@ -172,20 +182,18 @@ export default memo(function InfoTabStats({
           </Column>
         </Card>
         <Row className="info-tab-stats__cards row--wrap">
-          <Card className="info-tab-stats__card__countries card--box-shadow">
-            <GlobeIcon className="info-tab-stats__card__countries__icon" />
-            <p>{t("stats.countries")}</p>
-            <b>{Object.keys(visitedCountries).length}</b>
+          <Card className="info-tab-stats__card__unesco card--box-shadow">
+            <UnescoIcon className="info-tab-stats__card__unesco__icon" />
+            <p>{t("stats.unesco")}</p>
+            <span>
+              <b>{parameters.stats.unescoSites}</b>
+              <p>{`  / ${TOTAL_UNESCO_SITES}`}</p>
+            </span>
           </Card>
           <Card className="info-tab-stats__card__cities card--box-shadow">
-            <CityIcon className="info-tab-stats__card__cities__icon" />
-            <p>{t("stats.cities")}</p>
-            <b>{visitedCities.length}</b>
-          </Card>
-          <Card className="info-tab-stats__card__flights card--box-shadow">
-            <AirportIcon className="info-tab-stats__card__flights__icon" />
-            <p>{t("stats.flights")}</p>
-            <b>{takenFlights.length}</b>
+            <TimezoneIcon className="info-tab-stats__card__timezone-jumped__icon" />
+            <p>{t("stats.timezoneJumped")}</p>
+            <b>{numberTimezonesJumped}</b>
           </Card>
         </Row>
         <Card className="info-tab-stats__card info-tab-stats__card--continents card--box-shadow">

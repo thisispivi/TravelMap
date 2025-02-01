@@ -26,6 +26,8 @@ import PlayIcon from "./icons/Play.svg?react";
 import PositionIcon from "./icons/Position.svg?react";
 import StatsIcon from "./icons/Stats.svg?react";
 import SunIcon from "./icons/Sun.svg?react";
+import TimezoneIcon from "./icons/Timezone.svg?react";
+import UnescoIcon from "./icons/Unesco.svg?react";
 import VisitedIcon from "./icons/Visited.svg?react";
 
 export {
@@ -57,6 +59,8 @@ export {
   PositionIcon,
   StatsIcon,
   SunIcon,
+  TimezoneIcon,
+  UnescoIcon,
   VisitedIcon,
 };
 
