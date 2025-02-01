@@ -8,12 +8,12 @@ import { parameters } from "./parameters";
  * @returns {Country | undefined} - The country with the biggest timezone jump
  */
 export function getCountryBiggestTimezoneJump(
-  countries: Country[]
+  countries: Country[],
 ): Country | undefined {
   const initialTimezone = parameters.birthCity.country.timezoneGMT;
   return pipe(
     countries,
-    firstBy((country) => -Math.abs(country.timezoneGMT - initialTimezone))
+    firstBy((country) => -Math.abs(country.timezoneGMT - initialTimezone)),
   );
 }
 
@@ -26,6 +26,6 @@ export function getNumberOfTimezonesJumped(countries: Country[]): number {
   const initialTimezone = parameters.birthCity.country.timezoneGMT;
   return pipe(
     filter(countries, (country) => country.timezoneGMT !== initialTimezone),
-    uniqueBy((country) => country.timezoneGMT)
+    uniqueBy((country) => country.timezoneGMT),
   ).length;
 }
