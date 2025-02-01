@@ -37,7 +37,7 @@ export class Country {
 
   constructor(
     data: Partial<CountryData> &
-      Pick<CountryData, "id" | "continent" | "color" | "timezoneGMT">
+      Pick<CountryData, "id" | "continent" | "color" | "timezoneGMT">,
   ) {
     this.id = data.id;
     this.borderColor = new Color(data.color).toHSL();
