@@ -13,6 +13,7 @@ import {
   ContinentRow,
   FlightRow,
   Row,
+  TimezoneRow,
 } from "../../../molecules";
 import {
   AirportIcon,
@@ -61,19 +62,18 @@ export default memo(function InfoTabStats({
   const totalMileage = getTotalMileage(takenFlights);
 
   const visitedContinents = visitedCities.reduce((prev, current) => {
-    if (!prev.includes(current.country.continent)) {
+    if (!prev.includes(current.country.continent))
       prev.push(current.country.continent);
-    }
     return prev;
   }, [] as Continent[]);
 
   const continentCities = Object.values(Continent)
     .map((continent) => {
       const numberOfCities = visitedCities.filter(
-        (country) => country.country.continent === continent,
+        (country) => country.country.continent === continent
       ).length;
       const numberOfCountries = Object.values(visitedCountries).filter(
-        (country) => country.continent === continent,
+        (country) => country.continent === continent
       ).length;
       return {
         continent,
@@ -82,6 +82,14 @@ export default memo(function InfoTabStats({
       };
     })
     .sort((a, b) => b.countries - a.countries);
+
+  const initialTimezone = Muravera.country.timezoneGMT;
+  const countryBiggestTimezoneJump = Object.values(visitedCountries)
+    .map((country) => ({
+      country,
+      timezone: Math.abs(country.timezoneGMT - initialTimezone),
+    }))
+    .sort((a, b) => b.timezone - a.timezone)[0];
 
   return (
     <div
@@ -193,6 +201,15 @@ export default memo(function InfoTabStats({
                 />
               ))}
             </Row>
+          </Column>
+          <Column className="info-tab-stats__card__row">
+            <p className="info-tab-stats__card__row__title">
+              {t("stats.biggestTimezoneJump")}
+            </p>
+            <TimezoneRow
+              eCountry={countryBiggestTimezoneJump.country}
+              sCountry={Muravera.country}
+            />
           </Column>
           <Column className="info-tab-stats__card__row">
             <ContinentsBarChart data={continentCities} />
