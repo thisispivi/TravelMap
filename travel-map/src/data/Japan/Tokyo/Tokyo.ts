@@ -17,4 +17,5 @@ export const Tokyo = new City({
   backgroundImgsSrc: [
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Tokyo/Tokyo.jpg",
   ],
+  population: 37115000,
 });

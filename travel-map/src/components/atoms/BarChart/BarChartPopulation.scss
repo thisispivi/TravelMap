@@ -1,0 +1,97 @@
+@use "../../../styles/mixins" as m;
+@use "../../../styles/variables.module" as v;
+
+.populations-bar-chart {
+  font-size: 1rem;
+  .apexcharts-legend-text {
+    font-size: 1em !important;
+    font-weight: 300 !important;
+    @include m.transition(all, 0.3s, ease-in-out);
+  }
+  .apexcharts-data-labels {
+    text {
+      font-size: 1em !important;
+      font-weight: 700 !important;
+    }
+  }
+  .apexcharts-datalabels {
+    text {
+      transform: translateY(0.35em);
+    }
+  }
+  .apexcharts-datalabels-group {
+    text {
+      fill: v.$darkButtonContent !important;
+      @include m.transition(all, 0.3s, ease-in-out);
+    }
+  }
+  .apexcharts-tooltip {
+    box-shadow: 0 0.063em 0.125em 0em rgba(0, 0, 0, 0.2);
+  }
+  .apexcharts-xaxis {
+    display: none;
+  }
+  .apexcharts-yaxis {
+    line {
+      @include m.transition(all, 0.3s, ease-in-out);
+    }
+    tspan {
+      font-size: 1em;
+      font-weight: 300;
+      @include m.transition(all, 0.3s, ease-in-out);
+    }
+  }
+}
+
+@media (max-width: 460px) {
+  .populations-bar-chart {
+    .apexcharts-datalabels,
+    .apexcharts-datalabels-group {
+      font-size: 0.75em !important;
+    }
+  }
+}
+
+.home--light {
+  .populations-bar-chart {
+    .apexcharts-legend-text,
+    .apexcharts-text.apexcharts-yaxis-label {
+      color: v.$lightButtonContent !important;
+    }
+    .apexcharts-datalabels-group {
+      text {
+        fill: v.$lightButtonContent !important;
+      }
+    }
+    .apexcharts-yaxis {
+      line {
+        stroke: v.$lightInfoTab;
+      }
+      tspan {
+        fill: v.$lightButtonContent;
+      }
+    }
+  }
+}
+
+.home--dark {
+  .populations-bar-chart {
+    .apexcharts-legend-text,
+    .apexcharts-text.apexcharts-yaxis-label {
+      color: v.$darkButtonContent !important;
+    }
+    .apexcharts-datalabels-group {
+      text {
+        fill: v.$darkButtonContent !important;
+      }
+    }
+    .apexcharts-yaxis {
+      line {
+        stroke: v.$darkInfoTab;
+      }
+      tspan {
+        fill: v.$darkButtonContent;
+      }
+    }
+  }
+}

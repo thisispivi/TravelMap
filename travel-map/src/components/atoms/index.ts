@@ -9,6 +9,7 @@ import LanguageFlag from "./LanguageFlag/LanguageFlag";
 import Loading from "./Loading/Loading";
 import LoadingCircles from "./Loading/LoadingCircles";
 import Marker from "./Marker/Marker";
+import PopulationsBarChart from "./BarChart/BarChartPopulation";
 
 export {
   Backdrop,
@@ -22,4 +23,5 @@ export {
   Loading,
   LoadingCircles,
   Marker,
+  PopulationsBarChart,
 };

@@ -16,4 +16,5 @@ export const Genoa = new City({
   backgroundImgsSrc: [
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Genoa/Genoa.jpg",
   ],
+  population: 674000,
 });

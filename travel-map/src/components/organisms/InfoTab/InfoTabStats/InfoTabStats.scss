@@ -52,6 +52,7 @@
     }
     p,
     b,
+    h2,
     h3 {
       @include m.transition(all, 0.3s, ease-in-out);
     }
@@ -63,9 +64,6 @@
         flex-direction: column;
         flex: 1;
         min-height: 7.125rem;
-        &.info-tab-stats__card__unesco {
-          flex: 0.7;
-        }
         svg {
           $size: 1.25rem;
           width: $size;
@@ -83,12 +81,14 @@
           }
         }
         .info-tab-stats__card__flights__icon,
+        .info-tab-stats__card__media__icon,
         .info-tab-stats__card__timezone-jumped__icon,
         .info-tab-stats__card__unesco__icon {
           path {
             @include m.transition(all, 0.3s, ease-in-out);
           }
         }
+
         p {
           margin-top: 0.5rem;
         }
@@ -109,6 +109,22 @@
             margin-left: 0.3rem;
           }
         }
+      }
+    }
+    .info-tab-stats__card__timezone-jumped {
+      p {
+        margin-bottom: 0.9rem;
+      }
+    }
+    .info-tab-stats__card--population {
+      padding-bottom: 0;
+      padding-left: 0rem;
+      p {
+        margin-bottom: 0rem;
+      }
+      p,
+      h2 {
+        padding-left: 1rem;
       }
     }
     .info-tab-stats__card--continents,

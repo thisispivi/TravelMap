@@ -16,4 +16,5 @@ export const Fujikawaguchiko = new City({
   backgroundImgsSrc: [
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Fujikawaguchiko/Fujikawaguchiko.jpg",
   ],
+  population: 26542,
 });

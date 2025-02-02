@@ -17,4 +17,5 @@ export const Matsumoto = new City({
   backgroundImgsSrc: [
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Matsumoto/Matsumoto.jpg",
   ],
+  population: 241337,
 });

@@ -16,4 +16,5 @@ export const Terni = new City({
   backgroundImgsSrc: [
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Terni/Terni.jpg",
   ],
+  population: 107574,
 });
