@@ -17,6 +17,7 @@ import {
 } from "../../../molecules";
 import {
   AirportIcon,
+  CameraIcon,
   CityIcon,
   ContinentsIcon,
   EarthFlatIcon,
@@ -25,7 +26,11 @@ import {
   TimezoneIcon,
   UnescoIcon,
 } from "../../../../assets";
-import { ContinentsBarChart, FlightsDonutChart } from "../../../atoms";
+import {
+  ContinentsBarChart,
+  FlightsDonutChart,
+  PopulationsBarChart,
+} from "../../../atoms";
 import {
   getFurthestAndNearestCity,
   getMinAndMaxFlight,
@@ -42,6 +47,17 @@ import {
   getCountryBiggestTimezoneJump,
   getNumberOfTimezonesJumped,
 } from "../../../../utils/timezone";
+import { getTotalMediaTaken } from "../../../../utils/cities";
+
+/**
+ * 
+Currency & Economy Stats
+Number of currencies used → World Map with currency symbols overlay
+Largest & smallest city/town visited → Bar Chart (Comparing city population sizes)
+Media & Travel Frequency Stats
+Top 5 places by media count → Ranked List with Thumbnail Previews
+Year with most & least travel → Heatmap Calendar (Months as rows, years as columns, shading intensity = # of trips)
+ */
 
 interface InfoTabStatsProps {
   className?: string;
@@ -87,6 +103,8 @@ export default memo(function InfoTabStats({
   const countryBiggestTimezoneJump =
     getCountryBiggestTimezoneJump(visitedCountries);
   const numberTimezonesJumped = getNumberOfTimezonesJumped(visitedCountries);
+
+  const totalMediaTaken = getTotalMediaTaken(visitedCities);
 
   return (
     <div
@@ -151,6 +169,35 @@ export default memo(function InfoTabStats({
             <CityRow eCity={nearestCity} />
           </Column>
         </Card>
+        <Card className="info-tab-stats__card info-tab-stats__card--population card--box-shadow">
+          <Column className="info-tab-stats__card__main">
+            <h2 className="cities__title">{t("stats.population")}</h2>
+            <p className="info-tab-stats__card__row__title">
+              {t("stats.populationTop10")}
+            </p>
+            <PopulationsBarChart data={visitedCities} />
+          </Column>
+        </Card>
+        <Row className="info-tab-stats__cards row--wrap">
+          <Card className="info-tab-stats__card__unesco card--box-shadow">
+            <UnescoIcon className="info-tab-stats__card__unesco__icon" />
+            <p>{t("stats.unesco")}</p>
+            <span>
+              <b>{parameters.stats.unescoSites}</b>
+              <p>{`/ ${TOTAL_UNESCO_SITES}`}</p>
+            </span>
+          </Card>
+          <Card className="info-tab-stats__card__timezone-jumped card--box-shadow">
+            <TimezoneIcon className="info-tab-stats__card__timezone-jumped__icon" />
+            <p>{t("stats.timezoneJumped")}</p>
+            <b>{numberTimezonesJumped}</b>
+          </Card>
+          <Card className="info-tab-stats__card__media card--box-shadow">
+            <CameraIcon className="info-tab-stats__card__media__icon" />
+            <p>{t("stats.media")}</p>
+            <b>{totalMediaTaken.toLocaleString(currLanguage)}</b>
+          </Card>
+        </Row>
         <Card className="info-tab-stats__card info-tab-stats__card--flights card--box-shadow">
           <Column className="info-tab-stats__card__main">
             <h2>{t("stats.flights")}</h2>
@@ -181,21 +228,6 @@ export default memo(function InfoTabStats({
             <FlightRow flight={minFlight} />
           </Column>
         </Card>
-        <Row className="info-tab-stats__cards row--wrap">
-          <Card className="info-tab-stats__card__unesco card--box-shadow">
-            <UnescoIcon className="info-tab-stats__card__unesco__icon" />
-            <p>{t("stats.unesco")}</p>
-            <span>
-              <b>{parameters.stats.unescoSites}</b>
-              <p>{`  / ${TOTAL_UNESCO_SITES}`}</p>
-            </span>
-          </Card>
-          <Card className="info-tab-stats__card__cities card--box-shadow">
-            <TimezoneIcon className="info-tab-stats__card__timezone-jumped__icon" />
-            <p>{t("stats.timezoneJumped")}</p>
-            <b>{numberTimezonesJumped}</b>
-          </Card>
-        </Row>
         <Card className="info-tab-stats__card info-tab-stats__card--continents card--box-shadow">
           <Column className="info-tab-stats__card__main">
             <h2 className="continents__title">{t("stats.continents")}</h2>

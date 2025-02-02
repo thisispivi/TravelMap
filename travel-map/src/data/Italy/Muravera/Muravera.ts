@@ -8,4 +8,5 @@ export const Muravera = new City({
   backgroundImgsSrc: [
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Muravera/Muravera.jpg",
   ],
+  population: 4600,
 });

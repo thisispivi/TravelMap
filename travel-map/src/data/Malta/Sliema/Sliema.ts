@@ -16,4 +16,5 @@ export const Sliema = new City({
   backgroundImgsSrc: [
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Sliema/Sliema.jpg",
   ],
+  population: 22591,
 });

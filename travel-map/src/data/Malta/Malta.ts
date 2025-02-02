@@ -1,4 +1,4 @@
-import { Continent, Country } from "../../core";
+import { Continent, Country, Currency } from "../../core";
 
 export const Malta = new Country({
   id: "Malta",
@@ -6,4 +6,5 @@ export const Malta = new Country({
   continent: Continent.Europe,
   minMarkerScale: 0.01,
   timezoneGMT: 1,
+  currency: Currency.EUR,
 });

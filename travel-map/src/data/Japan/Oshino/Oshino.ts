@@ -16,4 +16,5 @@ export const Oshino = new City({
   backgroundImgsSrc: [
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Oshino/Oshino.jpg",
   ],
+  population: 9817,
 });

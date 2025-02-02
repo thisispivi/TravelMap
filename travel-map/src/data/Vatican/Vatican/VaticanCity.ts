@@ -16,4 +16,5 @@ export const VaticanCity = new City({
   backgroundImgsSrc: [
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/VaticanCity.jpg",
   ],
+  population: 499,
 });

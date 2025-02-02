@@ -1,6 +1,7 @@
 import { i18n } from "i18next";
 import { Color, ColorData } from "./Color";
 import { Continent } from "../typings/Continent";
+import { Currency } from "../typings/Currency";
 
 export interface CountryData {
   id: string;
@@ -9,6 +10,7 @@ export interface CountryData {
   timezoneGMT: number;
   minMarkerScale?: number;
   maxMarkerScale?: number;
+  currency: Currency;
 }
 
 /**
@@ -23,8 +25,9 @@ export interface CountryData {
  * @param {ColorData} countryData.color - The color of the country
  * @param {Continent} countryData.continent - The continent of the country
  * @param {number} countryData.timezoneGMT - The timezone of the country
- * @param {number} countryData.minMarkerScale - The minimum scale of the marker
- * @param {number} countryData.maxMarkerScale - The maximum scale of the marker
+ * @param {number} [countryData.minMarkerScale] - The minimum scale of the marker
+ * @param {number} [countryData.maxMarkerScale] - The maximum scale of the marker
+ * @param {Currency} countryData.currency - The currency of the country
  */
 export class Country {
   id: string;
@@ -34,10 +37,14 @@ export class Country {
   timezoneGMT: number;
   minMarkerScale?: number;
   maxMarkerScale?: number;
+  currency: Currency;
 
   constructor(
     data: Partial<CountryData> &
-      Pick<CountryData, "id" | "continent" | "color" | "timezoneGMT">,
+      Pick<
+        CountryData,
+        "id" | "continent" | "color" | "timezoneGMT" | "currency"
+      >
   ) {
     this.id = data.id;
     this.borderColor = new Color(data.color).toHSL();
@@ -46,6 +53,7 @@ export class Country {
     this.timezoneGMT = data.timezoneGMT;
     this.minMarkerScale = data?.minMarkerScale;
     this.maxMarkerScale = data?.maxMarkerScale;
+    this.currency = data.currency;
   }
 
   getName(t: i18n["t"]) {

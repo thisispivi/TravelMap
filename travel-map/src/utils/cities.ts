@@ -1,4 +1,4 @@
-import { pipe, filter, flatMap } from "remeda";
+import { pipe, filter, flatMap, sumBy } from "remeda";
 import { City, Country } from "../core";
 
 type GetCitiesByCountriesAndIsFuture = {
@@ -28,15 +28,15 @@ export function getCitiesByCountriesAndIsFuture({
         filter(
           (city) =>
             city.country.id === country.id &&
-            city.travels.some((travel) => travel.isFuture === isFuture),
+            city.travels.some((travel) => travel.isFuture === isFuture)
         ),
         flatMap((city) =>
           city.travels
             .filter((travel) => !travel.isFuture)
-            .map((travel) => new City({ ...city, travels: [travel] })),
-        ),
-      ),
-    ),
+            .map((travel) => new City({ ...city, travels: [travel] }))
+        )
+      )
+    )
   );
 }
 
@@ -50,4 +50,17 @@ export function sortByTravelStartDate(a: City, b: City): number {
   const aDate = a.travels[0].sDate;
   const bDate = b.travels[0].sDate;
   return aDate < bDate ? -1 : aDate > bDate ? 1 : 0;
+}
+
+/**
+ * Get total media taken
+ * @param {City[]} cities - The list of cities
+ * @returns {number} - The total media taken
+ */
+export function getTotalMediaTaken(cities: City[]): number {
+  return pipe(
+    cities,
+    flatMap((city) => city.travels),
+    sumBy((travel) => travel.photos.length)
+  );
 }

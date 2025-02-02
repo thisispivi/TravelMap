@@ -17,4 +17,5 @@ export const Kobe = new City({
   backgroundImgsSrc: [
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/Kobe.jpg",
   ],
+  population: 1527022,
 });

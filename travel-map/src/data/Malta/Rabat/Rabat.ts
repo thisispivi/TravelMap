@@ -16,4 +16,5 @@ export const Rabat = new City({
   backgroundImgsSrc: [
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Rabat/Rabat.jpg",
   ],
+  population: 12284,
 });
