@@ -11,6 +11,7 @@ interface CityInterface {
   isLived?: boolean;
   name: string;
   travels?: Travel[];
+  population?: number;
 }
 
 /**
@@ -28,6 +29,7 @@ interface CityInterface {
  * @param {boolean} [cityData.isLived] - If the city is lived
  * @param {string} cityData.name - The name of the city
  * @param {Travel[]} [cityData.travels] - The travels of the city
+ * @param {number} [cityData.population] - The population of the city
  */
 export class City implements CityInterface {
   backgroundImgsSrc: string[];
@@ -38,6 +40,7 @@ export class City implements CityInterface {
   mapCoordinates: [number, number];
   name: string;
   travels: Travel[];
+  population?: number;
 
   constructor(cityData: CityInterface) {
     this.backgroundImgsSrc = cityData.backgroundImgsSrc ?? [];
@@ -48,6 +51,7 @@ export class City implements CityInterface {
     this.mapCoordinates = this.getMapCoordinates(this.coordinates);
     this.name = cityData.name;
     this.travels = cityData.travels ?? [];
+    this.population = cityData.population;
   }
 
   getMapCoordinates([x, y]: [number, number]): [number, number] {

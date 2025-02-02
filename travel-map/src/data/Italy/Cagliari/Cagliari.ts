@@ -9,4 +9,5 @@ export const Cagliari = new City({
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cagliari/Cagliari.webp",
   ],
   travels: [],
+  population: 155000,
 });

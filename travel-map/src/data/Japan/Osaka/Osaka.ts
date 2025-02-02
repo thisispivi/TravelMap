@@ -17,4 +17,5 @@ export const Osaka = new City({
   backgroundImgsSrc: [
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Osaka/Osaka.jpg",
   ],
+  population: 18967000,
 });

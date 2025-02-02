@@ -17,4 +17,5 @@ export const Nara = new City({
   backgroundImgsSrc: [
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Nara/Nara.jpg",
   ],
+  population: 354833,
 });

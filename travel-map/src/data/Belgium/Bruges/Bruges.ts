@@ -16,4 +16,5 @@ export const Bruges = new City({
   backgroundImgsSrc: [
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Belgium/Bruges/Bruges.jpg",
   ],
+  population: 199276,
 });

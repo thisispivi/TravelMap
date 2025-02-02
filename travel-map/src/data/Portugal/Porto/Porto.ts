@@ -17,4 +17,5 @@ export const Porto = new City({
   backgroundImgsSrc: [
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Portugal/Porto/Porto.jpg",
   ],
+  population: 1334000,
 });

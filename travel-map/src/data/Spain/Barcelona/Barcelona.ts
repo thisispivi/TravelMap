@@ -16,4 +16,5 @@ export const Barcelona = new City({
   backgroundImgsSrc: [
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Spain/Barcelona/Barcelona.jpg",
   ],
+  population: 5712000,
 });

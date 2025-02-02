@@ -16,4 +16,5 @@ export const Victoria = new City({
   backgroundImgsSrc: [
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Victoria/Victoria.jpg",
   ],
+  population: 5921,
 });

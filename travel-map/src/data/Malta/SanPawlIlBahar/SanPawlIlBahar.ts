@@ -16,4 +16,5 @@ export const SanPawlIlBahar = new City({
   backgroundImgsSrc: [
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/SanPawlIlBahar/SanPawlIlBahar.jpg",
   ],
+  population: 32042,
 });

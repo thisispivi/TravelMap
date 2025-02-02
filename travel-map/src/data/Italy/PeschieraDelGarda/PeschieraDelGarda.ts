@@ -17,4 +17,5 @@ export const PeschieraDelGarda = new City({
   backgroundImgsSrc: [
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/PeschieraDelGarda/PeschieraDelGarda.jpg",
   ],
+  population: 10999,
 });

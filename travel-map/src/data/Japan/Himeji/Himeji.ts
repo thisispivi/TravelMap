@@ -17,4 +17,5 @@ export const Himeji = new City({
   backgroundImgsSrc: [
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/Himeji.jpg",
   ],
+  population: 536170,
 });

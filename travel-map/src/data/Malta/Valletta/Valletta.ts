@@ -23,4 +23,5 @@ export const Valletta = new City({
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Valletta/Valletta.jpg",
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Valletta1/Valletta1.jpg",
   ],
+  population: 5876,
 });
