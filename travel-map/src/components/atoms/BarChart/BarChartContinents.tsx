@@ -1,4 +1,4 @@
-import { JSX, lazy } from "react";
+import { JSX, lazy, memo } from "react";
 import useLanguage from "../../../hooks/language/language";
 import "./BarChartContinents.scss";
 import { Continent } from "../../../core";
@@ -27,7 +27,7 @@ interface ContinentsBarChartProps {
  * @param {boolean} [props.isDarkTheme=false] - The theme of the chart
  * @returns {JSX.Element} - The continents bar chart
  */
-export default function ContinentsBarChart({
+function ContinentsBarChart({
   data,
   barColors = ["#107895", "#79a14e"],
   isDarkTheme = false,
@@ -118,7 +118,7 @@ export default function ContinentsBarChart({
       },
       offsetY: 2,
     },
-    chart: { toolbar: { show: false } },
+    chart: { toolbar: { show: false }, animations: { enabled: false } },
     states: {
       hover: { filter: { type: "none" } },
       active: { filter: { type: "none" } },
@@ -137,3 +137,5 @@ export default function ContinentsBarChart({
     </div>
   );
 }
+
+export default memo(ContinentsBarChart);

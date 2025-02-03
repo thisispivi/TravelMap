@@ -44,7 +44,7 @@ export class Country {
       Pick<
         CountryData,
         "id" | "continent" | "color" | "timezoneGMT" | "currency"
-      >
+      >,
   ) {
     this.id = data.id;
     this.borderColor = new Color(data.color).toHSL();

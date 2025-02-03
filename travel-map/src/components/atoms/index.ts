@@ -3,6 +3,7 @@ import Button from "./Buttons/Button";
 import CloseButton from "./Buttons/CloseButton";
 import ContinentsBarChart from "./BarChart/BarChartContinents";
 import CountryFlag from "./CountryFlag/CountryFlag";
+import CurrencyFlag from "./CurrencyFlag/CurrencyFlag";
 import DarkModeButton from "./Buttons/DarkModeButton";
 import FlightsDonutChart from "./DonutChart/DonutChartFlights";
 import LanguageFlag from "./LanguageFlag/LanguageFlag";
@@ -17,6 +18,7 @@ export {
   CloseButton,
   ContinentsBarChart,
   CountryFlag,
+  CurrencyFlag,
   DarkModeButton,
   FlightsDonutChart,
   LanguageFlag,
