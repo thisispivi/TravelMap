@@ -17,6 +17,7 @@
   .apexcharts-datalabels {
     text {
       transform: translateY(0.35em);
+      @include m.transition(all, 0.3s, ease-in-out);
     }
   }
   .apexcharts-datalabels-group {
@@ -58,7 +59,8 @@
     .apexcharts-text.apexcharts-yaxis-label {
       color: v.$lightButtonContent !important;
     }
-    .apexcharts-datalabels-group {
+    .apexcharts-datalabels-group,
+    .apexcharts-data-labels {
       text {
         fill: v.$lightButtonContent !important;
       }
@@ -80,7 +82,8 @@
     .apexcharts-text.apexcharts-yaxis-label {
       color: v.$darkButtonContent !important;
     }
-    .apexcharts-datalabels-group {
+    .apexcharts-datalabels-group,
+    .apexcharts-data-labels {
       text {
         fill: v.$darkButtonContent !important;
       }
