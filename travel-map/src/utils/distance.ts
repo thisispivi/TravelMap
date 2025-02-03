@@ -11,7 +11,7 @@ import { toRadians } from "./convert";
  */
 export function haversineDistance(
   start: { lat: number; lon: number },
-  end: { lat: number; lon: number }
+  end: { lat: number; lon: number },
 ): number {
   const RADIUS_EARTH_KM = 6371;
 
@@ -40,7 +40,7 @@ export function haversineDistance(
 export function getCitiesDistance(start: City, end: City): number {
   return haversineDistance(
     start.getCoordinatesAsLatLon(),
-    end.getCoordinatesAsLatLon()
+    end.getCoordinatesAsLatLon(),
   );
 }
 
@@ -52,7 +52,7 @@ export function getCitiesDistance(start: City, end: City): number {
  */
 export function getFurthestAndNearestCity(
   cities: City[],
-  referenceCity: City
+  referenceCity: City,
 ): { furthest: City; nearest: City } {
   const distances = cities.map((city) => ({
     distance: getCitiesDistance(city, referenceCity),
