@@ -1,5 +1,5 @@
-import { lazy, JSX } from "react";
-import { Flight } from "../../../core/classes/Flight";
+import { lazy, JSX, memo } from "react";
+import { Flight } from "../../../core";
 import useLanguage from "../../../hooks/language/language";
 import variables from "../../../styles/_variables.module.scss";
 import "./DonutChartFlights.scss";
@@ -14,19 +14,19 @@ interface FlightsDonutChartProps {
  * @param {FlightsDonutChartProps} takenFlights - The user's taken flights.
  * @returns {JSX.Element} The donut chart.
  */
-export default function FlightsDonutChart({
+function FlightsDonutChart({
   takenFlights,
 }: FlightsDonutChartProps): JSX.Element {
   const { t } = useLanguage(["home"]);
 
   const numNationalFlights = takenFlights.filter(
-    (flight) => flight.isNational,
+    (flight) => flight.isNational
   ).length;
   const numInternationalFlights = takenFlights.filter(
-    (flight) => flight.isInternational,
+    (flight) => flight.isInternational
   ).length;
   const numIntercontinentalFlights = takenFlights.filter(
-    (flight) => flight.isIntercontinental,
+    (flight) => flight.isIntercontinental
   ).length;
   const totalFlights =
     numNationalFlights + numInternationalFlights + numIntercontinentalFlights;
@@ -38,6 +38,9 @@ export default function FlightsDonutChart({
   ];
 
   const options = {
+    chart: {
+      animations: { enabled: false },
+    },
     labels: [
       t("stats.national"),
       t("stats.international"),
@@ -135,3 +138,5 @@ export default function FlightsDonutChart({
     </div>
   );
 }
+
+export default memo(FlightsDonutChart);

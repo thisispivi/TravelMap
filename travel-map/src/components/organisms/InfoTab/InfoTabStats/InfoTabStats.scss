@@ -120,13 +120,23 @@
       padding-bottom: 0;
       padding-left: 0rem;
       p {
-        margin-bottom: 0rem;
+        margin-top: 0.5rem;
+        margin-bottom: -1rem;
       }
       p,
       h2 {
         padding-left: 1rem;
       }
     }
+    .info-tab-stats__card--currency {
+      .info-tab-stats__card__currencies {
+        justify-content: space-evenly;
+      }
+      .info-tab-stats__card__row__title {
+        margin-bottom: 0.5rem;
+      }
+    }
+
     .info-tab-stats__card--continents,
     .info-tab-stats__card--flights,
     .info-tab-stats__card--mileage {
@@ -181,7 +191,7 @@
           margin-bottom: 0.25rem;
         }
         b {
-          font-size: 1rem;
+          font-size: 1.1rem;
           font-weight: 800;
         }
       }

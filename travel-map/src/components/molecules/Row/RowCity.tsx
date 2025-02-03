@@ -1,6 +1,6 @@
 import { JSX } from "react";
 import { DistanceIcon } from "../../../assets";
-import { City } from "../../../core/classes/City";
+import { City } from "../../../core";
 import useLanguage from "../../../hooks/language/language";
 import { getCitiesDistance } from "../../../utils/distance";
 import { formatMileage } from "../../../utils/format";

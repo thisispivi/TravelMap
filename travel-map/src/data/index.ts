@@ -11,7 +11,7 @@ import { Cagliari } from "./Italy/Cagliari/Cagliari";
 import { Cefalù } from "./Italy/Cefalù/Cefalù";
 import { City, Country } from "../core";
 import { Comino } from "./Malta/Comino/Comino";
-import { Flight } from "../core/classes/Flight";
+import { Flight } from "../core";
 import { Fujikawaguchiko } from "./Japan/Fujikawaguchiko/Fujikawaguchiko";
 import { Genoa } from "./Italy/Genoa/Genoa";
 import { Germany } from "./Germany/Germany";

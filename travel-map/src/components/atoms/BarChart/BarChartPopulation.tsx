@@ -1,4 +1,4 @@
-import { JSX, lazy } from "react";
+import { JSX, lazy, memo } from "react";
 import useLanguage from "../../../hooks/language/language";
 import "./BarChartPopulation.scss";
 import { City } from "../../../core";
@@ -25,19 +25,19 @@ interface PopulationsBarChartProps {
  * @param {boolean} [props.isDarkTheme=false] - The theme of the chart
  * @returns {JSX.Element} - The populations bar chart
  */
-export default function PopulationsBarChart({
+function PopulationsBarChart({
   data,
   barColors = [
-    "#FF5733", // Red
-    "#33FF57", // Green
-    "#3357FF", // Blue
-    "#FF33A1", // Pink
-    "#FF8C33", // Orange
-    "#8C33FF", // Purple
-    "#33FFF5", // Cyan
-    "#F5FF33", // Yellow
-    "#FF3333", // Dark Red
-    "#33FF8C", // Light Green
+    "#FF5733",
+    "#33FF57",
+    "#3357FF",
+    "#FF33A1",
+    "#FF8C33",
+    "#8C33FF",
+    "#33FFF5",
+    "#F5FF33",
+    "#FF3333",
+    "#33FF8C",
   ],
   isDarkTheme = false,
   numToShow = 10,
@@ -56,6 +56,10 @@ export default function PopulationsBarChart({
   const maxValue = Math.max(...topCities.map((city) => city.population!)) * 1.5;
 
   const options = {
+    chart: {
+      animations: { enabled: false },
+      toolbar: { show: false },
+    },
     series,
     plotOptions: {
       bar: {
@@ -110,7 +114,6 @@ export default function PopulationsBarChart({
       hover: { filter: { type: "none" } },
       active: { filter: { type: "none" } },
     },
-    chart: { toolbar: { show: false } },
   };
 
   return (
@@ -125,3 +128,5 @@ export default function PopulationsBarChart({
     </div>
   );
 }
+
+export default memo(PopulationsBarChart);
