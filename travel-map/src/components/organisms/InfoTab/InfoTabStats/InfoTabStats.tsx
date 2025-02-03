@@ -11,6 +11,7 @@ import {
   CityRow,
   Column,
   ContinentRow,
+  CurrencyRow,
   FlightRow,
   Row,
   TimezoneRow,
@@ -48,6 +49,7 @@ import {
   getNumberOfTimezonesJumped,
 } from "../../../../utils/timezone";
 import { getTotalMediaTaken } from "../../../../utils/cities";
+import { getCurrenciesFromCountries } from "../../../../utils/countries";
 
 /**
  * 
@@ -105,6 +107,8 @@ export default memo(function InfoTabStats({
   const numberTimezonesJumped = getNumberOfTimezonesJumped(visitedCountries);
 
   const totalMediaTaken = getTotalMediaTaken(visitedCities);
+
+  const usedCurrencies = getCurrenciesFromCountries(visitedCountries);
 
   return (
     <div
@@ -198,6 +202,16 @@ export default memo(function InfoTabStats({
             <b>{totalMediaTaken.toLocaleString(currLanguage)}</b>
           </Card>
         </Row>
+        <Card className="info-tab-stats__card info-tab-stats__card--currency card--box-shadow">
+          <Column className="info-tab-stats__card__main">
+            <h2 className="cities__title">{t("stats.currency")}</h2>
+            <Row className="info-tab-stats__card__currencies row--wrap">
+              {usedCurrencies.map((currency) => (
+                <CurrencyRow currency={currency} key={currency} />
+              ))}
+            </Row>
+          </Column>
+        </Card>
         <Card className="info-tab-stats__card info-tab-stats__card--flights card--box-shadow">
           <Column className="info-tab-stats__card__main">
             <h2>{t("stats.flights")}</h2>

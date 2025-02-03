@@ -1,0 +1,40 @@
+@use "../../../styles/variables.module" as v;
+@use "../../../styles/mixins" as m;
+
+.currency-row {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  align-items: center;
+  .currency-row__flag {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 0.5rem;
+  }
+  .currency-row__symbol {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-left: 0.5rem;
+  }
+  p,
+  b {
+    @include m.transition(all, 0.3s, ease-in-out);
+  }
+}
+
+.home--light {
+  .currency-row {
+    b,
+    p {
+      color: v.$darkLeftBar;
+    }
+  }
+}
+
+.home--dark {
+  .currency-row {
+    b,
+    p {
+      color: v.$lightLeftBar;
+    }
+  }
+}

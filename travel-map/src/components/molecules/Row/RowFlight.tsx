@@ -1,5 +1,5 @@
 import { PlaneIcon } from "../../../assets";
-import { Flight } from "../../../core/classes/Flight";
+import { Flight } from "../../../core";
 import useLanguage from "../../../hooks/language/language";
 import { formatMileage } from "../../../utils/format";
 import { CountryFlag } from "../../atoms";
