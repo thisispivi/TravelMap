@@ -66,6 +66,7 @@ export {
   VisitedIcon,
 };
 
+import AustriaFlag from "./icons/flags/Austria.svg?react";
 import BelgiumFlag from "./icons/flags/Belgium.svg?react";
 import EuropeFlag from "./icons/flags/Europe.svg?react";
 import GermanyFlag from "./icons/flags/Germany.svg?react";
@@ -79,6 +80,7 @@ import UnitedKingdomFlag from "./icons/flags/UnitedKingdom.svg?react";
 import VaticanFlag from "./icons/flags/Vatican.svg?react";
 
 export {
+  AustriaFlag,
   BelgiumFlag,
   EuropeFlag,
   GermanyFlag,

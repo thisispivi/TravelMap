@@ -53,9 +53,11 @@
     "VaticanCity": "Città del Vaticano",
     "Venice": "Venezia",
     "Verona": "Verona",
-    "Victoria": "Victoria"
+    "Victoria": "Victoria",
+    "Vienna": "Vienna"
   },
   "countries": {
+    "Austria": "Austria",
     "Belgium": "Belgio",
     "Germany": "Germania",
     "Hungary": "Ungheria",
@@ -76,10 +78,17 @@
     "SouthAmerica": "Sud America"
   },
   "home": "Home",
-  "lived": { "title": "Città in cui ho vissuto" },
-  "visited": { "title": "Città visitate" },
-  "future": { "title": "Prossime destinazioni" },
+  "lived": {
+    "title": "Città in cui ho vissuto",
+    "ariaLabel": "Città in cui ho vissuto"
+  },
+  "visited": { "title": "Città visitate", "ariaLabel": "Città visitate" },
+  "future": {
+    "title": "Prossime destinazioni",
+    "ariaLabel": "Prossime destinazioni"
+  },
   "stats": {
+    "ariaLabel": "Statistiche di viaggio",
     "aroundEarth": "intorno alla Terra",
     "biggestTimezoneJump": "Maggiore salto di fuso orario",
     "cities": "Città",
@@ -117,7 +126,7 @@
   "deselectAll": "Deseleziona tutto",
   "filterTooltip": "Filtra le città sulla mappa in base al paese selezionato.",
   "gallery": "Visualizza galleria",
-  "galleryAlt": "Apri la galleria fotografica",
+  "galleryAlt": "Apri la galleria",
   "language": "Seleziona una lingua",
   "selectAll": "Seleziona tutto",
   "theme": "Passa tra modalità chiara e scura",
