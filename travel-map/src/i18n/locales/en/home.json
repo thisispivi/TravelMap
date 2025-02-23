@@ -53,9 +53,11 @@
     "VaticanCity": "Vatican City",
     "Venice": "Venice",
     "Verona": "Verona",
-    "Victoria": "Victoria"
+    "Victoria": "Victoria",
+    "Vienna": "Vienna"
   },
   "countries": {
+    "Austria": "Austria",
     "Belgium": "Belgium",
     "Germany": "Germany",
     "Hungary": "Hungary",
@@ -76,10 +78,17 @@
     "SouthAmerica": "South America"
   },
   "home": "Home",
-  "lived": { "title": "Cities I've lived in" },
-  "visited": { "title": "Visited Cities" },
-  "future": { "title": "Future Destinations" },
+  "lived": {
+    "title": "Cities I've lived in",
+    "ariaLabel": "Cities I've lived in"
+  },
+  "visited": { "title": "Visited Cities", "ariaLabel": "Visited Cities" },
+  "future": {
+    "title": "Future Destinations",
+    "ariaLabel": "Future Destinations"
+  },
   "stats": {
+    "ariaLabel": "Travel Statistics",
     "aroundEarth": "around the Earth",
     "biggestTimezoneJump": "Largest timezone jump",
     "cities": "Cities",
