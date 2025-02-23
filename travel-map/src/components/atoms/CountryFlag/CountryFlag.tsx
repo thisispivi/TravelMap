@@ -1,13 +1,14 @@
 import {
+  AustriaFlag,
   BelgiumFlag,
   GermanyFlag,
   HungaryFlag,
   ItalyFlag,
+  JapanFlag,
+  MaltaFlag,
+  PortugalFlag,
   SpainFlag,
   UnitedKingdomFlag,
-  JapanFlag,
-  PortugalFlag,
-  MaltaFlag,
   VaticanFlag,
 } from "../../../assets";
 import { JSX } from "react";
@@ -54,6 +55,8 @@ export default function CountryFlag({
       return <MaltaFlag className={className} />;
     case "Vatican":
       return <VaticanFlag className={className} />;
+    case "Austria":
+      return <AustriaFlag className={className} />;
     default:
       return null;
   }
