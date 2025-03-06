@@ -4,7 +4,7 @@ import { Spain } from "../Spain";
 export const Sevilla = new City({
   name: "Sevilla",
   country: Spain,
-  coordinates: [37.3886305, -5.9828988],
+  coordinates: [-5.9828988, 37.3886305],
   travels: [
     new Travel({
       sDate: new Date(2025, 3, 4),
