@@ -40,6 +40,7 @@ import { Rabat } from "./Malta/Rabat/Rabat";
 import { Rome } from "./Italy/Rome/Rome";
 import { SanGiljan } from "./Malta/SanGiljan/SanGiljan";
 import { SanPawlIlBahar } from "./Malta/SanPawlIlBahar/SanPawlIlBahar";
+import { Sevilla } from "./Spain/Sevilla/Sevilla";
 import { Shirakawago } from "./Japan/Shirakawago/Shirakawago";
 import { Sliema } from "./Malta/Sliema/Sliema";
 import { Spain } from "./Spain/Spain";
@@ -146,5 +147,5 @@ export const takenFlights: Flight[] = [
   new Flight({ sCity: Luqa, eCity: Cagliari }),
 ];
 
-export const futureCountries: Country[] = [Austria];
-export const futureCities: City[] = [Vienna];
+export const futureCountries: Country[] = [Austria, Spain];
+export const futureCities: City[] = [Vienna, Sevilla];
