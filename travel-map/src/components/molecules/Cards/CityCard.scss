@@ -48,13 +48,20 @@
         position: absolute;
         box-shadow: 0 0.063rem 0.125rem 0rem rgba(0, 0, 0, 0.2);
       }
-      .city-card__background-overlay,
-      .city-card__background-overlay-mask {
+      .city-card__background-overlay {
         border-radius: 0.95rem;
         height: 100%;
         width: 100%;
         position: absolute;
         z-index: 1;
+      }
+      .centered {
+        position: absolute;
+        width: 100%;
+        height: 10.7rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
     }
   }
