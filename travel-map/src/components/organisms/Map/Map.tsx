@@ -175,9 +175,7 @@ export default memo(function Map({
               isOpen ? setHoveredCity(hoveredCity) : setHoveredCity(null)
             }
           />
-        ) : (
-          "ASD"
-        )}
+        ) : null}
       </Tooltip>
     </div>
   );
