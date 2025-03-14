@@ -10,13 +10,13 @@ import {
 } from "@/assets";
 import { memo, useEffect, useState, JSX } from "react";
 import { formatDate } from "@/i18n/functions/date";
+import { useNavigate } from "react-router-dom";
 
 interface MapTooltipProps {
   city: City;
   onMouseEnter?: (city: City) => void;
   onMouseLeave?: () => void;
   setIsOpen: (isOpen: boolean) => void;
-  onClick?: (travelIdx: number) => void;
 }
 
 /**
@@ -32,7 +32,6 @@ interface MapTooltipProps {
  * @param {() => void} [props.onMouseLeave] - The function to call when the mouse leave the tooltip
  * @param {boolean} [props.isOpen] - The visibility of the tooltip
  * @param {(isOpen: boolean) => void} props.setIsOpen - The function to set the visibility of the tooltip
- * @param {(travelIdx: number) => void} [props.onClick] - The function to call when the user click on the tooltip
  * @returns {JSX.Element} - The map tooltip
  */
 function MapTooltip({
@@ -40,8 +39,8 @@ function MapTooltip({
   onMouseEnter,
   onMouseLeave,
   setIsOpen,
-  onClick,
 }: MapTooltipProps): JSX.Element {
+  const navigate = useNavigate();
   const { t, currLanguage: lang } = useLanguage(["home"]);
   const [travelIdx, setTravelIdx] = useState(0);
   const filteredTravels = city.travels.filter((travel) => !travel.isFuture);
@@ -105,10 +104,9 @@ function MapTooltip({
             <div className="map-tooltip__footer">
               <Button
                 className="map-tooltip__footer__button"
-                onClick={() => {
-                  console.log("travelIdx", travelIdx);
-                  onClick?.(travelIdx);
-                }}
+                onClick={() =>
+                  navigate(`/gallery/${city.name}/${travelIdx}?from=map`)
+                }
               >
                 <GalleryIcon />
                 <p>{t("galleryAlt")}</p>

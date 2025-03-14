@@ -20,7 +20,7 @@ export type HomeContextType = ThemeDetector & {
   responsive: ResponsiveType;
 };
 export const HomeContext = createContext<HomeContextType | undefined>(
-  undefined,
+  undefined
 );
 
 /**

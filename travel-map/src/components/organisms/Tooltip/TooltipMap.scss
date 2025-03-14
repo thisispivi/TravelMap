@@ -118,7 +118,7 @@
   }
 }
 
-.home--light {
+.body--light {
   #map-tooltip {
     color: v.$darkLeftBar;
     background-color: v.$lightLeftBarOpacity;
@@ -142,7 +142,7 @@
   }
 }
 
-.home--dark {
+.body--dark {
   #map-tooltip {
     background-color: v.$darkLeftBarOpacity;
     backdrop-filter: blur(0.6rem);
