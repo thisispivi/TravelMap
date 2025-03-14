@@ -41,7 +41,7 @@ export default memo(function InfoTabCities({
   getTravelIdx,
   id,
   isVisible = false,
-}: InfoTabCitiesProps): JSX.Element {
+}: InfoTabCitiesProps): JSX.Element | null {
   const { t } = useLanguage(["home"]);
   const {
     hoveredCity,
@@ -56,6 +56,8 @@ export default memo(function InfoTabCities({
   const allCountriesValues = Object.values(allCountries);
   const [countries, setCountries] = useState<Country[]>(allCountriesValues);
   const onCountryChange = (selected: Country[]) => setCountries(selected);
+
+  if (!isVisible) return null;
 
   return (
     <div
@@ -85,33 +87,75 @@ export default memo(function InfoTabCities({
         className={`info-tab-cities__content info-tab-${id}__content`}
         id="info-tab"
       >
-        {cities.map((city, i) => (
-          <CityCard
-            city={new City(city)}
-            hoveredCity={hoveredCity}
-            isAutoPosition={isAutoPosition}
-            isClickable={
-              city.travels.length > 0 && city.travels[0].photos.length > 0
-                ? true
-                : false
-            }
-            isHidden={!countries.includes(city.country)}
-            key={i}
-            mapPosition={mapPosition}
-            setHoveredCity={setHoveredCity}
-            setMapPosition={setMapPosition}
-            travel={city.travels[0]}
-            travelIdx={getTravelIdx?.(city, city.travels[0])}
-          />
-        ))}
-        {cities.filter((city) => countries.includes(city.country)).length %
-          2 !==
-        0 ? (
-          <div
-            className={`info-tab-cities__void-city info-tab-${id}__void-city city-card city-card--no-box-shadow`}
-          />
-        ) : null}
+        <MemoizedCityCard
+          cities={cities}
+          countries={countries}
+          getTravelIdx={getTravelIdx}
+          hoveredCity={hoveredCity}
+          id={id}
+          isAutoPosition={isAutoPosition}
+          mapPosition={mapPosition}
+          setHoveredCity={setHoveredCity}
+          setMapPosition={setMapPosition}
+        />
       </div>
     </div>
   );
 });
+
+type CitiesWrapperProps = {
+  cities: City[];
+  countries: Country[];
+  getTravelIdx?: (city: City, travel: Travel) => number;
+  hoveredCity: City | null;
+  setHoveredCity: (city: City | null) => void;
+  setMapPosition: (position: {
+    center: [number, number];
+    zoom: number;
+  }) => void;
+  isAutoPosition: boolean;
+  mapPosition: { center: [number, number]; zoom: number };
+  id: string;
+};
+
+const CitiesWrapper = ({
+  cities,
+  countries,
+  getTravelIdx,
+  setHoveredCity,
+  setMapPosition,
+  isAutoPosition,
+  mapPosition,
+  id,
+}: CitiesWrapperProps): JSX.Element => {
+  return (
+    <>
+      {cities.map((city, i) => (
+        <CityCard
+          city={new City(city)}
+          isAutoPosition={isAutoPosition}
+          isClickable={
+            city.travels.length > 0 && city.travels[0].photos.length > 0
+              ? true
+              : false
+          }
+          isHidden={!countries.includes(city.country)}
+          key={i}
+          mapPosition={mapPosition}
+          setHoveredCity={setHoveredCity}
+          setMapPosition={setMapPosition}
+          travel={city.travels[0]}
+          travelIdx={getTravelIdx?.(city, city.travels[0])}
+        />
+      ))}
+      {cities.filter((city) => countries.includes(city.country)).length % 2 !==
+      0 ? (
+        <div
+          className={`info-tab-cities__void-city info-tab-${id}__void-city city-card city-card--no-box-shadow`}
+        />
+      ) : null}
+    </>
+  );
+};
+
+const MemoizedCityCard = memo(CitiesWrapper);
