@@ -32,7 +32,7 @@ import "./Home.scss";
  * @returns {JSX.Element} - The home template
  */
 export default memo(function HomeTemplate(
-  props: PropsWithChildren
+  props: PropsWithChildren,
 ): JSX.Element {
   const { isVisited, isFuture, isGallery, isStats, isLived } = useLocation();
   const { hoveredCity, setHoveredCity, isDarkTheme, handleDarkModeSwitch } =

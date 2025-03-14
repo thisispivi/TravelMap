@@ -11,6 +11,8 @@ import "./Map.scss";
 import { Loading, Marker } from "../../atoms";
 import { worldData } from "../../../assets";
 import { parameters } from "../../../utils/parameters";
+import { Tooltip } from "react-tooltip";
+import { MapTooltip } from "..";
 
 export interface MapProps {
   livedCities: City[];
@@ -155,6 +157,28 @@ export default memo(function Map({
           ) : null}
         </ZoomableGroup>
       </ComposableMap>
+      <Tooltip
+        anchorSelect={`#${hoveredCity?.name}-marker`}
+        clickable
+        id="map-tooltip"
+        isOpen={hoveredCity !== null}
+        noArrow
+        opacity={1}
+        variant="light"
+      >
+        {hoveredCity ? (
+          <MapTooltip
+            city={hoveredCity}
+            onMouseEnter={(city: City) => setHoveredCity(city)}
+            onMouseLeave={() => setHoveredCity(null)}
+            setIsOpen={(isOpen: boolean) =>
+              isOpen ? setHoveredCity(hoveredCity) : setHoveredCity(null)
+            }
+          />
+        ) : (
+          "ASD"
+        )}
+      </Tooltip>
     </div>
   );
 });
