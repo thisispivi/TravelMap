@@ -18,6 +18,8 @@ import {
 } from "./components/organisms";
 import { loader as galleryLoader } from "./components/organisms/Gallery/loader";
 import { loader as lightboxLoader } from "./components/organisms/Lightbox/loader";
+import { Tooltip } from "react-tooltip";
+import { mobileAndTabletCheck } from "./utils/responsive";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -47,5 +49,14 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         },
       ])}
     />
-  </React.StrictMode>,
+    {!mobileAndTabletCheck() ? (
+      <Tooltip
+        className="tooltip"
+        delayShow={300}
+        id="base-tooltip"
+        noArrow
+        opacity={1}
+      />
+    ) : null}
+  </React.StrictMode>
 );

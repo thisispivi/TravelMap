@@ -4,6 +4,7 @@ import svgr from "vite-plugin-svgr";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
 import autoprefixer from "autoprefixer";
 import { qrcode } from "vite-plugin-qrcode";
+import { resolve } from "path";
 
 export default defineConfig({
   plugins: [
@@ -17,4 +18,7 @@ export default defineConfig({
   base: "/",
   server: { watch: { usePolling: true }, host: true },
   css: { postcss: { plugins: [autoprefixer({})] } },
+  resolve: {
+    alias: [{ find: "@", replacement: resolve(__dirname, "./src") }],
+  },
 });

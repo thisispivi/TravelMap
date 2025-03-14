@@ -105,6 +105,7 @@ const CityCard = ({
       >
         <div className="city-card__background">
           <div className="city-card__background-overlay" />
+          <div className="city-card__background-overlay-mask" />
           <img
             alt={city.getName(t)}
             onLoad={handleImageLoad}

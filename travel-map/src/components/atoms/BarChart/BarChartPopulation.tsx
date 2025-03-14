@@ -1,7 +1,7 @@
 import { JSX, lazy, memo } from "react";
-import useLanguage from "../../../hooks/language/language";
+import useLanguage from "@/hooks/language/language";
 import "./BarChartPopulation.scss";
-import { City } from "../../../core";
+import { City } from "@/core";
 import { filter, pipe, sortBy } from "remeda";
 const ReactApexChart = lazy(() => import("react-apexcharts"));
 
@@ -47,7 +47,7 @@ function PopulationsBarChart({
   const topCities = pipe(
     data,
     filter((city) => city.population !== undefined),
-    sortBy((city) => -city.population!),
+    sortBy((city) => -city.population!)
   ).slice(0, numToShow);
 
   const series = [{ data: topCities.map((city) => city.population!) }];

@@ -1,7 +1,8 @@
 import { CSSTransition } from "react-transition-group";
-import { MoonIcon, SunIcon } from "../../../assets";
+import { MoonIcon, SunIcon } from "@/assets";
 import "./DarkModeButton.scss";
-import { JSX } from "react";
+import { JSX, memo } from "react";
+import { useTranslation } from "react-i18next";
 
 interface DarkModeButtonProps {
   className?: string;
@@ -22,15 +23,18 @@ interface DarkModeButtonProps {
  * @param {() => void} props.handleDarkModeSwitch - Function to switch the dark mode
  * @returns {JSX.Element} - The dark mode button
  */
-export default function DarkModeButton({
+export default memo(function DarkModeButton({
   isDarkTheme,
   handleDarkModeSwitch,
   className = "",
 }: DarkModeButtonProps): JSX.Element {
+  const { t } = useTranslation("home");
   return (
     <button
-      aria-label="Toggle dark mode"
+      aria-label={t("theme")}
       className={`dark-mode-button ${className}`}
+      data-tooltip-content={t("theme")}
+      data-tooltip-id="base-tooltip"
       onClick={handleDarkModeSwitch}
       type="button"
     >
@@ -43,4 +47,4 @@ export default function DarkModeButton({
       </CSSTransition>
     </button>
   );
-}
+});

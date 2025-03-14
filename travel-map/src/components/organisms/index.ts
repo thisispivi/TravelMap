@@ -11,7 +11,6 @@ import LanguageSelector from "./Language/Language";
 import LeftBar from "./LeftBar/LeftBar";
 import Lightbox from "./Lightbox/Lightbox";
 import MapTooltip from "./Tooltip/TooltipMap";
-import Tooltip from "./Tooltip/Tooltip";
 const Map = lazy(() => import("./Map/Map"));
 
 export {
@@ -27,5 +26,4 @@ export {
   Lightbox,
   Map,
   MapTooltip,
-  Tooltip,
 };

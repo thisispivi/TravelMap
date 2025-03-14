@@ -1,7 +1,7 @@
 import { lazy, JSX, memo } from "react";
-import { Flight } from "../../../core";
-import useLanguage from "../../../hooks/language/language";
-import variables from "../../../styles/_variables.module.scss";
+import { Flight } from "@/core";
+import useLanguage from "@/hooks/language/language";
+import variables from "@/styles/_variables.module.scss";
 import "./DonutChartFlights.scss";
 const ReactApexChart = lazy(() => import("react-apexcharts"));
 
@@ -20,13 +20,13 @@ function FlightsDonutChart({
   const { t } = useLanguage(["home"]);
 
   const numNationalFlights = takenFlights.filter(
-    (flight) => flight.isNational,
+    (flight) => flight.isNational
   ).length;
   const numInternationalFlights = takenFlights.filter(
-    (flight) => flight.isInternational,
+    (flight) => flight.isInternational
   ).length;
   const numIntercontinentalFlights = takenFlights.filter(
-    (flight) => flight.isIntercontinental,
+    (flight) => flight.isIntercontinental
   ).length;
   const totalFlights =
     numNationalFlights + numInternationalFlights + numIntercontinentalFlights;
