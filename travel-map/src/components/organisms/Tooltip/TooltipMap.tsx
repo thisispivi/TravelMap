@@ -1,4 +1,3 @@
-import { Tooltip as ReactTooltip } from "react-tooltip";
 import "./TooltipMap.scss";
 import { City } from "@/core";
 import useLanguage from "@/hooks/language/language";
@@ -11,14 +10,13 @@ import {
 } from "@/assets";
 import { memo, useEffect, useState, JSX } from "react";
 import { formatDate } from "@/i18n/functions/date";
-import { useNavigate } from "react-router-dom";
 
 interface MapTooltipProps {
   city: City;
   onMouseEnter?: (city: City) => void;
   onMouseLeave?: () => void;
-  isOpen?: boolean;
   setIsOpen: (isOpen: boolean) => void;
+  onClick?: (travelIdx: number) => void;
 }
 
 /**
@@ -33,19 +31,20 @@ interface MapTooltipProps {
  * @param {(city: City) => void} [props.onMouseEnter] - The function to call when the mouse enter the tooltip
  * @param {() => void} [props.onMouseLeave] - The function to call when the mouse leave the tooltip
  * @param {boolean} [props.isOpen] - The visibility of the tooltip
+ * @param {(isOpen: boolean) => void} props.setIsOpen - The function to set the visibility of the tooltip
+ * @param {(travelIdx: number) => void} [props.onClick] - The function to call when the user click on the tooltip
  * @returns {JSX.Element} - The map tooltip
  */
 function MapTooltip({
   city,
   onMouseEnter,
   onMouseLeave,
-  isOpen,
   setIsOpen,
+  onClick,
 }: MapTooltipProps): JSX.Element {
   const { t, currLanguage: lang } = useLanguage(["home"]);
   const [travelIdx, setTravelIdx] = useState(0);
   const filteredTravels = city.travels.filter((travel) => !travel.isFuture);
-  const navigate = useNavigate();
   const createBackdrop = (className: string) => (
     <div
       className={`map-tooltip__backdrop ${className}`}
@@ -63,17 +62,7 @@ function MapTooltip({
   }, [setIsOpen]);
 
   return (
-    <ReactTooltip
-      anchorSelect={`#${city.name}-marker`}
-      className="map-tooltip"
-      clickable
-      id={city.name}
-      isOpen={isOpen}
-      key={city.name}
-      noArrow
-      opacity={1}
-      variant="light"
-    >
+    <>
       {createBackdrop("map-tooltip__backdrop--top")}
       {createBackdrop("map-tooltip__backdrop--right")}
       {createBackdrop("map-tooltip__backdrop--bottom")}
@@ -116,9 +105,10 @@ function MapTooltip({
             <div className="map-tooltip__footer">
               <Button
                 className="map-tooltip__footer__button"
-                onClick={() =>
-                  navigate(`/gallery/${city.name}/${travelIdx}?from=map`)
-                }
+                onClick={() => {
+                  console.log("travelIdx", travelIdx);
+                  onClick?.(travelIdx);
+                }}
               >
                 <GalleryIcon />
                 <p>{t("galleryAlt")}</p>
@@ -127,7 +117,7 @@ function MapTooltip({
           </>
         ) : null}
       </div>
-    </ReactTooltip>
+    </>
   );
 }
 

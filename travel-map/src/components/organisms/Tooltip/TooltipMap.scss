@@ -1,7 +1,7 @@
 @use "../../../styles/mixins" as m;
 @use "../../../styles/variables.module" as v;
 
-.map-tooltip {
+#map-tooltip {
   width: 14rem !important;
   border-radius: 0.625rem !important;
   padding: 0 !important;
@@ -119,7 +119,7 @@
 }
 
 .home--light {
-  .map-tooltip {
+  #map-tooltip {
     color: v.$darkLeftBar;
     background-color: v.$lightLeftBarOpacity;
     backdrop-filter: blur(0.6rem);
@@ -143,24 +143,24 @@
 }
 
 .home--dark {
-  .map-tooltip {
+  #map-tooltip {
     background-color: v.$darkLeftBarOpacity;
     backdrop-filter: blur(0.6rem);
     color: v.$lightLeftBar;
-  }
-  .map-tooltip__content__travel {
-    color: v.$darkAltText;
-  }
-  .map-tooltip__content__travel__icon {
-    fill: v.$darkAltText;
-  }
-  .map-tooltip__content__chevron-icon {
-    path {
+    .map-tooltip__content__travel {
+      color: v.$darkAltText;
+    }
+    .map-tooltip__content__travel__icon {
       fill: v.$darkAltText;
     }
-    &.map-tooltip__content__chevron-icon--disabled {
+    .map-tooltip__content__chevron-icon {
       path {
-        fill: #484848;
+        fill: v.$darkAltText;
+      }
+      &.map-tooltip__content__chevron-icon--disabled {
+        path {
+          fill: #484848;
+        }
       }
     }
   }

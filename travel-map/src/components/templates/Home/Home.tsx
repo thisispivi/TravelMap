@@ -32,14 +32,18 @@ import "./Home.scss";
  * @returns {JSX.Element} - The home template
  */
 export default memo(function HomeTemplate(
-  props: PropsWithChildren,
+  props: PropsWithChildren
 ): JSX.Element {
   const { isVisited, isFuture, isGallery, isStats, isLived } = useLocation();
-  const { hoveredCity, setHoveredCity } = useContext(HomeContext)!;
+  const { hoveredCity, setHoveredCity, isDarkTheme, handleDarkModeSwitch } =
+    useContext(HomeContext)!;
 
   return (
     <div className="home-template">
-      <LeftBar />
+      <LeftBar
+        handleDarkModeSwitch={handleDarkModeSwitch}
+        isDarkTheme={isDarkTheme}
+      />
       <Suspense
         fallback={
           <div className="centered">

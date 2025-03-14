@@ -4,6 +4,9 @@ import { City } from "../../../core";
 import { MarkerIcon } from "../../../assets";
 import { parameters } from "../../../utils/parameters";
 import { JSX, memo } from "react";
+import { MapTooltip } from "@/components/organisms";
+import ReactDOMServer from "react-dom/server";
+import { useNavigate } from "react-router-dom";
 
 interface MarkerProps {
   city: City;
@@ -45,6 +48,7 @@ export default memo(function Marker({
   isFuture = false,
   isLived = false,
 }: MarkerProps): JSX.Element {
+  const navigate = useNavigate();
   const { k } = useZoomPanContext();
   const currScale = defaultScale * (baseZoom / k);
   minScale = city.country.minMarkerScale || minScale;
@@ -52,9 +56,27 @@ export default memo(function Marker({
   const scale = Math.min(Math.max(currScale, minScale), maxScale);
   const isHovered = hoveredCity?.name === city.name;
 
+  const tooltip = (
+    <MapTooltip
+      city={city}
+      key={city.name}
+      onClick={(travelIdx: number) => {
+        console.log("travelIdx", travelIdx);
+        navigate(`/gallery/${city.name}/${travelIdx}?from=map`);
+      }}
+      onMouseEnter={(city: City) => setHoveredCity(city)}
+      onMouseLeave={() => setHoveredCity(null)}
+      setIsOpen={(isOpen: boolean) =>
+        isOpen ? setHoveredCity(city) : setHoveredCity(null)
+      }
+    />
+  );
+
   return (
     <MarkerMap
       coordinates={city.coordinates}
+      data-tooltip-html={ReactDOMServer.renderToString(tooltip)}
+      data-tooltip-id="map-tooltip"
       id={city.name + "-marker"}
       key={city.name}
       onMouseEnter={() => setHoveredCity && setHoveredCity(city)}
