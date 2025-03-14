@@ -7,15 +7,17 @@ import {
 } from "@/assets";
 import { NavigableButton, DarkModeButton } from "../../atoms";
 import "./LeftBar.scss";
-import { HomeContext } from "../../pages/Home/Home";
-import { JSX, memo, useContext } from "react";
+import { JSX, memo } from "react";
 import { useNavigate } from "react-router-dom";
 import useLocation from "@/hooks/location/location";
 import { LanguageSelector } from "..";
 import { useTranslation } from "react-i18next";
+import { HomeContextType } from "@/components/pages/Home/Home";
 
 interface LeftBarProps {
   className?: string;
+  isDarkTheme: HomeContextType["isDarkTheme"];
+  handleDarkModeSwitch: HomeContextType["handleDarkModeSwitch"];
 }
 
 /**
@@ -27,16 +29,18 @@ interface LeftBarProps {
  *
  * @param {LeftBarProps} props - The props of the component
  * @param {string} props.className - The class to apply to the left bar
+ * @param {boolean} props.isDarkTheme - The dark theme
+ * @param {() => void} props.handleDarkModeSwitch - The function to call when the dark mode switch is clicked
  * @returns {JSX.Element} - The left bar
  */
 export default memo(function LeftBar({
   className = "",
+  isDarkTheme,
+  handleDarkModeSwitch,
 }: LeftBarProps): JSX.Element {
   const navigate = useNavigate();
   const { isGallery, isCurrentTabOpen } = useLocation();
   const { t } = useTranslation("home");
-  const context = useContext(HomeContext);
-  const { isDarkTheme, handleDarkModeSwitch } = context!;
 
   const tabs = ["lived", "visited", "future", "stats"];
   const buttonsConfig = tabs.map((id) => ({
