@@ -58,5 +58,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         opacity={1}
       />
     ) : null}
-  </React.StrictMode>,
+    <Tooltip clickable id="map-tooltip" noArrow opacity={1} variant="light" />
+  </React.StrictMode>
 );

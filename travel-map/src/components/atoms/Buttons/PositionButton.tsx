@@ -38,9 +38,9 @@ const PositionButton = ({
       className={`info-tab-cities__position-button ${
         isAutoPosition ? "info-tab-cities__position-button--auto-position" : ""
       }`}
-      data-tooltip-content={t("autoPositionTooltip")}
-      data-tooltip-id="base-tooltip"
       onClick={() => setIsAutoPosition(!isAutoPosition)}
+      tooltipContent={t("autoPositionTooltip")}
+      tooltipId="base-tooltip"
     >
       <PositionIcon />
     </Button>
