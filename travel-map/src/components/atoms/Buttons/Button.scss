@@ -19,7 +19,8 @@
   }
 }
 
-.home--light {
+.home--light,
+.body--light {
   .button {
     @include m.set-button-colors(
       v.$lightButton,
@@ -29,7 +30,8 @@
   }
 }
 
-.home--dark {
+.home--dark,
+.body--dark {
   .button {
     @include m.set-button-colors(
       v.$darkButton,
