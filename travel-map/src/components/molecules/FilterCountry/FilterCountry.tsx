@@ -51,7 +51,10 @@ export default function FilterCountry({
       ) : null}
       <div className="filter">
         <Button
+          ariaLabel={t("filterTooltip")}
           className={`filter__button ${className} ${isOpen ? "filter__button--open" : ""}`}
+          data-tooltip-content={t("filterTooltip")}
+          data-tooltip-id="base-tooltip"
           onClick={onIsOpenChange}
         >
           {buttonIcon}

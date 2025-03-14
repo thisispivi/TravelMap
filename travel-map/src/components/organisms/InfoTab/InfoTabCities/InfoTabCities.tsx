@@ -1,13 +1,11 @@
-import { memo, useContext, useMemo, useState, JSX } from "react";
-import { City, Country, Travel } from "../../../../core";
-import useLanguage from "../../../../hooks/language/language";
+import { memo, useContext, useState, JSX } from "react";
+import { City, Country, Travel } from "@/core";
+import useLanguage from "@/hooks/language/language";
 import { CityCard, FilterCountry } from "../../../molecules";
 import "./InfoTabCities.scss";
 import { HomeContext } from "../../../pages/Home/Home";
-import { FilterIcon, PositionIcon } from "../../../../assets";
-import { mobileAndTabletCheck } from "../../../../utils/responsive";
-import Tooltip from "../../Tooltip/Tooltip";
-import { Button } from "../../../atoms";
+import { FilterIcon } from "@/assets";
+import { PositionButton } from "../../../atoms";
 
 interface InfoTabCitiesProps {
   allCountries: Country[];
@@ -59,22 +57,6 @@ export default memo(function InfoTabCities({
   const [countries, setCountries] = useState<Country[]>(allCountriesValues);
   const onCountryChange = (selected: Country[]) => setCountries(selected);
 
-  const positionButton = useMemo(() => {
-    if (mobileAndTabletCheck() || responsive.window.width <= 460) return null;
-    return (
-      <Button
-        className={`info-tab-cities__position-button ${
-          isAutoPosition
-            ? "info-tab-cities__position-button--auto-position"
-            : ""
-        }`}
-        onClick={() => setIsAutoPosition(!isAutoPosition)}
-      >
-        <PositionIcon />
-      </Button>
-    );
-  }, [isAutoPosition, setIsAutoPosition, responsive.window]);
-
   return (
     <div
       className={`info-tab-cities info-tab-${id} ${className} 
@@ -84,11 +66,10 @@ export default memo(function InfoTabCities({
       <div className={`info-tab-cities__header info-tab-${id}__header`}>
         <h1>{t(id + ".title")}</h1>
         <div className="info-tab-cities__header__buttons">
-          {positionButton}
-          <Tooltip
-            anchorSelect=".info-tab-cities__position-button"
-            delayShow={300}
-            text={t("autoPositionTooltip")}
+          <PositionButton
+            isAutoPosition={isAutoPosition}
+            responsive={responsive}
+            setIsAutoPosition={setIsAutoPosition}
           />
           {id === "visited" ? (
             <FilterCountry
@@ -98,11 +79,6 @@ export default memo(function InfoTabCities({
               selected={countries}
             />
           ) : null}
-          <Tooltip
-            anchorSelect=".filter__button"
-            delayShow={300}
-            text={t("filterTooltip")}
-          />
         </div>
       </div>
       <div

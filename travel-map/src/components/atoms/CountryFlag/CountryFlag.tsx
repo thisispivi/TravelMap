@@ -11,7 +11,7 @@ import {
   UnitedKingdomFlag,
   VaticanFlag,
 } from "../../../assets";
-import { JSX } from "react";
+import { JSX, memo } from "react";
 
 interface CountryFlagProps {
   countryId: string;
@@ -30,7 +30,7 @@ interface CountryFlagProps {
  * @param {string} [props.className=""] - The class name of the component
  * @returns {JSX.Element|null} The country flag
  */
-export default function CountryFlag({
+export default memo(function CountryFlag({
   countryId,
   className = "",
 }: CountryFlagProps): JSX.Element | null {
@@ -60,4 +60,4 @@ export default function CountryFlag({
     default:
       return null;
   }
-}
+});
