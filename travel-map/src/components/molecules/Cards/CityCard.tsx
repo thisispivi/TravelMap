@@ -5,10 +5,10 @@ import { useNavigate } from "react-router-dom";
 import { ArrivalIcon, DepartureIcon } from "../../../assets";
 import { formatDate } from "../../../i18n/functions/date";
 import { CountryFlag, Loading } from "../../atoms";
-import { memo, useState, JSX, useCallback } from "react";
-import useThrottle from "../../../hooks/throttle/throttle";
+import { memo, JSX, useCallback } from "react";
 import { mobileAndTabletCheck } from "../../../utils/responsive";
 import { parameters } from "../../../utils/parameters";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 interface CityCardProps {
   className?: string;
@@ -16,7 +16,6 @@ interface CityCardProps {
   travel?: Travel;
   travelIdx?: number;
   isClickable?: boolean;
-  hoveredCity: City | null;
   setHoveredCity: (city: City | null) => void;
   mapPosition?: { center: [number, number]; zoom: number };
   setMapPosition?: (position: {
@@ -52,7 +51,6 @@ const CityCard = ({
   travel,
   travelIdx = 0,
   isClickable = false,
-  hoveredCity,
   setHoveredCity,
   setMapPosition,
   isAutoPosition = false,
@@ -61,11 +59,6 @@ const CityCard = ({
   const lang = useLanguage([]).currLanguage;
   const navigate = useNavigate();
   const { t } = useLanguage(["home"]);
-
-  const [isLoading, setIsLoading] = useState(true);
-  const isLoadingThrottled = useThrottle({ status: isLoading, delay: 200 });
-
-  const handleImageLoad = () => setIsLoading(false);
 
   const handleMouseEnter = useCallback(() => {
     if (!mobileAndTabletCheck()) {
@@ -88,7 +81,6 @@ const CityCard = ({
   return (
     <div
       className={`city-card ${isClickable ? "city-card--clickable" : "city-card--not-clickable"} 
-      ${hoveredCity && hoveredCity.name === city.name ? "city-card--hovered" : ""}
       ${mobileAndTabletCheck() ? "city-card--mobile" : "city-card--desktop"}
       ${isHidden ? "city-card--hidden" : "city-card--visible"}
       `}
@@ -105,15 +97,18 @@ const CityCard = ({
       >
         <div className="city-card__background">
           <div className="city-card__background-overlay" />
-          <div className="city-card__background-overlay-mask" />
-          <img
+          <LazyLoadImage
             alt={city.getName(t)}
-            onLoad={handleImageLoad}
+            className="city-card__background-img"
+            effect="opacity"
+            placeholder={
+              <div className="centered">
+                <Loading />
+              </div>
+            }
             src={city.backgroundImgsSrc[travelIdx]}
-            style={{ display: isLoadingThrottled ? "none" : "block" }}
           />
         </div>
-        {isLoadingThrottled ? <Loading /> : null}
       </div>
       <div className="city-card__content">
         <div className="city-card__title">
