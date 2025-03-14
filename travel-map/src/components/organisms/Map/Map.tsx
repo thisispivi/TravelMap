@@ -179,7 +179,7 @@ export default memo(function Map({
               isOpen ? setHoveredCity(city) : setHoveredCity(null)
             }
           />
-        ),
+        )
       )}
     </div>
   );

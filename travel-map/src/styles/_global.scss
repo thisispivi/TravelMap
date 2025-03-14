@@ -30,3 +30,23 @@ body,
 .body--light {
   background-color: v.$lightBackground;
 }
+
+.tooltip {
+  border-radius: 0.25rem !important;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 8px 0px;
+  z-index: 10;
+}
+
+.home--light {
+  .react-tooltip {
+    background-color: v.$lightLeftBar;
+    color: v.$darkLeftBar;
+  }
+}
+
+.home--dark {
+  .react-tooltip {
+    background-color: v.$darkLeftBar;
+    color: v.$lightLeftBar;
+  }
+}

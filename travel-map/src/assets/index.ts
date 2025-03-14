@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 import AirportIcon from "./icons/Airport.svg?react";
 import ArrivalIcon from "./icons/Arrival.svg?react";
 import CameraIcon from "./icons/Camera.svg?react";
@@ -31,39 +33,72 @@ import TimezoneIcon from "./icons/Timezone.svg?react";
 import UnescoIcon from "./icons/Unesco.svg?react";
 import VisitedIcon from "./icons/Visited.svg?react";
 
+const MemoizedAirportIcon = memo(AirportIcon);
+const MemoizedArrivalIcon = memo(ArrivalIcon);
+const MemoizedCameraIcon = memo(CameraIcon);
+const MemoizedChevronIcon = memo(ChevronIcon);
+const MemoizedCityIcon = memo(CityIcon);
+const MemoizedCloseIcon = memo(CloseIcon);
+const MemoizedContinentsIcon = memo(ContinentsIcon);
+const MemoizedDepartureIcon = memo(DepartureIcon);
+const MemoizedDistanceIcon = memo(DistanceIcon);
+const MemoizedDoubleChevronIcon = memo(DoubleChevronIcon);
+const MemoizedEarthFlatIcon = memo(EarthFlatIcon);
+const MemoizedFilterIcon = memo(FilterIcon);
+const MemoizedFullscreenEnterIcon = memo(FullscreenEnterIcon);
+const MemoizedFullscreenExitIcon = memo(FullscreenExitIcon);
+const MemoizedFutureTravelsIcon = memo(FutureTravelsIcon);
+const MemoizedGalleryIcon = memo(GalleryIcon);
+const MemoizedGlobeIcon = memo(GlobeIcon);
+const MemoizedHomeIcon = memo(HomeIcon);
+const MemoizedLanguageIcon = memo(LanguageIcon);
+const MemoizedLogoIcon = memo(LogoIcon);
+const MemoizedMarkerBWIcon = memo(MarkerBWIcon);
+const MemoizedMarkerIcon = memo(MarkerIcon);
+const MemoizedMoonFlatIcon = memo(MoonFlatIcon);
+const MemoizedMoonIcon = memo(MoonIcon);
+const MemoizedPlaneIcon = memo(PlaneIcon);
+const MemoizedPlayIcon = memo(PlayIcon);
+const MemoizedPositionIcon = memo(PositionIcon);
+const MemoizedStatsIcon = memo(StatsIcon);
+const MemoizedSunIcon = memo(SunIcon);
+const MemoizedTimezoneIcon = memo(TimezoneIcon);
+const MemoizedUnescoIcon = memo(UnescoIcon);
+const MemoizedVisitedIcon = memo(VisitedIcon);
+
 export {
-  AirportIcon,
-  ArrivalIcon,
-  CameraIcon,
-  ChevronIcon,
-  CityIcon,
-  CloseIcon,
-  ContinentsIcon,
-  DepartureIcon,
-  DistanceIcon,
-  DoubleChevronIcon,
-  EarthFlatIcon,
-  FilterIcon,
-  FullscreenEnterIcon,
-  FullscreenExitIcon,
-  FutureTravelsIcon,
-  GalleryIcon,
-  GlobeIcon,
-  HomeIcon,
-  LanguageIcon,
-  LogoIcon,
-  MarkerBWIcon,
-  MarkerIcon,
-  MoonFlatIcon,
-  MoonIcon,
-  PlaneIcon,
-  PlayIcon,
-  PositionIcon,
-  StatsIcon,
-  SunIcon,
-  TimezoneIcon,
-  UnescoIcon,
-  VisitedIcon,
+  MemoizedAirportIcon as AirportIcon,
+  MemoizedArrivalIcon as ArrivalIcon,
+  MemoizedCameraIcon as CameraIcon,
+  MemoizedChevronIcon as ChevronIcon,
+  MemoizedCityIcon as CityIcon,
+  MemoizedCloseIcon as CloseIcon,
+  MemoizedContinentsIcon as ContinentsIcon,
+  MemoizedDepartureIcon as DepartureIcon,
+  MemoizedDistanceIcon as DistanceIcon,
+  MemoizedDoubleChevronIcon as DoubleChevronIcon,
+  MemoizedEarthFlatIcon as EarthFlatIcon,
+  MemoizedFilterIcon as FilterIcon,
+  MemoizedFullscreenEnterIcon as FullscreenEnterIcon,
+  MemoizedFullscreenExitIcon as FullscreenExitIcon,
+  MemoizedFutureTravelsIcon as FutureTravelsIcon,
+  MemoizedGalleryIcon as GalleryIcon,
+  MemoizedGlobeIcon as GlobeIcon,
+  MemoizedHomeIcon as HomeIcon,
+  MemoizedLanguageIcon as LanguageIcon,
+  MemoizedLogoIcon as LogoIcon,
+  MemoizedMarkerBWIcon as MarkerBWIcon,
+  MemoizedMarkerIcon as MarkerIcon,
+  MemoizedMoonFlatIcon as MoonFlatIcon,
+  MemoizedMoonIcon as MoonIcon,
+  MemoizedPlaneIcon as PlaneIcon,
+  MemoizedPlayIcon as PlayIcon,
+  MemoizedPositionIcon as PositionIcon,
+  MemoizedStatsIcon as StatsIcon,
+  MemoizedSunIcon as SunIcon,
+  MemoizedTimezoneIcon as TimezoneIcon,
+  MemoizedUnescoIcon as UnescoIcon,
+  MemoizedVisitedIcon as VisitedIcon,
 };
 
 import AustriaFlag from "./icons/flags/Austria.svg?react";
@@ -79,19 +114,32 @@ import SpainFlag from "./icons/flags/Spain.svg?react";
 import UnitedKingdomFlag from "./icons/flags/UnitedKingdom.svg?react";
 import VaticanFlag from "./icons/flags/Vatican.svg?react";
 
+const MemoizedAustriaFlag = memo(AustriaFlag);
+const MemoizedBelgiumFlag = memo(BelgiumFlag);
+const MemoizedEuropeFlag = memo(EuropeFlag);
+const MemoizedGermanyFlag = memo(GermanyFlag);
+const MemoizedHungaryFlag = memo(HungaryFlag);
+const MemoizedItalyFlag = memo(ItalyFlag);
+const MemoizedJapanFlag = memo(JapanFlag);
+const MemoizedMaltaFlag = memo(MaltaFlag);
+const MemoizedPortugalFlag = memo(PortugalFlag);
+const MemoizedSpainFlag = memo(SpainFlag);
+const MemoizedUnitedKingdomFlag = memo(UnitedKingdomFlag);
+const MemoizedVaticanFlag = memo(VaticanFlag);
+
 export {
-  AustriaFlag,
-  BelgiumFlag,
-  EuropeFlag,
-  GermanyFlag,
-  HungaryFlag,
-  ItalyFlag,
-  JapanFlag,
-  MaltaFlag,
-  PortugalFlag,
-  SpainFlag,
-  UnitedKingdomFlag,
-  VaticanFlag,
+  MemoizedAustriaFlag as AustriaFlag,
+  MemoizedBelgiumFlag as BelgiumFlag,
+  MemoizedEuropeFlag as EuropeFlag,
+  MemoizedGermanyFlag as GermanyFlag,
+  MemoizedHungaryFlag as HungaryFlag,
+  MemoizedItalyFlag as ItalyFlag,
+  MemoizedJapanFlag as JapanFlag,
+  MemoizedMaltaFlag as MaltaFlag,
+  MemoizedPortugalFlag as PortugalFlag,
+  MemoizedSpainFlag as SpainFlag,
+  MemoizedUnitedKingdomFlag as UnitedKingdomFlag,
+  MemoizedVaticanFlag as VaticanFlag,
 };
 
 import worldData from "./json/countries-50m.json";

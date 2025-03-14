@@ -1,16 +1,16 @@
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import "./TooltipMap.scss";
-import { City } from "../../../core";
-import useLanguage from "../../../hooks/language/language";
+import { City } from "@/core";
+import useLanguage from "@/hooks/language/language";
 import { Button, CountryFlag } from "../../atoms";
 import {
   ArrivalIcon,
   DepartureIcon,
   DoubleChevronIcon,
   GalleryIcon,
-} from "../../../assets";
+} from "@/assets";
 import { memo, useEffect, useState, JSX } from "react";
-import { formatDate } from "../../../i18n/functions/date";
+import { formatDate } from "@/i18n/functions/date";
 import { useNavigate } from "react-router-dom";
 
 interface MapTooltipProps {

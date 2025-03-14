@@ -48,7 +48,8 @@
         position: absolute;
         box-shadow: 0 0.063rem 0.125rem 0rem rgba(0, 0, 0, 0.2);
       }
-      .city-card__background-overlay {
+      .city-card__background-overlay,
+      .city-card__background-overlay-mask {
         border-radius: 0.95rem;
         height: 100%;
         width: 100%;
@@ -72,12 +73,12 @@
       justify-content: space-between;
       width: 100%;
       margin-bottom: 0.75rem;
-
       h2 {
         font-size: 1.4rem;
         overflow: hidden;
         text-overflow: ellipsis;
         @include m.transition(all, 0.3s, ease-in-out);
+        text-shadow: 0.125rem 0.125rem 0.4rem rgba(0, 0, 0, 1);
       }
       svg {
         padding-block: 0.1rem;
@@ -97,6 +98,7 @@
         text-transform: capitalize;
         font-weight: 300;
         font-size: 0.9rem;
+        text-shadow: 0.125rem 0.125rem 0.25rem rgba(0, 0, 0, 1);
       }
       .travel-card__icon {
         width: 0.9rem;
@@ -117,8 +119,8 @@
       background: linear-gradient(
         180deg,
         rgba(0, 0, 0, 0) 0%,
-        rgba(30, 30, 30, 0.4) 60%,
-        rgba(30, 30, 30, 0.75) 100%
+        rgba(30, 30, 30, 0.5) 75%,
+        rgba(30, 30, 30, 0.8) 100%
       );
     }
   }
@@ -133,8 +135,8 @@
       background: linear-gradient(
         180deg,
         rgba(0, 0, 0, 0) 0%,
-        rgba(30, 30, 30, 0.6) 60%,
-        rgba(30, 30, 30, 0.95) 100%
+        rgba(30, 30, 30, 0.5) 75%,
+        rgba(30, 30, 30, 0.8) 100%
       );
     }
   }

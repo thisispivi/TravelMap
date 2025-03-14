@@ -1,8 +1,9 @@
 import { JSX, useState } from "react";
 import "./Language.scss";
-import useLanguage from "../../../hooks/language/language";
+import useLanguage from "@/hooks/language/language";
 import { Button, LanguageFlag } from "../../atoms";
-import { LanguageIcon } from "../../../assets";
+import { LanguageIcon } from "@/assets";
+import { useTranslation } from "react-i18next";
 
 /**
  * LanguageSelector component
@@ -14,6 +15,8 @@ import { LanguageIcon } from "../../../assets";
  * @returns {JSX.Element} - The language selector
  */
 export default function LanguageSelector(): JSX.Element {
+  const { t } = useTranslation("home");
+
   const [isOpen, setIsOpen] = useState(false);
   const { currLanguage, changeLanguage } = useLanguage([]);
 
@@ -22,9 +25,12 @@ export default function LanguageSelector(): JSX.Element {
   return (
     <div className="language-selector">
       <Button
+        ariaLabel={t("language")}
         className={`language-selector__activator ${
           isOpen ? "language-selector__activator--open" : ""
         }`}
+        data-tooltip-content={t("language")}
+        data-tooltip-id="base-tooltip"
         onClick={() => setIsOpen(!isOpen)}
       >
         <LanguageIcon className="language-selector__language-icon" />
@@ -35,6 +41,7 @@ export default function LanguageSelector(): JSX.Element {
       </Button>
       {possibleLanguages.map((language) => (
         <Button
+          ariaLabel={language}
           className={`language-selector__button ${
             currLanguage.includes(language)
               ? "language-selector__button--active"

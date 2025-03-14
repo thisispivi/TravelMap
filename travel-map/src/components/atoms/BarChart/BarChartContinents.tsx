@@ -1,7 +1,7 @@
 import { JSX, lazy, memo } from "react";
-import useLanguage from "../../../hooks/language/language";
+import useLanguage from "@/hooks/language/language";
 import "./BarChartContinents.scss";
-import { Continent } from "../../../core";
+import { Continent } from "@/core";
 const ReactApexChart = lazy(() => import("react-apexcharts"));
 
 interface ContinentsBarChartProps {
@@ -35,7 +35,7 @@ function ContinentsBarChart({
   const { t } = useLanguage(["home"]);
 
   const filteredData = data.filter(
-    (continent) => continent.cities > 0 || continent.countries > 0,
+    (continent) => continent.cities > 0 || continent.countries > 0
   );
   const incrementedData = filteredData.map((continent) => ({
     ...continent,
@@ -65,7 +65,7 @@ function ContinentsBarChart({
     stroke: { width: 0 },
     xaxis: {
       categories: incrementedData.map((continent) =>
-        t(`continents.${continent.continent.replace(" ", "")}`),
+        t(`continents.${continent.continent.replace(" ", "")}`)
       ),
       labels: { show: false },
       tickAmount: 0,
