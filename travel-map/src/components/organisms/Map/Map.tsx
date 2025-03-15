@@ -1,18 +1,18 @@
-import { JSX, useContext, useState } from "react";
-import { HomeContext } from "../../pages/Home/Home";
-import { City, Country as CountryCore } from "../../../core";
+import "./Map.scss";
 import {
   ComposableMap,
   Geographies,
   Geography,
   ZoomableGroup,
 } from "react-simple-maps";
-import "./Map.scss";
+import { City, Country as CountryCore } from "@/core";
+import { HomeContext } from "../../pages/Home/Home";
+import { JSX, useContext, useState } from "react";
 import { Loading, Marker } from "../../atoms";
-import { worldData } from "../../../assets";
-import { parameters } from "../../../utils/parameters";
-import { Tooltip } from "react-tooltip";
 import { MapTooltip } from "..";
+import { Tooltip } from "react-tooltip";
+import { parameters } from "@/utils/parameters";
+import { worldData } from "@/assets";
 
 export interface MapProps {
   livedCities: City[];
