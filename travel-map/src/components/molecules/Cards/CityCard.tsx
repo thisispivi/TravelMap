@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { ArrivalIcon, DepartureIcon } from "../../../assets";
 import { formatDate } from "../../../i18n/functions/date";
 import { CountryFlag, Loading } from "../../atoms";
-import { memo, JSX, useCallback } from "react";
+import { JSX, useCallback } from "react";
 import { mobileAndTabletCheck } from "../../../utils/responsive";
 import { parameters } from "../../../utils/parameters";
 import { LazyLoadImage } from "react-lazy-load-image-component";
@@ -45,7 +45,7 @@ interface CityCardProps {
  * @param {boolean} data.isHidden - Whether the card is hidden
  * @returns {JSX.Element} The CityCard component
  */
-const CityCard = ({
+export default function CityCard({
   className = "",
   city,
   travel,
@@ -55,7 +55,7 @@ const CityCard = ({
   setMapPosition,
   isAutoPosition = false,
   isHidden = false,
-}: CityCardProps): JSX.Element => {
+}: CityCardProps): JSX.Element {
   const lang = useLanguage([]).currLanguage;
   const navigate = useNavigate();
   const { t } = useLanguage(["home"]);
@@ -130,7 +130,4 @@ const CityCard = ({
       </div>
     </div>
   );
-};
-
-const MemoizedCityCard = memo(CityCard);
-export default MemoizedCityCard;
+}

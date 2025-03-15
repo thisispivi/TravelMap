@@ -8,7 +8,7 @@ import {
   PortugalFlag,
   MaltaFlag,
 } from "@/assets";
-import { JSX, memo } from "react";
+import { JSX } from "react";
 
 interface LanguageFlagProps {
   language: string;
@@ -28,7 +28,7 @@ interface LanguageFlagProps {
  *
  * @returns {JSX.Element|null} The language flag
  */
-export default memo(function LanguageFlag({
+export default function LanguageFlag({
   language,
   className = "",
 }: LanguageFlagProps): JSX.Element | null {
@@ -42,4 +42,4 @@ export default memo(function LanguageFlag({
   if (language.includes("pt")) return <PortugalFlag className={className} />;
   if (language.includes("mt")) return <MaltaFlag className={className} />;
   return null;
-});
+}

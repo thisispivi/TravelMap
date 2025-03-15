@@ -1,6 +1,6 @@
-import { memo, JSX } from "react";
+import { JSX } from "react";
 import "./InfoTabLived.scss";
-import { livedCities, livedCountries } from "../../../../data";
+import { livedCities, livedCountries } from "@/data";
 import InfoTabCities from "./InfoTabCities";
 
 interface InfoTabLivedProps {
@@ -21,7 +21,7 @@ interface InfoTabLivedProps {
  *
  * @returns {JSX.Element} - The info tab lived
  */
-export default memo(function InfoTabLived({
+export default function InfoTabLived({
   className = "",
   isVisible = false,
 }: InfoTabLivedProps): JSX.Element {
@@ -35,4 +35,4 @@ export default memo(function InfoTabLived({
       isVisible={isVisible}
     />
   );
-});
+}

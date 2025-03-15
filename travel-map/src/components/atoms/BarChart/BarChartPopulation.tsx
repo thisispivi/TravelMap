@@ -1,4 +1,4 @@
-import { JSX, lazy, memo } from "react";
+import { JSX, lazy } from "react";
 import useLanguage from "@/hooks/language/language";
 import "./BarChartPopulation.scss";
 import { City } from "@/core";
@@ -13,7 +13,7 @@ interface PopulationsBarChartProps {
 }
 
 /**
- * PopulationsBarChart component
+ * PopulationBarChart component
  *
  * The populations bar chart component is used to display the number of cities and countries per population.
  *
@@ -25,7 +25,7 @@ interface PopulationsBarChartProps {
  * @param {boolean} [props.isDarkTheme=false] - The theme of the chart
  * @returns {JSX.Element} - The populations bar chart
  */
-function PopulationsBarChart({
+export default function PopulationBarChart({
   data,
   barColors = [
     "#FF5733",
@@ -47,7 +47,7 @@ function PopulationsBarChart({
   const topCities = pipe(
     data,
     filter((city) => city.population !== undefined),
-    sortBy((city) => -city.population!),
+    sortBy((city) => -city.population!)
   ).slice(0, numToShow);
 
   const series = [{ data: topCities.map((city) => city.population!) }];
@@ -128,5 +128,3 @@ function PopulationsBarChart({
     </div>
   );
 }
-
-export default memo(PopulationsBarChart);

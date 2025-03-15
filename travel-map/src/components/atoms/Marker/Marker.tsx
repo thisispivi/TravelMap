@@ -3,7 +3,7 @@ import "./Marker.scss";
 import { City } from "../../../core";
 import { MarkerIcon } from "../../../assets";
 import { parameters } from "../../../utils/parameters";
-import { JSX, memo } from "react";
+import { JSX } from "react";
 
 interface MarkerProps {
   city: City;
@@ -34,7 +34,7 @@ interface MarkerProps {
  * @param {boolean} data.isLived - Whether the marker is for a lived city
  * @returns {JSX.Element} The Marker component
  */
-export default memo(function Marker({
+export default function Marker({
   city,
   hoveredCity,
   setHoveredCity,
@@ -74,4 +74,4 @@ export default memo(function Marker({
       />
     </MarkerMap>
   );
-});
+}

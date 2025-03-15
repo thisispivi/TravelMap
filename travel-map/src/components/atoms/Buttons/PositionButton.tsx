@@ -4,7 +4,7 @@ import { PositionIcon } from "@/assets";
 import { mobileAndTabletCheck } from "@/utils/responsive";
 import { ButtonProps } from "./Button";
 import { ResponsiveType } from "@/hooks/style/responsive";
-import { JSX, memo } from "react";
+import { JSX } from "react";
 
 interface PositionButtonProps extends ButtonProps {
   isAutoPosition: boolean;
@@ -25,11 +25,11 @@ interface PositionButtonProps extends ButtonProps {
  * @param {ResponsiveType} props.responsive - The responsive
  * @returns {JSX.Element} - The position button
  */
-const PositionButton = ({
+export default function PositionButton({
   isAutoPosition,
   setIsAutoPosition,
   responsive,
-}: PositionButtonProps): JSX.Element | null => {
+}: PositionButtonProps): JSX.Element | null {
   const { t } = useLanguage(["home"]);
   if (mobileAndTabletCheck() || responsive.window.width <= 460) return null;
   return (
@@ -45,6 +45,4 @@ const PositionButton = ({
       <PositionIcon />
     </Button>
   );
-};
-
-export default memo(PositionButton);
+}

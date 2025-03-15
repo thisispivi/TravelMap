@@ -1,11 +1,11 @@
-import { memo, JSX } from "react";
+import { JSX } from "react";
 import "./InfoTabFuture.scss";
-import { futureCities, futureCountries } from "../../../../data";
+import { futureCities, futureCountries } from "@/data";
 import InfoTabCities from "./InfoTabCities";
 import {
   getCitiesByCountriesAndIsFuture,
   sortByTravelStartDate,
-} from "../../../../utils/cities";
+} from "@/utils/cities";
 
 interface InfoTabFutureProps {
   className?: string;
@@ -25,7 +25,7 @@ interface InfoTabFutureProps {
  *
  * @returns {JSX.Element} - The info tab future
  */
-export default memo(function InfoTabFuture({
+export default function InfoTabFuture({
   className = "",
   isVisible = false,
 }: InfoTabFutureProps): JSX.Element {
@@ -44,4 +44,4 @@ export default memo(function InfoTabFuture({
       isVisible={isVisible}
     />
   );
-});
+}

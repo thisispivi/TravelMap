@@ -1,4 +1,4 @@
-import { JSX, memo, useContext, useState } from "react";
+import { JSX, useContext, useState } from "react";
 import { HomeContext } from "../../pages/Home/Home";
 import { City, Country as CountryCore } from "../../../core";
 import {
@@ -39,7 +39,7 @@ export interface MapProps {
  * @param {function} props.setCurrentHoveredCity - The function to set the current hovered city
  * @returns {JSX.Element} - The map
  */
-export default memo(function Map({
+export default function Map({
   visitedCountries,
   visitedCities,
   futureCities,
@@ -134,27 +134,38 @@ export default memo(function Map({
               })
             }
           </Geographies>
-          {isLoaded ? (
-            <MemoVisitedCitiesMarkers
-              cities={sortedVisitedCities}
-              hoveredCity={hoveredCity}
-              setHoveredCity={setHoveredCity}
-            />
-          ) : null}
-          {isLoaded ? (
-            <MemoFutureCitiesMarkers
-              cities={sortedFutureCities}
-              hoveredCity={hoveredCity}
-              setHoveredCity={setHoveredCity}
-            />
-          ) : null}
-          {isLoaded ? (
-            <MemoLivedCitiesMarkers
-              cities={livedCities}
-              hoveredCity={hoveredCity}
-              setHoveredCity={setHoveredCity}
-            />
-          ) : null}
+          {isLoaded
+            ? sortedVisitedCities.map((city, i) => (
+                <Marker
+                  city={city}
+                  hoveredCity={hoveredCity}
+                  key={i}
+                  setHoveredCity={setHoveredCity}
+                />
+              ))
+            : null}
+          {isLoaded
+            ? sortedFutureCities.map((city, i) => (
+                <Marker
+                  city={city}
+                  hoveredCity={hoveredCity}
+                  isFuture
+                  key={i}
+                  setHoveredCity={setHoveredCity}
+                />
+              ))
+            : null}
+          {isLoaded
+            ? livedCities.map((city, i) => (
+                <Marker
+                  city={city}
+                  hoveredCity={hoveredCity}
+                  isLived
+                  key={i}
+                  setHoveredCity={setHoveredCity}
+                />
+              ))
+            : null}
         </ZoomableGroup>
       </ComposableMap>
       <Tooltip
@@ -179,57 +190,4 @@ export default memo(function Map({
       </Tooltip>
     </div>
   );
-});
-
-type MarkersProps = {
-  cities: City[];
-  hoveredCity: City | null;
-  setHoveredCity: (city: City | null) => void;
-};
-
-const VisitedCitiesMarkers = ({
-  cities,
-  hoveredCity,
-  setHoveredCity,
-}: MarkersProps) =>
-  cities.map((city, i) => (
-    <Marker
-      city={city}
-      hoveredCity={hoveredCity}
-      key={i}
-      setHoveredCity={setHoveredCity}
-    />
-  ));
-const MemoVisitedCitiesMarkers = memo(VisitedCitiesMarkers);
-
-const FutureCitiesMarkers = ({
-  cities,
-  hoveredCity,
-  setHoveredCity,
-}: MarkersProps) =>
-  cities.map((city, i) => (
-    <Marker
-      city={city}
-      hoveredCity={hoveredCity}
-      isFuture
-      key={i}
-      setHoveredCity={setHoveredCity}
-    />
-  ));
-const MemoFutureCitiesMarkers = memo(FutureCitiesMarkers);
-
-const LivedCitiesMarkers = ({
-  cities,
-  hoveredCity,
-  setHoveredCity,
-}: MarkersProps) =>
-  cities.map((city, i) => (
-    <Marker
-      city={city}
-      hoveredCity={hoveredCity}
-      isLived
-      key={i}
-      setHoveredCity={setHoveredCity}
-    />
-  ));
-const MemoLivedCitiesMarkers = memo(LivedCitiesMarkers);
+}

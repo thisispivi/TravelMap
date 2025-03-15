@@ -1,12 +1,12 @@
-import { memo, JSX } from "react";
-import { City, Travel } from "../../../../core";
+import { JSX } from "react";
+import { City, Travel } from "@/core";
 import "./InfoTabVisited.scss";
-import { visitedCities, visitedCountries } from "../../../../data";
+import { visitedCities, visitedCountries } from "@/data";
 import InfoTabCities from "./InfoTabCities";
 import {
   getCitiesByCountriesAndIsFuture,
   sortByTravelStartDate,
-} from "../../../../utils/cities";
+} from "@/utils/cities";
 
 interface InfoTabVisitedProps {
   className?: string;
@@ -26,7 +26,7 @@ interface InfoTabVisitedProps {
  * @param {boolean} props.isVisible - The visibility of the info tab visited
  * @returns {JSX.Element} - The info tab visited
  */
-export default memo(function InfoTabVisited({
+export default function InfoTabVisited({
   className = "",
   isVisible = false,
 }: InfoTabVisitedProps): JSX.Element {
@@ -52,4 +52,4 @@ export default memo(function InfoTabVisited({
       isVisible={isVisible}
     />
   );
-});
+}

@@ -8,7 +8,7 @@ import {
   DoubleChevronIcon,
   GalleryIcon,
 } from "@/assets";
-import { memo, useEffect, useState, JSX } from "react";
+import { useEffect, useState, JSX } from "react";
 import { formatDate } from "@/i18n/functions/date";
 import { useNavigate } from "react-router-dom";
 
@@ -34,7 +34,7 @@ interface MapTooltipProps {
  * @param {(isOpen: boolean) => void} props.setIsOpen - The function to set the visibility of the tooltip
  * @returns {JSX.Element} - The map tooltip
  */
-function MapTooltip({
+export default function MapTooltip({
   city,
   onMouseEnter,
   onMouseLeave,
@@ -118,6 +118,3 @@ function MapTooltip({
     </>
   );
 }
-
-const MemoizedMapTooltip = memo(MapTooltip);
-export default MemoizedMapTooltip;

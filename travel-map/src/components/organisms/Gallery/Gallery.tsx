@@ -7,7 +7,7 @@ import {
 import { City } from "../../../core";
 import "./Gallery.scss";
 import { RowsPhotoAlbum } from "react-photo-album";
-import { JSX, memo, useMemo } from "react";
+import { JSX, useMemo } from "react";
 import { CloseButton, CountryFlag } from "../../atoms";
 import { TravelSelector } from "../../molecules";
 import { parameters } from "../../../utils/parameters";
@@ -29,7 +29,7 @@ export interface GalleryProps {
  *
  * @returns {JSX.Element} - The gallery
  */
-export default memo(function Gallery(): JSX.Element {
+export default function Gallery(): JSX.Element {
   const { t } = useLanguage(["home"]);
   const navigate = useNavigate();
   const { city, travelIdx } = useLoaderData() as GalleryProps;
@@ -47,7 +47,7 @@ export default memo(function Gallery(): JSX.Element {
         youtube: p.youtube,
         index: i,
       })),
-    [travel.photos],
+    [travel.photos]
   );
 
   return (
@@ -99,4 +99,4 @@ export default memo(function Gallery(): JSX.Element {
       </div>
     </div>
   );
-});
+}
