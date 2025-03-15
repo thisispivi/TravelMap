@@ -1,12 +1,11 @@
-import { useContext, useState, JSX } from "react";
-import { City, Country, Travel } from "@/core";
-import useLanguage from "@/hooks/language/language";
-import { CityCard, FilterCountry } from "../../../molecules";
-
 import "./InfoTabCities.scss";
-import { HomeContext } from "../../../pages/Home/Home";
+import useLanguage from "@/hooks/language/language";
+import { City, Country, Travel } from "@/core";
+import { CityCard, FilterCountry } from "../../../molecules";
 import { FilterIcon } from "@/assets";
+import { HomeContext } from "../../../pages/Home/Home";
 import { PositionButton } from "../../../atoms";
+import { useContext, useState, JSX } from "react";
 
 interface InfoTabCitiesProps {
   allCountries: Country[];
