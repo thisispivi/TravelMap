@@ -8,7 +8,7 @@ export const constants = {
 };
 
 export const parameters = {
-  isShowPhotos: false, // Used to show or hide the photos on the city card and not waste cdn bandwidth
+  isShowPhotos: true, // Used to show or hide the photos on the city card and not waste cdn bandwidth
   map: {
     defaultZoom: 4,
     defaultMinZoom: 1,
