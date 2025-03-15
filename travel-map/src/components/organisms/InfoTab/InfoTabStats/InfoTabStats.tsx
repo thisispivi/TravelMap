@@ -1,11 +1,7 @@
-import { memo, JSX } from "react";
+import { JSX } from "react";
 import "./InfoTabStats.scss";
-import {
-  takenFlights,
-  visitedCities,
-  visitedCountries,
-} from "../../../../data";
-import useLanguage from "../../../../hooks/language/language";
+import { takenFlights, visitedCities, visitedCountries } from "@/data";
+import useLanguage from "@/hooks/language/language";
 import {
   Card,
   CityRow,
@@ -26,30 +22,27 @@ import {
   MoonFlatIcon,
   TimezoneIcon,
   UnescoIcon,
-} from "../../../../assets";
+} from "@/assets";
 import {
   ContinentsBarChart,
   FlightsDonutChart,
-  PopulationsBarChart,
+  PopulationBarChart,
 } from "../../../atoms";
 import {
   getFurthestAndNearestCity,
   getMinAndMaxFlight,
   getTotalMileage,
-} from "../../../../utils/distance";
-import { Continent } from "../../../../core";
-import { formatMileage } from "../../../../utils/format";
-import { constants, parameters } from "../../../../utils/parameters";
-import {
-  getContinentsByCities,
-  getContinentStats,
-} from "../../../../utils/continent";
+} from "@/utils/distance";
+import { Continent } from "@/core";
+import { formatMileage } from "@/utils/format";
+import { constants, parameters } from "@/utils/parameters";
+import { getContinentsByCities, getContinentStats } from "@/utils/continent";
 import {
   getCountryBiggestTimezoneJump,
   getNumberOfTimezonesJumped,
-} from "../../../../utils/timezone";
-import { getTotalMediaTaken } from "../../../../utils/cities";
-import { getCurrenciesFromCountries } from "../../../../utils/countries";
+} from "@/utils/timezone";
+import { getTotalMediaTaken } from "@/utils/cities";
+import { getCurrenciesFromCountries } from "@/utils/countries";
 
 /**
  * 
@@ -79,7 +72,7 @@ interface InfoTabStatsProps {
  *
  * @returns {JSX.Element} - The info tab stats
  */
-export default memo(function InfoTabStats({
+export default function InfoTabStats({
   className = "",
   isVisible = false,
 }: InfoTabStatsProps): JSX.Element {
@@ -179,7 +172,7 @@ export default memo(function InfoTabStats({
             <p className="info-tab-stats__card__row__title">
               {t("stats.populationTop10")}
             </p>
-            <PopulationsBarChart data={visitedCities} />
+            <PopulationBarChart data={visitedCities} />
           </Column>
         </Card>
         <Row className="info-tab-stats__cards row--wrap">
@@ -281,4 +274,4 @@ export default memo(function InfoTabStats({
       </div>
     </div>
   );
-});
+}

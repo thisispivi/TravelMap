@@ -1,3 +1,4 @@
+import { JSX } from "react";
 import {
   FutureTravelsIcon,
   HomeIcon,
@@ -7,7 +8,6 @@ import {
 } from "@/assets";
 import { NavigableButton, DarkModeButton } from "../../atoms";
 import "./LeftBar.scss";
-import { JSX, memo } from "react";
 import { useNavigate } from "react-router-dom";
 import useLocation from "@/hooks/location/location";
 import { LanguageSelector } from "..";
@@ -33,7 +33,7 @@ interface LeftBarProps {
  * @param {() => void} props.handleDarkModeSwitch - The function to call when the dark mode switch is clicked
  * @returns {JSX.Element} - The left bar
  */
-export default memo(function LeftBar({
+export default function LeftBar({
   className = "",
   isDarkTheme,
   handleDarkModeSwitch,
@@ -94,4 +94,4 @@ export default memo(function LeftBar({
       </div>
     </div>
   );
-});
+}

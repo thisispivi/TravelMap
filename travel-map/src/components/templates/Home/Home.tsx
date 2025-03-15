@@ -1,4 +1,4 @@
-import { JSX, PropsWithChildren, Suspense, memo, useContext } from "react";
+import { JSX, PropsWithChildren, Suspense, useContext } from "react";
 import {
   InfoTab,
   InfoTabFuture,
@@ -8,14 +8,14 @@ import {
   LeftBar,
   Map,
 } from "../../organisms";
-import useLocation from "../../../hooks/location/location";
+import useLocation from "@/hooks/location/location";
 import { Container } from "../../molecules";
 import {
   futureCities,
   livedCities,
   visitedCities,
   visitedCountries,
-} from "../../../data";
+} from "@/data";
 import { HomeContext } from "../../pages/Home/Home";
 import { Loading } from "../../atoms";
 import "./Home.scss";
@@ -31,9 +31,9 @@ import "./Home.scss";
  * @param {ReactNode} props.children - The children of the component
  * @returns {JSX.Element} - The home template
  */
-export default memo(function HomeTemplate(
-  props: PropsWithChildren,
-): JSX.Element {
+export default function HomeTemplate({
+  children,
+}: PropsWithChildren): JSX.Element {
   const { isVisited, isFuture, isGallery, isStats, isLived } = useLocation();
   const { hoveredCity, setHoveredCity, isDarkTheme, handleDarkModeSwitch } =
     useContext(HomeContext)!;
@@ -58,7 +58,7 @@ export default memo(function HomeTemplate(
           <InfoTabStats isVisible={isStats} />
         </InfoTab>
         <Container isVisible={isGallery}>
-          {isGallery ? props.children : null}
+          {isGallery ? children : null}
         </Container>
         <Map
           currHoveredCity={hoveredCity}
@@ -71,4 +71,4 @@ export default memo(function HomeTemplate(
       </Suspense>
     </div>
   );
-});
+}

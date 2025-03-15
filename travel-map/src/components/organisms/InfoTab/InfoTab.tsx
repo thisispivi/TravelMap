@@ -1,4 +1,4 @@
-import { PropsWithChildren, Suspense, memo, JSX } from "react";
+import { PropsWithChildren, Suspense, JSX } from "react";
 import "./InfoTab.scss";
 import useLocation from "../../../hooks/location/location";
 import { Loading } from "../../atoms";
@@ -20,7 +20,7 @@ interface InfoTabProps extends PropsWithChildren {
  * @param {string} props.className - The class to apply to the info tab
  * @returns {JSX.Element} - The info tab
  */
-export default memo(function InfoTab({
+export default function InfoTab({
   className = "",
   children,
 }: InfoTabProps): JSX.Element {
@@ -40,4 +40,4 @@ export default memo(function InfoTab({
       </Suspense>
     </div>
   );
-});
+}

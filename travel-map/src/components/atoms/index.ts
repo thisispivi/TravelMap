@@ -1,33 +1,32 @@
 import Backdrop from "./Backdrop/Backdrop";
-import Button from "./Buttons/Button";
-import NavigableButton from "./Buttons/NavigableButton";
-import CloseButton from "./Buttons/CloseButton";
+export { Backdrop };
+
 import ContinentsBarChart from "./BarChart/BarChartContinents";
-import CountryFlag from "./CountryFlag/CountryFlag";
-import CurrencyFlag from "./CurrencyFlag/CurrencyFlag";
+import PopulationBarChart from "./BarChart/BarChartPopulation";
+export { ContinentsBarChart, PopulationBarChart };
+
+import Button from "./Buttons/Button";
+import CloseButton from "./Buttons/CloseButton";
 import DarkModeButton from "./Buttons/DarkModeButton";
+import NavigableButton from "./Buttons/NavigableButton";
+import PositionButton from "./Buttons/PositionButton";
+export { Button, CloseButton, DarkModeButton, NavigableButton, PositionButton };
+
+import CountryFlag from "./CountryFlag/CountryFlag";
+export { CountryFlag };
+
+import CurrencyFlag from "./CurrencyFlag/CurrencyFlag";
+export { CurrencyFlag };
+
 import FlightsDonutChart from "./DonutChart/DonutChartFlights";
+export { FlightsDonutChart };
+
 import LanguageFlag from "./LanguageFlag/LanguageFlag";
+export { LanguageFlag };
+
 import Loading from "./Loading/Loading";
 import LoadingCircles from "./Loading/LoadingCircles";
-import Marker from "./Marker/Marker";
-import PopulationsBarChart from "./BarChart/BarChartPopulation";
-import PositionButton from "./Buttons/PositionButton";
+export { Loading, LoadingCircles };
 
-export {
-  Backdrop,
-  Button,
-  NavigableButton,
-  CloseButton,
-  ContinentsBarChart,
-  CountryFlag,
-  CurrencyFlag,
-  DarkModeButton,
-  FlightsDonutChart,
-  LanguageFlag,
-  Loading,
-  LoadingCircles,
-  Marker,
-  PopulationsBarChart,
-  PositionButton,
-};
+import Marker from "./Marker/Marker";
+export { Marker };
