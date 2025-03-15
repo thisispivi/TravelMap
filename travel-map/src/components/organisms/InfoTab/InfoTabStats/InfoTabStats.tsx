@@ -44,16 +44,6 @@ import {
 import { getTotalMediaTaken } from "@/utils/cities";
 import { getCurrenciesFromCountries } from "@/utils/countries";
 
-/**
- * 
-Currency & Economy Stats
-Number of currencies used → World Map with currency symbols overlay
-Largest & smallest city/town visited → Bar Chart (Comparing city population sizes)
-Media & Travel Frequency Stats
-Top 5 places by media count → Ranked List with Thumbnail Previews
-Year with most & least travel → Heatmap Calendar (Months as rows, years as columns, shading intensity = # of trips)
- */
-
 interface InfoTabStatsProps {
   className?: string;
   isVisible?: boolean;
