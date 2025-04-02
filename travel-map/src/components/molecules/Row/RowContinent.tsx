@@ -33,7 +33,9 @@ export default function ContinentRow({
           isVisited ? "visited" : "not-visited"
         }`}
       />
-      <div className="continent-row__name">{t(`continents.${continent}`)}</div>{" "}
+      <div className="continent-row__name">
+        {t(`continents.${continent}`)}
+      </div>{" "}
     </Row>
   );
 }
