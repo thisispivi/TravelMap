@@ -47,7 +47,7 @@ export default function PopulationBarChart({
   const topCities = pipe(
     data,
     filter((city) => city.population !== undefined),
-    sortBy((city) => -city.population!)
+    sortBy((city) => -city.population!),
   ).slice(0, numToShow);
 
   const series = [{ data: topCities.map((city) => city.population!) }];
