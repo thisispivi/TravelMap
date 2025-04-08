@@ -111,6 +111,7 @@ export const visitedCities: City[] = [
   Verona,
   Victoria,
   SanPawlIlBahar,
+  Sevilla,
 ];
 
 export const takenFlights: Flight[] = [
@@ -145,7 +146,9 @@ export const takenFlights: Flight[] = [
   new Flight({ sCity: Verona, eCity: Cagliari }),
   new Flight({ sCity: Cagliari, eCity: Luqa }),
   new Flight({ sCity: Luqa, eCity: Cagliari }),
+  new Flight({ sCity: Cagliari, eCity: Sevilla }),
+  new Flight({ sCity: Sevilla, eCity: Cagliari }),
 ];
 
-export const futureCountries: Country[] = [Austria, Spain];
-export const futureCities: City[] = [Vienna, Sevilla];
+export const futureCountries: Country[] = [Austria];
+export const futureCities: City[] = [Vienna];

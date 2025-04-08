@@ -9,7 +9,7 @@ export const Sevilla = new City({
     new Travel({
       sDate: new Date(2025, 3, 4),
       eDate: new Date(2025, 3, 8),
-      isFuture: true,
+      isFuture: false,
     }),
   ],
   backgroundImgsSrc: [
