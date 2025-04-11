@@ -1,5 +1,6 @@
 import { City, Travel } from "../../../core";
 import { Spain } from "../Spain";
+import { tr_040425_080425_images } from "./photos/tr_040425_080425";
 
 export const Sevilla = new City({
   name: "Sevilla",
@@ -10,6 +11,7 @@ export const Sevilla = new City({
       sDate: new Date(2025, 3, 4),
       eDate: new Date(2025, 3, 8),
       isFuture: false,
+      photos: tr_040425_080425_images,
     }),
   ],
   backgroundImgsSrc: [
