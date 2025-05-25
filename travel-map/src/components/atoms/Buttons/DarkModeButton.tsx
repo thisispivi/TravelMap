@@ -43,8 +43,8 @@ export default function DarkModeButton({
       <CSSTransition
         classNames="dark-mode-button__icon"
         in={isDarkTheme}
-        timeout={300}
         nodeRef={nodeRef}
+        timeout={300}
       >
         <div ref={nodeRef}>{isDarkTheme ? <MoonIcon /> : <SunIcon />}</div>
       </CSSTransition>
