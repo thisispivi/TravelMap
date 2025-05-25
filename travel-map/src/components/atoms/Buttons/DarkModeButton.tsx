@@ -1,7 +1,7 @@
 import { CSSTransition } from "react-transition-group";
 import { MoonIcon, SunIcon } from "@/assets";
 import "./DarkModeButton.scss";
-import { JSX } from "react";
+import { JSX, useRef } from "react";
 import { useTranslation } from "react-i18next";
 
 interface DarkModeButtonProps {
@@ -29,6 +29,8 @@ export default function DarkModeButton({
   className = "",
 }: DarkModeButtonProps): JSX.Element {
   const { t } = useTranslation("home");
+  const nodeRef = useRef(null);
+
   return (
     <button
       aria-label={t("theme")}
@@ -42,8 +44,9 @@ export default function DarkModeButton({
         classNames="dark-mode-button__icon"
         in={isDarkTheme}
         timeout={300}
+        nodeRef={nodeRef}
       >
-        {isDarkTheme ? <MoonIcon /> : <SunIcon />}
+        <div ref={nodeRef}>{isDarkTheme ? <MoonIcon /> : <SunIcon />}</div>
       </CSSTransition>
     </button>
   );
