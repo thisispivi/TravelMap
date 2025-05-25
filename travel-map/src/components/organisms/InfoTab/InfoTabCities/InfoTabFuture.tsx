@@ -6,6 +6,7 @@ import {
   getCitiesByCountriesAndIsFuture,
   sortByTravelStartDate,
 } from "@/utils/cities";
+import { City, Travel } from "@/core";
 
 interface InfoTabFutureProps {
   className?: string;
@@ -35,11 +36,18 @@ export default function InfoTabFuture({
     isFuture: true,
   }).sort(sortByTravelStartDate);
 
+  const getTravelIdx = (city: City, travel: Travel) => {
+    const allTravels = futureCities.filter((c) => c.name === city.name)[0]
+      .travels;
+    return allTravels.indexOf(travel);
+  };
+
   return (
     <InfoTabCities
       allCountries={futureCountries}
       cities={allCities}
       className={className}
+      getTravelIdx={getTravelIdx}
       id="future"
       isVisible={isVisible}
     />
