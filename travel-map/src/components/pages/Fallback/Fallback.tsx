@@ -15,7 +15,7 @@ import useResponsive from "@/hooks/style/responsive";
  *
  * @returns {JSX.Element} The rendered Fallback component.
  */
-export default function Fallback(): ReactNode {
+export default function Fallback(): ReactNode | null {
   const responsive = useResponsive();
   const routerError = useRouteError();
   const { t } = useTranslation(["error"]);
