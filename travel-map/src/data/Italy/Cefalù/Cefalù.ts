@@ -20,6 +20,7 @@ export const Cefalù = new City({
   ],
   backgroundImgsSrc: [
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B9/Cefal%C3%B9.jpg",
+    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/Cefal%C3%B91.jpg",
   ],
   population: 14407,
 });
