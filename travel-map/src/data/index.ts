@@ -154,5 +154,5 @@ export const takenFlights: Flight[] = [
   new Flight({ sCity: Vienna, eCity: Cagliari }),
 ];
 
-export const futureCountries: Country[] = [];
-export const futureCities: City[] = [];
+export const futureCountries: Country[] = [Italy];
+export const futureCities: City[] = [Cefalù];

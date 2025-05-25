@@ -12,6 +12,11 @@ export const Cefalù = new City({
       eDate: new Date(2021, 8, 26),
       photos: tr_230921_260921_images,
     }),
+    new Travel({
+      sDate: new Date(2025, 5, 14),
+      eDate: new Date(2025, 5, 17),
+      isFuture: true,
+    }),
   ],
   backgroundImgsSrc: [
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B9/Cefal%C3%B9.jpg",
