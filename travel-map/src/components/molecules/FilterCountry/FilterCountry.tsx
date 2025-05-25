@@ -63,9 +63,9 @@ export default function FilterCountry({
         <CSSTransition
           classNames="filter-transition"
           in={isOpen}
+          nodeRef={nodeRef}
           timeout={200}
           unmountOnExit
-          nodeRef={nodeRef}
         >
           <div className="filter__options" ref={nodeRef}>
             <div className="filter__options__list" id="info-tab">
