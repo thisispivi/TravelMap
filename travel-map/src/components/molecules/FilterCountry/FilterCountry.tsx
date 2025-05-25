@@ -1,4 +1,4 @@
-import { ReactNode, useState, JSX } from "react";
+import { ReactNode, useState, JSX, useRef } from "react";
 import "./FilterCountry.scss";
 import { Country } from "../../../core";
 import { Backdrop, Button, CountryFlag } from "../../atoms";
@@ -39,6 +39,7 @@ export default function FilterCountry({
   const { t } = useLanguage(["home"]);
   const [isOpen, setIsOpen] = useState(false);
   const onIsOpenChange = () => setIsOpen(!isOpen);
+  const nodeRef = useRef(null);
 
   return (
     <>
@@ -64,8 +65,9 @@ export default function FilterCountry({
           in={isOpen}
           timeout={200}
           unmountOnExit
+          nodeRef={nodeRef}
         >
-          <div className="filter__options">
+          <div className="filter__options" ref={nodeRef}>
             <div className="filter__options__list" id="info-tab">
               {options.map((option) => (
                 <div

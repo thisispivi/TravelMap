@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import Home from "./components/pages/Home/Home";
 import "./styles/_global.scss";
 import "./styles/_typography.scss";
 import "./styles/_variables.module.scss";
@@ -20,6 +19,7 @@ import { loader as galleryLoader } from "./components/organisms/Gallery/loader";
 import { loader as lightboxLoader } from "./components/organisms/Lightbox/loader";
 import { Tooltip } from "react-tooltip";
 import { mobileAndTabletCheck } from "./utils/responsive";
+import { Home, Fallback } from "./components/pages";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -28,6 +28,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         {
           path: "/",
           element: <Home />,
+          errorElement: <Fallback />,
           children: [
             { path: "lived", element: <InfoTabLived /> },
             { path: "visited", element: <InfoTabVisited /> },

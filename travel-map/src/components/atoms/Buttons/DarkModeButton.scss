@@ -30,6 +30,11 @@
     scale: 1;
     transition: scale 300ms ease-in-out;
   }
+  & > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .home--light {
