@@ -60,6 +60,7 @@ export const livedCountries: Country[] = [Italy];
 export const livedCities: City[] = [Muravera, Cagliari];
 
 export const visitedCountries: Country[] = [
+  Austria,
   Belgium,
   Germany,
   Hungary,
@@ -86,6 +87,7 @@ export const visitedCities: City[] = [
   Genoa,
   Himeji,
   Imola,
+  Vienna,
   Kanazawa,
   Kobe,
   Kyoto,
@@ -100,6 +102,8 @@ export const visitedCities: City[] = [
   Rabat,
   Rome,
   SanGiljan,
+  SanPawlIlBahar,
+  Sevilla,
   Shirakawago,
   Sliema,
   Takayama,
@@ -110,8 +114,6 @@ export const visitedCities: City[] = [
   VaticanCity,
   Verona,
   Victoria,
-  SanPawlIlBahar,
-  Sevilla,
 ];
 
 export const takenFlights: Flight[] = [
@@ -148,7 +150,9 @@ export const takenFlights: Flight[] = [
   new Flight({ sCity: Luqa, eCity: Cagliari }),
   new Flight({ sCity: Cagliari, eCity: Sevilla }),
   new Flight({ sCity: Sevilla, eCity: Cagliari }),
+  new Flight({ sCity: Cagliari, eCity: Vienna }),
+  new Flight({ sCity: Vienna, eCity: Cagliari }),
 ];
 
-export const futureCountries: Country[] = [Austria];
-export const futureCities: City[] = [Vienna];
+export const futureCountries: Country[] = [];
+export const futureCities: City[] = [];
