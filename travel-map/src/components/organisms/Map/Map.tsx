@@ -81,9 +81,6 @@ export default function Map({
   const sortedVisitedCities = visitedCities.sort(sortByLatitudeAndLongitude);
   const sortedFutureCities = futureCities.sort(sortByLatitudeAndLongitude);
 
-  const mapWidth = responsive.window.width;
-  const mapHeight = responsive.window.height;
-
   return (
     <div className="map-container" style={{ ...responsive.window }}>
       {!isLoaded ? (
@@ -108,10 +105,6 @@ export default function Map({
               zoom: position.zoom,
             })
           }
-          translateExtent={[
-            [0, -mapHeight],
-            [mapWidth, mapHeight],
-          ]}
           zoom={mapPosition.zoom}
         >
           <Geographies geography={worldData}>
