@@ -152,7 +152,9 @@ export const takenFlights: Flight[] = [
   new Flight({ sCity: Sevilla, eCity: Cagliari }),
   new Flight({ sCity: Cagliari, eCity: Vienna }),
   new Flight({ sCity: Vienna, eCity: Cagliari }),
+  new Flight({ sCity: Cagliari, eCity: Cefalù }),
+  new Flight({ sCity: Cefalù, eCity: Cagliari }),
 ];
 
-export const futureCountries: Country[] = [Italy];
-export const futureCities: City[] = [Cefalù];
+export const futureCountries: Country[] = [];
+export const futureCities: City[] = [];
