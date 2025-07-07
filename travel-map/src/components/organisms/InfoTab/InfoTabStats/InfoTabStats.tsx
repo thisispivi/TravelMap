@@ -43,6 +43,7 @@ import {
 } from "@/utils/timezone";
 import { getTotalMediaTaken } from "@/utils/cities";
 import { getCurrenciesFromCountries } from "@/utils/countries";
+import { keys } from "remeda";
 
 interface InfoTabStatsProps {
   className?: string;
@@ -92,6 +93,11 @@ export default function InfoTabStats({
   const totalMediaTaken = getTotalMediaTaken(visitedCities);
 
   const usedCurrencies = getCurrenciesFromCountries(visitedCountries);
+
+  const numUnescoSites = keys(parameters.stats.unescoSites).reduce(
+    (acc, country) => acc + parameters.stats.unescoSites[country].length,
+    0
+  );
 
   return (
     <div
@@ -170,7 +176,7 @@ export default function InfoTabStats({
             <UnescoIcon className="info-tab-stats__card__unesco__icon" />
             <p>{t("stats.unesco")}</p>
             <span>
-              <b>{parameters.stats.unescoSites}</b>
+              <b>{numUnescoSites}</b>
               <p>{`/ ${TOTAL_UNESCO_SITES}`}</p>
             </span>
           </Card>

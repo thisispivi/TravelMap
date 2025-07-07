@@ -1,5 +1,6 @@
 import { City, Travel } from "../../../core";
 import { Italy } from "../Italy";
+import { tr_140625_170625_images } from "./photos/tr_140625_170625";
 import { tr_230921_260921_images } from "./photos/tr_230921_260921";
 
 export const Cefalù = new City({
@@ -15,7 +16,7 @@ export const Cefalù = new City({
     new Travel({
       sDate: new Date(2025, 5, 14),
       eDate: new Date(2025, 5, 17),
-      isFuture: true,
+      photos: tr_140625_170625_images,
     }),
   ],
   backgroundImgsSrc: [
