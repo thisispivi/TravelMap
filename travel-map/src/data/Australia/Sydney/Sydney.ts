@@ -9,7 +9,7 @@ export const Sydney = new City({
     new Travel({
       sDate: new Date(2025, 10, 17),
       eDate: new Date(2025, 10, 27),
-      // isFuture: true,
+      isFuture: true,
     }),
   ],
   backgroundImgsSrc: [

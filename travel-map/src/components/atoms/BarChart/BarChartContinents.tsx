@@ -35,7 +35,7 @@ export default function ContinentsBarChart({
   const { t } = useLanguage(["home"]);
 
   const filteredData = data.filter(
-    (continent) => continent.cities > 0 || continent.countries > 0,
+    (continent) => continent.cities > 0 || continent.countries > 0
   );
   const incrementedData = filteredData.map((continent) => ({
     ...continent,
@@ -65,7 +65,9 @@ export default function ContinentsBarChart({
     stroke: { width: 0 },
     xaxis: {
       categories: incrementedData.map((continent) =>
-        t(`continents.${continent.continent.replace(" ", "")}`),
+        t(
+          `continents.${continent.continent.replace(" ", "_").toLocaleUpperCase()}`
+        )
       ),
       labels: { show: false },
       tickAmount: 0,

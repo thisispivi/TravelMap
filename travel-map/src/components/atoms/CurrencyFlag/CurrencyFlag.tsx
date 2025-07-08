@@ -3,6 +3,7 @@ import {
   UnitedKingdomFlag,
   JapanFlag,
   EuropeFlag,
+  AustraliaFlag,
 } from "../../../assets";
 import { JSX } from "react";
 import { Currency } from "../../../core";
@@ -37,6 +38,8 @@ export default function CurrencyFlag({
       return <HungaryFlag className={className} />;
     case Currency.JPY:
       return <JapanFlag className={className} />;
+    case Currency.AUD:
+      return <AustraliaFlag className={className} />;
     default:
       return null;
   }

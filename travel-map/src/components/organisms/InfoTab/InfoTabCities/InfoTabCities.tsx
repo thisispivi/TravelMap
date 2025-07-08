@@ -1,7 +1,7 @@
 import "./InfoTabCities.scss";
 import useLanguage from "@/hooks/language/language";
 import { City, Country, Travel } from "@/core";
-import { CityCard, FilterCountry } from "../../../molecules";
+import { CityCard, FilterByCountry } from "../../../molecules";
 import { FilterIcon } from "@/assets";
 import { HomeContext } from "../../../pages/Home/Home";
 import { PositionButton } from "../../../atoms";
@@ -73,11 +73,11 @@ export default function InfoTabCities({
             setIsAutoPosition={setIsAutoPosition}
           />
           {id === "visited" ? (
-            <FilterCountry
+            <FilterByCountry
               buttonIcon={<FilterIcon className="filter__icon" />}
               onChange={onCountryChange}
               options={allCountriesValues}
-              selected={countries}
+              selected={countries.sort((a, b) => a.id.localeCompare(b.id))}
             />
           ) : null}
         </div>
