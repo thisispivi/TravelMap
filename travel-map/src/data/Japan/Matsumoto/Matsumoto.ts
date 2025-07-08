@@ -18,4 +18,5 @@ export const Matsumoto = new City({
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Matsumoto/Matsumoto.jpg",
   ],
   population: 241337,
+  timezoneGMT: 9,
 });

@@ -3,12 +3,12 @@
 @use "sass:map";
 
 $continents-colors: (
-  "Africa": v.$continentsAfrica,
-  "Asia": v.$continentsAsia,
-  "Europe": v.$continentsEurope,
-  "NorthAmerica": v.$continentsNorthAmerica,
-  "Oceania": v.$continentsOceania,
-  "SouthAmerica": v.$continentsSouthAmerica,
+  "AFRICA": v.$continentsAfrica,
+  "ASIA": v.$continentsAsia,
+  "EUROPE": v.$continentsEurope,
+  "NORTH_AMERICA": v.$continentsNorthAmerica,
+  "OCEANIA": v.$continentsOceania,
+  "SOUTH_AMERICA": v.$continentsSouthAmerica,
 );
 
 @mixin continent-row($continent) {
@@ -35,12 +35,12 @@ $continents-colors: (
     background-color: gray;
     flex-shrink: 0;
   }
-  @include continent-row("Africa");
-  @include continent-row("Asia");
-  @include continent-row("Europe");
-  @include continent-row("NorthAmerica");
-  @include continent-row("Oceania");
-  @include continent-row("SouthAmerica");
+  @include continent-row("AFRICA");
+  @include continent-row("ASIA");
+  @include continent-row("EUROPE");
+  @include continent-row("NORTH_AMERICA");
+  @include continent-row("OCEANIA");
+  @include continent-row("SOUTH_AMERICA");
 }
 
 .home--light {

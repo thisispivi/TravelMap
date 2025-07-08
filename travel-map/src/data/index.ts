@@ -1,5 +1,6 @@
 import { Anderlecht } from "./Belgium/Anderlecht/Anderlecht";
 import { Austria } from "./Austria/Austria";
+import { Australia } from "./Australia/Australia";
 import { Barcelona } from "./Spain/Barcelona/Barcelona";
 import { Belgium } from "./Belgium/Belgium";
 import { Berlin } from "./Germany/Berlin/Berlin";
@@ -55,6 +56,7 @@ import { VaticanCity } from "./Vatican/Vatican/VaticanCity";
 import { Verona } from "./Italy/Verona/Verona";
 import { Victoria } from "./Malta/Victoria/Victoria";
 import { Vienna } from "./Austria/Vienna/Vienna";
+import { Sydney } from "./Australia/Sydney/Sydney";
 
 export const livedCountries: Country[] = [Italy];
 export const livedCities: City[] = [Muravera, Cagliari];
@@ -156,5 +158,5 @@ export const takenFlights: Flight[] = [
   new Flight({ sCity: Cefalù, eCity: Cagliari }),
 ];
 
-export const futureCountries: Country[] = [];
-export const futureCities: City[] = [];
+export const futureCountries: Country[] = [Australia];
+export const futureCities: City[] = [Sydney];
