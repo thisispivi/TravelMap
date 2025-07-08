@@ -6,7 +6,7 @@ import Column from "./Column/Column";
 import Container from "./Container/Container";
 import ContinentRow from "./Row/RowContinent";
 import CurrencyRow from "./Row/RowCurrency";
-import FilterCountry from "./FilterCountry/FilterCountry";
+import FilterByCountry from "./FilterByCountry/FilterByCountry";
 import FlightRow from "./Row/RowFlight";
 import Row from "./Row/Row";
 import TimezoneRow from "./Row/RowTimezone";
@@ -21,7 +21,7 @@ export {
   Container,
   ContinentRow,
   CurrencyRow,
-  FilterCountry,
+  FilterByCountry,
   FlightRow,
   Row,
   TimezoneRow,

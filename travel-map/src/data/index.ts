@@ -1,6 +1,6 @@
 import { Anderlecht } from "./Belgium/Anderlecht/Anderlecht";
-import { Austria } from "./Austria/Austria";
 import { Australia } from "./Australia/Australia";
+import { Austria } from "./Austria/Austria";
 import { Barcelona } from "./Spain/Barcelona/Barcelona";
 import { Belgium } from "./Belgium/Belgium";
 import { Berlin } from "./Germany/Berlin/Berlin";
@@ -45,6 +45,7 @@ import { Sevilla } from "./Spain/Sevilla/Sevilla";
 import { Shirakawago } from "./Japan/Shirakawago/Shirakawago";
 import { Sliema } from "./Malta/Sliema/Sliema";
 import { Spain } from "./Spain/Spain";
+import { Sydney } from "./Australia/Sydney/Sydney";
 import { Takayama } from "./Japan/Takayama/Takayama";
 import { Terni } from "./Italy/Terni/Terni";
 import { Tokyo } from "./Japan/Tokyo/Tokyo";
@@ -56,7 +57,6 @@ import { VaticanCity } from "./Vatican/Vatican/VaticanCity";
 import { Verona } from "./Italy/Verona/Verona";
 import { Victoria } from "./Malta/Victoria/Victoria";
 import { Vienna } from "./Austria/Vienna/Vienna";
-import { Sydney } from "./Australia/Sydney/Sydney";
 
 export const livedCountries: Country[] = [Italy];
 export const livedCities: City[] = [Muravera, Cagliari];
@@ -89,7 +89,6 @@ export const visitedCities: City[] = [
   Genoa,
   Himeji,
   Imola,
-  Vienna,
   Kanazawa,
   Kobe,
   Kyoto,
@@ -116,6 +115,7 @@ export const visitedCities: City[] = [
   VaticanCity,
   Verona,
   Victoria,
+  Vienna,
 ];
 
 export const takenFlights: Flight[] = [
