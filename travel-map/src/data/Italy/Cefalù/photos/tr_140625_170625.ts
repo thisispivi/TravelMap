@@ -111,12 +111,93 @@ export const tr_140625_170625_images: Image[] = [
   },
   {
     thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/013t.webp",
+    alt: "",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/013c.webp",
+    width: 3,
+    height: 4,
+  },
+  {
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/014t.webp",
+    alt: "",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/014c.webp",
+    width: 4,
+    height: 3,
+  },
+  {
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/015t.webp",
+    alt: "",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/015c.webp",
+    width: 225,
+    height: 196,
+  },
+  {
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/016t.webp",
+    alt: "",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/016c.webp",
+    width: 3,
+    height: 4,
+  },
+  {
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/017t.webp",
+    alt: "",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/017c.webp",
+    width: 4,
+    height: 3,
+  },
+  {
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/018t.webp",
+    alt: "",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/018c.webp",
+    width: 3,
+    height: 4,
+  },
+  {
+    thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/019t.webp",
     alt: "",
     original:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/019c.webp",
     width: 3,
     height: 4,
+  },
+  {
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/020t.webp",
+    alt: "",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/020c.webp",
+    width: 4,
+    height: 3,
+  },
+  {
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/021t.webp",
+    alt: "",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/021c.webp",
+    width: 4,
+    height: 3,
+  },
+  {
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/022t.webp",
+    alt: "",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/022c.webp",
+    width: 4,
+    height: 3,
   },
   {
     thumbnail:
@@ -462,12 +543,48 @@ export const tr_140625_170625_images: Image[] = [
   },
   {
     thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/061t.webp",
+    alt: "",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/061c.webp",
+    width: 127,
+    height: 180,
+  },
+  {
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/062t.webp",
+    alt: "",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/062c.webp",
+    width: 299,
+    height: 450,
+  },
+  {
+    thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/063t.webp",
     alt: "",
     original:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/063c.webp",
     width: 253,
     height: 450,
+  },
+  {
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/064t.webp",
+    alt: "",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/064c.webp",
+    width: 3,
+    height: 4,
+  },
+  {
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/065t.webp",
+    alt: "",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/065c.webp",
+    width: 3,
+    height: 4,
   },
   {
     thumbnail:
@@ -565,6 +682,24 @@ export const tr_140625_170625_images: Image[] = [
     alt: "",
     original:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/076c.webp",
+    width: 3,
+    height: 4,
+  },
+  {
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/077t.webp",
+    alt: "",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/077c.webp",
+    width: 3,
+    height: 4,
+  },
+  {
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/078t.webp",
+    alt: "",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/078c.webp",
     width: 3,
     height: 4,
   },
@@ -729,6 +864,51 @@ export const tr_140625_170625_images: Image[] = [
     original: "https://youtube.com/embed/",
     width: 253,
     height: 450,
+  },
+  {
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/097t.webp",
+    alt: "",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/097c.webp",
+    width: 3,
+    height: 4,
+  },
+  {
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/098t.webp",
+    alt: "",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/098c.webp",
+    width: 3,
+    height: 4,
+  },
+  {
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/099t.webp",
+    alt: "",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/099c.webp",
+    width: 7,
+    height: 9,
+  },
+  {
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/100t.webp",
+    alt: "",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/100c.webp",
+    width: 3,
+    height: 4,
+  },
+  {
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/101t.webp",
+    alt: "",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/101c.webp",
+    width: 3,
+    height: 4,
   },
   {
     thumbnail:
@@ -1065,6 +1245,15 @@ export const tr_140625_170625_images: Image[] = [
   },
   {
     thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/139t.webp",
+    alt: "",
+    youtube: true,
+    original: "https://youtube.com/embed/",
+    width: 253,
+    height: 450,
+  },
+  {
+    thumbnail:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/140t.webp",
     alt: "",
     original:
@@ -1078,6 +1267,42 @@ export const tr_140625_170625_images: Image[] = [
     alt: "",
     original:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/141c.webp",
+    width: 3,
+    height: 4,
+  },
+  {
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/142t.webp",
+    alt: "",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/142c.webp",
+    width: 3,
+    height: 4,
+  },
+  {
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/143t.webp",
+    alt: "",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/143c.webp",
+    width: 3,
+    height: 4,
+  },
+  {
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/144t.webp",
+    alt: "",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/144c.webp",
+    width: 3,
+    height: 4,
+  },
+  {
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/145t.webp",
+    alt: "",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/145c.webp",
     width: 3,
     height: 4,
   },
@@ -1141,6 +1366,24 @@ export const tr_140625_170625_images: Image[] = [
     alt: "",
     original:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/152c.webp",
+    width: 3,
+    height: 4,
+  },
+  {
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/153t.webp",
+    alt: "",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/153c.webp",
+    width: 4,
+    height: 3,
+  },
+  {
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/154t.webp",
+    alt: "",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/154c.webp",
     width: 3,
     height: 4,
   },
@@ -1285,6 +1528,15 @@ export const tr_140625_170625_images: Image[] = [
     alt: "",
     original:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/170c.webp",
+    width: 3,
+    height: 4,
+  },
+  {
+    thumbnail:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/171t.webp",
+    alt: "",
+    original:
+      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/171c.webp",
     width: 3,
     height: 4,
   },
