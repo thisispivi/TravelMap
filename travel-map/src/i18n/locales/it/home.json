@@ -59,6 +59,7 @@
     "Vienna": "Vienna"
   },
   "countries": {
+    "Australia": "Australia",
     "Austria": "Austria",
     "Belgium": "Belgio",
     "Germany": "Germania",
@@ -148,6 +149,10 @@
     "GBP": {
       "name": "Sterlina britannica",
       "symbol": "£"
+    },
+    "AUD": {
+      "name": "Dollaro australiano",
+      "symbol": "$"
     }
   }
 }

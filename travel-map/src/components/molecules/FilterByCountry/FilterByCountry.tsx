@@ -1,12 +1,12 @@
 import { ReactNode, useState, JSX, useRef } from "react";
-import "./FilterCountry.scss";
+import "./FilterByCountry.scss";
 import { Country } from "../../../core";
 import { Backdrop, Button, CountryFlag } from "../../atoms";
 import useLanguage from "../../../hooks/language/language";
 import { CSSTransition } from "react-transition-group";
 import { mobileAndTabletCheck } from "../../../utils/responsive";
 
-interface FilterCountryProps {
+interface FilterByCountryProps {
   options: Country[];
   selected: Country[];
   onChange: (selected: Country[]) => void;
@@ -15,13 +15,13 @@ interface FilterCountryProps {
 }
 
 /**
- * FilterCountry component
+ * FilterByCountry component
  *
  * The filter country component is used to filter countries.
  *
  * @component
  *
- * @param {FilterCountryProps} props - The props of the component
+ * @param {FilterByCountryProps} props - The props of the component
  * @param {Country[]} props.options - The options
  * @param {Country[]} props.selected - The selected options
  * @param {(selected: Country[]) => void} props.onChange - The function to call when the selection changes
@@ -29,13 +29,13 @@ interface FilterCountryProps {
  * @param {string} props.className - The class to apply to the filter country
  * @returns {JSX.Element} - The filter country
  */
-export default function FilterCountry({
+export default function FilterByCountry({
   options,
   selected,
   onChange,
   buttonIcon,
   className = "",
-}: FilterCountryProps): JSX.Element {
+}: FilterByCountryProps): JSX.Element {
   const { t } = useLanguage(["home"]);
   const [isOpen, setIsOpen] = useState(false);
   const onIsOpenChange = () => setIsOpen(!isOpen);
