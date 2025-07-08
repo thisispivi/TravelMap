@@ -18,4 +18,5 @@ export const Shirakawago = new City({
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Shirakawa-go/Shirakawa-go.jpg",
   ],
   population: 65665,
+  timezoneGMT: 9,
 });

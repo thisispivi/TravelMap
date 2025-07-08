@@ -17,4 +17,5 @@ export const Sliema = new City({
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Sliema/Sliema.jpg",
   ],
   population: 22591,
+  timezoneGMT: 1,
 });

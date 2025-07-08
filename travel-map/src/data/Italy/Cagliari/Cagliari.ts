@@ -10,4 +10,5 @@ export const Cagliari = new City({
   ],
   travels: [],
   population: 155000,
+  timezoneGMT: 1,
 });

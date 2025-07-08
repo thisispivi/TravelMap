@@ -18,4 +18,5 @@ export const Nara = new City({
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Nara/Nara.jpg",
   ],
   population: 354833,
+  timezoneGMT: 9,
 });

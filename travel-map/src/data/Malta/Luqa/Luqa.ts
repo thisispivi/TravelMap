@@ -6,4 +6,5 @@ export const Luqa = new City({
   country: Malta,
   coordinates: [14.4649653, 35.8519151],
   population: 1006,
+  timezoneGMT: 1,
 });

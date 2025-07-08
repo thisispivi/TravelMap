@@ -17,4 +17,5 @@ export const Turin = new City({
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Turin/Turin.jpg",
   ],
   population: 1805730,
+  timezoneGMT: 1,
 });

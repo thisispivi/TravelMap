@@ -17,4 +17,5 @@ export const Oshino = new City({
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Oshino/Oshino.jpg",
   ],
   population: 9817,
+  timezoneGMT: 9,
 });
