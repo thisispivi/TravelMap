@@ -38,7 +38,7 @@ import { formatMileage } from "@/utils/format";
 import { constants, parameters } from "@/utils/parameters";
 import { getContinentsByCities, getContinentStats } from "@/utils/continent";
 import {
-  getCountryBiggestTimezoneJump,
+  getCityBiggestTimezoneJump,
   getNumberOfTimezonesJumped,
 } from "@/utils/timezone";
 import { getTotalMediaTaken } from "@/utils/cities";
@@ -82,13 +82,13 @@ export default function InfoTabStats({
   const totalMileage = getTotalMileage(takenFlights);
 
   const visitedContinents = getContinentsByCities(visitedCities);
+  console.log(visitedContinents);
   const continentCities = Object.values(Continent)
     .map((c) => getContinentStats(c, visitedCities, visitedCountries))
     .sort((a, b) => b.countries - a.countries);
 
-  const countryBiggestTimezoneJump =
-    getCountryBiggestTimezoneJump(visitedCountries);
-  const numberTimezonesJumped = getNumberOfTimezonesJumped(visitedCountries);
+  const cityBiggestTimezoneJump = getCityBiggestTimezoneJump(visitedCities);
+  const numberTimezonesJumped = getNumberOfTimezonesJumped(visitedCities);
 
   const totalMediaTaken = getTotalMediaTaken(visitedCities);
 
@@ -236,19 +236,21 @@ export default function InfoTabStats({
             <h2 className="continents__title">{t("stats.continents")}</h2>
             <ContinentsIcon
               className={`continents__icon
-            ${visitedContinents.includes(Continent.Africa) ? "" : "africa--not-visited"}
-            ${visitedContinents.includes(Continent.Asia) ? "" : "asia--not-visited"}
-            ${visitedContinents.includes(Continent.Europe) ? "" : "europe--not-visited"}
-            ${visitedContinents.includes(Continent.NorthAmerica) ? "" : "north-america--not-visited"}
-            ${visitedContinents.includes(Continent.Oceania) ? "" : "oceania--not-visited"}
-            ${visitedContinents.includes(Continent.SouthAmerica) ? "" : "south-america--not-visited"}
+            ${visitedContinents.includes(Continent.AFRICA) ? "" : "africa--not-visited"}
+            ${visitedContinents.includes(Continent.ASIA) ? "" : "asia--not-visited"}
+            ${visitedContinents.includes(Continent.EUROPE) ? "" : "europe--not-visited"}
+            ${visitedContinents.includes(Continent.NORTH_AMERICA) ? "" : "north-america--not-visited"}
+            ${visitedContinents.includes(Continent.OCEANIA) ? "" : "oceania--not-visited"}
+            ${visitedContinents.includes(Continent.SOUTH_AMERICA) ? "" : "south-america--not-visited"}
             `}
             />
             <Row className="row--wrap row--center continents__wrap">
               {Object.keys(Continent).map((continent) => (
                 <ContinentRow
                   continent={continent as Continent}
-                  isVisited={visitedContinents.includes(continent as Continent)}
+                  isVisited={visitedContinents.includes(
+                    Continent[continent as keyof typeof Continent]
+                  )}
                   key={continent}
                 />
               ))}
@@ -259,8 +261,8 @@ export default function InfoTabStats({
               {t("stats.biggestTimezoneJump")}
             </p>
             <TimezoneRow
-              eCountry={countryBiggestTimezoneJump!}
-              sCountry={parameters.birthCity.country}
+              eCity={cityBiggestTimezoneJump!}
+              sCity={parameters.birthCity}
             />
           </Column>
           <Column className="info-tab-stats__card__row">

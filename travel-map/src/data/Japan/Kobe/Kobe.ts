@@ -18,4 +18,5 @@ export const Kobe = new City({
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kobe/Kobe.jpg",
   ],
   population: 1527022,
+  timezoneGMT: 9,
 });

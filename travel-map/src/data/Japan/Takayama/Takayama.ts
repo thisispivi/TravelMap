@@ -18,4 +18,5 @@ export const Takayama = new City({
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Takayama/Takayama.jpg",
   ],
   population: 94879,
+  timezoneGMT: 9,
 });

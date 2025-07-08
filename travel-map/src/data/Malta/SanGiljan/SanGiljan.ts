@@ -25,4 +25,5 @@ export const SanGiljan = new City({
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/SanGiljan1/SanGiljan1.jpg",
   ],
   population: 3259,
+  timezoneGMT: 1,
 });

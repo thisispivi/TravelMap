@@ -46,6 +46,7 @@
     "Sevilla": "Seville",
     "Shirakawago": "Shirakawa-go",
     "Sliema": "Sliema",
+    "Sydney": "Sydney",
     "Takayama": "Takayama",
     "Terni": "Terni",
     "Tokyo": "Tokyo",
@@ -71,12 +72,12 @@
     "Vatican": "Vatican"
   },
   "continents": {
-    "Africa": "Africa",
-    "Asia": "Asia",
-    "Europe": "Europe",
-    "NorthAmerica": "North America",
-    "Oceania": "Oceania",
-    "SouthAmerica": "South America"
+    "AFRICA": "Africa",
+    "ASIA": "Asia",
+    "EUROPE": "Europe",
+    "NORTH_AMERICA": "North America",
+    "OCEANIA": "Oceania",
+    "SOUTH_AMERICA": "South America"
   },
   "home": "Home",
   "lived": {

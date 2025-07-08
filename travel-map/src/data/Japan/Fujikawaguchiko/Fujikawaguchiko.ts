@@ -17,4 +17,5 @@ export const Fujikawaguchiko = new City({
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Fujikawaguchiko/Fujikawaguchiko.jpg",
   ],
   population: 26542,
+  timezoneGMT: 9,
 });

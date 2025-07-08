@@ -24,4 +24,5 @@ export const Rome = new City({
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Rome1/Rome1.jpg",
   ],
   population: 4332000,
+  timezoneGMT: 1,
 });

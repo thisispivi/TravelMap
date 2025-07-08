@@ -18,4 +18,5 @@ export const Himeji = new City({
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Himeji/Himeji.jpg",
   ],
   population: 536170,
+  timezoneGMT: 9,
 });

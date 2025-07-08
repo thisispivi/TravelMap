@@ -12,6 +12,7 @@ interface CityInterface {
   name: string;
   travels?: Travel[];
   population?: number;
+  timezoneGMT: number;
 }
 
 /**
@@ -30,6 +31,7 @@ interface CityInterface {
  * @param {string} cityData.name - The name of the city
  * @param {Travel[]} [cityData.travels] - The travels of the city
  * @param {number} [cityData.population] - The population of the city
+ * @param {number} cityData.timezoneGMT - The timezone of the city
  */
 export class City implements CityInterface {
   backgroundImgsSrc: string[];
@@ -41,6 +43,7 @@ export class City implements CityInterface {
   name: string;
   travels: Travel[];
   population?: number;
+  timezoneGMT: number;
 
   constructor(cityData: CityInterface) {
     this.backgroundImgsSrc = cityData.backgroundImgsSrc ?? [];
@@ -52,6 +55,7 @@ export class City implements CityInterface {
     this.name = cityData.name;
     this.travels = cityData.travels ?? [];
     this.population = cityData.population;
+    this.timezoneGMT = cityData.timezoneGMT;
   }
 
   getMapCoordinates([x, y]: [number, number]): [number, number] {

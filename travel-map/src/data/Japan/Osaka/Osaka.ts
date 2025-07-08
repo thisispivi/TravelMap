@@ -18,4 +18,5 @@ export const Osaka = new City({
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Osaka/Osaka.jpg",
   ],
   population: 18967000,
+  timezoneGMT: 9,
 });

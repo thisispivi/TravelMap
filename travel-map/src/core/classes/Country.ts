@@ -7,7 +7,6 @@ export interface CountryData {
   id: string;
   color: ColorData;
   continent: Continent;
-  timezoneGMT: number;
   minMarkerScale?: number;
   maxMarkerScale?: number;
   currency: Currency;
@@ -24,7 +23,6 @@ export interface CountryData {
  * @param {string} countryData.id - The id of the country
  * @param {ColorData} countryData.color - The color of the country
  * @param {Continent} countryData.continent - The continent of the country
- * @param {number} countryData.timezoneGMT - The timezone of the country
  * @param {number} [countryData.minMarkerScale] - The minimum scale of the marker
  * @param {number} [countryData.maxMarkerScale] - The maximum scale of the marker
  * @param {Currency} countryData.currency - The currency of the country
@@ -34,23 +32,18 @@ export class Country {
   borderColor: string;
   fillColor: string;
   continent: Continent;
-  timezoneGMT: number;
   minMarkerScale?: number;
   maxMarkerScale?: number;
   currency: Currency;
 
   constructor(
     data: Partial<CountryData> &
-      Pick<
-        CountryData,
-        "id" | "continent" | "color" | "timezoneGMT" | "currency"
-      >,
+      Pick<CountryData, "id" | "continent" | "color" | "currency">
   ) {
     this.id = data.id;
     this.borderColor = new Color(data.color).toHSL();
-    this.fillColor = new Color(data.color).toHSLA(0.5);
+    this.fillColor = new Color(data.color).toHSLA(0.6);
     this.continent = data.continent;
-    this.timezoneGMT = data.timezoneGMT;
     this.minMarkerScale = data?.minMarkerScale;
     this.maxMarkerScale = data?.maxMarkerScale;
     this.currency = data.currency;
