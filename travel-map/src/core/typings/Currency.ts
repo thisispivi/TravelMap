@@ -62,4 +62,5 @@ export enum Currency {
   MUR = "MUR",
   SCR = "SCR",
   MGA = "MGA",
+  BGN = "BGN",
 }

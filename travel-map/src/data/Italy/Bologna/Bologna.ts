@@ -17,5 +17,5 @@ export const Bologna = new City({
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Bologna/Bologna.jpg",
   ],
   population: 816848,
-  timezoneGMT: 1,
+  timezoneGMT: 2,
 });

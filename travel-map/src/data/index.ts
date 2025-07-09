@@ -9,6 +9,7 @@ import { Braga } from "./Portugal/Braga/Braga";
 import { Bruges } from "./Belgium/Bruges/Bruges";
 import { Brussels } from "./Belgium/Brussels/Brussels";
 import { Budapest } from "./Hungary/Budapest/Budapest";
+import { Bulgaria } from "./Bulgaria/Bulgaria";
 import { Cagliari } from "./Italy/Cagliari/Cagliari";
 import { Cefalù } from "./Italy/Cefalù/Cefalù";
 import { City, Country } from "../core";
@@ -44,6 +45,7 @@ import { SanPawlIlBahar } from "./Malta/SanPawlIlBahar/SanPawlIlBahar";
 import { Sevilla } from "./Spain/Sevilla/Sevilla";
 import { Shirakawago } from "./Japan/Shirakawago/Shirakawago";
 import { Sliema } from "./Malta/Sliema/Sliema";
+import { Sofia } from "./Bulgaria/Sofia/Sofia";
 import { Spain } from "./Spain/Spain";
 import { Sydney } from "./Australia/Sydney/Sydney";
 import { Takayama } from "./Japan/Takayama/Takayama";
@@ -158,5 +160,5 @@ export const takenFlights: Flight[] = [
   new Flight({ sCity: Cefalù, eCity: Cagliari }),
 ];
 
-export const futureCountries: Country[] = [Australia];
-export const futureCities: City[] = [Sydney];
+export const futureCountries: Country[] = [Australia, Bulgaria];
+export const futureCities: City[] = [Sydney, Sofia];

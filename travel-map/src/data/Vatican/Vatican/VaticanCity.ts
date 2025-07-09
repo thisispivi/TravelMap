@@ -17,5 +17,5 @@ export const VaticanCity = new City({
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/VaticanCity.jpg",
   ],
   population: 499,
-  timezoneGMT: 1,
+  timezoneGMT: 2,
 });

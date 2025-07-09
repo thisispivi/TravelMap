@@ -16,5 +16,5 @@ export const Comino = new City({
   backgroundImgsSrc: [
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Comino/Comino.jpg",
   ],
-  timezoneGMT: 1,
+  timezoneGMT: 2,
 });

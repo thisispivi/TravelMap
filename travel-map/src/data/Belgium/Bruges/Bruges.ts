@@ -17,5 +17,5 @@ export const Bruges = new City({
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Belgium/Bruges/Bruges.jpg",
   ],
   population: 199276,
-  timezoneGMT: 1,
+  timezoneGMT: 2,
 });

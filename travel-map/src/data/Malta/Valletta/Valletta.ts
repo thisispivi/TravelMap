@@ -24,5 +24,5 @@ export const Valletta = new City({
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Valletta1/Valletta1.jpg",
   ],
   population: 5876,
-  timezoneGMT: 1,
+  timezoneGMT: 2,
 });

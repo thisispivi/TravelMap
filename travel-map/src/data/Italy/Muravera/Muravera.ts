@@ -9,5 +9,5 @@ export const Muravera = new City({
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Muravera/Muravera.jpg",
   ],
   population: 4600,
-  timezoneGMT: 1,
+  timezoneGMT: 2,
 });

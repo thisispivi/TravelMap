@@ -17,5 +17,5 @@ export const Brussels = new City({
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Belgium/Brussels/Brussels.jpg",
   ],
   population: 196828,
-  timezoneGMT: 1,
+  timezoneGMT: 2,
 });
