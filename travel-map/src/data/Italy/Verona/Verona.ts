@@ -18,5 +18,5 @@ export const Verona = new City({
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Verona/Verona.jpg",
   ],
   population: 644000,
-  timezoneGMT: 1,
+  timezoneGMT: 2,
 });

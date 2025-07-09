@@ -2,6 +2,7 @@ import {
   AustraliaFlag,
   AustriaFlag,
   BelgiumFlag,
+  BulgariaFlag,
   GermanyFlag,
   HungaryFlag,
   ItalyFlag,
@@ -60,6 +61,8 @@ export default function CountryFlag({
       return <AustriaFlag className={className} />;
     case "Australia":
       return <AustraliaFlag className={className} />;
+    case "Bulgaria":
+      return <BulgariaFlag className={className} />;
     default:
       return null;
   }

@@ -46,6 +46,7 @@
     "Sevilla": "Seville",
     "Shirakawago": "Shirakawa-go",
     "Sliema": "Sliema",
+    "Sofia": "Sofia",
     "Sydney": "Sydney",
     "Takayama": "Takayama",
     "Terni": "Terni",
@@ -62,6 +63,7 @@
     "Australia": "Australia",
     "Austria": "Austria",
     "Belgium": "Belgium",
+    "Bulgaria": "Bulgaria",
     "Germany": "Germany",
     "Hungary": "Hungary",
     "Italy": "Italy",
@@ -153,6 +155,10 @@
     "AUD": {
       "name": "Australian Dollar",
       "symbol": "$"
+    },
+    "BGN": {
+      "name": "Bulgarian Lev",
+      "symbol": "лв"
     }
   }
 }

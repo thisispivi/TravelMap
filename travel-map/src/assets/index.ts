@@ -69,6 +69,7 @@ export {
 import AustraliaFlag from "./icons/flags/Australia.svg?react";
 import AustriaFlag from "./icons/flags/Austria.svg?react";
 import BelgiumFlag from "./icons/flags/Belgium.svg?react";
+import BulgariaFlag from "./icons/flags/Bulgaria.svg?react";
 import EuropeFlag from "./icons/flags/Europe.svg?react";
 import GermanyFlag from "./icons/flags/Germany.svg?react";
 import HungaryFlag from "./icons/flags/Hungary.svg?react";
@@ -84,6 +85,7 @@ export {
   AustraliaFlag,
   AustriaFlag,
   BelgiumFlag,
+  BulgariaFlag,
   EuropeFlag,
   GermanyFlag,
   HungaryFlag,
