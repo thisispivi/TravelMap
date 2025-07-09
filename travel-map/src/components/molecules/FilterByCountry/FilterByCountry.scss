@@ -33,12 +33,14 @@
     box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
     width: 16rem;
     @include m.transition(all, 0.3s, ease-in-out);
+    flex-shrink: 0;
     .filter__options__list {
       display: flex;
       max-height: 14rem;
       overflow-y: auto;
       flex-direction: column;
       padding-right: 0.6rem;
+      flex-shrink: 0;
       .filter__option {
         display: flex;
         align-items: center;
@@ -46,6 +48,7 @@
         border-radius: 0.25rem;
         margin-block: 0.1rem;
         opacity: 0.2;
+        flex-shrink: 0;
         cursor: pointer;
         @include m.transition(all, 0.3s, ease-in-out);
         h4 {
@@ -59,6 +62,29 @@
         }
         &.filter__option--selected {
           opacity: 1;
+        }
+        &.filter__option--select-all {
+          opacity: 1;
+          margin-bottom: 0.75rem;
+          border-radius: 0;
+          .filter__option--select-all__icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 1.5rem;
+            height: 1.5rem;
+            margin-right: 0.25rem;
+            @include m.transition(all, 0.2s, ease-in-out);
+            svg {
+              width: 100%;
+              height: 100%;
+              @include m.transition(all, 0.2s, ease-in-out);
+            }
+          }
+          .filter__option--select-all__text {
+            font-weight: 600;
+            @include m.transition(all, 0.2s, ease-in-out);
+          }
         }
       }
     }
@@ -79,6 +105,18 @@
       &:hover {
         background-color: v.$lightButtonHover;
       }
+      &.filter__option--select-all {
+        border-bottom: 1px solid rgba(v.$darkLeftBar, 0.1);
+        .filter__option--select-all__icon {
+          color: v.$darkLeftBar;
+        }
+        .filter__option--select-all__text {
+          color: v.$darkLeftBar;
+        }
+        &:hover {
+          background-color: v.$lightInfoTab;
+        }
+      }
     }
   }
 }
@@ -96,6 +134,18 @@
       }
       &:not(.filter__option--mobile):hover {
         background-color: v.$darkButtonHover;
+      }
+      &.filter__option--select-all {
+        border-bottom: 1px solid rgba(v.$lightLeftBar, 0.1);
+        .filter__option--select-all__icon {
+          color: v.$lightLeftBar;
+        }
+        .filter__option--select-all__text {
+          color: v.$lightLeftBar;
+        }
+        &:not(.filter__option--mobile):hover {
+          background-color: v.$darkInfoTab;
+        }
       }
     }
   }
