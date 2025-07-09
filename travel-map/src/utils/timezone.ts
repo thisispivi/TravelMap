@@ -3,17 +3,20 @@ import { City } from "../core";
 import { parameters } from "./parameters";
 
 /**
- * Get the City with the biggest timezone jump.
+ * Get the City with the biggest timezone jump. In case of a tie, the one with the biggest population is returned.
  * @param {City[]} countries - The list of countries
  * @returns {City | undefined} - The City with the biggest timezone jump
  */
 export function getCityBiggestTimezoneJump(
-  countries: City[],
+  countries: City[]
 ): City | undefined {
   const initialTimezone = parameters.birthCity.timezoneGMT;
   return pipe(
     countries,
-    firstBy((city) => -Math.abs(city.timezoneGMT - initialTimezone)),
+    firstBy(
+      (city) => -Math.abs(city.timezoneGMT - initialTimezone),
+      (city) => -(city.population ?? 0)
+    )
   );
 }
 
@@ -26,6 +29,6 @@ export function getNumberOfTimezonesJumped(countries: City[]): number {
   const initialTimezone = parameters.birthCity.timezoneGMT;
   return pipe(
     filter(countries, (city) => city.timezoneGMT !== initialTimezone),
-    uniqueBy((city) => city.timezoneGMT),
+    uniqueBy((city) => city.timezoneGMT)
   ).length;
 }

@@ -4,6 +4,7 @@ import {
   JapanFlag,
   EuropeFlag,
   AustraliaFlag,
+  BulgariaFlag,
 } from "../../../assets";
 import { JSX } from "react";
 import { Currency } from "../../../core";
@@ -40,6 +41,8 @@ export default function CurrencyFlag({
       return <JapanFlag className={className} />;
     case Currency.AUD:
       return <AustraliaFlag className={className} />;
+    case Currency.BGN:
+      return <BulgariaFlag className={className} />;
     default:
       return null;
   }

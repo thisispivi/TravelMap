@@ -17,5 +17,5 @@ export const Budapest = new City({
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Hungary/Budapest/Budapest.jpg",
   ],
   population: 1780390,
-  timezoneGMT: 1,
+  timezoneGMT: 2,
 });

@@ -17,5 +17,5 @@ export const Vienna = new City({
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Austria/Vienna/Vienna.jpg",
   ],
   population: 2015000,
-  timezoneGMT: 1,
+  timezoneGMT: 2,
 });

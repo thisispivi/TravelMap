@@ -17,5 +17,5 @@ export const Genoa = new City({
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Genoa/Genoa.jpg",
   ],
   population: 674000,
-  timezoneGMT: 1,
+  timezoneGMT: 2,
 });

@@ -18,5 +18,5 @@ export const Porto = new City({
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Portugal/Porto/Porto.jpg",
   ],
   population: 1334000,
-  timezoneGMT: 0,
+  timezoneGMT: 1,
 });

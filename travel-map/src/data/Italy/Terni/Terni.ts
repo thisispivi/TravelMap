@@ -17,5 +17,5 @@ export const Terni = new City({
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Terni/Terni.jpg",
   ],
   population: 107574,
-  timezoneGMT: 1,
+  timezoneGMT: 2,
 });
