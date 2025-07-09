@@ -1,7 +1,7 @@
 import { ReactNode, useState, JSX, useRef } from "react";
 import "./FilterByCountry.scss";
 import { Country } from "../../../core";
-import { Backdrop, Button, CountryFlag } from "../../atoms";
+import { Backdrop, Button, Checkbox, CountryFlag } from "../../atoms";
 import useLanguage from "../../../hooks/language/language";
 import { CSSTransition } from "react-transition-group";
 import { mobileAndTabletCheck } from "../../../utils/responsive";
@@ -41,6 +41,27 @@ export default function FilterByCountry({
   const onIsOpenChange = () => setIsOpen(!isOpen);
   const nodeRef = useRef(null);
 
+  const allSelected = selected.length === options.length;
+
+  const handleSelectAllToggle = () => {
+    onChange(allSelected ? [] : options);
+  };
+
+  const handleCountryToggle = (country: Country) => {
+    const newSelected = selected.includes(country)
+      ? selected.filter((s) => s !== country)
+      : [...selected, country];
+    onChange(newSelected);
+  };
+
+  const getOptionClassName = (isSelected: boolean = false) => {
+    const baseClass = "filter__option";
+    const mobileClass = mobileAndTabletCheck() ? "filter__option--mobile" : "";
+    const selectedClass = isSelected ? "filter__option--selected" : "";
+
+    return `${baseClass} ${selectedClass} ${mobileClass}`.trim();
+  };
+
   return (
     <>
       {isOpen ? (
@@ -53,7 +74,9 @@ export default function FilterByCountry({
       <div className="filter">
         <Button
           ariaLabel={t("filterTooltip")}
-          className={`filter__button ${className} ${isOpen ? "filter__button--open" : ""}`}
+          className={`filter__button ${className} ${
+            isOpen ? "filter__button--open" : ""
+          }`}
           onClick={onIsOpenChange}
           tooltipContent={t("filterTooltip")}
           tooltipId="base-tooltip"
@@ -69,18 +92,22 @@ export default function FilterByCountry({
         >
           <div className="filter__options" ref={nodeRef}>
             <div className="filter__options__list" id="info-tab">
+              <div
+                className={`${getOptionClassName()} filter__option--select-all`}
+                onClick={handleSelectAllToggle}
+              >
+                <div className="filter__option--select-all__icon">
+                  <Checkbox isChecked={allSelected} />
+                </div>
+                <h4 className="filter__option--select-all__text">
+                  {allSelected ? t("deselectAll") : t("selectAll")}
+                </h4>
+              </div>
               {options.map((option) => (
                 <div
-                  className={`filter__option ${selected.includes(option) ? "filter__option--selected" : ""}
-                    ${mobileAndTabletCheck() ? "filter__option--mobile" : ""}
-                  `}
+                  className={getOptionClassName(selected.includes(option))}
                   key={option.id}
-                  onClick={() => {
-                    const newSelected = selected.includes(option)
-                      ? selected.filter((s) => s !== option)
-                      : [...selected, option];
-                    onChange(newSelected);
-                  }}
+                  onClick={() => handleCountryToggle(option)}
                 >
                   <CountryFlag countryId={option.id} />
                   <h4>{t(`countries.${option.id.replace(" ", "")}`)}</h4>
