@@ -2,7 +2,7 @@ import { Continent, Country, Currency } from "../../core";
 
 export const Japan = new Country({
   id: "Japan",
-  color: { h: 348, s: 81, l: 83 },
+  color: { h: 329, s: 86, l: 70 }, // Soft pink for cherry blossoms
   continent: Continent.ASIA,
   currency: Currency.JPY,
 });
