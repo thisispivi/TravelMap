@@ -12,6 +12,9 @@ import NavigableButton from "./Buttons/NavigableButton";
 import PositionButton from "./Buttons/PositionButton";
 export { Button, CloseButton, DarkModeButton, NavigableButton, PositionButton };
 
+import Checkbox from "./Checkbox/Checkbox";
+export { Checkbox };
+
 import CountryFlag from "./CountryFlag/CountryFlag";
 export { CountryFlag };
 
