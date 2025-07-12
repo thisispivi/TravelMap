@@ -82,7 +82,6 @@ export default function InfoTabStats({
   const totalMileage = getTotalMileage(takenFlights);
 
   const visitedContinents = getContinentsByCities(visitedCities);
-  console.log(visitedContinents);
   const continentCities = Object.values(Continent)
     .map((c) => getContinentStats(c, visitedCities, visitedCountries))
     .sort((a, b) => b.countries - a.countries);
@@ -96,7 +95,7 @@ export default function InfoTabStats({
 
   const numUnescoSites = keys(parameters.stats.unescoSites).reduce(
     (acc, country) => acc + parameters.stats.unescoSites[country].length,
-    0,
+    0
   );
 
   return (
@@ -249,7 +248,7 @@ export default function InfoTabStats({
                 <ContinentRow
                   continent={continent as Continent}
                   isVisited={visitedContinents.includes(
-                    Continent[continent as keyof typeof Continent],
+                    Continent[continent as keyof typeof Continent]
                   )}
                   key={continent}
                 />
