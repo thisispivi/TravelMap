@@ -5,7 +5,7 @@
   padding: 1rem 0;
   flex-direction: column;
   height: 100%;
-  min-height: 0; // allow children to shrink for scrolling
+  min-height: 0;
   display: none;
   &.info-tab-cities--visible {
     display: flex;
