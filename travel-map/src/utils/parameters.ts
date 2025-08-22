@@ -5,6 +5,8 @@ export const constants = {
   TOTAL_UNESCO_SITES: 1223,
   EARTH_CIRCUMFERENCE: 40075,
   MOON_DISTANCE: 384400,
+  GROUP_BY_CITIES_CUTOFF_YEAR: 2023,
+  GROUP_BY_CITIES_DEFAULT_OPENED_YEAR: 2025,
 };
 
 export const parameters = {
@@ -78,8 +80,8 @@ export const parameters = {
         "Syracuse and the Rocky Necropolis of Pantalica",
         "Genoa: Le Strade Nuove and the system of the Palazzi dei Rolli",
         "Arab-Norman Palermo and the Cathedral Churches of Cefalú and Monreale",
-        "Venetian Works of Defence between the 16th and 17th Centuries: Stato da Terra – Western Stato da Mar *",
-        "Padua’s fourteenth-century fresco cycles",
+        "Venetian Works of Defence between the 16th and 17th Centuries: Stato da Terra - Western Stato da Mar *",
+        "Padua's fourteenth-century fresco cycles",
         "The Porticoes of Bologna",
       ],
     },

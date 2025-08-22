@@ -1,3 +1,4 @@
+import { Alghero } from "./Italy/Alghero/Alghero";
 import { Anderlecht } from "./Belgium/Anderlecht/Anderlecht";
 import { Australia } from "./Australia/Australia";
 import { Austria } from "./Austria/Austria";
@@ -39,6 +40,7 @@ import { PeschieraDelGarda } from "./Italy/PeschieraDelGarda/PeschieraDelGarda";
 import { Porto } from "./Portugal/Porto/Porto";
 import { Portugal } from "./Portugal/Portugal";
 import { Rabat } from "./Malta/Rabat/Rabat";
+import { Rila } from "./Bulgaria/Rila/Rila";
 import { Rome } from "./Italy/Rome/Rome";
 import { SanGiljan } from "./Malta/SanGiljan/SanGiljan";
 import { SanPawlIlBahar } from "./Malta/SanPawlIlBahar/SanPawlIlBahar";
@@ -75,6 +77,7 @@ export const visitedCountries: Country[] = [
   Spain,
   UnitedKingdom,
   Vatican,
+  Bulgaria,
 ];
 export const visitedCities: City[] = [
   Anderlecht,
@@ -118,6 +121,8 @@ export const visitedCities: City[] = [
   Verona,
   Victoria,
   Vienna,
+  Sofia,
+  Rila,
 ];
 
 export const takenFlights: Flight[] = [
@@ -158,7 +163,9 @@ export const takenFlights: Flight[] = [
   new Flight({ sCity: Vienna, eCity: Cagliari }),
   new Flight({ sCity: Cagliari, eCity: Cefalù }),
   new Flight({ sCity: Cefalù, eCity: Cagliari }),
+  new Flight({ sCity: Alghero, eCity: Sofia }),
+  new Flight({ sCity: Sofia, eCity: Alghero }),
 ];
 
-export const futureCountries: Country[] = [Australia, Bulgaria];
-export const futureCities: City[] = [Sydney, Sofia];
+export const futureCountries: Country[] = [Australia];
+export const futureCities: City[] = [Sydney];

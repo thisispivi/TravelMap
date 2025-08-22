@@ -1,10 +1,10 @@
 @use "../../../../styles/variables.module" as v;
 @use "../../../../styles/mixins" as m;
-
 .info-tab-cities {
   padding: 1rem 0;
   flex-direction: column;
   height: 100%;
+  min-height: 0; // allow children to shrink for scrolling
   display: none;
   &.info-tab-cities--visible {
     display: flex;
@@ -37,7 +37,8 @@
   .info-tab-cities__content {
     display: flex;
     flex-wrap: wrap;
-    max-height: 100%;
+    flex: 1 1 auto; // fill remaining height
+    min-height: 0; // enable proper scrolling in flex parent
     overflow-y: auto;
     color: white;
     margin-right: 0.7rem;
@@ -45,5 +46,25 @@
     gap: 1.2rem 0;
     padding-top: 0.2rem;
     padding-bottom: 0.7rem;
+    flex-shrink: 0;
+  }
+
+  .info-tab-cities__content--grouped {
+    overflow-y: auto;
+    flex: 1 1 auto;
+    min-height: 0;
+    padding-bottom: 0.7rem;
+    margin-right: 0.7rem;
+
+    .info-tab-cities__year-group {
+      display: block;
+      margin-bottom: 0.8rem;
+    }
+
+    .info-tab-cities__content {
+      overflow: visible;
+      margin-right: 0rem;
+      width: 100%;
+    }
   }
 }

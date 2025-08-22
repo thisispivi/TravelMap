@@ -28,15 +28,15 @@ export function getCitiesByCountriesAndIsFuture({
         filter(
           (city) =>
             city.country.id === country.id &&
-            city.travels.some((travel) => travel.isFuture === isFuture),
+            city.travels.some((travel) => travel.isFuture === isFuture)
         ),
         flatMap((city) =>
           city.travels
             .filter((travel) => travel.isFuture === isFuture)
-            .map((travel) => new City({ ...city, travels: [travel] })),
-        ),
-      ),
-    ),
+            .map((travel) => new City({ ...city, travels: [travel] }))
+        )
+      )
+    )
   );
 }
 
@@ -61,6 +61,35 @@ export function getTotalMediaTaken(cities: City[]): number {
   return pipe(
     cities,
     flatMap((city) => city.travels),
-    sumBy((travel) => travel.photos.length),
+    sumBy((travel) => travel.photos.length)
+  );
+}
+
+type GroupCitiesByYearOptions = { cutoffYear: number };
+/**
+ * Group cities by year of travel
+ * @param {City[]} cities - The list of cities to group
+ * @param {GroupCitiesByYearOptions} options - The options for grouping
+ * @param {number} options.cutoffYear - Year cutoff. All travels from this year and below will be grouped together
+ * @returns {Record<number, City[]>} - The cities grouped by year
+ */
+export function groupCitiesByYear(
+  cities: City[],
+  options: GroupCitiesByYearOptions
+): Record<number, City[]> {
+  const { cutoffYear } = options;
+  return cities.reduce(
+    (acc, city) => {
+      city.travels.forEach((travel) => {
+        const travelYear = new Date(travel.sDate).getFullYear();
+        const year = travelYear <= cutoffYear ? cutoffYear : travelYear;
+        if (!acc[year]) acc[year] = [];
+        const existingCity = acc[year].find((c) => c.name === city.name);
+        if (existingCity) existingCity.travels.push(travel);
+        else acc[year].push(new City({ ...city, travels: [travel] }));
+      });
+      return acc;
+    },
+    {} as Record<number, City[]>
   );
 }
