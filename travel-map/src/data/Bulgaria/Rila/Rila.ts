@@ -1,5 +1,6 @@
 import { City, Travel } from "../../../core";
 import { Bulgaria } from "../Bulgaria";
+import { tr_190825_190825_images } from "./photos/tr_190825_190825";
 
 export const Rila = new City({
   name: "Rila",
@@ -9,6 +10,7 @@ export const Rila = new City({
     new Travel({
       sDate: new Date(2025, 7, 19),
       eDate: new Date(2025, 7, 19),
+      photos: tr_190825_190825_images,
     }),
   ],
   backgroundImgsSrc: [
