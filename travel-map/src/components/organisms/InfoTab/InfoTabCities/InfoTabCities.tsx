@@ -5,7 +5,10 @@ import { CityCard, FilterByCountry } from "../../../molecules";
 import { FilterIcon } from "@/assets";
 import { HomeContext } from "../../../pages/Home/Home";
 import { PositionButton } from "../../../atoms";
-import { useContext, useState, JSX } from "react";
+import { useContext, useState, JSX, useMemo } from "react";
+import { groupCitiesByYear } from "@/utils/cities";
+import { keys } from "remeda";
+import { constants } from "@/utils/parameters";
 
 interface InfoTabCitiesProps {
   allCountries: Country[];
@@ -14,6 +17,7 @@ interface InfoTabCitiesProps {
   getTravelIdx?: (city: City, travel: Travel) => number;
   id: string;
   isVisible?: boolean;
+  isGroupedByYear?: boolean;
 }
 
 /**
@@ -41,6 +45,7 @@ export default function InfoTabCities({
   getTravelIdx,
   id,
   isVisible = false,
+  isGroupedByYear = false,
 }: InfoTabCitiesProps): JSX.Element | null {
   const { t } = useLanguage(["home"]);
   const {
@@ -56,7 +61,80 @@ export default function InfoTabCities({
   const [countries, setCountries] = useState<Country[]>(allCountriesValues);
   const onCountryChange = (selected: Country[]) => setCountries(selected);
 
+  const [openedYears, setOpenedYears] = useState<number[]>([
+    constants.GROUP_BY_CITIES_DEFAULT_OPENED_YEAR,
+  ]);
+  const toggleYear = (year: number) => {
+    setOpenedYears((prev) =>
+      prev.includes(year) ? prev.filter((y) => y !== year) : [...prev, year]
+    );
+  };
+
+  const groups = useMemo(
+    () =>
+      groupCitiesByYear(cities, {
+        cutoffYear: constants.GROUP_BY_CITIES_CUTOFF_YEAR,
+      }),
+    [cities]
+  );
+
   if (!isVisible) return null;
+
+  const renderCityCards = (cities: City[]): JSX.Element => (
+    <>
+      {cities.map((city, i) => (
+        <CityCard
+          city={new City(city)}
+          isAutoPosition={isAutoPosition}
+          isClickable={
+            city.travels.length > 0 && city.travels[0].photos.length > 0
+              ? true
+              : false
+          }
+          isHidden={!countries.includes(city.country)}
+          key={i}
+          mapPosition={mapPosition}
+          setHoveredCity={setHoveredCity}
+          setMapPosition={setMapPosition}
+          travel={city.travels[0]}
+          travelIdx={getTravelIdx?.(city, city.travels[0])}
+        />
+      ))}
+      {cities.filter((city) => countries.includes(city.country)).length % 2 !==
+      0 ? (
+        <div
+          className={`info-tab-cities__void-city info-tab-${id}__void-city city-card city-card--no-box-shadow`}
+        />
+      ) : null}
+    </>
+  );
+
+  const renderedCities = isGroupedByYear ? (
+    <div className="info-tab-cities__content--grouped" id="info-tab">
+      {keys(groups).map((yearGroup, i) => (
+        <div className="info-tab-cities__year-group" key={yearGroup}>
+          <div
+            className="info-tab-cities__year"
+            onClick={() => toggleYear(parseInt(yearGroup))}
+          >
+            <h2 className="info-tab-cities__year__title">{`${i === 0 ? "< " : ""}${yearGroup}`}</h2>
+          </div>
+          {openedYears.includes(parseInt(yearGroup)) ? (
+            <div className={`info-tab-cities__content info-tab-${id}__content`}>
+              {renderCityCards(groups[yearGroup])}
+            </div>
+          ) : null}
+        </div>
+      ))}
+    </div>
+  ) : (
+    <div
+      className={`info-tab-cities__content info-tab-${id}__content`}
+      id="info-tab"
+    >
+      {renderCityCards(cities)}
+    </div>
+  );
 
   return (
     <div
@@ -82,36 +160,7 @@ export default function InfoTabCities({
           ) : null}
         </div>
       </div>
-      <div
-        className={`info-tab-cities__content info-tab-${id}__content`}
-        id="info-tab"
-      >
-        {cities.map((city, i) => (
-          <CityCard
-            city={new City(city)}
-            isAutoPosition={isAutoPosition}
-            isClickable={
-              city.travels.length > 0 && city.travels[0].photos.length > 0
-                ? true
-                : false
-            }
-            isHidden={!countries.includes(city.country)}
-            key={i}
-            mapPosition={mapPosition}
-            setHoveredCity={setHoveredCity}
-            setMapPosition={setMapPosition}
-            travel={city.travels[0]}
-            travelIdx={getTravelIdx?.(city, city.travels[0])}
-          />
-        ))}
-        {cities.filter((city) => countries.includes(city.country)).length %
-          2 !==
-        0 ? (
-          <div
-            className={`info-tab-cities__void-city info-tab-${id}__void-city city-card city-card--no-box-shadow`}
-          />
-        ) : null}
-      </div>
+      {renderedCities}
     </div>
   );
 }
