@@ -9,7 +9,6 @@ export const Sofia = new City({
     new Travel({
       sDate: new Date(2025, 7, 17),
       eDate: new Date(2025, 7, 21),
-      isFuture: true,
     }),
   ],
   backgroundImgsSrc: [

@@ -49,6 +49,7 @@ export default function InfoTabVisited({
       className={className}
       getTravelIdx={getTravelIdx}
       id="visited"
+      isGroupedByYear={true}
       isVisible={isVisible}
     />
   );
