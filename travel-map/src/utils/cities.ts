@@ -28,15 +28,15 @@ export function getCitiesByCountriesAndIsFuture({
         filter(
           (city) =>
             city.country.id === country.id &&
-            city.travels.some((travel) => travel.isFuture === isFuture)
+            city.travels.some((travel) => travel.isFuture === isFuture),
         ),
         flatMap((city) =>
           city.travels
             .filter((travel) => travel.isFuture === isFuture)
-            .map((travel) => new City({ ...city, travels: [travel] }))
-        )
-      )
-    )
+            .map((travel) => new City({ ...city, travels: [travel] })),
+        ),
+      ),
+    ),
   );
 }
 
@@ -61,7 +61,7 @@ export function getTotalMediaTaken(cities: City[]): number {
   return pipe(
     cities,
     flatMap((city) => city.travels),
-    sumBy((travel) => travel.photos.length)
+    sumBy((travel) => travel.photos.length),
   );
 }
 
@@ -75,7 +75,7 @@ type GroupCitiesByYearOptions = { cutoffYear: number };
  */
 export function groupCitiesByYear(
   cities: City[],
-  options: GroupCitiesByYearOptions
+  options: GroupCitiesByYearOptions,
 ): Record<number, City[]> {
   const { cutoffYear } = options;
   return cities.reduce(
@@ -90,6 +90,6 @@ export function groupCitiesByYear(
       });
       return acc;
     },
-    {} as Record<number, City[]>
+    {} as Record<number, City[]>,
   );
 }

@@ -66,7 +66,7 @@ export default function InfoTabCities({
   ]);
   const toggleYear = (year: number) => {
     setOpenedYears((prev) =>
-      prev.includes(year) ? prev.filter((y) => y !== year) : [...prev, year]
+      prev.includes(year) ? prev.filter((y) => y !== year) : [...prev, year],
     );
   };
 
@@ -75,7 +75,7 @@ export default function InfoTabCities({
       groupCitiesByYear(cities, {
         cutoffYear: constants.GROUP_BY_CITIES_CUTOFF_YEAR,
       }),
-    [cities]
+    [cities],
   );
 
   if (!isVisible) return null;
