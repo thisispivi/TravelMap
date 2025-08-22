@@ -35,6 +35,7 @@ interface InfoTabCitiesProps {
  * @param {function} [props.getTravelIdx] - The function to get the travel index
  * @param {string} props.id - The id of the info tab cities
  * @param {boolean} props.isVisible - The visibility of the info tab cities
+ * @param {boolean} props.isGroupedByYear - Whether the cities are grouped by year or not
  *
  * @returns {JSX.Element} - The info tab cities
  */
@@ -61,14 +62,11 @@ export default function InfoTabCities({
   const [countries, setCountries] = useState<Country[]>(allCountriesValues);
   const onCountryChange = (selected: Country[]) => setCountries(selected);
 
-  const [openedYears, setOpenedYears] = useState<number[]>([
+  const [selectedYear, setSelectedYear] = useState<number>(
     constants.GROUP_BY_CITIES_DEFAULT_OPENED_YEAR,
-  ]);
-  const toggleYear = (year: number) => {
-    setOpenedYears((prev) =>
-      prev.includes(year) ? prev.filter((y) => y !== year) : [...prev, year],
-    );
-  };
+  );
+  const toggleYear = (year: number) =>
+    selectedYear !== year ? setSelectedYear(year) : undefined;
 
   const groups = useMemo(
     () =>
@@ -110,30 +108,19 @@ export default function InfoTabCities({
   );
 
   const renderedCities = isGroupedByYear ? (
-    <div className="info-tab-cities__content--grouped" id="info-tab">
-      {keys(groups).map((yearGroup, i) => (
-        <div className="info-tab-cities__year-group" key={yearGroup}>
-          <div
-            className="info-tab-cities__year"
-            onClick={() => toggleYear(parseInt(yearGroup))}
-          >
-            <h2 className="info-tab-cities__year__title">{`${i === 0 ? "< " : ""}${yearGroup}`}</h2>
-          </div>
-          {openedYears.includes(parseInt(yearGroup)) ? (
-            <div className={`info-tab-cities__content info-tab-${id}__content`}>
-              {renderCityCards(groups[yearGroup])}
-            </div>
-          ) : null}
-        </div>
-      ))}
-    </div>
+    <GroupedCityCards
+      groups={groups}
+      id={id}
+      renderCityCards={renderCityCards}
+      selectedYear={selectedYear}
+      toggleYear={toggleYear}
+    />
   ) : (
-    <div
-      className={`info-tab-cities__content info-tab-${id}__content`}
-      id="info-tab"
-    >
-      {renderCityCards(cities)}
-    </div>
+    <SingleCityCards
+      cities={cities}
+      id={id}
+      renderCityCards={renderCityCards}
+    />
   );
 
   return (
@@ -161,6 +148,102 @@ export default function InfoTabCities({
         </div>
       </div>
       {renderedCities}
+    </div>
+  );
+}
+
+type GroupedCityCardsProps = {
+  id: string;
+  groups: Record<string, City[]>;
+  selectedYear: number;
+  toggleYear: (year: number) => void;
+  renderCityCards: (cities: City[]) => JSX.Element;
+};
+/**
+ * GroupedCityCards component
+ *
+ * Renders a set of city cards grouped by year.
+ *
+ * @param {GroupedCityCardsProps} input - The props for the component.
+ * @param {string} input.id - The id of the info tab cities
+ * @param {Record<string, City[]>} input.groups - The groups of cities by year
+ * @param {number} input.selectedYear - The currently selected year
+ * @param {function} input.toggleYear - The function to toggle the selected year
+ * @param {function} input.renderCityCards - The function to render city cards
+ *
+ * @returns {JSX.Element} - The grouped city cards
+ */
+function GroupedCityCards({
+  groups,
+  selectedYear,
+  toggleYear,
+  renderCityCards,
+  id,
+}: GroupedCityCardsProps): JSX.Element {
+  return (
+    <>
+      <div className="info-tab-cities__header info-tab-cities__year__selector">
+        {keys(groups).map((year, i) => (
+          <button
+            className={`info-tab-cities__year__button ${
+              selectedYear === parseInt(year)
+                ? "info-tab-cities__year__button--active"
+                : ""
+            }`}
+            key={year}
+            onClick={() => toggleYear(parseInt(year))}
+            type="button"
+          >
+            {`${i === 0 ? "≤ " : ""}${year}`}
+          </button>
+        ))}
+      </div>
+      <div className="info-tab-cities__content--grouped" id="info-tab">
+        {keys(groups).map((yearGroup) => (
+          <div className="info-tab-cities__year-group" key={yearGroup}>
+            {selectedYear === parseInt(yearGroup) ? (
+              <div
+                className={`info-tab-cities__content info-tab-${id}__content`}
+              >
+                {renderCityCards(groups[yearGroup])}
+              </div>
+            ) : null}
+          </div>
+        ))}
+      </div>
+    </>
+  );
+}
+
+type SingleCityCardsProps = {
+  id: string;
+  renderCityCards: (cities: City[]) => JSX.Element;
+  cities: City[];
+};
+
+/**
+ * SingleCityCards component
+ *
+ * Renders a set of city cards for a single year.
+ *
+ * @param {SingleCityCardsProps} input - The props for the component.
+ * @param {string} input.id - The id of the info tab cities
+ * @param {function} input.renderCityCards - The function to render city cards
+ * @param {City[]} input.cities - The list of cities to render
+ *
+ * @returns {JSX.Element} - The single city cards
+ */
+function SingleCityCards({
+  id,
+  renderCityCards,
+  cities,
+}: SingleCityCardsProps): JSX.Element {
+  return (
+    <div
+      className={`info-tab-cities__content info-tab-${id}__content`}
+      id="info-tab"
+    >
+      {renderCityCards(cities)}
     </div>
   );
 }

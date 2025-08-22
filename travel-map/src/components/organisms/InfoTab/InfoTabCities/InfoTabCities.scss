@@ -1,5 +1,6 @@
 @use "../../../../styles/variables.module" as v;
 @use "../../../../styles/mixins" as m;
+
 .info-tab-cities {
   padding: 1rem 0;
   flex-direction: column;
@@ -37,8 +38,8 @@
   .info-tab-cities__content {
     display: flex;
     flex-wrap: wrap;
-    flex: 1 1 auto; // fill remaining height
-    min-height: 0; // enable proper scrolling in flex parent
+    flex: 1 1 auto;
+    min-height: 0;
     overflow-y: auto;
     color: white;
     margin-right: 0.7rem;
@@ -56,15 +57,65 @@
     padding-bottom: 0.7rem;
     margin-right: 0.7rem;
 
-    .info-tab-cities__year-group {
-      display: block;
-      margin-bottom: 0.8rem;
-    }
-
     .info-tab-cities__content {
-      overflow: visible;
       margin-right: 0rem;
       width: 100%;
+    }
+  }
+  .info-tab-cities__year__selector {
+    margin: 0 0 0.75rem 0;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.75rem;
+
+    .info-tab-cities__year__button {
+      background: transparent;
+      padding: 0.5rem 1rem;
+      border-radius: 0.375rem;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      @include m.transition(all, 0.3s, ease-in-out);
+      &:active {
+        transform: scale(0.98);
+      }
+
+      &.info-tab-cities__year__button--active {
+        background: v.$visitedButtonContent;
+        border-color: v.$visitedButtonContent;
+        color: white;
+
+        &:hover {
+          background: v.$visitedButtonContent;
+          border-color: v.$visitedButtonContent;
+          color: white;
+        }
+      }
+    }
+  }
+}
+
+.home--light {
+  .info-tab-cities__year__button {
+    border: 0.1rem solid v.$lightButton;
+    color: v.$lightDisabledText;
+    &:hover {
+      background: rgba(255, 255, 255, 0.6);
+      border-color: v.$lightButtonHover;
+      color: v.$lightButtonContent;
+    }
+  }
+}
+
+.home--dark {
+  .info-tab-cities__year__button {
+    border: 0.1rem solid v.$darkButton;
+    color: v.$darkDisabledText;
+    &:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: v.$darkButtonHover;
+      color: v.$darkButtonContent;
     }
   }
 }
