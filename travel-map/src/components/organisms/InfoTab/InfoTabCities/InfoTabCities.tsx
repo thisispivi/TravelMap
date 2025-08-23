@@ -5,7 +5,15 @@ import { CityCard, FilterByCountry } from "../../../molecules";
 import { FilterIcon } from "@/assets";
 import { HomeContext } from "../../../pages/Home/Home";
 import { PositionButton } from "../../../atoms";
-import { useContext, useState, JSX, useMemo } from "react";
+import {
+  useContext,
+  useState,
+  JSX,
+  useMemo,
+  useEffect,
+  useRef,
+  RefObject,
+} from "react";
 import { groupCitiesByYear } from "@/utils/cities";
 import { keys } from "remeda";
 import { constants } from "@/utils/parameters";
@@ -63,17 +71,34 @@ export default function InfoTabCities({
   const onCountryChange = (selected: Country[]) => setCountries(selected);
 
   const [selectedYear, setSelectedYear] = useState<number>(
-    constants.GROUP_BY_CITIES_DEFAULT_OPENED_YEAR,
+    constants.GROUP_BY_CITIES_DEFAULT_OPENED_YEAR
   );
   const toggleYear = (year: number) =>
     selectedYear !== year ? setSelectedYear(year) : undefined;
+
+  const [hasOverflow, setHasOverflow] = useState<boolean>(false);
+  const contentRef = useRef<HTMLDivElement | null>(null);
+
+  const checkOverflow = () => {
+    if (contentRef.current) {
+      const element = contentRef.current;
+      setHasOverflow(element.scrollHeight > element.clientHeight);
+    }
+  };
+
+  useEffect(() => {
+    checkOverflow();
+    const handleResize = () => checkOverflow();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [cities, countries, selectedYear, isVisible]);
 
   const groups = useMemo(
     () =>
       groupCitiesByYear(cities, {
         cutoffYear: constants.GROUP_BY_CITIES_CUTOFF_YEAR,
       }),
-    [cities],
+    [cities]
   );
 
   if (!isVisible) return null;
@@ -109,7 +134,9 @@ export default function InfoTabCities({
 
   const renderedCities = isGroupedByYear ? (
     <GroupedCityCards
+      contentRef={contentRef}
       groups={groups}
+      hasOverflow={hasOverflow}
       id={id}
       renderCityCards={renderCityCards}
       selectedYear={selectedYear}
@@ -118,6 +145,8 @@ export default function InfoTabCities({
   ) : (
     <SingleCityCards
       cities={cities}
+      contentRef={contentRef}
+      hasOverflow={hasOverflow}
       id={id}
       renderCityCards={renderCityCards}
     />
@@ -158,6 +187,8 @@ type GroupedCityCardsProps = {
   selectedYear: number;
   toggleYear: (year: number) => void;
   renderCityCards: (cities: City[]) => JSX.Element;
+  hasOverflow: boolean;
+  contentRef: RefObject<HTMLDivElement | null>;
 };
 /**
  * GroupedCityCards component
@@ -179,6 +210,8 @@ function GroupedCityCards({
   toggleYear,
   renderCityCards,
   id,
+  hasOverflow,
+  contentRef,
 }: GroupedCityCardsProps): JSX.Element {
   return (
     <>
@@ -198,7 +231,11 @@ function GroupedCityCards({
           </button>
         ))}
       </div>
-      <div className="info-tab-cities__content--grouped" id="info-tab">
+      <div
+        className={`info-tab-cities__content--grouped ${hasOverflow ? "info-tab-cities__content--overflow" : ""}`}
+        id="info-tab"
+        ref={contentRef}
+      >
         {keys(groups).map((yearGroup) => (
           <div className="info-tab-cities__year-group" key={yearGroup}>
             {selectedYear === parseInt(yearGroup) ? (
@@ -219,6 +256,8 @@ type SingleCityCardsProps = {
   id: string;
   renderCityCards: (cities: City[]) => JSX.Element;
   cities: City[];
+  hasOverflow: boolean;
+  contentRef: RefObject<HTMLDivElement | null>;
 };
 
 /**
@@ -237,11 +276,14 @@ function SingleCityCards({
   id,
   renderCityCards,
   cities,
+  hasOverflow,
+  contentRef,
 }: SingleCityCardsProps): JSX.Element {
   return (
     <div
-      className={`info-tab-cities__content info-tab-${id}__content`}
+      className={`info-tab-cities__content info-tab-${id}__content ${hasOverflow ? "info-tab-cities__content--overflow" : ""}`}
       id="info-tab"
+      ref={contentRef}
     >
       {renderCityCards(cities)}
     </div>
