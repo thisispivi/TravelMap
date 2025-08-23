@@ -47,7 +47,7 @@ export default function Gallery(): JSX.Element {
         youtube: p.youtube,
         index: i,
       })),
-    [travel.photos],
+    [travel.photos]
   );
 
   return (
@@ -68,7 +68,7 @@ export default function Gallery(): JSX.Element {
         />
       </div>
       <div className="gallery__content">
-        <div className="gallery__content__photo-album" id="info-tab">
+        <div className="gallery__content__photo-album" id="gallery">
           <RowsPhotoAlbum
             onClick={({ index }) => navigate(`./${index}`)}
             photos={photos}
