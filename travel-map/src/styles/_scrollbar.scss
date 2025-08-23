@@ -10,7 +10,7 @@ $scrollbarSize: 0.4rem;
   border-radius: $scrollbarSize;
 }
 
-@mixin setScrollbar($bg, $bar, $barHover, $barActive) {
+@mixin setScrollbar($bg, $bar, $barHover, $barActive, $thumbBorderSize: 0) {
   &::-webkit-scrollbar-track {
     background-color: $bg;
     -webkit-background-clip: text;
@@ -18,13 +18,27 @@ $scrollbarSize: 0.4rem;
   }
   &::-webkit-scrollbar-thumb {
     background-color: $bar;
-    border: 0 solid $bg;
+    border: $thumbBorderSize solid $bg;
+    @include m.transition(all, 0.3s, ease-in-out);
   }
   &::-webkit-scrollbar-thumb:hover {
     background: $barHover;
+    @include m.transition(all, 0.3s, ease-in-out);
   }
   &::-webkit-scrollbar-thumb:active {
     background: $barActive;
+    @include m.transition(all, 0.3s, ease-in-out);
+  }
+}
+
+#gallery {
+  $scrollbarSize: 1.5rem;
+  &::-webkit-scrollbar {
+    width: $scrollbarSize;
+    height: $scrollbarSize;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: $scrollbarSize;
   }
 }
 
@@ -39,10 +53,11 @@ $scrollbarSize: 0.4rem;
   }
   #gallery {
     @include setScrollbar(
-      v.$lightLeftBar,
+      v.$lightInfoTab,
       v.$darkButton,
       v.$darkInfoTab,
-      v.$darkLeftBar
+      v.$darkLeftBar,
+      0.55rem
     );
   }
 }
@@ -58,10 +73,11 @@ $scrollbarSize: 0.4rem;
   }
   #gallery {
     @include setScrollbar(
-      v.$darkLeftBar,
+      v.$darkInfoTab,
       v.$lightButton,
       v.$lightInfoTab,
-      v.$lightLeftBar
+      v.$lightLeftBar,
+      0.55rem
     );
   }
 }
