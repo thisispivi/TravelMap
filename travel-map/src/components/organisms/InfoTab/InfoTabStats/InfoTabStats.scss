@@ -137,6 +137,46 @@
       }
     }
 
+    .info-tab-stats__card__flight-companies {
+      justify-content: space-evenly;
+      align-items: center;
+      gap: 1rem;
+      margin-block: 0.5rem;
+      svg {
+        width: auto;
+        path {
+          @include m.transition(all, 0.3s, ease-in-out);
+        }
+      }
+      .flight-company--all_nippon_airways {
+        height: 1.25rem;
+      }
+      .flight-company--volotea {
+        height: 1.6rem;
+      }
+      .flight-company--ryanair {
+        height: 1rem;
+      }
+      .flight-company--easyjet {
+        height: 1.1rem;
+      }
+      .flight-company--wizz_air {
+        height: 1.7rem;
+        .wizz-air-0 {
+          fill: #c80b80;
+        }
+      }
+      .flight-company--ita_airways {
+        height: 1.6rem;
+      }
+      .flight-company--air_one {
+        height: 1.3rem;
+      }
+      .flight-company--alitalia {
+        height: 1.3rem;
+      }
+    }
+
     .info-tab-stats__card--continents,
     .info-tab-stats__card--flights,
     .info-tab-stats__card--mileage {
@@ -273,6 +313,11 @@
         }
       }
     }
+    .flight-company--ita_airways {
+      .ita-0 {
+        fill: #0171cf;
+      }
+    }
   }
 }
 
@@ -311,6 +356,16 @@
           }
         }
       }
+    }
+  }
+  .flight-company--volotea {
+    .volotea-0 {
+      fill: white;
+    }
+  }
+  .flight-company--air_one {
+    .air-one-0 {
+      fill: white;
     }
   }
 }

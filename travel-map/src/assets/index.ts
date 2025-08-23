@@ -101,3 +101,23 @@ export {
 import worldData from "./json/countries-50m.json";
 
 export { worldData };
+
+import RyanairLogo from "./icons/Flights/Ryanair.svg?react";
+import AirOneLogo from "./icons/Flights/AirOne.svg?react";
+import AlitaliaLogo from "./icons/Flights/Alitalia.svg?react";
+import EasyJetLogo from "./icons/Flights/EasyJet.svg?react";
+import ItaAirwaysLogo from "./icons/Flights/ItaAirways.svg?react";
+import VoloteaLogo from "./icons/Flights/Volotea.svg?react";
+import WizzAirLogo from "./icons/Flights/WizzAir.svg?react";
+import AllNipponAirwaysLogo from "./icons/Flights/AllNipponAirways.svg?react";
+
+export {
+  RyanairLogo,
+  AirOneLogo,
+  AlitaliaLogo,
+  EasyJetLogo,
+  ItaAirwaysLogo,
+  VoloteaLogo,
+  WizzAirLogo,
+  AllNipponAirwaysLogo,
+};

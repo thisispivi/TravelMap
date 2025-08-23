@@ -61,6 +61,7 @@ import { VaticanCity } from "./Vatican/Vatican/VaticanCity";
 import { Verona } from "./Italy/Verona/Verona";
 import { Victoria } from "./Malta/Victoria/Victoria";
 import { Vienna } from "./Austria/Vienna/Vienna";
+import { FlightCompany } from "@/core";
 
 export const livedCountries: Country[] = [Italy];
 export const livedCities: City[] = [Muravera, Cagliari];
@@ -126,45 +127,153 @@ export const visitedCities: City[] = [
 ];
 
 export const takenFlights: Flight[] = [
-  new Flight({ sCity: Cagliari, eCity: London }),
-  new Flight({ sCity: London, eCity: Cagliari }),
-  new Flight({ sCity: Cagliari, eCity: Berlin }),
-  new Flight({ sCity: Berlin, eCity: Cagliari }),
-  new Flight({ sCity: Cagliari, eCity: Barcelona }),
-  new Flight({ sCity: Barcelona, eCity: Cagliari }),
-  new Flight({ sCity: Cagliari, eCity: Bologna }),
-  new Flight({ sCity: Bologna, eCity: Cagliari }),
-  new Flight({ sCity: Cagliari, eCity: Rome }),
-  new Flight({ sCity: Rome, eCity: Cagliari }),
-  new Flight({ sCity: Cagliari, eCity: Cefalù }),
-  new Flight({ sCity: Cefalù, eCity: Cagliari }),
-  new Flight({ sCity: Cagliari, eCity: Rome }),
-  new Flight({ sCity: Rome, eCity: Cagliari }),
-  new Flight({ sCity: Cagliari, eCity: Budapest }),
-  new Flight({ sCity: Budapest, eCity: Cagliari }),
-  new Flight({ sCity: Cagliari, eCity: Brussels }),
-  new Flight({ sCity: Brussels, eCity: Cagliari }),
-  new Flight({ sCity: Cagliari, eCity: Turin }),
-  new Flight({ sCity: Genoa, eCity: Cagliari }),
-  new Flight({ sCity: Cagliari, eCity: Porto }),
-  new Flight({ sCity: Porto, eCity: Cagliari }),
-  new Flight({ sCity: Cagliari, eCity: Rome }),
-  new Flight({ sCity: Rome, eCity: Tokyo }),
-  new Flight({ sCity: Osaka, eCity: Tokyo }),
-  new Flight({ sCity: Tokyo, eCity: Rome }),
-  new Flight({ sCity: Rome, eCity: Cagliari }),
-  new Flight({ sCity: Cagliari, eCity: Verona }),
-  new Flight({ sCity: Verona, eCity: Cagliari }),
-  new Flight({ sCity: Cagliari, eCity: Luqa }),
-  new Flight({ sCity: Luqa, eCity: Cagliari }),
-  new Flight({ sCity: Cagliari, eCity: Sevilla }),
-  new Flight({ sCity: Sevilla, eCity: Cagliari }),
-  new Flight({ sCity: Cagliari, eCity: Vienna }),
-  new Flight({ sCity: Vienna, eCity: Cagliari }),
-  new Flight({ sCity: Cagliari, eCity: Cefalù }),
-  new Flight({ sCity: Cefalù, eCity: Cagliari }),
-  new Flight({ sCity: Alghero, eCity: Sofia }),
-  new Flight({ sCity: Sofia, eCity: Alghero }),
+  new Flight({
+    sCity: Cagliari,
+    eCity: London,
+    company: FlightCompany.EASYJET,
+  }),
+  new Flight({
+    sCity: London,
+    eCity: Cagliari,
+    company: FlightCompany.EASYJET,
+  }),
+  new Flight({
+    sCity: Cagliari,
+    eCity: Berlin,
+    company: FlightCompany.RYANAIR,
+  }),
+  new Flight({
+    sCity: Berlin,
+    eCity: Cagliari,
+    company: FlightCompany.RYANAIR,
+  }),
+  new Flight({
+    sCity: Cagliari,
+    eCity: Barcelona,
+    company: FlightCompany.RYANAIR,
+  }),
+  new Flight({
+    sCity: Barcelona,
+    eCity: Cagliari,
+    company: FlightCompany.RYANAIR,
+  }),
+  new Flight({
+    sCity: Cagliari,
+    eCity: Bologna,
+    company: FlightCompany.RYANAIR,
+  }),
+  new Flight({
+    sCity: Bologna,
+    eCity: Cagliari,
+    company: FlightCompany.RYANAIR,
+  }),
+  new Flight({ sCity: Cagliari, eCity: Rome, company: FlightCompany.RYANAIR }),
+  new Flight({ sCity: Rome, eCity: Cagliari, company: FlightCompany.RYANAIR }),
+  new Flight({
+    sCity: Cagliari,
+    eCity: Cefalù,
+    company: FlightCompany.RYANAIR,
+  }),
+  new Flight({
+    sCity: Cefalù,
+    eCity: Cagliari,
+    company: FlightCompany.RYANAIR,
+  }),
+  new Flight({
+    sCity: Cagliari,
+    eCity: Rome,
+    company: FlightCompany.ITA_AIRWAYS,
+  }),
+  new Flight({
+    sCity: Rome,
+    eCity: Cagliari,
+    company: FlightCompany.ITA_AIRWAYS,
+  }),
+  new Flight({
+    sCity: Cagliari,
+    eCity: Budapest,
+    company: FlightCompany.RYANAIR,
+  }),
+  new Flight({
+    sCity: Budapest,
+    eCity: Cagliari,
+    company: FlightCompany.RYANAIR,
+  }),
+  new Flight({
+    sCity: Cagliari,
+    eCity: Brussels,
+    company: FlightCompany.RYANAIR,
+  }),
+  new Flight({
+    sCity: Brussels,
+    eCity: Cagliari,
+    company: FlightCompany.RYANAIR,
+  }),
+  new Flight({ sCity: Cagliari, eCity: Turin, company: FlightCompany.RYANAIR }),
+  new Flight({ sCity: Genoa, eCity: Cagliari, company: FlightCompany.RYANAIR }),
+  new Flight({ sCity: Cagliari, eCity: Porto, company: FlightCompany.RYANAIR }),
+  new Flight({ sCity: Porto, eCity: Cagliari, company: FlightCompany.RYANAIR }),
+  new Flight({
+    sCity: Cagliari,
+    eCity: Rome,
+    company: FlightCompany.ITA_AIRWAYS,
+  }),
+  new Flight({ sCity: Rome, eCity: Tokyo, company: FlightCompany.ITA_AIRWAYS }),
+  new Flight({
+    sCity: Osaka,
+    eCity: Tokyo,
+    company: FlightCompany.ALL_NIPPON_AIRWAYS,
+  }),
+  new Flight({ sCity: Tokyo, eCity: Rome, company: FlightCompany.ITA_AIRWAYS }),
+  new Flight({
+    sCity: Rome,
+    eCity: Cagliari,
+    company: FlightCompany.ITA_AIRWAYS,
+  }),
+  new Flight({
+    sCity: Cagliari,
+    eCity: Verona,
+    company: FlightCompany.RYANAIR,
+  }),
+  new Flight({
+    sCity: Verona,
+    eCity: Cagliari,
+    company: FlightCompany.RYANAIR,
+  }),
+  new Flight({ sCity: Cagliari, eCity: Luqa, company: FlightCompany.RYANAIR }),
+  new Flight({ sCity: Luqa, eCity: Cagliari, company: FlightCompany.RYANAIR }),
+  new Flight({
+    sCity: Cagliari,
+    eCity: Sevilla,
+    company: FlightCompany.RYANAIR,
+  }),
+  new Flight({
+    sCity: Sevilla,
+    eCity: Cagliari,
+    company: FlightCompany.RYANAIR,
+  }),
+  new Flight({
+    sCity: Cagliari,
+    eCity: Vienna,
+    company: FlightCompany.RYANAIR,
+  }),
+  new Flight({
+    sCity: Vienna,
+    eCity: Cagliari,
+    company: FlightCompany.RYANAIR,
+  }),
+  new Flight({
+    sCity: Cagliari,
+    eCity: Cefalù,
+    company: FlightCompany.RYANAIR,
+  }),
+  new Flight({
+    sCity: Cefalù,
+    eCity: Cagliari,
+    company: FlightCompany.RYANAIR,
+  }),
+  new Flight({ sCity: Alghero, eCity: Sofia, company: FlightCompany.WIZZ_AIR }),
+  new Flight({ sCity: Sofia, eCity: Alghero, company: FlightCompany.WIZZ_AIR }),
 ];
 
 export const futureCountries: Country[] = [Australia];

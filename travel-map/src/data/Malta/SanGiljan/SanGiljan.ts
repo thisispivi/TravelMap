@@ -17,7 +17,7 @@ export const SanGiljan = new City({
       sDate: new Date(2025, 0, 4, 23),
       eDate: new Date(2025, 0, 4, 23),
       photos: tr_040125_040125_images,
-      rowCostraints: { minPhotos: 2, maxPhotos: 7 },
+      rowConstraints: { minPhotos: 2, maxPhotos: 7 },
     }),
   ],
   backgroundImgsSrc: [

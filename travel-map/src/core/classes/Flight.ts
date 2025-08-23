@@ -1,9 +1,11 @@
 import { getCitiesDistance } from "../../utils/distance";
+import { FlightCompany } from "../typings/FlightCompany";
 import { City } from "./City";
 
 export interface FlightInterface {
   sCity: City;
   eCity: City;
+  company: FlightCompany;
 }
 
 /**
@@ -20,6 +22,7 @@ export interface FlightInterface {
  * @param {boolean} flightData.isInternational - If the flight is international
  * @param {boolean} flightData.isIntercontinental - If the flight is intercontinental
  * @param {number} flightData.distanceInKm - The distance of the flight in kilometers
+ * @param {FlightCompany} flightData.company - The company of the flight
  */
 export class Flight implements FlightInterface {
   sCity: City;
@@ -28,8 +31,9 @@ export class Flight implements FlightInterface {
   isInternational: boolean = false;
   isIntercontinental: boolean = false;
   distanceInKm: number = 0;
+  company: FlightCompany;
 
-  constructor({ sCity, eCity }: FlightInterface) {
+  constructor({ sCity, eCity, company }: FlightInterface) {
     const isIntercontinental =
       sCity.country.continent !== eCity.country.continent;
     this.sCity = sCity;
@@ -39,5 +43,6 @@ export class Flight implements FlightInterface {
       sCity.country !== eCity.country && !isIntercontinental;
     this.isIntercontinental = isIntercontinental;
     this.distanceInKm = getCitiesDistance(sCity, eCity);
+    this.company = company;
   }
 }
