@@ -42,12 +42,16 @@
     min-height: 0;
     overflow-y: auto;
     color: white;
-    margin-right: 0.7rem;
+    margin-right: 0;
     justify-content: space-evenly;
     gap: 1.2rem 0;
     padding-top: 0.2rem;
     padding-bottom: 0.7rem;
     flex-shrink: 0;
+
+    &.info-tab-cities__content--overflow {
+      margin-right: 0.7rem;
+    }
   }
 
   .info-tab-cities__content--grouped {
@@ -55,7 +59,11 @@
     flex: 1 1 auto;
     min-height: 0;
     padding-bottom: 0.7rem;
-    margin-right: 0.7rem;
+    margin-right: 0;
+
+    &.info-tab-cities__content--overflow {
+      margin-right: 0.7rem;
+    }
 
     .info-tab-cities__content {
       margin-right: 0rem;
