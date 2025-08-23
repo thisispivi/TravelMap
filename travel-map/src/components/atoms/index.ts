@@ -24,6 +24,9 @@ export { CurrencyFlag };
 import FlightsDonutChart from "./DonutChart/DonutChartFlights";
 export { FlightsDonutChart };
 
+import FlightCompany from "./FlightCompany/FlightCompany";
+export { FlightCompany };
+
 import LanguageFlag from "./LanguageFlag/LanguageFlag";
 export { LanguageFlag };
 

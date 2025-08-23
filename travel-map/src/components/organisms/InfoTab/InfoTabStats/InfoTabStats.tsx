@@ -25,6 +25,7 @@ import {
 } from "@/assets";
 import {
   ContinentsBarChart,
+  FlightCompany,
   FlightsDonutChart,
   PopulationBarChart,
 } from "../../../atoms";
@@ -33,7 +34,7 @@ import {
   getMinAndMaxFlight,
   getTotalMileage,
 } from "@/utils/distance";
-import { Continent } from "@/core";
+import { Continent, FlightCompany as FlightCompanyCore } from "@/core";
 import { formatMileage } from "@/utils/format";
 import { constants, parameters } from "@/utils/parameters";
 import { getContinentsByCities, getContinentStats } from "@/utils/continent";
@@ -43,7 +44,7 @@ import {
 } from "@/utils/timezone";
 import { getTotalMediaTaken } from "@/utils/cities";
 import { getCurrenciesFromCountries } from "@/utils/countries";
-import { keys } from "remeda";
+import { keys, unique } from "remeda";
 
 interface InfoTabStatsProps {
   className?: string;
@@ -95,7 +96,7 @@ export default function InfoTabStats({
 
   const numUnescoSites = keys(parameters.stats.unescoSites).reduce(
     (acc, country) => acc + parameters.stats.unescoSites[country].length,
-    0,
+    0
   );
 
   return (
@@ -207,6 +208,25 @@ export default function InfoTabStats({
           </Column>
           <Column className="info-tab-stats__card__row">
             <p className="info-tab-stats__card__row__title">
+              {t("stats.flightCompaniesTaken")}
+            </p>
+            <Row className="info-tab-stats__card__flight-companies row--wrap">
+              {[
+                FlightCompanyCore.AIR_ONE,
+                FlightCompanyCore.ALITALIA,
+                FlightCompanyCore.VOLOTEA,
+                ...unique(takenFlights.map((f) => f.company)),
+              ].map((company) => (
+                <FlightCompany
+                  className="info-tab-stats__card__flight-companies__company"
+                  company={company}
+                  key={company}
+                />
+              ))}
+            </Row>
+          </Column>
+          <Column className="info-tab-stats__card__row">
+            <p className="info-tab-stats__card__row__title">
               {t("stats.firstFlight")}
             </p>
             <FlightRow flight={takenFlights[0]} />
@@ -248,7 +268,7 @@ export default function InfoTabStats({
                 <ContinentRow
                   continent={continent as Continent}
                   isVisited={visitedContinents.includes(
-                    Continent[continent as keyof typeof Continent],
+                    Continent[continent as keyof typeof Continent]
                   )}
                   key={continent}
                 />

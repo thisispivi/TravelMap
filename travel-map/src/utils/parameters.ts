@@ -84,6 +84,7 @@ export const parameters = {
         "Padua's fourteenth-century fresco cycles",
         "The Porticoes of Bologna",
       ],
+      Bulgaria: ["Boyana Church", "Rila Monastery"],
     },
   },
 };
