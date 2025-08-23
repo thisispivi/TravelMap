@@ -47,7 +47,7 @@ export default function Gallery(): JSX.Element {
         youtube: p.youtube,
         index: i,
       })),
-    [travel.photos],
+    [travel.photos]
   );
 
   return (
@@ -91,7 +91,7 @@ export default function Gallery(): JSX.Element {
                 </div>
               ),
             }}
-            rowConstraints={travel.rowCostraints}
+            rowConstraints={travel.rowConstraints}
             targetRowHeight={travel.targetRowHeight}
           />
         </div>
