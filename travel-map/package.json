@@ -12,8 +12,8 @@
     "preview": "vite preview",
     "prepare": "cd .. & husky",
     "format": "prettier . --write",
-    "predeploy": "npm run build",
-    "deploy": "npx gh-pages -d dist"
+    "predeploygh": "pnpm run build",
+    "deploygh": "npx gh-pages -d dist"
   },
   "dependencies": {
     "apexcharts": "^5.3.3",
@@ -70,8 +70,8 @@
     "vite-plugin-svgr": "^4.3.0"
   },
   "lint-staged": {
-    "*.js": "npm run lint",
-    "*.{js,css,md,html,json}": "npm run format"
+    "*.js": "pnpm run lint",
+    "*.{js,css,md,html,json}": "pnpm run format"
   },
   "browserslist": {
     "production": [
