@@ -29,20 +29,18 @@
 
   .travel-selector__info {
     display: flex;
-    .travel-selector__bar {
+    p {
       @include m.transition(all, 0.3s, ease-in-out);
     }
-    .travel-selector__dates {
-      display: flex;
-      p {
-        text-transform: capitalize;
+    .travel-selector__icon {
+      width: auto;
+      height: 1.2rem;
+      margin-right: 0.4rem;
+      path {
         @include m.transition(all, 0.3s, ease-in-out);
       }
-      .travel-selector__travel-icon {
-        width: 1rem;
-        height: 1rem;
-        margin: 0 0.5rem 0 0;
-        @include m.transition(all, 0.3s, ease-in-out);
+      .calendar-0 {
+        stroke-width: 60;
       }
     }
   }
@@ -51,12 +49,6 @@
 @media screen and (max-width: 680px) {
   .travel-selector__bar {
     display: none;
-  }
-  .travel-selector__info {
-    flex-direction: column;
-    .travel-selector__dates {
-      padding: 0.3rem 0;
-    }
   }
 }
 
@@ -73,8 +65,11 @@
       color: v.$darkLeftBar;
     }
   }
-  .travel-selector__travel-icon {
-    fill: v.$darkLeftBar;
+  .travel-selector__icon {
+    .calendar-0,
+    .calendar-1 {
+      stroke: v.$darkLeftBar;
+    }
   }
   .travel-selector__chevron-icon {
     path {
@@ -95,8 +90,11 @@
       color: v.$lightLeftBar;
     }
   }
-  .travel-selector__travel-icon {
-    fill: v.$lightLeftBar;
+  .travel-selector__icon {
+    .calendar-0,
+    .calendar-1 {
+      stroke: v.$lightLeftBar;
+    }
   }
   .travel-selector__chevron-icon {
     path {
