@@ -2,14 +2,9 @@ import "./TooltipMap.scss";
 import { City } from "@/core";
 import useLanguage from "@/hooks/language/language";
 import { Button, CountryFlag } from "../../atoms";
-import {
-  ArrivalIcon,
-  DepartureIcon,
-  DoubleChevronIcon,
-  GalleryIcon,
-} from "@/assets";
+import { CalendarIcon, DoubleChevronIcon, GalleryIcon } from "@/assets";
 import { useEffect, useState, JSX } from "react";
-import { formatDate } from "@/i18n/functions/date";
+import { formatDateRangeShort } from "@/i18n/functions/date";
 import { useNavigate } from "react-router-dom";
 
 interface MapTooltipProps {
@@ -82,16 +77,17 @@ export default function MapTooltip({
                 className={`map-tooltip__content__chevron-icon map-tooltip__content__chevron-icon--left ${travelIdx > 0 ? "" : "map-tooltip__content__chevron-icon--disabled"}`}
                 onClick={() => travelIdx > 0 && setTravelIdx(travelIdx - 1)}
               />
-
               <div className="map-tooltip__content__travel">
-                <div className="map-tooltip__content__travel__info">
-                  <DepartureIcon className="map-tooltip__content__travel__icon" />
-                  <p>{formatDate(filteredTravels[travelIdx].sDate, lang)}</p>
-                </div>
-                <div className="map-tooltip__content__travel__info">
-                  <ArrivalIcon className="map-tooltip__content__travel__icon" />
-                  <p>{formatDate(filteredTravels[travelIdx].eDate, lang)}</p>
-                </div>
+                <CalendarIcon className="map-tooltip__content__travel__icon" />
+                <p>
+                  {formatDateRangeShort({
+                    sDateInput: filteredTravels[travelIdx].sDate,
+                    eDateInput: filteredTravels[travelIdx].eDate,
+                    locale: lang,
+                    includeWeekday: true,
+                    showYear: true,
+                  })}
+                </p>
               </div>
               <DoubleChevronIcon
                 className={`map-tooltip__content__chevron-icon ${travelIdx < filteredTravels.length - 1 ? "" : "map-tooltip__content__chevron-icon--disabled"}`}

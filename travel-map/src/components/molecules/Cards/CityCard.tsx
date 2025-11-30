@@ -2,13 +2,13 @@ import useLanguage from "../../../hooks/language/language";
 import { City, Travel } from "../../../core";
 import "./CityCard.scss";
 import { useNavigate } from "react-router-dom";
-import { DepartureIcon } from "../../../assets";
+import { CalendarIcon } from "../../../assets";
 import { CountryFlag, Loading } from "../../atoms";
 import { JSX, useCallback } from "react";
 import { mobileAndTabletCheck } from "../../../utils/responsive";
 import { parameters } from "../../../utils/parameters";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { formatDateRangeShort } from "@/utils/format";
+import { formatDateRangeShort } from "@/i18n/functions/date";
 
 interface CityCardProps {
   className?: string;
@@ -120,8 +120,16 @@ export default function CityCard({
         </div>
         {travel?.sDate ? (
           <div className="travel-card__info">
-            <DepartureIcon className="travel-card__icon" />
-            <p>{formatDateRangeShort(travel.sDate, travel.eDate, lang)}</p>
+            <CalendarIcon className="travel-card__icon" />
+            <p>
+              {formatDateRangeShort({
+                sDateInput: travel.sDate,
+                eDateInput: travel.eDate,
+                locale: lang,
+                includeWeekday: true,
+                showYear: false,
+              })}
+            </p>
           </div>
         ) : null}
       </div>

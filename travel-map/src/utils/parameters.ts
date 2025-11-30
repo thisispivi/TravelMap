@@ -2,7 +2,7 @@ import { Muravera } from "../data/Italy/Muravera/Muravera";
 
 export const constants = {
   TOTAL_COUNTRIES: 195,
-  TOTAL_UNESCO_SITES: 1223,
+  TOTAL_UNESCO_SITES: 1248,
   EARTH_CIRCUMFERENCE: 40075,
   MOON_DISTANCE: 384400,
   GROUP_BY_CITIES_CUTOFF_YEAR: 2022,
@@ -85,6 +85,12 @@ export const parameters = {
         "The Porticoes of Bologna",
       ],
       Bulgaria: ["Boyana Church", "Rila Monastery"],
+      Australia: [
+        "Sydney Opera House",
+        "Great Barrier Reef",
+        "Australian Convict Sites",
+        "Wet Tropics of Queensland",
+      ],
     },
   },
 };
