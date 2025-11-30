@@ -10,7 +10,7 @@ import { i18n } from "i18next";
  */
 export function formatDate(
   date: Date | undefined,
-  lang: i18n["language"],
+  lang: i18n["language"]
 ): string {
   if (!lang.includes("en") && !lang.includes("it"))
     return "Unsupported language";
@@ -37,7 +37,7 @@ export function formatDate(
  */
 export function formatDateMonthYear(
   date: Date | undefined,
-  lang: i18n["language"],
+  lang: i18n["language"]
 ): string {
   if (!lang.includes("en") && !lang.includes("it"))
     return "Unsupported language";
@@ -50,4 +50,55 @@ export function formatDateMonthYear(
   }).format(date);
 
   return formattedDate;
+}
+
+type FormatDateRangeShortInput = {
+  sDateInput?: string | Date | null;
+  eDateInput?: string | Date | null;
+  locale?: string;
+  includeWeekday?: boolean;
+  showYear?: boolean;
+};
+export function formatDateRangeShort({
+  sDateInput,
+  eDateInput,
+  locale = "en",
+  includeWeekday = false,
+  showYear = true,
+}: FormatDateRangeShortInput): string {
+  if (!sDateInput) return "";
+  const s = new Date(sDateInput);
+  const e = eDateInput ? new Date(eDateInput) : null;
+
+  const day = (d: Date) => d.getDate();
+  const monthFmt = (d: Date) =>
+    new Intl.DateTimeFormat(locale, { month: "short" }).format(d);
+  const year = (d: Date) => d.getFullYear();
+  const weekdayFmt = (d: Date) =>
+    new Intl.DateTimeFormat(locale, { weekday: "short" }).format(d).slice(0, 3);
+
+  const dayWithOptWeekday = (d: Date) =>
+    `${includeWeekday ? weekdayFmt(d) + " " : ""}${day(d)}`;
+  const fullDate = (d: Date) =>
+    `${dayWithOptWeekday(d)} ${monthFmt(d)}${showYear ? " " + year(d) : ""}`;
+
+  if (!e) {
+    return fullDate(s).trim();
+  }
+
+  if (s.getTime() === e.getTime()) {
+    return fullDate(s).trim();
+  }
+
+  if (s.getFullYear() === e.getFullYear()) {
+    if (s.getMonth() === e.getMonth()) {
+      if (includeWeekday) {
+        return `${weekdayFmt(s)} ${day(s)} - ${weekdayFmt(e)} ${day(e)} ${monthFmt(s)}${showYear ? " " + year(s) : ""}`.trim();
+      }
+      return `${day(s)}-${day(e)} ${monthFmt(s)}${showYear ? " " + year(s) : ""}`.trim();
+    }
+    return `${dayWithOptWeekday(s)} ${monthFmt(s)} - ${dayWithOptWeekday(e)} ${monthFmt(e)}${showYear ? " " + year(s) : ""}`.trim();
+  }
+
+  return `${fullDate(s)} - ${fullDate(e)}`.trim();
 }

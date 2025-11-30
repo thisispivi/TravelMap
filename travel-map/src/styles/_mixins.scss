@@ -8,11 +8,7 @@
 
 @mixin city-card-background($opacity) {
   .city-card__background {
-    background: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, $opacity),
-      rgba(0, 0, 0, 0.1)
-    );
+    background: linear-gradient(to bottom, rgba(0, 0, 0, $opacity), rgba(0, 0, 0, 0.1));
   }
 }
 
@@ -24,7 +20,8 @@
   }
   svg {
     path,
-    line {
+    line,
+    circle {
       @include transition(all, 0.3s, ease-in-out);
     }
     fill: $buttonContent;
@@ -39,9 +36,10 @@
     }
   }
   .filter__icon {
-    path {
-      fill: none;
-      stroke: $buttonContent;
+    path,
+    circle {
+      fill: $buttonContent;
+      stroke: none;
     }
   }
   .chevron path {

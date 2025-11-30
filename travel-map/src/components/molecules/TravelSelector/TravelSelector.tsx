@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import { ArrivalIcon, DepartureIcon, DoubleChevronIcon } from "../../../assets";
+import { CalendarIcon, DoubleChevronIcon } from "../../../assets";
 import { Travel } from "../../../core";
 import "./TravelSelector.scss";
-import { formatDate } from "../../../i18n/functions/date";
+import { formatDateRangeShort } from "../../../i18n/functions/date";
 import useLanguage from "../../../hooks/language/language";
 import { JSX } from "react";
 
@@ -47,15 +47,16 @@ export default function TravelSelector({
         }
       />
       <div className="travel-selector__info">
-        <div className="travel-selector__dates">
-          <DepartureIcon className="travel-selector__travel-icon" />
-          <p>{formatDate(currTravel.sDate, currLanguage)}</p>
-        </div>
-        <p className="travel-selector__bar">-</p>
-        <div className="travel-selector__dates">
-          <ArrivalIcon className="travel-selector__travel-icon" />
-          <p>{formatDate(currTravel.eDate, currLanguage)}</p>
-        </div>
+        <CalendarIcon className="travel-selector__icon" />
+        <p className="travel-selector__date">
+          {formatDateRangeShort({
+            sDateInput: currTravel.sDate,
+            eDateInput: currTravel.eDate,
+            locale: currLanguage,
+            includeWeekday: true,
+            showYear: true,
+          })}
+        </p>
       </div>
       <DoubleChevronIcon
         className={`travel-selector__chevron-icon
