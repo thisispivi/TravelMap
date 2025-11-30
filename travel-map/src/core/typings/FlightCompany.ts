@@ -7,4 +7,8 @@ export enum FlightCompany {
   EASYJET = "easyjet",
   WIZZ_AIR = "wizz_air",
   AIR_ONE = "air_one",
+  CHINA_EASTERN_AIRLINES = "china_eastern_airlines",
+  JETSTAR = "jetstar",
+  VIRGIN_AUSTRALIA = "virgin_australia",
+  AEROITALIA = "aeroitalia",
 }

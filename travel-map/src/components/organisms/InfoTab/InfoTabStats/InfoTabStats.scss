@@ -144,7 +144,9 @@
       margin: 0.75rem 1rem 0.5rem 1rem;
       svg {
         width: auto;
-        path {
+        path,
+        rect,
+        polygon {
           @include m.transition(all, 0.3s, ease-in-out);
         }
       }
@@ -174,6 +176,18 @@
       }
       .flight-company--alitalia {
         height: 1.3rem;
+      }
+      .flight-company--jetstar {
+        height: 1.7rem;
+      }
+      .flight-company--china_eastern_airlines {
+        height: 1.5rem;
+      }
+      .flight-company--virgin_australia {
+        height: 1.6rem;
+      }
+      .flight-company--aeroitalia {
+        height: 1.4rem;
       }
     }
 
@@ -365,6 +379,16 @@
   }
   .flight-company--air_one {
     .air-one-0 {
+      fill: white;
+    }
+  }
+  .flight-company--virgin_australia {
+    .virgin-australia-3 {
+      fill: white;
+    }
+  }
+  .flight-company--jetstar {
+    .jetstar-1 {
       fill: white;
     }
   }

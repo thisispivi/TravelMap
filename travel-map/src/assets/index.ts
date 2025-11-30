@@ -70,6 +70,7 @@ import AustraliaFlag from "./icons/flags/Australia.svg?react";
 import AustriaFlag from "./icons/flags/Austria.svg?react";
 import BelgiumFlag from "./icons/flags/Belgium.svg?react";
 import BulgariaFlag from "./icons/flags/Bulgaria.svg?react";
+import ChinaFlag from "./icons/flags/China.svg?react";
 import EuropeFlag from "./icons/flags/Europe.svg?react";
 import GermanyFlag from "./icons/flags/Germany.svg?react";
 import HungaryFlag from "./icons/flags/Hungary.svg?react";
@@ -86,6 +87,7 @@ export {
   AustriaFlag,
   BelgiumFlag,
   BulgariaFlag,
+  ChinaFlag,
   EuropeFlag,
   GermanyFlag,
   HungaryFlag,
@@ -102,22 +104,30 @@ import worldData from "./json/countries-50m.json";
 
 export { worldData };
 
-import RyanairLogo from "./icons/Flights/Ryanair.svg?react";
+import AeroitaliaLogo from "./icons/Flights/Aeroitalia.svg?react";
 import AirOneLogo from "./icons/Flights/AirOne.svg?react";
 import AlitaliaLogo from "./icons/Flights/Alitalia.svg?react";
+import AllNipponAirwaysLogo from "./icons/Flights/AllNipponAirways.svg?react";
+import ChinaEasternAirlinesLogo from "./icons/Flights/ChinaEasternAirlines.svg?react";
 import EasyJetLogo from "./icons/Flights/EasyJet.svg?react";
 import ItaAirwaysLogo from "./icons/Flights/ItaAirways.svg?react";
+import JetstarLogo from "./icons/Flights/Jetstar.svg?react";
+import RyanairLogo from "./icons/Flights/Ryanair.svg?react";
+import VirginAustraliaLogo from "./icons/Flights/VirginAustralia.svg?react";
 import VoloteaLogo from "./icons/Flights/Volotea.svg?react";
 import WizzAirLogo from "./icons/Flights/WizzAir.svg?react";
-import AllNipponAirwaysLogo from "./icons/Flights/AllNipponAirways.svg?react";
 
 export {
-  RyanairLogo,
+  AeroitaliaLogo,
   AirOneLogo,
   AlitaliaLogo,
+  AllNipponAirwaysLogo,
+  ChinaEasternAirlinesLogo,
   EasyJetLogo,
   ItaAirwaysLogo,
+  JetstarLogo,
+  RyanairLogo,
+  VirginAustraliaLogo,
   VoloteaLogo,
   WizzAirLogo,
-  AllNipponAirwaysLogo,
 };
