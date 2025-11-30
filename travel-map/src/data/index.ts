@@ -62,13 +62,17 @@ import { Verona } from "./Italy/Verona/Verona";
 import { Victoria } from "./Malta/Victoria/Victoria";
 import { Vienna } from "./Austria/Vienna/Vienna";
 import { FlightCompany } from "@/core";
+import { Cairns } from "./Australia/Cairns/Cairns";
+import { Shanghai } from "./China/Shanghai/Shanghai";
 
 export const livedCountries: Country[] = [Italy];
 export const livedCities: City[] = [Muravera, Cagliari];
 
 export const visitedCountries: Country[] = [
+  Australia,
   Austria,
   Belgium,
+  Bulgaria,
   Germany,
   Hungary,
   Italy,
@@ -78,7 +82,6 @@ export const visitedCountries: Country[] = [
   Spain,
   UnitedKingdom,
   Vatican,
-  Bulgaria,
 ];
 export const visitedCities: City[] = [
   Anderlecht,
@@ -89,6 +92,7 @@ export const visitedCities: City[] = [
   Bruges,
   Brussels,
   Budapest,
+  Cairns,
   Cefalù,
   Comino,
   Fujikawaguchiko,
@@ -107,12 +111,15 @@ export const visitedCities: City[] = [
   PeschieraDelGarda,
   Porto,
   Rabat,
+  Rila,
   Rome,
   SanGiljan,
   SanPawlIlBahar,
   Sevilla,
   Shirakawago,
   Sliema,
+  Sofia,
+  Sydney,
   Takayama,
   Terni,
   Tokyo,
@@ -122,8 +129,6 @@ export const visitedCities: City[] = [
   Verona,
   Victoria,
   Vienna,
-  Sofia,
-  Rila,
 ];
 
 export const takenFlights: Flight[] = [
@@ -274,7 +279,47 @@ export const takenFlights: Flight[] = [
   }),
   new Flight({ sCity: Alghero, eCity: Sofia, company: FlightCompany.WIZZ_AIR }),
   new Flight({ sCity: Sofia, eCity: Alghero, company: FlightCompany.WIZZ_AIR }),
+  new Flight({
+    sCity: Cagliari,
+    eCity: Rome,
+    company: FlightCompany.AEROITALIA,
+  }),
+  new Flight({
+    sCity: Rome,
+    eCity: Shanghai,
+    company: FlightCompany.CHINA_EASTERN_AIRLINES,
+  }),
+  new Flight({
+    sCity: Shanghai,
+    eCity: Sydney,
+    company: FlightCompany.CHINA_EASTERN_AIRLINES,
+  }),
+  new Flight({
+    sCity: Sydney,
+    eCity: Cairns,
+    company: FlightCompany.JETSTAR,
+  }),
+  new Flight({
+    sCity: Sydney,
+    eCity: Cairns,
+    company: FlightCompany.VIRGIN_AUSTRALIA,
+  }),
+  new Flight({
+    sCity: Sydney,
+    eCity: Shanghai,
+    company: FlightCompany.CHINA_EASTERN_AIRLINES,
+  }),
+  new Flight({
+    sCity: Shanghai,
+    eCity: Rome,
+    company: FlightCompany.CHINA_EASTERN_AIRLINES,
+  }),
+  new Flight({
+    sCity: Rome,
+    eCity: Cagliari,
+    company: FlightCompany.AEROITALIA,
+  }),
 ];
 
-export const futureCountries: Country[] = [Australia];
-export const futureCities: City[] = [Sydney];
+export const futureCountries: Country[] = [];
+export const futureCities: City[] = [];

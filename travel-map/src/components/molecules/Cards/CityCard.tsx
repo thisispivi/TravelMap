@@ -2,13 +2,13 @@ import useLanguage from "../../../hooks/language/language";
 import { City, Travel } from "../../../core";
 import "./CityCard.scss";
 import { useNavigate } from "react-router-dom";
-import { ArrivalIcon, DepartureIcon } from "../../../assets";
-import { formatDate } from "../../../i18n/functions/date";
+import { DepartureIcon } from "../../../assets";
 import { CountryFlag, Loading } from "../../atoms";
 import { JSX, useCallback } from "react";
 import { mobileAndTabletCheck } from "../../../utils/responsive";
 import { parameters } from "../../../utils/parameters";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import { formatDateRangeShort } from "@/utils/format";
 
 interface CityCardProps {
   className?: string;
@@ -111,20 +111,17 @@ export default function CityCard({
         </div>
       </div>
       <div className="city-card__content">
+        <CountryFlag
+          className="city-card__country"
+          countryId={city.country.id}
+        />
         <div className="city-card__title">
           <h2>{city.getName(t)}</h2>
-          <CountryFlag countryId={city.country.id} />
         </div>
         {travel?.sDate ? (
           <div className="travel-card__info">
             <DepartureIcon className="travel-card__icon" />
-            <p>{formatDate(travel.sDate, lang)}</p>
-          </div>
-        ) : null}
-        {travel?.eDate ? (
-          <div className="travel-card__info">
-            <ArrivalIcon className="travel-card__icon" />
-            <p>{formatDate(travel.eDate, lang)}</p>
+            <p>{formatDateRangeShort(travel.sDate, travel.eDate, lang)}</p>
           </div>
         ) : null}
       </div>
