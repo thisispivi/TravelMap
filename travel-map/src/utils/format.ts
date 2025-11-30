@@ -8,7 +8,7 @@
 export function formatMileage(
   mileage: number,
   language: string,
-  digits: number = 2
+  digits: number = 2,
 ): string {
   return mileage.toLocaleString(language, { maximumFractionDigits: digits });
 }
@@ -30,7 +30,7 @@ export function formatMileage(
 export function formatDateRangeShort(
   sDateInput?: string | Date | null,
   eDateInput?: string | Date | null,
-  locale: string = "en"
+  locale: string = "en",
 ): string {
   if (!sDateInput) return "";
   const s = new Date(sDateInput);
