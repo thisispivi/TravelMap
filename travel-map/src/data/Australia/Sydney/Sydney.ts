@@ -7,14 +7,13 @@ export const Sydney = new City({
   coordinates: [151.2093, -33.8688],
   travels: [
     new Travel({
-      sDate: new Date(2025, 10, 17),
-      eDate: new Date(2025, 10, 27),
-      isFuture: true,
+      sDate: new Date(2025, 10, 18),
+      eDate: new Date(2025, 10, 28),
     }),
   ],
   backgroundImgsSrc: [
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Sydney/Sydney.webp",
   ],
   population: 5557233,
-  timezoneGMT: 10,
+  timezoneGMT: 11,
 });

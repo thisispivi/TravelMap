@@ -35,7 +35,7 @@ export default function ContinentsBarChart({
   const { t } = useLanguage(["home"]);
 
   const filteredData = data.filter(
-    (continent) => continent.cities > 0 || continent.countries > 0,
+    (continent) => continent.cities > 0 || continent.countries > 0
   );
   const incrementedData = filteredData.map((continent) => ({
     ...continent,
@@ -66,8 +66,8 @@ export default function ContinentsBarChart({
     xaxis: {
       categories: incrementedData.map((continent) =>
         t(
-          `continents.${continent.continent.replace(" ", "_").toLocaleUpperCase()}`,
-        ),
+          `continents.${continent.continent.replace(" ", "_").toLocaleUpperCase()}`
+        )
       ),
       labels: { show: false },
       tickAmount: 0,
@@ -130,7 +130,7 @@ export default function ContinentsBarChart({
   return (
     <div className="continents-bar-chart">
       <ReactApexChart
-        height={180}
+        height={230}
         key={JSON.stringify({ series, options, isDarkTheme })}
         options={options}
         series={series}

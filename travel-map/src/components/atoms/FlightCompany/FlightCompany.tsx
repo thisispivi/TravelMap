@@ -2,11 +2,15 @@ import {
   AirOneLogo,
   AlitaliaLogo,
   AllNipponAirwaysLogo,
+  ChinaEasternAirlinesLogo,
   EasyJetLogo,
   ItaAirwaysLogo,
   RyanairLogo,
   VoloteaLogo,
   WizzAirLogo,
+  AeroitaliaLogo,
+  JetstarLogo,
+  VirginAustraliaLogo,
 } from "../../../assets";
 import { JSX } from "react";
 import { FlightCompany as FlightCompanyCore } from "@/core";
@@ -79,6 +83,30 @@ export default function FlightCompany({
       return (
         <AlitaliaLogo
           className={`flight-company--${FlightCompanyCore.ALITALIA} ${className}`}
+        />
+      );
+    case FlightCompanyCore.CHINA_EASTERN_AIRLINES:
+      return (
+        <ChinaEasternAirlinesLogo
+          className={`flight-company--${FlightCompanyCore.CHINA_EASTERN_AIRLINES} ${className}`}
+        />
+      );
+    case FlightCompanyCore.JETSTAR:
+      return (
+        <JetstarLogo
+          className={`flight-company--${FlightCompanyCore.JETSTAR} ${className}`}
+        />
+      );
+    case FlightCompanyCore.VIRGIN_AUSTRALIA:
+      return (
+        <VirginAustraliaLogo
+          className={`flight-company--${FlightCompanyCore.VIRGIN_AUSTRALIA} ${className}`}
+        />
+      );
+    case FlightCompanyCore.AEROITALIA:
+      return (
+        <AeroitaliaLogo
+          className={`flight-company--${FlightCompanyCore.AEROITALIA} ${className}`}
         />
       );
     default:
