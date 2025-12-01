@@ -17,4 +17,5 @@ export const Comino = new City({
     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Comino/Comino.jpg",
   ],
   timezoneGMT: 2,
+  population: 2,
 });

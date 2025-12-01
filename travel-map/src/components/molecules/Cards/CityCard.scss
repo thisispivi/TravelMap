@@ -132,7 +132,12 @@
       background-color: v.$lightLeftBarOpacityLighter;
     }
     .city-card__background-overlay {
-      background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(30, 30, 30, 0.4) 75%, rgba(30, 30, 30, 0.7) 100%);
+      background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(30, 30, 30, 0.4) 75%,
+        rgba(30, 30, 30, 0.7) 100%
+      );
     }
   }
 }
@@ -143,7 +148,12 @@
       background-color: v.$darkLeftBarOpacityLighter;
     }
     .city-card__background-overlay {
-      background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(30, 30, 30, 0.5) 75%, rgba(30, 30, 30, 0.8) 100%);
+      background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(30, 30, 30, 0.5) 75%,
+        rgba(30, 30, 30, 0.8) 100%
+      );
     }
   }
 }

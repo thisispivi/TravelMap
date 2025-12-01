@@ -37,7 +37,31 @@
       margin-left: 0.6rem;
     }
   }
-
+  .map-tooltip__metadata {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 0.25rem;
+    .map-tooltip__metadata__item {
+      display: flex;
+      align-items: center;
+      margin-top: 0.4rem;
+      .map-tooltip__metadata__icon {
+        width: auto;
+        height: 1rem;
+        flex-shrink: 0;
+        margin-right: 0.4rem;
+      }
+      p {
+        font-size: 1rem;
+      }
+      .currency-row__symbol {
+        font-size: 1rem;
+        font-weight: 600;
+        margin-left: 0.25rem;
+      }
+    }
+  }
   .map-tooltip__container {
     padding: 0.75rem 1rem;
     .map-tooltip__header {
@@ -58,60 +82,77 @@
         padding-block: 0.1rem;
       }
     }
-    .map-tooltip__content {
+    .map-tooltip__divider {
+      margin-top: 1rem;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 0.9rem;
-      .map-tooltip__content__chevron-icon {
-        width: 0.9rem;
-        height: 0.9rem;
-        flex-shrink: 0;
-        cursor: pointer;
-        &.map-tooltip__content__chevron-icon--left {
-          transform: rotate(180deg);
-        }
-        &.map-tooltip__content__chevron-icon--disabled {
-          cursor: not-allowed;
+      flex-direction: column;
+      border-radius: 0.25rem;
+      padding: 0.75rem;
+      .map-tooltip__content {
+        .map-tooltip__content__travels {
+          display: flex;
+          flex-direction: column;
+          .map-tooltip__content__travels__title {
+            font-size: 1rem;
+            font-weight: 600;
+          }
+          .map-tooltip__content__travels__selector {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 0.9rem;
+            .map-tooltip__content__chevron-icon {
+              width: 0.9rem;
+              height: 0.9rem;
+              flex-shrink: 0;
+              cursor: pointer;
+              &.map-tooltip__content__chevron-icon--left {
+                transform: rotate(180deg);
+              }
+              &.map-tooltip__content__chevron-icon--disabled {
+                cursor: not-allowed;
+              }
+            }
+            .map-tooltip__content__travel {
+              display: flex;
+              margin: 0 0.5rem;
+              p {
+                text-transform: capitalize;
+                font-size: 0.9rem;
+                white-space: nowrap;
+                font-weight: 600;
+              }
+              .map-tooltip__content__travel__icon {
+                width: auto;
+                height: 1rem;
+                margin-right: 0.4rem;
+                path {
+                  @include m.transition(all, 0.3s, ease-in-out);
+                }
+                .calendar-0 {
+                  stroke-width: 60;
+                }
+              }
+            }
+          }
         }
       }
-      .map-tooltip__content__travel {
-        display: flex;
-        margin: 0 0.5rem;
-        p {
-          text-transform: capitalize;
-          font-size: 0.9rem;
-          white-space: nowrap;
-          font-weight: 600;
-        }
-        .map-tooltip__content__travel__icon {
-          width: auto;
-          height: 1rem;
-          margin-right: 0.4rem;
-          path {
-            @include m.transition(all, 0.3s, ease-in-out);
+      .map-tooltip__footer {
+        margin-top: 0.9rem;
+        .map-tooltip__footer__button {
+          padding-inline: 0.75rem;
+          border-radius: 0.25rem;
+          height: 2.25rem;
+          width: 100%;
+          p {
+            font-size: 0.9rem;
+            font-weight: 500;
           }
-          .calendar-0 {
-            stroke-width: 60;
+          svg {
+            width: 0.8rem;
+            height: 0.8rem;
+            margin-right: 0.5rem;
           }
-        }
-      }
-    }
-    .map-tooltip__footer {
-      margin-top: 0.9rem;
-      margin-bottom: 0.3rem;
-      .map-tooltip__footer__button {
-        border-radius: 0.25rem;
-        height: 2.25rem;
-        width: 100%;
-        p {
-          font-size: 0.9rem;
-          font-weight: 500;
-        }
-        svg {
-          width: 0.8rem;
-          height: 0.8rem;
-          margin-right: 0.5rem;
         }
       }
     }
@@ -146,6 +187,9 @@
       }
     }
   }
+  .map-tooltip__divider {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
 }
 
 .body--dark {
@@ -172,5 +216,8 @@
         }
       }
     }
+  }
+  .map-tooltip__divider {
+    background-color: rgba(0, 0, 0, 0.2);
   }
 }
