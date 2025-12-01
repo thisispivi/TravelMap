@@ -2,7 +2,13 @@ import "./TooltipMap.scss";
 import { City } from "@/core";
 import useLanguage from "@/hooks/language/language";
 import { Button, CountryFlag } from "../../atoms";
-import { CalendarIcon, DoubleChevronIcon, GalleryIcon } from "@/assets";
+import {
+  CalendarIcon,
+  CoinIcon,
+  DoubleChevronIcon,
+  GalleryIcon,
+  PeopleIcon,
+} from "@/assets";
 import { useEffect, useState, JSX } from "react";
 import { formatDateRangeShort } from "@/i18n/functions/date";
 import { useNavigate } from "react-router-dom";
@@ -70,32 +76,59 @@ export default function MapTooltip({
           <h2>{city.getName(t)}</h2>
           <CountryFlag countryId={city.country.id} />
         </div>
+        <div className="map-tooltip__metadata">
+          <div className="map-tooltip__metadata__item">
+            <PeopleIcon className="map-tooltip__metadata__icon" />
+            {city.population
+              ? city.population.toLocaleString(
+                  lang.includes("it") ? "it-IT" : "en-US",
+                )
+              : "-"}
+          </div>
+          <div className="map-tooltip__metadata__item">
+            <CoinIcon className="map-tooltip__metadata__icon" />
+            <p className="currency-row__name">
+              {t(`currency.${city.country.currency}.name`)}
+            </p>
+            <b className="currency-row__symbol">
+              {" " + t(`currency.${city.country.currency}.symbol`)}
+            </b>
+          </div>
+        </div>
         {filteredTravels[travelIdx] ? (
-          <>
+          <div className="map-tooltip__divider">
             <div className="map-tooltip__content">
-              <DoubleChevronIcon
-                className={`map-tooltip__content__chevron-icon map-tooltip__content__chevron-icon--left ${travelIdx > 0 ? "" : "map-tooltip__content__chevron-icon--disabled"}`}
-                onClick={() => travelIdx > 0 && setTravelIdx(travelIdx - 1)}
-              />
-              <div className="map-tooltip__content__travel">
-                <CalendarIcon className="map-tooltip__content__travel__icon" />
-                <p>
-                  {formatDateRangeShort({
-                    sDateInput: filteredTravels[travelIdx].sDate,
-                    eDateInput: filteredTravels[travelIdx].eDate,
-                    locale: lang,
-                    includeWeekday: true,
-                    showYear: true,
-                  })}
-                </p>
+              <div className="map-tooltip__content__travels">
+                <b className="map-tooltip__content__travels__title">
+                  {t("selectedTravel")} {travelIdx + 1} /{" "}
+                  {filteredTravels.length}
+                </b>
+                <div className="map-tooltip__content__travels__selector">
+                  <DoubleChevronIcon
+                    className={`map-tooltip__content__chevron-icon map-tooltip__content__chevron-icon--left ${travelIdx > 0 ? "" : "map-tooltip__content__chevron-icon--disabled"}`}
+                    onClick={() => travelIdx > 0 && setTravelIdx(travelIdx - 1)}
+                  />
+                  <div className="map-tooltip__content__travel">
+                    <CalendarIcon className="map-tooltip__content__travel__icon" />
+                    <p>
+                      {formatDateRangeShort({
+                        sDateInput: filteredTravels[travelIdx].sDate,
+                        eDateInput: filteredTravels[travelIdx].eDate,
+                        locale: lang,
+                        includeWeekday: true,
+                        showYear: true,
+                      })}
+                    </p>
+                  </div>
+                  <DoubleChevronIcon
+                    className={`map-tooltip__content__chevron-icon ${travelIdx < filteredTravels.length - 1 ? "" : "map-tooltip__content__chevron-icon--disabled"}`}
+                    onClick={() =>
+                      travelIdx < filteredTravels.length - 1 &&
+                      setTravelIdx(travelIdx + 1)
+                    }
+                  />
+                </div>
               </div>
-              <DoubleChevronIcon
-                className={`map-tooltip__content__chevron-icon ${travelIdx < filteredTravels.length - 1 ? "" : "map-tooltip__content__chevron-icon--disabled"}`}
-                onClick={() =>
-                  travelIdx < filteredTravels.length - 1 &&
-                  setTravelIdx(travelIdx + 1)
-                }
-              />
             </div>
             <div className="map-tooltip__footer">
               <Button
@@ -108,7 +141,7 @@ export default function MapTooltip({
                 <p>{t("galleryAlt")}</p>
               </Button>
             </div>
-          </>
+          </div>
         ) : null}
       </div>
     </>

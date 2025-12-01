@@ -5,6 +5,7 @@ import CameraIcon from "./icons/Camera.svg?react";
 import ChevronIcon from "./icons/Chevron.svg?react";
 import CityIcon from "./icons/City.svg?react";
 import CloseIcon from "./icons/Close.svg?react";
+import CoinIcon from "./icons/Coin.svg?react";
 import ContinentsIcon from "./icons/Continents.svg?react";
 import DepartureIcon from "./icons/Departure.svg?react";
 import DistanceIcon from "./icons/Distance.svg?react";
@@ -23,6 +24,7 @@ import MarkerBWIcon from "./icons/MarkerBW.svg?react";
 import MarkerIcon from "./icons/Marker";
 import MoonFlatIcon from "./icons/MoonFlat.svg?react";
 import MoonIcon from "./icons/Moon.svg?react";
+import PeopleIcon from "./icons/People.svg?react";
 import PlaneIcon from "./icons/Plane.svg?react";
 import PlayIcon from "./icons/Play.svg?react";
 import PositionIcon from "./icons/Position.svg?react";
@@ -40,6 +42,7 @@ export {
   ChevronIcon,
   CityIcon,
   CloseIcon,
+  CoinIcon,
   ContinentsIcon,
   DepartureIcon,
   DistanceIcon,
@@ -58,6 +61,7 @@ export {
   MarkerIcon,
   MoonFlatIcon,
   MoonIcon,
+  PeopleIcon,
   PlaneIcon,
   PlayIcon,
   PositionIcon,
