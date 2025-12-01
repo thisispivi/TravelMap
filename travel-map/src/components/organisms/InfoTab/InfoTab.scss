@@ -38,12 +38,7 @@
   }
 }
 
-@mixin responsive-info-tab(
-  $min-width,
-  $max-width,
-  $info-tab-width,
-  $city-card-width
-) {
+@mixin responsive-info-tab($min-width, $max-width, $info-tab-width, $city-card-width) {
   @media screen and (min-width: #{$min-width}px) and (max-width: #{$max-width}px) {
     .info-tab {
       max-width: $info-tab-width;
@@ -54,8 +49,8 @@
   }
 }
 
+@include responsive-info-tab(460, 536, calc(100% - 3.5rem), 11.5rem);
 @include responsive-info-tab(280, 460, 16rem, 12rem);
-@include responsive-info-tab(460, 490, calc(100% - 3.5rem), 11.5rem);
 @include responsive-info-tab(null, 280, 16rem, 11.5rem);
 
 @media screen and (max-width: 460px) {
