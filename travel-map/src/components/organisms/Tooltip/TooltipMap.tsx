@@ -81,7 +81,7 @@ export default function MapTooltip({
             <PeopleIcon className="map-tooltip__metadata__icon" />
             {city.population
               ? city.population.toLocaleString(
-                  lang.includes("it") ? "it-IT" : "en-US",
+                  lang.includes("it") ? "it-IT" : "en-US"
                 )
               : "-"}
           </div>
@@ -130,17 +130,20 @@ export default function MapTooltip({
                 </div>
               </div>
             </div>
-            <div className="map-tooltip__footer">
-              <Button
-                className="map-tooltip__footer__button"
-                onClick={() =>
-                  navigate(`/gallery/${city.name}/${travelIdx}?from=map`)
-                }
-              >
-                <GalleryIcon />
-                <p>{t("galleryAlt")}</p>
-              </Button>
-            </div>
+            {filteredTravels[travelIdx].photos &&
+            filteredTravels[travelIdx].photos.length > 0 ? (
+              <div className="map-tooltip__footer">
+                <Button
+                  className="map-tooltip__footer__button"
+                  onClick={() =>
+                    navigate(`/gallery/${city.name}/${travelIdx}?from=map`)
+                  }
+                >
+                  <GalleryIcon />
+                  <p>{t("galleryAlt")}</p>
+                </Button>
+              </div>
+            ) : null}
           </div>
         ) : null}
       </div>
