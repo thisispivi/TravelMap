@@ -5,6 +5,7 @@ import "./Fallback.scss";
 import { ReactNode } from "react";
 import { mobileAndTabletCheck } from "@/utils/responsive";
 import useResponsive from "@/hooks/style/responsive";
+import useThemeDetector from "@/hooks/style/theme";
 
 /**
  * Fallback Component
@@ -20,16 +21,24 @@ export default function Fallback(): ReactNode | null {
   const routerError = useRouteError();
   const { t } = useTranslation(["error"]);
   const navigate = useNavigate();
+  const { isDarkTheme } = useThemeDetector();
 
   if (!routerError) return null;
-  const error = routerError as Error;
+  const error =
+    typeof routerError === "object" &&
+    routerError !== null &&
+    "error" in routerError
+      ? (routerError as { error: Error }).error
+      : (routerError as Error);
 
   const isShowStack = !(
     mobileAndTabletCheck() || responsive.window.width <= 980
   );
 
   return (
-    <div className="fallback">
+    <div
+      className={`fallback ${isDarkTheme ? "fallback--dark" : "fallback--light"}`}
+    >
       <div className="fallback__content">
         <h1 className="fallback__content__title">{t("details.title")}</h1>
         <h2 className="fallback__content__subtitle">{t("details.subtitle")}</h2>
