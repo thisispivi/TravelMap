@@ -1,0 +1,45 @@
+@use "../../../styles/mixins" as m;
+
+.flight-company {
+  path,
+  rect,
+  polygon {
+    @include m.transition(all, 0.3s, ease-in-out);
+  }
+  &.flight-company--wizz_air {
+    .wizz-air-0 {
+      fill: #c80b80;
+    }
+  }
+}
+
+.home--light {
+  .flight-company--ita_airways {
+    .ita-0 {
+      fill: #0171cf;
+    }
+  }
+}
+
+.home--dark {
+  .flight-company--volotea {
+    .volotea-0 {
+      fill: white;
+    }
+  }
+  .flight-company--air_one {
+    .air-one-0 {
+      fill: white;
+    }
+  }
+  .flight-company--virgin_australia {
+    .virgin-australia-3 {
+      fill: white;
+    }
+  }
+  .flight-company--jetstar {
+    .jetstar-1 {
+      fill: white;
+    }
+  }
+}
