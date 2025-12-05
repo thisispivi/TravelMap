@@ -4,6 +4,18 @@
 .home {
   height: inherit;
   width: inherit;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  &--mobile,
+  &--tablet {
+    * {
+      ::-webkit-scrollbar {
+        display: none;
+      }
+    }
+  }
 }
 
 .home--dark {
