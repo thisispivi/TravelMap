@@ -144,11 +144,6 @@
       margin: 0.75rem 1rem 0.5rem 1rem;
       svg {
         width: auto;
-        path,
-        rect,
-        polygon {
-          @include m.transition(all, 0.3s, ease-in-out);
-        }
       }
       .flight-company--all_nippon_airways {
         height: 1.25rem;
@@ -164,9 +159,6 @@
       }
       .flight-company--wizz_air {
         height: 1.7rem;
-        .wizz-air-0 {
-          fill: #c80b80;
-        }
       }
       .flight-company--ita_airways {
         height: 1.6rem;
@@ -327,11 +319,6 @@
         }
       }
     }
-    .flight-company--ita_airways {
-      .ita-0 {
-        fill: #0171cf;
-      }
-    }
   }
 }
 
@@ -370,26 +357,6 @@
           }
         }
       }
-    }
-  }
-  .flight-company--volotea {
-    .volotea-0 {
-      fill: white;
-    }
-  }
-  .flight-company--air_one {
-    .air-one-0 {
-      fill: white;
-    }
-  }
-  .flight-company--virgin_australia {
-    .virgin-australia-3 {
-      fill: white;
-    }
-  }
-  .flight-company--jetstar {
-    .jetstar-1 {
-      fill: white;
     }
   }
 }
