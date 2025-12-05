@@ -96,7 +96,7 @@ export default function InfoTabStats({
 
   const numUnescoSites = keys(parameters.stats.unescoSites).reduce(
     (acc, country) => acc + parameters.stats.unescoSites[country].length,
-    0,
+    0
   );
 
   return (
@@ -268,7 +268,7 @@ export default function InfoTabStats({
                 <ContinentRow
                   continent={continent as Continent}
                   isVisited={visitedContinents.includes(
-                    Continent[continent as keyof typeof Continent],
+                    Continent[continent as keyof typeof Continent]
                   )}
                   key={continent}
                 />

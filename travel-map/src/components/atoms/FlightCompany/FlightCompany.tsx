@@ -14,6 +14,7 @@ import {
 } from "../../../assets";
 import { JSX } from "react";
 import { FlightCompany as FlightCompanyCore } from "@/core";
+import "./FlightCompany.scss";
 
 interface FlightCompanyProps {
   company?: FlightCompanyCore;
@@ -40,73 +41,73 @@ export default function FlightCompany({
     case FlightCompanyCore.RYANAIR:
       return (
         <RyanairLogo
-          className={`flight-company--${FlightCompanyCore.RYANAIR} ${className}`}
+          className={`flight-company flight-company--${FlightCompanyCore.RYANAIR} ${className}`}
         />
       );
     case FlightCompanyCore.ALL_NIPPON_AIRWAYS:
       return (
         <AllNipponAirwaysLogo
-          className={`flight-company--${FlightCompanyCore.ALL_NIPPON_AIRWAYS} ${className}`}
+          className={`flight-company flight-company--${FlightCompanyCore.ALL_NIPPON_AIRWAYS} ${className}`}
         />
       );
     case FlightCompanyCore.ITA_AIRWAYS:
       return (
         <ItaAirwaysLogo
-          className={`flight-company--${FlightCompanyCore.ITA_AIRWAYS} ${className}`}
+          className={`flight-company flight-company--${FlightCompanyCore.ITA_AIRWAYS} ${className}`}
         />
       );
     case FlightCompanyCore.EASYJET:
       return (
         <EasyJetLogo
-          className={`flight-company--${FlightCompanyCore.EASYJET} ${className}`}
+          className={`flight-company flight-company--${FlightCompanyCore.EASYJET} ${className}`}
         />
       );
     case FlightCompanyCore.VOLOTEA:
       return (
         <VoloteaLogo
-          className={`flight-company--${FlightCompanyCore.VOLOTEA} ${className}`}
+          className={`flight-company flight-company--${FlightCompanyCore.VOLOTEA} ${className}`}
         />
       );
     case FlightCompanyCore.WIZZ_AIR:
       return (
         <WizzAirLogo
-          className={`flight-company--${FlightCompanyCore.WIZZ_AIR} ${className}`}
+          className={`flight-company flight-company--${FlightCompanyCore.WIZZ_AIR} ${className}`}
         />
       );
     case FlightCompanyCore.AIR_ONE:
       return (
         <AirOneLogo
-          className={`flight-company--${FlightCompanyCore.AIR_ONE} ${className}`}
+          className={`flight-company flight-company--${FlightCompanyCore.AIR_ONE} ${className}`}
         />
       );
     case FlightCompanyCore.ALITALIA:
       return (
         <AlitaliaLogo
-          className={`flight-company--${FlightCompanyCore.ALITALIA} ${className}`}
+          className={`flight-company flight-company--${FlightCompanyCore.ALITALIA} ${className}`}
         />
       );
     case FlightCompanyCore.CHINA_EASTERN_AIRLINES:
       return (
         <ChinaEasternAirlinesLogo
-          className={`flight-company--${FlightCompanyCore.CHINA_EASTERN_AIRLINES} ${className}`}
+          className={`flight-company flight-company--${FlightCompanyCore.CHINA_EASTERN_AIRLINES} ${className}`}
         />
       );
     case FlightCompanyCore.JETSTAR:
       return (
         <JetstarLogo
-          className={`flight-company--${FlightCompanyCore.JETSTAR} ${className}`}
+          className={`flight-company flight-company--${FlightCompanyCore.JETSTAR} ${className}`}
         />
       );
     case FlightCompanyCore.VIRGIN_AUSTRALIA:
       return (
         <VirginAustraliaLogo
-          className={`flight-company--${FlightCompanyCore.VIRGIN_AUSTRALIA} ${className}`}
+          className={`flight-company flight-company--${FlightCompanyCore.VIRGIN_AUSTRALIA} ${className}`}
         />
       );
     case FlightCompanyCore.AEROITALIA:
       return (
         <AeroitaliaLogo
-          className={`flight-company--${FlightCompanyCore.AEROITALIA} ${className}`}
+          className={`flight-company flight-company--${FlightCompanyCore.AEROITALIA} ${className}`}
         />
       );
     default:
