@@ -4,9 +4,6 @@
 .home {
   height: inherit;
   width: inherit;
-  ::-webkit-scrollbar {
-    display: none;
-  }
 
   &--mobile,
   &--tablet {
