@@ -42,14 +42,14 @@
   }
 }
 
-.body--light {
+.fallback--light {
   .fallback__content {
     background-color: v.$lightLeftBar;
     color: v.$darkLeftBar;
   }
 }
 
-.body--dark {
+.fallback--dark {
   .fallback__content {
     background-color: v.$darkLeftBar;
     color: v.$darkButtonContent;
