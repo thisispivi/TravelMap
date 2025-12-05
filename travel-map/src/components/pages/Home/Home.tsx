@@ -6,6 +6,7 @@ import { Outlet, useNavigate, useSearchParams } from "react-router-dom";
 import { City } from "@/core";
 import { parameters } from "@/utils/parameters";
 import useResponsive, { ResponsiveType } from "@/hooks/style/responsive";
+import { isMobile, isTablet } from "mobile-device-detect";
 
 export type HomeContextType = ThemeDetector & {
   hoveredCity: City | null;
@@ -65,7 +66,9 @@ export default function Home(): JSX.Element {
   if (redirectTo) setTimeout(() => navigate("/" + redirectTo), 300);
 
   return (
-    <div className={`home ${isDarkTheme ? "home--dark" : "home--light"}`}>
+    <div
+      className={`home ${isDarkTheme ? "home--dark" : "home--light"} ${isMobile ? "home--mobile" : isTablet ? "home--tablet" : "home--desktop"}`}
+    >
       <HomeContext.Provider value={context}>
         <HomeTemplate>
           <Outlet />
