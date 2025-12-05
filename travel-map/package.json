@@ -23,6 +23,7 @@
     "i18next": "^25.7.1",
     "i18next-browser-languagedetector": "^8.2.0",
     "mobile-detect": "^1.4.5",
+    "mobile-device-detect": "^0.4.3",
     "react": "^19.2.1",
     "react-apexcharts": "^1.9.0",
     "react-compiler-runtime": "^19.1.0-rc.2",

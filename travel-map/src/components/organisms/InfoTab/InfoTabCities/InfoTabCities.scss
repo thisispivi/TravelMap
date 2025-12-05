@@ -127,3 +127,12 @@
     }
   }
 }
+
+.home--mobile,
+.home--tablet {
+  .info-tab-cities {
+    .info-tab-cities__content--overflow {
+      margin-right: 0;
+    }
+  }
+}
