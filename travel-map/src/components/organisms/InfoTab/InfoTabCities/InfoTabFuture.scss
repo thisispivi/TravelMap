@@ -1,0 +1,26 @@
+.info-tab-future {
+    padding: 1rem 0;
+    flex-direction: column;
+    height: 100%;
+
+    .info-tab-future__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        margin-top: 1rem;
+        padding-inline: 1.5rem;
+    }
+
+    .info-tab-future__content {
+        display: flex;
+        flex-wrap: wrap;
+        max-height: 100%;
+        overflow-y: auto;
+        color: white;
+        margin-right: 0.7rem;
+        justify-content: space-evenly;
+        gap: 1.2rem 0;
+        padding-block: 0.5rem;
+    }
+}

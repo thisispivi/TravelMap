@@ -71,7 +71,7 @@ export default function InfoTabCities({
   const onCountryChange = (selected: Country[]) => setCountries(selected);
 
   const [selectedYear, setSelectedYear] = useState<number>(
-    constants.GROUP_BY_CITIES_DEFAULT_OPENED_YEAR,
+    constants.GROUP_BY_CITIES_DEFAULT_OPENED_YEAR
   );
   const toggleYear = (year: number) =>
     selectedYear !== year ? setSelectedYear(year) : undefined;
@@ -98,7 +98,7 @@ export default function InfoTabCities({
       groupCitiesByYear(cities, {
         cutoffYear: constants.GROUP_BY_CITIES_CUTOFF_YEAR,
       }),
-    [cities],
+    [cities]
   );
 
   if (!isVisible) return null;
@@ -281,7 +281,7 @@ function SingleCityCards({
 }: SingleCityCardsProps): JSX.Element {
   return (
     <div
-      className={`info-tab-cities__content info-tab-${id}__content ${hasOverflow ? "info-tab-cities__content--overflow" : ""}`}
+      className={`info-tab-cities__content info-tab-cities__content--single info-tab-${id}__content ${hasOverflow ? "info-tab-cities__content--overflow" : ""}`}
       id="info-tab"
       ref={contentRef}
     >

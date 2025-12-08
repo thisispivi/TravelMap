@@ -12,10 +12,14 @@ import { Brussels } from "./Belgium/Brussels/Brussels";
 import { Budapest } from "./Hungary/Budapest/Budapest";
 import { Bulgaria } from "./Bulgaria/Bulgaria";
 import { Cagliari } from "./Italy/Cagliari/Cagliari";
+import { Cairns } from "./Australia/Cairns/Cairns";
+import { Cannes } from "./France/Cannes/Cannes";
 import { Cefalù } from "./Italy/Cefalù/Cefalù";
 import { City, Country } from "../core";
 import { Comino } from "./Malta/Comino/Comino";
 import { Flight } from "../core";
+import { FlightCompany } from "@/core";
+import { France } from "./France/France";
 import { Fujikawaguchiko } from "./Japan/Fujikawaguchiko/Fujikawaguchiko";
 import { Genoa } from "./Italy/Genoa/Genoa";
 import { Germany } from "./Germany/Germany";
@@ -30,10 +34,12 @@ import { Kyoto } from "./Japan/Kyoto/Kyoto";
 import { London } from "./UnitedKingdom/London/London";
 import { Luqa } from "./Malta/Luqa/Luqa";
 import { Malta } from "./Malta/Malta";
+import { Marseille } from "./France/Marseille/Marseille";
 import { Matsumoto } from "./Japan/Matsumoto/Matsumoto";
 import { Mdina } from "./Malta/Mdina/Mdina";
 import { Muravera } from "./Italy/Muravera/Muravera";
 import { Nara } from "./Japan/Nara/Nara";
+import { Nice } from "./France/Nice/Nice";
 import { Osaka } from "./Japan/Osaka/Osaka";
 import { Oshino } from "./Japan/Oshino/Oshino";
 import { PeschieraDelGarda } from "./Italy/PeschieraDelGarda/PeschieraDelGarda";
@@ -45,6 +51,7 @@ import { Rome } from "./Italy/Rome/Rome";
 import { SanGiljan } from "./Malta/SanGiljan/SanGiljan";
 import { SanPawlIlBahar } from "./Malta/SanPawlIlBahar/SanPawlIlBahar";
 import { Sevilla } from "./Spain/Sevilla/Sevilla";
+import { Shanghai } from "./China/Shanghai/Shanghai";
 import { Shirakawago } from "./Japan/Shirakawago/Shirakawago";
 import { Sliema } from "./Malta/Sliema/Sliema";
 import { Sofia } from "./Bulgaria/Sofia/Sofia";
@@ -53,6 +60,7 @@ import { Sydney } from "./Australia/Sydney/Sydney";
 import { Takayama } from "./Japan/Takayama/Takayama";
 import { Terni } from "./Italy/Terni/Terni";
 import { Tokyo } from "./Japan/Tokyo/Tokyo";
+import { Toulon } from "./France/Toulon/Toulon";
 import { Turin } from "./Italy/Turin/Turin";
 import { UnitedKingdom } from "./UnitedKingdom/UnitedKingdom";
 import { Valletta } from "./Malta/Valletta/Valletta";
@@ -61,9 +69,8 @@ import { VaticanCity } from "./Vatican/Vatican/VaticanCity";
 import { Verona } from "./Italy/Verona/Verona";
 import { Victoria } from "./Malta/Victoria/Victoria";
 import { Vienna } from "./Austria/Vienna/Vienna";
-import { FlightCompany } from "@/core";
-import { Cairns } from "./Australia/Cairns/Cairns";
-import { Shanghai } from "./China/Shanghai/Shanghai";
+import { MonteCarlo } from "./Monaco/MonteCarlo/MonteCarlo";
+import { Monaco } from "./Monaco/Monaco";
 
 export const livedCountries: Country[] = [Italy];
 export const livedCities: City[] = [Muravera, Cagliari];
@@ -321,5 +328,11 @@ export const takenFlights: Flight[] = [
   }),
 ];
 
-export const futureCountries: Country[] = [];
-export const futureCities: City[] = [];
+export const futureCountries: Country[] = [France, Monaco];
+export const futureCities: City[] = [
+  Nice,
+  Toulon,
+  Marseille,
+  Cannes,
+  MonteCarlo,
+];

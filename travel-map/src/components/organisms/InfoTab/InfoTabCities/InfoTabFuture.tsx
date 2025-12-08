@@ -33,7 +33,7 @@ export default function InfoTabFuture({
   const allCities = getCitiesByCountriesAndIsFuture({
     cities: futureCities,
     countries: futureCountries,
-    isFuture: true,
+    isFuture: false,
   }).sort(sortByTravelStartDate);
 
   const getTravelIdx = (city: City, travel: Travel) => {

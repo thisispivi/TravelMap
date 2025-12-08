@@ -26,11 +26,7 @@
       width: 2.5rem;
       height: 2.5rem;
       &.info-tab-cities__position-button--auto-position {
-        @include m.set-button-colors(
-          v.$autoPositionButton,
-          v.$autoPositionButtonContent,
-          v.$autoPositionButtonHover
-        );
+        @include m.set-button-colors(v.$autoPositionButton, v.$autoPositionButtonContent, v.$autoPositionButtonHover);
       }
     }
   }
@@ -51,6 +47,10 @@
 
     &.info-tab-cities__content--overflow {
       margin-right: 0.7rem;
+    }
+
+    &.info-tab-cities__content--single {
+      flex-shrink: unset;
     }
   }
 
