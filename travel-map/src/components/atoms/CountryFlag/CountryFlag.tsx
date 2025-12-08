@@ -4,11 +4,13 @@ import {
   BelgiumFlag,
   BulgariaFlag,
   ChinaFlag,
+  FranceFlag,
   GermanyFlag,
   HungaryFlag,
   ItalyFlag,
   JapanFlag,
   MaltaFlag,
+  MonacoFlag,
   PortugalFlag,
   SpainFlag,
   UnitedKingdomFlag,
@@ -66,6 +68,10 @@ export default function CountryFlag({
       return <BulgariaFlag className={className} />;
     case "China":
       return <ChinaFlag className={className} />;
+    case "Monaco":
+      return <MonacoFlag className={className} />;
+    case "France":
+      return <FranceFlag className={className} />;
     default:
       return null;
   }

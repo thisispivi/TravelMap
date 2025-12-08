@@ -78,11 +78,13 @@ import BelgiumFlag from "./icons/flags/Belgium.svg?react";
 import BulgariaFlag from "./icons/flags/Bulgaria.svg?react";
 import ChinaFlag from "./icons/flags/China.svg?react";
 import EuropeFlag from "./icons/flags/Europe.svg?react";
+import FranceFlag from "./icons/flags/France.svg?react";
 import GermanyFlag from "./icons/flags/Germany.svg?react";
 import HungaryFlag from "./icons/flags/Hungary.svg?react";
 import ItalyFlag from "./icons/flags/Italy.svg?react";
 import JapanFlag from "./icons/flags/Japan.svg?react";
 import MaltaFlag from "./icons/flags/Malta.svg?react";
+import MonacoFlag from "./icons/flags/Monaco.svg?react";
 import PortugalFlag from "./icons/flags/Portugal.svg?react";
 import SpainFlag from "./icons/flags/Spain.svg?react";
 import UnitedKingdomFlag from "./icons/flags/UnitedKingdom.svg?react";
@@ -95,11 +97,13 @@ export {
   BulgariaFlag,
   ChinaFlag,
   EuropeFlag,
+  FranceFlag,
   GermanyFlag,
   HungaryFlag,
   ItalyFlag,
   JapanFlag,
   MaltaFlag,
+  MonacoFlag,
   PortugalFlag,
   SpainFlag,
   UnitedKingdomFlag,
