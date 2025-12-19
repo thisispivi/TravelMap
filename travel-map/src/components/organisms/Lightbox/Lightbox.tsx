@@ -2,7 +2,14 @@ import { useLoaderData, useNavigate } from "react-router-dom";
 import { City } from "../../../core";
 import "./Lightbox.scss";
 import ImageGallery, { ReactImageGalleryItem } from "react-image-gallery";
-import { JSX, MouseEventHandler, useCallback } from "react";
+import {
+  JSX,
+  MouseEventHandler,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   ChevronIcon,
   FullscreenEnterIcon,
@@ -33,6 +40,33 @@ export default function Lightbox(): JSX.Element {
   const navigate = useNavigate();
   const { city, travelIdx, photoIdx } = useLoaderData() as LightboxProps;
   const photos = city.travels[travelIdx].photos;
+
+  const [isNavVisible, setIsNavVisible] = useState(true);
+  const hideNavTimeoutRef = useRef<number | undefined>(undefined);
+  const HIDE_NAV_AFTER_MS = 2000;
+
+  const scheduleHideNav = useCallback(() => {
+    if (hideNavTimeoutRef.current !== undefined) {
+      window.clearTimeout(hideNavTimeoutRef.current);
+    }
+    hideNavTimeoutRef.current = window.setTimeout(() => {
+      setIsNavVisible(false);
+    }, HIDE_NAV_AFTER_MS);
+  }, []);
+
+  const revealNav = useCallback(() => {
+    setIsNavVisible(true);
+    scheduleHideNav();
+  }, [scheduleHideNav]);
+
+  useEffect(() => {
+    scheduleHideNav();
+    return () => {
+      if (hideNavTimeoutRef.current !== undefined) {
+        window.clearTimeout(hideNavTimeoutRef.current);
+      }
+    };
+  }, [scheduleHideNav]);
 
   type ItemType = ReactImageGalleryItem & {
     youtube?: boolean;
@@ -65,7 +99,7 @@ export default function Lightbox(): JSX.Element {
     (currentIndex: number | undefined) => {
       if (photoIdx !== undefined) {
         const element = document.querySelector(
-          `[aria-label="Go to Slide ${photoIdx + 1}"]`,
+          `[aria-label="Go to Slide ${photoIdx + 1}"]`
         );
         if (element) {
           const child = element.children[0];
@@ -80,13 +114,13 @@ export default function Lightbox(): JSX.Element {
         navigate(`../${currentIndex}`);
       }
     },
-    [photoIdx, navigate],
+    [photoIdx, navigate]
   );
 
   const renderNavigationButton = (
     onClick: MouseEventHandler,
     disabled: boolean,
-    direction: "left" | "right",
+    direction: "left" | "right"
   ) => (
     <Button
       aria-label={direction === "left" ? "Previous Slide" : "Next Slide"}
@@ -101,7 +135,11 @@ export default function Lightbox(): JSX.Element {
 
   const handleSlide = (currentIndex: number) => handleChange(currentIndex);
   return (
-    <div className="lightbox">
+    <div
+      className={`lightbox ${isNavVisible ? "" : "lightbox--nav-hidden"}`}
+      onMouseMove={revealNav}
+      onTouchStart={revealNav}
+    >
       <ImageGallery
         infinite={false}
         items={photos}

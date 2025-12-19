@@ -991,15 +991,15 @@ export const tr_220422_250422_images: Image[] = [
     width: 3,
     height: 4,
   },
-  {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Imola/111c.webp",
-    alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Imola/111t.webp",
-    width: 64,
-    height: 85,
-  },
+  // {
+  //   original:
+  //     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Imola/111c.webp",
+  //   alt: "",
+  //   thumbnail:
+  //     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Imola/111t.webp",
+  //   width: 64,
+  //   height: 85,
+  // },
   {
     original: "https://www.youtube.com/embed/JAqA0VkJxb0",
     alt: "Imola - F1 Practice 1 (22/04/2022)",
