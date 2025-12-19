@@ -82,22 +82,22 @@ export const tr_060823_060823_images: Image[] = [
     height: 9,
     youtube: true,
   },
-  {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Belgium/Anderlecht/010c.webp",
-    alt: "RCSA Vertonghen shirt front",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Belgium/Anderlecht/010t.webp",
-    width: 64,
-    height: 85,
-  },
-  {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Belgium/Anderlecht/011c.webp",
-    alt: "RCSA Vertonghen shirt back",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Belgium/Anderlecht/011t.webp",
-    width: 64,
-    height: 85,
-  },
+  // {
+  //   original:
+  //     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Belgium/Anderlecht/010c.webp",
+  //   alt: "RCSA Vertonghen shirt front",
+  //   thumbnail:
+  //     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Belgium/Anderlecht/010t.webp",
+  //   width: 64,
+  //   height: 85,
+  // },
+  // {
+  //   original:
+  //     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Belgium/Anderlecht/011c.webp",
+  //   alt: "RCSA Vertonghen shirt back",
+  //   thumbnail:
+  //     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Belgium/Anderlecht/011t.webp",
+  //   width: 64,
+  //   height: 85,
+  // },
 ];

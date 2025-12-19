@@ -6,6 +6,14 @@
   width: 100%;
   height: inherit;
 
+  &.lightbox--nav-hidden {
+    .image-gallery-left-nav,
+    .image-gallery-right-nav {
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+
   .image-gallery {
     display: block;
     height: 100%;
