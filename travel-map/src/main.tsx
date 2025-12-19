@@ -7,16 +7,6 @@ import "./styles/_mixins.scss";
 import "./styles/_scrollbar.scss";
 import "./i18n/i18n";
 import { RouterProvider, createHashRouter } from "react-router-dom";
-import {
-  Gallery,
-  InfoTabFuture,
-  InfoTabLived,
-  InfoTabStats,
-  InfoTabVisited,
-  Lightbox,
-} from "./components/organisms";
-import { loader as galleryLoader } from "./components/organisms/Gallery/loader";
-import { loader as lightboxLoader } from "./components/organisms/Lightbox/loader";
 import { Tooltip } from "react-tooltip";
 import { mobileAndTabletCheck } from "./utils/responsive";
 import { Home, Fallback } from "./components/pages";
@@ -30,19 +20,30 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           element: <Home />,
           errorElement: <Fallback />,
           children: [
-            { path: "lived", element: <InfoTabLived /> },
-            { path: "visited", element: <InfoTabVisited /> },
-            { path: "future", element: <InfoTabFuture /> },
-            { path: "stats", element: <InfoTabStats /> },
+            { path: "lived" },
+            { path: "visited" },
+            { path: "future" },
+            { path: "stats" },
             {
               path: "gallery/:cityName/:travelIdx",
-              element: <Gallery />,
-              loader: galleryLoader,
+              lazy: async () => {
+                const [{ default: Component }, { loader }] = await Promise.all([
+                  import("./components/organisms/Gallery/Gallery"),
+                  import("./components/organisms/Gallery/loader"),
+                ]);
+                return { Component, loader };
+              },
               children: [
                 {
                   path: ":photoIdx",
-                  element: <Lightbox />,
-                  loader: lightboxLoader,
+                  lazy: async () => {
+                    const [{ default: Component }, { loader }] =
+                      await Promise.all([
+                        import("./components/organisms/Lightbox/Lightbox"),
+                        import("./components/organisms/Lightbox/loader"),
+                      ]);
+                    return { Component, loader };
+                  },
                 },
               ],
             },
@@ -59,5 +60,5 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         opacity={1}
       />
     ) : null}
-  </React.StrictMode>,
+  </React.StrictMode>
 );

@@ -9,10 +9,10 @@ import { City, Country as CountryCore } from "@/core";
 import { HomeContext } from "../../pages/Home/Home";
 import { JSX, useContext, useState } from "react";
 import { Loading, Marker } from "../../atoms";
-import { MapTooltip } from "..";
+import MapTooltip from "../Tooltip/TooltipMap";
 import { Tooltip } from "react-tooltip";
 import { parameters } from "@/utils/parameters";
-import { worldData } from "@/assets";
+import { worldDataUrl } from "@/assets/worldData";
 
 export interface MapProps {
   livedCities: City[];
@@ -107,7 +107,7 @@ export default function Map({
           }
           zoom={mapPosition.zoom}
         >
-          <Geographies geography={worldData}>
+          <Geographies geography={worldDataUrl}>
             {({ geographies }) =>
               geographies.map((geo, i) => {
                 if (i === geographies.length - 1) setIsLoaded(true);

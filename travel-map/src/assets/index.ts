@@ -110,10 +110,6 @@ export {
   VaticanFlag,
 };
 
-import worldData from "./json/countries-50m.json";
-
-export { worldData };
-
 import AeroitaliaLogo from "./icons/Flights/Aeroitalia.svg?react";
 import AirOneLogo from "./icons/Flights/AirOne.svg?react";
 import AlitaliaLogo from "./icons/Flights/Alitalia.svg?react";
