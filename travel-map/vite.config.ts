@@ -21,4 +21,53 @@ export default defineConfig({
   resolve: {
     alias: [{ find: "@", replacement: resolve(__dirname, "./src") }],
   },
+  build: {
+    chunkSizeWarningLimit: 1100,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          const normalizedId = id.replace(/\\/g, "/");
+
+          if (normalizedId.includes("/src/data/")) return "data";
+          if (normalizedId.endsWith("/src/utils/parameters.ts"))
+            return "parameters";
+          if (normalizedId.includes("/src/assets/icons/")) return "icons";
+
+          if (!normalizedId.includes("node_modules")) return;
+
+          if (
+            normalizedId.includes("apexcharts") ||
+            normalizedId.includes("react-apexcharts")
+          ) {
+            return "apexcharts";
+          }
+
+          if (
+            normalizedId.includes("react-photo-album") ||
+            normalizedId.includes("react-image-gallery")
+          ) {
+            return "gallery";
+          }
+
+          if (
+            normalizedId.includes("react-simple-maps") ||
+            normalizedId.includes("d3") ||
+            normalizedId.includes("topojson")
+          ) {
+            return "map";
+          }
+
+          if (normalizedId.includes("react-router")) {
+            return "router";
+          }
+
+          if (normalizedId.includes("framer-motion")) {
+            return "motion";
+          }
+
+          return "vendor";
+        },
+      },
+    },
+  },
 });
