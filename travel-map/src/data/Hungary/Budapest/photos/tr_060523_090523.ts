@@ -649,24 +649,24 @@ export const tr_060523_090523_images: Image[] = [
     width: 9,
     height: 16,
   },
-  {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Hungary/Budapest/073c.webp",
-    alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Hungary/Budapest/073t.webp",
-    width: 64,
-    height: 85,
-  },
-  {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Hungary/Budapest/074c.webp",
-    alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Hungary/Budapest/074t.webp",
-    width: 64,
-    height: 85,
-  },
+  // {
+  //   original:
+  //     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Hungary/Budapest/073c.webp",
+  //   alt: "",
+  //   thumbnail:
+  //     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Hungary/Budapest/073t.webp",
+  //   width: 64,
+  //   height: 85,
+  // },
+  // {
+  //   original:
+  //     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Hungary/Budapest/074c.webp",
+  //   alt: "",
+  //   thumbnail:
+  //     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Hungary/Budapest/074t.webp",
+  //   width: 64,
+  //   height: 85,
+  // },
   {
     original:
       "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Hungary/Budapest/075c.webp",

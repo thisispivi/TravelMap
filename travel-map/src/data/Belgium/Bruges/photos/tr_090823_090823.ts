@@ -145,22 +145,22 @@ export const tr_090823_090823_images: Image[] = [
     width: 4,
     height: 3,
   },
-  {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Belgium/Bruges/017c.webp",
-    alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Belgium/Bruges/017t.webp",
-    width: 64,
-    height: 85,
-  },
-  {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Belgium/Bruges/018c.webp",
-    alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Belgium/Bruges/018t.webp",
-    width: 64,
-    height: 85,
-  },
+  // {
+  //   original:
+  //     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Belgium/Bruges/017c.webp",
+  //   alt: "",
+  //   thumbnail:
+  //     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Belgium/Bruges/017t.webp",
+  //   width: 64,
+  //   height: 85,
+  // },
+  // {
+  //   original:
+  //     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Belgium/Bruges/018c.webp",
+  //   alt: "",
+  //   thumbnail:
+  //     "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Belgium/Bruges/018t.webp",
+  //   width: 64,
+  //   height: 85,
+  // },
 ];
