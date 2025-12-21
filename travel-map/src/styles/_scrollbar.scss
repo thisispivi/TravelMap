@@ -2,12 +2,15 @@
 @use "mixins" as m;
 
 $scrollbarSize: 0.4rem;
+$scrollbarThumbMinLength: 5rem;
 ::-webkit-scrollbar {
   width: $scrollbarSize;
   height: $scrollbarSize;
 }
 ::-webkit-scrollbar-thumb {
   border-radius: $scrollbarSize;
+  min-height: $scrollbarThumbMinLength;
+  min-width: $scrollbarThumbMinLength;
 }
 
 @mixin setScrollbar($bg, $bar, $barHover, $barActive, $thumbBorderSize: 0) {
@@ -44,40 +47,18 @@ $scrollbarSize: 0.4rem;
 
 .home--light {
   #info-tab {
-    @include setScrollbar(
-      v.$lightInfoTab,
-      v.$darkButton,
-      v.$darkInfoTab,
-      v.$darkLeftBar
-    );
+    @include setScrollbar(v.$lightInfoTab, v.$darkButton, v.$darkInfoTab, v.$darkLeftBar);
   }
   #gallery {
-    @include setScrollbar(
-      v.$lightInfoTab,
-      v.$darkButton,
-      v.$darkInfoTab,
-      v.$darkLeftBar,
-      0.55rem
-    );
+    @include setScrollbar(v.$lightInfoTab, v.$darkButton, v.$darkInfoTab, v.$darkLeftBar, 0.55rem);
   }
 }
 
 .home--dark {
   #info-tab {
-    @include setScrollbar(
-      v.$darkInfoTab,
-      v.$lightButton,
-      v.$lightInfoTab,
-      v.$lightLeftBar
-    );
+    @include setScrollbar(v.$darkInfoTab, v.$lightButton, v.$lightInfoTab, v.$lightLeftBar);
   }
   #gallery {
-    @include setScrollbar(
-      v.$darkInfoTab,
-      v.$lightButton,
-      v.$lightInfoTab,
-      v.$lightLeftBar,
-      0.55rem
-    );
+    @include setScrollbar(v.$darkInfoTab, v.$lightButton, v.$lightInfoTab, v.$lightLeftBar, 0.55rem);
   }
 }
