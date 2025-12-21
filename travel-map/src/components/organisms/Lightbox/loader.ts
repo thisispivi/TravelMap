@@ -17,7 +17,7 @@ type LightboxLoader = {
  * @returns {LightboxProps | null} - The lightbox props
  */
 export function loader(
-  data: LoaderFunctionArgs<LightboxLoader>
+  data: LoaderFunctionArgs<LightboxLoader>,
 ): LightboxProps | null {
   const { cityName, travelIdx, photoIdx } = data.params;
   const city = visitedCities.find((city) => city.name === cityName);
