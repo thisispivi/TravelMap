@@ -37,12 +37,11 @@ interface CityCardProps {
  * @param {City} data.city - The city
  * @param {Travel} [data.travel] - The travel
  * @param {number} [data.travelIdx = 0] - The index of the travel used to retrieve the travel photos
- * @param {boolean} data.isClickable - Whether the card is clickable
- * @param {City} data.hoveredCity - The hovered city
+ * @param {boolean} [data.isClickable] - Whether the card is clickable
  * @param {function} data.setHoveredCity - The function to set the hovered city
- * @param {function} data.setMapPosition - The function to set the map position
- * @param {boolean} data.isAutoPosition - Whether the map should auto position to the city when hovered
- * @param {boolean} data.isHidden - Whether the card is hidden
+ * @param {function} [data.setMapPosition] - The function to set the map position
+ * @param {boolean} [data.isAutoPosition] - Whether the map should auto position to the city when hovered
+ * @param {boolean} [data.isHidden] - Whether the card is hidden
  * @returns {JSX.Element} The CityCard component
  */
 export default function CityCard({

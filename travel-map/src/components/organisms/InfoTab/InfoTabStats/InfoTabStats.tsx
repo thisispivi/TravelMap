@@ -1,4 +1,4 @@
-import { JSX } from "react";
+import { JSX, useMemo } from "react";
 import "./InfoTabStats.scss";
 import { takenFlights, visitedCities, visitedCountries } from "@/data";
 import useLanguage from "@/hooks/language/language";
@@ -76,28 +76,61 @@ export default function InfoTabStats({
     TOTAL_UNESCO_SITES,
   } = constants;
 
-  const { furthest: furthestCity, nearest: nearestCity } =
-    getFurthestAndNearestCity(visitedCities, parameters.birthCity);
+  const visitedCountriesCount = visitedCountries.length;
 
-  const { max: maxFlight, min: minFlight } = getMinAndMaxFlight(takenFlights);
-  const totalMileage = getTotalMileage(takenFlights);
+  const { furthest: furthestCity, nearest: nearestCity } = useMemo(() => {
+    return getFurthestAndNearestCity(visitedCities, parameters.birthCity);
+  }, []);
 
-  const visitedContinents = getContinentsByCities(visitedCities);
-  const continentCities = Object.values(Continent)
-    .map((c) => getContinentStats(c, visitedCities, visitedCountries))
-    .sort((a, b) => b.countries - a.countries);
+  const { max: maxFlight, min: minFlight } = useMemo(() => {
+    return getMinAndMaxFlight(takenFlights);
+  }, []);
 
-  const cityBiggestTimezoneJump = getCityBiggestTimezoneJump(visitedCities);
-  const numberTimezonesJumped = getNumberOfTimezonesJumped(visitedCities);
+  const totalMileage = useMemo(() => {
+    return getTotalMileage(takenFlights);
+  }, []);
 
-  const totalMediaTaken = getTotalMediaTaken(visitedCities);
+  const visitedContinents = useMemo(() => {
+    return getContinentsByCities(visitedCities);
+  }, []);
 
-  const usedCurrencies = getCurrenciesFromCountries(visitedCountries);
+  const continentCities = useMemo(() => {
+    return Object.values(Continent)
+      .map((c) => getContinentStats(c, visitedCities, visitedCountries))
+      .sort((a, b) => b.countries - a.countries);
+  }, []);
 
-  const numUnescoSites = keys(parameters.stats.unescoSites).reduce(
-    (acc, country) => acc + parameters.stats.unescoSites[country].length,
-    0,
-  );
+  const cityBiggestTimezoneJump = useMemo(() => {
+    return getCityBiggestTimezoneJump(visitedCities);
+  }, []);
+
+  const numberTimezonesJumped = useMemo(() => {
+    return getNumberOfTimezonesJumped(visitedCities);
+  }, []);
+
+  const totalMediaTaken = useMemo(() => {
+    return getTotalMediaTaken(visitedCities);
+  }, []);
+
+  const usedCurrencies = useMemo(() => {
+    return getCurrenciesFromCountries(visitedCountries);
+  }, []);
+
+  const numUnescoSites = useMemo(() => {
+    return keys(parameters.stats.unescoSites).reduce(
+      (acc, country) => acc + parameters.stats.unescoSites[country].length,
+      0,
+    );
+  }, []);
+
+  const flightCompanies = useMemo(() => {
+    return [
+      FlightCompanyCore.AIR_ONE,
+      FlightCompanyCore.ALITALIA,
+      FlightCompanyCore.VOLOTEA,
+      ...unique(takenFlights.map((f) => f.company)),
+    ];
+  }, []);
 
   return (
     <div
@@ -112,7 +145,7 @@ export default function InfoTabStats({
             <GlobeIcon className="info-tab-stats__card__countries__icon" />
             <p>{t("stats.countries")}</p>
             <span>
-              <b>{Object.keys(visitedCountries).length}</b>
+              <b>{visitedCountriesCount}</b>
               <p>{`  / ${TOTAL_COUNTRIES}`}</p>
             </span>
           </Card>
@@ -211,12 +244,7 @@ export default function InfoTabStats({
               {t("stats.flightCompaniesTaken")}
             </p>
             <Row className="info-tab-stats__card__flight-companies row--wrap">
-              {[
-                FlightCompanyCore.AIR_ONE,
-                FlightCompanyCore.ALITALIA,
-                FlightCompanyCore.VOLOTEA,
-                ...unique(takenFlights.map((f) => f.company)),
-              ].map((company) => (
+              {flightCompanies.map((company) => (
                 <FlightCompany
                   className="info-tab-stats__card__flight-companies__company"
                   company={company}

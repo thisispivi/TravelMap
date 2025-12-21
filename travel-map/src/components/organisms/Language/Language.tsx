@@ -5,6 +5,8 @@ import { Button, LanguageFlag } from "../../atoms";
 import { LanguageIcon } from "@/assets";
 import { useTranslation } from "react-i18next";
 
+const possibleLanguages = ["it", "en"] as const;
+
 /**
  * LanguageSelector component
  *
@@ -20,8 +22,6 @@ export default function LanguageSelector(): JSX.Element {
   const [isOpen, setIsOpen] = useState(false);
   const { currLanguage, changeLanguage } = useLanguage([]);
 
-  const possibleLanguages = ["it", "en"];
-
   return (
     <div className="language-selector">
       <Button
@@ -31,7 +31,7 @@ export default function LanguageSelector(): JSX.Element {
         }`}
         data-tooltip-content={t("language")}
         data-tooltip-id="base-tooltip"
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => setIsOpen((open) => !open)}
       >
         <LanguageIcon className="language-selector__language-icon" />
         <LanguageFlag

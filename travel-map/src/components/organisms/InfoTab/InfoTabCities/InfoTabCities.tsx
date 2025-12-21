@@ -66,12 +66,16 @@ export default function InfoTabCities({
     mapPosition,
   } = useContext(HomeContext)!;
 
-  const allCountriesValues = Object.values(allCountries);
+  const allCountriesValues = allCountries;
   const [countries, setCountries] = useState<Country[]>(allCountriesValues);
   const onCountryChange = (selected: Country[]) => setCountries(selected);
 
+  const sortedSelectedCountries = useMemo(() => {
+    return [...countries].sort((a, b) => a.id.localeCompare(b.id));
+  }, [countries]);
+
   const [selectedYear, setSelectedYear] = useState<number>(
-    constants.GROUP_BY_CITIES_DEFAULT_OPENED_YEAR,
+    constants.GROUP_BY_CITIES_DEFAULT_OPENED_YEAR
   );
   const toggleYear = (year: number) =>
     selectedYear !== year ? setSelectedYear(year) : undefined;
@@ -98,32 +102,38 @@ export default function InfoTabCities({
       groupCitiesByYear(cities, {
         cutoffYear: constants.GROUP_BY_CITIES_CUTOFF_YEAR,
       }),
-    [cities],
+    [cities]
   );
 
   if (!isVisible) return null;
 
   const renderCityCards = (cities: City[]): JSX.Element => (
     <>
-      {cities.map((city, i) => (
-        <CityCard
-          city={new City(city)}
-          isAutoPosition={isAutoPosition}
-          isClickable={
-            city.travels.length > 0 && city.travels[0].photos.length > 0
-              ? true
-              : false
-          }
-          isHidden={!countries.includes(city.country)}
-          key={i}
-          mapPosition={mapPosition}
-          setHoveredCity={setHoveredCity}
-          setMapPosition={setMapPosition}
-          travel={city.travels[0]}
-          travelIdx={getTravelIdx?.(city, city.travels[0])}
-        />
-      ))}
-      {cities.filter((city) => countries.includes(city.country)).length % 2 !==
+      {cities.map((city) => {
+        const travel = city.travels[0];
+        const isHidden = !countries.includes(city.country);
+        const isClickable = Boolean(travel?.photos?.length);
+
+        return (
+          <CityCard
+            city={city}
+            isAutoPosition={isAutoPosition}
+            isClickable={isClickable}
+            isHidden={isHidden}
+            key={city.name}
+            mapPosition={mapPosition}
+            setHoveredCity={setHoveredCity}
+            setMapPosition={setMapPosition}
+            travel={travel}
+            travelIdx={travel ? getTravelIdx?.(city, travel) : undefined}
+          />
+        );
+      })}
+      {cities.reduce(
+        (acc, city) => acc + (countries.includes(city.country) ? 1 : 0),
+        0
+      ) %
+        2 !==
       0 ? (
         <div
           className={`info-tab-cities__void-city info-tab-${id}__void-city city-card city-card--no-box-shadow`}
@@ -171,7 +181,7 @@ export default function InfoTabCities({
               buttonIcon={<FilterIcon className="filter__icon" />}
               onChange={onCountryChange}
               options={allCountriesValues}
-              selected={countries.sort((a, b) => a.id.localeCompare(b.id))}
+              selected={sortedSelectedCountries}
             />
           ) : null}
         </div>
