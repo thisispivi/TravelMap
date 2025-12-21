@@ -79,11 +79,7 @@ export default function MapTooltip({
         <div className="map-tooltip__metadata">
           <div className="map-tooltip__metadata__item">
             <PeopleIcon className="map-tooltip__metadata__icon" />
-            {city.population
-              ? city.population.toLocaleString(
-                  lang.includes("it") ? "it-IT" : "en-US"
-                )
-              : "-"}
+            {city.population ? city.population.toLocaleString(lang) : "-"}
           </div>
           <div className="map-tooltip__metadata__item">
             <CoinIcon className="map-tooltip__metadata__icon" />

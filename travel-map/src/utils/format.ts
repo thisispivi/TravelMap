@@ -1,3 +1,5 @@
+import { normalizeLocale } from "@/i18n/locale";
+
 /**
  * Format the mileage number to a string with the given language and digits.
  * @param {number} mileage - The mileage number
@@ -8,7 +10,9 @@
 export function formatMileage(
   mileage: number,
   language: string,
-  digits: number = 2,
+  digits: number = 2
 ): string {
-  return mileage.toLocaleString(language, { maximumFractionDigits: digits });
+  return mileage.toLocaleString(normalizeLocale(language), {
+    maximumFractionDigits: digits,
+  });
 }
