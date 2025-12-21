@@ -47,7 +47,7 @@ export default function Gallery(): JSX.Element {
         youtube: p.youtube,
         index: i,
       })),
-    [travel.photos],
+    [travel.photos]
   );
 
   return (

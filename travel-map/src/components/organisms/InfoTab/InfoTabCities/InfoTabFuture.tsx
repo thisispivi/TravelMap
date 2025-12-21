@@ -1,4 +1,4 @@
-import { JSX } from "react";
+import { JSX, useCallback, useMemo } from "react";
 import "./InfoTabFuture.scss";
 import { futureCities, futureCountries } from "@/data";
 import InfoTabCities from "./InfoTabCities";
@@ -30,17 +30,29 @@ export default function InfoTabFuture({
   className = "",
   isVisible = false,
 }: InfoTabFutureProps): JSX.Element {
-  const allCities = getCitiesByCountriesAndIsFuture({
-    cities: futureCities,
-    countries: futureCountries,
-    isFuture: false,
-  }).sort(sortByTravelStartDate);
+  const allCities = useMemo(() => {
+    const result = getCitiesByCountriesAndIsFuture({
+      cities: futureCities,
+      countries: futureCountries,
+      isFuture: false,
+    });
 
-  const getTravelIdx = (city: City, travel: Travel) => {
-    const allTravels = futureCities.filter((c) => c.name === city.name)[0]
-      .travels;
-    return allTravels.indexOf(travel);
-  };
+    return [...result].sort(sortByTravelStartDate);
+  }, []);
+
+  const travelsByCityName = useMemo(() => {
+    return new globalThis.Map<string, Travel[]>(
+      futureCities.map((city) => [city.name, city.travels])
+    );
+  }, []);
+
+  const getTravelIdx = useCallback(
+    (city: City, travel: Travel) => {
+      const travels = travelsByCityName.get(city.name);
+      return travels ? travels.indexOf(travel) : -1;
+    },
+    [travelsByCityName]
+  );
 
   return (
     <InfoTabCities

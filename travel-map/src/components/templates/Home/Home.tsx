@@ -3,12 +3,6 @@ import InfoTab from "../../organisms/InfoTab/InfoTab";
 import LeftBar from "../../organisms/LeftBar/LeftBar";
 import useLocation from "@/hooks/location/location";
 import { Container } from "../../molecules";
-import {
-  futureCities,
-  livedCities,
-  visitedCities,
-  visitedCountries,
-} from "@/data";
 import { HomeContext } from "../../pages/Home/Home";
 import { Loading } from "../../atoms";
 import "./Home.scss";
@@ -28,22 +22,15 @@ const InfoTabStats = lazy(
 const Map = lazy(() => import("../../organisms/Map/Map"));
 
 /**
- * HomeTemplate component
+ * Home page template.
  *
- * The home template component is used to display the home page.
- *
- * @component
- *
- * @param {HomeTemplateProps} props - The props of the component
- * @param {ReactNode} props.children - The children of the component
- * @returns {JSX.Element} - The home template
+ * Keeps heavy routes/components lazy-loaded (map, tabs, gallery).
  */
 export default function HomeTemplate({
   children,
 }: PropsWithChildren): JSX.Element {
   const { isVisited, isFuture, isGallery, isStats, isLived } = useLocation();
-  const { hoveredCity, setHoveredCity, isDarkTheme, handleDarkModeSwitch } =
-    useContext(HomeContext)!;
+  const { isDarkTheme, handleDarkModeSwitch } = useContext(HomeContext)!;
 
   return (
     <div className="home-template">
@@ -67,14 +54,7 @@ export default function HomeTemplate({
         <Container isVisible={isGallery}>
           {isGallery ? children : null}
         </Container>
-        <Map
-          currHoveredCity={hoveredCity}
-          futureCities={futureCities}
-          livedCities={livedCities}
-          setCurrentHoveredCity={setHoveredCity}
-          visitedCities={visitedCities}
-          visitedCountries={visitedCountries}
-        />
+        <Map />
       </Suspense>
     </div>
   );
