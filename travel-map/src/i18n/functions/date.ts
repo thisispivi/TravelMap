@@ -11,7 +11,7 @@ import { normalizeLocale } from "../locale";
  */
 export function formatDate(
   date: Date | undefined,
-  lang: i18n["language"]
+  lang: i18n["language"],
 ): string {
   if (!date) return "No date";
 
@@ -37,7 +37,7 @@ export function formatDate(
  */
 export function formatDateMonthYear(
   date: Date | undefined,
-  lang: i18n["language"]
+  lang: i18n["language"],
 ): string {
   if (!date) return "No date";
 

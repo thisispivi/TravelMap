@@ -10,7 +10,7 @@ import { normalizeLocale } from "@/i18n/locale";
 export function formatMileage(
   mileage: number,
   language: string,
-  digits: number = 2
+  digits: number = 2,
 ): string {
   return mileage.toLocaleString(normalizeLocale(language), {
     maximumFractionDigits: digits,

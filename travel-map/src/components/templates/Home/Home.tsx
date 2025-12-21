@@ -8,16 +8,16 @@ import { Loading } from "../../atoms";
 import "./Home.scss";
 
 const InfoTabLived = lazy(
-  () => import("../../organisms/InfoTab/InfoTabCities/InfoTabLived")
+  () => import("../../organisms/InfoTab/InfoTabCities/InfoTabLived"),
 );
 const InfoTabVisited = lazy(
-  () => import("../../organisms/InfoTab/InfoTabCities/InfoTabVisited")
+  () => import("../../organisms/InfoTab/InfoTabCities/InfoTabVisited"),
 );
 const InfoTabFuture = lazy(
-  () => import("../../organisms/InfoTab/InfoTabCities/InfoTabFuture")
+  () => import("../../organisms/InfoTab/InfoTabCities/InfoTabFuture"),
 );
 const InfoTabStats = lazy(
-  () => import("../../organisms/InfoTab/InfoTabStats/InfoTabStats")
+  () => import("../../organisms/InfoTab/InfoTabStats/InfoTabStats"),
 );
 const Map = lazy(() => import("../../organisms/Map/Map"));
 
