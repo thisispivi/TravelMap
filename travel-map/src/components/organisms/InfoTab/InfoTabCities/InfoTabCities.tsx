@@ -75,7 +75,7 @@ export default function InfoTabCities({
   }, [countries]);
 
   const [selectedYear, setSelectedYear] = useState<number>(
-    constants.GROUP_BY_CITIES_DEFAULT_OPENED_YEAR
+    constants.GROUP_BY_CITIES_DEFAULT_OPENED_YEAR,
   );
   const toggleYear = (year: number) =>
     selectedYear !== year ? setSelectedYear(year) : undefined;
@@ -102,7 +102,7 @@ export default function InfoTabCities({
       groupCitiesByYear(cities, {
         cutoffYear: constants.GROUP_BY_CITIES_CUTOFF_YEAR,
       }),
-    [cities]
+    [cities],
   );
 
   if (!isVisible) return null;
@@ -131,7 +131,7 @@ export default function InfoTabCities({
       })}
       {cities.reduce(
         (acc, city) => acc + (countries.includes(city.country) ? 1 : 0),
-        0
+        0,
       ) %
         2 !==
       0 ? (

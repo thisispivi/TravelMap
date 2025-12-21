@@ -54,90 +54,90 @@ export default function FlightsDonutChart({
 
   const options = useMemo(() => {
     return {
-    chart: {
-      animations: { enabled: false },
-    },
-    labels,
-    legend: {
-      show: true,
-      position: "bottom",
-      fontFamily: "inherit",
-      onItemClick: { toggleDataSeries: false },
-      markers: { strokeWidth: 0, offsetX: -2 },
-      itemMargin: { horizontal: 8 },
-    },
-    stroke: { show: false },
-    tooltip: {
-      enabled: false,
-      style: {
-        fontSize: "1em",
-        fontFamily: "Urbanist",
-        fontWeight: 700,
-        colors: [variables.darkButtonContent],
+      chart: {
+        animations: { enabled: false },
       },
-      cssClass: "apexcharts-tooltip",
-    },
-    plotOptions: {
-      pie: {
-        expandOnClick: false,
-        donut: {
-          size: "72.5%",
-          labels: {
-            show: true,
-            value: {
+      labels,
+      legend: {
+        show: true,
+        position: "bottom",
+        fontFamily: "inherit",
+        onItemClick: { toggleDataSeries: false },
+        markers: { strokeWidth: 0, offsetX: -2 },
+        itemMargin: { horizontal: 8 },
+      },
+      stroke: { show: false },
+      tooltip: {
+        enabled: false,
+        style: {
+          fontSize: "1em",
+          fontFamily: "Urbanist",
+          fontWeight: 700,
+          colors: [variables.darkButtonContent],
+        },
+        cssClass: "apexcharts-tooltip",
+      },
+      plotOptions: {
+        pie: {
+          expandOnClick: false,
+          donut: {
+            size: "72.5%",
+            labels: {
               show: true,
-              fontSize: "1.2em",
-              fontFamily: "inherit",
-              fontWeight: 700,
-              offsetY: 9,
-            },
-            total: {
-              show: true,
-              label: t("stats.total"),
-              fontFamily: "inherit",
-              fontWeight: 300,
-              fontSize: "1em",
-              formatter: function () {
-                return `${totalFlights}`;
+              value: {
+                show: true,
+                fontSize: "1.2em",
+                fontFamily: "inherit",
+                fontWeight: 700,
+                offsetY: 9,
               },
-              showAlways: true,
-            },
-            name: {
-              offsetY: -2,
+              total: {
+                show: true,
+                label: t("stats.total"),
+                fontFamily: "inherit",
+                fontWeight: 300,
+                fontSize: "1em",
+                formatter: function () {
+                  return `${totalFlights}`;
+                },
+                showAlways: true,
+              },
+              name: {
+                offsetY: -2,
+              },
             },
           },
         },
       },
-    },
-    states: {
-      hover: {
-        filter: {
-          type: "none",
+      states: {
+        hover: {
+          filter: {
+            type: "none",
+          },
+        },
+        active: {
+          filter: {
+            type: "none",
+          },
         },
       },
-      active: {
-        filter: {
-          type: "none",
+      dataLabels: {
+        enabled: true,
+        formatter: function (_, { seriesIndex, w }) {
+          return w.config.series[seriesIndex];
         },
+        dropShadow: { enabled: false },
+        distributed: true,
+        style: {
+          fontSize: "1em",
+          fontFamily: "inherit",
+          fontWeight: 700,
+          colors: [variables.darkButtonContent],
+        },
+        enabledOnSeries: [0, 1, 2],
       },
-    },
-    dataLabels: {
-      enabled: true,
-      formatter: function (_, { seriesIndex, w }) {
-        return w.config.series[seriesIndex];
-      },
-      dropShadow: { enabled: false },
-      distributed: true,
-      style: {
-        fontSize: "1em",
-        fontFamily: "inherit",
-        fontWeight: 700,
-        colors: [variables.darkButtonContent],
-      },
-      enabledOnSeries: [0, 1, 2],
-    },
-    colors: ["#107895", "#c02e1d", "#79a14e"],
-  } as ApexCharts.ApexOptions;
+      colors: ["#107895", "#c02e1d", "#79a14e"],
+    } as ApexCharts.ApexOptions;
   }, [labels, t, totalFlights]);
 
   return (

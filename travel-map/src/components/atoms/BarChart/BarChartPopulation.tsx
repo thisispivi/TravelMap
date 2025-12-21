@@ -71,63 +71,63 @@ export default function PopulationBarChart({
 
   const options = useMemo(() => {
     return {
-    chart: {
-      animations: { enabled: false },
-      toolbar: { show: false },
-    },
-    plotOptions: {
-      bar: {
-        borderRadius: 7,
-        borderRadiusApplication: "end",
-        barHeight: "14em",
-        distributed: true,
-        horizontal: true,
-        dataLabels: { position: "top" },
+      chart: {
+        animations: { enabled: false },
+        toolbar: { show: false },
       },
-    },
-    stroke: { width: 0 },
-    colors: barColors,
-    dataLabels: {
-      enabled: true,
-      formatter: function (val: number) {
-        return val === 0 ? "" : val.toLocaleString(currLanguage);
+      plotOptions: {
+        bar: {
+          borderRadius: 7,
+          borderRadiusApplication: "end",
+          barHeight: "14em",
+          distributed: true,
+          horizontal: true,
+          dataLabels: { position: "top" },
+        },
       },
-      style: {
-        fontSize: "0.9em",
-        fontFamily: "Urbanist",
-        colors: ["#fff"],
-      },
-      offsetY: 1,
-      offsetX: 44,
-    },
-    xaxis: {
-      categories,
-      labels: { show: false },
-      tickAmount: 0,
-      axisTicks: { show: false },
-      max: maxValue,
-      min: 0,
-    },
-    yaxis: {
-      labels: {
+      stroke: { width: 0 },
+      colors: barColors,
+      dataLabels: {
+        enabled: true,
+        formatter: function (val: number) {
+          return val === 0 ? "" : val.toLocaleString(currLanguage);
+        },
         style: {
           fontSize: "0.9em",
           fontFamily: "Urbanist",
-          fontWeight: 700,
+          colors: ["#fff"],
         },
-        offsetY: 3,
+        offsetY: 1,
+        offsetX: 44,
       },
-    },
-    tooltip: { enabled: false },
-    grid: { show: false },
-    legend: {
-      menu: { show: false },
-      show: false,
-    },
-    states: {
-      hover: { filter: { type: "none" } },
-      active: { filter: { type: "none" } },
-    },
+      xaxis: {
+        categories,
+        labels: { show: false },
+        tickAmount: 0,
+        axisTicks: { show: false },
+        max: maxValue,
+        min: 0,
+      },
+      yaxis: {
+        labels: {
+          style: {
+            fontSize: "0.9em",
+            fontFamily: "Urbanist",
+            fontWeight: 700,
+          },
+          offsetY: 3,
+        },
+      },
+      tooltip: { enabled: false },
+      grid: { show: false },
+      legend: {
+        menu: { show: false },
+        show: false,
+      },
+      states: {
+        hover: { filter: { type: "none" } },
+        active: { filter: { type: "none" } },
+      },
     };
   }, [barColors, categories, currLanguage, maxValue]);
 

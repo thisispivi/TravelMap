@@ -97,7 +97,7 @@ export default function Map(): JSX.Element {
 
   const visitedCountryFill = useMemo(() => {
     return new globalThis.Map<string, string>(
-      visitedCountries.map((country) => [country.id, country.fillColor])
+      visitedCountries.map((country) => [country.id, country.fillColor]),
     );
   }, []);
 
@@ -107,7 +107,7 @@ export default function Map(): JSX.Element {
       if (fill) return fill;
       return isDarkTheme ? "#1a1a1a" : "#dadada";
     },
-    [isDarkTheme, visitedCountryFill]
+    [isDarkTheme, visitedCountryFill],
   );
 
   const sortedVisitedCities = useMemo(() => {
