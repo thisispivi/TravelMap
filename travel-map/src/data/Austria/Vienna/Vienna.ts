@@ -13,9 +13,7 @@ export const Vienna = new City({
       photos: tr_170525_200525_images,
     }),
   ],
-  backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Austria/Vienna/Vienna.jpg",
-  ],
+  backgroundImgSources: ["/Austria/Vienna/Vienna.jpg"],
   population: 2015000,
   timezoneGMT: 2,
 });

@@ -14,7 +14,5 @@ export const Marseille = new City({
       isFuture: false,
     }),
   ],
-  backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/France/Marseille/Marseille.jpg",
-  ],
+  backgroundImgSources: ["/France/Marseille/Marseille.jpg"],
 });

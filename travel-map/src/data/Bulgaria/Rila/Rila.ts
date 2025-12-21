@@ -13,9 +13,7 @@ export const Rila = new City({
       photos: tr_190825_190825_images,
     }),
   ],
-  backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Rila/Rila.jpg",
-  ],
+  backgroundImgSources: ["/Bulgaria/Rila/Rila.jpg"],
   population: 3560,
   timezoneGMT: 3,
 });

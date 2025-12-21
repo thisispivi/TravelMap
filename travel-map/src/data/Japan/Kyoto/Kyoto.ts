@@ -14,9 +14,7 @@ export const Kyoto = new City({
       photos: tr_210824_270824_images,
     }),
   ],
-  backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kyoto/Kyoto.jpg",
-  ],
+  backgroundImgSources: ["/Japan/Kyoto/Kyoto.jpg"],
   population: 1459640,
   timezoneGMT: 9,
 });

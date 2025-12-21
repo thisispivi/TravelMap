@@ -13,9 +13,7 @@ export const Imola = new City({
       photos: tr_220422_250422_images,
     }),
   ],
-  backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Imola/Imola.jpg",
-  ],
+  backgroundImgSources: ["/Italy/Imola/Imola.jpg"],
   population: 70453,
   timezoneGMT: 2,
 });

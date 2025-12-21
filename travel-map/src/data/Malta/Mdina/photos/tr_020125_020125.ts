@@ -2,929 +2,723 @@ import { Image } from "../../../../core";
 
 export const tr_020125_020125_images: Image[] = [
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/001c.webp",
+    original: "/Malta/Mdina/001c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/001t.webp",
+    thumbnail: "/Malta/Mdina/001t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/002c.webp",
+    original: "/Malta/Mdina/002c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/002t.webp",
+    thumbnail: "/Malta/Mdina/002t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/003c.webp",
+    original: "/Malta/Mdina/003c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/003t.webp",
+    thumbnail: "/Malta/Mdina/003t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/004c.webp",
+    original: "/Malta/Mdina/004c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/004t.webp",
+    thumbnail: "/Malta/Mdina/004t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/005c.webp",
+    original: "/Malta/Mdina/005c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/005t.webp",
+    thumbnail: "/Malta/Mdina/005t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/006c.webp",
+    original: "/Malta/Mdina/006c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/006t.webp",
+    thumbnail: "/Malta/Mdina/006t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/007c.webp",
+    original: "/Malta/Mdina/007c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/007t.webp",
+    thumbnail: "/Malta/Mdina/007t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/008c.webp",
+    original: "/Malta/Mdina/008c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/008t.webp",
+    thumbnail: "/Malta/Mdina/008t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/009c.webp",
+    original: "/Malta/Mdina/009c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/009t.webp",
+    thumbnail: "/Malta/Mdina/009t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/010c.webp",
+    original: "/Malta/Mdina/010c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/010t.webp",
+    thumbnail: "/Malta/Mdina/010t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/011c.webp",
+    original: "/Malta/Mdina/011c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/011t.webp",
+    thumbnail: "/Malta/Mdina/011t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/012c.webp",
+    original: "/Malta/Mdina/012c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/012t.webp",
+    thumbnail: "/Malta/Mdina/012t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/013c.webp",
+    original: "/Malta/Mdina/013c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/013t.webp",
+    thumbnail: "/Malta/Mdina/013t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/014c.webp",
+    original: "/Malta/Mdina/014c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/014t.webp",
+    thumbnail: "/Malta/Mdina/014t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/015c.webp",
+    original: "/Malta/Mdina/015c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/015t.webp",
+    thumbnail: "/Malta/Mdina/015t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/016c.webp",
+    original: "/Malta/Mdina/016c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/016t.webp",
+    thumbnail: "/Malta/Mdina/016t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/017c.webp",
+    original: "/Malta/Mdina/017c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/017t.webp",
+    thumbnail: "/Malta/Mdina/017t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/018c.webp",
+    original: "/Malta/Mdina/018c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/018t.webp",
+    thumbnail: "/Malta/Mdina/018t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/019c.webp",
+    original: "/Malta/Mdina/019c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/019t.webp",
+    thumbnail: "/Malta/Mdina/019t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/020c.webp",
+    original: "/Malta/Mdina/020c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/020t.webp",
+    thumbnail: "/Malta/Mdina/020t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/021c.webp",
+    original: "/Malta/Mdina/021c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/021t.webp",
+    thumbnail: "/Malta/Mdina/021t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/022c.webp",
+    original: "/Malta/Mdina/022c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/022t.webp",
+    thumbnail: "/Malta/Mdina/022t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/023c.webp",
+    original: "/Malta/Mdina/023c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/023t.webp",
+    thumbnail: "/Malta/Mdina/023t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/024c.webp",
+    original: "/Malta/Mdina/024c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/024t.webp",
+    thumbnail: "/Malta/Mdina/024t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/025c.webp",
+    original: "/Malta/Mdina/025c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/025t.webp",
+    thumbnail: "/Malta/Mdina/025t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/026c.webp",
+    original: "/Malta/Mdina/026c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/026t.webp",
+    thumbnail: "/Malta/Mdina/026t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/027c.webp",
+    original: "/Malta/Mdina/027c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/027t.webp",
+    thumbnail: "/Malta/Mdina/027t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/028c.webp",
+    original: "/Malta/Mdina/028c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/028t.webp",
+    thumbnail: "/Malta/Mdina/028t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/029c.webp",
+    original: "/Malta/Mdina/029c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/029t.webp",
+    thumbnail: "/Malta/Mdina/029t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/030c.webp",
+    original: "/Malta/Mdina/030c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/030t.webp",
+    thumbnail: "/Malta/Mdina/030t.webp",
     width: 9,
     height: 16,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/031c.webp",
+    original: "/Malta/Mdina/031c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/031t.webp",
+    thumbnail: "/Malta/Mdina/031t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/032c.webp",
+    original: "/Malta/Mdina/032c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/032t.webp",
+    thumbnail: "/Malta/Mdina/032t.webp",
     width: 125,
     height: 79,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/033c.webp",
+    original: "/Malta/Mdina/033c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/033t.webp",
+    thumbnail: "/Malta/Mdina/033t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/034c.webp",
+    original: "/Malta/Mdina/034c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/034t.webp",
+    thumbnail: "/Malta/Mdina/034t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/035c.webp",
+    original: "/Malta/Mdina/035c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/035t.webp",
+    thumbnail: "/Malta/Mdina/035t.webp",
     width: 1000,
     height: 753,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/036c.webp",
+    original: "/Malta/Mdina/036c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/036t.webp",
+    thumbnail: "/Malta/Mdina/036t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/037c.webp",
+    original: "/Malta/Mdina/037c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/037t.webp",
+    thumbnail: "/Malta/Mdina/037t.webp",
     width: 1000,
     height: 753,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/038c.webp",
+    original: "/Malta/Mdina/038c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/038t.webp",
+    thumbnail: "/Malta/Mdina/038t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/039c.webp",
+    original: "/Malta/Mdina/039c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/039t.webp",
+    thumbnail: "/Malta/Mdina/039t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/040c.webp",
+    original: "/Malta/Mdina/040c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/040t.webp",
+    thumbnail: "/Malta/Mdina/040t.webp",
     width: 1000,
     height: 753,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/041c.webp",
+    original: "/Malta/Mdina/041c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/041t.webp",
+    thumbnail: "/Malta/Mdina/041t.webp",
     width: 1000,
     height: 753,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/042c.webp",
+    original: "/Malta/Mdina/042c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/042t.webp",
+    thumbnail: "/Malta/Mdina/042t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/043c.webp",
+    original: "/Malta/Mdina/043c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/043t.webp",
+    thumbnail: "/Malta/Mdina/043t.webp",
     width: 1000,
     height: 753,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/044c.webp",
+    original: "/Malta/Mdina/044c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/044t.webp",
+    thumbnail: "/Malta/Mdina/044t.webp",
     width: 753,
     height: 1000,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/045c.webp",
+    original: "/Malta/Mdina/045c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/045t.webp",
+    thumbnail: "/Malta/Mdina/045t.webp",
     width: 753,
     height: 1000,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/046c.webp",
+    original: "/Malta/Mdina/046c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/046t.webp",
+    thumbnail: "/Malta/Mdina/046t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/047c.webp",
+    original: "/Malta/Mdina/047c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/047t.webp",
+    thumbnail: "/Malta/Mdina/047t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/048c.webp",
+    original: "/Malta/Mdina/048c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/048t.webp",
+    thumbnail: "/Malta/Mdina/048t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/049c.webp",
+    original: "/Malta/Mdina/049c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/049t.webp",
+    thumbnail: "/Malta/Mdina/049t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/050c.webp",
+    original: "/Malta/Mdina/050c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/050t.webp",
+    thumbnail: "/Malta/Mdina/050t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/051c.webp",
+    original: "/Malta/Mdina/051c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/051t.webp",
+    thumbnail: "/Malta/Mdina/051t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/052c.webp",
+    original: "/Malta/Mdina/052c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/052t.webp",
+    thumbnail: "/Malta/Mdina/052t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/053c.webp",
+    original: "/Malta/Mdina/053c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/053t.webp",
+    thumbnail: "/Malta/Mdina/053t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/054c.webp",
+    original: "/Malta/Mdina/054c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/054t.webp",
+    thumbnail: "/Malta/Mdina/054t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/055c.webp",
+    original: "/Malta/Mdina/055c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/055t.webp",
+    thumbnail: "/Malta/Mdina/055t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/056c.webp",
+    original: "/Malta/Mdina/056c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/056t.webp",
+    thumbnail: "/Malta/Mdina/056t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/057c.webp",
+    original: "/Malta/Mdina/057c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/057t.webp",
+    thumbnail: "/Malta/Mdina/057t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/058c.webp",
+    original: "/Malta/Mdina/058c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/058t.webp",
+    thumbnail: "/Malta/Mdina/058t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/059c.webp",
+    original: "/Malta/Mdina/059c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/059t.webp",
+    thumbnail: "/Malta/Mdina/059t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/060c.webp",
+    original: "/Malta/Mdina/060c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/060t.webp",
+    thumbnail: "/Malta/Mdina/060t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/061c.webp",
+    original: "/Malta/Mdina/061c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/061t.webp",
+    thumbnail: "/Malta/Mdina/061t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/062c.webp",
+    original: "/Malta/Mdina/062c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/062t.webp",
+    thumbnail: "/Malta/Mdina/062t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/063c.webp",
+    original: "/Malta/Mdina/063c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/063t.webp",
+    thumbnail: "/Malta/Mdina/063t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/064c.webp",
+    original: "/Malta/Mdina/064c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/064t.webp",
+    thumbnail: "/Malta/Mdina/064t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/065c.webp",
+    original: "/Malta/Mdina/065c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/065t.webp",
+    thumbnail: "/Malta/Mdina/065t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/066c.webp",
+    original: "/Malta/Mdina/066c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/066t.webp",
+    thumbnail: "/Malta/Mdina/066t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/067c.webp",
+    original: "/Malta/Mdina/067c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/067t.webp",
+    thumbnail: "/Malta/Mdina/067t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/068c.webp",
+    original: "/Malta/Mdina/068c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/068t.webp",
+    thumbnail: "/Malta/Mdina/068t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/069c.webp",
+    original: "/Malta/Mdina/069c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/069t.webp",
+    thumbnail: "/Malta/Mdina/069t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/070c.webp",
+    original: "/Malta/Mdina/070c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/070t.webp",
+    thumbnail: "/Malta/Mdina/070t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/071c.webp",
+    original: "/Malta/Mdina/071c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/071t.webp",
+    thumbnail: "/Malta/Mdina/071t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/072c.webp",
+    original: "/Malta/Mdina/072c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/072t.webp",
+    thumbnail: "/Malta/Mdina/072t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/073c.webp",
+    original: "/Malta/Mdina/073c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/073t.webp",
+    thumbnail: "/Malta/Mdina/073t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/074c.webp",
+    original: "/Malta/Mdina/074c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/074t.webp",
+    thumbnail: "/Malta/Mdina/074t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/075c.webp",
+    original: "/Malta/Mdina/075c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/075t.webp",
+    thumbnail: "/Malta/Mdina/075t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/076c.webp",
+    original: "/Malta/Mdina/076c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/076t.webp",
+    thumbnail: "/Malta/Mdina/076t.webp",
     width: 9,
     height: 16,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/077c.webp",
+    original: "/Malta/Mdina/077c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/077t.webp",
+    thumbnail: "/Malta/Mdina/077t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/078c.webp",
+    original: "/Malta/Mdina/078c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/078t.webp",
+    thumbnail: "/Malta/Mdina/078t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/079c.webp",
+    original: "/Malta/Mdina/079c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/079t.webp",
+    thumbnail: "/Malta/Mdina/079t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/080c.webp",
+    original: "/Malta/Mdina/080c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/080t.webp",
+    thumbnail: "/Malta/Mdina/080t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/081c.webp",
+    original: "/Malta/Mdina/081c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/081t.webp",
+    thumbnail: "/Malta/Mdina/081t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/082c.webp",
+    original: "/Malta/Mdina/082c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/082t.webp",
+    thumbnail: "/Malta/Mdina/082t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/083c.webp",
+    original: "/Malta/Mdina/083c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/083t.webp",
+    thumbnail: "/Malta/Mdina/083t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/084c.webp",
+    original: "/Malta/Mdina/084c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/084t.webp",
+    thumbnail: "/Malta/Mdina/084t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/085c.webp",
+    original: "/Malta/Mdina/085c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/085t.webp",
+    thumbnail: "/Malta/Mdina/085t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/086c.webp",
+    original: "/Malta/Mdina/086c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/086t.webp",
+    thumbnail: "/Malta/Mdina/086t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/087c.webp",
+    original: "/Malta/Mdina/087c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/087t.webp",
+    thumbnail: "/Malta/Mdina/087t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/088c.webp",
+    original: "/Malta/Mdina/088c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/088t.webp",
+    thumbnail: "/Malta/Mdina/088t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/089c.webp",
+    original: "/Malta/Mdina/089c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/089t.webp",
+    thumbnail: "/Malta/Mdina/089t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/090c.webp",
+    original: "/Malta/Mdina/090c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/090t.webp",
+    thumbnail: "/Malta/Mdina/090t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/091c.webp",
+    original: "/Malta/Mdina/091c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/091t.webp",
+    thumbnail: "/Malta/Mdina/091t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/092c.webp",
+    original: "/Malta/Mdina/092c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/092t.webp",
+    thumbnail: "/Malta/Mdina/092t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/093c.webp",
+    original: "/Malta/Mdina/093c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/093t.webp",
+    thumbnail: "/Malta/Mdina/093t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/094c.webp",
+    original: "/Malta/Mdina/094c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/094t.webp",
+    thumbnail: "/Malta/Mdina/094t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/095c.webp",
+    original: "/Malta/Mdina/095c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/095t.webp",
+    thumbnail: "/Malta/Mdina/095t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/096c.webp",
+    original: "/Malta/Mdina/096c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/096t.webp",
+    thumbnail: "/Malta/Mdina/096t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/097c.webp",
+    original: "/Malta/Mdina/097c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/097t.webp",
+    thumbnail: "/Malta/Mdina/097t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/098c.webp",
+    original: "/Malta/Mdina/098c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/098t.webp",
+    thumbnail: "/Malta/Mdina/098t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/099c.webp",
+    original: "/Malta/Mdina/099c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/099t.webp",
+    thumbnail: "/Malta/Mdina/099t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/100c.webp",
+    original: "/Malta/Mdina/100c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/100t.webp",
+    thumbnail: "/Malta/Mdina/100t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/101c.webp",
+    original: "/Malta/Mdina/101c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/101t.webp",
+    thumbnail: "/Malta/Mdina/101t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/102c.webp",
+    original: "/Malta/Mdina/102c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/102t.webp",
+    thumbnail: "/Malta/Mdina/102t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/103c.webp",
+    original: "/Malta/Mdina/103c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/103t.webp",
+    thumbnail: "/Malta/Mdina/103t.webp",
     width: 3,
     height: 4,
   },

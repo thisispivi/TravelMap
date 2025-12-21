@@ -13,9 +13,7 @@ export const Cairns = new City({
       photos: tr_201125_231125_images,
     }),
   ],
-  backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/Cairns.webp",
-  ],
+  backgroundImgSources: ["/Australia/Cairns/Cairns.webp"],
   population: 166304,
   timezoneGMT: 10,
 });

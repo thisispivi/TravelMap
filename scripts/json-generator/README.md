@@ -121,7 +121,7 @@ The JSON structure will list the travels and their associated images.
             photos: example_travel,
           }),
         ],
-        backgroundImgsSrc: [
+        backgroundImgSources: [
           "https://example.com/TravelMap/Backgrounds/Cities/Anderlecht.webp",
         ],
         mapCoordinates: [1, 51],

@@ -14,9 +14,7 @@ export const Braga = new City({
       isFuture: false,
     }),
   ],
-  backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Portugal/Braga/Braga.jpg",
-  ],
+  backgroundImgSources: ["/Portugal/Braga/Braga.jpg"],
   population: 201583,
   timezoneGMT: 1,
 });

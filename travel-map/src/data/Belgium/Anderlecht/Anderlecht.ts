@@ -13,9 +13,7 @@ export const Anderlecht = new City({
       photos: tr_060823_060823_images,
     }),
   ],
-  backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Belgium/Anderlecht/Anderlecht.jpg",
-  ],
+  backgroundImgSources: ["/Belgium/Anderlecht/Anderlecht.jpg"],
   population: 124659,
   timezoneGMT: 2,
 });

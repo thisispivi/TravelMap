@@ -14,7 +14,5 @@ export const MonteCarlo = new City({
       isFuture: false,
     }),
   ],
-  backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Monaco/MonteCarlo/MonteCarlo.jpg",
-  ],
+  backgroundImgSources: ["/Monaco/MonteCarlo/MonteCarlo.jpg"],
 });

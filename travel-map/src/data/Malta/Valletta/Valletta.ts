@@ -19,9 +19,9 @@ export const Valletta = new City({
       photos: tr_030125_030125_images,
     }),
   ],
-  backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Valletta/Valletta.jpg",
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Valletta1/Valletta1.jpg",
+  backgroundImgSources: [
+    "/Malta/Valletta/Valletta.jpg",
+    "/Malta/Valletta1/Valletta1.jpg",
   ],
   population: 5876,
   timezoneGMT: 2,
