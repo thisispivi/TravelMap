@@ -16,7 +16,8 @@ This script allows you to create the compressed and thumbnail images for the Tra
 Ensure you have Python 3 installed and the following packages:
 
 - Pillow: Used for image processing.
-- opencv_python: Used for video frame extraction.
+- ffmpeg: Used as a fallback for video first-frame extraction when OpenCV cannot read the file.
+  - Windows: install ffmpeg and ensure `ffmpeg` is available on your PATH.
 
 Install the dependencies using pip:
 
@@ -127,3 +128,4 @@ Example Log Output:
 - Ensure the `photos/<city_name>` folder exists and contains the files to be processed.
 - If files are not being processed, check the log output for any potential errors.
 - Ensure the appropriate permissions are set for writing files in the `results` folder.
+- If you see `[WinError 2] The system cannot find the file specified` while processing a video, it usually means `ffmpeg` is not installed/on PATH and OpenCV could not extract the frame.

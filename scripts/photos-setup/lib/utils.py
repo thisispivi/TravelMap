@@ -61,7 +61,14 @@ def process_file(filename, data, city_folder_path, results_city_folder_path, log
 
         if is_video(filename):
             logger.video("Processing video file: %s", filename)
-            extract_first_frame(filename, city_folder_path, city_folder_path, logger)
+            extracted_path = extract_first_frame(
+                filename, city_folder_path, city_folder_path, logger
+            )
+            if not extracted_path:
+                logger.error(
+                    "Skipping video %s: first-frame extraction failed.", filename
+                )
+                return
         else:
             logger.photo("Processing image file: %s", filename)
 
