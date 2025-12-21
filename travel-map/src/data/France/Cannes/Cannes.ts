@@ -14,7 +14,5 @@ export const Cannes = new City({
       isFuture: false,
     }),
   ],
-  backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/France/Cannes/Cannes.jpg",
-  ],
+  backgroundImgSources: ["/France/Cannes/Cannes.jpg"],
 });

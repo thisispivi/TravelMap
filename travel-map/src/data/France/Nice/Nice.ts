@@ -14,7 +14,5 @@ export const Nice = new City({
       isFuture: false,
     }),
   ],
-  backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/France/Nice/Nice.jpg",
-  ],
+  backgroundImgSources: ["/France/Nice/Nice.jpg"],
 });

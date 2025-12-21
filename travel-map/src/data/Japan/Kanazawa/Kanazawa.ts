@@ -14,9 +14,7 @@ export const Kanazawa = new City({
       photos: tr_190824_210824_images,
     }),
   ],
-  backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Kanazawa/Kanazawa.jpg",
-  ],
+  backgroundImgSources: ["/Japan/Kanazawa/Kanazawa.jpg"],
   population: 461000,
   timezoneGMT: 9,
 });

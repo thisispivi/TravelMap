@@ -13,9 +13,7 @@ export const London = new City({
       photos: tr_090511_120511_images,
     }),
   ],
-  backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/UnitedKingdom/London/London.jpg",
-  ],
+  backgroundImgSources: ["/UnitedKingdom/London/London.jpg"],
   population: 9748000,
   timezoneGMT: 1,
 });

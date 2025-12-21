@@ -14,7 +14,5 @@ export const Toulon = new City({
       isFuture: false,
     }),
   ],
-  backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/France/Toulon/Toulon.jpg",
-  ],
+  backgroundImgSources: ["/France/Toulon/Toulon.jpg"],
 });

@@ -13,9 +13,7 @@ export const Barcelona = new City({
       photos: tr_110416_150416_images,
     }),
   ],
-  backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Spain/Barcelona/Barcelona.jpg",
-  ],
+  backgroundImgSources: ["/Spain/Barcelona/Barcelona.jpg"],
   population: 5712000,
   timezoneGMT: 2,
 });

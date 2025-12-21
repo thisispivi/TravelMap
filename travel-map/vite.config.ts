@@ -70,4 +70,5 @@ export default defineConfig({
       },
     },
   },
+  envDir: "./env",
 });

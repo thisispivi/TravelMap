@@ -20,9 +20,9 @@ export const SanGiljan = new City({
       rowConstraints: { minPhotos: 2, maxPhotos: 7 },
     }),
   ],
-  backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/SanGiljan/SanGiljan.jpg",
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/SanGiljan1/SanGiljan1.jpg",
+  backgroundImgSources: [
+    "/Malta/SanGiljan/SanGiljan.jpg",
+    "/Malta/SanGiljan1/SanGiljan1.jpg",
   ],
   population: 3259,
   timezoneGMT: 2,

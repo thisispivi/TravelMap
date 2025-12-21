@@ -13,9 +13,7 @@ export const SanPawlIlBahar = new City({
       photos: tr_040125_040125_images,
     }),
   ],
-  backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/SanPawlIlBahar/SanPawlIlBahar.jpg",
-  ],
+  backgroundImgSources: ["/Malta/SanPawlIlBahar/SanPawlIlBahar.jpg"],
   population: 32042,
   timezoneGMT: 2,
 });

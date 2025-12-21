@@ -14,9 +14,7 @@ export const Sevilla = new City({
       photos: tr_040425_080425_images,
     }),
   ],
-  backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Spain/Sevilla/Sevilla.jpg",
-  ],
+  backgroundImgSources: ["/Spain/Sevilla/Sevilla.jpg"],
   population: 684025,
   timezoneGMT: 2,
 });

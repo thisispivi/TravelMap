@@ -13,9 +13,7 @@ export const Victoria = new City({
       photos: tr_040125_040125_images,
     }),
   ],
-  backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Victoria/Victoria.jpg",
-  ],
+  backgroundImgSources: ["/Malta/Victoria/Victoria.jpg"],
   population: 5921,
   timezoneGMT: 2,
 });

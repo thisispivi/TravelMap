@@ -13,9 +13,7 @@ export const Sofia = new City({
       photos: tr_170825_210825_images,
     }),
   ],
-  backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/Sofia.jpg",
-  ],
+  backgroundImgSources: ["/Bulgaria/Sofia/Sofia.jpg"],
   population: 1241675,
   timezoneGMT: 3,
 });

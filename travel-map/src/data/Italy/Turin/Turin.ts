@@ -13,9 +13,7 @@ export const Turin = new City({
       photos: tr_111123_141123_images,
     }),
   ],
-  backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Turin/Turin.jpg",
-  ],
+  backgroundImgSources: ["/Italy/Turin/Turin.jpg"],
   population: 1805730,
   timezoneGMT: 2,
 });

@@ -2,1469 +2,1143 @@ import { Image } from "../../../../core";
 
 export const tr_170825_210825_images: Image[] = [
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/001t.webp",
+    thumbnail: "/Bulgaria/Sofia/001t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/001c.webp",
+    original: "/Bulgaria/Sofia/001c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/002t.webp",
+    thumbnail: "/Bulgaria/Sofia/002t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/002c.webp",
+    original: "/Bulgaria/Sofia/002c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/003t.webp",
+    thumbnail: "/Bulgaria/Sofia/003t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/003c.webp",
+    original: "/Bulgaria/Sofia/003c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/004t.webp",
+    thumbnail: "/Bulgaria/Sofia/004t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/004c.webp",
+    original: "/Bulgaria/Sofia/004c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/005t.webp",
+    thumbnail: "/Bulgaria/Sofia/005t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/005c.webp",
+    original: "/Bulgaria/Sofia/005c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/006t.webp",
+    thumbnail: "/Bulgaria/Sofia/006t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/006c.webp",
+    original: "/Bulgaria/Sofia/006c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/007t.webp",
+    thumbnail: "/Bulgaria/Sofia/007t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/007c.webp",
+    original: "/Bulgaria/Sofia/007c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/008t.webp",
+    thumbnail: "/Bulgaria/Sofia/008t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/008c.webp",
+    original: "/Bulgaria/Sofia/008c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/009t.webp",
+    thumbnail: "/Bulgaria/Sofia/009t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/009c.webp",
+    original: "/Bulgaria/Sofia/009c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/010t.webp",
+    thumbnail: "/Bulgaria/Sofia/010t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/010c.webp",
+    original: "/Bulgaria/Sofia/010c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/011t.webp",
+    thumbnail: "/Bulgaria/Sofia/011t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/011c.webp",
+    original: "/Bulgaria/Sofia/011c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/012t.webp",
+    thumbnail: "/Bulgaria/Sofia/012t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/012c.webp",
+    original: "/Bulgaria/Sofia/012c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/013t.webp",
+    thumbnail: "/Bulgaria/Sofia/013t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/013c.webp",
+    original: "/Bulgaria/Sofia/013c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/014t.webp",
+    thumbnail: "/Bulgaria/Sofia/014t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/014c.webp",
+    original: "/Bulgaria/Sofia/014c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/015t.webp",
+    thumbnail: "/Bulgaria/Sofia/015t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/015c.webp",
+    original: "/Bulgaria/Sofia/015c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/016t.webp",
+    thumbnail: "/Bulgaria/Sofia/016t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/016c.webp",
+    original: "/Bulgaria/Sofia/016c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/017t.webp",
+    thumbnail: "/Bulgaria/Sofia/017t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/017c.webp",
+    original: "/Bulgaria/Sofia/017c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/018t.webp",
+    thumbnail: "/Bulgaria/Sofia/018t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/018c.webp",
+    original: "/Bulgaria/Sofia/018c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/019t.webp",
+    thumbnail: "/Bulgaria/Sofia/019t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/019c.webp",
+    original: "/Bulgaria/Sofia/019c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/020t.webp",
+    thumbnail: "/Bulgaria/Sofia/020t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/020c.webp",
+    original: "/Bulgaria/Sofia/020c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/021t.webp",
+    thumbnail: "/Bulgaria/Sofia/021t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/021c.webp",
+    original: "/Bulgaria/Sofia/021c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/022t.webp",
+    thumbnail: "/Bulgaria/Sofia/022t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/022c.webp",
+    original: "/Bulgaria/Sofia/022c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/023t.webp",
+    thumbnail: "/Bulgaria/Sofia/023t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/023c.webp",
+    original: "/Bulgaria/Sofia/023c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/024t.webp",
+    thumbnail: "/Bulgaria/Sofia/024t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/024c.webp",
+    original: "/Bulgaria/Sofia/024c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/025t.webp",
+    thumbnail: "/Bulgaria/Sofia/025t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/025c.webp",
+    original: "/Bulgaria/Sofia/025c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/026t.webp",
+    thumbnail: "/Bulgaria/Sofia/026t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/026c.webp",
+    original: "/Bulgaria/Sofia/026c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/027t.webp",
+    thumbnail: "/Bulgaria/Sofia/027t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/027c.webp",
+    original: "/Bulgaria/Sofia/027c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/028t.webp",
+    thumbnail: "/Bulgaria/Sofia/028t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/028c.webp",
+    original: "/Bulgaria/Sofia/028c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/029t.webp",
+    thumbnail: "/Bulgaria/Sofia/029t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/029c.webp",
+    original: "/Bulgaria/Sofia/029c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/030t.webp",
+    thumbnail: "/Bulgaria/Sofia/030t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/030c.webp",
+    original: "/Bulgaria/Sofia/030c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/031t.webp",
+    thumbnail: "/Bulgaria/Sofia/031t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/031c.webp",
+    original: "/Bulgaria/Sofia/031c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/032t.webp",
+    thumbnail: "/Bulgaria/Sofia/032t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/032c.webp",
+    original: "/Bulgaria/Sofia/032c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/033t.webp",
+    thumbnail: "/Bulgaria/Sofia/033t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/033c.webp",
+    original: "/Bulgaria/Sofia/033c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/034t.webp",
+    thumbnail: "/Bulgaria/Sofia/034t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/034c.webp",
+    original: "/Bulgaria/Sofia/034c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/035t.webp",
+    thumbnail: "/Bulgaria/Sofia/035t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/035c.webp",
+    original: "/Bulgaria/Sofia/035c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/036t.webp",
+    thumbnail: "/Bulgaria/Sofia/036t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/036c.webp",
+    original: "/Bulgaria/Sofia/036c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/037t.webp",
+    thumbnail: "/Bulgaria/Sofia/037t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/037c.webp",
+    original: "/Bulgaria/Sofia/037c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/038t.webp",
+    thumbnail: "/Bulgaria/Sofia/038t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/038c.webp",
+    original: "/Bulgaria/Sofia/038c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/039t.webp",
+    thumbnail: "/Bulgaria/Sofia/039t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/039c.webp",
+    original: "/Bulgaria/Sofia/039c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/040t.webp",
+    thumbnail: "/Bulgaria/Sofia/040t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/040c.webp",
+    original: "/Bulgaria/Sofia/040c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/041t.webp",
+    thumbnail: "/Bulgaria/Sofia/041t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/041c.webp",
+    original: "/Bulgaria/Sofia/041c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/042t.webp",
+    thumbnail: "/Bulgaria/Sofia/042t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/042c.webp",
+    original: "/Bulgaria/Sofia/042c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/043t.webp",
+    thumbnail: "/Bulgaria/Sofia/043t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/043c.webp",
+    original: "/Bulgaria/Sofia/043c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/044t.webp",
+    thumbnail: "/Bulgaria/Sofia/044t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/044c.webp",
+    original: "/Bulgaria/Sofia/044c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/045t.webp",
+    thumbnail: "/Bulgaria/Sofia/045t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/045c.webp",
+    original: "/Bulgaria/Sofia/045c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/046t.webp",
+    thumbnail: "/Bulgaria/Sofia/046t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/046c.webp",
+    original: "/Bulgaria/Sofia/046c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/047t.webp",
+    thumbnail: "/Bulgaria/Sofia/047t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/047c.webp",
+    original: "/Bulgaria/Sofia/047c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/048t.webp",
+    thumbnail: "/Bulgaria/Sofia/048t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/048c.webp",
+    original: "/Bulgaria/Sofia/048c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/049t.webp",
+    thumbnail: "/Bulgaria/Sofia/049t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/049c.webp",
+    original: "/Bulgaria/Sofia/049c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/050t.webp",
+    thumbnail: "/Bulgaria/Sofia/050t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/050c.webp",
+    original: "/Bulgaria/Sofia/050c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/051t.webp",
+    thumbnail: "/Bulgaria/Sofia/051t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/051c.webp",
+    original: "/Bulgaria/Sofia/051c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/052t.webp",
+    thumbnail: "/Bulgaria/Sofia/052t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/052c.webp",
+    original: "/Bulgaria/Sofia/052c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/053t.webp",
+    thumbnail: "/Bulgaria/Sofia/053t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/053c.webp",
+    original: "/Bulgaria/Sofia/053c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/054t.webp",
+    thumbnail: "/Bulgaria/Sofia/054t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/054c.webp",
+    original: "/Bulgaria/Sofia/054c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/055t.webp",
+    thumbnail: "/Bulgaria/Sofia/055t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/055c.webp",
+    original: "/Bulgaria/Sofia/055c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/056t.webp",
+    thumbnail: "/Bulgaria/Sofia/056t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/056c.webp",
+    original: "/Bulgaria/Sofia/056c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/057t.webp",
+    thumbnail: "/Bulgaria/Sofia/057t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/057c.webp",
+    original: "/Bulgaria/Sofia/057c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/058t.webp",
+    thumbnail: "/Bulgaria/Sofia/058t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/058c.webp",
+    original: "/Bulgaria/Sofia/058c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/059t.webp",
+    thumbnail: "/Bulgaria/Sofia/059t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/059c.webp",
+    original: "/Bulgaria/Sofia/059c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/060t.webp",
+    thumbnail: "/Bulgaria/Sofia/060t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/060c.webp",
+    original: "/Bulgaria/Sofia/060c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/061t.webp",
+    thumbnail: "/Bulgaria/Sofia/061t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/061c.webp",
+    original: "/Bulgaria/Sofia/061c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/062t.webp",
+    thumbnail: "/Bulgaria/Sofia/062t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/062c.webp",
+    original: "/Bulgaria/Sofia/062c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/063t.webp",
+    thumbnail: "/Bulgaria/Sofia/063t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/063c.webp",
+    original: "/Bulgaria/Sofia/063c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/064t.webp",
+    thumbnail: "/Bulgaria/Sofia/064t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/064c.webp",
+    original: "/Bulgaria/Sofia/064c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/065t.webp",
+    thumbnail: "/Bulgaria/Sofia/065t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/065c.webp",
+    original: "/Bulgaria/Sofia/065c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/066t.webp",
+    thumbnail: "/Bulgaria/Sofia/066t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/066c.webp",
+    original: "/Bulgaria/Sofia/066c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/067t.webp",
+    thumbnail: "/Bulgaria/Sofia/067t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/067c.webp",
+    original: "/Bulgaria/Sofia/067c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/068t.webp",
+    thumbnail: "/Bulgaria/Sofia/068t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/068c.webp",
+    original: "/Bulgaria/Sofia/068c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/069t.webp",
+    thumbnail: "/Bulgaria/Sofia/069t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/069c.webp",
+    original: "/Bulgaria/Sofia/069c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/070t.webp",
+    thumbnail: "/Bulgaria/Sofia/070t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/070c.webp",
+    original: "/Bulgaria/Sofia/070c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/071t.webp",
+    thumbnail: "/Bulgaria/Sofia/071t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/071c.webp",
+    original: "/Bulgaria/Sofia/071c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/072t.webp",
+    thumbnail: "/Bulgaria/Sofia/072t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/072c.webp",
+    original: "/Bulgaria/Sofia/072c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/073t.webp",
+    thumbnail: "/Bulgaria/Sofia/073t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/073c.webp",
+    original: "/Bulgaria/Sofia/073c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/074t.webp",
+    thumbnail: "/Bulgaria/Sofia/074t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/074c.webp",
+    original: "/Bulgaria/Sofia/074c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/075t.webp",
+    thumbnail: "/Bulgaria/Sofia/075t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/075c.webp",
+    original: "/Bulgaria/Sofia/075c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/076t.webp",
+    thumbnail: "/Bulgaria/Sofia/076t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/076c.webp",
+    original: "/Bulgaria/Sofia/076c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/077t.webp",
+    thumbnail: "/Bulgaria/Sofia/077t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/077c.webp",
+    original: "/Bulgaria/Sofia/077c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/078t.webp",
+    thumbnail: "/Bulgaria/Sofia/078t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/078c.webp",
+    original: "/Bulgaria/Sofia/078c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/079t.webp",
+    thumbnail: "/Bulgaria/Sofia/079t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/079c.webp",
+    original: "/Bulgaria/Sofia/079c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/080t.webp",
+    thumbnail: "/Bulgaria/Sofia/080t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/080c.webp",
+    original: "/Bulgaria/Sofia/080c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/081t.webp",
+    thumbnail: "/Bulgaria/Sofia/081t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/081c.webp",
+    original: "/Bulgaria/Sofia/081c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/082t.webp",
+    thumbnail: "/Bulgaria/Sofia/082t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/082c.webp",
+    original: "/Bulgaria/Sofia/082c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/083t.webp",
+    thumbnail: "/Bulgaria/Sofia/083t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/083c.webp",
+    original: "/Bulgaria/Sofia/083c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/084t.webp",
+    thumbnail: "/Bulgaria/Sofia/084t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/084c.webp",
+    original: "/Bulgaria/Sofia/084c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/085t.webp",
+    thumbnail: "/Bulgaria/Sofia/085t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/085c.webp",
+    original: "/Bulgaria/Sofia/085c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/086t.webp",
+    thumbnail: "/Bulgaria/Sofia/086t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/086c.webp",
+    original: "/Bulgaria/Sofia/086c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/087t.webp",
+    thumbnail: "/Bulgaria/Sofia/087t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/087c.webp",
+    original: "/Bulgaria/Sofia/087c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/088t.webp",
+    thumbnail: "/Bulgaria/Sofia/088t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/088c.webp",
+    original: "/Bulgaria/Sofia/088c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/089t.webp",
+    thumbnail: "/Bulgaria/Sofia/089t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/089c.webp",
+    original: "/Bulgaria/Sofia/089c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/090t.webp",
+    thumbnail: "/Bulgaria/Sofia/090t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/090c.webp",
+    original: "/Bulgaria/Sofia/090c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/091t.webp",
+    thumbnail: "/Bulgaria/Sofia/091t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/091c.webp",
+    original: "/Bulgaria/Sofia/091c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/092t.webp",
+    thumbnail: "/Bulgaria/Sofia/092t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/092c.webp",
+    original: "/Bulgaria/Sofia/092c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/093t.webp",
+    thumbnail: "/Bulgaria/Sofia/093t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/093c.webp",
+    original: "/Bulgaria/Sofia/093c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/094t.webp",
+    thumbnail: "/Bulgaria/Sofia/094t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/094c.webp",
+    original: "/Bulgaria/Sofia/094c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/095t.webp",
+    thumbnail: "/Bulgaria/Sofia/095t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/095c.webp",
+    original: "/Bulgaria/Sofia/095c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/096t.webp",
+    thumbnail: "/Bulgaria/Sofia/096t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/096c.webp",
+    original: "/Bulgaria/Sofia/096c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/097t.webp",
+    thumbnail: "/Bulgaria/Sofia/097t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/097c.webp",
+    original: "/Bulgaria/Sofia/097c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/098t.webp",
+    thumbnail: "/Bulgaria/Sofia/098t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/098c.webp",
+    original: "/Bulgaria/Sofia/098c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/099t.webp",
+    thumbnail: "/Bulgaria/Sofia/099t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/099c.webp",
+    original: "/Bulgaria/Sofia/099c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/100t.webp",
+    thumbnail: "/Bulgaria/Sofia/100t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/100c.webp",
+    original: "/Bulgaria/Sofia/100c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/101t.webp",
+    thumbnail: "/Bulgaria/Sofia/101t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/101c.webp",
+    original: "/Bulgaria/Sofia/101c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/102t.webp",
+    thumbnail: "/Bulgaria/Sofia/102t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/102c.webp",
+    original: "/Bulgaria/Sofia/102c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/103t.webp",
+    thumbnail: "/Bulgaria/Sofia/103t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/103c.webp",
+    original: "/Bulgaria/Sofia/103c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/104t.webp",
+    thumbnail: "/Bulgaria/Sofia/104t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/104c.webp",
+    original: "/Bulgaria/Sofia/104c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/105t.webp",
+    thumbnail: "/Bulgaria/Sofia/105t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/105c.webp",
+    original: "/Bulgaria/Sofia/105c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/106t.webp",
+    thumbnail: "/Bulgaria/Sofia/106t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/106c.webp",
+    original: "/Bulgaria/Sofia/106c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/107t.webp",
+    thumbnail: "/Bulgaria/Sofia/107t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/107c.webp",
+    original: "/Bulgaria/Sofia/107c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/108t.webp",
+    thumbnail: "/Bulgaria/Sofia/108t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/108c.webp",
+    original: "/Bulgaria/Sofia/108c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/109t.webp",
+    thumbnail: "/Bulgaria/Sofia/109t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/109c.webp",
+    original: "/Bulgaria/Sofia/109c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/110t.webp",
+    thumbnail: "/Bulgaria/Sofia/110t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/110c.webp",
+    original: "/Bulgaria/Sofia/110c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/111t.webp",
+    thumbnail: "/Bulgaria/Sofia/111t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/111c.webp",
+    original: "/Bulgaria/Sofia/111c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/112t.webp",
+    thumbnail: "/Bulgaria/Sofia/112t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/112c.webp",
+    original: "/Bulgaria/Sofia/112c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/113t.webp",
+    thumbnail: "/Bulgaria/Sofia/113t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/113c.webp",
+    original: "/Bulgaria/Sofia/113c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/114t.webp",
+    thumbnail: "/Bulgaria/Sofia/114t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/114c.webp",
+    original: "/Bulgaria/Sofia/114c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/115t.webp",
+    thumbnail: "/Bulgaria/Sofia/115t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/115c.webp",
+    original: "/Bulgaria/Sofia/115c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/116t.webp",
+    thumbnail: "/Bulgaria/Sofia/116t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/116c.webp",
+    original: "/Bulgaria/Sofia/116c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/117t.webp",
+    thumbnail: "/Bulgaria/Sofia/117t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/117c.webp",
+    original: "/Bulgaria/Sofia/117c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/118t.webp",
+    thumbnail: "/Bulgaria/Sofia/118t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/118c.webp",
+    original: "/Bulgaria/Sofia/118c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/119t.webp",
+    thumbnail: "/Bulgaria/Sofia/119t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/119c.webp",
+    original: "/Bulgaria/Sofia/119c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/120t.webp",
+    thumbnail: "/Bulgaria/Sofia/120t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/120c.webp",
+    original: "/Bulgaria/Sofia/120c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/121t.webp",
+    thumbnail: "/Bulgaria/Sofia/121t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/121c.webp",
+    original: "/Bulgaria/Sofia/121c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/122t.webp",
+    thumbnail: "/Bulgaria/Sofia/122t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/122c.webp",
+    original: "/Bulgaria/Sofia/122c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/123t.webp",
+    thumbnail: "/Bulgaria/Sofia/123t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/123c.webp",
+    original: "/Bulgaria/Sofia/123c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/124t.webp",
+    thumbnail: "/Bulgaria/Sofia/124t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/124c.webp",
+    original: "/Bulgaria/Sofia/124c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/125t.webp",
+    thumbnail: "/Bulgaria/Sofia/125t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/125c.webp",
+    original: "/Bulgaria/Sofia/125c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/126t.webp",
+    thumbnail: "/Bulgaria/Sofia/126t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/126c.webp",
+    original: "/Bulgaria/Sofia/126c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/127t.webp",
+    thumbnail: "/Bulgaria/Sofia/127t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/127c.webp",
+    original: "/Bulgaria/Sofia/127c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/128t.webp",
+    thumbnail: "/Bulgaria/Sofia/128t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/128c.webp",
+    original: "/Bulgaria/Sofia/128c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/129t.webp",
+    thumbnail: "/Bulgaria/Sofia/129t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/129c.webp",
+    original: "/Bulgaria/Sofia/129c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/130t.webp",
+    thumbnail: "/Bulgaria/Sofia/130t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/130c.webp",
+    original: "/Bulgaria/Sofia/130c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/131t.webp",
+    thumbnail: "/Bulgaria/Sofia/131t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/131c.webp",
+    original: "/Bulgaria/Sofia/131c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/132t.webp",
+    thumbnail: "/Bulgaria/Sofia/132t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/132c.webp",
+    original: "/Bulgaria/Sofia/132c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/133t.webp",
+    thumbnail: "/Bulgaria/Sofia/133t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/133c.webp",
+    original: "/Bulgaria/Sofia/133c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/134t.webp",
+    thumbnail: "/Bulgaria/Sofia/134t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/134c.webp",
+    original: "/Bulgaria/Sofia/134c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/135t.webp",
+    thumbnail: "/Bulgaria/Sofia/135t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/135c.webp",
+    original: "/Bulgaria/Sofia/135c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/136t.webp",
+    thumbnail: "/Bulgaria/Sofia/136t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/136c.webp",
+    original: "/Bulgaria/Sofia/136c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/137t.webp",
+    thumbnail: "/Bulgaria/Sofia/137t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/137c.webp",
+    original: "/Bulgaria/Sofia/137c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/138t.webp",
+    thumbnail: "/Bulgaria/Sofia/138t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/138c.webp",
+    original: "/Bulgaria/Sofia/138c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/139t.webp",
+    thumbnail: "/Bulgaria/Sofia/139t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/139c.webp",
+    original: "/Bulgaria/Sofia/139c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/140t.webp",
+    thumbnail: "/Bulgaria/Sofia/140t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/140c.webp",
+    original: "/Bulgaria/Sofia/140c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/141t.webp",
+    thumbnail: "/Bulgaria/Sofia/141t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/141c.webp",
+    original: "/Bulgaria/Sofia/141c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/142t.webp",
+    thumbnail: "/Bulgaria/Sofia/142t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/142c.webp",
+    original: "/Bulgaria/Sofia/142c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/143t.webp",
+    thumbnail: "/Bulgaria/Sofia/143t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/143c.webp",
+    original: "/Bulgaria/Sofia/143c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/144t.webp",
+    thumbnail: "/Bulgaria/Sofia/144t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/144c.webp",
+    original: "/Bulgaria/Sofia/144c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/145t.webp",
+    thumbnail: "/Bulgaria/Sofia/145t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/145c.webp",
+    original: "/Bulgaria/Sofia/145c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/146t.webp",
+    thumbnail: "/Bulgaria/Sofia/146t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/146c.webp",
+    original: "/Bulgaria/Sofia/146c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/147t.webp",
+    thumbnail: "/Bulgaria/Sofia/147t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/147c.webp",
+    original: "/Bulgaria/Sofia/147c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/148t.webp",
+    thumbnail: "/Bulgaria/Sofia/148t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/148c.webp",
+    original: "/Bulgaria/Sofia/148c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/149t.webp",
+    thumbnail: "/Bulgaria/Sofia/149t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/149c.webp",
+    original: "/Bulgaria/Sofia/149c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/150t.webp",
+    thumbnail: "/Bulgaria/Sofia/150t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/150c.webp",
+    original: "/Bulgaria/Sofia/150c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/151t.webp",
+    thumbnail: "/Bulgaria/Sofia/151t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/151c.webp",
+    original: "/Bulgaria/Sofia/151c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/152t.webp",
+    thumbnail: "/Bulgaria/Sofia/152t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/152c.webp",
+    original: "/Bulgaria/Sofia/152c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/153t.webp",
+    thumbnail: "/Bulgaria/Sofia/153t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/153c.webp",
+    original: "/Bulgaria/Sofia/153c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/154t.webp",
+    thumbnail: "/Bulgaria/Sofia/154t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/154c.webp",
+    original: "/Bulgaria/Sofia/154c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/155t.webp",
+    thumbnail: "/Bulgaria/Sofia/155t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/155c.webp",
+    original: "/Bulgaria/Sofia/155c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/156t.webp",
+    thumbnail: "/Bulgaria/Sofia/156t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/156c.webp",
+    original: "/Bulgaria/Sofia/156c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/157t.webp",
+    thumbnail: "/Bulgaria/Sofia/157t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/157c.webp",
+    original: "/Bulgaria/Sofia/157c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/158t.webp",
+    thumbnail: "/Bulgaria/Sofia/158t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/158c.webp",
+    original: "/Bulgaria/Sofia/158c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/159t.webp",
+    thumbnail: "/Bulgaria/Sofia/159t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/159c.webp",
+    original: "/Bulgaria/Sofia/159c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/160t.webp",
+    thumbnail: "/Bulgaria/Sofia/160t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/160c.webp",
+    original: "/Bulgaria/Sofia/160c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/161t.webp",
+    thumbnail: "/Bulgaria/Sofia/161t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/161c.webp",
+    original: "/Bulgaria/Sofia/161c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/162t.webp",
+    thumbnail: "/Bulgaria/Sofia/162t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/162c.webp",
+    original: "/Bulgaria/Sofia/162c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/163t.webp",
+    thumbnail: "/Bulgaria/Sofia/163t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Bulgaria/Sofia/163c.webp",
+    original: "/Bulgaria/Sofia/163c.webp",
     width: 113,
     height: 150,
   },

@@ -13,9 +13,7 @@ export const Brussels = new City({
       photos: tr_050823_100823_images,
     }),
   ],
-  backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Belgium/Brussels/Brussels.jpg",
-  ],
+  backgroundImgSources: ["/Belgium/Brussels/Brussels.jpg"],
   population: 196828,
   timezoneGMT: 2,
 });

@@ -105,7 +105,7 @@ export default function CityCard({
                 <Loading />
               </div>
             }
-            src={city.backgroundImgsSrc[travelIdx]}
+            src={city.getBackgroundImgSourceByIndex(travelIdx) || undefined}
           />
         </div>
       </div>

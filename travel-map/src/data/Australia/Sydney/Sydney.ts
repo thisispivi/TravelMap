@@ -13,9 +13,7 @@ export const Sydney = new City({
       photos: tr_181125_281125_images,
     }),
   ],
-  backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Sydney/Sydney.webp",
-  ],
+  backgroundImgSources: ["/Australia/Sydney/Sydney.webp"],
   population: 5557233,
   timezoneGMT: 11,
 });
