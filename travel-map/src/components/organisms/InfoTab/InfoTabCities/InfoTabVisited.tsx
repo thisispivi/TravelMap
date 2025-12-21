@@ -1,4 +1,4 @@
-import { JSX } from "react";
+import { JSX, useCallback, useMemo } from "react";
 import { City, Travel } from "@/core";
 import "./InfoTabVisited.scss";
 import { visitedCities, visitedCountries } from "@/data";
@@ -30,17 +30,29 @@ export default function InfoTabVisited({
   className = "",
   isVisible = false,
 }: InfoTabVisitedProps): JSX.Element {
-  const allCities = getCitiesByCountriesAndIsFuture({
-    cities: visitedCities,
-    countries: visitedCountries,
-    isFuture: false,
-  }).sort(sortByTravelStartDate);
+  const allCities = useMemo(() => {
+    const result = getCitiesByCountriesAndIsFuture({
+      cities: visitedCities,
+      countries: visitedCountries,
+      isFuture: false,
+    });
 
-  const getTravelIdx = (city: City, travel: Travel) => {
-    const allTravels = visitedCities.filter((c) => c.name === city.name)[0]
-      .travels;
-    return allTravels.indexOf(travel);
-  };
+    return [...result].sort(sortByTravelStartDate);
+  }, []);
+
+  const travelsByCityName = useMemo(() => {
+    return new globalThis.Map<string, Travel[]>(
+      visitedCities.map((city) => [city.name, city.travels])
+    );
+  }, []);
+
+  const getTravelIdx = useCallback(
+    (city: City, travel: Travel) => {
+      const travels = travelsByCityName.get(city.name);
+      return travels ? travels.indexOf(travel) : -1;
+    },
+    [travelsByCityName]
+  );
 
   return (
     <InfoTabCities

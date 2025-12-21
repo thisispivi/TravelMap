@@ -1,4 +1,4 @@
-import { JSX } from "react";
+import { JSX, useMemo } from "react";
 import {
   FutureTravelsIcon,
   HomeIcon,
@@ -42,29 +42,31 @@ export default function LeftBar({
   const { isGallery, isCurrentTabOpen } = useLocation();
   const { t } = useTranslation("home");
 
-  const tabs = ["lived", "visited", "future", "stats"];
-  const buttonsConfig = tabs.map((id) => ({
-    id,
-    isButtonActive: isCurrentTabOpen(id),
-    defaultPath: `/${id}`,
-    isOtherButtonsActive: tabs
-      .filter((tab) => tab !== id)
-      .some(isCurrentTabOpen),
-    alternativePath: `/?to=${id}`,
-    icon:
-      id === "lived" ? (
-        <HomeIcon />
-      ) : id === "visited" ? (
-        <VisitedIcon />
-      ) : id === "future" ? (
-        <FutureTravelsIcon />
-      ) : (
-        <StatsIcon />
-      ),
-    tooltipText: t(`${id}.title`),
-    activeClass: `left-bar__button--${id}--active`,
-    className: `left-bar__button--${id}`,
-  }));
+  const tabs = useMemo(() => ["lived", "visited", "future", "stats"], []);
+  const buttonsConfig = useMemo(() => {
+    return tabs.map((id) => ({
+      id,
+      isButtonActive: isCurrentTabOpen(id),
+      defaultPath: `/${id}`,
+      isOtherButtonsActive: tabs
+        .filter((tab) => tab !== id)
+        .some(isCurrentTabOpen),
+      alternativePath: `/?to=${id}`,
+      icon:
+        id === "lived" ? (
+          <HomeIcon />
+        ) : id === "visited" ? (
+          <VisitedIcon />
+        ) : id === "future" ? (
+          <FutureTravelsIcon />
+        ) : (
+          <StatsIcon />
+        ),
+      tooltipText: t(`${id}.title`),
+      activeClass: `left-bar__button--${id}--active`,
+      className: `left-bar__button--${id}`,
+    }));
+  }, [isCurrentTabOpen, t, tabs]);
 
   return (
     <div

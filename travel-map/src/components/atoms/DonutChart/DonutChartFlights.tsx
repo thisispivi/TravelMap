@@ -1,4 +1,4 @@
-import { lazy, JSX } from "react";
+import { lazy, JSX, useMemo } from "react";
 import { Flight } from "@/core";
 import useLanguage from "@/hooks/language/language";
 import variables from "@/styles/_variables.module.scss";
@@ -11,7 +11,8 @@ interface FlightsDonutChartProps {
 
 /**
  * Donut chart showing the distribution of the user's flights by type.
- * @param {FlightsDonutChartProps} takenFlights - The user's taken flights.
+ * @param {FlightsDonutChartProps} props - Component props.
+ * @param {Flight[]} props.takenFlights - The user's taken flights.
  * @returns {JSX.Element} The donut chart.
  */
 export default function FlightsDonutChart({
@@ -19,33 +20,44 @@ export default function FlightsDonutChart({
 }: FlightsDonutChartProps): JSX.Element {
   const { t } = useLanguage(["home"]);
 
-  const numNationalFlights = takenFlights.filter(
-    (flight) => flight.isNational,
-  ).length;
-  const numInternationalFlights = takenFlights.filter(
-    (flight) => flight.isInternational,
-  ).length;
-  const numIntercontinentalFlights = takenFlights.filter(
-    (flight) => flight.isIntercontinental,
-  ).length;
+  const { numNationalFlights, numInternationalFlights, numIntercontinental } =
+    useMemo(() => {
+      return takenFlights.reduce(
+        (acc, flight) => {
+          if (flight.isIntercontinental) acc.numIntercontinental += 1;
+          else if (flight.isInternational) acc.numInternationalFlights += 1;
+          else if (flight.isNational) acc.numNationalFlights += 1;
+          return acc;
+        },
+        {
+          numNationalFlights: 0,
+          numInternationalFlights: 0,
+          numIntercontinental: 0,
+        },
+      );
+    }, [takenFlights]);
+
   const totalFlights =
-    numNationalFlights + numInternationalFlights + numIntercontinentalFlights;
+    numNationalFlights + numInternationalFlights + numIntercontinental;
 
-  const series = [
-    numNationalFlights,
-    numInternationalFlights,
-    numIntercontinentalFlights,
-  ];
+  const series = useMemo(() => {
+    return [numNationalFlights, numInternationalFlights, numIntercontinental];
+  }, [numNationalFlights, numInternationalFlights, numIntercontinental]);
 
-  const options = {
-    chart: {
-      animations: { enabled: false },
-    },
-    labels: [
+  const labels = useMemo(() => {
+    return [
       t("stats.national"),
       t("stats.international"),
       t("stats.intercontinental"),
-    ],
+    ];
+  }, [t]);
+
+  const options = useMemo(() => {
+    return {
+    chart: {
+      animations: { enabled: false },
+    },
+    labels,
     legend: {
       show: true,
       position: "bottom",
@@ -126,6 +138,7 @@ export default function FlightsDonutChart({
     },
     colors: ["#107895", "#c02e1d", "#79a14e"],
   } as ApexCharts.ApexOptions;
+  }, [labels, t, totalFlights]);
 
   return (
     <div className="flights-donut-chart">

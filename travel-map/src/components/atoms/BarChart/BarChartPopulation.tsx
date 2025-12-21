@@ -1,4 +1,4 @@
-import { JSX, lazy } from "react";
+import { JSX, lazy, useMemo } from "react";
 import useLanguage from "@/hooks/language/language";
 import "./BarChartPopulation.scss";
 import { City } from "@/core";
@@ -15,15 +15,16 @@ interface PopulationsBarChartProps {
 /**
  * PopulationBarChart component
  *
- * The populations bar chart component is used to display the number of cities and countries per population.
+ * Horizontal bar chart showing the top N cities by population.
  *
  * @component
  *
  * @param {PopulationsBarChartProps} props - The props of the component
- * @param {Array<{ population: Population, cities: number, countries: number }>} props.data - The data to display
- * @param {string[]} [props.barColors=["#107895", "#79a14e"]] - The colors of the bars
- * @param {boolean} [props.isDarkTheme=false] - The theme of the chart
- * @returns {JSX.Element} - The populations bar chart
+ * @param {City[]} props.data - Cities to display (population must be set).
+ * @param {string[]} [props.barColors] - Colors used for the distributed bars.
+ * @param {boolean} [props.isDarkTheme=false] - Current theme.
+ * @param {number} [props.numToShow=10] - How many cities to show.
+ * @returns {JSX.Element} - The population bar chart.
  */
 export default function PopulationBarChart({
   data,
@@ -44,23 +45,36 @@ export default function PopulationBarChart({
 }: PopulationsBarChartProps): JSX.Element {
   const { t, currLanguage } = useLanguage(["home"]);
 
-  const topCities = pipe(
-    data,
-    filter((city) => city.population !== undefined),
-    sortBy((city) => -city.population!),
-  ).slice(0, numToShow);
+  const topCities = useMemo(() => {
+    return pipe(
+      data,
+      filter((city) => city.population !== undefined),
+      sortBy((city) => -city.population!),
+    ).slice(0, numToShow);
+  }, [data, numToShow]);
 
-  const series = [{ data: topCities.map((city) => city.population!) }];
-  const categories = topCities.map((city) => city.getName(t));
+  const series = useMemo(() => {
+    return [{ data: topCities.map((city) => city.population!) }];
+  }, [topCities]);
 
-  const maxValue = Math.max(...topCities.map((city) => city.population!)) * 1.5;
+  const categories = useMemo(() => {
+    return topCities.map((city) => city.getName(t));
+  }, [topCities, t]);
 
-  const options = {
+  const maxValue = useMemo(() => {
+    const maxPopulation = topCities.reduce(
+      (acc, city) => Math.max(acc, city.population ?? 0),
+      0,
+    );
+    return maxPopulation * 1.5;
+  }, [topCities]);
+
+  const options = useMemo(() => {
+    return {
     chart: {
       animations: { enabled: false },
       toolbar: { show: false },
     },
-    series,
     plotOptions: {
       bar: {
         borderRadius: 7,
@@ -114,13 +128,14 @@ export default function PopulationBarChart({
       hover: { filter: { type: "none" } },
       active: { filter: { type: "none" } },
     },
-  };
+    };
+  }, [barColors, categories, currLanguage, maxValue]);
 
   return (
     <div className="populations-bar-chart">
       <ReactApexChart
         height={420}
-        key={JSON.stringify({ series, options, isDarkTheme })}
+        key={`${currLanguage}-${isDarkTheme ? "dark" : "light"}`}
         options={options}
         series={series}
         type="bar"

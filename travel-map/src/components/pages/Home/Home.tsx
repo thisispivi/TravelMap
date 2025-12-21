@@ -1,7 +1,7 @@
 import "./Home.scss";
 import { HomeTemplate } from "../../templates";
 import useThemeDetector, { ThemeDetector } from "@/hooks/style/theme";
-import { createContext, JSX, useState } from "react";
+import { createContext, JSX, useEffect, useMemo, useState } from "react";
 import { Outlet, useNavigate, useSearchParams } from "react-router-dom";
 import { City } from "@/core";
 import { parameters } from "@/utils/parameters";
@@ -21,7 +21,7 @@ export type HomeContextType = ThemeDetector & {
   responsive: ResponsiveType;
 };
 export const HomeContext = createContext<HomeContextType | undefined>(
-  undefined,
+  undefined
 );
 
 /**
@@ -51,19 +51,33 @@ export default function Home(): JSX.Element {
 
   const { isDarkTheme, handleDarkModeSwitch } = useThemeDetector();
 
-  const context = {
-    isDarkTheme,
-    handleDarkModeSwitch,
-    hoveredCity,
-    setHoveredCity,
-    mapPosition,
-    setMapPosition,
-    isAutoPosition,
-    setIsAutoPosition,
-    responsive,
-  };
+  useEffect(() => {
+    if (!redirectTo) return;
+    const timeout = window.setTimeout(() => navigate("/" + redirectTo), 300);
+    return () => window.clearTimeout(timeout);
+  }, [navigate, redirectTo]);
 
-  if (redirectTo) setTimeout(() => navigate("/" + redirectTo), 300);
+  const context = useMemo(
+    () => ({
+      isDarkTheme,
+      handleDarkModeSwitch,
+      hoveredCity,
+      setHoveredCity,
+      mapPosition,
+      setMapPosition,
+      isAutoPosition,
+      setIsAutoPosition,
+      responsive,
+    }),
+    [
+      handleDarkModeSwitch,
+      hoveredCity,
+      isAutoPosition,
+      isDarkTheme,
+      mapPosition,
+      responsive,
+    ]
+  );
 
   return (
     <div

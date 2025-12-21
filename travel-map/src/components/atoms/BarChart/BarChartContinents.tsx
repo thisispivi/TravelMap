@@ -1,4 +1,4 @@
-import { JSX, lazy } from "react";
+import { JSX, lazy, useMemo } from "react";
 import useLanguage from "@/hooks/language/language";
 import "./BarChartContinents.scss";
 import { Continent } from "@/core";
@@ -22,10 +22,10 @@ interface ContinentsBarChartProps {
  * @component
  *
  * @param {ContinentsBarChartProps} props - The props of the component
- * @param {Array<{ continent: Continent, cities: number, countries: number }>} props.data - The data to display
- * @param {string[]} [props.barColors=["#107895", "#79a14e"]] - The colors of the bars
- * @param {boolean} [props.isDarkTheme=false] - The theme of the chart
- * @returns {JSX.Element} - The continents bar chart
+ * @param {Array<{ continent: Continent, cities: number, countries: number }>} props.data - Continent stats.
+ * @param {string[]} [props.barColors=["#107895", "#79a14e"]] - Bar colors.
+ * @param {boolean} [props.isDarkTheme=false] - Current theme.
+ * @returns {JSX.Element} - The continents bar chart.
  */
 export default function ContinentsBarChart({
   data,
@@ -34,25 +34,43 @@ export default function ContinentsBarChart({
 }: ContinentsBarChartProps): JSX.Element {
   const { t } = useLanguage(["home"]);
 
-  const filteredData = data.filter(
-    (continent) => continent.cities > 0 || continent.countries > 0,
-  );
-  const incrementedData = filteredData.map((continent) => ({
-    ...continent,
-    cities: continent.cities + 1,
-    countries: continent.countries + 1,
-  }));
+  const incrementedData = useMemo(() => {
+    const filteredData = data.filter(
+      (continent) => continent.cities > 0 || continent.countries > 0,
+    );
 
-  const series = ["countries", "cities"].map((key) => ({
-    name: t(`stats.${key}PerContinent`),
-    data: incrementedData.map((c) => c[key as "cities" | "countries"]),
-  }));
+    return filteredData.map((continent) => ({
+      ...continent,
+      cities: continent.cities + 1,
+      countries: continent.countries + 1,
+    }));
+  }, [data]);
 
-  const maxValue =
-    Math.max(...incrementedData.map((c) => Math.max(c.cities, c.countries))) *
-    1.05;
+  const series = useMemo(() => {
+    return ["countries", "cities"].map((key) => ({
+      name: t(`stats.${key}PerContinent`),
+      data: incrementedData.map((c) => c[key as "cities" | "countries"]),
+    }));
+  }, [incrementedData, t]);
 
-  const options = {
+  const maxValue = useMemo(() => {
+    const maxRaw = incrementedData.reduce(
+      (acc, c) => Math.max(acc, c.cities, c.countries),
+      0,
+    );
+    return maxRaw * 1.05;
+  }, [incrementedData]);
+
+  const categories = useMemo(() => {
+    return incrementedData.map((continent) =>
+      t(
+        `continents.${continent.continent.replace(" ", "_").toLocaleUpperCase()}`,
+      ),
+    );
+  }, [incrementedData, t]);
+
+  const options = useMemo(() => {
+    return {
     plotOptions: {
       bar: {
         horizontal: true,
@@ -64,11 +82,7 @@ export default function ContinentsBarChart({
     },
     stroke: { width: 0 },
     xaxis: {
-      categories: incrementedData.map((continent) =>
-        t(
-          `continents.${continent.continent.replace(" ", "_").toLocaleUpperCase()}`,
-        ),
-      ),
+      categories,
       labels: { show: false },
       tickAmount: 0,
       axisTicks: { show: false },
@@ -125,13 +139,14 @@ export default function ContinentsBarChart({
       hover: { filter: { type: "none" } },
       active: { filter: { type: "none" } },
     },
-  };
+    };
+  }, [barColors, categories, maxValue]);
 
   return (
     <div className="continents-bar-chart">
       <ReactApexChart
         height={230}
-        key={JSON.stringify({ series, options, isDarkTheme })}
+        key={`${isDarkTheme ? "dark" : "light"}`}
         options={options}
         series={series}
         type="bar"
