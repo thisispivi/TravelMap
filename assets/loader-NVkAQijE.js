@@ -1,1 +1,0 @@
-import{a as n}from"./data-CF_l-13f.js";import"./vendor-BcpBRJU8.js";function d(o){const{cityName:a,travelIdx:t,photoIdx:r}=o.params,e=n.find(i=>i.name===a);return!e||!t||!r?null:{city:e,travelIdx:parseInt(t),photoIdx:parseInt(r)}}export{d as loader};
