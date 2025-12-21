@@ -37,37 +37,29 @@
     @include m.transition(all, 0.3s, ease-in-out);
   }
 
-  .language-selector__button--it,
-  .language-selector__button--en {
+  .language-selector__button--it-IT,
+  .language-selector__button--en-US {
     &.language-selector__button--active {
-      @include m.set-button-colors(
-        v.$languageButton,
-        v.$languageButtonContent,
-        v.$languageButtonHover
-      );
+      @include m.set-button-colors(v.$languageButton, v.$languageButtonContent, v.$languageButtonHover);
     }
   }
 
   .language-selector__activator {
     &.language-selector__activator--open {
-      @include m.set-button-colors(
-        v.$languageButton,
-        v.$languageButtonContent,
-        v.$languageButtonHover
-      );
+      @include m.set-button-colors(v.$languageButton, v.$languageButtonContent, v.$languageButtonHover);
     }
   }
 
-  .language-selector__button--it {
-    transform: translateY(2.5rem) scale(0.6);
+  .language-selector__button--it-IT {
+    transform: translateY(5rem) scale(0.6);
     &.language-selector__button--open {
       transform: translateY(-1rem);
     }
   }
-  .language-selector__button--en {
-    transform: translateY(5rem) scale(0.6);
+  .language-selector__button--en-US {
+    transform: translateY(2.5rem) scale(0.6);
     &.language-selector__button--open {
-      transform: translateY(-1.5rem);
+      transform: translateY(-0.5rem);
     }
   }
 }

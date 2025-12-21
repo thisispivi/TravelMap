@@ -32,6 +32,7 @@ export default function LanguageFlag({
   language,
   className = "",
 }: LanguageFlagProps): JSX.Element | null {
+  console.log(language);
   if (language.includes("it")) return <ItalyFlag className={className} />;
   if (language.includes("en"))
     return <UnitedKingdomFlag className={className} />;

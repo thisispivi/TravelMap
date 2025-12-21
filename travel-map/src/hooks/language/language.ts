@@ -1,9 +1,10 @@
 import { i18n } from "i18next";
 import { useTranslation } from "react-i18next";
+import { SupportedLocale, normalizeLocale } from "@/i18n/locale";
 
 export type LanguageHook = {
   t: i18n["t"];
-  currLanguage: string;
+  currLanguage: SupportedLocale;
   changeLanguage: (lang: string) => void;
 };
 
@@ -14,9 +15,9 @@ export type LanguageHook = {
  */
 export default function useLanguage(namespaces: string[]): LanguageHook {
   const { i18n, t } = useTranslation(namespaces);
-  const currLanguage = i18n.language;
+  const currLanguage = normalizeLocale(i18n.resolvedLanguage ?? i18n.language);
   const changeLanguage = (lang: string) => {
-    i18n.changeLanguage(lang);
+    i18n.changeLanguage(normalizeLocale(lang));
   };
   return { t, currLanguage, changeLanguage };
 }

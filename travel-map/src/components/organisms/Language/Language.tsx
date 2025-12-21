@@ -4,8 +4,9 @@ import useLanguage from "@/hooks/language/language";
 import { Button, LanguageFlag } from "../../atoms";
 import { LanguageIcon } from "@/assets";
 import { useTranslation } from "react-i18next";
+import { SUPPORTED_LOCALES } from "@/i18n/locale";
 
-const possibleLanguages = ["it", "en"] as const;
+const possibleLanguages = [...SUPPORTED_LOCALES] as const;
 
 /**
  * LanguageSelector component
@@ -43,9 +44,7 @@ export default function LanguageSelector(): JSX.Element {
         <Button
           ariaLabel={language}
           className={`language-selector__button ${
-            currLanguage.includes(language)
-              ? "language-selector__button--active"
-              : ""
+            currLanguage === language ? "language-selector__button--active" : ""
           } language-selector__button--${language}
             ${isOpen ? "language-selector__button--open" : ""}
           `}

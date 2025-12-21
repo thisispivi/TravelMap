@@ -1,4 +1,5 @@
 import { i18n } from "i18next";
+import { normalizeLocale } from "../locale";
 
 /**
  * Format a date based on the language
@@ -10,14 +11,13 @@ import { i18n } from "i18next";
  */
 export function formatDate(
   date: Date | undefined,
-  lang: i18n["language"],
+  lang: i18n["language"]
 ): string {
-  if (!lang.includes("en") && !lang.includes("it"))
-    return "Unsupported language";
-
   if (!date) return "No date";
 
-  const formattedDate = new Intl.DateTimeFormat(lang, {
+  const locale = normalizeLocale(lang);
+
+  const formattedDate = new Intl.DateTimeFormat(locale, {
     weekday: "short",
     day: "numeric",
     month: "short",
@@ -37,14 +37,13 @@ export function formatDate(
  */
 export function formatDateMonthYear(
   date: Date | undefined,
-  lang: i18n["language"],
+  lang: i18n["language"]
 ): string {
-  if (!lang.includes("en") && !lang.includes("it"))
-    return "Unsupported language";
-
   if (!date) return "No date";
 
-  const formattedDate = new Intl.DateTimeFormat(lang, {
+  const locale = normalizeLocale(lang);
+
+  const formattedDate = new Intl.DateTimeFormat(locale, {
     month: "long",
     year: "numeric",
   }).format(date);
@@ -62,7 +61,7 @@ type FormatDateRangeShortInput = {
 export function formatDateRangeShort({
   sDateInput,
   eDateInput,
-  locale = "en",
+  locale,
   includeWeekday = false,
   showYear = true,
 }: FormatDateRangeShortInput): string {
@@ -70,12 +69,16 @@ export function formatDateRangeShort({
   const s = new Date(sDateInput);
   const e = eDateInput ? new Date(eDateInput) : null;
 
+  const normalizedLocale = normalizeLocale(locale);
+
   const day = (d: Date) => d.getDate();
   const monthFmt = (d: Date) =>
-    new Intl.DateTimeFormat(locale, { month: "short" }).format(d);
+    new Intl.DateTimeFormat(normalizedLocale, { month: "short" }).format(d);
   const year = (d: Date) => d.getFullYear();
   const weekdayFmt = (d: Date) =>
-    new Intl.DateTimeFormat(locale, { weekday: "short" }).format(d).slice(0, 3);
+    new Intl.DateTimeFormat(normalizedLocale, { weekday: "short" })
+      .format(d)
+      .slice(0, 3);
 
   const dayWithOptWeekday = (d: Date) =>
     `${includeWeekday ? weekdayFmt(d) + " " : ""}${day(d)}`;
