@@ -71,74 +71,74 @@ export default function ContinentsBarChart({
 
   const options = useMemo(() => {
     return {
-    plotOptions: {
-      bar: {
-        horizontal: true,
-        borderRadius: 7,
-        borderRadiusApplication: "end",
-        barHeight: "17px",
-        barMinWidth: 10,
-      },
-    },
-    stroke: { width: 0 },
-    xaxis: {
-      categories,
-      labels: { show: false },
-      tickAmount: 0,
-      axisTicks: { show: false },
-      max: maxValue,
-      min: 0,
-    },
-    yaxis: {
-      labels: {
-        style: {
-          fontSize: "0.9em",
-          fontFamily: "Urbanist",
-          fontWeight: 700,
+      plotOptions: {
+        bar: {
+          horizontal: true,
+          borderRadius: 7,
+          borderRadiusApplication: "end",
+          barHeight: "17px",
+          barMinWidth: 10,
         },
       },
-    },
-    tooltip: { enabled: false },
-    grid: { show: false },
-    fill: { opacity: 1, colors: barColors },
-    legend: {
-      position: "top",
-      horizontalAlign: "center",
-      fontSize: "1em",
-      fontFamily: "Urbanist",
-      fontWeight: 400,
-      menu: { show: false },
-      onItemClick: { toggleDataSeries: false },
-      onItemHover: { highlightDataSeries: false },
-      offsetY: 13,
-      markers: {
-        shape: "circle",
-        strokeWidth: 0,
-        strokeColors: "transparent",
-        offsetX: -3,
-        offsetY: -0.25,
-        fillColors: barColors,
-        size: 6.5,
+      stroke: { width: 0 },
+      xaxis: {
+        categories,
+        labels: { show: false },
+        tickAmount: 0,
+        axisTicks: { show: false },
+        max: maxValue,
+        min: 0,
       },
-      itemMargin: { horizontal: 8 },
-    },
-    dataLabels: {
-      enabled: true,
-      formatter: function (val: number) {
-        return val === 0 ? "" : (val - 1).toString();
+      yaxis: {
+        labels: {
+          style: {
+            fontSize: "0.9em",
+            fontFamily: "Urbanist",
+            fontWeight: 700,
+          },
+        },
       },
-      style: {
+      tooltip: { enabled: false },
+      grid: { show: false },
+      fill: { opacity: 1, colors: barColors },
+      legend: {
+        position: "top",
+        horizontalAlign: "center",
         fontSize: "1em",
         fontFamily: "Urbanist",
-        colors: ["#fff"],
+        fontWeight: 400,
+        menu: { show: false },
+        onItemClick: { toggleDataSeries: false },
+        onItemHover: { highlightDataSeries: false },
+        offsetY: 13,
+        markers: {
+          shape: "circle",
+          strokeWidth: 0,
+          strokeColors: "transparent",
+          offsetX: -3,
+          offsetY: -0.25,
+          fillColors: barColors,
+          size: 6.5,
+        },
+        itemMargin: { horizontal: 8 },
       },
-      offsetY: 2,
-    },
-    chart: { toolbar: { show: false }, animations: { enabled: false } },
-    states: {
-      hover: { filter: { type: "none" } },
-      active: { filter: { type: "none" } },
-    },
+      dataLabels: {
+        enabled: true,
+        formatter: function (val: number) {
+          return val === 0 ? "" : (val - 1).toString();
+        },
+        style: {
+          fontSize: "1em",
+          fontFamily: "Urbanist",
+          colors: ["#fff"],
+        },
+        offsetY: 2,
+      },
+      chart: { toolbar: { show: false }, animations: { enabled: false } },
+      states: {
+        hover: { filter: { type: "none" } },
+        active: { filter: { type: "none" } },
+      },
     };
   }, [barColors, categories, maxValue]);
 

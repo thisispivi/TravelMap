@@ -42,7 +42,7 @@ export default function InfoTabFuture({
 
   const travelsByCityName = useMemo(() => {
     return new globalThis.Map<string, Travel[]>(
-      futureCities.map((city) => [city.name, city.travels])
+      futureCities.map((city) => [city.name, city.travels]),
     );
   }, []);
 
@@ -51,7 +51,7 @@ export default function InfoTabFuture({
       const travels = travelsByCityName.get(city.name);
       return travels ? travels.indexOf(travel) : -1;
     },
-    [travelsByCityName]
+    [travelsByCityName],
   );
 
   return (

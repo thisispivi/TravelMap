@@ -21,7 +21,7 @@ export type HomeContextType = ThemeDetector & {
   responsive: ResponsiveType;
 };
 export const HomeContext = createContext<HomeContextType | undefined>(
-  undefined
+  undefined,
 );
 
 /**
@@ -76,7 +76,7 @@ export default function Home(): JSX.Element {
       isDarkTheme,
       mapPosition,
       responsive,
-    ]
+    ],
   );
 
   return (
