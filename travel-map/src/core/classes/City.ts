@@ -4,7 +4,7 @@ import { Travel } from "./Travel";
 import { MarkerSizes } from "../typings/Marker";
 
 interface CityInterface {
-  backgroundImgsSrc?: string[];
+  backgroundImgSources?: string[];
   coordinates: [number, number];
   country: Country;
   customMarkerSizes?: MarkerSizes;
@@ -23,7 +23,7 @@ interface CityInterface {
  * @class
  *
  * @param {CityInterface} cityData - The data of the city
- * @param {string[]} [cityData.backgroundImgsSrc] - The background image source of the city
+ * @param {string[]} [cityData.backgroundImgSources] - The background image source of the city
  * @param {MarkerSizes} [cityData.customMarkerSizes] - The custom marker sizes of the city
  * @param {coordinates} cityData.coordinates - The coordinates of the city [longitude, latitude]
  * @param {Country} cityData.country - The country of the city
@@ -34,7 +34,7 @@ interface CityInterface {
  * @param {number} cityData.timezoneGMT - The timezone of the city
  */
 export class City implements CityInterface {
-  backgroundImgsSrc: string[];
+  backgroundImgSources: string[];
   coordinates: [number, number];
   customMarkerSizes?: MarkerSizes | undefined;
   country: Country;
@@ -46,7 +46,6 @@ export class City implements CityInterface {
   timezoneGMT: number;
 
   constructor(cityData: CityInterface) {
-    this.backgroundImgsSrc = cityData.backgroundImgsSrc ?? [];
     this.coordinates = cityData.coordinates;
     this.customMarkerSizes = cityData.customMarkerSizes;
     this.country = cityData.country;
@@ -56,10 +55,16 @@ export class City implements CityInterface {
     this.travels = cityData.travels ?? [];
     this.population = cityData.population;
     this.timezoneGMT = cityData.timezoneGMT;
+    this.backgroundImgSources = cityData.backgroundImgSources ?? [];
   }
 
   getMapCoordinates([x, y]: [number, number]): [number, number] {
     return [x - 0.95, y + 0.18];
+  }
+
+  getBackgroundImgSourceByIndex(index: number): string | null {
+    if (this.backgroundImgSources.length === 0) return null;
+    return `${import.meta.env.VITE_CDN_PATH}${this.backgroundImgSources[index % this.backgroundImgSources.length]}`;
   }
 
   getCoordinatesAsLatLon(): { lat: number; lon: number } {

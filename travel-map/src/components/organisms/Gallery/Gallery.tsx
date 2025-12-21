@@ -41,13 +41,15 @@ export default function Gallery(): JSX.Element {
   const photos = useMemo(
     () =>
       travel.photos.map((p, i) => ({
-        src: parameters.isShowPhotos ? p.thumbnail : "",
+        src: parameters.isShowPhotos
+          ? `${import.meta.env.VITE_CDN_PATH}${p.thumbnail}`
+          : "",
         width: p.width,
         height: p.height,
         youtube: p.youtube,
         index: i,
       })),
-    [travel.photos],
+    [travel.photos]
   );
 
   return (

@@ -14,9 +14,7 @@ export const Tokyo = new City({
       photos: tr_130824_180824_images,
     }),
   ],
-  backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Tokyo/Tokyo.jpg",
-  ],
+  backgroundImgSources: ["/Japan/Tokyo/Tokyo.jpg"],
   population: 37115000,
   timezoneGMT: 9,
 });

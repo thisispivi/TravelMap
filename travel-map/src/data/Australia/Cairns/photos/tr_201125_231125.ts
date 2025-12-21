@@ -2,800 +2,623 @@ import { Image } from "../../../../core";
 
 export const tr_201125_231125_images: Image[] = [
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/001t.webp",
+    thumbnail: "/Australia/Cairns/001t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/001c.webp",
+    original: "/Australia/Cairns/001c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/002t.webp",
+    thumbnail: "/Australia/Cairns/002t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/002c.webp",
+    original: "/Australia/Cairns/002c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/003t.webp",
+    thumbnail: "/Australia/Cairns/003t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/003c.webp",
+    original: "/Australia/Cairns/003c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/004t.webp",
+    thumbnail: "/Australia/Cairns/004t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/004c.webp",
+    original: "/Australia/Cairns/004c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/005t.webp",
+    thumbnail: "/Australia/Cairns/005t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/005c.webp",
+    original: "/Australia/Cairns/005c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/006t.webp",
+    thumbnail: "/Australia/Cairns/006t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/006c.webp",
+    original: "/Australia/Cairns/006c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/007t.webp",
+    thumbnail: "/Australia/Cairns/007t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/007c.webp",
+    original: "/Australia/Cairns/007c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/008t.webp",
+    thumbnail: "/Australia/Cairns/008t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/008c.webp",
+    original: "/Australia/Cairns/008c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/009t.webp",
+    thumbnail: "/Australia/Cairns/009t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/009c.webp",
+    original: "/Australia/Cairns/009c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/010t.webp",
+    thumbnail: "/Australia/Cairns/010t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/010c.webp",
+    original: "/Australia/Cairns/010c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/011t.webp",
+    thumbnail: "/Australia/Cairns/011t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/011c.webp",
+    original: "/Australia/Cairns/011c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/012t.webp",
+    thumbnail: "/Australia/Cairns/012t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/012c.webp",
+    original: "/Australia/Cairns/012c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/013t.webp",
+    thumbnail: "/Australia/Cairns/013t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/013c.webp",
+    original: "/Australia/Cairns/013c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/014t.webp",
+    thumbnail: "/Australia/Cairns/014t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/014c.webp",
+    original: "/Australia/Cairns/014c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/015t.webp",
+    thumbnail: "/Australia/Cairns/015t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/015c.webp",
+    original: "/Australia/Cairns/015c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/016t.webp",
+    thumbnail: "/Australia/Cairns/016t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/016c.webp",
+    original: "/Australia/Cairns/016c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/017t.webp",
+    thumbnail: "/Australia/Cairns/017t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/017c.webp",
+    original: "/Australia/Cairns/017c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/018t.webp",
+    thumbnail: "/Australia/Cairns/018t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/018c.webp",
+    original: "/Australia/Cairns/018c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/019t.webp",
+    thumbnail: "/Australia/Cairns/019t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/019c.webp",
+    original: "/Australia/Cairns/019c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/020t.webp",
+    thumbnail: "/Australia/Cairns/020t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/020c.webp",
+    original: "/Australia/Cairns/020c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/021t.webp",
+    thumbnail: "/Australia/Cairns/021t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/021c.webp",
+    original: "/Australia/Cairns/021c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/022t.webp",
+    thumbnail: "/Australia/Cairns/022t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/022c.webp",
+    original: "/Australia/Cairns/022c.webp",
     width: 4,
     height: 3,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/023t.webp",
+    thumbnail: "/Australia/Cairns/023t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/023c.webp",
+    original: "/Australia/Cairns/023c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/024t.webp",
+    thumbnail: "/Australia/Cairns/024t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/024c.webp",
+    original: "/Australia/Cairns/024c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/025t.webp",
+    thumbnail: "/Australia/Cairns/025t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/025c.webp",
+    original: "/Australia/Cairns/025c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/026t.webp",
+    thumbnail: "/Australia/Cairns/026t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/026c.webp",
+    original: "/Australia/Cairns/026c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/027t.webp",
+    thumbnail: "/Australia/Cairns/027t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/027c.webp",
+    original: "/Australia/Cairns/027c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/028t.webp",
+    thumbnail: "/Australia/Cairns/028t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/028c.webp",
+    original: "/Australia/Cairns/028c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/029t.webp",
+    thumbnail: "/Australia/Cairns/029t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/029c.webp",
+    original: "/Australia/Cairns/029c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/030t.webp",
+    thumbnail: "/Australia/Cairns/030t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/030c.webp",
+    original: "/Australia/Cairns/030c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/031t.webp",
+    thumbnail: "/Australia/Cairns/031t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/031c.webp",
+    original: "/Australia/Cairns/031c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/032t.webp",
+    thumbnail: "/Australia/Cairns/032t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/032c.webp",
+    original: "/Australia/Cairns/032c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/033t.webp",
+    thumbnail: "/Australia/Cairns/033t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/033c.webp",
+    original: "/Australia/Cairns/033c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/034t.webp",
+    thumbnail: "/Australia/Cairns/034t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/034c.webp",
+    original: "/Australia/Cairns/034c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/035t.webp",
+    thumbnail: "/Australia/Cairns/035t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/035c.webp",
+    original: "/Australia/Cairns/035c.webp",
     width: 2,
     height: 3,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/036t.webp",
+    thumbnail: "/Australia/Cairns/036t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/036c.webp",
+    original: "/Australia/Cairns/036c.webp",
     width: 2,
     height: 3,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/037t.webp",
+    thumbnail: "/Australia/Cairns/037t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/037c.webp",
+    original: "/Australia/Cairns/037c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/038t.webp",
+    thumbnail: "/Australia/Cairns/038t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/038c.webp",
+    original: "/Australia/Cairns/038c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/039t.webp",
+    thumbnail: "/Australia/Cairns/039t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/039c.webp",
+    original: "/Australia/Cairns/039c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/040t.webp",
+    thumbnail: "/Australia/Cairns/040t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/040c.webp",
+    original: "/Australia/Cairns/040c.webp",
     width: 2,
     height: 3,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/041t.webp",
+    thumbnail: "/Australia/Cairns/041t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/041c.webp",
+    original: "/Australia/Cairns/041c.webp",
     width: 2,
     height: 3,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/042t.webp",
+    thumbnail: "/Australia/Cairns/042t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/042c.webp",
+    original: "/Australia/Cairns/042c.webp",
     width: 2,
     height: 3,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/043t.webp",
+    thumbnail: "/Australia/Cairns/043t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/043c.webp",
+    original: "/Australia/Cairns/043c.webp",
     width: 3,
     height: 2,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/044t.webp",
+    thumbnail: "/Australia/Cairns/044t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/044c.webp",
+    original: "/Australia/Cairns/044c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/045t.webp",
+    thumbnail: "/Australia/Cairns/045t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/045c.webp",
+    original: "/Australia/Cairns/045c.webp",
     width: 2,
     height: 3,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/046t.webp",
+    thumbnail: "/Australia/Cairns/046t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/046c.webp",
+    original: "/Australia/Cairns/046c.webp",
     width: 2,
     height: 3,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/047t.webp",
+    thumbnail: "/Australia/Cairns/047t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/047c.webp",
+    original: "/Australia/Cairns/047c.webp",
     width: 3,
     height: 2,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/048t.webp",
+    thumbnail: "/Australia/Cairns/048t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/048c.webp",
+    original: "/Australia/Cairns/048c.webp",
     width: 2,
     height: 3,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/049t.webp",
+    thumbnail: "/Australia/Cairns/049t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/049c.webp",
+    original: "/Australia/Cairns/049c.webp",
     width: 2,
     height: 3,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/050t.webp",
+    thumbnail: "/Australia/Cairns/050t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/050c.webp",
+    original: "/Australia/Cairns/050c.webp",
     width: 3,
     height: 2,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/051t.webp",
+    thumbnail: "/Australia/Cairns/051t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/051c.webp",
+    original: "/Australia/Cairns/051c.webp",
     width: 2,
     height: 3,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/052t.webp",
+    thumbnail: "/Australia/Cairns/052t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/052c.webp",
+    original: "/Australia/Cairns/052c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/053t.webp",
+    thumbnail: "/Australia/Cairns/053t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/053c.webp",
+    original: "/Australia/Cairns/053c.webp",
     width: 2,
     height: 3,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/054t.webp",
+    thumbnail: "/Australia/Cairns/054t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/054c.webp",
+    original: "/Australia/Cairns/054c.webp",
     width: 3,
     height: 2,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/055t.webp",
+    thumbnail: "/Australia/Cairns/055t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/055c.webp",
+    original: "/Australia/Cairns/055c.webp",
     width: 2,
     height: 3,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/056t.webp",
+    thumbnail: "/Australia/Cairns/056t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/056c.webp",
+    original: "/Australia/Cairns/056c.webp",
     width: 2,
     height: 3,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/057t.webp",
+    thumbnail: "/Australia/Cairns/057t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/057c.webp",
+    original: "/Australia/Cairns/057c.webp",
     width: 3,
     height: 2,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/058t.webp",
+    thumbnail: "/Australia/Cairns/058t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/058c.webp",
+    original: "/Australia/Cairns/058c.webp",
     width: 2,
     height: 3,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/059t.webp",
+    thumbnail: "/Australia/Cairns/059t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/059c.webp",
+    original: "/Australia/Cairns/059c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/060t.webp",
+    thumbnail: "/Australia/Cairns/060t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/060c.webp",
+    original: "/Australia/Cairns/060c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/061t.webp",
+    thumbnail: "/Australia/Cairns/061t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/061c.webp",
+    original: "/Australia/Cairns/061c.webp",
     width: 3,
     height: 2,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/062t.webp",
+    thumbnail: "/Australia/Cairns/062t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/062c.webp",
+    original: "/Australia/Cairns/062c.webp",
     width: 2,
     height: 3,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/063t.webp",
+    thumbnail: "/Australia/Cairns/063t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/063c.webp",
+    original: "/Australia/Cairns/063c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/064t.webp",
+    thumbnail: "/Australia/Cairns/064t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/064c.webp",
+    original: "/Australia/Cairns/064c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/065t.webp",
+    thumbnail: "/Australia/Cairns/065t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/065c.webp",
+    original: "/Australia/Cairns/065c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/066t.webp",
+    thumbnail: "/Australia/Cairns/066t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/066c.webp",
+    original: "/Australia/Cairns/066c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/067t.webp",
+    thumbnail: "/Australia/Cairns/067t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/067c.webp",
+    original: "/Australia/Cairns/067c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/068t.webp",
+    thumbnail: "/Australia/Cairns/068t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/068c.webp",
+    original: "/Australia/Cairns/068c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/069t.webp",
+    thumbnail: "/Australia/Cairns/069t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/069c.webp",
+    original: "/Australia/Cairns/069c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/070t.webp",
+    thumbnail: "/Australia/Cairns/070t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/070c.webp",
+    original: "/Australia/Cairns/070c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/071t.webp",
+    thumbnail: "/Australia/Cairns/071t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/071c.webp",
+    original: "/Australia/Cairns/071c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/072t.webp",
+    thumbnail: "/Australia/Cairns/072t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/072c.webp",
+    original: "/Australia/Cairns/072c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/073t.webp",
+    thumbnail: "/Australia/Cairns/073t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/073c.webp",
+    original: "/Australia/Cairns/073c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/074t.webp",
+    thumbnail: "/Australia/Cairns/074t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/074c.webp",
+    original: "/Australia/Cairns/074c.webp",
     width: 4,
     height: 3,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/075t.webp",
+    thumbnail: "/Australia/Cairns/075t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/075c.webp",
+    original: "/Australia/Cairns/075c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/076t.webp",
+    thumbnail: "/Australia/Cairns/076t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/076c.webp",
+    original: "/Australia/Cairns/076c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/077t.webp",
+    thumbnail: "/Australia/Cairns/077t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/077c.webp",
+    original: "/Australia/Cairns/077c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/078t.webp",
+    thumbnail: "/Australia/Cairns/078t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/078c.webp",
+    original: "/Australia/Cairns/078c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/079t.webp",
+    thumbnail: "/Australia/Cairns/079t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/079c.webp",
+    original: "/Australia/Cairns/079c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/080t.webp",
+    thumbnail: "/Australia/Cairns/080t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/080c.webp",
+    original: "/Australia/Cairns/080c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/081t.webp",
+    thumbnail: "/Australia/Cairns/081t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/081c.webp",
+    original: "/Australia/Cairns/081c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/082t.webp",
+    thumbnail: "/Australia/Cairns/082t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/082c.webp",
+    original: "/Australia/Cairns/082c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/083t.webp",
+    thumbnail: "/Australia/Cairns/083t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/083c.webp",
+    original: "/Australia/Cairns/083c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/084t.webp",
+    thumbnail: "/Australia/Cairns/084t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/084c.webp",
+    original: "/Australia/Cairns/084c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/085t.webp",
+    thumbnail: "/Australia/Cairns/085t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/085c.webp",
+    original: "/Australia/Cairns/085c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/086t.webp",
+    thumbnail: "/Australia/Cairns/086t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/086c.webp",
+    original: "/Australia/Cairns/086c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/087t.webp",
+    thumbnail: "/Australia/Cairns/087t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/087c.webp",
+    original: "/Australia/Cairns/087c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/088t.webp",
+    thumbnail: "/Australia/Cairns/088t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/088c.webp",
+    original: "/Australia/Cairns/088c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/089t.webp",
+    thumbnail: "/Australia/Cairns/089t.webp",
     alt: "Cairns - Water Slide (21/11/2025)",
     youtube: true,
     original: "https://youtube.com/embed/UGiuJ1lIsWQ",
@@ -803,161 +626,126 @@ export const tr_201125_231125_images: Image[] = [
     height: 450,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/090t.webp",
+    thumbnail: "/Australia/Cairns/090t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/090c.webp",
+    original: "/Australia/Cairns/090c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/091t.webp",
+    thumbnail: "/Australia/Cairns/091t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/091c.webp",
+    original: "/Australia/Cairns/091c.webp",
     width: 4,
     height: 3,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/092t.webp",
+    thumbnail: "/Australia/Cairns/092t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/092c.webp",
+    original: "/Australia/Cairns/092c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/093t.webp",
+    thumbnail: "/Australia/Cairns/093t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/093c.webp",
+    original: "/Australia/Cairns/093c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/094t.webp",
+    thumbnail: "/Australia/Cairns/094t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/094c.webp",
+    original: "/Australia/Cairns/094c.webp",
     width: 2,
     height: 3,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/095t.webp",
+    thumbnail: "/Australia/Cairns/095t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/095c.webp",
+    original: "/Australia/Cairns/095c.webp",
     width: 2,
     height: 3,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/096t.webp",
+    thumbnail: "/Australia/Cairns/096t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/096c.webp",
+    original: "/Australia/Cairns/096c.webp",
     width: 3,
     height: 2,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/097t.webp",
+    thumbnail: "/Australia/Cairns/097t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/097c.webp",
+    original: "/Australia/Cairns/097c.webp",
     width: 2,
     height: 3,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/098t.webp",
+    thumbnail: "/Australia/Cairns/098t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/098c.webp",
+    original: "/Australia/Cairns/098c.webp",
     width: 3,
     height: 2,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/099t.webp",
+    thumbnail: "/Australia/Cairns/099t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/099c.webp",
+    original: "/Australia/Cairns/099c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/100t.webp",
+    thumbnail: "/Australia/Cairns/100t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/100c.webp",
+    original: "/Australia/Cairns/100c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/101t.webp",
+    thumbnail: "/Australia/Cairns/101t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/101c.webp",
+    original: "/Australia/Cairns/101c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/102t.webp",
+    thumbnail: "/Australia/Cairns/102t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/102c.webp",
+    original: "/Australia/Cairns/102c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/103t.webp",
+    thumbnail: "/Australia/Cairns/103t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/103c.webp",
+    original: "/Australia/Cairns/103c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/104t.webp",
+    thumbnail: "/Australia/Cairns/104t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/104c.webp",
+    original: "/Australia/Cairns/104c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/105t.webp",
+    thumbnail: "/Australia/Cairns/105t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/105c.webp",
+    original: "/Australia/Cairns/105c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/106t.webp",
+    thumbnail: "/Australia/Cairns/106t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/106c.webp",
+    original: "/Australia/Cairns/106c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/107t.webp",
+    thumbnail: "/Australia/Cairns/107t.webp",
     alt: "Cairns - Waterfall (21/11/2025)",
     youtube: true,
     original: "https://youtube.com/embed/8w8tsuqs_aM",
@@ -965,8 +753,7 @@ export const tr_201125_231125_images: Image[] = [
     height: 450,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/108t.webp",
+    thumbnail: "/Australia/Cairns/108t.webp",
     alt: "Cairns - Waterfall 2 (21/11/2025)",
     youtube: true,
     original: "https://youtube.com/embed/_r_H4qat4IQ",
@@ -974,332 +761,259 @@ export const tr_201125_231125_images: Image[] = [
     height: 450,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/109t.webp",
+    thumbnail: "/Australia/Cairns/109t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/109c.webp",
+    original: "/Australia/Cairns/109c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/110t.webp",
+    thumbnail: "/Australia/Cairns/110t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/110c.webp",
+    original: "/Australia/Cairns/110c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/111t.webp",
+    thumbnail: "/Australia/Cairns/111t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/111c.webp",
+    original: "/Australia/Cairns/111c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/112t.webp",
+    thumbnail: "/Australia/Cairns/112t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/112c.webp",
+    original: "/Australia/Cairns/112c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/113t.webp",
+    thumbnail: "/Australia/Cairns/113t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/113c.webp",
+    original: "/Australia/Cairns/113c.webp",
     width: 4,
     height: 3,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/114t.webp",
+    thumbnail: "/Australia/Cairns/114t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/114c.webp",
+    original: "/Australia/Cairns/114c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/115t.webp",
+    thumbnail: "/Australia/Cairns/115t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/115c.webp",
+    original: "/Australia/Cairns/115c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/116t.webp",
+    thumbnail: "/Australia/Cairns/116t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/116c.webp",
+    original: "/Australia/Cairns/116c.webp",
     width: 3,
     height: 2,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/117t.webp",
+    thumbnail: "/Australia/Cairns/117t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/117c.webp",
+    original: "/Australia/Cairns/117c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/118t.webp",
+    thumbnail: "/Australia/Cairns/118t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/118c.webp",
+    original: "/Australia/Cairns/118c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/119t.webp",
+    thumbnail: "/Australia/Cairns/119t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/119c.webp",
+    original: "/Australia/Cairns/119c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/120t.webp",
+    thumbnail: "/Australia/Cairns/120t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/120c.webp",
+    original: "/Australia/Cairns/120c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/121t.webp",
+    thumbnail: "/Australia/Cairns/121t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/121c.webp",
+    original: "/Australia/Cairns/121c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/122t.webp",
+    thumbnail: "/Australia/Cairns/122t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/122c.webp",
+    original: "/Australia/Cairns/122c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/123t.webp",
+    thumbnail: "/Australia/Cairns/123t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/123c.webp",
+    original: "/Australia/Cairns/123c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/124t.webp",
+    thumbnail: "/Australia/Cairns/124t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/124c.webp",
+    original: "/Australia/Cairns/124c.webp",
     width: 2,
     height: 3,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/125t.webp",
+    thumbnail: "/Australia/Cairns/125t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/125c.webp",
+    original: "/Australia/Cairns/125c.webp",
     width: 3,
     height: 2,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/126t.webp",
+    thumbnail: "/Australia/Cairns/126t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/126c.webp",
+    original: "/Australia/Cairns/126c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/127t.webp",
+    thumbnail: "/Australia/Cairns/127t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/127c.webp",
+    original: "/Australia/Cairns/127c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/128t.webp",
+    thumbnail: "/Australia/Cairns/128t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/128c.webp",
+    original: "/Australia/Cairns/128c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/129t.webp",
+    thumbnail: "/Australia/Cairns/129t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/129c.webp",
+    original: "/Australia/Cairns/129c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/130t.webp",
+    thumbnail: "/Australia/Cairns/130t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/130c.webp",
+    original: "/Australia/Cairns/130c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/131t.webp",
+    thumbnail: "/Australia/Cairns/131t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/131c.webp",
+    original: "/Australia/Cairns/131c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/132t.webp",
+    thumbnail: "/Australia/Cairns/132t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/132c.webp",
+    original: "/Australia/Cairns/132c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/133t.webp",
+    thumbnail: "/Australia/Cairns/133t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/133c.webp",
+    original: "/Australia/Cairns/133c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/134t.webp",
+    thumbnail: "/Australia/Cairns/134t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/134c.webp",
+    original: "/Australia/Cairns/134c.webp",
     width: 4,
     height: 3,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/135t.webp",
+    thumbnail: "/Australia/Cairns/135t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/135c.webp",
+    original: "/Australia/Cairns/135c.webp",
     width: 2,
     height: 3,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/136t.webp",
+    thumbnail: "/Australia/Cairns/136t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/136c.webp",
+    original: "/Australia/Cairns/136c.webp",
     width: 3,
     height: 2,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/137t.webp",
+    thumbnail: "/Australia/Cairns/137t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/137c.webp",
+    original: "/Australia/Cairns/137c.webp",
     width: 3,
     height: 2,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/138t.webp",
+    thumbnail: "/Australia/Cairns/138t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/138c.webp",
+    original: "/Australia/Cairns/138c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/139t.webp",
+    thumbnail: "/Australia/Cairns/139t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/139c.webp",
+    original: "/Australia/Cairns/139c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/140t.webp",
+    thumbnail: "/Australia/Cairns/140t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/140c.webp",
+    original: "/Australia/Cairns/140c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/141t.webp",
+    thumbnail: "/Australia/Cairns/141t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/141c.webp",
+    original: "/Australia/Cairns/141c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/142t.webp",
+    thumbnail: "/Australia/Cairns/142t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/142c.webp",
+    original: "/Australia/Cairns/142c.webp",
     width: 4,
     height: 3,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/143t.webp",
+    thumbnail: "/Australia/Cairns/143t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/143c.webp",
+    original: "/Australia/Cairns/143c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/144t.webp",
+    thumbnail: "/Australia/Cairns/144t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/144c.webp",
+    original: "/Australia/Cairns/144c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/145t.webp",
+    thumbnail: "/Australia/Cairns/145t.webp",
     alt: "Cairns - Great Barrier Reef 1 (22/11/2025)",
     youtube: true,
     original: "https://youtube.com/embed/EW1e7VGyCC8",
@@ -1307,8 +1021,7 @@ export const tr_201125_231125_images: Image[] = [
     height: 450,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/146t.webp",
+    thumbnail: "/Australia/Cairns/146t.webp",
     alt: "Cairns - Great Barrier Reef 2 (22/11/2025)",
     youtube: true,
     original: "https://youtube.com/embed/ihwomiZAWYs",
@@ -1316,8 +1029,7 @@ export const tr_201125_231125_images: Image[] = [
     height: 450,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/147t.webp",
+    thumbnail: "/Australia/Cairns/147t.webp",
     alt: "Cairns - Great Barrier Reef 3 (22/11/2025)",
     youtube: true,
     original: "https://youtube.com/embed/Q9LONdIjfKQ",
@@ -1325,8 +1037,7 @@ export const tr_201125_231125_images: Image[] = [
     height: 253,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/148t.webp",
+    thumbnail: "/Australia/Cairns/148t.webp",
     alt: "Cairns - Great Barrier Reef 4 (22/11/2025)",
     youtube: true,
     original: "https://youtube.com/embed/bc_VLdhiCzs",
@@ -1334,8 +1045,7 @@ export const tr_201125_231125_images: Image[] = [
     height: 253,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/149t.webp",
+    thumbnail: "/Australia/Cairns/149t.webp",
     alt: "Cairns - Great Barrier Reef 5 (22/11/2025)",
     youtube: true,
     original: "https://youtube.com/embed/YbdETIuj9-g",
@@ -1343,8 +1053,7 @@ export const tr_201125_231125_images: Image[] = [
     height: 253,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/150t.webp",
+    thumbnail: "/Australia/Cairns/150t.webp",
     alt: "Cairns - Great Barrier Reef 6 (22/11/2025)",
     youtube: true,
     original: "https://youtube.com/embed/8QDGx6b1yic",
@@ -1352,143 +1061,112 @@ export const tr_201125_231125_images: Image[] = [
     height: 253,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/151t.webp",
+    thumbnail: "/Australia/Cairns/151t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/151c.webp",
+    original: "/Australia/Cairns/151c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/152t.webp",
+    thumbnail: "/Australia/Cairns/152t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/152c.webp",
+    original: "/Australia/Cairns/152c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/153t.webp",
+    thumbnail: "/Australia/Cairns/153t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/153c.webp",
+    original: "/Australia/Cairns/153c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/154t.webp",
+    thumbnail: "/Australia/Cairns/154t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/154c.webp",
+    original: "/Australia/Cairns/154c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/155t.webp",
+    thumbnail: "/Australia/Cairns/155t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/155c.webp",
+    original: "/Australia/Cairns/155c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/156t.webp",
+    thumbnail: "/Australia/Cairns/156t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/156c.webp",
+    original: "/Australia/Cairns/156c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/157t.webp",
+    thumbnail: "/Australia/Cairns/157t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/157c.webp",
+    original: "/Australia/Cairns/157c.webp",
     width: 4,
     height: 3,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/158t.webp",
+    thumbnail: "/Australia/Cairns/158t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/158c.webp",
+    original: "/Australia/Cairns/158c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/159t.webp",
+    thumbnail: "/Australia/Cairns/159t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/159c.webp",
+    original: "/Australia/Cairns/159c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/160t.webp",
+    thumbnail: "/Australia/Cairns/160t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/160c.webp",
+    original: "/Australia/Cairns/160c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/161t.webp",
+    thumbnail: "/Australia/Cairns/161t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/161c.webp",
+    original: "/Australia/Cairns/161c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/162t.webp",
+    thumbnail: "/Australia/Cairns/162t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/162c.webp",
+    original: "/Australia/Cairns/162c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/163t.webp",
+    thumbnail: "/Australia/Cairns/163t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/163c.webp",
+    original: "/Australia/Cairns/163c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/164t.webp",
+    thumbnail: "/Australia/Cairns/164t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/164c.webp",
+    original: "/Australia/Cairns/164c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/165t.webp",
+    thumbnail: "/Australia/Cairns/165t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/165c.webp",
+    original: "/Australia/Cairns/165c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/166t.webp",
+    thumbnail: "/Australia/Cairns/166t.webp",
     alt: "Cairns - Great Barrier Reef 7 (22/11/2025)",
     youtube: true,
     original: "https://youtube.com/embed/SYkiUP1OjoU",
@@ -1496,8 +1174,7 @@ export const tr_201125_231125_images: Image[] = [
     height: 450,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/167t.webp",
+    thumbnail: "/Australia/Cairns/167t.webp",
     alt: "Cairns - Great Barrier Reef 8 (22/11/2025)",
     youtube: true,
     original: "https://youtube.com/embed/OGLJWHSDykE",
@@ -1505,8 +1182,7 @@ export const tr_201125_231125_images: Image[] = [
     height: 450,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/168t.webp",
+    thumbnail: "/Australia/Cairns/168t.webp",
     alt: "Cairns - Great Barrier Reef 9 (22/11/2025)",
     youtube: true,
     original: "https://youtube.com/embed/TqzBQx20K4U",
@@ -1514,8 +1190,7 @@ export const tr_201125_231125_images: Image[] = [
     height: 16,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/169t.webp",
+    thumbnail: "/Australia/Cairns/169t.webp",
     alt: "Cairns - Great Barrier Reef 10 (22/11/2025)",
     youtube: true,
     original: "https://youtube.com/embed/EsfkRh0FIwA",
@@ -1523,8 +1198,7 @@ export const tr_201125_231125_images: Image[] = [
     height: 450,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/170t.webp",
+    thumbnail: "/Australia/Cairns/170t.webp",
     alt: "Cairns - Great Barrier Reef 11 (22/11/2025)",
     youtube: true,
     original: "https://youtube.com/embed/ALoABCHSF_o",
@@ -1532,8 +1206,7 @@ export const tr_201125_231125_images: Image[] = [
     height: 450,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/171t.webp",
+    thumbnail: "/Australia/Cairns/171t.webp",
     alt: "Cairns - Great Barrier Reef 12 (22/11/2025)",
     youtube: true,
     original: "https://youtube.com/embed/DBfYf0h5Tzc",
@@ -1541,146 +1214,114 @@ export const tr_201125_231125_images: Image[] = [
     height: 450,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/172t.webp",
+    thumbnail: "/Australia/Cairns/172t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/172c.webp",
+    original: "/Australia/Cairns/172c.webp",
     width: 253,
     height: 450,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/173t.webp",
+    thumbnail: "/Australia/Cairns/173t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/173c.webp",
+    original: "/Australia/Cairns/173c.webp",
     width: 253,
     height: 450,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/174t.webp",
+    thumbnail: "/Australia/Cairns/174t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/174c.webp",
+    original: "/Australia/Cairns/174c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/175t.webp",
+    thumbnail: "/Australia/Cairns/175t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/175c.webp",
+    original: "/Australia/Cairns/175c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/176t.webp",
+    thumbnail: "/Australia/Cairns/176t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/176c.webp",
+    original: "/Australia/Cairns/176c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/177t.webp",
+    thumbnail: "/Australia/Cairns/177t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/177c.webp",
+    original: "/Australia/Cairns/177c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/178t.webp",
+    thumbnail: "/Australia/Cairns/178t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/178c.webp",
+    original: "/Australia/Cairns/178c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/179t.webp",
+    thumbnail: "/Australia/Cairns/179t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/179c.webp",
+    original: "/Australia/Cairns/179c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/180t.webp",
+    thumbnail: "/Australia/Cairns/180t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/180c.webp",
+    original: "/Australia/Cairns/180c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/181t.webp",
+    thumbnail: "/Australia/Cairns/181t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/181c.webp",
+    original: "/Australia/Cairns/181c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/182t.webp",
+    thumbnail: "/Australia/Cairns/182t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/182c.webp",
+    original: "/Australia/Cairns/182c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/183t.webp",
+    thumbnail: "/Australia/Cairns/183t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/183c.webp",
+    original: "/Australia/Cairns/183c.webp",
     width: 150,
     height: 113,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/184t.webp",
+    thumbnail: "/Australia/Cairns/184t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/184c.webp",
+    original: "/Australia/Cairns/184c.webp",
     width: 113,
     height: 150,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/185t.webp",
+    thumbnail: "/Australia/Cairns/185t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/185c.webp",
+    original: "/Australia/Cairns/185c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/186t.webp",
+    thumbnail: "/Australia/Cairns/186t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/186c.webp",
+    original: "/Australia/Cairns/186c.webp",
     width: 3,
     height: 4,
   },
   {
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/187t.webp",
+    thumbnail: "/Australia/Cairns/187t.webp",
     alt: "",
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Australia/Cairns/187c.webp",
+    original: "/Australia/Cairns/187c.webp",
     width: 253,
     height: 450,
   },

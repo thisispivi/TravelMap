@@ -13,9 +13,7 @@ export const Mdina = new City({
       photos: tr_020125_020125_images,
     }),
   ],
-  backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Mdina/Mdina.jpg",
-  ],
+  backgroundImgSources: ["/Malta/Mdina/Mdina.jpg"],
   population: 278,
   timezoneGMT: 2,
 });

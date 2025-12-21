@@ -23,7 +23,6 @@ export const parameters = {
       maxScale: 0.2,
     },
   },
-  cdnPath: "https://pivi-travel-map.b-cdn.net/TravelMap/",
   birthCity: Muravera,
   stats: {
     unescoSites: {

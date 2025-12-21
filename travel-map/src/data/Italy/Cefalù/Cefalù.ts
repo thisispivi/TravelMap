@@ -19,9 +19,9 @@ export const Cefalù = new City({
       photos: tr_140625_170625_images,
     }),
   ],
-  backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B9/Cefal%C3%B9.jpg",
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Cefal%C3%B91/Cefal%C3%B91.jpg",
+  backgroundImgSources: [
+    "/Italy/Cefal%C3%B9/Cefal%C3%B9.jpg",
+    "/Italy/Cefal%C3%B91/Cefal%C3%B91.jpg",
   ],
   population: 14407,
   timezoneGMT: 2,

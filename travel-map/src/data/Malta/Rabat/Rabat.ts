@@ -13,9 +13,7 @@ export const Rabat = new City({
       photos: tr_020125_020125_images,
     }),
   ],
-  backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Malta/Rabat/Rabat.jpg",
-  ],
+  backgroundImgSources: ["/Malta/Rabat/Rabat.jpg"],
   population: 12284,
   timezoneGMT: 2,
 });

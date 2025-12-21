@@ -2,497 +2,387 @@ import { Image } from "../../../../core";
 
 export const tr_300721_300721_images: Image[] = [
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/001c.webp",
+    original: "/Vatican/VaticanCity/001c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/001t.webp",
+    thumbnail: "/Vatican/VaticanCity/001t.webp",
     width: 299,
     height: 400,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/002c.webp",
+    original: "/Vatican/VaticanCity/002c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/002t.webp",
+    thumbnail: "/Vatican/VaticanCity/002t.webp",
     width: 400,
     height: 299,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/003c.webp",
+    original: "/Vatican/VaticanCity/003c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/003t.webp",
+    thumbnail: "/Vatican/VaticanCity/003t.webp",
     width: 299,
     height: 400,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/004c.webp",
+    original: "/Vatican/VaticanCity/004c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/004t.webp",
+    thumbnail: "/Vatican/VaticanCity/004t.webp",
     width: 299,
     height: 400,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/005c.webp",
+    original: "/Vatican/VaticanCity/005c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/005t.webp",
+    thumbnail: "/Vatican/VaticanCity/005t.webp",
     width: 299,
     height: 400,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/006c.webp",
+    original: "/Vatican/VaticanCity/006c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/006t.webp",
+    thumbnail: "/Vatican/VaticanCity/006t.webp",
     width: 299,
     height: 400,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/007c.webp",
+    original: "/Vatican/VaticanCity/007c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/007t.webp",
+    thumbnail: "/Vatican/VaticanCity/007t.webp",
     width: 299,
     height: 400,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/008c.webp",
+    original: "/Vatican/VaticanCity/008c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/008t.webp",
+    thumbnail: "/Vatican/VaticanCity/008t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/009c.webp",
+    original: "/Vatican/VaticanCity/009c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/009t.webp",
+    thumbnail: "/Vatican/VaticanCity/009t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/010c.webp",
+    original: "/Vatican/VaticanCity/010c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/010t.webp",
+    thumbnail: "/Vatican/VaticanCity/010t.webp",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/011c.webp",
+    original: "/Vatican/VaticanCity/011c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/011t.webp",
+    thumbnail: "/Vatican/VaticanCity/011t.webp",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/012c.webp",
+    original: "/Vatican/VaticanCity/012c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/012t.webp",
+    thumbnail: "/Vatican/VaticanCity/012t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/013c.webp",
+    original: "/Vatican/VaticanCity/013c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/013t.webp",
+    thumbnail: "/Vatican/VaticanCity/013t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/014c.webp",
+    original: "/Vatican/VaticanCity/014c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/014t.webp",
+    thumbnail: "/Vatican/VaticanCity/014t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/015c.webp",
+    original: "/Vatican/VaticanCity/015c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/015t.webp",
+    thumbnail: "/Vatican/VaticanCity/015t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/016c.webp",
+    original: "/Vatican/VaticanCity/016c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/016t.webp",
+    thumbnail: "/Vatican/VaticanCity/016t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/017c.webp",
+    original: "/Vatican/VaticanCity/017c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/017t.webp",
+    thumbnail: "/Vatican/VaticanCity/017t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/018c.webp",
+    original: "/Vatican/VaticanCity/018c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/018t.webp",
+    thumbnail: "/Vatican/VaticanCity/018t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/019c.webp",
+    original: "/Vatican/VaticanCity/019c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/019t.webp",
+    thumbnail: "/Vatican/VaticanCity/019t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/020c.webp",
+    original: "/Vatican/VaticanCity/020c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/020t.webp",
+    thumbnail: "/Vatican/VaticanCity/020t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/021c.webp",
+    original: "/Vatican/VaticanCity/021c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/021t.webp",
+    thumbnail: "/Vatican/VaticanCity/021t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/022c.webp",
+    original: "/Vatican/VaticanCity/022c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/022t.webp",
+    thumbnail: "/Vatican/VaticanCity/022t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/023c.webp",
+    original: "/Vatican/VaticanCity/023c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/023t.webp",
+    thumbnail: "/Vatican/VaticanCity/023t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/024c.webp",
+    original: "/Vatican/VaticanCity/024c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/024t.webp",
+    thumbnail: "/Vatican/VaticanCity/024t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/025c.webp",
+    original: "/Vatican/VaticanCity/025c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/025t.webp",
+    thumbnail: "/Vatican/VaticanCity/025t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/026c.webp",
+    original: "/Vatican/VaticanCity/026c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/026t.webp",
+    thumbnail: "/Vatican/VaticanCity/026t.webp",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/027c.webp",
+    original: "/Vatican/VaticanCity/027c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/027t.webp",
+    thumbnail: "/Vatican/VaticanCity/027t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/028c.webp",
+    original: "/Vatican/VaticanCity/028c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/028t.webp",
+    thumbnail: "/Vatican/VaticanCity/028t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/029c.webp",
+    original: "/Vatican/VaticanCity/029c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/029t.webp",
+    thumbnail: "/Vatican/VaticanCity/029t.webp",
     width: 9,
     height: 16,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/030c.webp",
+    original: "/Vatican/VaticanCity/030c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/030t.webp",
+    thumbnail: "/Vatican/VaticanCity/030t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/031c.webp",
+    original: "/Vatican/VaticanCity/031c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/031t.webp",
+    thumbnail: "/Vatican/VaticanCity/031t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/032c.webp",
+    original: "/Vatican/VaticanCity/032c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/032t.webp",
+    thumbnail: "/Vatican/VaticanCity/032t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/033c.webp",
+    original: "/Vatican/VaticanCity/033c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/033t.webp",
+    thumbnail: "/Vatican/VaticanCity/033t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/034c.webp",
+    original: "/Vatican/VaticanCity/034c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/034t.webp",
+    thumbnail: "/Vatican/VaticanCity/034t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/035c.webp",
+    original: "/Vatican/VaticanCity/035c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/035t.webp",
+    thumbnail: "/Vatican/VaticanCity/035t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/036c.webp",
+    original: "/Vatican/VaticanCity/036c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/036t.webp",
+    thumbnail: "/Vatican/VaticanCity/036t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/037c.webp",
+    original: "/Vatican/VaticanCity/037c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/037t.webp",
+    thumbnail: "/Vatican/VaticanCity/037t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/038c.webp",
+    original: "/Vatican/VaticanCity/038c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/038t.webp",
+    thumbnail: "/Vatican/VaticanCity/038t.webp",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/039c.webp",
+    original: "/Vatican/VaticanCity/039c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/039t.webp",
+    thumbnail: "/Vatican/VaticanCity/039t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/040c.webp",
+    original: "/Vatican/VaticanCity/040c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/040t.webp",
+    thumbnail: "/Vatican/VaticanCity/040t.webp",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/041c.webp",
+    original: "/Vatican/VaticanCity/041c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/041t.webp",
+    thumbnail: "/Vatican/VaticanCity/041t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/042c.webp",
+    original: "/Vatican/VaticanCity/042c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/042t.webp",
+    thumbnail: "/Vatican/VaticanCity/042t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/043c.webp",
+    original: "/Vatican/VaticanCity/043c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/043t.webp",
+    thumbnail: "/Vatican/VaticanCity/043t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/044c.webp",
+    original: "/Vatican/VaticanCity/044c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/044t.webp",
+    thumbnail: "/Vatican/VaticanCity/044t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/045c.webp",
+    original: "/Vatican/VaticanCity/045c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/045t.webp",
+    thumbnail: "/Vatican/VaticanCity/045t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/046c.webp",
+    original: "/Vatican/VaticanCity/046c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/046t.webp",
+    thumbnail: "/Vatican/VaticanCity/046t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/047c.webp",
+    original: "/Vatican/VaticanCity/047c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/047t.webp",
+    thumbnail: "/Vatican/VaticanCity/047t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/048c.webp",
+    original: "/Vatican/VaticanCity/048c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/048t.webp",
+    thumbnail: "/Vatican/VaticanCity/048t.webp",
     width: 9,
     height: 16,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/049c.webp",
+    original: "/Vatican/VaticanCity/049c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/049t.webp",
+    thumbnail: "/Vatican/VaticanCity/049t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/050c.webp",
+    original: "/Vatican/VaticanCity/050c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/050t.webp",
+    thumbnail: "/Vatican/VaticanCity/050t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/051c.webp",
+    original: "/Vatican/VaticanCity/051c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/051t.webp",
+    thumbnail: "/Vatican/VaticanCity/051t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/052c.webp",
+    original: "/Vatican/VaticanCity/052c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/052t.webp",
+    thumbnail: "/Vatican/VaticanCity/052t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/053c.webp",
+    original: "/Vatican/VaticanCity/053c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/053t.webp",
+    thumbnail: "/Vatican/VaticanCity/053t.webp",
     width: 739,
     height: 1600,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/054c.webp",
+    original: "/Vatican/VaticanCity/054c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/054t.webp",
+    thumbnail: "/Vatican/VaticanCity/054t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/055c.webp",
+    original: "/Vatican/VaticanCity/055c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Vatican/VaticanCity/055t.webp",
+    thumbnail: "/Vatican/VaticanCity/055t.webp",
     width: 4,
     height: 3,
   },

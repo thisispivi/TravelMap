@@ -2,101 +2,79 @@ import { Image } from "../../../../core";
 
 export const tr_150824_150824_images: Image[] = [
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Oshino/001c.webp",
+    original: "/Japan/Oshino/001c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Oshino/001t.webp",
+    thumbnail: "/Japan/Oshino/001t.webp",
     width: 4,
     height: 3,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Oshino/002c.webp",
+    original: "/Japan/Oshino/002c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Oshino/002t.webp",
+    thumbnail: "/Japan/Oshino/002t.webp",
     width: 576,
     height: 433,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Oshino/003c.webp",
+    original: "/Japan/Oshino/003c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Oshino/003t.webp",
+    thumbnail: "/Japan/Oshino/003t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Oshino/004c.webp",
+    original: "/Japan/Oshino/004c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Oshino/004t.webp",
+    thumbnail: "/Japan/Oshino/004t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Oshino/005c.webp",
+    original: "/Japan/Oshino/005c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Oshino/005t.webp",
+    thumbnail: "/Japan/Oshino/005t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Oshino/006c.webp",
+    original: "/Japan/Oshino/006c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Oshino/006t.webp",
+    thumbnail: "/Japan/Oshino/006t.webp",
     width: 85,
     height: 64,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Oshino/007c.webp",
+    original: "/Japan/Oshino/007c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Oshino/007t.webp",
+    thumbnail: "/Japan/Oshino/007t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Oshino/008c.webp",
+    original: "/Japan/Oshino/008c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Oshino/008t.webp",
+    thumbnail: "/Japan/Oshino/008t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Oshino/009c.webp",
+    original: "/Japan/Oshino/009c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Oshino/009t.webp",
+    thumbnail: "/Japan/Oshino/009t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Oshino/010c.webp",
+    original: "/Japan/Oshino/010c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Oshino/010t.webp",
+    thumbnail: "/Japan/Oshino/010t.webp",
     width: 3,
     height: 4,
   },
   {
-    original:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Oshino/011c.webp",
+    original: "/Japan/Oshino/011c.webp",
     alt: "",
-    thumbnail:
-      "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Japan/Oshino/011t.webp",
+    thumbnail: "/Japan/Oshino/011t.webp",
     width: 3,
     height: 4,
   },

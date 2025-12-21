@@ -13,9 +13,7 @@ export const Berlin = new City({
       photos: tr_150415_190415_images,
     }),
   ],
-  backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Germany/Berlin/Berlin.jpg",
-  ],
+  backgroundImgSources: ["/Germany/Berlin/Berlin.jpg"],
   population: 3576870,
   timezoneGMT: 2,
 });

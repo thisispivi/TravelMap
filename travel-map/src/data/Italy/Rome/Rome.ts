@@ -19,10 +19,7 @@ export const Rome = new City({
       photos: tr_100824_120824_images,
     }),
   ],
-  backgroundImgsSrc: [
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Rome/Rome.jpg",
-    "https://pivi-travel-map.b-cdn.net/TravelMap/Travels/Italy/Rome1/Rome1.jpg",
-  ],
+  backgroundImgSources: ["/Italy/Rome/Rome.jpg", "/Italy/Rome1/Rome1.jpg"],
   population: 4332000,
   timezoneGMT: 2,
 });
