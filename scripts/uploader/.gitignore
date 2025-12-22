@@ -1,0 +1,14 @@
+__pycache__
+*.json
+*.jpg
+*.mp4
+*.mov
+*.avi
+*.png
+*.webp
+*.m4a
+*.opus
+*.srt
+*.mkv
+*.zip
+*.rar
