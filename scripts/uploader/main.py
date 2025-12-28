@@ -48,9 +48,7 @@ if __name__ == "__main__":
                 city_folder_path,
                 results_city_folder_path,
             )
-            image_info = travel_image.compress(logger)
-            travel_image.upload_to_bunny_cdn(logger)
-            images_info.append(image_info)
+            images_info.append(travel_image.run(logger))
 
         sorted_images = sort_images_by_index_in_filename(images_info)
         export_json(sorted_images, root_path, city)
