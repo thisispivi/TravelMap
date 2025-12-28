@@ -1,14 +1,51 @@
+"""
+Image preparation for TravelMap uploads.
+
+This module:
+- Reads a source image from a city folder.
+- Produces two WEBP outputs in a results folder:
+  - a "compressed" variant (suffix: `c.webp`)
+  - a "thumbnail" variant (suffix: `t.webp`)
+- Optionally uploads both outputs to BunnyCDN Storage.
+
+Expected `args` keys (strings unless noted):
+- country, city
+- CDN_BASE_URL, CDN_BASE_STORAGE_PATH
+- CDN_STORAGE_ZONE_API_KEY, CDN_STORAGE_ZONE_NAME, CDN_STORAGE_ZONE_REGION
+- COMPRESSED_MIN_SIZE, COMPRESSED_MAX_SIZE, COMPRESSED_RESOLUTION (ints in string form)
+- THUMBNAIL_MIN_SIZE, THUMBNAIL_MAX_SIZE, THUMBNAIL_RESOLUTION (ints in string form)
+"""
+
 from logging import Logger
 from PIL import Image, ImageOps
 import os
 import shutil
 import logging
-from typing import Optional, Tuple, Mapping, Any
+from typing import Optional, Tuple, Mapping, Any, TypedDict
 from BunnyCDN.Storage import Storage
 from lib.utils import get_max_common_divisor
 
 
+class ImageInfo(TypedDict):
+    """Metadata produced by `TravelImage.compress()` for downstream JSON usage."""
+
+    alt: str
+    width: int
+    height: int
+    thumbnail: str
+    original: str
+
+
 class TravelImage:
+    """
+    Represents a single input image and its derived artifacts (compressed + thumbnail).
+
+    `city_folder_path`:
+        Directory containing the original file (`self.filename`).
+    `results_city_folder_path`:
+        Directory where derived files are written.
+    """
+
     def __init__(
         self,
         filename: str,
@@ -23,22 +60,31 @@ class TravelImage:
 
     @staticmethod
     def _get_logger(logger: Optional[Logger]) -> Logger:
+        """Return the provided logger, or a module-scoped default logger."""
         return logger or logging.getLogger(__name__)
 
     @staticmethod
     def _file_size_kb(path: str) -> float:
+        """Get file size in kilobytes (KB)."""
         return os.path.getsize(path) / 1024
 
     @staticmethod
     def _normalize_for_webp(image: Image.Image) -> Image.Image:
+        """
+        Ensure image is in a WEBP-friendly mode.
+
+        Note: Palette/L/CMYK images are converted to RGB. RGBA is preserved.
+        """
         if image.mode not in ("RGB", "RGBA"):
             return image.convert("RGB")
         return image
 
     def _get_base_storage_path(self) -> str:
+        """Build the storage path prefix used both for CDN URLs and Bunny storage paths."""
         return f"{self.args['CDN_BASE_STORAGE_PATH']}{self.args['country']}/{self.args['city']}/"
 
     def _get_cdn_full_path(self, filename: str) -> str:
+        """Build a public CDN URL for a given filename inside the city storage folder."""
         base_storage_path = self._get_base_storage_path()
         return f"{self.args['CDN_BASE_URL']}{base_storage_path}{filename}"
 
@@ -54,10 +100,17 @@ class TravelImage:
         logger: Optional[Logger] = None,
     ) -> Optional[float]:
         """
-        Compress image to ensure it fits the size constraints.
+        Save `image` as WEBP to `output_path` while attempting to satisfy size constraints.
+
+        Process:
+        - Applies EXIF transpose (fixes orientation issues from camera metadata).
+        - Resizes in-place using `thumbnail(max_resolution)` (preserves aspect ratio).
+        - Iterates WEBP `quality` from 100 down to ~10 in steps of `quality_step`.
+        - Stops when the output is within [min_size_kb, max_size_kb], or when going lower
+          would drop below `min_size_kb`.
 
         Returns:
-            float | None: File size in KB (or None on error).
+            The final file size in KB, or `None` on error.
         """
         logger = TravelImage._get_logger(logger)
 
@@ -75,12 +128,15 @@ class TravelImage:
 
                 logger.info("Quality: %s, File size: %.2f KB", quality, last_size_kb)
 
+                # If even at max quality we are already below the max bound, keep it.
                 if quality == 100 and last_size_kb <= max_size_kb:
                     break
 
+                # Target range achieved.
                 if min_size_kb <= last_size_kb <= max_size_kb:
                     break
 
+                # Went too small; stop decreasing quality further.
                 if last_size_kb < min_size_kb:
                     break
 
@@ -95,7 +151,11 @@ class TravelImage:
         source_path: str, target_path: str, logger: Optional[Logger] = None
     ) -> None:
         """
-        Duplicate the image without compression.
+        Duplicate the source file bytes to `target_path`.
+
+        Note:
+            This does *not* re-encode to WEBP. If `target_path` ends with `.webp` but
+            `source_path` is not WEBP, the extension may not match the file contents.
         """
         logger = TravelImage._get_logger(logger)
 
@@ -119,7 +179,11 @@ class TravelImage:
         filename: str,
     ) -> None:
         """
-        Helper function to handle image compression or duplication based on size constraints.
+        Decide whether to compress or duplicate based on `original_size_kb`.
+
+        If the original is already smaller than `min_size_kb`, the file is duplicated
+        (see `_duplicate_image` note regarding extensions/contents).
+        Otherwise, the image is re-encoded to WEBP under the provided constraints.
         """
         logger = self._get_logger(logger)
 
@@ -142,9 +206,16 @@ class TravelImage:
         if file_size_kb is not None:
             logger.info("Compressed %s to %.2f KB.", filename, file_size_kb)
 
-    def compress(self, logger: Optional[Logger] = None) -> None:
+    def compress(self, logger: Optional[Logger] = None) -> Optional[ImageInfo]:
         """
-        Compress the image to fit the size constraints.
+        Create compressed + thumbnail WEBP files and return metadata for downstream use.
+
+        Outputs (written to `results_city_folder_path`):
+            - `{base_filename}c.webp` (compressed)
+            - `{base_filename}t.webp` (thumbnail)
+
+        Returns:
+            ImageInfo on success, otherwise `None` (and logs the error).
         """
         logger = self._get_logger(logger)
 
@@ -198,22 +269,29 @@ class TravelImage:
                             self.filename,
                         )
 
-                image = {}
-                image["alt"] = ""
                 width, height = img.size
                 max_common_divisor = get_max_common_divisor(width, height)
-                image["width"] = int(width / max_common_divisor)
-                image["height"] = int(height / max_common_divisor)
-                image["thumbnail"] = self._get_cdn_full_path(f"{base_filename}t.webp")
-                image["original"] = self._get_cdn_full_path(f"{base_filename}c.webp")
+
+                image: ImageInfo = {
+                    "alt": "",
+                    # Store aspect ratio (reduced fraction) rather than raw pixels.
+                    "width": int(width / max_common_divisor),
+                    "height": int(height / max_common_divisor),
+                    "thumbnail": self._get_cdn_full_path(f"{base_filename}t.webp"),
+                    "original": self._get_cdn_full_path(f"{base_filename}c.webp"),
+                }
                 return image
 
         except Exception as e:
             logger.error("Error processing image %s: %s", self.filename, e)
+            return None
 
-    def upload_to_bunny_cdn(self, logger: Optional[Logger] = None):
+    def upload_to_bunny_cdn(self, logger: Optional[Logger] = None) -> None:
         """
-        Upload the compressed and thumbnail images to BunnyCDN Storage.
+        Upload the derived WEBP files (`*c.webp` and `*t.webp`) to BunnyCDN Storage.
+
+        Assumes `compress()` has already produced the output files in
+        `results_city_folder_path`.
         """
         try:
             storage = Storage(
@@ -242,3 +320,15 @@ class TravelImage:
         except Exception as e:
             logger = TravelImage._get_logger(logger)
             logger.error("Error uploading image %s to BunnyCDN: %s", self.filename, e)
+
+    def run(self, logger: Optional[Logger] = None) -> None:
+        """
+        Convenience method to compress and upload the image in one call.
+        Args:
+            logger (Optional[Logger]): Logger instance.
+        Returns:
+            ImageInfo: Metadata produced by compress().
+        """
+        image_info = self.compress(logger)
+        self.upload_to_bunny_cdn(logger)
+        return image_info
