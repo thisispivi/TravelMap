@@ -9,8 +9,8 @@ export const MonteCarlo = new City({
   timezoneGMT: 1,
   travels: [
     new Travel({
-      sDate: new Date(2025, 11, 30),
-      eDate: new Date(2025, 11, 30),
+      sDate: new Date(2025, 11, 29),
+      eDate: new Date(2025, 11, 29),
       isFuture: false,
     }),
   ],

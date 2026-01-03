@@ -37,6 +37,8 @@ import { Malta } from "./Malta/Malta";
 import { Marseille } from "./France/Marseille/Marseille";
 import { Matsumoto } from "./Japan/Matsumoto/Matsumoto";
 import { Mdina } from "./Malta/Mdina/Mdina";
+import { Monaco } from "./Monaco/Monaco";
+import { MonteCarlo } from "./Monaco/MonteCarlo/MonteCarlo";
 import { Muravera } from "./Italy/Muravera/Muravera";
 import { Nara } from "./Japan/Nara/Nara";
 import { Nice } from "./France/Nice/Nice";
@@ -48,6 +50,7 @@ import { Portugal } from "./Portugal/Portugal";
 import { Rabat } from "./Malta/Rabat/Rabat";
 import { Rila } from "./Bulgaria/Rila/Rila";
 import { Rome } from "./Italy/Rome/Rome";
+import { SaintTropez } from "./France/SaintTropez/SaintTropez";
 import { SanGiljan } from "./Malta/SanGiljan/SanGiljan";
 import { SanPawlIlBahar } from "./Malta/SanPawlIlBahar/SanPawlIlBahar";
 import { Sevilla } from "./Spain/Sevilla/Sevilla";
@@ -69,8 +72,11 @@ import { VaticanCity } from "./Vatican/Vatican/VaticanCity";
 import { Verona } from "./Italy/Verona/Verona";
 import { Victoria } from "./Malta/Victoria/Victoria";
 import { Vienna } from "./Austria/Vienna/Vienna";
-import { MonteCarlo } from "./Monaco/MonteCarlo/MonteCarlo";
-import { Monaco } from "./Monaco/Monaco";
+import { Ferry } from "@/core/classes/Ferry";
+import { Olbia } from "./Italy/Olbia/Olbia";
+import { FerryCompany } from "@/core/typings/FerryCompany";
+import { Livorno } from "./Italy/Livorno/Livorno";
+import { PortoTorres } from "./Italy/PortoTorres/PortoTorres";
 
 export const livedCountries: Country[] = [Italy];
 export const livedCities: City[] = [Muravera, Cagliari];
@@ -80,11 +86,13 @@ export const visitedCountries: Country[] = [
   Austria,
   Belgium,
   Bulgaria,
+  France,
   Germany,
   Hungary,
   Italy,
   Japan,
   Malta,
+  Monaco,
   Portugal,
   Spain,
   UnitedKingdom,
@@ -100,6 +108,7 @@ export const visitedCities: City[] = [
   Brussels,
   Budapest,
   Cairns,
+  Cannes,
   Cefalù,
   Comino,
   Fujikawaguchiko,
@@ -110,9 +119,12 @@ export const visitedCities: City[] = [
   Kobe,
   Kyoto,
   London,
+  Marseille,
   Matsumoto,
   Mdina,
+  MonteCarlo,
   Nara,
+  Nice,
   Osaka,
   Oshino,
   PeschieraDelGarda,
@@ -120,6 +132,7 @@ export const visitedCities: City[] = [
   Rabat,
   Rila,
   Rome,
+  SaintTropez,
   SanGiljan,
   SanPawlIlBahar,
   Sevilla,
@@ -130,6 +143,7 @@ export const visitedCities: City[] = [
   Takayama,
   Terni,
   Tokyo,
+  Toulon,
   Turin,
   Valletta,
   VaticanCity,
@@ -328,11 +342,14 @@ export const takenFlights: Flight[] = [
   }),
 ];
 
-export const futureCountries: Country[] = [France, Monaco];
-export const futureCities: City[] = [
-  Nice,
-  Toulon,
-  Marseille,
-  Cannes,
-  MonteCarlo,
+export const takenFerries: Ferry[] = [
+  new Ferry({ sCity: Olbia, eCity: Livorno, company: FerryCompany.TIRRENIA }),
+  new Ferry({
+    sCity: PortoTorres,
+    eCity: Toulon,
+    company: FerryCompany.CORSICA_FERRIES,
+  }),
 ];
+
+export const futureCountries: Country[] = [];
+export const futureCities: City[] = [];

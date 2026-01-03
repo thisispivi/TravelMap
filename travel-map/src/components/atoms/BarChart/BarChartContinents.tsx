@@ -2,6 +2,7 @@ import { JSX, lazy, useMemo } from "react";
 import useLanguage from "@/hooks/language/language";
 import "./BarChartContinents.scss";
 import { Continent } from "@/core";
+import { ApexOptions } from "apexcharts";
 const ReactApexChart = lazy(() => import("react-apexcharts"));
 
 interface ContinentsBarChartProps {
@@ -34,49 +35,45 @@ export default function ContinentsBarChart({
 }: ContinentsBarChartProps): JSX.Element {
   const { t } = useLanguage(["home"]);
 
-  const incrementedData = useMemo(() => {
-    const filteredData = data.filter(
-      (continent) => continent.cities > 0 || continent.countries > 0,
+  const { categories, series, maxValue, rawMatrix } = useMemo(() => {
+    const filtered = data.filter((c) => c.cities > 0 || c.countries > 0);
+
+    const categories = filtered.map((c) =>
+      t(`continents.${c.continent.replace(/\s+/g, "_").toUpperCase()}`)
     );
 
-    return filteredData.map((continent) => ({
-      ...continent,
-      cities: continent.cities + 1,
-      countries: continent.countries + 1,
-    }));
-  }, [data]);
+    const rawCountries = filtered.map((c) => c.countries);
+    const rawCities = filtered.map((c) => c.cities);
 
-  const series = useMemo(() => {
-    return ["countries", "cities"].map((key) => ({
-      name: t(`stats.${key}PerContinent`),
-      data: incrementedData.map((c) => c[key as "cities" | "countries"]),
-    }));
-  }, [incrementedData, t]);
+    // Keep tiny bars visible even when one metric is 0 (other metric > 0).
+    const MIN_BAR = 1;
+    const renderCountries = rawCountries.map((v) => (v === 0 ? MIN_BAR : v));
+    const renderCities = rawCities.map((v) => (v === 0 ? MIN_BAR : v));
 
-  const maxValue = useMemo(() => {
-    const maxRaw = incrementedData.reduce(
-      (acc, c) => Math.max(acc, c.cities, c.countries),
-      0,
-    );
-    return maxRaw * 1.05;
-  }, [incrementedData]);
+    const series = [
+      { name: t("stats.countriesPerContinent"), data: renderCountries },
+      { name: t("stats.citiesPerContinent"), data: renderCities },
+    ];
 
-  const categories = useMemo(() => {
-    return incrementedData.map((continent) =>
-      t(
-        `continents.${continent.continent.replace(" ", "_").toLocaleUpperCase()}`,
-      ),
-    );
-  }, [incrementedData, t]);
+    const maxRaw = Math.max(0, ...rawCountries, ...rawCities);
+    const maxValue = Math.max(maxRaw, MIN_BAR) * 1.05;
 
-  const options = useMemo(() => {
+    return {
+      categories,
+      series,
+      maxValue,
+      rawMatrix: [rawCountries, rawCities] as const,
+    };
+  }, [data, t]);
+
+  const options: ApexOptions = useMemo(() => {
     return {
       plotOptions: {
         bar: {
           horizontal: true,
           borderRadius: 7,
           borderRadiusApplication: "end",
-          barHeight: "17px",
+          barHeight: "18px",
           barMinWidth: 10,
         },
       },
@@ -93,7 +90,7 @@ export default function ContinentsBarChart({
         labels: {
           style: {
             fontSize: "0.9em",
-            fontFamily: "Urbanist",
+            fontFamily: "Urbanist, Arial, Helvetica, sans-serif",
             fontWeight: 700,
           },
         },
@@ -105,7 +102,7 @@ export default function ContinentsBarChart({
         position: "top",
         horizontalAlign: "center",
         fontSize: "1em",
-        fontFamily: "Urbanist",
+        fontFamily: "Urbanist, Arial, Helvetica, sans-serif",
         fontWeight: 400,
         menu: { show: false },
         onItemClick: { toggleDataSeries: false },
@@ -124,12 +121,13 @@ export default function ContinentsBarChart({
       },
       dataLabels: {
         enabled: true,
-        formatter: function (val: number) {
-          return val === 0 ? "" : (val - 1).toString();
+        formatter: function (_val, opts) {
+          const raw = rawMatrix?.[opts.seriesIndex]?.[opts.dataPointIndex] ?? 0;
+          return raw === 0 ? "" : String(raw);
         },
         style: {
-          fontSize: "1em",
-          fontFamily: "Urbanist",
+          fontSize: "0.9em",
+          fontFamily: "Urbanist, Arial, Helvetica, sans-serif",
           colors: ["#fff"],
         },
         offsetY: 2,
@@ -140,12 +138,12 @@ export default function ContinentsBarChart({
         active: { filter: { type: "none" } },
       },
     };
-  }, [barColors, categories, maxValue]);
+  }, [barColors, categories, maxValue, rawMatrix]);
 
   return (
     <div className="continents-bar-chart">
       <ReactApexChart
-        height={230}
+        height={250}
         key={`${isDarkTheme ? "dark" : "light"}`}
         options={options}
         series={series}
