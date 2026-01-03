@@ -41,7 +41,7 @@ export default function TransportsDonutChart({
           numNationalFlights: 0,
           numInternationalFlights: 0,
           numIntercontinental: 0,
-        }
+        },
       );
     }, [takenFlights]);
 
