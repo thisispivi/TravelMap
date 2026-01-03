@@ -39,7 +39,7 @@ export default function ContinentsBarChart({
     const filtered = data.filter((c) => c.cities > 0 || c.countries > 0);
 
     const categories = filtered.map((c) =>
-      t(`continents.${c.continent.replace(/\s+/g, "_").toUpperCase()}`)
+      t(`continents.${c.continent.replace(/\s+/g, "_").toUpperCase()}`),
     );
 
     const rawCountries = filtered.map((c) => c.countries);

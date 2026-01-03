@@ -121,13 +121,13 @@ export default function InfoTabStats({
       Number(totalMileage) / EARTH_CIRCUMFERENCE
     ).toFixed(2);
     const totalMileageToMoon = (Number(totalMileage) / MOON_DISTANCE).toFixed(
-      2
+      2,
     );
 
     const visitedContinents = getContinentsByCities(visitedCities);
 
     const allContinents = Object.values(Continent).filter(
-      (v): v is Continent => typeof v === "string"
+      (v): v is Continent => typeof v === "string",
     );
 
     const continentCities = allContinents
@@ -142,7 +142,7 @@ export default function InfoTabStats({
 
     const numUnescoSites = Object.values(parameters.stats.unescoSites).reduce(
       (acc, sites) => acc + sites.length,
-      0
+      0,
     );
 
     const flightCompanies = unique([
