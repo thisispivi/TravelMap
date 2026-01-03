@@ -2,6 +2,7 @@ import { firstBy, sumBy } from "remeda";
 import { City } from "../core";
 import { Flight } from "../core";
 import { toRadians } from "./convert";
+import { Ferry } from "@/core/classes/Ferry";
 
 /**
  * Get the haversine distance between two points.
@@ -11,7 +12,7 @@ import { toRadians } from "./convert";
  */
 export function haversineDistance(
   start: { lat: number; lon: number },
-  end: { lat: number; lon: number },
+  end: { lat: number; lon: number }
 ): number {
   const RADIUS_EARTH_KM = 6371;
 
@@ -40,7 +41,7 @@ export function haversineDistance(
 export function getCitiesDistance(start: City, end: City): number {
   return haversineDistance(
     start.getCoordinatesAsLatLon(),
-    end.getCoordinatesAsLatLon(),
+    end.getCoordinatesAsLatLon()
   );
 }
 
@@ -52,7 +53,7 @@ export function getCitiesDistance(start: City, end: City): number {
  */
 export function getFurthestAndNearestCity(
   cities: City[],
-  referenceCity: City,
+  referenceCity: City
 ): { furthest: City; nearest: City } {
   const distances = cities.map((city) => ({
     distance: getCitiesDistance(city, referenceCity),
@@ -65,26 +66,37 @@ export function getFurthestAndNearestCity(
   };
 }
 
+type TransportWithDistance = { distanceInKm: number };
+
 /**
- * Get the minimum and maximum flights from a list of flights.
- * @param {Flight[]} takenFlights - The list of flights
- * @returns {{ min: Flight; max: Flight }} - The minimum and maximum flights
+ * Get the minimum and maximum transports from a list of transports.
+ * @param {T[]} transports - The list of transports
+ * @returns {{ min: T; max: T }} - The minimum and maximum transports
  */
-export function getMinAndMaxFlight(takenFlights: Flight[]): {
-  min: Flight;
-  max: Flight;
-} {
+export function getMinAndMaxTransport<T extends TransportWithDistance>(
+  transports: T[]
+): { min: T; max: T } {
+  if (transports.length === 0)
+    throw new Error("getMinAndMaxTransport: transports must not be empty");
+
   return {
-    min: firstBy(takenFlights, (f) => f.distanceInKm)!,
-    max: firstBy(takenFlights, (f) => -f.distanceInKm)!,
+    min: firstBy(transports, (t) => t.distanceInKm)!,
+    max: firstBy(transports, (t) => -t.distanceInKm)!,
   };
 }
 
 /**
  * Get the total mileage from a list of flights.
  * @param {Flight[]} takenFlights - The list of flights
+ * @param {Ferry[]} takenFerries - The list of ferries
  * @returns {string} - The total mileage in kilometers
  */
-export function getTotalMileage(takenFlights: Flight[]): number {
-  return sumBy(takenFlights, (f) => f.distanceInKm);
+export function getTotalMileage(
+  takenFlights: Flight[],
+  takenFerries: Ferry[]
+): number {
+  return (
+    sumBy(takenFlights, (f) => f.distanceInKm) +
+    sumBy(takenFerries, (f) => f.distanceInKm)
+  );
 }

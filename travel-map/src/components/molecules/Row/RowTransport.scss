@@ -1,17 +1,17 @@
 @use "../../../styles/variables.module" as v;
 @use "../../../styles/mixins" as m;
 
-.flight-row {
+.transport-row {
   display: flex;
   align-items: center;
   width: 100%;
   justify-content: space-between;
-  .flight-row__cities {
+  .transport-row__cities {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
     justify-content: center;
-    .flight-row__cities__city {
+    .transport-row__cities__city {
       display: flex;
       align-items: center;
       margin-block: 0;
@@ -23,22 +23,22 @@
         margin-right: 0.3rem;
       }
     }
-    .flight-row__icon {
+    .transport-row__icon {
       width: 1rem;
       height: 1rem;
       rotate: 90deg;
       margin-inline: 0.5rem;
     }
   }
-  .flight-row__distance {
+  .transport-row__distance {
     font-size: 1.1rem;
     font-weight: 800;
   }
 }
 
 .home--light {
-  .flight-row {
-    .flight-row__distance,
+  .transport-row {
+    .transport-row__distance,
     b,
     p {
       color: v.$darkLeftBar;
@@ -48,8 +48,8 @@
 }
 
 .home--dark {
-  .flight-row {
-    .flight-row__distance,
+  .transport-row {
+    .transport-row__distance,
     b,
     p {
       color: v.$lightLeftBar;
@@ -59,7 +59,7 @@
 }
 
 @media (max-width: 460px) {
-  .flight-row {
+  .transport-row {
     justify-content: center;
   }
 }

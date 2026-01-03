@@ -1,6 +1,11 @@
 import { JSX, useMemo } from "react";
 import "./InfoTabStats.scss";
-import { takenFlights, visitedCities, visitedCountries } from "@/data";
+import {
+  takenFerries,
+  takenFlights,
+  visitedCities,
+  visitedCountries,
+} from "@/data";
 import useLanguage from "@/hooks/language/language";
 import {
   Card,
@@ -8,7 +13,7 @@ import {
   Column,
   ContinentRow,
   CurrencyRow,
-  FlightRow,
+  TransportRow,
   Row,
   TimezoneRow,
 } from "../../../molecules";
@@ -18,7 +23,9 @@ import {
   CityIcon,
   ContinentsIcon,
   EarthFlatIcon,
+  FerryIcon,
   GlobeIcon,
+  MapIcon,
   MoonFlatIcon,
   TimezoneIcon,
   UnescoIcon,
@@ -26,12 +33,12 @@ import {
 import {
   ContinentsBarChart,
   FlightCompany,
-  FlightsDonutChart,
+  TransportsDonutChart,
   PopulationBarChart,
 } from "../../../atoms";
 import {
   getFurthestAndNearestCity,
-  getMinAndMaxFlight,
+  getMinAndMaxTransport,
   getTotalMileage,
 } from "@/utils/distance";
 import { Continent, FlightCompany as FlightCompanyCore } from "@/core";
@@ -44,7 +51,7 @@ import {
 } from "@/utils/timezone";
 import { getTotalMediaTaken } from "@/utils/cities";
 import { getCurrenciesFromCountries } from "@/utils/countries";
-import { keys, unique } from "remeda";
+import { unique } from "remeda";
 
 interface InfoTabStatsProps {
   className?: string;
@@ -74,63 +81,99 @@ export default function InfoTabStats({
     MOON_DISTANCE,
     TOTAL_COUNTRIES,
     TOTAL_UNESCO_SITES,
+    TOTAL_CONTINENTS,
   } = constants;
 
-  const visitedCountriesCount = visitedCountries.length;
+  const {
+    visitedCountriesCount,
+    furthestCity,
+    nearestCity,
+    maxFlight,
+    minFlight,
+    totalMileage,
+    totalMileageAroundEarth,
+    totalMileageToMoon,
+    visitedContinents,
+    allContinents,
+    continentCities,
+    cityBiggestTimezoneJump,
+    numberTimezonesJumped,
+    totalMediaTaken,
+    usedCurrencies,
+    numUnescoSites,
+    flightCompanies,
+    maxFerry,
+    minFerry,
+  } = useMemo(() => {
+    const visitedCountriesCount = visitedCountries.length;
 
-  const { furthest: furthestCity, nearest: nearestCity } = useMemo(() => {
-    return getFurthestAndNearestCity(visitedCities, parameters.birthCity);
-  }, []);
+    const { furthest: furthestCity, nearest: nearestCity } =
+      getFurthestAndNearestCity(visitedCities, parameters.birthCity);
 
-  const { max: maxFlight, min: minFlight } = useMemo(() => {
-    return getMinAndMaxFlight(takenFlights);
-  }, []);
+    const { max: maxFlight, min: minFlight } =
+      getMinAndMaxTransport(takenFlights);
 
-  const totalMileage = useMemo(() => {
-    return getTotalMileage(takenFlights);
-  }, []);
+    const { max: maxFerry, min: minFerry } =
+      getMinAndMaxTransport(takenFerries);
 
-  const visitedContinents = useMemo(() => {
-    return getContinentsByCities(visitedCities);
-  }, []);
+    const totalMileage = getTotalMileage(takenFlights, takenFerries);
+    const totalMileageAroundEarth = (
+      Number(totalMileage) / EARTH_CIRCUMFERENCE
+    ).toFixed(2);
+    const totalMileageToMoon = (Number(totalMileage) / MOON_DISTANCE).toFixed(
+      2
+    );
 
-  const continentCities = useMemo(() => {
-    return Object.values(Continent)
+    const visitedContinents = getContinentsByCities(visitedCities);
+
+    const allContinents = Object.values(Continent).filter(
+      (v): v is Continent => typeof v === "string"
+    );
+
+    const continentCities = allContinents
       .map((c) => getContinentStats(c, visitedCities, visitedCountries))
       .sort((a, b) => b.countries - a.countries);
-  }, []);
 
-  const cityBiggestTimezoneJump = useMemo(() => {
-    return getCityBiggestTimezoneJump(visitedCities);
-  }, []);
+    const cityBiggestTimezoneJump = getCityBiggestTimezoneJump(visitedCities);
+    const numberTimezonesJumped = getNumberOfTimezonesJumped(visitedCities);
 
-  const numberTimezonesJumped = useMemo(() => {
-    return getNumberOfTimezonesJumped(visitedCities);
-  }, []);
+    const totalMediaTaken = getTotalMediaTaken(visitedCities);
+    const usedCurrencies = getCurrenciesFromCountries(visitedCountries);
 
-  const totalMediaTaken = useMemo(() => {
-    return getTotalMediaTaken(visitedCities);
-  }, []);
-
-  const usedCurrencies = useMemo(() => {
-    return getCurrenciesFromCountries(visitedCountries);
-  }, []);
-
-  const numUnescoSites = useMemo(() => {
-    return keys(parameters.stats.unescoSites).reduce(
-      (acc, country) => acc + parameters.stats.unescoSites[country].length,
-      0,
+    const numUnescoSites = Object.values(parameters.stats.unescoSites).reduce(
+      (acc, sites) => acc + sites.length,
+      0
     );
-  }, []);
 
-  const flightCompanies = useMemo(() => {
-    return [
+    const flightCompanies = unique([
       FlightCompanyCore.AIR_ONE,
       FlightCompanyCore.ALITALIA,
       FlightCompanyCore.VOLOTEA,
-      ...unique(takenFlights.map((f) => f.company)),
-    ];
-  }, []);
+      ...takenFlights.map((f) => f.company),
+    ]);
+
+    return {
+      visitedCountriesCount,
+      furthestCity,
+      nearestCity,
+      maxFlight,
+      minFlight,
+      maxFerry,
+      minFerry,
+      totalMileage,
+      totalMileageAroundEarth,
+      totalMileageToMoon,
+      visitedContinents,
+      allContinents,
+      continentCities,
+      cityBiggestTimezoneJump,
+      numberTimezonesJumped,
+      totalMediaTaken,
+      usedCurrencies,
+      numUnescoSites,
+      flightCompanies,
+    };
+  }, [EARTH_CIRCUMFERENCE, MOON_DISTANCE]);
 
   return (
     <div
@@ -141,8 +184,16 @@ export default function InfoTabStats({
       </div>
       <div className="info-tab-stats__content" id="info-tab">
         <Row className="info-tab-stats__cards row--wrap">
+          <Card className="info-tab-stats__card__continents card--box-shadow">
+            <GlobeIcon className="info-tab-stats__card__continents__icon" />
+            <p>{t("stats.continents")}</p>
+            <span>
+              <b>{visitedContinents.length}</b>
+              <p>{`  / ${TOTAL_CONTINENTS}`}</p>
+            </span>
+          </Card>
           <Card className="info-tab-stats__card__countries card--box-shadow">
-            <GlobeIcon className="info-tab-stats__card__countries__icon" />
+            <MapIcon className="info-tab-stats__card__countries__icon" />
             <p>{t("stats.countries")}</p>
             <span>
               <b>{visitedCountriesCount}</b>
@@ -153,11 +204,6 @@ export default function InfoTabStats({
             <CityIcon className="info-tab-stats__card__cities__icon" />
             <p>{t("stats.cities")}</p>
             <b>{visitedCities.length}</b>
-          </Card>
-          <Card className="info-tab-stats__card__flights card--box-shadow">
-            <AirportIcon className="info-tab-stats__card__flights__icon" />
-            <p>{t("stats.flights")}</p>
-            <b>{takenFlights.length}</b>
           </Card>
         </Row>
         <Card className="info-tab-stats__card info-tab-stats__card--mileage card--box-shadow">
@@ -170,14 +216,12 @@ export default function InfoTabStats({
             <Row className="info-tab-stats__card__main__mileage-planets">
               <Column className="info-tab-stats__card__main__mileage-planets--earth">
                 <EarthFlatIcon className="info-tab-stats__card__main__mileage-planets__earth-icon" />
-                <b>
-                  {(Number(totalMileage) / EARTH_CIRCUMFERENCE).toFixed(2)}x
-                </b>
+                <b>{totalMileageAroundEarth}x</b>
                 <p>{t("stats.aroundEarth")}</p>
               </Column>
               <Column className="info-tab-stats__card__main__mileage-planets--moon">
                 <MoonFlatIcon className="info-tab-stats__card__main__mileage-planets__moon-icon" />
-                <b>{(Number(totalMileage) / MOON_DISTANCE).toFixed(2)}x</b>
+                <b>{totalMileageToMoon}x</b>
                 <p>{t("stats.toMoon")}</p>
               </Column>
             </Row>
@@ -195,50 +239,66 @@ export default function InfoTabStats({
             <CityRow eCity={nearestCity} />
           </Column>
         </Card>
-        <Card className="info-tab-stats__card info-tab-stats__card--population card--box-shadow">
-          <Column className="info-tab-stats__card__main">
-            <h2 className="cities__title">{t("stats.population")}</h2>
-            <p className="info-tab-stats__card__row__title">
-              {t("stats.populationTop10")}
-            </p>
-            <PopulationBarChart data={visitedCities} />
-          </Column>
-        </Card>
         <Row className="info-tab-stats__cards row--wrap">
-          <Card className="info-tab-stats__card__unesco card--box-shadow">
-            <UnescoIcon className="info-tab-stats__card__unesco__icon" />
-            <p>{t("stats.unesco")}</p>
-            <span>
-              <b>{numUnescoSites}</b>
-              <p>{`/ ${TOTAL_UNESCO_SITES}`}</p>
-            </span>
+          <Card className="info-tab-stats__card__flights card--box-shadow">
+            <AirportIcon className="info-tab-stats__card__flights__icon" />
+            <p>{t("stats.flights")}</p>
+            <b>{takenFlights.length}</b>
+          </Card>
+          <Card className="info-tab-stats__card__ferries card--box-shadow">
+            <FerryIcon className="info-tab-stats__card__ferries__icon" />
+            <p>{t("stats.ferries")}</p>
+            <b>{takenFerries.length}</b>
           </Card>
           <Card className="info-tab-stats__card__timezone-jumped card--box-shadow">
             <TimezoneIcon className="info-tab-stats__card__timezone-jumped__icon" />
             <p>{t("stats.timezoneJumped")}</p>
             <b>{numberTimezonesJumped}</b>
           </Card>
-          <Card className="info-tab-stats__card__media card--box-shadow">
-            <CameraIcon className="info-tab-stats__card__media__icon" />
-            <p>{t("stats.media")}</p>
-            <b>{totalMediaTaken.toLocaleString(currLanguage)}</b>
-          </Card>
         </Row>
-        <Card className="info-tab-stats__card info-tab-stats__card--currency card--box-shadow">
-          <Column className="info-tab-stats__card__main">
-            <h2 className="cities__title">{t("stats.currency")}</h2>
-            <Row className="info-tab-stats__card__currencies row--wrap">
-              {usedCurrencies.map((currency) => (
-                <CurrencyRow currency={currency} key={currency} />
-              ))}
-            </Row>
-          </Column>
-        </Card>
         <Card className="info-tab-stats__card info-tab-stats__card--flights card--box-shadow">
           <Column className="info-tab-stats__card__main">
-            <h2>{t("stats.flights")}</h2>
-            <FlightsDonutChart takenFlights={takenFlights} />
+            <h2>{t("stats.transport")}</h2>
+            <TransportsDonutChart
+              takenFerries={takenFerries}
+              takenFlights={takenFlights}
+            />
           </Column>
+          <Column className="info-tab-stats__card__row">
+            <p className="info-tab-stats__card__row__title">
+              {t("stats.longestFlight")}
+            </p>
+            <TransportRow transport={maxFlight} />
+          </Column>
+          <Column className="info-tab-stats__card__row">
+            <p className="info-tab-stats__card__row__title">
+              {t("stats.shortestFlight")}
+            </p>
+            <TransportRow transport={minFlight} />
+          </Column>
+          <Column className="info-tab-stats__card__row">
+            <p className="info-tab-stats__card__row__title">
+              {t("stats.longestFerry")}
+            </p>
+            <TransportRow transport={maxFerry} />
+          </Column>
+          <Column className="info-tab-stats__card__row">
+            <p className="info-tab-stats__card__row__title">
+              {t("stats.shortestFerry")}
+            </p>
+            <TransportRow transport={minFerry} />
+          </Column>
+          {cityBiggestTimezoneJump ? (
+            <Column className="info-tab-stats__card__row">
+              <p className="info-tab-stats__card__row__title">
+                {t("stats.biggestTimezoneJump")}
+              </p>
+              <TimezoneRow
+                eCity={cityBiggestTimezoneJump}
+                sCity={parameters.birthCity}
+              />
+            </Column>
+          ) : null}
           <Column className="info-tab-stats__card__row">
             <p className="info-tab-stats__card__row__title">
               {t("stats.flightCompaniesTaken")}
@@ -253,34 +313,44 @@ export default function InfoTabStats({
               ))}
             </Row>
           </Column>
-          <Column className="info-tab-stats__card__row">
+        </Card>
+        <Row className="info-tab-stats__cards row--wrap">
+          <Card className="info-tab-stats__card__unesco card--box-shadow">
+            <UnescoIcon className="info-tab-stats__card__unesco__icon" />
+            <p>{t("stats.unesco")}</p>
+            <span>
+              <b>{numUnescoSites}</b>
+              <p>{`/ ${TOTAL_UNESCO_SITES}`}</p>
+            </span>
+          </Card>
+          <Card className="info-tab-stats__card__media card--box-shadow">
+            <CameraIcon className="info-tab-stats__card__media__icon" />
+            <p>{t("stats.media")}</p>
+            <b>{totalMediaTaken.toLocaleString(currLanguage)}</b>
+          </Card>
+        </Row>
+        <Card className="info-tab-stats__card info-tab-stats__card--population card--box-shadow">
+          <Column className="info-tab-stats__card__main">
+            <h2 className="cities__title">{t("stats.population")}</h2>
             <p className="info-tab-stats__card__row__title">
-              {t("stats.firstFlight")}
+              {t("stats.populationTop10")}
             </p>
-            <FlightRow flight={takenFlights[0]} />
+            <PopulationBarChart data={visitedCities} />
           </Column>
-          <Column className="info-tab-stats__card__row">
-            <p className="info-tab-stats__card__row__title">
-              {t("stats.lastFlight")}
-            </p>
-            <FlightRow flight={takenFlights[takenFlights.length - 1]} />
-          </Column>
-          <Column className="info-tab-stats__card__row">
-            <p className="info-tab-stats__card__row__title">
-              {t("stats.longestFlight")}
-            </p>
-            <FlightRow flight={maxFlight} />
-          </Column>
-          <Column className="info-tab-stats__card__row">
-            <p className="info-tab-stats__card__row__title">
-              {t("stats.shortestFlight")}
-            </p>
-            <FlightRow flight={minFlight} />
+        </Card>
+        <Card className="info-tab-stats__card info-tab-stats__card--currency card--box-shadow">
+          <Column className="info-tab-stats__card__main">
+            <h2 className="cities__title">{t("stats.currency")}</h2>
+            <Row className="info-tab-stats__card__currencies row--wrap">
+              {usedCurrencies.map((currency) => (
+                <CurrencyRow currency={currency} key={currency} />
+              ))}
+            </Row>
           </Column>
         </Card>
         <Card className="info-tab-stats__card info-tab-stats__card--continents card--box-shadow">
           <Column className="info-tab-stats__card__main">
-            <h2 className="continents__title">{t("stats.continents")}</h2>
+            <h2 className="continents__title">{t("stats.coverage")}</h2>
             <ContinentsIcon
               className={`continents__icon
             ${visitedContinents.includes(Continent.AFRICA) ? "" : "africa--not-visited"}
@@ -292,26 +362,16 @@ export default function InfoTabStats({
             `}
             />
             <Row className="row--wrap row--center continents__wrap">
-              {Object.keys(Continent).map((continent) => (
+              {allContinents.map((continent) => (
                 <ContinentRow
-                  continent={continent as Continent}
-                  isVisited={visitedContinents.includes(
-                    Continent[continent as keyof typeof Continent],
-                  )}
+                  continent={continent}
+                  isVisited={visitedContinents.includes(continent)}
                   key={continent}
                 />
               ))}
             </Row>
           </Column>
-          <Column className="info-tab-stats__card__row">
-            <p className="info-tab-stats__card__row__title">
-              {t("stats.biggestTimezoneJump")}
-            </p>
-            <TimezoneRow
-              eCity={cityBiggestTimezoneJump!}
-              sCity={parameters.birthCity}
-            />
-          </Column>
+
           <Column className="info-tab-stats__card__row">
             <ContinentsBarChart data={continentCities} />
           </Column>
