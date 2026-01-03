@@ -51,7 +51,7 @@ export function installChunkRecoveryHandlers(): void {
       if (isLikelyDynamicImportFailure(message)) {
         reloadOnceWithCacheBusting();
       }
-    }
+    },
   );
 
   window.addEventListener("error", (event: Event) => {

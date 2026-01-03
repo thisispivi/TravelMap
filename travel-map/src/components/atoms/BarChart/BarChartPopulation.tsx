@@ -49,7 +49,7 @@ export default function PopulationBarChart({
     return pipe(
       data,
       filter((city) => city.population !== undefined),
-      sortBy((city) => -city.population!)
+      sortBy((city) => -city.population!),
     ).slice(0, numToShow);
   }, [data, numToShow]);
 
@@ -64,7 +64,7 @@ export default function PopulationBarChart({
   const maxValue = useMemo(() => {
     const maxPopulation = topCities.reduce(
       (acc, city) => Math.max(acc, city.population ?? 0),
-      0
+      0,
     );
     return maxPopulation * 1.5;
   }, [topCities]);

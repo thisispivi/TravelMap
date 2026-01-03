@@ -12,7 +12,7 @@ import { Ferry } from "@/core/classes/Ferry";
  */
 export function haversineDistance(
   start: { lat: number; lon: number },
-  end: { lat: number; lon: number }
+  end: { lat: number; lon: number },
 ): number {
   const RADIUS_EARTH_KM = 6371;
 
@@ -41,7 +41,7 @@ export function haversineDistance(
 export function getCitiesDistance(start: City, end: City): number {
   return haversineDistance(
     start.getCoordinatesAsLatLon(),
-    end.getCoordinatesAsLatLon()
+    end.getCoordinatesAsLatLon(),
   );
 }
 
@@ -53,7 +53,7 @@ export function getCitiesDistance(start: City, end: City): number {
  */
 export function getFurthestAndNearestCity(
   cities: City[],
-  referenceCity: City
+  referenceCity: City,
 ): { furthest: City; nearest: City } {
   const distances = cities.map((city) => ({
     distance: getCitiesDistance(city, referenceCity),
@@ -74,7 +74,7 @@ type TransportWithDistance = { distanceInKm: number };
  * @returns {{ min: T; max: T }} - The minimum and maximum transports
  */
 export function getMinAndMaxTransport<T extends TransportWithDistance>(
-  transports: T[]
+  transports: T[],
 ): { min: T; max: T } {
   if (transports.length === 0)
     throw new Error("getMinAndMaxTransport: transports must not be empty");
@@ -93,7 +93,7 @@ export function getMinAndMaxTransport<T extends TransportWithDistance>(
  */
 export function getTotalMileage(
   takenFlights: Flight[],
-  takenFerries: Ferry[]
+  takenFerries: Ferry[],
 ): number {
   return (
     sumBy(takenFlights, (f) => f.distanceInKm) +

@@ -14,7 +14,7 @@ export enum TravelType {
  */
 export function getTravelTypeByStartAndEndCity(
   sCity: City,
-  eCity: City
+  eCity: City,
 ): TravelType {
   const isIntercontinental =
     sCity.country.continent !== eCity.country.continent;

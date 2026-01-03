@@ -111,21 +111,21 @@ export default function Map() {
     () =>
       Object.fromEntries(
         visitedCountries.map(
-          (country) => [country.id, country.fillColor] as const
-        )
+          (country) => [country.id, country.fillColor] as const,
+        ),
       ),
-    []
+    [],
   );
 
   const getCountryFillColor = useCallback(
     (countryId: string) =>
       visitedCountryFill[countryId] ??
       (isDarkTheme ? DEFAULT_COUNTRY_FILL_DARK : DEFAULT_COUNTRY_FILL_LIGHT),
-    [isDarkTheme, visitedCountryFill]
+    [isDarkTheme, visitedCountryFill],
   );
 
   const sortedVisitedCities = [...visitedCities].sort(
-    sortByLatitudeAndLongitude
+    sortByLatitudeAndLongitude,
   );
 
   const sortedFutureCities = [...futureCities].sort(sortByLatitudeAndLongitude);
@@ -143,7 +143,7 @@ export default function Map() {
         zoom: position.zoom,
       });
     },
-    [setMapPosition]
+    [setMapPosition],
   );
 
   const renderMarkers = useCallback(
@@ -157,7 +157,7 @@ export default function Map() {
           {...flags}
         />
       )),
-    [hoveredCity, setHoveredCity]
+    [hoveredCity, setHoveredCity],
   );
 
   const tooltipAnchorSelect = useMemo(() => {
