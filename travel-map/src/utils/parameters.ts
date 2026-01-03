@@ -1,6 +1,7 @@
 import { Muravera } from "../data/Italy/Muravera/Muravera";
 
 export const constants = {
+  TOTAL_CONTINENTS: 7,
   TOTAL_COUNTRIES: 195,
   TOTAL_UNESCO_SITES: 1248,
   EARTH_CIRCUMFERENCE: 40075,

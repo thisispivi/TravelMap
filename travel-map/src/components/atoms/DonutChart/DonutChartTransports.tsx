@@ -2,55 +2,83 @@ import { lazy, JSX, useMemo } from "react";
 import { Flight } from "@/core";
 import useLanguage from "@/hooks/language/language";
 import variables from "@/styles/_variables.module.scss";
-import "./DonutChartFlights.scss";
+import "./DonutChartTransports.scss";
+import { TravelType } from "@/core/typings/Travel";
+import { Ferry } from "@/core/classes/Ferry";
 const ReactApexChart = lazy(() => import("react-apexcharts"));
 
-interface FlightsDonutChartProps {
+interface TransportsDonutChartProps {
   takenFlights: Flight[];
+  takenFerries: Ferry[];
 }
 
 /**
- * Donut chart showing the distribution of the user's flights by type.
- * @param {FlightsDonutChartProps} props - Component props.
+ * Donut chart showing the distribution of the transport types of taken transports.
+ * @param {TransportsDonutChartProps} props - Component props.
  * @param {Flight[]} props.takenFlights - The user's taken flights.
+ * @param {Ferry[]} props.takenFerries - The user's taken ferries.
  * @returns {JSX.Element} The donut chart.
  */
-export default function FlightsDonutChart({
+export default function TransportsDonutChart({
   takenFlights,
-}: FlightsDonutChartProps): JSX.Element {
+  takenFerries,
+}: TransportsDonutChartProps): JSX.Element {
   const { t } = useLanguage(["home"]);
 
   const { numNationalFlights, numInternationalFlights, numIntercontinental } =
     useMemo(() => {
       return takenFlights.reduce(
         (acc, flight) => {
-          if (flight.isIntercontinental) acc.numIntercontinental += 1;
-          else if (flight.isInternational) acc.numInternationalFlights += 1;
-          else if (flight.isNational) acc.numNationalFlights += 1;
+          if (flight.travelType === TravelType.INTERCONTINENTAL)
+            acc.numIntercontinental += 1;
+          else if (flight.travelType === TravelType.INTERNATIONAL)
+            acc.numInternationalFlights += 1;
+          else if (flight.travelType === TravelType.NATIONAL)
+            acc.numNationalFlights += 1;
           return acc;
         },
         {
           numNationalFlights: 0,
           numInternationalFlights: 0,
           numIntercontinental: 0,
-        },
+        }
       );
     }, [takenFlights]);
 
-  const totalFlights =
-    numNationalFlights + numInternationalFlights + numIntercontinental;
+  const numFerries = useMemo(() => takenFerries.length, [takenFerries]);
+
+  const totalTransports =
+    numNationalFlights +
+    numInternationalFlights +
+    numIntercontinental +
+    numFerries;
 
   const series = useMemo(() => {
-    return [numNationalFlights, numInternationalFlights, numIntercontinental];
-  }, [numNationalFlights, numInternationalFlights, numIntercontinental]);
+    return [
+      numNationalFlights,
+      numInternationalFlights,
+      numIntercontinental,
+      numFerries,
+    ];
+  }, [
+    numNationalFlights,
+    numInternationalFlights,
+    numIntercontinental,
+    numFerries,
+  ]);
 
   const labels = useMemo(() => {
     return [
       t("stats.national"),
       t("stats.international"),
       t("stats.intercontinental"),
+      t("stats.ferries"),
     ];
   }, [t]);
+
+  const enabledOnSeries = useMemo(() => {
+    return series.map((_, idx) => idx);
+  }, [series]);
 
   const options = useMemo(() => {
     return {
@@ -71,7 +99,7 @@ export default function FlightsDonutChart({
         enabled: false,
         style: {
           fontSize: "1em",
-          fontFamily: "Urbanist",
+          fontFamily: "Urbanist, Arial, Helvetica, sans-serif",
           fontWeight: 700,
           colors: [variables.darkButtonContent],
         },
@@ -81,7 +109,7 @@ export default function FlightsDonutChart({
         pie: {
           expandOnClick: false,
           donut: {
-            size: "72.5%",
+            size: "67.5%",
             labels: {
               show: true,
               value: {
@@ -98,7 +126,7 @@ export default function FlightsDonutChart({
                 fontWeight: 300,
                 fontSize: "1em",
                 formatter: function () {
-                  return `${totalFlights}`;
+                  return `${totalTransports}`;
                 },
                 showAlways: true,
               },
@@ -134,11 +162,11 @@ export default function FlightsDonutChart({
           fontWeight: 700,
           colors: [variables.darkButtonContent],
         },
-        enabledOnSeries: [0, 1, 2],
+        enabledOnSeries,
       },
-      colors: ["#107895", "#c02e1d", "#79a14e"],
+      colors: ["#107895", "#c02e1d", "#79a14e", "#bb8e23"],
     } as ApexCharts.ApexOptions;
-  }, [labels, t, totalFlights]);
+  }, [enabledOnSeries, labels, t, totalTransports]);
 
   return (
     <div className="flights-donut-chart">

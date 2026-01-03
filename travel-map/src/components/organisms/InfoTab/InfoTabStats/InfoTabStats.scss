@@ -64,12 +64,13 @@
         flex-direction: column;
         flex: 1;
         min-height: 7.125rem;
+        min-width: 7.125rem;
         svg {
           $size: 1.25rem;
           width: $size;
           height: $size;
         }
-        .info-tab-stats__card__countries__icon {
+        .info-tab-stats__card__continents__icon {
           stroke-width: 0;
           path {
             @include m.transition(fill, 0.3s, ease-in-out);
@@ -80,7 +81,9 @@
             @include m.transition(stroke, 0.3s, ease-in-out);
           }
         }
+        .info-tab-stats__card__countries__icon,
         .info-tab-stats__card__flights__icon,
+        .info-tab-stats__card__ferries__icon,
         .info-tab-stats__card__media__icon,
         .info-tab-stats__card__timezone-jumped__icon,
         .info-tab-stats__card__unesco__icon {
@@ -309,12 +312,18 @@
             stroke: v.$darkLeftBar;
           }
         }
-        .info-tab-stats__card__countries__icon,
+        .info-tab-stats__card__continents__icon,
         .info-tab-stats__card__flights__icon,
+        .info-tab-stats__card__ferries__icon,
         .info-tab-stats__card__timezone-jumped__icon,
         .info-tab-stats__card__unesco__icon {
           path {
             fill: v.$darkLeftBar;
+          }
+        }
+        .info-tab-stats__card__ferries__icon {
+          path {
+            stroke: transparent;
           }
         }
       }
@@ -348,12 +357,18 @@
             stroke: v.$lightLeftBar;
           }
         }
-        .info-tab-stats__card__countries__icon,
+        .info-tab-stats__card__continents__icon,
         .info-tab-stats__card__flights__icon,
+        .info-tab-stats__card__ferries__icon,
         .info-tab-stats__card__timezone-jumped__icon,
         .info-tab-stats__card__unesco__icon {
           path {
             fill: v.$lightLeftBar;
+          }
+        }
+        .info-tab-stats__card__ferries__icon {
+          path {
+            stroke: transparent;
           }
         }
       }

@@ -8,11 +8,11 @@ import {
 import { City } from "@/core";
 import { HomeContext } from "../../pages/Home/Home";
 import {
-  JSX,
   useCallback,
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 import { Loading, Marker } from "../../atoms";
@@ -44,6 +44,17 @@ const sortByLatitudeAndLongitude = (a: City, b: City) => {
           : 0;
 };
 
+const DEFAULT_COUNTRY_FILL_DARK = "#1a1a1a";
+const DEFAULT_COUNTRY_FILL_LIGHT = "#dadada";
+
+const GEO_STYLE = {
+  default: { outline: "none" },
+  hover: { outline: "none" },
+  pressed: { outline: "none" },
+} as const;
+
+const PROJECTION_CONFIG = { scale: 160 } as const;
+
 function GeographyLayer({
   geographies,
   getCountryFillColor,
@@ -52,9 +63,14 @@ function GeographyLayer({
   geographies: Array<{ properties: { name: string }; rsmKey: string }>;
   getCountryFillColor: (countryId: string) => string;
   onLoaded: () => void;
-}): JSX.Element {
+}) {
+  const didNotifyLoadedRef = useRef(false);
+
   useEffect(() => {
-    if (geographies.length > 0) onLoaded();
+    if (!didNotifyLoadedRef.current && geographies.length > 0) {
+      didNotifyLoadedRef.current = true;
+      onLoaded();
+    }
   }, [geographies.length, onLoaded]);
 
   return (
@@ -65,11 +81,7 @@ function GeographyLayer({
           geography={geo}
           key={geo.rsmKey}
           strokeWidth={0}
-          style={{
-            default: { outline: "none" },
-            hover: { outline: "none" },
-            pressed: { outline: "none" },
-          }}
+          style={GEO_STYLE}
         />
       ))}
     </>
@@ -82,7 +94,7 @@ function GeographyLayer({
  * Data is imported from `@/data` so it can be code-split together with the
  * lazy-loaded map chunk.
  */
-export default function Map(): JSX.Element {
+export default function Map() {
   const context = useContext(HomeContext);
   const {
     isDarkTheme,
@@ -95,57 +107,86 @@ export default function Map(): JSX.Element {
 
   const [isLoaded, setIsLoaded] = useState(false);
 
-  const visitedCountryFill = useMemo(() => {
-    return new globalThis.Map<string, string>(
-      visitedCountries.map((country) => [country.id, country.fillColor]),
-    );
-  }, []);
-
-  const getCountryFillColor = useCallback(
-    (countryId: string) => {
-      const fill = visitedCountryFill.get(countryId);
-      if (fill) return fill;
-      return isDarkTheme ? "#1a1a1a" : "#dadada";
-    },
-    [isDarkTheme, visitedCountryFill],
+  const visitedCountryFill = useMemo<Record<string, string>>(
+    () =>
+      Object.fromEntries(
+        visitedCountries.map(
+          (country) => [country.id, country.fillColor] as const
+        )
+      ),
+    []
   );
 
-  const sortedVisitedCities = useMemo(() => {
-    return [...visitedCities].sort(sortByLatitudeAndLongitude);
-  }, []);
+  const getCountryFillColor = useCallback(
+    (countryId: string) =>
+      visitedCountryFill[countryId] ??
+      (isDarkTheme ? DEFAULT_COUNTRY_FILL_DARK : DEFAULT_COUNTRY_FILL_LIGHT),
+    [isDarkTheme, visitedCountryFill]
+  );
 
-  const sortedFutureCities = useMemo(() => {
-    return [...futureCities].sort(sortByLatitudeAndLongitude);
-  }, []);
+  const sortedVisitedCities = [...visitedCities].sort(
+    sortByLatitudeAndLongitude
+  );
+
+  const sortedFutureCities = [...futureCities].sort(sortByLatitudeAndLongitude);
+
+  const sortedLivedCities = [...livedCities].sort(sortByLatitudeAndLongitude);
 
   const handleWorldLoaded = useCallback(() => {
     setIsLoaded(true);
   }, []);
 
+  const handleMoveEnd = useCallback(
+    (position: { coordinates: [number, number]; zoom: number }) => {
+      setMapPosition({
+        center: position.coordinates,
+        zoom: position.zoom,
+      });
+    },
+    [setMapPosition]
+  );
+
+  const renderMarkers = useCallback(
+    (cities: City[], flags?: { isFuture?: boolean; isLived?: boolean }) =>
+      cities.map((city) => (
+        <Marker
+          city={city}
+          hoveredCity={hoveredCity}
+          key={city.name}
+          setHoveredCity={setHoveredCity}
+          {...flags}
+        />
+      )),
+    [hoveredCity, setHoveredCity]
+  );
+
+  const tooltipAnchorSelect = useMemo(() => {
+    if (!hoveredCity) return "";
+    return `#${CSS.escape(`${hoveredCity.name}-marker`)}`;
+  }, [hoveredCity]);
+
+  const windowProps = responsive.window;
+
   return (
-    <div className="map-container" style={{ ...responsive.window }}>
+    <div className="map-container" style={windowProps}>
       {!isLoaded ? (
-        <div className="loading" style={{ ...responsive.window }}>
+        <div className="loading" style={windowProps}>
           <Loading />
         </div>
       ) : null}
+
       <ComposableMap
         className="map"
         data-tip=""
         projection="geoMercator"
-        projectionConfig={{ scale: 160 }}
-        {...responsive.window}
+        projectionConfig={PROJECTION_CONFIG}
+        {...windowProps}
       >
         <ZoomableGroup
           center={mapPosition.center}
           maxZoom={parameters.map.defaultMaxZoom}
           minZoom={parameters.map.defaultMinZoom}
-          onMoveEnd={(position) =>
-            setMapPosition({
-              center: position.coordinates,
-              zoom: position.zoom,
-            })
-          }
+          onMoveEnd={handleMoveEnd}
           zoom={mapPosition.zoom}
         >
           <Geographies geography={worldDataUrl}>
@@ -159,45 +200,22 @@ export default function Map(): JSX.Element {
               ) : null
             }
           </Geographies>
-          {isLoaded
-            ? sortedVisitedCities.map((city) => (
-                <Marker
-                  city={city}
-                  hoveredCity={hoveredCity}
-                  key={city.name}
-                  setHoveredCity={setHoveredCity}
-                />
-              ))
-            : null}
-          {isLoaded
-            ? sortedFutureCities.map((city) => (
-                <Marker
-                  city={city}
-                  hoveredCity={hoveredCity}
-                  isFuture
-                  key={city.name}
-                  setHoveredCity={setHoveredCity}
-                />
-              ))
-            : null}
-          {isLoaded
-            ? livedCities.map((city) => (
-                <Marker
-                  city={city}
-                  hoveredCity={hoveredCity}
-                  isLived
-                  key={city.name}
-                  setHoveredCity={setHoveredCity}
-                />
-              ))
-            : null}
+
+          {isLoaded ? (
+            <>
+              {renderMarkers(sortedVisitedCities)}
+              {renderMarkers(sortedFutureCities, { isFuture: true })}
+              {renderMarkers(sortedLivedCities, { isLived: true })}
+            </>
+          ) : null}
         </ZoomableGroup>
       </ComposableMap>
+
       <Tooltip
-        anchorSelect={`#${hoveredCity?.name}-marker`}
+        anchorSelect={tooltipAnchorSelect}
         clickable
         id="map-tooltip"
-        isOpen={hoveredCity !== null}
+        isOpen={!!hoveredCity}
         noArrow
         opacity={1}
         variant="light"
@@ -207,8 +225,8 @@ export default function Map(): JSX.Element {
             city={hoveredCity}
             onMouseEnter={(city: City) => setHoveredCity(city)}
             onMouseLeave={() => setHoveredCity(null)}
-            setIsOpen={(isOpen: boolean) =>
-              isOpen ? setHoveredCity(hoveredCity) : setHoveredCity(null)
+            setIsOpen={(open: boolean) =>
+              open ? setHoveredCity(hoveredCity) : setHoveredCity(null)
             }
           />
         ) : null}

@@ -11,6 +11,7 @@ import DepartureIcon from "./icons/Departure.svg?react";
 import DistanceIcon from "./icons/Distance.svg?react";
 import DoubleChevronIcon from "./icons/DoubleChevron.svg?react";
 import EarthFlatIcon from "./icons/EarthFlat.svg?react";
+import FerryIcon from "./icons/Ferry.svg?react";
 import FilterIcon from "./icons/Filter.svg?react";
 import FullscreenEnterIcon from "./icons/FullscreenEnter.svg?react";
 import FullscreenExitIcon from "./icons/FullscreenExit.svg?react";
@@ -33,6 +34,7 @@ import SunIcon from "./icons/Sun.svg?react";
 import TimezoneIcon from "./icons/Timezone.svg?react";
 import UnescoIcon from "./icons/Unesco.svg?react";
 import VisitedIcon from "./icons/Visited.svg?react";
+import MapIcon from "./icons/Map.svg?react";
 
 export {
   AirportIcon,
@@ -48,6 +50,7 @@ export {
   DistanceIcon,
   DoubleChevronIcon,
   EarthFlatIcon,
+  FerryIcon,
   FilterIcon,
   FullscreenEnterIcon,
   FullscreenExitIcon,
@@ -57,6 +60,7 @@ export {
   HomeIcon,
   LanguageIcon,
   LogoIcon,
+  MapIcon,
   MarkerBWIcon,
   MarkerIcon,
   MoonFlatIcon,
