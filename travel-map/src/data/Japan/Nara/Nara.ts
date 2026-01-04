@@ -16,5 +16,5 @@ export const Nara = new City({
   ],
   backgroundImgSources: ["/Japan/Nara/Nara.jpg"],
   population: 354833,
-  timezoneGMT: 9,
+  timeZone: "Asia/Tokyo",
 });

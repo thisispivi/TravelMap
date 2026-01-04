@@ -15,5 +15,5 @@ export const Fujikawaguchiko = new City({
   ],
   backgroundImgSources: ["/Japan/Fujikawaguchiko/Fujikawaguchiko.jpg"],
   population: 26542,
-  timezoneGMT: 9,
+  timeZone: "Asia/Tokyo",
 });

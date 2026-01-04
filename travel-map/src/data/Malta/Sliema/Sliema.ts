@@ -15,5 +15,5 @@ export const Sliema = new City({
   ],
   backgroundImgSources: ["/Malta/Sliema/Sliema.jpg"],
   population: 22591,
-  timezoneGMT: 2,
+  timeZone: "Europe/Malta",
 });

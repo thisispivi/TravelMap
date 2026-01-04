@@ -24,5 +24,5 @@ export const Cefalù = new City({
     "/Italy/Cefal%C3%B91/Cefal%C3%B91.jpg",
   ],
   population: 14407,
-  timezoneGMT: 2,
+  timeZone: "Europe/Rome",
 });

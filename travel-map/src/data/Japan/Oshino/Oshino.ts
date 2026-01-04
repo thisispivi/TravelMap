@@ -15,5 +15,5 @@ export const Oshino = new City({
   ],
   backgroundImgSources: ["/Japan/Oshino/Oshino.jpg"],
   population: 9817,
-  timezoneGMT: 9,
+  timeZone: "Asia/Tokyo",
 });

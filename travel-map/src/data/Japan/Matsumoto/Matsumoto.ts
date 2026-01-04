@@ -16,5 +16,5 @@ export const Matsumoto = new City({
   ],
   backgroundImgSources: ["/Japan/Matsumoto/Matsumoto.jpg"],
   population: 241337,
-  timezoneGMT: 9,
+  timeZone: "Asia/Tokyo",
 });

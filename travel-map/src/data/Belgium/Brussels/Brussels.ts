@@ -15,5 +15,5 @@ export const Brussels = new City({
   ],
   backgroundImgSources: ["/Belgium/Brussels/Brussels.jpg"],
   population: 196828,
-  timezoneGMT: 2,
+  timeZone: "Europe/Brussels",
 });

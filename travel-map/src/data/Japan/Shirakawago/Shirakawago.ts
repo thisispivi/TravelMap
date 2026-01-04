@@ -16,5 +16,5 @@ export const Shirakawago = new City({
   ],
   backgroundImgSources: ["/Japan/Shirakawa-go/Shirakawa-go.jpg"],
   population: 65665,
-  timezoneGMT: 9,
+  timeZone: "Asia/Tokyo",
 });

@@ -15,5 +15,5 @@ export const SanPawlIlBahar = new City({
   ],
   backgroundImgSources: ["/Malta/SanPawlIlBahar/SanPawlIlBahar.jpg"],
   population: 32042,
-  timezoneGMT: 2,
+  timeZone: "Europe/Malta",
 });

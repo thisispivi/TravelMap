@@ -15,5 +15,5 @@ export const Victoria = new City({
   ],
   backgroundImgSources: ["/Malta/Victoria/Victoria.jpg"],
   population: 5921,
-  timezoneGMT: 2,
+  timeZone: "Europe/Malta",
 });

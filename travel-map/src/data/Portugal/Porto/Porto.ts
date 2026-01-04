@@ -16,5 +16,5 @@ export const Porto = new City({
   ],
   backgroundImgSources: ["/Portugal/Porto/Porto.jpg"],
   population: 1334000,
-  timezoneGMT: 1,
+  timeZone: "Europe/Lisbon",
 });

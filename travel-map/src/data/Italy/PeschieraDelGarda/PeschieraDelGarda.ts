@@ -16,5 +16,5 @@ export const PeschieraDelGarda = new City({
   ],
   backgroundImgSources: ["/Italy/PeschieraDelGarda/PeschieraDelGarda.jpg"],
   population: 10999,
-  timezoneGMT: 2,
+  timeZone: "Europe/Rome",
 });

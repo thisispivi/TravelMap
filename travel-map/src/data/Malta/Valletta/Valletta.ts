@@ -24,5 +24,5 @@ export const Valletta = new City({
     "/Malta/Valletta1/Valletta1.jpg",
   ],
   population: 5876,
-  timezoneGMT: 2,
+  timeZone: "Europe/Malta",
 });

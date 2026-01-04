@@ -16,5 +16,5 @@ export const Osaka = new City({
   ],
   backgroundImgSources: ["/Japan/Osaka/Osaka.jpg"],
   population: 18967000,
-  timezoneGMT: 9,
+  timeZone: "Asia/Tokyo",
 });

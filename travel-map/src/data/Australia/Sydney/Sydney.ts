@@ -6,6 +6,7 @@ export const Sydney = new City({
   name: "Sydney",
   country: Australia,
   coordinates: [151.2093, -33.8688],
+  timeZone: "Australia/Sydney",
   travels: [
     new Travel({
       sDate: new Date(2025, 10, 18),
@@ -15,5 +16,4 @@ export const Sydney = new City({
   ],
   backgroundImgSources: ["/Australia/Sydney/Sydney.webp"],
   population: 5557233,
-  timezoneGMT: 11,
 });

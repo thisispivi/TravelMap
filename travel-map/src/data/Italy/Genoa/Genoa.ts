@@ -15,5 +15,5 @@ export const Genoa = new City({
   ],
   backgroundImgSources: ["/Italy/Genoa/Genoa.jpg"],
   population: 674000,
-  timezoneGMT: 2,
+  timeZone: "Europe/Rome",
 });

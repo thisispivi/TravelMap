@@ -15,5 +15,5 @@ export const Mdina = new City({
   ],
   backgroundImgSources: ["/Malta/Mdina/Mdina.jpg"],
   population: 278,
-  timezoneGMT: 2,
+  timeZone: "Europe/Malta",
 });

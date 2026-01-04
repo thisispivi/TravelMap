@@ -15,5 +15,5 @@ export const Barcelona = new City({
   ],
   backgroundImgSources: ["/Spain/Barcelona/Barcelona.jpg"],
   population: 5712000,
-  timezoneGMT: 2,
+  timeZone: "Europe/Madrid",
 });
