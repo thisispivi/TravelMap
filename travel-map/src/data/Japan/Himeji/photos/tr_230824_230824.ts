@@ -359,7 +359,7 @@ export const tr_230824_230824_images: Image[] = [
     height: 85,
   },
   {
-    original: "https://youtube.com/embed/-alVbYmN7KQ",
+    original: "-alVbYmN7KQ",
     alt: "Himeji - Kokoen garden 1 (23/08/2024)",
     thumbnail: "/Japan/Himeji/052t.webp",
     width: 16,
@@ -367,7 +367,7 @@ export const tr_230824_230824_images: Image[] = [
     youtube: true,
   },
   {
-    original: "https://youtube.com/embed/NxWvneZG8gM",
+    original: "NxWvneZG8gM",
     alt: "Himeji - Kokoen garden 2 (23/08/2024)",
     thumbnail: "/Japan/Himeji/053t.webp",
     width: 9,
@@ -438,7 +438,7 @@ export const tr_230824_230824_images: Image[] = [
     height: 3,
   },
   {
-    original: "https://youtube.com/embed/diGQVqnOZBc",
+    original: "diGQVqnOZBc",
     alt: "Himeji - Kokoen garden 3 (23/08/2024)",
     thumbnail: "/Japan/Himeji/063t.webp",
     width: 9,

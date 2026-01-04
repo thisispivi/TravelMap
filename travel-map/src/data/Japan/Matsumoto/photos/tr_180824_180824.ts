@@ -30,7 +30,7 @@ export const tr_180824_180824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/R2klWJRj2Zc",
+    original: "R2klWJRj2Zc",
     alt: "Matusmoto - School band (18/08/2024)",
     thumbnail: "/Japan/Matsumoto/005t.webp",
     width: 9,
@@ -38,7 +38,7 @@ export const tr_180824_180824_images: Image[] = [
     youtube: true,
   },
   {
-    original: "https://youtube.com/embed/xoG4vIM6iRc",
+    original: "xoG4vIM6iRc",
     alt: "Matusmoto - School band 2 (18/08/2024)",
     thumbnail: "/Japan/Matsumoto/006t.webp",
     width: 9,

@@ -114,7 +114,7 @@ export const tr_230824_230824_images: Image[] = [
     height: 1229,
   },
   {
-    original: "https://youtube.com/embed/XpqKPKQGJn4",
+    original: "XpqKPKQGJn4",
     alt: "Kobe - Chinatown (23/08/2024)",
     thumbnail: "/Japan/Kobe/017t.webp",
     width: 9,
@@ -346,7 +346,7 @@ export const tr_230824_230824_images: Image[] = [
     height: 64,
   },
   {
-    original: "https://youtube.com/embed/oDRQNzonnO0",
+    original: "oDRQNzonnO0",
     alt: "Kobe - Station (23/08/2024)",
     thumbnail: "/Japan/Kobe/050t.webp",
     width: 9,

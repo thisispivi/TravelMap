@@ -7,6 +7,7 @@ from lib.utils import setup_paths
 from lib.image import TravelImage
 from lib.sort import sort_images_by_index_in_filename
 from lib.export import export_json
+from lib.video import is_video, TravelVideo
 
 
 if __name__ == "__main__":
@@ -42,13 +43,24 @@ if __name__ == "__main__":
         for filename in os.listdir(city_folder_path):
             print("\n")
             logger.info("Progress: %d/%d", len(images_info) + 1, len(files))
-            travel_image = TravelImage(
-                filename,
-                args,
-                city_folder_path,
-                results_city_folder_path,
-            )
-            images_info.append(travel_image.run(logger))
+            if is_video(filename):
+                travel_video = TravelVideo(
+                    filename,
+                    args,
+                    city_folder_path,
+                    results_city_folder_path,
+                )
+                video_info = travel_video.run(logger)
+                if video_info:
+                    images_info.append(video_info)
+            else:
+                travel_image = TravelImage(
+                    filename,
+                    args,
+                    city_folder_path,
+                    results_city_folder_path,
+                )
+                images_info.append(travel_image.run(logger))
 
         sorted_images = sort_images_by_index_in_filename(images_info)
         export_json(sorted_images, root_path, city)

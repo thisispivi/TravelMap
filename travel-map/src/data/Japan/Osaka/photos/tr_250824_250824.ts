@@ -16,7 +16,7 @@ export const tr_250824_250824_images: Image[] = [
     height: 3,
   },
   {
-    original: "https://youtube.com/embed/-X8MUwzEH58",
+    original: "-X8MUwzEH58",
     alt: "Osaka - (25/08/2024)",
     thumbnail: "/Japan/Osaka/003t.webp",
     width: 9,
@@ -458,7 +458,7 @@ export const tr_250824_250824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/7zF1rM_HBdI",
+    original: "7zF1rM_HBdI",
     alt: "Osaka - Dotonbori (25/08/2024)",
     thumbnail: "/Japan/Osaka/066t.webp",
     width: 9,
@@ -501,7 +501,7 @@ export const tr_250824_250824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/6bW6bxv5ZVw",
+    original: "6bW6bxv5ZVw",
     alt: "Osaka - Boat (25/08/2024)",
     thumbnail: "/Japan/Osaka/072t.webp",
     width: 9,
@@ -523,7 +523,7 @@ export const tr_250824_250824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/cmIurqggkoU",
+    original: "cmIurqggkoU",
     alt: "Osaka - Boat 2 (25/08/2024)",
     thumbnail: "/Japan/Osaka/075t.webp",
     width: 9,
@@ -538,7 +538,7 @@ export const tr_250824_250824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/Y8t_IpFD_t0",
+    original: "Y8t_IpFD_t0",
     alt: "Osaka - Boat 3 (25/08/2024)",
     thumbnail: "/Japan/Osaka/077t.webp",
     width: 9,
@@ -567,7 +567,7 @@ export const tr_250824_250824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/Qja2IID-7t4",
+    original: "Qja2IID-7t4",
     alt: "Osaka - Boat 4 (25/08/2024)",
     thumbnail: "/Japan/Osaka/081t.webp",
     width: 9,
@@ -575,7 +575,7 @@ export const tr_250824_250824_images: Image[] = [
     youtube: true,
   },
   {
-    original: "https://youtube.com/embed/2hUkZHRzir0",
+    original: "2hUkZHRzir0",
     alt: "Osaka - Boat 5 (25/08/2024)",
     thumbnail: "/Japan/Osaka/082t.webp",
     width: 9,

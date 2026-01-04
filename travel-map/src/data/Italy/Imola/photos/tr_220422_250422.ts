@@ -51,7 +51,7 @@ export const tr_220422_250422_images: Image[] = [
     height: 2367,
   },
   {
-    original: "https://youtube.com/embed/GDhR8i8_34o",
+    original: "GDhR8i8_34o",
     alt: "Imola - F1 Cars on straight (23/04/2022)",
     thumbnail: "/Italy/Imola/008t.webp",
     width: 9,
@@ -66,7 +66,7 @@ export const tr_220422_250422_images: Image[] = [
     height: 3223,
   },
   {
-    original: "https://youtube.com/embed/nMHmhoJmR_E",
+    original: "nMHmhoJmR_E",
     alt: "Imola - F2 Straight after Tosa (23/04/2022)",
     thumbnail: "/Italy/Imola/010t.webp",
     width: 9,
@@ -81,7 +81,7 @@ export const tr_220422_250422_images: Image[] = [
     height: 2,
   },
   {
-    original: "https://youtube.com/embed/Nh3851Mwipk",
+    original: "Nh3851Mwipk",
     alt: "Imola - F1 Cars on Piratella (23/04/2022)",
     thumbnail: "/Italy/Imola/012t.webp",
     width: 16,
@@ -194,7 +194,7 @@ export const tr_220422_250422_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/I-hoOHkLwCc",
+    original: "I-hoOHkLwCc",
     alt: "Imola - F1 Wet Lap Test (22/04/2022)",
     thumbnail: "/Italy/Imola/028t.webp",
     width: 9,
@@ -258,7 +258,7 @@ export const tr_220422_250422_images: Image[] = [
     height: 1145,
   },
   {
-    original: "https://youtube.com/embed/3Q1f5xX6r8w",
+    original: "3Q1f5xX6r8w",
     alt: "Imola - F1 Celebrating Ferrari (23/04/2022)",
     thumbnail: "/Italy/Imola/037t.webp",
     width: 9,
@@ -273,7 +273,7 @@ export const tr_220422_250422_images: Image[] = [
     height: 1081,
   },
   {
-    original: "https://youtube.com/embed/fxSOw-Zi-rE",
+    original: "fxSOw-Zi-rE",
     alt: "Imola - F1 Celebrating Ferrari before race (24/04/2022)",
     thumbnail: "/Italy/Imola/039t.webp",
     width: 9,
@@ -281,7 +281,7 @@ export const tr_220422_250422_images: Image[] = [
     youtube: true,
   },
   {
-    original: "https://youtube.com/embed/43EQNczKG4g",
+    original: "43EQNczKG4g",
     alt: "Imola - F1 Straight before Piratella (23/04/2022)",
     thumbnail: "/Italy/Imola/040t.webp",
     width: 9,
@@ -401,7 +401,7 @@ export const tr_220422_250422_images: Image[] = [
     height: 3,
   },
   {
-    original: "https://youtube.com/embed/_WpUloFcc6k",
+    original: "_WpUloFcc6k",
     alt: "Imola - F1 Straight after Tosa (23/04/2022)",
     thumbnail: "/Italy/Imola/057t.webp",
     width: 9,
@@ -479,7 +479,7 @@ export const tr_220422_250422_images: Image[] = [
     height: 2,
   },
   {
-    original: "https://youtube.com/embed/9RpeyFMFUeg",
+    original: "9RpeyFMFUeg",
     alt: "Imola - F1 Walk to the track (24/04/2022)",
     thumbnail: "/Italy/Imola/068t.webp",
     width: 9,
@@ -501,7 +501,7 @@ export const tr_220422_250422_images: Image[] = [
     height: 575,
   },
   {
-    original: "https://youtube.com/embed/0ah3DxKvbKw",
+    original: "0ah3DxKvbKw",
     alt: "Imola - F1 Cars on Piratella 2 (23/04/2022)",
     thumbnail: "/Italy/Imola/071t.webp",
     width: 9,
@@ -523,7 +523,7 @@ export const tr_220422_250422_images: Image[] = [
     height: 2,
   },
   {
-    original: "https://youtube.com/embed/1GaqIXU0YoI",
+    original: "1GaqIXU0YoI",
     alt: "Imola - F1 Cars before Piratella 2 (23/04/2022)",
     thumbnail: "/Italy/Imola/074t.webp",
     width: 9,
@@ -566,7 +566,7 @@ export const tr_220422_250422_images: Image[] = [
     height: 2,
   },
   {
-    original: "https://youtube.com/embed/Z2ZBJm2nqhI",
+    original: "Z2ZBJm2nqhI",
     alt: "Imola - F1 Celebrating Ferrari during race (24/04/2022)",
     thumbnail: "/Italy/Imola/080t.webp",
     width: 9,
@@ -588,7 +588,7 @@ export const tr_220422_250422_images: Image[] = [
     height: 2,
   },
   {
-    original: "https://youtube.com/embed/VyGKh-ZYWzg",
+    original: "VyGKh-ZYWzg",
     alt: "Imola - F3 Straight after Tosa (23/04/2022)",
     thumbnail: "/Italy/Imola/083t.webp",
     width: 9,
@@ -673,7 +673,7 @@ export const tr_220422_250422_images: Image[] = [
     height: 3223,
   },
   {
-    original: "https://youtube.com/embed/aETltTq5NGE",
+    original: "aETltTq5NGE",
     alt: "Imola - F1 After Sprint Race (23/04/2022)",
     thumbnail: "/Italy/Imola/095t.webp",
     width: 9,
@@ -730,7 +730,7 @@ export const tr_220422_250422_images: Image[] = [
     height: 2,
   },
   {
-    original: "https://youtube.com/embed/Dp9N3m96SJU",
+    original: "Dp9N3m96SJU",
     alt: "Imola - F1 Cars on Piratella 3 (23/04/2022)",
     thumbnail: "/Italy/Imola/103t.webp",
     width: 9,
@@ -738,7 +738,7 @@ export const tr_220422_250422_images: Image[] = [
     youtube: true,
   },
   {
-    original: "https://youtube.com/embed/fdpsgN11JLA",
+    original: "fdpsgN11JLA",
     alt: "Imola - F1 Cars on Piratella 4 (23/04/2022)",
     thumbnail: "/Italy/Imola/104t.webp",
     width: 16,

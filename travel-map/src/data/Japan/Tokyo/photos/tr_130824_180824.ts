@@ -135,7 +135,7 @@ export const tr_130824_180824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/p706dVbd6P0",
+    original: "p706dVbd6P0",
     alt: "Tokyo - Skytree (13/08/2024)",
     thumbnail: "/Japan/Tokyo/020t.webp",
     width: 270,
@@ -220,7 +220,7 @@ export const tr_130824_180824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/7GsJ2YBaN8c",
+    original: "7GsJ2YBaN8c",
     thumbnail: "/Japan/Tokyo/032t.webp",
     width: 360,
     height: 480,
@@ -522,7 +522,7 @@ export const tr_130824_180824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/syMLOQNZtzI",
+    original: "syMLOQNZtzI",
     alt: "Tokyo - Nissan crossing (14/08/2024)",
     thumbnail: "/Japan/Tokyo/075t.webp",
     width: 9,
@@ -621,7 +621,7 @@ export const tr_130824_180824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/N7WeUX3QZ4U",
+    original: "N7WeUX3QZ4U",
     alt: "Tokyo - Teamlab Planets (14/08/2024)",
     thumbnail: "/Japan/Tokyo/089t.webp",
     width: 9,
@@ -643,7 +643,7 @@ export const tr_130824_180824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/xS4_63yNYdk",
+    original: "xS4_63yNYdk",
     alt: "Tokyo - Teamlab Planets 2 (14/08/2024)",
     thumbnail: "/Japan/Tokyo/092t.webp",
     width: 9,
@@ -651,7 +651,7 @@ export const tr_130824_180824_images: Image[] = [
     youtube: true,
   },
   {
-    original: "https://youtube.com/embed/jBxNQpumkGY",
+    original: "jBxNQpumkGY",
     alt: "Tokyo - Teamlab Planets 3 (14/08/2024)",
     thumbnail: "/Japan/Tokyo/093t.webp",
     width: 9,
@@ -694,7 +694,7 @@ export const tr_130824_180824_images: Image[] = [
     height: 3,
   },
   {
-    original: "https://youtube.com/embed/7TRxkRAxcXg",
+    original: "7TRxkRAxcXg",
     alt: "Tokyo - Teamlab Planets 4 (14/08/2024)",
     thumbnail: "/Japan/Tokyo/099t.webp",
     width: 9,
@@ -737,7 +737,7 @@ export const tr_130824_180824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/ete3Wdw44uM",
+    original: "ete3Wdw44uM",
     alt: "Tokyo - Teamlab Planets 5 (14/08/2024)",
     thumbnail: "/Japan/Tokyo/105t.webp",
     width: 9,
@@ -745,7 +745,7 @@ export const tr_130824_180824_images: Image[] = [
     youtube: true,
   },
   {
-    original: "https://youtube.com/embed/Vh4TzQ8NFWQ",
+    original: "Vh4TzQ8NFWQ",
     alt: "Tokyo - Teamlab Planets 6 (14/08/2024)",
     thumbnail: "/Japan/Tokyo/106t.webp",
     width: 9,
@@ -760,7 +760,7 @@ export const tr_130824_180824_images: Image[] = [
     height: 85,
   },
   {
-    original: "https://youtube.com/embed/ZXkc3ciAmHw",
+    original: "ZXkc3ciAmHw",
     alt: "Tokyo - Teamlab Planets 7 (14/08/2024)",
     thumbnail: "/Japan/Tokyo/108t.webp",
     width: 9,
@@ -775,7 +775,7 @@ export const tr_130824_180824_images: Image[] = [
     height: 85,
   },
   {
-    original: "https://youtube.com/embed/_dJKGJkgybc",
+    original: "_dJKGJkgybc",
     alt: "Tokyo - Teamlab Planets 8 (14/08/2024)",
     thumbnail: "/Japan/Tokyo/110t.webp",
     width: 9,
@@ -790,7 +790,7 @@ export const tr_130824_180824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/lL8kfNBb1Bc",
+    original: "lL8kfNBb1Bc",
     alt: "Tokyo - Teamlab Planets 9 (14/08/2024)",
     thumbnail: "/Japan/Tokyo/112t.webp",
     width: 9,
@@ -805,7 +805,7 @@ export const tr_130824_180824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/MDqZ66Hn4qM",
+    original: "MDqZ66Hn4qM",
     alt: "Tokyo - Teamlab Planets 10 (14/08/2024)",
     thumbnail: "/Japan/Tokyo/114t.webp",
     width: 16,
@@ -841,7 +841,7 @@ export const tr_130824_180824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/HdoYm93ChQ8",
+    original: "HdoYm93ChQ8",
     alt: "Tokyo - Teamlab Planets 11 (14/08/2024)",
     thumbnail: "/Japan/Tokyo/119t.webp",
     width: 9,
@@ -863,7 +863,7 @@ export const tr_130824_180824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/xkxjiCk6RoA",
+    original: "xkxjiCk6RoA",
     alt: "Tokyo - Joypolis monkey (14/08/2024)",
     thumbnail: "/Japan/Tokyo/121t.webp",
     width: 9,
@@ -920,7 +920,7 @@ export const tr_130824_180824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/BbvLqdYKc4U",
+    original: "BbvLqdYKc4U",
     alt: "Tokyo - Waifu concert (14/08/2024)",
     thumbnail: "/Japan/Tokyo/130t.webp",
     width: 9,
@@ -928,7 +928,7 @@ export const tr_130824_180824_images: Image[] = [
     youtube: true,
   },
   {
-    original: "https://youtube.com/embed/zXTEqVQALpI",
+    original: "zXTEqVQALpI",
     alt: "Tokyo - Waifu concert 2 (14/08/2024)",
     thumbnail: "/Japan/Tokyo/131t.webp",
     width: 9,
@@ -936,7 +936,7 @@ export const tr_130824_180824_images: Image[] = [
     youtube: true,
   },
   {
-    original: "https://youtube.com/embed/b7m1BEBoQrE",
+    original: "b7m1BEBoQrE",
     alt: "Tokyo - Waifu concert 3 (14/08/2024)",
     thumbnail: "/Japan/Tokyo/132t.webp",
     width: 9,
@@ -1049,7 +1049,7 @@ export const tr_130824_180824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/4bdEd7-PXOI",
+    original: "4bdEd7-PXOI",
     alt: "Tokyo - Shinjuku Mario Kart (15/08/2024)",
     thumbnail: "/Japan/Tokyo/148t.webp",
     width: 9,
@@ -1064,7 +1064,7 @@ export const tr_130824_180824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/4Lpli0kZzvU",
+    original: "4Lpli0kZzvU",
     alt: "Tokyo - Shinjuku Karaoke (15/08/2024)",
     thumbnail: "/Japan/Tokyo/255t.webp",
     width: 9,
@@ -1072,7 +1072,7 @@ export const tr_130824_180824_images: Image[] = [
     youtube: true,
   },
   {
-    original: "https://youtube.com/embed/oabd1iNpevU",
+    original: "oabd1iNpevU",
     alt: "Tokyo - Shinjuku Karaoke 2 (15/08/2024)",
     thumbnail: "/Japan/Tokyo/150t.webp",
     width: 9,
@@ -1430,7 +1430,7 @@ export const tr_130824_180824_images: Image[] = [
     height: 85,
   },
   {
-    original: "https://youtube.com/embed/n8Bl7suDu0E",
+    original: "n8Bl7suDu0E",
     alt: "Tokyo - Shibuya crossing (17/08/2024)",
     thumbnail: "/Japan/Tokyo/201t.webp",
     width: 9,
@@ -1627,7 +1627,7 @@ export const tr_130824_180824_images: Image[] = [
     height: 433,
   },
   {
-    original: "https://youtube.com/embed/XJ9vbHOlLiE",
+    original: "XJ9vbHOlLiE",
     alt: "Tokyo - Shibuya crossing night (17/08/2024)",
     thumbnail: "/Japan/Tokyo/229t.webp",
     width: 9,
@@ -1705,7 +1705,7 @@ export const tr_130824_180824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/75Ln6WNTsBU",
+    original: "75Ln6WNTsBU",
     alt: "Tokyo - Shibuya Sky (17/08/2024)",
     thumbnail: "/Japan/Tokyo/240t.webp",
     width: 9,
@@ -1720,7 +1720,7 @@ export const tr_130824_180824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/At4Hh-Hh0k8",
+    original: "At4Hh-Hh0k8",
     alt: "Tokyo - Shibuya Sky 2 (17/08/2024)",
     thumbnail: "/Japan/Tokyo/242t.webp",
     width: 9,
@@ -1784,7 +1784,7 @@ export const tr_130824_180824_images: Image[] = [
     height: 64,
   },
   {
-    original: "https://youtube.com/embed/ZidW1KYQSOs",
+    original: "ZidW1KYQSOs",
     alt: "Tokyo - Shibuya Sky 3 (17/08/2024)",
     thumbnail: "/Japan/Tokyo/251t.webp",
     width: 9,

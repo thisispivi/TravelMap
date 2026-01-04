@@ -422,7 +422,7 @@ export const tr_190824_210824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/_dD9ug6nm0A",
+    original: "_dD9ug6nm0A",
     alt: "Kanazawa - Sushi Shinkansen (20/08/2024)",
     thumbnail: "/Japan/Kanazawa/061t.webp",
     width: 9,
@@ -452,7 +452,7 @@ export const tr_190824_210824_images: Image[] = [
   },
   {
     thumbnail: "/Japan/Kanazawa/065t.webp",
-    original: "https://youtube.com/embed/0sAdBzxoR1g",
+    original: "0sAdBzxoR1g",
     alt: "Kanazawa - Shinkansen (21/08/2024)",
     width: 9,
     height: 16,
