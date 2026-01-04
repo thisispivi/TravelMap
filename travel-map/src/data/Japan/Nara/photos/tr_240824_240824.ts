@@ -58,7 +58,7 @@ export const tr_240824_240824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/NymiK83qcbc",
+    original: "NymiK83qcbc",
     alt: "Nara - Mochi show (24/08/2024)",
     thumbnail: "/Japan/Nara/009t.webp",
     width: 9,
@@ -108,7 +108,7 @@ export const tr_240824_240824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/0o2FwSUYbHE",
+    original: "0o2FwSUYbHE",
     alt: "Nara - Deer Park (24/08/2024)",
     thumbnail: "/Japan/Nara/016t.webp",
     width: 3,
@@ -123,7 +123,7 @@ export const tr_240824_240824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/70P_DlRljIA",
+    original: "70P_DlRljIA",
     alt: "Nara - Deer Park 2 (24/08/2024)",
     thumbnail: "/Japan/Nara/018t.webp",
     width: 9,
@@ -138,7 +138,7 @@ export const tr_240824_240824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/vVjWW57SObo",
+    original: "vVjWW57SObo",
     alt: "Nara - Deer Park 3 (24/08/2024)",
     thumbnail: "/Japan/Nara/020t.webp",
     width: 9,

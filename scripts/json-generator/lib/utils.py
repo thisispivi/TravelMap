@@ -40,7 +40,7 @@ def get_image_info(cityUrl, filename, city_folder_path, logger):
         image["original"] = cityUrl + original_file_name
     else:
         image["youtube"] = True
-        image["original"] = "https://youtube.com/embed/"
+        image["original"] = ""
         logger.warning("Video file found: %s", filename)
 
     width, height = Image.open(os.path.join(city_folder_path, filename)).size

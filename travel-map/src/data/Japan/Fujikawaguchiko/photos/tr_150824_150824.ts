@@ -128,7 +128,7 @@ export const tr_150824_150824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/HaLnem5L2B4",
+    original: "HaLnem5L2B4",
     alt: "Fujikawaguchiko - Strange guy (15/08/2024)",
     thumbnail: "/Japan/Fujikawaguchiko/019t.webp",
     width: 9,
@@ -143,7 +143,7 @@ export const tr_150824_150824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/xRj_1VsglcE",
+    original: "xRj_1VsglcE",
     alt: "Fujikawaguchiko - Ropeway (15/08/2024)",
     thumbnail: "/Japan/Fujikawaguchiko/021t.webp",
     width: 9,

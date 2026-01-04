@@ -136,7 +136,7 @@ export const tr_050823_100823_images: Image[] = [
     youtube: true,
   },
   {
-    original: "https://youtube.com/embed/ZsbkXr6EI2w",
+    original: "ZsbkXr6EI2w",
     alt: "Brussels - Atomium Light Show 1 (07/08/2023)",
     thumbnail: "/Belgium/Brussels/020t.webp",
     width: 432,
@@ -144,7 +144,7 @@ export const tr_050823_100823_images: Image[] = [
     youtube: true,
   },
   {
-    original: "https://youtube.com/embed/hTEev3aiGcU",
+    original: "hTEev3aiGcU",
     alt: "Brussels - Atomium Light Show 2 (07/08/2023)",
     thumbnail: "/Belgium/Brussels/021t.webp",
     width: 432,

@@ -289,7 +289,7 @@ export const tr_020125_020125_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/kTjv789qD_A",
+    original: "kTjv789qD_A",
     alt: "Valletta - Triton Fountain (02/05/2025)",
     thumbnail: "/Malta/Valletta/042t.webp",
     width: 9,
@@ -332,7 +332,7 @@ export const tr_020125_020125_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/q-0OFcSx8HY",
+    original: "q-0OFcSx8HY",
     alt: "Valletta - On top of ferris wheel (02/05/2025)",
     thumbnail: "/Malta/Valletta/048t.webp",
     width: 9,

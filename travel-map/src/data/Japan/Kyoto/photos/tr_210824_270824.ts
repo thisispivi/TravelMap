@@ -226,7 +226,7 @@ export const tr_210824_270824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/bp2YwZWUtjo",
+    original: "bp2YwZWUtjo",
     alt: "Kyoto - Kiyomizu-dera (21/08/2024)",
     thumbnail: "/Japan/Kyoto/033t.webp",
     width: 9,
@@ -262,7 +262,7 @@ export const tr_210824_270824_images: Image[] = [
     height: 1000,
   },
   {
-    original: "https://youtube.com/embed/5vJq19KH0W8",
+    original: "5vJq19KH0W8",
     alt: "Kyoto - Kiyomizu-dera 2 (21/08/2024)",
     thumbnail: "/Japan/Kyoto/038t.webp",
     width: 9,
@@ -522,7 +522,7 @@ export const tr_210824_270824_images: Image[] = [
     height: 1000,
   },
   {
-    original: "https://youtube.com/embed/qQ-LWf8BMjI",
+    original: "qQ-LWf8BMjI",
     alt: "Kyoto - Nijo Castle Naked festival (21/08/2024)",
     thumbnail: "/Japan/Kyoto/075t.webp",
     width: 16,
@@ -558,7 +558,7 @@ export const tr_210824_270824_images: Image[] = [
     height: 1000,
   },
   {
-    original: "https://youtube.com/embed/s0VAPcvuTBY",
+    original: "s0VAPcvuTBY",
     alt: "Kyoto - Nijo Castle Naked festival 2 (21/08/2024)",
     thumbnail: "/Japan/Kyoto/080t.webp",
     width: 9,
@@ -566,7 +566,7 @@ export const tr_210824_270824_images: Image[] = [
     youtube: true,
   },
   {
-    original: "https://youtube.com/embed/vcrsG6Rc4FY",
+    original: "vcrsG6Rc4FY",
     alt: "Kyoto - Nijo Castle Naked festival 3 (21/08/2024)",
     thumbnail: "/Japan/Kyoto/081t.webp",
     width: 9,
@@ -1470,7 +1470,7 @@ export const tr_210824_270824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/c6l7gndmlKU",
+    original: "c6l7gndmlKU",
     alt: "Kyoto - Nishiki Market (26/08/2024)",
     thumbnail: "/Japan/Kyoto/210t.webp",
     width: 9,
@@ -1492,7 +1492,7 @@ export const tr_210824_270824_images: Image[] = [
     height: 753,
   },
   {
-    original: "https://youtube.com/embed/sXhLC4CDIyY",
+    original: "sXhLC4CDIyY",
     alt: "Kyoto - Nishiki Sushi Shin (26/08/2024)",
     thumbnail: "/Japan/Kyoto/213t.webp",
     width: 9,
@@ -1507,7 +1507,7 @@ export const tr_210824_270824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/kF0IIjgP1go",
+    original: "kF0IIjgP1go",
     alt: "Kyoto - Nishiki Sushi Shin 2 (26/08/2024)",
     thumbnail: "/Japan/Kyoto/215t.webp",
     width: 9,
@@ -1522,7 +1522,7 @@ export const tr_210824_270824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/_3JEuUBXM2s",
+    original: "_3JEuUBXM2s",
     alt: "Kyoto - Nishiki Sushi Shin 3 (26/08/2024)",
     thumbnail: "/Japan/Kyoto/217t.webp",
     width: 9,
@@ -1537,7 +1537,7 @@ export const tr_210824_270824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/E1K1GN3X8Bg",
+    original: "E1K1GN3X8Bg",
     alt: "Kyoto - Nishiki Sushi Shin 4 (26/08/2024)",
     thumbnail: "/Japan/Kyoto/219t.webp",
     width: 9,
@@ -1552,7 +1552,7 @@ export const tr_210824_270824_images: Image[] = [
     height: 753,
   },
   {
-    original: "https://youtube.com/embed/rwZQRFA6ko8",
+    original: "rwZQRFA6ko8",
     alt: "Kyoto - Nishiki Sushi Shin 5 (26/08/2024)",
     thumbnail: "/Japan/Kyoto/221t.webp",
     width: 9,
@@ -1567,7 +1567,7 @@ export const tr_210824_270824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/4PGhQvSzyzs",
+    original: "4PGhQvSzyzs",
     alt: "Kyoto - Nishiki Sushi Shin 6 (26/08/2024)",
     thumbnail: "/Japan/Kyoto/223t.webp",
     width: 9,
@@ -1596,7 +1596,7 @@ export const tr_210824_270824_images: Image[] = [
     height: 1000,
   },
   {
-    original: "https://youtube.com/embed/NJCcqnsoR7k",
+    original: "NJCcqnsoR7k",
     alt: "Kyoto - Nishiki Sushi Shin 7 (26/08/2024)",
     thumbnail: "/Japan/Kyoto/227t.webp",
     width: 9,
@@ -1618,7 +1618,7 @@ export const tr_210824_270824_images: Image[] = [
     height: 1000,
   },
   {
-    original: "https://youtube.com/embed/K1WZnZuOEiw",
+    original: "K1WZnZuOEiw",
     alt: "Kyoto - Nishiki Sushi Shin 8 (26/08/2024)",
     thumbnail: "/Japan/Kyoto/230t.webp",
     width: 9,
@@ -1717,7 +1717,7 @@ export const tr_210824_270824_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/Qa2tyfh_1DI",
+    original: "Qa2tyfh_1DI",
     alt: "Kyoto - Night (26/08/2024)",
     thumbnail: "/Japan/Kyoto/244t.webp",
     width: 9,

@@ -93,7 +93,7 @@ export const tr_060523_090523_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/7R_tGgueEqw",
+    original: "7R_tGgueEqw",
     alt: "Travels/Hungary/Budapest - Serenade (06/05/2023)",
     thumbnail: "/Hungary/Budapest/014t.webp",
     width: 432,
@@ -234,7 +234,7 @@ export const tr_060523_090523_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/mT0BMZPmiaA",
+    original: "mT0BMZPmiaA",
     alt: "Travels/Hungary/Budapest - The Magic Travels/Hungary/Budapest Cauldron (06/05/2023)",
     thumbnail: "/Hungary/Budapest/034t.webp",
     width: 432,
@@ -589,7 +589,7 @@ export const tr_060523_090523_images: Image[] = [
     height: 9,
   },
   {
-    original: "https://youtube.com/embed/JrXVPbWkItI",
+    original: "JrXVPbWkItI",
     alt: "Travels/Hungary/Budapest - Citadel (07/05/2023)",
     thumbnail: "/Hungary/Budapest/084t.webp",
     width: 432,

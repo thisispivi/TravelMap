@@ -478,7 +478,7 @@ export const tr_230921_260921_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/jaoTv98YrDI",
+    original: "jaoTv98YrDI",
     alt: "",
     thumbnail: "/Italy/Cefal%C3%B9/069t.webp",
     width: 9,
@@ -486,7 +486,7 @@ export const tr_230921_260921_images: Image[] = [
     youtube: true,
   },
   {
-    original: "https://youtube.com/embed/whFBnOI6wPc",
+    original: "whFBnOI6wPc",
     alt: "",
     thumbnail: "/Italy/Cefal%C3%B9/070t.webp",
     width: 9,
@@ -522,7 +522,7 @@ export const tr_230921_260921_images: Image[] = [
     height: 9,
   },
   {
-    original: "https://youtube.com/embed/1sMwnJ4AH0o",
+    original: "1sMwnJ4AH0o",
     alt: "",
     thumbnail: "/Italy/Cefal%C3%B9/075t.webp",
     width: 9,
@@ -544,7 +544,7 @@ export const tr_230921_260921_images: Image[] = [
     height: 3,
   },
   {
-    original: "https://youtube.com/embed/bW9be2UMBgA",
+    original: "bW9be2UMBgA",
     alt: "",
     thumbnail: "/Italy/Cefal%C3%B9/078t.webp",
     width: 9,
@@ -552,7 +552,7 @@ export const tr_230921_260921_images: Image[] = [
     youtube: true,
   },
   {
-    original: "https://youtube.com/embed/rVT69eLgoyY",
+    original: "rVT69eLgoyY",
     alt: "",
     thumbnail: "/Italy/Cefal%C3%B9/079t.webp",
     width: 9,
@@ -560,7 +560,7 @@ export const tr_230921_260921_images: Image[] = [
     youtube: true,
   },
   {
-    original: "https://youtube.com/embed/F0Ny_EOipts",
+    original: "F0Ny_EOipts",
     alt: "",
     thumbnail: "/Italy/Cefal%C3%B9/080t.webp",
     width: 9,
@@ -568,7 +568,7 @@ export const tr_230921_260921_images: Image[] = [
     youtube: true,
   },
   {
-    original: "https://youtube.com/embed/6Z9oUguN7TE",
+    original: "6Z9oUguN7TE",
     alt: "",
     thumbnail: "/Italy/Cefal%C3%B9/081t.webp",
     width: 9,

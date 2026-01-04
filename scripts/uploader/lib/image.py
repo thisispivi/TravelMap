@@ -85,8 +85,7 @@ class TravelImage:
 
     def _get_cdn_full_path(self, filename: str) -> str:
         """Build a public CDN URL for a given filename inside the city storage folder."""
-        base_storage_path = self._get_base_storage_path()
-        return f"{self.args['CDN_BASE_URL']}{base_storage_path}{filename}"
+        return f"/{self.args['country']}/{self.args['city']}/{filename}"
 
     @staticmethod
     def _compress_image(

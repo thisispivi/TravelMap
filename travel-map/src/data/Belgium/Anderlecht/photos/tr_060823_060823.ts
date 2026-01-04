@@ -30,7 +30,7 @@ export const tr_060823_060823_images: Image[] = [
     height: 9,
   },
   {
-    original: "https://youtube.com/embed/SGhmA-uNfao",
+    original: "SGhmA-uNfao",
     alt: "Anderlecht - Anderlecht vs. Anversa - Match Start (06/08/2023)",
     thumbnail: "/Belgium/Anderlecht/005t.webp",
     width: 432,
@@ -45,7 +45,7 @@ export const tr_060823_060823_images: Image[] = [
     height: 3,
   },
   {
-    original: "https://youtube.com/embed/uQfe0AF6-Ow",
+    original: "uQfe0AF6-Ow",
     alt: "Anderlecht - Anderlecht vs. Anversa - Dolberg penalty (06/08/2023)",
     thumbnail: "/Belgium/Anderlecht/007t.webp",
     width: 432,
