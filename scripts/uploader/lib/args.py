@@ -1,49 +1,66 @@
 import getopt
+from logging import Logger
+from typing import Sequence
 
 
-def get_args(argumentList, logger):
+def get_args(argumentList: Sequence[str], logger: Logger) -> dict[str, str]:
     """
-    Returns city name from command line arguments.
+    Parse command-line arguments.
 
     Args:
-        argumentList (list): The list of command line arguments.
+        argumentList: Full argv sequence (including program name).
         logger (Logger): The logger instance.
 
     Returns:
-        dict: A dictionary with the city name.
+        A dict containing required keys: `city`, `country`.
 
     Raises:
-        Exception: If no arguments provided or city name is missing.
+        ValueError: If required args are missing.
+        getopt.GetoptError: If invalid options are provided.
+        SystemExit: If `-h/--help` is requested.
     """
-    argumentList = argumentList[1:]
-    options = "c:C:"
-    long_options = ["city=", "country="]
+
+    usage = (
+        "Usage: python main.py -c <city> -C <country>\n"
+        "\n"
+        "Options:\n"
+        "  -c, --city       City folder name under photos/\n"
+        "  -C, --country    Country slug used for CDN paths\n"
+        "  -h, --help       Show this help and exit\n"
+    )
+
+    argument_list = list(argumentList)[1:]
+    options = "hc:C:"
+    long_options = ["help", "city=", "country="]
 
     try:
-        arguments, _ = getopt.getopt(argumentList, options, long_options)
+        arguments, _ = getopt.getopt(argument_list, options, long_options)
+
+        for currentArgument, _currentValue in arguments:
+            if currentArgument in ("-h", "--help"):
+                print(usage)
+                raise SystemExit(0)
 
         if not arguments:
-            raise Exception(
+            raise ValueError(
                 "No arguments provided. Please provide the city name with -c/--city and country with -C/--country."
             )
 
-        data = {}
+        data: dict[str, str] = {}
 
         for currentArgument, currentValue in arguments:
             if currentArgument in ("-c", "--city"):
-                city = currentValue
-                data["city"] = city
+                data["city"] = currentValue
             elif currentArgument in ("-C", "--country"):
-                country = currentValue
-                data["country"] = country
+                data["country"] = currentValue
 
         if "city" not in data:
-            raise Exception(
+            raise ValueError(
                 "City argument missing. Use -c or --city to specify the city name."
             )
 
         if "country" not in data:
-            raise Exception(
+            raise ValueError(
                 "Country argument missing. Use -C or --country to specify the country name."
             )
 
@@ -54,11 +71,8 @@ def get_args(argumentList, logger):
         return data
 
     except getopt.GetoptError as err:
-        logger.error(f"Argument parsing error: {err}")
-        raise
-    except ValueError as val_err:
-        logger.error(f"Invalid argument value: {val_err}")
+        logger.error("Argument parsing error: %s", err)
         raise
     except Exception as e:
-        logger.error(f"Error: {e}")
+        logger.error("Error: %s", e)
         raise

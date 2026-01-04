@@ -1,70 +1,109 @@
+from __future__ import annotations
+
 import os
 import sys
+from logging import Logger
+from pathlib import Path
+from typing import Any, Mapping, Optional, Sequence
+
 from lib.args import get_args
-from lib.logging import get_custom_logger
 from lib.env import get_env
-from lib.utils import setup_paths
-from lib.image import TravelImage
-from lib.sort import sort_images_by_index_in_filename
 from lib.export import export_json
-from lib.video import is_video, TravelVideo
+from lib.image import TravelImage
+from lib.logging import get_custom_logger
+from lib.sort import sort_images_by_index_in_filename
+from lib.utils import setup_paths
+from lib.video import TravelVideo, is_video
 
 
-if __name__ == "__main__":
+def _process_city_entry(
+    *,
+    filename: str,
+    args: Mapping[str, Any],
+    city_folder_path: str,
+    results_city_folder_path: str,
+    logger: Logger,
+) -> Optional[Mapping[str, Any]]:
+    if is_video(filename):
+        return TravelVideo(
+            filename,
+            args,
+            city_folder_path,
+            results_city_folder_path,
+        ).run(logger)
+
+    return TravelImage(
+        filename,
+        args,
+        city_folder_path,
+        results_city_folder_path,
+    ).run(logger)
+
+
+def main(argv: Optional[Sequence[str]] = None) -> int:
+    logger: Optional[Logger] = None
     try:
         logger = get_custom_logger()
         logger.info("Starting setup for city images processing")
 
-        args = get_args(sys.argv, logger)
+        argv = argv or sys.argv
+        args: dict[str, Any] = dict(get_args(argv, logger))
         city = args["city"]
 
-        root_path = os.path.dirname(os.path.realpath(__file__))
+        root_path = Path(__file__).resolve().parent
         logger.debug("Root path: %s", root_path)
 
-        env = get_env(root_path)
+        env = get_env(root_path, logger)
         args.update(env)
 
         (
-            base_folder_path,
+            _base_folder_path,
             city_folder_path,
-            results_folder_path,
+            _results_folder_path,
             results_city_folder_path,
-        ) = setup_paths(root_path, city)
+        ) = setup_paths(str(root_path), city)
 
-        logger.debug("Base folder path: %s", base_folder_path)
         logger.debug("City folder path: %s", city_folder_path)
-        logger.debug("Results folder path: %s", results_folder_path)
         logger.debug("Results city folder path: %s", results_city_folder_path)
 
         os.makedirs(results_city_folder_path, exist_ok=True)
 
-        files = os.listdir(city_folder_path)
-        images_info = []
-        for filename in os.listdir(city_folder_path):
-            print("\n")
-            logger.info("Progress: %d/%d", len(images_info) + 1, len(files))
-            if is_video(filename):
-                travel_video = TravelVideo(
-                    filename,
-                    args,
-                    city_folder_path,
-                    results_city_folder_path,
-                )
-                video_info = travel_video.run(logger)
-                if video_info:
-                    images_info.append(video_info)
-            else:
-                travel_image = TravelImage(
-                    filename,
-                    args,
-                    city_folder_path,
-                    results_city_folder_path,
-                )
-                images_info.append(travel_image.run(logger))
+        if not os.path.isdir(city_folder_path):
+            raise FileNotFoundError(
+                f"City folder not found: {city_folder_path}. Expected photos/<city>/"
+            )
+
+        files = sorted(os.listdir(city_folder_path))
+        images_info: list[Mapping[str, Any]] = []
+
+        for idx, filename in enumerate(files, start=1):
+            source_path = os.path.join(city_folder_path, filename)
+            if not os.path.isfile(source_path):
+                logger.debug("Skipping non-file entry: %s", source_path)
+                continue
+
+            logger.progress("Progress: %d/%d", idx, len(files))
+            info = _process_city_entry(
+                filename=filename,
+                args=args,
+                city_folder_path=city_folder_path,
+                results_city_folder_path=results_city_folder_path,
+                logger=logger,
+            )
+            if info:
+                images_info.append(info)
 
         sorted_images = sort_images_by_index_in_filename(images_info)
-        export_json(sorted_images, root_path, city)
+        export_json(sorted_images, str(root_path), city)
+        return 0
 
-    except Exception as e:
-        logger.error(f"Error in the main script: {e}")
-        sys.exit(2)
+    except Exception:
+        if logger is not None:
+            logger.exception("Error in the main script")
+        else:
+            print("Error in the main script")
+        return 2
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

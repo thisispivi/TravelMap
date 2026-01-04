@@ -1,8 +1,12 @@
-import os
 import json
+from pathlib import Path
+from typing import Any, Iterable, Union
 
 
-def export_json(images, path, filename):
+PathLike = Union[str, Path]
+
+
+def export_json(images: Iterable[Any], path: PathLike, filename: str) -> Path:
     """
     Export the images to a json file.
 
@@ -11,6 +15,7 @@ def export_json(images, path, filename):
         path (str): The path where the json file will be exported.
         filename (str): The name of the json file.
     """
-    json_file_path = os.path.join(path, filename + ".json")
-    with open(json_file_path, "w") as outfile:
-        json.dump(images, outfile, indent=4)
+    output_path = Path(path) / f"{filename}.json"
+    with output_path.open("w", encoding="utf-8") as outfile:
+        json.dump(list(images), outfile, indent=4, ensure_ascii=False)
+    return output_path
