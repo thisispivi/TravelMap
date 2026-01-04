@@ -43,28 +43,6 @@ export function getCityBiggestTimezoneJump(
  */
 export function getNumberOfTimezonesJumped(countries: City[]): number {
   const birthCity = parameters.birthCity;
-  console.log(
-    pipe(
-      filter(countries, (city) => {
-        const referenceDate = city.travels?.[0]?.sDate ?? new Date();
-        const cityOffset = getCityOffsetMinutesOnDate(
-          DEFAULT_LOCALE,
-          city,
-          referenceDate
-        );
-        const birthOffset = getCityOffsetMinutesOnDate(
-          DEFAULT_LOCALE,
-          birthCity,
-          referenceDate
-        );
-        return cityOffset !== birthOffset;
-      }),
-      uniqueBy((city) => {
-        const referenceDate = city.travels?.[0]?.sDate ?? new Date();
-        return getCityOffsetMinutesOnDate(DEFAULT_LOCALE, city, referenceDate);
-      })
-    )
-  );
   return pipe(
     filter(countries, (city) => {
       const referenceDate = city.travels?.[0]?.sDate ?? new Date();

@@ -58,7 +58,7 @@ export default function TimezoneRow({
           eCity,
           sCity,
           startDate,
-          endDate
+          endDate,
         )}
       </b>
     </Row>
