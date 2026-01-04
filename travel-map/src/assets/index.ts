@@ -1,4 +1,4 @@
-import AirportIcon from "./icons/Airport.svg?react";
+import AirplaneIcon from "./icons/Airplane.svg?react";
 import ArrivalIcon from "./icons/Arrival.svg?react";
 import CalendarIcon from "./icons/Calendar.svg?react";
 import CameraIcon from "./icons/Camera.svg?react";
@@ -37,7 +37,7 @@ import VisitedIcon from "./icons/Visited.svg?react";
 import MapIcon from "./icons/Map.svg?react";
 
 export {
-  AirportIcon,
+  AirplaneIcon,
   ArrivalIcon,
   CalendarIcon,
   CameraIcon,

@@ -344,9 +344,15 @@ export const takenFlights: Flight[] = [
 
 export const takenFerries: Ferry[] = [
   new Ferry({ sCity: Olbia, eCity: Livorno, company: FerryCompany.TIRRENIA }),
+  new Ferry({ sCity: Livorno, eCity: Olbia, company: FerryCompany.TIRRENIA }),
   new Ferry({
     sCity: PortoTorres,
     eCity: Toulon,
+    company: FerryCompany.CORSICA_FERRIES,
+  }),
+  new Ferry({
+    sCity: Toulon,
+    eCity: PortoTorres,
     company: FerryCompany.CORSICA_FERRIES,
   }),
 ];
