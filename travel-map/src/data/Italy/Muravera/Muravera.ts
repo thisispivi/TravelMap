@@ -7,5 +7,5 @@ export const Muravera = new City({
   coordinates: [9.5833, 39.25],
   backgroundImgSources: ["/Italy/Muravera/Muravera.jpg"],
   population: 4600,
-  timezoneGMT: 2,
+  timeZone: "Europe/Rome",
 });

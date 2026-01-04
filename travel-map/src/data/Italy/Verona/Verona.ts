@@ -16,5 +16,5 @@ export const Verona = new City({
   ],
   backgroundImgSources: ["/Italy/Verona/Verona.jpg"],
   population: 644000,
-  timezoneGMT: 2,
+  timeZone: "Europe/Rome",
 });

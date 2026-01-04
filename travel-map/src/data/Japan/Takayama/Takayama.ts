@@ -16,5 +16,5 @@ export const Takayama = new City({
   ],
   backgroundImgSources: ["/Japan/Takayama/Takayama.jpg"],
   population: 94879,
-  timezoneGMT: 9,
+  timeZone: "Asia/Tokyo",
 });

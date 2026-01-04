@@ -15,5 +15,5 @@ export const Rabat = new City({
   ],
   backgroundImgSources: ["/Malta/Rabat/Rabat.jpg"],
   population: 12284,
-  timezoneGMT: 2,
+  timeZone: "Europe/Malta",
 });

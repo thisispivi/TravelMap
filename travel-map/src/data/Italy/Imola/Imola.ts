@@ -15,5 +15,5 @@ export const Imola = new City({
   ],
   backgroundImgSources: ["/Italy/Imola/Imola.jpg"],
   population: 70453,
-  timezoneGMT: 2,
+  timeZone: "Europe/Rome",
 });

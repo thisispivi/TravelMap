@@ -7,5 +7,5 @@ export const Alghero = new City({
   coordinates: [8.2807204, 40.5659681],
   backgroundImgSources: [],
   population: 41880,
-  timezoneGMT: 2,
+  timeZone: "Europe/Rome",
 });

@@ -21,5 +21,5 @@ export const Rome = new City({
   ],
   backgroundImgSources: ["/Italy/Rome/Rome.jpg", "/Italy/Rome1/Rome1.jpg"],
   population: 4332000,
-  timezoneGMT: 2,
+  timeZone: "Europe/Rome",
 });

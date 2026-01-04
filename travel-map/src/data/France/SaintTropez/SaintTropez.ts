@@ -4,9 +4,9 @@ import { France } from "../France";
 export const SaintTropez = new City({
   name: "SaintTropez",
   country: France,
-  coordinates: [7.017369, 43.552847],
-  population: 74000,
-  timezoneGMT: 1,
+  coordinates: [6.6407, 43.2729],
+  population: 4300,
+  timeZone: "Europe/Paris",
   travels: [
     new Travel({
       sDate: new Date(2025, 11, 28),

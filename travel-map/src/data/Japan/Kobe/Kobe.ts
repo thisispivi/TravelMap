@@ -16,5 +16,5 @@ export const Kobe = new City({
   ],
   backgroundImgSources: ["/Japan/Kobe/Kobe.jpg"],
   population: 1527022,
-  timezoneGMT: 9,
+  timeZone: "Asia/Tokyo",
 });

@@ -15,5 +15,5 @@ export const Berlin = new City({
   ],
   backgroundImgSources: ["/Germany/Berlin/Berlin.jpg"],
   population: 3576870,
-  timezoneGMT: 2,
+  timeZone: "Europe/Berlin",
 });

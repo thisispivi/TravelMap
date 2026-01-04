@@ -98,6 +98,8 @@
     "SOUTH_AMERICA": "South America"
   },
   "home": "Home",
+  "timezone": "Timezone",
+  "birthCity": "Birth city",
   "lived": {
     "title": "Cities I've lived in",
     "ariaLabel": "Cities I've lived in"

@@ -16,5 +16,5 @@ export const Himeji = new City({
   ],
   backgroundImgSources: ["/Japan/Himeji/Himeji.jpg"],
   population: 536170,
-  timezoneGMT: 9,
+  timeZone: "Asia/Tokyo",
 });

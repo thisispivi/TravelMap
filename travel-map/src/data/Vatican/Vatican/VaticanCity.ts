@@ -15,5 +15,5 @@ export const VaticanCity = new City({
   ],
   backgroundImgSources: ["/Vatican/VaticanCity/VaticanCity.jpg"],
   population: 499,
-  timezoneGMT: 2,
+  timeZone: "Europe/Vatican",
 });

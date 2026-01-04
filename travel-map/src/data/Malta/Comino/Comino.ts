@@ -14,6 +14,6 @@ export const Comino = new City({
     }),
   ],
   backgroundImgSources: ["/Malta/Comino/Comino.jpg"],
-  timezoneGMT: 2,
+  timeZone: "Europe/Malta",
   population: 2,
 });

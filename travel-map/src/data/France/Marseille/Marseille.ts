@@ -6,7 +6,7 @@ export const Marseille = new City({
   country: France,
   coordinates: [5.36978, 43.296482],
   population: 861635,
-  timezoneGMT: 1,
+  timeZone: "Europe/Paris",
   travels: [
     new Travel({
       sDate: new Date(2026, 0, 1),

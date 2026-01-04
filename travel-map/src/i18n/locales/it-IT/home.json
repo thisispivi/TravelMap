@@ -98,6 +98,8 @@
     "SOUTH_AMERICA": "Sud America"
   },
   "home": "Home",
+  "timezone": "Fuso orario",
+  "birthCity": "Città di nascita",
   "lived": {
     "title": "Città in cui ho vissuto",
     "ariaLabel": "Città in cui ho vissuto"

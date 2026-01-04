@@ -6,7 +6,7 @@ export const Nice = new City({
   country: France,
   coordinates: [7.261953, 43.710173],
   population: 342295,
-  timezoneGMT: 1,
+  timeZone: "Europe/Paris",
   travels: [
     new Travel({
       sDate: new Date(2025, 11, 28),

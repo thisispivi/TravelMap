@@ -15,5 +15,5 @@ export const Bologna = new City({
   ],
   backgroundImgSources: ["/Italy/Bologna/Bologna.jpg"],
   population: 816848,
-  timezoneGMT: 2,
+  timeZone: "Europe/Rome",
 });

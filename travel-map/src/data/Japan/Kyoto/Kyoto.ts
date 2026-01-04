@@ -16,5 +16,5 @@ export const Kyoto = new City({
   ],
   backgroundImgSources: ["/Japan/Kyoto/Kyoto.jpg"],
   population: 1459640,
-  timezoneGMT: 9,
+  timeZone: "Asia/Tokyo",
 });

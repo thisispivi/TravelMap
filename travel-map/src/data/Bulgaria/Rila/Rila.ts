@@ -15,5 +15,5 @@ export const Rila = new City({
   ],
   backgroundImgSources: ["/Bulgaria/Rila/Rila.jpg"],
   population: 3560,
-  timezoneGMT: 3,
+  timeZone: "Europe/Sofia",
 });
