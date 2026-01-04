@@ -7,7 +7,7 @@ export const constants = {
   EARTH_CIRCUMFERENCE: 40075,
   MOON_DISTANCE: 384400,
   GROUP_BY_CITIES_CUTOFF_YEAR: 2022,
-  GROUP_BY_CITIES_DEFAULT_OPENED_YEAR: 2025,
+  GROUP_BY_CITIES_DEFAULT_OPENED_YEAR: new Date().getFullYear(),
 };
 
 export const parameters = {
@@ -91,6 +91,7 @@ export const parameters = {
         "Australian Convict Sites",
         "Wet Tropics of Queensland",
       ],
+      France: ["Nice, Winter Resort Town of the Riviera"],
     },
   },
 };

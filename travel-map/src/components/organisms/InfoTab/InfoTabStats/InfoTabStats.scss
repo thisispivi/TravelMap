@@ -321,7 +321,8 @@
             fill: v.$darkLeftBar;
           }
         }
-        .info-tab-stats__card__ferries__icon {
+        .info-tab-stats__card__ferries__icon,
+        .info-tab-stats__card__flights__icon {
           path {
             stroke: transparent;
           }
@@ -366,7 +367,8 @@
             fill: v.$lightLeftBar;
           }
         }
-        .info-tab-stats__card__ferries__icon {
+        .info-tab-stats__card__ferries__icon,
+        .info-tab-stats__card__flights__icon {
           path {
             stroke: transparent;
           }
