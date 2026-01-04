@@ -55,7 +55,7 @@ function getDatePartsInTimeZone(locale: string, timeZone: string, date: Date) {
 export function getTimeZoneOffsetMinutes(
   locale: string,
   timeZone: string,
-  instant: Date
+  instant: Date,
 ): number {
   const wall = getDatePartsInTimeZone(locale, timeZone, instant);
   const utcFromWall = Date.UTC(
@@ -64,7 +64,7 @@ export function getTimeZoneOffsetMinutes(
     wall.day,
     wall.hour,
     wall.minute,
-    wall.second
+    wall.second,
   );
   return Math.round((utcFromWall - instant.getTime()) / 60000);
 }
@@ -80,7 +80,7 @@ export function getTimeZoneOffsetMinutes(
  */
 export function toUtcNoonOfCalendarDate(date: Date): Date {
   return new Date(
-    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 12, 0, 0)
+    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 12, 0, 0),
   );
 }
 
@@ -98,12 +98,12 @@ export function toUtcNoonOfCalendarDate(date: Date): Date {
 export function getCityOffsetMinutesOnDate(
   locale: string,
   city: City,
-  calendarDate: Date
+  calendarDate: Date,
 ): number {
   return getTimeZoneOffsetMinutes(
     locale,
     city.timeZone,
-    toUtcNoonOfCalendarDate(calendarDate)
+    toUtcNoonOfCalendarDate(calendarDate),
   );
 }
 
@@ -175,7 +175,7 @@ export function getCityOffsetsForDateSpan(
   locale: string,
   city: City,
   sDate: Date,
-  eDate: Date
+  eDate: Date,
 ): TimeZoneSpanOffsets {
   const { start, end } = clampDateSpan(sDate, eDate);
 
@@ -226,7 +226,7 @@ export function formatDeltaVsCityForDateSpan(
   aCity: City,
   bCity: City,
   sDate: Date,
-  eDate: Date
+  eDate: Date,
 ): string {
   const a = getCityOffsetsForDateSpan(locale, aCity, sDate, eDate);
   const b = getCityOffsetsForDateSpan(locale, bCity, sDate, eDate);
