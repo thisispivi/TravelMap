@@ -18,7 +18,7 @@ import {
   TimezoneRow,
 } from "../../../molecules";
 import {
-  AirportIcon,
+  AirplaneIcon,
   CameraIcon,
   CityIcon,
   ContinentsIcon,
@@ -32,7 +32,6 @@ import {
 } from "@/assets";
 import {
   ContinentsBarChart,
-  FlightCompany,
   TransportsDonutChart,
   PopulationBarChart,
 } from "../../../atoms";
@@ -41,7 +40,7 @@ import {
   getMinAndMaxTransport,
   getTotalMileage,
 } from "@/utils/distance";
-import { Continent, FlightCompany as FlightCompanyCore } from "@/core";
+import { Continent } from "@/core";
 import { formatMileage } from "@/utils/format";
 import { constants, parameters } from "@/utils/parameters";
 import { getContinentsByCities, getContinentStats } from "@/utils/continent";
@@ -51,7 +50,6 @@ import {
 } from "@/utils/timezone";
 import { getTotalMediaTaken } from "@/utils/cities";
 import { getCurrenciesFromCountries } from "@/utils/countries";
-import { unique } from "remeda";
 
 interface InfoTabStatsProps {
   className?: string;
@@ -101,7 +99,7 @@ export default function InfoTabStats({
     totalMediaTaken,
     usedCurrencies,
     numUnescoSites,
-    flightCompanies,
+    // flightCompanies,
     maxFerry,
     minFerry,
   } = useMemo(() => {
@@ -121,13 +119,13 @@ export default function InfoTabStats({
       Number(totalMileage) / EARTH_CIRCUMFERENCE
     ).toFixed(2);
     const totalMileageToMoon = (Number(totalMileage) / MOON_DISTANCE).toFixed(
-      2,
+      2
     );
 
     const visitedContinents = getContinentsByCities(visitedCities);
 
     const allContinents = Object.values(Continent).filter(
-      (v): v is Continent => typeof v === "string",
+      (v): v is Continent => typeof v === "string"
     );
 
     const continentCities = allContinents
@@ -142,15 +140,15 @@ export default function InfoTabStats({
 
     const numUnescoSites = Object.values(parameters.stats.unescoSites).reduce(
       (acc, sites) => acc + sites.length,
-      0,
+      0
     );
 
-    const flightCompanies = unique([
-      FlightCompanyCore.AIR_ONE,
-      FlightCompanyCore.ALITALIA,
-      FlightCompanyCore.VOLOTEA,
-      ...takenFlights.map((f) => f.company),
-    ]);
+    // const flightCompanies = unique([
+    //   FlightCompanyCore.AIR_ONE,
+    //   FlightCompanyCore.ALITALIA,
+    //   FlightCompanyCore.VOLOTEA,
+    //   ...takenFlights.map((f) => f.company),
+    // ]);
 
     return {
       visitedCountriesCount,
@@ -171,7 +169,7 @@ export default function InfoTabStats({
       totalMediaTaken,
       usedCurrencies,
       numUnescoSites,
-      flightCompanies,
+      // flightCompanies,
     };
   }, [EARTH_CIRCUMFERENCE, MOON_DISTANCE]);
 
@@ -241,7 +239,7 @@ export default function InfoTabStats({
         </Card>
         <Row className="info-tab-stats__cards row--wrap">
           <Card className="info-tab-stats__card__flights card--box-shadow">
-            <AirportIcon className="info-tab-stats__card__flights__icon" />
+            <AirplaneIcon className="info-tab-stats__card__flights__icon" />
             <p>{t("stats.flights")}</p>
             <b>{takenFlights.length}</b>
           </Card>
@@ -299,7 +297,7 @@ export default function InfoTabStats({
               />
             </Column>
           ) : null}
-          <Column className="info-tab-stats__card__row">
+          {/* <Column className="info-tab-stats__card__row">
             <p className="info-tab-stats__card__row__title">
               {t("stats.flightCompaniesTaken")}
             </p>
@@ -312,7 +310,7 @@ export default function InfoTabStats({
                 />
               ))}
             </Row>
-          </Column>
+          </Column> */}
         </Card>
         <Row className="info-tab-stats__cards row--wrap">
           <Card className="info-tab-stats__card__unesco card--box-shadow">
