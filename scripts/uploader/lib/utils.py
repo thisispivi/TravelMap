@@ -1,7 +1,12 @@
+"""Small reusable helpers used by the uploader pipeline."""
+
+import logging
 import os
+from logging import Logger
+from typing import Any, Mapping, Optional, Tuple
 
 
-def setup_paths(root_path, city):
+def setup_paths(root_path: str, city: str) -> Tuple[str, str, str, str]:
     """
     Setup and return relevant folder paths.
 
@@ -25,23 +30,25 @@ def setup_paths(root_path, city):
     )
 
 
-def remove_if_exists(filepath, logger):
-    """
-    Remove the file if it exists.
+def get_logger(logger: Optional[Logger], name: str) -> Logger:
+    """Return `logger` if provided, otherwise a logger for `name`."""
 
-    Args:
-        filepath (str): File path to remove.
-        logger (Logger): Logger instance.
-    """
-    if os.path.exists(filepath):
-        try:
-            os.remove(filepath)
-            logger.info("Removed file: %s", filepath)
-        except Exception as e:
-            logger.error(f"Failed to remove file {filepath}: {e}")
+    return logger or logging.getLogger(name)
 
 
-def get_max_common_divisor(a, b):
+def build_base_storage_path(args: Mapping[str, Any]) -> str:
+    """Build the Bunny storage path prefix for a city (always ends with '/')."""
+
+    return f"{args['CDN_BASE_STORAGE_PATH']}{args['country']}/{args['city']}/"
+
+
+def build_cdn_city_path(args: Mapping[str, Any], filename: str) -> str:
+    """Build the public CDN path for a file within the city folder."""
+
+    return f"/{args['country']}/{args['city']}/{filename}"
+
+
+def get_max_common_divisor(a: int, b: int) -> int:
     """
     Get the max common divisor of two numbers
 
@@ -52,6 +59,8 @@ def get_max_common_divisor(a, b):
     Returns:
         int: The max common divisor of the two numbers.
     """
-    if b == 0:
-        return a
-    return get_max_common_divisor(b, a % b)
+    a = abs(int(a))
+    b = abs(int(b))
+    while b:
+        a, b = b, a % b
+    return a

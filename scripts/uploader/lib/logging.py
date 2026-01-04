@@ -12,6 +12,7 @@ class CustomFormatter(logging.Formatter):
     reset = "\x1b[0m"
     pink = "\x1b[38;5;200m"
     purple = "\x1b[38;5;141m"
+    progress_highlight = "\x1b[1m\x1b[30m\x1b[48;5;46m"
 
     def __init__(self, fmt):
         super().__init__()
@@ -19,6 +20,7 @@ class CustomFormatter(logging.Formatter):
         self.FORMATS = {
             logging.DEBUG: self.grey + self.fmt + self.reset,
             logging.INFO: self.blue + self.fmt + self.reset,
+            PROGRESS: self.progress_highlight + self.fmt + self.reset,
             logging.WARNING: self.yellow + self.fmt + self.reset,
             logging.ERROR: self.red + self.fmt + self.reset,
             logging.CRITICAL: self.bold_red + self.fmt + self.reset,
@@ -27,15 +29,17 @@ class CustomFormatter(logging.Formatter):
         }
 
     def format(self, record):
-        log_fmt = self.FORMATS.get(record.levelno)
+        log_fmt = self.FORMATS.get(record.levelno, self.fmt)
         formatter = logging.Formatter(log_fmt)
         return formatter.format(record)
 
 
 VIDEO = 25
+PROGRESS = 22
 PHOTO = 35
 
 logging.addLevelName(VIDEO, "VIDEO")
+logging.addLevelName(PROGRESS, "PROGRESS")
 logging.addLevelName(PHOTO, "PHOTO")
 
 
@@ -50,13 +54,29 @@ def photo(self, message, *args, **kws):
 
 
 logging.Logger.video = video
+
+
+def progress(self, message, *args, **kws):
+    if self.isEnabledFor(PROGRESS):
+        self._log(PROGRESS, message, args, **kws)
+
+
+logging.Logger.progress = progress
 logging.Logger.photo = photo
 
 
 def get_custom_logger():
+    logger = logging.getLogger()
+
+    for h in logger.handlers:
+        if isinstance(h, logging.StreamHandler) and isinstance(
+            getattr(h, "formatter", None), CustomFormatter
+        ):
+            logger.setLevel(logging.INFO)
+            return logger
+
     handler = logging.StreamHandler()
     handler.setFormatter(CustomFormatter("[%(levelname)s] - %(asctime)s - %(message)s"))
-    logger = logging.getLogger()
     logger.addHandler(handler)
     logger.setLevel(logging.INFO)
     return logger
