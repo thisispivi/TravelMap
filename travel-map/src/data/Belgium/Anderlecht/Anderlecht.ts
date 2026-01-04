@@ -15,5 +15,5 @@ export const Anderlecht = new City({
   ],
   backgroundImgSources: ["/Belgium/Anderlecht/Anderlecht.jpg"],
   population: 124659,
-  timezoneGMT: 2,
+  timeZone: "Europe/Brussels",
 });

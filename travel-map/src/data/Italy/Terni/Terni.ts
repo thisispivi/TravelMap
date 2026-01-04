@@ -15,5 +15,5 @@ export const Terni = new City({
   ],
   backgroundImgSources: ["/Italy/Terni/Terni.jpg"],
   population: 107574,
-  timezoneGMT: 2,
+  timeZone: "Europe/Rome",
 });

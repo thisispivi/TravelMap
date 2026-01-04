@@ -6,7 +6,7 @@ export const Toulon = new City({
   country: France,
   coordinates: [5.928, 43.124228],
   population: 167000,
-  timezoneGMT: 1,
+  timeZone: "Europe/Paris",
   travels: [
     new Travel({
       sDate: new Date(2025, 11, 31),

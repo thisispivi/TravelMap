@@ -15,5 +15,5 @@ export const Vienna = new City({
   ],
   backgroundImgSources: ["/Austria/Vienna/Vienna.jpg"],
   population: 2015000,
-  timezoneGMT: 2,
+  timeZone: "Europe/Vienna",
 });

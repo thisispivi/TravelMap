@@ -16,5 +16,5 @@ export const Sevilla = new City({
   ],
   backgroundImgSources: ["/Spain/Sevilla/Sevilla.jpg"],
   population: 684025,
-  timezoneGMT: 2,
+  timeZone: "Europe/Madrid",
 });

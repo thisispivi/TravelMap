@@ -15,5 +15,5 @@ export const Bruges = new City({
   ],
   backgroundImgSources: ["/Belgium/Bruges/Bruges.jpg"],
   population: 199276,
-  timezoneGMT: 2,
+  timeZone: "Europe/Brussels",
 });

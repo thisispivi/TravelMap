@@ -16,5 +16,5 @@ export const Braga = new City({
   ],
   backgroundImgSources: ["/Portugal/Braga/Braga.jpg"],
   population: 201583,
-  timezoneGMT: 1,
+  timeZone: "Europe/Lisbon",
 });

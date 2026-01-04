@@ -25,5 +25,5 @@ export const SanGiljan = new City({
     "/Malta/SanGiljan1/SanGiljan1.jpg",
   ],
   population: 3259,
-  timezoneGMT: 2,
+  timeZone: "Europe/Malta",
 });

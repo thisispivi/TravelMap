@@ -15,5 +15,5 @@ export const Turin = new City({
   ],
   backgroundImgSources: ["/Italy/Turin/Turin.jpg"],
   population: 1805730,
-  timezoneGMT: 2,
+  timeZone: "Europe/Rome",
 });

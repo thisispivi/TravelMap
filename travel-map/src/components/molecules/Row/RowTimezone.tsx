@@ -5,11 +5,14 @@ import { CountryFlag } from "../../atoms";
 import Row from "./Row";
 import "./RowTimezone.scss";
 import { JSX } from "react";
+import { formatDeltaVsCityForDateSpan } from "@/utils/timezoneOffset";
 
 interface TimezoneRowProps {
   className?: string;
   sCity: City;
   eCity: City;
+  sDate?: Date;
+  eDate?: Date;
 }
 
 /**
@@ -28,9 +31,14 @@ interface TimezoneRowProps {
 export default function TimezoneRow({
   sCity,
   eCity,
+  sDate,
+  eDate,
   className = "",
 }: TimezoneRowProps): JSX.Element {
-  const { t } = useLanguage(["home"]);
+  const { t, currLanguage } = useLanguage(["home"]);
+  const startDate = sDate ?? eCity.travels?.[0]?.sDate ?? new Date();
+  const endDate = eDate ?? eCity.travels?.[0]?.eDate ?? startDate;
+
   return (
     <Row className={`timezone-row ${className} row--wrap`}>
       <div className="timezone-row__cities">
@@ -45,7 +53,13 @@ export default function TimezoneRow({
         </h2>
       </div>
       <b className="timezone-row__distance">
-        {eCity.timezoneGMT - sCity.timezoneGMT}h
+        {formatDeltaVsCityForDateSpan(
+          currLanguage,
+          eCity,
+          sCity,
+          startDate,
+          endDate
+        )}
       </b>
     </Row>
   );

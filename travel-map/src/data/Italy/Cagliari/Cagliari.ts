@@ -8,5 +8,5 @@ export const Cagliari = new City({
   backgroundImgSources: ["/Italy/Cagliari/Cagliari.webp"],
   travels: [],
   population: 155000,
-  timezoneGMT: 2,
+  timeZone: "Europe/Rome",
 });

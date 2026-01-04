@@ -15,5 +15,5 @@ export const Sofia = new City({
   ],
   backgroundImgSources: ["/Bulgaria/Sofia/Sofia.jpg"],
   population: 1241675,
-  timezoneGMT: 3,
+  timeZone: "Europe/Sofia",
 });

@@ -16,5 +16,5 @@ export const Tokyo = new City({
   ],
   backgroundImgSources: ["/Japan/Tokyo/Tokyo.jpg"],
   population: 37115000,
-  timezoneGMT: 9,
+  timeZone: "Asia/Tokyo",
 });

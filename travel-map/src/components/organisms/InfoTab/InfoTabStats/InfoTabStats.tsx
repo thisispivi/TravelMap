@@ -293,7 +293,9 @@ export default function InfoTabStats({
               </p>
               <TimezoneRow
                 eCity={cityBiggestTimezoneJump}
+                eDate={cityBiggestTimezoneJump.travels?.[0]?.eDate}
                 sCity={parameters.birthCity}
+                sDate={cityBiggestTimezoneJump.travels?.[0]?.sDate}
               />
             </Column>
           ) : null}

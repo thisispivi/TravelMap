@@ -6,5 +6,5 @@ export const Olbia = new City({
   country: Italy,
   coordinates: [40.9232, 9.4967],
   population: 61764,
-  timezoneGMT: 1,
+  timeZone: "Europe/Rome",
 });

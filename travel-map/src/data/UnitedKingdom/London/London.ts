@@ -15,5 +15,5 @@ export const London = new City({
   ],
   backgroundImgSources: ["/UnitedKingdom/London/London.jpg"],
   population: 9748000,
-  timezoneGMT: 1,
+  timeZone: "Europe/London",
 });

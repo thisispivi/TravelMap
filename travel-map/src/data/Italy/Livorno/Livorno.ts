@@ -6,5 +6,5 @@ export const Livorno = new City({
   country: Italy,
   coordinates: [43.5485, 10.3106],
   population: 152916,
-  timezoneGMT: 1,
+  timeZone: "Europe/Rome",
 });

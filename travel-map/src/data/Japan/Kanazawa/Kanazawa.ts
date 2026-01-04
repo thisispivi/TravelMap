@@ -16,5 +16,5 @@ export const Kanazawa = new City({
   ],
   backgroundImgSources: ["/Japan/Kanazawa/Kanazawa.jpg"],
   population: 461000,
-  timezoneGMT: 9,
+  timeZone: "Asia/Tokyo",
 });

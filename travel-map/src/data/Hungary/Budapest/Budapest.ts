@@ -15,5 +15,5 @@ export const Budapest = new City({
   ],
   backgroundImgSources: ["/Hungary/Budapest/Budapest.jpg"],
   population: 1780390,
-  timezoneGMT: 2,
+  timeZone: "Europe/Budapest",
 });
