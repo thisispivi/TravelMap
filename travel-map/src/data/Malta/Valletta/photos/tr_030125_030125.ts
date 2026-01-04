@@ -555,7 +555,7 @@ export const tr_030125_030125_images: Image[] = [
     height: 16,
   },
   {
-    original: "https://youtube.com/embed/ZPusg75RFIw",
+    original: "ZPusg75RFIw",
     alt: "Valletta - Lower Barraka (03/05/2025)",
     thumbnail: "/Malta/Valletta1/080t.webp",
     width: 9,
@@ -647,7 +647,7 @@ export const tr_030125_030125_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/Aj69ViJxClU",
+    original: "Aj69ViJxClU",
     alt: "Valletta - Upper Barraka (03/05/2025)",
     thumbnail: "/Malta/Valletta1/093t.webp",
     width: 9,
@@ -711,7 +711,7 @@ export const tr_030125_030125_images: Image[] = [
     height: 320,
   },
   {
-    original: "https://youtube.com/embed/hQFroyDhgBI",
+    original: "hQFroyDhgBI",
     alt: "Valletta - Main Street (03/05/2025)",
     thumbnail: "/Malta/Valletta1/102t.webp",
     width: 9,
@@ -761,7 +761,7 @@ export const tr_030125_030125_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/MnPPMhP1hIY",
+    original: "MnPPMhP1hIY",
     alt: "Valletta - Puppeteer (03/05/2025)",
     thumbnail: "/Malta/Valletta1/109t.webp",
     width: 9,
@@ -769,7 +769,7 @@ export const tr_030125_030125_images: Image[] = [
     youtube: true,
   },
   {
-    original: "https://youtube.com/embed/yxsC-kaoxVw",
+    original: "yxsC-kaoxVw",
     alt: "Valletta - Puppeteer 2 (03/05/2025)",
     thumbnail: "/Malta/Valletta1/110t.webp",
     width: 9,

@@ -72,7 +72,7 @@ export const tr_161117_191117_images: Image[] = [
     height: 1333,
   },
   {
-    original: "https://youtube.com/embed/X4dbR58nXc8",
+    original: "X4dbR58nXc8",
     alt: "Bologna - Proclamazione Camilla (17/11/17)",
     thumbnail: "/Italy/Bologna/011t.webp",
     width: 16,
@@ -227,7 +227,7 @@ export const tr_161117_191117_images: Image[] = [
     height: 2000,
   },
   {
-    original: "https://youtube.com/embed/B4YykFcoTPI",
+    original: "B4YykFcoTPI",
     alt: "Bologna - Costume Camilla (17/11/17)",
     thumbnail: "/Italy/Bologna/033t.webp",
     width: 9,
@@ -263,7 +263,7 @@ export const tr_161117_191117_images: Image[] = [
     height: 2000,
   },
   {
-    original: "https://youtube.com/embed/J5gw4HRyLAE",
+    original: "J5gw4HRyLAE",
     alt: "Bologna - Camilla biblioteca (17/11/17)",
     thumbnail: "/Italy/Bologna/038t.webp",
     width: 9,

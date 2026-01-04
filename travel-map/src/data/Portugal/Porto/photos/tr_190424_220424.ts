@@ -1472,7 +1472,7 @@ export const tr_190424_220424_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/hS6S2m8aYWE",
+    original: "hS6S2m8aYWE",
     alt: "Porto - Street Artist (20/04/2024)",
     thumbnail: "/Portugal/Porto/211t.webp",
     width: 9,
@@ -2061,7 +2061,7 @@ export const tr_190424_220424_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/hyh4ZYQfymo",
+    original: "hyh4ZYQfymo",
     alt: "Porto - Sea Life 1 (21/04/2024)",
     thumbnail: "/Portugal/Porto/295t.webp",
     width: 9,
@@ -2076,7 +2076,7 @@ export const tr_190424_220424_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/93f_u-OazWY",
+    original: "93f_u-OazWY",
     alt: "Porto - Sea Life 2 (21/04/2024)",
     thumbnail: "/Portugal/Porto/297t.webp",
     width: 9,
@@ -2112,7 +2112,7 @@ export const tr_190424_220424_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/JhXz4t5NRkk",
+    original: "JhXz4t5NRkk",
     alt: "Porto - Sea Life 3 (21/04/2024)",
     thumbnail: "/Portugal/Porto/302t.webp",
     width: 9,
@@ -2127,7 +2127,7 @@ export const tr_190424_220424_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/cxS_QNls_oA",
+    original: "cxS_QNls_oA",
     alt: "Porto - Sea Life 4 (21/04/2024)",
     thumbnail: "/Portugal/Porto/304t.webp",
     width: 9,
@@ -2205,7 +2205,7 @@ export const tr_190424_220424_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/MeA8zKkZWcU",
+    original: "MeA8zKkZWcU",
     alt: "Porto - Sea Life 5 (21/04/2024)",
     thumbnail: "/Portugal/Porto/315t.webp",
     width: 9,
@@ -2346,7 +2346,7 @@ export const tr_190424_220424_images: Image[] = [
     height: 753,
   },
   {
-    original: "https://youtube.com/embed/UWe-jrY5cEQ",
+    original: "UWe-jrY5cEQ",
     alt: "Porto - Checco (21/04/2024)",
     thumbnail: "/Portugal/Porto/335t.webp",
     width: 9,

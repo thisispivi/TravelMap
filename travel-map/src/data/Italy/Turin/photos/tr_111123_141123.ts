@@ -556,7 +556,7 @@ export const tr_111123_141123_images: Image[] = [
     height: 16,
   },
   {
-    original: "https://youtube.com/embed/Aqzn_hEBzfQ",
+    original: "Aqzn_hEBzfQ",
     alt: "Turin - ATP Finals Medvedev Entrance (13/11/2023)",
     thumbnail: "/Italy/Turin/074t.webp",
     width: 9,

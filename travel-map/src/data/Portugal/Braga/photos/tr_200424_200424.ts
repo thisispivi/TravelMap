@@ -9,7 +9,7 @@ export const tr_200424_200424_images: Image[] = [
     height: 4,
   },
   {
-    original: "https://youtube.com/embed/OVpaMODnMog",
+    original: "OVpaMODnMog",
     alt: "Braga - Street Artist (20/04/2024)",
     thumbnail: "/Portugal/Braga/002t.webp",
     width: 9,
