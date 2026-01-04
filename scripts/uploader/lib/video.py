@@ -1,30 +1,33 @@
-from logging import Logger
+"""Video helpers for TravelMap uploads.
+
+This module extracts a first-frame thumbnail from a video file, encodes it to WEBP
+using the same size constraints as image thumbnails, uploads it to BunnyCDN, and
+returns metadata used in the exported JSON.
+"""
+
+import json
 import logging
-from PIL import Image, ImageOps
 import os
 import shutil
 import subprocess
-from typing import Optional, Mapping, Any, TypedDict
 from datetime import datetime
-import json
+from logging import Logger
+from typing import Any, Mapping, Optional, TypedDict
+
+from PIL import Image, ImageOps
 
 from BunnyCDN.Storage import Storage
-from lib.utils import get_max_common_divisor
-from lib.image import (
-    TravelImage,
+from lib.image import TravelImage
+from lib.utils import (
+    build_base_storage_path,
+    build_cdn_city_path,
+    get_logger,
+    get_max_common_divisor,
 )
 
 
 def is_video(filename: str) -> bool:
-    """
-    Check if the file is a video file.
-
-    Args:
-        filename (str): The name of the file.
-
-    Returns:
-        bool: True if the file is a video file, False otherwise
-    """
+    """Return True if `filename` looks like a supported video file."""
     return filename.lower().endswith((".mp4", ".mov", ".avi", ".mkv", ".flv"))
 
 
@@ -53,13 +56,10 @@ class TravelVideo:
 
     @staticmethod
     def _get_logger(logger: Optional[Logger]) -> Logger:
-        return logger or logging.getLogger(__name__)
-
-    def _get_base_storage_path(self) -> str:
-        return f"{self.args['CDN_BASE_STORAGE_PATH']}{self.args['country']}/{self.args['city']}/"
+        return get_logger(logger, __name__)
 
     def _get_cdn_full_path(self, filename: str) -> str:
-        return f"/{self.args['country']}/{self.args['city']}/{filename}"
+        return build_cdn_city_path(self.args, filename)
 
     def extract_first_frame(self, logger: Optional[Logger] = None) -> Optional[str]:
         logger = self._get_logger(logger)
@@ -138,7 +138,6 @@ class TravelVideo:
             )
             data = json.loads(p.stdout or "{}")
 
-            # Prefer container-level tag, else any stream tag
             fmt_ct = ((data.get("format") or {}).get("tags") or {}).get("creation_time")
             if fmt_ct:
                 return fmt_ct
@@ -162,10 +161,6 @@ class TravelVideo:
         if not raw:
             return None
 
-        # Common ffprobe outputs:
-        #  - 2020-01-02T03:04:05.000000Z
-        #  - 2020-01-02T03:04:05Z
-        #  - 2020-01-02 03:04:05
         candidates = [raw, raw.replace("Z", "+00:00")]
 
         for c in candidates:
@@ -268,7 +263,7 @@ class TravelVideo:
             )
 
             base_filename = os.path.splitext(self.filename)[0]
-            base_storage_path = self._get_base_storage_path()
+            base_storage_path = build_base_storage_path(self.args)
 
             storage.PutFile(
                 file_name=f"{base_filename}t.webp",
