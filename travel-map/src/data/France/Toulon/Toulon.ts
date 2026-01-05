@@ -1,5 +1,6 @@
 import { City, Travel } from "../../../core";
 import { France } from "../France";
+import { tr_281225_020126_images } from "./photos/tr_281225_020126";
 
 export const Toulon = new City({
   name: "Toulon",
@@ -9,9 +10,9 @@ export const Toulon = new City({
   timeZone: "Europe/Paris",
   travels: [
     new Travel({
-      sDate: new Date(2025, 11, 31),
+      sDate: new Date(2025, 11, 28),
       eDate: new Date(2026, 0, 2),
-      isFuture: false,
+      photos: tr_281225_020126_images,
     }),
   ],
   backgroundImgSources: ["/France/Toulon/Toulon.jpg"],

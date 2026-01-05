@@ -3,7 +3,6 @@ import { Image } from "../../../../core";
 export const tr_040125_040125_images: Image[] = [
   {
     thumbnail: "/Malta/SanGiljan1/001t.webp",
-    alt: "",
     original: "/Malta/SanGiljan1/001c.webp",
     width: 3,
     height: 4,
@@ -34,14 +33,12 @@ export const tr_040125_040125_images: Image[] = [
   },
   {
     thumbnail: "/Malta/SanGiljan1/005t.webp",
-    alt: "",
     original: "/Malta/SanGiljan1/005c.webp",
     width: 3,
     height: 4,
   },
   {
     thumbnail: "/Malta/SanGiljan1/006t.webp",
-    alt: "",
     original: "/Malta/SanGiljan1/006c.webp",
     width: 3,
     height: 4,
@@ -72,7 +69,6 @@ export const tr_040125_040125_images: Image[] = [
   },
   {
     thumbnail: "/Malta/SanGiljan1/010t.webp",
-    alt: "",
     original: "/Malta/SanGiljan1/010c.webp",
     width: 3,
     height: 4,

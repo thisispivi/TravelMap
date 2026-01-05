@@ -10,7 +10,7 @@ export const SaintTropez = new City({
   timeZone: "Europe/Paris",
   travels: [
     new Travel({
-      sDate: new Date(2025, 11, 28),
+      sDate: new Date(2025, 11, 28, 11, 0),
       eDate: new Date(2025, 11, 28),
       photos: tr_281225_281225_images,
     }),
