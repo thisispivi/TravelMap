@@ -24,9 +24,8 @@ Travel Map is a web app I’m building to track my travels and document the plac
 ```
 
 - `logos`: Contains all the assets used in the app.
-- `scripts`: Contains two folders:
-  - [Photo Setup](./scripts/photos-setup/README.md): generates compressed and thumbnail images from travel photos.
-  - [JSON Generator](./scripts/json-generator/README.md): creates a JSON file that maps travels and their associated images for each city, using the processed images. This JSON file powers the Travel Map app.
+- `scripts`: Contains a folder with the scripts used to process and upload images/videos and generate the JSON file.
+  - [Uploader](./scripts/uploader/README.md): generates compressed and thumbnail images from travel photos and videos. It uploads them to bunnyCDN and generates a JSON file with the metadata. This JSON file is then used by the React app to display the galleries.
 - `travel-map`: houses the React app for the Travel Map project.
 
 ## How to use it
