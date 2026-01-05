@@ -97,7 +97,7 @@ class TravelImage:
         output_path: str,
         quality_step: int = 5,
         logger: Optional[Logger] = None,
-    ) -> Optional[float]:
+    ) -> Optional[Tuple[float, int]]:
         """
         Save `image` as WEBP to `output_path` while attempting to satisfy size constraints.
 
@@ -109,7 +109,7 @@ class TravelImage:
           would drop below `min_size_kb`.
 
         Returns:
-            The final file size in KB, or `None` on error.
+            A tuple of (final file size in KB, final WEBP quality), or `None` on error.
         """
         logger = TravelImage._get_logger(logger)
 
@@ -121,11 +121,11 @@ class TravelImage:
             os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
             last_size_kb: Optional[float] = None
+            last_quality: Optional[int] = None
             for quality in range(100, 5, -quality_step):
                 image.save(output_path, "WEBP", quality=quality)
                 last_size_kb = TravelImage._file_size_kb(output_path)
-
-                logger.info("Quality: %s, File size: %.2f KB", quality, last_size_kb)
+                last_quality = quality
 
                 if quality == 100 and last_size_kb <= max_size_kb:
                     break
@@ -136,7 +136,9 @@ class TravelImage:
                 if last_size_kb < min_size_kb:
                     break
 
-            return last_size_kb
+            if last_size_kb is None or last_quality is None:
+                return None
+            return (last_size_kb, last_quality)
 
         except Exception as e:
             logger.error("Error compressing image: %s", e)
@@ -180,6 +182,7 @@ class TravelImage:
         output_path: str,
         logger: Optional[Logger],
         filename: str,
+        variant: str,
     ) -> None:
         """
         Decide whether to compress or duplicate based on `original_size_kb`.
@@ -189,12 +192,9 @@ class TravelImage:
         Otherwise, the image is re-encoded to WEBP under the provided constraints.
         """
         logger = self._get_logger(logger)
+        output_file = os.path.basename(output_path)
 
         if original_size_kb < min_size_kb:
-            logger.info(
-                "Image %s is already compressed or smaller than required.", filename
-            )
-
             size_kb = self._save_webp_high_quality(
                 image=img.copy(),
                 max_resolution=(resolution, resolution),
@@ -203,12 +203,16 @@ class TravelImage:
             )
             if size_kb is not None:
                 logger.info(
-                    "Saved %s as high-quality WEBP (%.2f KB).", filename, size_kb
+                    "%s %s -> %s | quality=%s | size=%.2f KB",
+                    variant,
+                    filename,
+                    output_file,
+                    100,
+                    size_kb,
                 )
             return
 
-        logger.info("Compressing image %s...", filename)
-        file_size_kb = self._compress_image(
+        result = self._compress_image(
             image=img.copy(),
             max_size_kb=max_size_kb,
             min_size_kb=min_size_kb,
@@ -216,8 +220,16 @@ class TravelImage:
             output_path=output_path,
             logger=logger,
         )
-        if file_size_kb is not None:
-            logger.info("Compressed %s to %.2f KB.", filename, file_size_kb)
+        if result is not None:
+            file_size_kb, quality = result
+            logger.info(
+                "%s %s -> %s | quality=%s | size=%.2f KB",
+                variant,
+                filename,
+                output_file,
+                quality,
+                file_size_kb,
+            )
 
     def compress(self, logger: Optional[Logger] = None) -> Optional[ImageInfo]:
         """
@@ -256,6 +268,7 @@ class TravelImage:
                     output_path=compressed_output_path,
                     logger=logger,
                     filename=self.filename,
+                    variant="Compressed",
                 )
 
                 self._handle_image_compression(
@@ -267,6 +280,7 @@ class TravelImage:
                     output_path=thumbnail_output_path,
                     logger=logger,
                     filename=self.filename,
+                    variant="Thumbnail",
                 )
 
                 if os.path.exists(thumbnail_output_path) and os.path.exists(
