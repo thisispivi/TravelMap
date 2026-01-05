@@ -1,5 +1,6 @@
 import { City, Travel } from "../../../core";
 import { France } from "../France";
+import { tr_311225_311225_images } from "./photos/tr_311225_311225";
 
 export const Cannes = new City({
   name: "Cannes",
@@ -11,7 +12,7 @@ export const Cannes = new City({
     new Travel({
       sDate: new Date(2025, 11, 31),
       eDate: new Date(2025, 11, 31),
-      isFuture: false,
+      photos: tr_311225_311225_images,
     }),
   ],
   backgroundImgSources: ["/France/Cannes/Cannes.jpg"],

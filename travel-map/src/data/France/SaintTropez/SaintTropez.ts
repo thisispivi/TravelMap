@@ -1,5 +1,6 @@
 import { City, Travel } from "../../../core";
 import { France } from "../France";
+import { tr_281225_281225_images } from "./photos/tr_281225_281225";
 
 export const SaintTropez = new City({
   name: "SaintTropez",
@@ -11,7 +12,7 @@ export const SaintTropez = new City({
     new Travel({
       sDate: new Date(2025, 11, 28),
       eDate: new Date(2025, 11, 28),
-      isFuture: false,
+      photos: tr_281225_281225_images,
     }),
   ],
   backgroundImgSources: ["/France/SaintTropez/SaintTropez.jpg"],
