@@ -1,5 +1,6 @@
 import { City, Travel } from "../../../core";
 import { France } from "../France";
+import { tr_281225_311225_images } from "./photos/tr_281225_311225";
 
 export const Nice = new City({
   name: "Nice",
@@ -9,9 +10,9 @@ export const Nice = new City({
   timeZone: "Europe/Paris",
   travels: [
     new Travel({
-      sDate: new Date(2025, 11, 28),
+      sDate: new Date(2025, 11, 28, 17, 0),
       eDate: new Date(2025, 11, 31),
-      isFuture: false,
+      photos: tr_281225_311225_images,
     }),
   ],
   backgroundImgSources: ["/France/Nice/Nice.jpg"],

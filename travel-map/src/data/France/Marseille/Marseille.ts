@@ -1,5 +1,6 @@
 import { City, Travel } from "../../../core";
 import { France } from "../France";
+import { tr_010126_010126_images } from "./photos/tr_010126_010126";
 
 export const Marseille = new City({
   name: "Marseille",
@@ -11,7 +12,7 @@ export const Marseille = new City({
     new Travel({
       sDate: new Date(2026, 0, 1),
       eDate: new Date(2026, 0, 1),
-      isFuture: false,
+      photos: tr_010126_010126_images,
     }),
   ],
   backgroundImgSources: ["/France/Marseille/Marseille.jpg"],
