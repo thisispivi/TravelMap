@@ -11,7 +11,7 @@ const DEFAULT_LOCALE = "en-US";
  * @returns {City | undefined} - The City with the biggest timezone jump
  */
 export function getCityBiggestTimezoneJump(
-  countries: City[]
+  countries: City[],
 ): City | undefined {
   const birthCity = parameters.birthCity;
   return pipe(
@@ -22,17 +22,17 @@ export function getCityBiggestTimezoneJump(
         const cityOffset = getCityOffsetMinutesOnDate(
           DEFAULT_LOCALE,
           city,
-          referenceDate
+          referenceDate,
         );
         const birthOffset = getCityOffsetMinutesOnDate(
           DEFAULT_LOCALE,
           birthCity,
-          referenceDate
+          referenceDate,
         );
         return -Math.abs(cityOffset - birthOffset);
       },
-      (city) => -(city.population ?? 0)
-    )
+      (city) => -(city.population ?? 0),
+    ),
   );
 }
 
@@ -49,18 +49,18 @@ export function getNumberOfTimezonesJumped(countries: City[]): number {
       const cityOffset = getCityOffsetMinutesOnDate(
         DEFAULT_LOCALE,
         city,
-        referenceDate
+        referenceDate,
       );
       const birthOffset = getCityOffsetMinutesOnDate(
         DEFAULT_LOCALE,
         birthCity,
-        referenceDate
+        referenceDate,
       );
       return cityOffset !== birthOffset;
     }),
     uniqueBy((city) => {
       const referenceDate = city.travels?.[0]?.sDate ?? new Date();
       return getCityOffsetMinutesOnDate(DEFAULT_LOCALE, city, referenceDate);
-    })
+    }),
   ).length;
 }
