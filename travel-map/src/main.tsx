@@ -9,10 +9,7 @@ import "./i18n/i18n";
 import { RouterProvider, createHashRouter } from "react-router-dom";
 import { Tooltip } from "react-tooltip";
 import { mobileAndTabletCheck } from "./utils/responsive";
-import { installChunkRecoveryHandlers } from "./utils/chunkRecovery";
 import { Home, Fallback } from "./components/pages";
-
-installChunkRecoveryHandlers();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -63,5 +60,5 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         opacity={1}
       />
     ) : null}
-  </React.StrictMode>,
+  </React.StrictMode>
 );
