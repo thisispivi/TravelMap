@@ -1,3 +1,5 @@
+"""Sorting helpers for uploader output metadata."""
+
 import math
 import os
 import re

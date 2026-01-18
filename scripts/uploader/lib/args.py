@@ -1,3 +1,5 @@
+"""Command-line argument parsing for the uploader."""
+
 import getopt
 from logging import Logger
 from typing import Sequence

@@ -1,3 +1,12 @@
+"""TravelMap media uploader entrypoint.
+
+This script processes all files in a city folder under `photos/<city>/` and:
+- creates compressed + thumbnail WEBP assets for images
+- creates a thumbnail WEBP for supported video formats
+- uploads derived assets to BunnyCDN Storage
+- exports a `<city>.json` manifest consumed by the TravelMap web app
+"""
+
 from __future__ import annotations
 
 import os
@@ -24,6 +33,11 @@ def _process_city_entry(
     results_city_folder_path: str,
     logger: Logger,
 ) -> Optional[Mapping[str, Any]]:
+    """Process a single city folder entry.
+
+    Routes to either `TravelVideo` (video inputs) or `TravelImage` (image inputs)
+    and returns the metadata dict produced by the corresponding pipeline.
+    """
     if is_video(filename):
         return TravelVideo(
             filename,
@@ -41,6 +55,14 @@ def _process_city_entry(
 
 
 def main(argv: Optional[Sequence[str]] = None) -> int:
+    """Run the uploader pipeline.
+
+    Args:
+        argv: Optional argv sequence. When omitted, defaults to `sys.argv`.
+
+    Returns:
+        Process exit code (0 on success; non-zero on failure).
+    """
     logger: Optional[Logger] = None
     try:
         logger = get_custom_logger()
