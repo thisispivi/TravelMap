@@ -42,6 +42,12 @@ class VideoInfo(TypedDict):
 
 
 class TravelVideo:
+    """Process a video file into a thumbnail and upload it.
+
+    The thumbnail is extracted from the first frame and encoded to WEBP under the
+    configured size/resolution constraints.
+    """
+
     def __init__(
         self,
         filename: str,
@@ -49,6 +55,7 @@ class TravelVideo:
         city_folder_path: str,
         results_city_folder_path: str,
     ):
+        """Create a video processor for a file in `city_folder_path`."""
         self.filename = filename
         self.args = args
         self.city_folder_path = city_folder_path
@@ -56,12 +63,15 @@ class TravelVideo:
 
     @staticmethod
     def _get_logger(logger: Optional[Logger]) -> Logger:
+        """Return the provided logger, or a module-scoped default logger."""
         return get_logger(logger, __name__)
 
     def _get_cdn_full_path(self, filename: str) -> str:
+        """Build a public CDN path for a derived filename inside the city folder."""
         return build_cdn_city_path(self.args, filename)
 
     def extract_first_frame(self, logger: Optional[Logger] = None) -> Optional[str]:
+        """Extract the first frame using ffmpeg and return the image path."""
         logger = self._get_logger(logger)
 
         video_path = os.path.join(self.city_folder_path, self.filename)
@@ -253,6 +263,7 @@ class TravelVideo:
             return None
 
     def upload_to_bunny_cdn(self, logger: Optional[Logger] = None) -> None:
+        """Upload the generated thumbnail WEBP (`*t.webp`) to BunnyCDN Storage."""
         logger = self._get_logger(logger)
 
         try:
@@ -280,6 +291,7 @@ class TravelVideo:
             )
 
     def run(self, logger: Optional[Logger] = None) -> Optional[VideoInfo]:
+        """Run the full video pipeline and return the JSON-ready metadata."""
         logger = self._get_logger(logger)
 
         frame_path = self.extract_first_frame(logger)

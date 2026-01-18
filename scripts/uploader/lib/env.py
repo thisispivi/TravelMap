@@ -1,3 +1,9 @@
+"""Environment configuration loading for the uploader.
+
+Loads key/value pairs from `env/.env` (preferred) or `env/example.env` (fallback),
+then overlays OS environment variables.
+"""
+
 import os
 import logging
 from logging import Logger
