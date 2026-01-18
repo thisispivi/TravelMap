@@ -61,10 +61,6 @@ export default defineConfig({
             return "router";
           }
 
-          if (normalizedId.includes("framer-motion")) {
-            return "motion";
-          }
-
           return "vendor";
         },
       },

@@ -1,83 +1,44 @@
 @use "../../../../styles/variables.module" as v;
 @use "../../../../styles/mixins" as m;
 
-.info-tab-cities {
+.info-tab-trips {
   padding: 1rem 0;
   flex-direction: column;
   height: 100%;
   min-height: 0;
   display: none;
-  &.info-tab-cities--visible {
+  &.info-tab-trips--visible {
     display: flex;
   }
 
-  .info-tab-cities__header {
+  .info-tab-trips__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1.5rem;
     margin-top: 1rem;
     padding-inline: 1.5rem;
-    .info-tab-cities__header__buttons {
+    .info-tab-trips__header__buttons {
       display: flex;
       gap: 1rem;
     }
-    .info-tab-cities__position-button {
+    .position-button {
       width: 2.5rem;
       height: 2.5rem;
-      &.info-tab-cities__position-button--auto-position {
+      &.position-button--auto-position {
         @include m.set-button-colors(v.$autoPositionButton, v.$autoPositionButtonContent, v.$autoPositionButtonHover);
       }
     }
   }
 
-  .info-tab-cities__content {
-    display: flex;
-    flex-wrap: wrap;
-    flex: 1 1 auto;
-    min-height: 0;
-    overflow-y: auto;
-    color: white;
-    margin-right: 0;
-    justify-content: space-evenly;
-    gap: 1.2rem 0;
-    padding-top: 0.2rem;
-    padding-bottom: 0.7rem;
-    flex-shrink: 0;
-
-    &.info-tab-cities__content--overflow {
-      margin-right: 0.7rem;
-    }
-
-    &.info-tab-cities__content--single {
-      flex-shrink: unset;
-    }
-  }
-
-  .info-tab-cities__content--grouped {
-    overflow-y: auto;
-    flex: 1 1 auto;
-    min-height: 0;
-    padding-bottom: 0.7rem;
-    margin-right: 0;
-
-    &.info-tab-cities__content--overflow {
-      margin-right: 0.7rem;
-    }
-
-    .info-tab-cities__content {
-      margin-right: 0rem;
-      width: 100%;
-    }
-  }
-  .info-tab-cities__year__selector {
+  .info-tab-trips__year__selector {
     margin: 0 0 0.75rem 0;
     flex-wrap: wrap;
     justify-content: flex-start;
     align-items: center;
     gap: 0.75rem;
 
-    .info-tab-cities__year__button {
+    .info-tab-trips__year__button {
       background: transparent;
       padding: 0.5rem 1rem;
       border-radius: 0.375rem;
@@ -89,7 +50,7 @@
         transform: scale(0.98);
       }
 
-      &.info-tab-cities__year__button--active {
+      &.info-tab-trips__year__button--active {
         background: v.$visitedButtonContent;
         border-color: v.$visitedButtonContent;
         color: white;
@@ -102,10 +63,41 @@
       }
     }
   }
+
+  .info-tab-trips__content--grouped {
+    overflow-y: auto;
+    flex: 1 1 auto;
+    min-height: 0;
+    padding-bottom: 0.7rem;
+    margin-right: 0;
+    display: flex;
+
+    .info-tab-trips__year-group {
+      display: flex;
+      flex: 1;
+      width: 100%;
+      padding: 0.5rem 1.5rem;
+      .info-tab-trips__content {
+        margin-right: 0rem;
+        width: 100%;
+        height: fit-content;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        overflow: hidden;
+        flex-wrap: nowrap;
+        max-height: unset;
+      }
+    }
+
+    &.info-tab-trips__content--overflow {
+      margin-right: 0.7rem;
+    }
+  }
 }
 
 .home--light {
-  .info-tab-cities__year__button {
+  .info-tab-trips__year__button {
     border: 0.1rem solid v.$lightButton;
     color: v.$lightDisabledText;
     &:hover {
@@ -117,7 +109,7 @@
 }
 
 .home--dark {
-  .info-tab-cities__year__button {
+  .info-tab-trips__year__button {
     border: 0.1rem solid v.$darkButton;
     color: v.$darkDisabledText;
     &:hover {
@@ -130,8 +122,8 @@
 
 .home--mobile,
 .home--tablet {
-  .info-tab-cities {
-    .info-tab-cities__content--overflow {
+  .info-tab-trips {
+    .info-tab-trips__content--overflow {
       margin-right: 0;
     }
   }

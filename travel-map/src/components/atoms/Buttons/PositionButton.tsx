@@ -35,9 +35,7 @@ export default function PositionButton({
   return (
     <Button
       ariaLabel={t("autoPositionTooltip")}
-      className={`info-tab-cities__position-button ${
-        isAutoPosition ? "info-tab-cities__position-button--auto-position" : ""
-      }`}
+      className={`position-button ${isAutoPosition ? "position-button--auto-position" : ""}`}
       onClick={() => setIsAutoPosition(!isAutoPosition)}
       tooltipContent={t("autoPositionTooltip")}
       tooltipId="base-tooltip"

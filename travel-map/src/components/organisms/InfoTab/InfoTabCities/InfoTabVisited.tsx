@@ -1,12 +1,7 @@
-import { JSX, useCallback, useMemo } from "react";
-import { City, Travel } from "@/core";
+import { JSX } from "react";
 import "./InfoTabVisited.scss";
-import { visitedCities, visitedCountries } from "@/data";
-import InfoTabCities from "./InfoTabCities";
-import {
-  getCitiesByCountriesAndIsFuture,
-  sortByTravelStartDate,
-} from "@/utils/cities";
+import { visitedCountries, visitedTrips } from "@/data";
+import InfoTabTrips from "./InfoTabTrips";
 
 interface InfoTabVisitedProps {
   className?: string;
@@ -30,39 +25,37 @@ export default function InfoTabVisited({
   className = "",
   isVisible = false,
 }: InfoTabVisitedProps): JSX.Element {
-  const allCities = useMemo(() => {
-    const result = getCitiesByCountriesAndIsFuture({
-      cities: visitedCities,
-      countries: visitedCountries,
-      isFuture: false,
-    });
+  // const allCities = useMemo(() => {
+  //   const result = getCitiesByCountriesAndIsFuture({
+  //     cities: visitedCities,
+  //     countries: visitedCountries,
+  //     isFuture: false,
+  //   });
 
-    return [...result].sort(sortByTravelStartDate);
-  }, []);
+  //   return [...result].sort(sortByTravelStartDate);
+  // }, []);
 
-  const travelsByCityName = useMemo(() => {
-    return new globalThis.Map<string, Travel[]>(
-      visitedCities.map((city) => [city.name, city.travels]),
-    );
-  }, []);
+  // const travelsByCityName = useMemo(() => {
+  //   return new globalThis.Map<string, Travel[]>(
+  //     visitedCities.map((city) => [city.name, city.travels]),
+  //   );
+  // }, []);
 
-  const getTravelIdx = useCallback(
-    (city: City, travel: Travel) => {
-      const travels = travelsByCityName.get(city.name);
-      return travels ? travels.indexOf(travel) : -1;
-    },
-    [travelsByCityName],
-  );
+  // const getTravelIdx = useCallback(
+  //   (city: City, travel: Travel) => {
+  //     const travels = travelsByCityName.get(city.name);
+  //     return travels ? travels.indexOf(travel) : -1;
+  //   },
+  //   [travelsByCityName],
+  // );
 
   return (
-    <InfoTabCities
+    <InfoTabTrips
       allCountries={visitedCountries}
-      cities={allCities}
       className={className}
-      getTravelIdx={getTravelIdx}
       id="visited"
-      isGroupedByYear={true}
       isVisible={isVisible}
+      trips={visitedTrips}
     />
   );
 }

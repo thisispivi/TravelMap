@@ -15,7 +15,7 @@ import { Cagliari } from "./Italy/Cagliari/Cagliari";
 import { Cairns } from "./Australia/Cairns/Cairns";
 import { Cannes } from "./France/Cannes/Cannes";
 import { Cefalù } from "./Italy/Cefalù/Cefalù";
-import { City, Country } from "../core";
+import { City, Country, Trip } from "../core";
 import { Comino } from "./Malta/Comino/Comino";
 import { Flight } from "../core";
 import { FlightCompany } from "@/core";
@@ -359,3 +359,65 @@ export const takenFerries: Ferry[] = [
 
 export const futureCountries: Country[] = [];
 export const futureCities: City[] = [];
+
+export const visitedTrips: Trip[] = [
+  new Trip({
+    id: "japan-2024",
+    name: "Japan Trip",
+    sDate: new Date(2024, 7, 13),
+    eDate: new Date(2024, 7, 18),
+    destinations: [
+      { city: Rome, travelIdx: 1 },
+      { city: Tokyo, travelIdx: 0 },
+      { city: Oshino, travelIdx: 0 },
+      { city: Fujikawaguchiko, travelIdx: 0 },
+      { city: Matsumoto, travelIdx: 0 },
+      { city: Takayama, travelIdx: 0 },
+      { city: Shirakawago, travelIdx: 0 },
+      { city: Kanazawa, travelIdx: 0 },
+      { city: Kyoto, travelIdx: 0 },
+      { city: Himeji, travelIdx: 0 },
+      { city: Kobe, travelIdx: 0 },
+      { city: Nara, travelIdx: 0 },
+      { city: Osaka, travelIdx: 0 },
+    ],
+    route: [
+      Rome.name,
+      Tokyo.name,
+      Oshino.name,
+      Fujikawaguchiko.name,
+      Matsumoto.name,
+      Takayama.name,
+      Shirakawago.name,
+      Kanazawa.name,
+      Kyoto.name,
+      Himeji.name,
+      Kobe.name,
+      Nara.name,
+      Osaka.name,
+    ],
+  }),
+
+  new Trip({
+    id: "cote-dazur-2025",
+    name: "Côte d'Azur Trip",
+    sDate: new Date(2024, 11, 28),
+    eDate: new Date(2024, 0, 2),
+    destinations: [
+      { city: Toulon, travelIdx: 0 },
+      { city: SaintTropez, travelIdx: 0 },
+      { city: Nice, travelIdx: 0 },
+      { city: MonteCarlo, travelIdx: 0 },
+      { city: Cannes, travelIdx: 0 },
+      { city: Marseille, travelIdx: 0 },
+    ],
+    route: [
+      Toulon.name,
+      SaintTropez.name,
+      Nice.name,
+      MonteCarlo.name,
+      Cannes.name,
+      Marseille.name,
+    ],
+  }),
+];

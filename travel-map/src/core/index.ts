@@ -3,6 +3,7 @@ export * from "./classes/Color";
 export * from "./classes/Country";
 export * from "./classes/Flight";
 export * from "./classes/Travel";
+export * from "./classes/Trip";
 
 export * from "./typings/Continent";
 export * from "./typings/Currency";
