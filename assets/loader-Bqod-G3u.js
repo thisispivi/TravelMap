@@ -1,1 +1,0 @@
-import{v as a}from"./data-BAL9QNrz.js";import"./vendor-Dfd9kND9.js";function d(o){const{cityName:i,travelIdx:t,photoIdx:r}=o.params,e=a.find(n=>n.name===i);return!e||!t||!r?null:{city:e,travelIdx:parseInt(t),photoIdx:parseInt(r)}}export{d as loader};
