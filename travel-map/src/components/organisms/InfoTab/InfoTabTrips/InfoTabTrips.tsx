@@ -1,6 +1,6 @@
 import "./InfoTabTrips.scss";
 import useLanguage from "@/hooks/language/language";
-import { Country, Travel, Trip } from "@/core";
+import { Travel, Trip } from "@/core";
 import { PositionButton } from "../../../atoms";
 import {
   useContext,
@@ -19,7 +19,6 @@ import { HomeContext } from "@/components/pages/Home/Home";
 import { TripCard } from "@/components/molecules";
 
 interface InfoTabTripsProps {
-  allCountries: Country[];
   trips: Trip[];
   className?: string;
   getTravelIdx?: (city: Trip, travel: Travel) => number;
@@ -28,7 +27,6 @@ interface InfoTabTripsProps {
 }
 
 export default function InfoTabTrips({
-  allCountries,
   trips,
   className = "",
   id,
@@ -42,12 +40,6 @@ export default function InfoTabTrips({
     setHoveredCity,
     setMapPosition,
   } = useContext(HomeContext)!;
-
-  const [countries, setCountries] = useState<Country[]>(() => allCountries);
-
-  useEffect(() => {
-    setCountries(allCountries);
-  }, [allCountries]);
 
   const [selectedYear, setSelectedYear] = useState<number>(
     constants.GROUP_BY_CITIES_DEFAULT_OPENED_YEAR,
@@ -76,7 +68,7 @@ export default function InfoTabTrips({
   useEffect(() => {
     if (!isVisible) return;
     checkOverflow();
-  }, [checkOverflow, trips, countries, selectedYear, isVisible]);
+  }, [checkOverflow, trips, selectedYear, isVisible]);
 
   const groups = useMemo(
     () =>

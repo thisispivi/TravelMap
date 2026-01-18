@@ -19,6 +19,7 @@
     "apexcharts": "^5.3.6",
     "babel-plugin-react-compiler": "^19.1.0-rc.2",
     "d3": "^7.9.0",
+    "framer-motion": "^12.27.0",
     "i18next": "^25.7.4",
     "i18next-browser-languagedetector": "^8.2.0",
     "mobile-detect": "^1.4.5",
