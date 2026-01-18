@@ -1,4 +1,5 @@
-import { useState, JSX } from "react";
+import { useId, useMemo, useState, JSX } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useNavigate } from "react-router-dom";
 import useLanguage from "../../../hooks/language/language";
@@ -31,21 +32,49 @@ export default function TripCard({
 }: TripCardProps): JSX.Element {
   const [isExpanded, setIsExpanded] = useState(false);
   const navigate = useNavigate();
-  const lang = useLanguage([]).currLanguage;
-  const { t } = useLanguage(["home"]);
 
-  const toggleExpand = () => setIsExpanded(!isExpanded);
+  const { t, currLanguage: lang } = useLanguage(["home"]);
+  const prefersReducedMotion = useReducedMotion();
+  const detailsId = useId();
+
+  const countries = useMemo(
+    () =>
+      uniqueBy(
+        trip.destinations.map((destination) => destination.city.country),
+        (country) => country.id,
+      ),
+    [trip.destinations],
+  );
+
+  /**
+   * Toggles the card's expanded state.
+   *
+   * The expand/collapse animation is intentionally driven by a single animated
+   * container (see `trip-card__details`) to avoid border-radius desync/jank.
+   */
+  const toggleExpand = () => setIsExpanded((prev) => !prev);
 
   return (
-    <div className="trip-card" id="info-tab">
-      <div
-        className={`trip-card__main ${isExpanded ? "is-expanded" : ""} ${className}`}
+    <motion.article
+      className={`trip-card ${className}`}
+      layout
+      transition={
+        prefersReducedMotion
+          ? { duration: 0 }
+          : { type: "spring", stiffness: 520, damping: 46 }
+      }
+    >
+      <button
+        aria-controls={detailsId}
+        aria-expanded={isExpanded}
+        className="trip-card__header"
         onClick={(e) => {
           e.stopPropagation();
           toggleExpand();
         }}
+        type="button"
       >
-        <div className="trip-card__image-container">
+        <div aria-hidden className="trip-card__image-container">
           <div className="trip-card__image-overlay" />
           <img
             alt={trip.name}
@@ -56,10 +85,7 @@ export default function TripCard({
 
         <div className="trip-card__info">
           <Row className="trip-card__flags">
-            {uniqueBy(
-              trip.destinations.map((destination) => destination.city.country),
-              (country) => country.id,
-            ).map((country) => (
+            {countries.map((country) => (
               <CountryFlag
                 className="trip-card__flag"
                 countryId={country.id}
@@ -67,10 +93,25 @@ export default function TripCard({
               />
             ))}
           </Row>
-          <div className="trip-card__header">
+
+          <div className="trip-card__header-row">
             <h2 className="trip-card__title">{trip.name}</h2>
+
+            <motion.span
+              animate={{ rotate: isExpanded ? 90 : -90 }}
+              aria-hidden
+              className="trip-card__chevron"
+              transition={
+                prefersReducedMotion
+                  ? { duration: 0 }
+                  : { type: "spring", stiffness: 700, damping: 44 }
+              }
+            >
+              <ChevronIcon className="trip-card__chevron-icon" />
+            </motion.span>
           </div>
-          {trip?.sDate ? (
+
+          {trip.sDate ? (
             <div className="trip-card__date">
               <CalendarIcon className="trip-card__date-icon" />
               <p className="trip-card__date-text">
@@ -85,103 +126,110 @@ export default function TripCard({
             </div>
           ) : null}
         </div>
+      </button>
 
-        <Button
-          aria-label={isExpanded ? "Collapse cities" : "Expand cities"}
-          className={`trip-card__toggle ${isExpanded ? "is-expanded" : ""}`}
-        >
-          <ChevronIcon className="trip-card__toggle-icon" />
-        </Button>
-      </div>
+      <AnimatePresence initial={false}>
+        {isExpanded ? (
+          <motion.section
+            animate={{ height: "auto", opacity: 1 }}
+            className="trip-card__details"
+            exit={{ height: 0, opacity: 0 }}
+            id={detailsId}
+            initial={prefersReducedMotion ? false : { height: 0, opacity: 0 }}
+            transition={
+              prefersReducedMotion
+                ? { duration: 0 }
+                : { duration: 0.32, ease: [0.2, 0.8, 0.2, 1] }
+            }
+          >
+            <div className="trip-card__details-inner">
+              <div className="trip-card__cities">
+                {trip.destinations.map((destination, index) => (
+                  <Button
+                    ariaLabel={`Open ${destination.city.getName(t)} gallery`}
+                    className="trip-card__city"
+                    key={`${destination.city.name}-${destination.travelIdx}`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate(
+                        `/gallery/${destination.city.name}/${destination.travelIdx}`,
+                      );
+                    }}
+                    onMouseEnter={() => {
+                      setHoveredCity(destination.city);
+                      if (
+                        setMapPosition &&
+                        destination.city.mapCoordinates &&
+                        isAutoPosition
+                      ) {
+                        setMapPosition({
+                          center: destination.city.mapCoordinates,
+                          zoom: parameters.map.hoveredCityZoom,
+                        });
+                      }
+                    }}
+                    onMouseLeave={() => setHoveredCity(null)}
+                  >
+                    <div className="trip-card__city-number">{index + 1}</div>
 
-      <div className={`trip-card__details ${isExpanded ? "is-open" : ""}`}>
-        <div className="trip-card__details-content">
-          <div className="trip-card__details-inner">
-            <div className="trip-card__cities" id="info-tab">
-              {trip.destinations.map((destination, index) => (
-                <Button
-                  aria-label={`Open ${destination.city.getName(t)} gallery`}
-                  className="trip-card__city"
-                  key={destination.city.name}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    navigate(
-                      `/gallery/${destination.city.name}/${destination.travelIdx}`,
-                    );
-                  }}
-                  onMouseEnter={() => {
-                    console.log("hover", destination.city.name);
-                    setHoveredCity(destination.city);
-                    if (
-                      setMapPosition &&
-                      destination.city.mapCoordinates &&
-                      isAutoPosition
-                    )
-                      setMapPosition({
-                        center: destination.city.mapCoordinates,
-                        zoom: parameters.map.hoveredCityZoom,
-                      });
-                  }}
-                  onMouseLeave={() => {
-                    setHoveredCity(null);
-                  }}
-                >
-                  <div className="trip-card__city-number">{index + 1}</div>
+                    <div className="trip-card__city-body">
+                      <div className="trip-card__city-topline">
+                        <p className="trip-card__city-name">
+                          {destination.city.getName(t)}
+                        </p>
+                        <CountryFlag
+                          className="trip-card__city-flag"
+                          countryId={destination.city.country.id}
+                        />
+                      </div>
 
-                  <div className="trip-card__city-body">
-                    <div className="trip-card__city-topline">
-                      <p className="trip-card__city-name">
-                        {destination.city.getName(t)}
-                      </p>
-                      <CountryFlag
-                        className="trip-card__city-flag"
-                        countryId={destination.city.country.id}
-                      />
+                      {destination.city.travels[destination.travelIdx]
+                        ?.sDate ? (
+                        <div className="trip-card__city-dates">
+                          <CalendarIcon className="trip-card__city-dates-icon" />
+                          <p className="trip-card__city-dates-text">
+                            {formatDateRangeShort({
+                              sDateInput:
+                                destination.city.travels[destination.travelIdx]
+                                  .sDate,
+                              eDateInput:
+                                destination.city.travels[destination.travelIdx]
+                                  .eDate,
+                              locale: lang,
+                              includeWeekday: false,
+                              showYear: true,
+                            })}
+                          </p>
+                        </div>
+                      ) : null}
                     </div>
 
-                    {destination.city.travels[destination.travelIdx]?.sDate ? (
-                      <div className="trip-card__city-dates">
-                        <CalendarIcon className="trip-card__city-dates-icon" />
-                        <p className="trip-card__city-dates-text">
-                          {formatDateRangeShort({
-                            sDateInput:
-                              destination.city.travels[destination.travelIdx]
-                                .sDate,
-                            eDateInput:
-                              destination.city.travels[destination.travelIdx]
-                                .eDate,
-                            locale: lang,
-                            includeWeekday: false,
-                            showYear: true,
-                          })}
-                        </p>
-                      </div>
-                    ) : null}
-                  </div>
-
-                  <div aria-hidden className="trip-card__city-image-container">
-                    <LazyLoadImage
-                      alt={destination.city.getName(t)}
-                      className="trip-card__city-image"
-                      effect="opacity"
-                      placeholder={
-                        <div className="trip-card__city-loading">
-                          <Loading />
-                        </div>
-                      }
-                      src={
-                        destination.city.getBackgroundImgSourceByIndex(0) ||
-                        undefined
-                      }
-                    />
-                  </div>
-                </Button>
-              ))}
+                    <div
+                      aria-hidden
+                      className="trip-card__city-image-container"
+                    >
+                      <LazyLoadImage
+                        alt={destination.city.getName(t)}
+                        className="trip-card__city-image"
+                        effect="opacity"
+                        placeholder={
+                          <div className="trip-card__city-loading">
+                            <Loading />
+                          </div>
+                        }
+                        src={
+                          destination.city.getBackgroundImgSourceByIndex(0) ||
+                          undefined
+                        }
+                      />
+                    </div>
+                  </Button>
+                ))}
+              </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
+          </motion.section>
+        ) : null}
+      </AnimatePresence>
+    </motion.article>
   );
 }

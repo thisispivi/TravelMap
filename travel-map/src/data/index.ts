@@ -602,7 +602,7 @@ export const visitedTrips: Trip[] = [
   }),
   new Trip({
     id: "cote-d-azur-trip-2025-2026",
-    name: "Cote d'Azur Trip",
+    name: "Côte d'Azur Trip",
     sDate: new Date(2025, 11, 28),
     eDate: new Date(2026, 0, 2),
     destinations: [
