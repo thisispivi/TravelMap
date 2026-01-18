@@ -161,11 +161,7 @@ function GroupedTripCards({
       <div className="info-tab-trips__header info-tab-trips__year__selector">
         {keys(groups).map((year, i) => (
           <button
-            className={`info-tab-trips__year__button ${
-              selectedYear === parseInt(year)
-                ? "info-tab-trips__year__button--active"
-                : ""
-            }`}
+            className={`info-tab-trips__year__button ${selectedYear === parseInt(year) ? "info-tab-trips__year__button--active" : ""}`}
             key={year}
             onClick={() => toggleYear(parseInt(year))}
             type="button"
@@ -179,17 +175,19 @@ function GroupedTripCards({
         id="info-tab"
         ref={contentRef}
       >
-        {keys(groups).map((yearGroup) => (
-          <div className="info-tab-trips__year-group" key={yearGroup}>
-            {selectedYear === parseInt(yearGroup) ? (
-              <div
-                className={`info-tab-trips__content info-tab-${id}__content`}
-              >
-                {renderTripCards(groups[yearGroup])}
-              </div>
-            ) : null}
-          </div>
-        ))}
+        {keys(groups)
+          .filter((year) => selectedYear === parseInt(year))
+          .map((yearGroup) => (
+            <div className="info-tab-trips__year-group" key={yearGroup}>
+              {selectedYear === parseInt(yearGroup) ? (
+                <div
+                  className={`info-tab-trips__content info-tab-${id}__content`}
+                >
+                  {renderTripCards(groups[yearGroup])}
+                </div>
+              ) : null}
+            </div>
+          ))}
       </div>
     </>
   );
