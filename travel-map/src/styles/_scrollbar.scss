@@ -47,18 +47,40 @@ $scrollbarThumbMinLength: 5rem;
 
 .home--light {
   #info-tab {
-    @include setScrollbar(v.$lightInfoTab, v.$darkButton, v.$darkInfoTab, v.$darkLeftBar);
+    @include setScrollbar(
+      v.$lightInfoTab,
+      v.$darkButton,
+      v.$darkInfoTab,
+      v.$darkLeftBar
+    );
   }
   #gallery {
-    @include setScrollbar(v.$lightInfoTab, v.$darkButton, v.$darkInfoTab, v.$darkLeftBar, 0.55rem);
+    @include setScrollbar(
+      v.$lightInfoTab,
+      v.$darkButton,
+      v.$darkInfoTab,
+      v.$darkLeftBar,
+      0.55rem
+    );
   }
 }
 
 .home--dark {
   #info-tab {
-    @include setScrollbar(v.$darkInfoTab, v.$lightButton, v.$lightInfoTab, v.$lightLeftBar);
+    @include setScrollbar(
+      v.$darkInfoTab,
+      v.$lightButton,
+      v.$lightInfoTab,
+      v.$lightLeftBar
+    );
   }
   #gallery {
-    @include setScrollbar(v.$darkInfoTab, v.$lightButton, v.$lightInfoTab, v.$lightLeftBar, 0.55rem);
+    @include setScrollbar(
+      v.$darkInfoTab,
+      v.$lightButton,
+      v.$lightInfoTab,
+      v.$lightLeftBar,
+      0.55rem
+    );
   }
 }
