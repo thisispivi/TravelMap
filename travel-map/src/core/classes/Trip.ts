@@ -10,6 +10,7 @@ interface TripData {
   eDate: Date;
   destinations: { city: City; travelIdx: number }[];
   route: City["name"][];
+  backgroundImgSourceKey?: string;
 }
 
 export class Trip {
@@ -19,6 +20,7 @@ export class Trip {
   eDate: Date;
   destinations: { city: City; travelIdx: number }[];
   route: City["name"][];
+  backgroundImgSource?: string;
 
   constructor(data: TripData) {
     this.id = data.id;
@@ -27,6 +29,10 @@ export class Trip {
     this.eDate = data.eDate;
     this.destinations = data.destinations;
     this.route = data.route;
+    this.backgroundImgSource = data.backgroundImgSourceKey
+      ? `https://pivi-travel-map.b-cdn.net/TravelMap/Trips/${data.backgroundImgSourceKey}`
+      : data.destinations[0]?.city.getBackgroundImgSourceByIndex(0) ||
+        undefined;
   }
 
   getDurationInDays(): number {

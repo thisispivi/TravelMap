@@ -26,11 +26,7 @@
       width: 2.5rem;
       height: 2.5rem;
       &.position-button--auto-position {
-        @include m.set-button-colors(
-          v.$autoPositionButton,
-          v.$autoPositionButtonContent,
-          v.$autoPositionButtonHover
-        );
+        @include m.set-button-colors(v.$autoPositionButton, v.$autoPositionButtonContent, v.$autoPositionButtonHover);
       }
     }
   }
@@ -87,7 +83,7 @@
         height: fit-content;
         display: flex;
         flex-direction: column;
-        gap: 2rem;
+        gap: 1.5rem;
         overflow: hidden;
         flex-wrap: nowrap;
         max-height: unset;

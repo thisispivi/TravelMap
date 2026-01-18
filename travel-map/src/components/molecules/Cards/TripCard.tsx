@@ -36,9 +36,7 @@ export default function TripCard({
         <div className="trip-card__image-container">
           <div className="trip-card__image-overlay" />
           <LazyLoadImage
-            alt={trip.destinations[trip.destinations.length - 1].city.getName(
-              t,
-            )}
+            alt={trip.name}
             className="trip-card__image"
             effect="opacity"
             placeholder={
@@ -46,11 +44,7 @@ export default function TripCard({
                 <Loading />
               </div>
             }
-            src={
-              trip.destinations[
-                trip.destinations.length - 1
-              ].city.getBackgroundImgSourceByIndex(0) || undefined
-            }
+            src={trip.backgroundImgSource}
           />
         </div>
 
