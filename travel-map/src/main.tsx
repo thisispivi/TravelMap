@@ -11,47 +11,48 @@ import { Tooltip } from "react-tooltip";
 import { mobileAndTabletCheck } from "./utils/responsive";
 import { Home, Fallback } from "./components/pages";
 
+const router = createHashRouter([
+  {
+    path: "/",
+    element: <Home />,
+    errorElement: <Fallback />,
+    children: [
+      { path: "lived" },
+      { path: "visited" },
+      { path: "future" },
+      { path: "stats" },
+      {
+        path: "gallery/:cityName/:travelIdx",
+        lazy: async () => {
+          const [{ default: Component }, { loader }] = await Promise.all([
+            import("./components/organisms/Gallery/Gallery"),
+            import("./components/organisms/Gallery/loader"),
+          ]);
+          return { Component, loader };
+        },
+        children: [
+          {
+            path: ":photoIdx",
+            lazy: async () => {
+              const [{ default: Component }, { loader }] = await Promise.all([
+                import("./components/organisms/Lightbox/Lightbox"),
+                import("./components/organisms/Lightbox/loader"),
+              ]);
+              return { Component, loader };
+            },
+          },
+        ],
+      },
+    ],
+  },
+]);
+
+const isMobileOrTablet = mobileAndTabletCheck();
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <RouterProvider
-      router={createHashRouter([
-        {
-          path: "/",
-          element: <Home />,
-          errorElement: <Fallback />,
-          children: [
-            { path: "lived" },
-            { path: "visited" },
-            { path: "future" },
-            { path: "stats" },
-            {
-              path: "gallery/:cityName/:travelIdx",
-              lazy: async () => {
-                const [{ default: Component }, { loader }] = await Promise.all([
-                  import("./components/organisms/Gallery/Gallery"),
-                  import("./components/organisms/Gallery/loader"),
-                ]);
-                return { Component, loader };
-              },
-              children: [
-                {
-                  path: ":photoIdx",
-                  lazy: async () => {
-                    const [{ default: Component }, { loader }] =
-                      await Promise.all([
-                        import("./components/organisms/Lightbox/Lightbox"),
-                        import("./components/organisms/Lightbox/loader"),
-                      ]);
-                    return { Component, loader };
-                  },
-                },
-              ],
-            },
-          ],
-        },
-      ])}
-    />
-    {!mobileAndTabletCheck() ? (
+    <RouterProvider router={router} />
+    {!isMobileOrTablet ? (
       <Tooltip
         className="tooltip"
         delayShow={300}

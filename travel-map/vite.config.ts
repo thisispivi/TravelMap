@@ -58,7 +58,7 @@ export default defineConfig({
           }
 
           if (normalizedId.includes("react-router")) {
-            return "router";
+            return "vendor";
           }
 
           return "vendor";
