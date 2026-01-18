@@ -1,3 +1,8 @@
+"""Custom logging setup for the uploader.
+
+Defines additional log levels (VIDEO/PHOTO/PROGRESS) and a colored formatter.
+"""
+
 import logging
 
 
@@ -15,6 +20,7 @@ class CustomFormatter(logging.Formatter):
     progress_highlight = "\x1b[1m\x1b[30m\x1b[48;5;46m"
 
     def __init__(self, fmt):
+        """Create a formatter that colorizes output based on log level."""
         super().__init__()
         self.fmt = fmt
         self.FORMATS = {
@@ -29,6 +35,7 @@ class CustomFormatter(logging.Formatter):
         }
 
     def format(self, record):
+        """Format a log record using a level-specific colorized format."""
         log_fmt = self.FORMATS.get(record.levelno, self.fmt)
         formatter = logging.Formatter(log_fmt)
         return formatter.format(record)
@@ -44,11 +51,13 @@ logging.addLevelName(PHOTO, "PHOTO")
 
 
 def video(self, message, *args, **kws):
+    """Log a message at the custom VIDEO level."""
     if self.isEnabledFor(VIDEO):
         self._log(VIDEO, message, args, **kws)
 
 
 def photo(self, message, *args, **kws):
+    """Log a message at the custom PHOTO level."""
     if self.isEnabledFor(PHOTO):
         self._log(PHOTO, message, args, **kws)
 
@@ -57,6 +66,7 @@ logging.Logger.video = video
 
 
 def progress(self, message, *args, **kws):
+    """Log a message at the custom PROGRESS level."""
     if self.isEnabledFor(PROGRESS):
         self._log(PROGRESS, message, args, **kws)
 
@@ -66,6 +76,7 @@ logging.Logger.photo = photo
 
 
 def get_custom_logger():
+    """Return a configured root logger with the uploader formatter attached."""
     logger = logging.getLogger()
 
     for h in logger.handlers:

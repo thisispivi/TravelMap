@@ -57,6 +57,7 @@ class TravelImage:
         city_folder_path: str,
         results_city_folder_path: str,
     ):
+        """Create an image processor for a file in `city_folder_path`."""
         self.filename = filename
         self.args = args
         self.city_folder_path = city_folder_path
