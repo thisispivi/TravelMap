@@ -7,7 +7,7 @@ export const constants = {
   EARTH_CIRCUMFERENCE: 40075,
   MOON_DISTANCE: 384400,
   GROUP_BY_CITIES_CUTOFF_YEAR: 2022,
-  GROUP_BY_CITIES_DEFAULT_OPENED_YEAR: new Date().getFullYear(),
+  GROUP_BY_CITIES_DEFAULT_OPENED_YEAR: 2024,
 };
 
 export const parameters = {
