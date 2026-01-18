@@ -36,6 +36,8 @@ export default function Button({
   ariaLabel,
   tooltipContent,
   tooltipId,
+  onMouseEnter,
+  onMouseLeave,
 }: ButtonProps): JSX.Element {
   return (
     <button
@@ -44,6 +46,8 @@ export default function Button({
       data-tooltip-content={tooltipContent}
       data-tooltip-id={tooltipId}
       onClick={onClick}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
       type="button"
     >
       {children}

@@ -5,8 +5,9 @@ import InfoTab from "./InfoTab/InfoTab";
 import InfoTabCities from "./InfoTab/InfoTabCities/InfoTabCities";
 import InfoTabFuture from "./InfoTab/InfoTabCities/InfoTabFuture";
 import InfoTabLived from "./InfoTab/InfoTabCities/InfoTabLived";
-import InfoTabVisited from "./InfoTab/InfoTabCities/InfoTabVisited";
 import InfoTabStats from "./InfoTab/InfoTabStats/InfoTabStats";
+import InfoTabVisited from "./InfoTab/InfoTabTrips/InfoTabVisited";
+import InfoTabTrips from "./InfoTab/InfoTabTrips/InfoTabTrips";
 import LanguageSelector from "./Language/Language";
 import LeftBar from "./LeftBar/LeftBar";
 import Lightbox from "./Lightbox/Lightbox";
@@ -21,6 +22,7 @@ export {
   InfoTabLived,
   InfoTabVisited,
   InfoTabStats,
+  InfoTabTrips,
   LanguageSelector,
   LeftBar,
   Lightbox,

@@ -22,15 +22,11 @@
       display: flex;
       gap: 1rem;
     }
-    .info-tab-cities__position-button {
+    .position-button {
       width: 2.5rem;
       height: 2.5rem;
-      &.info-tab-cities__position-button--auto-position {
-        @include m.set-button-colors(
-          v.$autoPositionButton,
-          v.$autoPositionButtonContent,
-          v.$autoPositionButtonHover
-        );
+      &.position-button--auto-position {
+        @include m.set-button-colors(v.$autoPositionButton, v.$autoPositionButtonContent, v.$autoPositionButtonHover);
       }
     }
   }

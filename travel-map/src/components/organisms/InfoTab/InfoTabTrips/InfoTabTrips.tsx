@@ -16,7 +16,7 @@ import { groupTripsByYear } from "@/utils/trips";
 import { keys } from "remeda";
 import { constants } from "@/utils/parameters";
 import { HomeContext } from "@/components/pages/Home/Home";
-import TripCard from "@/components/molecules/Cards/TripCard";
+import { TripCard } from "@/components/molecules";
 
 interface InfoTabTripsProps {
   allCountries: Country[];
@@ -35,8 +35,13 @@ export default function InfoTabTrips({
   isVisible = false,
 }: InfoTabTripsProps): JSX.Element | null {
   const { t } = useLanguage(["home"]);
-  const { isAutoPosition, setIsAutoPosition, responsive } =
-    useContext(HomeContext)!;
+  const {
+    isAutoPosition,
+    setIsAutoPosition,
+    responsive,
+    setHoveredCity,
+    setMapPosition,
+  } = useContext(HomeContext)!;
 
   const [countries, setCountries] = useState<Country[]>(() => allCountries);
 
@@ -81,15 +86,24 @@ export default function InfoTabTrips({
     [trips],
   );
 
-  const renderTripCards = useCallback((tripsToRender: Trip[]): JSX.Element => {
-    return (
-      <>
-        {tripsToRender.map((trip) => {
-          return <TripCard key={trip.id} trip={trip} />;
-        })}
-      </>
-    );
-  }, []);
+  const renderTripCards = useCallback(
+    (tripsToRender: Trip[]): JSX.Element => {
+      return (
+        <>
+          {tripsToRender.map((trip) => (
+            <TripCard
+              isAutoPosition={isAutoPosition}
+              key={trip.id}
+              setHoveredCity={setHoveredCity}
+              setMapPosition={setMapPosition}
+              trip={trip}
+            />
+          ))}
+        </>
+      );
+    },
+    [isAutoPosition, setHoveredCity, setMapPosition],
+  );
 
   if (!isVisible) return null;
 

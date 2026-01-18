@@ -11,7 +11,7 @@ const InfoTabLived = lazy(
   () => import("../../organisms/InfoTab/InfoTabCities/InfoTabLived"),
 );
 const InfoTabVisited = lazy(
-  () => import("../../organisms/InfoTab/InfoTabCities/InfoTabVisited"),
+  () => import("../../organisms/InfoTab/InfoTabTrips/InfoTabVisited"),
 );
 const InfoTabFuture = lazy(
   () => import("../../organisms/InfoTab/InfoTabCities/InfoTabFuture"),
