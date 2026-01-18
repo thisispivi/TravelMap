@@ -23,6 +23,21 @@ interface TripCardProps {
   isAutoPosition?: boolean;
 }
 
+/**
+ * TripCard component
+ *
+ * The TripCard component is a molecule that displays a trip overview card.
+ * It includes the trip name, dates, countries visited, and expandable details
+ * showing the cities visited during the trip.
+ *
+ * @param {TripCardProps} data - The data that will be used to display the component.
+ * @param {string} data.className - The class to apply to the trip card
+ * @param {Trip} data.trip - The trip to display
+ * @param {function} data.setHoveredCity - The function to set the hovered city
+ * @param {function} [data.setMapPosition] - The function to set the map position
+ * @param {boolean} [data.isAutoPosition] - Whether the map should auto position to the city when hovered
+ * @returns {JSX.Element} The TripCard component
+ */
 export default function TripCard({
   className = "",
   trip,
