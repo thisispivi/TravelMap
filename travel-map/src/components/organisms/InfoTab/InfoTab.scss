@@ -38,10 +38,19 @@
   }
 }
 
-@mixin responsive-info-tab($min-width, $max-width, $info-tab-width, $city-card-width) {
+@mixin responsive-info-tab(
+  $min-width,
+  $max-width,
+  $info-tab-width,
+  $city-card-width,
+  $flex
+) {
   @media screen and (min-width: #{$min-width}px) and (max-width: #{$max-width}px) {
     .info-tab {
       width: calc(100% - 3.5rem);
+      .info-tab-cities__content {
+        flex: $flex !important;
+      }
       .city-card {
         width: $city-card-width;
       }
@@ -49,9 +58,9 @@
   }
 }
 
-@include responsive-info-tab(460, 536, calc(100% - 3.5rem), 11.5rem);
-@include responsive-info-tab(280, 460, 16rem, 12rem);
-@include responsive-info-tab(null, 280, 16rem, 11.5rem);
+@include responsive-info-tab(460, 536, calc(100% - 3.5rem), 11.5rem, 1 1 auto);
+@include responsive-info-tab(280, 460, 16rem, calc(100% - 3rem), none);
+@include responsive-info-tab(null, 280, 16rem, 11.5rem, none);
 
 @media screen and (max-width: 460px) {
   .info-tab-visited__void-city,
