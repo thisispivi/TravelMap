@@ -1,12 +1,11 @@
-import MobileDetect from "mobile-detect";
+import { isMobile, isTablet } from "mobile-device-detect";
 
 /**
- * Check if the device is a mobile or tablet
- * @returns {boolean} true if the device is a mobile or tablet, false otherwise
+ * Detect whether the current device should be treated as mobile/tablet.
+ *
+ * This is used to disable some desktop-only UI affordances.
  */
 export function mobileAndTabletCheck(): boolean {
   if (window.innerWidth <= window.innerHeight) return true;
-  const detector = new MobileDetect(window.navigator.userAgent);
-  if (detector.mobile() || detector.tablet() || detector.phone()) return true;
-  return false;
+  return isMobile || isTablet;
 }
