@@ -93,6 +93,14 @@ export function formatDateRangeShort({
     return fullDate(s).trim();
   }
 
+  if (
+    s.getFullYear() === e.getFullYear() &&
+    s.getMonth() === e.getMonth() &&
+    s.getDate() === e.getDate()
+  ) {
+    return fullDate(s).trim();
+  }
+
   if (s.getFullYear() === e.getFullYear()) {
     if (s.getMonth() === e.getMonth()) {
       if (includeWeekday) {

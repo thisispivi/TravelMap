@@ -1,6 +1,7 @@
 import Box from "./Box/Box";
 import Card from "./Cards/Card";
 import CityCard from "./Cards/CityCard";
+import TripCard from "./Cards/TripCard";
 import CityRow from "./Row/RowCity";
 import Column from "./Column/Column";
 import Container from "./Container/Container";
@@ -16,6 +17,7 @@ export {
   Box,
   Card,
   CityCard,
+  TripCard,
   CityRow,
   Column,
   Container,

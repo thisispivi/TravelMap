@@ -2,20 +2,32 @@ import { useState, JSX } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useNavigate } from "react-router-dom";
 import useLanguage from "../../../hooks/language/language";
-import { Trip } from "../../../core";
+import { City, Trip } from "../../../core";
 import { CalendarIcon, ChevronIcon } from "../../../assets";
 import { Button, CountryFlag, Loading } from "../../atoms";
 import { formatDateRangeShort } from "@/i18n/functions/date";
 import "./TripCard.scss";
+import Row from "../Row/Row";
+import { uniqueBy } from "remeda";
+import { parameters } from "@/utils/parameters";
 
 interface TripCardProps {
   className?: string;
   trip: Trip;
+  setHoveredCity: (city: City | null) => void;
+  setMapPosition?: (position: {
+    center: [number, number];
+    zoom: number;
+  }) => void;
+  isAutoPosition?: boolean;
 }
 
 export default function TripCard({
   className = "",
   trip,
+  setHoveredCity,
+  setMapPosition,
+  isAutoPosition = false,
 }: TripCardProps): JSX.Element {
   const [isExpanded, setIsExpanded] = useState(false);
   const navigate = useNavigate();
@@ -35,26 +47,26 @@ export default function TripCard({
       >
         <div className="trip-card__image-container">
           <div className="trip-card__image-overlay" />
-          <LazyLoadImage
+          <img
             alt={trip.name}
             className="trip-card__image"
-            effect="opacity"
-            placeholder={
-              <div className="trip-card__image-loading">
-                <Loading />
-              </div>
-            }
             src={trip.backgroundImgSource}
           />
         </div>
 
         <div className="trip-card__info">
-          <CountryFlag
-            className="trip-card__flag"
-            countryId={
-              trip.destinations[trip.destinations.length - 1].city.country.id
-            }
-          />
+          <Row className="trip-card__flags">
+            {uniqueBy(
+              trip.destinations.map((destination) => destination.city.country),
+              (country) => country.id,
+            ).map((country) => (
+              <CountryFlag
+                className="trip-card__flag"
+                countryId={country.id}
+                key={country.id}
+              />
+            ))}
+          </Row>
           <div className="trip-card__header">
             <h2 className="trip-card__title">{trip.name}</h2>
           </div>
@@ -87,7 +99,7 @@ export default function TripCard({
           <div className="trip-card__details-inner">
             <div className="trip-card__cities" id="info-tab">
               {trip.destinations.map((destination, index) => (
-                <button
+                <Button
                   aria-label={`Open ${destination.city.getName(t)} gallery`}
                   className="trip-card__city"
                   key={destination.city.name}
@@ -98,7 +110,22 @@ export default function TripCard({
                       `/gallery/${destination.city.name}/${destination.travelIdx}`,
                     );
                   }}
-                  type="button"
+                  onMouseEnter={() => {
+                    console.log("hover", destination.city.name);
+                    setHoveredCity(destination.city);
+                    if (
+                      setMapPosition &&
+                      destination.city.mapCoordinates &&
+                      isAutoPosition
+                    )
+                      setMapPosition({
+                        center: destination.city.mapCoordinates,
+                        zoom: parameters.map.hoveredCityZoom,
+                      });
+                  }}
+                  onMouseLeave={() => {
+                    setHoveredCity(null);
+                  }}
                 >
                   <div className="trip-card__city-number">{index + 1}</div>
 
@@ -149,7 +176,7 @@ export default function TripCard({
                       }
                     />
                   </div>
-                </button>
+                </Button>
               ))}
             </div>
           </div>
