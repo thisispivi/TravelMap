@@ -1,0 +1,1 @@
+import{v as t}from"./data-Di2FxgI_.js";import"./vendor-CJygW6li.js";function r(r){const{cityName:a,travelIdx:n}=r.params,e=t.find(t=>t.name===a);return e&&n?{city:e,travelIdx:parseInt(n)}:null}export{r as loader};
