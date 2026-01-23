@@ -1,8 +1,8 @@
-import { JSX, lazy, useMemo } from "react";
-import useLanguage from "@/hooks/language/language";
 import "./BarChartContinents.scss";
-import { Continent } from "@/core";
 import { ApexOptions } from "apexcharts";
+import { Continent } from "@/core";
+import { JSX, lazy, useMemo } from "react";
+import { useLanguage } from "@/hooks/language/language";
 const ReactApexChart = lazy(() => import("react-apexcharts"));
 
 interface ContinentsBarChartProps {
@@ -28,7 +28,7 @@ interface ContinentsBarChartProps {
  * @param {boolean} [props.isDarkTheme=false] - Current theme.
  * @returns {JSX.Element} - The continents bar chart.
  */
-export default function ContinentsBarChart({
+export function ContinentsBarChart({
   data,
   barColors = ["#107895", "#79a14e"],
   isDarkTheme = false,

@@ -1,7 +1,8 @@
 import { JSX, useCallback, useMemo } from "react";
 import "./InfoTabFuture.scss";
 import { futureCities, futureCountries } from "@/data";
-import InfoTabCities from "./InfoTabCities";
+import { InfoTabCities } from "./InfoTabCities";
+
 import {
   getCitiesByCountriesAndIsFuture,
   sortByTravelStartDate,
@@ -26,7 +27,7 @@ interface InfoTabFutureProps {
  *
  * @returns {JSX.Element} - The info tab future
  */
-export default function InfoTabFuture({
+export function InfoTabFuture({
   className = "",
   isVisible = false,
 }: InfoTabFutureProps): JSX.Element {

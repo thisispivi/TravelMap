@@ -1,6 +1,6 @@
 import "./TooltipMap.scss";
 import { City } from "@/core";
-import useLanguage from "@/hooks/language/language";
+import { useLanguage } from "@/hooks/language/language";
 import { Button, CountryFlag } from "../../atoms";
 import {
   CalendarIcon,
@@ -35,7 +35,7 @@ interface MapTooltipProps {
  * @param {(isOpen: boolean) => void} props.setIsOpen - The function to set the visibility of the tooltip
  * @returns {JSX.Element} - The map tooltip
  */
-export default function MapTooltip({
+export function MapTooltip({
   city,
   onMouseEnter,
   onMouseLeave,

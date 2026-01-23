@@ -1,10 +1,10 @@
-import useLanguage from "@/hooks/language/language";
 import { Button } from "..";
-import { PositionIcon } from "@/assets";
-import { mobileAndTabletCheck } from "@/utils/responsive";
 import { ButtonProps } from "./Button";
-import { ResponsiveType } from "@/hooks/style/responsive";
 import { JSX } from "react";
+import { PositionIcon } from "@/assets";
+import { ResponsiveType } from "@/hooks/style/responsive";
+import { mobileAndTabletCheck } from "@/utils/responsive";
+import { useLanguage } from "@/hooks/language/language";
 
 interface PositionButtonProps extends ButtonProps {
   isAutoPosition: boolean;
@@ -25,7 +25,7 @@ interface PositionButtonProps extends ButtonProps {
  * @param {ResponsiveType} props.responsive - The responsive
  * @returns {JSX.Element} - The position button
  */
-export default function PositionButton({
+export function PositionButton({
   isAutoPosition,
   setIsAutoPosition,
   responsive,

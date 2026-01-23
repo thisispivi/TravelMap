@@ -1,14 +1,15 @@
-import { useId, useMemo, useState, JSX } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import { useNavigate } from "react-router-dom";
-import useLanguage from "../../../hooks/language/language";
-import { City, Trip } from "../../../core";
-import { CalendarIcon, ChevronIcon } from "../../../assets";
-import { Button, CountryFlag, Loading } from "../../atoms";
-import { formatDateRangeShort } from "@/i18n/functions/date";
 import "./TripCard.scss";
-import Row from "../Row/Row";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { Button, CountryFlag, Loading } from "../../atoms";
+import { CalendarIcon, ChevronIcon } from "../../../assets";
+import { City, Trip } from "../../../core";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import { formatDateRangeShort } from "@/i18n/functions/date";
+import { useId, useMemo, useState, JSX } from "react";
+import { useLanguage } from "../../../hooks/language/language";
+import { useNavigate } from "react-router-dom";
+import { Row } from "../Row/Row";
+
 import { uniqueBy } from "remeda";
 import { parameters } from "@/utils/parameters";
 
@@ -38,7 +39,7 @@ interface TripCardProps {
  * @param {boolean} [data.isAutoPosition] - Whether the map should auto position to the city when hovered
  * @returns {JSX.Element} The TripCard component
  */
-export default function TripCard({
+export function TripCard({
   className = "",
   trip,
   setHoveredCity,

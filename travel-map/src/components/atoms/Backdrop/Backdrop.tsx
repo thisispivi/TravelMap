@@ -1,5 +1,5 @@
-import { JSX } from "react";
 import "./Backdrop.scss";
+import { JSX } from "react";
 
 interface BackdropProps {
   onClick?: () => void;
@@ -20,7 +20,7 @@ interface BackdropProps {
  * @param {string} [props.className] - The class to apply to
  * @returns {JSX.Element} - The backdrop
  */
-export default function Backdrop({
+export function Backdrop({
   onClick,
   isVisible = true,
   className = "",

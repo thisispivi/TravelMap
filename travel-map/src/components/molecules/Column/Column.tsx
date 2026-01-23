@@ -1,5 +1,5 @@
-import { PropsWithChildren, JSX } from "react";
 import "./Column.scss";
+import { PropsWithChildren, JSX } from "react";
 
 interface ColumnProps extends PropsWithChildren {
   className?: string;
@@ -16,9 +16,6 @@ interface ColumnProps extends PropsWithChildren {
  * @param {string} [props.className] - The class to apply to the column
  * @returns {JSX.Element} - The column
  */
-export default function Column({
-  className = "",
-  children,
-}: ColumnProps): JSX.Element {
+export function Column({ className = "", children }: ColumnProps): JSX.Element {
   return <div className={`column ${className}`}>{children}</div>;
 }

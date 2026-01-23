@@ -1,10 +1,10 @@
 import "./InfoTabCities.scss";
-import useLanguage from "@/hooks/language/language";
+import { useLanguage } from "@/hooks/language/language";
 import { City, Country, Travel } from "@/core";
 import { CityCard, FilterByCountry } from "../../../molecules";
 import { FilterIcon } from "@/assets";
 import { HomeContext } from "../../../pages/Home/Home";
-import { PositionButton } from "../../../atoms";
+import { PositionButton } from "../../../atoms/Buttons/PositionButton";
 import {
   useContext,
   useState,
@@ -47,7 +47,7 @@ interface InfoTabCitiesProps {
  *
  * @returns {JSX.Element} - The info tab cities
  */
-export default function InfoTabCities({
+export function InfoTabCities({
   allCountries,
   cities,
   className = "",

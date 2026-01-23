@@ -1,6 +1,6 @@
 import { JSX, useState } from "react";
 import "./Language.scss";
-import useLanguage from "@/hooks/language/language";
+import { useLanguage } from "@/hooks/language/language";
 import { Button, LanguageFlag } from "../../atoms";
 import { LanguageIcon } from "@/assets";
 import { useTranslation } from "react-i18next";
@@ -17,7 +17,7 @@ const possibleLanguages = [...SUPPORTED_LOCALES] as const;
  *
  * @returns {JSX.Element} - The language selector
  */
-export default function LanguageSelector(): JSX.Element {
+export function LanguageSelector(): JSX.Element {
   const { t } = useTranslation("home");
 
   const [isOpen, setIsOpen] = useState(false);

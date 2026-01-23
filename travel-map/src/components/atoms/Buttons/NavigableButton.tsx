@@ -1,6 +1,6 @@
-import { JSX } from "react";
+import { Button } from "./Button";
 import { Link } from "react-router-dom";
-import Button from "./Button";
+import { JSX } from "react";
 
 interface NavigableButtonProps {
   id: string;
@@ -33,7 +33,7 @@ interface NavigableButtonProps {
  * @param {string} props.tooltipText - The tooltip text of the button
  * @returns {JSX.Element} - The navigable button
  */
-export default function NavigableButton({
+export function NavigableButton({
   id,
   isButtonActive,
   defaultPath,

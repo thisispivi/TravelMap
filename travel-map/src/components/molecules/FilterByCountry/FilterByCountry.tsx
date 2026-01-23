@@ -1,10 +1,10 @@
-import { ReactNode, useState, JSX, useRef } from "react";
 import "./FilterByCountry.scss";
-import { Country } from "../../../core";
 import { Backdrop, Button, Checkbox, CountryFlag } from "../../atoms";
-import useLanguage from "../../../hooks/language/language";
 import { CSSTransition } from "react-transition-group";
+import { Country } from "../../../core";
+import { ReactNode, useState, JSX, useRef } from "react";
 import { mobileAndTabletCheck } from "../../../utils/responsive";
+import { useLanguage } from "../../../hooks/language/language";
 
 interface FilterByCountryProps {
   options: Country[];
@@ -29,7 +29,7 @@ interface FilterByCountryProps {
  * @param {string} props.className - The class to apply to the filter country
  * @returns {JSX.Element} - The filter country
  */
-export default function FilterByCountry({
+export function FilterByCountry({
   options,
   selected,
   onChange,

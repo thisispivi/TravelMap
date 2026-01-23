@@ -1,7 +1,7 @@
 import { JSX } from "react";
 import { DistanceIcon } from "../../../assets";
 import { City } from "../../../core";
-import useLanguage from "../../../hooks/language/language";
+import { useLanguage } from "../../../hooks/language/language";
 import { getCitiesDistance } from "../../../utils/distance";
 import { formatMileage } from "../../../utils/format";
 import { CountryFlag } from "../../atoms";
@@ -28,7 +28,7 @@ interface CityRowProps {
  * @param {City} props.eCity - The end city
  * @returns {JSX.Element} - The city row
  */
-export default function CityRow({
+export function CityRow({
   sCity = parameters.birthCity,
   eCity,
   className = "",

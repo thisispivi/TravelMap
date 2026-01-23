@@ -1,5 +1,5 @@
-import { PropsWithChildren, JSX } from "react";
 import "./Box.scss";
+import { PropsWithChildren, JSX } from "react";
 
 interface BoxProps extends PropsWithChildren {
   className?: string;
@@ -16,6 +16,6 @@ interface BoxProps extends PropsWithChildren {
  * @param {string} [props.className] - The class name of the box
  * @returns {JSX.Element} - The box
  */
-export default function Box({ className, children }: BoxProps): JSX.Element {
+export function Box({ className, children }: BoxProps): JSX.Element {
   return <div className={`box ${className || ""}`}>{children}</div>;
 }

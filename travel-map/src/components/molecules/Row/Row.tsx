@@ -16,6 +16,6 @@ interface Row extends PropsWithChildren {
  * @param {string} [props.className] - The class to apply to the row
  * @returns {JSX.Element} - The row
  */
-export default function Row({ className = "", children }: Row): JSX.Element {
+export function Row({ className = "", children }: Row): JSX.Element {
   return <div className={`row ${className}`}>{children}</div>;
 }

@@ -1,14 +1,14 @@
-import useLanguage from "../../../hooks/language/language";
-import { City, Travel } from "../../../core";
 import "./CityCard.scss";
-import { useNavigate } from "react-router-dom";
 import { CalendarIcon } from "../../../assets";
+import { City, Travel } from "../../../core";
 import { CountryFlag, Loading } from "../../atoms";
 import { JSX, useCallback } from "react";
-import { mobileAndTabletCheck } from "../../../utils/responsive";
-import { parameters } from "../../../utils/parameters";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { formatDateRangeShort } from "@/i18n/functions/date";
+import { mobileAndTabletCheck } from "../../../utils/responsive";
+import { parameters } from "../../../utils/parameters";
+import { useLanguage } from "../../../hooks/language/language";
+import { useNavigate } from "react-router-dom";
 
 interface CityCardProps {
   className?: string;
@@ -44,7 +44,7 @@ interface CityCardProps {
  * @param {boolean} [data.isHidden] - Whether the card is hidden
  * @returns {JSX.Element} The CityCard component
  */
-export default function CityCard({
+export function CityCard({
   className = "",
   city,
   travel,

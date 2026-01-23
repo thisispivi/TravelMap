@@ -16,7 +16,7 @@ import {
   FullscreenExitIcon,
   GalleryIcon,
 } from "../../../assets";
-import useLanguage from "../../../hooks/language/language";
+import { useLanguage } from "../../../hooks/language/language";
 import { parameters } from "../../../utils/parameters";
 import { Button } from "../../atoms";
 

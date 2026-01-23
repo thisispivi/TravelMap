@@ -28,7 +28,7 @@ interface LanguageFlagProps {
  *
  * @returns {JSX.Element|null} The language flag
  */
-export default function LanguageFlag({
+export function LanguageFlag({
   language,
   className = "",
 }: LanguageFlagProps): JSX.Element | null {

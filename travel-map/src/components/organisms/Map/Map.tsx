@@ -16,7 +16,7 @@ import {
   useState,
 } from "react";
 import { Loading, Marker } from "../../atoms";
-import MapTooltip from "../Tooltip/TooltipMap";
+import { MapTooltip } from "../Tooltip/TooltipMap";
 import { Tooltip } from "react-tooltip";
 import { parameters } from "@/utils/parameters";
 import { worldDataUrl } from "@/assets/worldData";
@@ -94,7 +94,7 @@ function GeographyLayer({
  * Data is imported from `@/data` so it can be code-split together with the
  * lazy-loaded map chunk.
  */
-export default function Map() {
+export function Map() {
   const context = useContext(HomeContext);
   const {
     isDarkTheme,

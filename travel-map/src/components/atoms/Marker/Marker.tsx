@@ -1,9 +1,9 @@
-import { Marker as MarkerMap, useZoomPanContext } from "react-simple-maps";
 import "./Marker.scss";
 import { City } from "../../../core";
+import { JSX } from "react";
+import { Marker as MarkerMap, useZoomPanContext } from "react-simple-maps";
 import { MarkerIcon } from "../../../assets";
 import { parameters } from "../../../utils/parameters";
-import { JSX } from "react";
 
 interface MarkerProps {
   city: City;
@@ -34,7 +34,7 @@ interface MarkerProps {
  * @param {boolean} data.isLived - Whether the marker is for a lived city
  * @returns {JSX.Element} The Marker component
  */
-export default function Marker({
+export function Marker({
   city,
   hoveredCity,
   setHoveredCity,
