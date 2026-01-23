@@ -1,3 +1,3 @@
-import HomeTemplate from "./Home/Home";
+import { HomeTemplate } from "./Home/Home";
 
 export { HomeTemplate };

@@ -17,7 +17,7 @@ type LocationHook = {
  *
  * @returns {LocationHook} - The location hook
  */
-export default function useLocation(): LocationHook {
+export function useLocation(): LocationHook {
   const location = useLocationRouter();
   const isVisited = location.pathname.includes("visited");
   const isFuture = location.pathname.includes("future");

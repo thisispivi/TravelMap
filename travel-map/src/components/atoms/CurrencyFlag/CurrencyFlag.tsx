@@ -26,7 +26,7 @@ interface CurrencyFlagProps {
  * @param {string} [props.className=""] - The class name of the component
  * @returns {JSX.Element|null} The currency flag
  */
-export default function CurrencyFlag({
+export function CurrencyFlag({
   currency,
   className = "",
 }: CurrencyFlagProps): JSX.Element | null {

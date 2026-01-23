@@ -1,5 +1,5 @@
-import { MouseEventHandler, PropsWithChildren, JSX } from "react";
 import "./Button.scss";
+import { MouseEventHandler, PropsWithChildren, JSX } from "react";
 
 export interface ButtonProps extends PropsWithChildren {
   className?: string;
@@ -29,7 +29,7 @@ export interface ButtonProps extends PropsWithChildren {
  * @param {React.ReactNode} props.children - The content of the button
  * @returns {JSX.Element} - The button
  */
-export default function Button({
+export function Button({
   onClick,
   className = "",
   children,

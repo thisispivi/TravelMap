@@ -1,7 +1,7 @@
 import "./InfoTabTrips.scss";
-import useLanguage from "@/hooks/language/language";
+import { useLanguage } from "@/hooks/language/language";
 import { Travel, Trip } from "@/core";
-import { PositionButton } from "../../../atoms";
+import { PositionButton } from "../../../atoms/Buttons/PositionButton";
 import {
   useContext,
   useState,
@@ -26,7 +26,7 @@ interface InfoTabTripsProps {
   isVisible?: boolean;
 }
 
-export default function InfoTabTrips({
+export function InfoTabTrips({
   trips,
   className = "",
   id,

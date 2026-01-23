@@ -1,12 +1,12 @@
-import { useNavigate, useRouteError } from "react-router-dom";
-import { Button } from "../../atoms";
-import { useTranslation } from "react-i18next";
 import "./Fallback.scss";
+import { Button } from "../../atoms";
 import { ReactNode, useEffect } from "react";
-import { mobileAndTabletCheck } from "@/utils/responsive";
-import useResponsive from "@/hooks/style/responsive";
-import useThemeDetector from "@/hooks/style/theme";
 import { getWithExpiry, setWithExpiry } from "@/utils/storage";
+import { mobileAndTabletCheck } from "@/utils/responsive";
+import { useNavigate, useRouteError } from "react-router-dom";
+import { useResponsive } from "@/hooks/style/responsive";
+import { useThemeDetector } from "@/hooks/style/theme";
+import { useTranslation } from "react-i18next";
 
 /**
  * Fallback Component
@@ -17,7 +17,7 @@ import { getWithExpiry, setWithExpiry } from "@/utils/storage";
  *
  * @returns {JSX.Element} The rendered Fallback component.
  */
-export default function Fallback(): ReactNode | null {
+export function Fallback(): ReactNode | null {
   const responsive = useResponsive();
   const routerError = useRouteError();
   const { t } = useTranslation(["error"]);

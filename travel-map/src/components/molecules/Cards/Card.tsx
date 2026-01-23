@@ -1,5 +1,5 @@
-import { PropsWithChildren, JSX } from "react";
 import "./Card.scss";
+import { PropsWithChildren, JSX } from "react";
 
 interface CardProps extends PropsWithChildren {
   className?: string;
@@ -16,9 +16,6 @@ interface CardProps extends PropsWithChildren {
  * @param {string} [props.className] - The class to apply to the card
  * @returns {JSX.Element} - The card
  */
-export default function Card({
-  className = "",
-  children,
-}: CardProps): JSX.Element {
+export function Card({ className = "", children }: CardProps): JSX.Element {
   return <div className={`card ${className}`}>{children}</div>;
 }

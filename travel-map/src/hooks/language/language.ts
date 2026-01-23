@@ -13,7 +13,7 @@ export type LanguageHook = {
  * @param {string[]} namespaces - Array of namespaces to use
  * @returns {LanguageHook} - Object containing t function, current language and changeLanguage function
  */
-export default function useLanguage(namespaces: string[]): LanguageHook {
+export function useLanguage(namespaces: string[]): LanguageHook {
   const { i18n, t } = useTranslation(namespaces);
   const currLanguage = normalizeLocale(i18n.resolvedLanguage ?? i18n.language);
   const changeLanguage = (lang: string) => {

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
  * Hook to detect the current theme of the user's system
  * @returns {ThemeDetector} - Object containing the current theme and a function to set the theme
  */
-export default function useThemeDetector(): ThemeDetector {
+export function useThemeDetector(): ThemeDetector {
   const getInitialTheme = () => {
     const storedTheme = localStorage.getItem("theme");
     if (storedTheme) return storedTheme === "dark";

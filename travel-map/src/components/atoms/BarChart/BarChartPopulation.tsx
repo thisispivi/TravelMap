@@ -1,8 +1,8 @@
-import { JSX, lazy, useMemo } from "react";
-import useLanguage from "@/hooks/language/language";
 import "./BarChartPopulation.scss";
 import { City } from "@/core";
+import { JSX, lazy, useMemo } from "react";
 import { filter, pipe, sortBy } from "remeda";
+import { useLanguage } from "@/hooks/language/language";
 const ReactApexChart = lazy(() => import("react-apexcharts"));
 
 interface PopulationsBarChartProps {
@@ -26,7 +26,7 @@ interface PopulationsBarChartProps {
  * @param {number} [props.numToShow=10] - How many cities to show.
  * @returns {JSX.Element} - The population bar chart.
  */
-export default function PopulationBarChart({
+export function PopulationBarChart({
   data,
   barColors = [
     "#FF5733",

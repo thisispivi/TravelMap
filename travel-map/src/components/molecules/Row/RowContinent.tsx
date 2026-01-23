@@ -1,8 +1,8 @@
-import { Continent } from "../../../core";
-import useLanguage from "../../../hooks/language/language";
-import Row from "./Row";
 import "./RowContinent.scss";
+import { Continent } from "../../../core";
 import { JSX } from "react";
+import { useLanguage } from "../../../hooks/language/language";
+import { Row } from "./Row";
 
 interface ContinentRowProps {
   continent: Continent;
@@ -21,7 +21,7 @@ interface ContinentRowProps {
  * @param {boolean} props.isVisited - Whether the continent is visited
  * @returns {JSX.Element} - The continent row
  */
-export default function ContinentRow({
+export function ContinentRow({
   continent,
   isVisited,
 }: ContinentRowProps): JSX.Element {

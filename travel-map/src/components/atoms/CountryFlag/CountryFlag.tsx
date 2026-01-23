@@ -35,7 +35,7 @@ interface CountryFlagProps {
  * @param {string} [props.className=""] - The class name of the component
  * @returns {JSX.Element|null} The country flag
  */
-export default function CountryFlag({
+export function CountryFlag({
   countryId,
   className = "",
 }: CountryFlagProps): JSX.Element | null {

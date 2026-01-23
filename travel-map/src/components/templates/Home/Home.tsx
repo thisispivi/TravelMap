@@ -1,34 +1,41 @@
-import { JSX, PropsWithChildren, Suspense, lazy, useContext } from "react";
-import InfoTab from "../../organisms/InfoTab/InfoTab";
-import LeftBar from "../../organisms/LeftBar/LeftBar";
-import useLocation from "@/hooks/location/location";
+import "./Home.scss";
 import { Container } from "../../molecules";
 import { HomeContext } from "../../pages/Home/Home";
+import { InfoTab } from "../../organisms/InfoTab/InfoTab";
+import { JSX, PropsWithChildren, Suspense, lazy, useContext } from "react";
+import { LeftBar } from "../../organisms/LeftBar/LeftBar";
 import { Loading } from "../../atoms";
-import "./Home.scss";
-
-const InfoTabLived = lazy(
-  () => import("../../organisms/InfoTab/InfoTabCities/InfoTabLived"),
+import { useLocation } from "@/hooks/location/location";
+const Map = lazy(() =>
+  import("../../organisms/Map/Map").then((mod) => ({ default: mod.Map })),
 );
-const InfoTabVisited = lazy(
-  () => import("../../organisms/InfoTab/InfoTabTrips/InfoTabVisited"),
+const InfoTabLived = lazy(() =>
+  import("../../organisms/InfoTab/InfoTabCities/InfoTabLived").then((mod) => ({
+    default: mod.InfoTabLived,
+  })),
 );
-const InfoTabFuture = lazy(
-  () => import("../../organisms/InfoTab/InfoTabCities/InfoTabFuture"),
+const InfoTabVisited = lazy(() =>
+  import("../../organisms/InfoTab/InfoTabTrips/InfoTabVisited").then((mod) => ({
+    default: mod.InfoTabVisited,
+  })),
 );
-const InfoTabStats = lazy(
-  () => import("../../organisms/InfoTab/InfoTabStats/InfoTabStats"),
+const InfoTabFuture = lazy(() =>
+  import("../../organisms/InfoTab/InfoTabCities/InfoTabFuture").then((mod) => ({
+    default: mod.InfoTabFuture,
+  })),
 );
-const Map = lazy(() => import("../../organisms/Map/Map"));
+const InfoTabStats = lazy(() =>
+  import("../../organisms/InfoTab/InfoTabStats/InfoTabStats").then((mod) => ({
+    default: mod.InfoTabStats,
+  })),
+);
 
 /**
  * Home page template.
  *
  * Keeps heavy routes/components lazy-loaded (map, tabs, gallery).
  */
-export default function HomeTemplate({
-  children,
-}: PropsWithChildren): JSX.Element {
+export function HomeTemplate({ children }: PropsWithChildren): JSX.Element {
   const { isVisited, isFuture, isGallery, isStats, isLived } = useLocation();
   const { isDarkTheme, handleDarkModeSwitch } = useContext(HomeContext)!;
 

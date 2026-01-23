@@ -6,7 +6,8 @@ import {
   visitedCities,
   visitedCountries,
 } from "@/data";
-import useLanguage from "@/hooks/language/language";
+import { useLanguage } from "@/hooks/language/language";
+
 import {
   Card,
   CityRow,
@@ -69,7 +70,7 @@ interface InfoTabStatsProps {
  *
  * @returns {JSX.Element} - The info tab stats
  */
-export default function InfoTabStats({
+export function InfoTabStats({
   className = "",
   isVisible = false,
 }: InfoTabStatsProps): JSX.Element {

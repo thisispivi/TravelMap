@@ -1,6 +1,6 @@
-import { PropsWithChildren, JSX } from "react";
 import "./Container.scss";
 import { Box } from "..";
+import { PropsWithChildren, JSX } from "react";
 
 interface ContainerProps extends PropsWithChildren {
   className?: string;
@@ -19,7 +19,7 @@ interface ContainerProps extends PropsWithChildren {
  * @param {boolean} props.isVisible - The visibility of the gallery container
  * @returns {JSX.Element} - The gallery container
  */
-export default function Container({
+export function Container({
   className = "",
   children,
   isVisible,
