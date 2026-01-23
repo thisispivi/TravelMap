@@ -3,7 +3,7 @@ interface MarkerIconProps {
   className: string;
 }
 
-export default function MarkerIcon({ scale, className }: MarkerIconProps) {
+export function MarkerIcon({ scale, className }: MarkerIconProps) {
   return (
     <g
       className={`${className} marker-icon`}

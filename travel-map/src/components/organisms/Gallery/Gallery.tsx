@@ -12,7 +12,8 @@ import { CloseButton, CountryFlag } from "../../atoms";
 import { TravelSelector } from "../../molecules";
 import { parameters } from "../../../utils/parameters";
 import { PlayIcon } from "../../../assets";
-import useLanguage from "../../../hooks/language/language";
+import { useLanguage } from "../../../hooks/language/language";
+
 import "react-photo-album/rows.css";
 
 export interface GalleryProps {

@@ -33,7 +33,7 @@ interface FlightCompanyProps {
  * @param {string} [props.className=""] - The class name of the component
  * @returns {JSX.Element|null} The company flag
  */
-export default function FlightCompany({
+export function FlightCompany({
   company,
   className = "",
 }: FlightCompanyProps): JSX.Element | null {

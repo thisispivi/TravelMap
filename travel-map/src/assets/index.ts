@@ -22,7 +22,7 @@ import HomeIcon from "./icons/Home.svg?react";
 import LanguageIcon from "./icons/Language.svg?react";
 import LogoIcon from "./icons/Logo.svg?react";
 import MarkerBWIcon from "./icons/MarkerBW.svg?react";
-import MarkerIcon from "./icons/Marker";
+import { MarkerIcon } from "./icons/Marker";
 import MoonFlatIcon from "./icons/MoonFlat.svg?react";
 import MoonIcon from "./icons/Moon.svg?react";
 import PeopleIcon from "./icons/People.svg?react";

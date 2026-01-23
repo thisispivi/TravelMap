@@ -13,9 +13,7 @@ type CheckboxProps = { isChecked: boolean };
  * @param {boolean} props.isChecked - Whether the checkbox is checked or not
  * @returns {JSX.Element} - The checkbox icon
  */
-export default function CheckboxIcon({
-  isChecked,
-}: CheckboxProps): JSX.Element {
+export function CheckboxIcon({ isChecked }: CheckboxProps): JSX.Element {
   return (
     <svg
       fill="none"

@@ -3,7 +3,7 @@ import { CalendarIcon, DoubleChevronIcon } from "../../../assets";
 import { Travel } from "../../../core";
 import "./TravelSelector.scss";
 import { formatDateRangeShort } from "../../../i18n/functions/date";
-import useLanguage from "../../../hooks/language/language";
+import { useLanguage } from "../../../hooks/language/language";
 import { JSX } from "react";
 
 export interface TravelSelectorProps {
@@ -26,7 +26,7 @@ export interface TravelSelectorProps {
  *
  * @returns {JSX.Element} - The travel selector
  */
-export default function TravelSelector({
+export function TravelSelector({
   travels,
   selectedTravelIdx,
   cityName,

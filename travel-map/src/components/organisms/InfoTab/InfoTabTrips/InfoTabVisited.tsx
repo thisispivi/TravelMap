@@ -1,7 +1,7 @@
 import { JSX } from "react";
 import "./InfoTabVisited.scss";
 import { visitedTrips } from "@/data";
-import InfoTabTrips from "./InfoTabTrips";
+import { InfoTabTrips } from "./InfoTabTrips";
 
 interface InfoTabVisitedProps {
   className?: string;
@@ -21,7 +21,7 @@ interface InfoTabVisitedProps {
  * @param {boolean} props.isVisible - The visibility of the info tab visited
  * @returns {JSX.Element} - The info tab visited
  */
-export default function InfoTabVisited({
+export function InfoTabVisited({
   className = "",
   isVisible = false,
 }: InfoTabVisitedProps): JSX.Element {

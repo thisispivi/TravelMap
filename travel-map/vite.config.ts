@@ -1,10 +1,12 @@
 import { defineConfig } from "vite";
+import type { Plugin } from "vite";
 import react from "@vitejs/plugin-react";
 import svgr from "vite-plugin-svgr";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
 import autoprefixer from "autoprefixer";
 import { qrcode } from "vite-plugin-qrcode";
 import { resolve } from "path";
+import PurgeCSS from "vite-plugin-purgecss";
 
 export default defineConfig({
   plugins: [
@@ -14,6 +16,14 @@ export default defineConfig({
     svgr(),
     nodeResolve(),
     qrcode(),
+    PurgeCSS({
+      content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
+      defaultExtractor: (content) => content.match(/[\w-/:]+(?<!:)/g) || [],
+      safelist: {
+        standard: [/^apexcharts/, /^carousel/, /^image-gallery/],
+        deep: [/^apexcharts/, /^carousel/, /^image-gallery/],
+      },
+    }) as unknown as Plugin,
   ],
   base: "/",
   server: { watch: { usePolling: true }, host: true },
@@ -23,6 +33,13 @@ export default defineConfig({
   },
   build: {
     chunkSizeWarningLimit: 1100,
+    minify: "terser",
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true,
+      },
+    },
     rollupOptions: {
       output: {
         manualChunks(id) {

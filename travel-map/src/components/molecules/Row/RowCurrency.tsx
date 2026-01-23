@@ -1,9 +1,9 @@
-import { JSX } from "react";
-import useLanguage from "../../../hooks/language/language";
 import "./RowCurrency.scss";
-import { Row } from "..";
 import { Currency } from "../../../core";
 import { CurrencyFlag } from "../../atoms";
+import { JSX } from "react";
+import { Row } from "..";
+import { useLanguage } from "../../../hooks/language/language";
 
 interface CurrencyRowProps {
   className?: string;
@@ -21,7 +21,7 @@ interface CurrencyRowProps {
  * @param {string} props.className - The class to apply to the currency row
  * @returns {JSX.Element} - The currency row
  */
-export default function CurrencyRow({
+export function CurrencyRow({
   currency,
   className = "",
 }: CurrencyRowProps): JSX.Element {

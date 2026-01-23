@@ -9,7 +9,7 @@ import {
 import { NavigableButton, DarkModeButton } from "../../atoms";
 import "./LeftBar.scss";
 import { useNavigate } from "react-router-dom";
-import useLocation from "@/hooks/location/location";
+import { useLocation } from "@/hooks/location/location";
 import { LanguageSelector } from "..";
 import { useTranslation } from "react-i18next";
 import { HomeContextType } from "@/components/pages/Home/Home";
@@ -33,7 +33,7 @@ interface LeftBarProps {
  * @param {() => void} props.handleDarkModeSwitch - The function to call when the dark mode switch is clicked
  * @returns {JSX.Element} - The left bar
  */
-export default function LeftBar({
+export function LeftBar({
   className = "",
   isDarkTheme,
   handleDarkModeSwitch,

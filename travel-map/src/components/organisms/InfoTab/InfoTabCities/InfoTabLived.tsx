@@ -1,7 +1,7 @@
 import { JSX } from "react";
 import "./InfoTabLived.scss";
 import { livedCities, livedCountries } from "@/data";
-import InfoTabCities from "./InfoTabCities";
+import { InfoTabCities } from "./InfoTabCities";
 
 interface InfoTabLivedProps {
   className?: string;
@@ -21,7 +21,7 @@ interface InfoTabLivedProps {
  *
  * @returns {JSX.Element} - The info tab lived
  */
-export default function InfoTabLived({
+export function InfoTabLived({
   className = "",
   isVisible = false,
 }: InfoTabLivedProps): JSX.Element {

@@ -1,6 +1,6 @@
 import { lazy, JSX, useMemo } from "react";
 import { Flight } from "@/core";
-import useLanguage from "@/hooks/language/language";
+import { useLanguage } from "@/hooks/language/language";
 import variables from "@/styles/_variables.module.scss";
 import "./DonutChartTransports.scss";
 import { TravelType } from "@/core/typings/Travel";
@@ -19,7 +19,7 @@ interface TransportsDonutChartProps {
  * @param {Ferry[]} props.takenFerries - The user's taken ferries.
  * @returns {JSX.Element} The donut chart.
  */
-export default function TransportsDonutChart({
+export function TransportsDonutChart({
   takenFlights,
   takenFerries,
 }: TransportsDonutChartProps): JSX.Element {

@@ -14,7 +14,7 @@ export type ResponsiveType = {
  * Hook to detect the current window size
  * @returns {ResponsiveType} - Object containing the window size and the inner size
  */
-export default function useResponsive(): ResponsiveType {
+export function useResponsive(): ResponsiveType {
   const [windowCustom, setWindowCustom] = useState<SizeType>({
     width: window.innerWidth,
     height: window.innerHeight,

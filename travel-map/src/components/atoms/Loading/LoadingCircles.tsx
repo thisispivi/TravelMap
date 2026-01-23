@@ -8,6 +8,6 @@ import { JSX } from "react";
  * @component
  * @returns {JSX.Element} The Loading component
  */
-export default function Loading(): JSX.Element {
+export function Loading(): JSX.Element {
   return <div className="loader-circles" />;
 }

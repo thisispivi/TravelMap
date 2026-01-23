@@ -1,11 +1,11 @@
-import { PlaneIcon } from "../../../assets";
-import { City } from "../../../core";
-import useLanguage from "../../../hooks/language/language";
-import { CountryFlag } from "../../atoms";
-import Row from "./Row";
 import "./RowTimezone.scss";
+import { Row } from "./Row";
+import { City } from "../../../core";
+import { CountryFlag } from "../../atoms";
 import { JSX } from "react";
+import { PlaneIcon } from "../../../assets";
 import { formatDeltaVsCityForDateSpan } from "@/utils/timezoneOffset";
+import { useLanguage } from "../../../hooks/language/language";
 
 interface TimezoneRowProps {
   className?: string;
@@ -28,7 +28,7 @@ interface TimezoneRowProps {
  * @param {City} props.eCity - The end country
  * @returns {JSX.Element} - The timezone row
  */
-export default function TimezoneRow({
+export function TimezoneRow({
   sCity,
   eCity,
   sDate,
