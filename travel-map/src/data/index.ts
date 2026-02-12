@@ -569,6 +569,15 @@ export const visitedTrips: Trip[] = [
     backgroundImgSourceKey: "vienna-trip-2025.jpg",
   }),
   new Trip({
+    id: "sevilla-trip-2025",
+    name: "Sevilla Trip",
+    sDate: new Date(2025, 3, 4),
+    eDate: new Date(2025, 3, 8),
+    destinations: [{ city: Sevilla, travelIdx: 0 }],
+    route: [Sevilla.name],
+    backgroundImgSourceKey: "sevilla-trip-2025.jpg",
+  }),
+  new Trip({
     id: "cefalù-trip-2025",
     name: "Cefalù Trip",
     sDate: new Date(2025, 4, 17),
