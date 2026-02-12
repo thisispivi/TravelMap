@@ -1,6 +1,7 @@
 import { getCitiesDistance } from "@/utils/distance";
-import { City } from "./City";
+
 import { FerryCompany } from "../typings/FerryCompany";
+import { City } from "./City";
 
 export interface FerryInterface {
   sCity: City;

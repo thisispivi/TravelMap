@@ -1,23 +1,7 @@
-import { JSX, useMemo } from "react";
 import "./InfoTabStats.scss";
-import {
-  takenFerries,
-  takenFlights,
-  visitedCities,
-  visitedCountries,
-} from "@/data";
-import { useLanguage } from "@/hooks/language/language";
 
-import {
-  Card,
-  CityRow,
-  Column,
-  ContinentRow,
-  CurrencyRow,
-  TransportRow,
-  Row,
-  TimezoneRow,
-} from "../../../molecules";
+import { JSX, useMemo } from "react";
+
 import {
   AirplaneIcon,
   CameraIcon,
@@ -31,26 +15,44 @@ import {
   TimezoneIcon,
   UnescoIcon,
 } from "@/assets";
+import { Continent } from "@/core";
 import {
-  ContinentsBarChart,
-  TransportsDonutChart,
-  PopulationBarChart,
-} from "../../../atoms";
+  takenFerries,
+  takenFlights,
+  visitedCities,
+  visitedCountries,
+} from "@/data";
+import { useLanguage } from "@/hooks/language/language";
+import { getTotalMediaTaken } from "@/utils/cities";
+import { getContinentsByCities, getContinentStats } from "@/utils/continent";
+import { getCurrenciesFromCountries } from "@/utils/countries";
 import {
   getFurthestAndNearestCity,
   getMinAndMaxTransport,
   getTotalMileage,
 } from "@/utils/distance";
-import { Continent } from "@/core";
 import { formatMileage } from "@/utils/format";
 import { constants, parameters } from "@/utils/parameters";
-import { getContinentsByCities, getContinentStats } from "@/utils/continent";
 import {
   getCityBiggestTimezoneJump,
   getNumberOfTimezonesJumped,
 } from "@/utils/timezone";
-import { getTotalMediaTaken } from "@/utils/cities";
-import { getCurrenciesFromCountries } from "@/utils/countries";
+
+import {
+  ContinentsBarChart,
+  PopulationBarChart,
+  TransportsDonutChart,
+} from "../../../atoms";
+import {
+  Card,
+  CityRow,
+  Column,
+  ContinentRow,
+  CurrencyRow,
+  Row,
+  TimezoneRow,
+  TransportRow,
+} from "../../../molecules";
 
 interface InfoTabStatsProps {
   className?: string;

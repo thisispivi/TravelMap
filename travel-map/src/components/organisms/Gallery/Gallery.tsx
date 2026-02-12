@@ -1,20 +1,21 @@
+import "./Gallery.scss";
+import "react-photo-album/rows.css";
+
+import { JSX, useMemo } from "react";
+import { RowsPhotoAlbum } from "react-photo-album";
 import {
   Outlet,
   useLoaderData,
   useNavigate,
   useSearchParams,
 } from "react-router-dom";
+
+import { PlayIcon } from "../../../assets";
 import { City } from "../../../core";
-import "./Gallery.scss";
-import { RowsPhotoAlbum } from "react-photo-album";
-import { JSX, useMemo } from "react";
+import { useLanguage } from "../../../hooks/language/language";
+import { parameters } from "../../../utils/parameters";
 import { CloseButton, CountryFlag } from "../../atoms";
 import { TravelSelector } from "../../molecules";
-import { parameters } from "../../../utils/parameters";
-import { PlayIcon } from "../../../assets";
-import { useLanguage } from "../../../hooks/language/language";
-
-import "react-photo-album/rows.css";
 
 export interface GalleryProps {
   city: City;

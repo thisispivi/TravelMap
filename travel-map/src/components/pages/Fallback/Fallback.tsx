@@ -1,12 +1,15 @@
 import "./Fallback.scss";
-import { Button } from "../../atoms";
+
 import { ReactNode, useEffect } from "react";
-import { getWithExpiry, setWithExpiry } from "@/utils/storage";
-import { mobileAndTabletCheck } from "@/utils/responsive";
+import { useTranslation } from "react-i18next";
 import { useNavigate, useRouteError } from "react-router-dom";
+
 import { useResponsive } from "@/hooks/style/responsive";
 import { useThemeDetector } from "@/hooks/style/theme";
-import { useTranslation } from "react-i18next";
+import { mobileAndTabletCheck } from "@/utils/responsive";
+import { getWithExpiry, setWithExpiry } from "@/utils/storage";
+
+import { Button } from "../../atoms";
 
 /**
  * Fallback Component

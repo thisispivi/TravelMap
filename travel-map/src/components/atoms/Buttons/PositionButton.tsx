@@ -1,10 +1,12 @@
-import { Button } from "..";
-import { ButtonProps } from "./Button";
 import { JSX } from "react";
+
 import { PositionIcon } from "@/assets";
+import { useLanguage } from "@/hooks/language/language";
 import { ResponsiveType } from "@/hooks/style/responsive";
 import { mobileAndTabletCheck } from "@/utils/responsive";
-import { useLanguage } from "@/hooks/language/language";
+
+import { Button } from "..";
+import { ButtonProps } from "./Button";
 
 interface PositionButtonProps extends ButtonProps {
   isAutoPosition: boolean;

@@ -1,7 +1,9 @@
 import "./BarChartPopulation.scss";
-import { City } from "@/core";
+
 import { JSX, lazy, useMemo } from "react";
 import { filter, pipe, sortBy } from "remeda";
+
+import { City } from "@/core";
 import { useLanguage } from "@/hooks/language/language";
 const ReactApexChart = lazy(() => import("react-apexcharts"));
 

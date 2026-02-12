@@ -1,22 +1,25 @@
 import "./InfoTabCities.scss";
-import { useLanguage } from "@/hooks/language/language";
-import { City, Country, Travel } from "@/core";
-import { CityCard, FilterByCountry } from "../../../molecules";
-import { FilterIcon } from "@/assets";
-import { HomeContext } from "../../../pages/Home/Home";
-import { PositionButton } from "../../../atoms/Buttons/PositionButton";
+
 import {
-  useContext,
-  useState,
   JSX,
-  useMemo,
-  useEffect,
-  useRef,
   RefObject,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
 } from "react";
-import { groupCitiesByYear } from "@/utils/cities";
 import { keys } from "remeda";
+
+import { FilterIcon } from "@/assets";
+import { City, Country, Travel } from "@/core";
+import { useLanguage } from "@/hooks/language/language";
+import { groupCitiesByYear } from "@/utils/cities";
 import { constants } from "@/utils/parameters";
+
+import { PositionButton } from "../../../atoms/Buttons/PositionButton";
+import { CityCard, FilterByCountry } from "../../../molecules";
+import { HomeContext } from "../../../pages/Home/Home";
 
 interface InfoTabCitiesProps {
   allCountries: Country[];

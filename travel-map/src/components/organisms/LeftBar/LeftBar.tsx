@@ -1,4 +1,9 @@
+import "./LeftBar.scss";
+
 import { JSX, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+
 import {
   FutureTravelsIcon,
   HomeIcon,
@@ -6,13 +11,11 @@ import {
   StatsIcon,
   VisitedIcon,
 } from "@/assets";
-import { NavigableButton, DarkModeButton } from "../../atoms";
-import "./LeftBar.scss";
-import { useNavigate } from "react-router-dom";
-import { useLocation } from "@/hooks/location/location";
-import { LanguageSelector } from "..";
-import { useTranslation } from "react-i18next";
 import { HomeContextType } from "@/components/pages/Home/Home";
+import { useLocation } from "@/hooks/location/location";
+
+import { DarkModeButton, NavigableButton } from "../../atoms";
+import { LanguageSelector } from "..";
 
 interface LeftBarProps {
   className?: string;

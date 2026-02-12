@@ -1,14 +1,15 @@
+import { JSX } from "react";
+
 import {
   GermanyFlag,
   HungaryFlag,
   ItalyFlag,
+  JapanFlag,
+  MaltaFlag,
+  PortugalFlag,
   SpainFlag,
   UnitedKingdomFlag,
-  JapanFlag,
-  PortugalFlag,
-  MaltaFlag,
 } from "@/assets";
-import { JSX } from "react";
 
 interface LanguageFlagProps {
   language: string;

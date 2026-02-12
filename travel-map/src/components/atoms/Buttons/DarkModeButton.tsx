@@ -1,8 +1,10 @@
 import "./DarkModeButton.scss";
-import { CSSTransition } from "react-transition-group";
+
 import { JSX, useRef } from "react";
-import { MoonIcon, SunIcon } from "@/assets";
 import { useTranslation } from "react-i18next";
+import { CSSTransition } from "react-transition-group";
+
+import { MoonIcon, SunIcon } from "@/assets";
 
 interface DarkModeButtonProps {
   className?: string;

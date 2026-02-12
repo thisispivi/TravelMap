@@ -1,11 +1,14 @@
 import "./Home.scss";
-import { Container } from "../../molecules";
-import { HomeContext } from "../../pages/Home/Home";
-import { InfoTab } from "../../organisms/InfoTab/InfoTab";
-import { JSX, PropsWithChildren, Suspense, lazy, useContext } from "react";
-import { LeftBar } from "../../organisms/LeftBar/LeftBar";
-import { Loading } from "../../atoms";
+
+import { JSX, lazy, PropsWithChildren, Suspense, useContext } from "react";
+
 import { useLocation } from "@/hooks/location/location";
+
+import { Loading } from "../../atoms";
+import { Container } from "../../molecules";
+import { InfoTab } from "../../organisms/InfoTab/InfoTab";
+import { LeftBar } from "../../organisms/LeftBar/LeftBar";
+import { HomeContext } from "../../pages/Home/Home";
 const Map = lazy(() =>
   import("../../organisms/Map/Map").then((mod) => ({ default: mod.Map })),
 );

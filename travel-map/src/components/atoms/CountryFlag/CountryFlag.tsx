@@ -1,3 +1,5 @@
+import { JSX } from "react";
+
 import {
   AustraliaFlag,
   AustriaFlag,
@@ -16,7 +18,6 @@ import {
   UnitedKingdomFlag,
   VaticanFlag,
 } from "../../../assets";
-import { JSX } from "react";
 
 interface CountryFlagProps {
   countryId: string;

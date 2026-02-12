@@ -1,11 +1,14 @@
 import "./RowTransport.scss";
-import { CountryFlag } from "../../atoms";
-import { Ferry } from "@/core/classes/Ferry";
-import { Flight } from "../../../core";
+
 import { JSX } from "react";
+
+import { Ferry } from "@/core/classes/Ferry";
+
 import { PlaneIcon } from "../../../assets";
-import { formatMileage } from "../../../utils/format";
+import { Flight } from "../../../core";
 import { useLanguage } from "../../../hooks/language/language";
+import { formatMileage } from "../../../utils/format";
+import { CountryFlag } from "../../atoms";
 import { Row } from "./Row";
 
 interface TransportRowProps {

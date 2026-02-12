@@ -1,13 +1,15 @@
-import { JSX, useCallback, useMemo } from "react";
 import "./InfoTabFuture.scss";
-import { futureCities, futureCountries } from "@/data";
-import { InfoTabCities } from "./InfoTabCities";
 
+import { JSX, useCallback, useMemo } from "react";
+
+import { City, Travel } from "@/core";
+import { futureCities, futureCountries } from "@/data";
 import {
   getCitiesByCountriesAndIsFuture,
   sortByTravelStartDate,
 } from "@/utils/cities";
-import { City, Travel } from "@/core";
+
+import { InfoTabCities } from "./InfoTabCities";
 
 interface InfoTabFutureProps {
   className?: string;

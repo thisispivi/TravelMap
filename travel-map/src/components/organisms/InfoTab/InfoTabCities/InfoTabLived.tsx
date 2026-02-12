@@ -1,6 +1,9 @@
-import { JSX } from "react";
 import "./InfoTabLived.scss";
+
+import { JSX } from "react";
+
 import { livedCities, livedCountries } from "@/data";
+
 import { InfoTabCities } from "./InfoTabCities";
 
 interface InfoTabLivedProps {

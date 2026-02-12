@@ -1,13 +1,15 @@
+import "./RowCity.scss";
+
 import { JSX } from "react";
+
 import { DistanceIcon } from "../../../assets";
 import { City } from "../../../core";
 import { useLanguage } from "../../../hooks/language/language";
 import { getCitiesDistance } from "../../../utils/distance";
 import { formatMileage } from "../../../utils/format";
-import { CountryFlag } from "../../atoms";
-import "./RowCity.scss";
-import { Row } from "..";
 import { parameters } from "../../../utils/parameters";
+import { CountryFlag } from "../../atoms";
+import { Row } from "..";
 
 interface CityRowProps {
   className?: string;

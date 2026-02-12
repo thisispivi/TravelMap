@@ -1,10 +1,12 @@
+import "./TravelSelector.scss";
+
+import { JSX } from "react";
 import { useNavigate } from "react-router-dom";
+
 import { CalendarIcon, DoubleChevronIcon } from "../../../assets";
 import { Travel } from "../../../core";
-import "./TravelSelector.scss";
-import { formatDateRangeShort } from "../../../i18n/functions/date";
 import { useLanguage } from "../../../hooks/language/language";
-import { JSX } from "react";
+import { formatDateRangeShort } from "../../../i18n/functions/date";
 
 export interface TravelSelectorProps {
   travels: Travel[];

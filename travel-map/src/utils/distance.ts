@@ -1,8 +1,10 @@
 import { firstBy, sumBy } from "remeda";
+
+import { Ferry } from "@/core/classes/Ferry";
+
 import { City } from "../core";
 import { Flight } from "../core";
 import { toRadians } from "./convert";
-import { Ferry } from "@/core/classes/Ferry";
 
 /**
  * Get the haversine distance between two points.

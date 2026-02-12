@@ -1,4 +1,5 @@
 import "./Backdrop.scss";
+
 import { JSX } from "react";
 
 interface BackdropProps {

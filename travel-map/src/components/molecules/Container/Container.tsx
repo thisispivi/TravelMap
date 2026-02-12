@@ -1,6 +1,8 @@
 import "./Container.scss";
+
+import { JSX, PropsWithChildren } from "react";
+
 import { Box } from "..";
-import { PropsWithChildren, JSX } from "react";
 
 interface ContainerProps extends PropsWithChildren {
   className?: string;

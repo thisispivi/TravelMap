@@ -1,5 +1,6 @@
 import "./Column.scss";
-import { PropsWithChildren, JSX } from "react";
+
+import { JSX, PropsWithChildren } from "react";
 
 interface ColumnProps extends PropsWithChildren {
   className?: string;

@@ -1,12 +1,13 @@
+import { JSX } from "react";
+
 import {
-  HungaryFlag,
-  UnitedKingdomFlag,
-  JapanFlag,
-  EuropeFlag,
   AustraliaFlag,
   BulgariaFlag,
+  EuropeFlag,
+  HungaryFlag,
+  JapanFlag,
+  UnitedKingdomFlag,
 } from "../../../assets";
-import { JSX } from "react";
 import { Currency } from "../../../core";
 
 interface CurrencyFlagProps {

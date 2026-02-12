@@ -1,6 +1,9 @@
-import { JSX } from "react";
 import "./InfoTabVisited.scss";
+
+import { JSX } from "react";
+
 import { visitedTrips } from "@/data";
+
 import { InfoTabTrips } from "./InfoTabTrips";
 
 interface InfoTabVisitedProps {

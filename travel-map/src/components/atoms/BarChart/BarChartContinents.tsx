@@ -1,7 +1,9 @@
 import "./BarChartContinents.scss";
+
 import { ApexOptions } from "apexcharts";
-import { Continent } from "@/core";
 import { JSX, lazy, useMemo } from "react";
+
+import { Continent } from "@/core";
 import { useLanguage } from "@/hooks/language/language";
 const ReactApexChart = lazy(() => import("react-apexcharts"));
 

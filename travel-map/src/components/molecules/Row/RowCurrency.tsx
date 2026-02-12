@@ -1,9 +1,11 @@
 import "./RowCurrency.scss";
-import { Currency } from "../../../core";
-import { CurrencyFlag } from "../../atoms";
+
 import { JSX } from "react";
-import { Row } from "..";
+
+import { Currency } from "../../../core";
 import { useLanguage } from "../../../hooks/language/language";
+import { CurrencyFlag } from "../../atoms";
+import { Row } from "..";
 
 interface CurrencyRowProps {
   className?: string;
