@@ -1,20 +1,23 @@
+import "./FlightCompany.scss";
+
+import { JSX } from "react";
+
+import { FlightCompany as FlightCompanyCore } from "@/core";
+
 import {
+  AeroitaliaLogo,
   AirOneLogo,
   AlitaliaLogo,
   AllNipponAirwaysLogo,
   ChinaEasternAirlinesLogo,
   EasyJetLogo,
   ItaAirwaysLogo,
+  JetstarLogo,
   RyanairLogo,
+  VirginAustraliaLogo,
   VoloteaLogo,
   WizzAirLogo,
-  AeroitaliaLogo,
-  JetstarLogo,
-  VirginAustraliaLogo,
 } from "../../../assets";
-import { JSX } from "react";
-import { FlightCompany as FlightCompanyCore } from "@/core";
-import "./FlightCompany.scss";
 
 interface FlightCompanyProps {
   company?: FlightCompanyCore;

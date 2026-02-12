@@ -1,22 +1,25 @@
 import "./InfoTabTrips.scss";
-import { useLanguage } from "@/hooks/language/language";
-import { Travel, Trip } from "@/core";
-import { PositionButton } from "../../../atoms/Buttons/PositionButton";
+
 import {
-  useContext,
-  useState,
   JSX,
-  useMemo,
-  useEffect,
-  useRef,
   RefObject,
   useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
 } from "react";
-import { groupTripsByYear } from "@/utils/trips";
 import { keys } from "remeda";
-import { constants } from "@/utils/parameters";
-import { HomeContext } from "@/components/pages/Home/Home";
+
 import { TripCard } from "@/components/molecules";
+import { HomeContext } from "@/components/pages/Home/Home";
+import { Travel, Trip } from "@/core";
+import { useLanguage } from "@/hooks/language/language";
+import { constants } from "@/utils/parameters";
+import { groupTripsByYear } from "@/utils/trips";
+
+import { PositionButton } from "../../../atoms/Buttons/PositionButton";
 
 interface InfoTabTripsProps {
   trips: Trip[];

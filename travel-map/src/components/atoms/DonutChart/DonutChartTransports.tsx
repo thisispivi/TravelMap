@@ -1,10 +1,12 @@
-import { lazy, JSX, useMemo } from "react";
+import "./DonutChartTransports.scss";
+
+import { JSX, lazy, useMemo } from "react";
+
 import { Flight } from "@/core";
+import { Ferry } from "@/core/classes/Ferry";
+import { TravelType } from "@/core/typings/Travel";
 import { useLanguage } from "@/hooks/language/language";
 import variables from "@/styles/_variables.module.scss";
-import "./DonutChartTransports.scss";
-import { TravelType } from "@/core/typings/Travel";
-import { Ferry } from "@/core/classes/Ferry";
 const ReactApexChart = lazy(() => import("react-apexcharts"));
 
 interface TransportsDonutChartProps {

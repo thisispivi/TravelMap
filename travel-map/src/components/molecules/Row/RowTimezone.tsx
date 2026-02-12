@@ -1,11 +1,14 @@
 import "./RowTimezone.scss";
-import { Row } from "./Row";
-import { City } from "../../../core";
-import { CountryFlag } from "../../atoms";
+
 import { JSX } from "react";
-import { PlaneIcon } from "../../../assets";
+
 import { formatDeltaVsCityForDateSpan } from "@/utils/timezoneOffset";
+
+import { PlaneIcon } from "../../../assets";
+import { City } from "../../../core";
 import { useLanguage } from "../../../hooks/language/language";
+import { CountryFlag } from "../../atoms";
+import { Row } from "./Row";
 
 interface TimezoneRowProps {
   className?: string;

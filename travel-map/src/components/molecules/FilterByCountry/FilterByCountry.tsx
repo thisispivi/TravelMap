@@ -1,10 +1,12 @@
 import "./FilterByCountry.scss";
-import { Backdrop, Button, Checkbox, CountryFlag } from "../../atoms";
+
+import { JSX, ReactNode, useRef, useState } from "react";
 import { CSSTransition } from "react-transition-group";
+
 import { Country } from "../../../core";
-import { ReactNode, useState, JSX, useRef } from "react";
-import { mobileAndTabletCheck } from "../../../utils/responsive";
 import { useLanguage } from "../../../hooks/language/language";
+import { mobileAndTabletCheck } from "../../../utils/responsive";
+import { Backdrop, Button, Checkbox, CountryFlag } from "../../atoms";
 
 interface FilterByCountryProps {
   options: Country[];

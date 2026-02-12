@@ -1,6 +1,7 @@
-import { Button } from "./Button";
-import { Link } from "react-router-dom";
 import { JSX } from "react";
+import { Link } from "react-router-dom";
+
+import { Button } from "./Button";
 
 interface NavigableButtonProps {
   id: string;

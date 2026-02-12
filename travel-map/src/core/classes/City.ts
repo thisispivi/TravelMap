@@ -1,7 +1,8 @@
 import { i18n } from "i18next";
+
+import { MarkerSizes } from "../typings/Marker";
 import { Country } from "./Country";
 import { Travel } from "./Travel";
-import { MarkerSizes } from "../typings/Marker";
 
 interface CityInterface {
   backgroundImgSources?: string[];

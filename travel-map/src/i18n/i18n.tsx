@@ -1,11 +1,12 @@
 import i18next from "i18next";
-import { initReactI18next } from "react-i18next";
-import homeIt from "./locales/it-IT/home.json";
-import homeEn from "./locales/en-US/home.json";
-import errorEn from "./locales/en-US/error.json";
-import errorIt from "./locales/it-IT/error.json";
 import LanguageDetector from "i18next-browser-languagedetector";
-import { DEFAULT_LOCALE, SUPPORTED_LOCALES, normalizeLocale } from "./locale";
+import { initReactI18next } from "react-i18next";
+
+import { DEFAULT_LOCALE, normalizeLocale, SUPPORTED_LOCALES } from "./locale";
+import errorEn from "./locales/en-US/error.json";
+import homeEn from "./locales/en-US/home.json";
+import errorIt from "./locales/it-IT/error.json";
+import homeIt from "./locales/it-IT/home.json";
 
 const resources = {
   "en-US": { home: homeEn, error: errorEn },

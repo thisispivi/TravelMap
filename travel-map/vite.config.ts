@@ -1,10 +1,10 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import svgr from "vite-plugin-svgr";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
+import react from "@vitejs/plugin-react";
 import autoprefixer from "autoprefixer";
-import { qrcode } from "vite-plugin-qrcode";
 import { resolve } from "path";
+import { defineConfig } from "vite";
+import { qrcode } from "vite-plugin-qrcode";
+import svgr from "vite-plugin-svgr";
 
 export default defineConfig({
   plugins: [

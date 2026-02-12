@@ -1,8 +1,10 @@
 import "./Marker.scss";
-import { City } from "../../../core";
+
 import { JSX } from "react";
 import { Marker as MarkerMap, useZoomPanContext } from "react-simple-maps";
+
 import { MarkerIcon } from "../../../assets";
+import { City } from "../../../core";
 import { parameters } from "../../../utils/parameters";
 
 interface MarkerProps {

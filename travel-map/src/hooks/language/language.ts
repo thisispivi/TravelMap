@@ -1,6 +1,7 @@
 import { i18n } from "i18next";
 import { useTranslation } from "react-i18next";
-import { SupportedLocale, normalizeLocale } from "@/i18n/locale";
+
+import { normalizeLocale, SupportedLocale } from "@/i18n/locale";
 
 export type LanguageHook = {
   t: i18n["t"];

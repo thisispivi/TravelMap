@@ -1,7 +1,5 @@
-import { useLoaderData, useNavigate } from "react-router-dom";
-import { City } from "../../../core";
 import "./Lightbox.scss";
-import ImageGallery, { ReactImageGalleryItem } from "react-image-gallery";
+
 import {
   JSX,
   MouseEventHandler,
@@ -10,12 +8,16 @@ import {
   useRef,
   useState,
 } from "react";
+import ImageGallery, { ImageGalleryProps } from "react-image-gallery";
+import { useLoaderData, useNavigate } from "react-router-dom";
+
 import {
   ChevronIcon,
   FullscreenEnterIcon,
   FullscreenExitIcon,
   GalleryIcon,
 } from "../../../assets";
+import { City } from "../../../core";
 import { useLanguage } from "../../../hooks/language/language";
 import { parameters } from "../../../utils/parameters";
 import { Button } from "../../atoms";
@@ -68,7 +70,7 @@ export default function Lightbox(): JSX.Element {
     };
   }, [scheduleHideNav]);
 
-  type ItemType = ReactImageGalleryItem & {
+  type ItemType = ImageGalleryProps["items"][number] & {
     youtube?: boolean;
     alt?: string;
   };

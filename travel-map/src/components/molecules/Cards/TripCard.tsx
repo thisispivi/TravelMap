@@ -1,17 +1,19 @@
 import "./TripCard.scss";
+
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { Button, CountryFlag, Loading } from "../../atoms";
+import { JSX, useId, useMemo, useState } from "react";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import { useNavigate } from "react-router-dom";
+import { uniqueBy } from "remeda";
+
+import { formatDateRangeShort } from "@/i18n/functions/date";
+import { parameters } from "@/utils/parameters";
+
 import { CalendarIcon, ChevronIcon } from "../../../assets";
 import { City, Trip } from "../../../core";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import { formatDateRangeShort } from "@/i18n/functions/date";
-import { useId, useMemo, useState, JSX } from "react";
 import { useLanguage } from "../../../hooks/language/language";
-import { useNavigate } from "react-router-dom";
+import { Button, CountryFlag, Loading } from "../../atoms";
 import { Row } from "../Row/Row";
-
-import { uniqueBy } from "remeda";
-import { parameters } from "@/utils/parameters";
 
 interface TripCardProps {
   className?: string;

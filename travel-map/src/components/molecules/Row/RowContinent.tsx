@@ -1,6 +1,8 @@
 import "./RowContinent.scss";
-import { Continent } from "../../../core";
+
 import { JSX } from "react";
+
+import { Continent } from "../../../core";
 import { useLanguage } from "../../../hooks/language/language";
 import { Row } from "./Row";
 
