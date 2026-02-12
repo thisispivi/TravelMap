@@ -1,5 +1,6 @@
 import "./Button.scss";
-import { MouseEventHandler, PropsWithChildren, JSX } from "react";
+
+import { JSX, MouseEventHandler, PropsWithChildren } from "react";
 
 export interface ButtonProps extends PropsWithChildren {
   className?: string;

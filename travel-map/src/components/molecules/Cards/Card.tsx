@@ -1,5 +1,6 @@
 import "./Card.scss";
-import { PropsWithChildren, JSX } from "react";
+
+import { JSX, PropsWithChildren } from "react";
 
 interface CardProps extends PropsWithChildren {
   className?: string;

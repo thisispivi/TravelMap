@@ -1,4 +1,5 @@
 import { LoaderFunctionArgs } from "react-router-dom";
+
 import { visitedCities } from "../../../data";
 import { LightboxProps } from "./Lightbox";
 

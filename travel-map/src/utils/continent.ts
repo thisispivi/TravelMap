@@ -1,5 +1,6 @@
+import { map, pipe, unique } from "remeda";
+
 import { City, Continent, Country } from "../core";
-import { pipe, map, unique } from "remeda";
 
 /**
  * Get the continents by cities.

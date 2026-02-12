@@ -21,10 +21,11 @@ import GlobeIcon from "./icons/Globe.svg?react";
 import HomeIcon from "./icons/Home.svg?react";
 import LanguageIcon from "./icons/Language.svg?react";
 import LogoIcon from "./icons/Logo.svg?react";
-import MarkerBWIcon from "./icons/MarkerBW.svg?react";
+import MapIcon from "./icons/Map.svg?react";
 import { MarkerIcon } from "./icons/Marker";
-import MoonFlatIcon from "./icons/MoonFlat.svg?react";
+import MarkerBWIcon from "./icons/MarkerBW.svg?react";
 import MoonIcon from "./icons/Moon.svg?react";
+import MoonFlatIcon from "./icons/MoonFlat.svg?react";
 import PeopleIcon from "./icons/People.svg?react";
 import PlaneIcon from "./icons/Plane.svg?react";
 import PlayIcon from "./icons/Play.svg?react";
@@ -34,7 +35,6 @@ import SunIcon from "./icons/Sun.svg?react";
 import TimezoneIcon from "./icons/Timezone.svg?react";
 import UnescoIcon from "./icons/Unesco.svg?react";
 import VisitedIcon from "./icons/Visited.svg?react";
-import MapIcon from "./icons/Map.svg?react";
 
 export {
   AirplaneIcon,

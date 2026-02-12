@@ -1,7 +1,8 @@
 import "./TooltipMap.scss";
-import { City } from "@/core";
-import { useLanguage } from "@/hooks/language/language";
-import { Button, CountryFlag } from "../../atoms";
+
+import { JSX, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import {
   CalendarIcon,
   CoinIcon,
@@ -9,9 +10,11 @@ import {
   GalleryIcon,
   PeopleIcon,
 } from "@/assets";
-import { useEffect, useState, JSX } from "react";
+import { City } from "@/core";
+import { useLanguage } from "@/hooks/language/language";
 import { formatDateRangeShort } from "@/i18n/functions/date";
-import { useNavigate } from "react-router-dom";
+
+import { Button, CountryFlag } from "../../atoms";
 
 interface MapTooltipProps {
   city: City;

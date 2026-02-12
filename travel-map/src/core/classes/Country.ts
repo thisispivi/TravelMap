@@ -1,7 +1,8 @@
 import { i18n } from "i18next";
-import { Color, ColorData } from "./Color";
+
 import { Continent } from "../typings/Continent";
 import { Currency } from "../typings/Currency";
+import { Color, ColorData } from "./Color";
 
 export interface CountryData {
   id: string;

@@ -1,12 +1,15 @@
 import "./Home.scss";
-import { City } from "@/core";
-import { HomeTemplate } from "../../templates";
-import { Outlet, useNavigate, useSearchParams } from "react-router-dom";
-import { createContext, JSX, useEffect, useMemo, useState } from "react";
+
 import { isMobile, isTablet } from "mobile-device-detect";
+import { createContext, JSX, useEffect, useMemo, useState } from "react";
+import { Outlet, useNavigate, useSearchParams } from "react-router-dom";
+
+import { City } from "@/core";
+import { ResponsiveType, useResponsive } from "@/hooks/style/responsive";
+import { ThemeDetector, useThemeDetector } from "@/hooks/style/theme";
 import { parameters } from "@/utils/parameters";
-import { useResponsive, ResponsiveType } from "@/hooks/style/responsive";
-import { useThemeDetector, ThemeDetector } from "@/hooks/style/theme";
+
+import { HomeTemplate } from "../../templates";
 
 export type HomeContextType = ThemeDetector & {
   hoveredCity: City | null;

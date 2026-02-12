@@ -1,4 +1,5 @@
-import { pipe, filter, flatMap, sumBy } from "remeda";
+import { filter, flatMap, pipe, sumBy } from "remeda";
+
 import { City, Country } from "../core";
 
 type GetCitiesByCountriesAndIsFuture = {

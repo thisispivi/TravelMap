@@ -1,10 +1,13 @@
-import { JSX, useState } from "react";
 import "./Language.scss";
-import { useLanguage } from "@/hooks/language/language";
-import { Button, LanguageFlag } from "../../atoms";
-import { LanguageIcon } from "@/assets";
+
+import { JSX, useState } from "react";
 import { useTranslation } from "react-i18next";
+
+import { LanguageIcon } from "@/assets";
+import { useLanguage } from "@/hooks/language/language";
 import { SUPPORTED_LOCALES } from "@/i18n/locale";
+
+import { Button, LanguageFlag } from "../../atoms";
 
 const possibleLanguages = [...SUPPORTED_LOCALES] as const;
 

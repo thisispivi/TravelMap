@@ -1,12 +1,5 @@
 import "./Map.scss";
-import {
-  ComposableMap,
-  Geographies,
-  Geography,
-  ZoomableGroup,
-} from "react-simple-maps";
-import { City } from "@/core";
-import { HomeContext } from "../../pages/Home/Home";
+
 import {
   useCallback,
   useContext,
@@ -15,17 +8,27 @@ import {
   useRef,
   useState,
 } from "react";
-import { Loading, Marker } from "../../atoms";
-import { MapTooltip } from "../Tooltip/TooltipMap";
+import {
+  ComposableMap,
+  Geographies,
+  Geography,
+  ZoomableGroup,
+} from "react-simple-maps";
 import { Tooltip } from "react-tooltip";
-import { parameters } from "@/utils/parameters";
+
 import { worldDataUrl } from "@/assets/worldData";
+import { City } from "@/core";
 import {
   futureCities,
   livedCities,
   visitedCities,
   visitedCountries,
 } from "@/data";
+import { parameters } from "@/utils/parameters";
+
+import { Loading, Marker } from "../../atoms";
+import { HomeContext } from "../../pages/Home/Home";
+import { MapTooltip } from "../Tooltip/TooltipMap";
 
 const sortByLatitudeAndLongitude = (a: City, b: City) => {
   const fCordA = a.coordinates[0];

@@ -1,6 +1,8 @@
 import "./CloseButton.scss";
-import { CloseIcon } from "../../../assets";
+
 import { JSX } from "react";
+
+import { CloseIcon } from "../../../assets";
 
 interface CloseButtonProps {
   onClick: () => void;
