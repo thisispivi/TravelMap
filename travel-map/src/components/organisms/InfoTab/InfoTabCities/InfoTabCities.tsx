@@ -60,14 +60,8 @@ export function InfoTabCities({
   isGroupedByYear = false,
 }: InfoTabCitiesProps): JSX.Element | null {
   const { t } = useLanguage(["home"]);
-  const {
-    setHoveredCity,
-    setMapPosition,
-    isAutoPosition,
-    setIsAutoPosition,
-    responsive,
-    mapPosition,
-  } = useContext(HomeContext)!;
+  const { isAutoPosition, setIsAutoPosition, responsive } =
+    useContext(HomeContext)!;
 
   const allCountriesValues = allCountries;
   const [countries, setCountries] = useState<Country[]>(allCountriesValues);
@@ -110,7 +104,74 @@ export function InfoTabCities({
 
   if (!isVisible) return null;
 
-  const renderCityCards = (cities: City[]): JSX.Element => (
+  const renderedCities = isGroupedByYear ? (
+    <GroupedCityCards
+      contentRef={contentRef}
+      countries={countries}
+      getTravelIdx={getTravelIdx}
+      groups={groups}
+      hasOverflow={hasOverflow}
+      id={id}
+      selectedYear={selectedYear}
+      toggleYear={toggleYear}
+    />
+  ) : (
+    <SingleCityCards
+      cities={cities}
+      contentRef={contentRef}
+      countries={countries}
+      getTravelIdx={getTravelIdx}
+      hasOverflow={hasOverflow}
+      id={id}
+    />
+  );
+
+  return (
+    <div
+      className={`info-tab-cities info-tab-${id} ${className} 
+    ${isVisible ? "info-tab-cities--visible" : ""}
+    `}
+    >
+      <div className={`info-tab-cities__header info-tab-${id}__header`}>
+        <h1>{t(id + ".title")}</h1>
+        <div className="info-tab-cities__header__buttons">
+          <PositionButton
+            isAutoPosition={isAutoPosition}
+            responsive={responsive}
+            setIsAutoPosition={setIsAutoPosition}
+          />
+          {id === "visited" ? (
+            <FilterByCountry
+              buttonIcon={<FilterIcon className="filter__icon" />}
+              onChange={onCountryChange}
+              options={allCountriesValues}
+              selected={sortedSelectedCountries}
+            />
+          ) : null}
+        </div>
+      </div>
+      {renderedCities}
+    </div>
+  );
+}
+
+type CityCardsListProps = {
+  cities: City[];
+  countries: Country[];
+  id: string;
+  getTravelIdx?: (city: City, travel: Travel) => number;
+};
+
+function CityCardsList({
+  cities,
+  countries,
+  id,
+  getTravelIdx,
+}: CityCardsListProps): JSX.Element {
+  const { isAutoPosition, mapPosition, setHoveredCity, setMapPosition } =
+    useContext(HomeContext)!;
+
+  return (
     <>
       {cities.map((city) => {
         const travel = city.travels[0];
@@ -144,54 +205,6 @@ export function InfoTabCities({
       ) : null}
     </>
   );
-
-  const renderedCities = isGroupedByYear ? (
-    <GroupedCityCards
-      contentRef={contentRef}
-      groups={groups}
-      hasOverflow={hasOverflow}
-      id={id}
-      renderCityCards={renderCityCards}
-      selectedYear={selectedYear}
-      toggleYear={toggleYear}
-    />
-  ) : (
-    <SingleCityCards
-      cities={cities}
-      contentRef={contentRef}
-      hasOverflow={hasOverflow}
-      id={id}
-      renderCityCards={renderCityCards}
-    />
-  );
-
-  return (
-    <div
-      className={`info-tab-cities info-tab-${id} ${className} 
-    ${isVisible ? "info-tab-cities--visible" : ""}
-    `}
-    >
-      <div className={`info-tab-cities__header info-tab-${id}__header`}>
-        <h1>{t(id + ".title")}</h1>
-        <div className="info-tab-cities__header__buttons">
-          <PositionButton
-            isAutoPosition={isAutoPosition}
-            responsive={responsive}
-            setIsAutoPosition={setIsAutoPosition}
-          />
-          {id === "visited" ? (
-            <FilterByCountry
-              buttonIcon={<FilterIcon className="filter__icon" />}
-              onChange={onCountryChange}
-              options={allCountriesValues}
-              selected={sortedSelectedCountries}
-            />
-          ) : null}
-        </div>
-      </div>
-      {renderedCities}
-    </div>
-  );
 }
 
 type GroupedCityCardsProps = {
@@ -199,10 +212,12 @@ type GroupedCityCardsProps = {
   groups: Record<string, City[]>;
   selectedYear: number;
   toggleYear: (year: number) => void;
-  renderCityCards: (cities: City[]) => JSX.Element;
+  countries: Country[];
+  getTravelIdx?: (city: City, travel: Travel) => number;
   hasOverflow: boolean;
   contentRef: RefObject<HTMLDivElement | null>;
 };
+
 /**
  * GroupedCityCards component
  *
@@ -213,7 +228,7 @@ type GroupedCityCardsProps = {
  * @param {Record<string, City[]>} input.groups - The groups of cities by year
  * @param {number} input.selectedYear - The currently selected year
  * @param {function} input.toggleYear - The function to toggle the selected year
- * @param {function} input.renderCityCards - The function to render city cards
+ * @param {Country[]} input.countries - The selected countries for filtering
  *
  * @returns {JSX.Element} - The grouped city cards
  */
@@ -221,7 +236,8 @@ function GroupedCityCards({
   groups,
   selectedYear,
   toggleYear,
-  renderCityCards,
+  countries,
+  getTravelIdx,
   id,
   hasOverflow,
   contentRef,
@@ -255,7 +271,12 @@ function GroupedCityCards({
               <div
                 className={`info-tab-cities__content info-tab-${id}__content`}
               >
-                {renderCityCards(groups[yearGroup])}
+                <CityCardsList
+                  cities={groups[yearGroup]}
+                  countries={countries}
+                  getTravelIdx={getTravelIdx}
+                  id={id}
+                />
               </div>
             ) : null}
           </div>
@@ -267,8 +288,9 @@ function GroupedCityCards({
 
 type SingleCityCardsProps = {
   id: string;
-  renderCityCards: (cities: City[]) => JSX.Element;
   cities: City[];
+  countries: Country[];
+  getTravelIdx?: (city: City, travel: Travel) => number;
   hasOverflow: boolean;
   contentRef: RefObject<HTMLDivElement | null>;
 };
@@ -280,15 +302,16 @@ type SingleCityCardsProps = {
  *
  * @param {SingleCityCardsProps} input - The props for the component.
  * @param {string} input.id - The id of the info tab cities
- * @param {function} input.renderCityCards - The function to render city cards
  * @param {City[]} input.cities - The list of cities to render
+ * @param {Country[]} input.countries - The selected countries for filtering
  *
  * @returns {JSX.Element} - The single city cards
  */
 function SingleCityCards({
   id,
-  renderCityCards,
   cities,
+  countries,
+  getTravelIdx,
   hasOverflow,
   contentRef,
 }: SingleCityCardsProps): JSX.Element {
@@ -298,7 +321,12 @@ function SingleCityCards({
       id="info-tab"
       ref={contentRef}
     >
-      {renderCityCards(cities)}
+      <CityCardsList
+        cities={cities}
+        countries={countries}
+        getTravelIdx={getTravelIdx}
+        id={id}
+      />
     </div>
   );
 }

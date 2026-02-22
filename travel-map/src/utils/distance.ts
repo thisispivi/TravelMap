@@ -12,7 +12,7 @@ import { toRadians } from "./convert";
  * @param {{ lat: number; lon: number }} end - The end point
  * @returns {number} - The distance between the two points in kilometers
  */
-export function haversineDistance(
+function haversineDistance(
   start: { lat: number; lon: number },
   end: { lat: number; lon: number },
 ): number {

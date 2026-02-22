@@ -1,5 +1,4 @@
 import AirplaneIcon from "./icons/Airplane.svg?react";
-import ArrivalIcon from "./icons/Arrival.svg?react";
 import CalendarIcon from "./icons/Calendar.svg?react";
 import CameraIcon from "./icons/Camera.svg?react";
 import ChevronIcon from "./icons/Chevron.svg?react";
@@ -7,7 +6,6 @@ import CityIcon from "./icons/City.svg?react";
 import CloseIcon from "./icons/Close.svg?react";
 import CoinIcon from "./icons/Coin.svg?react";
 import ContinentsIcon from "./icons/Continents.svg?react";
-import DepartureIcon from "./icons/Departure.svg?react";
 import DistanceIcon from "./icons/Distance.svg?react";
 import DoubleChevronIcon from "./icons/DoubleChevron.svg?react";
 import EarthFlatIcon from "./icons/EarthFlat.svg?react";
@@ -23,7 +21,6 @@ import LanguageIcon from "./icons/Language.svg?react";
 import LogoIcon from "./icons/Logo.svg?react";
 import MapIcon from "./icons/Map.svg?react";
 import { MarkerIcon } from "./icons/Marker";
-import MarkerBWIcon from "./icons/MarkerBW.svg?react";
 import MoonIcon from "./icons/Moon.svg?react";
 import MoonFlatIcon from "./icons/MoonFlat.svg?react";
 import PeopleIcon from "./icons/People.svg?react";
@@ -38,7 +35,6 @@ import VisitedIcon from "./icons/Visited.svg?react";
 
 export {
   AirplaneIcon,
-  ArrivalIcon,
   CalendarIcon,
   CameraIcon,
   ChevronIcon,
@@ -46,7 +42,6 @@ export {
   CloseIcon,
   CoinIcon,
   ContinentsIcon,
-  DepartureIcon,
   DistanceIcon,
   DoubleChevronIcon,
   EarthFlatIcon,
@@ -61,7 +56,6 @@ export {
   LanguageIcon,
   LogoIcon,
   MapIcon,
-  MarkerBWIcon,
   MarkerIcon,
   MoonFlatIcon,
   MoonIcon,

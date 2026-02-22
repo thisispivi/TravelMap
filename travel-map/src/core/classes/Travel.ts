@@ -1,6 +1,6 @@
 import { Image } from "../typings/Image";
 
-export interface TravelInterface {
+interface TravelInterface {
   sDate: Date;
   eDate: Date;
   photos?: Image[];

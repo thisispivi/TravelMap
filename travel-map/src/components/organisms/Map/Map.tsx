@@ -149,20 +149,6 @@ export function Map() {
     [setMapPosition],
   );
 
-  const renderMarkers = useCallback(
-    (cities: City[], flags?: { isFuture?: boolean; isLived?: boolean }) =>
-      cities.map((city) => (
-        <Marker
-          city={city}
-          hoveredCity={hoveredCity}
-          key={city.name}
-          setHoveredCity={setHoveredCity}
-          {...flags}
-        />
-      )),
-    [hoveredCity, setHoveredCity],
-  );
-
   const tooltipAnchorSelect = useMemo(() => {
     if (!hoveredCity) return "";
     return `#${CSS.escape(`${hoveredCity.name}-marker`)}`;
@@ -206,9 +192,32 @@ export function Map() {
 
           {isLoaded ? (
             <>
-              {renderMarkers(sortedVisitedCities)}
-              {renderMarkers(sortedFutureCities, { isFuture: true })}
-              {renderMarkers(sortedLivedCities, { isLived: true })}
+              {sortedVisitedCities.map((city) => (
+                <Marker
+                  city={city}
+                  hoveredCity={hoveredCity}
+                  key={city.name}
+                  setHoveredCity={setHoveredCity}
+                />
+              ))}
+              {sortedFutureCities.map((city) => (
+                <Marker
+                  city={city}
+                  hoveredCity={hoveredCity}
+                  isFuture
+                  key={city.name}
+                  setHoveredCity={setHoveredCity}
+                />
+              ))}
+              {sortedLivedCities.map((city) => (
+                <Marker
+                  city={city}
+                  hoveredCity={hoveredCity}
+                  isLived
+                  key={city.name}
+                  setHoveredCity={setHoveredCity}
+                />
+              ))}
             </>
           ) : null}
         </ZoomableGroup>

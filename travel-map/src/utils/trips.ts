@@ -1,17 +1,5 @@
 import { Trip } from "../core";
 
-/**
- * Sort by travel start date
- * @param {Trip} a - The first trip
- * @param {Trip} b - The second trip
- * @returns {number} - The comparison result
- */
-export function sortByTravelStartDate(a: Trip, b: Trip): number {
-  const aDate = a.sDate;
-  const bDate = b.sDate;
-  return aDate < bDate ? -1 : aDate > bDate ? 1 : 0;
-}
-
 type GroupTripsByYearOptions = { cutoffYear: number };
 /**
  * Group trips by year of travel

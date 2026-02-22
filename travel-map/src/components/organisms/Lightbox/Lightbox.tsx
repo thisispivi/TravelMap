@@ -87,7 +87,7 @@ export default function Lightbox(): JSX.Element {
               ? `${import.meta.env.VITE_YOUTUBE_PATH}${item.original}`
               : ""
           }
-          title={item.alt || ""}
+          title="YouTube video"
         />
       );
     } else {

@@ -3,7 +3,7 @@ import { FlightCompany } from "../typings/FlightCompany";
 import { getTravelTypeByStartAndEndCity, TravelType } from "../typings/Travel";
 import { City } from "./City";
 
-export interface FlightInterface {
+interface FlightInterface {
   sCity: City;
   eCity: City;
   company: FlightCompany;
