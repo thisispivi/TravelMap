@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import { normalizeLocale, SupportedLocale } from "@/i18n/locale";
 
-export type LanguageHook = {
+type LanguageHook = {
   t: i18n["t"];
   currLanguage: SupportedLocale;
   changeLanguage: (lang: string) => void;

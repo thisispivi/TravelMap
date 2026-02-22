@@ -30,5 +30,3 @@ i18next
       convertDetectedLanguage: (lng: string) => normalizeLocale(lng),
     },
   });
-
-export { i18next };

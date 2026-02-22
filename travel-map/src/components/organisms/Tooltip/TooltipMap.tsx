@@ -105,7 +105,9 @@ export function MapTooltip({
                 <div className="map-tooltip__content__travels__selector">
                   <DoubleChevronIcon
                     className={`map-tooltip__content__chevron-icon map-tooltip__content__chevron-icon--left ${travelIdx > 0 ? "" : "map-tooltip__content__chevron-icon--disabled"}`}
-                    onClick={() => travelIdx > 0 && setTravelIdx(travelIdx - 1)}
+                    onClick={() =>
+                      setTravelIdx((prev) => (prev > 0 ? prev - 1 : prev))
+                    }
                   />
                   <div className="map-tooltip__content__travel">
                     <CalendarIcon className="map-tooltip__content__travel__icon" />
@@ -122,8 +124,9 @@ export function MapTooltip({
                   <DoubleChevronIcon
                     className={`map-tooltip__content__chevron-icon ${travelIdx < filteredTravels.length - 1 ? "" : "map-tooltip__content__chevron-icon--disabled"}`}
                     onClick={() =>
-                      travelIdx < filteredTravels.length - 1 &&
-                      setTravelIdx(travelIdx + 1)
+                      setTravelIdx((prev) =>
+                        prev < filteredTravels.length - 1 ? prev + 1 : prev,
+                      )
                     }
                   />
                 </div>

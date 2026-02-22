@@ -4,7 +4,7 @@ import { Continent } from "../typings/Continent";
 import { Currency } from "../typings/Currency";
 import { Color, ColorData } from "./Color";
 
-export interface CountryData {
+interface CountryData {
   id: string;
   color: ColorData;
   continent: Continent;

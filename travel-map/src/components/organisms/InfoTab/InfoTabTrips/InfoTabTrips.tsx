@@ -36,13 +36,8 @@ export function InfoTabTrips({
   isVisible = false,
 }: InfoTabTripsProps): JSX.Element | null {
   const { t } = useLanguage(["home"]);
-  const {
-    isAutoPosition,
-    setIsAutoPosition,
-    responsive,
-    setHoveredCity,
-    setMapPosition,
-  } = useContext(HomeContext)!;
+  const { isAutoPosition, setIsAutoPosition, responsive } =
+    useContext(HomeContext)!;
 
   const [selectedYear, setSelectedYear] = useState<number>(
     constants.GROUP_BY_CITIES_DEFAULT_OPENED_YEAR,
@@ -81,25 +76,6 @@ export function InfoTabTrips({
     [trips],
   );
 
-  const renderTripCards = useCallback(
-    (tripsToRender: Trip[]): JSX.Element => {
-      return (
-        <>
-          {tripsToRender.map((trip) => (
-            <TripCard
-              isAutoPosition={isAutoPosition}
-              key={trip.id}
-              setHoveredCity={setHoveredCity}
-              setMapPosition={setMapPosition}
-              trip={trip}
-            />
-          ))}
-        </>
-      );
-    },
-    [isAutoPosition, setHoveredCity, setMapPosition],
-  );
-
   if (!isVisible) return null;
 
   const renderedTrips = (
@@ -108,7 +84,6 @@ export function InfoTabTrips({
       groups={groups}
       hasOverflow={hasOverflow}
       id={id}
-      renderTripCards={renderTripCards}
       selectedYear={selectedYear}
       toggleYear={toggleYear}
     />
@@ -133,15 +108,38 @@ export function InfoTabTrips({
   );
 }
 
+type TripCardsListProps = {
+  trips: Trip[];
+};
+
+function TripCardsList({ trips }: TripCardsListProps): JSX.Element {
+  const { isAutoPosition, setHoveredCity, setMapPosition } =
+    useContext(HomeContext)!;
+
+  return (
+    <>
+      {trips.map((trip) => (
+        <TripCard
+          isAutoPosition={isAutoPosition}
+          key={trip.id}
+          setHoveredCity={setHoveredCity}
+          setMapPosition={setMapPosition}
+          trip={trip}
+        />
+      ))}
+    </>
+  );
+}
+
 type GroupedTripCardsProps = {
   id: string;
   groups: Record<string, Trip[]>;
   selectedYear: number;
   toggleYear: (year: number) => void;
-  renderTripCards: (trips: Trip[]) => JSX.Element;
   hasOverflow: boolean;
   contentRef: RefObject<HTMLDivElement | null>;
 };
+
 /**
  * GroupedTripCards component
  *
@@ -152,7 +150,6 @@ type GroupedTripCardsProps = {
  * @param {Record<string, Trip[]>} input.groups - The groups of trips by year
  * @param {number} input.selectedYear - The currently selected year
  * @param {function} input.toggleYear - The function to toggle the selected year
- * @param {function} input.renderTripCards - The function to render city cards
  *
  * @returns {JSX.Element} - The grouped city cards
  */
@@ -160,7 +157,6 @@ function GroupedTripCards({
   groups,
   selectedYear,
   toggleYear,
-  renderTripCards,
   id,
   hasOverflow,
   contentRef,
@@ -192,7 +188,7 @@ function GroupedTripCards({
                 <div
                   className={`info-tab-trips__content info-tab-${id}__content`}
                 >
-                  {renderTripCards(groups[yearGroup])}
+                  <TripCardsList trips={groups[yearGroup]} />
                 </div>
               ) : null}
             </div>

@@ -48,6 +48,7 @@ export default function Gallery(): JSX.Element {
           : "",
         width: p.width,
         height: p.height,
+        alt: p.alt ?? "",
         youtube: p.youtube,
         index: i,
       })),
@@ -79,7 +80,11 @@ export default function Gallery(): JSX.Element {
             render={{
               image: (props, { photo }) => (
                 <div className="gallery__content__image">
-                  <img {...props} className={`${props.className ?? ""}`} />
+                  <img
+                    {...props}
+                    alt={photo.alt ?? ""}
+                    className={`${props.className ?? ""}`}
+                  />
                   {photo.youtube ? (
                     <>
                       <PlayIcon
@@ -89,6 +94,12 @@ export default function Gallery(): JSX.Element {
                       <div
                         className="gallery__content__image__gradient"
                         onClick={() => navigate(`./${photo.index}`)}
+                        onKeyDown={(e) =>
+                          (e.key === "Enter" || e.key === " ") &&
+                          navigate(`./${photo.index}`)
+                        }
+                        role="button"
+                        tabIndex={0}
                       />
                     </>
                   ) : null}
