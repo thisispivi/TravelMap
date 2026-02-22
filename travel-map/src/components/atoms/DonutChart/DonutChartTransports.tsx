@@ -47,7 +47,7 @@ export function TransportsDonutChart({
       );
     }, [takenFlights]);
 
-  const numFerries = useMemo(() => takenFerries.length, [takenFerries]);
+  const numFerries = takenFerries.length;
 
   const totalTransports =
     numNationalFlights +

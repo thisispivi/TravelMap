@@ -3,7 +3,7 @@ import { getCitiesDistance } from "@/utils/distance";
 import { FerryCompany } from "../typings/FerryCompany";
 import { City } from "./City";
 
-export interface FerryInterface {
+interface FerryInterface {
   sCity: City;
   eCity: City;
   company: FerryCompany;

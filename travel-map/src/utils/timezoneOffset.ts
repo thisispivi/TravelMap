@@ -52,7 +52,7 @@ function getDatePartsInTimeZone(locale: string, timeZone: string, date: Date) {
  * @param {Date} instant - The instant for which to compute the offset
  * @returns {number} Offset from UTC in minutes
  */
-export function getTimeZoneOffsetMinutes(
+function getTimeZoneOffsetMinutes(
   locale: string,
   timeZone: string,
   instant: Date,
@@ -78,7 +78,7 @@ export function getTimeZoneOffsetMinutes(
  * @param {Date} date - Date whose year/month/day should be preserved
  * @returns {Date} A Date representing 12:00 UTC on the same calendar day
  */
-export function toUtcNoonOfCalendarDate(date: Date): Date {
+function toUtcNoonOfCalendarDate(date: Date): Date {
   return new Date(
     Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 12, 0, 0),
   );
@@ -108,20 +108,6 @@ export function getCityOffsetMinutesOnDate(
 }
 
 /**
- * Formats a GMT offset (in minutes) as `GMT±HH:MM`.
- *
- * @param {number} offsetMinutes - Offset from UTC in minutes
- * @returns {string} Formatted GMT offset string
- */
-export function formatGmtOffsetFromMinutes(offsetMinutes: number): string {
-  const sign = offsetMinutes >= 0 ? "+" : "-";
-  const abs = Math.abs(offsetMinutes);
-  const hh = String(Math.floor(abs / 60)).padStart(2, "0");
-  const mm = String(abs % 60).padStart(2, "0");
-  return `GMT${sign}${hh}:${mm}`;
-}
-
-/**
  * Formats a delta offset (in minutes) as `±HH:MM`.
  *
  * Used for expressing differences between two time zones.
@@ -129,7 +115,7 @@ export function formatGmtOffsetFromMinutes(offsetMinutes: number): string {
  * @param {number} deltaMinutes - Offset difference in minutes
  * @returns {string} Formatted delta string
  */
-export function formatGmtOffsetDeltaFromMinutes(deltaMinutes: number): string {
+function formatGmtOffsetDeltaFromMinutes(deltaMinutes: number): string {
   const sign = deltaMinutes >= 0 ? "+" : "-";
   const abs = Math.abs(deltaMinutes);
   const hh = String(Math.floor(abs / 60)).padStart(2, "0");
@@ -153,7 +139,7 @@ function clampDateSpan(start: Date, end: Date): { start: Date; end: Date } {
 /**
  * Offset information for a city across a date span.
  */
-export type TimeZoneSpanOffsets = {
+type TimeZoneSpanOffsets = {
   startOffsetMinutes: number;
   endOffsetMinutes: number;
   uniqueOffsetsMinutes: number[];
@@ -171,7 +157,7 @@ export type TimeZoneSpanOffsets = {
  * @param {Date} eDate - End date (inclusive)
  * @returns {TimeZoneSpanOffsets} Offset information for the span
  */
-export function getCityOffsetsForDateSpan(
+function getCityOffsetsForDateSpan(
   locale: string,
   city: City,
   sDate: Date,

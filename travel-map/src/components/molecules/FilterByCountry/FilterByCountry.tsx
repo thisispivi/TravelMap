@@ -97,6 +97,12 @@ export function FilterByCountry({
               <div
                 className={`${getOptionClassName()} filter__option--select-all`}
                 onClick={handleSelectAllToggle}
+                onKeyDown={(e) =>
+                  (e.key === "Enter" || e.key === " ") &&
+                  handleSelectAllToggle()
+                }
+                role="button"
+                tabIndex={0}
               >
                 <div className="filter__option--select-all__icon">
                   <Checkbox isChecked={allSelected} />
@@ -110,6 +116,12 @@ export function FilterByCountry({
                   className={getOptionClassName(selected.includes(option))}
                   key={option.id}
                   onClick={() => handleCountryToggle(option)}
+                  onKeyDown={(e) =>
+                    (e.key === "Enter" || e.key === " ") &&
+                    handleCountryToggle(option)
+                  }
+                  role="button"
+                  tabIndex={0}
                 >
                   <CountryFlag countryId={option.id} />
                   <h4>{t(`countries.${option.id.replace(" ", "")}`)}</h4>

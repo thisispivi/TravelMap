@@ -86,11 +86,16 @@ export function CityCard({
       ${mobileAndTabletCheck() ? "city-card--mobile" : "city-card--desktop"}
       ${isHidden ? "city-card--hidden" : "city-card--visible"}
       `}
-      onClick={
-        isClickable
-          ? () => navigate(`/gallery/${city.name}/${travelIdx}`)
-          : undefined
-      }
+      {...(isClickable
+        ? {
+            onClick: () => navigate(`/gallery/${city.name}/${travelIdx}`),
+            onKeyDown: (e) =>
+              (e.key === "Enter" || e.key === " ") &&
+              navigate(`/gallery/${city.name}/${travelIdx}`),
+            role: "button" as const,
+            tabIndex: 0,
+          }
+        : {})}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >

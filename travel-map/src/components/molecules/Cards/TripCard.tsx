@@ -1,6 +1,12 @@
 import "./TripCard.scss";
 
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import {
+  AnimatePresence,
+  domAnimation,
+  LazyMotion,
+  m,
+  useReducedMotion,
+} from "framer-motion";
 import { JSX, useId, useMemo, useState } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useNavigate } from "react-router-dom";
@@ -73,181 +79,185 @@ export function TripCard({
   const toggleExpand = () => setIsExpanded((prev) => !prev);
 
   return (
-    <motion.article
-      className={`trip-card ${className}`}
-      layout
-      transition={
-        prefersReducedMotion
-          ? { duration: 0 }
-          : { type: "spring", stiffness: 520, damping: 46 }
-      }
-    >
-      <button
-        aria-controls={detailsId}
-        aria-expanded={isExpanded}
-        className="trip-card__header"
-        onClick={(e) => {
-          e.stopPropagation();
-          toggleExpand();
-        }}
-        type="button"
+    <LazyMotion features={domAnimation}>
+      <m.article
+        className={`trip-card ${className}`}
+        layout
+        transition={
+          prefersReducedMotion
+            ? { duration: 0 }
+            : { type: "spring", stiffness: 520, damping: 46 }
+        }
       >
-        <div aria-hidden className="trip-card__image-container">
-          <div className="trip-card__image-overlay" />
-          <img
-            alt={trip.name}
-            className="trip-card__image"
-            src={trip.backgroundImgSource}
-          />
-        </div>
+        <button
+          aria-controls={detailsId}
+          aria-expanded={isExpanded}
+          className="trip-card__header"
+          onClick={(e) => {
+            e.stopPropagation();
+            toggleExpand();
+          }}
+          type="button"
+        >
+          <div aria-hidden className="trip-card__image-container">
+            <div className="trip-card__image-overlay" />
+            <img
+              alt={trip.name}
+              className="trip-card__image"
+              src={trip.backgroundImgSource}
+            />
+          </div>
 
-        <div className="trip-card__info">
-          <Row className="trip-card__flags">
-            {countries.map((country) => (
-              <CountryFlag
-                className="trip-card__flag"
-                countryId={country.id}
-                key={country.id}
-              />
-            ))}
-          </Row>
+          <div className="trip-card__info">
+            <Row className="trip-card__flags">
+              {countries.map((country) => (
+                <CountryFlag
+                  className="trip-card__flag"
+                  countryId={country.id}
+                  key={country.id}
+                />
+              ))}
+            </Row>
 
-          <div className="trip-card__header-row">
-            <h2 className="trip-card__title">{trip.name}</h2>
+            <div className="trip-card__header-row">
+              <h2 className="trip-card__title">{trip.name}</h2>
 
-            <motion.span
-              animate={{ rotate: isExpanded ? 90 : -90 }}
-              aria-hidden
-              className="trip-card__chevron"
+              <m.span
+                animate={{ rotate: isExpanded ? 90 : -90 }}
+                aria-hidden
+                className="trip-card__chevron"
+                transition={
+                  prefersReducedMotion
+                    ? { duration: 0 }
+                    : { type: "spring", stiffness: 700, damping: 44 }
+                }
+              >
+                <ChevronIcon className="trip-card__chevron-icon" />
+              </m.span>
+            </div>
+
+            {trip.sDate ? (
+              <div className="trip-card__date">
+                <CalendarIcon className="trip-card__date-icon" />
+                <p className="trip-card__date-text">
+                  {formatDateRangeShort({
+                    sDateInput: trip.sDate,
+                    eDateInput: trip.eDate,
+                    locale: lang,
+                    includeWeekday: false,
+                    showYear: true,
+                  })}
+                </p>
+              </div>
+            ) : null}
+          </div>
+        </button>
+
+        <AnimatePresence initial={false}>
+          {isExpanded ? (
+            <m.section
+              animate={{ height: "auto", opacity: 1 }}
+              className="trip-card__details"
+              exit={{ height: 0, opacity: 0 }}
+              id={detailsId}
+              initial={prefersReducedMotion ? false : { height: 0, opacity: 0 }}
               transition={
                 prefersReducedMotion
                   ? { duration: 0 }
-                  : { type: "spring", stiffness: 700, damping: 44 }
+                  : { duration: 0.32, ease: [0.2, 0.8, 0.2, 1] }
               }
             >
-              <ChevronIcon className="trip-card__chevron-icon" />
-            </motion.span>
-          </div>
+              <div className="trip-card__details-inner">
+                <div className="trip-card__cities">
+                  {trip.destinations.map((destination, index) => (
+                    <Button
+                      ariaLabel={`Open ${destination.city.getName(t)} gallery`}
+                      className="trip-card__city"
+                      key={`${destination.city.name}-${destination.travelIdx}`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(
+                          `/gallery/${destination.city.name}/${destination.travelIdx}`,
+                        );
+                      }}
+                      onMouseEnter={() => {
+                        setHoveredCity(destination.city);
+                        if (
+                          setMapPosition &&
+                          destination.city.mapCoordinates &&
+                          isAutoPosition
+                        ) {
+                          setMapPosition({
+                            center: destination.city.mapCoordinates,
+                            zoom: parameters.map.hoveredCityZoom,
+                          });
+                        }
+                      }}
+                      onMouseLeave={() => setHoveredCity(null)}
+                    >
+                      <div className="trip-card__city-number">{index + 1}</div>
 
-          {trip.sDate ? (
-            <div className="trip-card__date">
-              <CalendarIcon className="trip-card__date-icon" />
-              <p className="trip-card__date-text">
-                {formatDateRangeShort({
-                  sDateInput: trip.sDate,
-                  eDateInput: trip.eDate,
-                  locale: lang,
-                  includeWeekday: false,
-                  showYear: true,
-                })}
-              </p>
-            </div>
-          ) : null}
-        </div>
-      </button>
+                      <div className="trip-card__city-body">
+                        <div className="trip-card__city-topline">
+                          <p className="trip-card__city-name">
+                            {destination.city.getName(t)}
+                          </p>
+                          <CountryFlag
+                            className="trip-card__city-flag"
+                            countryId={destination.city.country.id}
+                          />
+                        </div>
 
-      <AnimatePresence initial={false}>
-        {isExpanded ? (
-          <motion.section
-            animate={{ height: "auto", opacity: 1 }}
-            className="trip-card__details"
-            exit={{ height: 0, opacity: 0 }}
-            id={detailsId}
-            initial={prefersReducedMotion ? false : { height: 0, opacity: 0 }}
-            transition={
-              prefersReducedMotion
-                ? { duration: 0 }
-                : { duration: 0.32, ease: [0.2, 0.8, 0.2, 1] }
-            }
-          >
-            <div className="trip-card__details-inner">
-              <div className="trip-card__cities">
-                {trip.destinations.map((destination, index) => (
-                  <Button
-                    ariaLabel={`Open ${destination.city.getName(t)} gallery`}
-                    className="trip-card__city"
-                    key={`${destination.city.name}-${destination.travelIdx}`}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      navigate(
-                        `/gallery/${destination.city.name}/${destination.travelIdx}`,
-                      );
-                    }}
-                    onMouseEnter={() => {
-                      setHoveredCity(destination.city);
-                      if (
-                        setMapPosition &&
-                        destination.city.mapCoordinates &&
-                        isAutoPosition
-                      ) {
-                        setMapPosition({
-                          center: destination.city.mapCoordinates,
-                          zoom: parameters.map.hoveredCityZoom,
-                        });
-                      }
-                    }}
-                    onMouseLeave={() => setHoveredCity(null)}
-                  >
-                    <div className="trip-card__city-number">{index + 1}</div>
-
-                    <div className="trip-card__city-body">
-                      <div className="trip-card__city-topline">
-                        <p className="trip-card__city-name">
-                          {destination.city.getName(t)}
-                        </p>
-                        <CountryFlag
-                          className="trip-card__city-flag"
-                          countryId={destination.city.country.id}
-                        />
+                        {destination.city.travels[destination.travelIdx]
+                          ?.sDate ? (
+                          <div className="trip-card__city-dates">
+                            <CalendarIcon className="trip-card__city-dates-icon" />
+                            <p className="trip-card__city-dates-text">
+                              {formatDateRangeShort({
+                                sDateInput:
+                                  destination.city.travels[
+                                    destination.travelIdx
+                                  ].sDate,
+                                eDateInput:
+                                  destination.city.travels[
+                                    destination.travelIdx
+                                  ].eDate,
+                                locale: lang,
+                                includeWeekday: false,
+                                showYear: true,
+                              })}
+                            </p>
+                          </div>
+                        ) : null}
                       </div>
 
-                      {destination.city.travels[destination.travelIdx]
-                        ?.sDate ? (
-                        <div className="trip-card__city-dates">
-                          <CalendarIcon className="trip-card__city-dates-icon" />
-                          <p className="trip-card__city-dates-text">
-                            {formatDateRangeShort({
-                              sDateInput:
-                                destination.city.travels[destination.travelIdx]
-                                  .sDate,
-                              eDateInput:
-                                destination.city.travels[destination.travelIdx]
-                                  .eDate,
-                              locale: lang,
-                              includeWeekday: false,
-                              showYear: true,
-                            })}
-                          </p>
-                        </div>
-                      ) : null}
-                    </div>
-
-                    <div
-                      aria-hidden
-                      className="trip-card__city-image-container"
-                    >
-                      <LazyLoadImage
-                        alt={destination.city.getName(t)}
-                        className="trip-card__city-image"
-                        effect="opacity"
-                        placeholder={
-                          <div className="trip-card__city-loading">
-                            <Loading />
-                          </div>
-                        }
-                        src={
-                          destination.city.getBackgroundImgSourceByIndex(0) ||
-                          undefined
-                        }
-                      />
-                    </div>
-                  </Button>
-                ))}
+                      <div
+                        aria-hidden
+                        className="trip-card__city-image-container"
+                      >
+                        <LazyLoadImage
+                          alt={destination.city.getName(t)}
+                          className="trip-card__city-image"
+                          effect="opacity"
+                          placeholder={
+                            <div className="trip-card__city-loading">
+                              <Loading />
+                            </div>
+                          }
+                          src={
+                            destination.city.getBackgroundImgSourceByIndex(0) ||
+                            undefined
+                          }
+                        />
+                      </div>
+                    </Button>
+                  ))}
+                </div>
               </div>
-            </div>
-          </motion.section>
-        ) : null}
-      </AnimatePresence>
-    </motion.article>
+            </m.section>
+          ) : null}
+        </AnimatePresence>
+      </m.article>
+    </LazyMotion>
   );
 }

@@ -8,7 +8,7 @@ import { Travel } from "../../../core";
 import { useLanguage } from "../../../hooks/language/language";
 import { formatDateRangeShort } from "../../../i18n/functions/date";
 
-export interface TravelSelectorProps {
+interface TravelSelectorProps {
   travels: Travel[];
   selectedTravelIdx: number;
   cityName: string;

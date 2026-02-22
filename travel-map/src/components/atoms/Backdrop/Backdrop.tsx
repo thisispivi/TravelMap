@@ -30,7 +30,14 @@ export function Backdrop({
     <div
       className={`backdrop  ${isVisible ? "backdrop--visible" : ""} ${className}
       `}
-      onClick={onClick}
+      {...(onClick
+        ? {
+            onClick,
+            onKeyDown: (e) => (e.key === "Enter" || e.key === " ") && onClick(),
+            role: "button" as const,
+            tabIndex: 0,
+          }
+        : {})}
     />
   );
 }
