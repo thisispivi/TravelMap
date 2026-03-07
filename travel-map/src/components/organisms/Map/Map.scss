@@ -14,7 +14,7 @@
   .map {
     position: absolute;
     .rsm-geography {
-      @include m.transition(fill, 0.2s, ease-in-out);
+      @include m.transition(fill, 0.3s);
     }
   }
 }
@@ -22,7 +22,7 @@
 .home--dark {
   .map-container {
     .loading {
-      background-color: #121212;
+      background-color: v.$darkBackground;
     }
   }
 }
@@ -30,7 +30,7 @@
 .home--light {
   .map-container {
     .loading {
-      background-color: #ededed;
+      background-color: v.$lightBackground;
     }
   }
 }

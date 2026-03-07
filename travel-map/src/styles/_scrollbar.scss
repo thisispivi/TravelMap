@@ -8,7 +8,7 @@ $scrollbarThumbMinLength: 5rem;
   height: $scrollbarSize;
 }
 ::-webkit-scrollbar-thumb {
-  border-radius: $scrollbarSize;
+  border-radius: 1rem;
   min-height: $scrollbarThumbMinLength;
   min-width: $scrollbarThumbMinLength;
 }
@@ -17,70 +17,38 @@ $scrollbarThumbMinLength: 5rem;
   &::-webkit-scrollbar-track {
     background-color: $bg;
     -webkit-background-clip: text;
-    @include m.transition(all, 0.3s, ease-in-out);
+    @include m.transition(all, 0.3s);
   }
   &::-webkit-scrollbar-thumb {
     background-color: $bar;
     border: $thumbBorderSize solid $bg;
-    @include m.transition(all, 0.3s, ease-in-out);
+    border-radius: 1rem;
+    @include m.transition(all, 0.3s);
   }
   &::-webkit-scrollbar-thumb:hover {
     background: $barHover;
-    @include m.transition(all, 0.3s, ease-in-out);
+    @include m.transition(all, 0.3s);
   }
   &::-webkit-scrollbar-thumb:active {
     background: $barActive;
-    @include m.transition(all, 0.3s, ease-in-out);
-  }
-}
-
-#gallery {
-  $scrollbarSize: 1.5rem;
-  &::-webkit-scrollbar {
-    width: $scrollbarSize;
-    height: $scrollbarSize;
-  }
-  &::-webkit-scrollbar-thumb {
-    border-radius: $scrollbarSize;
+    @include m.transition(all, 0.3s);
   }
 }
 
 .home--light {
   #info-tab {
-    @include setScrollbar(
-      v.$lightInfoTab,
-      v.$darkButton,
-      v.$darkInfoTab,
-      v.$darkLeftBar
-    );
+    @include setScrollbar(transparent, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.35));
   }
   #gallery {
-    @include setScrollbar(
-      v.$lightInfoTab,
-      v.$darkButton,
-      v.$darkInfoTab,
-      v.$darkLeftBar,
-      0.55rem
-    );
+    @include setScrollbar(transparent, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.35));
   }
 }
 
 .home--dark {
   #info-tab {
-    @include setScrollbar(
-      v.$darkInfoTab,
-      v.$lightButton,
-      v.$lightInfoTab,
-      v.$lightLeftBar
-    );
+    @include setScrollbar(transparent, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.3));
   }
   #gallery {
-    @include setScrollbar(
-      v.$darkInfoTab,
-      v.$lightButton,
-      v.$lightInfoTab,
-      v.$lightLeftBar,
-      0.55rem
-    );
+    @include setScrollbar(transparent, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.3));
   }
 }

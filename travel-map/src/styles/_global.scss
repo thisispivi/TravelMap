@@ -9,6 +9,8 @@
   font-optical-sizing: auto;
   font-weight: normal;
   font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 html {
@@ -22,7 +24,7 @@ body,
   height: inherit;
   width: inherit;
   overflow: hidden;
-  @include m.transition(background-color, 0.3s, ease-in-out);
+  @include m.transition(background-color, 0.4s);
 }
 .body--dark {
   background-color: v.$darkBackground;
@@ -32,8 +34,8 @@ body,
 }
 
 .tooltip {
-  border-radius: 0.25rem !important;
-  box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 8px 0px;
+  border-radius: 0.75rem !important;
+  box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.15);
   z-index: 10;
 }
 

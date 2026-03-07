@@ -1,6 +1,6 @@
 import "./Marker.scss";
 
-import { JSX } from "react";
+import { JSX, useMemo } from "react";
 import { Marker as MarkerMap, useZoomPanContext } from "react-simple-maps";
 
 import { MarkerIcon } from "../../../assets";
@@ -18,6 +18,10 @@ interface MarkerProps {
   isFuture?: boolean;
   isLived?: boolean;
 }
+
+/** Zoom thresholds for progressive label disclosure */
+const LABEL_ZOOM_THRESHOLD = 1.2;
+const LABEL_SMALL_ZOOM_THRESHOLD = 2.5;
 
 /**
  * Marker component
@@ -54,6 +58,25 @@ export function Marker({
   const scale = Math.min(Math.max(currScale, minScale), maxScale);
   const isHovered = hoveredCity?.name === city.name;
 
+  const showLabel = useMemo(
+    () => isHovered || k >= LABEL_ZOOM_THRESHOLD,
+    [isHovered, k],
+  );
+
+  const showSmallLabel = useMemo(
+    () => !isHovered && k >= LABEL_SMALL_ZOOM_THRESHOLD,
+    [isHovered, k],
+  );
+
+  const labelFontSize = useMemo(() => {
+    const base = isHovered ? 10 : showSmallLabel ? 6 : 8;
+    return base / k;
+  }, [isHovered, showSmallLabel, k]);
+
+  const labelOffsetY = useMemo(() => {
+    return (scale * 30 + 6) / k;
+  }, [scale, k]);
+
   return (
     <MarkerMap
       coordinates={city.coordinates}
@@ -67,13 +90,25 @@ export function Marker({
         pressed: { outline: "none" },
       }}
     >
-      <MarkerIcon
-        className={`${isHovered ? "marker-icon--hovered" : ""}
-          ${isFuture ? "marker-icon--future" : ""}
-          ${isLived ? "marker-icon--lived" : ""}
-        `}
-        scale={scale}
-      />
+      <g className={`marker-group ${isHovered ? "marker-group--hovered" : ""}`}>
+        <MarkerIcon
+          className={`${isHovered ? "marker-icon--hovered" : ""}
+            ${isFuture ? "marker-icon--future" : ""}
+            ${isLived ? "marker-icon--lived" : ""}
+          `}
+          scale={scale}
+        />
+        {showLabel ? (
+          <text
+            className={`marker-label ${isHovered ? "marker-label--hovered" : ""} ${isFuture ? "marker-label--future" : ""} ${isLived ? "marker-label--lived" : ""}`}
+            dy={labelOffsetY}
+            fontSize={labelFontSize * 2}
+            textAnchor="middle"
+          >
+            {city.name}
+          </text>
+        ) : null}
+      </g>
     </MarkerMap>
   );
 }

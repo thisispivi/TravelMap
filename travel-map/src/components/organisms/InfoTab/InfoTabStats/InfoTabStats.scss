@@ -293,7 +293,7 @@
       stroke: v.$darkLeftBar;
     }
     .info-tab-stats__card__row {
-      border-top: 1px solid v.$lightInfoTab;
+      border-top: 0.0625rem solid v.$lightInfoTab;
     }
     .info-tab-stats__card__main__mileage-planets {
       b {
@@ -339,7 +339,7 @@
       stroke: v.$lightLeftBar;
     }
     .info-tab-stats__card__row {
-      border-top: 1px solid v.$darkInfoTab;
+      border-top: 0.0625rem solid v.$darkInfoTab;
     }
     .info-tab-stats__card__main__mileage-planets {
       b {

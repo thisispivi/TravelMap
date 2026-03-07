@@ -17,10 +17,10 @@
 
 .home--dark {
   background-color: v.$darkBackground;
-  @include m.transition(background-color, 0.2s, ease-in-out);
+  @include m.transition(background-color, 0.4s);
 }
 
 .home--light {
   background-color: v.$lightBackground;
-  @include m.transition(background-color, 0.2s, ease-in-out);
+  @include m.transition(background-color, 0.4s);
 }

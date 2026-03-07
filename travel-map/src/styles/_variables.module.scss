@@ -1,29 +1,41 @@
 $leftBarWidth: 3.5rem;
 
-$lightBackground: #ededed;
+// ─── Dark theme ──────────────────────────────────────────────
+$darkBackground: #0a0a12;
+$darkLeftBar: #16161e;
+$darkLeftBarOpacity: rgba(22, 22, 30, 0.72);
+$darkLeftBarOpacityLighter: rgba(22, 22, 30, 0.5);
+$darkInfoTab: #1c1c28;
+$darkButton: rgba(255, 255, 255, 0.08);
+$darkButtonHover: rgba(255, 255, 255, 0.14);
+$darkButtonContent: #e4e6f0;
+$darkAltText: #b0b4c8;
+$darkAltTextDarker: #8a8ea4;
+$darkDisabledText: #555870;
+
+// ─── Light theme ─────────────────────────────────────────────
+$lightBackground: #f0f2f5;
 $lightLeftBar: #ffffff;
-$lightLeftBarOpacity: rgba(255, 255, 255, 0.7);
+$lightLeftBarOpacity: rgba(255, 255, 255, 0.72);
 $lightLeftBarOpacityLighter: rgba(255, 255, 255, 0.5);
-$lightInfoTab: #f5f5f5;
-$lightButton: #e4e6eb;
-$lightButtonHover: #d8dadf;
-$lightButtonContent: #050505;
-$lightAltText: #828282;
-$lightAltTextDarker: #65676b;
+$lightInfoTab: rgba(245, 245, 250, 0.85);
+$lightButton: rgba(0, 0, 0, 0.06);
+$lightButtonHover: rgba(0, 0, 0, 0.1);
+$lightButtonContent: #1a1a2e;
+$lightAltText: #6b6f80;
+$lightAltTextDarker: #4a4e60;
 $lightDisabledText: #b0b3b8;
 
-$darkBackground: #121212;
-$darkLeftBar: #242526;
-$darkLeftBarOpacity: rgba(36, 37, 38, 0.7);
-$darkLeftBarOpacityLighter: rgba(36, 37, 38, 0.5);
-$darkInfoTab: #2e2f30;
-$darkButton: #3a3b3c;
-$darkButtonHover: #4e4f50;
-$darkButtonContent: #e7e9ed;
-$darkAltText: #cdd0d8;
-$darkAltTextDarker: #a8adb3;
-$darkDisabledText: #96989d;
+// ─── Glassmorphism tokens ────────────────────────────────────
+$glassBgDark: rgba(22, 22, 30, 0.65);
+$glassBgLight: rgba(255, 255, 255, 0.55);
+$glassBorderDark: rgba(255, 255, 255, 0.08);
+$glassBorderLight: rgba(255, 255, 255, 0.45);
+$glassBlur: 1.25rem;
+$glassShadowDark: 0 0.5rem 2rem rgba(0, 0, 0, 0.4);
+$glassShadowLight: 0 0.5rem 2rem rgba(0, 0, 0, 0.08);
 
+// ─── Category buttons ────────────────────────────────────────
 $futureButton: #bbdefb;
 $futureButtonHover: #90caf9;
 $futureButtonContent: #0d47a1;
@@ -52,6 +64,7 @@ $statsButton: #e1bee7;
 $statsButtonHover: #ce93d8;
 $statsButtonContent: #8e24aa;
 
+// ─── Continent colors ────────────────────────────────────────
 $continentsAfrica: #f3c75d;
 $continentsAsia: #f38caf;
 $continentsEurope: #eb6559;

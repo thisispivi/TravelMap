@@ -8,6 +8,8 @@ import {
   useRef,
   useState,
 } from "react";
+
+const HOVER_LEAVE_DELAY_MS = 150;
 import {
   ComposableMap,
   Geographies,
@@ -27,7 +29,7 @@ import {
 import { parameters } from "@/utils/parameters";
 
 import { Loading, Marker } from "../../atoms";
-import { HomeContext } from "../../pages/Home/Home";
+import { HomeContext } from "../../pages/Home/HomeContext";
 import { MapTooltip } from "../Tooltip/TooltipMap";
 
 const sortByLatitudeAndLongitude = (a: City, b: City) => {
@@ -47,8 +49,8 @@ const sortByLatitudeAndLongitude = (a: City, b: City) => {
           : 0;
 };
 
-const DEFAULT_COUNTRY_FILL_DARK = "#1a1a1a";
-const DEFAULT_COUNTRY_FILL_LIGHT = "#dadada";
+const DEFAULT_COUNTRY_FILL_DARK = "#1e1e2a";
+const DEFAULT_COUNTRY_FILL_LIGHT = "#d4d8e0";
 
 const GEO_STYLE = {
   default: { outline: "none" },
@@ -109,6 +111,31 @@ export function Map() {
   } = context!;
 
   const [isLoaded, setIsLoaded] = useState(false);
+  const hoverLeaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handleSetHoveredCity = useCallback(
+    (city: City | null) => {
+      if (hoverLeaveTimer.current) {
+        clearTimeout(hoverLeaveTimer.current);
+        hoverLeaveTimer.current = null;
+      }
+      if (city === null) {
+        hoverLeaveTimer.current = setTimeout(
+          () => setHoveredCity(null),
+          HOVER_LEAVE_DELAY_MS,
+        );
+      } else {
+        setHoveredCity(city);
+      }
+    },
+    [setHoveredCity],
+  );
+
+  useEffect(() => {
+    return () => {
+      if (hoverLeaveTimer.current) clearTimeout(hoverLeaveTimer.current);
+    };
+  }, []);
 
   const visitedCountryFill = useMemo<Record<string, string>>(
     () =>
@@ -197,7 +224,7 @@ export function Map() {
                   city={city}
                   hoveredCity={hoveredCity}
                   key={city.name}
-                  setHoveredCity={setHoveredCity}
+                  setHoveredCity={handleSetHoveredCity}
                 />
               ))}
               {sortedFutureCities.map((city) => (
@@ -206,7 +233,7 @@ export function Map() {
                   hoveredCity={hoveredCity}
                   isFuture
                   key={city.name}
-                  setHoveredCity={setHoveredCity}
+                  setHoveredCity={handleSetHoveredCity}
                 />
               ))}
               {sortedLivedCities.map((city) => (
@@ -215,7 +242,7 @@ export function Map() {
                   hoveredCity={hoveredCity}
                   isLived
                   key={city.name}
-                  setHoveredCity={setHoveredCity}
+                  setHoveredCity={handleSetHoveredCity}
                 />
               ))}
             </>
@@ -235,10 +262,12 @@ export function Map() {
         {hoveredCity ? (
           <MapTooltip
             city={hoveredCity}
-            onMouseEnter={(city: City) => setHoveredCity(city)}
-            onMouseLeave={() => setHoveredCity(null)}
+            onMouseEnter={(city: City) => handleSetHoveredCity(city)}
+            onMouseLeave={() => handleSetHoveredCity(null)}
             setIsOpen={(open: boolean) =>
-              open ? setHoveredCity(hoveredCity) : setHoveredCity(null)
+              open
+                ? handleSetHoveredCity(hoveredCity)
+                : handleSetHoveredCity(null)
             }
           />
         ) : null}

@@ -1,8 +1,8 @@
 import "./DarkModeButton.scss";
 
-import { JSX, useRef } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { JSX } from "react";
 import { useTranslation } from "react-i18next";
-import { CSSTransition } from "react-transition-group";
 
 import { MoonIcon, SunIcon } from "@/assets";
 
@@ -11,6 +11,22 @@ interface DarkModeButtonProps {
   isDarkTheme: boolean;
   handleDarkModeSwitch: () => void;
 }
+
+const iconVariants = {
+  initial: { opacity: 0, rotate: -90, scale: 0.4 },
+  animate: {
+    opacity: 1,
+    rotate: 0,
+    scale: 1,
+    transition: { type: "spring", stiffness: 300, damping: 20 },
+  },
+  exit: {
+    opacity: 0,
+    rotate: 90,
+    scale: 0.4,
+    transition: { duration: 0.2 },
+  },
+} as const;
 
 /**
  * Button to toggle dark mode
@@ -31,25 +47,29 @@ export function DarkModeButton({
   className = "",
 }: DarkModeButtonProps): JSX.Element {
   const { t } = useTranslation("home");
-  const nodeRef = useRef(null);
 
   return (
-    <button
+    <motion.button
       aria-label={t("theme")}
       className={`dark-mode-button ${className}`}
       data-tooltip-content={t("theme")}
       data-tooltip-id="base-tooltip"
       onClick={handleDarkModeSwitch}
       type="button"
+      whileHover={{ scale: 1.08 }}
+      whileTap={{ scale: 0.95 }}
     >
-      <CSSTransition
-        classNames="dark-mode-button__icon"
-        in={isDarkTheme}
-        nodeRef={nodeRef}
-        timeout={300}
-      >
-        <div ref={nodeRef}>{isDarkTheme ? <MoonIcon /> : <SunIcon />}</div>
-      </CSSTransition>
-    </button>
+      <AnimatePresence initial={false} mode="wait">
+        <motion.div
+          animate="animate"
+          exit="exit"
+          initial="initial"
+          key={isDarkTheme ? "moon" : "sun"}
+          variants={iconVariants}
+        >
+          {isDarkTheme ? <MoonIcon /> : <SunIcon />}
+        </motion.div>
+      </AnimatePresence>
+    </motion.button>
   );
 }

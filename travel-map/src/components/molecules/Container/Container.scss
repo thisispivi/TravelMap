@@ -6,8 +6,7 @@
   transform: translateX(calc(100% + 3.5rem));
   width: calc(100% - 3.5rem);
   height: 100%;
-  // @include m.transition(all, 0.5s, cubic-bezier(0.175, 0.885, 0.32, 1.075));
-  @include m.transition(all, 0.3s, ease-in-out);
+  @include m.transition(all, 0.4s, cubic-bezier(0.4, 0, 0.2, 1));
 
   &.gallery-container--visible {
     left: 3.5rem;
@@ -20,9 +19,9 @@
   }
 }
 
-@media screen and (max-width: 680px) {
+@media screen and (max-width: 42.5rem) {
   .gallery-container {
-    @include m.transition(all, 0.3s, ease-in-out);
+    @include m.transition(all, 0.4s, cubic-bezier(0.4, 0, 0.2, 1));
     &.gallery-container--visible {
       $margin: 0rem;
       left: $margin;
