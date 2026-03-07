@@ -1,31 +1,19 @@
 import "./Home.scss";
 
 import { isMobile, isTablet } from "mobile-device-detect";
-import { createContext, JSX, useEffect, useMemo, useState } from "react";
+import { JSX, useEffect, useMemo, useState } from "react";
 import { Outlet, useNavigate, useSearchParams } from "react-router-dom";
 
 import { City } from "@/core";
-import { ResponsiveType, useResponsive } from "@/hooks/style/responsive";
-import { ThemeDetector, useThemeDetector } from "@/hooks/style/theme";
+import { useResponsive } from "@/hooks/style/responsive";
+import { useThemeDetector } from "@/hooks/style/theme";
 import { parameters } from "@/utils/parameters";
 
 import { HomeTemplate } from "../../templates";
+import { HomeContext } from "./HomeContext";
 
-export type HomeContextType = ThemeDetector & {
-  hoveredCity: City | null;
-  setHoveredCity: (city: City | null) => void;
-  mapPosition: { center: [number, number]; zoom: number };
-  setMapPosition: (position: {
-    center: [number, number];
-    zoom: number;
-  }) => void;
-  isAutoPosition: boolean;
-  setIsAutoPosition: (isAutoPosition: boolean) => void;
-  responsive: ResponsiveType;
-};
-export const HomeContext = createContext<HomeContextType | undefined>(
-  undefined,
-);
+export type { HomeContextType } from "./HomeContext";
+export { HomeContext } from "./HomeContext";
 
 /**
  * Home component

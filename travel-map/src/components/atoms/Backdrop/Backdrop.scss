@@ -9,7 +9,9 @@
   }
 
   &.backdrop--visible {
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(0.375rem);
+    -webkit-backdrop-filter: blur(0.375rem);
     z-index: 3;
   }
 }

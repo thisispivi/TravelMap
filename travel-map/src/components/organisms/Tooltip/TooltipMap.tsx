@@ -1,5 +1,6 @@
 import "./TooltipMap.scss";
 
+import { motion } from "framer-motion";
 import { JSX, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -22,6 +23,16 @@ interface MapTooltipProps {
   onMouseLeave?: () => void;
   setIsOpen: (isOpen: boolean) => void;
 }
+
+const tooltipVariants = {
+  hidden: { opacity: 0, scale: 0.92, y: 4 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: { type: "spring", stiffness: 400, damping: 28 },
+  },
+} as const;
 
 /**
  * MapTooltip component
@@ -70,10 +81,13 @@ export function MapTooltip({
       {createBackdrop("map-tooltip__backdrop--right")}
       {createBackdrop("map-tooltip__backdrop--bottom")}
       {createBackdrop("map-tooltip__backdrop--left")}
-      <div
+      <motion.div
+        animate="visible"
         className="map-tooltip__container"
+        initial="hidden"
         onMouseEnter={() => onMouseEnter && onMouseEnter(city)}
         onMouseLeave={() => onMouseLeave && onMouseLeave()}
+        variants={tooltipVariants}
       >
         <div className="map-tooltip__header">
           <h2>{city.getName(t)}</h2>
@@ -148,7 +162,7 @@ export function MapTooltip({
             ) : null}
           </div>
         ) : null}
-      </div>
+      </motion.div>
     </>
   );
 }

@@ -16,11 +16,7 @@
     width: 2.5rem;
     height: 2.5rem;
     &.filter__button--open {
-      @include m.set-button-colors(
-        v.$filterButton,
-        v.$filterButtonContent,
-        v.$filterButtonHover
-      );
+      @include m.set-button-colors(v.$filterButton, v.$filterButtonContent, v.$filterButtonHover);
     }
   }
   .filter__options {
@@ -30,7 +26,7 @@
     z-index: 10;
     border-radius: 0.5rem;
     padding: 1rem;
-    box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+    box-shadow: rgba(0, 0, 0, 0.56) 0rem 1.375rem 4.375rem 0.25rem;
     width: 16rem;
     @include m.transition(all, 0.3s, ease-in-out);
     flex-shrink: 0;
@@ -106,7 +102,7 @@
         background-color: v.$lightButtonHover;
       }
       &.filter__option--select-all {
-        border-bottom: 1px solid rgba(v.$darkLeftBar, 0.1);
+        border-bottom: 0.0625rem solid rgba(v.$darkLeftBar, 0.1);
         .filter__option--select-all__icon {
           color: v.$darkLeftBar;
         }
@@ -136,7 +132,7 @@
         background-color: v.$darkButtonHover;
       }
       &.filter__option--select-all {
-        border-bottom: 1px solid rgba(v.$lightLeftBar, 0.1);
+        border-bottom: 0.0625rem solid rgba(v.$lightLeftBar, 0.1);
         .filter__option--select-all__icon {
           color: v.$lightLeftBar;
         }
@@ -153,7 +149,7 @@
 
 .filter-transition-enter {
   opacity: 0;
-  transform: translateY(-10px);
+  transform: translateY(-0.625rem);
 }
 .filter-transition-enter-active {
   opacity: 1;
@@ -168,13 +164,13 @@
 }
 .filter-transition-exit-active {
   opacity: 0;
-  transform: translateY(-10px);
+  transform: translateY(-0.625rem);
   transition:
     opacity 200ms,
     transform 200ms;
 }
 
-@media (max-width: 460px) {
+@media (max-width: 28.75rem) {
   .filter {
     .filter__options {
       width: 13rem;

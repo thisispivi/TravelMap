@@ -8,7 +8,7 @@ import { Loading } from "../../atoms";
 import { Container } from "../../molecules";
 import { InfoTab } from "../../organisms/InfoTab/InfoTab";
 import { LeftBar } from "../../organisms/LeftBar/LeftBar";
-import { HomeContext } from "../../pages/Home/Home";
+import { HomeContext } from "../../pages/Home/HomeContext";
 const Map = lazy(() =>
   import("../../organisms/Map/Map").then((mod) => ({ default: mod.Map })),
 );
