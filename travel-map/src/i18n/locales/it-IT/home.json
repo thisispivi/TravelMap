@@ -104,7 +104,7 @@
     "title": "Città in cui ho vissuto",
     "ariaLabel": "Città in cui ho vissuto"
   },
-  "visited": { "title": "Città visitate", "ariaLabel": "Città visitate" },
+  "visited": { "title": "I miei viaggi", "ariaLabel": "I miei viaggi" },
   "future": {
     "title": "Prossime destinazioni",
     "ariaLabel": "Prossime destinazioni"

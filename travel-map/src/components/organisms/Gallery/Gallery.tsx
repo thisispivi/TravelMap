@@ -1,7 +1,7 @@
 import "./Gallery.scss";
 import "react-photo-album/rows.css";
 
-import { JSX, useMemo } from "react";
+import { JSX, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { RowsPhotoAlbum } from "react-photo-album";
 import {
   Outlet,
@@ -55,6 +55,31 @@ export default function Gallery(): JSX.Element {
     [travel.photos],
   );
 
+  const [hasOverflow, setHasOverflow] = useState<boolean>(false);
+  const contentRef = useRef<HTMLDivElement | null>(null);
+
+  const checkOverflow = useCallback(() => {
+    if (contentRef.current) {
+      const element = contentRef.current;
+      setHasOverflow(element.scrollHeight > element.clientHeight);
+    }
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => checkOverflow();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [checkOverflow]);
+
+  useEffect(() => {
+    checkOverflow();
+  }, [checkOverflow, travel]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => checkOverflow(), 500);
+    return () => clearTimeout(timeout);
+  }, [checkOverflow]);
+
   return (
     <div className="gallery">
       <div className="gallery__header">
@@ -73,7 +98,11 @@ export default function Gallery(): JSX.Element {
         />
       </div>
       <div className="gallery__content">
-        <div className="gallery__content__photo-album" id="gallery">
+        <div
+          className={`gallery__content__photo-album ${hasOverflow ? "gallery__content__photo-album--overflow" : ""}`}
+          id="gallery"
+          ref={contentRef}
+        >
           <RowsPhotoAlbum
             onClick={({ index }) => navigate(`./${index}`)}
             photos={photos}

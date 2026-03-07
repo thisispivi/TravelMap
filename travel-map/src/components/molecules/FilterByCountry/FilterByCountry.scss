@@ -16,7 +16,11 @@
     width: 2.5rem;
     height: 2.5rem;
     &.filter__button--open {
-      @include m.set-button-colors(v.$filterButton, v.$filterButtonContent, v.$filterButtonHover);
+      @include m.set-button-colors(
+        v.$filterButton,
+        v.$filterButtonContent,
+        v.$filterButtonHover
+      );
     }
   }
   .filter__options {

@@ -173,6 +173,7 @@ export function TripCard({
                     <Button
                       ariaLabel={`Open ${destination.city.getName(t)} gallery`}
                       className="trip-card__city"
+                      hoverScale={1.015}
                       key={`${destination.city.name}-${destination.travelIdx}`}
                       onClick={(e) => {
                         e.stopPropagation();
@@ -194,6 +195,7 @@ export function TripCard({
                         }
                       }}
                       onMouseLeave={() => setHoveredCity(null)}
+                      tapScale={0.95}
                     >
                       <div className="trip-card__city-number">{index + 1}</div>
 

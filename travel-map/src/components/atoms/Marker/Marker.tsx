@@ -1,6 +1,6 @@
 import "./Marker.scss";
 
-import { JSX, useMemo } from "react";
+import { JSX } from "react";
 import { Marker as MarkerMap, useZoomPanContext } from "react-simple-maps";
 
 import { MarkerIcon } from "../../../assets";
@@ -19,9 +19,9 @@ interface MarkerProps {
   isLived?: boolean;
 }
 
-/** Zoom thresholds for progressive label disclosure */
-const LABEL_ZOOM_THRESHOLD = 1.2;
-const LABEL_SMALL_ZOOM_THRESHOLD = 2.5;
+/** Zoom threshold: labels visible only when zoomed in enough to avoid crowding */
+// const LABEL_ZOOM_THRESHOLD = 4.0;
+// const LABEL_SMALL_ZOOM_THRESHOLD = 6.0;
 
 /**
  * Marker component
@@ -58,24 +58,24 @@ export function Marker({
   const scale = Math.min(Math.max(currScale, minScale), maxScale);
   const isHovered = hoveredCity?.name === city.name;
 
-  const showLabel = useMemo(
-    () => isHovered || k >= LABEL_ZOOM_THRESHOLD,
-    [isHovered, k],
-  );
+  // const showLabel = useMemo(
+  //   () => isHovered || k >= LABEL_ZOOM_THRESHOLD,
+  //   [isHovered, k],
+  // );
 
-  const showSmallLabel = useMemo(
-    () => !isHovered && k >= LABEL_SMALL_ZOOM_THRESHOLD,
-    [isHovered, k],
-  );
+  // const showSmallLabel = useMemo(
+  //   () => !isHovered && k >= LABEL_SMALL_ZOOM_THRESHOLD,
+  //   [isHovered, k],
+  // );
 
-  const labelFontSize = useMemo(() => {
-    const base = isHovered ? 10 : showSmallLabel ? 6 : 8;
-    return base / k;
-  }, [isHovered, showSmallLabel, k]);
+  // const labelFontSize = useMemo(() => {
+  //   const base = isHovered ? 10 : showSmallLabel ? 6 : 7;
+  //   return base / k;
+  // }, [isHovered, showSmallLabel, k]);
 
-  const labelOffsetY = useMemo(() => {
-    return (scale * 30 + 6) / k;
-  }, [scale, k]);
+  // const labelOffsetY = useMemo(() => {
+  //   return (scale * 40 + 12) / k;
+  // }, [scale, k]);
 
   return (
     <MarkerMap
@@ -98,7 +98,7 @@ export function Marker({
           `}
           scale={scale}
         />
-        {showLabel ? (
+        {/* {showLabel ? (
           <text
             className={`marker-label ${isHovered ? "marker-label--hovered" : ""} ${isFuture ? "marker-label--future" : ""} ${isLived ? "marker-label--lived" : ""}`}
             dy={labelOffsetY}
@@ -107,7 +107,7 @@ export function Marker({
           >
             {city.name}
           </text>
-        ) : null}
+        ) : null} */}
       </g>
     </MarkerMap>
   );
