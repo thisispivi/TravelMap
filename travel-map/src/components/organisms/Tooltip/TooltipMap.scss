@@ -6,6 +6,9 @@
   border-radius: 0.875rem !important;
   padding: 0 !important;
   overflow: hidden;
+  backdrop-filter: blur(1.5rem);
+  -webkit-backdrop-filter: blur(1.5rem);
+  @include m.smooth-shadow(1);
 
   .map-tooltip__backdrop {
     z-index: 0;
@@ -165,25 +168,22 @@
 
 .body--light {
   #map-tooltip {
-    background: rgba(255, 255, 255, 0.78);
-    backdrop-filter: blur(1.5rem);
-    -webkit-backdrop-filter: blur(1.5rem);
-    border: 0.065rem solid rgba(255, 255, 255, 0.5);
-    box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.12);
+    background: rgba(255, 255, 255, 0.7);
+    border: 0.0625rem solid rgba(0, 0, 0, 0.06);
     color: v.$lightButtonContent;
   }
   .map-tooltip__content__travel {
-    color: v.$lightButtonContent;
+    color: v.$lightAltText;
   }
   .map-tooltip__content__travel__icon {
     .calendar-0,
     .calendar-1 {
-      stroke: v.$lightButtonContent;
+      stroke: v.$lightAltText;
     }
   }
   .map-tooltip__content__chevron-icon {
     path {
-      fill: v.$lightButtonContent;
+      fill: v.$lightAltText;
     }
   }
   .map-tooltip__divider {
@@ -194,10 +194,7 @@
 .body--dark {
   #map-tooltip {
     background: rgba(22, 22, 30, 0.78);
-    backdrop-filter: blur(1.5rem);
-    -webkit-backdrop-filter: blur(1.5rem);
-    border: 0.065rem solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.4);
+    border: 0.0625rem solid rgba(255, 255, 255, 0.06);
     color: v.$darkButtonContent;
     .map-tooltip__content__travel {
       color: v.$darkAltText;

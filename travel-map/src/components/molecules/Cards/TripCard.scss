@@ -6,10 +6,11 @@
   position: relative;
   z-index: 1;
   width: 100%;
-
   border-radius: 1rem;
   overflow: hidden;
   box-shadow: 0 0.125rem 0.75rem rgba(0, 0, 0, 0.15);
+  @include m.smooth-shadow(1);
+  @include m.transition(box-shadow, 0.3s, ease-in-out);
 
   .trip-card__header {
     appearance: none;
@@ -55,6 +56,7 @@
       position: absolute;
       inset: 0;
       z-index: 1;
+      @include m.transition(background, 0.5s, ease-in-out);
     }
   }
 
@@ -63,7 +65,7 @@
     display: flex;
     justify-content: flex-end;
     flex-direction: column;
-    padding: 1rem;
+    padding: 1rem 3.5rem 1rem 1rem;
     height: 100%;
     position: relative;
   }
@@ -72,7 +74,7 @@
     padding-block: 0.1rem;
     flex-shrink: 0;
     position: absolute;
-    top: 1rem;
+    top: 0.7rem;
     right: 1rem;
     gap: 0.5rem;
 
@@ -85,8 +87,7 @@
   .trip-card__header-row {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem;
+    justify-content: flex-start;
     width: 100%;
     margin-bottom: 0.5rem;
     min-width: 0;
@@ -101,6 +102,7 @@
     margin: 0;
     min-width: 0;
     flex: 1;
+    @include m.transition(color, 0.3s, ease-in-out);
   }
 
   .trip-card__chevron {
@@ -112,7 +114,10 @@
     border-radius: 62.4375rem;
     background: rgba(0, 0, 0, 0.08);
     backdrop-filter: blur(0.375rem);
-    flex-shrink: 0;
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    @include m.transition(background, 0.25s, ease-in-out);
   }
 
   .trip-card__chevron-icon {
@@ -121,21 +126,22 @@
 
     path {
       stroke: white;
+      @include m.transition(stroke, 0.3s, ease-in-out);
     }
   }
 
   .trip-card__date {
     display: flex;
     justify-content: flex-start;
-    align-items: flex-start;
+    align-items: center;
     padding: 0.1rem 0;
     color: v.$darkAltText;
+    @include m.transition(color, 0.3s, ease-in-out);
 
     .trip-card__date-text {
       text-transform: capitalize;
       font-weight: 300;
       font-size: 0.9rem;
-      text-shadow: none;
       margin: 0;
       white-space: normal;
       overflow: visible;
@@ -150,6 +156,7 @@
       .calendar-0,
       .calendar-1 {
         stroke: v.$darkAltText;
+        @include m.transition(stroke, 0.3s, ease-in-out);
       }
 
       .calendar-0 {
@@ -160,10 +167,11 @@
 
   .trip-card__details {
     overflow: hidden;
+    @include m.transition(background-color, 0.3s, ease-in-out);
   }
 
   .trip-card__details-inner {
-    padding: 1rem 0.5rem;
+    padding: 0.75rem 0;
   }
 
   .trip-card__cities {
@@ -171,9 +179,20 @@
     flex-direction: column;
     max-height: 20rem;
     overflow-y: auto;
-    padding: 0.25rem 0.5rem;
+    overflow-x: hidden;
+    padding: 0.25rem 0;
     position: relative;
     gap: 0.75rem;
+    justify-self: center;
+    align-items: center;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    width: calc(100% - 1rem);
+
+    &::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+    }
 
     .trip-card__city {
       align-items: stretch;
@@ -184,13 +203,13 @@
       min-height: 5rem;
       position: relative;
       text-align: left;
-      width: 100%;
+      width: calc(100% - 1rem);
       z-index: 1;
       outline: none;
       border-radius: 0.75rem;
       padding-left: 1rem;
       cursor: pointer;
-      @include m.transition(transform, 0.18s, ease-out);
+      @include m.transition(all, 0.2s, ease-out);
 
       &:focus-visible {
         outline: 0.125rem solid rgba(76, 141, 255, 0.6);
@@ -198,7 +217,7 @@
       }
       &:hover {
         transform: translateY(-0.125rem);
-        box-shadow: 0 0.25rem 0.5rem 0 rgba(0, 0, 0, 0.2);
+        box-shadow: 0 0.125rem 0.25rem 0 rgba(0, 0, 0, 0.2);
       }
       &:active {
         transform: translateY(0);
@@ -262,11 +281,13 @@
 
           .trip-card__city-dates-text {
             margin: 0;
+            min-height: 0.85rem;
             font-size: 0.85rem;
             font-weight: 400;
             white-space: normal;
             overflow: visible;
             text-overflow: clip;
+            line-height: 1rem;
           }
 
           .trip-card__city-dates-icon {
@@ -328,63 +349,63 @@ $trip-city-variants: (
   1: (
     bg: rgba(239, 68, 68, 0.12),
     num-bg: rgba(239, 68, 68, 0.16),
-    num-color: rgba(239, 68, 68, 1)
+    num-color: rgba(239, 68, 68, 1),
   ),
   2: (
     bg: rgba(249, 115, 22, 0.12),
     num-bg: rgba(249, 115, 22, 0.16),
-    num-color: rgba(249, 115, 22, 1)
+    num-color: rgba(249, 115, 22, 1),
   ),
   3: (
     bg: rgba(245, 158, 11, 0.12),
     num-bg: rgba(245, 158, 11, 0.16),
-    num-color: rgba(245, 158, 11, 1)
+    num-color: rgba(245, 158, 11, 1),
   ),
   4: (
     bg: rgba(234, 179, 8, 0.12),
     num-bg: rgba(234, 179, 8, 0.16),
-    num-color: rgba(234, 179, 8, 1)
+    num-color: rgba(234, 179, 8, 1),
   ),
   5: (
     bg: rgba(34, 197, 94, 0.12),
     num-bg: rgba(34, 197, 94, 0.16),
-    num-color: rgba(34, 197, 94, 1)
+    num-color: rgba(34, 197, 94, 1),
   ),
   6: (
     bg: rgba(16, 185, 129, 0.12),
     num-bg: rgba(16, 185, 129, 0.16),
-    num-color: rgba(16, 185, 129, 1)
+    num-color: rgba(16, 185, 129, 1),
   ),
   7: (
     bg: rgba(20, 184, 166, 0.12),
     num-bg: rgba(20, 184, 166, 0.16),
-    num-color: rgba(20, 184, 166, 1)
+    num-color: rgba(20, 184, 166, 1),
   ),
   8: (
     bg: rgba(6, 182, 212, 0.12),
     num-bg: rgba(6, 182, 212, 0.16),
-    num-color: rgba(6, 182, 212, 1)
+    num-color: rgba(6, 182, 212, 1),
   ),
   9: (
     bg: rgba(76, 141, 255, 0.12),
     num-bg: rgba(76, 141, 255, 0.18),
-    num-color: rgba(76, 141, 255, 1)
+    num-color: rgba(76, 141, 255, 1),
   ),
   10: (
     bg: rgba(99, 102, 241, 0.12),
     num-bg: rgba(99, 102, 241, 0.16),
-    num-color: rgba(99, 102, 241, 1)
+    num-color: rgba(99, 102, 241, 1),
   ),
   11: (
     bg: rgba(168, 85, 247, 0.12),
     num-bg: rgba(168, 85, 247, 0.16),
-    num-color: rgba(168, 85, 247, 1)
+    num-color: rgba(168, 85, 247, 1),
   ),
   12: (
     bg: rgba(236, 72, 153, 0.12),
     num-bg: rgba(236, 72, 153, 0.16),
-    num-color: rgba(236, 72, 153, 1)
-  )
+    num-color: rgba(236, 72, 153, 1),
+  ),
 );
 
 @mixin apply-city-variants($map, $cycle: 12) {
@@ -403,22 +424,26 @@ $trip-city-variants: (
 
 .home--light {
   .trip-card {
+    border: 0.0625rem solid rgba(0, 0, 0, 0.06);
+    box-shadow: none;
     .trip-card__image-overlay {
-      background: linear-gradient(180deg, transparent 45%, v.$lightLeftBarOpacityLighter 65%, v.$lightLeftBar 100%);
+      background: linear-gradient(
+        180deg,
+        transparent 45%,
+        v.$lightLeftBarOpacityLighter 65%,
+        v.$lightLeftBar 100%
+      );
     }
     .trip-card__info {
       .trip-card__title {
         color: v.$lightButtonContent;
       }
       .trip-card__date {
-        color: v.$lightAltTextDarker;
-        .trip-card__date-text {
-          text-shadow: none;
-        }
+        color: v.$lightButtonContent;
         .trip-card__date-icon {
           .calendar-0,
           .calendar-1 {
-            stroke: v.$lightAltTextDarker;
+            stroke: v.$lightButtonContent;
           }
         }
       }
@@ -460,22 +485,29 @@ $trip-city-variants: (
 
 .home--dark {
   .trip-card {
+    border: 0.0625rem solid rgba(255, 255, 255, 0.06);
+
     .trip-card__image-overlay {
-      background: linear-gradient(180deg, transparent 45%, v.$darkLeftBarOpacityLighter 65%, v.$darkLeftBar 100%);
+      background: linear-gradient(
+        180deg,
+        transparent 45%,
+        v.$darkLeftBarOpacityLighter 65%,
+        v.$darkLeftBar 100%
+      );
     }
     .trip-card__info {
       .trip-card__title {
         color: v.$darkButtonContent;
       }
       .trip-card__date {
-        color: v.$darkAltTextDarker;
+        color: rgba(255, 255, 255, 0.8);
         .trip-card__date-text {
-          text-shadow: none;
+          text-shadow: 0 0.0625rem 0.375rem rgba(0, 0, 0, 0.7);
         }
         .trip-card__date-icon {
           .calendar-0,
           .calendar-1 {
-            stroke: v.$darkAltTextDarker;
+            stroke: rgba(255, 255, 255, 0.7);
           }
         }
       }

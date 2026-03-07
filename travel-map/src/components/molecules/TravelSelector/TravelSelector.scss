@@ -46,18 +46,6 @@
   }
 }
 
-@media screen and (max-width: 42.5rem) {
-  .travel-selector__bar {
-    display: none;
-  }
-}
-
-@media screen and (max-width: 29.5625rem) {
-  .travel-selector {
-    display: none;
-  }
-}
-
 .home--light {
   .travel-selector {
     color: v.$darkLeftBar;

@@ -11,6 +11,8 @@ export interface ButtonProps extends PropsWithChildren {
   ariaLabel?: string;
   tooltipId?: string;
   tooltipContent?: string;
+  hoverScale?: number;
+  tapScale?: number;
 }
 
 /**
@@ -28,6 +30,8 @@ export interface ButtonProps extends PropsWithChildren {
  * @param {string} props.ariaLabel - The aria label of the button
  * @param {string} props.tooltipId - The id of the tooltip
  * @param {string} props.tooltipContent - The content of the tooltip
+ * @param {number} props.hoverScale - The scale of the button when hovered
+ * @param {number} props.tapScale - The scale of the button when tapped
  * @param {React.ReactNode} props.children - The content of the button
  * @returns {JSX.Element} - The button
  */
@@ -40,6 +44,8 @@ export function Button({
   tooltipId,
   onMouseEnter,
   onMouseLeave,
+  hoverScale = 1.08,
+  tapScale = 0.95,
 }: ButtonProps): JSX.Element {
   return (
     <motion.button
@@ -51,8 +57,8 @@ export function Button({
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       type="button"
-      whileHover={{ scale: 1.08 }}
-      whileTap={{ scale: 0.95 }}
+      whileHover={{ scale: hoverScale }}
+      whileTap={{ scale: tapScale }}
     >
       {children}
     </motion.button>

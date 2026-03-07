@@ -3,7 +3,8 @@
   --marker-color-active: #ff5252;
   --marker-circle-color: white;
   --marker-transition:
-    stroke 0.3s cubic-bezier(0.4, 0, 0.2, 1), fill 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    stroke 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    fill 0.3s cubic-bezier(0.4, 0, 0.2, 1),
     filter 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   g {
@@ -58,6 +59,7 @@
   // ─── City name labels ────────────────────────────────────────
   .marker-label {
     fill: #b0b0b0;
+    font-family: "Urbanist", Arial, Helvetica, sans-serif;
     font-weight: 500;
     pointer-events: none;
     opacity: 0;

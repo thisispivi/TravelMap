@@ -104,7 +104,7 @@
     "title": "Cities I've lived in",
     "ariaLabel": "Cities I've lived in"
   },
-  "visited": { "title": "Visited Cities", "ariaLabel": "Visited Cities" },
+  "visited": { "title": "My Trips", "ariaLabel": "My Trips" },
   "future": {
     "title": "Future Destinations",
     "ariaLabel": "Future Destinations"

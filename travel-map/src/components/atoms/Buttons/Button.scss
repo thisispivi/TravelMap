@@ -36,7 +36,11 @@
       background: rgba(0, 0, 0, 0.08);
       box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.06);
     }
-    @include m.set-button-colors(rgba(0, 0, 0, 0.04), v.$lightButtonContent, rgba(0, 0, 0, 0.08));
+    @include m.set-button-colors(
+      rgba(0, 0, 0, 0.04),
+      v.$lightButtonContent,
+      rgba(0, 0, 0, 0.08)
+    );
   }
 }
 
@@ -50,6 +54,10 @@
       background: rgba(255, 255, 255, 0.1);
       box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.2);
     }
-    @include m.set-button-colors(rgba(255, 255, 255, 0.06), v.$darkButtonContent, rgba(255, 255, 255, 0.1));
+    @include m.set-button-colors(
+      rgba(255, 255, 255, 0.06),
+      v.$darkButtonContent,
+      rgba(255, 255, 255, 0.1)
+    );
   }
 }
