@@ -2,72 +2,97 @@
 @use "../../../styles/variables.module" as v;
 
 .language-selector {
+  position: relative;
   display: flex;
-  flex-direction: column-reverse;
-  & * {
-    flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+
+  // ─── Floating options panel ───────────────────────────────
+  .language-selector__options {
+    position: absolute;
+    bottom: calc(100% + 0.5rem);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+    pointer-events: none;
+    z-index: 10;
   }
+
+  .language-selector__option {
+    pointer-events: auto;
+    display: flex;
+    justify-content: center;
+  }
+
+  // ─── Individual language buttons ─────────────────────────
+  .language-selector__lang-button {
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0.35rem;
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    &.language-selector__lang-button--active {
+      @include m.set-button-colors(v.$languageButton, v.$languageButtonContent, v.$languageButtonHover);
+    }
+  }
+
+  // ─── Activator button ────────────────────────────────────
   .language-selector__activator {
     z-index: 2;
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr;
-    padding: 0.5rem;
-    height: 4.1rem !important;
-    border-radius: 3rem !important;
-
-    .language-selector__language-icon,
-    .language-selector__language-flag-icon {
-      grid-area: 1 / 1 / 2 / 2;
-      width: 100%;
-    }
 
     .language-selector__language-icon {
-      margin-bottom: auto;
-      height: 1.3rem;
+      display: none;
     }
 
     .language-selector__language-flag-icon {
-      margin-top: auto;
-      height: 1.4rem;
+      width: 1.4rem;
+      height: auto;
     }
-  }
-  .language-selector__button,
-  .language-selector__activator {
-    @include m.transition(all, 0.3s, ease-in-out);
-  }
 
-  .language-selector__button--it-IT,
-  .language-selector__button--en-US {
-    &.language-selector__button--active {
-      @include m.set-button-colors(
-        v.$languageButton,
-        v.$languageButtonContent,
-        v.$languageButtonHover
-      );
-    }
-  }
-
-  .language-selector__activator {
     &.language-selector__activator--open {
-      @include m.set-button-colors(
-        v.$languageButton,
-        v.$languageButtonContent,
-        v.$languageButtonHover
-      );
+      @include m.set-button-colors(v.$languageButton, v.$languageButtonContent, v.$languageButtonHover);
     }
   }
+}
 
-  .language-selector__button--it-IT {
-    transform: translateY(5rem) scale(0.6);
-    &.language-selector__button--open {
-      transform: translateY(-1rem);
+// ─── Mobile / bottom bar ─────────────────────────────────────
+@media screen and (max-width: 42.5rem) {
+  .language-selector {
+    .language-selector__options {
+      bottom: calc(100% + 0.4rem);
     }
-  }
-  .language-selector__button--en-US {
-    transform: translateY(2.5rem) scale(0.6);
-    &.language-selector__button--open {
-      transform: translateY(-0.5rem);
+
+    .language-selector__activator {
+      height: 2.2rem;
+      width: 2.2rem;
+      padding: 0.3rem;
+      border-radius: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .language-selector__language-icon {
+        display: none;
+      }
+
+      .language-selector__language-flag-icon {
+        height: 1.2rem;
+        width: auto;
+        margin: 0;
+        grid-area: unset;
+      }
+    }
+
+    .language-selector__lang-button {
+      width: 2.2rem;
+      height: 2.2rem;
     }
   }
 }

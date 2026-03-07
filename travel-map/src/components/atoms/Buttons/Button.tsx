@@ -1,5 +1,6 @@
 import "./Button.scss";
 
+import { motion } from "framer-motion";
 import { JSX, MouseEventHandler, PropsWithChildren } from "react";
 
 export interface ButtonProps extends PropsWithChildren {
@@ -41,7 +42,7 @@ export function Button({
   onMouseLeave,
 }: ButtonProps): JSX.Element {
   return (
-    <button
+    <motion.button
       aria-label={ariaLabel}
       className={`button ${className}`}
       data-tooltip-content={tooltipContent}
@@ -50,8 +51,10 @@ export function Button({
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       type="button"
+      whileHover={{ scale: 1.08 }}
+      whileTap={{ scale: 0.95 }}
     >
       {children}
-    </button>
+    </motion.button>
   );
 }

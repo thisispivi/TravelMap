@@ -13,7 +13,7 @@ import {
 import { keys } from "remeda";
 
 import { TripCard } from "@/components/molecules";
-import { HomeContext } from "@/components/pages/Home/Home";
+import { HomeContext } from "@/components/pages/Home/HomeContext";
 import { Travel, Trip } from "@/core";
 import { useLanguage } from "@/hooks/language/language";
 import { constants } from "@/utils/parameters";

@@ -1,5 +1,6 @@
 import "./LeftBar.scss";
 
+import { motion } from "framer-motion";
 import { JSX, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -11,7 +12,7 @@ import {
   StatsIcon,
   VisitedIcon,
 } from "@/assets";
-import { HomeContextType } from "@/components/pages/Home/Home";
+import { HomeContextType } from "@/components/pages/Home/HomeContext";
 import { useLocation } from "@/hooks/location/location";
 
 import { DarkModeButton, NavigableButton } from "../../atoms";
@@ -22,6 +23,24 @@ interface LeftBarProps {
   isDarkTheme: HomeContextType["isDarkTheme"];
   handleDarkModeSwitch: HomeContextType["handleDarkModeSwitch"];
 }
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.06, delayChildren: 0.1 },
+  },
+} as const;
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 6 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { type: "spring", stiffness: 400, damping: 24 },
+    transform: "scale(1)",
+  },
+} as const;
 
 /**
  * The left bar of the home page
@@ -77,25 +96,46 @@ export function LeftBar({
     >
       <div className="left-bar__container">
         <div className="left-bar__buttons--top">
-          <LogoIcon
-            className="logo-icon"
-            data-tooltip-content={t("home")}
-            data-tooltip-id="base-tooltip"
-            onClick={() => navigate("/")}
-          />
+          <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+            <LogoIcon
+              className="logo-icon"
+              data-tooltip-content={t("home")}
+              data-tooltip-id="base-tooltip"
+              onClick={() => navigate("/")}
+            />
+          </motion.div>
         </div>
-        <div className="left-bar__buttons">
+        <motion.div
+          animate="visible"
+          className="left-bar__buttons"
+          initial="hidden"
+          variants={containerVariants}
+        >
           {buttonsConfig.map((data) => (
-            <NavigableButton key={`navigable-button-${data.id}`} {...data} />
+            <motion.div
+              key={`navigable-button-${data.id}`}
+              variants={itemVariants}
+            >
+              <NavigableButton {...data} />
+            </motion.div>
           ))}
-        </div>
-        <div className="left-bar__buttons--bottom">
-          <LanguageSelector />
-          <DarkModeButton
-            handleDarkModeSwitch={handleDarkModeSwitch}
-            isDarkTheme={isDarkTheme}
-          />
-        </div>
+        </motion.div>
+        <motion.div
+          animate="visible"
+          className="left-bar__buttons--bottom"
+          initial="hidden"
+          variants={containerVariants}
+        >
+          <motion.div variants={itemVariants}>
+            <LanguageSelector />
+          </motion.div>
+          <motion.div variants={itemVariants}>
+            <DarkModeButton
+              handleDarkModeSwitch={handleDarkModeSwitch}
+              isDarkTheme={isDarkTheme}
+            />
+          </motion.div>
+        </motion.div>
       </div>
     </div>
   );

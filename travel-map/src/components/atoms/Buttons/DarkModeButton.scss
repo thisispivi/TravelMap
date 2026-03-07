@@ -3,33 +3,23 @@
 .dark-mode-button {
   width: auto;
   height: auto;
-  border-radius: 50%;
+  border-radius: 0.75rem;
   display: flex;
   align-items: center;
   justify-content: center;
   outline: none;
-  border: 0;
+  border: 0.0625rem solid transparent;
   cursor: pointer;
-  transition: background-color 0.3s ease-in-out;
+  transition:
+    background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 
   svg {
-    width: 60%;
+    width: 55%;
   }
 
-  .dark-mode-button__icon-enter {
-    scale: 0.2;
-  }
-  .dark-mode-button__icon-enter-active {
-    scale: 1;
-    transition: scale 300ms ease-in-out;
-  }
-  .dark-mode-button__icon-exit {
-    scale: 0.2;
-  }
-  .dark-mode-button__icon-exit-active {
-    scale: 1;
-    transition: scale 300ms ease-in-out;
-  }
   & > div {
     display: flex;
     justify-content: center;
@@ -39,10 +29,12 @@
 
 .home--light {
   .dark-mode-button {
-    background-color: v.$lightButton;
+    background: rgba(0, 0, 0, 0.04);
     color: v.$lightButtonContent;
+    border: 0.0625rem solid rgba(0, 0, 0, 0.06);
     &:hover {
-      background-color: v.$lightButtonHover;
+      background: rgba(0, 0, 0, 0.08);
+      box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.06);
     }
     svg * {
       fill: v.$lightButtonContent;
@@ -52,10 +44,12 @@
 
 .home--dark {
   .dark-mode-button {
-    background-color: v.$darkButton;
+    background: rgba(255, 255, 255, 0.06);
     color: v.$darkButtonContent;
+    border: 0.0625rem solid rgba(255, 255, 255, 0.06);
     &:hover {
-      background-color: v.$darkButtonHover;
+      background: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.2);
     }
     svg * {
       fill: v.$darkButtonContent;

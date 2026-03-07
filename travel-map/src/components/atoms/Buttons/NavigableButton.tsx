@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { JSX } from "react";
 import { Link } from "react-router-dom";
 
@@ -58,12 +59,18 @@ export function NavigableButton({
             : defaultPath
       }
     >
-      <Button
-        ariaLabel={tooltipText}
-        className={`${className} ${isButtonActive ? activeClass : ""}`}
+      <motion.div
+        animate={isButtonActive ? { scale: 1.05 } : { scale: 1 }}
+        style={{ willChange: "transform" }}
+        transition={{ type: "spring", stiffness: 400, damping: 25 }}
       >
-        {icon}
-      </Button>
+        <Button
+          ariaLabel={tooltipText}
+          className={`${className} ${isButtonActive ? activeClass : ""}`}
+        >
+          {icon}
+        </Button>
+      </motion.div>
     </Link>
   );
 }

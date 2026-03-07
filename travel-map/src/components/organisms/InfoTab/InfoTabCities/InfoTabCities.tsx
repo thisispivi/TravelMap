@@ -19,7 +19,7 @@ import { constants } from "@/utils/parameters";
 
 import { PositionButton } from "../../../atoms/Buttons/PositionButton";
 import { CityCard, FilterByCountry } from "../../../molecules";
-import { HomeContext } from "../../../pages/Home/Home";
+import { HomeContext } from "../../../pages/Home/HomeContext";
 
 interface InfoTabCitiesProps {
   allCountries: Country[];

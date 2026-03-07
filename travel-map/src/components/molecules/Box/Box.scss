@@ -4,7 +4,7 @@
 .box {
   display: flex;
   flex-direction: column;
-  @include m.transition(all, 0.3s, ease-in-out);
+  @include m.transition(all, 0.3s);
 
   .box__title {
     font-size: 1.5rem;
@@ -23,14 +23,20 @@
 
 .home--light {
   .box {
-    background-color: v.$lightInfoTab;
-    color: v.$darkLeftBar;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(1rem);
+    -webkit-backdrop-filter: blur(1rem);
+    border: 0.0625rem solid rgba(255, 255, 255, 0.4);
+    color: v.$lightButtonContent;
   }
 }
 
 .home--dark {
   .box {
-    background-color: v.$darkInfoTab;
-    color: v.$lightLeftBar;
+    background: rgba(22, 22, 30, 0.55);
+    backdrop-filter: blur(1rem);
+    -webkit-backdrop-filter: blur(1rem);
+    border: 0.0625rem solid rgba(255, 255, 255, 0.05);
+    color: v.$darkButtonContent;
   }
 }

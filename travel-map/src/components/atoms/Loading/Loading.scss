@@ -1,4 +1,5 @@
 @use "../../../styles/variables.module" as v;
+@use "../../../styles/mixins" as m;
 
 @mixin loader($color) {
   $size: 1.8rem;
@@ -19,7 +20,7 @@
     #000 0
   );
   mask: radial-gradient(farthest-side, #0000 calc(100% - $border), #000 0);
-  animation: l13 1s infinite linear;
+  animation: spinLoader 0.8s infinite cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .loader {
@@ -44,7 +45,7 @@ div[class*="future"] {
   }
 }
 
-@keyframes l13 {
+@keyframes spinLoader {
   100% {
     transform: rotate(1turn);
   }

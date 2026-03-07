@@ -3,38 +3,38 @@
 
 #map-tooltip {
   min-width: 14rem !important;
-  border-radius: 0.625rem !important;
+  border-radius: 0.875rem !important;
   padding: 0 !important;
-  box-shadow: 0 0.126rem 0.188rem 0rem rgba(0, 0, 0, 0.2);
+  overflow: hidden;
 
   .map-tooltip__backdrop {
     z-index: 0;
     position: absolute;
     &.map-tooltip__backdrop--bottom,
     &.map-tooltip__backdrop--top {
-      height: 0.6rem;
+      height: 1rem;
       width: 100%;
     }
     &.map-tooltip__backdrop--bottom {
-      bottom: -0.6rem;
-      margin-top: 0.6rem;
+      bottom: -1.5rem;
+      margin-top: 1rem;
     }
     &.map-tooltip__backdrop--top {
-      top: -0.6rem;
-      margin-bottom: 0.6rem;
+      top: -1.5rem;
+      margin-bottom: 1rem;
     }
     &.map-tooltip__backdrop--right,
     &.map-tooltip__backdrop--left {
       height: 100%;
-      width: 0.6rem;
+      width: 1rem;
     }
     &.map-tooltip__backdrop--left {
-      left: -0.6rem;
-      margin-right: 0.6rem;
+      left: -1.5rem;
+      margin-right: 1rem;
     }
     &.map-tooltip__backdrop--right {
-      right: -0.6rem;
-      margin-left: 0.6rem;
+      right: -1.5rem;
+      margin-left: 1rem;
     }
   }
   .map-tooltip__metadata {
@@ -63,7 +63,7 @@
     }
   }
   .map-tooltip__container {
-    padding: 0.75rem 1rem;
+    padding: 0.85rem 1.1rem;
     .map-tooltip__header {
       display: flex;
       justify-content: space-between;
@@ -72,7 +72,7 @@
         font-size: 1.4rem;
         overflow: hidden;
         text-overflow: ellipsis;
-        @include m.transition(all, 0.15s, ease-in-out);
+        @include m.transition(all, 0.2s);
       }
       svg {
         width: 1.6rem;
@@ -83,10 +83,10 @@
       }
     }
     .map-tooltip__divider {
-      margin-top: 1rem;
+      margin-top: 0.85rem;
       display: flex;
       flex-direction: column;
-      border-radius: 0.25rem;
+      border-radius: 0.5rem;
       padding: 0.75rem;
       .map-tooltip__content {
         .map-tooltip__content__travels {
@@ -111,6 +111,7 @@
               }
               &.map-tooltip__content__chevron-icon--disabled {
                 cursor: not-allowed;
+                opacity: 0.3;
               }
             }
             .map-tooltip__content__travel {
@@ -127,7 +128,7 @@
                 height: 1rem;
                 margin-right: 0.4rem;
                 path {
-                  @include m.transition(all, 0.3s, ease-in-out);
+                  @include m.transition(all, 0.3s);
                 }
                 .calendar-0 {
                   stroke-width: 60;
@@ -141,7 +142,7 @@
         margin-top: 0.9rem;
         .map-tooltip__footer__button {
           padding-inline: 0.75rem;
-          border-radius: 0.25rem;
+          border-radius: 0.5rem;
           height: 2.25rem;
           width: 100%;
           p {
@@ -164,39 +165,40 @@
 
 .body--light {
   #map-tooltip {
-    color: v.$darkLeftBar;
-    background-color: v.$lightLeftBarOpacity;
-    backdrop-filter: blur(0.6rem);
+    background: rgba(255, 255, 255, 0.78);
+    backdrop-filter: blur(1.5rem);
+    -webkit-backdrop-filter: blur(1.5rem);
+    border: 0.065rem solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.12);
+    color: v.$lightButtonContent;
   }
   .map-tooltip__content__travel {
-    color: v.$darkLeftBar;
+    color: v.$lightButtonContent;
   }
   .map-tooltip__content__travel__icon {
     .calendar-0,
     .calendar-1 {
-      stroke: v.$darkLeftBar;
+      stroke: v.$lightButtonContent;
     }
   }
   .map-tooltip__content__chevron-icon {
     path {
-      fill: v.$darkLeftBar;
-    }
-    &.map-tooltip__content__chevron-icon--disabled {
-      path {
-        fill: #c2c2c2;
-      }
+      fill: v.$lightButtonContent;
     }
   }
   .map-tooltip__divider {
-    background-color: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.04);
   }
 }
 
 .body--dark {
   #map-tooltip {
-    background-color: v.$darkLeftBarOpacity;
-    backdrop-filter: blur(0.6rem);
-    color: v.$lightLeftBar;
+    background: rgba(22, 22, 30, 0.78);
+    backdrop-filter: blur(1.5rem);
+    -webkit-backdrop-filter: blur(1.5rem);
+    border: 0.065rem solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.4);
+    color: v.$darkButtonContent;
     .map-tooltip__content__travel {
       color: v.$darkAltText;
     }
@@ -210,14 +212,9 @@
       path {
         fill: v.$darkAltText;
       }
-      &.map-tooltip__content__chevron-icon--disabled {
-        path {
-          fill: #484848;
-        }
-      }
     }
   }
   .map-tooltip__divider {
-    background-color: rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.04);
   }
 }
