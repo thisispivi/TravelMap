@@ -13,6 +13,9 @@
     display: flex;
     align-items: center;
     flex-shrink: 0;
+    position: relative;
+    padding-bottom: 0.75rem;
+    row-gap: 0.5rem;
 
     h2 {
       font-size: 1.4rem;
@@ -30,10 +33,16 @@
     }
 
     .close-button {
-      margin-left: 1rem;
+      position: absolute;
+      right: 0;
+      top: 0.2rem;
       path {
         @include m.transition(all, 0.3s, ease-in-out);
       }
+    }
+
+    .travel-selector {
+      margin-right: 1.5rem;
     }
 
     svg {
@@ -55,6 +64,10 @@
       inset: 0;
       overflow-y: auto;
       overflow-x: hidden;
+
+      &.gallery__content__photo-album--overflow {
+        padding-right: 0.5rem;
+      }
     }
 
     .gallery__content__image {
@@ -109,10 +122,6 @@
 }
 
 @media screen and (max-width: 42.5rem) {
-  .gallery {
-    padding: 1rem;
-    padding-bottom: 4rem;
-  }
   .close-button {
     margin-left: 0.25rem !important;
   }

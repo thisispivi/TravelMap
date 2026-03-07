@@ -39,7 +39,11 @@
     }
 
     &.language-selector__lang-button--active {
-      @include m.set-button-colors(v.$languageButton, v.$languageButtonContent, v.$languageButtonHover);
+      @include m.set-button-colors(
+        v.$languageButton,
+        v.$languageButtonContent,
+        v.$languageButtonHover
+      );
     }
   }
 
@@ -57,7 +61,11 @@
     }
 
     &.language-selector__activator--open {
-      @include m.set-button-colors(v.$languageButton, v.$languageButtonContent, v.$languageButtonHover);
+      @include m.set-button-colors(
+        v.$languageButton,
+        v.$languageButtonContent,
+        v.$languageButtonHover
+      );
     }
   }
 }

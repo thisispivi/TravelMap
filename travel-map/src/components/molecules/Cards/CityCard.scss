@@ -13,6 +13,7 @@
   border-radius: 1rem;
   overflow: hidden;
   position: relative;
+  @include m.smooth-shadow(1);
 
   &.city-card--hidden {
     display: none;
@@ -25,7 +26,6 @@
   &.city-card--clickable:hover {
     cursor: pointer;
     transform: scale(1.03) translateY(-0.125rem);
-    box-shadow: 0 0.75rem 1.75rem rgba(0, 0, 0, 0.2);
   }
   &.city-card--mobile:hover {
     transform: scale(1);
@@ -129,24 +129,32 @@
 
 .home--light {
   .city-card {
-    box-shadow: 0 0.125rem 0.75rem rgba(0, 0, 0, 0.1);
     .city-card__background {
       background-color: v.$lightLeftBarOpacityLighter;
     }
     .city-card__background-overlay {
-      background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(30, 30, 30, 0.35) 70%, rgba(30, 30, 30, 0.7) 100%);
+      background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(30, 30, 30, 0.25) 70%,
+        rgba(30, 30, 30, 0.6) 100%
+      );
     }
   }
 }
 
 .home--dark {
   .city-card {
-    box-shadow: 0 0.125rem 0.75rem rgba(0, 0, 0, 0.3);
     .city-card__background {
       background-color: v.$darkLeftBarOpacityLighter;
     }
     .city-card__background-overlay {
-      background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(10, 10, 18, 0.45) 70%, rgba(10, 10, 18, 0.85) 100%);
+      background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(10, 10, 18, 0.45) 70%,
+        rgba(10, 10, 18, 0.85) 100%
+      );
     }
   }
 }

@@ -151,6 +151,7 @@ export function MapTooltip({
               <div className="map-tooltip__footer">
                 <Button
                   className="map-tooltip__footer__button"
+                  hoverScale={1}
                   onClick={() =>
                     navigate(`/gallery/${city.name}/${travelIdx}?from=map`)
                   }
