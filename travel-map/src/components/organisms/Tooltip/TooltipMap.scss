@@ -75,7 +75,7 @@
         font-size: 1.4rem;
         overflow: hidden;
         text-overflow: ellipsis;
-        @include m.transition(all, 0.2s);
+        @include m.transition(color, 0.2s);
       }
       svg {
         width: 1.6rem;

@@ -7,12 +7,10 @@
   align-items: center;
   justify-content: center;
 
-  // ─── Floating panel with language options ────────────────
   .language-selector__panel {
     position: absolute;
-    bottom: calc(100% + 0.6rem);
-    left: 50%;
-    transform: translateX(-50%);
+    left: calc(100% + 0.6rem);
+    top: 50%;
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
@@ -22,7 +20,6 @@
     min-width: 10rem;
   }
 
-  // ─── Individual language option row ─────────────────────
   .language-selector__lang-option {
     display: flex;
     align-items: center;
@@ -32,7 +29,9 @@
     border: none;
     background: transparent;
     cursor: pointer;
-    @include m.transition(all, 0.15s, ease-in-out);
+    transition:
+      background-color 0.15s ease-in-out,
+      color 0.15s ease-in-out;
     width: 100%;
 
     .language-selector__lang-option__flag {
@@ -48,16 +47,11 @@
     }
 
     &.language-selector__lang-option--active {
-      @include m.set-button-colors(
-        v.$languageButton,
-        v.$languageButtonContent,
-        v.$languageButtonHover
-      );
+      @include m.set-button-colors(v.$languageButton, v.$languageButtonContent, v.$languageButtonHover);
       font-weight: 600;
     }
   }
 
-  // ─── Activator button ────────────────────────────────────
   .language-selector__activator {
     z-index: 2;
 
@@ -71,16 +65,11 @@
     }
 
     &.language-selector__activator--open {
-      @include m.set-button-colors(
-        v.$languageButton,
-        v.$languageButtonContent,
-        v.$languageButtonHover
-      );
+      @include m.set-button-colors(v.$languageButton, v.$languageButtonContent, v.$languageButtonHover);
     }
   }
 }
 
-// ─── Theme styles ─────────────────────────────────────────────
 .home--dark {
   .language-selector__panel {
     background: v.$glassBgDark;
@@ -113,11 +102,13 @@
   }
 }
 
-// ─── Mobile / bottom bar ──────────────────────────────────────
 @media screen and (max-width: 42.5rem) {
   .language-selector {
     .language-selector__panel {
       bottom: calc(100% + 0.5rem);
+      top: auto;
+      left: 50%;
+      right: auto;
       min-width: 9rem;
     }
 
