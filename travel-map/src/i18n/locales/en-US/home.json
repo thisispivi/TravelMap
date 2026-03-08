@@ -4,12 +4,14 @@
     "Anderlecht": "Anderlecht",
     "Assisi": "Assisi",
     "Barcelona": "Barcelona",
+    "Bergamo": "Bergamo",
     "Berlin": "Berlin",
     "Birgu": "Birgu",
     "Bologna": "Bologna",
     "Braga": "Braga",
     "Bruges": "Bruges",
     "Brussels": "Brussels",
+    "Bucharest": "București",
     "Budapest": "Budapest",
     "Cagliari": "Cagliari",
     "Cairns": "Cairns",
@@ -85,6 +87,7 @@
     "Malta": "Malta",
     "Monaco": "Monaco",
     "Portugal": "Portugal",
+    "Romania": "Romania",
     "Spain": "Spain",
     "UnitedKingdom": "United Kingdom",
     "Vatican": "Vatican"
@@ -183,6 +186,34 @@
     "BGN": {
       "name": "Bulgarian Lev",
       "symbol": "лв"
+    },
+    "RON": {
+      "name": "Romanian Leu",
+      "symbol": "lei"
     }
+  },
+  "trips": {
+    "london-school-trip-2011": "London Trip",
+    "berlin-school-trip-2015": "Berlin School Trip",
+    "barcelona-school-trip-2016": "Barcelona School Trip",
+    "bologna-trip-2017": "Bologna Trip",
+    "rome-trip-2021": "Rome Trip",
+    "cefalù-trip-2021": "Cefalù Trip",
+    "terni-trip-2022": "Terni Trip",
+    "imola-f1-trip-2022": "Imola F1 Trip",
+    "budapest-trip-2023": "Budapest Trip",
+    "belgium-trip-2023": "Belgium Trip",
+    "turin-atp-trip-2023": "Turin ATP Trip",
+    "portugal-trip-2024": "Portugal Trip",
+    "japan-trip-2024": "Japan Trip",
+    "venetian-trip-2023": "Venetian Trip",
+    "malta-trip-2025": "Malta Trip",
+    "vienna-trip-2025": "Vienna Trip",
+    "sevilla-trip-2025": "Sevilla Trip",
+    "cefalù-trip-2025": "Cefalù Trip",
+    "bulgaria-trip-2025": "Bulgaria Trip",
+    "australia-trip-2025": "Australia Trip",
+    "cote-d-azur-trip-2025-2026": "Côte d'Azur Trip",
+    "bucharest-trip-2026": "Bucharest Trip"
   }
 }

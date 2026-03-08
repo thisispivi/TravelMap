@@ -102,7 +102,7 @@ export function TripCard({
           <div aria-hidden className="trip-card__image-container">
             <div className="trip-card__image-overlay" />
             <img
-              alt={trip.name}
+              alt={t(`trips.${trip.id}`)}
               className="trip-card__image"
               src={trip.backgroundImgSource}
             />
@@ -120,7 +120,7 @@ export function TripCard({
             </Row>
 
             <div className="trip-card__header-row">
-              <h2 className="trip-card__title">{trip.name}</h2>
+              <h2 className="trip-card__title">{t(`trips.${trip.id}`)}</h2>
 
               <m.span
                 animate={{ rotate: isExpanded ? 90 : -90 }}
@@ -169,7 +169,7 @@ export function TripCard({
             >
               <div className="trip-card__details-inner">
                 <div className="trip-card__cities">
-                  {trip.destinations.map((destination, index) => (
+                  {trip.destinations.map((destination, i) => (
                     <Button
                       ariaLabel={`Open ${destination.city.getName(t)} gallery`}
                       className="trip-card__city"
@@ -197,18 +197,34 @@ export function TripCard({
                       onMouseLeave={() => setHoveredCity(null)}
                       tapScale={0.95}
                     >
-                      <div className="trip-card__city-number">{index + 1}</div>
+                      <div
+                        aria-hidden
+                        className="trip-card__city-image-container"
+                      >
+                        <LazyLoadImage
+                          alt={destination.city.getName(t)}
+                          className="trip-card__city-image"
+                          effect="opacity"
+                          placeholder={
+                            <div className="trip-card__city-loading">
+                              <Loading />
+                            </div>
+                          }
+                          src={
+                            destination.city.getBackgroundImgSourceByIndex(0) ||
+                            undefined
+                          }
+                        />
+                      </div>
+
+                      <div aria-hidden className="trip-card__city-number">
+                        {i + 1}
+                      </div>
 
                       <div className="trip-card__city-body">
-                        <div className="trip-card__city-topline">
-                          <p className="trip-card__city-name">
-                            {destination.city.getName(t)}
-                          </p>
-                          <CountryFlag
-                            className="trip-card__city-flag"
-                            countryId={destination.city.country.id}
-                          />
-                        </div>
+                        <p className="trip-card__city-name">
+                          {destination.city.getName(t)}
+                        </p>
 
                         {destination.city.travels[destination.travelIdx]
                           ?.sDate ? (
@@ -233,25 +249,10 @@ export function TripCard({
                         ) : null}
                       </div>
 
-                      <div
-                        aria-hidden
-                        className="trip-card__city-image-container"
-                      >
-                        <LazyLoadImage
-                          alt={destination.city.getName(t)}
-                          className="trip-card__city-image"
-                          effect="opacity"
-                          placeholder={
-                            <div className="trip-card__city-loading">
-                              <Loading />
-                            </div>
-                          }
-                          src={
-                            destination.city.getBackgroundImgSourceByIndex(0) ||
-                            undefined
-                          }
-                        />
-                      </div>
+                      <CountryFlag
+                        className="trip-card__city-flag"
+                        countryId={destination.city.country.id}
+                      />
                     </Button>
                   ))}
                 </div>

@@ -27,6 +27,7 @@ interface CityCardProps {
   }) => void;
   isAutoPosition?: boolean;
   isHidden?: boolean;
+  showDates?: boolean;
 }
 
 /**
@@ -57,6 +58,7 @@ export function CityCard({
   setMapPosition,
   isAutoPosition = false,
   isHidden = false,
+  showDates = true,
 }: CityCardProps): JSX.Element {
   const lang = useLanguage([]).currLanguage;
   const navigate = useNavigate();
@@ -125,7 +127,7 @@ export function CityCard({
         <div className="city-card__title">
           <h2>{city.getName(t)}</h2>
         </div>
-        {travel?.sDate ? (
+        {showDates && travel?.sDate ? (
           <div className="travel-card__info">
             <CalendarIcon className="travel-card__icon" />
             <p>

@@ -1,4 +1,5 @@
 import "./Lightbox.scss";
+import "react-image-gallery/styles/image-gallery.css";
 
 import {
   JSX,
