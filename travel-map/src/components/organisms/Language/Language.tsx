@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 
 import { LanguageIcon } from "@/assets";
 import { useLanguage } from "@/hooks/language/language";
+import { useResponsive } from "@/hooks/style/responsive";
 import { SUPPORTED_LOCALES } from "@/i18n/locale";
 
 import { Button, LanguageFlag } from "../../atoms";
@@ -15,12 +16,6 @@ const possibleLanguages = [...SUPPORTED_LOCALES] as const;
 const LANGUAGE_LABELS: Record<string, string> = {
   "en-US": "English",
   "it-IT": "Italiano",
-  "de-DE": "Deutsch",
-  "es-ES": "Español",
-  "hu-HU": "Magyar",
-  "ja-JP": "日本語",
-  "pt-PT": "Português",
-  "mt-MT": "Malti",
 };
 
 /**
@@ -37,6 +32,10 @@ export function LanguageSelector(): JSX.Element {
   const [isOpen, setIsOpen] = useState(false);
   const { currLanguage, changeLanguage } = useLanguage([]);
   const ref = useRef<HTMLDivElement>(null);
+  const {
+    window: { width },
+  } = useResponsive();
+  const isMobile = width <= 680;
 
   useEffect(() => {
     if (!isOpen) return;
@@ -54,17 +53,18 @@ export function LanguageSelector(): JSX.Element {
       <AnimatePresence>
         {isOpen ? (
           <motion.div
-            animate={{ opacity: 1, y: 0 }}
+            animate={{ opacity: 1 }}
             className="language-selector__panel"
-            exit={{ opacity: 0, y: 8 }}
-            initial={{ opacity: 0, y: 8 }}
+            exit={{ opacity: 0 }}
+            initial={{ opacity: 0 }}
+            style={isMobile ? { x: "-50%" } : { y: "-50%" }}
             transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
           >
             {possibleLanguages.map((language, i) => (
               <motion.button
                 animate={{
                   opacity: 1,
-                  x: 0,
+                  ...(isMobile ? { y: 0 } : { x: 0 }),
                   transition: {
                     duration: 0.15,
                     delay: i * 0.04,
@@ -79,10 +79,10 @@ export function LanguageSelector(): JSX.Element {
                 }`}
                 exit={{
                   opacity: 0,
-                  x: -8,
+                  ...(isMobile ? { y: 8 } : { x: -8 }),
                   transition: { duration: 0.1 },
                 }}
-                initial={{ opacity: 0, x: -8 }}
+                initial={{ opacity: 0, ...(isMobile ? { y: 8 } : { x: -8 }) }}
                 key={language}
                 onClick={() => {
                   changeLanguage(language);
