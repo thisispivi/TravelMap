@@ -12,6 +12,17 @@ import { Button, LanguageFlag } from "../../atoms";
 
 const possibleLanguages = [...SUPPORTED_LOCALES] as const;
 
+const LANGUAGE_LABELS: Record<string, string> = {
+  "en-US": "English",
+  "it-IT": "Italiano",
+  "de-DE": "Deutsch",
+  "es-ES": "Español",
+  "hu-HU": "Magyar",
+  "ja-JP": "日本語",
+  "pt-PT": "Português",
+  "mt-MT": "Malti",
+};
+
 /**
  * LanguageSelector component
  *
@@ -40,53 +51,57 @@ export function LanguageSelector(): JSX.Element {
 
   return (
     <div className="language-selector" ref={ref}>
-      <div className="language-selector__options">
-        <AnimatePresence>
-          {isOpen
-            ? possibleLanguages.map((language, i) => (
-                <motion.div
-                  animate={{
-                    opacity: 1,
-                    scale: 1,
-                    y: 0,
-                    transition: {
-                      duration: 0.18,
-                      delay: i * 0.06,
-                      ease: [0.4, 0, 0.2, 1],
-                    },
-                  }}
-                  className="language-selector__option"
-                  exit={{
-                    opacity: 0,
-                    scale: 0.75,
-                    y: 8,
-                    transition: { duration: 0.14 },
-                  }}
-                  initial={{ opacity: 0, scale: 0.75, y: 8 }}
-                  key={language}
-                >
-                  <motion.button
-                    aria-label={language}
-                    className={`button language-selector__lang-button ${
-                      currLanguage === language
-                        ? "language-selector__lang-button--active"
-                        : ""
-                    }`}
-                    onClick={() => {
-                      changeLanguage(language);
-                      setIsOpen(false);
-                    }}
-                    type="button"
-                    whileHover={{ scale: 1.08 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <LanguageFlag language={language} />
-                  </motion.button>
-                </motion.div>
-              ))
-            : null}
-        </AnimatePresence>
-      </div>
+      <AnimatePresence>
+        {isOpen ? (
+          <motion.div
+            animate={{ opacity: 1, y: 0 }}
+            className="language-selector__panel"
+            exit={{ opacity: 0, y: 8 }}
+            initial={{ opacity: 0, y: 8 }}
+            transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+          >
+            {possibleLanguages.map((language, i) => (
+              <motion.button
+                animate={{
+                  opacity: 1,
+                  x: 0,
+                  transition: {
+                    duration: 0.15,
+                    delay: i * 0.04,
+                    ease: [0.4, 0, 0.2, 1],
+                  },
+                }}
+                aria-label={language}
+                className={`language-selector__lang-option ${
+                  currLanguage === language
+                    ? "language-selector__lang-option--active"
+                    : ""
+                }`}
+                exit={{
+                  opacity: 0,
+                  x: -8,
+                  transition: { duration: 0.1 },
+                }}
+                initial={{ opacity: 0, x: -8 }}
+                key={language}
+                onClick={() => {
+                  changeLanguage(language);
+                  setIsOpen(false);
+                }}
+                type="button"
+              >
+                <LanguageFlag
+                  className="language-selector__lang-option__flag"
+                  language={language}
+                />
+                <span className="language-selector__lang-option__label">
+                  {LANGUAGE_LABELS[language] ?? language}
+                </span>
+              </motion.button>
+            ))}
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
       <Button
         ariaLabel={t("language")}
         className={`language-selector__activator ${

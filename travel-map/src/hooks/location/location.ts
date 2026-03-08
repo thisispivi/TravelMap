@@ -7,6 +7,7 @@ type LocationHook = {
   isGallery: boolean;
   isStats: boolean;
   isLived: boolean;
+  isLightbox: boolean;
   isCurrentTabOpen: (tab: string) => boolean;
 };
 
@@ -24,6 +25,7 @@ export function useLocation(): LocationHook {
   const isGallery = location.pathname.includes("gallery");
   const isStats = location.pathname.includes("stats");
   const isLived = location.pathname.includes("lived");
+  const isLightbox = location.pathname.split("/").length === 5;
   const isInfoTabOpen = isVisited || isFuture || isStats || isLived;
 
   const isCurrentTabOpen = (tab: string) => location.pathname.includes(tab);
@@ -36,5 +38,6 @@ export function useLocation(): LocationHook {
     isStats,
     isLived,
     isCurrentTabOpen,
+    isLightbox,
   };
 }

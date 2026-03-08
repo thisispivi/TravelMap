@@ -11,8 +11,10 @@
   @include m.transition(all, 0.4s, cubic-bezier(0.4, 0, 0.2, 1));
   transform: translateX(-100%);
   will-change: transform;
-  overflow-y: auto;
   overflow-x: hidden;
+  overflow-y: hidden;
+  display: flex;
+  flex-direction: column;
 
   &.info-tab--open {
     transform: translateX(v.$leftBarWidth);
@@ -93,6 +95,7 @@
   .info-tab {
     width: 100%;
     border-radius: 0;
+    height: calc(100% - v.$mobileNavHeight);
     &.info-tab--open {
       transform: translateX(0);
     }

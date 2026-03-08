@@ -57,8 +57,8 @@ export function Button({
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       type="button"
-      whileHover={{ scale: hoverScale }}
-      whileTap={{ scale: tapScale }}
+      whileHover={hoverScale !== 1 ? { scale: hoverScale } : undefined}
+      whileTap={tapScale !== 1 ? { scale: tapScale } : undefined}
     >
       {children}
     </motion.button>
