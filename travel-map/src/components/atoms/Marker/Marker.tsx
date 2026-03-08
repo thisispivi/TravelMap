@@ -1,16 +1,18 @@
 import "./Marker.scss";
 
-import { JSX } from "react";
+import { JSX, useMemo } from "react";
 import { Marker as MarkerMap, useZoomPanContext } from "react-simple-maps";
 
 import { MarkerIcon } from "../../../assets";
 import { City } from "../../../core";
+import { getMinZoomForPopulation } from "../../../utils/labelVisibility";
 import { parameters } from "../../../utils/parameters";
 
 interface MarkerProps {
   city: City;
   hoveredCity: City | null;
   setHoveredCity: (city: City | null) => void;
+  showLabel?: boolean;
   baseZoom?: number;
   defaultScale?: number;
   minScale?: number;
@@ -19,31 +21,31 @@ interface MarkerProps {
   isLived?: boolean;
 }
 
-/** Zoom threshold: labels visible only when zoomed in enough to avoid crowding */
-// const LABEL_ZOOM_THRESHOLD = 4.0;
-// const LABEL_SMALL_ZOOM_THRESHOLD = 6.0;
+/** Base font size in screen pixels for labels. */
+const LABEL_BASE_FONT_SIZE = 16;
+/** Slightly larger font size for hovered labels. */
+const LABEL_HOVERED_FONT_SIZE = 19;
+/** Screen-pixel offset below the marker tip. */
+const LABEL_OFFSET_PX = 20;
+
+const MARKER_STYLE = {
+  default: { outline: "none" },
+  hover: { outline: "none" },
+  pressed: { outline: "none" },
+} as const;
 
 /**
  * Marker component
  *
- * The Marker component is an atom that displays a marker on the map.
- *
- * @param {MarkerProps} data - The data that will be used to display the component.
- * @param {City} data.city - The city
- * @param {City} data.hoveredCity - The hovered city
- * @param {function} data.setHoveredCity - The function to set the hovered city
- * @param {number} data.baseZoom - The base zoom of the map
- * @param {number} data.defaultScale - The default scale of the marker
- * @param {number} data.minScale - The minimum scale of the marker
- * @param {number} data.maxScale - The maximum scale of the marker
- * @param {boolean} data.isFuture - Whether the marker is for a future city
- * @param {boolean} data.isLived - Whether the marker is for a lived city
- * @returns {JSX.Element} The Marker component
+ * Displays a map pin marker with an optional city-name label underneath.
+ * The label fades in when the zoom level is sufficient for the city's
+ * population tier.
  */
 export function Marker({
   city,
   hoveredCity,
   setHoveredCity,
+  showLabel = false,
   baseZoom = parameters.map.defaultZoom,
   defaultScale = parameters.map.marker.defaultScale,
   minScale = parameters.map.marker.minScale,
@@ -58,24 +60,21 @@ export function Marker({
   const scale = Math.min(Math.max(currScale, minScale), maxScale);
   const isHovered = hoveredCity?.name === city.name;
 
-  // const showLabel = useMemo(
-  //   () => isHovered || k >= LABEL_ZOOM_THRESHOLD,
-  //   [isHovered, k],
-  // );
+  // Real-time zoom check: ensure the label should be visible at the current
+  // live zoom level (the `showLabel` prop may lag slightly behind during zoom
+  // gestures since it's computed on move-end).
+  const labelVisible = useMemo(() => {
+    if (isHovered) return true;
+    if (!showLabel) return false;
+    return k >= getMinZoomForPopulation(city.population ?? 0);
+  }, [isHovered, showLabel, k, city.population]);
 
-  // const showSmallLabel = useMemo(
-  //   () => !isHovered && k >= LABEL_SMALL_ZOOM_THRESHOLD,
-  //   [isHovered, k],
-  // );
+  const labelFontSize = useMemo(
+    () => (isHovered ? LABEL_HOVERED_FONT_SIZE : LABEL_BASE_FONT_SIZE) / k,
+    [isHovered, k],
+  );
 
-  // const labelFontSize = useMemo(() => {
-  //   const base = isHovered ? 10 : showSmallLabel ? 6 : 7;
-  //   return base / k;
-  // }, [isHovered, showSmallLabel, k]);
-
-  // const labelOffsetY = useMemo(() => {
-  //   return (scale * 40 + 12) / k;
-  // }, [scale, k]);
+  const labelOffsetY = useMemo(() => LABEL_OFFSET_PX / k, [k]);
 
   return (
     <MarkerMap
@@ -84,11 +83,7 @@ export function Marker({
       key={city.name}
       onMouseEnter={() => setHoveredCity && setHoveredCity(city)}
       onMouseLeave={() => setHoveredCity && setHoveredCity(null)}
-      style={{
-        default: { outline: "none" },
-        hover: { outline: "none" },
-        pressed: { outline: "none" },
-      }}
+      style={MARKER_STYLE}
     >
       <g className={`marker-group ${isHovered ? "marker-group--hovered" : ""}`}>
         <MarkerIcon
@@ -98,16 +93,16 @@ export function Marker({
           `}
           scale={scale}
         />
-        {/* {showLabel ? (
+        {labelVisible ? (
           <text
             className={`marker-label ${isHovered ? "marker-label--hovered" : ""} ${isFuture ? "marker-label--future" : ""} ${isLived ? "marker-label--lived" : ""}`}
             dy={labelOffsetY}
-            fontSize={labelFontSize * 2}
+            fontSize={labelFontSize}
             textAnchor="middle"
           >
             {city.name}
           </text>
-        ) : null} */}
+        ) : null}
       </g>
     </MarkerMap>
   );

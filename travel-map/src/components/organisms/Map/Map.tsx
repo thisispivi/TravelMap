@@ -26,6 +26,7 @@ import {
   visitedCities,
   visitedCountries,
 } from "@/data";
+import { computeVisibleLabels } from "@/utils/labelVisibility";
 import { parameters } from "@/utils/parameters";
 
 import { Loading, Marker } from "../../atoms";
@@ -59,6 +60,13 @@ const GEO_STYLE = {
 } as const;
 
 const PROJECTION_CONFIG = { scale: 160 } as const;
+
+/** Duration of the fly-to animation in ms. */
+const FLY_TO_DURATION_MS = 800;
+
+function easeInOutCubic(t: number): number {
+  return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+}
 
 function GeographyLayer({
   geographies,
@@ -108,11 +116,78 @@ export function Map() {
     mapPosition,
     responsive,
     setMapPosition,
+    isAutoPosition,
   } = context!;
 
   const [isLoaded, setIsLoaded] = useState(false);
   const hoverLeaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  // ─── Animated fly-to position ───────────────────────────────
+  const [displayedPosition, setDisplayedPosition] = useState(mapPosition);
+  const animFrameRef = useRef<number | null>(null);
+  const isFromMoveEndRef = useRef(false);
+  const currentPosRef = useRef(mapPosition);
+
+  // Cancel animation on unmount
+  useEffect(() => {
+    return () => {
+      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
+    };
+  }, []);
+
+  // Animate map movement when auto-position triggers a change.
+  // All setState calls are deferred to rAF callbacks to avoid synchronous
+  // cascading renders inside the effect body.
+  useEffect(() => {
+    // Cancel ongoing animation
+    if (animFrameRef.current) {
+      cancelAnimationFrame(animFrameRef.current);
+      animFrameRef.current = null;
+    }
+
+    // User-initiated moves or auto-position off → snap on next frame
+    if (isFromMoveEndRef.current || !isAutoPosition) {
+      isFromMoveEndRef.current = false;
+      currentPosRef.current = mapPosition;
+      animFrameRef.current = requestAnimationFrame(() => {
+        animFrameRef.current = null;
+        setDisplayedPosition(mapPosition);
+      });
+      return;
+    }
+
+    // Auto-position: animate from current visual position to target
+    const start = { ...currentPosRef.current };
+    const target = mapPosition;
+    const startTime = performance.now();
+
+    const animate = (now: number) => {
+      const t = Math.min((now - startTime) / FLY_TO_DURATION_MS, 1);
+      const e = easeInOutCubic(t);
+
+      const current = {
+        center: [
+          start.center[0] + (target.center[0] - start.center[0]) * e,
+          start.center[1] + (target.center[1] - start.center[1]) * e,
+        ] as [number, number],
+        zoom: start.zoom + (target.zoom - start.zoom) * e,
+      };
+
+      setDisplayedPosition(current);
+      currentPosRef.current = current;
+
+      if (t < 1) {
+        animFrameRef.current = requestAnimationFrame(animate);
+      } else {
+        animFrameRef.current = null;
+        currentPosRef.current = target;
+      }
+    };
+
+    animFrameRef.current = requestAnimationFrame(animate);
+  }, [mapPosition, isAutoPosition]);
+
+  // ─── Hover management ───────────────────────────────────────
   const handleSetHoveredCity = useCallback(
     (city: City | null) => {
       if (hoverLeaveTimer.current) {
@@ -137,6 +212,30 @@ export function Map() {
     };
   }, []);
 
+  // ─── Mobile tooltip dismissal ───────────────────────────────
+  // On touch devices, tapping elsewhere on the map should dismiss the
+  // tooltip since there is no mouseleave event.
+  useEffect(() => {
+    if (!hoveredCity) return;
+
+    const handleTouchStart = (e: TouchEvent) => {
+      const target = e.target as Element;
+      if (
+        !target.closest(".rsm-marker") &&
+        !target.closest("#map-tooltip") &&
+        !target.closest(".map-tooltip__container")
+      ) {
+        setHoveredCity(null);
+      }
+    };
+
+    document.addEventListener("touchstart", handleTouchStart, {
+      passive: true,
+    });
+    return () => document.removeEventListener("touchstart", handleTouchStart);
+  }, [hoveredCity, setHoveredCity]);
+
+  // ─── Country fill colours ──────────────────────────────────
   const visitedCountryFill = useMemo<Record<string, string>>(
     () =>
       Object.fromEntries(
@@ -154,24 +253,56 @@ export function Map() {
     [isDarkTheme, visitedCountryFill],
   );
 
-  const sortedVisitedCities = [...visitedCities].sort(
-    sortByLatitudeAndLongitude,
+  // ─── City sorting (stable across renders) ────────────────────
+  const sortedVisitedCities = useMemo(
+    () => [...visitedCities].sort(sortByLatitudeAndLongitude),
+    [],
   );
 
-  const sortedFutureCities = [...futureCities].sort(sortByLatitudeAndLongitude);
+  const sortedFutureCities = useMemo(
+    () => [...futureCities].sort(sortByLatitudeAndLongitude),
+    [],
+  );
 
-  const sortedLivedCities = [...livedCities].sort(sortByLatitudeAndLongitude);
+  const sortedLivedCities = useMemo(
+    () => [...livedCities].sort(sortByLatitudeAndLongitude),
+    [],
+  );
 
+  // ─── Label visibility (overlap detection) ───────────────────
+  // Uses `mapPosition.zoom` (the settled value) instead of
+  // `displayedPosition.zoom` so that the expensive overlap computation
+  // only runs when the user finishes a zoom gesture, not on every
+  // animation frame — this is the main perf win.
+  const allCities = useMemo(
+    () => [...visitedCities, ...futureCities, ...livedCities],
+    [],
+  );
+
+  const visibleLabels = useMemo(
+    () =>
+      computeVisibleLabels(
+        allCities,
+        mapPosition.zoom,
+        hoveredCity?.name,
+      ),
+    [allCities, mapPosition.zoom, hoveredCity?.name],
+  );
+
+  // ─── Callbacks ─────────────────────────────────────────────
   const handleWorldLoaded = useCallback(() => {
     setIsLoaded(true);
   }, []);
 
   const handleMoveEnd = useCallback(
     (position: { coordinates: [number, number]; zoom: number }) => {
-      setMapPosition({
+      isFromMoveEndRef.current = true;
+      const pos = {
         center: position.coordinates,
         zoom: position.zoom,
-      });
+      };
+      currentPosRef.current = pos;
+      setMapPosition(pos);
     },
     [setMapPosition],
   );
@@ -199,11 +330,11 @@ export function Map() {
         {...windowProps}
       >
         <ZoomableGroup
-          center={mapPosition.center}
+          center={displayedPosition.center}
           maxZoom={parameters.map.defaultMaxZoom}
           minZoom={parameters.map.defaultMinZoom}
           onMoveEnd={handleMoveEnd}
-          zoom={mapPosition.zoom}
+          zoom={displayedPosition.zoom}
         >
           <Geographies geography={worldDataUrl}>
             {({ geographies }) =>
@@ -225,6 +356,7 @@ export function Map() {
                   hoveredCity={hoveredCity}
                   key={city.name}
                   setHoveredCity={handleSetHoveredCity}
+                  showLabel={visibleLabels.has(city.name)}
                 />
               ))}
               {sortedFutureCities.map((city) => (
@@ -234,6 +366,7 @@ export function Map() {
                   isFuture
                   key={city.name}
                   setHoveredCity={handleSetHoveredCity}
+                  showLabel={visibleLabels.has(city.name)}
                 />
               ))}
               {sortedLivedCities.map((city) => (
@@ -243,6 +376,7 @@ export function Map() {
                   isLived
                   key={city.name}
                   setHoveredCity={handleSetHoveredCity}
+                  showLabel={visibleLabels.has(city.name)}
                 />
               ))}
             </>
