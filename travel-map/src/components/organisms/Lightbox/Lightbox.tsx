@@ -9,7 +9,10 @@ import {
   useRef,
   useState,
 } from "react";
-import ImageGallery, { ImageGalleryProps } from "react-image-gallery";
+import ImageGallery, {
+  ImageGalleryProps,
+  ImageGalleryRef,
+} from "react-image-gallery";
 import { useLoaderData, useNavigate } from "react-router-dom";
 
 import {
@@ -45,7 +48,10 @@ export default function Lightbox(): JSX.Element {
   const photos = city.travels[travelIdx].photos;
 
   const [isNavVisible, setIsNavVisible] = useState(true);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(photoIdx);
   const hideNavTimeoutRef = useRef<number | undefined>(undefined);
+  const galleryRef = useRef<ImageGalleryRef>(null);
   const HIDE_NAV_AFTER_MS = 2000;
 
   const scheduleHideNav = useCallback(() => {
@@ -107,7 +113,7 @@ export default function Lightbox(): JSX.Element {
   };
 
   const handleChange = useCallback(
-    (currentIndex: number | undefined) => {
+    (newIndex: number | undefined) => {
       if (photoIdx !== undefined) {
         const element = document.querySelector(
           `[aria-label="Go to Slide ${photoIdx + 1}"]`,
@@ -122,7 +128,7 @@ export default function Lightbox(): JSX.Element {
             }
           }
         }
-        navigate(`../${currentIndex}`);
+        navigate(`../${newIndex}`);
       }
     },
     [photoIdx, navigate],
@@ -138,41 +144,64 @@ export default function Lightbox(): JSX.Element {
       className={`image-gallery-icon image-gallery-${direction}-nav ${
         disabled ? "image-gallery-icon--disabled" : ""
       }`}
+      hoverScale={1}
       onClick={onClick}
+      tapScale={1}
     >
       <ChevronIcon className="chevron" />
     </Button>
   );
 
-  const handleSlide = (currentIndex: number) => handleChange(currentIndex);
+  const handleSlide = (idx: number) => {
+    setCurrentIndex(idx);
+    handleChange(idx);
+  };
+
+  const handleToggleFullscreen = useCallback(() => {
+    if (galleryRef.current) {
+      if (isFullscreen) {
+        galleryRef.current.exitFullScreen();
+      } else {
+        galleryRef.current.fullScreen();
+      }
+    }
+  }, [isFullscreen]);
+
   return (
     <div
       className={`lightbox ${isNavVisible ? "" : "lightbox--nav-hidden"}`}
       onMouseMove={revealNav}
       onTouchStart={revealNav}
     >
+      <div className="lightbox__top-bar">
+        <Button
+          className="lightbox__back-button"
+          onClick={() => navigate(`..`)}
+        >
+          <GalleryIcon />
+          <p>{t("gallery")}</p>
+        </Button>
+        <span className="lightbox__spacer" />
+        <span className="lightbox__index">
+          <span className="lightbox__index--current">{currentIndex + 1}</span> /{" "}
+          {photos.length}
+        </span>
+        <Button
+          aria-label={t("fullscreen")}
+          className="lightbox__fullscreen-button"
+          onClick={handleToggleFullscreen}
+        >
+          {isFullscreen ? <FullscreenExitIcon /> : <FullscreenEnterIcon />}
+        </Button>
+      </div>
       <ImageGallery
         infinite={false}
         items={photos}
         lazyLoad={true}
+        onScreenChange={(fs) => setIsFullscreen(fs)}
         onSlide={handleSlide}
-        renderCustomControls={() => (
-          <Button className="back-button-text" onClick={() => navigate(`..`)}>
-            <GalleryIcon />
-            <p>{t("gallery")}</p>
-          </Button>
-        )}
-        renderFullscreenButton={(onClick, isFullscreen: boolean) => (
-          <Button
-            aria-label={t("fullscreen")}
-            className={`image-gallery-icon image-gallery-fullscreen ${
-              isFullscreen ? "image-gallery-fullscreen--active" : ""
-            }`}
-            onClick={onClick}
-          >
-            {isFullscreen ? <FullscreenExitIcon /> : <FullscreenEnterIcon />}
-          </Button>
-        )}
+        ref={galleryRef}
+        renderFullscreenButton={() => null}
         renderItem={handleRenderItem}
         renderLeftNav={(onClick, disabled) =>
           renderNavigationButton(onClick, disabled, "left")
@@ -180,7 +209,7 @@ export default function Lightbox(): JSX.Element {
         renderRightNav={(onClick, disabled) =>
           renderNavigationButton(onClick, disabled, "right")
         }
-        showIndex={true}
+        showIndex={false}
         showPlayButton={false}
         showThumbnails={false}
         startIndex={photoIdx}

@@ -12,16 +12,15 @@
   .gallery__header {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     flex-shrink: 0;
     position: relative;
     padding-bottom: 0.75rem;
+    padding-right: 3rem;
     row-gap: 0.5rem;
 
     h2 {
       font-size: 1.4rem;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
       @include m.transition(all, 0.3s, ease-in-out);
     }
 
@@ -42,7 +41,7 @@
     }
 
     .travel-selector {
-      margin-right: 1.5rem;
+      margin-right: 0;
     }
 
     svg {
@@ -128,9 +127,6 @@
 }
 
 .home--light {
-  .lightbox {
-    background-color: v.$lightInfoTab;
-  }
   .gallery {
     .gallery__header {
       h2 {
@@ -141,9 +137,6 @@
 }
 
 .home--dark {
-  .lightbox {
-    background-color: v.$darkInfoTab;
-  }
   .gallery {
     .gallery__header {
       h2 {

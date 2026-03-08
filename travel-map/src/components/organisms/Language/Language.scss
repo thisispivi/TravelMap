@@ -7,43 +7,53 @@
   align-items: center;
   justify-content: center;
 
-  // ─── Floating options panel ───────────────────────────────
-  .language-selector__options {
+  // ─── Floating panel with language options ────────────────
+  .language-selector__panel {
     position: absolute;
-    bottom: calc(100% + 0.5rem);
+    bottom: calc(100% + 0.6rem);
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 0.3rem;
-    pointer-events: none;
+    gap: 0.25rem;
+    padding: 0.4rem;
+    border-radius: 0.85rem;
     z-index: 10;
+    min-width: 10rem;
   }
 
-  .language-selector__option {
-    pointer-events: auto;
+  // ─── Individual language option row ─────────────────────
+  .language-selector__lang-option {
     display: flex;
-    justify-content: center;
-  }
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.45rem 0.7rem;
+    border-radius: 0.6rem;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    @include m.transition(all, 0.15s, ease-in-out);
+    width: 100%;
 
-  // ─── Individual language buttons ─────────────────────────
-  .language-selector__lang-button {
-    width: 2.5rem;
-    height: 2.5rem;
-    padding: 0.35rem;
-
-    svg {
-      width: 100%;
-      height: 100%;
+    .language-selector__lang-option__flag {
+      width: 1.4rem;
+      height: auto;
+      flex-shrink: 0;
     }
 
-    &.language-selector__lang-button--active {
+    .language-selector__lang-option__label {
+      font-size: 0.9rem;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    &.language-selector__lang-option--active {
       @include m.set-button-colors(
         v.$languageButton,
         v.$languageButtonContent,
         v.$languageButtonHover
       );
+      font-weight: 600;
     }
   }
 
@@ -70,11 +80,58 @@
   }
 }
 
-// ─── Mobile / bottom bar ─────────────────────────────────────
+// ─── Theme styles ─────────────────────────────────────────────
+.home--dark {
+  .language-selector__panel {
+    background: v.$glassBgDark;
+    backdrop-filter: blur(v.$glassBlur);
+    -webkit-backdrop-filter: blur(v.$glassBlur);
+    border: 0.0625rem solid v.$glassBorderDark;
+    box-shadow: v.$glassShadowDark;
+  }
+  .language-selector__lang-option {
+    color: v.$darkButtonContent;
+    &:hover:not(.language-selector__lang-option--active) {
+      background: v.$darkButtonHover;
+    }
+  }
+}
+
+.home--light {
+  .language-selector__panel {
+    background: v.$glassBgLight;
+    backdrop-filter: blur(v.$glassBlur);
+    -webkit-backdrop-filter: blur(v.$glassBlur);
+    border: 0.0625rem solid v.$glassBorderLight;
+    box-shadow: v.$glassShadowLight;
+  }
+  .language-selector__lang-option {
+    color: v.$lightButtonContent;
+    &:hover:not(.language-selector__lang-option--active) {
+      background: v.$lightButtonHover;
+    }
+  }
+}
+
+// ─── Mobile / bottom bar ──────────────────────────────────────
 @media screen and (max-width: 42.5rem) {
   .language-selector {
-    .language-selector__options {
-      bottom: calc(100% + 0.4rem);
+    .language-selector__panel {
+      bottom: calc(100% + 0.5rem);
+      min-width: 9rem;
+    }
+
+    .language-selector__lang-option {
+      padding: 0.4rem 0.6rem;
+      gap: 0.5rem;
+
+      .language-selector__lang-option__flag {
+        width: 1.2rem;
+      }
+
+      .language-selector__lang-option__label {
+        font-size: 0.8rem;
+      }
     }
 
     .language-selector__activator {
@@ -96,11 +153,6 @@
         margin: 0;
         grid-area: unset;
       }
-    }
-
-    .language-selector__lang-button {
-      width: 2.2rem;
-      height: 2.2rem;
     }
   }
 }

@@ -10,6 +10,8 @@ import {
   useSearchParams,
 } from "react-router-dom";
 
+import { useLocation } from "@/hooks/location/location";
+
 import { PlayIcon } from "../../../assets";
 import { City } from "../../../core";
 import { useLanguage } from "../../../hooks/language/language";
@@ -37,6 +39,7 @@ export default function Gallery(): JSX.Element {
   const { city, travelIdx } = useLoaderData() as GalleryProps;
   const [searchParams] = useSearchParams();
   const from = searchParams.get("from");
+  const { isLightbox } = useLocation();
 
   const travel = city.travels[travelIdx];
 
@@ -102,6 +105,7 @@ export default function Gallery(): JSX.Element {
           className={`gallery__content__photo-album ${hasOverflow ? "gallery__content__photo-album--overflow" : ""}`}
           id="gallery"
           ref={contentRef}
+          style={{ visibility: isLightbox ? "hidden" : "visible" }}
         >
           <RowsPhotoAlbum
             onClick={({ index }) => navigate(`./${index}`)}
