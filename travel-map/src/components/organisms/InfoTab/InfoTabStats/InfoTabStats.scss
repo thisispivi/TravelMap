@@ -23,6 +23,7 @@
   padding: 1rem 0;
   flex-direction: column;
   height: 100%;
+  min-height: 0;
   display: none;
   &.info-tab-stats--visible {
     display: flex;
@@ -35,12 +36,14 @@
     margin-bottom: 1.5rem;
     margin-top: 1rem;
     padding-inline: 1.5rem;
+    flex-shrink: 0;
   }
 
   .info-tab-stats__content {
     display: flex;
     flex-direction: column;
-    max-height: 100%;
+    flex: 1 1 auto;
+    min-height: 0;
     overflow-y: auto;
     margin-right: 0.7rem;
     gap: 1.2rem 0;
@@ -374,6 +377,16 @@
           }
         }
       }
+    }
+  }
+}
+
+.home--mobile,
+.home--tablet {
+  .info-tab-stats {
+    .info-tab-stats__content {
+      margin-right: 0;
+      padding-bottom: 1rem;
     }
   }
 }
