@@ -84,6 +84,7 @@ import JapanFlag from "./icons/flags/Japan.svg?react";
 import MaltaFlag from "./icons/flags/Malta.svg?react";
 import MonacoFlag from "./icons/flags/Monaco.svg?react";
 import PortugalFlag from "./icons/flags/Portugal.svg?react";
+import RomaniaFlag from "./icons/flags/Romania.svg?react";
 import SpainFlag from "./icons/flags/Spain.svg?react";
 import UnitedKingdomFlag from "./icons/flags/UnitedKingdom.svg?react";
 import VaticanFlag from "./icons/flags/Vatican.svg?react";
@@ -103,6 +104,7 @@ export {
   MaltaFlag,
   MonacoFlag,
   PortugalFlag,
+  RomaniaFlag,
   SpainFlag,
   UnitedKingdomFlag,
   VaticanFlag,

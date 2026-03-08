@@ -22,5 +22,11 @@
     justify-content: space-evenly;
     gap: 1.2rem 0;
     padding-block: 0.5rem;
+
+    .city-card .city-card__content {
+      .city-card__title {
+        margin: 0;
+      }
+    }
   }
 }

@@ -37,7 +37,7 @@ export function InfoTabFuture({
     const result = getCitiesByCountriesAndIsFuture({
       cities: futureCities,
       countries: futureCountries,
-      isFuture: false,
+      isFuture: true,
     });
 
     return [...result].sort(sortByTravelStartDate);
@@ -65,6 +65,7 @@ export function InfoTabFuture({
       getTravelIdx={getTravelIdx}
       id="future"
       isVisible={isVisible}
+      showDates={false}
     />
   );
 }

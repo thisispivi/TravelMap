@@ -5,7 +5,6 @@ import { Country } from "./Country";
 
 interface TripData {
   id: string;
-  name: string;
   description?: string;
   sDate: Date;
   eDate: Date;
@@ -16,7 +15,6 @@ interface TripData {
 
 export class Trip {
   id: string;
-  name: string;
   sDate: Date;
   eDate: Date;
   destinations: { city: City; travelIdx: number }[];
@@ -25,7 +23,6 @@ export class Trip {
 
   constructor(data: TripData) {
     this.id = data.id;
-    this.name = data.name;
     this.sDate = data.sDate;
     this.eDate = data.eDate;
     this.destinations = data.destinations;
