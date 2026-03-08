@@ -19,10 +19,10 @@ const router = createHashRouter([
     element: <Home />,
     errorElement: <Fallback />,
     children: [
-      { path: "lived" },
-      { path: "visited" },
-      { path: "future" },
-      { path: "stats" },
+      { path: "lived", element: null },
+      { path: "visited", element: null },
+      { path: "future", element: null },
+      { path: "stats", element: null },
       {
         path: "gallery/:cityName/:travelIdx",
         lazy: async () => {

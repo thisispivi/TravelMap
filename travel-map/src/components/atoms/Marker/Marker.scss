@@ -3,8 +3,7 @@
   --marker-color-active: #ff5252;
   --marker-circle-color: white;
   --marker-transition:
-    stroke 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    fill 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    stroke 0.3s cubic-bezier(0.4, 0, 0.2, 1), fill 0.3s cubic-bezier(0.4, 0, 0.2, 1),
     filter 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   g {
@@ -56,7 +55,6 @@
     }
   }
 
-  // ─── City name labels ────────────────────────────────────────
   .marker-label {
     fill: #b0b0b0;
     font-family: "Urbanist", Arial, Helvetica, sans-serif;
@@ -64,15 +62,18 @@
     pointer-events: none;
     opacity: 0;
     animation: labelFadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    paint-order: stroke;
-    stroke-width: 0.025rem;
+    paint-order: stroke fill;
+    stroke: rgba(0, 0, 0, 0.7);
+    stroke-width: 0.3px;
     stroke-linecap: round;
     stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
 
     &.marker-label--hovered {
       fill: #ffffff;
       font-weight: 700;
-      stroke-width: 0.031rem;
+      stroke: rgba(0, 0, 0, 0.85);
+      stroke-width: 0.5px;
     }
 
     &.marker-label--future {
@@ -93,11 +94,14 @@
 .home--light {
   .rsm-marker {
     .marker-label {
-      fill: #555555;
-      stroke-width: 0.031rem;
+      fill: #444444;
+      stroke: rgba(255, 255, 255, 0.85);
+      stroke-width: 0.4px;
 
       &.marker-label--hovered {
-        fill: #1a1a1a;
+        fill: #111111;
+        stroke: rgba(255, 255, 255, 0.95);
+        stroke-width: 0.6px;
       }
     }
   }
