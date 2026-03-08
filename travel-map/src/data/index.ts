@@ -71,6 +71,8 @@ import { MonteCarlo } from "./Monaco/MonteCarlo/MonteCarlo";
 import { Braga } from "./Portugal/Braga/Braga";
 import { Porto } from "./Portugal/Porto/Porto";
 import { Portugal } from "./Portugal/Portugal";
+import { Bucharest } from "./Romania/Bucharest/Bucharest";
+import { Romania } from "./Romania/Romania";
 import { Barcelona } from "./Spain/Barcelona/Barcelona";
 import { Sevilla } from "./Spain/Sevilla/Sevilla";
 import { Spain } from "./Spain/Spain";
@@ -341,6 +343,26 @@ export const takenFlights: Flight[] = [
     eCity: Cagliari,
     company: FlightCompany.AEROITALIA,
   }),
+  // new Flight({
+  //   sCity: Cagliari,
+  //   eCity: Bergamo,
+  //   company: FlightCompany.RYANAIR,
+  // }),
+  // new Flight({
+  //   sCity: Bergamo,
+  //   eCity: Bucharest,
+  //   company: FlightCompany.RYANAIR,
+  // }),
+  // new Flight({
+  //   sCity: Bucharest,
+  //   eCity: Bergamo,
+  //   company: FlightCompany.RYANAIR,
+  // }),
+  // new Flight({
+  //   sCity: Bergamo,
+  //   eCity: Cagliari,
+  //   company: FlightCompany.RYANAIR,
+  // }),
 ];
 
 export const takenFerries: Ferry[] = [
@@ -358,13 +380,12 @@ export const takenFerries: Ferry[] = [
   }),
 ];
 
-export const futureCountries: Country[] = [];
-export const futureCities: City[] = [];
+export const futureCountries: Country[] = [Romania];
+export const futureCities: City[] = [Bucharest];
 
 export const visitedTrips: Trip[] = [
   new Trip({
     id: "london-school-trip-2011",
-    name: "London Trip",
     sDate: new Date(2011, 4, 9),
     eDate: new Date(2011, 4, 12),
     destinations: [{ city: London, travelIdx: 0 }],
@@ -373,7 +394,6 @@ export const visitedTrips: Trip[] = [
   }),
   new Trip({
     id: "berlin-school-trip-2015",
-    name: "Berlin School Trip",
     sDate: new Date(2015, 3, 15),
     eDate: new Date(2015, 3, 19),
     destinations: [{ city: Berlin, travelIdx: 0 }],
@@ -382,7 +402,6 @@ export const visitedTrips: Trip[] = [
   }),
   new Trip({
     id: "barcelona-school-trip-2016",
-    name: "Barcelona School Trip",
     sDate: new Date(2016, 3, 11),
     eDate: new Date(2016, 3, 15),
     destinations: [{ city: Barcelona, travelIdx: 0 }],
@@ -391,7 +410,6 @@ export const visitedTrips: Trip[] = [
   }),
   new Trip({
     id: "bologna-trip-2017",
-    name: "Bologna Trip",
     sDate: new Date(2017, 10, 16),
     eDate: new Date(2017, 10, 19),
     destinations: [{ city: Bologna, travelIdx: 0 }],
@@ -400,7 +418,6 @@ export const visitedTrips: Trip[] = [
   }),
   new Trip({
     id: "rome-trip-2021",
-    name: "Rome Trip",
     sDate: new Date(2021, 6, 27),
     eDate: new Date(2021, 7, 3),
     destinations: [
@@ -412,7 +429,6 @@ export const visitedTrips: Trip[] = [
   }),
   new Trip({
     id: "cefalù-trip-2021",
-    name: "Cefalù Trip",
     sDate: new Date(2021, 8, 23),
     eDate: new Date(2021, 8, 26),
     destinations: [{ city: Cefalù, travelIdx: 0 }],
@@ -421,7 +437,6 @@ export const visitedTrips: Trip[] = [
   }),
   new Trip({
     id: "terni-trip-2022",
-    name: "Terni Trip",
     sDate: new Date(2022, 1, 27),
     eDate: new Date(2022, 1, 27),
     destinations: [{ city: Terni, travelIdx: 0 }],
@@ -430,7 +445,6 @@ export const visitedTrips: Trip[] = [
   }),
   new Trip({
     id: "imola-f1-trip-2022",
-    name: "Imola F1 Trip",
     sDate: new Date(2022, 3, 22),
     eDate: new Date(2022, 3, 25),
     destinations: [{ city: Imola, travelIdx: 0 }],
@@ -439,7 +453,6 @@ export const visitedTrips: Trip[] = [
   }),
   new Trip({
     id: "budapest-trip-2023",
-    name: "Budapest Trip",
     sDate: new Date(2023, 4, 6),
     eDate: new Date(2023, 4, 9),
     destinations: [{ city: Budapest, travelIdx: 0 }],
@@ -448,7 +461,6 @@ export const visitedTrips: Trip[] = [
   }),
   new Trip({
     id: "belgium-trip-2023",
-    name: "Belgium Trip",
     sDate: new Date(2023, 7, 5),
     eDate: new Date(2023, 7, 9),
     destinations: [
@@ -461,7 +473,6 @@ export const visitedTrips: Trip[] = [
   }),
   new Trip({
     id: "turin-atp-trip-2023",
-    name: "Turin ATP Trip",
     sDate: new Date(2023, 10, 11),
     eDate: new Date(2023, 10, 14),
     destinations: [
@@ -473,7 +484,6 @@ export const visitedTrips: Trip[] = [
   }),
   new Trip({
     id: "portugal-trip-2024",
-    name: "Portugal Trip",
     sDate: new Date(2024, 3, 19),
     eDate: new Date(2024, 3, 22),
     destinations: [
@@ -485,7 +495,6 @@ export const visitedTrips: Trip[] = [
   }),
   new Trip({
     id: "japan-trip-2024",
-    name: "Japan Trip",
     sDate: new Date(2024, 7, 13),
     eDate: new Date(2024, 7, 25),
     backgroundImgSourceKey: "japan-trip-2024.jpg",
@@ -522,7 +531,6 @@ export const visitedTrips: Trip[] = [
   }),
   new Trip({
     id: "venetian-trip-2023",
-    name: "Venetian Trip",
     sDate: new Date(2024, 9, 4),
     eDate: new Date(2024, 9, 6),
     destinations: [
@@ -534,7 +542,6 @@ export const visitedTrips: Trip[] = [
   }),
   new Trip({
     id: "malta-trip-2025",
-    name: "Malta Trip",
     sDate: new Date(2025, 0, 1),
     eDate: new Date(2025, 0, 5),
     destinations: [
@@ -561,7 +568,6 @@ export const visitedTrips: Trip[] = [
   }),
   new Trip({
     id: "vienna-trip-2025",
-    name: "Vienna Trip",
     sDate: new Date(2025, 4, 17),
     eDate: new Date(2025, 4, 20),
     destinations: [{ city: Vienna, travelIdx: 0 }],
@@ -570,7 +576,6 @@ export const visitedTrips: Trip[] = [
   }),
   new Trip({
     id: "sevilla-trip-2025",
-    name: "Sevilla Trip",
     sDate: new Date(2025, 3, 4),
     eDate: new Date(2025, 3, 8),
     destinations: [{ city: Sevilla, travelIdx: 0 }],
@@ -579,7 +584,6 @@ export const visitedTrips: Trip[] = [
   }),
   new Trip({
     id: "cefalù-trip-2025",
-    name: "Cefalù Trip",
     sDate: new Date(2025, 4, 17),
     eDate: new Date(2025, 4, 20),
     destinations: [{ city: Cefalù, travelIdx: 1 }],
@@ -588,7 +592,6 @@ export const visitedTrips: Trip[] = [
   }),
   new Trip({
     id: "bulgaria-trip-2025",
-    name: "Bulgaria Trip",
     sDate: new Date(2025, 7, 17),
     eDate: new Date(2025, 7, 21),
     destinations: [
@@ -600,7 +603,6 @@ export const visitedTrips: Trip[] = [
   }),
   new Trip({
     id: "australia-trip-2025",
-    name: "Australia Trip",
     sDate: new Date(2025, 10, 18),
     eDate: new Date(2025, 10, 28),
     destinations: [
@@ -612,7 +614,6 @@ export const visitedTrips: Trip[] = [
   }),
   new Trip({
     id: "cote-d-azur-trip-2025-2026",
-    name: "Côte d'Azur Trip",
     sDate: new Date(2025, 11, 28),
     eDate: new Date(2026, 0, 2),
     destinations: [
@@ -634,4 +635,12 @@ export const visitedTrips: Trip[] = [
     ],
     backgroundImgSourceKey: "cote-d-azur-trip-2025-2026.jpg",
   }),
+  // new Trip({
+  //   id: "bucharest-trip-2026",
+  //   sDate: new Date(2026, 2, 26),
+  //   eDate: new Date(2026, 2, 31),
+  //   destinations: [{ city: Bucharest, travelIdx: 0 }],
+  //   route: [Bucharest.name],
+  //   backgroundImgSourceKey: "bucharest-trip-2026.jpg",
+  // }),
 ];

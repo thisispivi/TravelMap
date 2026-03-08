@@ -29,6 +29,7 @@ interface InfoTabCitiesProps {
   id: string;
   isVisible?: boolean;
   isGroupedByYear?: boolean;
+  showDates?: boolean;
 }
 
 /**
@@ -58,6 +59,7 @@ export function InfoTabCities({
   id,
   isVisible = false,
   isGroupedByYear = false,
+  showDates = true,
 }: InfoTabCitiesProps): JSX.Element | null {
   const { t } = useLanguage(["home"]);
   const { isAutoPosition, setIsAutoPosition, responsive } =
@@ -113,6 +115,7 @@ export function InfoTabCities({
       hasOverflow={hasOverflow}
       id={id}
       selectedYear={selectedYear}
+      showDates={showDates}
       toggleYear={toggleYear}
     />
   ) : (
@@ -123,6 +126,7 @@ export function InfoTabCities({
       getTravelIdx={getTravelIdx}
       hasOverflow={hasOverflow}
       id={id}
+      showDates={showDates}
     />
   );
 
@@ -160,6 +164,7 @@ type CityCardsListProps = {
   countries: Country[];
   id: string;
   getTravelIdx?: (city: City, travel: Travel) => number;
+  showDates?: boolean;
 };
 
 function CityCardsList({
@@ -167,6 +172,7 @@ function CityCardsList({
   countries,
   id,
   getTravelIdx,
+  showDates = true,
 }: CityCardsListProps): JSX.Element {
   const { isAutoPosition, mapPosition, setHoveredCity, setMapPosition } =
     useContext(HomeContext)!;
@@ -188,6 +194,7 @@ function CityCardsList({
             mapPosition={mapPosition}
             setHoveredCity={setHoveredCity}
             setMapPosition={setMapPosition}
+            showDates={showDates}
             travel={travel}
             travelIdx={travel ? getTravelIdx?.(city, travel) : undefined}
           />
@@ -216,6 +223,7 @@ type GroupedCityCardsProps = {
   getTravelIdx?: (city: City, travel: Travel) => number;
   hasOverflow: boolean;
   contentRef: RefObject<HTMLDivElement | null>;
+  showDates?: boolean;
 };
 
 /**
@@ -241,6 +249,7 @@ function GroupedCityCards({
   id,
   hasOverflow,
   contentRef,
+  showDates = true,
 }: GroupedCityCardsProps): JSX.Element {
   return (
     <>
@@ -276,6 +285,7 @@ function GroupedCityCards({
                   countries={countries}
                   getTravelIdx={getTravelIdx}
                   id={id}
+                  showDates={showDates}
                 />
               </div>
             ) : null}
@@ -293,6 +303,7 @@ type SingleCityCardsProps = {
   getTravelIdx?: (city: City, travel: Travel) => number;
   hasOverflow: boolean;
   contentRef: RefObject<HTMLDivElement | null>;
+  showDates?: boolean;
 };
 
 /**
@@ -314,6 +325,7 @@ function SingleCityCards({
   getTravelIdx,
   hasOverflow,
   contentRef,
+  showDates = true,
 }: SingleCityCardsProps): JSX.Element {
   return (
     <div
@@ -326,6 +338,7 @@ function SingleCityCards({
         countries={countries}
         getTravelIdx={getTravelIdx}
         id={id}
+        showDates={showDates}
       />
     </div>
   );
