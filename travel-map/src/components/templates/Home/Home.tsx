@@ -1,6 +1,15 @@
 import "./Home.scss";
 
-import { JSX, lazy, PropsWithChildren, Suspense, useContext } from "react";
+import {
+  JSX,
+  lazy,
+  PropsWithChildren,
+  Suspense,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 import { useLocation } from "@/hooks/location/location";
 
@@ -9,26 +18,34 @@ import { Container } from "../../molecules";
 import { InfoTab } from "../../organisms/InfoTab/InfoTab";
 import { LeftBar } from "../../organisms/LeftBar/LeftBar";
 import { HomeContext } from "../../pages/Home/HomeContext";
-const Map = lazy(() =>
-  import("../../organisms/Map/Map").then((mod) => ({ default: mod.Map })),
-);
+const importMap = () => import("../../organisms/Map/Map");
+const importInfoTabLived = () =>
+  import("../../organisms/InfoTab/InfoTabCities/InfoTabLived");
+const importInfoTabVisited = () =>
+  import("../../organisms/InfoTab/InfoTabTrips/InfoTabVisited");
+const importInfoTabFuture = () =>
+  import("../../organisms/InfoTab/InfoTabCities/InfoTabFuture");
+const importInfoTabStats = () =>
+  import("../../organisms/InfoTab/InfoTabStats/InfoTabStats");
+
+const Map = lazy(() => importMap().then((mod) => ({ default: mod.Map })));
 const InfoTabLived = lazy(() =>
-  import("../../organisms/InfoTab/InfoTabCities/InfoTabLived").then((mod) => ({
+  importInfoTabLived().then((mod) => ({
     default: mod.InfoTabLived,
   })),
 );
 const InfoTabVisited = lazy(() =>
-  import("../../organisms/InfoTab/InfoTabTrips/InfoTabVisited").then((mod) => ({
+  importInfoTabVisited().then((mod) => ({
     default: mod.InfoTabVisited,
   })),
 );
 const InfoTabFuture = lazy(() =>
-  import("../../organisms/InfoTab/InfoTabCities/InfoTabFuture").then((mod) => ({
+  importInfoTabFuture().then((mod) => ({
     default: mod.InfoTabFuture,
   })),
 );
 const InfoTabStats = lazy(() =>
-  import("../../organisms/InfoTab/InfoTabStats/InfoTabStats").then((mod) => ({
+  importInfoTabStats().then((mod) => ({
     default: mod.InfoTabStats,
   })),
 );
@@ -39,8 +56,36 @@ const InfoTabStats = lazy(() =>
  * Keeps heavy routes/components lazy-loaded (map, tabs, gallery).
  */
 export function HomeTemplate({ children }: PropsWithChildren): JSX.Element {
-  const { isVisited, isFuture, isGallery, isStats, isLived } = useLocation();
+  const { isGallery, activeTab } = useLocation();
   const { isDarkTheme, handleDarkModeSwitch } = useContext(HomeContext)!;
+  const [displayedTab, setDisplayedTab] = useState<string | null>(activeTab);
+  const displayedTabRef = useRef<string | null>(activeTab);
+
+  useEffect(() => {
+    void importInfoTabLived();
+    void importInfoTabVisited();
+    void importInfoTabFuture();
+    void importInfoTabStats();
+  }, []);
+
+  useEffect(() => {
+    displayedTabRef.current = displayedTab;
+  }, [displayedTab]);
+
+  useEffect(() => {
+    const shouldDelay =
+      Boolean(activeTab) &&
+      Boolean(displayedTabRef.current) &&
+      activeTab !== displayedTabRef.current;
+    const timeoutId = window.setTimeout(
+      () => {
+        setDisplayedTab(activeTab);
+      },
+      shouldDelay ? 300 : 0,
+    );
+
+    return () => window.clearTimeout(timeoutId);
+  }, [activeTab]);
 
   return (
     <div className="home-template">
@@ -48,6 +93,25 @@ export function HomeTemplate({ children }: PropsWithChildren): JSX.Element {
         handleDarkModeSwitch={handleDarkModeSwitch}
         isDarkTheme={isDarkTheme}
       />
+      <InfoTab>
+        {displayedTab === "lived" ? <InfoTabLived isVisible /> : null}
+        {displayedTab === "visited" ? <InfoTabVisited isVisible /> : null}
+        {displayedTab === "future" ? <InfoTabFuture isVisible /> : null}
+        {displayedTab === "stats" ? <InfoTabStats isVisible /> : null}
+      </InfoTab>
+      <Container isVisible={isGallery}>
+        {isGallery ? (
+          <Suspense
+            fallback={
+              <div className="centered">
+                <Loading />
+              </div>
+            }
+          >
+            {children}
+          </Suspense>
+        ) : null}
+      </Container>
       <Suspense
         fallback={
           <div className="centered">
@@ -55,15 +119,6 @@ export function HomeTemplate({ children }: PropsWithChildren): JSX.Element {
           </div>
         }
       >
-        <InfoTab>
-          {isLived ? <InfoTabLived isVisible /> : null}
-          {isVisited ? <InfoTabVisited isVisible /> : null}
-          {isFuture ? <InfoTabFuture isVisible /> : null}
-          {isStats ? <InfoTabStats isVisible /> : null}
-        </InfoTab>
-        <Container isVisible={isGallery}>
-          {isGallery ? children : null}
-        </Container>
         <Map />
       </Suspense>
     </div>

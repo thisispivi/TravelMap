@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
-import { JSX } from "react";
+import { domAnimation, LazyMotion, m } from "framer-motion";
+import { JSX, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { Button } from "./Button";
@@ -8,8 +8,6 @@ interface NavigableButtonProps {
   id: string;
   isButtonActive: boolean;
   defaultPath: string;
-  isOtherButtonsActive: boolean;
-  alternativePath: string;
   icon: JSX.Element;
   className: string;
   activeClass: string;
@@ -27,8 +25,6 @@ interface NavigableButtonProps {
  * @param {string} props.id - The id of the button
  * @param {boolean} props.isButtonActive - Whether the button is active
  * @param {string} props.defaultPath - The default path of the button
- * @param {boolean} props.isOtherButtonsActive - Whether other buttons are active
- * @param {string} props.alternativePath - The alternative path of the button
  * @param {JSX.Element} props.icon - The icon of the button
  * @param {string} props.className - The class name of the button
  * @param {string} props.activeClass - The class
@@ -39,38 +35,36 @@ export function NavigableButton({
   id,
   isButtonActive,
   defaultPath,
-  isOtherButtonsActive,
-  alternativePath,
   icon,
   className,
   activeClass,
   tooltipText,
 }: NavigableButtonProps): JSX.Element {
+  const [isAnimating, setIsAnimating] = useState(false);
+
   return (
     <Link
       data-tooltip-content={tooltipText}
       data-tooltip-id="base-tooltip"
       key={id}
-      to={
-        isButtonActive
-          ? "/"
-          : isOtherButtonsActive
-            ? alternativePath
-            : defaultPath
-      }
+      to={isButtonActive ? "/" : defaultPath}
     >
-      <motion.div
-        animate={isButtonActive ? { scale: 1.05 } : { scale: 1 }}
-        style={{ willChange: "transform" }}
-        transition={{ type: "spring", stiffness: 400, damping: 25 }}
-      >
-        <Button
-          ariaLabel={tooltipText}
-          className={`${className} ${isButtonActive ? activeClass : ""}`}
+      <LazyMotion features={domAnimation}>
+        <m.div
+          animate={isButtonActive ? { scale: 1.05 } : { scale: 1 }}
+          onAnimationComplete={() => setIsAnimating(false)}
+          onAnimationStart={() => setIsAnimating(true)}
+          style={isAnimating ? { willChange: "transform" } : undefined}
+          transition={{ type: "spring", stiffness: 400, damping: 25 }}
         >
-          {icon}
-        </Button>
-      </motion.div>
+          <Button
+            ariaLabel={tooltipText}
+            className={`${className} ${isButtonActive ? activeClass : ""}`}
+          >
+            {icon}
+          </Button>
+        </m.div>
+      </LazyMotion>
     </Link>
   );
 }

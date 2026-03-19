@@ -122,30 +122,23 @@ export function Map() {
   const [isLoaded, setIsLoaded] = useState(false);
   const hoverLeaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // ─── Animated fly-to position ───────────────────────────────
   const [displayedPosition, setDisplayedPosition] = useState(mapPosition);
   const animFrameRef = useRef<number | null>(null);
   const isFromMoveEndRef = useRef(false);
   const currentPosRef = useRef(mapPosition);
 
-  // Cancel animation on unmount
   useEffect(() => {
     return () => {
       if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
     };
   }, []);
 
-  // Animate map movement when auto-position triggers a change.
-  // All setState calls are deferred to rAF callbacks to avoid synchronous
-  // cascading renders inside the effect body.
   useEffect(() => {
-    // Cancel ongoing animation
     if (animFrameRef.current) {
       cancelAnimationFrame(animFrameRef.current);
       animFrameRef.current = null;
     }
 
-    // User-initiated moves or auto-position off → snap on next frame
     if (isFromMoveEndRef.current || !isAutoPosition) {
       isFromMoveEndRef.current = false;
       currentPosRef.current = mapPosition;
@@ -156,7 +149,6 @@ export function Map() {
       return;
     }
 
-    // Auto-position: animate from current visual position to target
     const start = { ...currentPosRef.current };
     const target = mapPosition;
     const startTime = performance.now();
@@ -187,7 +179,6 @@ export function Map() {
     animFrameRef.current = requestAnimationFrame(animate);
   }, [mapPosition, isAutoPosition]);
 
-  // ─── Hover management ───────────────────────────────────────
   const handleSetHoveredCity = useCallback(
     (city: City | null) => {
       if (hoverLeaveTimer.current) {
@@ -212,9 +203,6 @@ export function Map() {
     };
   }, []);
 
-  // ─── Mobile tooltip dismissal ───────────────────────────────
-  // On touch devices, tapping elsewhere on the map should dismiss the
-  // tooltip since there is no mouseleave event.
   useEffect(() => {
     if (!hoveredCity) return;
 
@@ -235,7 +223,6 @@ export function Map() {
     return () => document.removeEventListener("touchstart", handleTouchStart);
   }, [hoveredCity, setHoveredCity]);
 
-  // ─── Country fill colours ──────────────────────────────────
   const visitedCountryFill = useMemo<Record<string, string>>(
     () =>
       Object.fromEntries(
@@ -253,7 +240,6 @@ export function Map() {
     [isDarkTheme, visitedCountryFill],
   );
 
-  // ─── City sorting (stable across renders) ────────────────────
   const sortedVisitedCities = useMemo(
     () => [...visitedCities].sort(sortByLatitudeAndLongitude),
     [],
@@ -269,27 +255,16 @@ export function Map() {
     [],
   );
 
-  // ─── Label visibility (overlap detection) ───────────────────
-  // Uses `mapPosition.zoom` (the settled value) instead of
-  // `displayedPosition.zoom` so that the expensive overlap computation
-  // only runs when the user finishes a zoom gesture, not on every
-  // animation frame — this is the main perf win.
   const allCities = useMemo(
     () => [...visitedCities, ...futureCities, ...livedCities],
     [],
   );
 
   const visibleLabels = useMemo(
-    () =>
-      computeVisibleLabels(
-        allCities,
-        mapPosition.zoom,
-        hoveredCity?.name,
-      ),
+    () => computeVisibleLabels(allCities, mapPosition.zoom, hoveredCity?.name),
     [allCities, mapPosition.zoom, hoveredCity?.name],
   );
 
-  // ─── Callbacks ─────────────────────────────────────────────
   const handleWorldLoaded = useCallback(() => {
     setIsLoaded(true);
   }, []);
