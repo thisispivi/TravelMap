@@ -1,6 +1,6 @@
 import "./Marker.scss";
 
-import { JSX, useMemo } from "react";
+import { JSX } from "react";
 import { Marker as MarkerMap, useZoomPanContext } from "react-simple-maps";
 
 import { MarkerIcon } from "../../../assets";
@@ -60,18 +60,16 @@ export function Marker({
   const scale = Math.min(Math.max(currScale, minScale), maxScale);
   const isHovered = hoveredCity?.name === city.name;
 
-  const labelVisible = useMemo(() => {
+  const labelVisible = (() => {
     if (isHovered) return true;
     if (!showLabel) return false;
     return k >= getMinZoomForPopulation(city.population ?? 0);
-  }, [isHovered, showLabel, k, city.population]);
+  })();
 
-  const labelFontSize = useMemo(
-    () => (isHovered ? LABEL_HOVERED_FONT_SIZE : LABEL_BASE_FONT_SIZE) / k,
-    [isHovered, k],
-  );
+  const labelFontSize =
+    (isHovered ? LABEL_HOVERED_FONT_SIZE : LABEL_BASE_FONT_SIZE) / k;
 
-  const labelOffsetY = useMemo(() => LABEL_OFFSET_PX / k, [k]);
+  const labelOffsetY = LABEL_OFFSET_PX / k;
 
   return (
     <MarkerMap

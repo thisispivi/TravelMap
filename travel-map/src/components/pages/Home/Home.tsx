@@ -12,9 +12,6 @@ import { parameters } from "@/utils/parameters";
 import { HomeTemplate } from "../../templates";
 import { HomeContext } from "./HomeContext";
 
-export type { HomeContextType } from "./HomeContext";
-export { HomeContext } from "./HomeContext";
-
 /**
  * Home component
  *

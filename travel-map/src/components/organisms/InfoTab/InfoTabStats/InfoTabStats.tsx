@@ -405,20 +405,6 @@ function TransportDetailCard({
           />
         </Column>
       ) : null}
-      {/* <Column className="info-tab-stats__card__row">
-        <p className="info-tab-stats__card__row__title">
-          {t("stats.flightCompaniesTaken")}
-        </p>
-        <Row className="info-tab-stats__card__flight-companies row--wrap">
-          {flightCompanies.map((company) => (
-            <FlightCompany
-              className="info-tab-stats__card__flight-companies__company"
-              company={company}
-              key={company}
-            />
-          ))}
-        </Row>
-      </Column> */}
     </Card>
   );
 }

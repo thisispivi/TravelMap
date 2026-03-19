@@ -1,6 +1,6 @@
 import "./Button.scss";
 
-import { motion } from "framer-motion";
+import { domAnimation, LazyMotion, m } from "framer-motion";
 import { JSX, MouseEventHandler, PropsWithChildren } from "react";
 
 export interface ButtonProps extends PropsWithChildren {
@@ -48,19 +48,21 @@ export function Button({
   tapScale = 0.95,
 }: ButtonProps): JSX.Element {
   return (
-    <motion.button
-      aria-label={ariaLabel}
-      className={`button ${className}`}
-      data-tooltip-content={tooltipContent}
-      data-tooltip-id={tooltipId}
-      onClick={onClick}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-      type="button"
-      whileHover={hoverScale !== 1 ? { scale: hoverScale } : undefined}
-      whileTap={tapScale !== 1 ? { scale: tapScale } : undefined}
-    >
-      {children}
-    </motion.button>
+    <LazyMotion features={domAnimation}>
+      <m.button
+        aria-label={ariaLabel}
+        className={`button ${className}`}
+        data-tooltip-content={tooltipContent}
+        data-tooltip-id={tooltipId}
+        onClick={onClick}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+        type="button"
+        whileHover={hoverScale !== 1 ? { scale: hoverScale } : undefined}
+        whileTap={tapScale !== 1 ? { scale: tapScale } : undefined}
+      >
+        {children}
+      </m.button>
+    </LazyMotion>
   );
 }
