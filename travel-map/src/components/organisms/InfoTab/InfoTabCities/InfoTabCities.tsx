@@ -3,6 +3,7 @@ import "./InfoTabCities.scss";
 import {
   JSX,
   RefObject,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -67,7 +68,10 @@ export function InfoTabCities({
 
   const allCountriesValues = allCountries;
   const [countries, setCountries] = useState<Country[]>(allCountriesValues);
-  const onCountryChange = (selected: Country[]) => setCountries(selected);
+  const onCountryChange = useCallback(
+    (selected: Country[]) => setCountries(selected),
+    [],
+  );
 
   const sortedSelectedCountries = useMemo(() => {
     return [...countries].sort((a, b) => a.id.localeCompare(b.id));
@@ -76,25 +80,27 @@ export function InfoTabCities({
   const [selectedYear, setSelectedYear] = useState<number>(
     constants.GROUP_BY_CITIES_DEFAULT_OPENED_YEAR,
   );
-  const toggleYear = (year: number) =>
-    selectedYear !== year ? setSelectedYear(year) : undefined;
+  const toggleYear = useCallback(
+    (year: number) => setSelectedYear((prev) => (prev !== year ? year : prev)),
+    [],
+  );
 
   const [hasOverflow, setHasOverflow] = useState<boolean>(false);
   const contentRef = useRef<HTMLDivElement | null>(null);
 
-  const checkOverflow = () => {
+  const checkOverflow = useCallback(() => {
     if (contentRef.current) {
       const element = contentRef.current;
       setHasOverflow(element.scrollHeight > element.clientHeight);
     }
-  };
+  }, []);
 
   useEffect(() => {
     checkOverflow();
     const handleResize = () => checkOverflow();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, [cities, countries, selectedYear, isVisible]);
+  }, [checkOverflow, cities, countries, selectedYear, isVisible]);
 
   const groups = useMemo(
     () =>

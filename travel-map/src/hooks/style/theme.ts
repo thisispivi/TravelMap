@@ -1,23 +1,25 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 /**
  * Hook to detect the current theme of the user's system
  * @returns {ThemeDetector} - Object containing the current theme and a function to set the theme
  */
 export function useThemeDetector(): ThemeDetector {
-  const getInitialTheme = () => {
+  const [isDarkTheme, setIsDarkTheme] = useState(() => {
     const storedTheme = localStorage.getItem("theme");
     if (storedTheme) return storedTheme === "dark";
     const prefers = window.matchMedia("(prefers-color-scheme: dark)").matches;
     localStorage.setItem("theme", prefers ? "dark" : "light");
     return prefers;
-  };
-  const [isDarkTheme, setIsDarkTheme] = useState(getInitialTheme());
-  const handleDarkModeSwitch = () => {
-    const newTheme = isDarkTheme ? "light" : "dark";
-    localStorage.setItem("theme", newTheme);
-    setIsDarkTheme(!isDarkTheme);
-  };
+  });
+
+  const handleDarkModeSwitch = useCallback(() => {
+    setIsDarkTheme((prev) => {
+      const newTheme = !prev;
+      localStorage.setItem("theme", newTheme ? "dark" : "light");
+      return newTheme;
+    });
+  }, []);
 
   useEffect(() => {
     const body = document.querySelector("body");
@@ -30,7 +32,10 @@ export function useThemeDetector(): ThemeDetector {
     }
   }, [isDarkTheme]);
 
-  return { isDarkTheme, handleDarkModeSwitch };
+  return useMemo(
+    () => ({ isDarkTheme, handleDarkModeSwitch }),
+    [isDarkTheme, handleDarkModeSwitch],
+  );
 }
 
 export type ThemeDetector = {

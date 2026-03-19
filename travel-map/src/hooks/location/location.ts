@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { useLocation as useLocationRouter } from "react-router-dom";
 
 type LocationHook = {
@@ -8,6 +9,7 @@ type LocationHook = {
   isStats: boolean;
   isLived: boolean;
   isLightbox: boolean;
+  activeTab: string | null;
   isCurrentTabOpen: (tab: string) => boolean;
 };
 
@@ -20,24 +22,39 @@ type LocationHook = {
  */
 export function useLocation(): LocationHook {
   const location = useLocationRouter();
-  const isVisited = location.pathname.includes("visited");
-  const isFuture = location.pathname.includes("future");
-  const isGallery = location.pathname.includes("gallery");
-  const isStats = location.pathname.includes("stats");
-  const isLived = location.pathname.includes("lived");
-  const isLightbox = location.pathname.split("/").length === 5;
-  const isInfoTabOpen = isVisited || isFuture || isStats || isLived;
+  const pathname = location.pathname;
 
-  const isCurrentTabOpen = (tab: string) => location.pathname.includes(tab);
+  return useMemo(() => {
+    const isVisited = pathname.includes("visited");
+    const isFuture = pathname.includes("future");
+    const isGallery = pathname.includes("gallery");
+    const isStats = pathname.includes("stats");
+    const isLived = pathname.includes("lived");
+    const isLightbox = pathname.split("/").length === 5;
+    const isInfoTabOpen = isVisited || isFuture || isStats || isLived;
 
-  return {
-    isVisited,
-    isFuture,
-    isInfoTabOpen,
-    isGallery,
-    isStats,
-    isLived,
-    isCurrentTabOpen,
-    isLightbox,
-  };
+    const activeTab = isLived
+      ? "lived"
+      : isVisited
+        ? "visited"
+        : isFuture
+          ? "future"
+          : isStats
+            ? "stats"
+            : null;
+
+    const isCurrentTabOpen = (tab: string) => pathname.includes(tab);
+
+    return {
+      isVisited,
+      isFuture,
+      isInfoTabOpen,
+      isGallery,
+      isStats,
+      isLived,
+      isCurrentTabOpen,
+      isLightbox,
+      activeTab,
+    };
+  }, [pathname]);
 }

@@ -1,8 +1,8 @@
 import "./Home.scss";
 
 import { isMobile, isTablet } from "mobile-device-detect";
-import { JSX, useEffect, useMemo, useState } from "react";
-import { Outlet, useNavigate, useSearchParams } from "react-router-dom";
+import { JSX, useMemo, useState } from "react";
+import { Outlet } from "react-router-dom";
 
 import { City } from "@/core";
 import { useResponsive } from "@/hooks/style/responsive";
@@ -25,11 +25,7 @@ export { HomeContext } from "./HomeContext";
  * @returns {JSX.Element} - The home
  */
 export function Home(): JSX.Element {
-  const navigate = useNavigate();
   const responsive = useResponsive();
-
-  const [searchParams] = useSearchParams();
-  const redirectTo = searchParams.get("to");
 
   const [isAutoPosition, setIsAutoPosition] = useState<boolean>(false);
 
@@ -41,12 +37,6 @@ export function Home(): JSX.Element {
   const [hoveredCity, setHoveredCity] = useState<City | null>(null);
 
   const { isDarkTheme, handleDarkModeSwitch } = useThemeDetector();
-
-  useEffect(() => {
-    if (!redirectTo) return;
-    const timeout = window.setTimeout(() => navigate("/" + redirectTo), 300);
-    return () => window.clearTimeout(timeout);
-  }, [navigate, redirectTo]);
 
   const context = useMemo(
     () => ({
