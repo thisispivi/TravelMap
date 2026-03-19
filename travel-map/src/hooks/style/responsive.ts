@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 type SizeType = {
   width: number;
@@ -15,22 +15,20 @@ export type ResponsiveType = {
  * @returns {ResponsiveType} - Object containing the window size and the inner size
  */
 export function useResponsive(): ResponsiveType {
-  const [windowCustom, setWindowCustom] = useState<SizeType>({
+  const [size, setSize] = useState<SizeType>({
     width: window.innerWidth,
     height: window.innerHeight,
   });
-  const handleResize = () =>
-    setWindowCustom({ width: window.innerWidth, height: window.innerHeight });
+
+  const handleResize = useCallback(
+    () => setSize({ width: window.innerWidth, height: window.innerHeight }),
+    [],
+  );
 
   useEffect(() => {
     window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [handleResize]);
 
-  return {
-    window: windowCustom,
-    inner: { width: window.innerWidth, height: window.innerHeight },
-  };
+  return useMemo(() => ({ window: size, inner: size }), [size]);
 }

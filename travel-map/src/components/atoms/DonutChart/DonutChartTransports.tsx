@@ -153,8 +153,11 @@ export function TransportsDonutChart({
       },
       dataLabels: {
         enabled: true,
-        formatter: function (_, { seriesIndex, w }) {
-          return w.config.series[seriesIndex];
+        formatter: function (_, opts) {
+          if (!opts) return "";
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const w = (opts as any).w;
+          return w?.config?.series?.[opts.seriesIndex] ?? "";
         },
         dropShadow: { enabled: false },
         distributed: true,

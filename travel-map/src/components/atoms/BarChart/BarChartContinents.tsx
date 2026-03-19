@@ -47,7 +47,6 @@ export function ContinentsBarChart({
     const rawCountries = filtered.map((c) => c.countries);
     const rawCities = filtered.map((c) => c.cities);
 
-    // Keep tiny bars visible even when one metric is 0 (other metric > 0).
     const MIN_BAR = 1;
     const renderCountries = rawCountries.map((v) => (v === 0 ? MIN_BAR : v));
     const renderCities = rawCities.map((v) => (v === 0 ? MIN_BAR : v));
@@ -124,7 +123,10 @@ export function ContinentsBarChart({
       dataLabels: {
         enabled: true,
         formatter: function (_val, opts) {
-          const raw = rawMatrix?.[opts.seriesIndex]?.[opts.dataPointIndex] ?? 0;
+          const si = opts?.seriesIndex as number | undefined;
+          const dpi = opts?.dataPointIndex as number | undefined;
+          const raw =
+            si != null && dpi != null ? (rawMatrix?.[si]?.[dpi] ?? 0) : 0;
           return raw === 0 ? "" : String(raw);
         },
         style: {

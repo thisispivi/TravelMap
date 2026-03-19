@@ -1,6 +1,6 @@
 import "./LeftBar.scss";
 
-import { motion } from "framer-motion";
+import { domAnimation, LazyMotion, m } from "framer-motion";
 import { JSX, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -70,10 +70,6 @@ export function LeftBar({
       id,
       isButtonActive: isCurrentTabOpen(id),
       defaultPath: `/${id}`,
-      isOtherButtonsActive: tabs
-        .filter((tab) => tab !== id)
-        .some(isCurrentTabOpen),
-      alternativePath: `/?to=${id}`,
       icon:
         id === "lived" ? (
           <HomeIcon />
@@ -95,47 +91,49 @@ export function LeftBar({
       className={`left-bar ${className} ${isGallery ? "left-bar--close" : ""}`}
     >
       <div className="left-bar__container">
-        <div className="left-bar__buttons--top">
-          <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-            <LogoIcon
-              className="logo-icon"
-              data-tooltip-content={t("home")}
-              data-tooltip-id="base-tooltip"
-              onClick={() => navigate("/")}
-            />
-          </motion.div>
-        </div>
-        <motion.div
-          animate="visible"
-          className="left-bar__buttons"
-          initial="hidden"
-          variants={containerVariants}
-        >
-          {buttonsConfig.map((data) => (
-            <motion.div
-              key={`navigable-button-${data.id}`}
-              variants={itemVariants}
-            >
-              <NavigableButton {...data} />
-            </motion.div>
-          ))}
-        </motion.div>
-        <motion.div
-          animate="visible"
-          className="left-bar__buttons--bottom"
-          initial="hidden"
-          variants={containerVariants}
-        >
-          <motion.div variants={itemVariants}>
-            <LanguageSelector />
-          </motion.div>
-          <motion.div variants={itemVariants}>
-            <DarkModeButton
-              handleDarkModeSwitch={handleDarkModeSwitch}
-              isDarkTheme={isDarkTheme}
-            />
-          </motion.div>
-        </motion.div>
+        <LazyMotion features={domAnimation}>
+          <div className="left-bar__buttons--top">
+            <m.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+              <LogoIcon
+                className="logo-icon"
+                data-tooltip-content={t("home")}
+                data-tooltip-id="base-tooltip"
+                onClick={() => navigate("/")}
+              />
+            </m.div>
+          </div>
+          <m.div
+            animate="visible"
+            className="left-bar__buttons"
+            initial="hidden"
+            variants={containerVariants}
+          >
+            {buttonsConfig.map((data) => (
+              <m.div
+                key={`navigable-button-${data.id}`}
+                variants={itemVariants}
+              >
+                <NavigableButton {...data} />
+              </m.div>
+            ))}
+          </m.div>
+          <m.div
+            animate="visible"
+            className="left-bar__buttons--bottom"
+            initial="hidden"
+            variants={containerVariants}
+          >
+            <m.div variants={itemVariants}>
+              <LanguageSelector />
+            </m.div>
+            <m.div variants={itemVariants}>
+              <DarkModeButton
+                handleDarkModeSwitch={handleDarkModeSwitch}
+                isDarkTheme={isDarkTheme}
+              />
+            </m.div>
+          </m.div>
+        </LazyMotion>
       </div>
     </div>
   );

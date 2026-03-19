@@ -60,9 +60,6 @@ export function Marker({
   const scale = Math.min(Math.max(currScale, minScale), maxScale);
   const isHovered = hoveredCity?.name === city.name;
 
-  // Real-time zoom check: ensure the label should be visible at the current
-  // live zoom level (the `showLabel` prop may lag slightly behind during zoom
-  // gestures since it's computed on move-end).
   const labelVisible = useMemo(() => {
     if (isHovered) return true;
     if (!showLabel) return false;

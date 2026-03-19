@@ -14,7 +14,6 @@
     }
   }
 
-  // ─── Top bar with back button, index, fullscreen ───────
   .lightbox__top-bar {
     position: absolute;
     top: 0;
@@ -152,12 +151,10 @@
       }
     }
 
-    // Hide the default index since we render our own
     .image-gallery-index {
       display: none;
     }
 
-    // Hide default fullscreen button (we render our own)
     .image-gallery-fullscreen {
       display: none;
     }

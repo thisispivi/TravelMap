@@ -99,7 +99,6 @@ export function InfoTabStats({
     totalMediaTaken,
     usedCurrencies,
     numUnescoSites,
-    // flightCompanies,
     maxFerry,
     minFerry,
   } = useMemo(() => {
@@ -143,13 +142,6 @@ export function InfoTabStats({
       0,
     );
 
-    // const flightCompanies = unique([
-    //   FlightCompanyCore.AIR_ONE,
-    //   FlightCompanyCore.ALITALIA,
-    //   FlightCompanyCore.VOLOTEA,
-    //   ...takenFlights.map((f) => f.company),
-    // ]);
-
     return {
       visitedCountriesCount,
       furthestCity,
@@ -169,7 +161,6 @@ export function InfoTabStats({
       totalMediaTaken,
       usedCurrencies,
       numUnescoSites,
-      // flightCompanies,
     };
   }, [EARTH_CIRCUMFERENCE, MOON_DISTANCE]);
 
