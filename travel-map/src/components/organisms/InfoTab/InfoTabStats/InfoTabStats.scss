@@ -143,52 +143,6 @@
       }
     }
 
-    .info-tab-stats__card__flight-companies {
-      justify-content: space-evenly;
-      align-items: center;
-      gap: 1rem;
-      margin: 0.75rem 1rem 0.5rem 1rem;
-      svg {
-        width: auto;
-      }
-      .flight-company--all_nippon_airways {
-        height: 1.25rem;
-      }
-      .flight-company--volotea {
-        height: 1.6rem;
-      }
-      .flight-company--ryanair {
-        height: 1rem;
-      }
-      .flight-company--easyjet {
-        height: 1.1rem;
-      }
-      .flight-company--wizz_air {
-        height: 1.7rem;
-      }
-      .flight-company--ita_airways {
-        height: 1.6rem;
-      }
-      .flight-company--air_one {
-        height: 1.3rem;
-      }
-      .flight-company--alitalia {
-        height: 1.3rem;
-      }
-      .flight-company--jetstar {
-        height: 1.7rem;
-      }
-      .flight-company--china_eastern_airlines {
-        height: 1.5rem;
-      }
-      .flight-company--virgin_australia {
-        height: 1.6rem;
-      }
-      .flight-company--aeroitalia {
-        height: 1.4rem;
-      }
-    }
-
     .info-tab-stats__card--continents,
     .info-tab-stats__card--flights,
     .info-tab-stats__card--mileage {

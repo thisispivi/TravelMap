@@ -1,6 +1,6 @@
 import "./DarkModeButton.scss";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, domAnimation, LazyMotion, m } from "framer-motion";
 import { JSX } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -49,27 +49,29 @@ export function DarkModeButton({
   const { t } = useTranslation("home");
 
   return (
-    <motion.button
-      aria-label={t("theme")}
-      className={`dark-mode-button ${className}`}
-      data-tooltip-content={t("theme")}
-      data-tooltip-id="base-tooltip"
-      onClick={handleDarkModeSwitch}
-      type="button"
-      whileHover={{ scale: 1.08 }}
-      whileTap={{ scale: 0.95 }}
-    >
-      <AnimatePresence initial={false} mode="wait">
-        <motion.div
-          animate="animate"
-          exit="exit"
-          initial="initial"
-          key={isDarkTheme ? "moon" : "sun"}
-          variants={iconVariants}
-        >
-          {isDarkTheme ? <MoonIcon /> : <SunIcon />}
-        </motion.div>
-      </AnimatePresence>
-    </motion.button>
+    <LazyMotion features={domAnimation}>
+      <m.button
+        aria-label={t("theme")}
+        className={`dark-mode-button ${className}`}
+        data-tooltip-content={t("theme")}
+        data-tooltip-id="base-tooltip"
+        onClick={handleDarkModeSwitch}
+        type="button"
+        whileHover={{ scale: 1.08 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        <AnimatePresence initial={false} mode="wait">
+          <m.div
+            animate="animate"
+            exit="exit"
+            initial="initial"
+            key={isDarkTheme ? "moon" : "sun"}
+            variants={iconVariants}
+          >
+            {isDarkTheme ? <MoonIcon /> : <SunIcon />}
+          </m.div>
+        </AnimatePresence>
+      </m.button>
+    </LazyMotion>
   );
 }

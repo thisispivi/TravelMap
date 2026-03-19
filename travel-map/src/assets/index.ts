@@ -109,31 +109,3 @@ export {
   UnitedKingdomFlag,
   VaticanFlag,
 };
-
-import AeroitaliaLogo from "./icons/Flights/Aeroitalia.svg?react";
-import AirOneLogo from "./icons/Flights/AirOne.svg?react";
-import AlitaliaLogo from "./icons/Flights/Alitalia.svg?react";
-import AllNipponAirwaysLogo from "./icons/Flights/AllNipponAirways.svg?react";
-import ChinaEasternAirlinesLogo from "./icons/Flights/ChinaEasternAirlines.svg?react";
-import EasyJetLogo from "./icons/Flights/EasyJet.svg?react";
-import ItaAirwaysLogo from "./icons/Flights/ItaAirways.svg?react";
-import JetstarLogo from "./icons/Flights/Jetstar.svg?react";
-import RyanairLogo from "./icons/Flights/Ryanair.svg?react";
-import VirginAustraliaLogo from "./icons/Flights/VirginAustralia.svg?react";
-import VoloteaLogo from "./icons/Flights/Volotea.svg?react";
-import WizzAirLogo from "./icons/Flights/WizzAir.svg?react";
-
-export {
-  AeroitaliaLogo,
-  AirOneLogo,
-  AlitaliaLogo,
-  AllNipponAirwaysLogo,
-  ChinaEasternAirlinesLogo,
-  EasyJetLogo,
-  ItaAirwaysLogo,
-  JetstarLogo,
-  RyanairLogo,
-  VirginAustraliaLogo,
-  VoloteaLogo,
-  WizzAirLogo,
-};

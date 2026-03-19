@@ -1,6 +1,6 @@
 import "./TooltipMap.scss";
 
-import { motion } from "framer-motion";
+import { domAnimation, LazyMotion, m } from "framer-motion";
 import { JSX, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -76,94 +76,96 @@ export function MapTooltip({
   }, [setIsOpen]);
 
   return (
-    <>
-      {createBackdrop("map-tooltip__backdrop--top")}
-      {createBackdrop("map-tooltip__backdrop--right")}
-      {createBackdrop("map-tooltip__backdrop--bottom")}
-      {createBackdrop("map-tooltip__backdrop--left")}
-      <motion.div
-        animate="visible"
-        className="map-tooltip__container"
-        initial="hidden"
-        onMouseEnter={() => onMouseEnter && onMouseEnter(city)}
-        onMouseLeave={() => onMouseLeave && onMouseLeave()}
-        variants={tooltipVariants}
-      >
-        <div className="map-tooltip__header">
-          <h2>{city.getName(t)}</h2>
-          <CountryFlag countryId={city.country.id} />
-        </div>
-        <div className="map-tooltip__metadata">
-          <div className="map-tooltip__metadata__item">
-            <PeopleIcon className="map-tooltip__metadata__icon" />
-            {city.population ? city.population.toLocaleString(lang) : "-"}
+    <LazyMotion features={domAnimation}>
+      <>
+        {createBackdrop("map-tooltip__backdrop--top")}
+        {createBackdrop("map-tooltip__backdrop--right")}
+        {createBackdrop("map-tooltip__backdrop--bottom")}
+        {createBackdrop("map-tooltip__backdrop--left")}
+        <m.div
+          animate="visible"
+          className="map-tooltip__container"
+          initial="hidden"
+          onMouseEnter={() => onMouseEnter && onMouseEnter(city)}
+          onMouseLeave={() => onMouseLeave && onMouseLeave()}
+          variants={tooltipVariants}
+        >
+          <div className="map-tooltip__header">
+            <h2>{city.getName(t)}</h2>
+            <CountryFlag countryId={city.country.id} />
           </div>
-          <div className="map-tooltip__metadata__item">
-            <CoinIcon className="map-tooltip__metadata__icon" />
-            <p className="currency-row__name">
-              {t(`currency.${city.country.currency}.name`)}
-            </p>
-            <b className="currency-row__symbol">
-              {" " + t(`currency.${city.country.currency}.symbol`)}
-            </b>
+          <div className="map-tooltip__metadata">
+            <div className="map-tooltip__metadata__item">
+              <PeopleIcon className="map-tooltip__metadata__icon" />
+              {city.population ? city.population.toLocaleString(lang) : "-"}
+            </div>
+            <div className="map-tooltip__metadata__item">
+              <CoinIcon className="map-tooltip__metadata__icon" />
+              <p className="currency-row__name">
+                {t(`currency.${city.country.currency}.name`)}
+              </p>
+              <b className="currency-row__symbol">
+                {" " + t(`currency.${city.country.currency}.symbol`)}
+              </b>
+            </div>
           </div>
-        </div>
-        {filteredTravels[travelIdx] ? (
-          <div className="map-tooltip__divider">
-            <div className="map-tooltip__content">
-              <div className="map-tooltip__content__travels">
-                <b className="map-tooltip__content__travels__title">
-                  {t("selectedTravel")} {travelIdx + 1} /{" "}
-                  {filteredTravels.length}
-                </b>
-                <div className="map-tooltip__content__travels__selector">
-                  <DoubleChevronIcon
-                    className={`map-tooltip__content__chevron-icon map-tooltip__content__chevron-icon--left ${travelIdx > 0 ? "" : "map-tooltip__content__chevron-icon--disabled"}`}
-                    onClick={() =>
-                      setTravelIdx((prev) => (prev > 0 ? prev - 1 : prev))
-                    }
-                  />
-                  <div className="map-tooltip__content__travel">
-                    <CalendarIcon className="map-tooltip__content__travel__icon" />
-                    <p>
-                      {formatDateRangeShort({
-                        sDateInput: filteredTravels[travelIdx].sDate,
-                        eDateInput: filteredTravels[travelIdx].eDate,
-                        locale: lang,
-                        includeWeekday: true,
-                        showYear: true,
-                      })}
-                    </p>
+          {filteredTravels[travelIdx] ? (
+            <div className="map-tooltip__divider">
+              <div className="map-tooltip__content">
+                <div className="map-tooltip__content__travels">
+                  <b className="map-tooltip__content__travels__title">
+                    {t("selectedTravel")} {travelIdx + 1} /{" "}
+                    {filteredTravels.length}
+                  </b>
+                  <div className="map-tooltip__content__travels__selector">
+                    <DoubleChevronIcon
+                      className={`map-tooltip__content__chevron-icon map-tooltip__content__chevron-icon--left ${travelIdx > 0 ? "" : "map-tooltip__content__chevron-icon--disabled"}`}
+                      onClick={() =>
+                        setTravelIdx((prev) => (prev > 0 ? prev - 1 : prev))
+                      }
+                    />
+                    <div className="map-tooltip__content__travel">
+                      <CalendarIcon className="map-tooltip__content__travel__icon" />
+                      <p>
+                        {formatDateRangeShort({
+                          sDateInput: filteredTravels[travelIdx].sDate,
+                          eDateInput: filteredTravels[travelIdx].eDate,
+                          locale: lang,
+                          includeWeekday: true,
+                          showYear: true,
+                        })}
+                      </p>
+                    </div>
+                    <DoubleChevronIcon
+                      className={`map-tooltip__content__chevron-icon ${travelIdx < filteredTravels.length - 1 ? "" : "map-tooltip__content__chevron-icon--disabled"}`}
+                      onClick={() =>
+                        setTravelIdx((prev) =>
+                          prev < filteredTravels.length - 1 ? prev + 1 : prev,
+                        )
+                      }
+                    />
                   </div>
-                  <DoubleChevronIcon
-                    className={`map-tooltip__content__chevron-icon ${travelIdx < filteredTravels.length - 1 ? "" : "map-tooltip__content__chevron-icon--disabled"}`}
-                    onClick={() =>
-                      setTravelIdx((prev) =>
-                        prev < filteredTravels.length - 1 ? prev + 1 : prev,
-                      )
-                    }
-                  />
                 </div>
               </div>
+              {filteredTravels[travelIdx].photos &&
+              filteredTravels[travelIdx].photos.length > 0 ? (
+                <div className="map-tooltip__footer">
+                  <Button
+                    className="map-tooltip__footer__button"
+                    hoverScale={1}
+                    onClick={() =>
+                      navigate(`/gallery/${city.name}/${travelIdx}?from=map`)
+                    }
+                  >
+                    <GalleryIcon />
+                    <p>{t("galleryAlt")}</p>
+                  </Button>
+                </div>
+              ) : null}
             </div>
-            {filteredTravels[travelIdx].photos &&
-            filteredTravels[travelIdx].photos.length > 0 ? (
-              <div className="map-tooltip__footer">
-                <Button
-                  className="map-tooltip__footer__button"
-                  hoverScale={1}
-                  onClick={() =>
-                    navigate(`/gallery/${city.name}/${travelIdx}?from=map`)
-                  }
-                >
-                  <GalleryIcon />
-                  <p>{t("galleryAlt")}</p>
-                </Button>
-              </div>
-            ) : null}
-          </div>
-        ) : null}
-      </motion.div>
-    </>
+          ) : null}
+        </m.div>
+      </>
+    </LazyMotion>
   );
 }
