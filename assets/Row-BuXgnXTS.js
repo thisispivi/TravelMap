@@ -1,1 +1,0 @@
-import{c as s,j as r}from"./vendor-BChQ0RPV.js";import"./index-BZI4vNNV.js";function e(e){const o=s.c(3),{className:c,children:i}=e,n=`row ${void 0===c?"":c}`;let a;return o[0]!==i||o[1]!==n?(a=r.jsx("div",{className:n,children:i}),o[0]=i,o[1]=n,o[2]=a):a=o[2],a}export{e as R};
