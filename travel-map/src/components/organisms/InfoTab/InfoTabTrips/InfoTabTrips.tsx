@@ -48,6 +48,9 @@ export function InfoTabTrips({
 
   const [hasOverflow, setHasOverflow] = useState<boolean>(false);
   const contentRef = useRef<HTMLDivElement | null>(null);
+  const overflowCheckTimeoutRef = useRef<number | null>(null);
+  const rafRef = useRef<number | null>(null);
+  const frameCountRef = useRef<number>(0);
 
   const checkOverflow = useCallback(() => {
     if (contentRef.current) {
@@ -56,12 +59,51 @@ export function InfoTabTrips({
     }
   }, []);
 
+  const handleTripExpandChange = useCallback(() => {
+    checkOverflow();
+
+    if (overflowCheckTimeoutRef.current !== null) {
+      window.clearTimeout(overflowCheckTimeoutRef.current);
+    }
+    if (rafRef.current !== null) {
+      window.cancelAnimationFrame(rafRef.current);
+    }
+
+    // Request multiple frames to catch overflow during animation
+    frameCountRef.current = 0;
+    const checkFrame = () => {
+      checkOverflow();
+      frameCountRef.current += 1;
+      if (frameCountRef.current < 12) {
+        // Check for ~200ms at 60fps (12 frames)
+        rafRef.current = window.requestAnimationFrame(checkFrame);
+      }
+    };
+    rafRef.current = window.requestAnimationFrame(checkFrame);
+
+    // Final check after animation completes (360ms)
+    overflowCheckTimeoutRef.current = window.setTimeout(() => {
+      checkOverflow();
+    }, 360);
+  }, [checkOverflow]);
+
   useEffect(() => {
     if (!isVisible) return;
     const handleResize = () => checkOverflow();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, [checkOverflow, isVisible]);
+
+  useEffect(() => {
+    return () => {
+      if (overflowCheckTimeoutRef.current !== null) {
+        window.clearTimeout(overflowCheckTimeoutRef.current);
+      }
+      if (rafRef.current !== null) {
+        window.cancelAnimationFrame(rafRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     if (!isVisible) return;
@@ -84,6 +126,7 @@ export function InfoTabTrips({
       groups={groups}
       hasOverflow={hasOverflow}
       id={id}
+      onTripExpandChange={handleTripExpandChange}
       selectedYear={selectedYear}
       toggleYear={toggleYear}
     />
@@ -110,9 +153,13 @@ export function InfoTabTrips({
 
 type TripCardsListProps = {
   trips: Trip[];
+  onTripExpandChange?: (isExpanded: boolean) => void;
 };
 
-function TripCardsList({ trips }: TripCardsListProps): JSX.Element {
+function TripCardsList({
+  trips,
+  onTripExpandChange,
+}: TripCardsListProps): JSX.Element {
   const { isAutoPosition, setHoveredCity, setMapPosition } =
     useContext(HomeContext)!;
 
@@ -122,6 +169,7 @@ function TripCardsList({ trips }: TripCardsListProps): JSX.Element {
         <TripCard
           isAutoPosition={isAutoPosition}
           key={trip.id}
+          onExpandChange={onTripExpandChange}
           setHoveredCity={setHoveredCity}
           setMapPosition={setMapPosition}
           trip={trip}
@@ -138,6 +186,7 @@ type GroupedTripCardsProps = {
   toggleYear: (year: number) => void;
   hasOverflow: boolean;
   contentRef: RefObject<HTMLDivElement | null>;
+  onTripExpandChange: (isExpanded: boolean) => void;
 };
 
 /**
@@ -160,6 +209,7 @@ function GroupedTripCards({
   id,
   hasOverflow,
   contentRef,
+  onTripExpandChange,
 }: GroupedTripCardsProps): JSX.Element {
   return (
     <>
@@ -188,7 +238,10 @@ function GroupedTripCards({
                 <div
                   className={`info-tab-trips__content info-tab-${id}__content`}
                 >
-                  <TripCardsList trips={groups[yearGroup]} />
+                  <TripCardsList
+                    onTripExpandChange={onTripExpandChange}
+                    trips={groups[yearGroup]}
+                  />
                 </div>
               ) : null}
             </div>
