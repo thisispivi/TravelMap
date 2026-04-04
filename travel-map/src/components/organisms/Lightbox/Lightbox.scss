@@ -119,10 +119,15 @@
       width: 2.5rem;
       height: 2.5rem;
       filter: none;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 4;
       &.image-gallery-icon--disabled {
         display: none;
       }
       &.image-gallery-left-nav {
+        left: 0;
         margin-left: 0.35rem;
         @include m.transition(all, 0.3s, ease-in-out);
         .chevron {
@@ -136,6 +141,7 @@
         }
       }
       &.image-gallery-right-nav {
+        right: 0;
         margin-right: 0.35rem;
         @include m.transition(all, 0.3s, ease-in-out);
         .chevron {
