@@ -121,6 +121,18 @@
 }
 
 @media screen and (max-width: 42.5rem) {
+  .gallery {
+    .gallery__header {
+      padding-right: 1rem;
+    }
+
+    .gallery__content {
+      .gallery__content__photo-album--overflow {
+        padding-right: 0 !important;
+      }
+    }
+  }
+
   .close-button {
     margin-left: 0.25rem !important;
   }
