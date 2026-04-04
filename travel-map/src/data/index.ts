@@ -77,6 +77,8 @@ import { Romania } from "./Romania/Romania";
 import { Barcelona } from "./Spain/Barcelona/Barcelona";
 import { Sevilla } from "./Spain/Sevilla/Sevilla";
 import { Spain } from "./Spain/Spain";
+import { Stockholm } from "./Sweden/Stockholm/Stockholm";
+import { Sweden } from "./Sweden/Sweden";
 import { London } from "./UnitedKingdom/London/London";
 import { UnitedKingdom } from "./UnitedKingdom/UnitedKingdom";
 import { Vatican } from "./Vatican/Vatican";
@@ -383,8 +385,8 @@ export const takenFerries: Ferry[] = [
   }),
 ];
 
-export const futureCountries: Country[] = [];
-export const futureCities: City[] = [];
+export const futureCountries: Country[] = [Sweden];
+export const futureCities: City[] = [Stockholm];
 
 export const visitedTrips: Trip[] = [
   new Trip({

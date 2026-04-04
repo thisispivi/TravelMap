@@ -7,6 +7,7 @@ import {
   HungaryFlag,
   JapanFlag,
   RomaniaFlag,
+  SwedenFlag,
   UnitedKingdomFlag,
 } from "../../../assets";
 import { Currency } from "../../../core";
@@ -47,6 +48,8 @@ export function CurrencyFlag({
       return <BulgariaFlag className={className} />;
     case Currency.RON:
       return <RomaniaFlag className={className} />;
+    case Currency.SEK:
+      return <SwedenFlag className={className} />;
     default:
       return null;
   }
