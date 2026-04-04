@@ -145,7 +145,10 @@ export default function Lightbox(): JSX.Element {
         disabled ? "image-gallery-icon--disabled" : ""
       }`}
       hoverScale={1}
-      onClick={onClick}
+      onClick={(event) => {
+        revealNav();
+        onClick(event);
+      }}
       tapScale={1}
     >
       <ChevronIcon className="chevron" />

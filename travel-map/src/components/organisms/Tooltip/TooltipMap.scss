@@ -1,13 +1,13 @@
 @use "../../../styles/mixins" as m;
-@use "../../../styles/variables.module" as v;
+@use "../../../styles/variables" as v;
 
 #map-tooltip {
   min-width: 14rem !important;
   border-radius: 0.875rem !important;
   padding: 0 !important;
   overflow: hidden;
-  backdrop-filter: blur(1.5rem);
   -webkit-backdrop-filter: blur(1.5rem);
+  backdrop-filter: blur(1.5rem);
   @include m.smooth-shadow(1);
 
   .map-tooltip__backdrop {

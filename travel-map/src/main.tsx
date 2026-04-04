@@ -1,6 +1,5 @@
 import "./styles/_global.scss";
 import "./styles/_typography.scss";
-import "./styles/_variables.module.scss";
 import "./styles/_mixins.scss";
 import "./styles/_scrollbar.scss";
 import "./i18n/i18n";

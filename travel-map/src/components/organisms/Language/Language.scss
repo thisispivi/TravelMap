@@ -1,5 +1,5 @@
 @use "../../../styles/mixins" as m;
-@use "../../../styles/variables.module" as v;
+@use "../../../styles/variables" as v;
 
 .language-selector {
   position: relative;
@@ -47,11 +47,7 @@
     }
 
     &.language-selector__lang-option--active {
-      @include m.set-button-colors(
-        v.$languageButton,
-        v.$languageButtonContent,
-        v.$languageButtonHover
-      );
+      @include m.set-button-colors(v.$languageButton, v.$languageButtonContent, v.$languageButtonHover);
       font-weight: 600;
     }
   }
@@ -69,11 +65,7 @@
     }
 
     &.language-selector__activator--open {
-      @include m.set-button-colors(
-        v.$languageButton,
-        v.$languageButtonContent,
-        v.$languageButtonHover
-      );
+      @include m.set-button-colors(v.$languageButton, v.$languageButtonContent, v.$languageButtonHover);
     }
   }
 }
@@ -81,8 +73,8 @@
 .home--dark {
   .language-selector__panel {
     background: v.$glassBgDark;
-    backdrop-filter: blur(v.$glassBlur);
     -webkit-backdrop-filter: blur(v.$glassBlur);
+    backdrop-filter: blur(v.$glassBlur);
     border: 0.0625rem solid v.$glassBorderDark;
     box-shadow: v.$glassShadowDark;
   }
@@ -97,8 +89,8 @@
 .home--light {
   .language-selector__panel {
     background: v.$glassBgLight;
-    backdrop-filter: blur(v.$glassBlur);
     -webkit-backdrop-filter: blur(v.$glassBlur);
+    backdrop-filter: blur(v.$glassBlur);
     border: 0.0625rem solid v.$glassBorderLight;
     box-shadow: v.$glassShadowLight;
   }
