@@ -1,10 +1,6 @@
-@use "variables.module" as v;
+@use "variables" as v;
 
-@mixin transition(
-  $property,
-  $duration: 0.2s,
-  $timing: cubic-bezier(0.4, 0, 0.2, 1)
-) {
+@mixin transition($property, $duration: 0.2s, $timing: cubic-bezier(0.4, 0, 0.2, 1)) {
   transition: $property $duration $timing;
   -webkit-transition: $property $duration $timing;
   -moz-transition: $property $duration $timing;
@@ -14,37 +10,30 @@
 
 @mixin glassmorphism-dark() {
   background: v.$glassBgDark;
-  backdrop-filter: blur(v.$glassBlur);
   -webkit-backdrop-filter: blur(v.$glassBlur);
+  backdrop-filter: blur(v.$glassBlur);
   border: 0.0625rem solid v.$glassBorderDark;
   box-shadow: v.$glassShadowDark;
 }
 
 @mixin glassmorphism-light() {
   background: v.$glassBgLight;
-  backdrop-filter: blur(v.$glassBlur);
   -webkit-backdrop-filter: blur(v.$glassBlur);
+  backdrop-filter: blur(v.$glassBlur);
   border: 0.0625rem solid v.$glassBorderLight;
   box-shadow: v.$glassShadowLight;
 }
 
 @mixin smooth-shadow($intensity: 1) {
   box-shadow:
-    0 #{0.0625rem * $intensity} #{0.125rem * $intensity}
-      rgba(0, 0, 0, 0.04 * $intensity),
-    0 #{0.125rem * $intensity} #{0.25rem * $intensity}
-      rgba(0, 0, 0, 0.04 * $intensity),
-    0 #{0.25rem * $intensity} #{0.5rem * $intensity}
-      rgba(0, 0, 0, 0.06 * $intensity);
+    0 #{0.0625rem * $intensity} #{0.125rem * $intensity} rgba(0, 0, 0, 0.04 * $intensity),
+    0 #{0.125rem * $intensity} #{0.25rem * $intensity} rgba(0, 0, 0, 0.04 * $intensity),
+    0 #{0.25rem * $intensity} #{0.5rem * $intensity} rgba(0, 0, 0, 0.06 * $intensity);
 }
 
 @mixin city-card-background($opacity) {
   .city-card__background {
-    background: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, $opacity),
-      rgba(0, 0, 0, 0.1)
-    );
+    background: linear-gradient(to bottom, rgba(0, 0, 0, $opacity), rgba(0, 0, 0, 0.1));
   }
 }
 
