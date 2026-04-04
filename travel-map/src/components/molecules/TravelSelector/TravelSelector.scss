@@ -4,7 +4,6 @@
 .travel-selector {
   display: flex;
   align-items: center;
-  height: 2rem;
   @include m.transition(all, 0.3s, ease-in-out);
 
   .travel-selector__chevron-icon {

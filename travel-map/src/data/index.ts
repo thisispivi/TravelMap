@@ -28,6 +28,7 @@ import { Germany } from "./Germany/Germany";
 import { Budapest } from "./Hungary/Budapest/Budapest";
 import { Hungary } from "./Hungary/Hungary";
 import { Alghero } from "./Italy/Alghero/Alghero";
+import { Bergamo } from "./Italy/Bergamo/Bergamo";
 import { Bologna } from "./Italy/Bologna/Bologna";
 import { Cagliari } from "./Italy/Cagliari/Cagliari";
 import { Cefalù } from "./Italy/Cefalù/Cefalù";
@@ -97,6 +98,7 @@ export const visitedCountries: Country[] = [
   Malta,
   Monaco,
   Portugal,
+  Romania,
   Spain,
   UnitedKingdom,
   Vatican,
@@ -109,6 +111,7 @@ export const visitedCities: City[] = [
   Braga,
   Bruges,
   Brussels,
+  Bucharest,
   Budapest,
   Cairns,
   Cannes,
@@ -343,26 +346,26 @@ export const takenFlights: Flight[] = [
     eCity: Cagliari,
     company: FlightCompany.AEROITALIA,
   }),
-  // new Flight({
-  //   sCity: Cagliari,
-  //   eCity: Bergamo,
-  //   company: FlightCompany.RYANAIR,
-  // }),
-  // new Flight({
-  //   sCity: Bergamo,
-  //   eCity: Bucharest,
-  //   company: FlightCompany.RYANAIR,
-  // }),
-  // new Flight({
-  //   sCity: Bucharest,
-  //   eCity: Bergamo,
-  //   company: FlightCompany.RYANAIR,
-  // }),
-  // new Flight({
-  //   sCity: Bergamo,
-  //   eCity: Cagliari,
-  //   company: FlightCompany.RYANAIR,
-  // }),
+  new Flight({
+    sCity: Cagliari,
+    eCity: Bergamo,
+    company: FlightCompany.RYANAIR,
+  }),
+  new Flight({
+    sCity: Bergamo,
+    eCity: Bucharest,
+    company: FlightCompany.RYANAIR,
+  }),
+  new Flight({
+    sCity: Bucharest,
+    eCity: Bergamo,
+    company: FlightCompany.RYANAIR,
+  }),
+  new Flight({
+    sCity: Bergamo,
+    eCity: Cagliari,
+    company: FlightCompany.RYANAIR,
+  }),
 ];
 
 export const takenFerries: Ferry[] = [
@@ -380,8 +383,8 @@ export const takenFerries: Ferry[] = [
   }),
 ];
 
-export const futureCountries: Country[] = [Romania];
-export const futureCities: City[] = [Bucharest];
+export const futureCountries: Country[] = [];
+export const futureCities: City[] = [];
 
 export const visitedTrips: Trip[] = [
   new Trip({
@@ -635,12 +638,12 @@ export const visitedTrips: Trip[] = [
     ],
     backgroundImgSourceKey: "cote-d-azur-trip-2025-2026.jpg",
   }),
-  // new Trip({
-  //   id: "bucharest-trip-2026",
-  //   sDate: new Date(2026, 2, 26),
-  //   eDate: new Date(2026, 2, 31),
-  //   destinations: [{ city: Bucharest, travelIdx: 0 }],
-  //   route: [Bucharest.name],
-  //   backgroundImgSourceKey: "bucharest-trip-2026.jpg",
-  // }),
+  new Trip({
+    id: "bucharest-trip-2026",
+    sDate: new Date(2026, 2, 26),
+    eDate: new Date(2026, 2, 31),
+    destinations: [{ city: Bucharest, travelIdx: 0 }],
+    route: [Bucharest.name],
+    backgroundImgSourceKey: "bucharest-trip-2026.jpg",
+  }),
 ];

@@ -30,6 +30,7 @@ interface TripCardProps {
     zoom: number;
   }) => void;
   isAutoPosition?: boolean;
+  onExpandChange?: (isExpanded: boolean) => void;
 }
 
 /**
@@ -53,6 +54,7 @@ export function TripCard({
   setHoveredCity,
   setMapPosition,
   isAutoPosition = false,
+  onExpandChange,
 }: TripCardProps): JSX.Element {
   const [isExpanded, setIsExpanded] = useState(false);
   const navigate = useNavigate();
@@ -76,7 +78,12 @@ export function TripCard({
    * The expand/collapse animation is intentionally driven by a single animated
    * container (see `trip-card__details`) to avoid border-radius desync/jank.
    */
-  const toggleExpand = () => setIsExpanded((prev) => !prev);
+  const toggleExpand = () =>
+    setIsExpanded((prev) => {
+      const next = !prev;
+      onExpandChange?.(next);
+      return next;
+    });
 
   return (
     <LazyMotion features={domAnimation}>

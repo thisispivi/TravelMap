@@ -7,8 +7,8 @@ export const Bucharest = new City({
   coordinates: [26.1025, 44.4268],
   travels: [
     new Travel({
-      sDate: new Date(2027, 2, 1),
-      eDate: new Date(2027, 2, 31),
+      sDate: new Date(2026, 2, 26),
+      eDate: new Date(2026, 2, 30),
       isFuture: true,
     }),
   ],
