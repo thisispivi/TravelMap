@@ -60,6 +60,7 @@
     "Shirakawago": "Shirakawa-go",
     "Sliema": "Sliema",
     "Sofia": "Sofia",
+    "Stockholm": "Stockholm",
     "Sydney": "Sydney",
     "Takayama": "Takayama",
     "Terni": "Terni",
@@ -89,6 +90,7 @@
     "Portugal": "Portugal",
     "Romania": "Romania",
     "Spain": "Spain",
+    "Sweden": "Sweden",
     "UnitedKingdom": "United Kingdom",
     "Vatican": "Vatican"
   },
@@ -190,6 +192,10 @@
     "RON": {
       "name": "Romanian Leu",
       "symbol": "lei"
+    },
+    "SEK": {
+      "name": "Swedish Krona",
+      "symbol": "kr"
     }
   },
   "trips": {

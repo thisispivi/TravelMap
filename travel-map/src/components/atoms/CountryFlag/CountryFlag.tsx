@@ -16,6 +16,7 @@ import {
   PortugalFlag,
   RomaniaFlag,
   SpainFlag,
+  SwedenFlag,
   UnitedKingdomFlag,
   VaticanFlag,
 } from "../../../assets";
@@ -76,6 +77,8 @@ export function CountryFlag({
       return <FranceFlag className={className} />;
     case "Romania":
       return <RomaniaFlag className={className} />;
+    case "Sweden":
+      return <SwedenFlag className={className} />;
     default:
       return null;
   }
