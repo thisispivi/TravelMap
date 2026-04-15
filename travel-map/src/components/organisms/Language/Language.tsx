@@ -2,6 +2,7 @@ import "./Language.scss";
 
 import { AnimatePresence, domAnimation, LazyMotion, m } from "framer-motion";
 import { JSX, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";
 
 import { LanguageIcon } from "@/assets";
@@ -51,6 +52,15 @@ export function LanguageSelector(): JSX.Element {
   return (
     <LazyMotion features={domAnimation}>
       <div className="language-selector" ref={ref}>
+        {isOpen
+          ? createPortal(
+              <div
+                className="language-selector__overlay"
+                onClick={() => setIsOpen(false)}
+              />,
+              document.body,
+            )
+          : null}
         <AnimatePresence>
           {isOpen ? (
             <m.div

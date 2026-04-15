@@ -10,6 +10,10 @@
   backdrop-filter: blur(1.5rem);
   @include m.smooth-shadow(1);
 
+  .react-tooltip-content-wrapper {
+    padding: 0 !important;
+  }
+
   .map-tooltip__backdrop {
     z-index: 0;
     position: absolute;
@@ -168,7 +172,7 @@
 
 .body--light {
   #map-tooltip {
-    background: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.2);
     border: 0.0625rem solid rgba(0, 0, 0, 0.06);
     color: v.$lightButtonContent;
   }
@@ -193,7 +197,7 @@
 
 .body--dark {
   #map-tooltip {
-    background: rgba(22, 22, 30, 0.78);
+    background: rgba(22, 22, 30, 0.28);
     border: 0.0625rem solid rgba(255, 255, 255, 0.06);
     color: v.$darkButtonContent;
     .map-tooltip__content__travel {

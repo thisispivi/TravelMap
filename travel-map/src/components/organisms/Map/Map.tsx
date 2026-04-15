@@ -29,7 +29,7 @@ import {
 import { computeVisibleLabels } from "@/utils/labelVisibility";
 import { parameters } from "@/utils/parameters";
 
-import { Loading, Marker } from "../../atoms";
+import { Button, Loading, Marker } from "../../atoms";
 import { HomeContext } from "../../pages/Home/HomeContext";
 import { MapTooltip } from "../Tooltip/TooltipMap";
 
@@ -121,6 +121,9 @@ export function Map() {
 
   const [isLoaded, setIsLoaded] = useState(false);
   const hoverLeaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const lastTapRef = useRef<{ time: number; x: number; y: number } | null>(
+    null,
+  );
 
   const [displayedPosition, setDisplayedPosition] = useState(mapPosition);
   const animFrameRef = useRef<number | null>(null);
@@ -223,6 +226,47 @@ export function Map() {
     return () => document.removeEventListener("touchstart", handleTouchStart);
   }, [hoveredCity, setHoveredCity]);
 
+  const handleDoubleTap = useCallback(
+    (e: React.TouchEvent<HTMLDivElement>) => {
+      if (e.changedTouches.length !== 1) return;
+      const touch = e.changedTouches[0];
+      const now = Date.now();
+      const last = lastTapRef.current;
+      if (
+        last &&
+        now - last.time < 300 &&
+        Math.abs(touch.clientX - last.x) < 30 &&
+        Math.abs(touch.clientY - last.y) < 30
+      ) {
+        lastTapRef.current = null;
+        const cur = currentPosRef.current;
+        setMapPosition({
+          center: cur.center,
+          zoom: Math.min(cur.zoom * 2, parameters.map.defaultMaxZoom),
+        });
+      } else {
+        lastTapRef.current = { time: now, x: touch.clientX, y: touch.clientY };
+      }
+    },
+    [setMapPosition],
+  );
+
+  const handleZoomIn = useCallback(() => {
+    const cur = currentPosRef.current;
+    setMapPosition({
+      center: cur.center,
+      zoom: Math.min(cur.zoom * 2, parameters.map.defaultMaxZoom),
+    });
+  }, [setMapPosition]);
+
+  const handleZoomOut = useCallback(() => {
+    const cur = currentPosRef.current;
+    setMapPosition({
+      center: cur.center,
+      zoom: Math.max(cur.zoom / 2, parameters.map.defaultMinZoom),
+    });
+  }, [setMapPosition]);
+
   const visitedCountryFill = useMemo<Record<string, string>>(
     () =>
       Object.fromEntries(
@@ -290,7 +334,11 @@ export function Map() {
   const windowProps = responsive.window;
 
   return (
-    <div className="map-container" style={windowProps}>
+    <div
+      className="map-container"
+      onTouchEnd={handleDoubleTap}
+      style={windowProps}
+    >
       {!isLoaded ? (
         <div className="loading" style={windowProps}>
           <Loading />
@@ -381,6 +429,22 @@ export function Map() {
           />
         ) : null}
       </Tooltip>
+      <div className="map-zoom-controls">
+        <Button
+          aria-label="Zoom in"
+          className="map-zoom-controls__button"
+          onClick={handleZoomIn}
+        >
+          +
+        </Button>
+        <Button
+          aria-label="Zoom out"
+          className="map-zoom-controls__button"
+          onClick={handleZoomOut}
+        >
+          -
+        </Button>
+      </div>
     </div>
   );
 }

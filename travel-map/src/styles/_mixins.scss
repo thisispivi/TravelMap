@@ -1,11 +1,47 @@
 @use "variables" as v;
 
-@mixin transition($property, $duration: 0.2s, $timing: cubic-bezier(0.4, 0, 0.2, 1)) {
-  transition: $property $duration $timing;
-  -webkit-transition: $property $duration $timing;
-  -moz-transition: $property $duration $timing;
-  -o-transition: $property $duration $timing;
-  -ms-transition: $property $duration $timing;
+@mixin transition(
+  $property,
+  $duration: 0.2s,
+  $timing: cubic-bezier(0.4, 0, 0.2, 1)
+) {
+  $tt: cubic-bezier(0.4, 0, 0.2, 1);
+  $td: 0.4s;
+  transition:
+    #{$property} #{$duration} #{$timing},
+    background #{$td} #{$tt},
+    background-color #{$td} #{$tt},
+    border-color #{$td} #{$tt},
+    color #{$td} #{$tt},
+    box-shadow #{$td} #{$tt};
+  -webkit-transition:
+    #{$property} #{$duration} #{$timing},
+    background #{$td} #{$tt},
+    background-color #{$td} #{$tt},
+    border-color #{$td} #{$tt},
+    color #{$td} #{$tt},
+    box-shadow #{$td} #{$tt};
+  -moz-transition:
+    #{$property} #{$duration} #{$timing},
+    background #{$td} #{$tt},
+    background-color #{$td} #{$tt},
+    border-color #{$td} #{$tt},
+    color #{$td} #{$tt},
+    box-shadow #{$td} #{$tt};
+  -o-transition:
+    #{$property} #{$duration} #{$timing},
+    background #{$td} #{$tt},
+    background-color #{$td} #{$tt},
+    border-color #{$td} #{$tt},
+    color #{$td} #{$tt},
+    box-shadow #{$td} #{$tt};
+  -ms-transition:
+    #{$property} #{$duration} #{$timing},
+    background #{$td} #{$tt},
+    background-color #{$td} #{$tt},
+    border-color #{$td} #{$tt},
+    color #{$td} #{$tt},
+    box-shadow #{$td} #{$tt};
 }
 
 @mixin glassmorphism-dark() {
@@ -26,14 +62,21 @@
 
 @mixin smooth-shadow($intensity: 1) {
   box-shadow:
-    0 #{0.0625rem * $intensity} #{0.125rem * $intensity} rgba(0, 0, 0, 0.04 * $intensity),
-    0 #{0.125rem * $intensity} #{0.25rem * $intensity} rgba(0, 0, 0, 0.04 * $intensity),
-    0 #{0.25rem * $intensity} #{0.5rem * $intensity} rgba(0, 0, 0, 0.06 * $intensity);
+    0 #{0.0625rem * $intensity} #{0.125rem * $intensity}
+      rgba(0, 0, 0, 0.04 * $intensity),
+    0 #{0.125rem * $intensity} #{0.25rem * $intensity}
+      rgba(0, 0, 0, 0.04 * $intensity),
+    0 #{0.25rem * $intensity} #{0.5rem * $intensity}
+      rgba(0, 0, 0, 0.06 * $intensity);
 }
 
 @mixin city-card-background($opacity) {
   .city-card__background {
-    background: linear-gradient(to bottom, rgba(0, 0, 0, $opacity), rgba(0, 0, 0, 0.1));
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, $opacity),
+      rgba(0, 0, 0, 0.1)
+    );
   }
 }
 

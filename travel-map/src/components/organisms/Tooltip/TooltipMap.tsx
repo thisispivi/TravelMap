@@ -25,12 +25,11 @@ interface MapTooltipProps {
 }
 
 const tooltipVariants = {
-  hidden: { opacity: 0, scale: 0.92, y: 4 },
+  hidden: { opacity: 0, scale: 0.94 },
   visible: {
     opacity: 1,
     scale: 1,
-    y: 0,
-    transition: { type: "spring", stiffness: 400, damping: 28 },
+    transition: { type: "tween", duration: 0.18, ease: [0.4, 0, 0.2, 1] },
   },
 } as const;
 
