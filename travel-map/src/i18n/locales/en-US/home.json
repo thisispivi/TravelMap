@@ -163,6 +163,12 @@
   "selectedTravel": "Selected travel: ",
   "language": "Select a language",
   "selectAll": "Select all",
+  "createdBy": "Made by Pivi",
+  "author": {
+    "button": "About the creator",
+    "role": "Software Engineer & ML Consultant",
+    "description": "Full-stack engineer specialised in React & Node.js, with a strong focus on machine learning integration. M.Sc. in Computer Science from the University of Cagliari. I built this map to track and share my adventures around the world."
+  },
   "theme": "Toggle between light and dark mode",
   "currency": {
     "EUR": {

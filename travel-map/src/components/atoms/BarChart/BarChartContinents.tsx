@@ -1,11 +1,9 @@
 import "./BarChartContinents.scss";
 
-import { ApexOptions } from "apexcharts";
-import { JSX, lazy, useMemo } from "react";
+import { JSX, useMemo } from "react";
 
 import { Continent } from "@/core";
 import { useLanguage } from "@/hooks/language/language";
-const ReactApexChart = lazy(() => import("react-apexcharts"));
 
 interface ContinentsBarChartProps {
   data: {
@@ -17,18 +15,39 @@ interface ContinentsBarChartProps {
   isDarkTheme?: boolean;
 }
 
+interface BarRowProps {
+  value: number;
+  maxVal: number;
+  color: string;
+  label: string;
+}
+
+function BarRow({ value, maxVal, color, label }: BarRowProps): JSX.Element {
+  const pct =
+    maxVal > 0 ? Math.max((value / maxVal) * 100, value > 0 ? 2 : 0) : 0;
+  return (
+    <div className="continents-bar-chart__bar-row">
+      <div className="continents-bar-chart__bar-track">
+        <div
+          className="continents-bar-chart__bar-fill"
+          style={{ width: `${pct}%`, background: color }}
+          title={`${label}: ${value}`}
+        />
+      </div>
+      <span className="continents-bar-chart__bar-value">
+        {value > 0 ? value : "—"}
+      </span>
+    </div>
+  );
+}
+
 /**
  * ContinentsBarChart component
  *
- * The continents bar chart component is used to display the number of cities and countries per continent.
+ * Custom horizontal bar chart showing countries and cities visited per continent.
+ * Numbers are always displayed outside bars for clarity, even for very small values.
  *
  * @component
- *
- * @param {ContinentsBarChartProps} props - The props of the component
- * @param {Array<{ continent: Continent, cities: number, countries: number }>} props.data - Continent stats.
- * @param {string[]} [props.barColors=["#107895", "#79a14e"]] - Bar colors.
- * @param {boolean} [props.isDarkTheme=false] - Current theme.
- * @returns {JSX.Element} - The continents bar chart.
  */
 export function ContinentsBarChart({
   data,
@@ -37,122 +56,65 @@ export function ContinentsBarChart({
 }: ContinentsBarChartProps): JSX.Element {
   const { t } = useLanguage(["home"]);
 
-  const { categories, series, maxValue, rawMatrix } = useMemo(() => {
-    const filtered = data.filter((c) => c.cities > 0 || c.countries > 0);
+  const filtered = useMemo(
+    () => data.filter((c) => c.cities > 0 || c.countries > 0),
+    [data],
+  );
 
-    const categories = filtered.map((c) =>
-      t(`continents.${c.continent.replace(/\s+/g, "_").toUpperCase()}`),
-    );
+  const maxVal = useMemo(
+    () => Math.max(1, ...filtered.map((c) => Math.max(c.countries, c.cities))),
+    [filtered],
+  );
 
-    const rawCountries = filtered.map((c) => c.countries);
-    const rawCities = filtered.map((c) => c.cities);
-
-    const MIN_BAR = 1;
-    const renderCountries = rawCountries.map((v) => (v === 0 ? MIN_BAR : v));
-    const renderCities = rawCities.map((v) => (v === 0 ? MIN_BAR : v));
-
-    const series = [
-      { name: t("stats.countriesPerContinent"), data: renderCountries },
-      { name: t("stats.citiesPerContinent"), data: renderCities },
-    ];
-
-    const maxRaw = Math.max(0, ...rawCountries, ...rawCities);
-    const maxValue = Math.max(maxRaw, MIN_BAR) * 1.05;
-
-    return {
-      categories,
-      series,
-      maxValue,
-      rawMatrix: [rawCountries, rawCities] as const,
-    };
-  }, [data, t]);
-
-  const options: ApexOptions = useMemo(() => {
-    return {
-      plotOptions: {
-        bar: {
-          horizontal: true,
-          borderRadius: 7,
-          borderRadiusApplication: "end",
-          barHeight: "18px",
-          barMinWidth: 10,
-        },
-      },
-      stroke: { width: 0 },
-      xaxis: {
-        categories,
-        labels: { show: false },
-        tickAmount: 0,
-        axisTicks: { show: false },
-        max: maxValue,
-        min: 0,
-      },
-      yaxis: {
-        labels: {
-          style: {
-            fontSize: "0.9em",
-            fontFamily: "Urbanist, Arial, Helvetica, sans-serif",
-            fontWeight: 700,
-          },
-        },
-      },
-      tooltip: { enabled: false },
-      grid: { show: false },
-      fill: { opacity: 1, colors: barColors },
-      legend: {
-        position: "top",
-        horizontalAlign: "center",
-        fontSize: "1em",
-        fontFamily: "Urbanist, Arial, Helvetica, sans-serif",
-        fontWeight: 400,
-        menu: { show: false },
-        onItemClick: { toggleDataSeries: false },
-        onItemHover: { highlightDataSeries: false },
-        offsetY: 13,
-        markers: {
-          shape: "circle",
-          strokeWidth: 0,
-          strokeColors: "transparent",
-          offsetX: -3,
-          offsetY: -0.25,
-          fillColors: barColors,
-          size: 6.5,
-        },
-        itemMargin: { horizontal: 8 },
-      },
-      dataLabels: {
-        enabled: true,
-        formatter: function (_val, opts) {
-          const si = opts?.seriesIndex as number | undefined;
-          const dpi = opts?.dataPointIndex as number | undefined;
-          const raw =
-            si != null && dpi != null ? (rawMatrix?.[si]?.[dpi] ?? 0) : 0;
-          return raw === 0 ? "" : String(raw);
-        },
-        style: {
-          fontSize: "0.9em",
-          fontFamily: "Urbanist, Arial, Helvetica, sans-serif",
-          colors: ["#fff"],
-        },
-        offsetY: 2,
-      },
-      chart: { toolbar: { show: false }, animations: { enabled: false } },
-      states: {
-        hover: { filter: { type: "none" } },
-        active: { filter: { type: "none" } },
-      },
-    };
-  }, [barColors, categories, maxValue, rawMatrix]);
+  const continentLabel = (continent: Continent) =>
+    t(`continents.${continent.replace(/\s+/g, "_").toUpperCase()}`);
 
   return (
-    <div className="continents-bar-chart">
-      <ReactApexChart
-        height={250}
-        key={`${isDarkTheme ? "dark" : "light"}`}
-        options={options}
-        series={series}
-        type="bar"
-      />
+    <div
+      className={`continents-bar-chart ${isDarkTheme ? "continents-bar-chart--dark" : "continents-bar-chart--light"}`}
+    >
+      {/* Legend */}
+      <div className="continents-bar-chart__legend">
+        <span className="continents-bar-chart__legend-item">
+          <span
+            className="continents-bar-chart__legend-dot"
+            style={{ background: barColors[0] }}
+          />
+          {t("stats.countriesPerContinent")}
+        </span>
+        <span className="continents-bar-chart__legend-item">
+          <span
+            className="continents-bar-chart__legend-dot"
+            style={{ background: barColors[1] }}
+          />
+          {t("stats.citiesPerContinent")}
+        </span>
+      </div>
+
+      {/* Rows */}
+      <div className="continents-bar-chart__rows">
+        {filtered.map((d) => (
+          <div className="continents-bar-chart__row" key={d.continent}>
+            <span className="continents-bar-chart__label">
+              {continentLabel(d.continent)}
+            </span>
+            <div className="continents-bar-chart__bars">
+              <BarRow
+                color={barColors[0]}
+                label={t("stats.countriesPerContinent")}
+                maxVal={maxVal}
+                value={d.countries}
+              />
+              <BarRow
+                color={barColors[1]}
+                label={t("stats.citiesPerContinent")}
+                maxVal={maxVal}
+                value={d.cities}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

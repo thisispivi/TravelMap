@@ -163,6 +163,12 @@
   "selectedTravel": "Viaggio selezionato: ",
   "language": "Seleziona una lingua",
   "selectAll": "Seleziona tutto",
+  "createdBy": "Creato da Pivi",
+  "author": {
+    "button": "Informazioni sull'autore",
+    "role": "Ingegnere Software & Consulente ML",
+    "description": "Sviluppatore full-stack specializzato in React e Node.js, con forte focus sull'integrazione di modelli di machine learning. Laurea magistrale in Informatica all'Università di Cagliari. Ho creato questa mappa per tracciare e condividere le mie avventure nel mondo."
+  },
   "theme": "Passa tra modalità chiara e scura",
   "currency": {
     "EUR": {
