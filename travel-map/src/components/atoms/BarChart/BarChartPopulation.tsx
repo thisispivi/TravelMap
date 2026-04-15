@@ -97,10 +97,9 @@ export function PopulationBarChart({
         style: {
           fontSize: "0.9em",
           fontFamily: "Urbanist, Arial, Helvetica, sans-serif",
-          colors: ["#fff"],
         },
         offsetY: 1,
-        offsetX: 44,
+        offsetX: 8,
       },
       xaxis: {
         categories,

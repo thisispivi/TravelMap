@@ -2,95 +2,140 @@
 @use "../../../styles/variables" as v;
 
 .continents-bar-chart {
-  .apexcharts-legend-text {
-    font-size: 1rem !important;
-    font-weight: 300 !important;
-    @include m.transition(all, 0.3s, ease-in-out);
+  width: 100%;
+  padding: 0.25rem 0;
+
+  /* ── Legend ─────────────────────────────── */
+  &__legend {
+    display: flex;
+    gap: 1.25rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 1.25rem;
   }
-  .apexcharts-data-labels {
-    text {
-      font-size: 1rem !important;
-      font-weight: 700 !important;
-    }
+
+  &__legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    font-weight: 400;
   }
-  .apexcharts-datalabels {
-    text {
-      transform: translateY(0.35rem);
-    }
+
+  &__legend-dot {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    flex-shrink: 0;
   }
-  .apexcharts-datalabels-group {
-    text {
-      fill: v.$darkButtonContent !important;
-      @include m.transition(all, 0.3s, ease-in-out);
-    }
+
+  /* ── Rows ────────────────────────────────── */
+  &__rows {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
   }
-  .apexcharts-tooltip {
-    box-shadow: 0 0.063rem 0.125rem 0rem rgba(0, 0, 0, 0.2);
+
+  &__row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
   }
-  .apexcharts-xaxis {
-    display: none;
+
+  &__label {
+    width: 7rem;
+    min-width: 5.5rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-align: right;
+    flex-shrink: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
-  .apexcharts-yaxis {
-    line {
-      @include m.transition(all, 0.3s, ease-in-out);
-    }
-    tspan {
-      font-size: 1rem;
-      font-weight: 300;
-      @include m.transition(all, 0.3s, ease-in-out);
-    }
+
+  &__bars {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    min-width: 0;
+  }
+
+  /* ── Individual bar row ─────────────────── */
+  &__bar-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__bar-track {
+    flex: 1;
+    height: 0.7rem;
+    border-radius: 0.35rem;
+    overflow: visible;
+    position: relative;
+  }
+
+  &__bar-fill {
+    height: 100%;
+    border-radius: 0.35rem;
+    min-width: 0;
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
+
+  &__bar-value {
+    width: 2rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-align: left;
+    flex-shrink: 0;
+    white-space: nowrap;
   }
 }
 
-@media (max-width: 28.75rem) {
-  .continents-bar-chart {
-    .apexcharts-datalabels,
-    .apexcharts-datalabels-group {
-      font-size: 0.75rem !important;
-    }
-  }
-}
-
+/* ── Themes ──────────────────────────────────── */
 .home--light {
   .continents-bar-chart {
-    .apexcharts-legend-text,
-    .apexcharts-text.apexcharts-yaxis-label {
-      color: v.$lightButtonContent !important;
+    &__legend-item,
+    &__label,
+    &__bar-value {
+      color: v.$lightButtonContent;
     }
-    .apexcharts-datalabels-group {
-      text {
-        fill: v.$lightButtonContent !important;
-      }
-    }
-    .apexcharts-yaxis {
-      line {
-        stroke: v.$lightInfoTab;
-      }
-      tspan {
-        fill: v.$lightButtonContent;
-      }
+
+    &__bar-track {
+      background: rgba(0, 0, 0, 0.06);
     }
   }
 }
 
 .home--dark {
   .continents-bar-chart {
-    .apexcharts-legend-text,
-    .apexcharts-text.apexcharts-yaxis-label {
-      color: v.$darkButtonContent !important;
+    &__legend-item,
+    &__label,
+    &__bar-value {
+      color: v.$darkButtonContent;
     }
-    .apexcharts-datalabels-group {
-      text {
-        fill: v.$darkButtonContent !important;
-      }
+
+    &__bar-track {
+      background: rgba(255, 255, 255, 0.08);
     }
-    .apexcharts-yaxis {
-      line {
-        stroke: v.$darkInfoTab;
-      }
-      tspan {
-        fill: v.$darkButtonContent;
-      }
+  }
+}
+
+@media (max-width: 28.75rem) {
+  .continents-bar-chart {
+    &__label {
+      width: 5rem;
+      font-size: 0.75rem;
+    }
+
+    &__legend-item {
+      font-size: 0.75rem;
+    }
+
+    &__bar-value {
+      font-size: 0.72rem;
     }
   }
 }
