@@ -4,6 +4,8 @@
     "Anderlecht": "Anderlecht",
     "Assisi": "Assisi",
     "Barcelona": "Barcellona",
+    "Bran": "Bran",
+    "Brasov": "Brașov",
     "Bergamo": "Bergamo",
     "Berlin": "Berlino",
     "Birgu": "Vittoriosa",
@@ -50,6 +52,7 @@
     "PortoTorres": "Porto Torres",
     "Rabat": "Rabat",
     "Rila": "Rila",
+    "Sinaia": "Sinaia",
     "Rome": "Roma",
     "SaintTropez": "Saint Tropez",
     "SanGiljan": "San Giuliano",
@@ -226,6 +229,6 @@
     "bulgaria-trip-2025": "Viaggio in Bulgaria",
     "australia-trip-2025": "Viaggio in Australia",
     "cote-d-azur-trip-2025-2026": "Viaggio sulla Costa Azzurra",
-    "bucharest-trip-2026": "Viaggio a Bucarest"
+    "bucharest-trip-2026": "Viaggio in Romania"
   }
 }

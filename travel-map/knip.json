@@ -1,0 +1,18 @@
+{
+  "$schema": "https://unpkg.com/knip@latest/schema.json",
+  "entry": [
+    "src/components/atoms/index.ts",
+    "src/components/molecules/index.ts",
+    "src/components/organisms/index.ts",
+    "src/components/pages/index.ts",
+    "src/components/templates/index.ts"
+  ],
+  "project": ["src/**/*.{ts,tsx}"],
+  "exclude": [
+    "dependencies",
+    "devDependencies",
+    "unlisted",
+    "unresolved",
+    "binaries"
+  ]
+}

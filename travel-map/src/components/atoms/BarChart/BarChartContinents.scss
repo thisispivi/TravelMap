@@ -3,12 +3,11 @@
 
 .continents-bar-chart {
   width: 100%;
-  padding: 0.25rem 0;
+  padding: 0.5rem 0 1.5rem 0;
 
-  /* ── Legend ─────────────────────────────── */
   &__legend {
     display: flex;
-    gap: 1.25rem;
+    gap: 0.75rem;
     justify-content: center;
     flex-wrap: wrap;
     margin-bottom: 1.25rem;
@@ -18,7 +17,7 @@
     display: flex;
     align-items: center;
     gap: 0.4rem;
-    font-size: 0.85rem;
+    font-size: 1rem;
     font-weight: 400;
   }
 
@@ -29,7 +28,6 @@
     flex-shrink: 0;
   }
 
-  /* ── Rows ────────────────────────────────── */
   &__rows {
     display: flex;
     flex-direction: column;
@@ -43,9 +41,9 @@
   }
 
   &__label {
-    width: 7rem;
-    min-width: 5.5rem;
-    font-size: 0.85rem;
+    width: 4.5rem;
+    min-width: 4rem;
+    font-size: 0.9rem;
     font-weight: 700;
     text-align: right;
     flex-shrink: 0;
@@ -62,7 +60,6 @@
     min-width: 0;
   }
 
-  /* ── Individual bar row ─────────────────── */
   &__bar-row {
     display: flex;
     align-items: center;
@@ -71,22 +68,22 @@
 
   &__bar-track {
     flex: 1;
-    height: 0.7rem;
-    border-radius: 0.35rem;
+    height: 0.8rem;
+    border-radius: 0.5rem;
     overflow: visible;
     position: relative;
   }
 
   &__bar-fill {
     height: 100%;
-    border-radius: 0.35rem;
+    border-radius: 0.5rem;
     min-width: 0;
     transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
   }
 
   &__bar-value {
     width: 2rem;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     font-weight: 700;
     text-align: left;
     flex-shrink: 0;
@@ -94,7 +91,6 @@
   }
 }
 
-/* ── Themes ──────────────────────────────────── */
 .home--light {
   .continents-bar-chart {
     &__legend-item,
@@ -126,16 +122,16 @@
 @media (max-width: 28.75rem) {
   .continents-bar-chart {
     &__label {
-      width: 5rem;
-      font-size: 0.75rem;
+      width: 4rem;
+      font-size: 0.8rem;
     }
 
     &__legend-item {
-      font-size: 0.75rem;
+      font-size: 0.8rem;
     }
 
     &__bar-value {
-      font-size: 0.72rem;
+      font-size: 0.78rem;
     }
   }
 }

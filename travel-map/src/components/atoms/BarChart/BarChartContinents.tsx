@@ -24,7 +24,7 @@ interface BarRowProps {
 
 function BarRow({ value, maxVal, color, label }: BarRowProps): JSX.Element {
   const pct =
-    maxVal > 0 ? Math.max((value / maxVal) * 100, value > 0 ? 2 : 0) : 0;
+    maxVal > 0 && value > 0 ? (Math.sqrt(value) / Math.sqrt(maxVal)) * 100 : 0;
   return (
     <div className="continents-bar-chart__bar-row">
       <div className="continents-bar-chart__bar-track">
@@ -73,7 +73,6 @@ export function ContinentsBarChart({
     <div
       className={`continents-bar-chart ${isDarkTheme ? "continents-bar-chart--dark" : "continents-bar-chart--light"}`}
     >
-      {/* Legend */}
       <div className="continents-bar-chart__legend">
         <span className="continents-bar-chart__legend-item">
           <span
@@ -90,8 +89,6 @@ export function ContinentsBarChart({
           {t("stats.citiesPerContinent")}
         </span>
       </div>
-
-      {/* Rows */}
       <div className="continents-bar-chart__rows">
         {filtered.map((d) => (
           <div className="continents-bar-chart__row" key={d.continent}>

@@ -1,5 +1,6 @@
 import { City, Travel } from "../../../core";
 import { Romania } from "../Romania";
+import { tr_260326_300326_images } from "./photos/tr_260326_300326";
 
 export const Bucharest = new City({
   name: "Bucharest",
@@ -9,7 +10,7 @@ export const Bucharest = new City({
     new Travel({
       sDate: new Date(2026, 2, 26),
       eDate: new Date(2026, 2, 30),
-      isFuture: true,
+      photos: tr_260326_300326_images,
     }),
   ],
   backgroundImgSources: ["/Romania/Bucharest/Bucharest.webp"],
