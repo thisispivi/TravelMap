@@ -1,1 +1,0 @@
-import{s as t}from"./data-nScw-J74.js";function a(a){const{cityName:r,travelIdx:n,photoIdx:o}=a.params,e=t.find(t=>t.name===r);return e&&n&&o?{city:e,travelIdx:parseInt(n),photoIdx:parseInt(o)}:null}export{a as loader};
