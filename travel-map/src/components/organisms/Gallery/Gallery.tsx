@@ -97,7 +97,7 @@ export default function Gallery(): JSX.Element {
           travels={city.travels}
         />
         <CloseButton
-          onClick={() => navigate(from === "map" ? "/" : "/?to=visited")}
+          onClick={() => navigate(from === "map" ? "/" : "/visited")}
         />
       </div>
       <div className="gallery__content">

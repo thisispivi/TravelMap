@@ -24,7 +24,6 @@ import { MarkerIcon } from "./icons/Marker";
 import MoonIcon from "./icons/Moon.svg?react";
 import MoonFlatIcon from "./icons/MoonFlat.svg?react";
 import PeopleIcon from "./icons/People.svg?react";
-import PersonIcon from "./icons/Person.svg?react";
 import PlaneIcon from "./icons/Plane.svg?react";
 import PlayIcon from "./icons/Play.svg?react";
 import PositionIcon from "./icons/Position.svg?react";
@@ -61,7 +60,6 @@ export {
   MoonFlatIcon,
   MoonIcon,
   PeopleIcon,
-  PersonIcon,
   PlaneIcon,
   PlayIcon,
   PositionIcon,

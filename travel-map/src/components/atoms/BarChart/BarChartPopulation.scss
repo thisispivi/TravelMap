@@ -19,7 +19,7 @@
   }
   .apexcharts-datalabels {
     text {
-      transform: translateY(0.35em);
+      transform: translateY(0.5em);
       @include m.transition(all, 0.3s, ease-in-out);
     }
   }

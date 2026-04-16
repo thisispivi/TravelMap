@@ -72,8 +72,11 @@ import { MonteCarlo } from "./Monaco/MonteCarlo/MonteCarlo";
 import { Braga } from "./Portugal/Braga/Braga";
 import { Porto } from "./Portugal/Porto/Porto";
 import { Portugal } from "./Portugal/Portugal";
+import { Bran } from "./Romania/Bran/Bran";
+import { Brasov } from "./Romania/Brasov/Brasov";
 import { Bucharest } from "./Romania/Bucharest/Bucharest";
 import { Romania } from "./Romania/Romania";
+import { Sinaia } from "./Romania/Sinaia/Sinaia";
 import { Barcelona } from "./Spain/Barcelona/Barcelona";
 import { Sevilla } from "./Spain/Sevilla/Sevilla";
 import { Spain } from "./Spain/Spain";
@@ -111,6 +114,8 @@ export const visitedCities: City[] = [
   Berlin,
   Bologna,
   Braga,
+  Bran,
+  Brasov,
   Bruges,
   Brussels,
   Bucharest,
@@ -141,6 +146,7 @@ export const visitedCities: City[] = [
   Rila,
   Rome,
   SaintTropez,
+  Sinaia,
   SanGiljan,
   SanPawlIlBahar,
   Sevilla,
@@ -644,8 +650,13 @@ export const visitedTrips: Trip[] = [
     id: "bucharest-trip-2026",
     sDate: new Date(2026, 2, 26),
     eDate: new Date(2026, 2, 31),
-    destinations: [{ city: Bucharest, travelIdx: 0 }],
-    route: [Bucharest.name],
+    destinations: [
+      { city: Bucharest, travelIdx: 0 },
+      { city: Sinaia, travelIdx: 0 },
+      { city: Brasov, travelIdx: 0 },
+      { city: Bran, travelIdx: 0 },
+    ],
+    route: [Bucharest.name, Sinaia.name, Brasov.name, Bran.name],
     backgroundImgSourceKey: "bucharest-trip-2026.jpg",
   }),
 ];
