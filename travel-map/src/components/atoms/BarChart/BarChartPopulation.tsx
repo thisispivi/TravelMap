@@ -91,6 +91,7 @@ export function PopulationBarChart({
       colors: barColors,
       dataLabels: {
         enabled: true,
+        textAnchor: "start",
         formatter: function (val: number) {
           return val === 0 ? "" : val.toLocaleString(currLanguage);
         },
@@ -98,8 +99,8 @@ export function PopulationBarChart({
           fontSize: "0.9em",
           fontFamily: "Urbanist, Arial, Helvetica, sans-serif",
         },
-        offsetY: 1,
-        offsetX: 8,
+        offsetY: 0,
+        offsetX: 6,
       },
       xaxis: {
         categories,

@@ -21,6 +21,8 @@ from logging import Logger
 from typing import Any, Mapping, Optional, Tuple, TypedDict
 
 from PIL import Image, ImageOps
+
+Image.MAX_IMAGE_PIXELS = None  # trust local source images; no decompression bomb risk
 from BunnyCDN.Storage import Storage
 from lib.utils import (
     build_base_storage_path,
@@ -251,6 +253,7 @@ class TravelImage:
         try:
             os.makedirs(self.results_city_folder_path, exist_ok=True)
             with Image.open(input_path) as img:
+                img = ImageOps.exif_transpose(img)
                 original_size_kb = self._file_size_kb(input_path)
 
                 compressed_output_path = os.path.join(
