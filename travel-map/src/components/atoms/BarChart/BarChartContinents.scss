@@ -17,7 +17,7 @@
     display: flex;
     align-items: center;
     gap: 0.4rem;
-    font-size: 1rem;
+    font-size: 1.08rem;
     font-weight: 400;
   }
 
@@ -41,9 +41,9 @@
   }
 
   &__label {
-    width: 4.5rem;
-    min-width: 4rem;
-    font-size: 0.9rem;
+    width: 5.25rem;
+    min-width: 4.75rem;
+    font-size: 1.02rem;
     font-weight: 700;
     text-align: right;
     flex-shrink: 0;
@@ -83,7 +83,7 @@
 
   &__bar-value {
     width: 2rem;
-    font-size: 0.9rem;
+    font-size: 1.02rem;
     font-weight: 700;
     text-align: left;
     flex-shrink: 0;
@@ -122,16 +122,16 @@
 @media (max-width: 28.75rem) {
   .continents-bar-chart {
     &__label {
-      width: 4rem;
-      font-size: 0.8rem;
+      width: 4.75rem;
+      font-size: 0.95rem;
     }
 
     &__legend-item {
-      font-size: 0.8rem;
+      font-size: 0.95rem;
     }
 
     &__bar-value {
-      font-size: 0.78rem;
+      font-size: 0.95rem;
     }
   }
 }

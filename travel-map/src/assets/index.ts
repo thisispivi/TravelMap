@@ -85,6 +85,7 @@ import MaltaFlag from "./icons/flags/Malta.svg?react";
 import MonacoFlag from "./icons/flags/Monaco.svg?react";
 import PortugalFlag from "./icons/flags/Portugal.svg?react";
 import RomaniaFlag from "./icons/flags/Romania.svg?react";
+import SlovakiaFlag from "./icons/flags/Slovakia.svg?react";
 import SpainFlag from "./icons/flags/Spain.svg?react";
 import SwedenFlag from "./icons/flags/Sweden.svg?react";
 import UnitedKingdomFlag from "./icons/flags/UnitedKingdom.svg?react";
@@ -106,6 +107,7 @@ export {
   MonacoFlag,
   PortugalFlag,
   RomaniaFlag,
+  SlovakiaFlag,
   SpainFlag,
   SwedenFlag,
   UnitedKingdomFlag,

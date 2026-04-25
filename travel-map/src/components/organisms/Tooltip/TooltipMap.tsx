@@ -25,10 +25,9 @@ interface MapTooltipProps {
 }
 
 const tooltipVariants = {
-  hidden: { opacity: 0, scale: 0.94 },
+  hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    scale: 1,
     transition: { type: "tween", duration: 0.18, ease: [0.4, 0, 0.2, 1] },
   },
 } as const;
@@ -67,10 +66,13 @@ export function MapTooltip({
   );
 
   useEffect(() => {
-    const handleVisibilityChange = () => document.hidden && setIsOpen(false);
+    const closeTooltip = () => setIsOpen(false);
+    const handleVisibilityChange = () => document.hidden && closeTooltip();
     document.addEventListener("visibilitychange", handleVisibilityChange);
+    window.addEventListener("blur", closeTooltip);
     return () => {
       document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("blur", closeTooltip);
     };
   }, [setIsOpen]);
 
