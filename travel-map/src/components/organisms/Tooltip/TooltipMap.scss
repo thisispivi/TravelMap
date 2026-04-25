@@ -71,6 +71,7 @@
   }
   .map-tooltip__container {
     padding: 0.85rem 1.1rem;
+    transform: none !important;
     .map-tooltip__header {
       display: flex;
       justify-content: space-between;
@@ -113,6 +114,7 @@
               height: 0.9rem;
               flex-shrink: 0;
               cursor: pointer;
+              transform-origin: center;
               &.map-tooltip__content__chevron-icon--left {
                 transform: rotate(180deg);
               }
@@ -134,8 +136,9 @@
                 width: auto;
                 height: 1rem;
                 margin-right: 0.4rem;
+                flex-shrink: 0;
                 path {
-                  @include m.transition(all, 0.3s);
+                  @include m.transition(stroke, 0.3s);
                 }
                 .calendar-0 {
                   stroke-width: 60;

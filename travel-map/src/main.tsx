@@ -4,9 +4,10 @@ import "./styles/_mixins.scss";
 import "./styles/_scrollbar.scss";
 import "./i18n/i18n";
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import ReactDOM from "react-dom/client";
 import { createHashRouter, RouterProvider } from "react-router-dom";
+import type { TooltipRefProps } from "react-tooltip";
 import { Tooltip } from "react-tooltip";
 
 import { Fallback, Home } from "./components/pages";
@@ -50,17 +51,38 @@ const router = createHashRouter([
 
 const isMobileOrTablet = mobileAndTabletCheck();
 
+function BaseTooltip() {
+  const tooltipRef = useRef<TooltipRefProps>(null);
+
+  useEffect(() => {
+    const closeTooltip = () => tooltipRef.current?.close({ delay: 0 });
+    const handleVisibilityChange = () => document.hidden && closeTooltip();
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    window.addEventListener("blur", closeTooltip);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("blur", closeTooltip);
+    };
+  }, []);
+
+  return (
+    <Tooltip
+      className="tooltip"
+      delayShow={300}
+      globalCloseEvents={{ clickOutsideAnchor: true, escape: true }}
+      id="base-tooltip"
+      noArrow
+      opacity={1}
+      ref={tooltipRef}
+    />
+  );
+}
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <RouterProvider router={router} />
-    {!isMobileOrTablet ? (
-      <Tooltip
-        className="tooltip"
-        delayShow={300}
-        id="base-tooltip"
-        noArrow
-        opacity={1}
-      />
-    ) : null}
+    {!isMobileOrTablet ? <BaseTooltip /> : null}
   </React.StrictMode>,
 );
