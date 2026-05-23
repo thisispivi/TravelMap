@@ -1,6 +1,6 @@
 import { City, Travel } from "../../../core";
 import { Slovakia } from "../Slovakia";
-import { tr_010526_050526_images } from "./photos/tr_010526_050526";
+import { tr_010526_040526_images } from "./photos/tr_010526_040526";
 
 export const Bratislava = new City({
   name: "Bratislava",
@@ -9,9 +9,8 @@ export const Bratislava = new City({
   travels: [
     new Travel({
       sDate: new Date(2026, 4, 1),
-      eDate: new Date(2026, 4, 5),
-      photos: tr_010526_050526_images,
-      isFuture: true,
+      eDate: new Date(2026, 4, 4),
+      photos: tr_010526_040526_images,
     }),
   ],
   backgroundImgSources: ["/Slovakia/Bratislava/Bratislava.jpg"],

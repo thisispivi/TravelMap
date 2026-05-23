@@ -78,6 +78,7 @@ import { Bucharest } from "./Romania/Bucharest/Bucharest";
 import { Romania } from "./Romania/Romania";
 import { Sinaia } from "./Romania/Sinaia/Sinaia";
 import { Bratislava } from "./Slovakia/Bratislava/Bratislava";
+import { Devin } from "./Slovakia/Devin/Devin";
 import { Slovakia } from "./Slovakia/Slovakia";
 import { Barcelona } from "./Spain/Barcelona/Barcelona";
 import { Sevilla } from "./Spain/Sevilla/Sevilla";
@@ -106,6 +107,7 @@ export const visitedCountries: Country[] = [
   Monaco,
   Portugal,
   Romania,
+  Slovakia,
   Spain,
   UnitedKingdom,
   Vatican,
@@ -118,6 +120,7 @@ export const visitedCities: City[] = [
   Braga,
   Bran,
   Brasov,
+  Bratislava,
   Bruges,
   Brussels,
   Bucharest,
@@ -126,6 +129,7 @@ export const visitedCities: City[] = [
   Cannes,
   Cefalù,
   Comino,
+  Devin,
   Fujikawaguchiko,
   Genoa,
   Himeji,
@@ -148,11 +152,11 @@ export const visitedCities: City[] = [
   Rila,
   Rome,
   SaintTropez,
-  Sinaia,
   SanGiljan,
   SanPawlIlBahar,
   Sevilla,
   Shirakawago,
+  Sinaia,
   Sliema,
   Sofia,
   Sydney,
@@ -393,8 +397,8 @@ export const takenFerries: Ferry[] = [
   }),
 ];
 
-export const futureCountries: Country[] = [Slovakia, Sweden];
-export const futureCities: City[] = [Bratislava, Stockholm];
+export const futureCountries: Country[] = [Sweden];
+export const futureCities: City[] = [Stockholm];
 
 export const visitedTrips: Trip[] = [
   new Trip({
@@ -649,7 +653,7 @@ export const visitedTrips: Trip[] = [
     backgroundImgSourceKey: "cote-d-azur-trip-2025-2026.jpg",
   }),
   new Trip({
-    id: "bucharest-trip-2026",
+    id: "romania-trip-2026",
     sDate: new Date(2026, 2, 26),
     eDate: new Date(2026, 2, 31),
     destinations: [
@@ -659,6 +663,17 @@ export const visitedTrips: Trip[] = [
       { city: Bran, travelIdx: 0 },
     ],
     route: [Bucharest.name, Sinaia.name, Brasov.name, Bran.name],
-    backgroundImgSourceKey: "bucharest-trip-2026.jpg",
+    backgroundImgSourceKey: "romania-trip-2026.jpg",
+  }),
+  new Trip({
+    id: "slovakia-trip-2026",
+    sDate: new Date(2026, 4, 1),
+    eDate: new Date(2026, 4, 4),
+    destinations: [
+      { city: Bratislava, travelIdx: 0 },
+      { city: Devin, travelIdx: 0 },
+    ],
+    route: [Bratislava.name, Devin.name],
+    backgroundImgSourceKey: "slovakia-trip-2026.jpg",
   }),
 ];

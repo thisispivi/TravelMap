@@ -1,5 +1,12 @@
+allowBuilds:
+  "@parcel/watcher": true
+
 ignoredBuiltDependencies:
   - esbuild
+
+minimumReleaseAgeExclude:
+  - apexcharts@5.13.0
+  - knip@6.14.2
 
 onlyBuiltDependencies:
   - "@parcel/watcher"
