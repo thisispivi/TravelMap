@@ -55,18 +55,34 @@
   }
 
   .trip-browser__list {
-    overflow-y: auto;
+    position: relative;
+    overflow-y: hidden;
     overflow-x: hidden;
     flex: 1;
     min-height: 0;
-    padding-top: 0.25rem;
-    padding-bottom: 0.5rem;
-    scrollbar-gutter: stable;
+    padding-top: 0.5rem;
+    padding-bottom: 0rem;
+    scrollbar-gutter: auto;
+
+    &.trip-browser__list--scrollable {
+      overflow-y: auto;
+    }
+  }
+
+  .trip-browser__list-stage {
+    position: relative;
+    width: 100%;
+    min-height: 100%;
+    overflow: hidden;
   }
 
   .trip-browser__trips {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 0;
     display: flex;
     flex-direction: column;
+    width: 100%;
     gap: 1rem;
     padding-right: 0.25rem;
   }

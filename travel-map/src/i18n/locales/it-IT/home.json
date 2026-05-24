@@ -120,6 +120,9 @@
     "title": "Prossime destinazioni",
     "ariaLabel": "Prossime destinazioni"
   },
+  "tripCard": {
+    "openTrip": "Apri {{trip}}"
+  },
   "places": {
     "visited": "Visitati",
     "lived": "Vissuto",
