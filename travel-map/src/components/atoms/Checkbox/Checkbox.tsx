@@ -2,18 +2,7 @@ import { JSX } from "react";
 
 type CheckboxProps = { isChecked: boolean };
 
-/**
- * CheckboxIcon component
- *
- * The CheckboxIcon component is used to render a checkbox icon.
- *
- * @component
- *
- * @param {CheckboxProps} props - The props of the component
- * @param {boolean} props.isChecked - Whether the checkbox is checked or not
- * @returns {JSX.Element} - The checkbox icon
- */
-export function CheckboxIcon({ isChecked }: CheckboxProps): JSX.Element {
+export function Checkbox({ isChecked }: CheckboxProps): JSX.Element {
   return (
     <svg
       fill="none"

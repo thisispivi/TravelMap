@@ -120,6 +120,17 @@
     "title": "Future Destinations",
     "ariaLabel": "Future Destinations"
   },
+  "places": {
+    "visited": "Visited",
+    "lived": "Lived",
+    "future": "Future",
+    "centerMap": "Center map on {{city}}",
+    "tooltips": {
+      "visited": "Show places I have visited.",
+      "lived": "Show places I have lived in.",
+      "future": "Show future destinations."
+    }
+  },
   "stats": {
     "ariaLabel": "Travel Statistics",
     "aroundEarth": "around the Earth",
@@ -176,6 +187,16 @@
     "description": "Full-stack engineer specialised in React & Node.js, with a strong focus on machine learning integration. M.Sc. in Computer Science from the University of Cagliari. I built this map to track and share my adventures around the world."
   },
   "theme": "Toggle between light and dark mode",
+  "map": {
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out"
+  },
+  "lightbox": {
+    "fullscreen": "Toggle fullscreen",
+    "nextSlide": "Next slide",
+    "previousSlide": "Previous slide",
+    "youtubeVideo": "YouTube video"
+  },
   "currency": {
     "EUR": {
       "name": "Euro",
@@ -234,5 +255,23 @@
     "cote-d-azur-trip-2025-2026": "Côte d'Azur Trip",
     "romania-trip-2026": "Romania Trip",
     "slovakia-trip-2026": "Slovakia Trip"
+  },
+  "nav": {
+    "trips": "Trips",
+    "places": "Places",
+    "timeline": "Timeline",
+    "stats": "Stats"
+  },
+  "timeline": {
+    "title": "Timeline",
+    "city_one": "{{count}} city",
+    "city_other": "{{count}} cities"
+  },
+  "tripDetail": {
+    "route": "Route",
+    "cities": "Cities",
+    "days": "days",
+    "day": "day",
+    "viewOnMap": "View on map"
   }
 }

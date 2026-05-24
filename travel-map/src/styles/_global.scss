@@ -42,7 +42,7 @@ body,
 .tooltip {
   border-radius: 0.75rem !important;
   box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.15);
-  z-index: 10;
+  z-index: 30 !important;
 }
 
 .home--light {

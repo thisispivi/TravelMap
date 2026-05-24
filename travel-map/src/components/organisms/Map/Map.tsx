@@ -26,11 +26,13 @@ import {
   visitedCities,
   visitedCountries,
 } from "@/data";
+import { useLanguage } from "@/hooks/language/language";
 import { computeVisibleLabels } from "@/utils/labelVisibility";
 import { parameters } from "@/utils/parameters";
 
 import { Button, Loading, Marker } from "../../atoms";
 import { HomeContext } from "../../pages/Home/HomeContext";
+import { RouteOverlay } from "../RouteOverlay/RouteOverlay";
 import { MapTooltip } from "../Tooltip/TooltipMap";
 
 const sortByLatitudeAndLongitude = (a: City, b: City) => {
@@ -108,6 +110,7 @@ function GeographyLayer({
  * lazy-loaded map chunk.
  */
 export function Map() {
+  const { t } = useLanguage(["home"]);
   const context = useContext(HomeContext);
   const {
     isDarkTheme,
@@ -116,7 +119,6 @@ export function Map() {
     mapPosition,
     responsive,
     setMapPosition,
-    isAutoPosition,
   } = context!;
 
   const [isLoaded, setIsLoaded] = useState(false);
@@ -142,7 +144,7 @@ export function Map() {
       animFrameRef.current = null;
     }
 
-    if (isFromMoveEndRef.current || !isAutoPosition) {
+    if (isFromMoveEndRef.current) {
       isFromMoveEndRef.current = false;
       currentPosRef.current = mapPosition;
       animFrameRef.current = requestAnimationFrame(() => {
@@ -180,7 +182,7 @@ export function Map() {
     };
 
     animFrameRef.current = requestAnimationFrame(animate);
-  }, [mapPosition, isAutoPosition]);
+  }, [mapPosition]);
 
   const handleSetHoveredCity = useCallback(
     (city: City | null) => {
@@ -404,6 +406,7 @@ export function Map() {
               ))}
             </>
           ) : null}
+          <RouteOverlay />
         </ZoomableGroup>
       </ComposableMap>
 
@@ -431,14 +434,14 @@ export function Map() {
       </Tooltip>
       <div className="map-zoom-controls">
         <Button
-          aria-label="Zoom in"
+          aria-label={t("map.zoomIn")}
           className="map-zoom-controls__button"
           onClick={handleZoomIn}
         >
           +
         </Button>
         <Button
-          aria-label="Zoom out"
+          aria-label={t("map.zoomOut")}
           className="map-zoom-controls__button"
           onClick={handleZoomOut}
         >

@@ -1,60 +1,61 @@
 @use "../../../styles/mixins" as m;
 @use "../../../styles/variables" as v;
 
+.language-selector__panel {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.4rem;
+  border-radius: 0.85rem;
+  z-index: 10;
+  min-width: 10rem;
+}
+
+.language-selector__lang-option {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.45rem 0.7rem;
+  border-radius: 0.6rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease-in-out,
+    color 0.15s ease-in-out;
+  width: 100%;
+
+  .language-selector__lang-option__flag {
+    width: 1.4rem;
+    height: auto;
+    flex-shrink: 0;
+  }
+
+  .language-selector__lang-option__label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  &.language-selector__lang-option--active {
+    @include m.set-button-colors(
+      v.$languageButton,
+      v.$languageButtonContent,
+      v.$languageButtonHover
+    );
+    font-weight: 600;
+  }
+}
+
 .language-selector {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  .language-selector__panel {
-    position: absolute;
-    left: calc(100% + 0.6rem);
-    top: 50%;
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-    padding: 0.4rem;
-    border-radius: 0.85rem;
-    z-index: 10;
-    min-width: 10rem;
-  }
-
-  .language-selector__lang-option {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    padding: 0.45rem 0.7rem;
-    border-radius: 0.6rem;
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    transition:
-      background-color 0.15s ease-in-out,
-      color 0.15s ease-in-out;
-    width: 100%;
-
-    .language-selector__lang-option__flag {
-      width: 1.4rem;
-      height: auto;
-      flex-shrink: 0;
-    }
-
-    .language-selector__lang-option__label {
-      font-size: 0.9rem;
-      font-weight: 500;
-      white-space: nowrap;
-    }
-
-    &.language-selector__lang-option--active {
-      @include m.set-button-colors(
-        v.$languageButton,
-        v.$languageButtonContent,
-        v.$languageButtonHover
-      );
-      font-weight: 600;
-    }
-  }
 
   .language-selector__activator {
     z-index: 2;
@@ -78,7 +79,15 @@
   }
 }
 
-.home--dark {
+.language-selector__overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9;
+  background: transparent;
+}
+
+.home--dark,
+body.body--dark {
   .language-selector__panel {
     background: v.$glassBgDark;
     -webkit-backdrop-filter: blur(v.$glassBlur);
@@ -86,15 +95,18 @@
     border: 0.0625rem solid v.$glassBorderDark;
     box-shadow: v.$glassShadowDark;
   }
+
   .language-selector__lang-option {
     color: v.$darkButtonContent;
+
     &:hover:not(.language-selector__lang-option--active) {
       background: v.$darkButtonHover;
     }
   }
 }
 
-.home--light {
+.home--light,
+body.body--light {
   .language-selector__panel {
     background: v.$glassBgLight;
     -webkit-backdrop-filter: blur(v.$glassBlur);
@@ -102,8 +114,10 @@
     border: 0.0625rem solid v.$glassBorderLight;
     box-shadow: v.$glassShadowLight;
   }
+
   .language-selector__lang-option {
     color: v.$lightButtonContent;
+
     &:hover:not(.language-selector__lang-option--active) {
       background: v.$lightButtonHover;
     }
@@ -111,14 +125,14 @@
 }
 
 @media screen and (max-width: 42.5rem) {
-  .language-selector {
-    .language-selector__panel {
-      bottom: calc(100% + 0.5rem);
-      top: auto;
-      left: 50%;
-      right: auto;
-      min-width: 9rem;
-    }
+  .language-selector__panel--portaled {
+    position: fixed;
+    top: v.$mobileFloatingMargin;
+    left: v.$mobileFloatingMargin;
+    bottom: auto;
+    transform: none !important;
+    min-width: 9rem;
+    z-index: 100;
 
     .language-selector__lang-option {
       padding: 0.4rem 0.6rem;
@@ -132,12 +146,14 @@
         font-size: 0.8rem;
       }
     }
+  }
 
+  .language-selector {
     .language-selector__activator {
       height: 2.2rem;
       width: 2.2rem;
       padding: 0.3rem;
-      border-radius: 0.75rem;
+      border-radius: 62.4375rem;
       display: flex;
       align-items: center;
       justify-content: center;

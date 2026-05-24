@@ -1,0 +1,157 @@
+@use "../../../styles/variables" as v;
+@use "../../../styles/mixins" as m;
+@use "../../../styles/scrollbar" as s;
+
+.places-browser {
+  position: fixed;
+  top: calc(v.$floatingNavHeight + 2rem);
+  left: 1rem;
+  width: v.$floatingCardMaxWidth;
+  max-height: calc(100vh - v.$floatingNavHeight - 3rem);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
+
+  .places-browser__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 2.25rem;
+    padding-bottom: 0.75rem;
+    flex-shrink: 0;
+
+    h2 {
+      font-size: v.$headingLg;
+      line-height: 2.25rem;
+    }
+  }
+
+  .places-browser__header-action {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 2.25rem;
+    height: 2.25rem;
+    flex-shrink: 0;
+  }
+
+  .places-browser__filter {
+    margin-bottom: 1rem;
+    flex-shrink: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .places-browser__grid {
+    overflow-y: auto;
+    overflow-x: clip;
+    flex: 1;
+    min-height: 0;
+    padding: 0.25rem 0.25rem 0.25rem;
+    margin: 0 -0.25rem;
+    scrollbar-gutter: auto;
+  }
+
+  .places-browser__grid-page {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr));
+    grid-auto-rows: 11rem;
+    gap: 0.625rem;
+    align-content: start;
+
+    &.places-browser__grid-page--single {
+      grid-template-columns: minmax(
+        min(100%, 9rem),
+        calc((100% - 0.625rem) / 2)
+      );
+    }
+  }
+}
+
+body.filter-open .places-browser {
+  z-index: 12;
+  pointer-events: none;
+}
+
+body.filter-open .places-browser .filter {
+  pointer-events: auto;
+}
+
+.home--dark {
+  .places-browser {
+    @include m.floating-card-dark();
+
+    .places-browser__header h2 {
+      color: #ffffff;
+    }
+
+    .places-browser__grid {
+      @include s.setScrollbar(
+        transparent,
+        rgba(255, 255, 255, 0.12),
+        rgba(255, 255, 255, 0.2),
+        rgba(255, 255, 255, 0.3)
+      );
+    }
+  }
+}
+
+.home--light {
+  .places-browser {
+    @include m.floating-card-light();
+    border: 0.0625rem solid rgba(0, 0, 0, 0.06);
+
+    .places-browser__header h2 {
+      color: v.$lightButtonContent;
+    }
+
+    .places-browser__grid {
+      @include s.setScrollbar(
+        transparent,
+        rgba(0, 0, 0, 0.15),
+        rgba(0, 0, 0, 0.25),
+        rgba(0, 0, 0, 0.35)
+      );
+    }
+  }
+}
+
+@media screen and (max-width: 42.5rem) {
+  .places-browser {
+    top: auto;
+    bottom: calc(
+      v.$floatingNavHeight + v.$mobileFloatingMargin * 2 +
+        env(safe-area-inset-bottom, 0rem)
+    );
+    left: v.$mobileFloatingMargin;
+    right: v.$mobileFloatingMargin;
+    width: auto;
+    max-height: 75vh;
+    border-radius: 1.5rem;
+    padding: v.$floatingCardPadding;
+
+    .places-browser__header h2 {
+      font-size: v.$headingMd;
+    }
+
+    .places-browser__grid {
+      scrollbar-gutter: auto;
+    }
+
+    .places-browser__grid-page {
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 7.75rem), 1fr));
+
+      &.places-browser__grid-page--single {
+        grid-template-columns: minmax(
+          min(100%, 7.75rem),
+          calc((100% - 0.625rem) / 2)
+        );
+      }
+    }
+  }
+}
