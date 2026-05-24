@@ -80,7 +80,7 @@
 @media screen and (max-width: 42.5rem) {
   .map-container {
     .map-zoom-controls {
-      bottom: calc(#{v.$mobileNavHeight} + 0.75rem);
+      display: none;
     }
   }
 }

@@ -1,0 +1,251 @@
+@use "../../../styles/variables" as v;
+@use "../../../styles/mixins" as m;
+
+.timeline-track {
+  position: relative;
+  max-width: 52rem;
+  margin: 0 auto;
+  padding: 0 2rem 3rem;
+
+  .timeline-track__line {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 0.0625rem;
+    transform: translateX(-50%);
+  }
+
+  .timeline-track__year-divider {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+    margin: 2.5rem 0 1.25rem;
+
+    span {
+      padding: 0.375rem 1.25rem;
+      border-radius: 62.4375rem;
+      font-size: v.$bodySm;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+  }
+}
+
+.timeline-card {
+  position: relative;
+  width: calc(50% - 2.5rem);
+  border-radius: v.$floatingCardRadius;
+  overflow: hidden;
+  cursor: pointer;
+  margin-bottom: 1.75rem;
+  @include m.transition(transform, 0.2s);
+
+  &:hover {
+    transform: translateY(-0.25rem);
+  }
+
+  &--left {
+    margin-right: auto;
+  }
+
+  &--right {
+    margin-left: auto;
+  }
+
+  .timeline-card__image-container {
+    height: 9rem;
+    overflow: hidden;
+    position: relative;
+
+    .timeline-card__image {
+      width: 100%;
+      height: calc(100% + 0.125rem);
+      margin-top: -0.0625rem;
+      object-fit: cover;
+      display: block;
+      @include m.transition(transform, 0.4s, cubic-bezier(0.4, 0, 0.2, 1));
+    }
+
+    .timeline-card__image-overlay {
+      position: absolute;
+      inset: -0.0625rem 0 0;
+      background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.04) 0%,
+        transparent 30%,
+        rgba(0, 0, 0, 0.3) 100%
+      );
+    }
+  }
+
+  &:hover .timeline-card__image {
+    transform: scale(1.04);
+  }
+
+  .timeline-card__body {
+    padding: 0.875rem 1rem;
+  }
+
+  .timeline-card__flags {
+    display: flex;
+    gap: 0.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .timeline-card__flag {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .timeline-card__title {
+    font-size: v.$headingMd;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+  }
+
+  .timeline-card__date {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin-bottom: 0.3rem;
+
+    .timeline-card__date-icon {
+      height: 0.75rem;
+      width: auto;
+    }
+
+    p {
+      font-size: v.$caption;
+      font-weight: 500;
+      text-transform: capitalize;
+    }
+  }
+
+  .timeline-card__cities-count {
+    font-size: v.$caption;
+    font-weight: 500;
+    opacity: 0.6;
+  }
+}
+
+.home--dark {
+  .timeline-track__line {
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .timeline-track__year-divider {
+    --year-line-color: rgba(255, 255, 255, 0.08);
+
+    span {
+      background: rgba(255, 255, 255, 0.06);
+      color: v.$darkButtonContent;
+      border: 0.0625rem solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(0.5rem);
+    }
+  }
+
+  .timeline-card {
+    background: v.$glassBgDark;
+    backdrop-filter: blur(v.$glassBlur);
+    -webkit-backdrop-filter: blur(v.$glassBlur);
+    border: 0.0625rem solid v.$glassBorderDark;
+    box-shadow: v.$glassShadowDark;
+
+    .timeline-card__title {
+      color: #ffffff;
+    }
+
+    .timeline-card__date {
+      color: v.$darkAltText;
+
+      .timeline-card__date-icon .calendar-0,
+      .timeline-card__date-icon .calendar-1 {
+        stroke: v.$darkAltText;
+      }
+    }
+
+    .timeline-card__cities-count {
+      color: v.$darkAltTextDarker;
+    }
+  }
+}
+
+.home--light {
+  .timeline-track__line {
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  .timeline-track__year-divider {
+    --year-line-color: rgba(0, 0, 0, 0.06);
+
+    span {
+      background: rgba(255, 255, 255, 0.7);
+      color: v.$lightButtonContent;
+      border: 0.0625rem solid rgba(0, 0, 0, 0.07);
+      backdrop-filter: blur(0.5rem);
+      @include m.smooth-shadow(1);
+    }
+  }
+
+  .timeline-card {
+    background: v.$glassBgLight;
+    backdrop-filter: blur(v.$glassBlur);
+    -webkit-backdrop-filter: blur(v.$glassBlur);
+    border: 0.0625rem solid rgba(0, 0, 0, 0.06);
+    box-shadow: v.$glassShadowLight;
+
+    .timeline-card__title {
+      color: v.$lightButtonContent;
+    }
+
+    .timeline-card__date {
+      color: v.$lightAltText;
+
+      .timeline-card__date-icon .calendar-0,
+      .timeline-card__date-icon .calendar-1 {
+        stroke: v.$lightAltText;
+      }
+    }
+
+    .timeline-card__cities-count {
+      color: v.$lightAltTextDarker;
+    }
+  }
+}
+
+@media screen and (max-width: 42.5rem) {
+  .timeline-track {
+    padding: 0 1rem 2rem 1rem;
+
+    .timeline-track__line {
+      display: none;
+    }
+
+    .timeline-track__year-divider {
+      justify-content: flex-start;
+      margin: 2.5rem 0 1.25rem;
+      padding-bottom: 1rem;
+      border-bottom: 0.0625rem solid
+        var(--year-line-color, rgba(255, 255, 255, 0.08));
+    }
+  }
+
+  .timeline-card {
+    width: 100%;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    margin-bottom: 0.875rem;
+
+    &--left,
+    &--right {
+      margin-left: 0;
+      margin-right: 0;
+    }
+
+    .timeline-card__image-container {
+      height: 7rem;
+    }
+  }
+}

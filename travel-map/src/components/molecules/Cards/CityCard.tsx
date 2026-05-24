@@ -1,16 +1,16 @@
 import "./CityCard.scss";
 
-import { JSX, useCallback } from "react";
-import { LazyLoadImage } from "react-lazy-load-image-component";
+import { JSX, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { PositionIcon } from "@/assets";
+import { useCachedImageSource } from "@/hooks/image/cache";
 import { formatDateRangeShort } from "@/i18n/functions/date";
 
 import { CalendarIcon } from "../../../assets";
 import { City, Travel } from "../../../core";
 import { useLanguage } from "../../../hooks/language/language";
 import { parameters } from "../../../utils/parameters";
-import { mobileAndTabletCheck } from "../../../utils/responsive";
 import { CountryFlag, Loading } from "../../atoms";
 
 interface CityCardProps {
@@ -20,34 +20,14 @@ interface CityCardProps {
   travelIdx?: number;
   isClickable?: boolean;
   setHoveredCity: (city: City | null) => void;
-  mapPosition?: { center: [number, number]; zoom: number };
   setMapPosition?: (position: {
     center: [number, number];
     zoom: number;
   }) => void;
-  isAutoPosition?: boolean;
   isHidden?: boolean;
   showDates?: boolean;
 }
 
-/**
- * CityCard component
- *
- * The CityCard component is a molecule that displays the city name and the travel dates.
- * It also adds an image background based on the city name.
- *
- * @param {CityCardProps} data - The data that will be used to display the component.
- * @param {string} data.className - The class to apply to the city card
- * @param {City} data.city - The city
- * @param {Travel} [data.travel] - The travel
- * @param {number} [data.travelIdx = 0] - The index of the travel used to retrieve the travel photos
- * @param {boolean} [data.isClickable] - Whether the card is clickable
- * @param {function} data.setHoveredCity - The function to set the hovered city
- * @param {function} [data.setMapPosition] - The function to set the map position
- * @param {boolean} [data.isAutoPosition] - Whether the map should auto position to the city when hovered
- * @param {boolean} [data.isHidden] - Whether the card is hidden
- * @returns {JSX.Element} The CityCard component
- */
 export function CityCard({
   className = "",
   city,
@@ -56,38 +36,71 @@ export function CityCard({
   isClickable = false,
   setHoveredCity,
   setMapPosition,
-  isAutoPosition = false,
   isHidden = false,
   showDates = true,
 }: CityCardProps): JSX.Element {
   const lang = useLanguage([]).currLanguage;
   const navigate = useNavigate();
   const { t } = useLanguage(["home"]);
+  const cityName = city.getName(t);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [shouldLoadImage, setShouldLoadImage] = useState(
+    () => typeof window !== "undefined" && !("IntersectionObserver" in window),
+  );
+  const backgroundSource = useMemo(
+    () => city.getBackgroundImgSourceByIndex(travelIdx),
+    [city, travelIdx],
+  );
+  const cachedBackgroundSource = useCachedImageSource(
+    backgroundSource,
+    shouldLoadImage,
+  );
+
+  useEffect(() => {
+    if (shouldLoadImage) return;
+
+    const card = cardRef.current;
+    if (!card) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting) return;
+        setShouldLoadImage(true);
+        observer.disconnect();
+      },
+      { rootMargin: "25%" },
+    );
+
+    observer.observe(card);
+    return () => observer.disconnect();
+  }, [shouldLoadImage]);
 
   const handleMouseEnter = useCallback(() => {
-    if (!mobileAndTabletCheck()) {
-      if (setMapPosition && city.mapCoordinates && isAutoPosition)
+    setHoveredCity(city);
+  }, [city, setHoveredCity]);
+
+  const handleMouseLeave = useCallback(() => {
+    setHoveredCity(null);
+  }, [setHoveredCity]);
+
+  const handleCenterMap = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      if (setMapPosition && city.mapCoordinates) {
         setMapPosition({
           center: city.mapCoordinates,
           zoom: parameters.map.hoveredCityZoom,
         });
-
-      setHoveredCity && setHoveredCity(city);
-    }
-  }, [setMapPosition, city, isAutoPosition, setHoveredCity]);
-
-  const handleMouseLeave = useCallback(() => {
-    if (!mobileAndTabletCheck()) {
-      setHoveredCity && setHoveredCity(null);
-    }
-  }, [setHoveredCity]);
+        setHoveredCity(city);
+      }
+    },
+    [city, setMapPosition, setHoveredCity],
+  );
 
   return (
     <div
-      className={`city-card ${isClickable ? "city-card--clickable" : "city-card--not-clickable"} 
-      ${mobileAndTabletCheck() ? "city-card--mobile" : "city-card--desktop"}
-      ${isHidden ? "city-card--hidden" : "city-card--visible"}
-      `}
+      className={`city-card ${isClickable ? "city-card--clickable" : "city-card--not-clickable"} ${isHidden ? "city-card--hidden" : "city-card--visible"}`}
+      ref={cardRef}
       {...(isClickable
         ? {
             onClick: () => navigate(`/gallery/${city.name}/${travelIdx}`),
@@ -106,26 +119,41 @@ export function CityCard({
       >
         <div className="city-card__background">
           <div className="city-card__background-overlay" />
-          <LazyLoadImage
-            alt={city.getName(t)}
-            className="city-card__background-img"
-            effect="opacity"
-            placeholder={
-              <div className="centered">
-                <Loading />
-              </div>
-            }
-            src={city.getBackgroundImgSourceByIndex(travelIdx) || undefined}
-          />
+          {cachedBackgroundSource ? (
+            <img
+              alt={cityName}
+              className="city-card__background-img"
+              src={cachedBackgroundSource}
+            />
+          ) : (
+            <div className="centered">
+              <Loading />
+            </div>
+          )}
         </div>
       </div>
+
       <div className="city-card__content">
         <CountryFlag
           className="city-card__country"
           countryId={city.country.id}
         />
+
+        {setMapPosition && city.mapCoordinates ? (
+          <button
+            aria-label={t("places.centerMap", { city: cityName })}
+            className="city-card__center-btn"
+            data-tooltip-content={t("places.centerMap", { city: cityName })}
+            data-tooltip-id="base-tooltip"
+            onClick={handleCenterMap}
+            type="button"
+          >
+            <PositionIcon className="city-card__center-icon" />
+          </button>
+        ) : null}
+
         <div className="city-card__title">
-          <h2>{city.getName(t)}</h2>
+          <h2>{cityName}</h2>
         </div>
         {showDates && travel?.sDate ? (
           <div className="travel-card__info">

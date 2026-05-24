@@ -3,18 +3,27 @@
 
 .filter-backdrop {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 9;
+  inset: 0;
+  z-index: 11;
+  background: transparent;
 }
 
 .filter {
   position: relative;
+  z-index: 13;
+
   .filter__button {
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 2.25rem;
+    height: 2.25rem;
+
+    .filter__icon {
+      path,
+      circle {
+        fill: currentColor !important;
+        stroke: none;
+      }
+    }
+
     &.filter__button--open {
       @include m.set-button-colors(
         v.$filterButton,
@@ -23,17 +32,18 @@
       );
     }
   }
+
   .filter__options {
     position: absolute;
     right: 0;
-    top: 3rem;
-    z-index: 10;
-    border-radius: 0.5rem;
+    top: 2.75rem;
+    z-index: 13;
+    border-radius: 0.75rem;
     padding: 1rem;
-    box-shadow: rgba(0, 0, 0, 0.56) 0rem 1.375rem 4.375rem 0.25rem;
     width: 16rem;
-    @include m.transition(all, 0.3s, ease-in-out);
     flex-shrink: 0;
+    transform-origin: top right;
+
     .filter__options__list {
       display: flex;
       max-height: 14rem;
@@ -41,32 +51,42 @@
       flex-direction: column;
       padding-right: 0.6rem;
       flex-shrink: 0;
+
       .filter__option {
         display: flex;
         align-items: center;
         padding: 0.5rem 1rem;
-        border-radius: 0.25rem;
+        border-radius: 0.375rem;
         margin-block: 0.1rem;
-        opacity: 0.2;
+        opacity: 0.3;
         flex-shrink: 0;
         cursor: pointer;
-        @include m.transition(all, 0.3s, ease-in-out);
+        @include m.transition(all, 0.2s, ease-in-out);
+
         h4 {
-          @include m.transition(all, 0.3s, ease-in-out);
+          @include m.transition(all, 0.2s, ease-in-out);
         }
+
         svg {
           width: 1.5rem;
           height: 1.5rem;
           margin-right: 0.5rem;
           flex-shrink: 0;
         }
+
         &.filter__option--selected {
           opacity: 1;
+
+          h4 {
+            font-weight: 600;
+          }
         }
+
         &.filter__option--select-all {
           opacity: 1;
           margin-bottom: 0.75rem;
           border-radius: 0;
+
           .filter__option--select-all__icon {
             display: flex;
             align-items: center;
@@ -75,12 +95,14 @@
             height: 1.5rem;
             margin-right: 0.25rem;
             @include m.transition(all, 0.2s, ease-in-out);
+
             svg {
               width: 100%;
               height: 100%;
               @include m.transition(all, 0.2s, ease-in-out);
             }
           }
+
           .filter__option--select-all__text {
             font-weight: 600;
             @include m.transition(all, 0.2s, ease-in-out);
@@ -92,29 +114,51 @@
 }
 
 .home--light {
+  .filter__button {
+    .filter__icon {
+      path,
+      circle {
+        fill: v.$filterButtonContent !important;
+      }
+    }
+  }
+
   .filter__options {
-    background-color: v.$lightInfoTab;
+    background-color: v.$lightLeftBar;
     color: v.$darkLeftBar;
+    box-shadow:
+      0 0.25rem 0.75rem rgba(0, 0, 0, 0.06),
+      0 1rem 2rem rgba(0, 0, 0, 0.1),
+      0 2rem 4rem rgba(0, 0, 0, 0.08),
+      inset 0 0 0 0.0625rem rgba(0, 0, 0, 0.06);
+
     .filter__option {
       h4 {
         color: v.$darkLeftBar;
       }
+
       &.filter__option--selected {
-        background-color: v.$lightButton;
+        background-color: rgba(0, 0, 0, 0.07);
       }
+
       &:hover {
-        background-color: v.$lightButtonHover;
+        background-color: rgba(0, 0, 0, 0.06);
+        opacity: 1;
       }
+
       &.filter__option--select-all {
         border-bottom: 0.0625rem solid rgba(v.$darkLeftBar, 0.1);
+
         .filter__option--select-all__icon {
           color: v.$darkLeftBar;
         }
+
         .filter__option--select-all__text {
           color: v.$darkLeftBar;
         }
+
         &:hover {
-          background-color: v.$lightInfoTab;
+          background-color: transparent;
         }
       }
     }
@@ -122,29 +166,63 @@
 }
 
 .home--dark {
+  .filter__button,
+  .filter__button.filter__button--open {
+    @include m.set-button-colors(
+      rgba(255, 255, 255, 0.06),
+      v.$darkButtonContent,
+      rgba(255, 255, 255, 0.1)
+    );
+    border: 0.0625rem solid rgba(255, 255, 255, 0.06);
+
+    &:hover {
+      box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.2);
+    }
+
+    .filter__icon {
+      path,
+      circle {
+        fill: v.$darkButtonContent !important;
+      }
+    }
+  }
+
   .filter__options {
     background-color: v.$darkInfoTab;
     color: v.$lightLeftBar;
+    box-shadow:
+      0 0.25rem 0.75rem rgba(0, 0, 0, 0.2),
+      0 1rem 2rem rgba(0, 0, 0, 0.35),
+      0 2rem 4rem rgba(0, 0, 0, 0.3),
+      inset 0 0 0 0.0625rem rgba(255, 255, 255, 0.06);
+
     .filter__option {
       h4 {
         color: v.$lightLeftBar;
       }
+
       &.filter__option--selected {
-        background-color: v.$darkButton;
+        background-color: rgba(255, 255, 255, 0.1);
       }
+
       &:not(.filter__option--mobile):hover {
-        background-color: v.$darkButtonHover;
+        background-color: rgba(255, 255, 255, 0.06);
+        opacity: 1;
       }
+
       &.filter__option--select-all {
         border-bottom: 0.0625rem solid rgba(v.$lightLeftBar, 0.1);
+
         .filter__option--select-all__icon {
           color: v.$lightLeftBar;
         }
+
         .filter__option--select-all__text {
           color: v.$lightLeftBar;
         }
+
         &:not(.filter__option--mobile):hover {
-          background-color: v.$darkInfoTab;
+          background-color: transparent;
         }
       }
     }
@@ -153,25 +231,46 @@
 
 .filter-transition-enter {
   opacity: 0;
-  transform: translateY(-0.625rem);
+  transform: translateY(-0.625rem) scale(0.96);
 }
+
 .filter-transition-enter-active {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
   transition:
-    opacity 200ms,
-    transform 200ms;
+    opacity 180ms ease,
+    transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
+
 .filter-transition-exit {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
 }
+
 .filter-transition-exit-active {
   opacity: 0;
-  transform: translateY(-0.625rem);
+  transform: translateY(-0.625rem) scale(0.96);
   transition:
-    opacity 200ms,
-    transform 200ms;
+    opacity 140ms ease,
+    transform 140ms ease;
+}
+
+.filter-backdrop-transition-enter {
+  opacity: 0;
+}
+
+.filter-backdrop-transition-enter-active {
+  opacity: 1;
+  transition: opacity 180ms ease;
+}
+
+.filter-backdrop-transition-exit {
+  opacity: 1;
+}
+
+.filter-backdrop-transition-exit-active {
+  opacity: 0;
+  transition: opacity 140ms ease;
 }
 
 @media (max-width: 28.75rem) {

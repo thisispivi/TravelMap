@@ -94,7 +94,7 @@ export default function Lightbox(): JSX.Element {
               ? `${import.meta.env.VITE_YOUTUBE_PATH}${item.original}`
               : ""
           }
-          title="YouTube video"
+          title={t("lightbox.youtubeVideo")}
         />
       );
     } else {
@@ -140,7 +140,11 @@ export default function Lightbox(): JSX.Element {
     direction: "left" | "right",
   ) => (
     <Button
-      aria-label={direction === "left" ? "Previous Slide" : "Next Slide"}
+      aria-label={
+        direction === "left"
+          ? t("lightbox.previousSlide")
+          : t("lightbox.nextSlide")
+      }
       className={`image-gallery-icon image-gallery-${direction}-nav ${
         disabled ? "image-gallery-icon--disabled" : ""
       }`}
@@ -190,7 +194,7 @@ export default function Lightbox(): JSX.Element {
           {photos.length}
         </span>
         <Button
-          aria-label={t("fullscreen")}
+          aria-label={t("lightbox.fullscreen")}
           className="lightbox__fullscreen-button"
           onClick={handleToggleFullscreen}
         >

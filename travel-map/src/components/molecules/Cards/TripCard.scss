@@ -7,155 +7,86 @@
   width: 100%;
   border-radius: 1rem;
   overflow: hidden;
-  box-shadow: 0 0.125rem 0.75rem rgba(0, 0, 0, 0.15);
-  @include m.smooth-shadow(1);
-  @include m.transition(box-shadow, 0.3s, ease-in-out);
-
-  .trip-card__header {
-    appearance: none;
-    border: none;
-    padding: 0;
-    width: 100%;
-    cursor: pointer;
-    display: block;
-    position: relative;
-    text-align: left;
-    background: transparent;
-    height: 14rem;
-    outline: none;
-    transform: translateZ(0);
-    will-change: transform;
-    @include m.transition(transform, 0.25s, cubic-bezier(0.4, 0, 0.2, 1));
-
-    &:active {
-      transform: translateY(0);
-    }
-
-    &:focus-visible {
-      outline: 0.125rem solid rgba(76, 141, 255, 0.7);
-      outline-offset: -0.125rem;
-    }
-  }
+  cursor: pointer;
+  will-change: transform;
 
   .trip-card__image-container {
-    position: absolute;
-    inset: 0;
+    position: relative;
+    height: 11rem;
     overflow: hidden;
 
     .trip-card__image {
       width: 100%;
-      height: 100%;
+      height: calc(100% + 0.125rem);
+      margin-top: -0.0625rem;
       object-fit: cover;
-      position: absolute;
-      inset: 0;
-      z-index: 0;
+      display: block;
+      @include m.transition(transform, 0.4s, cubic-bezier(0.4, 0, 0.2, 1));
     }
 
     .trip-card__image-overlay {
       position: absolute;
-      inset: 0;
+      inset: -0.0625rem 0 0;
       z-index: 1;
-      @include m.transition(background, 0.5s, ease-in-out);
     }
+  }
+
+  &:hover .trip-card__image {
+    transform: scale(1.04);
   }
 
   .trip-card__info {
     z-index: 2;
     display: flex;
-    justify-content: flex-end;
     flex-direction: column;
-    padding: 1rem 3.5rem 1rem 1rem;
-    height: 100%;
-    position: relative;
+    padding: 0.75rem 1rem;
+    gap: 0.25rem;
   }
 
   .trip-card__flags {
-    padding-block: 0.1rem;
-    flex-shrink: 0;
+    display: flex;
+    gap: 0.375rem;
     position: absolute;
-    top: 0.7rem;
-    right: 1rem;
-    gap: 0.5rem;
+    top: 0.65rem;
+    right: 0.75rem;
+    z-index: 3;
 
     .trip-card__flag {
-      width: 1.6rem;
-      height: 1.625rem;
+      width: 1.5rem;
+      height: 1.5rem;
     }
-  }
-
-  .trip-card__header-row {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    width: 100%;
-    margin-bottom: 0.5rem;
-    min-width: 0;
   }
 
   .trip-card__title {
-    font-size: 1.4rem;
+    font-size: 1.05rem;
+    font-weight: 600;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    text-shadow: none;
     margin: 0;
-    min-width: 0;
-    flex: 1;
     @include m.transition(color, 0.3s, ease-in-out);
-  }
-
-  .trip-card__chevron {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 2.25rem;
-    height: 2.25rem;
-    border-radius: 62.4375rem;
-    background: rgba(0, 0, 0, 0.08);
-    backdrop-filter: blur(0.375rem);
-    position: absolute;
-    bottom: 1rem;
-    right: 1rem;
-    @include m.transition(background, 0.25s, ease-in-out);
-  }
-
-  .trip-card__chevron-icon {
-    fill: transparent;
-    height: 1.75rem;
-
-    path {
-      stroke: white;
-      @include m.transition(stroke, 0.3s, ease-in-out);
-    }
   }
 
   .trip-card__date {
     display: flex;
-    justify-content: flex-start;
     align-items: center;
-    padding: 0.1rem 0;
-    color: v.$darkAltText;
+    gap: 0.3rem;
     @include m.transition(color, 0.3s, ease-in-out);
 
     .trip-card__date-text {
       text-transform: capitalize;
-      font-weight: 300;
-      font-size: 0.9rem;
+      font-weight: 400;
+      font-size: 0.8rem;
       margin: 0;
-      white-space: normal;
-      overflow: visible;
-      text-overflow: clip;
     }
 
     .trip-card__date-icon {
       width: auto;
-      height: 0.85rem;
-      margin-right: 0.3rem;
-      margin-top: -0.2rem;
+      height: 0.75rem;
+      flex-shrink: 0;
 
       .calendar-0,
       .calendar-1 {
-        stroke: v.$darkAltText;
         @include m.transition(stroke, 0.3s, ease-in-out);
       }
 
@@ -164,286 +95,38 @@
       }
     }
   }
-
-  .trip-card__details {
-    overflow: hidden;
-    @include m.transition(background-color, 0.3s, ease-in-out);
-  }
-
-  .trip-card__details-inner {
-    padding: 0.75rem 0;
-  }
-
-  .trip-card__cities {
-    display: flex;
-    flex-direction: column;
-    max-height: 20rem;
-    overflow-y: auto;
-    overflow-x: hidden;
-    position: relative;
-    gap: 0.6rem;
-    padding: 0.25rem 1rem;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    width: 100%;
-    box-sizing: border-box;
-
-    .trip-card__city {
-      align-items: center;
-      background: transparent;
-      border: none;
-      display: flex;
-      gap: 0;
-      min-height: 5rem;
-      position: relative;
-      text-align: left;
-      width: 100%;
-      z-index: 1;
-      outline: none;
-      border-radius: 0.8rem;
-      padding: 0.75rem 1rem;
-      cursor: pointer;
-      overflow: hidden;
-      @include m.transition(all, 0.25s, ease-out);
-
-      &:focus-visible {
-        outline: 0.125rem solid rgba(76, 141, 255, 0.6);
-        outline-offset: 0.125rem;
-      }
-
-      &:hover {
-        transform: translateY(-0.125rem);
-      }
-
-      &:active {
-        transform: translateY(0);
-      }
-
-      .trip-card__city-image-container {
-        position: absolute;
-        inset: 0;
-        overflow: hidden;
-        -webkit-mask-image: linear-gradient(
-          to right,
-          transparent 0%,
-          rgba(0, 0, 0, 0.45) 28%,
-          rgba(0, 0, 0, 0.7) 48%,
-          rgba(0, 0, 0, 0.9) 62%,
-          black 70%
-        );
-        mask-image: linear-gradient(
-          to right,
-          transparent 0%,
-          rgba(0, 0, 0, 0.45) 28%,
-          rgba(0, 0, 0, 0.7) 48%,
-          rgba(0, 0, 0, 0.9) 62%,
-          black 70%
-        );
-        .trip-card__city-image {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          position: absolute;
-          inset: 0;
-          @include m.transition(transform, 0.35s, ease-out);
-        }
-
-        .trip-card__city-loading {
-          position: absolute;
-          inset: 0;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-      }
-
-      .trip-card__city-number {
-        position: absolute;
-        left: 1.25rem;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 0.75rem;
-        height: 0.75rem;
-        min-width: unset;
-        border-radius: 50%;
-        font-size: 0;
-        flex-shrink: 0;
-        -webkit-backdrop-filter: none;
-        backdrop-filter: none;
-        z-index: 10;
-        display: none;
-      }
-      .trip-card__city-connector {
-        position: absolute;
-        left: 1.5rem;
-        top: 2.5rem;
-        width: 0.125rem;
-        height: 3rem;
-        background-color: red;
-        z-index: 9;
-      }
-
-      .trip-card__city-body {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        gap: 0.4rem;
-        min-width: 0;
-        position: relative;
-        z-index: 4;
-        padding-right: 2.5rem;
-
-        .trip-card__city-name {
-          font-size: 1.05rem;
-          font-weight: 600;
-          color: #fff;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          margin: 0;
-        }
-
-        .trip-card__city-dates {
-          display: flex;
-          align-items: center;
-          gap: 0.35rem;
-        }
-      }
-
-      .trip-card__city-dates-text {
-        margin: 0;
-        font-size: 0.8rem;
-        font-weight: 500;
-        color: rgba(255, 255, 255, 0.88);
-        line-height: 1.1;
-      }
-
-      .trip-card__city-dates-icon {
-        width: auto;
-        height: 0.8rem;
-        flex-shrink: 0;
-        margin-top: -0.15rem;
-
-        .calendar-0,
-        .calendar-1 {
-          stroke: rgba(255, 255, 255, 0.65);
-        }
-      }
-
-      .trip-card__city-flag {
-        position: absolute;
-        top: 0.6rem;
-        right: 0.7rem;
-        width: 1.5rem;
-        height: 1.5rem;
-        z-index: 3;
-        flex-shrink: 0;
-      }
-    }
-  }
-}
-
-$trip-city-accent-colors: (
-  1: #ef4444,
-  2: #f97316,
-  3: #eab308,
-  4: #22c55e,
-  5: #10b981,
-  6: #14b8a6,
-  7: #06b6d4,
-  8: #4c8dff,
-  9: #6366f1,
-  10: #a855f7,
-  11: #ec4899,
-  12: #f43f5e,
-);
-
-@mixin apply-city-dot-colors($map, $cycle: 12) {
-  @each $index, $color in $map {
-    &:nth-child(#{$cycle}n + #{$index}) {
-      .trip-card__city-number {
-        background: $color;
-        box-shadow:
-          0 0 0.375rem $color,
-          0 0 0.75rem rgba($color, 0.55);
-      }
-    }
-  }
 }
 
 .home--light {
   .trip-card {
     border: 0.0625rem solid rgba(0, 0, 0, 0.06);
-    box-shadow: none;
+    @include m.smooth-shadow(1);
+
     .trip-card__image-overlay {
       background: linear-gradient(
         180deg,
-        transparent 45%,
-        v.$lightLeftBarOpacityLighter 65%,
+        rgba(0, 0, 0, 0.04) 0%,
+        transparent 30%,
+        v.$lightLeftBarOpacityLighter 80%,
         v.$lightLeftBar 100%
       );
     }
+
     .trip-card__info {
-      .trip-card__title {
-        color: v.$lightButtonContent;
-      }
-      .trip-card__date {
-        color: v.$lightButtonContent;
-        .trip-card__date-text {
-          text-shadow: 0 0.0625rem 0.25rem rgba(255, 255, 255, 0.9);
-        }
-        .trip-card__date-icon {
-          .calendar-0,
-          .calendar-1 {
-            stroke: v.$lightButtonContent;
-          }
-        }
-      }
+      background: v.$lightLeftBar;
     }
-    .trip-card__chevron-icon {
-      path {
-        stroke: v.$lightAltTextDarker;
-      }
+
+    .trip-card__title {
+      color: v.$lightButtonContent;
     }
-    .trip-card__details {
-      background-color: v.$lightLeftBar;
 
-      .trip-card__cities {
-        &::before {
-          background: linear-gradient(
-            to bottom,
-            rgba(0, 0, 0, 0.2),
-            rgba(0, 0, 0, 0.06)
-          );
-        }
+    .trip-card__date {
+      color: v.$lightAltText;
 
-        .trip-card__city {
-          background: rgba(0, 0, 0, 0.03);
-          border: 0.0625rem solid rgba(0, 0, 0, 0.06);
-          &:hover {
-            background: rgba(0, 0, 0, 0.06);
-            @include m.smooth-shadow(1);
-          }
-
-          .trip-card__city-name {
-            color: v.$lightButtonContent;
-            text-shadow: none;
-          }
-
-          .trip-card__city-dates-text {
-            color: v.$lightButtonContent;
-            text-shadow: none;
-          }
-
-          .trip-card__city-dates-icon {
-            .calendar-0,
-            .calendar-1 {
-              stroke: v.$lightButtonContent;
-            }
-          }
-
-          @include apply-city-dot-colors($trip-city-accent-colors);
+      .trip-card__date-icon {
+        .calendar-0,
+        .calendar-1 {
+          stroke: v.$lightAltText;
         }
       }
     }
@@ -452,77 +135,34 @@ $trip-city-accent-colors: (
 
 .home--dark {
   .trip-card {
-    border: 0.0625rem solid rgba(255, 255, 255, 0.06);
+    border: 0.0625rem solid rgba(255, 255, 255, 0.07);
 
     .trip-card__image-overlay {
       background: linear-gradient(
         180deg,
-        transparent 45%,
-        v.$darkLeftBarOpacityLighter 65%,
+        rgba(0, 0, 0, 0.04) 0%,
+        transparent 30%,
+        v.$darkLeftBarOpacityLighter 80%,
         v.$darkLeftBar 100%
       );
     }
+
     .trip-card__info {
-      .trip-card__title {
-        color: v.$darkButtonContent;
-      }
-      .trip-card__date {
-        color: rgba(255, 255, 255, 0.8);
-        .trip-card__date-text {
-          text-shadow: 0 0.0625rem 0.375rem rgba(0, 0, 0, 0.7);
-        }
-        .trip-card__date-icon {
-          .calendar-0,
-          .calendar-1 {
-            stroke: rgba(255, 255, 255, 0.7);
-          }
-        }
-      }
+      background: v.$darkLeftBar;
     }
-    .trip-card__chevron-icon {
-      path {
-        stroke: v.$darkAltTextDarker;
-      }
-    }
-    .trip-card__details {
-      background-color: v.$darkLeftBar;
 
-      .trip-card__cities {
-        &::before {
-          background: linear-gradient(
-            to bottom,
-            rgba(255, 255, 255, 0.22),
-            rgba(255, 255, 255, 0.04)
-          );
+    .trip-card__title {
+      color: v.$darkButtonContent;
+    }
+
+    .trip-card__date {
+      color: v.$darkAltText;
+
+      .trip-card__date-icon {
+        .calendar-0,
+        .calendar-1 {
+          stroke: v.$darkAltText;
         }
-
-        .trip-card__city {
-          background: rgba(255, 255, 255, 0.04);
-          border: 0.0625rem solid rgba(255, 255, 255, 0.06);
-
-          &:hover {
-            background: rgba(255, 255, 255, 0.07);
-            box-shadow:
-              inset 0 0.0625rem 0 rgba(255, 255, 255, 0.09),
-              0 0.25rem 0.75rem rgba(0, 0, 0, 0.18),
-              0 0.5rem 1.5rem rgba(0, 0, 0, 0.16);
-          }
-
-          @include apply-city-dot-colors($trip-city-accent-colors);
-        }
-      }
-    }
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .trip-card {
-    .trip-card__header {
-      transition: none;
-    }
-    .trip-card__cities {
-      .trip-card__city {
-        transition: none;
       }
     }
   }

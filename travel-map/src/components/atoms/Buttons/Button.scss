@@ -4,7 +4,7 @@
 .button {
   width: auto;
   height: auto;
-  border-radius: 0.75rem;
+  border-radius: 62.4375rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -13,13 +13,14 @@
   cursor: pointer;
   will-change: transform;
   transition:
-    background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
-    color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
-    border-color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
-    box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   flex-shrink: 0;
   position: relative;
   overflow: hidden;
+
   svg {
     width: 55%;
     height: 55%;
@@ -29,17 +30,19 @@
 .home--light,
 .body--light {
   .button {
-    background: rgba(0, 0, 0, 0.04);
+    background: rgba(0, 0, 0, 0.05);
     color: v.$lightButtonContent;
-    border: 0.0625rem solid rgba(0, 0, 0, 0.06);
+    border: 0.0625rem solid rgba(0, 0, 0, 0.07);
+
     &:hover {
-      background: rgba(0, 0, 0, 0.08);
-      box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.06);
+      background: rgba(0, 0, 0, 0.09);
+      box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.08);
     }
+
     @include m.set-button-colors(
-      rgba(0, 0, 0, 0.04),
+      rgba(0, 0, 0, 0.05),
       v.$lightButtonContent,
-      rgba(0, 0, 0, 0.08)
+      rgba(0, 0, 0, 0.09)
     );
   }
 }
@@ -47,17 +50,19 @@
 .home--dark,
 .body--dark {
   .button {
-    background: rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.07);
     color: v.$darkButtonContent;
-    border: 0.0625rem solid rgba(255, 255, 255, 0.06);
+    border: 0.0625rem solid rgba(255, 255, 255, 0.08);
+
     &:hover {
-      background: rgba(255, 255, 255, 0.1);
-      box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.2);
+      background: rgba(255, 255, 255, 0.12);
+      box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.25);
     }
+
     @include m.set-button-colors(
-      rgba(255, 255, 255, 0.06),
+      rgba(255, 255, 255, 0.07),
       v.$darkButtonContent,
-      rgba(255, 255, 255, 0.1)
+      rgba(255, 255, 255, 0.12)
     );
   }
 }

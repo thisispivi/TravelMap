@@ -120,3 +120,21 @@
     fill: $buttonContent;
   }
 }
+
+@mixin floating-card-dark() {
+  @include glassmorphism-dark();
+  border-radius: v.$floatingCardRadiusLg;
+  padding: v.$floatingCardPadding;
+}
+
+@mixin floating-card-light() {
+  @include glassmorphism-light();
+  border-radius: v.$floatingCardRadiusLg;
+  padding: v.$floatingCardPadding;
+}
+
+@mixin bottom-sheet() {
+  border-radius: v.$bottomSheetRadius;
+  touch-action: none;
+  will-change: transform;
+}

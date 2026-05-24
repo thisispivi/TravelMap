@@ -1,0 +1,103 @@
+@use "../../../styles/variables" as v;
+@use "../../../styles/mixins" as m;
+
+.stats-page {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .stats-page__scroll {
+    position: absolute;
+    inset: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-top: calc(v.$floatingNavHeight + 1.5rem);
+    z-index: 1;
+  }
+
+  .stats-page__content {
+    max-width: 52rem;
+    margin: 0 auto;
+    padding-bottom: 3rem;
+  }
+
+  .info-tab-stats__header h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+}
+
+.home--dark.stats-page {
+  background: v.$darkBackground;
+
+  &::before {
+    background:
+      radial-gradient(
+        ellipse at 20% 10%,
+        rgba(40, 20, 80, 0.6) 0%,
+        transparent 55%
+      ),
+      radial-gradient(
+        ellipse at 80% 80%,
+        rgba(15, 30, 90, 0.5) 0%,
+        transparent 55%
+      );
+  }
+
+  .stats-page__scroll {
+    background: rgba(10, 10, 18, 0.55);
+    -webkit-backdrop-filter: blur(1.5rem);
+    backdrop-filter: blur(1.5rem);
+  }
+
+  .info-tab-stats__header h1 {
+    color: #ffffff;
+  }
+}
+
+.home--light.stats-page {
+  background: v.$lightBackground;
+
+  &::before {
+    background:
+      radial-gradient(
+        ellipse at 20% 10%,
+        rgba(200, 210, 255, 0.5) 0%,
+        transparent 55%
+      ),
+      radial-gradient(
+        ellipse at 80% 80%,
+        rgba(180, 200, 255, 0.4) 0%,
+        transparent 55%
+      );
+  }
+
+  .stats-page__scroll {
+    background: rgba(240, 242, 245, 0.55);
+    -webkit-backdrop-filter: blur(1.5rem);
+    backdrop-filter: blur(1.5rem);
+  }
+
+  .info-tab-stats__header h1 {
+    color: v.$lightButtonContent;
+  }
+}
+
+@media screen and (max-width: 42.5rem) {
+  .stats-page {
+    .stats-page__scroll {
+      padding-top: 1rem;
+      padding-bottom: calc(v.$floatingNavMobileHeight + 1rem);
+    }
+  }
+}

@@ -65,7 +65,7 @@
     animation: labelFadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
     paint-order: stroke fill;
     stroke: rgba(0, 0, 0, 0.7);
-    stroke-width: 0.3px;
+    stroke-width: 0.01875rem;
     stroke-linecap: round;
     stroke-linejoin: round;
     vector-effect: non-scaling-stroke;
@@ -74,7 +74,7 @@
       fill: #ffffff;
       font-weight: 700;
       stroke: rgba(0, 0, 0, 0.85);
-      stroke-width: 0.5px;
+      stroke-width: 0.03125rem;
     }
 
     &.marker-label--future {
@@ -97,12 +97,12 @@
     .marker-label {
       fill: #444444;
       stroke: rgba(255, 255, 255, 0.85);
-      stroke-width: 0.4px;
+      stroke-width: 0.025rem;
 
       &.marker-label--hovered {
         fill: #111111;
         stroke: rgba(255, 255, 255, 0.95);
-        stroke-width: 0.6px;
+        stroke-width: 0.0375rem;
       }
     }
   }

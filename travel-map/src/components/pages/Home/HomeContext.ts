@@ -1,8 +1,10 @@
 import { createContext } from "react";
 
-import { City } from "@/core";
+import { City, Trip } from "@/core";
 import { ResponsiveType } from "@/hooks/style/responsive";
 import { ThemeDetector } from "@/hooks/style/theme";
+
+export type ActiveView = "trips" | "places" | null;
 
 export type HomeContextType = ThemeDetector & {
   hoveredCity: City | null;
@@ -12,9 +14,13 @@ export type HomeContextType = ThemeDetector & {
     center: [number, number];
     zoom: number;
   }) => void;
-  isAutoPosition: boolean;
-  setIsAutoPosition: (isAutoPosition: boolean) => void;
   responsive: ResponsiveType;
+  selectedTrip: Trip | null;
+  setSelectedTrip: (trip: Trip | null) => void;
+  activeView: ActiveView;
+  setActiveView: (view: ActiveView) => void;
+  isPanelOpen: boolean;
+  setIsPanelOpen: (open: boolean) => void;
 };
 
 export const HomeContext = createContext<HomeContextType | undefined>(

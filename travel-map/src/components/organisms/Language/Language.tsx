@@ -41,13 +41,50 @@ export function LanguageSelector(): JSX.Element {
   useEffect(() => {
     if (!isOpen) return;
     const handleOutsideClick = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) {
+      const target = e.target as Node;
+      const inSelector = ref.current?.contains(target);
+      const inPortaledPanel = document
+        .querySelector(".language-selector__panel--portaled")
+        ?.contains(target);
+      if (!inSelector && !inPortaledPanel) {
         setIsOpen(false);
       }
     };
     document.addEventListener("mousedown", handleOutsideClick);
     return () => document.removeEventListener("mousedown", handleOutsideClick);
   }, [isOpen]);
+
+  const langOptions = possibleLanguages.map((language, i) => (
+    <m.button
+      animate={{
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.15, delay: i * 0.04, ease: [0.4, 0, 0.2, 1] },
+      }}
+      aria-label={language}
+      className={`language-selector__lang-option ${
+        currLanguage === language
+          ? "language-selector__lang-option--active"
+          : ""
+      }`}
+      exit={{ opacity: 0, y: 4, transition: { duration: 0.1 } }}
+      initial={{ opacity: 0, y: 4 }}
+      key={language}
+      onClick={() => {
+        changeLanguage(language);
+        setIsOpen(false);
+      }}
+      type="button"
+    >
+      <LanguageFlag
+        className="language-selector__lang-option__flag"
+        language={language}
+      />
+      <span className="language-selector__lang-option__label">
+        {LANGUAGE_LABELS[language] ?? language}
+      </span>
+    </m.button>
+  ));
 
   return (
     <LazyMotion features={domAnimation}>
@@ -61,58 +98,41 @@ export function LanguageSelector(): JSX.Element {
               document.body,
             )
           : null}
-        <AnimatePresence>
-          {isOpen ? (
-            <m.div
-              animate={{ opacity: 1 }}
-              className="language-selector__panel"
-              exit={{ opacity: 0 }}
-              initial={{ opacity: 0 }}
-              style={isMobile ? { x: "-50%" } : { y: "-50%" }}
-              transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
-            >
-              {possibleLanguages.map((language, i) => (
-                <m.button
-                  animate={{
-                    opacity: 1,
-                    ...(isMobile ? { y: 0 } : { x: 0 }),
-                    transition: {
-                      duration: 0.15,
-                      delay: i * 0.04,
-                      ease: [0.4, 0, 0.2, 1],
-                    },
-                  }}
-                  aria-label={language}
-                  className={`language-selector__lang-option ${
-                    currLanguage === language
-                      ? "language-selector__lang-option--active"
-                      : ""
-                  }`}
-                  exit={{
-                    opacity: 0,
-                    ...(isMobile ? { y: 8 } : { x: -8 }),
-                    transition: { duration: 0.1 },
-                  }}
-                  initial={{ opacity: 0, ...(isMobile ? { y: 8 } : { x: -8 }) }}
-                  key={language}
-                  onClick={() => {
-                    changeLanguage(language);
-                    setIsOpen(false);
-                  }}
-                  type="button"
+
+        {isMobile ? (
+          createPortal(
+            <AnimatePresence>
+              {isOpen ? (
+                <m.div
+                  animate={{ opacity: 1, y: 0 }}
+                  className="language-selector__panel language-selector__panel--portaled"
+                  exit={{ opacity: 0, y: 8 }}
+                  initial={{ opacity: 0, y: 8 }}
+                  key="mobile-lang-panel"
+                  transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
                 >
-                  <LanguageFlag
-                    className="language-selector__lang-option__flag"
-                    language={language}
-                  />
-                  <span className="language-selector__lang-option__label">
-                    {LANGUAGE_LABELS[language] ?? language}
-                  </span>
-                </m.button>
-              ))}
-            </m.div>
-          ) : null}
-        </AnimatePresence>
+                  {langOptions}
+                </m.div>
+              ) : null}
+            </AnimatePresence>,
+            document.body,
+          )
+        ) : (
+          <AnimatePresence>
+            {isOpen ? (
+              <m.div
+                animate={{ opacity: 1, y: 0 }}
+                className="language-selector__panel"
+                exit={{ opacity: 0, y: -4 }}
+                initial={{ opacity: 0, y: -4 }}
+                key="desktop-lang-panel"
+                transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+              >
+                {langOptions}
+              </m.div>
+            ) : null}
+          </AnimatePresence>
+        )}
         <Button
           ariaLabel={t("language")}
           className={`language-selector__activator ${

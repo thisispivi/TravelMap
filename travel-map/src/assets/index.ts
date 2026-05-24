@@ -13,10 +13,8 @@ import FerryIcon from "./icons/Ferry.svg?react";
 import FilterIcon from "./icons/Filter.svg?react";
 import FullscreenEnterIcon from "./icons/FullscreenEnter.svg?react";
 import FullscreenExitIcon from "./icons/FullscreenExit.svg?react";
-import FutureTravelsIcon from "./icons/FutureTravels.svg?react";
 import GalleryIcon from "./icons/Gallery.svg?react";
 import GlobeIcon from "./icons/Globe.svg?react";
-import HomeIcon from "./icons/Home.svg?react";
 import LanguageIcon from "./icons/Language.svg?react";
 import LogoIcon from "./icons/Logo.svg?react";
 import MapIcon from "./icons/Map.svg?react";
@@ -27,11 +25,9 @@ import PeopleIcon from "./icons/People.svg?react";
 import PlaneIcon from "./icons/Plane.svg?react";
 import PlayIcon from "./icons/Play.svg?react";
 import PositionIcon from "./icons/Position.svg?react";
-import StatsIcon from "./icons/Stats.svg?react";
 import SunIcon from "./icons/Sun.svg?react";
 import TimezoneIcon from "./icons/Timezone.svg?react";
 import UnescoIcon from "./icons/Unesco.svg?react";
-import VisitedIcon from "./icons/Visited.svg?react";
 
 export {
   AirplaneIcon,
@@ -49,10 +45,8 @@ export {
   FilterIcon,
   FullscreenEnterIcon,
   FullscreenExitIcon,
-  FutureTravelsIcon,
   GalleryIcon,
   GlobeIcon,
-  HomeIcon,
   LanguageIcon,
   LogoIcon,
   MapIcon,
@@ -63,11 +57,9 @@ export {
   PlaneIcon,
   PlayIcon,
   PositionIcon,
-  StatsIcon,
   SunIcon,
   TimezoneIcon,
   UnescoIcon,
-  VisitedIcon,
 };
 
 import AustraliaFlag from "./icons/flags/Australia.svg?react";

@@ -10,7 +10,8 @@ import { createHashRouter, RouterProvider } from "react-router-dom";
 import type { TooltipRefProps } from "react-tooltip";
 import { Tooltip } from "react-tooltip";
 
-import { Fallback, Home } from "./components/pages";
+import { Fallback } from "./components/pages/Fallback/Fallback";
+import { Home } from "./components/pages/Home/Home";
 import { mobileAndTabletCheck } from "./utils/responsive";
 
 const router = createHashRouter([
@@ -19,10 +20,11 @@ const router = createHashRouter([
     element: <Home />,
     errorElement: <Fallback />,
     children: [
-      { path: "lived", element: null },
-      { path: "visited", element: null },
-      { path: "future", element: null },
-      { path: "stats", element: null },
+      { index: true, element: null },
+      { path: "trips", element: null },
+      { path: "trip/:tripId", element: null },
+      { path: "places", element: null },
+      { path: "places/:filter", element: null },
       {
         path: "gallery/:cityName/:travelIdx",
         lazy: async () => {
@@ -46,6 +48,23 @@ const router = createHashRouter([
         ],
       },
     ],
+  },
+  {
+    path: "/timeline",
+    lazy: async () => {
+      const { TimelinePage } =
+        await import("./components/pages/Timeline/Timeline");
+      return { Component: TimelinePage };
+    },
+    errorElement: <Fallback />,
+  },
+  {
+    path: "/stats",
+    lazy: async () => {
+      const { StatsPage } = await import("./components/pages/Stats/Stats");
+      return { Component: StatsPage };
+    },
+    errorElement: <Fallback />,
   },
 ]);
 

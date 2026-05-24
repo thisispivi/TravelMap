@@ -4,13 +4,13 @@ import { isMobile, isTablet } from "mobile-device-detect";
 import { JSX, useMemo, useState } from "react";
 import { Outlet } from "react-router-dom";
 
-import { City } from "@/core";
+import { City, Trip } from "@/core";
 import { useResponsive } from "@/hooks/style/responsive";
 import { useThemeDetector } from "@/hooks/style/theme";
 import { parameters } from "@/utils/parameters";
 
 import { HomeTemplate } from "../../templates";
-import { HomeContext } from "./HomeContext";
+import { ActiveView, HomeContext } from "./HomeContext";
 
 /**
  * Home component
@@ -24,8 +24,6 @@ import { HomeContext } from "./HomeContext";
 export function Home(): JSX.Element {
   const responsive = useResponsive();
 
-  const [isAutoPosition, setIsAutoPosition] = useState<boolean>(false);
-
   const [mapPosition, setMapPosition] = useState({
     center: parameters.map.defaultCenter,
     zoom: parameters.map.defaultZoom,
@@ -34,6 +32,9 @@ export function Home(): JSX.Element {
   const [hoveredCity, setHoveredCity] = useState<City | null>(null);
 
   const { isDarkTheme, handleDarkModeSwitch } = useThemeDetector();
+  const [selectedTrip, setSelectedTrip] = useState<Trip | null>(null);
+  const [activeView, setActiveView] = useState<ActiveView>("trips");
+  const [isPanelOpen, setIsPanelOpen] = useState<boolean>(true);
 
   const context = useMemo(
     () => ({
@@ -43,17 +44,23 @@ export function Home(): JSX.Element {
       setHoveredCity,
       mapPosition,
       setMapPosition,
-      isAutoPosition,
-      setIsAutoPosition,
       responsive,
+      selectedTrip,
+      setSelectedTrip,
+      activeView,
+      setActiveView,
+      isPanelOpen,
+      setIsPanelOpen,
     }),
     [
       handleDarkModeSwitch,
       hoveredCity,
-      isAutoPosition,
       isDarkTheme,
       mapPosition,
       responsive,
+      selectedTrip,
+      activeView,
+      isPanelOpen,
     ],
   );
 
