@@ -120,6 +120,9 @@
     "title": "Future Destinations",
     "ariaLabel": "Future Destinations"
   },
+  "tripCard": {
+    "openTrip": "Open {{trip}}"
+  },
   "places": {
     "visited": "Visited",
     "lived": "Lived",

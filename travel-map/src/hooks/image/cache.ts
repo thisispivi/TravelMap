@@ -75,7 +75,10 @@ export function useCachedImageSource(
         ? { cachedSource: objectUrlCache.get(source)!, source }
         : null,
   );
-  const immediateSource = source ? objectUrlCache.get(source) : undefined;
+  const immediateSource = source
+    ? (objectUrlCache.get(source) ??
+      (fallbackSources.has(source) ? source : undefined))
+    : undefined;
 
   useEffect(() => {
     let isCancelled = false;
@@ -97,8 +100,9 @@ export function useCachedImageSource(
     };
   }, [enabled, immediateSource, source]);
 
-  if (!source || !enabled) return undefined;
+  if (!source) return undefined;
   if (immediateSource) return immediateSource;
+  if (!enabled) return undefined;
   return loadedSource?.source === source
     ? loadedSource.cachedSource
     : undefined;

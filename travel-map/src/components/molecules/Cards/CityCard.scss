@@ -26,6 +26,10 @@
       0 0.375rem 1rem rgba(0, 0, 0, 0.08);
   }
 
+  &.city-card--clickable:hover .city-card__background-img {
+    transform: scale(1.04);
+  }
+
   .city-card__top {
     position: absolute;
     inset: 0;
@@ -33,24 +37,26 @@
 
     .city-card__background {
       position: absolute;
-      inset: 0;
+      inset: -0.0625rem;
       display: flex;
+      overflow: hidden;
 
       .city-card__background-img {
-        border-radius: 1rem;
         display: block;
         height: 100%;
         width: 100%;
         object-fit: cover;
         z-index: 0;
         position: absolute;
+        inset: 0;
+        @include m.transition(transform, 0.35s, ease-out);
       }
 
       .city-card__background-overlay {
-        border-radius: 1rem;
         position: absolute;
         inset: 0;
         z-index: 1;
+        @include m.transition(background, 0.5s, ease-in-out);
       }
 
       .centered {

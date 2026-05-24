@@ -10,6 +10,7 @@ import { CalendarIcon } from "../../../assets";
 import { Trip } from "../../../core";
 import { useLanguage } from "../../../hooks/language/language";
 import { CountryFlag } from "../../atoms";
+import { Row } from "../Row/Row";
 
 interface TripCardProps {
   className?: string;
@@ -30,6 +31,7 @@ export function TripCard({
 }: TripCardProps): JSX.Element {
   const { t, currLanguage: lang } = useLanguage(["home"]);
   const prefersReducedMotion = useReducedMotion();
+  const tripTitle = t(`trips.${trip.id}`);
 
   const countries = useMemo(
     () =>
@@ -44,52 +46,59 @@ export function TripCard({
     <LazyMotion features={domAnimation}>
       <m.article
         className={`trip-card ${className}`}
-        onClick={onSelect}
+        layout
         transition={
           prefersReducedMotion
             ? { duration: 0 }
             : { type: "spring", stiffness: 520, damping: 46 }
         }
-        whileHover={prefersReducedMotion ? undefined : { y: -3 }}
-        whileTap={prefersReducedMotion ? undefined : { scale: 0.98 }}
       >
-        <div className="trip-card__image-container">
-          <div className="trip-card__image-overlay" />
-          <img
-            alt={t(`trips.${trip.id}`)}
-            className="trip-card__image"
-            src={trip.backgroundImgSource}
-          />
-        </div>
-
-        <div className="trip-card__info">
-          <div className="trip-card__flags">
-            {countries.map((country) => (
-              <CountryFlag
-                className="trip-card__flag"
-                countryId={country.id}
-                key={country.id}
-              />
-            ))}
+        <button
+          aria-label={t("tripCard.openTrip", { trip: tripTitle })}
+          className="trip-card__header"
+          onClick={onSelect}
+          type="button"
+        >
+          <div aria-hidden className="trip-card__image-container">
+            <div className="trip-card__image-overlay" />
+            <img
+              alt={tripTitle}
+              className="trip-card__image"
+              src={trip.backgroundImgSource}
+            />
           </div>
 
-          <h2 className="trip-card__title">{t(`trips.${trip.id}`)}</h2>
+          <div className="trip-card__info">
+            <Row className="trip-card__flags">
+              {countries.map((country) => (
+                <CountryFlag
+                  className="trip-card__flag"
+                  countryId={country.id}
+                  key={country.id}
+                />
+              ))}
+            </Row>
 
-          {trip.sDate ? (
-            <div className="trip-card__date">
-              <CalendarIcon className="trip-card__date-icon" />
-              <p className="trip-card__date-text">
-                {formatDateRangeShort({
-                  sDateInput: trip.sDate,
-                  eDateInput: trip.eDate,
-                  locale: lang,
-                  includeWeekday: false,
-                  showYear: true,
-                })}
-              </p>
+            <div className="trip-card__header-row">
+              <h2 className="trip-card__title">{tripTitle}</h2>
             </div>
-          ) : null}
-        </div>
+
+            {trip.sDate ? (
+              <div className="trip-card__date">
+                <CalendarIcon className="trip-card__date-icon" />
+                <p className="trip-card__date-text">
+                  {formatDateRangeShort({
+                    sDateInput: trip.sDate,
+                    eDateInput: trip.eDate,
+                    locale: lang,
+                    includeWeekday: false,
+                    showYear: true,
+                  })}
+                </p>
+              </div>
+            ) : null}
+          </div>
+        </button>
       </m.article>
     </LazyMotion>
   );

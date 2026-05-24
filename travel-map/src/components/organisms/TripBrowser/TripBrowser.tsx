@@ -1,7 +1,15 @@
 import "./TripBrowser.scss";
 
-import { AnimatePresence, domAnimation, LazyMotion, m } from "framer-motion";
-import { JSX, useCallback, useContext, useMemo, useState } from "react";
+import { domAnimation, LazyMotion, m } from "framer-motion";
+import {
+  JSX,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useNavigate } from "react-router-dom";
 import { keys } from "remeda";
 
@@ -12,6 +20,8 @@ import { visitedTrips } from "@/data";
 import { useLanguage } from "@/hooks/language/language";
 import { constants } from "@/utils/parameters";
 import { groupTripsByYear } from "@/utils/trips";
+
+const tripYearTransitionDuration = 280;
 
 export function TripBrowser(): JSX.Element {
   const { t } = useLanguage(["home"]);
@@ -25,23 +35,117 @@ export function TripBrowser(): JSX.Element {
       }),
     [],
   );
-  const years = useMemo(
-    () => keys(groups).sort((a, b) => Number(b) - Number(a)),
+  const years = useMemo<string[]>(
+    () =>
+      keys(groups)
+        .map(String)
+        .sort((a, b) => Number(b) - Number(a)),
     [groups],
   );
-  const [selectedYear, setSelectedYear] = useState<number>(
-    Number(years[0] ?? constants.GROUP_BY_CITIES_DEFAULT_OPENED_YEAR),
+  const initialYear = Number(
+    years[0] ?? constants.GROUP_BY_CITIES_DEFAULT_OPENED_YEAR,
   );
-  const [direction, setDirection] = useState<1 | -1>(1);
+  const [activeYear, setActiveYear] = useState<number>(initialYear);
+  const [panelHeight, setPanelHeight] = useState<string>();
+  const [stageHeight, setStageHeight] = useState<string>();
+  const [isListScrollable, setIsListScrollable] = useState(false);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const activeYearIndex = Math.max(years.indexOf(String(activeYear)), 0);
+  const selectedTrips = groups[activeYear] ?? [];
+
+  const measurePanelHeight = useCallback(() => {
+    const panel = panelRef.current;
+    if (!panel) return;
+
+    const style = window.getComputedStyle(panel);
+    const maxHeight = parseFloat(style.maxHeight);
+    const header = panel.querySelector<HTMLElement>(".trip-browser__header");
+    const yearSelector = panel.querySelector<HTMLElement>(
+      ".trip-browser__year-selector",
+    );
+    const list = panel.querySelector<HTMLElement>(".trip-browser__list");
+    const page = panel.querySelector<HTMLElement>(
+      `.trip-browser__trips[data-trip-year="${activeYear}"]`,
+    );
+    const listStyle = list ? window.getComputedStyle(list) : null;
+    const cards = page
+      ? [...page.querySelectorAll<HTMLElement>(".trip-card")]
+      : [];
+    const pageHeight =
+      page && cards.length > 0
+        ? Math.max(
+            ...cards.map(
+              (card) =>
+                card.getBoundingClientRect().bottom -
+                page.getBoundingClientRect().top,
+            ),
+          )
+        : (page?.scrollHeight ?? 0);
+    const fixedHeight =
+      parseFloat(style.paddingTop) +
+      parseFloat(style.paddingBottom) +
+      (header?.offsetHeight ?? 0) +
+      (yearSelector?.offsetHeight ?? 0) +
+      (listStyle ? parseFloat(listStyle.paddingTop) : 0) +
+      (listStyle ? parseFloat(listStyle.paddingBottom) : 0);
+    const contentHeight = fixedHeight + pageHeight;
+    const targetHeight = Number.isFinite(maxHeight)
+      ? Math.min(contentHeight, maxHeight)
+      : contentHeight;
+    const availableListHeight = targetHeight - fixedHeight;
+    const rootSize =
+      parseFloat(window.getComputedStyle(document.documentElement).fontSize) ||
+      16;
+    const nextHeight = `${targetHeight / rootSize}rem`;
+    const nextStageHeight = `${pageHeight / rootSize}rem`;
+
+    setIsListScrollable(pageHeight > availableListHeight + 1);
+    setStageHeight((currentHeight) =>
+      currentHeight === nextStageHeight ? currentHeight : nextStageHeight,
+    );
+    setPanelHeight((currentHeight) =>
+      currentHeight === nextHeight ? currentHeight : nextHeight,
+    );
+  }, [activeYear]);
 
   const selectYear = useCallback(
     (year: string) => {
       const next = parseInt(year);
-      setDirection(next < selectedYear ? -1 : 1);
-      setSelectedYear(next);
+      if (next === activeYear) return;
+      setActiveYear(next);
     },
-    [selectedYear],
+    [activeYear],
   );
+
+  useEffect(() => {
+    const panel = panelRef.current;
+    if (!panel) return;
+
+    let frame = window.requestAnimationFrame(measurePanelHeight);
+    const observer = new ResizeObserver(() => {
+      window.cancelAnimationFrame(frame);
+      frame = window.requestAnimationFrame(measurePanelHeight);
+    });
+
+    observer.observe(panel);
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      observer.disconnect();
+    };
+  }, [measurePanelHeight]);
+
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(measurePanelHeight);
+    const timeout = window.setTimeout(() => {
+      window.requestAnimationFrame(measurePanelHeight);
+    }, tripYearTransitionDuration + 80);
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.clearTimeout(timeout);
+    };
+  }, [measurePanelHeight, selectedTrips.length]);
 
   const openTrip = useCallback(
     (trip: Trip) => {
@@ -53,7 +157,21 @@ export function TripBrowser(): JSX.Element {
 
   return (
     <LazyMotion features={domAnimation}>
-      <div className="trip-browser">
+      <m.div
+        animate={{ height: panelHeight ?? "auto", opacity: 1, x: 0 }}
+        className="trip-browser"
+        exit={{ opacity: 0, x: "-1.25rem" }}
+        initial={{ opacity: 0, x: "-1.25rem" }}
+        ref={panelRef}
+        transition={{
+          height: {
+            duration: 0,
+            ease: [0.35, 0, 0.25, 1],
+          },
+          opacity: { duration: 0.18, ease: [0.4, 0, 0.2, 1] },
+          x: { type: "spring", stiffness: 400, damping: 30 },
+        }}
+      >
         <div className="trip-browser__header">
           <h2>{t("visited.title")}</h2>
         </div>
@@ -61,7 +179,7 @@ export function TripBrowser(): JSX.Element {
         <div className="trip-browser__year-selector">
           {years.map((year, i) => (
             <button
-              className={`trip-browser__year-btn ${selectedYear === parseInt(year) ? "trip-browser__year-btn--active" : ""}`}
+              className={`trip-browser__year-btn ${activeYear === parseInt(year) ? "trip-browser__year-btn--active" : ""}`}
               key={year}
               onClick={() => selectYear(year)}
               type="button"
@@ -71,39 +189,43 @@ export function TripBrowser(): JSX.Element {
           ))}
         </div>
 
-        <div className="trip-browser__list">
-          <AnimatePresence custom={direction} mode="wait">
-            <m.div
-              animate="center"
-              className="trip-browser__trips"
-              custom={direction}
-              exit="exit"
-              initial="enter"
-              key={selectedYear}
-              transition={{ duration: 0.22, ease: [0.4, 0, 0.2, 1] }}
-              variants={{
-                enter: (dir: number) => ({
-                  opacity: 0,
-                  x: dir === 1 ? "2.5rem" : "-2.5rem",
-                }),
-                center: { opacity: 1, x: 0 },
-                exit: (dir: number) => ({
-                  opacity: 0,
-                  x: dir === 1 ? "-2.5rem" : "2.5rem",
-                }),
-              }}
-            >
-              {(groups[selectedYear] ?? []).map((trip: Trip) => (
-                <TripCard
-                  key={trip.id}
-                  onSelect={() => openTrip(trip)}
-                  trip={trip}
-                />
-              ))}
-            </m.div>
-          </AnimatePresence>
+        <div
+          className={`trip-browser__list ${
+            isListScrollable ? "trip-browser__list--scrollable" : ""
+          }`}
+        >
+          <m.div
+            animate={{ height: stageHeight ?? "auto" }}
+            className="trip-browser__list-stage"
+            transition={{
+              duration: 0,
+              ease: [0.35, 0, 0.25, 1],
+            }}
+          >
+            {years.map((year, index) => (
+              <m.div
+                animate={{ x: `${(index - activeYearIndex) * 100}%` }}
+                className="trip-browser__trips"
+                data-trip-year={year}
+                initial={false}
+                key={year}
+                transition={{
+                  duration: tripYearTransitionDuration / 1000,
+                  ease: [0.35, 0, 0.25, 1],
+                }}
+              >
+                {(groups[Number(year)] ?? []).map((trip: Trip) => (
+                  <TripCard
+                    key={trip.id}
+                    onSelect={() => openTrip(trip)}
+                    trip={trip}
+                  />
+                ))}
+              </m.div>
+            ))}
+          </m.div>
         </div>
-      </div>
+      </m.div>
     </LazyMotion>
   );
 }
