@@ -27,11 +27,13 @@ export interface GalleryProps {
 /**
  * Gallery component
  *
- * The gallery component is used to display a gallery.
+ * Masonry photo album for a single city travel. Renders thumbnails via
+ * `react-photo-album` and navigates to the Lightbox on click. Supports
+ * YouTube video previews with a play-button overlay.
  *
  * @component
  *
- * @returns {JSX.Element} - The gallery
+ * @returns {JSX.Element} The gallery page
  */
 export default function Gallery(): JSX.Element {
   const { t } = useLanguage(["home"]);
@@ -62,26 +64,19 @@ export default function Gallery(): JSX.Element {
   const contentRef = useRef<HTMLDivElement | null>(null);
 
   const checkOverflow = useCallback(() => {
-    if (contentRef.current) {
-      const element = contentRef.current;
-      setHasOverflow(element.scrollHeight > element.clientHeight);
-    }
+    const el = contentRef.current;
+    if (el) setHasOverflow(el.scrollHeight > el.clientHeight);
   }, []);
 
   useEffect(() => {
-    const handleResize = () => checkOverflow();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, [checkOverflow]);
-
-  useEffect(() => {
     checkOverflow();
+    const timeout = setTimeout(checkOverflow, 500);
+    window.addEventListener("resize", checkOverflow);
+    return () => {
+      clearTimeout(timeout);
+      window.removeEventListener("resize", checkOverflow);
+    };
   }, [checkOverflow, travel]);
-
-  useEffect(() => {
-    const timeout = setTimeout(() => checkOverflow(), 500);
-    return () => clearTimeout(timeout);
-  }, [checkOverflow]);
 
   return (
     <div className="gallery">

@@ -2,6 +2,8 @@ import "./Container.scss";
 
 import { JSX, PropsWithChildren } from "react";
 
+import { classNames } from "@/utils/className";
+
 import { Box } from "..";
 
 interface ContainerProps extends PropsWithChildren {
@@ -12,14 +14,15 @@ interface ContainerProps extends PropsWithChildren {
 /**
  * Container component
  *
- * The container component is used to display a container.
+ * Visibility-aware wrapper for boxed gallery content.
  *
  * @component
  *
- * @param {ContainerProps} props - The props of the component
- * @param {string} props.className - The class to apply to the gallery container
- * @param {boolean} props.isVisible - The visibility of the gallery container
- * @returns {JSX.Element} - The gallery container
+ * @param {ContainerProps} props - The container props
+ * @param {string} [props.className] - Additional class names
+ * @param {boolean} [props.isVisible] - Whether the container is visible
+ * @param {React.ReactNode} props.children - Container content
+ * @returns {JSX.Element} The gallery container
  */
 export function Container({
   className = "",
@@ -28,9 +31,11 @@ export function Container({
 }: ContainerProps): JSX.Element {
   return (
     <div
-      className={`gallery-container ${className} ${
-        isVisible ? "gallery-container--visible" : ""
-      }`}
+      className={classNames(
+        "gallery-container",
+        className,
+        isVisible && "gallery-container--visible",
+      )}
     >
       <Box>{children}</Box>
     </div>

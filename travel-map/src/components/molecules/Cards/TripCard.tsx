@@ -19,10 +19,17 @@ interface TripCardProps {
 }
 
 /**
- * TripCard component — simple photo card that opens the trip detail on click.
+ * TripCard component
+ *
+ * Photo card that opens the trip detail panel.
  *
  * @component
- * @param {TripCardProps} props
+ *
+ * @param {TripCardProps} props - The trip card props
+ * @param {string} [props.className] - Additional class names
+ * @param {Trip} props.trip - Trip to display
+ * @param {() => void} [props.onSelect] - Selection handler
+ * @returns {JSX.Element} The trip card
  */
 export function TripCard({
   className = "",

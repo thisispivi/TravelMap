@@ -8,8 +8,6 @@ import {
   useRef,
   useState,
 } from "react";
-
-const HOVER_LEAVE_DELAY_MS = 150;
 import {
   ComposableMap,
   Geographies,
@@ -35,21 +33,15 @@ import { HomeContext } from "../../pages/Home/HomeContext";
 import { RouteOverlay } from "../RouteOverlay/RouteOverlay";
 import { MapTooltip } from "../Tooltip/TooltipMap";
 
-const sortByLatitudeAndLongitude = (a: City, b: City) => {
-  const fCordA = a.coordinates[0];
-  const fCordB = b.coordinates[0];
-  const sCordA = a.coordinates[1];
-  const sCordB = b.coordinates[1];
+const HOVER_LEAVE_DELAY_MS = 150;
+const FLY_TO_DURATION_MS = 800;
 
-  return sCordA < sCordB
-    ? 1
-    : sCordA > sCordB
-      ? -1
-      : fCordA < fCordB
-        ? -1
-        : fCordA > fCordB
-          ? 1
-          : 0;
+const sortByCoordinates = (a: City, b: City) => {
+  const [lonA, latA] = a.coordinates;
+  const [lonB, latB] = b.coordinates;
+  if (latA !== latB) return latA < latB ? 1 : -1;
+  if (lonA !== lonB) return lonA < lonB ? -1 : 1;
+  return 0;
 };
 
 const DEFAULT_COUNTRY_FILL_DARK = "#1e1e2a";
@@ -63,22 +55,35 @@ const GEO_STYLE = {
 
 const PROJECTION_CONFIG = { scale: 160 } as const;
 
-/** Duration of the fly-to animation in ms. */
-const FLY_TO_DURATION_MS = 800;
-
 function easeInOutCubic(t: number): number {
   return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 }
 
+interface GeographyLayerProps {
+  geographies: Array<{ properties: { name: string }; rsmKey: string }>;
+  getCountryFillColor: (countryId: string) => string;
+  onLoaded: () => void;
+}
+
+/**
+ * GeographyLayer component
+ *
+ * Renders the world map's filled country shapes and fires `onLoaded` once
+ * geographies have been received from the GeoJSON source.
+ *
+ * @component
+ *
+ * @param {GeographyLayerProps} props
+ * @param {GeographyLayerProps["geographies"]} props.geographies - GeoJSON feature array
+ * @param {(countryId: string) => string} props.getCountryFillColor - Returns the fill color for a given country name.
+ * @param {() => void} props.onLoaded - Called once on the first non-empty render.
+ * @returns {JSX.Element} SVG geography shapes
+ */
 function GeographyLayer({
   geographies,
   getCountryFillColor,
   onLoaded,
-}: {
-  geographies: Array<{ properties: { name: string }; rsmKey: string }>;
-  getCountryFillColor: (countryId: string) => string;
-  onLoaded: () => void;
-}) {
+}: GeographyLayerProps) {
   const didNotifyLoadedRef = useRef(false);
 
   useEffect(() => {
@@ -104,10 +109,15 @@ function GeographyLayer({
 }
 
 /**
- * Interactive world map.
+ * Map component
  *
- * Data is imported from `@/data` so it can be code-split together with the
- * lazy-loaded map chunk.
+ * Interactive world map rendered with react-simple-maps. Displays visited,
+ * lived, and future city markers with animated fly-to transitions, city-name
+ * labels, and a hover tooltip.
+ *
+ * @component
+ *
+ * @returns {JSX.Element} The full-screen map canvas
  */
 export function Map() {
   const { t } = useLanguage(["home"]);
@@ -287,17 +297,17 @@ export function Map() {
   );
 
   const sortedVisitedCities = useMemo(
-    () => [...visitedCities].sort(sortByLatitudeAndLongitude),
+    () => [...visitedCities].sort(sortByCoordinates),
     [],
   );
 
   const sortedFutureCities = useMemo(
-    () => [...futureCities].sort(sortByLatitudeAndLongitude),
+    () => [...futureCities].sort(sortByCoordinates),
     [],
   );
 
   const sortedLivedCities = useMemo(
-    () => [...livedCities].sort(sortByLatitudeAndLongitude),
+    () => [...livedCities].sort(sortByCoordinates),
     [],
   );
 
@@ -434,14 +444,14 @@ export function Map() {
       </Tooltip>
       <div className="map-zoom-controls">
         <Button
-          aria-label={t("map.zoomIn")}
+          ariaLabel={t("map.zoomIn")}
           className="map-zoom-controls__button"
           onClick={handleZoomIn}
         >
           +
         </Button>
         <Button
-          aria-label={t("map.zoomOut")}
+          ariaLabel={t("map.zoomOut")}
           className="map-zoom-controls__button"
           onClick={handleZoomOut}
         >

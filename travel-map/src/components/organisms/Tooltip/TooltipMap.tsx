@@ -14,6 +14,7 @@ import {
 import { City } from "@/core";
 import { useLanguage } from "@/hooks/language/language";
 import { formatDateRangeShort } from "@/i18n/functions/date";
+import { classNames } from "@/utils/className";
 
 import { Button, CountryFlag } from "../../atoms";
 
@@ -24,6 +25,12 @@ interface MapTooltipProps {
   setIsOpen: (isOpen: boolean) => void;
 }
 
+interface TooltipBackdropProps {
+  side: "top" | "right" | "bottom" | "left";
+  onMouseEnter: () => void;
+  onMouseLeave: () => void;
+}
+
 const tooltipVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -32,20 +39,40 @@ const tooltipVariants = {
   },
 } as const;
 
+const TOOLTIP_BACKDROP_SIDES: TooltipBackdropProps["side"][] = [
+  "top",
+  "right",
+  "bottom",
+  "left",
+];
+
+function TooltipBackdrop({
+  side,
+  onMouseEnter,
+  onMouseLeave,
+}: TooltipBackdropProps) {
+  return (
+    <div
+      className={`map-tooltip__backdrop map-tooltip__backdrop--${side}`}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+    />
+  );
+}
+
 /**
  * MapTooltip component
  *
- * The map tooltip component is used to display the tooltip of a city on the map.
+ * Displays city details, latest visits, and gallery access from a map marker.
  *
  * @component
  *
- * @param {MapTooltipProps} props - The props of the map tooltip
+ * @param {MapTooltipProps} props - The map tooltip props
  * @param {City} props.city - The city to display
- * @param {(city: City) => void} [props.onMouseEnter] - The function to call when the mouse enter the tooltip
- * @param {() => void} [props.onMouseLeave] - The function to call when the mouse leave the tooltip
- * @param {boolean} [props.isOpen] - The visibility of the tooltip
- * @param {(isOpen: boolean) => void} props.setIsOpen - The function to set the visibility of the tooltip
- * @returns {JSX.Element} - The map tooltip
+ * @param {(city: City) => void} [props.onMouseEnter] - Mouse enter handler
+ * @param {() => void} [props.onMouseLeave] - Mouse leave handler
+ * @param {(isOpen: boolean) => void} props.setIsOpen - Updates tooltip visibility
+ * @returns {JSX.Element} The map tooltip
  */
 export function MapTooltip({
   city,
@@ -57,13 +84,9 @@ export function MapTooltip({
   const { t, currLanguage: lang } = useLanguage(["home"]);
   const [travelIdx, setTravelIdx] = useState(0);
   const filteredTravels = city.travels.filter((travel) => !travel.isFuture);
-  const createBackdrop = (className: string) => (
-    <div
-      className={`map-tooltip__backdrop ${className}`}
-      onMouseEnter={() => onMouseEnter && onMouseEnter(city)}
-      onMouseLeave={() => onMouseLeave && onMouseLeave()}
-    />
-  );
+
+  const handleEnter = () => onMouseEnter?.(city);
+  const handleLeave = () => onMouseLeave?.();
 
   useEffect(() => {
     const closeTooltip = () => setIsOpen(false);
@@ -79,16 +102,20 @@ export function MapTooltip({
   return (
     <LazyMotion features={domAnimation}>
       <>
-        {createBackdrop("map-tooltip__backdrop--top")}
-        {createBackdrop("map-tooltip__backdrop--right")}
-        {createBackdrop("map-tooltip__backdrop--bottom")}
-        {createBackdrop("map-tooltip__backdrop--left")}
+        {TOOLTIP_BACKDROP_SIDES.map((side) => (
+          <TooltipBackdrop
+            key={side}
+            onMouseEnter={handleEnter}
+            onMouseLeave={handleLeave}
+            side={side}
+          />
+        ))}
         <m.div
           animate="visible"
           className="map-tooltip__container"
           initial="hidden"
-          onMouseEnter={() => onMouseEnter && onMouseEnter(city)}
-          onMouseLeave={() => onMouseLeave && onMouseLeave()}
+          onMouseEnter={handleEnter}
+          onMouseLeave={handleLeave}
           variants={tooltipVariants}
         >
           <div className="map-tooltip__header">
@@ -120,7 +147,12 @@ export function MapTooltip({
                   </b>
                   <div className="map-tooltip__content__travels__selector">
                     <DoubleChevronIcon
-                      className={`map-tooltip__content__chevron-icon map-tooltip__content__chevron-icon--left ${travelIdx > 0 ? "" : "map-tooltip__content__chevron-icon--disabled"}`}
+                      className={classNames(
+                        "map-tooltip__content__chevron-icon",
+                        "map-tooltip__content__chevron-icon--left",
+                        travelIdx <= 0 &&
+                          "map-tooltip__content__chevron-icon--disabled",
+                      )}
                       onClick={() =>
                         setTravelIdx((prev) => (prev > 0 ? prev - 1 : prev))
                       }
@@ -138,7 +170,11 @@ export function MapTooltip({
                       </p>
                     </div>
                     <DoubleChevronIcon
-                      className={`map-tooltip__content__chevron-icon ${travelIdx < filteredTravels.length - 1 ? "" : "map-tooltip__content__chevron-icon--disabled"}`}
+                      className={classNames(
+                        "map-tooltip__content__chevron-icon",
+                        travelIdx >= filteredTravels.length - 1 &&
+                          "map-tooltip__content__chevron-icon--disabled",
+                      )}
                       onClick={() =>
                         setTravelIdx((prev) =>
                           prev < filteredTravels.length - 1 ? prev + 1 : prev,

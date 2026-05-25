@@ -68,6 +68,17 @@ const router = createHashRouter([
 
 const isMobileOrTablet = mobileAndTabletCheck();
 
+/**
+ * BaseTooltip component
+ *
+ * Global `react-tooltip` instance used for all `data-tooltip-id="base-tooltip"`
+ * anchors. Automatically closes when the window loses focus or the tab becomes
+ * hidden to prevent stale tooltips after context switches.
+ *
+ * @component
+ *
+ * @returns {JSX.Element} The shared tooltip element
+ */
 function BaseTooltip() {
   const tooltipRef = useRef<TooltipRefProps>(null);
 

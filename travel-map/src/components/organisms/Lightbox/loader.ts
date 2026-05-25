@@ -12,10 +12,10 @@ type LightboxLoader = {
 /**
  * Lightbox loader
  *
- * The lightbox loader is used to load the lightbox data.
+ * Resolves the selected city, travel, and photo index for the lightbox route.
  *
- * @param {LoaderFunctionArgs<LightboxLoader>} data - The loader data
- * @returns {LightboxProps | null} - The lightbox props
+ * @param {LoaderFunctionArgs<LightboxLoader>} data - React Router loader data
+ * @returns {LightboxProps | null} Lightbox props, or null when the route is invalid
  */
 export function loader(
   data: LoaderFunctionArgs<LightboxLoader>,
@@ -23,5 +23,9 @@ export function loader(
   const { cityName, travelIdx, photoIdx } = data.params;
   const city = visitedCities.find((city) => city.name === cityName);
   if (!city || !travelIdx || !photoIdx) return null;
-  return { city, travelIdx: parseInt(travelIdx), photoIdx: parseInt(photoIdx) };
+  return {
+    city,
+    travelIdx: parseInt(travelIdx, 10),
+    photoIdx: parseInt(photoIdx, 10),
+  };
 }

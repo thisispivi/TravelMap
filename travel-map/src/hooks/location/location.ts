@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useLocation as useLocationRouter } from "react-router-dom";
 
-type LocationHook = {
+export type UseLocationReturn = {
   isTrips: boolean;
   isPlaces: boolean;
   isTripDetail: boolean;
@@ -15,13 +15,11 @@ type LocationHook = {
 };
 
 /**
- * The useLocation hook
+ * Derives structured route state from the current URL pathname.
  *
- * The useLocation hook is used to get the location of the user.
- *
- * @returns {LocationHook} - The location hook
+ * @returns {UseLocationReturn} Flags and extracted segments for the active route.
  */
-export function useLocation(): LocationHook {
+export function useLocation(): UseLocationReturn {
   const location = useLocationRouter();
   const pathname = location.pathname;
 

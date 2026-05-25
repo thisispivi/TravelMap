@@ -2,6 +2,9 @@ import "./Backdrop.scss";
 
 import { JSX } from "react";
 
+import { classNames } from "@/utils/className";
+import { isActivationKey } from "@/utils/keyboard";
+
 interface BackdropProps {
   onClick?: () => void;
   isVisible?: boolean;
@@ -11,15 +14,15 @@ interface BackdropProps {
 /**
  * Backdrop component
  *
- * The backdrop component is used to display a backdrop.
+ * Clickable overlay used behind modal and panel content.
  *
  * @component
  *
- * @param {BackdropProps} props - The props of the component
- * @param {() => void} [props.onClick] - The function to call on click
- * @param {boolean} [props.isVisible=true] - The visibility of the backdrop
- * @param {string} [props.className] - The class to apply to
- * @returns {JSX.Element} - The backdrop
+ * @param {BackdropProps} props - The backdrop props
+ * @param {() => void} [props.onClick] - Click handler
+ * @param {boolean} [props.isVisible] - Whether the backdrop is visible
+ * @param {string} [props.className] - Additional class names
+ * @returns {JSX.Element} The backdrop
  */
 export function Backdrop({
   onClick,
@@ -28,12 +31,15 @@ export function Backdrop({
 }: BackdropProps): JSX.Element {
   return (
     <div
-      className={`backdrop  ${isVisible ? "backdrop--visible" : ""} ${className}
-      `}
+      className={classNames(
+        "backdrop",
+        isVisible && "backdrop--visible",
+        className,
+      )}
       {...(onClick
         ? {
             onClick,
-            onKeyDown: (e) => (e.key === "Enter" || e.key === " ") && onClick(),
+            onKeyDown: (event) => isActivationKey(event) && onClick(),
             role: "button" as const,
             tabIndex: 0,
           }

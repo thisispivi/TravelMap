@@ -11,6 +11,7 @@ import {
 } from "@/components/pages/Home/HomeContext";
 import { useLanguage } from "@/hooks/language/language";
 import { useLocation } from "@/hooks/location/location";
+import { classNames } from "@/utils/className";
 
 import { DarkModeButton } from "../../atoms";
 import { LanguageSelector } from "../Language/Language";
@@ -21,8 +22,28 @@ interface FloatingNavProps {
   handleDarkModeSwitch: HomeContextType["handleDarkModeSwitch"];
 }
 
+/**
+ * FloatingNav component
+ *
+ * Primary navigation bar. On desktop it appears as a left-side panel; on mobile
+ * it floats at the bottom of the screen. Contains tab navigation, the language
+ * selector, and the dark-mode toggle.
+ *
+ * Clicking an active tab collapses the side panel and navigates to the map-only
+ * view. Switching from a full-page route (Timeline, Stats) to a panel route
+ * (Trips, Places) animates the panel close before opening the new one.
+ *
+ * @component
+ *
+ * @param {FloatingNavProps} props
+ * @param {string} [props.className] - Additional class names
+ * @param {boolean} props.isDarkTheme - Current theme state
+ * @param {() => void} props.handleDarkModeSwitch - Toggles dark / light mode
+ * @returns {JSX.Element} The navigation bar
+ */
+
 let navHasAnimated = false;
-const panelCloseDelayMs = 220;
+const PANEL_CLOSE_DELAY_MS = 220;
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -116,7 +137,7 @@ export function FloatingNav({
         closePanelTimeoutRef.current = window.setTimeout(() => {
           navigate("/", { state: { mapOnly: true } });
           closePanelTimeoutRef.current = null;
-        }, panelCloseDelayMs);
+        }, PANEL_CLOSE_DELAY_MS);
         return;
       }
 
@@ -130,7 +151,7 @@ export function FloatingNav({
         pendingOpenTabRef.current = tab.id;
         navigate(tab.path);
         closePanelTimeoutRef.current = null;
-      }, panelCloseDelayMs);
+      }, PANEL_CLOSE_DELAY_MS);
       return;
     }
 
@@ -142,7 +163,11 @@ export function FloatingNav({
     <LazyMotion features={domAnimation}>
       <m.nav
         animate="visible"
-        className={`floating-nav ${className} ${isGallery ? "floating-nav--hidden" : ""}`}
+        className={classNames(
+          "floating-nav",
+          className,
+          isGallery && "floating-nav--hidden",
+        )}
         initial={skipAnimation ? false : "hidden"}
         variants={containerVariants}
       >
@@ -161,7 +186,13 @@ export function FloatingNav({
         <div className="floating-nav__tabs">
           {tabs.map((tab) => (
             <m.button
-              className={`floating-nav__tab ${tab.isActive ? "floating-nav__tab--active" : ""} ${tab.isActive && !isPanelOpen ? "floating-nav__tab--panel-closed" : ""}`}
+              className={classNames(
+                "floating-nav__tab",
+                tab.isActive && "floating-nav__tab--active",
+                tab.isActive &&
+                  !isPanelOpen &&
+                  "floating-nav__tab--panel-closed",
+              )}
               key={tab.id}
               onClick={() => handleTabClick(tab)}
               type="button"

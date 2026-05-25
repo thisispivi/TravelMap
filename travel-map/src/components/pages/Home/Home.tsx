@@ -19,11 +19,14 @@ import { ActiveView, HomeContext } from "./HomeContext";
 /**
  * Home component
  *
- * The home component is the main component of the application. It is used to display the map and the left bar.
+ * Root page component. Owns all shared state (theme, map position, hovered
+ * city, selected trip, active view, panel open/close) and exposes it via
+ * `HomeContext`. Redirects to `/trips` on first load unless the user navigated
+ * to the map-only view explicitly.
  *
  * @component
  *
- * @returns {JSX.Element} - The home
+ * @returns {JSX.Element} The home page with context and layout template
  */
 export function Home(): JSX.Element {
   const responsive = useResponsive();

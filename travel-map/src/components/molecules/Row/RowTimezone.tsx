@@ -7,6 +7,7 @@ import { formatDeltaVsCityForDateSpan } from "@/utils/timezoneOffset";
 import { ChevronRightIcon } from "../../../assets";
 import { City } from "../../../core";
 import { useLanguage } from "../../../hooks/language/language";
+import { classNames } from "../../../utils/className";
 import { CountryFlag } from "../../atoms";
 import { Row } from "./Row";
 
@@ -19,17 +20,19 @@ interface TimezoneRowProps {
 }
 
 /**
- * A timezone row
+ * TimezoneRow component
  *
- * The timezone row component is used to create a timezone row.
+ * Displays the timezone offset between two cities.
  *
  * @component
  *
- * @param {TimezoneRowProps} props - The props of the component
- * @param {string} props.className - The class to apply to the timezone row
- * @param {City} props.sCity - The start country
- * @param {City} props.eCity - The end country
- * @returns {JSX.Element} - The timezone row
+ * @param {TimezoneRowProps} props - The timezone row props
+ * @param {string} [props.className] - Additional class names
+ * @param {City} props.sCity - Start city
+ * @param {City} props.eCity - End city
+ * @param {Date} [props.sDate] - Start date for offset calculation
+ * @param {Date} [props.eDate] - End date for offset calculation
+ * @returns {JSX.Element} The timezone row
  */
 export function TimezoneRow({
   sCity,
@@ -43,7 +46,7 @@ export function TimezoneRow({
   const endDate = eDate ?? eCity.travels?.[0]?.eDate ?? startDate;
 
   return (
-    <Row className={`timezone-row ${className} row--wrap`}>
+    <Row className={classNames("timezone-row", className, "row--wrap")}>
       <div className="timezone-row__cities">
         <h2 className="timezone-row__cities__city">
           <CountryFlag countryId={sCity.country.id} />

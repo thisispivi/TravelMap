@@ -4,9 +4,12 @@ import { JSX, ReactNode, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { CSSTransition } from "react-transition-group";
 
-import { Country } from "../../../core";
-import { useLanguage } from "../../../hooks/language/language";
-import { mobileAndTabletCheck } from "../../../utils/responsive";
+import { Country } from "@/core";
+import { useLanguage } from "@/hooks/language/language";
+import { classNames } from "@/utils/className";
+import { isActivationKey } from "@/utils/keyboard";
+import { mobileAndTabletCheck } from "@/utils/responsive";
+
 import { Button, Checkbox, CountryFlag } from "../../atoms";
 
 interface FilterByCountryProps {
@@ -17,6 +20,22 @@ interface FilterByCountryProps {
   className?: string;
 }
 
+/**
+ * FilterByCountry component
+ *
+ * A toggle-button that opens a portal-rendered dropdown listing countries with
+ * checkboxes. Supports a select-all toggle and closes on Escape or backdrop click.
+ *
+ * @component
+ *
+ * @param {FilterByCountryProps} props
+ * @param {Country[]} props.options - The full list of countries to filter by
+ * @param {Country[]} props.selected - Currently selected countries
+ * @param {(selected: Country[]) => void} props.onChange - Called when the selection changes
+ * @param {React.ReactNode} [props.buttonIcon] - Icon rendered inside the trigger button
+ * @param {string} [props.className] - Additional class names for the trigger button
+ * @returns {JSX.Element} The filter dropdown
+ */
 export function FilterByCountry({
   options,
   selected,
@@ -61,10 +80,11 @@ export function FilterByCountry({
   };
 
   const getOptionClassName = (isSelected = false) => {
-    const base = "filter__option";
-    const mobile = mobileAndTabletCheck() ? "filter__option--mobile" : "";
-    const sel = isSelected ? "filter__option--selected" : "";
-    return `${base} ${sel} ${mobile}`.trim();
+    return classNames(
+      "filter__option",
+      isSelected && "filter__option--selected",
+      mobileAndTabletCheck() && "filter__option--mobile",
+    );
   };
 
   return (
@@ -89,7 +109,11 @@ export function FilterByCountry({
       <div className="filter">
         <Button
           ariaLabel={t("filterTooltip")}
-          className={`filter__button ${className} ${isOpen ? "filter__button--open" : ""}`}
+          className={classNames(
+            "filter__button",
+            className,
+            isOpen && "filter__button--open",
+          )}
           onClick={() => setIsOpen((o) => !o)}
           tooltipContent={t("filterTooltip")}
           tooltipId="base-tooltip"
@@ -108,9 +132,8 @@ export function FilterByCountry({
               <div
                 className={`${getOptionClassName()} filter__option--select-all`}
                 onClick={handleSelectAllToggle}
-                onKeyDown={(e) =>
-                  (e.key === "Enter" || e.key === " ") &&
-                  handleSelectAllToggle()
+                onKeyDown={(event) =>
+                  isActivationKey(event) && handleSelectAllToggle()
                 }
                 role="button"
                 tabIndex={0}
@@ -127,9 +150,8 @@ export function FilterByCountry({
                   className={getOptionClassName(selected.includes(option))}
                   key={option.id}
                   onClick={() => handleCountryToggle(option)}
-                  onKeyDown={(e) =>
-                    (e.key === "Enter" || e.key === " ") &&
-                    handleCountryToggle(option)
+                  onKeyDown={(event) =>
+                    isActivationKey(event) && handleCountryToggle(option)
                   }
                   role="button"
                   tabIndex={0}

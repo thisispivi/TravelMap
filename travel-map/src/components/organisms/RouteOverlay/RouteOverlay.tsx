@@ -7,6 +7,17 @@ import { Line } from "react-simple-maps";
 import { HomeContext } from "@/components/pages/Home/HomeContext";
 import { useLocation } from "@/hooks/location/location";
 
+/**
+ * RouteOverlay component
+ *
+ * Renders dashed route lines between consecutive trip destinations on the map.
+ * Only visible when a trip detail is active. Segments animate in one by one
+ * with a staggered CSS keyframe.
+ *
+ * @component
+ *
+ * @returns {JSX.Element} SVG overlay lines rendered inside the ZoomableGroup
+ */
 export function RouteOverlay(): JSX.Element {
   const { selectedTrip, isDarkTheme } = useContext(HomeContext)!;
   const { isTripDetail } = useLocation();

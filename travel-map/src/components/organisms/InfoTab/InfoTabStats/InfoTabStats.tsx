@@ -64,6 +64,20 @@ interface InfoTabStatsProps {
 
 type SvgIcon = ComponentType<SVGProps<SVGSVGElement> & { className?: string }>;
 
+/**
+ * InfoTabStats component
+ *
+ * Bento-grid statistics dashboard. Computes all travel stats (mileage,
+ * countries, continents, transport records, timezones, etc.) and renders them
+ * as a mix of number cards, bar charts, donut charts, and detail rows.
+ *
+ * @component
+ *
+ * @param {InfoTabStatsProps} props
+ * @param {string} [props.className] - Additional class names
+ * @param {boolean} [props.isVisible] - Controls the CSS visibility modifier
+ * @returns {JSX.Element} The stats dashboard
+ */
 export function InfoTabStats({
   className = "",
   isVisible = false,
@@ -401,19 +415,37 @@ export function InfoTabStats({
   );
 }
 
+interface BentoStatCardProps {
+  icon: SvgIcon;
+  label: string;
+  value: string | number;
+  suffix?: string;
+  className?: string;
+}
+
+/**
+ * BentoStatCard component
+ *
+ * A compact stat tile showing an icon, a label, a primary value, and an
+ * optional suffix (e.g. `"/ 195"` or `"days"`).
+ *
+ * @component
+ *
+ * @param {BentoStatCardProps} props
+ * @param {SvgIcon} props.icon - SVG icon component to render
+ * @param {string} props.label - Descriptive label below the value
+ * @param {string | number} props.value - The primary statistic to display
+ * @param {string} [props.suffix] - Optional text appended after the value
+ * @param {string} [props.className] - Additional class names
+ * @returns {JSX.Element} The stat tile
+ */
 function BentoStatCard({
   icon: Icon,
   label,
   value,
   suffix,
   className = "",
-}: {
-  icon: SvgIcon;
-  label: string;
-  value: string | number;
-  suffix?: string;
-  className?: string;
-}): JSX.Element {
+}: BentoStatCardProps): JSX.Element {
   return (
     <Card className={`bento-stat card--box-shadow ${className}`}>
       <Icon className="bento-stat__icon" />

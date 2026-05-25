@@ -19,6 +19,7 @@ import { Country } from "@/core";
 import { futureCities, livedCities, visitedCities } from "@/data";
 import { useLanguage } from "@/hooks/language/language";
 import { useLocation } from "@/hooks/location/location";
+import { classNames } from "@/utils/className";
 
 import { SegmentedControl } from "../../atoms";
 import { CityCard } from "../../molecules";
@@ -26,7 +27,7 @@ import { CityCard } from "../../molecules";
 type PlacesFilter = "visited" | "lived" | "future";
 
 const placesFilterOrder: PlacesFilter[] = ["visited", "lived", "future"];
-const placesTabTransitionDuration = 280;
+const PLACES_TAB_TRANSITION_DURATION_MS = 280;
 
 const gridPageVariants = {
   enter: (direction: number) => ({
@@ -43,6 +44,17 @@ const gridPageVariants = {
   }),
 };
 
+/**
+ * PlacesBrowser component
+ *
+ * Displays cities in a filterable grid, segmented by category (Visited, Lived,
+ * Future). Supports optional country filtering via a dropdown. The panel height
+ * adapts to the active grid page, and tabs slide with a directional animation.
+ *
+ * @component
+ *
+ * @returns {JSX.Element} The places browser panel
+ */
 export function PlacesBrowser(): JSX.Element {
   const { t } = useLanguage(["home"]);
   const navigate = useNavigate();
@@ -186,7 +198,7 @@ export function PlacesBrowser(): JSX.Element {
     const frame = window.requestAnimationFrame(measurePanelHeight);
     const timeout = window.setTimeout(() => {
       window.requestAnimationFrame(measurePanelHeight);
-    }, placesTabTransitionDuration + 80);
+    }, PLACES_TAB_TRANSITION_DURATION_MS + 80);
 
     return () => {
       window.cancelAnimationFrame(frame);
@@ -237,7 +249,7 @@ export function PlacesBrowser(): JSX.Element {
     routeUpdateTimeoutRef.current = window.setTimeout(() => {
       navigate(`/places/${nextFilter}`);
       routeUpdateTimeoutRef.current = null;
-    }, placesTabTransitionDuration);
+    }, PLACES_TAB_TRANSITION_DURATION_MS);
   };
 
   return (
@@ -278,9 +290,10 @@ export function PlacesBrowser(): JSX.Element {
         />
 
         <div
-          className={`places-browser__grid ${
-            isGridScrollable ? "places-browser__grid--scrollable" : ""
-          }`}
+          className={classNames(
+            "places-browser__grid",
+            isGridScrollable && "places-browser__grid--scrollable",
+          )}
         >
           <div className="places-browser__grid-stage">
             <AnimatePresence
@@ -290,16 +303,17 @@ export function PlacesBrowser(): JSX.Element {
             >
               <m.div
                 animate="center"
-                className={`places-browser__grid-page ${
-                  cities.length === 1 ? "places-browser__grid-page--single" : ""
-                }`}
+                className={classNames(
+                  "places-browser__grid-page",
+                  cities.length === 1 && "places-browser__grid-page--single",
+                )}
                 custom={transitionDirection}
                 data-places-filter={filter}
                 exit="exit"
                 initial="enter"
                 key={filter}
                 transition={{
-                  duration: placesTabTransitionDuration / 1000,
+                  duration: PLACES_TAB_TRANSITION_DURATION_MS / 1000,
                   ease: [0.35, 0, 0.25, 1],
                 }}
                 variants={gridPageVariants}

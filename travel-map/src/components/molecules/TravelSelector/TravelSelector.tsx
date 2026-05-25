@@ -7,6 +7,7 @@ import { CalendarIcon, DoubleChevronIcon } from "../../../assets";
 import { Travel } from "../../../core";
 import { useLanguage } from "../../../hooks/language/language";
 import { formatDateRangeShort } from "../../../i18n/functions/date";
+import { classNames } from "../../../utils/className";
 
 interface TravelSelectorProps {
   travels: Travel[];
@@ -17,16 +18,15 @@ interface TravelSelectorProps {
 /**
  * TravelSelector component
  *
- * The travel selector component is used to display a travel selector.
+ * Compact previous / next selector for a city's travel entries.
  *
  * @component
  *
- * @param {TravelSelectorProps} props - The props of the component
- * @param {Travel[]} props.travels - The travels
- * @param {number} props.selectedTravelIdx - The selected travel index
- * @param {string} props.cityName - The city name
- *
- * @returns {JSX.Element} - The travel selector
+ * @param {TravelSelectorProps} props - The travel selector props
+ * @param {Travel[]} props.travels - City travels to navigate through
+ * @param {number} props.selectedTravelIdx - Active travel index
+ * @param {string} props.cityName - City route segment
+ * @returns {JSX.Element} The travel selector
  */
 export function TravelSelector({
   travels,
@@ -41,8 +41,11 @@ export function TravelSelector({
   return (
     <div className="travel-selector">
       <DoubleChevronIcon
-        className={`travel-selector__chevron-icon travel-selector__chevron-icon--left
-        ${selectedTravelIdx > 0 ? "" : "travel-selector__chevron-icon--disabled"}`}
+        className={classNames(
+          "travel-selector__chevron-icon",
+          "travel-selector__chevron-icon--left",
+          selectedTravelIdx <= 0 && "travel-selector__chevron-icon--disabled",
+        )}
         onClick={() =>
           selectedTravelIdx > 0 &&
           navigate(`/gallery/${cityName}/${selectedTravelIdx - 1}`)
@@ -61,8 +64,11 @@ export function TravelSelector({
         </p>
       </div>
       <DoubleChevronIcon
-        className={`travel-selector__chevron-icon
-        ${selectedTravelIdx < filteredTravels.length - 1 ? "" : "travel-selector__chevron-icon--disabled"}`}
+        className={classNames(
+          "travel-selector__chevron-icon",
+          selectedTravelIdx >= filteredTravels.length - 1 &&
+            "travel-selector__chevron-icon--disabled",
+        )}
         onClick={() =>
           selectedTravelIdx < filteredTravels.length - 1 &&
           navigate(`/gallery/${cityName}/${selectedTravelIdx + 1}`)

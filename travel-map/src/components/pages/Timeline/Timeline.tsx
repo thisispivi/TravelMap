@@ -6,6 +6,16 @@ import { useLanguage } from "@/hooks/language/language";
 
 import { TimelineTrack } from "../../organisms/TimelineTrack/TimelineTrack";
 
+/**
+ * TimelinePage component
+ *
+ * Full-page wrapper for the chronological trip timeline. Renders a scrollable
+ * container with a header and the `TimelineTrack` component.
+ *
+ * @component
+ *
+ * @returns {JSX.Element} The timeline page
+ */
 export function TimelinePage(): JSX.Element {
   const { t } = useLanguage(["home"]);
 
