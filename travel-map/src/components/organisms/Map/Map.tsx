@@ -1,13 +1,6 @@
 import "./Map.scss";
 
-import {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { use, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   ComposableMap,
   Geographies,
@@ -121,7 +114,7 @@ function GeographyLayer({
  */
 export function Map() {
   const { t } = useLanguage(["home"]);
-  const context = useContext(HomeContext);
+  const context = use(HomeContext);
   const {
     isDarkTheme,
     hoveredCity,
@@ -144,7 +137,8 @@ export function Map() {
 
   useEffect(() => {
     return () => {
-      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
+      const frame = animFrameRef.current;
+      if (frame) cancelAnimationFrame(frame);
     };
   }, []);
 
@@ -214,7 +208,8 @@ export function Map() {
 
   useEffect(() => {
     return () => {
-      if (hoverLeaveTimer.current) clearTimeout(hoverLeaveTimer.current);
+      const timer = hoverLeaveTimer.current;
+      if (timer) clearTimeout(timer);
     };
   }, []);
 
@@ -297,17 +292,17 @@ export function Map() {
   );
 
   const sortedVisitedCities = useMemo(
-    () => [...visitedCities].sort(sortByCoordinates),
+    () => visitedCities.toSorted(sortByCoordinates),
     [],
   );
 
   const sortedFutureCities = useMemo(
-    () => [...futureCities].sort(sortByCoordinates),
+    () => futureCities.toSorted(sortByCoordinates),
     [],
   );
 
   const sortedLivedCities = useMemo(
-    () => [...livedCities].sort(sortByCoordinates),
+    () => livedCities.toSorted(sortByCoordinates),
     [],
   );
 

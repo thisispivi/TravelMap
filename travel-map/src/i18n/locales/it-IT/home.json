@@ -2,13 +2,11 @@
   "cities": {
     "Alghero": "Alghero",
     "Anderlecht": "Anderlecht",
-    "Assisi": "Assisi",
     "Barcelona": "Barcellona",
     "Bran": "Bran",
     "Brasov": "Brașov",
     "Bergamo": "Bergamo",
     "Berlin": "Berlino",
-    "Birgu": "Vittoriosa",
     "Bologna": "Bologna",
     "Braga": "Braga",
     "Bratislava": "Bratislava",
@@ -21,13 +19,9 @@
     "Cannes": "Cannes",
     "Cefalù": "Cefalù",
     "Comino": "Comino",
-    "Cospicua": "Cospicua",
-    "Cuneo": "Cuneo",
     "Devin": "Devín",
-    "Dingli": "Dingli",
     "Fujikawaguchiko": "Fujikawaguchiko",
     "Genoa": "Genova",
-    "Gressoney-La-Trinité": "Gressoney-La-Trinité",
     "Himeji": "Himeji",
     "Imola": "Imola",
     "Kanazawa": "Kanazawa",
@@ -46,10 +40,7 @@
     "Olbia": "Olbia",
     "Osaka": "Osaka",
     "Oshino": "Oshino",
-    "Padua": "Padova",
-    "Perugia": "Perugia",
     "PeschieraDelGarda": "Peschiera del Garda",
-    "Pisa": "Pisa",
     "Porto": "Porto",
     "PortoTorres": "Porto Torres",
     "Rabat": "Rabat",
@@ -59,7 +50,6 @@
     "SaintTropez": "Saint Tropez",
     "SanGiljan": "San Giuliano",
     "SanPawlIlBahar": "Baia di San Paolo",
-    "Senglea": "Senglea",
     "Sevilla": "Siviglia",
     "Shanghai": "Shanghai",
     "Shirakawago": "Shirakawa-go",
@@ -74,7 +64,6 @@
     "Turin": "Torino",
     "Valletta": "La Valletta",
     "VaticanCity": "Città del Vaticano",
-    "Venice": "Venezia",
     "Verona": "Verona",
     "Victoria": "Victoria",
     "Vienna": "Vienna"
@@ -108,17 +97,8 @@
     "OCEANIA": "Oceania",
     "SOUTH_AMERICA": "Sud America"
   },
-  "home": "Home",
-  "timezone": "Fuso orario",
-  "birthCity": "Città di nascita",
-  "lived": {
-    "title": "Città in cui ho vissuto",
-    "ariaLabel": "Città in cui ho vissuto"
-  },
-  "visited": { "title": "I miei viaggi", "ariaLabel": "I miei viaggi" },
-  "future": {
-    "title": "Prossime destinazioni",
-    "ariaLabel": "Prossime destinazioni"
+  "visited": {
+    "title": "I miei viaggi"
   },
   "tripCard": {
     "openTrip": "Apri {{trip}}"
@@ -135,23 +115,16 @@
     }
   },
   "stats": {
-    "ariaLabel": "Statistiche di viaggio",
     "aroundEarth": "intorno alla Terra",
     "biggestTimezoneJump": "Maggiore salto di fuso orario",
     "cities": "Città",
     "citiesPerContinent": "Città visitate per continente",
-    "continents": "Continenti",
     "countries": "Paesi",
     "countriesPerContinent": "Paesi visitati per continente",
     "coverage": "Copertura",
     "currency": "Valuta",
     "ferries": "Ferries",
-    "ferriesTaken": "Ferries presi",
-    "flightCompaniesTaken": "Compagnie aeree utilizzate",
-    "flight_one": "volo",
-    "flight_other": "voli",
     "flights": "Voli",
-    "flightsTaken": "Voli effettuati",
     "furthestCity": "Città più lontana visitata",
     "intercontinental": "Voli intercontinentali",
     "international": "Voli internazionali",
@@ -161,7 +134,6 @@
     "mileage": "Distanza percorsa",
     "national": "Voli nazionali",
     "nearestCity": "Città più vicina visitata",
-    "ofTheWorld": "del mondo",
     "population": "Popolazione",
     "populationTop10": "Top 10 città più popolose visitate",
     "shortestFerry": "Traghetto più breve effettuato",
@@ -179,10 +151,8 @@
     "yearsTraveling": "Anni",
     "daySuffix": "gg",
     "yearSuffix": "anni",
-    "unesco": "Siti UNESCO",
-    "visited": "Luoghi che ho visitato"
+    "unesco": "Siti UNESCO"
   },
-  "autoPositionTooltip": "Quando attivato, la mappa si centrerà automaticamente sulla città evidenziata con il cursore.",
   "deselectAll": "Deseleziona tutto",
   "filterTooltip": "Filtra le città sulla mappa in base al paese selezionato.",
   "gallery": "Visualizza galleria",
@@ -190,12 +160,6 @@
   "selectedTravel": "Viaggio selezionato: ",
   "language": "Seleziona una lingua",
   "selectAll": "Seleziona tutto",
-  "createdBy": "Creato da Pivi",
-  "author": {
-    "button": "Informazioni sull'autore",
-    "role": "Ingegnere Software & Consulente ML",
-    "description": "Sviluppatore full-stack specializzato in React e Node.js, con forte focus sull'integrazione di modelli di machine learning. Laurea magistrale in Informatica all'Università di Cagliari. Ho creato questa mappa per tracciare e condividere le mie avventure nel mondo."
-  },
   "theme": "Passa tra modalità chiara e scura",
   "map": {
     "zoomIn": "Aumenta lo zoom",
@@ -227,6 +191,10 @@
     "AUD": {
       "name": "Dollaro australiano",
       "symbol": "$"
+    },
+    "CNY": {
+      "name": "Yuan cinese",
+      "symbol": "¥"
     },
     "BGN": {
       "name": "Lev bulgaro",
@@ -281,7 +249,6 @@
     "route": "Percorso",
     "cities": "Città",
     "days": "giorni",
-    "day": "giorno",
-    "viewOnMap": "Vedi sulla mappa"
+    "day": "giorno"
   }
 }

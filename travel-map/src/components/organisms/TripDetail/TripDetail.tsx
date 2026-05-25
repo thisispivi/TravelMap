@@ -1,7 +1,7 @@
 import "./TripDetail.scss";
 
 import { domAnimation, LazyMotion, m } from "framer-motion";
-import { JSX, useContext, useEffect, useMemo } from "react";
+import { JSX, use, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { CalendarIcon, ChevronIcon } from "@/assets";
@@ -32,7 +32,7 @@ export function TripDetail(): JSX.Element | null {
   const navigate = useNavigate();
   const { tripDetailId } = useLocation();
   const { selectedTrip, setSelectedTrip, setHoveredCity, setMapPosition } =
-    useContext(HomeContext)!;
+    use(HomeContext)!;
   const {
     window: { width },
   } = useResponsive();

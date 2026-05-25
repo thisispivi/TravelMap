@@ -1,7 +1,7 @@
 import "./RouteOverlay.scss";
 
 import { AnimatePresence, domAnimation, LazyMotion, m } from "framer-motion";
-import { JSX, useContext, useMemo } from "react";
+import { JSX, use, useMemo } from "react";
 import { Line } from "react-simple-maps";
 
 import { HomeContext } from "@/components/pages/Home/HomeContext";
@@ -19,7 +19,7 @@ import { useLocation } from "@/hooks/location/location";
  * @returns {JSX.Element} SVG overlay lines rendered inside the ZoomableGroup
  */
 export function RouteOverlay(): JSX.Element {
-  const { selectedTrip, isDarkTheme } = useContext(HomeContext)!;
+  const { selectedTrip, isDarkTheme } = use(HomeContext)!;
   const { isTripDetail } = useLocation();
 
   const segments = useMemo(() => {

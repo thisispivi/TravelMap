@@ -1,7 +1,6 @@
 @use "../../../../styles/variables" as v;
 @use "../../../../styles/mixins" as m;
 
-// ─── Not-visited continent helper ────────────────────────────
 @mixin not-visited($continent, $id) {
   &.#{$continent}--not-visited {
     ##{$id} {
@@ -19,7 +18,6 @@
   --not-visited-color: #dadada;
 }
 
-// ─── Outer container ────────────────────────────────────────
 .info-tab-stats {
   display: none;
   flex-direction: column;
@@ -44,7 +42,6 @@
   }
 }
 
-// ─── Bento grid ─────────────────────────────────────────────
 .stats-bento {
   flex: 1 1 auto;
   min-height: 0;
@@ -88,7 +85,6 @@
   min-height: max-content;
 }
 
-// ─── Small stat card ────────────────────────────────────────
 .bento-stat {
   grid-column: span 3;
   align-self: start;
@@ -162,7 +158,6 @@
   }
 }
 
-// ─── Large detail card base ─────────────────────────────────
 .bento-detail {
   display: flex;
   flex-direction: column;
@@ -216,7 +211,6 @@
   }
 }
 
-// ─── Mileage card ───────────────────────────────────────────
 .bento-mileage__total {
   display: flex;
   flex-direction: column;
@@ -273,7 +267,6 @@
   }
 }
 
-// ─── Transport card ─────────────────────────────────────────
 .bento-transport {
   .bento-transport__inner {
     display: flex;
@@ -303,11 +296,10 @@
   .bento-transport__rows {
     flex: 1 1 auto;
     min-width: 0;
-    border-top: none; // bento-detail__rows normally sets border-top; handle via parent
+    border-top: none;
   }
 }
 
-// ─── Population card ────────────────────────────────────────
 .bento-population {
   align-self: start;
   min-height: 0;
@@ -341,9 +333,6 @@
   }
 }
 
-// ─── Currency card ──────────────────────────────────────────
-// Make the card's title area fixed-height so the pill area
-// gets all remaining vertical space.
 .bento-detail:has(.bento-currency) {
   .bento-detail__top {
     flex: 0 0 auto;
@@ -352,7 +341,6 @@
 }
 
 .bento-currency {
-  // Fill remaining card height and distribute pills on both axes
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
@@ -391,7 +379,6 @@
   }
 }
 
-// ─── Continents card ────────────────────────────────────────
 .bento-continents {
   .bento-continents__body {
     display: flex;
@@ -467,7 +454,6 @@
   }
 }
 
-// ─── Dark theme ─────────────────────────────────────────────
 .home--dark {
   .bento-transport__chart {
     border-color: rgba(255, 255, 255, 0.06);
@@ -568,7 +554,6 @@
   }
 }
 
-// ─── Light theme ─────────────────────────────────────────────
 .home--light {
   .bento-transport__chart {
     border-color: rgba(0, 0, 0, 0.06);
@@ -669,9 +654,6 @@
   }
 }
 
-// ─── Responsive ──────────────────────────────────────────────
-
-// Compact side-by-side (8 col) — panel fits ~50rem or less
 @media screen and (max-width: 52rem) {
   .stats-bento {
     grid-template-columns: repeat(8, minmax(0, 1fr));
@@ -715,12 +697,10 @@
     border-bottom-color: rgba(0, 0, 0, 0.06);
   }
 
-  // Population: keep side-by-side down to 52rem (enough room for both charts)
   .bento-stat {
     grid-column: span 2;
   }
 
-  // Wide stats: 2 cards × span 4 = 8 cols (3rd card hidden below)
   .bento-stat.bento-stat--wide {
     grid-column: span 4;
   }
@@ -730,7 +710,6 @@
   }
 }
 
-// Stacked cards, 2 stats per row (4 col)
 @media screen and (max-width: 40rem) {
   .stats-bento {
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -754,7 +733,6 @@
   }
 }
 
-// Phone — 2-col grid, stat cards pair up (2 per row)
 @media screen and (max-width: 26rem) {
   .stats-bento {
     grid-template-columns: repeat(2, minmax(0, 1fr));

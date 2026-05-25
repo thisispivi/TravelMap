@@ -4,6 +4,15 @@
 .lightbox {
   width: 100%;
   height: inherit;
+  border-radius: inherit;
+  overflow: hidden;
+
+  &.lightbox--fullscreen,
+  &:fullscreen {
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
 
   &.lightbox--nav-hidden {
     .image-gallery-left-nav,
@@ -208,6 +217,10 @@
 }
 
 .home--light {
+  .lightbox:not(.lightbox--fullscreen) {
+    @include m.full-panel-light();
+  }
+
   .lightbox__index {
     background-color: v.$lightButton;
     color: v.$lightButtonContent;
@@ -215,6 +228,10 @@
 }
 
 .home--dark {
+  .lightbox:not(.lightbox--fullscreen) {
+    @include m.full-panel-dark();
+  }
+
   .lightbox__index {
     background-color: v.$darkButton;
     color: v.$darkButtonContent;

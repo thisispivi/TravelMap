@@ -13,7 +13,7 @@ import ImageGallery, {
   ImageGalleryProps,
   ImageGalleryRef,
 } from "react-image-gallery";
-import { useLoaderData, useNavigate } from "react-router-dom";
+import { useLoaderData, useLocation, useNavigate } from "react-router-dom";
 
 import {
   ChevronIcon,
@@ -23,6 +23,7 @@ import {
 } from "../../../assets";
 import { City } from "../../../core";
 import { useLanguage } from "../../../hooks/language/language";
+import { classNames } from "../../../utils/className";
 import { parameters } from "../../../utils/parameters";
 import { Button } from "../../atoms";
 
@@ -52,6 +53,7 @@ export interface LightboxProps {
 export default function Lightbox(): JSX.Element {
   const { t } = useLanguage(["home"]);
   const navigate = useNavigate();
+  const location = useLocation();
   const { city, travelIdx, photoIdx } = useLoaderData() as LightboxProps;
   const photos = city.travels[travelIdx].photos;
 
@@ -78,8 +80,9 @@ export default function Lightbox(): JSX.Element {
   useEffect(() => {
     scheduleHideNav();
     return () => {
-      if (hideNavTimeoutRef.current !== undefined) {
-        window.clearTimeout(hideNavTimeoutRef.current);
+      const timeoutId = hideNavTimeoutRef.current;
+      if (timeoutId !== undefined) {
+        window.clearTimeout(timeoutId);
       }
     };
   }, [scheduleHideNav]);
@@ -91,6 +94,7 @@ export default function Lightbox(): JSX.Element {
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowFullScreen
           className="image-gallery-video"
+          sandbox="allow-scripts allow-same-origin allow-presentation"
           src={
             parameters.isShowPhotos
               ? `${import.meta.env.VITE_YOUTUBE_PATH}${item.original}`
@@ -130,10 +134,10 @@ export default function Lightbox(): JSX.Element {
             }
           }
         }
-        navigate(`../${newIndex}`);
+        navigate(`../${newIndex}`, { state: location.state });
       }
     },
-    [photoIdx, navigate],
+    [location, photoIdx, navigate],
   );
 
   const renderNavigationButton = (
@@ -178,14 +182,18 @@ export default function Lightbox(): JSX.Element {
 
   return (
     <div
-      className={`lightbox ${isNavVisible ? "" : "lightbox--nav-hidden"}`}
+      className={classNames(
+        "lightbox",
+        !isNavVisible && "lightbox--nav-hidden",
+        isFullscreen && "lightbox--fullscreen",
+      )}
       onMouseMove={revealNav}
       onTouchStart={revealNav}
     >
       <div className="lightbox__top-bar">
         <Button
           className="lightbox__back-button"
-          onClick={() => navigate(`..`)}
+          onClick={() => navigate(`..`, { state: location.state })}
         >
           <GalleryIcon />
           <p>{t("gallery")}</p>

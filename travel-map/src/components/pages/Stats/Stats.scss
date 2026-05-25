@@ -17,14 +17,13 @@
 
 .home--dark {
   .stats-page {
-    @include m.glassmorphism-dark();
+    @include m.full-panel-dark();
   }
 }
 
 .home--light {
   .stats-page {
-    @include m.glassmorphism-light();
-    border: 0.0625rem solid rgba(0, 0, 0, 0.05);
+    @include m.full-panel-light();
   }
 }
 

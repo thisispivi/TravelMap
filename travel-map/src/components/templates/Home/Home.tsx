@@ -1,7 +1,7 @@
 import "./Home.scss";
 
 import { AnimatePresence, domAnimation, LazyMotion, m } from "framer-motion";
-import { JSX, lazy, PropsWithChildren, Suspense, useContext } from "react";
+import { JSX, lazy, PropsWithChildren, Suspense, use } from "react";
 
 import { useLocation } from "@/hooks/location/location";
 
@@ -53,8 +53,7 @@ const bottomPanelMotion = {
 export function HomeTemplate({ children }: PropsWithChildren): JSX.Element {
   const { isGallery, isTrips, isPlaces, isTripDetail, isStats, isTimeline } =
     useLocation();
-  const { isDarkTheme, handleDarkModeSwitch, isPanelOpen } =
-    useContext(HomeContext)!;
+  const { isDarkTheme, handleDarkModeSwitch, isPanelOpen } = use(HomeContext)!;
 
   return (
     <div className="home-template">

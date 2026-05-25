@@ -1,7 +1,7 @@
 import "./CityCard.scss";
 
 import { JSX, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { CalendarIcon, PositionIcon } from "@/assets";
 import { City, Travel } from "@/core";
@@ -64,6 +64,7 @@ export function CityCard({
 }: CityCardProps): JSX.Element {
   const lang = useLanguage([]).currLanguage;
   const navigate = useNavigate();
+  const location = useLocation();
   const { t } = useLanguage(["home"]);
   const cityName = city.getName(t);
   const cardRef = useRef<HTMLDivElement>(null);
@@ -120,6 +121,12 @@ export function CityCard({
     [city, setMapPosition, setHoveredCity],
   );
 
+  const openGallery = useCallback(() => {
+    navigate(`/gallery/${city.name}/${travelIdx}`, {
+      state: { fromPath: `${location.pathname}${location.search}` },
+    });
+  }, [city.name, location, navigate, travelIdx]);
+
   return (
     <div
       className={classNames(
@@ -130,10 +137,8 @@ export function CityCard({
       ref={cardRef}
       {...(isClickable
         ? {
-            onClick: () => navigate(`/gallery/${city.name}/${travelIdx}`),
-            onKeyDown: (event) =>
-              isActivationKey(event) &&
-              navigate(`/gallery/${city.name}/${travelIdx}`),
+            onClick: openGallery,
+            onKeyDown: (event) => isActivationKey(event) && openGallery(),
             role: "button" as const,
             tabIndex: 0,
           }

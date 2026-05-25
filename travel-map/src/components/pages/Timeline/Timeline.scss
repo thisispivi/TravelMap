@@ -30,7 +30,7 @@
 
 .home--dark {
   .timeline-page {
-    @include m.floating-card-dark();
+    @include m.full-panel-dark();
     padding: 1rem;
 
     .timeline-page__scroll {
@@ -50,8 +50,7 @@
 
 .home--light {
   .timeline-page {
-    @include m.floating-card-light();
-    border: 0.0625rem solid rgba(0, 0, 0, 0.06);
+    @include m.full-panel-light();
     padding: 1rem;
 
     .timeline-page__scroll {

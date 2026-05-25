@@ -6,6 +6,7 @@ import { RowsPhotoAlbum } from "react-photo-album";
 import {
   Outlet,
   useLoaderData,
+  useLocation as useRouterLocation,
   useNavigate,
   useSearchParams,
 } from "react-router-dom";
@@ -24,6 +25,10 @@ export interface GalleryProps {
   travelIdx: number;
 }
 
+type GalleryLocationState = {
+  fromPath?: string;
+};
+
 /**
  * Gallery component
  *
@@ -38,10 +43,14 @@ export interface GalleryProps {
 export default function Gallery(): JSX.Element {
   const { t } = useLanguage(["home"]);
   const navigate = useNavigate();
+  const routerLocation = useRouterLocation();
   const { city, travelIdx } = useLoaderData() as GalleryProps;
   const [searchParams] = useSearchParams();
   const from = searchParams.get("from");
   const { isLightbox } = useLocation();
+  const fromPath = (routerLocation.state as GalleryLocationState | null)
+    ?.fromPath;
+  const navigationState = fromPath ? { fromPath } : undefined;
 
   const travel = city.travels[travelIdx];
 
@@ -88,11 +97,12 @@ export default function Gallery(): JSX.Element {
         />
         <TravelSelector
           cityName={city.name}
+          navigationState={navigationState}
           selectedTravelIdx={travelIdx}
           travels={city.travels}
         />
         <CloseButton
-          onClick={() => navigate(from === "map" ? "/" : "/trips")}
+          onClick={() => navigate(fromPath ?? (from === "map" ? "/" : "/"))}
         />
       </div>
       <div className="gallery__content">
@@ -103,7 +113,9 @@ export default function Gallery(): JSX.Element {
           style={{ visibility: isLightbox ? "hidden" : "visible" }}
         >
           <RowsPhotoAlbum
-            onClick={({ index }) => navigate(`./${index}`)}
+            onClick={({ index }) =>
+              navigate(`./${index}`, { state: navigationState })
+            }
             photos={photos}
             render={{
               image: (props, { photo }) => (
@@ -117,17 +129,21 @@ export default function Gallery(): JSX.Element {
                     <>
                       <PlayIcon
                         className="gallery__content__image__play"
-                        onClick={() => navigate(`./${photo.index}`)}
-                      />
-                      <div
-                        className="gallery__content__image__gradient"
-                        onClick={() => navigate(`./${photo.index}`)}
-                        onKeyDown={(e) =>
-                          (e.key === "Enter" || e.key === " ") &&
-                          navigate(`./${photo.index}`)
+                        onClick={() =>
+                          navigate(`./${photo.index}`, {
+                            state: navigationState,
+                          })
                         }
-                        role="button"
-                        tabIndex={0}
+                      />
+                      <button
+                        aria-label={t("lightbox.youtubeVideo")}
+                        className="gallery__content__image__gradient"
+                        onClick={() =>
+                          navigate(`./${photo.index}`, {
+                            state: navigationState,
+                          })
+                        }
+                        type="button"
                       />
                     </>
                   ) : null}

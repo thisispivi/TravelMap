@@ -2,7 +2,7 @@ import "./TooltipMap.scss";
 
 import { domAnimation, LazyMotion, m } from "framer-motion";
 import { JSX, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import {
   CalendarIcon,
@@ -81,6 +81,7 @@ export function MapTooltip({
   setIsOpen,
 }: MapTooltipProps): JSX.Element {
   const navigate = useNavigate();
+  const location = useLocation();
   const { t, currLanguage: lang } = useLanguage(["home"]);
   const [travelIdx, setTravelIdx] = useState(0);
   const filteredTravels = city.travels.filter((travel) => !travel.isFuture);
@@ -191,7 +192,11 @@ export function MapTooltip({
                     className="map-tooltip__footer__button"
                     hoverScale={1}
                     onClick={() =>
-                      navigate(`/gallery/${city.name}/${travelIdx}?from=map`)
+                      navigate(`/gallery/${city.name}/${travelIdx}`, {
+                        state: {
+                          fromPath: `${location.pathname}${location.search}`,
+                        },
+                      })
                     }
                   >
                     <GalleryIcon />
