@@ -24,10 +24,19 @@
       }
     }
     .transport-row__icon {
-      width: 1rem;
-      height: 1rem;
-      rotate: 90deg;
+      width: 1.1rem;
+      height: 1.1rem;
       margin-inline: 0.5rem;
+      flex-shrink: 0;
+      color: #107895;
+
+      * {
+        stroke: #107895;
+      }
+
+      &--flight {
+        rotate: -90deg;
+      }
     }
   }
   .transport-row__distance {

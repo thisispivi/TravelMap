@@ -1,7 +1,7 @@
 import "./FloatingNav.scss";
 
 import { domAnimation, LazyMotion, m } from "framer-motion";
-import { JSX, useContext, useEffect, useMemo, useState } from "react";
+import { JSX, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { LogoIcon } from "@/assets";
@@ -22,6 +22,7 @@ interface FloatingNavProps {
 }
 
 let navHasAnimated = false;
+const panelCloseDelayMs = 220;
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -64,10 +65,29 @@ export function FloatingNav({
   const isPanelOpen = context?.isPanelOpen ?? true;
   const setIsPanelOpen = context?.setIsPanelOpen;
   const [skipAnimation] = useState(() => navHasAnimated);
+  const closePanelTimeoutRef = useRef<number | null>(null);
+  const pendingOpenTabRef = useRef<NavTab["id"] | null>(null);
 
   useEffect(() => {
     navHasAnimated = true;
   }, []);
+
+  useEffect(
+    () => () => {
+      if (closePanelTimeoutRef.current !== null) {
+        window.clearTimeout(closePanelTimeoutRef.current);
+      }
+      pendingOpenTabRef.current = null;
+    },
+    [],
+  );
+
+  useEffect(() => {
+    if (pendingOpenTabRef.current !== activeTab) return;
+
+    setIsPanelOpen?.(true);
+    pendingOpenTabRef.current = null;
+  }, [activeTab, setIsPanelOpen]);
 
   const tabs = useMemo(
     () =>
@@ -80,8 +100,37 @@ export function FloatingNav({
   );
 
   const handleTabClick = (tab: (typeof tabs)[0]) => {
+    if (closePanelTimeoutRef.current !== null) {
+      window.clearTimeout(closePanelTimeoutRef.current);
+      closePanelTimeoutRef.current = null;
+    }
+    pendingOpenTabRef.current = null;
+
+    const isLeavingBottomPanel =
+      (activeTab === "stats" || activeTab === "timeline") &&
+      (tab.id === "trips" || tab.id === "places");
+
     if (tab.isActive) {
+      if (setIsPanelOpen) {
+        setIsPanelOpen(false);
+        closePanelTimeoutRef.current = window.setTimeout(() => {
+          navigate("/", { state: { mapOnly: true } });
+          closePanelTimeoutRef.current = null;
+        }, panelCloseDelayMs);
+        return;
+      }
+
       navigate("/", { state: { mapOnly: true } });
+      return;
+    }
+
+    if (isLeavingBottomPanel && setIsPanelOpen) {
+      setIsPanelOpen(false);
+      closePanelTimeoutRef.current = window.setTimeout(() => {
+        pendingOpenTabRef.current = tab.id;
+        navigate(tab.path);
+        closePanelTimeoutRef.current = null;
+      }, panelCloseDelayMs);
       return;
     }
 

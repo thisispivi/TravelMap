@@ -172,6 +172,13 @@
     "total": "Total",
     "totalMileage": "Total distance traveled",
     "transport": "Transport",
+    "trips": "Trips",
+    "daysAbroad": "Days abroad",
+    "daysPerYear": "Days abroad per year",
+    "avgTrip": "Avg. trip",
+    "yearsTraveling": "Years",
+    "daySuffix": "d",
+    "yearSuffix": "yrs",
     "unesco": "UNESCO sites",
     "visited": "Places I've visited"
   },

@@ -2,10 +2,9 @@ import "./RowTransport.scss";
 
 import { JSX } from "react";
 
-import { Ferry } from "@/core/classes/Ferry";
-
-import { PlaneIcon } from "../../../assets";
+import { AirplaneIcon, FerryIcon } from "../../../assets";
 import { Flight } from "../../../core";
+import { Ferry } from "../../../core/classes/Ferry";
 import { useLanguage } from "../../../hooks/language/language";
 import { formatMileage } from "../../../utils/format";
 import { CountryFlag } from "../../atoms";
@@ -33,6 +32,8 @@ export function TransportRow({
   className = "",
 }: TransportRowProps): JSX.Element {
   const { t, currLanguage } = useLanguage(["home"]);
+  const isFerry = transport instanceof Ferry;
+  const TransportIcon = isFerry ? FerryIcon : AirplaneIcon;
   return (
     <Row className={`transport-row ${className} row--wrap`}>
       <div className="transport-row__cities">
@@ -40,7 +41,9 @@ export function TransportRow({
           <CountryFlag countryId={transport.sCity.country.id} />
           {t(`cities.${transport.sCity.name}`)}
         </h2>
-        <PlaneIcon className="transport-row__icon" />
+        <TransportIcon
+          className={`transport-row__icon transport-row__icon--${isFerry ? "ferry" : "flight"}`}
+        />
         <h2 className="transport-row__cities__city">
           <CountryFlag countryId={transport.eCity.country.id} />
           {t(`cities.${transport.eCity.name}`)}

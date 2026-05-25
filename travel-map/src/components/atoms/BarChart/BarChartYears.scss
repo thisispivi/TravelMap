@@ -1,0 +1,80 @@
+@use "../../../styles/variables" as v;
+
+.years-bar-chart {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+  padding-bottom: 0.25rem;
+
+  &__bars {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 0.5rem;
+    flex: 1 1 auto;
+    min-height: 12rem;
+  }
+
+  &__col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1 1 0;
+    height: 100%;
+    min-width: 0;
+    gap: 0.2rem;
+  }
+
+  &__value {
+    font-size: 0.85rem;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  &__track {
+    flex: 1 1 auto;
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+  }
+
+  &__fill {
+    width: 100%;
+    max-width: 2.5rem;
+    margin: 0 auto;
+    border-radius: 0.25rem 0.25rem 0 0;
+    background: #107895;
+    min-height: 0.2rem;
+    transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  &__label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+  }
+}
+
+// ─── Light theme ─────────────────────────────────────────────
+.home--light {
+  .years-bar-chart {
+    &__value,
+    &__label {
+      color: v.$lightAltText;
+    }
+  }
+}
+
+// ─── Dark theme ──────────────────────────────────────────────
+.home--dark {
+  .years-bar-chart {
+    &__value,
+    &__label {
+      color: v.$darkAltText;
+    }
+  }
+}

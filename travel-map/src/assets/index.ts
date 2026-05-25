@@ -2,6 +2,7 @@ import AirplaneIcon from "./icons/Airplane.svg?react";
 import CalendarIcon from "./icons/Calendar.svg?react";
 import CameraIcon from "./icons/Camera.svg?react";
 import ChevronIcon from "./icons/Chevron.svg?react";
+import ChevronRightIcon from "./icons/ChevronRight.svg?react";
 import CityIcon from "./icons/City.svg?react";
 import CloseIcon from "./icons/Close.svg?react";
 import CoinIcon from "./icons/Coin.svg?react";
@@ -20,12 +21,13 @@ import LogoIcon from "./icons/Logo.svg?react";
 import MapIcon from "./icons/Map.svg?react";
 import { MarkerIcon } from "./icons/Marker";
 import MoonIcon from "./icons/Moon.svg?react";
+import MoonFilledIcon from "./icons/MoonFilled.svg?react";
 import MoonFlatIcon from "./icons/MoonFlat.svg?react";
 import PeopleIcon from "./icons/People.svg?react";
-import PlaneIcon from "./icons/Plane.svg?react";
 import PlayIcon from "./icons/Play.svg?react";
 import PositionIcon from "./icons/Position.svg?react";
 import SunIcon from "./icons/Sun.svg?react";
+import SunFilledIcon from "./icons/SunFilled.svg?react";
 import TimezoneIcon from "./icons/Timezone.svg?react";
 import UnescoIcon from "./icons/Unesco.svg?react";
 
@@ -34,6 +36,7 @@ export {
   CalendarIcon,
   CameraIcon,
   ChevronIcon,
+  ChevronRightIcon,
   CityIcon,
   CloseIcon,
   CoinIcon,
@@ -51,12 +54,13 @@ export {
   LogoIcon,
   MapIcon,
   MarkerIcon,
+  MoonFilledIcon,
   MoonFlatIcon,
   MoonIcon,
   PeopleIcon,
-  PlaneIcon,
   PlayIcon,
   PositionIcon,
+  SunFilledIcon,
   SunIcon,
   TimezoneIcon,
   UnescoIcon,
