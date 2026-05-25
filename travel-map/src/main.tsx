@@ -26,6 +26,21 @@ const router = createHashRouter([
       { path: "places", element: null },
       { path: "places/:filter", element: null },
       {
+        path: "timeline",
+        lazy: async () => {
+          const { TimelinePage } =
+            await import("./components/pages/Timeline/Timeline");
+          return { Component: TimelinePage };
+        },
+      },
+      {
+        path: "stats",
+        lazy: async () => {
+          const { StatsPage } = await import("./components/pages/Stats/Stats");
+          return { Component: StatsPage };
+        },
+      },
+      {
         path: "gallery/:cityName/:travelIdx",
         lazy: async () => {
           const [{ default: Component }, { loader }] = await Promise.all([
@@ -48,23 +63,6 @@ const router = createHashRouter([
         ],
       },
     ],
-  },
-  {
-    path: "/timeline",
-    lazy: async () => {
-      const { TimelinePage } =
-        await import("./components/pages/Timeline/Timeline");
-      return { Component: TimelinePage };
-    },
-    errorElement: <Fallback />,
-  },
-  {
-    path: "/stats",
-    lazy: async () => {
-      const { StatsPage } = await import("./components/pages/Stats/Stats");
-      return { Component: StatsPage };
-    },
-    errorElement: <Fallback />,
   },
 ]);
 

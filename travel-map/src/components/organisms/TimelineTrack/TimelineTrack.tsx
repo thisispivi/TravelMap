@@ -11,8 +11,8 @@ import { formatDateRangeShort } from "@/i18n/functions/date";
 
 import { CountryFlag } from "../../atoms";
 
-const hiddenState = { opacity: 0, y: 20, scale: 0.97 };
-const visibleState = { opacity: 1, y: 0, scale: 1 };
+const hiddenState = { y: 20, scale: 0.97 };
+const visibleState = { y: 0, scale: 1 };
 
 /**
  * TimelineTrack component — vertical chronological timeline of trips.
@@ -89,32 +89,34 @@ function TimelineCardItem({
           <div className="timeline-card__image-overlay" />
         </div>
       ) : null}
+      <div className="timeline-card__flags">
+        {countries.map((c) => (
+          <CountryFlag
+            className="timeline-card__flag"
+            countryId={c.id}
+            key={c.id}
+          />
+        ))}
+      </div>
       <div className="timeline-card__body">
-        <div className="timeline-card__flags">
-          {countries.map((c) => (
-            <CountryFlag
-              className="timeline-card__flag"
-              countryId={c.id}
-              key={c.id}
-            />
-          ))}
-        </div>
         <h3 className="timeline-card__title">{t(`trips.${trip.id}`)}</h3>
-        <div className="timeline-card__date">
-          <CalendarIcon className="timeline-card__date-icon" />
-          <p>
-            {formatDateRangeShort({
-              sDateInput: trip.sDate,
-              eDateInput: trip.eDate,
-              locale: lang,
-              includeWeekday: false,
-              showYear: true,
-            })}
+        <div className="timeline-card__meta">
+          <div className="timeline-card__date">
+            <CalendarIcon className="timeline-card__date-icon" />
+            <p>
+              {formatDateRangeShort({
+                sDateInput: trip.sDate,
+                eDateInput: trip.eDate,
+                locale: lang,
+                includeWeekday: false,
+                showYear: true,
+              })}
+            </p>
+          </div>
+          <p className="timeline-card__cities-count">
+            {t("timeline.city", { count: trip.destinations.length })}
           </p>
         </div>
-        <p className="timeline-card__cities-count">
-          {t("timeline.city", { count: trip.destinations.length })}
-        </p>
       </div>
     </m.div>
   );

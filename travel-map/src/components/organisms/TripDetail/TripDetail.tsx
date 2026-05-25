@@ -50,10 +50,13 @@ export function TripDetail(): JSX.Element | null {
   return (
     <LazyMotion features={domAnimation}>
       <m.div
+        animate={{ scale: 1, x: 0 }}
         className="trip-detail"
+        exit={{ scale: 0.98, x: "-120%" }}
+        initial={{ scale: 0.98, x: "-120%" }}
         key={trip.id}
         layout="position"
-        transition={{ duration: 0 }}
+        transition={{ duration: 0.22, ease: [0.35, 0, 0.25, 1] }}
       >
         <button
           className="trip-detail__back"

@@ -1,7 +1,7 @@
 import "./FloatingNav.scss";
 
 import { domAnimation, LazyMotion, m } from "framer-motion";
-import { JSX, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { JSX, useContext, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { LogoIcon } from "@/assets";
@@ -65,10 +65,6 @@ export function FloatingNav({
   const setIsPanelOpen = context?.setIsPanelOpen;
   const [skipAnimation] = useState(() => navHasAnimated);
 
-  const isMobileRef = useRef(
-    typeof window !== "undefined" && window.innerWidth <= 680,
-  );
-
   useEffect(() => {
     navHasAnimated = true;
   }, []);
@@ -84,14 +80,13 @@ export function FloatingNav({
   );
 
   const handleTabClick = (tab: (typeof tabs)[0]) => {
-    const isMobile = isMobileRef.current || window.innerWidth <= 680;
-
-    if (tab.isActive && isMobile && setIsPanelOpen) {
-      setIsPanelOpen(!isPanelOpen);
-    } else {
-      if (setIsPanelOpen) setIsPanelOpen(true);
-      navigate(tab.path);
+    if (tab.isActive) {
+      navigate("/", { state: { mapOnly: true } });
+      return;
     }
+
+    if (setIsPanelOpen) setIsPanelOpen(true);
+    navigate(tab.path);
   };
 
   return (

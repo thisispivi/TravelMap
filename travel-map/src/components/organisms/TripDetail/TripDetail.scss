@@ -12,6 +12,7 @@
   flex-direction: column;
   overflow: hidden;
   border-radius: v.$floatingCardRadiusLg;
+  transform-origin: left top;
 
   .trip-detail__back {
     display: flex;

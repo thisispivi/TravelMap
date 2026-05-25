@@ -1,8 +1,12 @@
 import "./Home.scss";
 
 import { isMobile, isTablet } from "mobile-device-detect";
-import { JSX, useMemo, useState } from "react";
-import { Outlet } from "react-router-dom";
+import { JSX, useEffect, useMemo, useRef, useState } from "react";
+import {
+  Outlet,
+  useLocation as useRouterLocation,
+  useNavigate,
+} from "react-router-dom";
 
 import { City, Trip } from "@/core";
 import { useResponsive } from "@/hooks/style/responsive";
@@ -23,6 +27,9 @@ import { ActiveView, HomeContext } from "./HomeContext";
  */
 export function Home(): JSX.Element {
   const responsive = useResponsive();
+  const navigate = useNavigate();
+  const location = useRouterLocation();
+  const isInitialRouteRef = useRef(true);
 
   const [mapPosition, setMapPosition] = useState({
     center: parameters.map.defaultCenter,
@@ -35,6 +42,24 @@ export function Home(): JSX.Element {
   const [selectedTrip, setSelectedTrip] = useState<Trip | null>(null);
   const [activeView, setActiveView] = useState<ActiveView>("trips");
   const [isPanelOpen, setIsPanelOpen] = useState<boolean>(true);
+
+  useEffect(() => {
+    const isInitialRoute = isInitialRouteRef.current;
+    isInitialRouteRef.current = false;
+
+    if (location.pathname !== "/") return;
+
+    const state = location.state as { mapOnly?: boolean } | null;
+    const navigation = performance.getEntriesByType("navigation")[0] as
+      | PerformanceNavigationTiming
+      | undefined;
+    const isRefresh = navigation?.type === "reload";
+
+    if (isInitialRoute && (isRefresh || state?.mapOnly !== true)) {
+      navigate("/trips", { replace: true });
+      return;
+    }
+  }, [location.pathname, location.state, navigate]);
 
   const context = useMemo(
     () => ({

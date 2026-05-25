@@ -12,6 +12,7 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  transform-origin: left top;
 
   .trip-browser__header {
     display: flex;
@@ -46,7 +47,11 @@
       cursor: pointer;
       flex-shrink: 0;
       white-space: nowrap;
-      @include m.transition(all, 0.2s);
+      transition:
+        background-color 0.12s ease,
+        border-color 0.12s ease,
+        color 0.12s ease,
+        transform 0.1s ease;
 
       &:active {
         transform: scale(0.97);
@@ -60,8 +65,6 @@
     overflow-x: hidden;
     flex: 1;
     min-height: 0;
-    padding-top: 0.5rem;
-    padding-bottom: 0rem;
     scrollbar-gutter: auto;
 
     &.trip-browser__list--scrollable {
@@ -85,6 +88,12 @@
     width: 100%;
     gap: 1rem;
     padding-right: 0.25rem;
+    &:first-child {
+      padding-top: 0.5rem;
+    }
+    &:last-child {
+      padding-bottom: 0.5rem;
+    }
   }
 }
 
@@ -159,12 +168,7 @@
     }
 
     .trip-browser__list {
-      @include s.setScrollbar(
-        transparent,
-        rgba(0, 0, 0, 0.15),
-        rgba(0, 0, 0, 0.25),
-        rgba(0, 0, 0, 0.35)
-      );
+      @include s.setScrollbar(transparent, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.35));
     }
   }
 }
@@ -172,10 +176,7 @@
 @media screen and (max-width: 42.5rem) {
   .trip-browser {
     top: auto;
-    bottom: calc(
-      v.$floatingNavHeight + v.$mobileFloatingMargin * 2 +
-        env(safe-area-inset-bottom, 0rem)
-    );
+    bottom: calc(v.$floatingNavHeight + v.$mobileFloatingMargin * 2 + env(safe-area-inset-bottom, 0rem));
     left: v.$mobileFloatingMargin;
     right: v.$mobileFloatingMargin;
     width: auto;

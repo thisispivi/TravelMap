@@ -243,15 +243,15 @@ export function PlacesBrowser(): JSX.Element {
   return (
     <LazyMotion features={domAnimation}>
       <m.div
-        animate={{ height: panelHeight ?? "auto", opacity: 1, x: 0 }}
+        animate={{ height: panelHeight ?? "auto", scale: 1, x: 0 }}
         className="places-browser"
-        exit={{ opacity: 0, x: "-1.25rem" }}
-        initial={{ opacity: 0, x: "-1.25rem" }}
+        exit={{ scale: 0.98, x: "-120%" }}
+        initial={{ scale: 0.98, x: "-120%" }}
         ref={panelRef}
         transition={{
-          height: { duration: 0.28, ease: [0.35, 0, 0.25, 1] },
-          opacity: { duration: 0.18, ease: [0.4, 0, 0.2, 1] },
-          x: { type: "spring", stiffness: 400, damping: 30 },
+          height: { duration: 0.2, ease: [0.35, 0, 0.25, 1] },
+          scale: { duration: 0.22, ease: [0.35, 0, 0.25, 1] },
+          x: { duration: 0.22, ease: [0.35, 0, 0.25, 1] },
         }}
       >
         <div className="places-browser__header">
