@@ -4,7 +4,7 @@ import { AnimatePresence, domAnimation, LazyMotion, m } from "framer-motion";
 import { JSX } from "react";
 import { useTranslation } from "react-i18next";
 
-import { MoonIcon, SunIcon } from "@/assets";
+import { MoonFilledIcon, SunFilledIcon } from "@/assets";
 
 interface DarkModeButtonProps {
   className?: string;
@@ -68,7 +68,7 @@ export function DarkModeButton({
             key={isDarkTheme ? "moon" : "sun"}
             variants={iconVariants}
           >
-            {isDarkTheme ? <MoonIcon /> : <SunIcon />}
+            {isDarkTheme ? <MoonFilledIcon /> : <SunFilledIcon />}
           </m.div>
         </AnimatePresence>
       </m.button>

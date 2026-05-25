@@ -6,7 +6,8 @@ export { Checkbox };
 
 import { ContinentsBarChart } from "./BarChart/BarChartContinents";
 import { PopulationBarChart } from "./BarChart/BarChartPopulation";
-export { ContinentsBarChart, PopulationBarChart };
+import { BarChartYears } from "./BarChart/BarChartYears";
+export { BarChartYears, ContinentsBarChart, PopulationBarChart };
 
 import { Button } from "./Buttons/Button";
 import { CloseButton } from "./Buttons/CloseButton";

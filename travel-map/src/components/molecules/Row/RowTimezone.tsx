@@ -4,7 +4,7 @@ import { JSX } from "react";
 
 import { formatDeltaVsCityForDateSpan } from "@/utils/timezoneOffset";
 
-import { PlaneIcon } from "../../../assets";
+import { ChevronRightIcon } from "../../../assets";
 import { City } from "../../../core";
 import { useLanguage } from "../../../hooks/language/language";
 import { CountryFlag } from "../../atoms";
@@ -49,7 +49,7 @@ export function TimezoneRow({
           <CountryFlag countryId={sCity.country.id} />
           {sCity.getName(t)}
         </h2>
-        <PlaneIcon className="timezone-row__icon" />
+        <ChevronRightIcon className="timezone-row__icon" />
         <h2 className="timezone-row__cities__city">
           <CountryFlag countryId={eCity.country.id} />
           {eCity.getName(t)}

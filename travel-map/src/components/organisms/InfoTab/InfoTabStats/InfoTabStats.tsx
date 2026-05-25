@@ -1,10 +1,10 @@
 import "./InfoTabStats.scss";
 
-import { i18n } from "i18next";
-import { JSX, useMemo } from "react";
+import { ComponentType, JSX, SVGProps, useMemo } from "react";
 
 import {
   AirplaneIcon,
+  CalendarIcon,
   CameraIcon,
   CityIcon,
   ContinentsIcon,
@@ -13,19 +13,20 @@ import {
   GlobeIcon,
   MapIcon,
   MoonFlatIcon,
+  MoonIcon,
+  SunIcon,
   TimezoneIcon,
   UnescoIcon,
 } from "@/assets";
-import { City, Continent, Currency, Flight } from "@/core";
-import { Ferry } from "@/core/classes/Ferry";
+import { Continent } from "@/core";
 import {
   takenFerries,
   takenFlights,
   visitedCities,
   visitedCountries,
+  visitedTrips,
 } from "@/data";
 import { useLanguage } from "@/hooks/language/language";
-import { SupportedLocale } from "@/i18n/locale";
 import { getTotalMediaTaken } from "@/utils/cities";
 import { getContinentsByCities, getContinentStats } from "@/utils/continent";
 import { getCurrenciesFromCountries } from "@/utils/countries";
@@ -42,6 +43,7 @@ import {
 } from "@/utils/timezone";
 
 import {
+  BarChartYears,
   ContinentsBarChart,
   PopulationBarChart,
   TransportsDonutChart,
@@ -49,10 +51,8 @@ import {
 import {
   Card,
   CityRow,
-  Column,
   ContinentRow,
   CurrencyRow,
-  Row,
   TimezoneRow,
   TransportRow,
 } from "../../../molecules";
@@ -62,46 +62,22 @@ interface InfoTabStatsProps {
   isVisible?: boolean;
 }
 
-/**
- * The info tab stats component
- *
- * The info tab stats component is used to display the stats of the user.
- *
- * @component
- *
- * @param {InfoTabStatsProps} props - The props of the component
- * @param {string} props.className - The class to apply to the info tab stats
- * @param {boolean} props.isVisible - The visibility of the info tab stats
- *
- * @returns {JSX.Element} - The info tab stats
- */
+type SvgIcon = ComponentType<SVGProps<SVGSVGElement> & { className?: string }>;
+
 export function InfoTabStats({
   className = "",
   isVisible = false,
 }: InfoTabStatsProps): JSX.Element {
   const { t, currLanguage } = useLanguage(["home"]);
-  const { EARTH_CIRCUMFERENCE, MOON_DISTANCE } = constants;
-
   const {
-    visitedCountriesCount,
-    furthestCity,
-    nearestCity,
-    maxFlight,
-    minFlight,
-    totalMileage,
-    totalMileageAroundEarth,
-    totalMileageToMoon,
-    visitedContinents,
-    allContinents,
-    continentCities,
-    cityBiggestTimezoneJump,
-    numberTimezonesJumped,
-    totalMediaTaken,
-    usedCurrencies,
-    numUnescoSites,
-    maxFerry,
-    minFerry,
-  } = useMemo(() => {
+    EARTH_CIRCUMFERENCE,
+    MOON_DISTANCE,
+    TOTAL_CONTINENTS,
+    TOTAL_COUNTRIES,
+    TOTAL_UNESCO_SITES,
+  } = constants;
+
+  const stats = useMemo(() => {
     const visitedCountriesCount = visitedCountries.length;
 
     const { furthest: furthestCity, nearest: nearestCity } =
@@ -109,7 +85,6 @@ export function InfoTabStats({
 
     const { max: maxFlight, min: minFlight } =
       getMinAndMaxTransport(takenFlights);
-
     const { max: maxFerry, min: minFerry } =
       getMinAndMaxTransport(takenFerries);
 
@@ -122,25 +97,35 @@ export function InfoTabStats({
     );
 
     const visitedContinents = getContinentsByCities(visitedCities);
-
     const allContinents = Object.values(Continent).filter(
       (v): v is Continent => typeof v === "string",
     );
-
     const continentCities = allContinents
       .map((c) => getContinentStats(c, visitedCities, visitedCountries))
       .sort((a, b) => b.countries - a.countries);
 
     const cityBiggestTimezoneJump = getCityBiggestTimezoneJump(visitedCities);
     const numberTimezonesJumped = getNumberOfTimezonesJumped(visitedCities);
-
     const totalMediaTaken = getTotalMediaTaken(visitedCities);
     const usedCurrencies = getCurrenciesFromCountries(visitedCountries);
-
     const numUnescoSites = Object.values(parameters.stats.unescoSites).reduce(
       (acc, sites) => acc + sites.length,
       0,
     );
+
+    const totalDaysAbroad = visitedTrips.reduce((acc, trip) => {
+      return (
+        acc +
+        Math.round(
+          (trip.eDate.getTime() - trip.sDate.getTime()) / (1000 * 60 * 60 * 24),
+        )
+      );
+    }, 0);
+    const avgTripDays = Math.round(totalDaysAbroad / visitedTrips.length);
+    const firstTripYear = Math.min(
+      ...visitedTrips.map((t) => t.sDate.getFullYear()),
+    );
+    const yearsTraveling = new Date().getFullYear() - firstTripYear;
 
     return {
       visitedCountriesCount,
@@ -161,6 +146,9 @@ export function InfoTabStats({
       totalMediaTaken,
       usedCurrencies,
       numUnescoSites,
+      totalDaysAbroad,
+      avgTripDays,
+      yearsTraveling,
     };
   }, [EARTH_CIRCUMFERENCE, MOON_DISTANCE]);
 
@@ -171,360 +159,269 @@ export function InfoTabStats({
       <div className="info-tab-stats__header">
         <h1>{t("stats.title")}</h1>
       </div>
-      <div className="info-tab-stats__content" id="info-tab">
-        <CountCardsRow
-          t={t}
-          visitedContinents={visitedContinents}
-          visitedCountriesCount={visitedCountriesCount}
+
+      <div className="stats-bento" id="info-tab">
+        <Card className="bento-card bento-card--large bento-detail card--box-shadow">
+          <div className="bento-detail__top">
+            <h2>{t("stats.mileage")}</h2>
+            <div className="bento-mileage__total">
+              <p>{t("stats.totalMileage")}</p>
+              <b>{formatMileage(stats.totalMileage, currLanguage)} km</b>
+            </div>
+            <div className="bento-mileage__planets">
+              <div className="bento-mileage__planet">
+                <EarthFlatIcon className="bento-mileage__planet-icon" />
+                <b>{stats.totalMileageAroundEarth}×</b>
+                <p>{t("stats.aroundEarth")}</p>
+              </div>
+              <div className="bento-mileage__planet">
+                <MoonFlatIcon className="bento-mileage__planet-icon" />
+                <b>{stats.totalMileageToMoon}×</b>
+                <p>{t("stats.toMoon")}</p>
+              </div>
+            </div>
+          </div>
+          <div className="bento-detail__rows">
+            <div className="bento-detail__row">
+              <p className="bento-detail__row-label">
+                {t("stats.furthestCity")}
+              </p>
+              <CityRow eCity={stats.furthestCity} />
+            </div>
+            <div className="bento-detail__row">
+              <p className="bento-detail__row-label">
+                {t("stats.nearestCity")}
+              </p>
+              <CityRow eCity={stats.nearestCity} />
+            </div>
+          </div>
+        </Card>
+
+        <Card className="bento-card bento-card--medium bento-detail bento-continents card--box-shadow">
+          <div className="bento-continents__body">
+            <div className="bento-continents__header">
+              <h2>{t("stats.coverage")}</h2>
+              <div className="bento-continents__score">
+                <b>{stats.visitedContinents.length}</b>
+                <span>/ {TOTAL_CONTINENTS}</span>
+              </div>
+            </div>
+            <ContinentsIcon
+              className={[
+                "bento-continents__map",
+                stats.visitedContinents.includes(Continent.AFRICA)
+                  ? ""
+                  : "africa--not-visited",
+                stats.visitedContinents.includes(Continent.ASIA)
+                  ? ""
+                  : "asia--not-visited",
+                stats.visitedContinents.includes(Continent.EUROPE)
+                  ? ""
+                  : "europe--not-visited",
+                stats.visitedContinents.includes(Continent.NORTH_AMERICA)
+                  ? ""
+                  : "north-america--not-visited",
+                stats.visitedContinents.includes(Continent.OCEANIA)
+                  ? ""
+                  : "oceania--not-visited",
+                stats.visitedContinents.includes(Continent.SOUTH_AMERICA)
+                  ? ""
+                  : "south-america--not-visited",
+              ]
+                .join(" ")
+                .trim()}
+            />
+            <div className="bento-continents__badges">
+              {stats.allContinents.map((continent) => (
+                <ContinentRow
+                  continent={continent}
+                  isVisited={stats.visitedContinents.includes(continent)}
+                  key={continent}
+                />
+              ))}
+            </div>
+          </div>
+        </Card>
+
+        <BentoStatCard
+          className="bento-stat--globe"
+          icon={GlobeIcon}
+          label={t("stats.countries")}
+          suffix={`/ ${TOTAL_COUNTRIES}`}
+          value={stats.visitedCountriesCount}
         />
-        <MileageCard
-          currLanguage={currLanguage}
-          furthestCity={furthestCity}
-          nearestCity={nearestCity}
-          t={t}
-          totalMileage={totalMileage}
-          totalMileageAroundEarth={totalMileageAroundEarth}
-          totalMileageToMoon={totalMileageToMoon}
+        <BentoStatCard
+          icon={CityIcon}
+          label={t("stats.cities")}
+          value={visitedCities.length}
         />
-        <TransportCountCardsRow
-          numberTimezonesJumped={numberTimezonesJumped}
-          t={t}
+        <BentoStatCard
+          icon={MapIcon}
+          label={t("stats.trips")}
+          value={visitedTrips.length}
         />
-        <TransportDetailCard
-          cityBiggestTimezoneJump={cityBiggestTimezoneJump}
-          maxFerry={maxFerry}
-          maxFlight={maxFlight}
-          minFerry={minFerry}
-          minFlight={minFlight}
-          t={t}
+        <BentoStatCard
+          icon={SunIcon}
+          label={t("stats.daysAbroad")}
+          value={stats.totalDaysAbroad}
         />
-        <UnescoMediaCardsRow
-          currLanguage={currLanguage}
-          numUnescoSites={numUnescoSites}
-          t={t}
-          totalMediaTaken={totalMediaTaken}
+
+        <Card className="bento-card bento-card--full bento-detail bento-transport card--box-shadow">
+          <div className="bento-transport__inner">
+            <div className="bento-transport__chart">
+              <h2>{t("stats.transport")}</h2>
+              <TransportsDonutChart
+                takenFerries={takenFerries}
+                takenFlights={takenFlights}
+              />
+            </div>
+            <div className="bento-transport__rows bento-detail__rows">
+              <div className="bento-detail__row">
+                <p className="bento-detail__row-label">
+                  {t("stats.longestFlight")}
+                </p>
+                <TransportRow transport={stats.maxFlight} />
+              </div>
+              <div className="bento-detail__row">
+                <p className="bento-detail__row-label">
+                  {t("stats.shortestFlight")}
+                </p>
+                <TransportRow transport={stats.minFlight} />
+              </div>
+              <div className="bento-detail__row">
+                <p className="bento-detail__row-label">
+                  {t("stats.longestFerry")}
+                </p>
+                <TransportRow transport={stats.maxFerry} />
+              </div>
+              <div className="bento-detail__row">
+                <p className="bento-detail__row-label">
+                  {t("stats.shortestFerry")}
+                </p>
+                <TransportRow transport={stats.minFerry} />
+              </div>
+              {stats.cityBiggestTimezoneJump ? (
+                <div className="bento-detail__row">
+                  <p className="bento-detail__row-label">
+                    {t("stats.biggestTimezoneJump")}
+                  </p>
+                  <TimezoneRow
+                    eCity={stats.cityBiggestTimezoneJump}
+                    eDate={stats.cityBiggestTimezoneJump.travels?.[0]?.eDate}
+                    sCity={parameters.birthCity}
+                    sDate={stats.cityBiggestTimezoneJump.travels?.[0]?.sDate}
+                  />
+                </div>
+              ) : null}
+            </div>
+          </div>
+        </Card>
+
+        <Card className="bento-card bento-card--half bento-detail bento-population card--box-shadow">
+          <div className="bento-population__inner">
+            <div className="bento-population__left">
+              <h2>{t("stats.population")}</h2>
+              <p className="bento-detail__subtitle">
+                {t("stats.populationTop10")}
+              </p>
+              <PopulationBarChart data={visitedCities} />
+            </div>
+          </div>
+        </Card>
+
+        <Card className="bento-card bento-card--half bento-detail bento-days-year card--box-shadow">
+          <div className="bento-detail__top">
+            <h2>{t("stats.daysPerYear")}</h2>
+            <BarChartYears trips={visitedTrips} />
+          </div>
+        </Card>
+
+        <BentoStatCard
+          icon={AirplaneIcon}
+          label={t("stats.flights")}
+          value={takenFlights.length}
         />
-        <PopulationCard t={t} />
-        <CurrencyCard t={t} usedCurrencies={usedCurrencies} />
-        <ContinentsCoverageCard
-          allContinents={allContinents}
-          continentCities={continentCities}
-          t={t}
-          visitedContinents={visitedContinents}
+        <BentoStatCard
+          icon={FerryIcon}
+          label={t("stats.ferries")}
+          value={takenFerries.length}
         />
+        <BentoStatCard
+          icon={TimezoneIcon}
+          label={t("stats.timezoneJumped")}
+          value={stats.numberTimezonesJumped}
+        />
+        <BentoStatCard
+          className="bento-stat--calendar"
+          icon={CalendarIcon}
+          label={t("stats.avgTrip")}
+          suffix={t("stats.daySuffix")}
+          value={stats.avgTripDays}
+        />
+        <BentoStatCard
+          className="bento-stat--wide"
+          icon={CameraIcon}
+          label={t("stats.media")}
+          value={stats.totalMediaTaken.toLocaleString(currLanguage)}
+        />
+        <BentoStatCard
+          className="bento-stat--wide"
+          icon={UnescoIcon}
+          label={t("stats.unesco")}
+          suffix={`/ ${TOTAL_UNESCO_SITES}`}
+          value={stats.numUnescoSites}
+        />
+        <BentoStatCard
+          className="bento-stat--wide bento-stat--hide-compact"
+          icon={MoonIcon}
+          label={t("stats.yearsTraveling")}
+          suffix={t("stats.yearSuffix")}
+          value={stats.yearsTraveling}
+        />
+
+        <Card className="bento-card bento-card--half bento-detail bento-continents-chart card--box-shadow">
+          <div className="bento-detail__top">
+            <h2>{t("stats.coverage")}</h2>
+            <ContinentsBarChart data={stats.continentCities} />
+          </div>
+        </Card>
+
+        <Card className="bento-card bento-card--half bento-detail card--box-shadow">
+          <div className="bento-detail__top">
+            <h2>{t("stats.currency")}</h2>
+          </div>
+          <div className="bento-currency">
+            {stats.usedCurrencies.map((currency) => (
+              <CurrencyRow currency={currency} key={currency} />
+            ))}
+          </div>
+        </Card>
       </div>
     </div>
   );
 }
 
-interface CountCardsRowProps {
-  visitedContinents: Continent[];
-  visitedCountriesCount: number;
-  t: i18n["t"];
-}
-
-function CountCardsRow({
-  visitedContinents,
-  visitedCountriesCount,
-  t,
-}: CountCardsRowProps): JSX.Element {
-  const { TOTAL_CONTINENTS, TOTAL_COUNTRIES } = constants;
+function BentoStatCard({
+  icon: Icon,
+  label,
+  value,
+  suffix,
+  className = "",
+}: {
+  icon: SvgIcon;
+  label: string;
+  value: string | number;
+  suffix?: string;
+  className?: string;
+}): JSX.Element {
   return (
-    <Row className="info-tab-stats__cards row--wrap">
-      <Card className="info-tab-stats__card__continents card--box-shadow">
-        <GlobeIcon className="info-tab-stats__card__continents__icon" />
-        <p>{t("stats.continents")}</p>
-        <span>
-          <b>{visitedContinents.length}</b>
-          <p>{`  / ${TOTAL_CONTINENTS}`}</p>
-        </span>
-      </Card>
-      <Card className="info-tab-stats__card__countries card--box-shadow">
-        <MapIcon className="info-tab-stats__card__countries__icon" />
-        <p>{t("stats.countries")}</p>
-        <span>
-          <b>{visitedCountriesCount}</b>
-          <p>{`  / ${TOTAL_COUNTRIES}`}</p>
-        </span>
-      </Card>
-      <Card className="info-tab-stats__card__cities card--box-shadow">
-        <CityIcon className="info-tab-stats__card__cities__icon" />
-        <p>{t("stats.cities")}</p>
-        <b>{visitedCities.length}</b>
-      </Card>
-    </Row>
-  );
-}
-
-interface MileageCardProps {
-  totalMileage: number;
-  currLanguage: SupportedLocale;
-  totalMileageAroundEarth: string;
-  totalMileageToMoon: string;
-  furthestCity: City;
-  nearestCity: City;
-  t: i18n["t"];
-}
-
-function MileageCard({
-  totalMileage,
-  currLanguage,
-  totalMileageAroundEarth,
-  totalMileageToMoon,
-  furthestCity,
-  nearestCity,
-  t,
-}: MileageCardProps): JSX.Element {
-  return (
-    <Card className="info-tab-stats__card info-tab-stats__card--mileage card--box-shadow">
-      <Column className="info-tab-stats__card__main">
-        <h2>{t("stats.mileage")}</h2>
-        <Column className="info-tab-stats__card__main__total-mileage">
-          <p>{t("stats.totalMileage")}</p>
-          <b>{`${formatMileage(totalMileage, currLanguage)} km`}</b>
-        </Column>
-        <Row className="info-tab-stats__card__main__mileage-planets">
-          <Column className="info-tab-stats__card__main__mileage-planets--earth">
-            <EarthFlatIcon className="info-tab-stats__card__main__mileage-planets__earth-icon" />
-            <b>{totalMileageAroundEarth}x</b>
-            <p>{t("stats.aroundEarth")}</p>
-          </Column>
-          <Column className="info-tab-stats__card__main__mileage-planets--moon">
-            <MoonFlatIcon className="info-tab-stats__card__main__mileage-planets__moon-icon" />
-            <b>{totalMileageToMoon}x</b>
-            <p>{t("stats.toMoon")}</p>
-          </Column>
-        </Row>
-      </Column>
-      <Column className="info-tab-stats__card__row">
-        <p className="info-tab-stats__card__row__title">
-          {t("stats.furthestCity")}
-        </p>
-        <CityRow eCity={furthestCity} />
-      </Column>
-      <Column className="info-tab-stats__card__row">
-        <p className="info-tab-stats__card__row__title">
-          {t("stats.nearestCity")}
-        </p>
-        <CityRow eCity={nearestCity} />
-      </Column>
-    </Card>
-  );
-}
-
-interface TransportCountCardsRowProps {
-  numberTimezonesJumped: number;
-  t: i18n["t"];
-}
-
-function TransportCountCardsRow({
-  numberTimezonesJumped,
-  t,
-}: TransportCountCardsRowProps): JSX.Element {
-  return (
-    <Row className="info-tab-stats__cards row--wrap">
-      <Card className="info-tab-stats__card__flights card--box-shadow">
-        <AirplaneIcon className="info-tab-stats__card__flights__icon" />
-        <p>{t("stats.flights")}</p>
-        <b>{takenFlights.length}</b>
-      </Card>
-      <Card className="info-tab-stats__card__ferries card--box-shadow">
-        <FerryIcon className="info-tab-stats__card__ferries__icon" />
-        <p>{t("stats.ferries")}</p>
-        <b>{takenFerries.length}</b>
-      </Card>
-      <Card className="info-tab-stats__card__timezone-jumped card--box-shadow">
-        <TimezoneIcon className="info-tab-stats__card__timezone-jumped__icon" />
-        <p>{t("stats.timezoneJumped")}</p>
-        <b>{numberTimezonesJumped}</b>
-      </Card>
-    </Row>
-  );
-}
-
-interface TransportDetailCardProps {
-  maxFlight: Flight;
-  minFlight: Flight;
-  maxFerry: Ferry;
-  minFerry: Ferry;
-  cityBiggestTimezoneJump: City | undefined;
-  t: i18n["t"];
-}
-
-function TransportDetailCard({
-  maxFlight,
-  minFlight,
-  maxFerry,
-  minFerry,
-  cityBiggestTimezoneJump,
-  t,
-}: TransportDetailCardProps): JSX.Element {
-  return (
-    <Card className="info-tab-stats__card info-tab-stats__card--flights card--box-shadow">
-      <Column className="info-tab-stats__card__main">
-        <h2>{t("stats.transport")}</h2>
-        <TransportsDonutChart
-          takenFerries={takenFerries}
-          takenFlights={takenFlights}
-        />
-      </Column>
-      <Column className="info-tab-stats__card__row">
-        <p className="info-tab-stats__card__row__title">
-          {t("stats.longestFlight")}
-        </p>
-        <TransportRow transport={maxFlight} />
-      </Column>
-      <Column className="info-tab-stats__card__row">
-        <p className="info-tab-stats__card__row__title">
-          {t("stats.shortestFlight")}
-        </p>
-        <TransportRow transport={minFlight} />
-      </Column>
-      <Column className="info-tab-stats__card__row">
-        <p className="info-tab-stats__card__row__title">
-          {t("stats.longestFerry")}
-        </p>
-        <TransportRow transport={maxFerry} />
-      </Column>
-      <Column className="info-tab-stats__card__row">
-        <p className="info-tab-stats__card__row__title">
-          {t("stats.shortestFerry")}
-        </p>
-        <TransportRow transport={minFerry} />
-      </Column>
-      {cityBiggestTimezoneJump ? (
-        <Column className="info-tab-stats__card__row">
-          <p className="info-tab-stats__card__row__title">
-            {t("stats.biggestTimezoneJump")}
-          </p>
-          <TimezoneRow
-            eCity={cityBiggestTimezoneJump}
-            eDate={cityBiggestTimezoneJump.travels?.[0]?.eDate}
-            sCity={parameters.birthCity}
-            sDate={cityBiggestTimezoneJump.travels?.[0]?.sDate}
-          />
-        </Column>
-      ) : null}
-    </Card>
-  );
-}
-
-interface UnescoMediaCardsRowProps {
-  numUnescoSites: number;
-  totalMediaTaken: number;
-  currLanguage: SupportedLocale;
-  t: i18n["t"];
-}
-
-function UnescoMediaCardsRow({
-  numUnescoSites,
-  totalMediaTaken,
-  currLanguage,
-  t,
-}: UnescoMediaCardsRowProps): JSX.Element {
-  const { TOTAL_UNESCO_SITES } = constants;
-  return (
-    <Row className="info-tab-stats__cards row--wrap">
-      <Card className="info-tab-stats__card__unesco card--box-shadow">
-        <UnescoIcon className="info-tab-stats__card__unesco__icon" />
-        <p>{t("stats.unesco")}</p>
-        <span>
-          <b>{numUnescoSites}</b>
-          <p>{`/ ${TOTAL_UNESCO_SITES}`}</p>
-        </span>
-      </Card>
-      <Card className="info-tab-stats__card__media card--box-shadow">
-        <CameraIcon className="info-tab-stats__card__media__icon" />
-        <p>{t("stats.media")}</p>
-        <b>{totalMediaTaken.toLocaleString(currLanguage)}</b>
-      </Card>
-    </Row>
-  );
-}
-
-interface PopulationCardProps {
-  t: i18n["t"];
-}
-
-function PopulationCard({ t }: PopulationCardProps): JSX.Element {
-  return (
-    <Card className="info-tab-stats__card info-tab-stats__card--population card--box-shadow">
-      <Column className="info-tab-stats__card__main">
-        <h2 className="cities__title">{t("stats.population")}</h2>
-        <p className="info-tab-stats__card__row__title">
-          {t("stats.populationTop10")}
-        </p>
-        <PopulationBarChart data={visitedCities} />
-      </Column>
-    </Card>
-  );
-}
-
-interface CurrencyCardProps {
-  usedCurrencies: Currency[];
-  t: i18n["t"];
-}
-
-function CurrencyCard({ usedCurrencies, t }: CurrencyCardProps): JSX.Element {
-  return (
-    <Card className="info-tab-stats__card info-tab-stats__card--currency card--box-shadow">
-      <Column className="info-tab-stats__card__main">
-        <h2 className="cities__title">{t("stats.currency")}</h2>
-        <Row className="info-tab-stats__card__currencies row--wrap">
-          {usedCurrencies.map((currency) => (
-            <CurrencyRow currency={currency} key={currency} />
-          ))}
-        </Row>
-      </Column>
-    </Card>
-  );
-}
-
-interface ContinentsCoverageCardProps {
-  visitedContinents: Continent[];
-  allContinents: Continent[];
-  continentCities: {
-    continent: Continent;
-    countries: number;
-    cities: number;
-  }[];
-  t: i18n["t"];
-}
-
-function ContinentsCoverageCard({
-  visitedContinents,
-  allContinents,
-  continentCities,
-  t,
-}: ContinentsCoverageCardProps): JSX.Element {
-  return (
-    <Card className="info-tab-stats__card info-tab-stats__card--continents card--box-shadow">
-      <Column className="info-tab-stats__card__main">
-        <h2 className="continents__title">{t("stats.coverage")}</h2>
-        <ContinentsIcon
-          className={`continents__icon
-            ${visitedContinents.includes(Continent.AFRICA) ? "" : "africa--not-visited"}
-            ${visitedContinents.includes(Continent.ASIA) ? "" : "asia--not-visited"}
-            ${visitedContinents.includes(Continent.EUROPE) ? "" : "europe--not-visited"}
-            ${visitedContinents.includes(Continent.NORTH_AMERICA) ? "" : "north-america--not-visited"}
-            ${visitedContinents.includes(Continent.OCEANIA) ? "" : "oceania--not-visited"}
-            ${visitedContinents.includes(Continent.SOUTH_AMERICA) ? "" : "south-america--not-visited"}
-            `}
-        />
-        <Row className="row--wrap row--center continents__wrap">
-          {allContinents.map((continent) => (
-            <ContinentRow
-              continent={continent}
-              isVisited={visitedContinents.includes(continent)}
-              key={continent}
-            />
-          ))}
-        </Row>
-      </Column>
-
-      <Column className="info-tab-stats__card__row">
-        <ContinentsBarChart data={continentCities} />
-      </Column>
+    <Card className={`bento-stat card--box-shadow ${className}`}>
+      <Icon className="bento-stat__icon" />
+      <p className="bento-stat__label">{label}</p>
+      <div className="bento-stat__value">
+        <b>{value}</b>
+        {suffix ? <span className="bento-stat__suffix">{suffix}</span> : null}
+      </div>
     </Card>
   );
 }

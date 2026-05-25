@@ -26,8 +26,8 @@
     .timezone-row__icon {
       width: 1rem;
       height: 1rem;
-      rotate: 90deg;
       margin-inline: 0.5rem;
+      flex-shrink: 0;
     }
   }
   .timezone-row__distance {

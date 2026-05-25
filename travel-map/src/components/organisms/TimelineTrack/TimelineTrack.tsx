@@ -11,49 +11,75 @@ import { formatDateRangeShort } from "@/i18n/functions/date";
 
 import { CountryFlag } from "../../atoms";
 
-const hiddenState = { y: 20, scale: 0.97 };
-const visibleState = { y: 0, scale: 1 };
+type TripItem = {
+  trip: (typeof visitedTrips)[0];
+  side: "left" | "right";
+};
 
-/**
- * TimelineTrack component — vertical chronological timeline of trips.
- */
+type YearGroup = {
+  year: number;
+  trips: TripItem[];
+};
+
 export function TimelineTrack(): JSX.Element {
-  const timelineItems = useMemo(
-    () =>
-      [...visitedTrips]
-        .sort((a, b) => b.sDate.getTime() - a.sDate.getTime())
-        .map((trip, i, trips) => {
-          const year = trip.sDate.getFullYear();
-          const previousTrip = trips[i - 1];
-          return {
-            showYearDivider:
-              !previousTrip || previousTrip.sDate.getFullYear() !== year,
-            side: i % 2 === 0 ? "left" : "right",
-            trip,
-            year,
-          } as const;
-        }),
-    [],
-  );
+  const yearGroups = useMemo<YearGroup[]>(() => {
+    // Years descending, trips within each year ascending
+    const sorted = [...visitedTrips].sort(
+      (a, b) => b.sDate.getTime() - a.sDate.getTime(),
+    );
+    const yearMap = new Map<number, TripItem[]>();
+    for (const trip of sorted) {
+      const year = trip.sDate.getFullYear();
+      if (!yearMap.has(year)) yearMap.set(year, []);
+      yearMap.get(year)!.push({ trip, side: "left" });
+    }
+    let index = 0;
+    const groups: YearGroup[] = [];
+    for (const [year, trips] of yearMap) {
+      const ascTrips = [...trips].sort(
+        (a, b) => a.trip.sDate.getTime() - b.trip.sDate.getTime(),
+      );
+      groups.push({
+        year,
+        trips: ascTrips.map((item) => ({
+          ...item,
+          side: (index++ % 2 === 0 ? "left" : "right") as "left" | "right",
+        })),
+      });
+    }
+    return groups;
+  }, []);
 
   return (
     <LazyMotion features={domAnimation}>
       <div className="timeline-track">
         <div className="timeline-track__line" />
-        {timelineItems.map(({ showYearDivider, side, trip, year }) => {
-          return (
-            <div key={trip.id}>
-              {showYearDivider ? (
-                <div className="timeline-track__year-divider">
-                  <span>{year}</span>
-                </div>
-              ) : null}
-              <TimelineCardItem side={side} trip={trip} />
-            </div>
-          );
-        })}
+        {yearGroups.map(({ year, trips }) => (
+          <TimelineYearGroup key={year} trips={trips} year={year} />
+        ))}
       </div>
     </LazyMotion>
+  );
+}
+
+function TimelineYearGroup({ year, trips }: YearGroup): JSX.Element {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { margin: "0px 0px -20px 0px" });
+
+  return (
+    <div className="timeline-year-group" ref={ref}>
+      <m.div
+        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -10 }}
+        className="timeline-track__year-divider"
+        initial={{ opacity: 0, y: -10 }}
+        transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
+      >
+        <span>{year}</span>
+      </m.div>
+      {trips.map(({ trip, side }) => (
+        <TimelineCardItem key={trip.id} side={side} trip={trip} />
+      ))}
+    </div>
   );
 }
 
@@ -65,10 +91,13 @@ function TimelineCardItem({
   side: "left" | "right";
 }): JSX.Element {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: false, margin: "-5%" });
+  const isInView = useInView(ref, { margin: "0px 0px -30px 0px" });
   const navigate = useNavigate();
   const { t, currLanguage: lang } = useLanguage(["home"]);
   const countries = trip.getCountriesVisited();
+
+  const hiddenState = { opacity: 0, x: side === "left" ? -20 : 20 };
+  const visibleState = { opacity: 1, x: 0 };
 
   return (
     <m.div
@@ -77,7 +106,7 @@ function TimelineCardItem({
       initial={hiddenState}
       onClick={() => navigate(`/trip/${trip.id}`)}
       ref={ref}
-      transition={{ type: "spring", stiffness: 280, damping: 26, mass: 0.9 }}
+      transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
     >
       {trip.backgroundImgSource ? (
         <div className="timeline-card__image-container">
