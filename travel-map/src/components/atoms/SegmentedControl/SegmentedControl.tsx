@@ -48,7 +48,7 @@ export function SegmentedControl<T extends string>({
               <m.div
                 className="segmented-control__indicator"
                 layoutId={layoutId}
-                transition={{ type: "spring", stiffness: 500, damping: 35 }}
+                transition={{ duration: 0.16, ease: [0.35, 0, 0.25, 1] }}
               />
             ) : null}
             <span className="segmented-control__label">{option.label}</span>

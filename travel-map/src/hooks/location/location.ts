@@ -32,7 +32,7 @@ export function useLocation(): LocationHook {
     const isStats = pathname.startsWith("/stats");
     const isTripDetail = pathname.startsWith("/trip/");
     const isPlaces = pathname.startsWith("/places");
-    const isTrips = pathname === "/" || pathname === "/trips" || isTripDetail;
+    const isTrips = pathname === "/trips" || isTripDetail;
 
     const tripDetailMatch = pathname.match(/^\/trip\/(.+)$/);
     const tripDetailId = tripDetailMatch ? tripDetailMatch[1] : null;

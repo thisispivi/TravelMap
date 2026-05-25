@@ -2,102 +2,74 @@
 @use "../../../styles/mixins" as m;
 
 .stats-page {
+  display: flex;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   overflow: hidden;
-  position: relative;
-
-  &::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-  }
 
   .stats-page__scroll {
-    position: absolute;
-    inset: 0;
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding-top: calc(v.$floatingNavHeight + 1.5rem);
-    z-index: 1;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
   }
 
   .stats-page__content {
-    max-width: 52rem;
-    margin: 0 auto;
-    padding-bottom: 3rem;
+    padding-bottom: 0;
+  }
+
+  .info-tab-stats {
+    padding: 0.25rem 0 0;
+  }
+
+  .info-tab-stats__header {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    padding-inline: 0.75rem;
+  }
+
+  .info-tab-stats__content {
+    gap: 1rem 0;
+    margin-right: 0.35rem;
+    padding: 0 0.5rem 0.5rem 0.75rem;
   }
 
   .info-tab-stats__header h1 {
-    font-size: 2rem;
+    font-size: v.$headingLg;
     font-weight: 800;
-    letter-spacing: -0.02em;
+    letter-spacing: 0;
   }
 }
 
-.home--dark.stats-page {
-  background: v.$darkBackground;
+.home--dark {
+  .stats-page {
+    @include m.floating-card-dark();
+    padding: 1rem;
 
-  &::before {
-    background:
-      radial-gradient(
-        ellipse at 20% 10%,
-        rgba(40, 20, 80, 0.6) 0%,
-        transparent 55%
-      ),
-      radial-gradient(
-        ellipse at 80% 80%,
-        rgba(15, 30, 90, 0.5) 0%,
-        transparent 55%
-      );
-  }
-
-  .stats-page__scroll {
-    background: rgba(10, 10, 18, 0.55);
-    -webkit-backdrop-filter: blur(1.5rem);
-    backdrop-filter: blur(1.5rem);
-  }
-
-  .info-tab-stats__header h1 {
-    color: #ffffff;
+    .info-tab-stats__header h1 {
+      color: #ffffff;
+    }
   }
 }
 
-.home--light.stats-page {
-  background: v.$lightBackground;
+.home--light {
+  .stats-page {
+    @include m.floating-card-light();
+    border: 0.0625rem solid rgba(0, 0, 0, 0.06);
+    padding: 1rem;
 
-  &::before {
-    background:
-      radial-gradient(
-        ellipse at 20% 10%,
-        rgba(200, 210, 255, 0.5) 0%,
-        transparent 55%
-      ),
-      radial-gradient(
-        ellipse at 80% 80%,
-        rgba(180, 200, 255, 0.4) 0%,
-        transparent 55%
-      );
-  }
-
-  .stats-page__scroll {
-    background: rgba(240, 242, 245, 0.55);
-    -webkit-backdrop-filter: blur(1.5rem);
-    backdrop-filter: blur(1.5rem);
-  }
-
-  .info-tab-stats__header h1 {
-    color: v.$lightButtonContent;
+    .info-tab-stats__header h1 {
+      color: v.$lightButtonContent;
+    }
   }
 }
 
 @media screen and (max-width: 42.5rem) {
   .stats-page {
-    .stats-page__scroll {
-      padding-top: 1rem;
-      padding-bottom: calc(v.$floatingNavMobileHeight + 1rem);
+    border-radius: 1.5rem;
+    padding: 1rem;
+
+    .info-tab-stats__header h1 {
+      font-size: v.$headingMd;
     }
   }
 }

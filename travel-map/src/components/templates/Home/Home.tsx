@@ -29,8 +29,16 @@ const TripDetail = lazy(() =>
   })),
 );
 
+const bottomPanelMotion = {
+  animate: { scale: 1, x: "-50%", y: 0 },
+  exit: { scale: 0.98, x: "-50%", y: "100vh" },
+  initial: { scale: 0.98, x: "-50%", y: "100vh" },
+  transition: { duration: 0.22, ease: [0.35, 0, 0.25, 1] },
+} as const;
+
 export function HomeTemplate({ children }: PropsWithChildren): JSX.Element {
-  const { isGallery, isTrips, isPlaces, isTripDetail } = useLocation();
+  const { isGallery, isTrips, isPlaces, isTripDetail, isStats, isTimeline } =
+    useLocation();
   const { isDarkTheme, handleDarkModeSwitch, isPanelOpen } =
     useContext(HomeContext)!;
 
@@ -45,17 +53,22 @@ export function HomeTemplate({ children }: PropsWithChildren): JSX.Element {
         <Suspense fallback={null}>
           <AnimatePresence mode="wait">
             {(isTrips || isTripDetail) && isPanelOpen ? (
-              <m.div
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                initial={{ opacity: 0 }}
-                key="trip-panel"
-                transition={{ duration: 0.18, ease: [0.4, 0, 0.2, 1] }}
-              >
-                {isTripDetail ? <TripDetail /> : <TripBrowser />}
-              </m.div>
+              isTripDetail ? (
+                <TripDetail key="trip-panel" />
+              ) : (
+                <TripBrowser key="trip-panel" />
+              )
             ) : null}
             {isPlaces && isPanelOpen ? <PlacesBrowser key="places" /> : null}
+            {(isTimeline || isStats) && isPanelOpen ? (
+              <m.div
+                className="home-template__bottom-panel"
+                key={isTimeline ? "timeline" : "stats"}
+                {...bottomPanelMotion}
+              >
+                <Suspense fallback={null}>{children}</Suspense>
+              </m.div>
+            ) : null}
           </AnimatePresence>
         </Suspense>
       </LazyMotion>
