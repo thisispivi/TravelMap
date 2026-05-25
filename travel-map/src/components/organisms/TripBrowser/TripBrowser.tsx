@@ -3,8 +3,8 @@ import "./TripBrowser.scss";
 import { domAnimation, LazyMotion, m } from "framer-motion";
 import {
   JSX,
+  use,
   useCallback,
-  useContext,
   useEffect,
   useMemo,
   useRef,
@@ -38,7 +38,7 @@ const TRIP_YEAR_TRANSITION_DURATION_MS = 280;
 export function TripBrowser(): JSX.Element {
   const { t } = useLanguage(["home"]);
   const navigate = useNavigate();
-  const { setSelectedTrip } = useContext(HomeContext)!;
+  const { setSelectedTrip } = use(HomeContext)!;
 
   const groups = useMemo(
     () =>

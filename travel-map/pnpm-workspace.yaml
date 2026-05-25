@@ -1,5 +1,6 @@
 allowBuilds:
   "@parcel/watcher": true
+  msgpackr-extract: set this to true or false
 
 ignoredBuiltDependencies:
   - esbuild
@@ -7,6 +8,8 @@ ignoredBuiltDependencies:
 minimumReleaseAgeExclude:
   - apexcharts@5.13.0
   - knip@6.14.2
+  - oxlint-plugin-react-doctor@0.2.6
+  - react-doctor@0.2.6
 
 onlyBuiltDependencies:
   - "@parcel/watcher"

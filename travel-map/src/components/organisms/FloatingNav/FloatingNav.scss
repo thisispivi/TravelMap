@@ -80,11 +80,9 @@
       height: 2.25rem;
     }
 
-    .language-selector {
-      .language-selector__activator {
-        height: 2.25rem !important;
-        width: 2.25rem !important;
-      }
+    .language-selector__activator {
+      width: 2.25rem;
+      height: 2.25rem;
     }
   }
 }
@@ -175,7 +173,8 @@
       padding-left: 0;
 
       .dark-mode-button,
-      .button {
+      .button,
+      .language-selector__activator {
         width: 2rem;
         height: 2rem;
       }

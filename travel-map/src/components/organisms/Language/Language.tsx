@@ -1,13 +1,12 @@
 import "./Language.scss";
 
 import { AnimatePresence, domAnimation, LazyMotion, m } from "framer-motion";
-import { JSX, useEffect, useRef, useState } from "react";
+import { JSX, useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";
 
 import { LanguageIcon } from "@/assets";
 import { useLanguage } from "@/hooks/language/language";
-import { useResponsive } from "@/hooks/style/responsive";
 import { SUPPORTED_LOCALES } from "@/i18n/locale";
 
 import { Button, LanguageFlag } from "../../atoms";
@@ -19,10 +18,28 @@ const LANGUAGE_LABELS: Record<string, string> = {
   "it-IT": "Italiano",
 };
 
+type PanelPos =
+  | { top: number; right: number }
+  | { bottom: number; right: number };
+
+const PANEL_OFFSET_PX = 8;
+
+function computePanelPos(el: HTMLElement): PanelPos {
+  const rect = el.getBoundingClientRect();
+  const right = window.innerWidth - rect.right;
+  return rect.bottom < window.innerHeight / 2
+    ? { top: rect.bottom + PANEL_OFFSET_PX, right }
+    : { bottom: window.innerHeight - rect.top + PANEL_OFFSET_PX, right };
+}
+
 /**
  * LanguageSelector component
  *
- * Dropdown language switcher for supported locales.
+ * Dropdown language switcher for supported locales. The panel is portaled
+ * to the document body and anchored to the right edge of the trigger button.
+ * It opens downward on desktop (top nav) and upward on mobile (bottom nav),
+ * always staying within the viewport. A transparent backdrop captures
+ * outside clicks to close the panel.
  *
  * @component
  *
@@ -31,28 +48,28 @@ const LANGUAGE_LABELS: Record<string, string> = {
 export function LanguageSelector(): JSX.Element {
   const { t } = useTranslation("home");
   const [isOpen, setIsOpen] = useState(false);
+  const [panelPos, setPanelPos] = useState<PanelPos | null>(null);
   const { currLanguage, changeLanguage } = useLanguage([]);
-  const ref = useRef<HTMLDivElement>(null);
-  const {
-    window: { width },
-  } = useResponsive();
-  const isMobile = width <= 680;
+  const buttonRef = useRef<HTMLDivElement>(null);
+
+  const handleToggle = useCallback(() => {
+    setIsOpen((prev) => {
+      if (!prev && buttonRef.current)
+        setPanelPos(computePanelPos(buttonRef.current));
+      return !prev;
+    });
+  }, []);
 
   useEffect(() => {
-    if (!isOpen) return;
-    const handleOutsideClick = (e: MouseEvent) => {
-      const target = e.target as Node;
-      const inSelector = ref.current?.contains(target);
-      const inPortaledPanel = document
-        .querySelector(".language-selector__panel--portaled")
-        ?.contains(target);
-      if (!inSelector && !inPortaledPanel) {
-        setIsOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleOutsideClick);
-    return () => document.removeEventListener("mousedown", handleOutsideClick);
+    if (!isOpen || !buttonRef.current) return;
+    const el = buttonRef.current;
+    const onResize = () => setPanelPos(computePanelPos(el));
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
   }, [isOpen]);
+
+  const isAbove = panelPos ? "top" in panelPos : true;
+  const slideY = isAbove ? -8 : 8;
 
   const langOptions = possibleLanguages.map((language, i) => (
     <m.button
@@ -88,57 +105,46 @@ export function LanguageSelector(): JSX.Element {
 
   return (
     <LazyMotion features={domAnimation}>
-      <div className="language-selector" ref={ref}>
-        {isOpen
-          ? createPortal(
-              <div
-                className="language-selector__overlay"
-                onClick={() => setIsOpen(false)}
-              />,
-              document.body,
-            )
-          : null}
-
-        {isMobile ? (
-          createPortal(
+      <div className="language-selector" ref={buttonRef}>
+        {createPortal(
+          <>
             <AnimatePresence>
               {isOpen ? (
                 <m.div
+                  animate={{ opacity: 1 }}
+                  className="language-selector__backdrop"
+                  exit={{ opacity: 0 }}
+                  initial={{ opacity: 0 }}
+                  key="lang-backdrop"
+                  onClick={() => setIsOpen(false)}
+                  transition={{ duration: 0.15 }}
+                />
+              ) : null}
+            </AnimatePresence>
+            <AnimatePresence>
+              {isOpen && panelPos ? (
+                <m.div
                   animate={{ opacity: 1, y: 0 }}
-                  className="language-selector__panel language-selector__panel--portaled"
-                  exit={{ opacity: 0, y: 8 }}
-                  initial={{ opacity: 0, y: 8 }}
-                  key="mobile-lang-panel"
+                  className="language-selector__panel"
+                  exit={{ opacity: 0, y: slideY }}
+                  initial={{ opacity: 0, y: slideY }}
+                  key="lang-panel"
+                  style={panelPos}
                   transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
                 >
                   {langOptions}
                 </m.div>
               ) : null}
-            </AnimatePresence>,
-            document.body,
-          )
-        ) : (
-          <AnimatePresence>
-            {isOpen ? (
-              <m.div
-                animate={{ opacity: 1, y: 0 }}
-                className="language-selector__panel"
-                exit={{ opacity: 0, y: -4 }}
-                initial={{ opacity: 0, y: -4 }}
-                key="desktop-lang-panel"
-                transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
-              >
-                {langOptions}
-              </m.div>
-            ) : null}
-          </AnimatePresence>
+            </AnimatePresence>
+          </>,
+          document.body,
         )}
         <Button
           ariaLabel={t("language")}
           className={`language-selector__activator ${
             isOpen ? "language-selector__activator--open" : ""
           }`}
-          onClick={() => setIsOpen((open) => !open)}
+          onClick={handleToggle}
           tooltipContent={t("language")}
           tooltipId="base-tooltip"
         >

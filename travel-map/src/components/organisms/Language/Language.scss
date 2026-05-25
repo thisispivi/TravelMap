@@ -1,17 +1,22 @@
 @use "../../../styles/mixins" as m;
 @use "../../../styles/variables" as v;
 
+.language-selector__backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  background: transparent;
+  cursor: default;
+}
+
 .language-selector__panel {
-  position: absolute;
-  top: calc(100% + 0.5rem);
-  left: 50%;
-  transform: translateX(-50%);
+  position: fixed;
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
   padding: 0.4rem;
   border-radius: 0.85rem;
-  z-index: 10;
+  z-index: 100;
   min-width: 10rem;
 }
 
@@ -79,28 +84,19 @@
   }
 }
 
-.language-selector__overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 9;
-  background: transparent;
-}
-
 .home--dark,
 body.body--dark {
   .language-selector__panel {
-    background: v.$glassBgDark;
-    -webkit-backdrop-filter: blur(v.$glassBlur);
-    backdrop-filter: blur(v.$glassBlur);
-    border: 0.0625rem solid v.$glassBorderDark;
-    box-shadow: v.$glassShadowDark;
+    @include m.glassmorphism-dark();
   }
 
   .language-selector__lang-option {
     color: v.$darkButtonContent;
-
     &:hover:not(.language-selector__lang-option--active) {
       background: v.$darkButtonHover;
+    }
+    &.language-selector__lang-option--active {
+      color: v.$lightButtonContent;
     }
   }
 }
@@ -108,11 +104,8 @@ body.body--dark {
 .home--light,
 body.body--light {
   .language-selector__panel {
-    background: v.$glassBgLight;
-    -webkit-backdrop-filter: blur(v.$glassBlur);
-    backdrop-filter: blur(v.$glassBlur);
-    border: 0.0625rem solid v.$glassBorderLight;
-    box-shadow: v.$glassShadowLight;
+    @include m.glassmorphism-light();
+    border: 0.0625rem solid rgba(0, 0, 0, 0.08);
   }
 
   .language-selector__lang-option {
@@ -125,14 +118,8 @@ body.body--light {
 }
 
 @media screen and (max-width: 42.5rem) {
-  .language-selector__panel--portaled {
-    position: fixed;
-    top: v.$mobileFloatingMargin;
-    left: v.$mobileFloatingMargin;
-    bottom: auto;
-    transform: none !important;
+  .language-selector__panel {
     min-width: 9rem;
-    z-index: 100;
 
     .language-selector__lang-option {
       padding: 0.4rem 0.6rem;
@@ -150,8 +137,6 @@ body.body--light {
 
   .language-selector {
     .language-selector__activator {
-      height: 2.2rem;
-      width: 2.2rem;
       padding: 0.3rem;
       border-radius: 62.4375rem;
       display: flex;

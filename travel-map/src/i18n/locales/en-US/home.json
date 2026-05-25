@@ -2,13 +2,11 @@
   "cities": {
     "Alghero": "Alghero",
     "Anderlecht": "Anderlecht",
-    "Assisi": "Assisi",
     "Barcelona": "Barcelona",
     "Bran": "Bran",
     "Brasov": "Brașov",
     "Bergamo": "Bergamo",
     "Berlin": "Berlin",
-    "Birgu": "Birgu",
     "Bologna": "Bologna",
     "Braga": "Braga",
     "Bratislava": "Bratislava",
@@ -21,13 +19,9 @@
     "Cannes": "Cannes",
     "Cefalù": "Cefalù",
     "Comino": "Comino",
-    "Cospicua": "Cospicua",
-    "Cuneo": "Cuneo",
     "Devin": "Devín",
-    "Dingli": "Dingli",
     "Fujikawaguchiko": "Fujikawaguchiko",
     "Genoa": "Genoa",
-    "Gressoney-La-Trinité": "Gressoney-La-Trinité",
     "Himeji": "Himeji",
     "Imola": "Imola",
     "Kanazawa": "Kanazawa",
@@ -46,10 +40,7 @@
     "Olbia": "Olbia",
     "Osaka": "Osaka",
     "Oshino": "Oshino",
-    "Padua": "Padua",
-    "Perugia": "Perugia",
     "PeschieraDelGarda": "Peschiera del Garda",
-    "Pisa": "Pisa",
     "Porto": "Porto",
     "PortoTorres": "Porto Torres",
     "Rabat": "Rabat",
@@ -59,7 +50,6 @@
     "SaintTropez": "Saint Tropez",
     "SanGiljan": "San Ġiljan",
     "SanPawlIlBahar": "San Pawl il-Bahar",
-    "Senglea": "Senglea",
     "Sevilla": "Seville",
     "Shanghai": "Shanghai",
     "Shirakawago": "Shirakawa-go",
@@ -74,7 +64,6 @@
     "Turin": "Turin",
     "Valletta": "Valletta",
     "VaticanCity": "Vatican City",
-    "Venice": "Venice",
     "Verona": "Verona",
     "Victoria": "Victoria",
     "Vienna": "Vienna"
@@ -108,17 +97,8 @@
     "OCEANIA": "Oceania",
     "SOUTH_AMERICA": "South America"
   },
-  "home": "Home",
-  "timezone": "Timezone",
-  "birthCity": "Birth city",
-  "lived": {
-    "title": "Cities I've lived in",
-    "ariaLabel": "Cities I've lived in"
-  },
-  "visited": { "title": "My Trips", "ariaLabel": "My Trips" },
-  "future": {
-    "title": "Future Destinations",
-    "ariaLabel": "Future Destinations"
+  "visited": {
+    "title": "My Trips"
   },
   "tripCard": {
     "openTrip": "Open {{trip}}"
@@ -135,23 +115,16 @@
     }
   },
   "stats": {
-    "ariaLabel": "Travel Statistics",
     "aroundEarth": "around the Earth",
     "biggestTimezoneJump": "Largest timezone jump",
     "cities": "Cities",
     "citiesPerContinent": "Cities visited by continent",
-    "continents": "Continents",
     "countries": "Countries",
     "countriesPerContinent": "Countries visited by continent",
     "coverage": "Coverage",
     "currency": "Currency",
     "ferries": "Ferries",
-    "ferriesTaken": "Ferries taken",
-    "flightCompaniesTaken": "Flight companies taken",
-    "flight_one": "flight",
-    "flight_other": "flights",
     "flights": "Flights",
-    "flightsTaken": "Flights taken",
     "furthestCity": "Furthest city visited",
     "intercontinental": "Intercontinental flights",
     "international": "International flights",
@@ -161,7 +134,6 @@
     "mileage": "Mileage",
     "national": "Domestic flights",
     "nearestCity": "Nearest city visited",
-    "ofTheWorld": "of the world",
     "population": "Population",
     "populationTop10": "Top 10 most populated cities visited",
     "shortestFerry": "Shortest ferry taken",
@@ -179,10 +151,8 @@
     "yearsTraveling": "Years",
     "daySuffix": "d",
     "yearSuffix": "yrs",
-    "unesco": "UNESCO sites",
-    "visited": "Places I've visited"
+    "unesco": "UNESCO sites"
   },
-  "autoPositionTooltip": "When enabled, the map will automatically center on the city card you hover over.",
   "deselectAll": "Deselect all",
   "filterTooltip": "Filter city cards on the map by country selection.",
   "gallery": "View Gallery",
@@ -190,12 +160,6 @@
   "selectedTravel": "Selected travel: ",
   "language": "Select a language",
   "selectAll": "Select all",
-  "createdBy": "Made by Pivi",
-  "author": {
-    "button": "About the creator",
-    "role": "Software Engineer & ML Consultant",
-    "description": "Full-stack engineer specialised in React & Node.js, with a strong focus on machine learning integration. M.Sc. in Computer Science from the University of Cagliari. I built this map to track and share my adventures around the world."
-  },
   "theme": "Toggle between light and dark mode",
   "map": {
     "zoomIn": "Zoom in",
@@ -227,6 +191,10 @@
     "AUD": {
       "name": "Australian Dollar",
       "symbol": "$"
+    },
+    "CNY": {
+      "name": "Chinese Yuan",
+      "symbol": "¥"
     },
     "BGN": {
       "name": "Bulgarian Lev",
@@ -281,7 +249,6 @@
     "route": "Route",
     "cities": "Cities",
     "days": "days",
-    "day": "day",
-    "viewOnMap": "View on map"
+    "day": "day"
   }
 }

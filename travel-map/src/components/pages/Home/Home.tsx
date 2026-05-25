@@ -62,7 +62,7 @@ export function Home(): JSX.Element {
       navigate("/trips", { replace: true });
       return;
     }
-  }, [location.pathname, location.state, navigate]);
+  }, [location, navigate]);
 
   const context = useMemo(
     () => ({

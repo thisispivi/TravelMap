@@ -88,12 +88,7 @@
     width: 100%;
     gap: 1rem;
     padding-right: 0.25rem;
-    &:first-child {
-      padding-top: 0.5rem;
-    }
-    &:last-child {
-      padding-bottom: 0.5rem;
-    }
+    padding-block: 0.5rem;
   }
 }
 

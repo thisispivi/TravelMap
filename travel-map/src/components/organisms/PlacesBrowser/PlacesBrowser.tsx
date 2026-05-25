@@ -3,8 +3,8 @@ import "./PlacesBrowser.scss";
 import { AnimatePresence, domAnimation, LazyMotion, m } from "framer-motion";
 import {
   JSX,
+  use,
   useCallback,
-  useContext,
   useEffect,
   useMemo,
   useRef,
@@ -59,7 +59,7 @@ export function PlacesBrowser(): JSX.Element {
   const { t } = useLanguage(["home"]);
   const navigate = useNavigate();
   const { placesFilter } = useLocation();
-  const { setHoveredCity, setMapPosition } = useContext(HomeContext)!;
+  const { setHoveredCity, setMapPosition } = use(HomeContext)!;
 
   const [filter, setFilter] = useState<PlacesFilter>(placesFilter ?? "visited");
   const [selectedCountries, setSelectedCountries] = useState<Country[] | null>(

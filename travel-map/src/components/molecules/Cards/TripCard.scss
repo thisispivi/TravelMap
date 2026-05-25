@@ -41,8 +41,7 @@
     }
 
     &:focus-visible {
-      outline: 0.125rem solid rgba(76, 141, 255, 0.7);
-      outline-offset: -0.125rem;
+      outline: none;
     }
   }
 

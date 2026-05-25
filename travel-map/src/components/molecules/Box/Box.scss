@@ -23,20 +23,14 @@
 
 .home--light {
   .box {
-    background: rgba(255, 255, 255, 0.6);
-    -webkit-backdrop-filter: blur(1rem);
-    backdrop-filter: blur(1rem);
-    border: 0.0625rem solid rgba(255, 255, 255, 0.4);
+    @include m.full-panel-light();
     color: v.$lightButtonContent;
   }
 }
 
 .home--dark {
   .box {
-    background: rgba(22, 22, 30, 0.55);
-    -webkit-backdrop-filter: blur(1rem);
-    backdrop-filter: blur(1rem);
-    border: 0.0625rem solid rgba(255, 255, 255, 0.05);
+    @include m.full-panel-dark();
     color: v.$darkButtonContent;
   }
 }

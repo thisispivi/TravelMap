@@ -7,7 +7,6 @@ import { CSSTransition } from "react-transition-group";
 import { Country } from "@/core";
 import { useLanguage } from "@/hooks/language/language";
 import { classNames } from "@/utils/className";
-import { isActivationKey } from "@/utils/keyboard";
 import { mobileAndTabletCheck } from "@/utils/responsive";
 
 import { Button, Checkbox, CountryFlag } from "../../atoms";
@@ -129,14 +128,10 @@ export function FilterByCountry({
         >
           <div className="filter__options" ref={nodeRef}>
             <div className="filter__options__list" id="info-tab">
-              <div
+              <button
                 className={`${getOptionClassName()} filter__option--select-all`}
                 onClick={handleSelectAllToggle}
-                onKeyDown={(event) =>
-                  isActivationKey(event) && handleSelectAllToggle()
-                }
-                role="button"
-                tabIndex={0}
+                type="button"
               >
                 <div className="filter__option--select-all__icon">
                   <Checkbox isChecked={allSelected} />
@@ -144,21 +139,17 @@ export function FilterByCountry({
                 <h4 className="filter__option--select-all__text">
                   {allSelected ? t("deselectAll") : t("selectAll")}
                 </h4>
-              </div>
+              </button>
               {options.map((option) => (
-                <div
+                <button
                   className={getOptionClassName(selected.includes(option))}
                   key={option.id}
                   onClick={() => handleCountryToggle(option)}
-                  onKeyDown={(event) =>
-                    isActivationKey(event) && handleCountryToggle(option)
-                  }
-                  role="button"
-                  tabIndex={0}
+                  type="button"
                 >
                   <CountryFlag countryId={option.id} />
                   <h4>{t(`countries.${option.id.replace(/\s+/g, "")}`)}</h4>
-                </div>
+                </button>
               ))}
             </div>
           </div>

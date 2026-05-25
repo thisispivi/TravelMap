@@ -13,6 +13,7 @@ interface TravelSelectorProps {
   travels: Travel[];
   selectedTravelIdx: number;
   cityName: string;
+  navigationState?: { fromPath?: string };
 }
 
 /**
@@ -26,12 +27,14 @@ interface TravelSelectorProps {
  * @param {Travel[]} props.travels - City travels to navigate through
  * @param {number} props.selectedTravelIdx - Active travel index
  * @param {string} props.cityName - City route segment
+ * @param {{ fromPath?: string }} [props.navigationState] - State to preserve across gallery travel changes
  * @returns {JSX.Element} The travel selector
  */
 export function TravelSelector({
   travels,
   selectedTravelIdx,
   cityName,
+  navigationState,
 }: TravelSelectorProps): JSX.Element {
   const { currLanguage } = useLanguage([]);
   const navigate = useNavigate();
@@ -48,7 +51,9 @@ export function TravelSelector({
         )}
         onClick={() =>
           selectedTravelIdx > 0 &&
-          navigate(`/gallery/${cityName}/${selectedTravelIdx - 1}`)
+          navigate(`/gallery/${cityName}/${selectedTravelIdx - 1}`, {
+            state: navigationState,
+          })
         }
       />
       <div className="travel-selector__info">
@@ -71,7 +76,9 @@ export function TravelSelector({
         )}
         onClick={() =>
           selectedTravelIdx < filteredTravels.length - 1 &&
-          navigate(`/gallery/${cityName}/${selectedTravelIdx + 1}`)
+          navigate(`/gallery/${cityName}/${selectedTravelIdx + 1}`, {
+            state: navigationState,
+          })
         }
       />
     </div>

@@ -1,7 +1,7 @@
 import "./FloatingNav.scss";
 
 import { domAnimation, LazyMotion, m } from "framer-motion";
-import { JSX, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { JSX, use, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { LogoIcon } from "@/assets";
@@ -82,7 +82,7 @@ export function FloatingNav({
   const navigate = useNavigate();
   const { activeTab, isGallery } = useLocation();
   const { t } = useLanguage(["home"]);
-  const context = useContext(HomeContext);
+  const context = use(HomeContext);
   const isPanelOpen = context?.isPanelOpen ?? true;
   const setIsPanelOpen = context?.setIsPanelOpen;
   const [skipAnimation] = useState(() => navHasAnimated);

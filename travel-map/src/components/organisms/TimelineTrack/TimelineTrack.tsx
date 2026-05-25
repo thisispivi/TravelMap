@@ -36,7 +36,7 @@ type TimelineCardItemProps = TripItem;
  */
 export function TimelineTrack(): JSX.Element {
   const yearGroups = useMemo<YearGroup[]>(() => {
-    const sorted = [...visitedTrips].sort(
+    const sorted = visitedTrips.toSorted(
       (a, b) => b.sDate.getTime() - a.sDate.getTime(),
     );
     const yearMap = new Map<number, TripItem[]>();
@@ -48,7 +48,7 @@ export function TimelineTrack(): JSX.Element {
     let index = 0;
     const groups: YearGroup[] = [];
     for (const [year, trips] of yearMap) {
-      const ascTrips = [...trips].sort(
+      const ascTrips = trips.toSorted(
         (a, b) => a.trip.sDate.getTime() - b.trip.sDate.getTime(),
       );
       groups.push({
@@ -89,7 +89,7 @@ export function TimelineTrack(): JSX.Element {
  */
 function TimelineYearGroup({ year, trips }: YearGroup): JSX.Element {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { margin: "0px 0px -20px 0px" });
+  const isInView = useInView(ref, { amount: 0.2 });
 
   return (
     <div className="timeline-year-group" ref={ref}>
@@ -123,13 +123,28 @@ function TimelineYearGroup({ year, trips }: YearGroup): JSX.Element {
  */
 function TimelineCardItem({ trip, side }: TimelineCardItemProps): JSX.Element {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { margin: "0px 0px -30px 0px" });
+  const isInView = useInView(ref, {
+    amount: 0.25,
+    once: true,
+  });
   const navigate = useNavigate();
   const { t, currLanguage: lang } = useLanguage(["home"]);
   const countries = trip.getCountriesVisited();
 
-  const hiddenState = { opacity: 0, x: side === "left" ? -20 : 20 };
-  const visibleState = { opacity: 1, x: 0 };
+  const hiddenState = {
+    opacity: 0,
+    x: side === "left" ? -64 : 64,
+    y: 18,
+    scale: 0.96,
+    filter: "blur(0.375rem)",
+  };
+  const visibleState = {
+    opacity: 1,
+    x: 0,
+    y: 0,
+    scale: 1,
+    filter: "blur(0rem)",
+  };
 
   return (
     <m.div
@@ -138,7 +153,12 @@ function TimelineCardItem({ trip, side }: TimelineCardItemProps): JSX.Element {
       initial={hiddenState}
       onClick={() => navigate(`/trip/${trip.id}`)}
       ref={ref}
-      transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+      transition={{
+        type: "spring",
+        stiffness: 150,
+        damping: 24,
+        mass: 0.8,
+      }}
     >
       {trip.backgroundImgSource ? (
         <div className="timeline-card__image-container">
