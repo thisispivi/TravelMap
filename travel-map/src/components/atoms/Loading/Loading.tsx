@@ -2,6 +2,8 @@ import "./Loading.scss";
 
 import { JSX } from "react";
 
+import { classNames } from "@/utils/className";
+
 interface LoadingProps {
   className?: string;
 }
@@ -9,12 +11,14 @@ interface LoadingProps {
 /**
  * Loading component
  *
- * The Loading component is an atom that displays a spinner while the content is loading.
+ * Spinner shown while async content is loading.
+ *
  * @component
- * @param {LoadingProps} props - The props of the component
- * @param {string} props.className - The class name of the component
- * @returns {JSX.Element} The Loading component
+ *
+ * @param {LoadingProps} props - The loading props
+ * @param {string} [props.className] - Additional class names
+ * @returns {JSX.Element} The loading spinner
  */
 export function Loading({ className = "" }: LoadingProps): JSX.Element {
-  return <div className={`loader ${className}`} />;
+  return <div className={classNames("loader", className)} />;
 }

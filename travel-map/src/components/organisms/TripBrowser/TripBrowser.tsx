@@ -18,11 +18,23 @@ import { HomeContext } from "@/components/pages/Home/HomeContext";
 import { Trip } from "@/core";
 import { visitedTrips } from "@/data";
 import { useLanguage } from "@/hooks/language/language";
+import { classNames } from "@/utils/className";
 import { constants } from "@/utils/parameters";
 import { groupTripsByYear } from "@/utils/trips";
 
-const tripYearTransitionDuration = 280;
+const TRIP_YEAR_TRANSITION_DURATION_MS = 280;
 
+/**
+ * TripBrowser component
+ *
+ * Displays visited trips grouped by year. A year-selector tab row lets the
+ * user slide between year groups with a horizontal transition. The panel
+ * height adapts dynamically to the tallest card in the active group.
+ *
+ * @component
+ *
+ * @returns {JSX.Element} The trip browser panel
+ */
 export function TripBrowser(): JSX.Element {
   const { t } = useLanguage(["home"]);
   const navigate = useNavigate();
@@ -110,7 +122,7 @@ export function TripBrowser(): JSX.Element {
 
   const selectYear = useCallback(
     (year: string) => {
-      const next = parseInt(year);
+      const next = parseInt(year, 10);
       if (next === activeYear) return;
       setActiveYear(next);
     },
@@ -139,7 +151,7 @@ export function TripBrowser(): JSX.Element {
     const frame = window.requestAnimationFrame(measurePanelHeight);
     const timeout = window.setTimeout(() => {
       window.requestAnimationFrame(measurePanelHeight);
-    }, tripYearTransitionDuration + 80);
+    }, TRIP_YEAR_TRANSITION_DURATION_MS + 80);
 
     return () => {
       window.cancelAnimationFrame(frame);
@@ -179,7 +191,11 @@ export function TripBrowser(): JSX.Element {
         <div className="trip-browser__year-selector">
           {years.map((year, i) => (
             <button
-              className={`trip-browser__year-btn ${activeYear === parseInt(year) ? "trip-browser__year-btn--active" : ""}`}
+              className={classNames(
+                "trip-browser__year-btn",
+                activeYear === parseInt(year, 10) &&
+                  "trip-browser__year-btn--active",
+              )}
               key={year}
               onClick={() => selectYear(year)}
               type="button"
@@ -190,9 +206,10 @@ export function TripBrowser(): JSX.Element {
         </div>
 
         <div
-          className={`trip-browser__list ${
-            isListScrollable ? "trip-browser__list--scrollable" : ""
-          }`}
+          className={classNames(
+            "trip-browser__list",
+            isListScrollable && "trip-browser__list--scrollable",
+          )}
         >
           <m.div
             animate={{ height: stageHeight ?? "auto" }}
@@ -210,7 +227,7 @@ export function TripBrowser(): JSX.Element {
                 initial={false}
                 key={year}
                 transition={{
-                  duration: tripYearTransitionDuration / 1000,
+                  duration: TRIP_YEAR_TRANSITION_DURATION_MS / 1000,
                   ease: [0.35, 0, 0.25, 1],
                 }}
               >

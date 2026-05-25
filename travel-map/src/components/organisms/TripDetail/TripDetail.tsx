@@ -15,6 +15,18 @@ import { formatDateRangeShort } from "@/i18n/functions/date";
 import { CountryFlag } from "../../atoms";
 import { CityCard } from "../../molecules";
 
+/**
+ * TripDetail component
+ *
+ * Side-panel view for a single trip. Shows the trip hero image, dates,
+ * duration badge, a city-by-city route line, and a grid of CityCards.
+ * Falls back to reading the trip from `visitedTrips` when navigated to directly
+ * via URL (no prior `selectedTrip` context).
+ *
+ * @component
+ *
+ * @returns {JSX.Element | null} The trip detail panel, or null if no trip is found
+ */
 export function TripDetail(): JSX.Element | null {
   const { t, currLanguage: lang } = useLanguage(["home"]);
   const navigate = useNavigate();

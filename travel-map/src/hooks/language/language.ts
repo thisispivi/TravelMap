@@ -3,18 +3,20 @@ import { useTranslation } from "react-i18next";
 
 import { normalizeLocale, SupportedLocale } from "@/i18n/locale";
 
-type LanguageHook = {
+export type UseLanguageReturn = {
   t: i18n["t"];
   currLanguage: SupportedLocale;
   changeLanguage: (lang: string) => void;
 };
 
 /**
- * Custom hook to use i18n and t function from react-i18next
- * @param {string[]} namespaces - Array of namespaces to use
- * @returns {LanguageHook} - Object containing t function, current language and changeLanguage function
+ * Custom hook wrapping `react-i18next` to expose the translation function,
+ * the current locale, and a typed `changeLanguage` helper.
+ *
+ * @param {string[]} namespaces - i18next namespaces to load.
+ * @returns {UseLanguageReturn} Translation utilities.
  */
-export function useLanguage(namespaces: string[]): LanguageHook {
+export function useLanguage(namespaces: string[]): UseLanguageReturn {
   const { i18n, t } = useTranslation(namespaces);
   const currLanguage = normalizeLocale(i18n.resolvedLanguage ?? i18n.language);
   const changeLanguage = (lang: string) => {

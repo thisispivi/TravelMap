@@ -3,78 +3,66 @@
       <picture>
          <source media="(prefers-color-scheme: dark)" srcset="./logos/logo_dark.png">
          <source media="(prefers-color-scheme: light)" srcset="./logos/logo_light.png">
-         <img alt="logo" src="./logos/logo_dark.png" height="75">
+         <img alt="TravelMap logo" src="./logos/logo_dark.png" height="75">
       </picture>
    </div>
 </div>
 
 # [TravelMap](https://map.pivi.dev/)
 
-Travel Map is a web app I’m building to track my travels and document the places I’ve visited. It features an interactive map with markers for past trips and future destinations, creating a visual log of my journeys. Each visited location includes a dedicated photo gallery with images and videos, making it easy to relive and share my experiences. The project is available at this [link](https://map.pivi.dev/)
+TravelMap is my personal travel archive: an interactive map, trip browser, photo gallery, timeline, and stats dashboard built around the places I have visited, lived in, or plan to visit.
 
-## Features
+The live app is available at [map.pivi.dev](https://map.pivi.dev/).
 
-- **Full-screen interactive map** — explore your travels on a world map with animated route lines
-- **Trip-first browsing** — browse trips by year with photo-forward cards
-- **Places view** — filter cities by visited, lived, or future destinations
-- **Trip detail panel** — view route, cities, dates, and photos for each trip
-- **Timeline view** — scroll through a chronological timeline of all travels
-- **Travel statistics** — dedicated stats page with distance, transport, continents, UNESCO sites
-- **Photo galleries** — masonry photo albums with lightbox viewer for each city
-- **Dark & light themes** — glassmorphism design with Airbnb-inspired light mode and Bolt-inspired dark mode
-- **Responsive design** — optimized for both mobile and desktop
-- **Multi-language** — English and Italian support
+## What It Does
+
+- Shows visited, lived, and future cities on an interactive world map.
+- Draws trip routes and opens city tooltips directly from the map.
+- Groups trips by year, with detail pages for route, dates, duration, and cities.
+- Displays city photo galleries with a full-screen lightbox.
+- Tracks timeline and stats such as distance, transports, continents, countries, currencies, timezones, UNESCO sites, and media count.
+- Supports English and Italian, light and dark themes, and mobile / desktop layouts.
+
+## Stack
 
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB) ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) ![PNPM](https://img.shields.io/badge/pnpm-%234a4a4a.svg?style=for-the-badge&logo=pnpm&logoColor=f69220) ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white) ![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white) ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white) ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) ![ESLint](https://img.shields.io/badge/ESLint-4B3263?style=for-the-badge&logo=eslint&logoColor=white) ![SASS](https://img.shields.io/badge/SASS-hotpink.svg?style=for-the-badge&logo=SASS&logoColor=white) ![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)
 
-## Project structure
+## Repository
 
 ```text
 .
 ├── logos
 ├── scripts
+│   └── uploader
 └── travel-map
+    ├── public
+    └── src
 ```
 
-- `logos`: Contains all the assets used in the app.
+- `travel-map` is the React application.
 - `scripts`: Contains a folder with the scripts used to process and upload images/videos and generate the JSON file.
   - [Uploader](./scripts/uploader/README.md): generates compressed and thumbnail images from travel photos and videos. It uploads them to bunnyCDN and generates a JSON file with the metadata. This JSON file is then used by the React app to display the galleries.
-- `travel-map`: houses the React app for the Travel Map project.
+- `logos` contains app and README logo assets.
 
-## How to use it
+## Local Development
 
-1. Clone the repository
+```bash
+cd travel-map
+pnpm install
+pnpm dev
+```
 
-   ```bash
-   git clone https://github.com/thisispivi/TravelMap.git
-   ```
+Useful commands:
 
-2. Navigate to the `travel-map` folder
+```bash
+pnpm run lint
+pnpm run build
+pnpm run knip
+```
 
-   ```bash
-   cd travel-map
-   ```
+## Deploy
 
-3. Install the dependencies with:
-
-   ```bash
-   pnpm i
-   ```
-
-4. Run the app with
-   ```bash
-   pnpm dev
-   ```
-
-## How to deploy
-
-1. Navigate to the `travel-map` folder
-
-   ```bash
-   cd travel-map
-   ```
-
-2. Run the deploy command
-   ```bash
-   pnpm run deploygh
-   ```
+```bash
+cd travel-map
+pnpm run deploygh
+```

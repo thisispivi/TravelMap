@@ -36,6 +36,20 @@ const bottomPanelMotion = {
   transition: { duration: 0.22, ease: [0.35, 0, 0.25, 1] },
 } as const;
 
+/**
+ * HomeTemplate component
+ *
+ * Root layout template for the home route. Composes the FloatingNav, the
+ * lazily-loaded side panels (TripBrowser, TripDetail, PlacesBrowser), the
+ * animated bottom panel for Timeline and Stats, the Gallery container, and the
+ * Map underneath everything.
+ *
+ * @component
+ *
+ * @param {React.PropsWithChildren} props
+ * @param {React.ReactNode} props.children - The active route element (lazy page)
+ * @returns {JSX.Element} The main application layout
+ */
 export function HomeTemplate({ children }: PropsWithChildren): JSX.Element {
   const { isGallery, isTrips, isPlaces, isTripDetail, isStats, isTimeline } =
     useLocation();

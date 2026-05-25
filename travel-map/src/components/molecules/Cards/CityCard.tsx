@@ -3,14 +3,15 @@ import "./CityCard.scss";
 import { JSX, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { PositionIcon } from "@/assets";
+import { CalendarIcon, PositionIcon } from "@/assets";
+import { City, Travel } from "@/core";
 import { useCachedImageSource } from "@/hooks/image/cache";
+import { useLanguage } from "@/hooks/language/language";
 import { formatDateRangeShort } from "@/i18n/functions/date";
+import { classNames } from "@/utils/className";
+import { isActivationKey } from "@/utils/keyboard";
+import { parameters } from "@/utils/parameters";
 
-import { CalendarIcon } from "../../../assets";
-import { City, Travel } from "../../../core";
-import { useLanguage } from "../../../hooks/language/language";
-import { parameters } from "../../../utils/parameters";
 import { CountryFlag, Loading } from "../../atoms";
 
 interface CityCardProps {
@@ -28,6 +29,28 @@ interface CityCardProps {
   showDates?: boolean;
 }
 
+/**
+ * CityCard component
+ *
+ * A photo card representing a single city visit. Lazily loads the background
+ * image via an IntersectionObserver and caches it using the service worker.
+ * Highlights the corresponding map marker on hover and, when clickable,
+ * navigates to the photo gallery for that travel.
+ *
+ * @component
+ *
+ * @param {CityCardProps} props
+ * @param {string} [props.className] - Additional class names
+ * @param {City} props.city - The city to display
+ * @param {Travel} [props.travel] - The specific travel entry to show dates for
+ * @param {number} [props.travelIdx] - Index into `city.travels` used for the background image
+ * @param {boolean} [props.isClickable] - Whether clicking opens the gallery
+ * @param {(city: City | null) => void} props.setHoveredCity - Highlights the city on the map
+ * @param {(position: { center: [number, number]; zoom: number }) => void} [props.setMapPosition] - Centers the map on the city
+ * @param {boolean} [props.isHidden] - Hides the card (CSS only, keeps it in the DOM)
+ * @param {boolean} [props.showDates] - Whether to show the travel date range
+ * @returns {JSX.Element} The city card
+ */
 export function CityCard({
   className = "",
   city,
@@ -99,13 +122,17 @@ export function CityCard({
 
   return (
     <div
-      className={`city-card ${isClickable ? "city-card--clickable" : "city-card--not-clickable"} ${isHidden ? "city-card--hidden" : "city-card--visible"}`}
+      className={classNames(
+        "city-card",
+        isClickable ? "city-card--clickable" : "city-card--not-clickable",
+        isHidden ? "city-card--hidden" : "city-card--visible",
+      )}
       ref={cardRef}
       {...(isClickable
         ? {
             onClick: () => navigate(`/gallery/${city.name}/${travelIdx}`),
-            onKeyDown: (e) =>
-              (e.key === "Enter" || e.key === " ") &&
+            onKeyDown: (event) =>
+              isActivationKey(event) &&
               navigate(`/gallery/${city.name}/${travelIdx}`),
             role: "button" as const,
             tabIndex: 0,
@@ -115,7 +142,12 @@ export function CityCard({
       onMouseLeave={handleMouseLeave}
     >
       <div
-        className={`city-card__top ${className} ${city.name} ${city.name}-${travelIdx}`}
+        className={classNames(
+          "city-card__top",
+          className,
+          city.name,
+          `${city.name}-${travelIdx}`,
+        )}
       >
         <div className="city-card__background">
           <div className="city-card__background-overlay" />

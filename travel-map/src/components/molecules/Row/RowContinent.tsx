@@ -4,6 +4,7 @@ import { JSX } from "react";
 
 import { Continent } from "../../../core";
 import { useLanguage } from "../../../hooks/language/language";
+import { classNames } from "../../../utils/className";
 import { Row } from "./Row";
 
 interface ContinentRowProps {
@@ -14,14 +15,14 @@ interface ContinentRowProps {
 /**
  * ContinentRow component
  *
- * The continent row component is used to display a row for a continent.
+ * Displays a continent badge and visited state.
  *
  * @component
  *
- * @param {ContinentRowProps} props - The props of the continent row
+ * @param {ContinentRowProps} props - The continent row props
  * @param {Continent} props.continent - The continent to display
  * @param {boolean} props.isVisited - Whether the continent is visited
- * @returns {JSX.Element} - The continent row
+ * @returns {JSX.Element} The continent row
  */
 export function ContinentRow({
   continent,
@@ -29,11 +30,12 @@ export function ContinentRow({
 }: ContinentRowProps): JSX.Element {
   const { t } = useLanguage(["home"]);
   return (
-    <Row className={`continent-row continent-row--${continent}`}>
+    <Row className={classNames("continent-row", `continent-row--${continent}`)}>
       <div
-        className={`continent-row__circle continent-row__circle--${
-          isVisited ? "visited" : "not-visited"
-        }`}
+        className={classNames(
+          "continent-row__circle",
+          `continent-row__circle--${isVisited ? "visited" : "not-visited"}`,
+        )}
       />
       <div className="continent-row__name">{t(`continents.${continent}`)}</div>
     </Row>

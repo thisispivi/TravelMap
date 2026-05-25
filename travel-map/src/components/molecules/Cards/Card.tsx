@@ -9,13 +9,14 @@ interface CardProps extends PropsWithChildren {
 /**
  * Card component
  *
- * The card component is used to display a card with a shadow.
+ * Base card container for framed content.
  *
  * @component
  *
- * @param {CardProps} props - The props of the card
- * @param {string} [props.className] - The class to apply to the card
- * @returns {JSX.Element} - The card
+ * @param {CardProps} props - The card props
+ * @param {string} [props.className] - Additional class names
+ * @param {React.ReactNode} props.children - Card content
+ * @returns {JSX.Element} The card
  */
 export function Card({ className = "", children }: CardProps): JSX.Element {
   return <div className={`card ${className}`}>{children}</div>;

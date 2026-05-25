@@ -3,6 +3,8 @@ import "./SegmentedControl.scss";
 import { domAnimation, LazyMotion, m } from "framer-motion";
 import { JSX } from "react";
 
+import { classNames } from "@/utils/className";
+
 interface SegmentedControlProps<T extends string> {
   className?: string;
   options: { value: T; label: string; tooltip?: string }[];
@@ -13,16 +15,20 @@ interface SegmentedControlProps<T extends string> {
 }
 
 /**
- * SegmentedControl component.
+ * SegmentedControl component
+ *
+ * Button group for switching between related views.
  *
  * @component
- * @param {SegmentedControlProps<string>} props - The props of the component.
- * @param {string} props.className - The class to apply to the control.
- * @param {{ value: string; label: string }[]} props.options - The selectable options.
- * @param {string} props.selected - The selected option value.
- * @param {function} props.onSelect - The function called when selecting an option.
- * @param {string} props.layoutId - The Framer Motion shared layout id.
- * @returns {JSX.Element} The SegmentedControl component.
+ *
+ * @param {SegmentedControlProps<string>} props - The segmented control props
+ * @param {string} [props.className] - Additional class names
+ * @param {{ value: string; label: string; tooltip?: string }[]} props.options - Selectable options
+ * @param {string} props.selected - Selected option value
+ * @param {(value: string) => void} props.onSelect - Selection handler
+ * @param {string} props.layoutId - Framer Motion shared layout id
+ * @param {string} [props.tooltipId] - Tooltip id for option descriptions
+ * @returns {JSX.Element} The segmented control
  */
 export function SegmentedControl<T extends string>({
   className = "",
@@ -34,10 +40,13 @@ export function SegmentedControl<T extends string>({
 }: SegmentedControlProps<T>): JSX.Element {
   return (
     <LazyMotion features={domAnimation}>
-      <div className={`segmented-control ${className}`}>
+      <div className={classNames("segmented-control", className)}>
         {options.map((option) => (
           <button
-            className={`segmented-control__option ${selected === option.value ? "segmented-control__option--active" : ""}`}
+            className={classNames(
+              "segmented-control__option",
+              selected === option.value && "segmented-control__option--active",
+            )}
             data-tooltip-content={option.tooltip}
             data-tooltip-id={option.tooltip ? tooltipId : undefined}
             key={option.value}

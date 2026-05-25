@@ -9,7 +9,7 @@ import { getCitiesDistance } from "../../../utils/distance";
 import { formatMileage } from "../../../utils/format";
 import { parameters } from "../../../utils/parameters";
 import { CountryFlag } from "../../atoms";
-import { Row } from "..";
+import { Row } from "./Row";
 
 interface CityRowProps {
   className?: string;
@@ -18,17 +18,17 @@ interface CityRowProps {
 }
 
 /**
- * A city row
+ * CityRow component
  *
- * The city row component is used to create a city row.
+ * Displays a start city, end city, and their distance.
  *
  * @component
  *
- * @param {CityRowProps} props - The props of the component
- * @param {string} props.className - The class to apply to the city row
- * @param {City} props.sCity - The start city
+ * @param {CityRowProps} props - The city row props
+ * @param {string} [props.className] - Additional class names
+ * @param {City} [props.sCity] - The start city
  * @param {City} props.eCity - The end city
- * @returns {JSX.Element} - The city row
+ * @returns {JSX.Element} The city row
  */
 export function CityRow({
   sCity = parameters.birthCity,

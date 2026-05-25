@@ -26,6 +26,13 @@ import { useLanguage } from "../../../hooks/language/language";
 import { parameters } from "../../../utils/parameters";
 import { Button } from "../../atoms";
 
+const HIDE_NAV_AFTER_MS = 2000;
+
+type LightboxItem = ImageGalleryProps["items"][number] & {
+  youtube?: boolean;
+  alt?: string;
+};
+
 export interface LightboxProps {
   city: City;
   travelIdx: number;
@@ -35,11 +42,12 @@ export interface LightboxProps {
 /**
  * Lightbox component
  *
- * The lightbox component is used to display a lightbox.
+ * Full-screen photo and video viewer. Wraps `react-image-gallery` with custom
+ * navigation buttons, a fullscreen toggle, and an auto-hiding top bar.
  *
  * @component
  *
- * @returns {JSX.Element} - The lightbox
+ * @returns {JSX.Element} The lightbox overlay
  */
 export default function Lightbox(): JSX.Element {
   const { t } = useLanguage(["home"]);
@@ -52,7 +60,6 @@ export default function Lightbox(): JSX.Element {
   const [currentIndex, setCurrentIndex] = useState(photoIdx);
   const hideNavTimeoutRef = useRef<number | undefined>(undefined);
   const galleryRef = useRef<ImageGalleryRef>(null);
-  const HIDE_NAV_AFTER_MS = 2000;
 
   const scheduleHideNav = useCallback(() => {
     if (hideNavTimeoutRef.current !== undefined) {
@@ -77,12 +84,7 @@ export default function Lightbox(): JSX.Element {
     };
   }, [scheduleHideNav]);
 
-  type ItemType = ImageGalleryProps["items"][number] & {
-    youtube?: boolean;
-    alt?: string;
-  };
-
-  const handleRenderItem = (item: ItemType) => {
+  const handleRenderItem = (item: LightboxItem) => {
     if (item.youtube) {
       return (
         <iframe
@@ -140,7 +142,7 @@ export default function Lightbox(): JSX.Element {
     direction: "left" | "right",
   ) => (
     <Button
-      aria-label={
+      ariaLabel={
         direction === "left"
           ? t("lightbox.previousSlide")
           : t("lightbox.nextSlide")
@@ -194,7 +196,7 @@ export default function Lightbox(): JSX.Element {
           {photos.length}
         </span>
         <Button
-          aria-label={t("lightbox.fullscreen")}
+          ariaLabel={t("lightbox.fullscreen")}
           className="lightbox__fullscreen-button"
           onClick={handleToggleFullscreen}
         >

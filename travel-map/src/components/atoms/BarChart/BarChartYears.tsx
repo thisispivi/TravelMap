@@ -27,7 +27,7 @@ export function BarChartYears({ trips }: BarChartYearsProps): JSX.Element {
       result[year] = (result[year] ?? 0) + days;
     }
     return Object.entries(result)
-      .map(([year, days]) => ({ year: parseInt(year), days }))
+      .map(([year, days]) => ({ year: parseInt(year, 10), days }))
       .sort((a, b) => a.year - b.year);
   }, [trips]);
 

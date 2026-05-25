@@ -1,21 +1,22 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 
-type SizeType = {
+type WindowSize = {
   width: number;
   height: number;
 };
 
 export type ResponsiveType = {
-  window: SizeType;
-  inner: SizeType;
+  window: WindowSize;
+  inner: WindowSize;
 };
 
 /**
- * Hook to detect the current window size
- * @returns {ResponsiveType} - Object containing the window size and the inner size
+ * Hook to detect the current window size.
+ *
+ * @returns {ResponsiveType} Object containing `window` and `inner` size objects.
  */
 export function useResponsive(): ResponsiveType {
-  const [size, setSize] = useState<SizeType>({
+  const [size, setSize] = useState<WindowSize>({
     width: window.innerWidth,
     height: window.innerHeight,
   });

@@ -22,11 +22,11 @@ const LANGUAGE_LABELS: Record<string, string> = {
 /**
  * LanguageSelector component
  *
- * The language selector component is used to change the language of the app.
+ * Dropdown language switcher for supported locales.
  *
  * @component
  *
- * @returns {JSX.Element} - The language selector
+ * @returns {JSX.Element} The language selector
  */
 export function LanguageSelector(): JSX.Element {
   const { t } = useTranslation("home");

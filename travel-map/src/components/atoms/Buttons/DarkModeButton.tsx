@@ -5,6 +5,7 @@ import { JSX } from "react";
 import { useTranslation } from "react-i18next";
 
 import { MoonFilledIcon, SunFilledIcon } from "@/assets";
+import { classNames } from "@/utils/className";
 
 interface DarkModeButtonProps {
   className?: string;
@@ -29,17 +30,17 @@ const iconVariants = {
 } as const;
 
 /**
- * Button to toggle dark mode
+ * DarkModeButton component
  *
- * The dark mode button is used to toggle the dark mode.
+ * Animated theme toggle button.
  *
  * @component
  *
- * @param {DarkModeButtonProps} props - The props of the component
- * @param {string} props.className - The class to apply to the button
+ * @param {DarkModeButtonProps} props - The dark mode button props
+ * @param {string} [props.className] - Additional class names
  * @param {boolean} props.isDarkTheme - Whether the dark mode is currently active
- * @param {() => void} props.handleDarkModeSwitch - Function to switch the dark mode
- * @returns {JSX.Element} - The dark mode button
+ * @param {() => void} props.handleDarkModeSwitch - Toggles the theme
+ * @returns {JSX.Element} The dark mode button
  */
 export function DarkModeButton({
   isDarkTheme,
@@ -52,7 +53,7 @@ export function DarkModeButton({
     <LazyMotion features={domAnimation}>
       <m.button
         aria-label={t("theme")}
-        className={`dark-mode-button ${className}`}
+        className={classNames("dark-mode-button", className)}
         data-tooltip-content={t("theme")}
         data-tooltip-id="base-tooltip"
         onClick={handleDarkModeSwitch}
