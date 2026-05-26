@@ -1,4 +1,4 @@
-import "./InfoTabStats.scss";
+import "./StatsGrid.scss";
 
 import {
   ComponentType,
@@ -51,13 +51,14 @@ import {
   getCityBiggestTimezoneJump,
   getNumberOfTimezonesJumped,
 } from "@/utils/timezone";
+import { getCityTravels } from "@/utils/trips";
 
 import {
   BarChartYears,
   ContinentsBarChart,
   PopulationBarChart,
   TransportsDonutChart,
-} from "../../../atoms";
+} from "../../atoms";
 import {
   Card,
   CityRow,
@@ -65,9 +66,9 @@ import {
   CurrencyRow,
   TimezoneRow,
   TransportRow,
-} from "../../../molecules";
+} from "../../molecules";
 
-interface InfoTabStatsProps {
+interface StatsGridProps {
   className?: string;
   isVisible?: boolean;
 }
@@ -75,7 +76,7 @@ interface InfoTabStatsProps {
 type SvgIcon = ComponentType<SVGProps<SVGSVGElement> & { className?: string }>;
 
 /**
- * InfoTabStats component
+ * StatsGrid component
  *
  * Bento-grid statistics dashboard. Computes all travel stats (mileage,
  * countries, continents, transport records, timezones, etc.) and renders them
@@ -83,15 +84,15 @@ type SvgIcon = ComponentType<SVGProps<SVGSVGElement> & { className?: string }>;
  *
  * @component
  *
- * @param {InfoTabStatsProps} props
+ * @param {StatsGridProps} props
  * @param {string} [props.className] - Additional class names
  * @param {boolean} [props.isVisible] - Controls the CSS visibility modifier
  * @returns {JSX.Element} The stats dashboard
  */
-export function InfoTabStats({
+export function StatsGrid({
   className = "",
   isVisible = false,
-}: InfoTabStatsProps): JSX.Element {
+}: StatsGridProps): JSX.Element {
   const { t, currLanguage } = useLanguage(["home"]);
   const bentoRef = useRef<HTMLDivElement | null>(null);
   const [isScrollable, setIsScrollable] = useState(false);
@@ -131,6 +132,9 @@ export function InfoTabStats({
       .sort((a, b) => b.countries - a.countries);
 
     const cityBiggestTimezoneJump = getCityBiggestTimezoneJump(visitedCities);
+    const cityBiggestTimezoneJumpTravel = cityBiggestTimezoneJump
+      ? getCityTravels(cityBiggestTimezoneJump, visitedTrips)[0]
+      : undefined;
     const numberTimezonesJumped = getNumberOfTimezonesJumped(visitedCities);
     const totalMediaTaken = getTotalMediaTaken(visitedCities);
     const usedCurrencies = getCurrenciesFromCountries(visitedCountries);
@@ -168,6 +172,7 @@ export function InfoTabStats({
       allContinents,
       continentCities,
       cityBiggestTimezoneJump,
+      cityBiggestTimezoneJumpTravel,
       numberTimezonesJumped,
       totalMediaTaken,
       usedCurrencies,
@@ -208,12 +213,12 @@ export function InfoTabStats({
   return (
     <div
       className={classNames(
-        "info-tab-stats",
+        "stats-grid",
         className,
-        isVisible && "info-tab-stats--visible",
+        isVisible && "stats-grid--visible",
       )}
     >
-      <div className="info-tab-stats__header">
+      <div className="stats-grid__header">
         <h1>{t("stats.title")}</h1>
       </div>
 
@@ -222,7 +227,7 @@ export function InfoTabStats({
           "stats-bento",
           isScrollable && "stats-bento--scrollable",
         )}
-        id="info-tab"
+        id="stats-bento"
         ref={bentoRef}
       >
         <Card className="bento-card bento-card--large bento-detail card--box-shadow">
@@ -371,9 +376,9 @@ export function InfoTabStats({
                   </p>
                   <TimezoneRow
                     eCity={stats.cityBiggestTimezoneJump}
-                    eDate={stats.cityBiggestTimezoneJump.travels?.[0]?.eDate}
+                    eDate={stats.cityBiggestTimezoneJumpTravel?.eDate}
                     sCity={parameters.birthCity}
-                    sDate={stats.cityBiggestTimezoneJump.travels?.[0]?.sDate}
+                    sDate={stats.cityBiggestTimezoneJumpTravel?.sDate}
                   />
                 </div>
               ) : null}

@@ -1,4 +1,4 @@
-import { Trip } from "../core";
+import { City, Travel, Trip } from "../core";
 
 type GroupTripsByYearOptions = { cutoffYear: number };
 /**
@@ -32,4 +32,18 @@ export function groupTripsByYear(
   }
 
   return result;
+}
+
+export function getCityTravels(city: City, trips: Trip[]): Travel[] {
+  return trips
+    .flatMap((trip) => trip.getCityTravels(city))
+    .sort((a, b) => a.sDate.getTime() - b.sDate.getTime());
+}
+
+export function getTravelByCityIndex(
+  city: City,
+  travelIdx: number,
+  trips: Trip[],
+): Travel | undefined {
+  return getCityTravels(city, trips)[travelIdx];
 }

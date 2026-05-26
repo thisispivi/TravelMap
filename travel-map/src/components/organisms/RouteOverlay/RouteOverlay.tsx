@@ -13,11 +13,17 @@ import { useLocation } from "@/hooks/location/location";
 const TRANSPORT_COLORS_DARK: Partial<Record<TransportMode, string>> = {
   ferry: "#06b6d4", // cyan
   plane: "#a78bfa", // violet
+  bus: "#22c55e", // green
+  train: "#f59e0b", // amber
+  car: "#f97316", // orange
 };
 
 const TRANSPORT_COLORS_LIGHT: Partial<Record<TransportMode, string>> = {
   ferry: "#0891b2", // darker cyan
   plane: "#7c3aed", // darker violet
+  bus: "#16a34a", // darker green
+  train: "#d97706", // darker amber
+  car: "#ea580c", // darker orange
 };
 
 function segmentColor(
@@ -44,42 +50,17 @@ export function RouteOverlay(): JSX.Element {
   const segments = useMemo(() => {
     if (!selectedTrip) return [];
 
-    // Build ordered waypoint list: origin → destinations → returnTo
-    type Waypoint = {
-      coords: [number, number];
-      /** transport mode used to ARRIVE at this waypoint */
-      arrivalTransport?: TransportMode;
-    };
-
-    const waypoints: Waypoint[] = [];
-
-    if (selectedTrip.origin) {
-      waypoints.push({
-        coords: selectedTrip.origin.city.coordinates as [number, number],
+    const allSegments = selectedTrip
+      .getRouteSegments()
+      .flatMap((step, stepIdx) => {
+        const cities = [step.from, ...(step.via ?? step.ferry?.via ?? []), step.to];
+        return cities.slice(0, -1).map((city, cityIdx) => ({
+          from: city.coordinates as [number, number],
+          to: cities[cityIdx + 1].coordinates as [number, number],
+          mode: step.mode,
+          idx: stepIdx + cityIdx / 10,
+        }));
       });
-    }
-
-    for (const dest of selectedTrip.destinations) {
-      waypoints.push({
-        coords: dest.city.coordinates as [number, number],
-        arrivalTransport: dest.arrivalTransport,
-      });
-    }
-
-    if (selectedTrip.returnTo) {
-      waypoints.push({
-        coords: selectedTrip.returnTo.city.coordinates as [number, number],
-        arrivalTransport: selectedTrip.returnTo.transport,
-      });
-    }
-
-    const allSegments = waypoints.slice(0, -1).map((wp, i) => ({
-      from: wp.coords,
-      to: waypoints[i + 1].coords,
-      // The transport mode is on the destination (arrival), so use index i+1
-      mode: waypoints[i + 1].arrivalTransport,
-      idx: i,
-    }));
 
     const seen = new Set<string>();
     return allSegments.filter((seg) => {

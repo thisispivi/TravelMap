@@ -1,6 +1,8 @@
 import AirplaneIcon from "./icons/Airplane.svg?react";
+import BusIcon from "./icons/Bus.svg?react";
 import CalendarIcon from "./icons/Calendar.svg?react";
 import CameraIcon from "./icons/Camera.svg?react";
+import CarIcon from "./icons/Car.svg?react";
 import ChevronIcon from "./icons/Chevron.svg?react";
 import ChevronRightIcon from "./icons/ChevronRight.svg?react";
 import CityIcon from "./icons/City.svg?react";
@@ -29,12 +31,15 @@ import PositionIcon from "./icons/Position.svg?react";
 import SunIcon from "./icons/Sun.svg?react";
 import SunFilledIcon from "./icons/SunFilled.svg?react";
 import TimezoneIcon from "./icons/Timezone.svg?react";
+import TrainIcon from "./icons/Train.svg?react";
 import UnescoIcon from "./icons/Unesco.svg?react";
 
 export {
   AirplaneIcon,
+  BusIcon,
   CalendarIcon,
   CameraIcon,
+  CarIcon,
   ChevronIcon,
   ChevronRightIcon,
   CityIcon,
@@ -63,6 +68,7 @@ export {
   SunFilledIcon,
   SunIcon,
   TimezoneIcon,
+  TrainIcon,
   UnescoIcon,
 };
 

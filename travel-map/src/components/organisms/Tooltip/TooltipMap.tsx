@@ -12,9 +12,11 @@ import {
   PeopleIcon,
 } from "@/assets";
 import { City } from "@/core";
+import { visitedTrips } from "@/data";
 import { useLanguage } from "@/hooks/language/language";
 import { formatDateRangeShort } from "@/i18n/functions/date";
 import { classNames } from "@/utils/className";
+import { getCityTravels } from "@/utils/trips";
 
 import { Button, CountryFlag } from "../../atoms";
 
@@ -84,7 +86,9 @@ export function MapTooltip({
   const location = useLocation();
   const { t, currLanguage: lang } = useLanguage(["home"]);
   const [travelIdx, setTravelIdx] = useState(0);
-  const filteredTravels = city.travels.filter((travel) => !travel.isFuture);
+  const filteredTravels = getCityTravels(city, visitedTrips).filter(
+    (travel) => !travel.isFuture,
+  );
 
   const handleEnter = () => onMouseEnter?.(city);
   const handleLeave = () => onMouseLeave?.();

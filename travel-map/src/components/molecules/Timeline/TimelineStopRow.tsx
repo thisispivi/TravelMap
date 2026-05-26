@@ -1,3 +1,5 @@
+import "./TimelineStopRow.scss";
+
 import { m } from "framer-motion";
 import { CSSProperties, JSX, use } from "react";
 import {
@@ -8,36 +10,57 @@ import {
 import { MoonIcon } from "@/assets";
 import { CountryFlag } from "@/components/atoms";
 import { HomeContext } from "@/components/pages/Home/HomeContext";
-import { City } from "@/core";
+import { City, TripStop } from "@/core";
 import { useLanguage } from "@/hooks/language/language";
 import { formatDateRangeShort } from "@/i18n/functions/date";
 import { classNames } from "@/utils/className";
 
-interface TripDetailTimelineStopRowProps {
+interface TimelineStopRowProps {
   city: City;
   travelIdx: number;
+  stop: TripStop;
   nights: number;
   isLayover: boolean;
   animDelay: number;
   showYear: boolean;
 }
 
-export function TripDetailTimelineStopRow({
+/**
+ * TimelineStopRow component
+ *
+ * Renders a multi-day city stop on the timeline. Shows a city thumbnail,
+ * name, country flag, date range, and a night-count badge. Layover stops
+ * render with reduced opacity and no thumbnail. Clickable when the stop
+ * has photos — navigates to the city gallery.
+ *
+ * @component
+ *
+ * @param {TimelineStopRowProps} props
+ * @param {City} props.city - The stop city
+ * @param {number} props.travelIdx - Index of this visit within the city (for multi-visit cities)
+ * @param {TripStop} props.stop - Raw stop data with dates and photo list
+ * @param {number} props.nights - Number of nights spent at this stop
+ * @param {boolean} props.isLayover - Whether this is a transit/layover stop
+ * @param {number} props.animDelay - Framer Motion entrance delay in seconds
+ * @param {boolean} props.showYear - Whether date ranges include the year
+ * @returns {JSX.Element} The stop row
+ */
+export function TimelineStopRow({
   city,
   travelIdx,
+  stop,
   nights,
   isLayover,
   animDelay,
   showYear,
-}: TripDetailTimelineStopRowProps): JSX.Element {
+}: TimelineStopRowProps): JSX.Element {
   const { t, currLanguage: lang } = useLanguage(["home"]);
   const navigate = useNavigate();
   const routerLocation = useRouterLocation();
   const { setHoveredCity } = use(HomeContext)!;
 
-  const travel = city.travels[travelIdx];
   const thumbSrc = city.getBackgroundImgSourceByIndex(travelIdx);
-  const hasPhotos = Boolean(!isLayover && travel && travel.photos.length > 0);
+  const hasPhotos = Boolean(!isLayover && stop.photos && stop.photos.length > 0);
   const cityLabel = t(`cities.${city.name}`) || city.name;
 
   return (
@@ -116,11 +139,11 @@ export function TripDetailTimelineStopRow({
               </span>
             ) : null}
           </div>
-          {!isLayover && travel ? (
+          {!isLayover ? (
             <span className="trip-detail__stop-dates">
               {formatDateRangeShort({
-                sDateInput: travel.sDate,
-                eDateInput: travel.eDate,
+                sDateInput: stop.sDate,
+                eDateInput: stop.eDate,
                 locale: lang,
                 showYear,
               })}

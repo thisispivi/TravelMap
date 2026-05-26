@@ -22,9 +22,11 @@ import {
   GalleryIcon,
 } from "../../../assets";
 import { City } from "../../../core";
+import { visitedTrips } from "../../../data";
 import { useLanguage } from "../../../hooks/language/language";
 import { classNames } from "../../../utils/className";
 import { parameters } from "../../../utils/parameters";
+import { getTravelByCityIndex } from "../../../utils/trips";
 import { Button } from "../../atoms";
 
 const HIDE_NAV_AFTER_MS = 2000;
@@ -55,7 +57,7 @@ export default function Lightbox(): JSX.Element {
   const navigate = useNavigate();
   const location = useLocation();
   const { city, travelIdx, photoIdx } = useLoaderData() as LightboxProps;
-  const photos = city.travels[travelIdx].photos;
+  const photos = getTravelByCityIndex(city, travelIdx, visitedTrips)?.photos ?? [];
 
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);

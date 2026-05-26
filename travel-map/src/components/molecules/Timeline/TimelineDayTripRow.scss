@@ -1,0 +1,140 @@
+@use "../../../styles/mixins" as m;
+@use "../../../styles/variables" as v;
+
+.trip-detail {
+  .trip-detail__row--day-trip {
+    padding-bottom: 0.1875rem;
+
+    .trip-detail__track {
+      justify-content: center;
+    }
+  }
+
+  .trip-detail__day-trip-card {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.625rem;
+    padding: 0.5rem 0.75rem 0.5rem 0.5625rem;
+    border-radius: 0.75rem;
+    margin-left: 0.875rem;
+    cursor: default;
+    outline: none;
+    @include m.transition(background-color, 0.15s);
+
+    &--clickable {
+      cursor: pointer;
+    }
+
+    &--nested {
+      margin-left: 2rem;
+    }
+  }
+
+  .trip-detail__day-trip-thumb {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .trip-detail__day-trip-thumb-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .trip-detail__day-trip-thumb-empty {
+    width: 100%;
+    height: 100%;
+  }
+
+  .trip-detail__day-trip-info {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    min-width: 0;
+    flex: 1;
+  }
+
+  .trip-detail__day-trip-name {
+    font-size: v.$bodySm;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .trip-detail__day-trip-flag {
+    width: 0.9375rem;
+    height: 0.9375rem;
+    flex-shrink: 0;
+  }
+
+  .trip-detail__day-trip-date {
+    font-size: v.$caption;
+    font-weight: 400;
+    white-space: nowrap;
+    flex-shrink: 0;
+    text-transform: capitalize;
+  }
+}
+
+.home--dark {
+  .trip-detail {
+    .trip-detail__day-trip-card {
+      background: rgba(255, 255, 255, 0.05);
+
+      &--clickable:hover {
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      &--nested {
+        border-left: 0.125rem solid rgba(255, 255, 255, 0.12);
+      }
+    }
+
+    .trip-detail__day-trip-thumb-empty {
+      background: rgba(255, 255, 255, 0.07);
+    }
+
+    .trip-detail__day-trip-name {
+      color: v.$darkAltText;
+    }
+
+    .trip-detail__day-trip-date {
+      color: v.$darkAltTextDarker;
+    }
+  }
+}
+
+.home--light {
+  .trip-detail {
+    .trip-detail__day-trip-card {
+      background: rgba(0, 0, 0, 0.03);
+
+      &--clickable:hover {
+        background: rgba(0, 0, 0, 0.05);
+      }
+
+      &--nested {
+        border-left: 0.125rem solid rgba(0, 0, 0, 0.1);
+      }
+    }
+
+    .trip-detail__day-trip-thumb-empty {
+      background: rgba(0, 0, 0, 0.07);
+    }
+
+    .trip-detail__day-trip-name {
+      color: v.$lightAltText;
+    }
+
+    .trip-detail__day-trip-date {
+      color: v.$lightAltTextDarker;
+    }
+  }
+}

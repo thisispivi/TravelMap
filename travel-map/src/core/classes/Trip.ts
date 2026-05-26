@@ -1,33 +1,71 @@
 import { unique } from "remeda";
 
+import { FerryCompany } from "../typings/FerryCompany";
 import { FlightCompany } from "../typings/FlightCompany";
+import { Image } from "../typings/Image";
 import { City } from "./City";
 import { Country } from "./Country";
+import { Ferry } from "./Ferry";
+import { Flight } from "./Flight";
+import { Travel } from "./Travel";
 
 export type TransportMode = "ferry" | "plane" | "car" | "train" | "bus";
 
-export interface FlightLeg {
+interface FlightLeg {
   company?: FlightCompany;
   number?: string;
   class?: string;
   departure?: string;
   arrival?: string;
   durationMinutes?: number;
+  distanceInKm?: number;
+}
+
+interface FerryLeg {
+  company?: FerryCompany;
+  durationMinutes?: number;
+  distanceInKm?: number;
+  via?: City[];
 }
 
 export interface TripEndpoint {
   city: City;
-  transport: TransportMode;
-  fromCity?: City;
-  flight?: FlightLeg;
 }
 
-interface TripDestination {
+export interface TripStop {
   city: City;
+  sDate: Date;
+  eDate: Date;
+  photos?: Image[];
+  imgSource?: string;
+  isLayover?: boolean;
+  rowConstraints?: { minPhotos?: number; maxPhotos?: number };
+  targetRowHeight?: number;
+}
+
+export interface TripTransportStep {
+  type: "transport";
+  mode: TransportMode;
+  from: City;
+  to: City;
+  sDate?: Date;
+  eDate?: Date;
+  distanceInKm?: number;
+  durationMinutes?: number;
+  via?: City[];
+  flight?: FlightLeg;
+  ferry?: FerryLeg;
+}
+
+export interface TripStopStep extends TripStop {
+  type: "stop";
+}
+
+export type TripRouteStep = TripStopStep | TripTransportStep;
+
+export interface TripDestination extends TripStop {
   travelIdx: number;
   arrivalTransport?: TransportMode;
-  isLayover?: boolean;
-  arrivalFlight?: FlightLeg;
 }
 
 interface TripData {
@@ -35,35 +73,38 @@ interface TripData {
   description?: string;
   sDate: Date;
   eDate: Date;
-  destinations: TripDestination[];
-  route: City["name"][];
+  steps: TripRouteStep[];
   backgroundImgSourceKey?: string;
-  origin?: TripEndpoint;
-  returnTo?: TripEndpoint;
+  origin: TripEndpoint;
+  returnTo: TripEndpoint;
 }
 
 export class Trip {
   id: string;
   sDate: Date;
   eDate: Date;
+  steps: TripRouteStep[];
   destinations: TripDestination[];
   route: City["name"][];
   backgroundImgSource?: string;
-  origin?: TripEndpoint;
-  returnTo?: TripEndpoint;
+  origin: TripEndpoint;
+  returnTo: TripEndpoint;
 
   constructor(data: TripData) {
     this.id = data.id;
     this.sDate = data.sDate;
     this.eDate = data.eDate;
-    this.destinations = data.destinations;
-    this.route = data.route;
-    this.backgroundImgSource = data.backgroundImgSourceKey
-      ? `https://pivi-travel-map.b-cdn.net/TravelMap/Trips/${data.backgroundImgSourceKey}`
-      : data.destinations[0]?.city.getBackgroundImgSourceByIndex(0) ||
-        undefined;
+    this.steps = data.steps;
     this.origin = data.origin;
     this.returnTo = data.returnTo;
+    this.destinations = this.getDestinationsFromSteps();
+    this.route = this.destinations
+      .filter((destination) => !destination.isLayover)
+      .map(({ city }) => city.name);
+    this.backgroundImgSource = data.backgroundImgSourceKey
+      ? `https://pivi-travel-map.b-cdn.net/TravelMap/Trips/${data.backgroundImgSourceKey}`
+      : this.destinations[0]?.city.getBackgroundImgSourceByIndex(0) ||
+        undefined;
   }
 
   getDurationInDays(): number {
@@ -80,14 +121,101 @@ export class Trip {
     );
   }
 
+  getCityTravels(city: City): Travel[] {
+    return this.destinations
+      .filter((destination) => destination.city.name === city.name)
+      .map(
+        (destination) =>
+          new Travel({
+            sDate: destination.sDate,
+            eDate: destination.eDate,
+            photos: destination.photos,
+            isFuture: false,
+            rowConstraints: destination.rowConstraints,
+            targetRowHeight: destination.targetRowHeight,
+          }),
+      );
+  }
+
+  getFlights(): Flight[] {
+    return this.steps
+      .filter((step): step is TripTransportStep => step.type === "transport")
+      .filter((step) => step.mode === "plane")
+      .map(
+        (step) =>
+          new Flight({
+            sCity: step.from,
+            eCity: step.to,
+            company: step.flight?.company,
+            sDate: step.sDate,
+            eDate: step.eDate,
+            distanceInKm: step.flight?.distanceInKm ?? step.distanceInKm,
+            durationMinutes:
+              step.flight?.durationMinutes ?? step.durationMinutes,
+            number: step.flight?.number,
+            class: step.flight?.class,
+          }),
+      );
+  }
+
+  getFerries(): Ferry[] {
+    return this.steps
+      .filter((step): step is TripTransportStep => step.type === "transport")
+      .filter((step) => step.mode === "ferry")
+      .map(
+        (step) =>
+          new Ferry({
+            sCity: step.from,
+            eCity: step.to,
+            company: step.ferry?.company,
+            sDate: step.sDate,
+            eDate: step.eDate,
+            via: step.ferry?.via ?? step.via,
+            distanceInKm: step.ferry?.distanceInKm ?? step.distanceInKm,
+            durationMinutes:
+              step.ferry?.durationMinutes ?? step.durationMinutes,
+          }),
+      );
+  }
+
+  getRouteSegments(): TripTransportStep[] {
+    return this.steps.filter(
+      (step): step is TripTransportStep => step.type === "transport",
+    );
+  }
+
   getRouteLines(): [number, number][] {
-    const lines: [number, number][] = [];
-    for (let i = 0; i < this.destinations.length - 1; i++) {
-      const fromCity = this.destinations[i].city;
-      const toCity = this.destinations[i + 1].city;
-      lines.push([fromCity.coordinates[0], fromCity.coordinates[1]]);
-      lines.push([toCity.coordinates[0], toCity.coordinates[1]]);
-    }
-    return lines;
+    return this.getRouteSegments().flatMap((step) => {
+      const cities = [step.from, ...(step.via ?? step.ferry?.via ?? []), step.to];
+      return cities.slice(0, -1).flatMap((city, index) => [
+        [city.coordinates[0], city.coordinates[1]] as [number, number],
+        [
+          cities[index + 1].coordinates[0],
+          cities[index + 1].coordinates[1],
+        ] as [number, number],
+      ]);
+    });
+  }
+
+  private getDestinationsFromSteps(): TripDestination[] {
+    const cityIndexes = new Map<string, number>();
+    let arrivalTransport: TransportMode | undefined;
+
+    return this.steps.flatMap((step) => {
+      if (step.type === "transport") {
+        arrivalTransport = step.mode;
+        return [];
+      }
+
+      const travelIdx = cityIndexes.get(step.city.name) ?? 0;
+      cityIndexes.set(step.city.name, travelIdx + 1);
+      const destination: TripDestination = {
+        ...step,
+        travelIdx,
+        arrivalTransport,
+      };
+      arrivalTransport = undefined;
+      return [destination];
+    });
   }
 }
