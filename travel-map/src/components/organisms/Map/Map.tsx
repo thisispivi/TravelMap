@@ -18,6 +18,7 @@ import {
   visitedCountries,
 } from "@/data";
 import { useLanguage } from "@/hooks/language/language";
+import { useLocation } from "@/hooks/location/location";
 import { computeVisibleLabels } from "@/utils/labelVisibility";
 import { parameters } from "@/utils/parameters";
 
@@ -122,7 +123,9 @@ export function Map() {
     mapPosition,
     responsive,
     setMapPosition,
+    selectedTrip,
   } = context!;
+  const { isTripDetail } = useLocation();
 
   const [isLoaded, setIsLoaded] = useState(false);
   const hoverLeaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -311,6 +314,30 @@ export function Map() {
     [],
   );
 
+  const tripLayoverCities = useMemo(() => {
+    if (!isTripDetail || !selectedTrip) return [];
+    const existing = new Set(allCities.map((c) => c.name));
+    const seen = new Set<string>();
+    const layovers = selectedTrip.destinations
+      .filter((d) => {
+        if (!d.isLayover || existing.has(d.city.name) || seen.has(d.city.name))
+          return false;
+        seen.add(d.city.name);
+        return true;
+      })
+      .map((d) => d.city);
+
+    if (
+      selectedTrip.origin &&
+      !existing.has(selectedTrip.origin.city.name) &&
+      !seen.has(selectedTrip.origin.city.name)
+    ) {
+      layovers.push(selectedTrip.origin.city);
+    }
+
+    return layovers;
+  }, [isTripDetail, selectedTrip, allCities]);
+
   const visibleLabels = useMemo(
     () => computeVisibleLabels(allCities, mapPosition.zoom, hoveredCity?.name),
     [allCities, mapPosition.zoom, hoveredCity?.name],
@@ -405,6 +432,16 @@ export function Map() {
                   hoveredCity={hoveredCity}
                   isLived
                   key={city.name}
+                  setHoveredCity={handleSetHoveredCity}
+                  showLabel={visibleLabels.has(city.name)}
+                />
+              ))}
+              {tripLayoverCities.map((city) => (
+                <Marker
+                  city={city}
+                  hoveredCity={hoveredCity}
+                  isLayover
+                  key={`layover-${city.name}`}
                   setHoveredCity={handleSetHoveredCity}
                   showLabel={visibleLabels.has(city.name)}
                 />

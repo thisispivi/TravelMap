@@ -60,5 +60,7 @@ export function formatDateRangeShort({
     return `${dayWithOptWeekday(s)} ${monthFmt(s)} - ${dayWithOptWeekday(e)} ${monthFmt(e)}${showYear ? " " + year(s) : ""}`.trim();
   }
 
-  return `${fullDate(s)} - ${fullDate(e)}`.trim();
+  const fullDateForceYear = (d: Date) =>
+    `${dayWithOptWeekday(d)} ${monthFmt(d)} ${year(d)}`;
+  return `${fullDateForceYear(s)} - ${fullDateForceYear(e)}`.trim();
 }

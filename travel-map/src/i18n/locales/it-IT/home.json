@@ -1,5 +1,6 @@
 {
   "cities": {
+    "Ajaccio": "Ajaccio",
     "Alghero": "Alghero",
     "Anderlecht": "Anderlecht",
     "Barcelona": "Barcellona",
@@ -249,6 +250,7 @@
     "route": "Percorso",
     "cities": "Città",
     "days": "giorni",
-    "day": "giorno"
+    "day": "giorno",
+    "layover": "Transito"
   }
 }

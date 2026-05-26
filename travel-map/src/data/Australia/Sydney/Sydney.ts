@@ -10,6 +10,11 @@ export const Sydney = new City({
   travels: [
     new Travel({
       sDate: new Date(2025, 10, 18),
+      eDate: new Date(2025, 10, 20),
+      photos: tr_181125_281125_images,
+    }),
+    new Travel({
+      sDate: new Date(2025, 10, 23),
       eDate: new Date(2025, 10, 28),
       photos: tr_181125_281125_images,
     }),
