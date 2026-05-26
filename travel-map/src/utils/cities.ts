@@ -1,6 +1,8 @@
 import { flatMap, pipe, sumBy } from "remeda";
 
 import { City } from "../core";
+import { visitedTrips } from "../data";
+import { getCityTravels } from "./trips";
 
 /**
  * Get total media taken
@@ -10,7 +12,7 @@ import { City } from "../core";
 export function getTotalMediaTaken(cities: City[]): number {
   return pipe(
     cities,
-    flatMap((city) => city.travels),
+    flatMap((city) => getCityTravels(city, visitedTrips)),
     sumBy((travel) => travel.photos.length),
   );
 }

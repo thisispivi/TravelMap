@@ -6,7 +6,13 @@ import { City } from "./City";
 interface FlightInterface {
   sCity: City;
   eCity: City;
-  company: FlightCompany;
+  company?: FlightCompany;
+  sDate?: Date;
+  eDate?: Date;
+  distanceInKm?: number;
+  durationMinutes?: number;
+  number?: string;
+  class?: string;
 }
 
 /**
@@ -28,13 +34,34 @@ export class Flight implements FlightInterface {
   eCity: City;
   travelType: TravelType;
   distanceInKm: number = 0;
-  company: FlightCompany;
+  company?: FlightCompany;
+  sDate?: Date;
+  eDate?: Date;
+  durationMinutes: number;
+  number?: string;
+  class?: string;
 
-  constructor({ sCity, eCity, company }: FlightInterface) {
+  constructor({
+    sCity,
+    eCity,
+    company,
+    sDate,
+    eDate,
+    distanceInKm,
+    durationMinutes,
+    number,
+    class: flightClass,
+  }: FlightInterface) {
     this.sCity = sCity;
     this.eCity = eCity;
     this.travelType = getTravelTypeByStartAndEndCity(sCity, eCity);
-    this.distanceInKm = getCitiesDistance(sCity, eCity);
+    this.distanceInKm = distanceInKm ?? getCitiesDistance(sCity, eCity);
     this.company = company;
+    this.sDate = sDate;
+    this.eDate = eDate;
+    this.durationMinutes =
+      durationMinutes ?? Math.round((this.distanceInKm / 900) * 60);
+    this.number = number;
+    this.class = flightClass;
   }
 }

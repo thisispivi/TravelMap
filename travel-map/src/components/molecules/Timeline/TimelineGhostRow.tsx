@@ -1,3 +1,5 @@
+import "./TimelineGhostRow.scss";
+
 import { m } from "framer-motion";
 import { CSSProperties, JSX } from "react";
 
@@ -5,15 +7,29 @@ import { CountryFlag } from "@/components/atoms";
 import { City } from "@/core";
 import { useLanguage } from "@/hooks/language/language";
 
-interface TripDetailTimelineGhostRowProps {
+interface TimelineGhostRowProps {
   city: City;
   animDelay: number;
 }
 
-export function TripDetailTimelineGhostRow({
+/**
+ * TimelineGhostRow component
+ *
+ * Renders the origin or return endpoint of a trip as a lightly-styled
+ * "ghost" badge — a hollow dot on the track and a pill showing the city
+ * name and flag. Used for the first and last rows of the timeline.
+ *
+ * @component
+ *
+ * @param {TimelineGhostRowProps} props
+ * @param {City} props.city - The endpoint city to display
+ * @param {number} props.animDelay - Framer Motion entrance delay in seconds
+ * @returns {JSX.Element} The ghost row
+ */
+export function TimelineGhostRow({
   city,
   animDelay,
-}: TripDetailTimelineGhostRowProps): JSX.Element {
+}: TimelineGhostRowProps): JSX.Element {
   const { t } = useLanguage(["home"]);
   const cityLabel = t(`cities.${city.name}`) || city.name;
 

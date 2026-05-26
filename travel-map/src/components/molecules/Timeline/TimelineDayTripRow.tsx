@@ -1,3 +1,5 @@
+import "./TimelineDayTripRow.scss";
+
 import { m } from "framer-motion";
 import { CSSProperties, JSX, use } from "react";
 import {
@@ -7,38 +9,55 @@ import {
 
 import { CountryFlag } from "@/components/atoms";
 import { HomeContext } from "@/components/pages/Home/HomeContext";
-import { City } from "@/core";
+import { City, TripStop } from "@/core";
 import { useLanguage } from "@/hooks/language/language";
 import { formatDateRangeShort } from "@/i18n/functions/date";
 import { classNames } from "@/utils/className";
 
-interface TripDetailTimelineDayTripRowProps {
+interface TimelineDayTripRowProps {
   city: City;
   travelIdx: number;
+  stop: TripStop;
   animDelay: number;
   showYear: boolean;
   isNested: boolean;
 }
 
-export function TripDetailTimelineDayTripRow({
+/**
+ * TimelineDayTripRow component
+ *
+ * Renders a day-trip (zero-night stop) on the timeline as a compact card.
+ * Shows the city thumbnail, name, flag, and visit date. Nested day-trips
+ * (those with a base city above them) render with extra left indent. Clickable
+ * when the stop has photos — navigates to the city gallery.
+ *
+ * @component
+ *
+ * @param {TimelineDayTripRowProps} props
+ * @param {City} props.city - The day-trip city
+ * @param {number} props.travelIdx - Index of this visit within the city
+ * @param {TripStop} props.stop - Raw stop data with dates and photo list
+ * @param {number} props.animDelay - Framer Motion entrance delay in seconds
+ * @param {boolean} props.showYear - Whether date ranges include the year
+ * @param {boolean} props.isNested - Whether a base stop precedes this day-trip (adds indent)
+ * @returns {JSX.Element} The day-trip row
+ */
+export function TimelineDayTripRow({
   city,
   travelIdx,
+  stop,
   animDelay,
   showYear,
   isNested,
-}: TripDetailTimelineDayTripRowProps): JSX.Element {
+}: TimelineDayTripRowProps): JSX.Element {
   const { t, currLanguage: lang } = useLanguage(["home"]);
   const navigate = useNavigate();
   const routerLocation = useRouterLocation();
   const { setHoveredCity } = use(HomeContext)!;
 
-  const travel = city.travels[travelIdx];
-  const hasPhotos = Boolean(travel && travel.photos.length > 0);
-  const fallbackTravelIdx = !hasPhotos
-    ? city.travels.findIndex((tr) => tr.photos.length > 0)
-    : -1;
-  const isClickable = hasPhotos || fallbackTravelIdx >= 0;
-  const galleryTravelIdx = hasPhotos ? travelIdx : fallbackTravelIdx;
+  const hasPhotos = Boolean(stop.photos && stop.photos.length > 0);
+  const isClickable = hasPhotos;
+  const galleryTravelIdx = travelIdx;
   const thumbSrc = city.getBackgroundImgSourceByIndex(travelIdx);
   const cityLabel = t(`cities.${city.name}`) || city.name;
 
@@ -101,11 +120,11 @@ export function TripDetailTimelineDayTripRow({
             countryId={city.country.id}
           />
         </div>
-        {travel ? (
+        {stop ? (
           <span className="trip-detail__day-trip-date">
             {formatDateRangeShort({
-              sDateInput: travel.sDate,
-              eDateInput: travel.eDate,
+              sDateInput: stop.sDate,
+              eDateInput: stop.eDate,
               locale: lang,
               showYear,
             })}

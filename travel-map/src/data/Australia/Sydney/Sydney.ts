@@ -1,24 +1,11 @@
-import { City, Travel } from "../../../core";
+import { City } from "../../../core";
 import { Australia } from "../Australia";
-import { tr_181125_281125_images } from "./photos/tr_181125_281125";
 
 export const Sydney = new City({
   name: "Sydney",
   country: Australia,
   coordinates: [151.2093, -33.8688],
   timeZone: "Australia/Sydney",
-  travels: [
-    new Travel({
-      sDate: new Date(2025, 10, 18),
-      eDate: new Date(2025, 10, 20),
-      photos: tr_181125_281125_images,
-    }),
-    new Travel({
-      sDate: new Date(2025, 10, 23),
-      eDate: new Date(2025, 10, 28),
-      photos: tr_181125_281125_images,
-    }),
-  ],
   backgroundImgSources: ["/Australia/Sydney/Sydney.webp"],
   population: 5557233,
 });

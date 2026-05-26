@@ -6,8 +6,10 @@ import { formatDeltaVsCityForDateSpan } from "@/utils/timezoneOffset";
 
 import { ChevronRightIcon } from "../../../assets";
 import { City } from "../../../core";
+import { visitedTrips } from "../../../data";
 import { useLanguage } from "../../../hooks/language/language";
 import { classNames } from "../../../utils/className";
+import { getCityTravels } from "../../../utils/trips";
 import { CountryFlag } from "../../atoms";
 import { Row } from "./Row";
 
@@ -42,8 +44,9 @@ export function TimezoneRow({
   className = "",
 }: TimezoneRowProps): JSX.Element {
   const { t, currLanguage } = useLanguage(["home"]);
-  const startDate = sDate ?? eCity.travels?.[0]?.sDate ?? new Date();
-  const endDate = eDate ?? eCity.travels?.[0]?.eDate ?? startDate;
+  const firstTravel = getCityTravels(eCity, visitedTrips)[0];
+  const startDate = sDate ?? firstTravel?.sDate ?? new Date();
+  const endDate = eDate ?? firstTravel?.eDate ?? startDate;
 
   return (
     <Row className={classNames("timezone-row", className, "row--wrap")}>

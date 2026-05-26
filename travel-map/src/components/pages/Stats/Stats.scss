@@ -9,7 +9,7 @@
   overflow: hidden;
   border-radius: v.$floatingCardRadiusLg;
 
-  .info-tab-stats {
+  .stats-grid {
     flex: 1 1 auto;
     min-height: 0;
   }
@@ -29,7 +29,7 @@
 
 @media screen and (max-width: 42.5rem) {
   .stats-page {
-    .info-tab-stats__header h1 {
+    .stats-grid__header h1 {
       font-size: v.$headingMd;
     }
   }

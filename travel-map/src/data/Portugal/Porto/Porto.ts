@@ -1,19 +1,10 @@
-import { City, Travel } from "../../../core";
+import { City } from "../../../core";
 import { Portugal } from "../Portugal";
-import { tr_190424_220424_images } from "./photos/tr_190424_220424";
 
 export const Porto = new City({
   name: "Porto",
   country: Portugal,
   coordinates: [-8.6291053, 41.1579438],
-  travels: [
-    new Travel({
-      sDate: new Date(2024, 3, 19),
-      eDate: new Date(2024, 3, 22),
-      isFuture: false,
-      photos: tr_190424_220424_images,
-    }),
-  ],
   backgroundImgSources: ["/Portugal/Porto/Porto.jpg"],
   population: 1334000,
   timeZone: "Europe/Lisbon",

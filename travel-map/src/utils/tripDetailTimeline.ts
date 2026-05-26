@@ -1,25 +1,29 @@
 import {
   City,
+  Ferry,
   FerryCompany,
+  Flight,
   FlightCompany,
-  FlightLeg,
   TransportMode,
   Trip,
+  TripStop,
+  TripTransportStep,
 } from "@/core";
-import { takenFerries, takenFlights } from "@/data";
 
-export type TripDetailBaseStopItem = {
+type TripDetailBaseStopItem = {
   kind: "base-stop";
   city: City;
   travelIdx: number;
+  stop: TripStop;
   nights: number;
   isLayover: boolean;
 };
 
-export type TripDetailDayTripItem = {
+type TripDetailDayTripItem = {
   kind: "day-trip";
   city: City;
   travelIdx: number;
+  stop: TripStop;
   isNested: boolean;
 };
 
@@ -39,6 +43,21 @@ export type TripDetailFerryInfo = {
   durationMinutes: number;
 };
 
+export type TripDetailBusInfo = {
+  distanceKm: number;
+  durationMinutes: number;
+};
+
+export type TripDetailTrainInfo = {
+  distanceKm: number;
+  durationMinutes: number;
+};
+
+export type TripDetailCarInfo = {
+  distanceKm: number;
+  durationMinutes: number;
+};
+
 export type TripDetailTimelineItem =
   | { kind: "origin"; city: City }
   | { kind: "return"; city: City }
@@ -47,6 +66,9 @@ export type TripDetailTimelineItem =
       mode: TransportMode;
       flightInfo?: TripDetailFlightInfo;
       ferryInfo?: TripDetailFerryInfo;
+      busInfo?: TripDetailBusInfo;
+      trainInfo?: TripDetailTrainInfo;
+      carInfo?: TripDetailCarInfo;
     }
   | TripDetailBaseStopItem
   | TripDetailDayTripItem;
@@ -72,6 +94,9 @@ export const TRIP_DETAIL_FERRY_COMPANY_NAMES: Record<FerryCompany, string> = {
   [FerryCompany.GRIMALDI_LINES]: "Grimaldi Lines",
 };
 
+/**
+ * Formats a duration in minutes to a human-readable string (e.g. `"2h 30m"` or `"3h"`).
+ */
 export function formatTripDetailDuration(minutes: number): string {
   const h = Math.floor(minutes / 60);
   const m = minutes % 60;
@@ -79,132 +104,147 @@ export function formatTripDetailDuration(minutes: number): string {
 }
 
 function resolveTripDetailFlightInfo(
-  from: City,
-  to: City,
-  leg?: FlightLeg,
+  flight?: Flight,
+  step?: TripTransportStep,
 ): TripDetailFlightInfo | undefined {
-  const match = takenFlights.find(
-    (f) =>
-      f.sCity.name === from.name &&
-      f.eCity.name === to.name &&
-      (!leg?.company || f.company === leg.company),
-  );
-
-  if (!match) return undefined;
+  if (!flight?.company) return undefined;
 
   return {
-    company: match.company,
-    distanceKm: Math.round(match.distanceInKm),
-    durationMinutes:
-      leg?.durationMinutes ?? Math.round((match.distanceInKm / 900) * 60),
-    number: leg?.number,
-    class: leg?.class,
-    departure: leg?.departure,
-    arrival: leg?.arrival,
+    company: flight.company,
+    distanceKm: Math.round(flight.distanceInKm),
+    durationMinutes: flight.durationMinutes,
+    number: flight.number,
+    class: flight.class,
+    departure: step?.flight?.departure,
+    arrival: step?.flight?.arrival,
   };
 }
 
 function resolveTripDetailFerryInfo(
-  from: City,
-  to: City,
+  ferry?: Ferry,
 ): TripDetailFerryInfo | undefined {
-  const match = takenFerries.find(
-    (f) => f.sCity.name === from.name && f.eCity.name === to.name,
-  );
-
-  if (!match) return undefined;
+  if (!ferry?.company) return undefined;
 
   return {
-    company: match.company,
-    distanceKm: Math.round(match.distanceInKm),
-    durationMinutes: Math.round((match.distanceInKm / 45) * 60),
+    company: ferry.company,
+    distanceKm: Math.round(ferry.distanceInKm),
+    durationMinutes: ferry.durationMinutes,
   };
 }
 
+/**
+ * Builds a minimal distance+duration info object for ground transport modes
+ * (bus, train, car) that have no company or extra leg data.
+ */
+function resolveTripDetailGroundInfo(
+  step: TripTransportStep,
+): { distanceKm: number; durationMinutes: number } | undefined {
+  if (!step.distanceInKm && !step.durationMinutes) return undefined;
+  return {
+    distanceKm: Math.round(step.distanceInKm ?? 0),
+    durationMinutes: step.durationMinutes ?? 0,
+  };
+}
+
+/**
+ * Converts a `Trip` into an ordered flat list of `TripDetailTimelineItem`s
+ * suitable for rendering the vertical trip timeline. The list always starts
+ * with an `"origin"` item and ends with a `"return"` item; everything in
+ * between is derived from the trip's steps in order.
+ *
+ * @param trip - The trip to transform
+ * @returns Ordered list of timeline items
+ */
 export function buildTripDetailTimelineItems(
   trip: Trip,
 ): TripDetailTimelineItem[] {
   const items: TripDetailTimelineItem[] = [];
-  let prevTransportCity: City | null = trip.origin?.city ?? null;
-  let prevDestinationCity: City | null = trip.origin?.city ?? null;
   let lastBaseStop: City | null = null;
+  const cityIndexes = new Map<string, number>();
 
-  if (trip.origin) {
-    items.push({ kind: "origin", city: trip.origin.city });
-  }
+  items.push({ kind: "origin", city: trip.origin.city });
 
-  for (const dest of trip.destinations) {
-    const travel = dest.city.travels[dest.travelIdx];
-    const nights = travel
-      ? Math.ceil((travel.eDate.getTime() - travel.sDate.getTime()) / 86400000)
-      : 0;
-    const isLayover = dest.isLayover ?? false;
-    const isBaseCity = nights > 0 || isLayover;
+  for (const step of trip.steps) {
+    if (step.type === "transport") {
+      const flight =
+        step.mode === "plane"
+          ? new Flight({
+              sCity: step.from,
+              eCity: step.to,
+              company: step.flight?.company,
+              sDate: step.sDate,
+              eDate: step.eDate,
+              distanceInKm: step.flight?.distanceInKm ?? step.distanceInKm,
+              durationMinutes:
+                step.flight?.durationMinutes ?? step.durationMinutes,
+              number: step.flight?.number,
+              class: step.flight?.class,
+            })
+          : undefined;
+      const ferry =
+        step.mode === "ferry"
+          ? new Ferry({
+              sCity: step.from,
+              eCity: step.to,
+              company: step.ferry?.company,
+              sDate: step.sDate,
+              eDate: step.eDate,
+              via: step.ferry?.via ?? step.via,
+              distanceInKm: step.ferry?.distanceInKm ?? step.distanceInKm,
+              durationMinutes:
+                step.ferry?.durationMinutes ?? step.durationMinutes,
+            })
+          : undefined;
 
-    if (dest.arrivalTransport) {
       items.push({
         kind: "transport",
-        mode: dest.arrivalTransport,
+        mode: step.mode,
         flightInfo:
-          dest.arrivalTransport === "plane" && prevTransportCity
-            ? resolveTripDetailFlightInfo(
-                dest.arrivalFlight
-                  ? (prevDestinationCity ?? prevTransportCity)
-                  : prevTransportCity,
-                dest.city,
-                dest.arrivalFlight,
-              )
+          step.mode === "plane"
+            ? resolveTripDetailFlightInfo(flight, step)
             : undefined,
         ferryInfo:
-          dest.arrivalTransport === "ferry" && prevTransportCity
-            ? resolveTripDetailFerryInfo(prevTransportCity, dest.city)
-            : undefined,
+          step.mode === "ferry" ? resolveTripDetailFerryInfo(ferry) : undefined,
+        busInfo:
+          step.mode === "bus" ? resolveTripDetailGroundInfo(step) : undefined,
+        trainInfo:
+          step.mode === "train" ? resolveTripDetailGroundInfo(step) : undefined,
+        carInfo:
+          step.mode === "car" ? resolveTripDetailGroundInfo(step) : undefined,
       });
+      continue;
     }
+
+    const travelIdx = cityIndexes.get(step.city.name) ?? 0;
+    cityIndexes.set(step.city.name, travelIdx + 1);
+    const nights = Math.ceil(
+      (step.eDate.getTime() - step.sDate.getTime()) / 86400000,
+    );
+    const isLayover = step.isLayover ?? false;
+    const isBaseCity = nights > 0 || isLayover;
 
     if (isBaseCity) {
       items.push({
         kind: "base-stop",
-        city: dest.city,
-        travelIdx: dest.travelIdx,
+        city: step.city,
+        travelIdx,
+        stop: step,
         nights,
         isLayover,
       });
-      if (!isLayover) lastBaseStop = dest.city;
-      prevTransportCity = dest.city;
+      if (!isLayover) lastBaseStop = step.city;
     } else {
       items.push({
         kind: "day-trip",
-        city: dest.city,
-        travelIdx: dest.travelIdx,
+        city: step.city,
+        travelIdx,
+        stop: step,
         isNested: lastBaseStop !== null,
       });
     }
-
-    prevDestinationCity = dest.city;
   }
 
-  if (trip.returnTo) {
-    const returnFromCity = trip.returnTo.fromCity ?? prevTransportCity;
-
-    items.push({
-      kind: "transport",
-      mode: trip.returnTo.transport,
-      flightInfo:
-        trip.returnTo.transport === "plane" && returnFromCity
-          ? resolveTripDetailFlightInfo(
-              returnFromCity,
-              trip.returnTo.city,
-              trip.returnTo.flight,
-            )
-          : undefined,
-      ferryInfo:
-        trip.returnTo.transport === "ferry" && returnFromCity
-          ? resolveTripDetailFerryInfo(returnFromCity, trip.returnTo.city)
-          : undefined,
-    });
-    items.push({ kind: "return", city: trip.returnTo.city });
-  }
+  items.push({ kind: "return", city: trip.returnTo.city });
 
   return items;
 }

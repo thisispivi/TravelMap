@@ -15,8 +15,10 @@ import { useLocation } from "@/hooks/location/location";
 
 import { PlayIcon } from "../../../assets";
 import { City } from "../../../core";
+import { visitedTrips } from "../../../data";
 import { useLanguage } from "../../../hooks/language/language";
 import { parameters } from "../../../utils/parameters";
+import { getTravelByCityIndex } from "../../../utils/trips";
 import { CloseButton, CountryFlag } from "../../atoms";
 import { TravelSelector } from "../../molecules";
 
@@ -52,11 +54,11 @@ export default function Gallery(): JSX.Element {
     ?.fromPath;
   const navigationState = fromPath ? { fromPath } : undefined;
 
-  const travel = city.travels[travelIdx];
+  const travel = getTravelByCityIndex(city, travelIdx, visitedTrips);
 
   const photos = useMemo(
     () =>
-      travel.photos.map((p, i) => ({
+      (travel?.photos ?? []).map((p, i) => ({
         src: parameters.isShowPhotos
           ? `${import.meta.env.VITE_CDN_PATH}${p.thumbnail}`
           : "",
@@ -66,7 +68,7 @@ export default function Gallery(): JSX.Element {
         youtube: p.youtube,
         index: i,
       })),
-    [travel.photos],
+    [travel?.photos],
   );
 
   const [hasOverflow, setHasOverflow] = useState<boolean>(false);
@@ -87,6 +89,8 @@ export default function Gallery(): JSX.Element {
     };
   }, [checkOverflow, travel]);
 
+  if (!travel) return <div className="gallery" />;
+
   return (
     <div className="gallery">
       <div className="gallery__header">
@@ -99,7 +103,7 @@ export default function Gallery(): JSX.Element {
           cityName={city.name}
           navigationState={navigationState}
           selectedTravelIdx={travelIdx}
-          travels={city.travels}
+          travels={visitedTrips.flatMap((trip) => trip.getCityTravels(city))}
         />
         <CloseButton
           onClick={() => navigate(fromPath ?? (from === "map" ? "/" : "/"))}

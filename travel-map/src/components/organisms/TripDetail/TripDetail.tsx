@@ -4,7 +4,7 @@ import { domAnimation, LazyMotion, m } from "framer-motion";
 import { JSX, use, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { TripDetailHero, TripDetailTimeline } from "@/components/molecules";
+import { Timeline, TripDetailHero } from "@/components/molecules";
 import { HomeContext } from "@/components/pages/Home/HomeContext";
 import { visitedTrips } from "@/data";
 import { useLanguage } from "@/hooks/language/language";
@@ -62,7 +62,7 @@ export function TripDetail(): JSX.Element | null {
 
         <div className="trip-detail__body">
           <p className="trip-detail__route-label">{t("tripDetail.route")}</p>
-          <TripDetailTimeline items={timelineItems} showYear={showYear} />
+          <Timeline items={timelineItems} showYear={showYear} />
         </div>
       </m.div>
     </LazyMotion>

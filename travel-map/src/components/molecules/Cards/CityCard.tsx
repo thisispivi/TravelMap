@@ -43,7 +43,7 @@ interface CityCardProps {
  * @param {string} [props.className] - Additional class names
  * @param {City} props.city - The city to display
  * @param {Travel} [props.travel] - The specific travel entry to show dates for
- * @param {number} [props.travelIdx] - Index into `city.travels` used for the background image
+ * @param {number} [props.travelIdx] - Visit index used for the background image
  * @param {boolean} [props.isClickable] - Whether clicking opens the gallery
  * @param {(city: City | null) => void} props.setHoveredCity - Highlights the city on the map
  * @param {(position: { center: [number, number]; zoom: number }) => void} [props.setMapPosition] - Centers the map on the city

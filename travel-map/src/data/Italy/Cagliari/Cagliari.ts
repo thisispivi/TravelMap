@@ -6,7 +6,6 @@ export const Cagliari = new City({
   country: Italy,
   coordinates: [9.1167, 39.2167],
   backgroundImgSources: ["/Italy/Cagliari/Cagliari.webp"],
-  travels: [],
   population: 155000,
   timeZone: "Europe/Rome",
 });

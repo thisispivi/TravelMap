@@ -1,5 +1,5 @@
-@use "../../../../styles/variables" as v;
-@use "../../../../styles/mixins" as m;
+@use "../../../styles/variables" as v;
+@use "../../../styles/mixins" as m;
 
 @mixin not-visited($continent, $id) {
   &.#{$continent}--not-visited {
@@ -18,17 +18,17 @@
   --not-visited-color: #dadada;
 }
 
-.info-tab-stats {
+.stats-grid {
   display: none;
   flex-direction: column;
   height: 100%;
   min-height: 0;
 
-  &.info-tab-stats--visible {
+  &.stats-grid--visible {
     display: flex;
   }
 
-  .info-tab-stats__header {
+  .stats-grid__header {
     flex-shrink: 0;
     display: flex;
     align-items: center;
@@ -470,8 +470,8 @@
     }
   }
 
-  .info-tab-stats {
-    .info-tab-stats__header h1 {
+  .stats-grid {
+    .stats-grid__header h1 {
       color: v.$darkButtonContent;
     }
   }
@@ -570,8 +570,8 @@
     }
   }
 
-  .info-tab-stats {
-    .info-tab-stats__header h1 {
+  .stats-grid {
+    .stats-grid__header h1 {
       color: v.$lightButtonContent;
     }
   }

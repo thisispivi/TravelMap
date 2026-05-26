@@ -2,13 +2,13 @@ import "./Stats.scss";
 
 import { JSX } from "react";
 
-import { InfoTabStats } from "../../organisms/InfoTab/InfoTabStats/InfoTabStats";
+import { StatsGrid } from "../../organisms/StatsGrid/StatsGrid";
 
 /**
  * StatsPage component
  *
  * Full-page wrapper for the travel statistics dashboard. Renders the
- * `InfoTabStats` bento grid with all stats visible.
+ * `StatsGrid` bento grid with all stats visible.
  *
  * @component
  *
@@ -17,7 +17,7 @@ import { InfoTabStats } from "../../organisms/InfoTab/InfoTabStats/InfoTabStats"
 export function StatsPage(): JSX.Element {
   return (
     <section className="stats-page">
-      <InfoTabStats isVisible />
+      <StatsGrid isVisible />
     </section>
   );
 }
