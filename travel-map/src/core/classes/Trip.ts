@@ -1,25 +1,56 @@
 import { unique } from "remeda";
 
+import { FlightCompany } from "../typings/FlightCompany";
 import { City } from "./City";
 import { Country } from "./Country";
+
+export type TransportMode = "ferry" | "plane" | "car" | "train" | "bus";
+
+export interface FlightLeg {
+  company?: FlightCompany;
+  number?: string;
+  class?: string;
+  departure?: string;
+  arrival?: string;
+  durationMinutes?: number;
+}
+
+export interface TripEndpoint {
+  city: City;
+  transport: TransportMode;
+  fromCity?: City;
+  flight?: FlightLeg;
+}
+
+interface TripDestination {
+  city: City;
+  travelIdx: number;
+  arrivalTransport?: TransportMode;
+  isLayover?: boolean;
+  arrivalFlight?: FlightLeg;
+}
 
 interface TripData {
   id: string;
   description?: string;
   sDate: Date;
   eDate: Date;
-  destinations: { city: City; travelIdx: number }[];
+  destinations: TripDestination[];
   route: City["name"][];
   backgroundImgSourceKey?: string;
+  origin?: TripEndpoint;
+  returnTo?: TripEndpoint;
 }
 
 export class Trip {
   id: string;
   sDate: Date;
   eDate: Date;
-  destinations: { city: City; travelIdx: number }[];
+  destinations: TripDestination[];
   route: City["name"][];
   backgroundImgSource?: string;
+  origin?: TripEndpoint;
+  returnTo?: TripEndpoint;
 
   constructor(data: TripData) {
     this.id = data.id;
@@ -31,16 +62,22 @@ export class Trip {
       ? `https://pivi-travel-map.b-cdn.net/TravelMap/Trips/${data.backgroundImgSourceKey}`
       : data.destinations[0]?.city.getBackgroundImgSourceByIndex(0) ||
         undefined;
+    this.origin = data.origin;
+    this.returnTo = data.returnTo;
   }
 
   getDurationInDays(): number {
     const millisecondsPerDay = 1000 * 60 * 60 * 24;
     const durationInMilliseconds = this.eDate.getTime() - this.sDate.getTime();
-    return Math.ceil(durationInMilliseconds / millisecondsPerDay);
+    return Math.ceil(durationInMilliseconds / millisecondsPerDay) + 1;
   }
 
   getCountriesVisited(): Country[] {
-    return unique(this.destinations.map(({ city }) => city.country));
+    return unique(
+      this.destinations
+        .filter((d) => !d.isLayover)
+        .map(({ city }) => city.country),
+    );
   }
 
   getRouteLines(): [number, number][] {

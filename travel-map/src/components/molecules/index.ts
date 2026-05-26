@@ -12,6 +12,8 @@ import { CurrencyRow } from "./Row/RowCurrency";
 import { TimezoneRow } from "./Row/RowTimezone";
 import { TransportRow } from "./Row/RowTransport";
 import { TravelSelector } from "./TravelSelector/TravelSelector";
+import { TripDetailHero } from "./TripDetailHero/TripDetailHero";
+import { TripDetailTimeline } from "./TripDetailTimeline/TripDetailTimeline";
 
 export {
   Box,
@@ -28,4 +30,6 @@ export {
   TransportRow,
   TravelSelector,
   TripCard,
+  TripDetailHero,
+  TripDetailTimeline,
 };

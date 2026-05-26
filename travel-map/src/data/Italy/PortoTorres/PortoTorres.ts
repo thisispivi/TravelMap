@@ -4,7 +4,7 @@ import { Italy } from "../Italy";
 export const PortoTorres = new City({
   name: "PortoTorres",
   country: Italy,
-  coordinates: [40.8306, 8.4444],
+  coordinates: [8.44444, 40.8306],
   population: 22391,
   timeZone: "Europe/Rome",
 });

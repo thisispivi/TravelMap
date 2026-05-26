@@ -1,6 +1,15 @@
 import "./InfoTabStats.scss";
 
-import { ComponentType, JSX, SVGProps, useMemo } from "react";
+import {
+  ComponentType,
+  JSX,
+  SVGProps,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 import {
   AirplaneIcon,
@@ -28,6 +37,7 @@ import {
 } from "@/data";
 import { useLanguage } from "@/hooks/language/language";
 import { getTotalMediaTaken } from "@/utils/cities";
+import { classNames } from "@/utils/className";
 import { getContinentsByCities, getContinentStats } from "@/utils/continent";
 import { getCurrenciesFromCountries } from "@/utils/countries";
 import {
@@ -83,6 +93,8 @@ export function InfoTabStats({
   isVisible = false,
 }: InfoTabStatsProps): JSX.Element {
   const { t, currLanguage } = useLanguage(["home"]);
+  const bentoRef = useRef<HTMLDivElement | null>(null);
+  const [isScrollable, setIsScrollable] = useState(false);
   const {
     EARTH_CIRCUMFERENCE,
     MOON_DISTANCE,
@@ -166,15 +178,53 @@ export function InfoTabStats({
     };
   }, [EARTH_CIRCUMFERENCE, MOON_DISTANCE]);
 
+  const updateScrollableState = useCallback(() => {
+    const bento = bentoRef.current;
+
+    if (!bento) return;
+
+    setIsScrollable(bento.scrollHeight > bento.clientHeight + 1);
+  }, []);
+
+  useEffect(() => {
+    updateScrollableState();
+
+    const bento = bentoRef.current;
+    const resizeObserver =
+      typeof ResizeObserver === "undefined"
+        ? null
+        : new ResizeObserver(updateScrollableState);
+
+    if (bento) resizeObserver?.observe(bento);
+
+    window.addEventListener("resize", updateScrollableState);
+
+    return () => {
+      resizeObserver?.disconnect();
+      window.removeEventListener("resize", updateScrollableState);
+    };
+  }, [isVisible, stats, updateScrollableState]);
+
   return (
     <div
-      className={`info-tab-stats ${className} ${isVisible ? "info-tab-stats--visible" : ""}`}
+      className={classNames(
+        "info-tab-stats",
+        className,
+        isVisible && "info-tab-stats--visible",
+      )}
     >
       <div className="info-tab-stats__header">
         <h1>{t("stats.title")}</h1>
       </div>
 
-      <div className="stats-bento" id="info-tab">
+      <div
+        className={classNames(
+          "stats-bento",
+          isScrollable && "stats-bento--scrollable",
+        )}
+        id="info-tab"
+        ref={bentoRef}
+      >
         <Card className="bento-card bento-card--large bento-detail card--box-shadow">
           <div className="bento-detail__top">
             <h2>{t("stats.mileage")}</h2>
@@ -447,7 +497,7 @@ function BentoStatCard({
   className = "",
 }: BentoStatCardProps): JSX.Element {
   return (
-    <Card className={`bento-stat card--box-shadow ${className}`}>
+    <Card className={classNames("bento-stat card--box-shadow", className)}>
       <Icon className="bento-stat__icon" />
       <p className="bento-stat__label">{label}</p>
       <div className="bento-stat__value">

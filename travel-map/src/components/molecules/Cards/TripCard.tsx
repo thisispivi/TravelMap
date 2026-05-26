@@ -1,8 +1,7 @@
 import "./TripCard.scss";
 
 import { domAnimation, LazyMotion, m, useReducedMotion } from "framer-motion";
-import { JSX, useMemo } from "react";
-import { uniqueBy } from "remeda";
+import { JSX } from "react";
 
 import { formatDateRangeShort } from "@/i18n/functions/date";
 
@@ -40,14 +39,7 @@ export function TripCard({
   const prefersReducedMotion = useReducedMotion();
   const tripTitle = t(`trips.${trip.id}`);
 
-  const countries = useMemo(
-    () =>
-      uniqueBy(
-        trip.destinations.map((d) => d.city.country),
-        (c) => c.id,
-      ),
-    [trip.destinations],
-  );
+  const countries = trip.getCountriesVisited();
 
   return (
     <LazyMotion features={domAnimation}>

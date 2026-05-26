@@ -4,39 +4,18 @@ import { domAnimation, LazyMotion, m } from "framer-motion";
 import { JSX, use, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { CalendarIcon, ChevronIcon } from "@/assets";
+import { TripDetailHero, TripDetailTimeline } from "@/components/molecules";
 import { HomeContext } from "@/components/pages/Home/HomeContext";
 import { visitedTrips } from "@/data";
 import { useLanguage } from "@/hooks/language/language";
 import { useLocation } from "@/hooks/location/location";
-import { useResponsive } from "@/hooks/style/responsive";
-import { formatDateRangeShort } from "@/i18n/functions/date";
+import { buildTripDetailTimelineItems } from "@/utils/tripDetailTimeline";
 
-import { CountryFlag } from "../../atoms";
-import { CityCard } from "../../molecules";
-
-/**
- * TripDetail component
- *
- * Side-panel view for a single trip. Shows the trip hero image, dates,
- * duration badge, a city-by-city route line, and a grid of CityCards.
- * Falls back to reading the trip from `visitedTrips` when navigated to directly
- * via URL (no prior `selectedTrip` context).
- *
- * @component
- *
- * @returns {JSX.Element | null} The trip detail panel, or null if no trip is found
- */
 export function TripDetail(): JSX.Element | null {
-  const { t, currLanguage: lang } = useLanguage(["home"]);
+  const { t } = useLanguage(["home"]);
   const navigate = useNavigate();
   const { tripDetailId } = useLocation();
-  const { selectedTrip, setSelectedTrip, setHoveredCity, setMapPosition } =
-    use(HomeContext)!;
-  const {
-    window: { width },
-  } = useResponsive();
-  const isMobile = width <= 680;
+  const { selectedTrip, setSelectedTrip } = use(HomeContext)!;
 
   const trip = useMemo(
     () =>
@@ -45,19 +24,21 @@ export function TripDetail(): JSX.Element | null {
   );
 
   useEffect(() => {
-    if (trip && selectedTrip?.id !== trip.id) {
-      setSelectedTrip(trip);
-    }
+    if (trip && selectedTrip?.id !== trip.id) setSelectedTrip(trip);
   }, [selectedTrip?.id, setSelectedTrip, trip]);
+
+  const timelineItems = useMemo(
+    () => (trip ? buildTripDetailTimelineItems(trip) : []),
+    [trip],
+  );
+
+  const showYear = trip
+    ? trip.sDate.getFullYear() !== trip.eDate.getFullYear()
+    : false;
 
   if (!trip) return null;
 
   const countries = trip.getCountriesVisited();
-
-  const handleClose = () => {
-    setSelectedTrip(null);
-    navigate("/trips");
-  };
 
   return (
     <LazyMotion features={domAnimation}>
@@ -70,96 +51,18 @@ export function TripDetail(): JSX.Element | null {
         layout="position"
         transition={{ duration: 0.22, ease: [0.35, 0, 0.25, 1] }}
       >
-        <button
-          className="trip-detail__back"
-          onClick={handleClose}
-          type="button"
-        >
-          <ChevronIcon className="trip-detail__back-chevron" />
-          <span>{t("visited.title")}</span>
-        </button>
-
-        <div className="trip-detail__hero">
-          {trip.backgroundImgSource ? (
-            <img
-              alt={t(`trips.${trip.id}`)}
-              className="trip-detail__hero-image"
-              src={trip.backgroundImgSource}
-            />
-          ) : null}
-          <div className="trip-detail__hero-overlay" />
-          <div className="trip-detail__flags">
-            {countries.map((c) => (
-              <CountryFlag
-                className="trip-detail__flag"
-                countryId={c.id}
-                key={c.id}
-              />
-            ))}
-          </div>
-          <div className="trip-detail__hero-content">
-            <h2 className="trip-detail__title">{t(`trips.${trip.id}`)}</h2>
-          </div>
-        </div>
+        <TripDetailHero
+          countries={countries}
+          onBack={() => {
+            setSelectedTrip(null);
+            navigate("/trips");
+          }}
+          trip={trip}
+        />
 
         <div className="trip-detail__body">
-          <div className="trip-detail__meta">
-            <div className="trip-detail__date">
-              <CalendarIcon className="trip-detail__date-icon" />
-              <p>
-                {formatDateRangeShort({
-                  sDateInput: trip.sDate,
-                  eDateInput: trip.eDate,
-                  locale: lang,
-                  includeWeekday: false,
-                  showYear: true,
-                })}
-              </p>
-            </div>
-            <span className="trip-detail__duration-badge">
-              {trip.getDurationInDays()}{" "}
-              {trip.getDurationInDays() === 1
-                ? t("tripDetail.day")
-                : t("tripDetail.days")}
-            </span>
-          </div>
-
-          <div className="trip-detail__route">
-            <h3>{t("tripDetail.route")}</h3>
-            <div className="trip-detail__route-line">
-              {trip.route.map((cityName, i) => (
-                <div
-                  className="trip-detail__route-stop"
-                  key={`${cityName}-${i}`}
-                >
-                  <div className="trip-detail__route-dot" />
-                  {i < trip.route.length - 1 ? (
-                    <div className="trip-detail__route-connector" />
-                  ) : null}
-                  <span className="trip-detail__route-name">
-                    {t(`cities.${cityName}`) || cityName}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="trip-detail__cities">
-            <h3>{t("tripDetail.cities")}</h3>
-            <div className="trip-detail__cities-grid">
-              {trip.destinations.map((dest) => (
-                <CityCard
-                  city={dest.city}
-                  isClickable
-                  key={`${dest.city.name}-${dest.travelIdx}`}
-                  setHoveredCity={setHoveredCity}
-                  setMapPosition={isMobile ? undefined : setMapPosition}
-                  travel={dest.city.travels[dest.travelIdx]}
-                  travelIdx={dest.travelIdx}
-                />
-              ))}
-            </div>
-          </div>
+          <p className="trip-detail__route-label">{t("tripDetail.route")}</p>
+          <TripDetailTimeline items={timelineItems} showYear={showYear} />
         </div>
       </m.div>
     </LazyMotion>

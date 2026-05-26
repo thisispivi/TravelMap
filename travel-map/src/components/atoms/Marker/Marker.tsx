@@ -19,6 +19,7 @@ interface MarkerProps {
   maxScale?: number;
   isFuture?: boolean;
   isLived?: boolean;
+  isLayover?: boolean;
 }
 
 /** Base font size in screen pixels for labels. */
@@ -52,6 +53,7 @@ export function Marker({
   maxScale = parameters.map.marker.maxScale,
   isFuture = false,
   isLived = false,
+  isLayover = false,
 }: MarkerProps): JSX.Element {
   const { k } = useZoomPanContext();
   const currScale = defaultScale * (baseZoom / k);
@@ -85,12 +87,13 @@ export function Marker({
           className={`${isHovered ? "marker-icon--hovered" : ""}
             ${isFuture ? "marker-icon--future" : ""}
             ${isLived ? "marker-icon--lived" : ""}
+            ${isLayover ? "marker-icon--layover" : ""}
           `}
           scale={scale}
         />
         {labelVisible ? (
           <text
-            className={`marker-label ${isHovered ? "marker-label--hovered" : ""} ${isFuture ? "marker-label--future" : ""} ${isLived ? "marker-label--lived" : ""}`}
+            className={`marker-label ${isHovered ? "marker-label--hovered" : ""} ${isFuture ? "marker-label--future" : ""} ${isLived ? "marker-label--lived" : ""} ${isLayover ? "marker-label--layover" : ""}`}
             dy={labelOffsetY}
             fontSize={labelFontSize}
             textAnchor="middle"

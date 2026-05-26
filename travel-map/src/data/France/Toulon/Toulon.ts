@@ -11,6 +11,11 @@ export const Toulon = new City({
   travels: [
     new Travel({
       sDate: new Date(2025, 11, 28),
+      eDate: new Date(2025, 11, 28),
+      photos: [],
+    }),
+    new Travel({
+      sDate: new Date(2025, 11, 31, 15, 0),
       eDate: new Date(2026, 0, 2),
       photos: tr_281225_020126_images,
     }),
