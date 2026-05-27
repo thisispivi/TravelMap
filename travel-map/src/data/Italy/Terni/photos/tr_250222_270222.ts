@@ -1,6 +1,6 @@
 import { Image } from "../../../../core";
 
-export const tr_270122_270122_images: Image[] = [
+export const tr_250222_270222_images: Image[] = [
   {
     original: "/Italy/Terni/001c.webp",
     thumbnail: "/Italy/Terni/001t.webp",

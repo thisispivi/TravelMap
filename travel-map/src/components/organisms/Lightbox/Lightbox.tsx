@@ -57,7 +57,8 @@ export default function Lightbox(): JSX.Element {
   const navigate = useNavigate();
   const location = useLocation();
   const { city, travelIdx, photoIdx } = useLoaderData() as LightboxProps;
-  const photos = getTravelByCityIndex(city, travelIdx, visitedTrips)?.photos ?? [];
+  const photos =
+    getTravelByCityIndex(city, travelIdx, visitedTrips)?.photos ?? [];
 
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
