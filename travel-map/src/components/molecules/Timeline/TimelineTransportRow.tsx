@@ -70,7 +70,8 @@ export function TimelineTransportRow({
   carInfo,
   animDelay,
 }: TimelineTransportRowProps): JSX.Element {
-  const transportInfo = flightInfo ?? ferryInfo ?? busInfo ?? trainInfo ?? carInfo;
+  const transportInfo =
+    flightInfo ?? ferryInfo ?? busInfo ?? trainInfo ?? carInfo;
   const companyName = flightInfo
     ? TRIP_DETAIL_FLIGHT_COMPANY_NAMES[flightInfo.company]
     : ferryInfo
@@ -93,10 +94,7 @@ export function TimelineTransportRow({
           aria-hidden
           className={`trip-detail__transport-badge trip-detail__transport-badge--${mode}`}
         >
-          <TransportIcon
-            className="trip-detail__transport-icon"
-            mode={mode}
-          />
+          <TransportIcon className="trip-detail__transport-icon" mode={mode} />
         </span>
       </div>
       {transportInfo ? (

@@ -60,7 +60,9 @@ export function TimelineStopRow({
   const { setHoveredCity } = use(HomeContext)!;
 
   const thumbSrc = city.getBackgroundImgSourceByIndex(travelIdx);
-  const hasPhotos = Boolean(!isLayover && stop.photos && stop.photos.length > 0);
+  const hasPhotos = Boolean(
+    !isLayover && stop.photos && stop.photos.length > 0,
+  );
   const cityLabel = t(`cities.${city.name}`) || city.name;
 
   return (

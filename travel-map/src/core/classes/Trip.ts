@@ -186,14 +186,20 @@ export class Trip {
 
   getRouteLines(): [number, number][] {
     return this.getRouteSegments().flatMap((step) => {
-      const cities = [step.from, ...(step.via ?? step.ferry?.via ?? []), step.to];
-      return cities.slice(0, -1).flatMap((city, index) => [
-        [city.coordinates[0], city.coordinates[1]] as [number, number],
-        [
-          cities[index + 1].coordinates[0],
-          cities[index + 1].coordinates[1],
-        ] as [number, number],
-      ]);
+      const cities = [
+        step.from,
+        ...(step.via ?? step.ferry?.via ?? []),
+        step.to,
+      ];
+      return cities
+        .slice(0, -1)
+        .flatMap((city, index) => [
+          [city.coordinates[0], city.coordinates[1]] as [number, number],
+          [
+            cities[index + 1].coordinates[0],
+            cities[index + 1].coordinates[1],
+          ] as [number, number],
+        ]);
     });
   }
 

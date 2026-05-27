@@ -53,7 +53,11 @@ export function RouteOverlay(): JSX.Element {
     const allSegments = selectedTrip
       .getRouteSegments()
       .flatMap((step, stepIdx) => {
-        const cities = [step.from, ...(step.via ?? step.ferry?.via ?? []), step.to];
+        const cities = [
+          step.from,
+          ...(step.via ?? step.ferry?.via ?? []),
+          step.to,
+        ];
         return cities.slice(0, -1).map((city, cityIdx) => ({
           from: city.coordinates as [number, number],
           to: cities[cityIdx + 1].coordinates as [number, number],

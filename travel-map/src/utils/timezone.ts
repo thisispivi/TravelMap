@@ -21,7 +21,8 @@ export function getCityBiggestTimezoneJump(
     countries,
     firstBy(
       (city) => {
-        const referenceDate = getCityTravels(city, visitedTrips)[0]?.sDate ?? new Date();
+        const referenceDate =
+          getCityTravels(city, visitedTrips)[0]?.sDate ?? new Date();
         const cityOffset = getCityOffsetMinutesOnDate(
           DEFAULT_LOCALE,
           city,
@@ -48,7 +49,8 @@ export function getNumberOfTimezonesJumped(countries: City[]): number {
   const birthCity = parameters.birthCity;
   return pipe(
     filter(countries, (city) => {
-      const referenceDate = getCityTravels(city, visitedTrips)[0]?.sDate ?? new Date();
+      const referenceDate =
+        getCityTravels(city, visitedTrips)[0]?.sDate ?? new Date();
       const cityOffset = getCityOffsetMinutesOnDate(
         DEFAULT_LOCALE,
         city,
@@ -62,7 +64,8 @@ export function getNumberOfTimezonesJumped(countries: City[]): number {
       return cityOffset !== birthOffset;
     }),
     uniqueBy((city) => {
-      const referenceDate = getCityTravels(city, visitedTrips)[0]?.sDate ?? new Date();
+      const referenceDate =
+        getCityTravels(city, visitedTrips)[0]?.sDate ?? new Date();
       return getCityOffsetMinutesOnDate(DEFAULT_LOCALE, city, referenceDate);
     }),
   ).length;
