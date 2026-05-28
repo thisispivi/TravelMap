@@ -271,6 +271,7 @@
     "drive": "tratto in auto",
     "drives": "tratti in auto",
     "timeZone": "fuso orario",
-    "timeZones": "fusi orari"
+    "timeZones": "fusi orari",
+    "dayTrip": "Gita"
   }
 }

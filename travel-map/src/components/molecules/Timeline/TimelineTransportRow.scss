@@ -11,7 +11,6 @@
     }
   }
 
-  // ── Transport badge (icon pill on the track) ───────────────
   .trip-detail__transport-badge {
     font-size: v.$bodySm;
     line-height: 1;
@@ -49,7 +48,6 @@
     flex-shrink: 0;
   }
 
-  // ── Info row (all items on one wrapping line) ──────────────
   .trip-detail__transport-info {
     display: flex;
     flex-direction: row;
@@ -62,7 +60,6 @@
     min-width: 0;
   }
 
-  // Route chip: arrow + destination (kept together, no internal wrap)
   .trip-detail__transport-route {
     display: inline-flex;
     align-items: center;
@@ -70,7 +67,6 @@
     white-space: nowrap;
   }
 
-  // Large airport codes (planes with explicit codes)
   .trip-detail__transport-code {
     font-size: v.$bodySm;
     font-weight: 700;
@@ -78,7 +74,6 @@
     white-space: nowrap;
   }
 
-  // Arrival city hint alongside airport codes
   .trip-detail__transport-city-hint {
     font-size: v.$caption;
     font-weight: 400;
@@ -86,7 +81,6 @@
     white-space: nowrap;
   }
 
-  // City name for all transport modes
   .trip-detail__transport-city-name {
     font-size: v.$bodySm;
     font-weight: 600;
@@ -113,13 +107,11 @@
     border-radius: 62rem;
   }
 
-  // ── Distance + duration ────────────────────────────────────
   .trip-detail__transport-meta {
     font-size: v.$caption;
     font-weight: 400;
   }
 
-  // ── Transit ghost card (merged transport + layover row) ────
   .trip-detail__transit-card {
     display: inline-flex;
     flex-wrap: wrap;
@@ -145,7 +137,6 @@
   }
 }
 
-// ── Dark theme ────────────────────────────────────────────────
 .home--dark {
   .trip-detail {
     .trip-detail__transport-badge {
@@ -183,7 +174,6 @@
   }
 }
 
-// ── Light theme ───────────────────────────────────────────────
 .home--light {
   .trip-detail {
     .trip-detail__transport-badge {

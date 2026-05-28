@@ -42,7 +42,7 @@ export type TripDetailFerryInfo = {
   company: FerryCompany;
   distanceKm: number;
   durationMinutes: number;
-  via: City[]; // intermediate port stops
+  via: City[];
 };
 
 export type TripDetailBusInfo = {
@@ -68,6 +68,7 @@ export type TripDetailTimelineItem =
       mode: TransportMode;
       from: City;
       to: City;
+      isRoundTrip?: boolean;
       flightInfo?: TripDetailFlightInfo;
       ferryInfo?: TripDetailFerryInfo;
       busInfo?: TripDetailBusInfo;
@@ -206,6 +207,7 @@ export function buildTripDetailTimelineItems(
         mode: step.mode,
         from: step.from,
         to: step.to,
+        isRoundTrip: step.roundTrip,
         flightInfo:
           step.mode === "plane"
             ? resolveTripDetailFlightInfo(flight, step)

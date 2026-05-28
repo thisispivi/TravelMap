@@ -55,6 +55,7 @@ export interface TripTransportStep {
   via?: City[];
   flight?: FlightLeg;
   ferry?: FerryLeg;
+  roundTrip?: boolean;
 }
 
 export interface TripStopStep extends TripStop {

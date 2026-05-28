@@ -70,14 +70,12 @@ export function computeVisibleLabels(
 ): Set<string> {
   const visible = new Set<string>();
 
-  // Sort by population descending (higher priority first)
   const sorted = [...cities].sort(
     (a, b) => (b.population ?? 0) - (a.population ?? 0),
   );
 
   const placed: Array<{ x: number; y: number; w: number }> = [];
 
-  // Always place the hovered city first
   if (hoveredCityName) {
     const hovered = sorted.find((c) => c.name === hoveredCityName);
     if (hovered) {
@@ -99,9 +97,6 @@ export function computeVisibleLabels(
     const minZoom = getMinZoomForPopulation(city.population ?? 0);
     if (zoom < minZoom) continue;
 
-    // At high zoom levels every qualifying label is shown without
-    // overlap checks — at that scale the map is zoomed in far enough
-    // that labels are well separated.
     if (skipOverlap) {
       visible.add(city.name);
       continue;

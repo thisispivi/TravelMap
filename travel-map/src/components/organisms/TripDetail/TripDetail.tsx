@@ -21,21 +21,27 @@ import { useLocation } from "@/hooks/location/location";
 import { formatMileage } from "@/utils/format";
 import {
   buildTripDetailTimelineItems,
+  formatTripDetailDuration,
   TripDetailTimelineItem,
 } from "@/utils/tripDetailTimeline";
 
 function computeTripStats(items: TripDetailTimelineItem[]) {
   let nights = 0;
   let flights = 0,
-    flightKm = 0;
+    flightKm = 0,
+    flightMinutes = 0;
   let ferries = 0,
-    ferryKm = 0;
+    ferryKm = 0,
+    ferryMinutes = 0;
   let trains = 0,
-    trainKm = 0;
+    trainKm = 0,
+    trainMinutes = 0;
   let buses = 0,
-    busKm = 0;
+    busKm = 0,
+    busMinutes = 0;
   let cars = 0,
-    carKm = 0;
+    carKm = 0,
+    carMinutes = 0;
   const timezones = new Set<string>();
 
   for (const item of items) {
@@ -45,21 +51,27 @@ function computeTripStats(items: TripDetailTimelineItem[]) {
     } else if (item.kind === "day-trip") {
       if (item.city.timeZone) timezones.add(item.city.timeZone);
     } else if (item.kind === "transport") {
+      const mult = item.isRoundTrip ? 2 : 1;
       if (item.mode === "plane") {
-        flights++;
-        flightKm += item.flightInfo?.distanceKm ?? 0;
+        flights += mult;
+        flightKm += (item.flightInfo?.distanceKm ?? 0) * mult;
+        flightMinutes += (item.flightInfo?.durationMinutes ?? 0) * mult;
       } else if (item.mode === "ferry") {
-        ferries++;
-        ferryKm += item.ferryInfo?.distanceKm ?? 0;
+        ferries += mult;
+        ferryKm += (item.ferryInfo?.distanceKm ?? 0) * mult;
+        ferryMinutes += (item.ferryInfo?.durationMinutes ?? 0) * mult;
       } else if (item.mode === "train") {
-        trains++;
-        trainKm += item.trainInfo?.distanceKm ?? 0;
+        trains += mult;
+        trainKm += (item.trainInfo?.distanceKm ?? 0) * mult;
+        trainMinutes += (item.trainInfo?.durationMinutes ?? 0) * mult;
       } else if (item.mode === "bus") {
-        buses++;
-        busKm += item.busInfo?.distanceKm ?? 0;
+        buses += mult;
+        busKm += (item.busInfo?.distanceKm ?? 0) * mult;
+        busMinutes += (item.busInfo?.durationMinutes ?? 0) * mult;
       } else if (item.mode === "car") {
-        cars++;
-        carKm += item.carInfo?.distanceKm ?? 0;
+        cars += mult;
+        carKm += (item.carInfo?.distanceKm ?? 0) * mult;
+        carMinutes += (item.carInfo?.durationMinutes ?? 0) * mult;
       }
     }
   }
@@ -68,14 +80,19 @@ function computeTripStats(items: TripDetailTimelineItem[]) {
     nights,
     flights,
     flightKm,
+    flightMinutes,
     ferries,
     ferryKm,
+    ferryMinutes,
     trains,
     trainKm,
+    trainMinutes,
     buses,
     busKm,
+    busMinutes,
     cars,
     carKm,
+    carMinutes,
     timezoneCount: timezones.size,
   };
 }
@@ -151,6 +168,9 @@ export function TripDetail(): JSX.Element | null {
               {stats.flightKm > 0
                 ? ` · ${formatMileage(stats.flightKm, lang)} km`
                 : ""}
+              {stats.flightMinutes > 0
+                ? ` · ~${formatTripDetailDuration(stats.flightMinutes)}`
+                : ""}
             </span>
           ) : null}
           {stats.ferries > 0 ? (
@@ -162,6 +182,9 @@ export function TripDetail(): JSX.Element | null {
                 : t("tripDetail.ferries")}
               {stats.ferryKm > 0
                 ? ` · ${formatMileage(stats.ferryKm, lang)} km`
+                : ""}
+              {stats.ferryMinutes > 0
+                ? ` · ~${formatTripDetailDuration(stats.ferryMinutes)}`
                 : ""}
             </span>
           ) : null}
@@ -175,6 +198,9 @@ export function TripDetail(): JSX.Element | null {
               {stats.trainKm > 0
                 ? ` · ${formatMileage(stats.trainKm, lang)} km`
                 : ""}
+              {stats.trainMinutes > 0
+                ? ` · ~${formatTripDetailDuration(stats.trainMinutes)}`
+                : ""}
             </span>
           ) : null}
           {stats.buses > 0 ? (
@@ -184,6 +210,9 @@ export function TripDetail(): JSX.Element | null {
               {stats.buses === 1 ? t("tripDetail.bus") : t("tripDetail.buses")}
               {stats.busKm > 0
                 ? ` · ${formatMileage(stats.busKm, lang)} km`
+                : ""}
+              {stats.busMinutes > 0
+                ? ` · ~${formatTripDetailDuration(stats.busMinutes)}`
                 : ""}
             </span>
           ) : null}
@@ -196,6 +225,9 @@ export function TripDetail(): JSX.Element | null {
                 : t("tripDetail.drives")}
               {stats.carKm > 0
                 ? ` · ${formatMileage(stats.carKm, lang)} km`
+                : ""}
+              {stats.carMinutes > 0
+                ? ` · ~${formatTripDetailDuration(stats.carMinutes)}`
                 : ""}
             </span>
           ) : null}

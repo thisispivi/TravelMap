@@ -89,6 +89,13 @@
     flex-shrink: 0;
   }
 
+  .trip-detail__connector-roundtrip {
+    flex-shrink: 0;
+    font-size: 0.6875rem;
+    opacity: 0.55;
+    line-height: 1;
+  }
+
   .trip-detail__connector-sub {
     display: flex;
     align-items: center;

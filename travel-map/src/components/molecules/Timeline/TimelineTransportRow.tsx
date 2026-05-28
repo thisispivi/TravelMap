@@ -105,7 +105,6 @@ export function TimelineTransportRow({
 
       <div className="trip-detail__transport-info">
         {transitCity ? (
-          // Ghost card: from → to + flag + TRANSIT badge + company + meta all in one pill
           <span className="trip-detail__transit-card">
             <span className="trip-detail__transport-city-name">
               {fromLabel}
@@ -139,7 +138,6 @@ export function TimelineTransportRow({
             ) : null}
           </span>
         ) : (
-          // Normal layout: destination + company + meta in a flat wrapping row
           <>
             {mode === "plane" &&
             (flightInfo?.departure || flightInfo?.arrival) ? (
