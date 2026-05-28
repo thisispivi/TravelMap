@@ -14,7 +14,7 @@ import type {
   TripPhotosArgs,
 } from "./types";
 
-const photoModules = import.meta.glob("../**/photos/tr_*.ts", {
+const photoModules = import.meta.glob("../../../data/**/photos/tr_*.ts", {
   eager: true,
 }) as Record<string, Record<string, Image[]>>;
 
@@ -50,7 +50,7 @@ export const d = ({
  * @returns {Image[]} Resolved image list, or an empty array if missing.
  */
 export function tripPhotos({ path }: TripPhotosArgs): Image[] {
-  return Object.values(photoModules[`../${path}.ts`] ?? {})[0] ?? [];
+  return Object.values(photoModules[`../../../data/${path}.ts`] ?? {})[0] ?? [];
 }
 
 /**

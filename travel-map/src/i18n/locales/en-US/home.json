@@ -271,6 +271,7 @@
     "drive": "drive",
     "drives": "drives",
     "timeZone": "time zone",
-    "timeZones": "time zones"
+    "timeZones": "time zones",
+    "dayTrip": "Day trip"
   }
 }

@@ -21,6 +21,7 @@ export type TransportLeg = {
   durationMinutes: number;
   /** Intermediate port or station stops (ferry layovers, etc.). */
   via?: City[];
+  isRoundTrip?: boolean;
 };
 
 interface TimelineTransportConnectorProps {
@@ -76,7 +77,6 @@ export function TimelineTransportConnector({
         if (leg.durationMinutes > 0)
           metaParts.push(`~${formatTripDetailDuration(leg.durationMinutes)}`);
 
-        // Ferry (or other) via-ports shown in the secondary line
         const viaText =
           (leg.via?.length ?? 0) > 0
             ? `via ${leg.via!.map((c) => t(`cities.${c.name}`) || c.name).join(", ")}`
@@ -123,6 +123,9 @@ export function TimelineTransportConnector({
                   className="trip-detail__connector-flag"
                   countryId={leg.to.country.id}
                 />
+                {leg.isRoundTrip ? (
+                  <span className="trip-detail__connector-roundtrip">↔</span>
+                ) : null}
               </div>
               {subParts.length > 0 ? (
                 <div className="trip-detail__connector-sub">

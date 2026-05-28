@@ -86,7 +86,6 @@ export function RouteOverlay(): JSX.Element {
           >
             {segments.map((seg) => {
               const color = segmentColor(seg.mode, isDarkTheme);
-              // Planes get a longer dash; ferries and default get a tighter dash
               const dashArray =
                 seg.mode === "plane"
                   ? "8 10"

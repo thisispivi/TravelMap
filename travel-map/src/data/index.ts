@@ -160,6 +160,7 @@ export const visitedTrips: Trip[] = [
           eDate: d({ year: 2021, monthIndex: 6, day: 30 }),
           distanceInKm: 3.7,
           durationMinutes: 25,
+          roundTrip: true,
         },
       }),
       stay({
@@ -442,6 +443,7 @@ export const visitedTrips: Trip[] = [
           eDate: d({ year: 2023, monthIndex: 7, day: 6 }),
           distanceInKm: 7,
           durationMinutes: 20,
+          roundTrip: true,
         },
       }),
       stay({
@@ -459,6 +461,7 @@ export const visitedTrips: Trip[] = [
           eDate: d({ year: 2023, monthIndex: 7, day: 9 }),
           distanceInKm: 95,
           durationMinutes: 65,
+          roundTrip: true,
         },
       }),
       stay({
@@ -555,7 +558,7 @@ export const visitedTrips: Trip[] = [
         mode: "train",
         from: Porto,
         to: Braga,
-        data: { durationMinutes: 70, distanceInKm: 55 },
+        data: { durationMinutes: 70, distanceInKm: 55, roundTrip: true },
       }),
       stay({
         city: Braga,
@@ -948,10 +951,6 @@ export const visitedTrips: Trip[] = [
           ferry: { via: [Ajaccio], durationMinutes: 900, distanceInKm: 506 },
         },
       }),
-      layover({
-        city: Ajaccio,
-        date: d({ year: 2025, monthIndex: 11, day: 28 }),
-      }),
       stay({
         city: Toulon,
         sDate: d({ year: 2025, monthIndex: 11, day: 28 }),
@@ -1129,6 +1128,12 @@ export const visitedTrips: Trip[] = [
         sDate: d({ year: 2026, monthIndex: 2, day: 27 }),
         eDate: d({ year: 2026, monthIndex: 2, day: 27 }),
         photoPath: "Romania/Bran/photos/tr_270326_270326",
+      }),
+      move({
+        mode: "bus",
+        from: Bran,
+        to: Bucharest,
+        data: { durationMinutes: 150, distanceInKm: 170 },
       }),
       plane({
         from: Bucharest,

@@ -23,7 +23,6 @@ interface TimelineProps {
   showYear: boolean;
 }
 
-// ── Intermediate types (after transport-chain collapse) ──────
 type IntermediateOrigin = { type: "origin"; city: City };
 type IntermediateReturn = { type: "return"; city: City };
 type IntermediateTransport = { type: "transport"; legs: TransportLeg[] };
@@ -50,7 +49,6 @@ type IntermediateItem =
   | IntermediateStay
   | IntermediateDayTrip;
 
-// ── Display segment types ─────────────────────────────────────
 type SegmentOrigin = { type: "origin"; city: City; key: string };
 type SegmentReturn = { type: "return"; city: City; key: string };
 type SegmentTransport = {
@@ -69,9 +67,18 @@ type SegmentDayTrip = {
     mode: TransportMode;
     distanceKm: number;
     durationMinutes: number;
+    fromCity: City;
+    isRoundTrip?: boolean;
   };
+  returnTransport?: {
+    mode: TransportMode;
+    distanceKm: number;
+    durationMinutes: number;
+    toCity: City;
+  };
+  chainBreakBefore: boolean;
 };
-// Stay without excursions renders as a plain card; stay with excursions becomes a group.
+
 type SegmentStay = {
   type: "stay";
   city: City;
@@ -98,7 +105,6 @@ type DisplaySegment =
   | SegmentStayGroup
   | SegmentDayTrip;
 
-// ── Pass 1: collapse consecutive transport+layover chains ────
 function collapseTransportChains(
   items: TripDetailTimelineItem[],
 ): IntermediateItem[] {
@@ -136,10 +142,10 @@ function collapseTransportChains(
           distanceKm: info?.distanceKm ?? 0,
           durationMinutes: info?.durationMinutes ?? 0,
           via: leg.ferryInfo?.via,
+          isRoundTrip: leg.isRoundTrip,
         });
         i++;
 
-        // Consume a following layover to join the next leg
         const peek = items[i];
         if (
           peek?.kind === "base-stop" &&
@@ -201,37 +207,57 @@ function buildDisplaySegments(
   )[] = [];
   let pendingDayTripTransport: SegmentDayTrip["inboundTransport"];
 
-  // Pass 1: flatten with transport suppression
+  let pendingDayTripTransportFrom: City | null = null;
+
   for (let i = 0; i < intermediate.length; i++) {
     const item = intermediate[i];
 
     if (item.type === "transport") {
-      // Skip return transport from a day trip back to the parent base city
       const prev = i > 0 ? intermediate[i - 1] : null;
       if (prev?.type === "day-trip" && prev.parentCity) {
         const finalDest = item.legs[item.legs.length - 1].to;
-        if (finalDest.name === prev.parentCity.name) continue;
+        if (finalDest.name === prev.parentCity.name) {
+          const lastRaw = raw[raw.length - 1];
+          if (lastRaw?.type === "day-trip") {
+            const legs = item.legs;
+            (lastRaw as SegmentDayTrip).returnTransport = {
+              mode: legs[0].mode,
+              distanceKm: legs.reduce((s, l) => s + l.distanceKm, 0),
+              durationMinutes: legs.reduce((s, l) => s + l.durationMinutes, 0),
+              toCity: legs[legs.length - 1].to,
+            };
+          }
+          continue;
+        }
       }
 
-      // Suppress car/bus transport heading into a nested day trip; attach to the excursion row
       const next = i + 1 < intermediate.length ? intermediate[i + 1] : null;
       const leadsToNestedDayTrip =
         next?.type === "day-trip" && (next as IntermediateDayTrip).isNested;
       if (leadsToNestedDayTrip) {
         const lastLeg = item.legs[item.legs.length - 1];
-        if (lastLeg.mode === "car" || lastLeg.mode === "bus") {
+        if (
+          lastLeg.mode === "car" ||
+          lastLeg.mode === "bus" ||
+          lastLeg.mode === "train"
+        ) {
           pendingDayTripTransport = {
             mode: lastLeg.mode,
             distanceKm: lastLeg.distanceKm,
             durationMinutes: lastLeg.durationMinutes,
+            fromCity: lastLeg.from,
+            isRoundTrip: lastLeg.isRoundTrip,
           };
+          pendingDayTripTransportFrom = lastLeg.from;
           continue;
         }
       }
 
+      pendingDayTripTransportFrom = null;
       raw.push({ type: "transport", legs: item.legs, key: `transport-${i}` });
     } else if (item.type === "stay") {
       pendingDayTripTransport = undefined;
+      pendingDayTripTransportFrom = null;
       raw.push({
         type: "stay",
         city: item.city,
@@ -241,27 +267,35 @@ function buildDisplaySegments(
         key: `stay-${item.city.name}-${item.travelIdx}`,
       });
     } else if (item.type === "day-trip") {
-      const inboundTransport = item.isNested
-        ? pendingDayTripTransport
-        : undefined;
+      const isNested = (item as IntermediateDayTrip).isNested;
+      const parentCity = (item as IntermediateDayTrip).parentCity;
+      const inboundTransport = isNested ? pendingDayTripTransport : undefined;
+
+      const chainBreakBefore =
+        !pendingDayTripTransportFrom ||
+        !parentCity ||
+        pendingDayTripTransportFrom.name === parentCity.name;
+
       pendingDayTripTransport = undefined;
+      pendingDayTripTransportFrom = null;
       raw.push({
         type: "day-trip",
         city: item.city,
         stop: item.stop,
         travelIdx: item.travelIdx,
-        isNested: item.isNested,
+        isNested,
         key: `day-trip-${item.city.name}-${item.travelIdx}`,
         inboundTransport,
+        chainBreakBefore,
       });
     } else if (item.type === "origin") {
+      pendingDayTripTransportFrom = null;
       raw.push({ type: "origin", city: item.city, key: "origin" });
     } else if (item.type === "return") {
       raw.push({ type: "return", city: item.city, key: "return" });
     }
   }
 
-  // Pass 2: merge each stay with immediately following nested day trips → stay-group
   const merged: DisplaySegment[] = [];
   let j = 0;
   while (j < raw.length) {
@@ -281,9 +315,22 @@ function buildDisplaySegments(
           stop: exc.stop,
           key: exc.key,
           inboundTransport: exc.inboundTransport,
+          returnTransport: exc.returnTransport,
+          chainBreakBefore: exc.chainBreakBefore,
         });
         k++;
       }
+
+      let forwardExitExc: ExcursionItem | null = null;
+      const nextRaw = k < raw.length ? raw[k] : null;
+      if (nextRaw?.type === "transport" && excursions.length > 0) {
+        const firstLegFrom = (nextRaw as SegmentTransport).legs[0]?.from;
+        const lastExc = excursions[excursions.length - 1];
+        if (firstLegFrom && firstLegFrom.name === lastExc.city.name) {
+          forwardExitExc = excursions.pop()!;
+        }
+      }
+
       if (excursions.length > 0) {
         merged.push({
           type: "stay-group",
@@ -294,10 +341,45 @@ function buildDisplaySegments(
           excursions,
           key: seg.key,
         });
-        j = k;
       } else {
-        merged.push(seg);
-        j++;
+        merged.push({
+          type: "stay",
+          city: seg.city,
+          stop: seg.stop,
+          nights: seg.nights,
+          travelIdx: seg.travelIdx,
+          key: seg.key,
+        });
+      }
+      j = k;
+
+      if (forwardExitExc) {
+        const tp = forwardExitExc.inboundTransport;
+        if (tp) {
+          merged.push({
+            type: "transport",
+            legs: [
+              {
+                mode: tp.mode,
+                from: tp.fromCity,
+                to: forwardExitExc.city,
+                distanceKm: tp.distanceKm,
+                durationMinutes: tp.durationMinutes,
+              },
+            ],
+            key: `transport-promoted-${forwardExitExc.key}`,
+          });
+        }
+        merged.push({
+          type: "day-trip",
+          city: forwardExitExc.city,
+          stop: forwardExitExc.stop,
+          travelIdx: forwardExitExc.travelIdx,
+          isNested: false,
+          key: `promoted-${forwardExitExc.key}`,
+          inboundTransport: undefined,
+          chainBreakBefore: true,
+        });
       }
     } else {
       merged.push(seg);
@@ -308,7 +390,6 @@ function buildDisplaySegments(
   return merged;
 }
 
-// ── Component ─────────────────────────────────────────────────
 export function Timeline({ items, showYear }: TimelineProps): JSX.Element {
   const segments = useMemo(() => buildDisplaySegments(items), [items]);
 
