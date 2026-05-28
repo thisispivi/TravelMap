@@ -457,6 +457,7 @@ export function Map() {
         clickable
         id="map-tooltip"
         isOpen={!!hoveredCity}
+        key={hoveredCity?.name ?? "none"}
         noArrow
         opacity={1}
         variant="light"

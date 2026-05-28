@@ -7,23 +7,14 @@ import { Line } from "react-simple-maps";
 import { HomeContext } from "@/components/pages/Home/HomeContext";
 import { TransportMode } from "@/core";
 import { useLocation } from "@/hooks/location/location";
+import variables from "@/styles/_variables.module.scss";
 
-// ── Segment color helpers ─────────────────────────────────────────────────────
-
-const TRANSPORT_COLORS_DARK: Partial<Record<TransportMode, string>> = {
-  ferry: "#06b6d4", // cyan
-  plane: "#a78bfa", // violet
-  bus: "#22c55e", // green
-  train: "#f59e0b", // amber
-  car: "#f97316", // orange
-};
-
-const TRANSPORT_COLORS_LIGHT: Partial<Record<TransportMode, string>> = {
-  ferry: "#0891b2", // darker cyan
-  plane: "#7c3aed", // darker violet
-  bus: "#16a34a", // darker green
-  train: "#d97706", // darker amber
-  car: "#ea580c", // darker orange
+const TRANSPORT_COLORS: Partial<Record<TransportMode, string>> = {
+  ferry: variables.transportFerry,
+  plane: variables.transportPlane,
+  bus: variables.transportBus,
+  train: variables.transportTrain,
+  car: variables.transportCar,
 };
 
 function segmentColor(
@@ -31,8 +22,9 @@ function segmentColor(
   isDark: boolean,
 ): string {
   if (!mode) return isDark ? "rgba(255,255,255,0.45)" : "#1a73e8";
-  const map = isDark ? TRANSPORT_COLORS_DARK : TRANSPORT_COLORS_LIGHT;
-  return map[mode] ?? (isDark ? "rgba(255,255,255,0.45)" : "#1a73e8");
+  return (
+    TRANSPORT_COLORS[mode] ?? (isDark ? "rgba(255,255,255,0.45)" : "#1a73e8")
+  );
 }
 
 /**

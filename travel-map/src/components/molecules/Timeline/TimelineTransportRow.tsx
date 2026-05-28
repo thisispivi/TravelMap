@@ -3,8 +3,18 @@ import "./TimelineTransportRow.scss";
 import { m } from "framer-motion";
 import { JSX } from "react";
 
-import { AirplaneIcon, BusIcon, CarIcon, FerryIcon, TrainIcon } from "@/assets";
-import { TransportMode } from "@/core";
+import {
+  AirplaneIcon,
+  BusIcon,
+  CarIcon,
+  ChevronRightIcon,
+  FerryIcon,
+  TrainIcon,
+} from "@/assets";
+import { CountryFlag } from "@/components/atoms";
+import { City, TransportMode } from "@/core";
+import { useLanguage } from "@/hooks/language/language";
+import { formatMileage } from "@/utils/format";
 import {
   formatTripDetailDuration,
   TRIP_DETAIL_FERRY_COMPANY_NAMES,
@@ -18,12 +28,15 @@ import {
 
 interface TimelineTransportRowProps {
   mode: TransportMode;
+  from: City;
+  to: City;
   flightInfo?: TripDetailFlightInfo;
   ferryInfo?: TripDetailFerryInfo;
   busInfo?: TripDetailBusInfo;
   trainInfo?: TripDetailTrainInfo;
   carInfo?: TripDetailCarInfo;
   animDelay: number;
+  transitCity?: City;
 }
 
 function TransportIcon({
@@ -41,35 +54,20 @@ function TransportIcon({
   return null;
 }
 
-/**
- * TimelineTransportRow component
- *
- * Renders a transport segment (flight, ferry, bus, train, or car) between
- * two stops on the timeline. Shows the transport icon badge, company name
- * when available, and a metadata line with distance and duration.
- * Flights additionally display flight number, class, and airport codes.
- *
- * @component
- *
- * @param {TimelineTransportRowProps} props
- * @param {TransportMode} props.mode - Type of transport
- * @param {TripDetailFlightInfo} [props.flightInfo] - Populated for plane segments
- * @param {TripDetailFerryInfo} [props.ferryInfo] - Populated for ferry segments
- * @param {TripDetailBusInfo} [props.busInfo] - Populated for bus segments
- * @param {TripDetailTrainInfo} [props.trainInfo] - Populated for train segments
- * @param {TripDetailCarInfo} [props.carInfo] - Populated for car segments
- * @param {number} props.animDelay - Framer Motion entrance delay in seconds
- * @returns {JSX.Element} The transport row
- */
 export function TimelineTransportRow({
   mode,
+  from,
+  to,
   flightInfo,
   ferryInfo,
   busInfo,
   trainInfo,
   carInfo,
   animDelay,
+  transitCity,
 }: TimelineTransportRowProps): JSX.Element {
+  const { t, currLanguage: lang } = useLanguage(["home"]);
+
   const transportInfo =
     flightInfo ?? ferryInfo ?? busInfo ?? trainInfo ?? carInfo;
   const companyName = flightInfo
@@ -77,6 +75,13 @@ export function TimelineTransportRow({
     : ferryInfo
       ? TRIP_DETAIL_FERRY_COMPANY_NAMES[ferryInfo.company]
       : null;
+
+  const fromLabel = t(`cities.${from.name}`) || from.name;
+  const toLabel = t(`cities.${to.name}`) || to.name;
+
+  const metaText = transportInfo
+    ? `${transportInfo.distanceKm > 0 ? `${formatMileage(transportInfo.distanceKm, lang)} km · ` : ""}~${formatTripDetailDuration(transportInfo.durationMinutes)}`
+    : null;
 
   return (
     <m.div
@@ -97,39 +102,93 @@ export function TimelineTransportRow({
           <TransportIcon className="trip-detail__transport-icon" mode={mode} />
         </span>
       </div>
-      {transportInfo ? (
-        <div className="trip-detail__transport-info">
-          {companyName ? (
-            <span className="trip-detail__transport-company">
-              {companyName}
+
+      <div className="trip-detail__transport-info">
+        {transitCity ? (
+          // Ghost card: from → to + flag + TRANSIT badge + company + meta all in one pill
+          <span className="trip-detail__transit-card">
+            <span className="trip-detail__transport-city-name">
+              {fromLabel}
             </span>
-          ) : null}
-          <span className="trip-detail__transport-meta">
-            {transportInfo.distanceKm.toLocaleString()} km · ~
-            {formatTripDetailDuration(transportInfo.durationMinutes)}
-          </span>
-          {flightInfo &&
-          (flightInfo.number ||
-            flightInfo.class ||
-            flightInfo.departure ||
-            flightInfo.arrival) ? (
-            <>
-              <span className="trip-detail__transport-meta">·</span>
-              <span className="trip-detail__transport-extra">
-                {[
-                  flightInfo.number,
-                  flightInfo.class,
-                  flightInfo.departure && flightInfo.arrival
-                    ? `${flightInfo.departure} → ${flightInfo.arrival}`
-                    : (flightInfo.departure ?? flightInfo.arrival),
-                ]
-                  .filter(Boolean)
-                  .join(" · ")}
+            <ChevronRightIcon className="trip-detail__transport-arrow" />
+            <span className="trip-detail__transport-city-name">{toLabel}</span>
+            <CountryFlag
+              className="trip-detail__transit-flag"
+              countryId={transitCity.country.id}
+            />
+            <span className="trip-detail__transit-badge">
+              {t("tripDetail.layover")}
+            </span>
+            {companyName ? (
+              <span className="trip-detail__transport-company">
+                {companyName}
               </span>
-            </>
-          ) : null}
-        </div>
-      ) : null}
+            ) : null}
+            {flightInfo?.number ? (
+              <span className="trip-detail__transport-extra">
+                {flightInfo.number}
+              </span>
+            ) : null}
+            {flightInfo?.class ? (
+              <span className="trip-detail__transport-extra">
+                {flightInfo.class}
+              </span>
+            ) : null}
+            {metaText ? (
+              <span className="trip-detail__transport-meta">{metaText}</span>
+            ) : null}
+          </span>
+        ) : (
+          // Normal layout: destination + company + meta in a flat wrapping row
+          <>
+            {mode === "plane" &&
+            (flightInfo?.departure || flightInfo?.arrival) ? (
+              <span className="trip-detail__transport-route">
+                <span className="trip-detail__transport-code">
+                  {flightInfo.departure ?? fromLabel}
+                </span>
+                <ChevronRightIcon className="trip-detail__transport-arrow" />
+                <span className="trip-detail__transport-code">
+                  {flightInfo.arrival ?? toLabel}
+                </span>
+                {flightInfo.arrival ? (
+                  <span className="trip-detail__transport-city-hint">
+                    {toLabel}
+                  </span>
+                ) : null}
+              </span>
+            ) : (
+              <span className="trip-detail__transport-route">
+                <span className="trip-detail__transport-city-name">
+                  {fromLabel}
+                </span>
+                <ChevronRightIcon className="trip-detail__transport-arrow" />
+                <span className="trip-detail__transport-city-name">
+                  {toLabel}
+                </span>
+              </span>
+            )}
+            {companyName ? (
+              <span className="trip-detail__transport-company">
+                {companyName}
+              </span>
+            ) : null}
+            {flightInfo?.number ? (
+              <span className="trip-detail__transport-extra">
+                {flightInfo.number}
+              </span>
+            ) : null}
+            {flightInfo?.class ? (
+              <span className="trip-detail__transport-extra">
+                {flightInfo.class}
+              </span>
+            ) : null}
+            {metaText ? (
+              <span className="trip-detail__transport-meta">{metaText}</span>
+            ) : null}
+          </>
+        )}
+      </div>
     </m.div>
   );
 }

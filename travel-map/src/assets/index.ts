@@ -30,6 +30,7 @@ import PlayIcon from "./icons/Play.svg?react";
 import PositionIcon from "./icons/Position.svg?react";
 import SunIcon from "./icons/Sun.svg?react";
 import SunFilledIcon from "./icons/SunFilled.svg?react";
+import TaxiIcon from "./icons/Taxi.svg?react";
 import TimezoneIcon from "./icons/Timezone.svg?react";
 import TrainIcon from "./icons/Train.svg?react";
 import UnescoIcon from "./icons/Unesco.svg?react";
@@ -67,6 +68,7 @@ export {
   PositionIcon,
   SunFilledIcon,
   SunIcon,
+  TaxiIcon,
   TimezoneIcon,
   TrainIcon,
   UnescoIcon,
