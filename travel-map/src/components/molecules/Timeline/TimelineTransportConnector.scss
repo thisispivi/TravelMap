@@ -1,0 +1,164 @@
+@use "../../../styles/variables" as v;
+
+.trip-detail {
+  .trip-detail__row--connector {
+    display: grid;
+    grid-template-columns: var(--tl-spine-w) 1fr;
+    column-gap: var(--tl-gap);
+    row-gap: 0.625rem;
+    align-items: center;
+    padding: 0.375rem 0;
+    position: relative;
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: calc(var(--tl-spine-w) / 2);
+      transform: translateX(-50%);
+      top: 0;
+      bottom: 0;
+      width: 0.0625rem;
+      z-index: 0;
+    }
+  }
+
+  .trip-detail__connector-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+
+    &--plane {
+      color: v.$transportPlane;
+    }
+    &--ferry {
+      color: v.$transportFerry;
+    }
+    &--train {
+      color: v.$transportTrain;
+    }
+    &--bus {
+      color: v.$transportBus;
+    }
+    &--car {
+      color: v.$transportCar;
+    }
+  }
+
+  .trip-detail__connector-icon-svg {
+    width: 1rem;
+    height: 1rem;
+    display: block;
+    flex-shrink: 0;
+  }
+
+  .trip-detail__connector-leg {
+    display: flex;
+    flex-direction: column;
+    gap: 0.0625rem;
+    min-width: 0;
+  }
+
+  .trip-detail__connector-route {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: v.$bodySm;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    min-width: 0;
+  }
+
+  .trip-detail__connector-from,
+  .trip-detail__connector-to {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .trip-detail__connector-arrow {
+    opacity: 0.45;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+
+  .trip-detail__connector-flag {
+    width: 0.875rem;
+    height: 0.875rem;
+    flex-shrink: 0;
+  }
+
+  .trip-detail__connector-sub {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: v.$caption;
+    line-height: 1.4;
+  }
+
+  .trip-detail__connector-via {
+    font-weight: 400;
+    font-style: italic;
+  }
+
+  .trip-detail__connector-company {
+    font-weight: 500;
+  }
+
+  .trip-detail__connector-meta {
+    font-weight: 400;
+  }
+}
+
+.home--dark {
+  .trip-detail {
+    .trip-detail__row--connector::before {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .trip-detail__connector-from,
+    .trip-detail__connector-to,
+    .trip-detail__connector-arrow {
+      color: v.$darkAltText;
+    }
+
+    .trip-detail__connector-via {
+      color: v.$darkAltTextDarker;
+    }
+
+    .trip-detail__connector-company {
+      color: v.$darkAltText;
+    }
+
+    .trip-detail__connector-meta {
+      color: v.$darkAltTextDarker;
+    }
+  }
+}
+
+.home--light {
+  .trip-detail {
+    .trip-detail__row--connector::before {
+      background: rgba(0, 0, 0, 0.1);
+    }
+
+    .trip-detail__connector-from,
+    .trip-detail__connector-to,
+    .trip-detail__connector-arrow {
+      color: v.$lightAltText;
+    }
+
+    .trip-detail__connector-via {
+      color: v.$lightAltTextDarker;
+    }
+
+    .trip-detail__connector-company {
+      color: v.$lightAltText;
+    }
+
+    .trip-detail__connector-meta {
+      color: v.$lightAltTextDarker;
+    }
+  }
+}

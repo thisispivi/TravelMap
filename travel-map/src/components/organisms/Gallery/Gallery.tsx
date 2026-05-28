@@ -18,7 +18,10 @@ import { City } from "../../../core";
 import { visitedTrips } from "../../../data";
 import { useLanguage } from "../../../hooks/language/language";
 import { parameters } from "../../../utils/parameters";
-import { getTravelByCityIndex } from "../../../utils/trips";
+import {
+  getCityPhotoTravels,
+  getTravelByCityIndex,
+} from "../../../utils/trips";
 import { CloseButton, CountryFlag } from "../../atoms";
 import { TravelSelector } from "../../molecules";
 
@@ -103,7 +106,7 @@ export default function Gallery(): JSX.Element {
           cityName={city.name}
           navigationState={navigationState}
           selectedTravelIdx={travelIdx}
-          travels={visitedTrips.flatMap((trip) => trip.getCityTravels(city))}
+          travels={getCityPhotoTravels(city, visitedTrips)}
         />
         <CloseButton
           onClick={() => navigate(fromPath ?? (from === "map" ? "/" : "/"))}

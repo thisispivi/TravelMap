@@ -2,6 +2,16 @@
 @use "../../../styles/variables" as v;
 
 .trip-detail {
+  --tl-spine-w: 1.75rem;
+  --tl-gap: 0.625rem;
+  --tl-card-radius: 0.875rem;
+
+  --transport-plane: #a855f7;
+  --transport-ferry: #0ea5e9;
+  --transport-train: #f59e0b;
+  --transport-bus: #22c55e;
+  --transport-car: #ef4444;
+
   .trip-detail__timeline {
     display: flex;
     flex-direction: column;
@@ -10,11 +20,11 @@
   .trip-detail__row {
     display: flex;
     align-items: flex-start;
-    gap: 0.5rem;
+    gap: var(--tl-gap);
   }
 
   .trip-detail__track {
-    width: 1.625rem;
+    width: var(--tl-spine-w);
     flex-shrink: 0;
     align-self: stretch;
     display: flex;

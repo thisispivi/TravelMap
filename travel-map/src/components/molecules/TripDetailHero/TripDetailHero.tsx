@@ -63,12 +63,6 @@ export function TripDetailHero({
                 })}
               </span>
             </div>
-            <span className="trip-detail__hero-duration">
-              {trip.getDurationInDays()}{" "}
-              {trip.getDurationInDays() === 1
-                ? t("tripDetail.day")
-                : t("tripDetail.days")}
-            </span>
           </div>
         </div>
       </div>

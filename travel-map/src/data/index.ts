@@ -1,18 +1,24 @@
 import { unique } from "remeda";
 
 import {
+  d,
+  ferry,
+  layover,
+  move,
+  plane,
+  roundTripByPlane,
+  stay,
+  trip,
+} from "@/core/helpers/tripBuilders/tripBuilders";
+
+import {
   City,
   Country,
   Ferry,
   FerryCompany,
   Flight,
   FlightCompany,
-  Image,
-  TransportMode,
   Trip,
-  TripRouteStep,
-  TripStopStep,
-  TripTransportStep,
 } from "../core";
 import { Cairns } from "./Australia/Cairns/Cairns";
 import { Sydney } from "./Australia/Sydney/Sydney";
@@ -85,178 +91,6 @@ import { Stockholm } from "./Sweden/Stockholm/Stockholm";
 import { London } from "./UnitedKingdom/London/London";
 import { VaticanCity } from "./Vatican/Vatican/VaticanCity";
 
-const photoModules = import.meta.glob("./**/photos/tr_*.ts", {
-  eager: true,
-}) as Record<string, Record<string, Image[]>>;
-
-type DateArgs = {
-  year: number;
-  monthIndex: number;
-  day: number;
-  hours?: number;
-  minutes?: number;
-  seconds?: number;
-  milliseconds?: number;
-};
-
-type TripPhotosArgs = {
-  path: string;
-};
-
-type StayData = Omit<
-  Partial<TripStopStep>,
-  "type" | "city" | "sDate" | "eDate" | "photos"
->;
-
-type MoveData = Omit<TripTransportStep, "type" | "mode" | "from" | "to">;
-
-type StayArgs = {
-  city: City;
-  sDate: Date;
-  eDate: Date;
-  photoPath?: string;
-  data?: StayData;
-};
-
-type LayoverArgs = {
-  city: City;
-  date: Date;
-};
-
-type MoveArgs = {
-  mode: TransportMode;
-  from: City;
-  to: City;
-  data?: MoveData;
-};
-
-type PlaneArgs = {
-  from: City;
-  to: City;
-  company?: FlightCompany;
-  data?: MoveData;
-};
-
-type FerryArgs = {
-  from: City;
-  to: City;
-  company?: FerryCompany;
-  data?: MoveData;
-};
-
-type TripArgs = {
-  id: string;
-  sDate: Date;
-  eDate: Date;
-  origin: City;
-  returnTo: City;
-  steps: TripRouteStep[];
-};
-
-type RoundTripByPlaneArgs = {
-  id: string;
-  city: City;
-  sDate: Date;
-  eDate: Date;
-  company: FlightCompany;
-  photoPath: string;
-  extraStops?: TripRouteStep[];
-  data?: MoveData;
-};
-
-const d = ({
-  year,
-  monthIndex,
-  day,
-  hours = 0,
-  minutes = 0,
-  seconds = 0,
-  milliseconds = 0,
-}: DateArgs) =>
-  new Date(year, monthIndex, day, hours, minutes, seconds, milliseconds);
-
-function tripPhotos({ path }: TripPhotosArgs): Image[] {
-  return Object.values(photoModules[`./${path}.ts`] ?? {})[0] ?? [];
-}
-
-function stay({
-  city,
-  sDate,
-  eDate,
-  photoPath,
-  data = {},
-}: StayArgs): TripStopStep {
-  return {
-    type: "stop",
-    city,
-    sDate,
-    eDate,
-    photos: photoPath ? tripPhotos({ path: photoPath }) : undefined,
-    ...data,
-  };
-}
-
-function layover({ city, date }: LayoverArgs): TripStopStep {
-  return stay({ city, sDate: date, eDate: date, data: { isLayover: true } });
-}
-
-function move({ mode, from, to, data = {} }: MoveArgs): TripTransportStep {
-  return { type: "transport", mode, from, to, ...data };
-}
-
-const plane = ({ from, to, company, data = {} }: PlaneArgs) =>
-  move({
-    mode: "plane",
-    from,
-    to,
-    data: { ...data, flight: { company, ...data.flight } },
-  });
-
-const ferry = ({ from, to, company, data = {} }: FerryArgs) =>
-  move({
-    mode: "ferry",
-    from,
-    to,
-    data: { ...data, ferry: { company, ...data.ferry } },
-  });
-
-function trip({ id, sDate, eDate, origin, returnTo, steps }: TripArgs): Trip {
-  return new Trip({
-    id,
-    sDate,
-    eDate,
-    origin: { city: origin },
-    returnTo: { city: returnTo },
-    steps,
-    backgroundImgSourceKey: `${id}.jpg`,
-  });
-}
-
-function roundTripByPlane({
-  id,
-  city,
-  sDate,
-  eDate,
-  company,
-  photoPath,
-  extraStops = [],
-  data = {},
-}: RoundTripByPlaneArgs): Trip {
-  return trip({
-    id,
-    sDate,
-    eDate,
-    origin: Cagliari,
-    returnTo: Cagliari,
-    steps: [
-      plane({ from: Cagliari, to: city, company, data }),
-      stay({ city, sDate, eDate, photoPath }),
-      ...extraStops,
-      plane({ from: city, to: Cagliari, company, data }),
-    ],
-  });
-}
-
 export const livedCities: City[] = [Muravera, Cagliari];
 
 export const futureCities: City[] = [Stockholm];
@@ -316,6 +150,17 @@ export const visitedTrips: Trip[] = [
         sDate: d({ year: 2021, monthIndex: 6, day: 27 }),
         eDate: d({ year: 2021, monthIndex: 7, day: 3 }),
         photoPath: "Italy/Rome/photos/tr_270721_030821",
+      }),
+      move({
+        mode: "bus",
+        from: Rome,
+        to: VaticanCity,
+        data: {
+          sDate: d({ year: 2021, monthIndex: 6, day: 30 }),
+          eDate: d({ year: 2021, monthIndex: 6, day: 30 }),
+          distanceInKm: 3.7,
+          durationMinutes: 25,
+        },
       }),
       stay({
         city: VaticanCity,
@@ -1090,6 +935,10 @@ export const visitedTrips: Trip[] = [
           distanceInKm: 244,
         },
       }),
+      layover({
+        city: PortoTorres,
+        date: d({ year: 2025, monthIndex: 11, day: 28 }),
+      }),
       ferry({
         from: PortoTorres,
         to: Toulon,
@@ -1223,45 +1072,80 @@ export const visitedTrips: Trip[] = [
     origin: Cagliari,
     returnTo: Cagliari,
     steps: [
-      plane({ from: Cagliari, to: Bergamo, company: FlightCompany.RYANAIR }),
+      plane({
+        from: Cagliari,
+        to: Bergamo,
+        company: FlightCompany.RYANAIR,
+        data: { durationMinutes: 90 },
+      }),
       layover({
         city: Bergamo,
         date: d({ year: 2026, monthIndex: 2, day: 26 }),
       }),
-      plane({ from: Bergamo, to: Bucharest, company: FlightCompany.RYANAIR }),
+      plane({
+        from: Bergamo,
+        to: Bucharest,
+        company: FlightCompany.RYANAIR,
+        data: { durationMinutes: 2 * 60 + 20 },
+      }),
       stay({
         city: Bucharest,
         sDate: d({ year: 2026, monthIndex: 2, day: 26 }),
         eDate: d({ year: 2026, monthIndex: 2, day: 30 }),
         photoPath: "Romania/Bucharest/photos/tr_260326_300326",
       }),
-      move({ mode: "car", from: Bucharest, to: Sinaia }),
+      move({
+        mode: "bus",
+        from: Bucharest,
+        to: Sinaia,
+        data: { durationMinutes: 120, distanceInKm: 127 },
+      }),
       stay({
         city: Sinaia,
         sDate: d({ year: 2026, monthIndex: 2, day: 27 }),
         eDate: d({ year: 2026, monthIndex: 2, day: 27 }),
         photoPath: "Romania/Sinaia/photos/tr_270326_270326",
       }),
-      move({ mode: "car", from: Sinaia, to: Brasov }),
+      move({
+        mode: "bus",
+        from: Sinaia,
+        to: Brasov,
+        data: { durationMinutes: 58, distanceInKm: 50 },
+      }),
       stay({
         city: Brasov,
         sDate: d({ year: 2026, monthIndex: 2, day: 27 }),
         eDate: d({ year: 2026, monthIndex: 2, day: 27 }),
         photoPath: "Romania/Brasov/photos/tr_270326_270326",
       }),
-      move({ mode: "car", from: Brasov, to: Bran }),
+      move({
+        mode: "bus",
+        from: Brasov,
+        to: Bran,
+        data: { durationMinutes: 29, distanceInKm: 30 },
+      }),
       stay({
         city: Bran,
         sDate: d({ year: 2026, monthIndex: 2, day: 27 }),
         eDate: d({ year: 2026, monthIndex: 2, day: 27 }),
         photoPath: "Romania/Bran/photos/tr_270326_270326",
       }),
-      plane({ from: Bucharest, to: Bergamo, company: FlightCompany.RYANAIR }),
+      plane({
+        from: Bucharest,
+        to: Bergamo,
+        company: FlightCompany.RYANAIR,
+        data: { durationMinutes: 2 * 60 + 20 },
+      }),
       layover({
         city: Bergamo,
         date: d({ year: 2026, monthIndex: 2, day: 31 }),
       }),
-      plane({ from: Bergamo, to: Cagliari, company: FlightCompany.RYANAIR }),
+      plane({
+        from: Bergamo,
+        to: Cagliari,
+        company: FlightCompany.RYANAIR,
+        data: { durationMinutes: 90 },
+      }),
     ],
   }),
   trip({
@@ -1271,23 +1155,53 @@ export const visitedTrips: Trip[] = [
     origin: Cagliari,
     returnTo: Cagliari,
     steps: [
-      move({ mode: "car", from: Cagliari, to: Alghero }),
-      plane({ from: Alghero, to: Bratislava, company: FlightCompany.RYANAIR }),
+      move({
+        mode: "car",
+        from: Cagliari,
+        to: Alghero,
+        data: { durationMinutes: 170, distanceInKm: 251 },
+      }),
+      plane({
+        from: Alghero,
+        to: Bratislava,
+        company: FlightCompany.RYANAIR,
+        data: { durationMinutes: 110 },
+      }),
       stay({
         city: Bratislava,
         sDate: d({ year: 2026, monthIndex: 4, day: 1 }),
         eDate: d({ year: 2026, monthIndex: 4, day: 4 }),
         photoPath: "Slovakia/Bratislava/photos/tr_010526_040526",
       }),
-      move({ mode: "car", from: Bratislava, to: Devin }),
+      move({
+        mode: "bus",
+        from: Bratislava,
+        to: Devin,
+        data: {
+          distanceInKm: 16.7,
+          durationMinutes: 42,
+          sDate: d({ year: 2026, monthIndex: 4, day: 3 }),
+          eDate: d({ year: 2026, monthIndex: 4, day: 3 }),
+        },
+      }),
       stay({
         city: Devin,
         sDate: d({ year: 2026, monthIndex: 4, day: 3 }),
         eDate: d({ year: 2026, monthIndex: 4, day: 3 }),
         photoPath: "Slovakia/Devin/photos/tr_030526_030526",
       }),
-      plane({ from: Bratislava, to: Alghero, company: FlightCompany.RYANAIR }),
-      move({ mode: "car", from: Alghero, to: Cagliari }),
+      plane({
+        from: Bratislava,
+        to: Alghero,
+        company: FlightCompany.RYANAIR,
+        data: { durationMinutes: 110 },
+      }),
+      move({
+        mode: "car",
+        from: Alghero,
+        to: Cagliari,
+        data: { durationMinutes: 170, distanceInKm: 251 },
+      }),
     ],
   }),
 ];

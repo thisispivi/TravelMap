@@ -25,6 +25,7 @@ type TripDetailDayTripItem = {
   travelIdx: number;
   stop: TripStop;
   isNested: boolean;
+  parentCity: City | null;
 };
 
 export type TripDetailFlightInfo = {
@@ -41,6 +42,7 @@ export type TripDetailFerryInfo = {
   company: FerryCompany;
   distanceKm: number;
   durationMinutes: number;
+  via: City[]; // intermediate port stops
 };
 
 export type TripDetailBusInfo = {
@@ -64,6 +66,8 @@ export type TripDetailTimelineItem =
   | {
       kind: "transport";
       mode: TransportMode;
+      from: City;
+      to: City;
       flightInfo?: TripDetailFlightInfo;
       ferryInfo?: TripDetailFerryInfo;
       busInfo?: TripDetailBusInfo;
@@ -129,6 +133,7 @@ function resolveTripDetailFerryInfo(
     company: ferry.company,
     distanceKm: Math.round(ferry.distanceInKm),
     durationMinutes: ferry.durationMinutes,
+    via: ferry.via ?? [],
   };
 }
 
@@ -199,6 +204,8 @@ export function buildTripDetailTimelineItems(
       items.push({
         kind: "transport",
         mode: step.mode,
+        from: step.from,
+        to: step.to,
         flightInfo:
           step.mode === "plane"
             ? resolveTripDetailFlightInfo(flight, step)
@@ -240,6 +247,7 @@ export function buildTripDetailTimelineItems(
         travelIdx,
         stop: step,
         isNested: lastBaseStop !== null,
+        parentCity: lastBaseStop,
       });
     }
   }

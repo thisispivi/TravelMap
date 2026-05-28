@@ -4,7 +4,7 @@
 	<style type="text/css">
 		.calendar-0 {
 			fill: none;
-			stroke: #000000;
+			stroke: currentColor;
 			stroke-width: 90;
 			stroke-linecap: round;
 			stroke-linejoin: round;
@@ -12,7 +12,7 @@
 
 		.calendar-1 {
 			fill: none;
-			stroke: #000000;
+			stroke: currentColor;
 			stroke-width: 60;
 			stroke-linecap: round;
 			stroke-linejoin: round;

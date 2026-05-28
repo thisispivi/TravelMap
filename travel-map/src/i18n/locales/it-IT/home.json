@@ -159,7 +159,7 @@
   "deselectAll": "Deseleziona tutto",
   "filterTooltip": "Filtra le città sulla mappa in base al paese selezionato.",
   "gallery": "Visualizza galleria",
-  "galleryAlt": "Apri la galleria del viaggio selezionato",
+  "galleryAlt": "Apri galleria foto",
   "selectedTravel": "Viaggio selezionato: ",
   "language": "Seleziona una lingua",
   "selectAll": "Seleziona tutto",
@@ -235,7 +235,7 @@
     "australia-trip-2025": "Viaggio in Australia",
     "cote-d-azur-trip-2025-2026": "Viaggio sulla Costa Azzurra",
     "romania-trip-2026": "Viaggio in Romania",
-    "slovakia-trip-2026": "Viaggio in Slovacchia"
+    "slovakia-trip-2026": "Campioni di Slovacchia"
   },
   "nav": {
     "trips": "Viaggi",
@@ -253,6 +253,24 @@
     "cities": "Città",
     "days": "giorni",
     "day": "giorno",
-    "layover": "Transito"
+    "layover": "Transito",
+    "outbound": "Andata",
+    "localTravel": "In loco",
+    "return": "Ritorno",
+    "via": "via",
+    "night": "notte",
+    "nights": "notti",
+    "flight": "volo",
+    "flights": "voli",
+    "ferry": "traghetto",
+    "ferries": "traghetti",
+    "train": "treno",
+    "trains": "treni",
+    "bus": "bus",
+    "buses": "bus",
+    "drive": "tratto in auto",
+    "drives": "tratti in auto",
+    "timeZone": "fuso orario",
+    "timeZones": "fusi orari"
   }
 }

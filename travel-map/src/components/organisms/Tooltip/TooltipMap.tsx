@@ -1,21 +1,13 @@
 import "./TooltipMap.scss";
 
 import { domAnimation, LazyMotion, m } from "framer-motion";
-import { JSX, useEffect, useState } from "react";
+import { JSX, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import {
-  CalendarIcon,
-  CoinIcon,
-  DoubleChevronIcon,
-  GalleryIcon,
-  PeopleIcon,
-} from "@/assets";
+import { CoinIcon, GalleryIcon, PeopleIcon, TimezoneIcon } from "@/assets";
 import { City } from "@/core";
 import { visitedTrips } from "@/data";
 import { useLanguage } from "@/hooks/language/language";
-import { formatDateRangeShort } from "@/i18n/functions/date";
-import { classNames } from "@/utils/className";
 import { getCityTravels } from "@/utils/trips";
 
 import { Button, CountryFlag } from "../../atoms";
@@ -62,19 +54,25 @@ function TooltipBackdrop({
   );
 }
 
+function getTzAbbr(timeZone: string | undefined): string | null {
+  if (!timeZone) return null;
+  try {
+    return (
+      new Intl.DateTimeFormat("en", { timeZone, timeZoneName: "short" })
+        .formatToParts(new Date())
+        .find((p) => p.type === "timeZoneName")?.value ?? null
+    );
+  } catch {
+    return null;
+  }
+}
+
 /**
  * MapTooltip component
  *
- * Displays city details, latest visits, and gallery access from a map marker.
+ * Displays city name, flag, population, timezone, and gallery access from a map marker.
  *
  * @component
- *
- * @param {MapTooltipProps} props - The map tooltip props
- * @param {City} props.city - The city to display
- * @param {(city: City) => void} [props.onMouseEnter] - Mouse enter handler
- * @param {() => void} [props.onMouseLeave] - Mouse leave handler
- * @param {(isOpen: boolean) => void} props.setIsOpen - Updates tooltip visibility
- * @returns {JSX.Element} The map tooltip
  */
 export function MapTooltip({
   city,
@@ -85,13 +83,18 @@ export function MapTooltip({
   const navigate = useNavigate();
   const location = useLocation();
   const { t, currLanguage: lang } = useLanguage(["home"]);
-  const [travelIdx, setTravelIdx] = useState(0);
-  const filteredTravels = getCityTravels(city, visitedTrips).filter(
-    (travel) => !travel.isFuture,
-  );
 
   const handleEnter = () => onMouseEnter?.(city);
   const handleLeave = () => onMouseLeave?.();
+
+  const allTravels = getCityTravels(city, visitedTrips).filter(
+    (tr) => !tr.isFuture,
+  );
+  const firstPhotosTravelIdx = allTravels.findIndex(
+    (tr) => tr.photos && tr.photos.length > 0,
+  );
+  const hasPhotos = firstPhotosTravelIdx >= 0;
+  const tzAbbr = getTzAbbr(city.timeZone);
 
   useEffect(() => {
     const closeTooltip = () => setIsOpen(false);
@@ -127,87 +130,44 @@ export function MapTooltip({
             <h2>{city.getName(t)}</h2>
             <CountryFlag countryId={city.country.id} />
           </div>
-          <div className="map-tooltip__metadata">
-            <div className="map-tooltip__metadata__item">
-              <PeopleIcon className="map-tooltip__metadata__icon" />
-              {city.population ? city.population.toLocaleString(lang) : "-"}
-            </div>
-            <div className="map-tooltip__metadata__item">
-              <CoinIcon className="map-tooltip__metadata__icon" />
-              <p className="currency-row__name">
-                {t(`currency.${city.country.currency}.name`)}
-              </p>
-              <b className="currency-row__symbol">
-                {" " + t(`currency.${city.country.currency}.symbol`)}
-              </b>
-            </div>
+
+          <div className="map-tooltip__pills">
+            {city.population ? (
+              <span className="map-tooltip__pill">
+                <PeopleIcon className="map-tooltip__pill-icon" />
+                {city.population.toLocaleString(lang)}
+              </span>
+            ) : null}
+            {tzAbbr ? (
+              <span className="map-tooltip__pill">
+                <TimezoneIcon className="map-tooltip__pill-icon" />
+                {tzAbbr}
+              </span>
+            ) : null}
+            {city.country.currency ? (
+              <span className="map-tooltip__pill">
+                <CoinIcon className="map-tooltip__pill-icon" />
+                {city.country.currency}
+              </span>
+            ) : null}
           </div>
-          {filteredTravels[travelIdx] ? (
-            <div className="map-tooltip__divider">
-              <div className="map-tooltip__content">
-                <div className="map-tooltip__content__travels">
-                  <b className="map-tooltip__content__travels__title">
-                    {t("selectedTravel")} {travelIdx + 1} /{" "}
-                    {filteredTravels.length}
-                  </b>
-                  <div className="map-tooltip__content__travels__selector">
-                    <DoubleChevronIcon
-                      className={classNames(
-                        "map-tooltip__content__chevron-icon",
-                        "map-tooltip__content__chevron-icon--left",
-                        travelIdx <= 0 &&
-                          "map-tooltip__content__chevron-icon--disabled",
-                      )}
-                      onClick={() =>
-                        setTravelIdx((prev) => (prev > 0 ? prev - 1 : prev))
-                      }
-                    />
-                    <div className="map-tooltip__content__travel">
-                      <CalendarIcon className="map-tooltip__content__travel__icon" />
-                      <p>
-                        {formatDateRangeShort({
-                          sDateInput: filteredTravels[travelIdx].sDate,
-                          eDateInput: filteredTravels[travelIdx].eDate,
-                          locale: lang,
-                          includeWeekday: true,
-                          showYear: true,
-                        })}
-                      </p>
-                    </div>
-                    <DoubleChevronIcon
-                      className={classNames(
-                        "map-tooltip__content__chevron-icon",
-                        travelIdx >= filteredTravels.length - 1 &&
-                          "map-tooltip__content__chevron-icon--disabled",
-                      )}
-                      onClick={() =>
-                        setTravelIdx((prev) =>
-                          prev < filteredTravels.length - 1 ? prev + 1 : prev,
-                        )
-                      }
-                    />
-                  </div>
-                </div>
-              </div>
-              {filteredTravels[travelIdx].photos &&
-              filteredTravels[travelIdx].photos.length > 0 ? (
-                <div className="map-tooltip__footer">
-                  <Button
-                    className="map-tooltip__footer__button"
-                    hoverScale={1}
-                    onClick={() =>
-                      navigate(`/gallery/${city.name}/${travelIdx}`, {
-                        state: {
-                          fromPath: `${location.pathname}${location.search}`,
-                        },
-                      })
-                    }
-                  >
-                    <GalleryIcon />
-                    <p>{t("galleryAlt")}</p>
-                  </Button>
-                </div>
-              ) : null}
+
+          {hasPhotos ? (
+            <div className="map-tooltip__footer">
+              <Button
+                className="map-tooltip__footer__button"
+                hoverScale={1}
+                onClick={() =>
+                  navigate(`/gallery/${city.name}/${firstPhotosTravelIdx}`, {
+                    state: {
+                      fromPath: `${location.pathname}${location.search}`,
+                    },
+                  })
+                }
+              >
+                <GalleryIcon />
+                <p>{t("galleryAlt")}</p>
+              </Button>
             </div>
           ) : null}
         </m.div>

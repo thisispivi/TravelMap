@@ -12,7 +12,8 @@ export function formatMileage(
   language: string,
   digits: number = 2,
 ): string {
-  return mileage.toLocaleString(normalizeLocale(language), {
+  return new Intl.NumberFormat(normalizeLocale(language), {
     maximumFractionDigits: digits,
-  });
+    useGrouping: true,
+  }).format(mileage);
 }
