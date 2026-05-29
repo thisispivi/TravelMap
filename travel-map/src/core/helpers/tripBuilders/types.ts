@@ -25,13 +25,13 @@ export type TripPhotosArgs = {
 };
 
 /** Extra data allowed on a stop without overwriting core fields. */
-export type StayData = Omit<
+type StayData = Omit<
   Partial<TripStopStep>,
   "type" | "city" | "sDate" | "eDate" | "photos"
 >;
 
 /** Extra data allowed on a transport step without overwriting core fields. */
-export type MoveData = Omit<TripTransportStep, "type" | "mode" | "from" | "to">;
+type MoveData = Omit<TripTransportStep, "type" | "mode" | "from" | "to">;
 
 /** Arguments for a stop (stay) entry. */
 export type StayArgs = {
@@ -40,12 +40,6 @@ export type StayArgs = {
   eDate: Date;
   photoPath?: string;
   data?: StayData;
-};
-
-/** Arguments for a layover stop. */
-export type LayoverArgs = {
-  city: City;
-  date: Date;
 };
 
 /** Arguments for a transport step. */

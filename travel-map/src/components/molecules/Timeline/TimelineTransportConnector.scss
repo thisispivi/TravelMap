@@ -44,6 +44,12 @@
     &--car {
       color: v.$transportCar;
     }
+    &--taxi {
+      color: v.$transportTaxi;
+    }
+    &--walk {
+      color: v.$transportWalk;
+    }
   }
 
   .trip-detail__connector-icon-svg {

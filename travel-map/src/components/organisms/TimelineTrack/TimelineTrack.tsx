@@ -48,12 +48,12 @@ export function TimelineTrack(): JSX.Element {
     let index = 0;
     const groups: YearGroup[] = [];
     for (const [year, trips] of yearMap) {
-      const ascTrips = trips.toSorted(
-        (a, b) => a.trip.sDate.getTime() - b.trip.sDate.getTime(),
+      const sortedTrips = trips.toSorted(
+        (a, b) => b.trip.sDate.getTime() - a.trip.sDate.getTime(),
       );
       groups.push({
         year,
-        trips: ascTrips.map((item) => ({
+        trips: sortedTrips.map((item) => ({
           ...item,
           side: (index++ % 2 === 0 ? "left" : "right") as "left" | "right",
         })),

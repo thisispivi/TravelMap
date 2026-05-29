@@ -270,6 +270,10 @@
     "buses": "bus",
     "drive": "tratto in auto",
     "drives": "tratti in auto",
+    "taxi": "taxi",
+    "taxis": "taxi",
+    "walk": "camminata",
+    "walks": "camminate",
     "timeZone": "fuso orario",
     "timeZones": "fusi orari",
     "dayTrip": "Gita"

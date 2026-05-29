@@ -5,7 +5,6 @@ import { Cagliari } from "@/data/Italy/Cagliari/Cagliari";
 import type {
   DateArgs,
   FerryArgs,
-  LayoverArgs,
   MoveArgs,
   PlaneArgs,
   RoundTripByPlaneArgs,
@@ -39,7 +38,7 @@ export const d = ({
   minutes = 0,
   seconds = 0,
   milliseconds = 0,
-}: DateArgs) =>
+}: DateArgs): Date =>
   new Date(year, monthIndex, day, hours, minutes, seconds, milliseconds);
 
 /**
@@ -49,7 +48,7 @@ export const d = ({
  * @param {string} args.path - Path under src/data without the .ts extension.
  * @returns {Image[]} Resolved image list, or an empty array if missing.
  */
-export function tripPhotos({ path }: TripPhotosArgs): Image[] {
+function tripPhotos({ path }: TripPhotosArgs): Image[] {
   return Object.values(photoModules[`../../../data/${path}.ts`] ?? {})[0] ?? [];
 }
 
@@ -82,18 +81,6 @@ export function stay({
 }
 
 /**
- * Create a layover stop for a specific day.
- *
- * @param {LayoverArgs} args - Layover details.
- * @param {City} args.city - City where the layover happens.
- * @param {Date} args.date - Day of the layover.
- * @returns {TripStopStep} A stop step flagged as a layover.
- */
-export function layover({ city, date }: LayoverArgs): TripStopStep {
-  return stay({ city, sDate: date, eDate: date, data: { isLayover: true } });
-}
-
-/**
  * Create a transport step (car, bus, train, plane, ferry).
  *
  * @param {MoveArgs} args - Transport details.
@@ -122,7 +109,12 @@ export function move({
  * @param {MoveData} [args.data] - Extra transport metadata.
  * @returns {TripTransportStep} A transport step with flight metadata.
  */
-export const plane = ({ from, to, company, data = {} }: PlaneArgs) =>
+export const plane = ({
+  from,
+  to,
+  company,
+  data = {},
+}: PlaneArgs): TripTransportStep =>
   move({
     mode: "plane",
     from,
@@ -140,7 +132,12 @@ export const plane = ({ from, to, company, data = {} }: PlaneArgs) =>
  * @param {MoveData} [args.data] - Extra transport metadata.
  * @returns {TripTransportStep} A transport step with ferry metadata.
  */
-export const ferry = ({ from, to, company, data = {} }: FerryArgs) =>
+export const ferry = ({
+  from,
+  to,
+  company,
+  data = {},
+}: FerryArgs): TripTransportStep =>
   move({
     mode: "ferry",
     from,
