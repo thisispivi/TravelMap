@@ -29,6 +29,8 @@ import { useLanguage } from "@/hooks/language/language";
 import { useLocation } from "@/hooks/location/location";
 import { classNames } from "@/utils/className";
 import { formatMileage } from "@/utils/format";
+import { computeMapCenter } from "@/utils/mapCenter";
+import { parameters } from "@/utils/parameters";
 import {
   buildTripDetailTimelineItems,
   formatTripDetailDuration,
@@ -147,7 +149,8 @@ export function TripDetail(): JSX.Element | null {
   const { t, currLanguage: lang } = useLanguage(["home"]);
   const navigate = useNavigate();
   const { tripDetailId } = useLocation();
-  const { selectedTrip, setSelectedTrip } = use(HomeContext)!;
+  const { selectedTrip, setSelectedTrip, setMapPosition, setIsPanelOpen } =
+    use(HomeContext)!;
   const bodyRef = useRef<HTMLDivElement | null>(null);
   const [isBodyScrollable, setIsBodyScrollable] = useState(false);
 
@@ -160,6 +163,16 @@ export function TripDetail(): JSX.Element | null {
   useEffect(() => {
     if (trip && selectedTrip?.id !== trip.id) setSelectedTrip(trip);
   }, [selectedTrip?.id, setSelectedTrip, trip]);
+
+  useEffect(() => {
+    if (!trip) return;
+    const zoom = trip.mapFocus?.zoom ?? parameters.map.hoveredCityZoom;
+    const rawCenter =
+      trip.mapFocus?.center ??
+      trip.destinations.find((d) => !d.isLayover)?.city.coordinates ??
+      parameters.map.defaultCenter;
+    setMapPosition({ center: computeMapCenter(rawCenter, zoom), zoom });
+  }, [trip?.id]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const timelineItems = useMemo(
     () => (trip ? buildTripDetailTimelineItems(trip) : []),
@@ -218,6 +231,7 @@ export function TripDetail(): JSX.Element | null {
             setSelectedTrip(null);
             navigate("/trips");
           }}
+          onViewMap={() => setIsPanelOpen(false)}
           trip={trip}
         />
 

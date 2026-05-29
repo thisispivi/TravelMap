@@ -296,6 +296,8 @@
     "walks": "walks",
     "timeZone": "time zone",
     "timeZones": "time zones",
-    "dayTrip": "Day trip"
+    "dayTrip": "Day trip",
+    "viewMap": "View map",
+    "backToTrip": "Back to trip"
   }
 }

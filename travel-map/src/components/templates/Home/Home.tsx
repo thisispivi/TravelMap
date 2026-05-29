@@ -3,6 +3,8 @@ import "./Home.scss";
 import { AnimatePresence, domAnimation, LazyMotion, m } from "framer-motion";
 import { JSX, lazy, PropsWithChildren, Suspense, use } from "react";
 
+import { ChevronIcon } from "@/assets";
+import { useLanguage } from "@/hooks/language/language";
 import { useLocation } from "@/hooks/location/location";
 
 import { Loading } from "../../atoms";
@@ -53,7 +55,9 @@ const bottomPanelMotion = {
 export function HomeTemplate({ children }: PropsWithChildren): JSX.Element {
   const { isGallery, isTrips, isPlaces, isTripDetail, isStats, isTimeline } =
     useLocation();
-  const { isDarkTheme, handleDarkModeSwitch, isPanelOpen } = use(HomeContext)!;
+  const { isDarkTheme, handleDarkModeSwitch, isPanelOpen, setIsPanelOpen } =
+    use(HomeContext)!;
+  const { t } = useLanguage(["home"]);
 
   return (
     <div className="home-template">
@@ -84,6 +88,25 @@ export function HomeTemplate({ children }: PropsWithChildren): JSX.Element {
             ) : null}
           </AnimatePresence>
         </Suspense>
+      </LazyMotion>
+
+      <LazyMotion features={domAnimation}>
+        <AnimatePresence>
+          {isTripDetail && !isPanelOpen ? (
+            <m.button
+              animate={{ opacity: 1, y: 0 }}
+              className="home-template__back-to-trip"
+              exit={{ opacity: 0, y: 8 }}
+              initial={{ opacity: 0, y: 8 }}
+              onClick={() => setIsPanelOpen(true)}
+              transition={{ duration: 0.18, ease: [0.35, 0, 0.25, 1] }}
+              type="button"
+            >
+              <ChevronIcon className="home-template__back-to-trip-chevron" />
+              {t("tripDetail.backToTrip")}
+            </m.button>
+          ) : null}
+        </AnimatePresence>
       </LazyMotion>
 
       <Container isVisible={isGallery}>

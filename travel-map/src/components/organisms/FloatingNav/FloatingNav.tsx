@@ -132,6 +132,11 @@ export function FloatingNav({
       (tab.id === "trips" || tab.id === "places");
 
     if (tab.isActive) {
+      if (!isPanelOpen) {
+        setIsPanelOpen?.(true);
+        return;
+      }
+
       if (setIsPanelOpen) {
         setIsPanelOpen(false);
         closePanelTimeoutRef.current = window.setTimeout(() => {

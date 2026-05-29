@@ -74,6 +74,7 @@ export type TripArgs = {
   origin: City;
   returnTo: City;
   steps: TripRouteStep[];
+  mapFocus?: { center: [number, number]; zoom: number };
 };
 
 /** Arguments for a simple round-trip by plane. */
@@ -86,4 +87,5 @@ export type RoundTripByPlaneArgs = {
   photoPath: string;
   extraStops?: TripRouteStep[];
   data?: MoveData;
+  mapFocus?: { center: [number, number]; zoom: number };
 };

@@ -19,6 +19,8 @@ import { Trip } from "@/core";
 import { visitedTrips } from "@/data";
 import { useLanguage } from "@/hooks/language/language";
 import { classNames } from "@/utils/className";
+import { computeMapCenter } from "@/utils/mapCenter";
+import { parameters } from "@/utils/parameters";
 import { constants } from "@/utils/parameters";
 import { groupTripsByYear } from "@/utils/trips";
 
@@ -39,7 +41,7 @@ const TRIP_YEAR_TRANSITION_DURATION_MS = 280;
 export function TripBrowser(): JSX.Element {
   const { t } = useLanguage(["home"]);
   const navigate = useNavigate();
-  const { setSelectedTrip } = use(HomeContext)!;
+  const { setSelectedTrip, setMapPosition } = use(HomeContext)!;
 
   const groups = useMemo(
     () =>
@@ -181,8 +183,14 @@ export function TripBrowser(): JSX.Element {
     (trip: Trip) => {
       setSelectedTrip(trip);
       navigate(`/trip/${trip.id}`);
+      const zoom = trip.mapFocus?.zoom ?? parameters.map.hoveredCityZoom;
+      const rawCenter =
+        trip.mapFocus?.center ??
+        trip.destinations.find((d) => !d.isLayover)?.city.coordinates ??
+        parameters.map.defaultCenter;
+      setMapPosition({ center: computeMapCenter(rawCenter, zoom), zoom });
     },
-    [navigate, setSelectedTrip],
+    [navigate, setMapPosition, setSelectedTrip],
   );
 
   return (

@@ -296,6 +296,8 @@
     "walks": "camminate",
     "timeZone": "fuso orario",
     "timeZones": "fusi orari",
-    "dayTrip": "Gita"
+    "dayTrip": "Gita",
+    "viewMap": "Vedi mappa",
+    "backToTrip": "Torna al viaggio"
   }
 }

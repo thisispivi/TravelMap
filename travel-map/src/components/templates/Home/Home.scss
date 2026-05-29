@@ -5,6 +5,33 @@
   width: inherit;
   position: relative;
 
+  .home-template__back-to-trip {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    position: fixed;
+    bottom: 8.5rem;
+    right: 1rem;
+    z-index: 3;
+    padding: 0.5rem 1rem 0.5rem 0.75rem;
+    border-radius: 62rem;
+    border: none;
+    cursor: pointer;
+    font-size: v.$bodySm;
+    font-weight: 600;
+    white-space: nowrap;
+    -webkit-backdrop-filter: blur(v.$glassBlur);
+    backdrop-filter: blur(v.$glassBlur);
+
+    .home-template__back-to-trip-chevron {
+      height: 1rem;
+      width: auto;
+      transform: rotate(-90deg);
+      fill: transparent;
+      flex-shrink: 0;
+    }
+  }
+
   .home-template__bottom-panel {
     position: fixed;
     top: calc(v.$floatingNavHeight + 1.5rem);
@@ -25,8 +52,38 @@
   }
 }
 
+.home--dark .home-template__back-to-trip {
+  background: v.$glassBgDark;
+  border: 0.0625rem solid v.$glassBorderDark;
+  color: v.$darkButtonContent;
+  box-shadow: v.$glassShadowDark;
+
+  .home-template__back-to-trip-chevron path {
+    stroke: v.$darkButtonContent;
+  }
+}
+
+.home--light .home-template__back-to-trip {
+  background: v.$glassBgLight;
+  border: 0.0625rem solid v.$glassBorderLight;
+  color: v.$lightButtonContent;
+  box-shadow: v.$glassShadowLight;
+
+  .home-template__back-to-trip-chevron path {
+    stroke: v.$lightButtonContent;
+  }
+}
+
 @media screen and (max-width: 42.5rem) {
   .home-template {
+    .home-template__back-to-trip {
+      bottom: calc(
+        v.$floatingNavMobileHeight + v.$mobileFloatingMargin * 2 +
+          env(safe-area-inset-bottom, 0rem)
+      );
+      right: v.$mobileFloatingMargin;
+    }
+
     .home-template__bottom-panel {
       top: auto;
       bottom: calc(

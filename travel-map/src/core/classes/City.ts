@@ -55,7 +55,7 @@ export class City implements CityInterface {
   }
 
   getMapCoordinates([x, y]: [number, number]): [number, number] {
-    return [x - 0.95, y + 0.18];
+    return [x, y];
   }
 
   getBackgroundImgSourceByIndex(index: number): string | null {

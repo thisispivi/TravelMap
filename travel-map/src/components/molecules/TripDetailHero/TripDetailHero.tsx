@@ -2,7 +2,7 @@ import "./TripDetailHero.scss";
 
 import { JSX } from "react";
 
-import { CalendarIcon, ChevronIcon } from "@/assets";
+import { CalendarIcon, ChevronIcon, MapIcon } from "@/assets";
 import { CountryFlag } from "@/components/atoms";
 import { Country, Trip } from "@/core";
 import { useLanguage } from "@/hooks/language/language";
@@ -12,6 +12,7 @@ interface TripDetailHeroProps {
   trip: Trip;
   countries: Country[];
   onBack: () => void;
+  onViewMap: () => void;
 }
 
 /**
@@ -32,6 +33,7 @@ export function TripDetailHero({
   trip,
   countries,
   onBack,
+  onViewMap,
 }: TripDetailHeroProps): JSX.Element {
   const { t, currLanguage: lang } = useLanguage(["home"]);
 
@@ -77,6 +79,14 @@ export function TripDetailHero({
                 })}
               </span>
             </div>
+            <button
+              className="trip-detail__hero-map-btn"
+              onClick={onViewMap}
+              type="button"
+            >
+              <MapIcon className="trip-detail__hero-map-btn-icon" />
+              {t("tripDetail.viewMap")}
+            </button>
           </div>
         </div>
       </div>

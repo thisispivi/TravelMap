@@ -164,6 +164,7 @@ export function trip({
   origin,
   returnTo,
   steps,
+  mapFocus,
 }: TripArgs): Trip {
   return new Trip({
     id,
@@ -173,6 +174,7 @@ export function trip({
     returnTo: { city: returnTo },
     steps,
     backgroundImgSourceKey: `${id}.jpg`,
+    mapFocus,
   });
 }
 
@@ -199,6 +201,7 @@ export function roundTripByPlane({
   photoPath,
   extraStops = [],
   data = {},
+  mapFocus,
 }: RoundTripByPlaneArgs): Trip {
   return trip({
     id,
@@ -212,5 +215,6 @@ export function roundTripByPlane({
       ...extraStops,
       plane({ from: city, to: Cagliari, company, data }),
     ],
+    mapFocus,
   });
 }

@@ -92,6 +92,7 @@ interface TripData {
   backgroundImgSourceKey?: string;
   origin: TripEndpoint;
   returnTo: TripEndpoint;
+  mapFocus?: { center: [number, number]; zoom: number };
 }
 
 /**
@@ -109,6 +110,7 @@ export class Trip {
   backgroundImgSource?: string;
   origin: TripEndpoint;
   returnTo: TripEndpoint;
+  mapFocus?: { center: [number, number]; zoom: number };
 
   constructor(data: TripData) {
     this.id = data.id;
@@ -117,6 +119,7 @@ export class Trip {
     this.steps = data.steps;
     this.origin = data.origin;
     this.returnTo = data.returnTo;
+    this.mapFocus = data.mapFocus;
     this.destinations = this.getDestinationsFromSteps();
     this.route = this.destinations
       .filter((destination) => !destination.isLayover)

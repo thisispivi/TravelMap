@@ -10,6 +10,7 @@ import { useLanguage } from "@/hooks/language/language";
 import { formatDateRangeShort } from "@/i18n/functions/date";
 import { classNames } from "@/utils/className";
 import { isActivationKey } from "@/utils/keyboard";
+import { computeMapCenter } from "@/utils/mapCenter";
 import { parameters } from "@/utils/parameters";
 
 import { CountryFlag, Loading } from "../../atoms";
@@ -110,9 +111,12 @@ export function CityCard({
   const handleCenterMap = useCallback(
     (e: React.MouseEvent) => {
       e.stopPropagation();
-      if (setMapPosition && city.mapCoordinates) {
+      if (setMapPosition) {
         setMapPosition({
-          center: city.mapCoordinates,
+          center: computeMapCenter(
+            city.coordinates,
+            parameters.map.hoveredCityZoom,
+          ),
           zoom: parameters.map.hoveredCityZoom,
         });
         setHoveredCity(city);
@@ -176,7 +180,7 @@ export function CityCard({
           countryId={city.country.id}
         />
 
-        {setMapPosition && city.mapCoordinates ? (
+        {setMapPosition ? (
           <button
             aria-label={t("places.centerMap", { city: cityName })}
             className="city-card__center-btn"
