@@ -1,0 +1,103 @@
+@use "../../../../styles/variables" as v;
+
+.bento-mileage__total {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 0.75rem;
+
+  p {
+    font-size: v.$caption;
+    opacity: 0.65;
+    margin-bottom: 0.2rem;
+  }
+
+  b {
+    font-size: 1.3rem;
+    font-weight: 800;
+  }
+}
+
+.bento-mileage__planets {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.bento-mileage__planet {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  min-width: 5rem;
+
+  .bento-mileage__planet-icon {
+    width: 4.5rem;
+    height: 4.5rem;
+    border-radius: 50%;
+  }
+
+  b {
+    font-size: 1rem;
+    font-weight: 800;
+    padding: 0.15rem 0.5rem;
+    border-radius: 1rem;
+    border-width: 0.0625rem;
+    border-style: solid;
+  }
+
+  p {
+    font-size: v.$caption;
+    text-align: center;
+    opacity: 0.65;
+    line-height: 1.2;
+  }
+}
+
+.home--dark {
+  .bento-mileage__total {
+    p {
+      color: v.$darkAltText;
+    }
+
+    b {
+      color: v.$darkButtonContent;
+    }
+  }
+
+  .bento-mileage__planet {
+    b {
+      border-color: rgba(255, 255, 255, 0.15);
+      color: v.$darkButtonContent;
+    }
+
+    p {
+      color: v.$darkAltText;
+    }
+  }
+}
+
+.home--light {
+  .bento-mileage__total {
+    p {
+      color: v.$lightAltText;
+    }
+
+    b {
+      color: v.$lightButtonContent;
+    }
+  }
+
+  .bento-mileage__planet {
+    b {
+      border-color: rgba(0, 0, 0, 0.12);
+      color: v.$lightButtonContent;
+    }
+
+    p {
+      color: v.$lightAltText;
+    }
+  }
+}

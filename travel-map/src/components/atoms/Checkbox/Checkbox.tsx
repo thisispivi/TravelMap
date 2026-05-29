@@ -1,7 +1,20 @@
 import { JSX } from "react";
 
-type CheckboxProps = { isChecked: boolean };
+interface CheckboxProps {
+  isChecked: boolean;
+}
 
+/**
+ * Checkbox component
+ *
+ * SVG checkbox icon that switches between checked and unchecked states.
+ *
+ * @component
+ *
+ * @param {CheckboxProps} props - The checkbox props
+ * @param {boolean} props.isChecked - Whether the checkbox is in the checked state
+ * @returns {JSX.Element} The checkbox icon
+ */
 export function Checkbox({ isChecked }: CheckboxProps): JSX.Element {
   return (
     <svg

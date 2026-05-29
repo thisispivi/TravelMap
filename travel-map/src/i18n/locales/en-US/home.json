@@ -154,7 +154,27 @@
     "yearsTraveling": "Years",
     "daySuffix": "d",
     "yearSuffix": "yrs",
-    "unesco": "UNESCO sites"
+    "unesco": "UNESCO sites",
+    "transportModes": "Transport Modes",
+    "flightCompanies": "Airlines",
+    "ferryCompanies": "Ferry Lines",
+    "distanceByMode": "Distance by Mode",
+    "citiesPerCountry": "Cities per Country"
+  },
+  "flightCompany": {
+    "ryanair": "Ryanair",
+    "all_nippon_airways": "ANA",
+    "ita_airways": "ITA Airways",
+    "easyjet": "easyJet",
+    "wizz_air": "Wizz Air",
+    "china_eastern_airlines": "China Eastern",
+    "jetstar": "Jetstar",
+    "virgin_australia": "Virgin Australia",
+    "aeroitalia": "Aeroitalia"
+  },
+  "ferryCompany": {
+    "corsica_ferries": "Corsica Ferries",
+    "tirrenia": "Tirrenia"
   },
   "deselectAll": "Deselect all",
   "filterTooltip": "Filter city cards on the map by country selection.",

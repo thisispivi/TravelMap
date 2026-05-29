@@ -32,6 +32,25 @@ interface TimelineDayTripCardProps {
   };
 }
 
+/**
+ * TimelineDayTripCard component
+ *
+ * A compact card for a day-trip or excursion stop in the trip timeline.
+ * Optionally shows inbound transport details when the excursion requires
+ * its own travel (nested day trip).
+ *
+ * @component
+ *
+ * @param {TimelineDayTripCardProps} props - The day trip card props
+ * @param {City} props.city - The excursion destination
+ * @param {number} props.travelIdx - Visit index for the background image
+ * @param {TripStop} props.stop - Stop metadata (dates, photos)
+ * @param {number} props.animDelay - Staggered animation delay in seconds
+ * @param {boolean} props.showYear - Whether to include the year in date labels
+ * @param {boolean} props.isNested - Whether this card is nested under a parent stay
+ * @param {{ mode, distanceKm, durationMinutes }} [props.inboundTransport] - Inbound leg details
+ * @returns {JSX.Element} The day trip card
+ */
 export function TimelineDayTripCard({
   city,
   travelIdx,

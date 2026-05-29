@@ -405,6 +405,7 @@ export function Map() {
             }
           </Geographies>
 
+          <RouteOverlay />
           {isLoaded ? (
             <>
               {sortedVisitedCities.map((city) => (
@@ -448,7 +449,6 @@ export function Map() {
               ))}
             </>
           ) : null}
-          <RouteOverlay />
         </ZoomableGroup>
       </ComposableMap>
 

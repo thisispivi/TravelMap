@@ -1,0 +1,26 @@
+@use "../../../../styles/variables" as v;
+
+.bento-transport {
+  .bento-transport__inner {
+    display: flex;
+    flex-direction: row;
+    flex: 1 1 auto;
+    min-height: 0;
+    justify-content: center;
+  }
+
+  .bento-transport__chart {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+
+    h2 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      align-self: flex-start;
+    }
+  }
+}

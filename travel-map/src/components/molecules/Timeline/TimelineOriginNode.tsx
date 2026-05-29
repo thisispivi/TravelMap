@@ -12,6 +12,19 @@ interface TimelineOriginNodeProps {
   animDelay: number;
 }
 
+/**
+ * TimelineOriginNode component
+ *
+ * A labelled dot marking the origin or return endpoint of a trip in the
+ * timeline. Used for both the departure and the homecoming nodes.
+ *
+ * @component
+ *
+ * @param {TimelineOriginNodeProps} props - The origin node props
+ * @param {City} props.city - The origin/return city
+ * @param {number} props.animDelay - Staggered animation delay in seconds
+ * @returns {JSX.Element} The origin node
+ */
 export function TimelineOriginNode({
   city,
   animDelay,

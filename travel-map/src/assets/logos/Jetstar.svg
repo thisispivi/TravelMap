@@ -1,0 +1,17 @@
+<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+  <!-- Jetstar: orange/red gradient background, white star + swoosh -->
+  <defs>
+    <linearGradient id="js-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FF8C00"/>
+      <stop offset="100%" stop-color="#E5001E"/>
+    </linearGradient>
+  </defs>
+  <rect width="40" height="40" rx="6" fill="url(#js-grad)"/>
+  <!-- White star (Jetstar's iconic star) centered slightly left -->
+  <polygon points="16,8 18.4,15.1 26,15.1 19.8,19.6 22.2,26.7 16,22.2 9.8,26.7 12.2,19.6 6,15.1 13.6,15.1"
+           fill="white"/>
+  <!-- White swoosh/speed line to the right -->
+  <path d="M24,16 Q32,14 36,18 Q32,20 24,20 Z" fill="white" opacity="0.9"/>
+  <!-- Small speed line below -->
+  <path d="M25,21 Q31,20 34,22 Q30,23.5 25,23 Z" fill="white" opacity="0.6"/>
+</svg>

@@ -195,7 +195,13 @@ function TimelineCardItem({ trip, side }: TimelineCardItemProps): JSX.Element {
             </p>
           </div>
           <p className="timeline-card__cities-count">
-            {t("timeline.city", { count: trip.destinations.length })}
+            {t("timeline.city", {
+              count: new Set(
+                trip.destinations
+                  .filter((d) => !d.isLayover)
+                  .map((d) => d.city.name),
+              ).size,
+            })}
           </p>
         </div>
       </div>

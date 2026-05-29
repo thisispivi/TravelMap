@@ -9,6 +9,7 @@ import { Ferry } from "./Ferry";
 import { Flight } from "./Flight";
 import { Travel } from "./Travel";
 
+/** All supported transport modes for route steps. */
 export type TransportMode =
   | "ferry"
   | "plane"
@@ -35,10 +36,12 @@ interface FerryLeg {
   via?: City[];
 }
 
+/** Origin or return city of a trip (e.g. home city). */
 export interface TripEndpoint {
   city: City;
 }
 
+/** A city visit within a trip, with date range, optional photos and layover flag. */
 export interface TripStop {
   city: City;
   sDate: Date;
@@ -50,6 +53,7 @@ export interface TripStop {
   targetRowHeight?: number;
 }
 
+/** A transport step (flight, ferry, drive, etc.) between two cities in a trip. */
 export interface TripTransportStep {
   type: "transport";
   mode: TransportMode;
@@ -65,12 +69,15 @@ export interface TripTransportStep {
   roundTrip?: boolean;
 }
 
+/** A stop step (city visit) within a trip's route steps array. */
 export interface TripStopStep extends TripStop {
   type: "stop";
 }
 
+/** Union of a stop step and a transport step — one element in a trip's route. */
 export type TripRouteStep = TripStopStep | TripTransportStep;
 
+/** A resolved city visit derived from route steps, enriched with visit index and arrival mode. */
 export interface TripDestination extends TripStop {
   travelIdx: number;
   arrivalTransport?: TransportMode;
@@ -87,6 +94,11 @@ interface TripData {
   returnTo: TripEndpoint;
 }
 
+/**
+ * Represents a single travel trip — its origin, itinerary steps, date range,
+ * and derived destination list. Provides helpers to extract flights, ferries,
+ * visited countries, and map route coordinates.
+ */
 export class Trip {
   id: string;
   sDate: Date;

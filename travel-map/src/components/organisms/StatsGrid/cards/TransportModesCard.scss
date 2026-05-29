@@ -1,0 +1,84 @@
+@use "../../../../styles/variables" as v;
+
+.bento-transport-mode-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+
+  &__icon {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+    opacity: 0.85;
+
+    * {
+      fill: none !important;
+      stroke: currentColor !important;
+    }
+  }
+
+  &__count {
+    font-size: v.$bodySm;
+    font-weight: 700;
+    min-width: 1.5rem;
+  }
+
+  &__km {
+    font-size: v.$caption;
+    opacity: 0.6;
+    margin-left: auto;
+    font-weight: 500;
+  }
+
+  &[data-mode="plane"] .bento-transport-mode-row__icon {
+    color: v.$transportPlane;
+  }
+  &[data-mode="ferry"] .bento-transport-mode-row__icon {
+    color: v.$transportFerry;
+  }
+  &[data-mode="train"] .bento-transport-mode-row__icon {
+    color: v.$transportTrain;
+  }
+  &[data-mode="bus"] .bento-transport-mode-row__icon {
+    color: v.$transportBus;
+  }
+  &[data-mode="car"] .bento-transport-mode-row__icon {
+    color: v.$transportCar;
+  }
+  &[data-mode="walk"] .bento-transport-mode-row__icon {
+    color: v.$transportWalk;
+  }
+
+  &[data-mode="taxi"] .bento-transport-mode-row__icon {
+    color: v.$transportTaxi;
+
+    * {
+      fill: currentColor !important;
+      stroke: none !important;
+    }
+  }
+}
+
+.home--dark {
+  .bento-transport-mode-row {
+    &__count {
+      color: v.$darkButtonContent;
+    }
+
+    &__km {
+      color: v.$darkAltText;
+    }
+  }
+}
+
+.home--light {
+  .bento-transport-mode-row {
+    &__count {
+      color: v.$lightButtonContent;
+    }
+
+    &__km {
+      color: v.$lightAltText;
+    }
+  }
+}

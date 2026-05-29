@@ -5,9 +5,17 @@ import { Checkbox } from "./Checkbox/Checkbox";
 export { Checkbox };
 
 import { ContinentsBarChart } from "./BarChart/BarChartContinents";
+import { BarChartCountries } from "./BarChart/BarChartCountries";
 import { PopulationBarChart } from "./BarChart/BarChartPopulation";
+import { BarChartTransportModes } from "./BarChart/BarChartTransportModes";
 import { BarChartYears } from "./BarChart/BarChartYears";
-export { BarChartYears, ContinentsBarChart, PopulationBarChart };
+export {
+  BarChartCountries,
+  BarChartTransportModes,
+  BarChartYears,
+  ContinentsBarChart,
+  PopulationBarChart,
+};
 
 import { Button } from "./Buttons/Button";
 import { CloseButton } from "./Buttons/CloseButton";
@@ -40,3 +48,7 @@ export { AnimatedCounter };
 
 import { TransportModeIcon } from "./TransportModeIcon/TransportModeIcon";
 export { TransportModeIcon };
+
+import { StatTile } from "./StatTile/StatTile";
+export { StatTile };
+export type { StatTileProps, SvgIcon } from "./StatTile/StatTile";

@@ -17,12 +17,17 @@
 
   .trip-detail__body {
     flex: 1;
-    overflow-y: auto;
-    scrollbar-gutter: stable;
+    overflow-y: hidden;
     padding: 1rem v.$floatingCardPadding v.$floatingCardPadding;
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
+
+    &--scrollable {
+      overflow-y: auto;
+      margin-right: 0.25rem;
+      padding-right: 0.75rem;
+    }
   }
 
   .trip-detail__route-label {
@@ -173,8 +178,10 @@
     max-height: 75vh;
     border-radius: 1.5rem;
 
-    .trip-detail__body {
-      scrollbar-gutter: auto;
+    .trip-detail__body,
+    .trip-detail__body--scrollable {
+      overflow-y: auto;
+      margin-right: 0;
       padding-right: v.$floatingCardPadding;
     }
   }

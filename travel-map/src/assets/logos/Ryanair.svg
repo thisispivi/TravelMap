@@ -1,0 +1,18 @@
+<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+  <!-- Ryanair: dark blue background, yellow harp -->
+  <rect width="40" height="40" rx="6" fill="#073590"/>
+  <!-- Simplified Irish harp shape -->
+  <g transform="translate(12, 5)">
+    <!-- Harp neck (curved forepillar) -->
+    <path d="M4,2 Q2,10 2,20 Q2,28 6,30" stroke="#FFD700" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <!-- Harp soundboard (back pillar) -->
+    <path d="M4,2 Q9,2 13,6 Q16,10 15,18 Q14,24 6,30" stroke="#FFD700" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <!-- Harp strings -->
+    <line x1="3" y1="7"  x2="13" y2="8"  stroke="#FFD700" stroke-width="1"/>
+    <line x1="3" y1="11" x2="14" y2="12" stroke="#FFD700" stroke-width="1"/>
+    <line x1="3" y1="15" x2="14" y2="16" stroke="#FFD700" stroke-width="1"/>
+    <line x1="3" y1="19" x2="13" y2="20" stroke="#FFD700" stroke-width="1"/>
+    <line x1="3" y1="23" x2="11" y2="24" stroke="#FFD700" stroke-width="1"/>
+    <line x1="4" y1="27" x2="8"  y2="28" stroke="#FFD700" stroke-width="1"/>
+  </g>
+</svg>

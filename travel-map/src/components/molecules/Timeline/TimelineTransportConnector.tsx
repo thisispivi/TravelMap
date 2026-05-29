@@ -29,9 +29,18 @@ interface TimelineTransportConnectorProps {
 }
 
 /**
+ * TimelineTransportConnector component
+ *
  * Renders one or more transport legs as a compact connector row in the trip
  * timeline. Multiple consecutive legs (with layovers consumed) are stacked
  * vertically inside a single animated row.
+ *
+ * @component
+ *
+ * @param {TimelineTransportConnectorProps} props - The connector props
+ * @param {TransportLeg[]} props.legs - One or more transport legs to display
+ * @param {number} props.animDelay - Staggered animation delay in seconds
+ * @returns {JSX.Element} The transport connector row
  */
 export function TimelineTransportConnector({
   legs,

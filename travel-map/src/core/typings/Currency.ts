@@ -1,3 +1,4 @@
+/** ISO 4217 currency codes for countries in the travel data. */
 export enum Currency {
   USD = "USD",
   EUR = "EUR",

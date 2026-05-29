@@ -1,5 +1,6 @@
 import { City } from "../classes/City";
 
+/** Flight distance category relative to country and continent boundaries. */
 export enum TravelType {
   NATIONAL = "national",
   INTERNATIONAL = "international",

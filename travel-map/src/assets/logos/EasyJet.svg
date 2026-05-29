@@ -1,0 +1,18 @@
+<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+  <!-- EasyJet: orange background, white plane + orange stripe -->
+  <rect width="40" height="40" rx="6" fill="#FF6600"/>
+  <!-- White aircraft silhouette, side view -->
+  <!-- Fuselage -->
+  <ellipse cx="20" cy="20" rx="13" ry="3.5" fill="white"/>
+  <!-- Nose cone -->
+  <path d="M33,20 Q37,20 36,18.5 Q34.5,17 33,18.5 Z" fill="white"/>
+  <!-- Tail fin (vertical stabilizer) -->
+  <path d="M8,20 L8,17 Q10,13 12,17 Z" fill="white"/>
+  <!-- Horizontal stabilizer left -->
+  <path d="M8,20 Q6,18 4,19 Q5,21 8,21 Z" fill="white"/>
+  <!-- Wings -->
+  <path d="M23,20 Q21,14 14,13 Q14,17 23,20 Z" fill="white"/>
+  <path d="M23,20 Q22,25 16,27 Q15.5,23.5 23,20 Z" fill="white"/>
+  <!-- Orange stripe on fuselage (brand element) -->
+  <rect x="7" y="19.2" width="26" height="1.6" rx="0.8" fill="#FF6600"/>
+</svg>

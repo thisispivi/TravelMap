@@ -105,6 +105,12 @@ type DisplaySegment =
   | SegmentStayGroup
   | SegmentDayTrip;
 
+/**
+ * Merge consecutive transport items into single multi-leg connectors, stopping
+ * at each base-city stop. Layover stops inside a transport chain are consumed.
+ * @param {TripDetailTimelineItem[]} items - Flat timeline items from buildTripDetailTimelineItems
+ * @returns {IntermediateItem[]} Simplified list with merged transport chunks
+ */
 function collapseTransportChains(
   items: TripDetailTimelineItem[],
 ): IntermediateItem[] {
@@ -207,6 +213,13 @@ function collapseTransportChains(
   return result;
 }
 
+/**
+ * Convert intermediate timeline items into final display segments, grouping
+ * nested day trips under their parent stay and promoting forward-exit excursions
+ * that depart from the excursion city rather than the parent base.
+ * @param {TripDetailTimelineItem[]} items - Flat timeline items
+ * @returns {DisplaySegment[]} Final segments ready for rendering
+ */
 function buildDisplaySegments(
   items: TripDetailTimelineItem[],
 ): DisplaySegment[] {
@@ -406,6 +419,20 @@ function buildDisplaySegments(
   return merged;
 }
 
+/**
+ * Timeline component
+ *
+ * Renders the vertical step-by-step route timeline inside a trip detail panel.
+ * Collapses transport chains, groups nested day trips under their parent stays,
+ * and delegates each segment type to a dedicated sub-component.
+ *
+ * @component
+ *
+ * @param {TimelineProps} props - The timeline props
+ * @param {TripDetailTimelineItem[]} props.items - Flat timeline items from buildTripDetailTimelineItems
+ * @param {boolean} props.showYear - Whether to include the year in date labels
+ * @returns {JSX.Element} The route timeline
+ */
 export function Timeline({ items, showYear }: TimelineProps): JSX.Element {
   const segments = useMemo(() => buildDisplaySegments(items), [items]);
 

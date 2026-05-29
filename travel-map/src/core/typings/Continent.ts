@@ -1,3 +1,4 @@
+/** The seven continents used to categorise visited countries and cities. */
 export enum Continent {
   ASIA = "ASIA",
   EUROPE = "EUROPE",

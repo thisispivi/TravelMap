@@ -25,6 +25,23 @@ interface TimelineStayCardProps {
   showYear: boolean;
 }
 
+/**
+ * TimelineStayCard component
+ *
+ * A card representing a multi-night stay at a base city in the trip timeline.
+ * Clickable when the city has photos, navigating to the gallery.
+ *
+ * @component
+ *
+ * @param {TimelineStayCardProps} props - The stay card props
+ * @param {City} props.city - The city of the stay
+ * @param {number} props.travelIdx - Visit index for the background image
+ * @param {TripStop} props.stop - Stop metadata (dates, photos)
+ * @param {number} props.nights - Number of nights spent
+ * @param {number} props.animDelay - Staggered animation delay in seconds
+ * @param {boolean} props.showYear - Whether to include the year in date labels
+ * @returns {JSX.Element} The stay card
+ */
 export function TimelineStayCard({
   city,
   travelIdx,

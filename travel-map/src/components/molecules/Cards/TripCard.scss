@@ -7,6 +7,7 @@
   width: 100%;
   border-radius: 1rem;
   overflow: hidden;
+  outline: none;
   box-shadow: 0 0.125rem 0.75rem rgba(0, 0, 0, 0.15);
   @include m.smooth-shadow(1);
   @include m.transition(all, 0.3s, cubic-bezier(0.4, 0, 0.2, 1));
@@ -155,7 +156,7 @@
 
 .home--light {
   .trip-card {
-    border: none;
+    border: 0.0625rem solid transparent;
     box-shadow: 0 0.5rem 1.875rem rgba(0, 0, 0, 0.08);
 
     .trip-card__image-overlay {

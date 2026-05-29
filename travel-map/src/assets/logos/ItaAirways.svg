@@ -1,0 +1,20 @@
+<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+  <!-- ITA Airways: dark navy background, white ITA + Italian flag stripe -->
+  <rect width="40" height="40" rx="6" fill="#0B2040"/>
+  <!-- Italian tricolore horizontal stripe at top -->
+  <clipPath id="ita-clip"><rect width="40" height="40" rx="6"/></clipPath>
+  <g clip-path="url(#ita-clip)">
+    <rect x="0" y="0" width="13.3" height="6" fill="#009246"/>
+    <rect x="13.3" y="0" width="13.4" height="6" fill="white"/>
+    <rect x="26.7" y="0" width="13.3" height="6" fill="#CE2B37"/>
+  </g>
+  <!-- "ITA" letters in white, bold -->
+  <!-- I -->
+  <rect x="8" y="14" width="3" height="16" rx="1" fill="white"/>
+  <!-- T -->
+  <rect x="12" y="14" width="9" height="2.5" rx="1" fill="white"/>
+  <rect x="15" y="14" width="3" height="16" rx="1" fill="white"/>
+  <!-- A -->
+  <path d="M23,30 L26.5,14 L30,30" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <line x1="24.2" y1="24" x2="28.8" y2="24" stroke="white" stroke-width="2" stroke-linecap="round"/>
+</svg>

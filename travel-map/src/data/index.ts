@@ -1115,8 +1115,8 @@ export const visitedTrips: Trip[] = [
   }),
   trip({
     id: "australia-trip-2025",
-    sDate: d({ year: 2025, monthIndex: 10, day: 18 }),
-    eDate: d({ year: 2025, monthIndex: 10, day: 28 }),
+    sDate: d({ year: 2025, monthIndex: 10, day: 15 }),
+    eDate: d({ year: 2025, monthIndex: 10, day: 29 }),
     origin: Cagliari,
     returnTo: Cagliari,
     steps: [
@@ -1190,8 +1190,8 @@ export const visitedTrips: Trip[] = [
   }),
   trip({
     id: "cote-d-azur-trip-2025-2026",
-    sDate: d({ year: 2025, monthIndex: 11, day: 28 }),
-    eDate: d({ year: 2026, monthIndex: 0, day: 2 }),
+    sDate: d({ year: 2025, monthIndex: 11, day: 27 }),
+    eDate: d({ year: 2026, monthIndex: 0, day: 3 }),
     origin: Muravera,
     returnTo: Muravera,
     steps: [

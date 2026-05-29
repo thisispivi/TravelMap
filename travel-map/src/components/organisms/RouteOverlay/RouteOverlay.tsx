@@ -36,6 +36,10 @@ function segmentColor(
  * including origin, all destinations (layovers included), and returnTo.
  * Each segment is coloured by its transport mode (ferry=cyan, plane=violet,
  * default=white/blue). Segments animate in staggered.
+ *
+ * @component
+ *
+ * @returns {JSX.Element} SVG group with animated route lines, or empty group when no trip is selected
  */
 export function RouteOverlay(): JSX.Element {
   const { selectedTrip, isDarkTheme } = use(HomeContext)!;

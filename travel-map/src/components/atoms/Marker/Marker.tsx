@@ -41,6 +41,22 @@ const MARKER_STYLE = {
  * Displays a map pin marker with an optional city-name label underneath.
  * The label fades in when the zoom level is sufficient for the city's
  * population tier.
+ *
+ * @component
+ *
+ * @param {MarkerProps} props - The marker props
+ * @param {City} props.city - The city to mark
+ * @param {City | null} props.hoveredCity - Currently hovered city (for highlight)
+ * @param {(city: City | null) => void} props.setHoveredCity - Hover state setter
+ * @param {boolean} [props.showLabel] - Whether to show the city name label at low zoom
+ * @param {number} [props.baseZoom] - Reference zoom level for marker scale calculation
+ * @param {number} [props.defaultScale] - Default marker scale at base zoom
+ * @param {number} [props.minScale] - Minimum allowed marker scale
+ * @param {number} [props.maxScale] - Maximum allowed marker scale
+ * @param {boolean} [props.isFuture] - Future (planned) city styling
+ * @param {boolean} [props.isLived] - Lived-in city styling
+ * @param {boolean} [props.isLayover] - Transit/layover city styling
+ * @returns {JSX.Element} The map marker
  */
 export function Marker({
   city,

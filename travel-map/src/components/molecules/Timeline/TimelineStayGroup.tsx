@@ -76,9 +76,23 @@ function groupIntoChains(excursions: ExcursionItem[]): ExcursionChain[] {
 }
 
 /**
+ * TimelineStayGroup component
+ *
  * Renders a base-city stay card together with its nested excursion rows.
  * Excursions are connected to the stay via a vertical branch line drawn
- * entirely in CSS (no extending past the last tick).
+ * entirely in CSS.
+ *
+ * @component
+ *
+ * @param {TimelineStayGroupProps} props - The stay group props
+ * @param {City} props.city - The base city of the stay
+ * @param {number} props.travelIdx - Visit index for the background image
+ * @param {TripStop} props.stop - Stop metadata (dates, photos)
+ * @param {number} props.nights - Number of nights at the base city
+ * @param {ExcursionItem[]} props.excursions - Nested day-trip excursions
+ * @param {number} props.animDelay - Staggered animation delay in seconds
+ * @param {boolean} props.showYear - Whether to include the year in date labels
+ * @returns {JSX.Element} The stay group with excursion branch
  */
 export function TimelineStayGroup({
   city,

@@ -1,0 +1,13 @@
+<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+  <!-- Virgin Australia: red background, white V chevron/boomerang logo -->
+  <rect width="40" height="40" rx="6" fill="#DC0032"/>
+  <!-- Virgin Australia's V-boomerang icon - stylized V shape with curves -->
+  <!-- Left arm of V (boomerang shape) -->
+  <path d="M5,12 Q12,14 20,22 Q15,23 10,20 Q6,17 5,12 Z" fill="white"/>
+  <!-- Right arm of V -->
+  <path d="M35,12 Q28,14 20,22 Q25,23 30,20 Q34,17 35,12 Z" fill="white"/>
+  <!-- Bottom point -->
+  <path d="M18,22 Q20,26 22,22 Q21,23.5 20,24 Q19,23.5 18,22 Z" fill="white"/>
+  <!-- "VA" text at bottom -->
+  <text x="20" y="35" text-anchor="middle" fill="white" font-family="Arial,sans-serif" font-weight="700" font-size="8" letter-spacing="0.5">VIRGIN</text>
+</svg>

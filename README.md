@@ -20,7 +20,7 @@ The live app is available at [map.pivi.dev](https://map.pivi.dev/).
 - Draws trip routes and opens city tooltips directly from the map.
 - Groups trips by year, with detail pages for route, dates, duration, and cities.
 - Displays city photo galleries with a full-screen lightbox.
-- Tracks timeline and stats such as distance, transports, continents, countries, currencies, timezones, UNESCO sites, and media count.
+- Tracks timeline and stats: distance, transport mode rankings with km, airline and ferry company rankings, continents, countries, currencies, timezones, UNESCO sites, and media count.
 - Supports English and Italian, light and dark themes, and mobile / desktop layouts.
 
 ## Stack

@@ -65,10 +65,12 @@
     overflow-x: hidden;
     flex: 1;
     min-height: 0;
-    scrollbar-gutter: auto;
+    scrollbar-gutter: stable;
 
     &.trip-browser__list--scrollable {
       overflow-y: auto;
+      margin-right: 0.25rem;
+      padding-right: 0.5rem;
     }
   }
 
@@ -87,7 +89,6 @@
     flex-direction: column;
     width: 100%;
     gap: 1rem;
-    padding-right: 0.25rem;
     padding-block: 0.5rem;
   }
 }

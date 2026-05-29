@@ -76,6 +76,32 @@ export {
   WalkIcon,
 };
 
+import AeroitaliaLogo from "./logos/Aeroitalia.svg?react";
+import AnaLogo from "./logos/Ana.svg?react";
+import ChinaEasternLogo from "./logos/ChinaEastern.svg?react";
+import CorsicaFerriesLogo from "./logos/CorsicaFerries.svg?react";
+import EasyJetLogo from "./logos/EasyJet.svg?react";
+import ItaAirwaysLogo from "./logos/ItaAirways.svg?react";
+import JetstarLogo from "./logos/Jetstar.svg?react";
+import RyanairLogo from "./logos/Ryanair.svg?react";
+import TirreniaLogo from "./logos/Tirrenia.svg?react";
+import VirginAustraliaLogo from "./logos/VirginAustralia.svg?react";
+import WizzAirLogo from "./logos/WizzAir.svg?react";
+
+export {
+  AeroitaliaLogo,
+  AnaLogo,
+  ChinaEasternLogo,
+  CorsicaFerriesLogo,
+  EasyJetLogo,
+  ItaAirwaysLogo,
+  JetstarLogo,
+  RyanairLogo,
+  TirreniaLogo,
+  VirginAustraliaLogo,
+  WizzAirLogo,
+};
+
 import AustraliaFlag from "./icons/flags/Australia.svg?react";
 import AustriaFlag from "./icons/flags/Austria.svg?react";
 import BelgiumFlag from "./icons/flags/Belgium.svg?react";

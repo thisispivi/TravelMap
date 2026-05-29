@@ -81,11 +81,8 @@ export const TRIP_DETAIL_FLIGHT_COMPANY_NAMES: Record<FlightCompany, string> = {
   [FlightCompany.RYANAIR]: "Ryanair",
   [FlightCompany.ALL_NIPPON_AIRWAYS]: "ANA",
   [FlightCompany.ITA_AIRWAYS]: "ITA Airways",
-  [FlightCompany.ALITALIA]: "Alitalia",
-  [FlightCompany.VOLOTEA]: "Volotea",
   [FlightCompany.EASYJET]: "easyJet",
   [FlightCompany.WIZZ_AIR]: "Wizz Air",
-  [FlightCompany.AIR_ONE]: "Air One",
   [FlightCompany.CHINA_EASTERN_AIRLINES]: "China Eastern",
   [FlightCompany.JETSTAR]: "Jetstar",
   [FlightCompany.VIRGIN_AUSTRALIA]: "Virgin Australia",
@@ -95,7 +92,6 @@ export const TRIP_DETAIL_FLIGHT_COMPANY_NAMES: Record<FlightCompany, string> = {
 export const TRIP_DETAIL_FERRY_COMPANY_NAMES: Record<FerryCompany, string> = {
   [FerryCompany.TIRRENIA]: "Tirrenia",
   [FerryCompany.CORSICA_FERRIES]: "Corsica Ferries",
-  [FerryCompany.GRIMALDI_LINES]: "Grimaldi Lines",
 };
 
 /**

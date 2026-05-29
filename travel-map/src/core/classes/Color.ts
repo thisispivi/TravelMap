@@ -1,9 +1,11 @@
+/** Raw HSL channel values used to construct a Color instance. */
 export interface ColorData {
   h: number;
   s: number;
   l: number;
 }
 
+/** HSL color utility — stores hue/saturation/lightness and serialises to CSS strings. */
 export class Color {
   h: number;
   s: number;

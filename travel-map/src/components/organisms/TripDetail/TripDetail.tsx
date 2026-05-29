@@ -1,7 +1,15 @@
 import "./TripDetail.scss";
 
 import { domAnimation, LazyMotion, m } from "framer-motion";
-import { JSX, use, useEffect, useMemo } from "react";
+import {
+  JSX,
+  use,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -19,6 +27,7 @@ import { HomeContext } from "@/components/pages/Home/HomeContext";
 import { visitedTrips } from "@/data";
 import { useLanguage } from "@/hooks/language/language";
 import { useLocation } from "@/hooks/location/location";
+import { classNames } from "@/utils/className";
 import { formatMileage } from "@/utils/format";
 import {
   buildTripDetailTimelineItems,
@@ -26,6 +35,11 @@ import {
   TripDetailTimelineItem,
 } from "@/utils/tripDetailTimeline";
 
+/**
+ * Aggregate transport and stay statistics from a flat list of timeline items.
+ * @param {TripDetailTimelineItem[]} items - Timeline items for the trip
+ * @returns Counts, distances, and durations grouped by transport mode, plus night count and timezone set
+ */
 function computeTripStats(items: TripDetailTimelineItem[]) {
   let nights = 0;
   let flights = 0,
@@ -118,11 +132,24 @@ function computeTripStats(items: TripDetailTimelineItem[]) {
   };
 }
 
+/**
+ * TripDetail component
+ *
+ * Floating panel showing the full route timeline and transport stats for
+ * the selected trip. Slides in from the left and persists the trip in
+ * HomeContext so the route overlay stays visible on the map.
+ *
+ * @component
+ *
+ * @returns {JSX.Element | null} The trip detail panel, or null when no trip is selected
+ */
 export function TripDetail(): JSX.Element | null {
   const { t, currLanguage: lang } = useLanguage(["home"]);
   const navigate = useNavigate();
   const { tripDetailId } = useLocation();
   const { selectedTrip, setSelectedTrip } = use(HomeContext)!;
+  const bodyRef = useRef<HTMLDivElement | null>(null);
+  const [isBodyScrollable, setIsBodyScrollable] = useState(false);
 
   const trip = useMemo(
     () =>
@@ -138,6 +165,31 @@ export function TripDetail(): JSX.Element | null {
     () => (trip ? buildTripDetailTimelineItems(trip) : []),
     [trip],
   );
+
+  const updateBodyScrollable = useCallback(() => {
+    const body = bodyRef.current;
+    if (!body) return;
+    setIsBodyScrollable(body.scrollHeight > body.clientHeight + 1);
+  }, []);
+
+  useEffect(() => {
+    const body = bodyRef.current;
+    if (!body) return;
+
+    updateBodyScrollable();
+
+    const observer =
+      typeof ResizeObserver === "undefined"
+        ? null
+        : new ResizeObserver(updateBodyScrollable);
+    observer?.observe(body);
+    window.addEventListener("resize", updateBodyScrollable);
+
+    return () => {
+      observer?.disconnect();
+      window.removeEventListener("resize", updateBodyScrollable);
+    };
+  }, [updateBodyScrollable, timelineItems]);
 
   const showYear = trip
     ? trip.sDate.getFullYear() !== trip.eDate.getFullYear()
@@ -276,7 +328,13 @@ export function TripDetail(): JSX.Element | null {
           ) : null}
         </div>
 
-        <div className="trip-detail__body">
+        <div
+          className={classNames(
+            "trip-detail__body",
+            isBodyScrollable && "trip-detail__body--scrollable",
+          )}
+          ref={bodyRef}
+        >
           <p className="trip-detail__route-label">{t("tripDetail.route")}</p>
           <Timeline items={timelineItems} showYear={showYear} />
         </div>
