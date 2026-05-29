@@ -129,6 +129,29 @@
   }
 }
 
+// ── Stack panel: two equal-height cards side-by-side with a sibling ─────────
+
+.bento-panel--stack {
+  grid-column: span 6;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: 0;
+
+  // First child (TransportModes) sizes to its content.
+  // Second child (CitiesPerCountry) fills the remaining space.
+  > *:first-child {
+    flex: 0 0 auto;
+  }
+
+  > *:last-child {
+    flex: 1 1 0;
+    min-height: 0;
+    overflow: hidden;
+  }
+}
+
 // ── Days-per-year card ───────────────────────────────────────────────────────
 
 .bento-days-year {
@@ -256,7 +279,8 @@
     grid-column: span 3;
   }
 
-  .bento-card--half {
+  .bento-card--half,
+  .bento-panel--stack {
     grid-column: span 4;
   }
 
@@ -278,7 +302,8 @@
   .bento-card--large,
   .bento-card--medium,
   .bento-card--half,
-  .bento-card--full {
+  .bento-card--full,
+  .bento-panel--stack {
     grid-column: span 4;
   }
 }
@@ -298,7 +323,8 @@
   .bento-card--large,
   .bento-card--medium,
   .bento-card--half,
-  .bento-card--full {
+  .bento-card--full,
+  .bento-panel--stack {
     grid-column: span 2;
   }
 

@@ -1,20 +1,7 @@
-<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-  <!-- ITA Airways: dark navy background, white ITA + Italian flag stripe -->
-  <rect width="40" height="40" rx="6" fill="#0B2040"/>
-  <!-- Italian tricolore horizontal stripe at top -->
-  <clipPath id="ita-clip"><rect width="40" height="40" rx="6"/></clipPath>
-  <g clip-path="url(#ita-clip)">
-    <rect x="0" y="0" width="13.3" height="6" fill="#009246"/>
-    <rect x="13.3" y="0" width="13.4" height="6" fill="white"/>
-    <rect x="26.7" y="0" width="13.3" height="6" fill="#CE2B37"/>
+<svg id="ebeea22f-f076-4590-b0d0-b871ecf9094e" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
+  <rect width="40" height="40" rx="6" style="fill: #0975d1"/>
+  <g>
+    <path id="a3abe571-bba7-4c0d-bc8d-442c7cecd419" data-name="Shape" d="M6.83,19.13V13.44l-1.27.26a1.56,1.56,0,0,0-1.28,1.58V21l1.27-.26a1.56,1.56,0,0,0,1.28-1.58M22.44,14.8a1.86,1.86,0,0,1-1.48.73H16.48V21H13.92V15.53H7.67V13.44H23.41Zm9.66,5.46-4.75-6.5L22.07,21H19l5-6.81a1.86,1.86,0,0,1,1.48-.73h4.74L35.72,21H33.58a1.88,1.88,0,0,1-1.48-.72m.79,4.12-.57-.24a.49.49,0,0,1-.33-.42c0-.31.24-.43.52-.43a1.59,1.59,0,0,1,1,.49v-.69a1.51,1.51,0,0,0-1-.36,1.06,1.06,0,0,0-1.2,1.05,1,1,0,0,0,.71.94l.62.28c.2.09.39.2.39.44s-.32.47-.64.47a1.68,1.68,0,0,1-1.12-.48v.69a1.85,1.85,0,0,0,1.11.37,1.17,1.17,0,0,0,1.28-1.1,1.1,1.1,0,0,0-.82-1m-5.16-1.59H27l1.35,2v1.64H29V24.79l1.36-2H29.6l-.92,1.39Zm-4.18,3.64.37-.8h1.55l.36.8h.71l-1.85-3.79-1.85,3.79ZM24.68,24l.54,1.12H24.16Zm-4.61-1.31-1,2.35-.89-2.24h-.71L19,26.56l1-2.42,1,2.42,1.55-3.77H21.9L21,25Zm-4.45,1.23c0,.42-.3.56-.67.56h-.38V23.33H15c.39,0,.67.19.67.58m.71,0A1.18,1.18,0,0,0,15,22.79H13.92v3.64h.65V25h.34l1,1.42h.77L15.6,24.9a1,1,0,0,0,.73-1m-4.26-1.12h-.69v3.64h.69ZM7,26.43l.38-.8H8.91l.35.8H10L8.12,22.64,6.27,26.43ZM8.12,24l.54,1.13H7.6Z" style="fill: #fff"/>
+    <path id="ea9141e6-e6c2-4217-8151-8720ce8d71ca" data-name="Path" d="M24.66,18.89,23.13,21h3.08l2.07-2.82H26.14a1.94,1.94,0,0,0-1.48.73" style="fill: #c2251b"/>
   </g>
-  <!-- "ITA" letters in white, bold -->
-  <!-- I -->
-  <rect x="8" y="14" width="3" height="16" rx="1" fill="white"/>
-  <!-- T -->
-  <rect x="12" y="14" width="9" height="2.5" rx="1" fill="white"/>
-  <rect x="15" y="14" width="3" height="16" rx="1" fill="white"/>
-  <!-- A -->
-  <path d="M23,30 L26.5,14 L30,30" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-  <line x1="24.2" y1="24" x2="28.8" y2="24" stroke="white" stroke-width="2" stroke-linecap="round"/>
 </svg>

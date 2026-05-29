@@ -27,9 +27,10 @@ const TRIP_YEAR_TRANSITION_DURATION_MS = 280;
 /**
  * TripBrowser component
  *
- * Displays visited trips grouped by year. A year-selector tab row lets the
- * user slide between year groups with a horizontal transition. The panel
- * height adapts dynamically to the tallest card in the active group.
+ * Displays visited trips grouped by year. The panel height is
+ * `min(content height, max available height)`: it shrinks to fit when trips are
+ * few and fills the viewport when they overflow — with a scrollbar only in the
+ * latter case.
  *
  * @component
  *
@@ -65,7 +66,7 @@ export function TripBrowser(): JSX.Element {
   const activeYearIndex = Math.max(years.indexOf(String(activeYear)), 0);
   const selectedTrips = groups[activeYear] ?? [];
 
-  const measurePanelHeight = useCallback(() => {
+  const measure = useCallback(() => {
     const panel = panelRef.current;
     if (!panel) return;
 
@@ -80,9 +81,14 @@ export function TripBrowser(): JSX.Element {
       `.trip-browser__trips[data-trip-year="${activeYear}"]`,
     );
     const listStyle = list ? window.getComputedStyle(list) : null;
+    const pageStyle = page ? window.getComputedStyle(page) : null;
     const cards = page
       ? [...page.querySelectorAll<HTMLElement>(".trip-card")]
       : [];
+
+    // getBoundingClientRect stops at the last card's bottom edge — add the
+    // container's padding-bottom so we don't undercount and trigger a
+    // spurious scrollbar.
     const pageHeight =
       page && cards.length > 0
         ? Math.max(
@@ -91,8 +97,9 @@ export function TripBrowser(): JSX.Element {
                 card.getBoundingClientRect().bottom -
                 page.getBoundingClientRect().top,
             ),
-          )
+          ) + (pageStyle ? parseFloat(pageStyle.paddingBottom) : 0)
         : (page?.scrollHeight ?? 0);
+
     const fixedHeight =
       parseFloat(style.paddingTop) +
       parseFloat(style.paddingBottom) +
@@ -100,24 +107,27 @@ export function TripBrowser(): JSX.Element {
       (yearSelector?.offsetHeight ?? 0) +
       (listStyle ? parseFloat(listStyle.paddingTop) : 0) +
       (listStyle ? parseFloat(listStyle.paddingBottom) : 0);
+
     const contentHeight = fixedHeight + pageHeight;
+    // Shrink to content when it fits; cap at the CSS max-height otherwise.
     const targetHeight = Number.isFinite(maxHeight)
       ? Math.min(contentHeight, maxHeight)
       : contentHeight;
     const availableListHeight = targetHeight - fixedHeight;
+
     const rootSize =
       parseFloat(window.getComputedStyle(document.documentElement).fontSize) ||
       16;
-    const nextHeight = `${targetHeight / rootSize}rem`;
-    const nextStageHeight = `${pageHeight / rootSize}rem`;
 
-    setIsListScrollable(pageHeight > availableListHeight + 1);
-    setStageHeight((currentHeight) =>
-      currentHeight === nextStageHeight ? currentHeight : nextStageHeight,
-    );
-    setPanelHeight((currentHeight) =>
-      currentHeight === nextHeight ? currentHeight : nextHeight,
-    );
+    setIsListScrollable(pageHeight > availableListHeight + 2);
+    setStageHeight((curr) => {
+      const next = `${pageHeight / rootSize}rem`;
+      return curr === next ? curr : next;
+    });
+    setPanelHeight((curr) => {
+      const next = `${targetHeight / rootSize}rem`;
+      return curr === next ? curr : next;
+    });
   }, [activeYear]);
 
   const selectYear = useCallback(
@@ -133,31 +143,39 @@ export function TripBrowser(): JSX.Element {
     const panel = panelRef.current;
     if (!panel) return;
 
-    let frame = window.requestAnimationFrame(measurePanelHeight);
-    const observer = new ResizeObserver(() => {
-      window.cancelAnimationFrame(frame);
-      frame = window.requestAnimationFrame(measurePanelHeight);
-    });
+    let frame = window.requestAnimationFrame(measure);
 
+    const schedule = () => {
+      window.cancelAnimationFrame(frame);
+      frame = window.requestAnimationFrame(measure);
+    };
+
+    // ResizeObserver covers the panel shrinking (CSS max-height caps it, element
+    // size changes). A window resize listener covers the panel growing — the
+    // inline height doesn't change so the panel element doesn't resize, but the
+    // available max-height did, and we need to recompute scrollability.
+    const observer = new ResizeObserver(schedule);
     observer.observe(panel);
+    window.addEventListener("resize", schedule);
 
     return () => {
       window.cancelAnimationFrame(frame);
       observer.disconnect();
+      window.removeEventListener("resize", schedule);
     };
-  }, [measurePanelHeight]);
+  }, [measure]);
 
   useEffect(() => {
-    const frame = window.requestAnimationFrame(measurePanelHeight);
+    const frame = window.requestAnimationFrame(measure);
     const timeout = window.setTimeout(() => {
-      window.requestAnimationFrame(measurePanelHeight);
+      window.requestAnimationFrame(measure);
     }, TRIP_YEAR_TRANSITION_DURATION_MS + 80);
 
     return () => {
       window.cancelAnimationFrame(frame);
       window.clearTimeout(timeout);
     };
-  }, [measurePanelHeight, selectedTrips.length]);
+  }, [measure, selectedTrips.length]);
 
   const openTrip = useCallback(
     (trip: Trip) => {
@@ -176,10 +194,7 @@ export function TripBrowser(): JSX.Element {
         initial={{ scale: 0.98, x: "-120%" }}
         ref={panelRef}
         transition={{
-          height: {
-            duration: 0,
-            ease: [0.35, 0, 0.25, 1],
-          },
+          height: { duration: 0 },
           scale: { duration: 0.22, ease: [0.35, 0, 0.25, 1] },
           x: { duration: 0.22, ease: [0.35, 0, 0.25, 1] },
         }}
@@ -214,10 +229,7 @@ export function TripBrowser(): JSX.Element {
           <m.div
             animate={{ height: stageHeight ?? "auto" }}
             className="trip-browser__list-stage"
-            transition={{
-              duration: 0,
-              ease: [0.35, 0, 0.25, 1],
-            }}
+            transition={{ duration: 0 }}
           >
             {years.map((year, index) => (
               <m.div

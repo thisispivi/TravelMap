@@ -216,23 +216,23 @@ export function StatsGrid({
 
         <CurrencyCard currencies={stats.usedCurrencies} />
 
-        <TransportModesCard
-          data={stats.transportModeStats}
-          title={t("stats.transportModes")}
-        />
-
         <CompaniesCard
           ferryCompanyStats={stats.ferryCompanyStats}
           flightCompanyStats={stats.flightCompanyStats}
         />
 
-        <TransportModesCard
-          data={stats.kmByModeStats}
-          metric="km"
-          title={t("stats.distanceByMode")}
-        />
-
-        <CitiesPerCountryCard data={stats.countryVisitStats} />
+        <div className="bento-panel--stack">
+          <TransportModesCard
+            className="bento-detail card--box-shadow"
+            data={stats.transportModeStats}
+            title={t("stats.transportModes")}
+          />
+          <CitiesPerCountryCard
+            className="bento-detail card--box-shadow"
+            data={stats.countryVisitStats}
+            maxItems={10}
+          />
+        </div>
       </div>
     </div>
   );

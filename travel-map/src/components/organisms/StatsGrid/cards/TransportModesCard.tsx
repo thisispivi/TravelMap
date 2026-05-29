@@ -13,19 +13,21 @@ import { Card } from "../../../molecules/Cards/Card";
  * @property {TransportModeStat[]} data - Per-mode count and km stats.
  * @property {"count" | "km"} [metric] - Whether to display count or distance. Defaults to count.
  * @property {string} title - Card heading text.
+ * @property {string} [className] - Override the root Card className (e.g. when placed inside a stack panel).
  */
 export type TransportModesCardProps = {
   data: TransportModeStat[];
   metric?: "count" | "km";
   title: string;
+  className?: string;
 };
 
 /**
  * TransportModesCard component
  *
- * Bento half-width card displaying a bar chart of transport modes, either by
- * count or by distance. Reused for both "Transport Modes" and "Distance by Mode"
- * bento cards.
+ * Bento card displaying a bar chart of transport modes by count or distance.
+ * The default className positions it as a standalone half-width bento card;
+ * pass `className` to override when placing it inside a stack panel.
  *
  * @component
  *
@@ -36,9 +38,10 @@ export function TransportModesCard({
   data,
   metric,
   title,
+  className = "bento-card bento-card--half bento-detail card--box-shadow",
 }: TransportModesCardProps): JSX.Element {
   return (
-    <Card className="bento-card bento-card--half bento-detail card--box-shadow">
+    <Card className={className}>
       <div className="bento-detail__top">
         <h2>{title}</h2>
       </div>

@@ -1,25 +1,7 @@
-<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-  <!-- Tirrenia: dark blue background, white ship with red/white striped funnel -->
-  <rect width="40" height="40" rx="6" fill="#003082"/>
-  <!-- Ship hull -->
-  <path d="M4,28 L5,25 L35,25 L36,28 Q20,32 4,28 Z" fill="white"/>
-  <!-- Superstructure decks -->
-  <rect x="8" y="21" width="24" height="4" rx="0.5" fill="white"/>
-  <rect x="11" y="18" width="18" height="3.5" rx="0.5" fill="white"/>
-  <rect x="14" y="15.5" width="12" height="3" rx="0.5" fill="white"/>
-  <!-- Two funnels -->
-  <!-- Funnel 1 -->
-  <rect x="16" y="12" width="4" height="4" rx="0.5" fill="#003082"/>
-  <rect x="16" y="12" width="4" height="1.5" rx="0.5" fill="#CC0000"/>
-  <rect x="16" y="13.5" width="4" height="1" fill="white"/>
-  <rect x="16" y="14.5" width="4" height="1.5" fill="#003082"/>
-  <!-- Funnel 2 -->
-  <rect x="22" y="12" width="4" height="4" rx="0.5" fill="#003082"/>
-  <rect x="22" y="12" width="4" height="1.5" rx="0.5" fill="#CC0000"/>
-  <rect x="22" y="13.5" width="4" height="1" fill="white"/>
-  <rect x="22" y="14.5" width="4" height="1.5" fill="#003082"/>
-  <!-- Bow (front pointed shape) -->
-  <path d="M35,25 Q38,26 36,28" fill="white"/>
-  <!-- Wave line at waterline -->
-  <path d="M4,29.5 Q12,31 20,29.5 Q28,28 36,29.5" stroke="#6FA8DC" stroke-width="1" fill="none" opacity="0.6"/>
+<svg id="ef6ad756-1fc7-40cc-ab29-5074c7f53116" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
+  <rect width="40" height="40" rx="6" style="fill: #005384"/>
+  <g>
+    <polygon points="34.58 16.04 25.65 16.04 28.97 6.23 19.98 6.23 16.39 16.04 8.1 16.04 7.17 18.97 33.47 18.97 34.58 16.04" style="fill: #fff"/>
+    <path d="M23,24h8.91L33,20.9H6.53L5.42,24h8.25a11.28,11.28,0,0,0-1.23,5.14c0,2.7,1.29,4.61,4.37,4.65H28.48l2.35-6.56H23.45C21.44,27.21,22.72,24.68,23,24Z" style="fill: #fff"/>
+  </g>
 </svg>

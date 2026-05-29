@@ -195,6 +195,13 @@
     .trip-browser__list {
       scrollbar-gutter: auto;
       padding-right: 0;
+
+      // Mobile uses overlay scrollbars — no margin needed to make room for the
+      // track. Without this override, the scrollable-state margin creates a
+      // right-side gap that makes the card stack look off-centre.
+      &.trip-browser__list--scrollable {
+        margin-right: 0;
+      }
     }
 
     .trip-browser__trips {
