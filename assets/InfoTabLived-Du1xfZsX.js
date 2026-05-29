@@ -1,1 +1,0 @@
-import{r as s}from"./gallery-RQvqN9NZ.js";import{i,r as a}from"./data-B_XLJSfg.js";import{t as r}from"./InfoTabCities-D9gR4zCP.js";var e=s();function t({className:s="",isVisible:t=!1}){return(0,e.jsx)(r,{allCountries:i,cities:a,className:s,getTravelIdx:()=>0,id:"lived",isVisible:t})}export{t as InfoTabLived};
