@@ -2,7 +2,6 @@ import { i18n } from "i18next";
 
 import { MarkerSizes } from "../typings/Marker";
 import { Country } from "./Country";
-import { Travel } from "./Travel";
 
 interface CityInterface {
   backgroundImgSources?: string[];
@@ -11,7 +10,6 @@ interface CityInterface {
   customMarkerSizes?: MarkerSizes;
   isLived?: boolean;
   name: string;
-  travels?: Travel[];
   population?: number;
   timeZone: string;
 }
@@ -30,7 +28,6 @@ interface CityInterface {
  * @param {Country} cityData.country - The country of the city
  * @param {boolean} [cityData.isLived] - If the city is lived
  * @param {string} cityData.name - The name of the city
- * @param {Travel[]} [cityData.travels] - The travels of the city
  * @param {number} [cityData.population] - The population of the city
  * @param {string} cityData.timeZone - The IANA time zone id of the city
  */
@@ -42,7 +39,6 @@ export class City implements CityInterface {
   isLived?: boolean | undefined;
   mapCoordinates: [number, number];
   name: string;
-  travels: Travel[];
   population?: number;
   timeZone: string;
 
@@ -53,7 +49,6 @@ export class City implements CityInterface {
     this.isLived = cityData.isLived;
     this.mapCoordinates = this.getMapCoordinates(this.coordinates);
     this.name = cityData.name;
-    this.travels = cityData.travels ?? [];
     this.population = cityData.population;
     this.timeZone = cityData.timeZone;
     this.backgroundImgSources = cityData.backgroundImgSources ?? [];
@@ -74,10 +69,5 @@ export class City implements CityInterface {
 
   getName(t: i18n["t"]) {
     return t(`cities.${this.name}`);
-  }
-
-  addTravel(travel: Travel) {
-    this.travels.push(travel);
-    this.travels.sort((a, b) => a.sDate.getTime() - b.sDate.getTime());
   }
 }

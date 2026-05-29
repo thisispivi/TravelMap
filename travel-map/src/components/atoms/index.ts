@@ -1,18 +1,18 @@
 import { Backdrop } from "./Backdrop/Backdrop";
 export { Backdrop };
 
+import { Checkbox } from "./Checkbox/Checkbox";
+export { Checkbox };
+
 import { ContinentsBarChart } from "./BarChart/BarChartContinents";
 import { PopulationBarChart } from "./BarChart/BarChartPopulation";
-export { ContinentsBarChart, PopulationBarChart };
+import { BarChartYears } from "./BarChart/BarChartYears";
+export { BarChartYears, ContinentsBarChart, PopulationBarChart };
 
 import { Button } from "./Buttons/Button";
 import { CloseButton } from "./Buttons/CloseButton";
 import { DarkModeButton } from "./Buttons/DarkModeButton";
-import { NavigableButton } from "./Buttons/NavigableButton";
-export { Button, CloseButton, DarkModeButton, NavigableButton };
-
-import { CheckboxIcon as Checkbox } from "./Checkbox/Checkbox";
-export { Checkbox };
+export { Button, CloseButton, DarkModeButton };
 
 import { CountryFlag } from "./CountryFlag/CountryFlag";
 export { CountryFlag };
@@ -31,3 +31,12 @@ export { Loading };
 
 import { Marker } from "./Marker/Marker";
 export { Marker };
+
+import { SegmentedControl } from "./SegmentedControl/SegmentedControl";
+export { SegmentedControl };
+
+import { AnimatedCounter } from "./AnimatedCounter/AnimatedCounter";
+export { AnimatedCounter };
+
+import { TransportModeIcon } from "./TransportModeIcon/TransportModeIcon";
+export { TransportModeIcon };

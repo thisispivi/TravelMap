@@ -1,104 +1,91 @@
 import "./Home.scss";
 
-import {
-  JSX,
-  lazy,
-  PropsWithChildren,
-  Suspense,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { AnimatePresence, domAnimation, LazyMotion, m } from "framer-motion";
+import { JSX, lazy, PropsWithChildren, Suspense, use } from "react";
 
 import { useLocation } from "@/hooks/location/location";
 
 import { Loading } from "../../atoms";
 import { Container } from "../../molecules";
-import { InfoTab } from "../../organisms/InfoTab/InfoTab";
-import { LeftBar } from "../../organisms/LeftBar/LeftBar";
+import { FloatingNav } from "../../organisms/FloatingNav/FloatingNav";
 import { HomeContext } from "../../pages/Home/HomeContext";
-const importMap = () => import("../../organisms/Map/Map");
-const importInfoTabLived = () =>
-  import("../../organisms/InfoTab/InfoTabCities/InfoTabLived");
-const importInfoTabVisited = () =>
-  import("../../organisms/InfoTab/InfoTabTrips/InfoTabVisited");
-const importInfoTabFuture = () =>
-  import("../../organisms/InfoTab/InfoTabCities/InfoTabFuture");
-const importInfoTabStats = () =>
-  import("../../organisms/InfoTab/InfoTabStats/InfoTabStats");
 
-const Map = lazy(() => importMap().then((mod) => ({ default: mod.Map })));
-const InfoTabLived = lazy(() =>
-  importInfoTabLived().then((mod) => ({
-    default: mod.InfoTabLived,
+const Map = lazy(() =>
+  import("../../organisms/Map/Map").then((mod) => ({ default: mod.Map })),
+);
+const TripBrowser = lazy(() =>
+  import("../../organisms/TripBrowser/TripBrowser").then((mod) => ({
+    default: mod.TripBrowser,
   })),
 );
-const InfoTabVisited = lazy(() =>
-  importInfoTabVisited().then((mod) => ({
-    default: mod.InfoTabVisited,
+const PlacesBrowser = lazy(() =>
+  import("../../organisms/PlacesBrowser/PlacesBrowser").then((mod) => ({
+    default: mod.PlacesBrowser,
   })),
 );
-const InfoTabFuture = lazy(() =>
-  importInfoTabFuture().then((mod) => ({
-    default: mod.InfoTabFuture,
+const TripDetail = lazy(() =>
+  import("../../organisms/TripDetail/TripDetail").then((mod) => ({
+    default: mod.TripDetail,
   })),
 );
-const InfoTabStats = lazy(() =>
-  importInfoTabStats().then((mod) => ({
-    default: mod.InfoTabStats,
-  })),
-);
+
+const bottomPanelMotion = {
+  animate: { scale: 1, x: "-50%", y: 0 },
+  exit: { scale: 0.98, x: "-50%", y: "100vh" },
+  initial: { scale: 0.98, x: "-50%", y: "100vh" },
+  transition: { duration: 0.22, ease: [0.35, 0, 0.25, 1] },
+} as const;
 
 /**
- * Home page template.
+ * HomeTemplate component
  *
- * Keeps heavy routes/components lazy-loaded (map, tabs, gallery).
+ * Root layout template for the home route. Composes the FloatingNav, the
+ * lazily-loaded side panels (TripBrowser, TripDetail, PlacesBrowser), the
+ * animated bottom panel for Timeline and Stats, the Gallery container, and the
+ * Map underneath everything.
+ *
+ * @component
+ *
+ * @param {React.PropsWithChildren} props
+ * @param {React.ReactNode} props.children - The active route element (lazy page)
+ * @returns {JSX.Element} The main application layout
  */
 export function HomeTemplate({ children }: PropsWithChildren): JSX.Element {
-  const { isGallery, activeTab } = useLocation();
-  const { isDarkTheme, handleDarkModeSwitch } = useContext(HomeContext)!;
-  const [displayedTab, setDisplayedTab] = useState<string | null>(activeTab);
-  const displayedTabRef = useRef<string | null>(activeTab);
-
-  useEffect(() => {
-    void importInfoTabLived();
-    void importInfoTabVisited();
-    void importInfoTabFuture();
-    void importInfoTabStats();
-  }, []);
-
-  useEffect(() => {
-    displayedTabRef.current = displayedTab;
-  }, [displayedTab]);
-
-  useEffect(() => {
-    const shouldDelay =
-      Boolean(activeTab) &&
-      Boolean(displayedTabRef.current) &&
-      activeTab !== displayedTabRef.current;
-    const timeoutId = window.setTimeout(
-      () => {
-        setDisplayedTab(activeTab);
-      },
-      shouldDelay ? 300 : 0,
-    );
-
-    return () => window.clearTimeout(timeoutId);
-  }, [activeTab]);
+  const { isGallery, isTrips, isPlaces, isTripDetail, isStats, isTimeline } =
+    useLocation();
+  const { isDarkTheme, handleDarkModeSwitch, isPanelOpen } = use(HomeContext)!;
 
   return (
     <div className="home-template">
-      <LeftBar
+      <FloatingNav
         handleDarkModeSwitch={handleDarkModeSwitch}
         isDarkTheme={isDarkTheme}
       />
-      <InfoTab>
-        {displayedTab === "lived" ? <InfoTabLived isVisible /> : null}
-        {displayedTab === "visited" ? <InfoTabVisited isVisible /> : null}
-        {displayedTab === "future" ? <InfoTabFuture isVisible /> : null}
-        {displayedTab === "stats" ? <InfoTabStats isVisible /> : null}
-      </InfoTab>
+
+      <LazyMotion features={domAnimation}>
+        <Suspense fallback={null}>
+          <AnimatePresence mode="wait">
+            {(isTrips || isTripDetail) && isPanelOpen ? (
+              isTripDetail ? (
+                <TripDetail key="trip-panel" />
+              ) : (
+                <TripBrowser key="trip-panel" />
+              )
+            ) : null}
+            {isPlaces && isPanelOpen ? <PlacesBrowser key="places" /> : null}
+            {(isTimeline || isStats) && isPanelOpen ? (
+              <m.div
+                className="home-template__bottom-panel"
+                key={isTimeline ? "timeline" : "stats"}
+                {...bottomPanelMotion}
+              >
+                <Suspense fallback={null}>{children}</Suspense>
+              </m.div>
+            ) : null}
+          </AnimatePresence>
+        </Suspense>
+      </LazyMotion>
+
       <Container isVisible={isGallery}>
         {isGallery ? (
           <Suspense
@@ -112,6 +99,7 @@ export function HomeTemplate({ children }: PropsWithChildren): JSX.Element {
           </Suspense>
         ) : null}
       </Container>
+
       <Suspense
         fallback={
           <div className="centered">

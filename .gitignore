@@ -6,3 +6,4 @@ scripts/json-generator/photos/
 .agents
 .claude/launch.json
 .claude/settings.local.json
+travel-map/.claude/launch.json

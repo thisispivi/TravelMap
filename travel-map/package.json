@@ -18,13 +18,14 @@
     "knip": "knip",
     "knip:fix": "knip --fix",
     "depcheck": "depcheck --ignores=babel-plugin-react-compiler,depcheck,eslint-config-prettier,d3,react-compiler-runtime,lint-staged --ignore-patterns=src/styles",
-    "react:doctor": "npx -y react-doctor@latest . --verbose"
+    "react:doctor": "npx -y react-doctor@latest . --verbose",
+    "doctor": "react-doctor"
   },
   "dependencies": {
     "apexcharts": "^5.13.0",
     "d3": "^7.9.0",
     "framer-motion": "^12.40.0",
-    "i18next": "^26.2.0",
+    "i18next": "^26.3.0",
     "i18next-browser-languagedetector": "^8.2.1",
     "mobile-device-detect": "^0.4.3",
     "react": "^19.2.6",
@@ -35,11 +36,11 @@
     "react-image-gallery": "^2.1.2",
     "react-lazy-load-image-component": "^1.6.3",
     "react-photo-album": "^3.6.0",
-    "react-router-dom": "^7.15.1",
+    "react-router-dom": "^7.16.0",
     "react-simple-maps": "^3.0.0",
-    "react-tooltip": "^6.0.4",
+    "react-tooltip": "^6.0.5",
     "react-transition-group": "^4.4.5",
-    "remeda": "^2.34.1"
+    "remeda": "^2.37.0"
   },
   "devDependencies": {
     "@eslint/compat": "^2.1.0",
@@ -53,8 +54,8 @@
     "@types/react-lazy-load-image-component": "^1.6.5",
     "@types/react-simple-maps": "^3.0.6",
     "@types/react-transition-group": "^4.4.12",
-    "@typescript-eslint/eslint-plugin": "^8.59.4",
-    "@typescript-eslint/parser": "^8.59.4",
+    "@typescript-eslint/eslint-plugin": "^8.60.0",
+    "@typescript-eslint/parser": "^8.60.0",
     "@vitejs/plugin-react": "^6.0.2",
     "autoprefixer": "^10.5.0",
     "babel-plugin-react-compiler": "^1.0.0",
@@ -77,7 +78,8 @@
     "typescript": "^6.0.3",
     "vite": "^8.0.14",
     "vite-plugin-qrcode": "^0.4.1",
-    "vite-plugin-svgr": "^5.2.0"
+    "vite-plugin-svgr": "^5.2.0",
+    "react-doctor": "^0.2.6"
   },
   "lint-staged": {
     "*.js": "pnpm run lint",

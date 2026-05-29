@@ -10,7 +10,8 @@ import { createHashRouter, RouterProvider } from "react-router-dom";
 import type { TooltipRefProps } from "react-tooltip";
 import { Tooltip } from "react-tooltip";
 
-import { Fallback, Home } from "./components/pages";
+import { Fallback } from "./components/pages/Fallback/Fallback";
+import { Home } from "./components/pages/Home/Home";
 import { mobileAndTabletCheck } from "./utils/responsive";
 
 const router = createHashRouter([
@@ -19,10 +20,26 @@ const router = createHashRouter([
     element: <Home />,
     errorElement: <Fallback />,
     children: [
-      { path: "lived", element: null },
-      { path: "visited", element: null },
-      { path: "future", element: null },
-      { path: "stats", element: null },
+      { index: true, element: null },
+      { path: "trips", element: null },
+      { path: "trip/:tripId", element: null },
+      { path: "places", element: null },
+      { path: "places/:filter", element: null },
+      {
+        path: "timeline",
+        lazy: async () => {
+          const { TimelinePage } =
+            await import("./components/pages/Timeline/Timeline");
+          return { Component: TimelinePage };
+        },
+      },
+      {
+        path: "stats",
+        lazy: async () => {
+          const { StatsPage } = await import("./components/pages/Stats/Stats");
+          return { Component: StatsPage };
+        },
+      },
       {
         path: "gallery/:cityName/:travelIdx",
         lazy: async () => {
@@ -51,6 +68,17 @@ const router = createHashRouter([
 
 const isMobileOrTablet = mobileAndTabletCheck();
 
+/**
+ * BaseTooltip component
+ *
+ * Global `react-tooltip` instance used for all `data-tooltip-id="base-tooltip"`
+ * anchors. Automatically closes when the window loses focus or the tab becomes
+ * hidden to prevent stale tooltips after context switches.
+ *
+ * @component
+ *
+ * @returns {JSX.Element} The shared tooltip element
+ */
 function BaseTooltip() {
   const tooltipRef = useRef<TooltipRefProps>(null);
 

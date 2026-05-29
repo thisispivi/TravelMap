@@ -1,0 +1,770 @@
+@use "../../../styles/variables" as v;
+@use "../../../styles/mixins" as m;
+
+@mixin not-visited($continent, $id) {
+  &.#{$continent}--not-visited {
+    ##{$id} {
+      * {
+        fill: var(--not-visited-color) !important;
+      }
+    }
+  }
+}
+
+.home--dark {
+  --not-visited-color: #3a3a4a;
+}
+.home--light {
+  --not-visited-color: #dadada;
+}
+
+.stats-grid {
+  display: none;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+
+  &.stats-grid--visible {
+    display: flex;
+  }
+
+  .stats-grid__header {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem 0.5rem;
+
+    h1 {
+      font-size: v.$headingLg;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+    }
+  }
+}
+
+.stats-bento {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-auto-rows: max-content;
+  grid-auto-flow: dense;
+  gap: 0.75rem;
+  padding: 0.25rem 1rem 1.25rem;
+  align-items: start;
+
+  &.stats-bento--scrollable {
+    margin-right: 0.25rem;
+    padding-right: 0.75rem;
+  }
+}
+
+.bento-card {
+  grid-column: span 12;
+  min-width: 0;
+}
+
+.bento-card--large {
+  grid-column: span 7;
+  align-self: stretch;
+  min-height: max-content;
+}
+
+.bento-card--medium {
+  grid-column: span 5;
+  align-self: stretch;
+  min-height: max-content;
+}
+
+.bento-card--half {
+  grid-column: span 6;
+  align-self: stretch;
+  min-height: max-content;
+}
+
+.bento-card--full {
+  grid-column: span 12;
+  align-self: stretch;
+  min-height: max-content;
+}
+
+.bento-stat {
+  grid-column: span 3;
+  align-self: start;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-areas:
+    "icon label"
+    "value value";
+  column-gap: 0.65rem;
+  row-gap: 0.65rem;
+  align-items: center;
+  min-width: 0;
+  min-height: 5.5rem;
+  padding: 0.75rem;
+  overflow: hidden;
+
+  &.bento-stat--wide {
+    grid-column: span 4;
+  }
+
+  .bento-stat__icon {
+    grid-area: icon;
+    width: 1.25rem;
+    height: 1.25rem;
+    flex-shrink: 0;
+
+    * {
+      fill: none !important;
+      stroke: currentColor !important;
+    }
+  }
+
+  &.bento-stat--globe {
+    .bento-stat__icon * {
+      fill: currentColor !important;
+      stroke: none !important;
+    }
+  }
+
+  &.bento-stat--calendar {
+    .bento-stat__icon .calendar-0 {
+      stroke-width: 60 !important;
+    }
+  }
+
+  .bento-stat__label {
+    grid-area: label;
+    font-size: v.$bodySm;
+    font-weight: 600;
+    line-height: 1.15;
+  }
+
+  .bento-stat__value {
+    grid-area: value;
+    display: flex;
+    align-items: baseline;
+    gap: 0.25rem;
+    flex-wrap: wrap;
+
+    b {
+      font-size: 1.35rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .bento-stat__suffix {
+      font-size: v.$bodySm;
+      font-weight: 500;
+      opacity: 0.55;
+    }
+  }
+}
+
+.bento-detail {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 0;
+  overflow: hidden;
+
+  .bento-detail__top {
+    padding: 1rem;
+    flex: 1 0 auto;
+
+    h2 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+
+    .bento-detail__subtitle {
+      font-size: v.$caption;
+      opacity: 0.65;
+      margin-bottom: 0.5rem;
+      margin-top: -0.25rem;
+    }
+  }
+
+  .bento-detail__rows {
+    border-top-width: 0.0625rem;
+    border-top-style: solid;
+
+    &.bento-detail__rows--split {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .bento-detail__row {
+      padding: 0.6rem 1rem;
+      border-bottom-width: 0.0625rem;
+      border-bottom-style: solid;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      .bento-detail__row-label {
+        font-size: v.$caption;
+        opacity: 0.65;
+        margin-bottom: 0.35rem;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+.bento-mileage__total {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 0.75rem;
+
+  p {
+    font-size: v.$caption;
+    opacity: 0.65;
+    margin-bottom: 0.2rem;
+  }
+
+  b {
+    font-size: 1.3rem;
+    font-weight: 800;
+  }
+}
+
+.bento-mileage__planets {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.bento-mileage__planet {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  min-width: 5rem;
+
+  .bento-mileage__planet-icon {
+    width: 4.5rem;
+    height: 4.5rem;
+    border-radius: 50%;
+  }
+
+  b {
+    font-size: 1rem;
+    font-weight: 800;
+    padding: 0.15rem 0.5rem;
+    border-radius: 1rem;
+    border-width: 0.0625rem;
+    border-style: solid;
+  }
+
+  p {
+    font-size: v.$caption;
+    text-align: center;
+    opacity: 0.65;
+    line-height: 1.2;
+  }
+}
+
+.bento-transport {
+  .bento-transport__inner {
+    display: flex;
+    flex-direction: row;
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  .bento-transport__chart {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    min-width: 13rem;
+    border-right-width: 0.0625rem;
+    border-right-style: solid;
+
+    h2 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      align-self: flex-start;
+    }
+  }
+
+  .bento-transport__rows {
+    flex: 1 1 auto;
+    min-width: 0;
+    border-top: none;
+  }
+}
+
+.bento-population {
+  align-self: start;
+  min-height: 0;
+
+  .bento-population__inner {
+    display: flex;
+    flex-direction: row;
+    flex: 1 1 auto;
+    height: 100%;
+    min-height: 0;
+  }
+
+  .bento-population__left {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 1rem 0 0.5rem;
+
+    h2 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+      padding-left: 1rem;
+    }
+
+    .bento-detail__subtitle {
+      font-size: v.$caption;
+      opacity: 0.65;
+      margin-bottom: 0.25rem;
+      padding-left: 1rem;
+    }
+  }
+}
+
+.bento-detail:has(.bento-currency) {
+  .bento-detail__top {
+    flex: 0 0 auto;
+    padding-bottom: 0;
+  }
+}
+
+.bento-currency {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-content: space-evenly;
+  align-items: center;
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 0.5rem 0.75rem 1rem;
+  gap: 0.5rem;
+
+  .currency-row {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.3rem 0.65rem;
+    border-radius: 2rem;
+    border-width: 0.0625rem;
+    border-style: solid;
+    font-size: v.$bodySm;
+    width: auto;
+
+    .currency-row__flag {
+      width: 1.1rem;
+      height: 1.1rem;
+      margin-right: 0;
+    }
+
+    .currency-row__name {
+      font-weight: 500;
+    }
+
+    .currency-row__symbol {
+      font-size: v.$bodySm;
+      font-weight: 700;
+      margin-left: 0;
+    }
+  }
+}
+
+.bento-continents {
+  .bento-continents__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1rem;
+  }
+
+  .bento-continents__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+
+    h2 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+  }
+
+  .bento-continents__score {
+    display: flex;
+    align-items: baseline;
+    gap: 0.2rem;
+    flex-shrink: 0;
+
+    b {
+      font-size: 1.4rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    span {
+      font-size: v.$bodySm;
+      font-weight: 700;
+    }
+  }
+
+  .bento-continents__map {
+    width: 100%;
+    height: auto;
+    display: block;
+    max-height: 12.5rem;
+
+    @include not-visited("africa", "Africa");
+    @include not-visited("asia", "Asia");
+    @include not-visited("europe", "Europe");
+    @include not-visited("north-america", "NorthAmerica");
+    @include not-visited("oceania", "Oceania");
+    @include not-visited("south-america", "SouthAmerica");
+  }
+
+  .bento-continents__badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+}
+
+.bento-continents-chart {
+  .bento-detail__top {
+    padding-bottom: 0.5rem;
+  }
+}
+
+.bento-days-year {
+  .bento-detail__top {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 16rem;
+  }
+}
+
+.home--dark {
+  .bento-transport__chart {
+    border-color: rgba(255, 255, 255, 0.06);
+  }
+
+  .bento-currency {
+    .currency-row {
+      border-color: rgba(255, 255, 255, 0.12);
+      color: v.$darkButtonContent;
+    }
+  }
+
+  .stats-grid {
+    .stats-grid__header h1 {
+      color: v.$darkButtonContent;
+    }
+  }
+
+  .bento-stat {
+    .bento-stat__label,
+    .bento-stat__suffix {
+      color: v.$darkAltText;
+    }
+
+    b {
+      color: v.$darkButtonContent;
+    }
+
+    .bento-stat__icon {
+      color: v.$darkButtonContent;
+    }
+  }
+
+  .bento-detail {
+    h2 {
+      color: v.$darkButtonContent;
+    }
+
+    .bento-detail__rows {
+      border-top-color: rgba(255, 255, 255, 0.06);
+
+      .bento-detail__row {
+        border-bottom-color: rgba(255, 255, 255, 0.06);
+      }
+    }
+
+    .bento-detail__row-label,
+    .bento-detail__subtitle {
+      color: v.$darkAltText;
+    }
+
+    .city-row,
+    .transport-row,
+    .timezone-row,
+    .currency-row,
+    .continent-row {
+      color: v.$darkButtonContent;
+
+      b,
+      p,
+      .city-row__distance,
+      .transport-row__distance,
+      .timezone-row__distance {
+        color: v.$darkButtonContent;
+      }
+    }
+  }
+
+  .bento-mileage__total {
+    p {
+      color: v.$darkAltText;
+    }
+
+    b {
+      color: v.$darkButtonContent;
+    }
+  }
+
+  .bento-mileage__planet {
+    b {
+      border-color: rgba(255, 255, 255, 0.15);
+      color: v.$darkButtonContent;
+    }
+
+    p {
+      color: v.$darkAltText;
+    }
+  }
+
+  .bento-continents__score {
+    b {
+      color: v.$darkButtonContent;
+    }
+
+    span {
+      color: v.$darkAltText;
+    }
+  }
+}
+
+.home--light {
+  .bento-transport__chart {
+    border-color: rgba(0, 0, 0, 0.06);
+  }
+
+  .bento-currency {
+    .currency-row {
+      border-color: rgba(0, 0, 0, 0.1);
+      color: v.$lightButtonContent;
+    }
+  }
+
+  .stats-grid {
+    .stats-grid__header h1 {
+      color: v.$lightButtonContent;
+    }
+  }
+
+  .bento-stat {
+    .bento-stat__label,
+    .bento-stat__suffix {
+      color: v.$lightAltText;
+    }
+
+    b {
+      color: v.$lightButtonContent;
+    }
+
+    .bento-stat__icon {
+      color: v.$lightButtonContent;
+    }
+  }
+
+  .bento-detail {
+    h2 {
+      color: v.$lightButtonContent;
+    }
+
+    .bento-detail__rows {
+      border-top-color: rgba(0, 0, 0, 0.06);
+
+      .bento-detail__row {
+        border-bottom-color: rgba(0, 0, 0, 0.06);
+      }
+    }
+
+    .bento-detail__row-label,
+    .bento-detail__subtitle {
+      color: v.$lightAltText;
+    }
+
+    .city-row,
+    .transport-row,
+    .timezone-row,
+    .currency-row,
+    .continent-row {
+      color: v.$lightButtonContent;
+
+      b,
+      p,
+      .city-row__distance,
+      .transport-row__distance,
+      .timezone-row__distance {
+        color: v.$lightButtonContent;
+      }
+    }
+  }
+
+  .bento-mileage__total {
+    p {
+      color: v.$lightAltText;
+    }
+
+    b {
+      color: v.$lightButtonContent;
+    }
+  }
+
+  .bento-mileage__planet {
+    b {
+      border-color: rgba(0, 0, 0, 0.12);
+      color: v.$lightButtonContent;
+    }
+
+    p {
+      color: v.$lightAltText;
+    }
+  }
+
+  .bento-continents__score {
+    b {
+      color: v.$lightButtonContent;
+    }
+
+    span {
+      color: v.$lightAltText;
+    }
+  }
+}
+
+@media screen and (max-width: 52rem) {
+  .stats-bento {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    gap: 0.625rem;
+  }
+
+  .bento-card--large {
+    grid-column: span 5;
+  }
+
+  .bento-card--medium {
+    grid-column: span 3;
+  }
+
+  .bento-card--half {
+    grid-column: span 4;
+  }
+
+  .bento-card--full {
+    grid-column: span 8;
+  }
+
+  .bento-transport .bento-transport__inner {
+    flex-direction: column;
+  }
+
+  .bento-transport .bento-transport__chart {
+    border-right: none !important;
+    border-bottom-width: 0.0625rem;
+    border-bottom-style: solid;
+    min-width: 0;
+    width: 100%;
+    align-items: flex-start;
+  }
+
+  .home--dark .bento-transport .bento-transport__chart {
+    border-bottom-color: rgba(255, 255, 255, 0.06);
+  }
+
+  .home--light .bento-transport .bento-transport__chart {
+    border-bottom-color: rgba(0, 0, 0, 0.06);
+  }
+
+  .bento-stat {
+    grid-column: span 2;
+  }
+
+  .bento-stat.bento-stat--wide {
+    grid-column: span 4;
+  }
+
+  .bento-stat--hide-compact {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 40rem) {
+  .stats-bento {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+
+  .bento-card--large,
+  .bento-card--medium,
+  .bento-card--half,
+  .bento-card--full {
+    grid-column: span 4;
+  }
+
+  .bento-stat,
+  .bento-stat.bento-stat--wide {
+    grid-column: span 2;
+  }
+
+  .bento-population .bento-population__inner {
+    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 26rem) {
+  .stats-bento {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 0.25rem 0.75rem 1rem;
+    gap: 0.5rem;
+
+    &.stats-bento--scrollable {
+      margin-right: 0;
+      padding-right: 0.75rem;
+    }
+  }
+
+  .bento-card--large,
+  .bento-card--medium,
+  .bento-card--half,
+  .bento-card--full {
+    grid-column: span 2;
+  }
+
+  .bento-stat,
+  .bento-stat.bento-stat--wide {
+    grid-column: span 1;
+  }
+
+  .bento-detail {
+    .bento-detail__rows.bento-detail__rows--split {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+}

@@ -31,10 +31,6 @@
   languageButtonHover: v.$languageButtonHover;
   languageButtonContent: v.$languageButtonContent;
 
-  autoPositionButton: v.$autoPositionButton;
-  autoPositionButtonHover: v.$autoPositionButtonHover;
-  autoPositionButtonContent: v.$autoPositionButtonContent;
-
   filterButton: v.$filterButton;
   filterButtonHover: v.$filterButtonHover;
   filterButtonContent: v.$filterButtonContent;
@@ -49,4 +45,12 @@
   continentsNorthAmerica: v.$continentsNorthAmerica;
   continentsOceania: v.$continentsOceania;
   continentsSouthAmerica: v.$continentsSouthAmerica;
+
+  transportPlane: v.$transportPlane;
+  transportFerry: v.$transportFerry;
+  transportTrain: v.$transportTrain;
+  transportBus: v.$transportBus;
+  transportCar: v.$transportCar;
+  transportTaxi: v.$transportTaxi;
+  transportWalk: v.$transportWalk;
 }

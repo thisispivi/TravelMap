@@ -23,8 +23,8 @@ $lightInfoTab: rgba(245, 245, 250, 0.85);
 $lightButton: rgba(0, 0, 0, 0.06);
 $lightButtonHover: rgba(0, 0, 0, 0.1);
 $lightButtonContent: #1a1a2e;
-$lightAltText: #6b6f80;
-$lightAltTextDarker: #4a4e60;
+$lightAltText: #52566a;
+$lightAltTextDarker: #363948;
 $lightDisabledText: #b0b3b8;
 
 // ─── Glassmorphism tokens ────────────────────────────────────
@@ -53,10 +53,6 @@ $languageButton: #ffecb3;
 $languageButtonHover: #ffe082;
 $languageButtonContent: #f57f17;
 
-$autoPositionButton: #c8e6c9;
-$autoPositionButtonHover: #a5d6a7;
-$autoPositionButtonContent: #2e7d32;
-
 $filterButton: #f8bbd0;
 $filterButtonHover: #f48fb1;
 $filterButtonContent: #c2185b;
@@ -72,3 +68,51 @@ $continentsEurope: #eb6559;
 $continentsNorthAmerica: #74c5eb;
 $continentsOceania: #fc8d59;
 $continentsSouthAmerica: #8ac38b;
+
+// ─── Floating overlay tokens ────────────────────────────────
+$floatingCardRadius: 1rem;
+$floatingCardRadiusLg: 1.25rem;
+$floatingCardPadding: 1.25rem;
+$floatingCardGap: 0.75rem;
+$floatingCardMaxWidth: 25rem;
+
+// ─── Photo card tokens (Airbnb-inspired) ────────────────────
+$photoCardRadius: 1rem;
+$photoCardShadowDark: 0 0.25rem 1rem rgba(0, 0, 0, 0.3);
+$photoCardShadowLight: 0 0.25rem 1rem rgba(0, 0, 0, 0.08);
+
+// ─── Bottom sheet tokens ────────────────────────────────────
+$bottomSheetRadius: 1.5rem 1.5rem 0 0;
+$bottomSheetHandleWidth: 2.5rem;
+$bottomSheetHandleHeight: 0.25rem;
+
+// ─── Typography scale ───────────────────────────────────────
+$headingXl: 2rem;
+$headingLg: 1.5rem;
+$headingMd: 1.125rem;
+$bodyLg: 1rem;
+$bodySm: 0.875rem;
+$caption: 0.75rem;
+
+// ─── Floating nav tokens ────────────────────────────────────
+$floatingNavHeight: 3.5rem;
+$floatingNavMobileHeight: calc(3.5rem + env(safe-area-inset-bottom, 0rem));
+$floatingNavZIndex: 3;
+$mobileFloatingMargin: 0.625rem;
+
+// ─── Accent colors ──────────────────────────────────────────
+$accentPrimary: #ff385c;
+$accentPrimaryHover: #e0314f;
+
+// ─── Route overlay ──────────────────────────────────────────
+$routeLineColorDark: rgba(255, 255, 255, 0.6);
+$routeLineColorLight: #1a73e8;
+$routeLineWidth: 0.125rem;
+$routeDotSize: 0.375rem;
+$transportPlane: #a855f7;
+$transportFerry: #0ea5e9;
+$transportTrain: #f59e0b;
+$transportBus: #22c55e;
+$transportCar: #ef4444;
+$transportTaxi: #eab308;
+$transportWalk: #14b8a6;

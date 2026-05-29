@@ -1,14 +1,13 @@
 {
   "cities": {
+    "Ajaccio": "Ajaccio",
     "Alghero": "Alghero",
     "Anderlecht": "Anderlecht",
-    "Assisi": "Assisi",
     "Barcelona": "Barcelona",
     "Bran": "Bran",
     "Brasov": "Brașov",
     "Bergamo": "Bergamo",
     "Berlin": "Berlin",
-    "Birgu": "Birgu",
     "Bologna": "Bologna",
     "Braga": "Braga",
     "Bratislava": "Bratislava",
@@ -20,14 +19,11 @@
     "Cairns": "Cairns",
     "Cannes": "Cannes",
     "Cefalù": "Cefalù",
+    "Charleroi": "Charleroi",
     "Comino": "Comino",
-    "Cospicua": "Cospicua",
-    "Cuneo": "Cuneo",
     "Devin": "Devín",
-    "Dingli": "Dingli",
     "Fujikawaguchiko": "Fujikawaguchiko",
     "Genoa": "Genoa",
-    "Gressoney-La-Trinité": "Gressoney-La-Trinité",
     "Himeji": "Himeji",
     "Imola": "Imola",
     "Kanazawa": "Kanazawa",
@@ -46,10 +42,8 @@
     "Olbia": "Olbia",
     "Osaka": "Osaka",
     "Oshino": "Oshino",
-    "Padua": "Padua",
-    "Perugia": "Perugia",
+    "Palermo": "Palermo",
     "PeschieraDelGarda": "Peschiera del Garda",
-    "Pisa": "Pisa",
     "Porto": "Porto",
     "PortoTorres": "Porto Torres",
     "Rabat": "Rabat",
@@ -59,7 +53,6 @@
     "SaintTropez": "Saint Tropez",
     "SanGiljan": "San Ġiljan",
     "SanPawlIlBahar": "San Pawl il-Bahar",
-    "Senglea": "Senglea",
     "Sevilla": "Seville",
     "Shanghai": "Shanghai",
     "Shirakawago": "Shirakawa-go",
@@ -74,7 +67,6 @@
     "Turin": "Turin",
     "Valletta": "Valletta",
     "VaticanCity": "Vatican City",
-    "Venice": "Venice",
     "Verona": "Verona",
     "Victoria": "Victoria",
     "Vienna": "Vienna"
@@ -108,36 +100,34 @@
     "OCEANIA": "Oceania",
     "SOUTH_AMERICA": "South America"
   },
-  "home": "Home",
-  "timezone": "Timezone",
-  "birthCity": "Birth city",
-  "lived": {
-    "title": "Cities I've lived in",
-    "ariaLabel": "Cities I've lived in"
+  "visited": {
+    "title": "My Trips"
   },
-  "visited": { "title": "My Trips", "ariaLabel": "My Trips" },
-  "future": {
-    "title": "Future Destinations",
-    "ariaLabel": "Future Destinations"
+  "tripCard": {
+    "openTrip": "Open {{trip}}"
+  },
+  "places": {
+    "visited": "Visited",
+    "lived": "Lived",
+    "future": "Future",
+    "centerMap": "Center map on {{city}}",
+    "tooltips": {
+      "visited": "Show places I have visited.",
+      "lived": "Show places I have lived in.",
+      "future": "Show future destinations."
+    }
   },
   "stats": {
-    "ariaLabel": "Travel Statistics",
     "aroundEarth": "around the Earth",
     "biggestTimezoneJump": "Largest timezone jump",
     "cities": "Cities",
     "citiesPerContinent": "Cities visited by continent",
-    "continents": "Continents",
     "countries": "Countries",
     "countriesPerContinent": "Countries visited by continent",
     "coverage": "Coverage",
     "currency": "Currency",
     "ferries": "Ferries",
-    "ferriesTaken": "Ferries taken",
-    "flightCompaniesTaken": "Flight companies taken",
-    "flight_one": "flight",
-    "flight_other": "flights",
     "flights": "Flights",
-    "flightsTaken": "Flights taken",
     "furthestCity": "Furthest city visited",
     "intercontinental": "Intercontinental flights",
     "international": "International flights",
@@ -147,7 +137,6 @@
     "mileage": "Mileage",
     "national": "Domestic flights",
     "nearestCity": "Nearest city visited",
-    "ofTheWorld": "of the world",
     "population": "Population",
     "populationTop10": "Top 10 most populated cities visited",
     "shortestFerry": "Shortest ferry taken",
@@ -158,24 +147,33 @@
     "total": "Total",
     "totalMileage": "Total distance traveled",
     "transport": "Transport",
-    "unesco": "UNESCO sites",
-    "visited": "Places I've visited"
+    "trips": "Trips",
+    "daysAbroad": "Days abroad",
+    "daysPerYear": "Days abroad per year",
+    "avgTrip": "Avg. trip",
+    "yearsTraveling": "Years",
+    "daySuffix": "d",
+    "yearSuffix": "yrs",
+    "unesco": "UNESCO sites"
   },
-  "autoPositionTooltip": "When enabled, the map will automatically center on the city card you hover over.",
   "deselectAll": "Deselect all",
   "filterTooltip": "Filter city cards on the map by country selection.",
   "gallery": "View Gallery",
-  "galleryAlt": "Open the photo gallery of the selected trip",
+  "galleryAlt": "Open photo gallery",
   "selectedTravel": "Selected travel: ",
   "language": "Select a language",
   "selectAll": "Select all",
-  "createdBy": "Made by Pivi",
-  "author": {
-    "button": "About the creator",
-    "role": "Software Engineer & ML Consultant",
-    "description": "Full-stack engineer specialised in React & Node.js, with a strong focus on machine learning integration. M.Sc. in Computer Science from the University of Cagliari. I built this map to track and share my adventures around the world."
-  },
   "theme": "Toggle between light and dark mode",
+  "map": {
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out"
+  },
+  "lightbox": {
+    "fullscreen": "Toggle fullscreen",
+    "nextSlide": "Next slide",
+    "previousSlide": "Previous slide",
+    "youtubeVideo": "YouTube video"
+  },
   "currency": {
     "EUR": {
       "name": "Euro",
@@ -196,6 +194,10 @@
     "AUD": {
       "name": "Australian Dollar",
       "symbol": "$"
+    },
+    "CNY": {
+      "name": "Chinese Yuan",
+      "symbol": "¥"
     },
     "BGN": {
       "name": "Bulgarian Lev",
@@ -233,6 +235,47 @@
     "australia-trip-2025": "Australia Trip",
     "cote-d-azur-trip-2025-2026": "Côte d'Azur Trip",
     "romania-trip-2026": "Romania Trip",
-    "slovakia-trip-2026": "Slovakia Trip"
+    "slovakia-trip-2026": "Champions of Slovakia"
+  },
+  "nav": {
+    "trips": "Trips",
+    "places": "Places",
+    "timeline": "Timeline",
+    "stats": "Stats"
+  },
+  "timeline": {
+    "title": "Timeline",
+    "city_one": "{{count}} city",
+    "city_other": "{{count}} cities"
+  },
+  "tripDetail": {
+    "route": "Route",
+    "cities": "Cities",
+    "days": "days",
+    "day": "day",
+    "layover": "Transit",
+    "outbound": "Outbound",
+    "localTravel": "Local travel",
+    "return": "Return",
+    "via": "via",
+    "night": "night",
+    "nights": "nights",
+    "flight": "flight",
+    "flights": "flights",
+    "ferry": "ferry",
+    "ferries": "ferries",
+    "train": "train",
+    "trains": "trains",
+    "bus": "bus",
+    "buses": "buses",
+    "drive": "drive",
+    "drives": "drives",
+    "taxi": "taxi",
+    "taxis": "taxis",
+    "walk": "walk",
+    "walks": "walks",
+    "timeZone": "time zone",
+    "timeZones": "time zones",
+    "dayTrip": "Day trip"
   }
 }

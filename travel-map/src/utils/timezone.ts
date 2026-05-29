@@ -1,8 +1,10 @@
 import { filter, firstBy, pipe, uniqueBy } from "remeda";
 
 import { City } from "../core";
+import { visitedTrips } from "../data";
 import { parameters } from "./parameters";
 import { getCityOffsetMinutesOnDate } from "./timezoneOffset";
+import { getCityTravels } from "./trips";
 
 const DEFAULT_LOCALE = "en-US";
 
@@ -19,7 +21,8 @@ export function getCityBiggestTimezoneJump(
     countries,
     firstBy(
       (city) => {
-        const referenceDate = city.travels?.[0]?.sDate ?? new Date();
+        const referenceDate =
+          getCityTravels(city, visitedTrips)[0]?.sDate ?? new Date();
         const cityOffset = getCityOffsetMinutesOnDate(
           DEFAULT_LOCALE,
           city,
@@ -46,7 +49,8 @@ export function getNumberOfTimezonesJumped(countries: City[]): number {
   const birthCity = parameters.birthCity;
   return pipe(
     filter(countries, (city) => {
-      const referenceDate = city.travels?.[0]?.sDate ?? new Date();
+      const referenceDate =
+        getCityTravels(city, visitedTrips)[0]?.sDate ?? new Date();
       const cityOffset = getCityOffsetMinutesOnDate(
         DEFAULT_LOCALE,
         city,
@@ -60,7 +64,8 @@ export function getNumberOfTimezonesJumped(countries: City[]): number {
       return cityOffset !== birthOffset;
     }),
     uniqueBy((city) => {
-      const referenceDate = city.travels?.[0]?.sDate ?? new Date();
+      const referenceDate =
+        getCityTravels(city, visitedTrips)[0]?.sDate ?? new Date();
       return getCityOffsetMinutesOnDate(DEFAULT_LOCALE, city, referenceDate);
     }),
   ).length;

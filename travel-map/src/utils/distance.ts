@@ -17,20 +17,14 @@ function haversineDistance(
   end: { lat: number; lon: number },
 ): number {
   const RADIUS_EARTH_KM = 6371;
-
-  // Convert degrees to radians
   const dLat = toRadians(end.lat - start.lat);
   const dLon = toRadians(end.lon - start.lon);
   const lat1 = toRadians(start.lat);
   const lat2 = toRadians(end.lat);
-
-  // Haversine formula
   const a =
     Math.sin(dLat / 2) ** 2 +
     Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) ** 2;
-
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
   return RADIUS_EARTH_KM * c;
 }
 

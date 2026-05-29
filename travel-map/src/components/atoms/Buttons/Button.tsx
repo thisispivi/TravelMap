@@ -16,24 +16,24 @@ export interface ButtonProps extends PropsWithChildren {
 }
 
 /**
- * A button
+ * Button component
  *
- * The button component is used to create a button.
+ * Shared animated button primitive used for icon and text actions.
  *
  * @component
  *
- * @param {ButtonProps} props - The props of the component
- * @param {string} props.className - The class to apply to the button
- * @param {() => void} props.onClick - Function to call when the button is clicked
- * @param {() => void} props.onMouseEnter - Function to call when the mouse enters the button
- * @param {() => void} props.onMouseLeave - Function to call when the mouse leaves the button
- * @param {string} props.ariaLabel - The aria label of the button
- * @param {string} props.tooltipId - The id of the tooltip
- * @param {string} props.tooltipContent - The content of the tooltip
- * @param {number} props.hoverScale - The scale of the button when hovered
- * @param {number} props.tapScale - The scale of the button when tapped
- * @param {React.ReactNode} props.children - The content of the button
- * @returns {JSX.Element} - The button
+ * @param {ButtonProps} props - The button props
+ * @param {string} [props.className] - Additional class names
+ * @param {MouseEventHandler} [props.onClick] - Click handler
+ * @param {MouseEventHandler} [props.onMouseEnter] - Mouse enter handler
+ * @param {MouseEventHandler} [props.onMouseLeave] - Mouse leave handler
+ * @param {string} [props.ariaLabel] - Accessible label
+ * @param {string} [props.tooltipId] - Tooltip id to attach to
+ * @param {string} [props.tooltipContent] - Tooltip content
+ * @param {number} [props.hoverScale] - Framer Motion hover scale
+ * @param {number} [props.tapScale] - Framer Motion tap scale
+ * @param {React.ReactNode} props.children - Button content
+ * @returns {JSX.Element} The button
  */
 export function Button({
   onClick,

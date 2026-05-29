@@ -1,0 +1,203 @@
+@use "../../../styles/variables" as v;
+@use "../../../styles/mixins" as m;
+@use "../../../styles/scrollbar" as s;
+
+.trip-browser {
+  position: fixed;
+  top: calc(v.$floatingNavHeight + 2rem);
+  left: 1rem;
+  width: v.$floatingCardMaxWidth;
+  max-height: calc(100vh - v.$floatingNavHeight - 3rem);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transform-origin: left top;
+
+  .trip-browser__header {
+    display: flex;
+    align-items: center;
+    padding-bottom: 0.75rem;
+    flex-shrink: 0;
+
+    h2 {
+      font-size: v.$headingLg;
+    }
+  }
+
+  .trip-browser__year-selector {
+    display: flex;
+    gap: 0.375rem;
+    padding-bottom: 0.75rem;
+    overflow-x: auto;
+    flex-shrink: 0;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    .trip-browser__year-btn {
+      background: transparent;
+      padding: 0.375rem 0.75rem;
+      border-radius: 62.4375rem;
+      font-size: v.$bodySm;
+      font-weight: 500;
+      cursor: pointer;
+      flex-shrink: 0;
+      white-space: nowrap;
+      transition:
+        background-color 0.12s ease,
+        border-color 0.12s ease,
+        color 0.12s ease,
+        transform 0.1s ease;
+
+      &:active {
+        transform: scale(0.97);
+      }
+    }
+  }
+
+  .trip-browser__list {
+    position: relative;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    flex: 1;
+    min-height: 0;
+    scrollbar-gutter: auto;
+
+    &.trip-browser__list--scrollable {
+      overflow-y: auto;
+    }
+  }
+
+  .trip-browser__list-stage {
+    position: relative;
+    width: 100%;
+    min-height: 100%;
+    overflow: hidden;
+  }
+
+  .trip-browser__trips {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 1rem;
+    padding-right: 0.25rem;
+    padding-block: 0.5rem;
+  }
+}
+
+.home--dark {
+  .trip-browser {
+    @include m.floating-card-dark();
+
+    .trip-browser__header h2 {
+      color: #ffffff;
+    }
+
+    .trip-browser__year-btn {
+      border: 0.0625rem solid v.$darkButton;
+      color: v.$darkDisabledText;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.05);
+        color: v.$darkButtonContent;
+      }
+
+      &--active {
+        background: v.$visitedButtonContent;
+        border-color: v.$visitedButtonContent;
+        color: #ffffff;
+
+        &:hover {
+          background: v.$visitedButtonContent;
+          color: #ffffff;
+        }
+      }
+    }
+
+    .trip-browser__list {
+      @include s.setScrollbar(
+        transparent,
+        rgba(255, 255, 255, 0.12),
+        rgba(255, 255, 255, 0.2),
+        rgba(255, 255, 255, 0.3)
+      );
+    }
+  }
+}
+
+.home--light {
+  .trip-browser {
+    @include m.floating-card-light();
+    border: 0.0625rem solid rgba(0, 0, 0, 0.06);
+
+    .trip-browser__header h2 {
+      color: v.$lightButtonContent;
+    }
+
+    .trip-browser__year-btn {
+      border: 0.0625rem solid v.$lightButton;
+      color: v.$lightDisabledText;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.6);
+        color: v.$lightButtonContent;
+      }
+
+      &--active {
+        background: v.$visitedButtonContent;
+        border-color: v.$visitedButtonContent;
+        color: #ffffff;
+
+        &:hover {
+          background: v.$visitedButtonContent;
+          color: #ffffff;
+        }
+      }
+    }
+
+    .trip-browser__list {
+      @include s.setScrollbar(
+        transparent,
+        rgba(0, 0, 0, 0.15),
+        rgba(0, 0, 0, 0.25),
+        rgba(0, 0, 0, 0.35)
+      );
+    }
+  }
+}
+
+@media screen and (max-width: 42.5rem) {
+  .trip-browser {
+    top: auto;
+    bottom: calc(
+      v.$floatingNavHeight + v.$mobileFloatingMargin * 2 +
+        env(safe-area-inset-bottom, 0rem)
+    );
+    left: v.$mobileFloatingMargin;
+    right: v.$mobileFloatingMargin;
+    width: auto;
+    max-height: 75vh;
+    border-radius: 1.5rem;
+    padding: v.$floatingCardPadding;
+
+    .trip-browser__header h2 {
+      font-size: v.$headingMd;
+    }
+
+    .trip-browser__list {
+      scrollbar-gutter: auto;
+      padding-right: 0;
+    }
+
+    .trip-browser__trips {
+      padding-right: 0;
+    }
+  }
+}

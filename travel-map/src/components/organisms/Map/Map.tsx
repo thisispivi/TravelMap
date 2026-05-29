@@ -1,15 +1,6 @@
 import "./Map.scss";
 
-import {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
-
-const HOVER_LEAVE_DELAY_MS = 150;
+import { use, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   ComposableMap,
   Geographies,
@@ -26,28 +17,25 @@ import {
   visitedCities,
   visitedCountries,
 } from "@/data";
+import { useLanguage } from "@/hooks/language/language";
+import { useLocation } from "@/hooks/location/location";
 import { computeVisibleLabels } from "@/utils/labelVisibility";
 import { parameters } from "@/utils/parameters";
 
 import { Button, Loading, Marker } from "../../atoms";
 import { HomeContext } from "../../pages/Home/HomeContext";
+import { RouteOverlay } from "../RouteOverlay/RouteOverlay";
 import { MapTooltip } from "../Tooltip/TooltipMap";
 
-const sortByLatitudeAndLongitude = (a: City, b: City) => {
-  const fCordA = a.coordinates[0];
-  const fCordB = b.coordinates[0];
-  const sCordA = a.coordinates[1];
-  const sCordB = b.coordinates[1];
+const HOVER_LEAVE_DELAY_MS = 150;
+const FLY_TO_DURATION_MS = 800;
 
-  return sCordA < sCordB
-    ? 1
-    : sCordA > sCordB
-      ? -1
-      : fCordA < fCordB
-        ? -1
-        : fCordA > fCordB
-          ? 1
-          : 0;
+const sortByCoordinates = (a: City, b: City) => {
+  const [lonA, latA] = a.coordinates;
+  const [lonB, latB] = b.coordinates;
+  if (latA !== latB) return latA < latB ? 1 : -1;
+  if (lonA !== lonB) return lonA < lonB ? -1 : 1;
+  return 0;
 };
 
 const DEFAULT_COUNTRY_FILL_DARK = "#1e1e2a";
@@ -61,22 +49,35 @@ const GEO_STYLE = {
 
 const PROJECTION_CONFIG = { scale: 160 } as const;
 
-/** Duration of the fly-to animation in ms. */
-const FLY_TO_DURATION_MS = 800;
-
 function easeInOutCubic(t: number): number {
   return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 }
 
+interface GeographyLayerProps {
+  geographies: Array<{ properties: { name: string }; rsmKey: string }>;
+  getCountryFillColor: (countryId: string) => string;
+  onLoaded: () => void;
+}
+
+/**
+ * GeographyLayer component
+ *
+ * Renders the world map's filled country shapes and fires `onLoaded` once
+ * geographies have been received from the GeoJSON source.
+ *
+ * @component
+ *
+ * @param {GeographyLayerProps} props
+ * @param {GeographyLayerProps["geographies"]} props.geographies - GeoJSON feature array
+ * @param {(countryId: string) => string} props.getCountryFillColor - Returns the fill color for a given country name.
+ * @param {() => void} props.onLoaded - Called once on the first non-empty render.
+ * @returns {JSX.Element} SVG geography shapes
+ */
 function GeographyLayer({
   geographies,
   getCountryFillColor,
   onLoaded,
-}: {
-  geographies: Array<{ properties: { name: string }; rsmKey: string }>;
-  getCountryFillColor: (countryId: string) => string;
-  onLoaded: () => void;
-}) {
+}: GeographyLayerProps) {
   const didNotifyLoadedRef = useRef(false);
 
   useEffect(() => {
@@ -102,13 +103,19 @@ function GeographyLayer({
 }
 
 /**
- * Interactive world map.
+ * Map component
  *
- * Data is imported from `@/data` so it can be code-split together with the
- * lazy-loaded map chunk.
+ * Interactive world map rendered with react-simple-maps. Displays visited,
+ * lived, and future city markers with animated fly-to transitions, city-name
+ * labels, and a hover tooltip.
+ *
+ * @component
+ *
+ * @returns {JSX.Element} The full-screen map canvas
  */
 export function Map() {
-  const context = useContext(HomeContext);
+  const { t } = useLanguage(["home"]);
+  const context = use(HomeContext);
   const {
     isDarkTheme,
     hoveredCity,
@@ -116,8 +123,9 @@ export function Map() {
     mapPosition,
     responsive,
     setMapPosition,
-    isAutoPosition,
+    selectedTrip,
   } = context!;
+  const { isTripDetail } = useLocation();
 
   const [isLoaded, setIsLoaded] = useState(false);
   const hoverLeaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -132,7 +140,8 @@ export function Map() {
 
   useEffect(() => {
     return () => {
-      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
+      const frame = animFrameRef.current;
+      if (frame) cancelAnimationFrame(frame);
     };
   }, []);
 
@@ -142,7 +151,7 @@ export function Map() {
       animFrameRef.current = null;
     }
 
-    if (isFromMoveEndRef.current || !isAutoPosition) {
+    if (isFromMoveEndRef.current) {
       isFromMoveEndRef.current = false;
       currentPosRef.current = mapPosition;
       animFrameRef.current = requestAnimationFrame(() => {
@@ -180,7 +189,7 @@ export function Map() {
     };
 
     animFrameRef.current = requestAnimationFrame(animate);
-  }, [mapPosition, isAutoPosition]);
+  }, [mapPosition]);
 
   const handleSetHoveredCity = useCallback(
     (city: City | null) => {
@@ -202,7 +211,8 @@ export function Map() {
 
   useEffect(() => {
     return () => {
-      if (hoverLeaveTimer.current) clearTimeout(hoverLeaveTimer.current);
+      const timer = hoverLeaveTimer.current;
+      if (timer) clearTimeout(timer);
     };
   }, []);
 
@@ -285,17 +295,17 @@ export function Map() {
   );
 
   const sortedVisitedCities = useMemo(
-    () => [...visitedCities].sort(sortByLatitudeAndLongitude),
+    () => visitedCities.toSorted(sortByCoordinates),
     [],
   );
 
   const sortedFutureCities = useMemo(
-    () => [...futureCities].sort(sortByLatitudeAndLongitude),
+    () => futureCities.toSorted(sortByCoordinates),
     [],
   );
 
   const sortedLivedCities = useMemo(
-    () => [...livedCities].sort(sortByLatitudeAndLongitude),
+    () => livedCities.toSorted(sortByCoordinates),
     [],
   );
 
@@ -303,6 +313,30 @@ export function Map() {
     () => [...visitedCities, ...futureCities, ...livedCities],
     [],
   );
+
+  const tripLayoverCities = useMemo(() => {
+    if (!isTripDetail || !selectedTrip) return [];
+    const existing = new Set(allCities.map((c) => c.name));
+    const seen = new Set<string>();
+    const layovers = selectedTrip.destinations
+      .filter((d) => {
+        if (!d.isLayover || existing.has(d.city.name) || seen.has(d.city.name))
+          return false;
+        seen.add(d.city.name);
+        return true;
+      })
+      .map((d) => d.city);
+
+    if (
+      selectedTrip.origin &&
+      !existing.has(selectedTrip.origin.city.name) &&
+      !seen.has(selectedTrip.origin.city.name)
+    ) {
+      layovers.push(selectedTrip.origin.city);
+    }
+
+    return layovers;
+  }, [isTripDetail, selectedTrip, allCities]);
 
   const visibleLabels = useMemo(
     () => computeVisibleLabels(allCities, mapPosition.zoom, hoveredCity?.name),
@@ -402,8 +436,19 @@ export function Map() {
                   showLabel={visibleLabels.has(city.name)}
                 />
               ))}
+              {tripLayoverCities.map((city) => (
+                <Marker
+                  city={city}
+                  hoveredCity={hoveredCity}
+                  isLayover
+                  key={`layover-${city.name}`}
+                  setHoveredCity={handleSetHoveredCity}
+                  showLabel={visibleLabels.has(city.name)}
+                />
+              ))}
             </>
           ) : null}
+          <RouteOverlay />
         </ZoomableGroup>
       </ComposableMap>
 
@@ -412,6 +457,7 @@ export function Map() {
         clickable
         id="map-tooltip"
         isOpen={!!hoveredCity}
+        key={hoveredCity?.name ?? "none"}
         noArrow
         opacity={1}
         variant="light"
@@ -431,14 +477,14 @@ export function Map() {
       </Tooltip>
       <div className="map-zoom-controls">
         <Button
-          aria-label="Zoom in"
+          ariaLabel={t("map.zoomIn")}
           className="map-zoom-controls__button"
           onClick={handleZoomIn}
         >
           +
         </Button>
         <Button
-          aria-label="Zoom out"
+          ariaLabel={t("map.zoomOut")}
           className="map-zoom-controls__button"
           onClick={handleZoomOut}
         >

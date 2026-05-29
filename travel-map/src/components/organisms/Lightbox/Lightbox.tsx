@@ -13,7 +13,7 @@ import ImageGallery, {
   ImageGalleryProps,
   ImageGalleryRef,
 } from "react-image-gallery";
-import { useLoaderData, useNavigate } from "react-router-dom";
+import { useLoaderData, useLocation, useNavigate } from "react-router-dom";
 
 import {
   ChevronIcon,
@@ -22,9 +22,19 @@ import {
   GalleryIcon,
 } from "../../../assets";
 import { City } from "../../../core";
+import { visitedTrips } from "../../../data";
 import { useLanguage } from "../../../hooks/language/language";
+import { classNames } from "../../../utils/className";
 import { parameters } from "../../../utils/parameters";
+import { getTravelByCityIndex } from "../../../utils/trips";
 import { Button } from "../../atoms";
+
+const HIDE_NAV_AFTER_MS = 2000;
+
+type LightboxItem = ImageGalleryProps["items"][number] & {
+  youtube?: boolean;
+  alt?: string;
+};
 
 export interface LightboxProps {
   city: City;
@@ -35,24 +45,26 @@ export interface LightboxProps {
 /**
  * Lightbox component
  *
- * The lightbox component is used to display a lightbox.
+ * Full-screen photo and video viewer. Wraps `react-image-gallery` with custom
+ * navigation buttons, a fullscreen toggle, and an auto-hiding top bar.
  *
  * @component
  *
- * @returns {JSX.Element} - The lightbox
+ * @returns {JSX.Element} The lightbox overlay
  */
 export default function Lightbox(): JSX.Element {
   const { t } = useLanguage(["home"]);
   const navigate = useNavigate();
+  const location = useLocation();
   const { city, travelIdx, photoIdx } = useLoaderData() as LightboxProps;
-  const photos = city.travels[travelIdx].photos;
+  const photos =
+    getTravelByCityIndex(city, travelIdx, visitedTrips)?.photos ?? [];
 
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(photoIdx);
   const hideNavTimeoutRef = useRef<number | undefined>(undefined);
   const galleryRef = useRef<ImageGalleryRef>(null);
-  const HIDE_NAV_AFTER_MS = 2000;
 
   const scheduleHideNav = useCallback(() => {
     if (hideNavTimeoutRef.current !== undefined) {
@@ -71,30 +83,27 @@ export default function Lightbox(): JSX.Element {
   useEffect(() => {
     scheduleHideNav();
     return () => {
-      if (hideNavTimeoutRef.current !== undefined) {
-        window.clearTimeout(hideNavTimeoutRef.current);
+      const timeoutId = hideNavTimeoutRef.current;
+      if (timeoutId !== undefined) {
+        window.clearTimeout(timeoutId);
       }
     };
   }, [scheduleHideNav]);
 
-  type ItemType = ImageGalleryProps["items"][number] & {
-    youtube?: boolean;
-    alt?: string;
-  };
-
-  const handleRenderItem = (item: ItemType) => {
+  const handleRenderItem = (item: LightboxItem) => {
     if (item.youtube) {
       return (
         <iframe
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowFullScreen
           className="image-gallery-video"
+          sandbox="allow-scripts allow-same-origin allow-presentation"
           src={
             parameters.isShowPhotos
               ? `${import.meta.env.VITE_YOUTUBE_PATH}${item.original}`
               : ""
           }
-          title="YouTube video"
+          title={t("lightbox.youtubeVideo")}
         />
       );
     } else {
@@ -128,10 +137,10 @@ export default function Lightbox(): JSX.Element {
             }
           }
         }
-        navigate(`../${newIndex}`);
+        navigate(`../${newIndex}`, { state: location.state });
       }
     },
-    [photoIdx, navigate],
+    [location, photoIdx, navigate],
   );
 
   const renderNavigationButton = (
@@ -140,7 +149,11 @@ export default function Lightbox(): JSX.Element {
     direction: "left" | "right",
   ) => (
     <Button
-      aria-label={direction === "left" ? "Previous Slide" : "Next Slide"}
+      ariaLabel={
+        direction === "left"
+          ? t("lightbox.previousSlide")
+          : t("lightbox.nextSlide")
+      }
       className={`image-gallery-icon image-gallery-${direction}-nav ${
         disabled ? "image-gallery-icon--disabled" : ""
       }`}
@@ -172,14 +185,18 @@ export default function Lightbox(): JSX.Element {
 
   return (
     <div
-      className={`lightbox ${isNavVisible ? "" : "lightbox--nav-hidden"}`}
+      className={classNames(
+        "lightbox",
+        !isNavVisible && "lightbox--nav-hidden",
+        isFullscreen && "lightbox--fullscreen",
+      )}
       onMouseMove={revealNav}
       onTouchStart={revealNav}
     >
       <div className="lightbox__top-bar">
         <Button
           className="lightbox__back-button"
-          onClick={() => navigate(`..`)}
+          onClick={() => navigate(`..`, { state: location.state })}
         >
           <GalleryIcon />
           <p>{t("gallery")}</p>
@@ -190,7 +207,7 @@ export default function Lightbox(): JSX.Element {
           {photos.length}
         </span>
         <Button
-          aria-label={t("fullscreen")}
+          ariaLabel={t("lightbox.fullscreen")}
           className="lightbox__fullscreen-button"
           onClick={handleToggleFullscreen}
         >

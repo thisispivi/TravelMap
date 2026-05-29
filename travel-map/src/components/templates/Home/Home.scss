@@ -1,12 +1,41 @@
+@use "../../../styles/variables" as v;
+
 .home-template {
   height: inherit;
   width: inherit;
   position: relative;
+
+  .home-template__bottom-panel {
+    position: fixed;
+    top: calc(v.$floatingNavHeight + 1.5rem);
+    left: 50%;
+    z-index: 2;
+    width: min(calc(100% - 1rem), 56rem);
+    height: calc(100vh - v.$floatingNavHeight - 2rem);
+    max-height: calc(100vh - v.$floatingNavHeight - 2rem);
+    transform-origin: center top;
+  }
+
   .centered {
     height: 100%;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+}
+
+@media screen and (max-width: 42.5rem) {
+  .home-template {
+    .home-template__bottom-panel {
+      top: auto;
+      bottom: calc(
+        v.$floatingNavHeight + v.$mobileFloatingMargin * 2 +
+          env(safe-area-inset-bottom, 0rem)
+      );
+      width: calc(100% - v.$mobileFloatingMargin * 2);
+      height: 75vh;
+      max-height: 75vh;
+    }
   }
 }

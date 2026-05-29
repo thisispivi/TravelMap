@@ -1,4 +1,4 @@
-import { Trip } from "../core";
+import { City, Travel, Trip } from "../core";
 
 type GroupTripsByYearOptions = { cutoffYear: number };
 /**
@@ -32,4 +32,42 @@ export function groupTripsByYear(
   }
 
   return result;
+}
+
+export function getCityTravels(city: City, trips: Trip[]): Travel[] {
+  return trips
+    .flatMap((trip) => trip.getCityTravels(city))
+    .sort((a, b) => a.sDate.getTime() - b.sDate.getTime());
+}
+
+/**
+ * Returns only the photo-bearing travels for a city across all trips,
+ * sorted chronologically. Layovers and stays without photos are excluded.
+ */
+export function getCityPhotoTravels(city: City, trips: Trip[]): Travel[] {
+  return getCityTravels(city, trips).filter((t) => t.photos.length > 0);
+}
+
+export function getTravelByCityIndex(
+  city: City,
+  travelIdx: number,
+  trips: Trip[],
+): Travel | undefined {
+  return getCityPhotoTravels(city, trips)[travelIdx];
+}
+
+/**
+ * Returns the index of the photo-bearing travel whose start date matches
+ * the given stop's start date, or -1 if none is found.
+ * This is the correct index to use when navigating to the gallery from
+ * a timeline stop, since stop dates are stable across trips.
+ */
+export function getPhotoTravelIndex(
+  city: City,
+  stopSDate: Date,
+  trips: Trip[],
+): number {
+  return getCityPhotoTravels(city, trips).findIndex(
+    (t) => t.sDate.getTime() === stopSDate.getTime(),
+  );
 }

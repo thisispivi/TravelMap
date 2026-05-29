@@ -9,13 +9,14 @@ interface ColumnProps extends PropsWithChildren {
 /**
  * Column component
  *
- * The column component is used to display column.
+ * Generic vertical flex container.
  *
  * @component
  *
- * @param {ColumnProps} props - The props of the column
- * @param {string} [props.className] - The class to apply to the column
- * @returns {JSX.Element} - The column
+ * @param {ColumnProps} props - The column props
+ * @param {string} [props.className] - Additional class names
+ * @param {React.ReactNode} props.children - Column content
+ * @returns {JSX.Element} The column
  */
 export function Column({ className = "", children }: ColumnProps): JSX.Element {
   return <div className={`column ${className}`}>{children}</div>;

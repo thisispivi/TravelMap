@@ -12,15 +12,14 @@ interface CloseButtonProps {
 /**
  * CloseButton component
  *
- * The close button component is used to display a close button.
+ * Icon-only close action.
  *
  * @component
  *
- * @param {CloseButtonProps} props - The props of the close button
- * @param {() => void} props.onClick - The function to call when the button is clicked
- * @param {string} [props.className] - The class name of the button
- *
- * @returns {JSX.Element} - The close button
+ * @param {CloseButtonProps} props - The close button props
+ * @param {() => void} props.onClick - Click handler
+ * @param {string} [props.className] - Additional class names
+ * @returns {JSX.Element} The close button
  */
 export function CloseButton({
   onClick,

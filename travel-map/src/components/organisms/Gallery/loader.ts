@@ -11,10 +11,10 @@ type GalleryLoader = {
 /**
  * Gallery loader
  *
- * The gallery loader is used to load the gallery data.
+ * Resolves the selected city and travel index for the gallery route.
  *
- * @param {LoaderFunctionArgs<GalleryLoader>} data - The loader data
- * @returns {GalleryProps | null} - The gallery props
+ * @param {LoaderFunctionArgs<GalleryLoader>} data - React Router loader data
+ * @returns {GalleryProps | null} Gallery props, or null when the route is invalid
  */
 export function loader(
   data: LoaderFunctionArgs<GalleryLoader>,
@@ -22,5 +22,5 @@ export function loader(
   const { cityName, travelIdx } = data.params;
   const city = visitedCities.find((city) => city.name === cityName);
   if (!city || !travelIdx) return null;
-  return { city, travelIdx: parseInt(travelIdx) };
+  return { city, travelIdx: parseInt(travelIdx, 10) };
 }

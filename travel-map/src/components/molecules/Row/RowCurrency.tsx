@@ -5,7 +5,7 @@ import { JSX } from "react";
 import { Currency } from "../../../core";
 import { useLanguage } from "../../../hooks/language/language";
 import { CurrencyFlag } from "../../atoms";
-import { Row } from "..";
+import { Row } from "./Row";
 
 interface CurrencyRowProps {
   className?: string;
@@ -13,15 +13,16 @@ interface CurrencyRowProps {
 }
 
 /**
- * A currency row
+ * CurrencyRow component
  *
- * The currency row component is used to create a currency row.
+ * Displays a currency flag, localized name, and symbol.
  *
  * @component
  *
- * @param {CurrencyRowProps} props - The props of the component
- * @param {string} props.className - The class to apply to the currency row
- * @returns {JSX.Element} - The currency row
+ * @param {CurrencyRowProps} props - The currency row props
+ * @param {Currency} [props.currency] - Currency to display
+ * @param {string} [props.className] - Additional class names
+ * @returns {JSX.Element} The currency row
  */
 export function CurrencyRow({
   currency,

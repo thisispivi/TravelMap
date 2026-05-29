@@ -1,7 +1,10 @@
 import AirplaneIcon from "./icons/Airplane.svg?react";
+import BusIcon from "./icons/Bus.svg?react";
 import CalendarIcon from "./icons/Calendar.svg?react";
 import CameraIcon from "./icons/Camera.svg?react";
+import CarIcon from "./icons/Car.svg?react";
 import ChevronIcon from "./icons/Chevron.svg?react";
+import ChevronRightIcon from "./icons/ChevronRight.svg?react";
 import CityIcon from "./icons/City.svg?react";
 import CloseIcon from "./icons/Close.svg?react";
 import CoinIcon from "./icons/Coin.svg?react";
@@ -13,31 +16,34 @@ import FerryIcon from "./icons/Ferry.svg?react";
 import FilterIcon from "./icons/Filter.svg?react";
 import FullscreenEnterIcon from "./icons/FullscreenEnter.svg?react";
 import FullscreenExitIcon from "./icons/FullscreenExit.svg?react";
-import FutureTravelsIcon from "./icons/FutureTravels.svg?react";
 import GalleryIcon from "./icons/Gallery.svg?react";
 import GlobeIcon from "./icons/Globe.svg?react";
-import HomeIcon from "./icons/Home.svg?react";
 import LanguageIcon from "./icons/Language.svg?react";
 import LogoIcon from "./icons/Logo.svg?react";
 import MapIcon from "./icons/Map.svg?react";
 import { MarkerIcon } from "./icons/Marker";
 import MoonIcon from "./icons/Moon.svg?react";
+import MoonFilledIcon from "./icons/MoonFilled.svg?react";
 import MoonFlatIcon from "./icons/MoonFlat.svg?react";
 import PeopleIcon from "./icons/People.svg?react";
-import PlaneIcon from "./icons/Plane.svg?react";
 import PlayIcon from "./icons/Play.svg?react";
 import PositionIcon from "./icons/Position.svg?react";
-import StatsIcon from "./icons/Stats.svg?react";
 import SunIcon from "./icons/Sun.svg?react";
+import SunFilledIcon from "./icons/SunFilled.svg?react";
+import TaxiIcon from "./icons/Taxi.svg?react";
 import TimezoneIcon from "./icons/Timezone.svg?react";
+import TrainIcon from "./icons/Train.svg?react";
 import UnescoIcon from "./icons/Unesco.svg?react";
-import VisitedIcon from "./icons/Visited.svg?react";
+import WalkIcon from "./icons/Walk.svg?react";
 
 export {
   AirplaneIcon,
+  BusIcon,
   CalendarIcon,
   CameraIcon,
+  CarIcon,
   ChevronIcon,
+  ChevronRightIcon,
   CityIcon,
   CloseIcon,
   CoinIcon,
@@ -49,25 +55,25 @@ export {
   FilterIcon,
   FullscreenEnterIcon,
   FullscreenExitIcon,
-  FutureTravelsIcon,
   GalleryIcon,
   GlobeIcon,
-  HomeIcon,
   LanguageIcon,
   LogoIcon,
   MapIcon,
   MarkerIcon,
+  MoonFilledIcon,
   MoonFlatIcon,
   MoonIcon,
   PeopleIcon,
-  PlaneIcon,
   PlayIcon,
   PositionIcon,
-  StatsIcon,
+  SunFilledIcon,
   SunIcon,
+  TaxiIcon,
   TimezoneIcon,
+  TrainIcon,
   UnescoIcon,
-  VisitedIcon,
+  WalkIcon,
 };
 
 import AustraliaFlag from "./icons/flags/Australia.svg?react";

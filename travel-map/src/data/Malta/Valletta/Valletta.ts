@@ -1,24 +1,10 @@
-import { City, Travel } from "../../../core";
+import { City } from "../../../core";
 import { Malta } from "../Malta";
-import { tr_020125_020125_images } from "./photos/tr_020125_020125";
-import { tr_030125_030125_images } from "./photos/tr_030125_030125";
 
 export const Valletta = new City({
   name: "Valletta",
   country: Malta,
   coordinates: [14.5147, 35.8989],
-  travels: [
-    new Travel({
-      sDate: new Date(2025, 0, 2, 2),
-      eDate: new Date(2025, 0, 2, 2),
-      photos: tr_020125_020125_images,
-    }),
-    new Travel({
-      sDate: new Date(2025, 0, 3),
-      eDate: new Date(2025, 0, 3),
-      photos: tr_030125_030125_images,
-    }),
-  ],
   backgroundImgSources: [
     "/Malta/Valletta/Valletta.jpg",
     "/Malta/Valletta1/Valletta1.jpg",

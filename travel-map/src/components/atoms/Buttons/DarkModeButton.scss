@@ -3,7 +3,7 @@
 .dark-mode-button {
   width: auto;
   height: auto;
-  border-radius: 0.75rem;
+  border-radius: 62.4375rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -36,9 +36,6 @@
       background: rgba(0, 0, 0, 0.08);
       box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.06);
     }
-    svg * {
-      fill: v.$lightButtonContent;
-    }
   }
 }
 
@@ -50,9 +47,6 @@
     &:hover {
       background: rgba(255, 255, 255, 0.1);
       box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.2);
-    }
-    svg * {
-      fill: v.$darkButtonContent;
     }
   }
 }

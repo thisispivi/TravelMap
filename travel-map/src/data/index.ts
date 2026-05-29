@@ -1,32 +1,42 @@
-import { FlightCompany } from "@/core";
-import { Ferry } from "@/core/classes/Ferry";
-import { FerryCompany } from "@/core/typings/FerryCompany";
+import { unique } from "remeda";
 
-import { City, Country, Trip } from "../core";
-import { Flight } from "../core";
-import { Australia } from "./Australia/Australia";
+import {
+  d,
+  ferry,
+  move,
+  plane,
+  roundTripByPlane,
+  stay,
+  trip,
+} from "@/core/helpers/tripBuilders/tripBuilders";
+
+import {
+  City,
+  Country,
+  Ferry,
+  FerryCompany,
+  Flight,
+  FlightCompany,
+  Trip,
+} from "../core";
 import { Cairns } from "./Australia/Cairns/Cairns";
 import { Sydney } from "./Australia/Sydney/Sydney";
-import { Austria } from "./Austria/Austria";
 import { Vienna } from "./Austria/Vienna/Vienna";
 import { Anderlecht } from "./Belgium/Anderlecht/Anderlecht";
-import { Belgium } from "./Belgium/Belgium";
 import { Bruges } from "./Belgium/Bruges/Bruges";
 import { Brussels } from "./Belgium/Brussels/Brussels";
-import { Bulgaria } from "./Bulgaria/Bulgaria";
+import { Charleroi } from "./Belgium/Charleroi/Charleroi";
 import { Rila } from "./Bulgaria/Rila/Rila";
 import { Sofia } from "./Bulgaria/Sofia/Sofia";
 import { Shanghai } from "./China/Shanghai/Shanghai";
+import { Ajaccio } from "./France/Ajaccio/Ajaccio";
 import { Cannes } from "./France/Cannes/Cannes";
-import { France } from "./France/France";
 import { Marseille } from "./France/Marseille/Marseille";
 import { Nice } from "./France/Nice/Nice";
 import { SaintTropez } from "./France/SaintTropez/SaintTropez";
 import { Toulon } from "./France/Toulon/Toulon";
 import { Berlin } from "./Germany/Berlin/Berlin";
-import { Germany } from "./Germany/Germany";
 import { Budapest } from "./Hungary/Budapest/Budapest";
-import { Hungary } from "./Hungary/Hungary";
 import { Alghero } from "./Italy/Alghero/Alghero";
 import { Bergamo } from "./Italy/Bergamo/Bergamo";
 import { Bologna } from "./Italy/Bologna/Bologna";
@@ -34,10 +44,10 @@ import { Cagliari } from "./Italy/Cagliari/Cagliari";
 import { Cefalù } from "./Italy/Cefalù/Cefalù";
 import { Genoa } from "./Italy/Genoa/Genoa";
 import { Imola } from "./Italy/Imola/Imola";
-import { Italy } from "./Italy/Italy";
 import { Livorno } from "./Italy/Livorno/Livorno";
 import { Muravera } from "./Italy/Muravera/Muravera";
 import { Olbia } from "./Italy/Olbia/Olbia";
+import { Palermo } from "./Italy/Palermo/Palermo";
 import { PeschieraDelGarda } from "./Italy/PeschieraDelGarda/PeschieraDelGarda";
 import { PortoTorres } from "./Italy/PortoTorres/PortoTorres";
 import { Rome } from "./Italy/Rome/Rome";
@@ -46,7 +56,6 @@ import { Turin } from "./Italy/Turin/Turin";
 import { Verona } from "./Italy/Verona/Verona";
 import { Fujikawaguchiko } from "./Japan/Fujikawaguchiko/Fujikawaguchiko";
 import { Himeji } from "./Japan/Himeji/Himeji";
-import { Japan } from "./Japan/Japan";
 import { Kanazawa } from "./Japan/Kanazawa/Kanazawa";
 import { Kobe } from "./Japan/Kobe/Kobe";
 import { Kyoto } from "./Japan/Kyoto/Kyoto";
@@ -59,7 +68,6 @@ import { Takayama } from "./Japan/Takayama/Takayama";
 import { Tokyo } from "./Japan/Tokyo/Tokyo";
 import { Comino } from "./Malta/Comino/Comino";
 import { Luqa } from "./Malta/Luqa/Luqa";
-import { Malta } from "./Malta/Malta";
 import { Mdina } from "./Malta/Mdina/Mdina";
 import { Rabat } from "./Malta/Rabat/Rabat";
 import { SanGiljan } from "./Malta/SanGiljan/SanGiljan";
@@ -67,613 +75,1410 @@ import { SanPawlIlBahar } from "./Malta/SanPawlIlBahar/SanPawlIlBahar";
 import { Sliema } from "./Malta/Sliema/Sliema";
 import { Valletta } from "./Malta/Valletta/Valletta";
 import { Victoria } from "./Malta/Victoria/Victoria";
-import { Monaco } from "./Monaco/Monaco";
 import { MonteCarlo } from "./Monaco/MonteCarlo/MonteCarlo";
 import { Braga } from "./Portugal/Braga/Braga";
 import { Porto } from "./Portugal/Porto/Porto";
-import { Portugal } from "./Portugal/Portugal";
 import { Bran } from "./Romania/Bran/Bran";
 import { Brasov } from "./Romania/Brasov/Brasov";
 import { Bucharest } from "./Romania/Bucharest/Bucharest";
-import { Romania } from "./Romania/Romania";
 import { Sinaia } from "./Romania/Sinaia/Sinaia";
 import { Bratislava } from "./Slovakia/Bratislava/Bratislava";
 import { Devin } from "./Slovakia/Devin/Devin";
-import { Slovakia } from "./Slovakia/Slovakia";
 import { Barcelona } from "./Spain/Barcelona/Barcelona";
 import { Sevilla } from "./Spain/Sevilla/Sevilla";
-import { Spain } from "./Spain/Spain";
 import { Stockholm } from "./Sweden/Stockholm/Stockholm";
-import { Sweden } from "./Sweden/Sweden";
 import { London } from "./UnitedKingdom/London/London";
-import { UnitedKingdom } from "./UnitedKingdom/UnitedKingdom";
-import { Vatican } from "./Vatican/Vatican";
 import { VaticanCity } from "./Vatican/Vatican/VaticanCity";
 
-export const livedCountries: Country[] = [Italy];
 export const livedCities: City[] = [Muravera, Cagliari];
 
-export const visitedCountries: Country[] = [
-  Australia,
-  Austria,
-  Belgium,
-  Bulgaria,
-  France,
-  Germany,
-  Hungary,
-  Italy,
-  Japan,
-  Malta,
-  Monaco,
-  Portugal,
-  Romania,
-  Slovakia,
-  Spain,
-  UnitedKingdom,
-  Vatican,
-];
-export const visitedCities: City[] = [
-  Anderlecht,
-  Barcelona,
-  Berlin,
-  Bologna,
-  Braga,
-  Bran,
-  Brasov,
-  Bratislava,
-  Bruges,
-  Brussels,
-  Bucharest,
-  Budapest,
-  Cairns,
-  Cannes,
-  Cefalù,
-  Comino,
-  Devin,
-  Fujikawaguchiko,
-  Genoa,
-  Himeji,
-  Imola,
-  Kanazawa,
-  Kobe,
-  Kyoto,
-  London,
-  Marseille,
-  Matsumoto,
-  Mdina,
-  MonteCarlo,
-  Nara,
-  Nice,
-  Osaka,
-  Oshino,
-  PeschieraDelGarda,
-  Porto,
-  Rabat,
-  Rila,
-  Rome,
-  SaintTropez,
-  SanGiljan,
-  SanPawlIlBahar,
-  Sevilla,
-  Shirakawago,
-  Sinaia,
-  Sliema,
-  Sofia,
-  Sydney,
-  Takayama,
-  Terni,
-  Tokyo,
-  Toulon,
-  Turin,
-  Valletta,
-  VaticanCity,
-  Verona,
-  Victoria,
-  Vienna,
-];
-
-export const takenFlights: Flight[] = [
-  new Flight({
-    sCity: Cagliari,
-    eCity: London,
-    company: FlightCompany.EASYJET,
-  }),
-  new Flight({
-    sCity: London,
-    eCity: Cagliari,
-    company: FlightCompany.EASYJET,
-  }),
-  new Flight({
-    sCity: Cagliari,
-    eCity: Berlin,
-    company: FlightCompany.RYANAIR,
-  }),
-  new Flight({
-    sCity: Berlin,
-    eCity: Cagliari,
-    company: FlightCompany.RYANAIR,
-  }),
-  new Flight({
-    sCity: Cagliari,
-    eCity: Barcelona,
-    company: FlightCompany.RYANAIR,
-  }),
-  new Flight({
-    sCity: Barcelona,
-    eCity: Cagliari,
-    company: FlightCompany.RYANAIR,
-  }),
-  new Flight({
-    sCity: Cagliari,
-    eCity: Bologna,
-    company: FlightCompany.RYANAIR,
-  }),
-  new Flight({
-    sCity: Bologna,
-    eCity: Cagliari,
-    company: FlightCompany.RYANAIR,
-  }),
-  new Flight({ sCity: Cagliari, eCity: Rome, company: FlightCompany.RYANAIR }),
-  new Flight({ sCity: Rome, eCity: Cagliari, company: FlightCompany.RYANAIR }),
-  new Flight({
-    sCity: Cagliari,
-    eCity: Cefalù,
-    company: FlightCompany.RYANAIR,
-  }),
-  new Flight({
-    sCity: Cefalù,
-    eCity: Cagliari,
-    company: FlightCompany.RYANAIR,
-  }),
-  new Flight({
-    sCity: Cagliari,
-    eCity: Rome,
-    company: FlightCompany.ITA_AIRWAYS,
-  }),
-  new Flight({
-    sCity: Rome,
-    eCity: Cagliari,
-    company: FlightCompany.ITA_AIRWAYS,
-  }),
-  new Flight({
-    sCity: Cagliari,
-    eCity: Budapest,
-    company: FlightCompany.RYANAIR,
-  }),
-  new Flight({
-    sCity: Budapest,
-    eCity: Cagliari,
-    company: FlightCompany.RYANAIR,
-  }),
-  new Flight({
-    sCity: Cagliari,
-    eCity: Brussels,
-    company: FlightCompany.RYANAIR,
-  }),
-  new Flight({
-    sCity: Brussels,
-    eCity: Cagliari,
-    company: FlightCompany.RYANAIR,
-  }),
-  new Flight({ sCity: Cagliari, eCity: Turin, company: FlightCompany.RYANAIR }),
-  new Flight({ sCity: Genoa, eCity: Cagliari, company: FlightCompany.RYANAIR }),
-  new Flight({ sCity: Cagliari, eCity: Porto, company: FlightCompany.RYANAIR }),
-  new Flight({ sCity: Porto, eCity: Cagliari, company: FlightCompany.RYANAIR }),
-  new Flight({
-    sCity: Cagliari,
-    eCity: Rome,
-    company: FlightCompany.ITA_AIRWAYS,
-  }),
-  new Flight({ sCity: Rome, eCity: Tokyo, company: FlightCompany.ITA_AIRWAYS }),
-  new Flight({
-    sCity: Osaka,
-    eCity: Tokyo,
-    company: FlightCompany.ALL_NIPPON_AIRWAYS,
-  }),
-  new Flight({ sCity: Tokyo, eCity: Rome, company: FlightCompany.ITA_AIRWAYS }),
-  new Flight({
-    sCity: Rome,
-    eCity: Cagliari,
-    company: FlightCompany.ITA_AIRWAYS,
-  }),
-  new Flight({
-    sCity: Cagliari,
-    eCity: Verona,
-    company: FlightCompany.RYANAIR,
-  }),
-  new Flight({
-    sCity: Verona,
-    eCity: Cagliari,
-    company: FlightCompany.RYANAIR,
-  }),
-  new Flight({ sCity: Cagliari, eCity: Luqa, company: FlightCompany.RYANAIR }),
-  new Flight({ sCity: Luqa, eCity: Cagliari, company: FlightCompany.RYANAIR }),
-  new Flight({
-    sCity: Cagliari,
-    eCity: Sevilla,
-    company: FlightCompany.RYANAIR,
-  }),
-  new Flight({
-    sCity: Sevilla,
-    eCity: Cagliari,
-    company: FlightCompany.RYANAIR,
-  }),
-  new Flight({
-    sCity: Cagliari,
-    eCity: Vienna,
-    company: FlightCompany.RYANAIR,
-  }),
-  new Flight({
-    sCity: Vienna,
-    eCity: Cagliari,
-    company: FlightCompany.RYANAIR,
-  }),
-  new Flight({
-    sCity: Cagliari,
-    eCity: Cefalù,
-    company: FlightCompany.RYANAIR,
-  }),
-  new Flight({
-    sCity: Cefalù,
-    eCity: Cagliari,
-    company: FlightCompany.RYANAIR,
-  }),
-  new Flight({ sCity: Alghero, eCity: Sofia, company: FlightCompany.WIZZ_AIR }),
-  new Flight({ sCity: Sofia, eCity: Alghero, company: FlightCompany.WIZZ_AIR }),
-  new Flight({
-    sCity: Cagliari,
-    eCity: Rome,
-    company: FlightCompany.AEROITALIA,
-  }),
-  new Flight({
-    sCity: Rome,
-    eCity: Shanghai,
-    company: FlightCompany.CHINA_EASTERN_AIRLINES,
-  }),
-  new Flight({
-    sCity: Shanghai,
-    eCity: Sydney,
-    company: FlightCompany.CHINA_EASTERN_AIRLINES,
-  }),
-  new Flight({
-    sCity: Sydney,
-    eCity: Cairns,
-    company: FlightCompany.JETSTAR,
-  }),
-  new Flight({
-    sCity: Sydney,
-    eCity: Cairns,
-    company: FlightCompany.VIRGIN_AUSTRALIA,
-  }),
-  new Flight({
-    sCity: Sydney,
-    eCity: Shanghai,
-    company: FlightCompany.CHINA_EASTERN_AIRLINES,
-  }),
-  new Flight({
-    sCity: Shanghai,
-    eCity: Rome,
-    company: FlightCompany.CHINA_EASTERN_AIRLINES,
-  }),
-  new Flight({
-    sCity: Rome,
-    eCity: Cagliari,
-    company: FlightCompany.AEROITALIA,
-  }),
-  new Flight({
-    sCity: Cagliari,
-    eCity: Bergamo,
-    company: FlightCompany.RYANAIR,
-  }),
-  new Flight({
-    sCity: Bergamo,
-    eCity: Bucharest,
-    company: FlightCompany.RYANAIR,
-  }),
-  new Flight({
-    sCity: Bucharest,
-    eCity: Bergamo,
-    company: FlightCompany.RYANAIR,
-  }),
-  new Flight({
-    sCity: Bergamo,
-    eCity: Cagliari,
-    company: FlightCompany.RYANAIR,
-  }),
-];
-
-export const takenFerries: Ferry[] = [
-  new Ferry({ sCity: Olbia, eCity: Livorno, company: FerryCompany.TIRRENIA }),
-  new Ferry({ sCity: Livorno, eCity: Olbia, company: FerryCompany.TIRRENIA }),
-  new Ferry({
-    sCity: PortoTorres,
-    eCity: Toulon,
-    company: FerryCompany.CORSICA_FERRIES,
-  }),
-  new Ferry({
-    sCity: Toulon,
-    eCity: PortoTorres,
-    company: FerryCompany.CORSICA_FERRIES,
-  }),
-];
-
-export const futureCountries: Country[] = [Sweden];
 export const futureCities: City[] = [Stockholm];
 
 export const visitedTrips: Trip[] = [
-  new Trip({
+  roundTripByPlane({
     id: "london-school-trip-2011",
-    sDate: new Date(2011, 4, 9),
-    eDate: new Date(2011, 4, 12),
-    destinations: [{ city: London, travelIdx: 0 }],
-    route: [London.name],
-    backgroundImgSourceKey: "london-school-trip-2011.jpg",
+    city: London,
+    sDate: d({ year: 2011, monthIndex: 4, day: 9 }),
+    eDate: d({ year: 2011, monthIndex: 4, day: 12 }),
+    company: FlightCompany.EASYJET,
+    photoPath: "UnitedKingdom/London/photos/tr_090511_120511",
+    data: { durationMinutes: 2 * 60 + 45 },
   }),
-  new Trip({
+  roundTripByPlane({
     id: "berlin-school-trip-2015",
-    sDate: new Date(2015, 3, 15),
-    eDate: new Date(2015, 3, 19),
-    destinations: [{ city: Berlin, travelIdx: 0 }],
-    route: [Berlin.name],
-    backgroundImgSourceKey: "berlin-school-trip-2015.jpg",
+    city: Berlin,
+    sDate: d({ year: 2015, monthIndex: 3, day: 15 }),
+    eDate: d({ year: 2015, monthIndex: 3, day: 19 }),
+    company: FlightCompany.RYANAIR,
+    photoPath: "Germany/Berlin/photos/tr_150415_190415",
+    data: { durationMinutes: 2 * 60 + 30 },
   }),
-  new Trip({
+  roundTripByPlane({
     id: "barcelona-school-trip-2016",
-    sDate: new Date(2016, 3, 11),
-    eDate: new Date(2016, 3, 15),
-    destinations: [{ city: Barcelona, travelIdx: 0 }],
-    route: [Barcelona.name],
-    backgroundImgSourceKey: "barcelona-school-trip-2016.jpg",
+    city: Barcelona,
+    sDate: d({ year: 2016, monthIndex: 3, day: 11 }),
+    eDate: d({ year: 2016, monthIndex: 3, day: 15 }),
+    company: FlightCompany.RYANAIR,
+    photoPath: "Spain/Barcelona/photos/tr_110416_150416",
+    data: { durationMinutes: 1 * 60 + 45 },
   }),
-  new Trip({
+  roundTripByPlane({
     id: "bologna-trip-2017",
-    sDate: new Date(2017, 10, 16),
-    eDate: new Date(2017, 10, 19),
-    destinations: [{ city: Bologna, travelIdx: 0 }],
-    route: [Bologna.name],
-    backgroundImgSourceKey: "bologna-trip-2017.jpg",
+    city: Bologna,
+    sDate: d({ year: 2017, monthIndex: 10, day: 16 }),
+    eDate: d({ year: 2017, monthIndex: 10, day: 19 }),
+    company: FlightCompany.RYANAIR,
+    photoPath: "Italy/Bologna/photos/tr_161117_191117",
+    data: { durationMinutes: 1 * 60 + 25 },
   }),
-  new Trip({
+  trip({
     id: "rome-trip-2021",
-    sDate: new Date(2021, 6, 27),
-    eDate: new Date(2021, 7, 3),
-    destinations: [
-      { city: Rome, travelIdx: 0 },
-      { city: VaticanCity, travelIdx: 0 },
+    sDate: d({ year: 2021, monthIndex: 6, day: 27 }),
+    eDate: d({ year: 2021, monthIndex: 7, day: 3 }),
+    origin: Cagliari,
+    returnTo: Cagliari,
+    steps: [
+      plane({
+        from: Cagliari,
+        to: Rome,
+        company: FlightCompany.RYANAIR,
+        data: { durationMinutes: 1 * 60 + 5 },
+      }),
+      stay({
+        city: Rome,
+        sDate: d({ year: 2021, monthIndex: 6, day: 27 }),
+        eDate: d({ year: 2021, monthIndex: 7, day: 3 }),
+        photoPath: "Italy/Rome/photos/tr_270721_030821",
+      }),
+      move({
+        mode: "bus",
+        from: Rome,
+        to: VaticanCity,
+        data: {
+          sDate: d({ year: 2021, monthIndex: 6, day: 30 }),
+          eDate: d({ year: 2021, monthIndex: 6, day: 30 }),
+          distanceInKm: 3.7,
+          durationMinutes: 25,
+          roundTrip: true,
+        },
+      }),
+      stay({
+        city: VaticanCity,
+        sDate: d({ year: 2021, monthIndex: 6, day: 30 }),
+        eDate: d({ year: 2021, monthIndex: 6, day: 30 }),
+        photoPath: "Vatican/Vatican/photos/tr_300721_300721",
+      }),
+      plane({
+        from: Rome,
+        to: Cagliari,
+        company: FlightCompany.RYANAIR,
+        data: { durationMinutes: 1 * 60 + 5 },
+      }),
     ],
-    route: [Rome.name, VaticanCity.name],
-    backgroundImgSourceKey: "rome-trip-2021.jpg",
   }),
-  new Trip({
+  trip({
     id: "cefalù-trip-2021",
-    sDate: new Date(2021, 8, 23),
-    eDate: new Date(2021, 8, 26),
-    destinations: [{ city: Cefalù, travelIdx: 0 }],
-    route: [Cefalù.name],
-    backgroundImgSourceKey: "cefalù-trip-2021.jpg",
+    sDate: d({ year: 2021, monthIndex: 8, day: 23 }),
+    eDate: d({ year: 2021, monthIndex: 8, day: 26 }),
+    origin: Cagliari,
+    returnTo: Cagliari,
+    steps: [
+      plane({
+        from: Cagliari,
+        to: Palermo,
+        company: FlightCompany.RYANAIR,
+        data: { durationMinutes: 50 },
+      }),
+      move({
+        mode: "car",
+        from: Palermo,
+        to: Cefalù,
+        data: {
+          sDate: d({ year: 2021, monthIndex: 8, day: 23 }),
+          eDate: d({ year: 2021, monthIndex: 8, day: 23 }),
+          distanceInKm: 70,
+          durationMinutes: 1 * 60,
+        },
+      }),
+      stay({
+        city: Cefalù,
+        sDate: d({ year: 2021, monthIndex: 8, day: 23 }),
+        eDate: d({ year: 2021, monthIndex: 8, day: 26 }),
+        photoPath: "Italy/Cefalù/photos/tr_230921_260921",
+      }),
+      move({
+        mode: "car",
+        from: Cefalù,
+        to: Palermo,
+        data: {
+          sDate: d({ year: 2021, monthIndex: 8, day: 26 }),
+          eDate: d({ year: 2021, monthIndex: 8, day: 26 }),
+          distanceInKm: 70,
+          durationMinutes: 1 * 60,
+        },
+      }),
+      plane({
+        from: Palermo,
+        to: Cagliari,
+        company: FlightCompany.RYANAIR,
+        data: { durationMinutes: 50 },
+      }),
+    ],
   }),
-  new Trip({
+  trip({
     id: "terni-trip-2022",
-    sDate: new Date(2022, 1, 27),
-    eDate: new Date(2022, 1, 27),
-    destinations: [{ city: Terni, travelIdx: 0 }],
-    route: [Terni.name],
-    backgroundImgSourceKey: "terni-trip-2022.jpg",
+    sDate: d({ year: 2022, monthIndex: 1, day: 25 }),
+    eDate: d({ year: 2022, monthIndex: 1, day: 27 }),
+    origin: Cagliari,
+    returnTo: Cagliari,
+    steps: [
+      plane({
+        from: Cagliari,
+        to: Rome,
+        company: FlightCompany.ITA_AIRWAYS,
+        data: { durationMinutes: 1 * 60 + 10 },
+      }),
+      move({
+        mode: "car",
+        from: Rome,
+        to: Terni,
+        data: {
+          sDate: d({ year: 2022, monthIndex: 1, day: 25 }),
+          eDate: d({ year: 2022, monthIndex: 1, day: 25 }),
+          distanceInKm: 98,
+          durationMinutes: 1 * 60 + 16,
+        },
+      }),
+      stay({
+        city: Terni,
+        sDate: d({ year: 2022, monthIndex: 1, day: 25 }),
+        eDate: d({ year: 2022, monthIndex: 1, day: 27 }),
+        photoPath: "Italy/Terni/photos/tr_250222_270222",
+      }),
+      move({
+        mode: "car",
+        from: Terni,
+        to: Rome,
+        data: {
+          sDate: d({ year: 2022, monthIndex: 1, day: 27 }),
+          eDate: d({ year: 2022, monthIndex: 1, day: 27 }),
+          distanceInKm: 98,
+          durationMinutes: 1 * 60 + 16,
+        },
+      }),
+      plane({
+        from: Rome,
+        to: Cagliari,
+        company: FlightCompany.ITA_AIRWAYS,
+        data: { durationMinutes: 1 * 60 + 10 },
+      }),
+    ],
   }),
-  new Trip({
+  trip({
     id: "imola-f1-trip-2022",
-    sDate: new Date(2022, 3, 22),
-    eDate: new Date(2022, 3, 25),
-    destinations: [{ city: Imola, travelIdx: 0 }],
-    route: [Imola.name],
-    backgroundImgSourceKey: "imola-f1-trip-2022.jpg",
+    sDate: d({ year: 2022, monthIndex: 3, day: 21 }),
+    eDate: d({ year: 2022, monthIndex: 3, day: 26 }),
+    origin: Cagliari,
+    returnTo: Cagliari,
+    steps: [
+      move({
+        mode: "car",
+        from: Cagliari,
+        to: Olbia,
+        data: {
+          sDate: d({ year: 2022, monthIndex: 3, day: 21 }),
+          eDate: d({ year: 2022, monthIndex: 3, day: 21 }),
+          distanceInKm: 271,
+          durationMinutes: 190,
+        },
+      }),
+      move({
+        mode: "ferry",
+        from: Olbia,
+        to: Livorno,
+        data: {
+          ferry: {
+            company: FerryCompany.TIRRENIA,
+            durationMinutes: 8 * 60,
+            distanceInKm: 381,
+          },
+          sDate: d({ year: 2022, monthIndex: 3, day: 21 }),
+          eDate: d({ year: 2022, monthIndex: 3, day: 22 }),
+        },
+      }),
+      move({
+        mode: "car",
+        from: Livorno,
+        to: Imola,
+        data: {
+          distanceInKm: 271,
+          durationMinutes: 169,
+          sDate: d({ year: 2022, monthIndex: 3, day: 22 }),
+          eDate: d({ year: 2022, monthIndex: 3, day: 22 }),
+        },
+      }),
+      stay({
+        city: Imola,
+        sDate: d({ year: 2022, monthIndex: 3, day: 22 }),
+        eDate: d({ year: 2022, monthIndex: 3, day: 25 }),
+        photoPath: "Italy/Imola/photos/tr_220422_250422",
+      }),
+      move({
+        mode: "car",
+        from: Imola,
+        to: Livorno,
+        data: {
+          distanceInKm: 271,
+          durationMinutes: 169,
+          sDate: d({ year: 2022, monthIndex: 3, day: 25 }),
+          eDate: d({ year: 2022, monthIndex: 3, day: 25 }),
+        },
+      }),
+      move({
+        mode: "ferry",
+        from: Livorno,
+        to: Olbia,
+        data: {
+          ferry: {
+            company: FerryCompany.TIRRENIA,
+            durationMinutes: 8 * 60,
+            distanceInKm: 381,
+          },
+          sDate: d({ year: 2022, monthIndex: 3, day: 25 }),
+          eDate: d({ year: 2022, monthIndex: 3, day: 26 }),
+        },
+      }),
+      move({
+        mode: "car",
+        from: Olbia,
+        to: Cagliari,
+        data: {
+          sDate: d({ year: 2022, monthIndex: 3, day: 26 }),
+          eDate: d({ year: 2022, monthIndex: 3, day: 26 }),
+          distanceInKm: 271,
+          durationMinutes: 190,
+        },
+      }),
+    ],
   }),
-  new Trip({
+  roundTripByPlane({
     id: "budapest-trip-2023",
-    sDate: new Date(2023, 4, 6),
-    eDate: new Date(2023, 4, 9),
-    destinations: [{ city: Budapest, travelIdx: 0 }],
-    route: [Budapest.name],
-    backgroundImgSourceKey: "budapest-trip-2023.jpg",
+    city: Budapest,
+    sDate: d({ year: 2023, monthIndex: 4, day: 6 }),
+    eDate: d({ year: 2023, monthIndex: 4, day: 9 }),
+    company: FlightCompany.RYANAIR,
+    photoPath: "Hungary/Budapest/photos/tr_060523_090523",
+    data: { durationMinutes: 2 * 60 + 5 },
   }),
-  new Trip({
+  trip({
     id: "belgium-trip-2023",
-    sDate: new Date(2023, 7, 5),
-    eDate: new Date(2023, 7, 9),
-    destinations: [
-      { city: Brussels, travelIdx: 0 },
-      { city: Anderlecht, travelIdx: 0 },
-      { city: Bruges, travelIdx: 0 },
+    sDate: d({ year: 2023, monthIndex: 7, day: 5 }),
+    eDate: d({ year: 2023, monthIndex: 7, day: 10 }),
+    origin: Cagliari,
+    returnTo: Cagliari,
+    steps: [
+      plane({
+        from: Cagliari,
+        to: Charleroi,
+        company: FlightCompany.RYANAIR,
+        data: { durationMinutes: 2 * 60 + 20 },
+      }),
+      move({
+        mode: "bus",
+        from: Charleroi,
+        to: Brussels,
+        data: {
+          distanceInKm: 60,
+          durationMinutes: 55,
+          sDate: d({ year: 2023, monthIndex: 7, day: 5 }),
+          eDate: d({ year: 2023, monthIndex: 7, day: 5 }),
+        },
+      }),
+      stay({
+        city: Brussels,
+        sDate: d({ year: 2023, monthIndex: 7, day: 5 }),
+        eDate: d({ year: 2023, monthIndex: 7, day: 10 }),
+        photoPath: "Belgium/Brussels/photos/tr_050823_100823",
+      }),
+      move({
+        mode: "bus",
+        from: Brussels,
+        to: Anderlecht,
+        data: {
+          sDate: d({ year: 2023, monthIndex: 7, day: 6 }),
+          eDate: d({ year: 2023, monthIndex: 7, day: 6 }),
+          distanceInKm: 7,
+          durationMinutes: 20,
+          roundTrip: true,
+        },
+      }),
+      stay({
+        city: Anderlecht,
+        sDate: d({ year: 2023, monthIndex: 7, day: 6 }),
+        eDate: d({ year: 2023, monthIndex: 7, day: 6 }),
+        photoPath: "Belgium/Anderlecht/photos/tr_060823_060823",
+      }),
+      move({
+        mode: "train",
+        from: Brussels,
+        to: Bruges,
+        data: {
+          sDate: d({ year: 2023, monthIndex: 7, day: 9 }),
+          eDate: d({ year: 2023, monthIndex: 7, day: 9 }),
+          distanceInKm: 95,
+          durationMinutes: 65,
+          roundTrip: true,
+        },
+      }),
+      stay({
+        city: Bruges,
+        sDate: d({ year: 2023, monthIndex: 7, day: 9 }),
+        eDate: d({ year: 2023, monthIndex: 7, day: 9 }),
+        photoPath: "Belgium/Bruges/photos/tr_090823_090823",
+      }),
+      move({
+        mode: "bus",
+        from: Brussels,
+        to: Charleroi,
+        data: {
+          distanceInKm: 60,
+          durationMinutes: 55,
+          sDate: d({ year: 2023, monthIndex: 7, day: 10 }),
+          eDate: d({ year: 2023, monthIndex: 7, day: 10 }),
+        },
+      }),
+      plane({
+        from: Charleroi,
+        to: Cagliari,
+        company: FlightCompany.RYANAIR,
+        data: { durationMinutes: 2 * 60 + 20 },
+      }),
     ],
-    route: [Brussels.name, Anderlecht.name, Bruges.name],
-    backgroundImgSourceKey: "belgium-trip-2023.jpg",
   }),
-  new Trip({
+  trip({
     id: "turin-atp-trip-2023",
-    sDate: new Date(2023, 10, 11),
-    eDate: new Date(2023, 10, 14),
-    destinations: [
-      { city: Turin, travelIdx: 0 },
-      { city: Genoa, travelIdx: 0 },
+    sDate: d({ year: 2023, monthIndex: 10, day: 11 }),
+    eDate: d({ year: 2023, monthIndex: 10, day: 14 }),
+    origin: Cagliari,
+    returnTo: Cagliari,
+    steps: [
+      plane({
+        from: Cagliari,
+        to: Turin,
+        company: FlightCompany.RYANAIR,
+        data: { durationMinutes: 1 * 60 + 25 },
+      }),
+      stay({
+        city: Turin,
+        sDate: d({ year: 2023, monthIndex: 10, day: 11 }),
+        eDate: d({ year: 2023, monthIndex: 10, day: 14 }),
+        photoPath: "Italy/Turin/photos/tr_111123_141123",
+      }),
+      move({
+        mode: "bus",
+        from: Turin,
+        to: Genoa,
+        data: {
+          distanceInKm: 170,
+          durationMinutes: 123,
+        },
+      }),
+      stay({
+        city: Genoa,
+        sDate: d({ year: 2023, monthIndex: 10, day: 14 }),
+        eDate: d({ year: 2023, monthIndex: 10, day: 14 }),
+        photoPath: "Italy/Genoa/photos/tr_141123_141123",
+      }),
+      plane({
+        from: Genoa,
+        to: Cagliari,
+        company: FlightCompany.RYANAIR,
+        data: { durationMinutes: 1 * 60 + 20 },
+      }),
     ],
-    route: [Turin.name, Genoa.name],
-    backgroundImgSourceKey: "turin-atp-trip-2023.jpg",
   }),
-  new Trip({
+  trip({
     id: "portugal-trip-2024",
-    sDate: new Date(2024, 3, 19),
-    eDate: new Date(2024, 3, 22),
-    destinations: [
-      { city: Porto, travelIdx: 0 },
-      { city: Braga, travelIdx: 0 },
+    sDate: d({ year: 2024, monthIndex: 3, day: 19 }),
+    eDate: d({ year: 2024, monthIndex: 3, day: 22 }),
+    origin: Cagliari,
+    returnTo: Cagliari,
+    steps: [
+      plane({
+        from: Cagliari,
+        to: Porto,
+        company: FlightCompany.RYANAIR,
+        data: { durationMinutes: 2 * 60 + 45 },
+      }),
+      stay({
+        city: Porto,
+        sDate: d({ year: 2024, monthIndex: 3, day: 19 }),
+        eDate: d({ year: 2024, monthIndex: 3, day: 22 }),
+        photoPath: "Portugal/Porto/photos/tr_190424_220424",
+      }),
+      move({
+        mode: "train",
+        from: Porto,
+        to: Braga,
+        data: { durationMinutes: 70, distanceInKm: 55, roundTrip: true },
+      }),
+      stay({
+        city: Braga,
+        sDate: d({ year: 2024, monthIndex: 3, day: 20 }),
+        eDate: d({ year: 2024, monthIndex: 3, day: 20 }),
+        photoPath: "Portugal/Braga/photos/tr_200424_200424",
+      }),
+      plane({
+        from: Porto,
+        to: Cagliari,
+        company: FlightCompany.RYANAIR,
+        data: { durationMinutes: 2 * 60 + 45 },
+      }),
     ],
-    route: [Porto.name, Braga.name],
-    backgroundImgSourceKey: "portugal-trip-2024.jpg",
   }),
-  new Trip({
+  trip({
     id: "japan-trip-2024",
-    sDate: new Date(2024, 7, 13),
-    eDate: new Date(2024, 7, 25),
-    backgroundImgSourceKey: "japan-trip-2024.jpg",
-    destinations: [
-      { city: Rome, travelIdx: 1 },
-      { city: Tokyo, travelIdx: 0 },
-      { city: Oshino, travelIdx: 0 },
-      { city: Fujikawaguchiko, travelIdx: 0 },
-      { city: Matsumoto, travelIdx: 0 },
-      { city: Takayama, travelIdx: 0 },
-      { city: Shirakawago, travelIdx: 0 },
-      { city: Kanazawa, travelIdx: 0 },
-      { city: Kyoto, travelIdx: 0 },
-      { city: Himeji, travelIdx: 0 },
-      { city: Kobe, travelIdx: 0 },
-      { city: Nara, travelIdx: 0 },
-      { city: Osaka, travelIdx: 0 },
-    ],
-    route: [
-      Rome.name,
-      Tokyo.name,
-      Oshino.name,
-      Fujikawaguchiko.name,
-      Matsumoto.name,
-      Takayama.name,
-      Shirakawago.name,
-      Kanazawa.name,
-      Kyoto.name,
-      Himeji.name,
-      Kobe.name,
-      Nara.name,
-      Osaka.name,
+    sDate: d({ year: 2024, monthIndex: 7, day: 10 }),
+    eDate: d({ year: 2024, monthIndex: 7, day: 27 }),
+    origin: Cagliari,
+    returnTo: Cagliari,
+    steps: [
+      plane({
+        from: Cagliari,
+        to: Rome,
+        company: FlightCompany.ITA_AIRWAYS,
+        data: { durationMinutes: 1 * 60 + 10 },
+      }),
+      stay({
+        city: Rome,
+        sDate: d({ year: 2024, monthIndex: 7, day: 10 }),
+        eDate: d({ year: 2024, monthIndex: 7, day: 12 }),
+        photoPath: "Italy/Rome/photos/tr_100824_120824",
+      }),
+      plane({
+        from: Rome,
+        to: Tokyo,
+        company: FlightCompany.ITA_AIRWAYS,
+        data: { durationMinutes: 12 * 60 + 30 },
+      }),
+      stay({
+        city: Tokyo,
+        sDate: d({ year: 2024, monthIndex: 7, day: 13 }),
+        eDate: d({ year: 2024, monthIndex: 7, day: 18 }),
+        photoPath: "Japan/Tokyo/photos/tr_130824_180824",
+      }),
+      move({
+        mode: "bus",
+        from: Tokyo,
+        to: Oshino,
+        data: {
+          distanceInKm: 100,
+          durationMinutes: 132,
+          sDate: d({ year: 2024, monthIndex: 7, day: 15 }),
+          eDate: d({ year: 2024, monthIndex: 7, day: 15 }),
+        },
+      }),
+      stay({
+        city: Oshino,
+        sDate: d({ year: 2024, monthIndex: 7, day: 15, hours: 12 }),
+        eDate: d({ year: 2024, monthIndex: 7, day: 15, hours: 12 }),
+        photoPath: "Japan/Oshino/photos/tr_150824_150824",
+      }),
+      move({
+        mode: "bus",
+        from: Oshino,
+        to: Fujikawaguchiko,
+        data: {
+          distanceInKm: 15.2,
+          durationMinutes: 25,
+          sDate: d({ year: 2024, monthIndex: 7, day: 15, hours: 12 }),
+          eDate: d({ year: 2024, monthIndex: 7, day: 15, hours: 12 }),
+        },
+      }),
+      stay({
+        city: Fujikawaguchiko,
+        sDate: d({ year: 2024, monthIndex: 7, day: 15, hours: 13 }),
+        eDate: d({ year: 2024, monthIndex: 7, day: 15, hours: 13 }),
+        photoPath: "Japan/Fujikawaguchiko/photos/tr_150824_150824",
+      }),
+      move({
+        mode: "bus",
+        from: Fujikawaguchiko,
+        to: Tokyo,
+        data: {
+          distanceInKm: 100,
+          durationMinutes: 120,
+          sDate: d({ year: 2024, monthIndex: 7, day: 15, hours: 14 }),
+          eDate: d({ year: 2024, monthIndex: 7, day: 15, hours: 14 }),
+        },
+      }),
+      move({
+        mode: "bus",
+        from: Tokyo,
+        to: Matsumoto,
+        data: {
+          distanceInKm: 225,
+          durationMinutes: 190,
+          sDate: d({
+            year: 2024,
+            monthIndex: 7,
+            day: 18,
+            hours: 6,
+            minutes: 0,
+          }),
+          eDate: d({
+            year: 2024,
+            monthIndex: 7,
+            day: 18,
+            hours: 9,
+            minutes: 10,
+          }),
+        },
+      }),
+      stay({
+        city: Matsumoto,
+        sDate: d({ year: 2024, monthIndex: 7, day: 18 }),
+        eDate: d({ year: 2024, monthIndex: 7, day: 18 }),
+        photoPath: "Japan/Matsumoto/photos/tr_180824_180824",
+      }),
+      move({
+        mode: "bus",
+        from: Matsumoto,
+        to: Takayama,
+        data: {
+          distanceInKm: 87,
+          durationMinutes: 153,
+          sDate: d({
+            year: 2024,
+            monthIndex: 7,
+            day: 18,
+            hours: 11,
+            minutes: 55,
+          }),
+          eDate: d({
+            year: 2024,
+            monthIndex: 7,
+            day: 18,
+            hours: 14,
+            minutes: 28,
+          }),
+        },
+      }),
+      stay({
+        city: Takayama,
+        sDate: d({ year: 2024, monthIndex: 7, day: 18 }),
+        eDate: d({ year: 2024, monthIndex: 7, day: 19 }),
+        photoPath: "Japan/Takayama/photos/tr_180824_190824",
+      }),
+      move({
+        mode: "bus",
+        from: Takayama,
+        to: Shirakawago,
+        data: {
+          distanceInKm: 48,
+          durationMinutes: 50,
+          sDate: d({ year: 2024, monthIndex: 7, day: 19 }),
+          eDate: d({ year: 2024, monthIndex: 7, day: 19 }),
+        },
+      }),
+      stay({
+        city: Shirakawago,
+        sDate: d({ year: 2024, monthIndex: 7, day: 19 }),
+        eDate: d({ year: 2024, monthIndex: 7, day: 19 }),
+        photoPath: "Japan/Shirakawago/photos/tr_190824_190824",
+      }),
+      move({
+        mode: "bus",
+        from: Shirakawago,
+        to: Kanazawa,
+        data: {
+          distanceInKm: 75,
+          durationMinutes: 90,
+          sDate: d({ year: 2024, monthIndex: 7, day: 19 }),
+          eDate: d({ year: 2024, monthIndex: 7, day: 19 }),
+        },
+      }),
+      stay({
+        city: Kanazawa,
+        sDate: d({ year: 2024, monthIndex: 7, day: 19 }),
+        eDate: d({ year: 2024, monthIndex: 7, day: 21 }),
+        photoPath: "Japan/Kanazawa/photos/tr_190824_210824",
+      }),
+      move({
+        mode: "train",
+        from: Kanazawa,
+        to: Kyoto,
+        data: { durationMinutes: 120, distanceInKm: 220 },
+      }),
+      stay({
+        city: Kyoto,
+        sDate: d({ year: 2024, monthIndex: 7, day: 21 }),
+        eDate: d({ year: 2024, monthIndex: 7, day: 27 }),
+        photoPath: "Japan/Kyoto/photos/tr_210824_270824",
+      }),
+      move({
+        mode: "train",
+        from: Kyoto,
+        to: Himeji,
+        data: { durationMinutes: 90, distanceInKm: 120 },
+      }),
+      stay({
+        city: Himeji,
+        sDate: d({ year: 2024, monthIndex: 7, day: 23 }),
+        eDate: d({ year: 2024, monthIndex: 7, day: 23 }),
+        photoPath: "Japan/Himeji/photos/tr_230824_230824",
+      }),
+      move({
+        mode: "train",
+        from: Himeji,
+        to: Kobe,
+        data: { durationMinutes: 40, distanceInKm: 55 },
+      }),
+      stay({
+        city: Kobe,
+        sDate: d({ year: 2024, monthIndex: 7, day: 23 }),
+        eDate: d({ year: 2024, monthIndex: 7, day: 23 }),
+        photoPath: "Japan/Kobe/photos/tr_230824_230824",
+      }),
+      move({
+        mode: "train",
+        from: Kobe,
+        to: Kyoto,
+        data: { durationMinutes: 55, distanceInKm: 75 },
+      }),
+      move({
+        mode: "train",
+        from: Kyoto,
+        to: Nara,
+        data: { durationMinutes: 40, distanceInKm: 42, roundTrip: true },
+      }),
+      stay({
+        city: Nara,
+        sDate: d({ year: 2024, monthIndex: 7, day: 24 }),
+        eDate: d({ year: 2024, monthIndex: 7, day: 24 }),
+        photoPath: "Japan/Nara/photos/tr_240824_240824",
+      }),
+      move({
+        mode: "train",
+        from: Kyoto,
+        to: Osaka,
+        data: { durationMinutes: 32, distanceInKm: 42, roundTrip: true },
+      }),
+      stay({
+        city: Osaka,
+        sDate: d({ year: 2024, monthIndex: 7, day: 25 }),
+        eDate: d({ year: 2024, monthIndex: 7, day: 25 }),
+        photoPath: "Japan/Osaka/photos/tr_250824_250824",
+      }),
+      move({
+        mode: "train",
+        from: Kyoto,
+        to: Osaka,
+        data: { durationMinutes: 32, distanceInKm: 42, roundTrip: true },
+      }),
+      plane({
+        from: Osaka,
+        to: Tokyo,
+        company: FlightCompany.ALL_NIPPON_AIRWAYS,
+        data: { durationMinutes: 30 },
+      }),
+      plane({
+        from: Tokyo,
+        to: Rome,
+        company: FlightCompany.ITA_AIRWAYS,
+        data: { durationMinutes: 14 * 60 + 45 },
+      }),
+      plane({
+        from: Rome,
+        to: Cagliari,
+        company: FlightCompany.ITA_AIRWAYS,
+        data: { durationMinutes: 1 * 60 + 10 },
+      }),
     ],
   }),
-  new Trip({
+  trip({
     id: "venetian-trip-2023",
-    sDate: new Date(2024, 9, 4),
-    eDate: new Date(2024, 9, 6),
-    destinations: [
-      { city: PeschieraDelGarda, travelIdx: 0 },
-      { city: Verona, travelIdx: 0 },
+    sDate: d({ year: 2024, monthIndex: 9, day: 4 }),
+    eDate: d({ year: 2024, monthIndex: 9, day: 6 }),
+    origin: Cagliari,
+    returnTo: Cagliari,
+    steps: [
+      plane({
+        from: Cagliari,
+        to: Verona,
+        company: FlightCompany.RYANAIR,
+        data: { durationMinutes: 1 * 60 + 25 },
+      }),
+      move({
+        mode: "train",
+        from: Verona,
+        to: PeschieraDelGarda,
+        data: { durationMinutes: 13, distanceInKm: 28 },
+      }),
+      stay({
+        city: PeschieraDelGarda,
+        sDate: d({ year: 2024, monthIndex: 9, day: 4 }),
+        eDate: d({ year: 2024, monthIndex: 9, day: 6 }),
+        photoPath: "Italy/PeschieraDelGarda/photos/tr_041024_061024",
+      }),
+      move({
+        mode: "train",
+        from: PeschieraDelGarda,
+        to: Verona,
+        data: { durationMinutes: 13, distanceInKm: 28 },
+      }),
+      stay({
+        city: Verona,
+        sDate: d({ year: 2024, monthIndex: 9, day: 6 }),
+        eDate: d({ year: 2024, monthIndex: 9, day: 6 }),
+        photoPath: "Italy/Verona/photos/tr_061024_061024",
+      }),
+      plane({
+        from: Verona,
+        to: Cagliari,
+        company: FlightCompany.RYANAIR,
+        data: { durationMinutes: 1 * 60 + 25 },
+      }),
     ],
-    route: [PeschieraDelGarda.name, Verona.name],
-    backgroundImgSourceKey: "venetian-trip-2023.jpg",
   }),
-  new Trip({
+  trip({
     id: "malta-trip-2025",
-    sDate: new Date(2025, 0, 1),
-    eDate: new Date(2025, 0, 5),
-    destinations: [
-      { city: Valletta, travelIdx: 0 },
-      { city: Sliema, travelIdx: 0 },
-      { city: SanGiljan, travelIdx: 0 },
-      { city: SanPawlIlBahar, travelIdx: 0 },
-      { city: Mdina, travelIdx: 0 },
-      { city: Rabat, travelIdx: 0 },
-      { city: Comino, travelIdx: 0 },
-      { city: Victoria, travelIdx: 0 },
+    sDate: d({ year: 2025, monthIndex: 0, day: 1 }),
+    eDate: d({ year: 2025, monthIndex: 0, day: 5 }),
+    origin: Cagliari,
+    returnTo: Cagliari,
+    steps: [
+      plane({ from: Cagliari, to: Luqa, company: FlightCompany.RYANAIR }),
+      move({
+        mode: "taxi",
+        from: Luqa,
+        to: Sliema,
+        data: { distanceInKm: 8, durationMinutes: 15 },
+      }),
+      stay({
+        city: Sliema,
+        sDate: d({ year: 2025, monthIndex: 0, day: 1 }),
+        eDate: d({ year: 2025, monthIndex: 0, day: 5 }),
+        photoPath: "Malta/Sliema/photos/tr_010125_050125",
+      }),
+      move({
+        mode: "taxi",
+        from: Sliema,
+        to: Mdina,
+        data: { distanceInKm: 13.6, durationMinutes: 20 },
+      }),
+      stay({
+        city: Mdina,
+        sDate: d({ year: 2025, monthIndex: 0, day: 2 }),
+        eDate: d({ year: 2025, monthIndex: 0, day: 2 }),
+        photoPath: "Malta/Mdina/photos/tr_020125_020125",
+      }),
+      move({
+        mode: "walk",
+        from: Mdina,
+        to: Rabat,
+        data: { distanceInKm: 0.8, durationMinutes: 10 },
+      }),
+      stay({
+        city: Rabat,
+        sDate: d({ year: 2025, monthIndex: 0, day: 2, hours: 1 }),
+        eDate: d({ year: 2025, monthIndex: 0, day: 2, hours: 1 }),
+        photoPath: "Malta/Rabat/photos/tr_020125_020125",
+      }),
+      move({
+        mode: "taxi",
+        from: Rabat,
+        to: Valletta,
+        data: { distanceInKm: 13.7, durationMinutes: 22 },
+      }),
+      stay({
+        city: Valletta,
+        sDate: d({ year: 2025, monthIndex: 0, day: 2, hours: 2 }),
+        eDate: d({ year: 2025, monthIndex: 0, day: 2, hours: 2 }),
+        photoPath: "Malta/Valletta/photos/tr_020125_020125",
+      }),
+      move({
+        mode: "taxi",
+        from: Valletta,
+        to: Sliema,
+        data: { distanceInKm: 9, durationMinutes: 15 },
+      }),
+      move({
+        mode: "taxi",
+        from: Sliema,
+        to: SanGiljan,
+        data: { distanceInKm: 2.4, durationMinutes: 6, roundTrip: true },
+      }),
+      stay({
+        city: SanGiljan,
+        sDate: d({ year: 2025, monthIndex: 0, day: 2, hours: 23 }),
+        eDate: d({ year: 2025, monthIndex: 0, day: 2, hours: 23 }),
+        photoPath: "Malta/SanGiljan/photos/tr_020125_020125",
+      }),
+      move({
+        mode: "taxi",
+        from: Sliema,
+        to: Valletta,
+        data: { distanceInKm: 9, durationMinutes: 15, roundTrip: true },
+      }),
+      stay({
+        city: Valletta,
+        sDate: d({ year: 2025, monthIndex: 0, day: 3 }),
+        eDate: d({ year: 2025, monthIndex: 0, day: 3 }),
+        photoPath: "Malta/Valletta/photos/tr_030125_030125",
+      }),
+      move({
+        mode: "taxi",
+        from: Sliema,
+        to: SanGiljan,
+        data: {
+          distanceInKm: 2.4,
+          durationMinutes: 6,
+          roundTrip: true,
+          sDate: d({ year: 2025, monthIndex: 0, day: 4, hours: 18 }),
+          eDate: d({ year: 2025, monthIndex: 0, day: 4, hours: 18 }),
+        },
+      }),
+      stay({
+        city: SanGiljan,
+        sDate: d({ year: 2025, monthIndex: 0, day: 4, hours: 23 }),
+        eDate: d({ year: 2025, monthIndex: 0, day: 4, hours: 23 }),
+        photoPath: "Malta/SanGiljan/photos/tr_040125_040125",
+        data: { rowConstraints: { minPhotos: 2, maxPhotos: 7 } },
+      }),
+      move({
+        mode: "taxi",
+        from: Sliema,
+        to: SanPawlIlBahar,
+        data: { distanceInKm: 11.8, durationMinutes: 18 },
+      }),
+      stay({
+        city: SanPawlIlBahar,
+        sDate: d({ year: 2025, monthIndex: 0, day: 4 }),
+        eDate: d({ year: 2025, monthIndex: 0, day: 4 }),
+        photoPath: "Malta/SanPawlIlBahar/photos/tr_040125_040125",
+      }),
+      move({
+        mode: "ferry",
+        from: SanPawlIlBahar,
+        to: Comino,
+        data: { distanceInKm: 28, durationMinutes: 25 },
+      }),
+      stay({
+        city: Comino,
+        sDate: d({ year: 2025, monthIndex: 0, day: 4, hours: 11 }),
+        eDate: d({ year: 2025, monthIndex: 0, day: 4, hours: 11 }),
+        photoPath: "Malta/Comino/photos/tr_040125_040125",
+      }),
+      move({
+        mode: "ferry",
+        from: Comino,
+        to: Victoria,
+        data: { distanceInKm: 8, durationMinutes: 15 },
+      }),
+      stay({
+        city: Victoria,
+        sDate: d({ year: 2025, monthIndex: 0, day: 4, hours: 15 }),
+        eDate: d({ year: 2025, monthIndex: 0, day: 4, hours: 15 }),
+        photoPath: "Malta/Victoria/photos/tr_040125_040125",
+      }),
+      move({
+        mode: "ferry",
+        from: Victoria,
+        to: Sliema,
+        data: { distanceInKm: 28, durationMinutes: 43 },
+      }),
+      move({
+        mode: "car",
+        from: Sliema,
+        to: Luqa,
+        data: { distanceInKm: 8, durationMinutes: 15 },
+      }),
+      plane({ from: Luqa, to: Cagliari, company: FlightCompany.RYANAIR }),
     ],
-    route: [
-      Sliema.name,
-      Mdina.name,
-      Rabat.name,
-      Valletta.name,
-      SanGiljan.name,
-      SanPawlIlBahar.name,
-      Comino.name,
-      Victoria.name,
-    ],
-    backgroundImgSourceKey: "malta-trip-2025.jpg",
   }),
-  new Trip({
-    id: "vienna-trip-2025",
-    sDate: new Date(2025, 4, 17),
-    eDate: new Date(2025, 4, 20),
-    destinations: [{ city: Vienna, travelIdx: 0 }],
-    route: [Vienna.name],
-    backgroundImgSourceKey: "vienna-trip-2025.jpg",
-  }),
-  new Trip({
+  roundTripByPlane({
     id: "sevilla-trip-2025",
-    sDate: new Date(2025, 3, 4),
-    eDate: new Date(2025, 3, 8),
-    destinations: [{ city: Sevilla, travelIdx: 0 }],
-    route: [Sevilla.name],
-    backgroundImgSourceKey: "sevilla-trip-2025.jpg",
+    city: Sevilla,
+    sDate: d({ year: 2025, monthIndex: 3, day: 4 }),
+    eDate: d({ year: 2025, monthIndex: 3, day: 8 }),
+    company: FlightCompany.RYANAIR,
+    photoPath: "Spain/Sevilla/photos/tr_040425_080425",
   }),
-  new Trip({
+  roundTripByPlane({
+    id: "vienna-trip-2025",
+    city: Vienna,
+    sDate: d({ year: 2025, monthIndex: 4, day: 17 }),
+    eDate: d({ year: 2025, monthIndex: 4, day: 20 }),
+    company: FlightCompany.RYANAIR,
+    photoPath: "Austria/Vienna/photos/tr_170525_200525",
+  }),
+  trip({
     id: "cefalù-trip-2025",
-    sDate: new Date(2025, 4, 17),
-    eDate: new Date(2025, 4, 20),
-    destinations: [{ city: Cefalù, travelIdx: 1 }],
-    route: [Cefalù.name],
-    backgroundImgSourceKey: "cefalù-trip-2025.jpg",
+    sDate: d({ year: 2025, monthIndex: 5, day: 14 }),
+    eDate: d({ year: 2025, monthIndex: 5, day: 17 }),
+    origin: Cagliari,
+    returnTo: Cagliari,
+    steps: [
+      plane({
+        from: Cagliari,
+        to: Palermo,
+        company: FlightCompany.RYANAIR,
+        data: { durationMinutes: 50 },
+      }),
+      move({
+        mode: "car",
+        from: Palermo,
+        to: Cefalù,
+        data: {
+          sDate: d({ year: 2025, monthIndex: 5, day: 14 }),
+          eDate: d({ year: 2025, monthIndex: 5, day: 14 }),
+          distanceInKm: 70,
+          durationMinutes: 1 * 60,
+        },
+      }),
+      stay({
+        city: Cefalù,
+        sDate: d({ year: 2025, monthIndex: 5, day: 14 }),
+        eDate: d({ year: 2025, monthIndex: 5, day: 17 }),
+        photoPath: "Italy/Cefalù/photos/tr_140625_170625",
+      }),
+      move({
+        mode: "car",
+        from: Cefalù,
+        to: Palermo,
+        data: {
+          sDate: d({ year: 2025, monthIndex: 5, day: 17 }),
+          eDate: d({ year: 2025, monthIndex: 5, day: 17 }),
+          distanceInKm: 70,
+          durationMinutes: 1 * 60,
+        },
+      }),
+      plane({
+        from: Palermo,
+        to: Cagliari,
+        company: FlightCompany.RYANAIR,
+        data: { durationMinutes: 50 },
+      }),
+    ],
   }),
-  new Trip({
+  trip({
     id: "bulgaria-trip-2025",
-    sDate: new Date(2025, 7, 17),
-    eDate: new Date(2025, 7, 21),
-    destinations: [
-      { city: Sofia, travelIdx: 0 },
-      { city: Rila, travelIdx: 0 },
+    sDate: d({ year: 2025, monthIndex: 7, day: 17 }),
+    eDate: d({ year: 2025, monthIndex: 7, day: 21 }),
+    origin: Cagliari,
+    returnTo: Cagliari,
+    steps: [
+      move({
+        mode: "car",
+        from: Cagliari,
+        to: Alghero,
+        data: { distanceInKm: 251, durationMinutes: 2 * 60 + 50 },
+      }),
+      plane({
+        from: Alghero,
+        to: Sofia,
+        company: FlightCompany.WIZZ_AIR,
+        data: { durationMinutes: 2 * 60 + 10 },
+      }),
+      stay({
+        city: Sofia,
+        sDate: d({ year: 2025, monthIndex: 7, day: 17 }),
+        eDate: d({ year: 2025, monthIndex: 7, day: 21 }),
+        photoPath: "Bulgaria/Sofia/photos/tr_170825_210825",
+      }),
+      move({
+        mode: "car",
+        from: Sofia,
+        to: Rila,
+        data: { distanceInKm: 87, durationMinutes: 110, roundTrip: true },
+      }),
+      stay({
+        city: Rila,
+        sDate: d({ year: 2025, monthIndex: 7, day: 19 }),
+        eDate: d({ year: 2025, monthIndex: 7, day: 19 }),
+        photoPath: "Bulgaria/Rila/photos/tr_190825_190825",
+      }),
+      plane({
+        from: Sofia,
+        to: Alghero,
+        company: FlightCompany.WIZZ_AIR,
+        data: { durationMinutes: 2 * 60 + 10 },
+      }),
+      move({
+        mode: "car",
+        from: Alghero,
+        to: Cagliari,
+        data: { distanceInKm: 251, durationMinutes: 2 * 60 + 50 },
+      }),
     ],
-    route: [Sofia.name, Rila.name],
-    backgroundImgSourceKey: "bulgaria-trip-2025.jpg",
   }),
-  new Trip({
+  trip({
     id: "australia-trip-2025",
-    sDate: new Date(2025, 10, 18),
-    eDate: new Date(2025, 10, 28),
-    destinations: [
-      { city: Sydney, travelIdx: 0 },
-      { city: Cairns, travelIdx: 0 },
+    sDate: d({ year: 2025, monthIndex: 10, day: 18 }),
+    eDate: d({ year: 2025, monthIndex: 10, day: 28 }),
+    origin: Cagliari,
+    returnTo: Cagliari,
+    steps: [
+      plane({
+        from: Cagliari,
+        to: Rome,
+        company: FlightCompany.AEROITALIA,
+        data: { durationMinutes: 1 * 60 + 10 },
+      }),
+      plane({
+        from: Rome,
+        to: Shanghai,
+        company: FlightCompany.CHINA_EASTERN_AIRLINES,
+        data: { durationMinutes: 12 * 60 },
+      }),
+      plane({
+        from: Shanghai,
+        to: Sydney,
+        company: FlightCompany.CHINA_EASTERN_AIRLINES,
+        data: { durationMinutes: 11 * 60 },
+      }),
+      stay({
+        city: Sydney,
+        sDate: d({ year: 2025, monthIndex: 10, day: 18 }),
+        eDate: d({ year: 2025, monthIndex: 10, day: 20 }),
+        photoPath: "Australia/Sydney/photos/tr_181125_281125",
+      }),
+      plane({
+        from: Sydney,
+        to: Cairns,
+        company: FlightCompany.JETSTAR,
+        data: { durationMinutes: 3 * 60 + 10 },
+      }),
+      stay({
+        city: Cairns,
+        sDate: d({ year: 2025, monthIndex: 10, day: 20 }),
+        eDate: d({ year: 2025, monthIndex: 10, day: 23 }),
+        photoPath: "Australia/Cairns/photos/tr_201125_231125",
+      }),
+      plane({
+        from: Cairns,
+        to: Sydney,
+        company: FlightCompany.VIRGIN_AUSTRALIA,
+        data: { durationMinutes: 3 * 60 },
+      }),
+      stay({
+        city: Sydney,
+        sDate: d({ year: 2025, monthIndex: 10, day: 23 }),
+        eDate: d({ year: 2025, monthIndex: 10, day: 28 }),
+        photoPath: "Australia/Sydney/photos/tr_181125_281125",
+      }),
+      plane({
+        from: Sydney,
+        to: Shanghai,
+        company: FlightCompany.CHINA_EASTERN_AIRLINES,
+        data: { durationMinutes: 10 * 60 + 30 },
+      }),
+      plane({
+        from: Shanghai,
+        to: Rome,
+        company: FlightCompany.CHINA_EASTERN_AIRLINES,
+        data: { durationMinutes: 12 * 60 },
+      }),
+      plane({
+        from: Rome,
+        to: Cagliari,
+        company: FlightCompany.AEROITALIA,
+        data: { durationMinutes: 1 * 60 + 10 },
+      }),
     ],
-    route: [Sydney.name, Cairns.name],
-    backgroundImgSourceKey: "australia-trip-2025.jpg",
   }),
-  new Trip({
+  trip({
     id: "cote-d-azur-trip-2025-2026",
-    sDate: new Date(2025, 11, 28),
-    eDate: new Date(2026, 0, 2),
-    destinations: [
-      { city: Toulon, travelIdx: 0 },
-      { city: SaintTropez, travelIdx: 0 },
-      { city: Nice, travelIdx: 0 },
-      { city: MonteCarlo, travelIdx: 0 },
-      { city: Cannes, travelIdx: 0 },
-      { city: Marseille, travelIdx: 0 },
+    sDate: d({ year: 2025, monthIndex: 11, day: 28 }),
+    eDate: d({ year: 2026, monthIndex: 0, day: 2 }),
+    origin: Muravera,
+    returnTo: Muravera,
+    steps: [
+      move({
+        mode: "car",
+        from: Muravera,
+        to: PortoTorres,
+        data: {
+          durationMinutes: 210,
+          distanceInKm: 244,
+        },
+      }),
+      ferry({
+        from: PortoTorres,
+        to: Toulon,
+        company: FerryCompany.CORSICA_FERRIES,
+        data: {
+          via: [Ajaccio],
+          ferry: { via: [Ajaccio], durationMinutes: 900, distanceInKm: 506 },
+        },
+      }),
+      stay({
+        city: Toulon,
+        sDate: d({ year: 2025, monthIndex: 11, day: 28 }),
+        eDate: d({ year: 2025, monthIndex: 11, day: 28 }),
+        photoPath: "France/Toulon/photos/tr_281225_020126",
+      }),
+      move({
+        mode: "car",
+        from: Toulon,
+        to: SaintTropez,
+        data: {
+          durationMinutes: 90,
+          distanceInKm: 70,
+        },
+      }),
+      stay({
+        city: SaintTropez,
+        sDate: d({ year: 2025, monthIndex: 11, day: 28, hours: 11 }),
+        eDate: d({ year: 2025, monthIndex: 11, day: 28 }),
+        photoPath: "France/SaintTropez/photos/tr_281225_281225",
+      }),
+      move({
+        mode: "car",
+        from: SaintTropez,
+        to: Nice,
+        data: {
+          durationMinutes: 100,
+          distanceInKm: 112,
+        },
+      }),
+      stay({
+        city: Nice,
+        sDate: d({ year: 2025, monthIndex: 11, day: 28, hours: 17 }),
+        eDate: d({ year: 2025, monthIndex: 11, day: 31 }),
+        photoPath: "France/Nice/photos/tr_281225_311225",
+      }),
+      move({
+        mode: "car",
+        from: Nice,
+        to: MonteCarlo,
+        data: { durationMinutes: 35, distanceInKm: 22 },
+      }),
+      stay({
+        city: MonteCarlo,
+        sDate: d({ year: 2025, monthIndex: 11, day: 29 }),
+        eDate: d({ year: 2025, monthIndex: 11, day: 29 }),
+        photoPath: "Monaco/MonteCarlo/photos/tr_291225_291225",
+      }),
+      move({
+        mode: "car",
+        from: Nice,
+        to: Cannes,
+        data: { durationMinutes: 40, distanceInKm: 34 },
+      }),
+      stay({
+        city: Cannes,
+        sDate: d({ year: 2025, monthIndex: 11, day: 31 }),
+        eDate: d({ year: 2025, monthIndex: 11, day: 31 }),
+        photoPath: "France/Cannes/photos/tr_311225_311225",
+      }),
+      move({
+        mode: "car",
+        from: Cannes,
+        to: Toulon,
+        data: { durationMinutes: 95, distanceInKm: 126 },
+      }),
+      stay({
+        city: Toulon,
+        sDate: d({ year: 2025, monthIndex: 11, day: 31, hours: 15 }),
+        eDate: d({ year: 2026, monthIndex: 0, day: 2 }),
+        photoPath: "France/Toulon/photos/tr_281225_020126",
+      }),
+      move({
+        mode: "car",
+        from: Toulon,
+        to: Marseille,
+        data: { durationMinutes: 55, distanceInKm: 66 },
+      }),
+      stay({
+        city: Marseille,
+        sDate: d({ year: 2026, monthIndex: 0, day: 1 }),
+        eDate: d({ year: 2026, monthIndex: 0, day: 1 }),
+        photoPath: "France/Marseille/photos/tr_010126_010126",
+      }),
+      move({
+        mode: "car",
+        from: Marseille,
+        to: Toulon,
+        data: { durationMinutes: 55, distanceInKm: 66 },
+      }),
+      ferry({
+        from: Toulon,
+        to: PortoTorres,
+        company: FerryCompany.CORSICA_FERRIES,
+        data: {
+          via: [Ajaccio],
+          ferry: { via: [Ajaccio], durationMinutes: 900, distanceInKm: 506 },
+        },
+      }),
+      move({
+        mode: "car",
+        from: PortoTorres,
+        to: Muravera,
+        data: {
+          durationMinutes: 210,
+          distanceInKm: 244,
+        },
+      }),
     ],
-    route: [
-      Toulon.name,
-      SaintTropez.name,
-      Nice.name,
-      MonteCarlo.name,
-      Cannes.name,
-      Marseille.name,
-      Toulon.name,
-    ],
-    backgroundImgSourceKey: "cote-d-azur-trip-2025-2026.jpg",
   }),
-  new Trip({
+  trip({
     id: "romania-trip-2026",
-    sDate: new Date(2026, 2, 26),
-    eDate: new Date(2026, 2, 31),
-    destinations: [
-      { city: Bucharest, travelIdx: 0 },
-      { city: Sinaia, travelIdx: 0 },
-      { city: Brasov, travelIdx: 0 },
-      { city: Bran, travelIdx: 0 },
+    sDate: d({ year: 2026, monthIndex: 2, day: 26 }),
+    eDate: d({ year: 2026, monthIndex: 2, day: 31 }),
+    origin: Cagliari,
+    returnTo: Cagliari,
+    steps: [
+      plane({
+        from: Cagliari,
+        to: Bergamo,
+        company: FlightCompany.RYANAIR,
+        data: { durationMinutes: 90 },
+      }),
+      plane({
+        from: Bergamo,
+        to: Bucharest,
+        company: FlightCompany.RYANAIR,
+        data: { durationMinutes: 2 * 60 + 20 },
+      }),
+      stay({
+        city: Bucharest,
+        sDate: d({ year: 2026, monthIndex: 2, day: 26 }),
+        eDate: d({ year: 2026, monthIndex: 2, day: 30 }),
+        photoPath: "Romania/Bucharest/photos/tr_260326_300326",
+      }),
+      move({
+        mode: "bus",
+        from: Bucharest,
+        to: Sinaia,
+        data: { durationMinutes: 120, distanceInKm: 127 },
+      }),
+      stay({
+        city: Sinaia,
+        sDate: d({ year: 2026, monthIndex: 2, day: 27 }),
+        eDate: d({ year: 2026, monthIndex: 2, day: 27 }),
+        photoPath: "Romania/Sinaia/photos/tr_270326_270326",
+      }),
+      move({
+        mode: "bus",
+        from: Sinaia,
+        to: Brasov,
+        data: { durationMinutes: 58, distanceInKm: 50 },
+      }),
+      stay({
+        city: Brasov,
+        sDate: d({ year: 2026, monthIndex: 2, day: 27 }),
+        eDate: d({ year: 2026, monthIndex: 2, day: 27 }),
+        photoPath: "Romania/Brasov/photos/tr_270326_270326",
+      }),
+      move({
+        mode: "bus",
+        from: Brasov,
+        to: Bran,
+        data: { durationMinutes: 29, distanceInKm: 30 },
+      }),
+      stay({
+        city: Bran,
+        sDate: d({ year: 2026, monthIndex: 2, day: 27 }),
+        eDate: d({ year: 2026, monthIndex: 2, day: 27 }),
+        photoPath: "Romania/Bran/photos/tr_270326_270326",
+      }),
+      move({
+        mode: "bus",
+        from: Bran,
+        to: Bucharest,
+        data: { durationMinutes: 150, distanceInKm: 170 },
+      }),
+      plane({
+        from: Bucharest,
+        to: Bergamo,
+        company: FlightCompany.RYANAIR,
+        data: { durationMinutes: 2 * 60 + 20 },
+      }),
+      plane({
+        from: Bergamo,
+        to: Cagliari,
+        company: FlightCompany.RYANAIR,
+        data: { durationMinutes: 90 },
+      }),
     ],
-    route: [Bucharest.name, Sinaia.name, Brasov.name, Bran.name],
-    backgroundImgSourceKey: "romania-trip-2026.jpg",
   }),
-  new Trip({
+  trip({
     id: "slovakia-trip-2026",
-    sDate: new Date(2026, 4, 1),
-    eDate: new Date(2026, 4, 4),
-    destinations: [
-      { city: Bratislava, travelIdx: 0 },
-      { city: Devin, travelIdx: 0 },
+    sDate: d({ year: 2026, monthIndex: 4, day: 1 }),
+    eDate: d({ year: 2026, monthIndex: 4, day: 4 }),
+    origin: Cagliari,
+    returnTo: Cagliari,
+    steps: [
+      move({
+        mode: "car",
+        from: Cagliari,
+        to: Alghero,
+        data: { durationMinutes: 170, distanceInKm: 251 },
+      }),
+      plane({
+        from: Alghero,
+        to: Bratislava,
+        company: FlightCompany.RYANAIR,
+        data: { durationMinutes: 110 },
+      }),
+      stay({
+        city: Bratislava,
+        sDate: d({ year: 2026, monthIndex: 4, day: 1 }),
+        eDate: d({ year: 2026, monthIndex: 4, day: 4 }),
+        photoPath: "Slovakia/Bratislava/photos/tr_010526_040526",
+      }),
+      move({
+        mode: "bus",
+        from: Bratislava,
+        to: Devin,
+        data: {
+          roundTrip: true,
+          distanceInKm: 16.7,
+          durationMinutes: 42,
+          sDate: d({ year: 2026, monthIndex: 4, day: 3 }),
+          eDate: d({ year: 2026, monthIndex: 4, day: 3 }),
+        },
+      }),
+      stay({
+        city: Devin,
+        sDate: d({ year: 2026, monthIndex: 4, day: 3 }),
+        eDate: d({ year: 2026, monthIndex: 4, day: 3 }),
+        photoPath: "Slovakia/Devin/photos/tr_030526_030526",
+      }),
+      plane({
+        from: Bratislava,
+        to: Alghero,
+        company: FlightCompany.RYANAIR,
+        data: { durationMinutes: 110 },
+      }),
+      move({
+        mode: "car",
+        from: Alghero,
+        to: Cagliari,
+        data: { durationMinutes: 170, distanceInKm: 251 },
+      }),
     ],
-    route: [Bratislava.name, Devin.name],
-    backgroundImgSourceKey: "slovakia-trip-2026.jpg",
   }),
 ];
+
+export const visitedCities: City[] = unique(
+  visitedTrips.flatMap((trip) =>
+    trip.destinations
+      .filter((destination) => !destination.isLayover)
+      .map(({ city }) => city),
+  ),
+).sort((a, b) => a.name.localeCompare(b.name));
+
+export const visitedCountries: Country[] = unique(
+  visitedCities.map((city) => city.country),
+).sort((a, b) => a.id.localeCompare(b.id));
+
+export const takenFlights: Flight[] = visitedTrips.flatMap((trip) =>
+  trip.getFlights(),
+);
+
+export const takenFerries: Ferry[] = visitedTrips
+  .flatMap((trip) => trip.getFerries())
+  .filter((ferry) => !!ferry.company);

@@ -1,0 +1,309 @@
+@use "../../../styles/mixins" as m;
+@use "../../../styles/variables" as v;
+
+$exc-gap: 0.25rem;
+
+.trip-detail {
+  .trip-detail__row--stay-group {
+    align-items: flex-start;
+    padding-bottom: 0.875rem;
+
+    .trip-detail__track {
+      justify-content: flex-start;
+      padding-top: 2.3125rem;
+    }
+  }
+
+  .trip-detail__row--stay-group:has(.trip-detail__stay-card:hover)
+    .trip-detail__stay-dot {
+    background: var(--dot-color);
+    border-color: var(--dot-color);
+    transform: scale(1.25);
+  }
+
+  .stay-group__content {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .stay-group__excursions {
+    display: flex;
+    flex-direction: column;
+    gap: $exc-gap;
+    margin-top: 0.3125rem;
+    margin-left: 1rem;
+    padding-left: 0.875rem;
+    position: relative;
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      transform: translateX(-50%);
+      top: -0.3rem;
+      bottom: 1.5rem;
+      width: 0.0625rem;
+      background: var(--dot-color-faint, rgba(255, 255, 255, 0.12));
+    }
+
+    &:has(> .stay-group__chain:only-child)::before {
+      bottom: 50%;
+    }
+
+    &:has(> .stay-group__chain:last-child > .stay-group__chain-return)::before {
+      bottom: 7.3rem;
+    }
+  }
+
+  .stay-group__chain {
+    display: flex;
+    flex-direction: column;
+    gap: $exc-gap;
+    padding: 0.5rem;
+    border-radius: 0.5rem 0.75rem 0.75rem 0.5rem;
+    position: relative;
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: -0.875rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0.9rem;
+      height: 0.0625rem;
+      background: var(--dot-color-faint, rgba(255, 255, 255, 0.12));
+    }
+  }
+
+  .stay-group__chain .stay-group__exc-card::before {
+    display: none;
+  }
+
+  .stay-group__chain-return {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: v.$caption;
+    font-weight: 400;
+    padding-left: 0.25rem;
+    letter-spacing: -0.01em;
+  }
+
+  .stay-group__excursion {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  .stay-group__exc-transport-header {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: v.$caption;
+    font-weight: 400;
+    padding-left: 0.25rem;
+    letter-spacing: -0.01em;
+  }
+
+  .stay-group__exc-transport-icon {
+    width: 0.6875rem;
+    height: 0.6875rem;
+    flex-shrink: 0;
+  }
+
+  .stay-group__exc-transport-roundtrip {
+    font-size: 0.625rem;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+
+  .stay-group__exc-card {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.375rem 0.5rem;
+    border-radius: 0.75rem;
+    cursor: default;
+    outline: none;
+    position: relative;
+    @include m.transition(background-color, 0.12s);
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: -0.875rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0.9rem;
+      height: 0.0625rem;
+      background: var(--dot-color-faint, rgba(255, 255, 255, 0.12));
+    }
+
+    &--clickable {
+      cursor: pointer;
+    }
+  }
+
+  .stay-group__exc-badge {
+    flex-shrink: 0;
+    font-size: v.$caption;
+    font-weight: 500;
+    padding: 0.125rem 0.375rem;
+    border-radius: 0.375rem;
+    white-space: nowrap;
+    letter-spacing: -0.01em;
+    margin-left: auto;
+  }
+
+  .stay-group__exc-thumb {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .stay-group__exc-thumb-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .stay-group__exc-thumb-empty {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+  }
+
+  .stay-group__exc-body {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+
+  .stay-group__exc-header {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .stay-group__exc-name {
+    font-size: v.$bodySm;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .stay-group__exc-flag {
+    width: 0.875rem;
+    height: 0.875rem;
+    flex-shrink: 0;
+  }
+
+  .stay-group__exc-meta {
+    font-size: v.$caption;
+    font-weight: 400;
+    white-space: nowrap;
+  }
+
+  .stay-group__exc-date {
+    text-transform: capitalize;
+  }
+}
+
+.home--dark {
+  .trip-detail {
+    .stay-group__chain {
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .stay-group__chain-return {
+      color: v.$darkAltTextDarker;
+    }
+
+    .stay-group__exc-card {
+      background: rgba(255, 255, 255, 0.03);
+
+      &--clickable:hover {
+        background: rgba(255, 255, 255, 0.08);
+      }
+    }
+
+    .stay-group__exc-thumb-empty {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .stay-group__exc-name {
+      color: v.$darkAltText;
+    }
+
+    .stay-group__exc-meta {
+      color: v.$darkAltTextDarker;
+    }
+
+    .stay-group__exc-transport-header {
+      color: v.$darkAltTextDarker;
+    }
+
+    .stay-group__exc-transport-icon {
+      color: v.$darkAltTextDarker;
+    }
+
+    .stay-group__exc-badge {
+      background: rgba(255, 255, 255, 0.07);
+      color: v.$darkAltText;
+    }
+  }
+}
+
+.home--light {
+  .trip-detail {
+    .stay-group__chain {
+      background: rgba(0, 0, 0, 0.04);
+    }
+
+    .stay-group__chain-return {
+      color: v.$lightAltTextDarker;
+    }
+
+    .stay-group__exc-card {
+      background: rgba(0, 0, 0, 0.05);
+
+      &--clickable:hover {
+        background: rgba(0, 0, 0, 0.09);
+      }
+    }
+
+    .stay-group__exc-thumb-empty {
+      background: rgba(0, 0, 0, 0.08);
+    }
+
+    .stay-group__exc-name {
+      color: v.$lightAltText;
+    }
+
+    .stay-group__exc-meta {
+      color: v.$lightAltTextDarker;
+    }
+
+    .stay-group__exc-transport-header {
+      color: v.$lightAltTextDarker;
+    }
+
+    .stay-group__exc-transport-icon {
+      color: v.$lightAltTextDarker;
+    }
+
+    .stay-group__exc-badge {
+      background: rgba(0, 0, 0, 0.07);
+      color: v.$lightAltText;
+    }
+  }
+}

@@ -4,9 +4,12 @@ import { JSX } from "react";
 
 import { formatDeltaVsCityForDateSpan } from "@/utils/timezoneOffset";
 
-import { PlaneIcon } from "../../../assets";
+import { ChevronRightIcon } from "../../../assets";
 import { City } from "../../../core";
+import { visitedTrips } from "../../../data";
 import { useLanguage } from "../../../hooks/language/language";
+import { classNames } from "../../../utils/className";
+import { getCityTravels } from "../../../utils/trips";
 import { CountryFlag } from "../../atoms";
 import { Row } from "./Row";
 
@@ -19,17 +22,19 @@ interface TimezoneRowProps {
 }
 
 /**
- * A timezone row
+ * TimezoneRow component
  *
- * The timezone row component is used to create a timezone row.
+ * Displays the timezone offset between two cities.
  *
  * @component
  *
- * @param {TimezoneRowProps} props - The props of the component
- * @param {string} props.className - The class to apply to the timezone row
- * @param {City} props.sCity - The start country
- * @param {City} props.eCity - The end country
- * @returns {JSX.Element} - The timezone row
+ * @param {TimezoneRowProps} props - The timezone row props
+ * @param {string} [props.className] - Additional class names
+ * @param {City} props.sCity - Start city
+ * @param {City} props.eCity - End city
+ * @param {Date} [props.sDate] - Start date for offset calculation
+ * @param {Date} [props.eDate] - End date for offset calculation
+ * @returns {JSX.Element} The timezone row
  */
 export function TimezoneRow({
   sCity,
@@ -39,17 +44,18 @@ export function TimezoneRow({
   className = "",
 }: TimezoneRowProps): JSX.Element {
   const { t, currLanguage } = useLanguage(["home"]);
-  const startDate = sDate ?? eCity.travels?.[0]?.sDate ?? new Date();
-  const endDate = eDate ?? eCity.travels?.[0]?.eDate ?? startDate;
+  const firstTravel = getCityTravels(eCity, visitedTrips)[0];
+  const startDate = sDate ?? firstTravel?.sDate ?? new Date();
+  const endDate = eDate ?? firstTravel?.eDate ?? startDate;
 
   return (
-    <Row className={`timezone-row ${className} row--wrap`}>
+    <Row className={classNames("timezone-row", className, "row--wrap")}>
       <div className="timezone-row__cities">
         <h2 className="timezone-row__cities__city">
           <CountryFlag countryId={sCity.country.id} />
           {sCity.getName(t)}
         </h2>
-        <PlaneIcon className="timezone-row__icon" />
+        <ChevronRightIcon className="timezone-row__icon" />
         <h2 className="timezone-row__cities__city">
           <CountryFlag countryId={eCity.country.id} />
           {eCity.getName(t)}

@@ -13,6 +13,9 @@
     background-color #{$td} #{$tt},
     border-color #{$td} #{$tt},
     color #{$td} #{$tt},
+    fill #{$td} #{$tt},
+    outline-color #{$td} #{$tt},
+    stroke #{$td} #{$tt},
     box-shadow #{$td} #{$tt};
   -webkit-transition:
     #{$property} #{$duration} #{$timing},
@@ -20,6 +23,9 @@
     background-color #{$td} #{$tt},
     border-color #{$td} #{$tt},
     color #{$td} #{$tt},
+    fill #{$td} #{$tt},
+    outline-color #{$td} #{$tt},
+    stroke #{$td} #{$tt},
     box-shadow #{$td} #{$tt};
   -moz-transition:
     #{$property} #{$duration} #{$timing},
@@ -27,6 +33,9 @@
     background-color #{$td} #{$tt},
     border-color #{$td} #{$tt},
     color #{$td} #{$tt},
+    fill #{$td} #{$tt},
+    outline-color #{$td} #{$tt},
+    stroke #{$td} #{$tt},
     box-shadow #{$td} #{$tt};
   -o-transition:
     #{$property} #{$duration} #{$timing},
@@ -34,6 +43,9 @@
     background-color #{$td} #{$tt},
     border-color #{$td} #{$tt},
     color #{$td} #{$tt},
+    fill #{$td} #{$tt},
+    outline-color #{$td} #{$tt},
+    stroke #{$td} #{$tt},
     box-shadow #{$td} #{$tt};
   -ms-transition:
     #{$property} #{$duration} #{$timing},
@@ -41,6 +53,9 @@
     background-color #{$td} #{$tt},
     border-color #{$td} #{$tt},
     color #{$td} #{$tt},
+    fill #{$td} #{$tt},
+    outline-color #{$td} #{$tt},
+    stroke #{$td} #{$tt},
     box-shadow #{$td} #{$tt};
 }
 
@@ -119,4 +134,33 @@
   #fullscreen-exit path {
     fill: $buttonContent;
   }
+}
+
+@mixin floating-card-dark() {
+  @include glassmorphism-dark();
+  border-radius: v.$floatingCardRadiusLg;
+  padding: v.$floatingCardPadding;
+}
+
+@mixin floating-card-light() {
+  @include glassmorphism-light();
+  border-radius: v.$floatingCardRadiusLg;
+  padding: v.$floatingCardPadding;
+}
+
+@mixin full-panel-dark() {
+  @include glassmorphism-dark();
+  border-radius: v.$floatingCardRadiusLg;
+}
+
+@mixin full-panel-light() {
+  @include glassmorphism-light();
+  border: 0.0625rem solid rgba(0, 0, 0, 0.06);
+  border-radius: v.$floatingCardRadiusLg;
+}
+
+@mixin bottom-sheet() {
+  border-radius: v.$bottomSheetRadius;
+  touch-action: none;
+  will-change: transform;
 }

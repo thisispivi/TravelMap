@@ -1,0 +1,181 @@
+@use "../../../styles/mixins" as m;
+@use "../../../styles/variables" as v;
+@use "../../../styles/scrollbar" as s;
+
+.trip-detail {
+  position: fixed;
+  top: calc(v.$floatingNavHeight + 2rem);
+  left: 1rem;
+  width: v.$floatingCardMaxWidth;
+  max-height: calc(100vh - v.$floatingNavHeight - 3rem);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: v.$floatingCardRadiusLg;
+  transform-origin: left top;
+
+  .trip-detail__body {
+    flex: 1;
+    overflow-y: auto;
+    scrollbar-gutter: stable;
+    padding: 1rem v.$floatingCardPadding v.$floatingCardPadding;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .trip-detail__route-label {
+    font-size: v.$bodySm;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    margin: 0;
+  }
+
+  .trip-detail__stats {
+    display: flex;
+    gap: 0.375rem;
+    flex-wrap: wrap;
+    padding: 0.625rem v.$floatingCardPadding 0.625rem;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .trip-detail__stat-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3125rem;
+    padding: 0.3rem 0.625rem;
+    border-radius: 62rem;
+    font-size: v.$caption;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+
+    .trip-detail__stat-pill-icon {
+      width: 0.7rem;
+      height: 0.7rem;
+      flex-shrink: 0;
+    }
+  }
+}
+
+.home--dark {
+  .trip-detail {
+    .trip-detail__stat-pill {
+      background: rgba(255, 255, 255, 0.07);
+      color: v.$darkAltText;
+      &--plane {
+        color: v.$transportPlane;
+      }
+      &--ferry {
+        color: v.$transportFerry;
+      }
+      &--train {
+        color: v.$transportTrain;
+      }
+      &--bus {
+        color: v.$transportBus;
+      }
+      &--car {
+        color: v.$transportCar;
+      }
+      &--taxi {
+        color: v.$transportTaxi;
+      }
+      &--walk {
+        color: v.$transportWalk;
+      }
+    }
+
+    background: rgba(22, 22, 30, 0.45);
+    -webkit-backdrop-filter: blur(v.$glassBlur);
+    backdrop-filter: blur(v.$glassBlur);
+    border: 0.0625rem solid v.$glassBorderDark;
+    box-shadow: v.$glassShadowDark;
+    border-radius: v.$floatingCardRadiusLg;
+    padding: 0;
+
+    .trip-detail__route-label {
+      color: v.$darkAltTextDarker;
+    }
+
+    .trip-detail__body {
+      @include s.setScrollbar(
+        transparent,
+        rgba(255, 255, 255, 0.12),
+        rgba(255, 255, 255, 0.2),
+        rgba(255, 255, 255, 0.3)
+      );
+    }
+  }
+}
+
+.home--light {
+  .trip-detail {
+    .trip-detail__stat-pill {
+      background: rgba(0, 0, 0, 0.05);
+      color: v.$lightAltText;
+      &--plane {
+        color: v.$transportPlane;
+      }
+      &--ferry {
+        color: v.$transportFerry;
+      }
+      &--train {
+        color: v.$transportTrain;
+      }
+      &--bus {
+        color: v.$transportBus;
+      }
+      &--car {
+        color: v.$transportCar;
+      }
+      &--taxi {
+        color: v.$transportTaxi;
+      }
+      &--walk {
+        color: v.$transportWalk;
+      }
+    }
+
+    @include m.floating-card-light();
+    padding: 0;
+    border: 0.0625rem solid rgba(0, 0, 0, 0.06);
+
+    .trip-detail__route-label {
+      color: v.$lightAltTextDarker;
+    }
+
+    .trip-detail__body {
+      @include s.setScrollbar(
+        transparent,
+        rgba(0, 0, 0, 0.15),
+        rgba(0, 0, 0, 0.25),
+        rgba(0, 0, 0, 0.35)
+      );
+    }
+  }
+}
+
+@media screen and (max-width: 42.5rem) {
+  .trip-detail {
+    top: auto;
+    bottom: calc(
+      v.$floatingNavHeight + v.$mobileFloatingMargin * 2 +
+        env(safe-area-inset-bottom, 0rem)
+    );
+    left: v.$mobileFloatingMargin;
+    right: v.$mobileFloatingMargin;
+    width: auto;
+    max-height: 75vh;
+    border-radius: 1.5rem;
+
+    .trip-detail__body {
+      scrollbar-gutter: auto;
+      padding-right: v.$floatingCardPadding;
+    }
+  }
+}

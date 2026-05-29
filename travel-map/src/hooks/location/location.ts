@@ -1,60 +1,70 @@
 import { useMemo } from "react";
 import { useLocation as useLocationRouter } from "react-router-dom";
 
-type LocationHook = {
-  isVisited: boolean;
-  isFuture: boolean;
-  isInfoTabOpen: boolean;
-  isGallery: boolean;
+export type UseLocationReturn = {
+  isTrips: boolean;
+  isPlaces: boolean;
+  isTripDetail: boolean;
+  isTimeline: boolean;
   isStats: boolean;
-  isLived: boolean;
+  isGallery: boolean;
   isLightbox: boolean;
-  activeTab: string | null;
-  isCurrentTabOpen: (tab: string) => boolean;
+  activeTab: "trips" | "places" | "timeline" | "stats" | null;
+  tripDetailId: string | null;
+  placesFilter: "lived" | "visited" | "future" | null;
 };
 
 /**
- * The useLocation hook
+ * Derives structured route state from the current URL pathname.
  *
- * The useLocation hook is used to get the location of the user.
- *
- * @returns {LocationHook} - The location hook
+ * @returns {UseLocationReturn} Flags and extracted segments for the active route.
  */
-export function useLocation(): LocationHook {
+export function useLocation(): UseLocationReturn {
   const location = useLocationRouter();
   const pathname = location.pathname;
 
   return useMemo(() => {
-    const isVisited = pathname.includes("visited");
-    const isFuture = pathname.includes("future");
     const isGallery = pathname.includes("gallery");
-    const isStats = pathname.includes("stats");
-    const isLived = pathname.includes("lived");
     const isLightbox = pathname.split("/").length === 5;
-    const isInfoTabOpen = isVisited || isFuture || isStats || isLived;
+    const isTimeline = pathname.startsWith("/timeline");
+    const isStats = pathname.startsWith("/stats");
+    const isTripDetail = pathname.startsWith("/trip/");
+    const isPlaces = pathname.startsWith("/places");
+    const isTrips = pathname === "/trips" || isTripDetail;
 
-    const activeTab = isLived
-      ? "lived"
-      : isVisited
+    const tripDetailMatch = pathname.match(/^\/trip\/(.+)$/);
+    const tripDetailId = tripDetailMatch ? tripDetailMatch[1] : null;
+
+    const placesFilterMatch = pathname.match(
+      /^\/places\/(lived|visited|future)$/,
+    );
+    const placesFilter = placesFilterMatch
+      ? (placesFilterMatch[1] as "lived" | "visited" | "future")
+      : isPlaces
         ? "visited"
-        : isFuture
-          ? "future"
-          : isStats
-            ? "stats"
+        : null;
+
+    const activeTab = isTimeline
+      ? "timeline"
+      : isStats
+        ? "stats"
+        : isPlaces
+          ? "places"
+          : isTrips
+            ? "trips"
             : null;
 
-    const isCurrentTabOpen = (tab: string) => pathname.includes(tab);
-
     return {
-      isVisited,
-      isFuture,
-      isInfoTabOpen,
-      isGallery,
+      isTrips,
+      isPlaces,
+      isTripDetail,
+      isTimeline,
       isStats,
-      isLived,
-      isCurrentTabOpen,
+      isGallery,
       isLightbox,
       activeTab,
+      tripDetailId,
+      placesFilter,
     };
   }, [pathname]);
 }

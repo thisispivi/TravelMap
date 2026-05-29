@@ -6,6 +6,7 @@ import { RowsPhotoAlbum } from "react-photo-album";
 import {
   Outlet,
   useLoaderData,
+  useLocation as useRouterLocation,
   useNavigate,
   useSearchParams,
 } from "react-router-dom";
@@ -14,8 +15,13 @@ import { useLocation } from "@/hooks/location/location";
 
 import { PlayIcon } from "../../../assets";
 import { City } from "../../../core";
+import { visitedTrips } from "../../../data";
 import { useLanguage } from "../../../hooks/language/language";
 import { parameters } from "../../../utils/parameters";
+import {
+  getCityPhotoTravels,
+  getTravelByCityIndex,
+} from "../../../utils/trips";
 import { CloseButton, CountryFlag } from "../../atoms";
 import { TravelSelector } from "../../molecules";
 
@@ -24,28 +30,38 @@ export interface GalleryProps {
   travelIdx: number;
 }
 
+type GalleryLocationState = {
+  fromPath?: string;
+};
+
 /**
  * Gallery component
  *
- * The gallery component is used to display a gallery.
+ * Masonry photo album for a single city travel. Renders thumbnails via
+ * `react-photo-album` and navigates to the Lightbox on click. Supports
+ * YouTube video previews with a play-button overlay.
  *
  * @component
  *
- * @returns {JSX.Element} - The gallery
+ * @returns {JSX.Element} The gallery page
  */
 export default function Gallery(): JSX.Element {
   const { t } = useLanguage(["home"]);
   const navigate = useNavigate();
+  const routerLocation = useRouterLocation();
   const { city, travelIdx } = useLoaderData() as GalleryProps;
   const [searchParams] = useSearchParams();
   const from = searchParams.get("from");
   const { isLightbox } = useLocation();
+  const fromPath = (routerLocation.state as GalleryLocationState | null)
+    ?.fromPath;
+  const navigationState = fromPath ? { fromPath } : undefined;
 
-  const travel = city.travels[travelIdx];
+  const travel = getTravelByCityIndex(city, travelIdx, visitedTrips);
 
   const photos = useMemo(
     () =>
-      travel.photos.map((p, i) => ({
+      (travel?.photos ?? []).map((p, i) => ({
         src: parameters.isShowPhotos
           ? `${import.meta.env.VITE_CDN_PATH}${p.thumbnail}`
           : "",
@@ -55,33 +71,28 @@ export default function Gallery(): JSX.Element {
         youtube: p.youtube,
         index: i,
       })),
-    [travel.photos],
+    [travel?.photos],
   );
 
   const [hasOverflow, setHasOverflow] = useState<boolean>(false);
   const contentRef = useRef<HTMLDivElement | null>(null);
 
   const checkOverflow = useCallback(() => {
-    if (contentRef.current) {
-      const element = contentRef.current;
-      setHasOverflow(element.scrollHeight > element.clientHeight);
-    }
+    const el = contentRef.current;
+    if (el) setHasOverflow(el.scrollHeight > el.clientHeight);
   }, []);
 
   useEffect(() => {
-    const handleResize = () => checkOverflow();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, [checkOverflow]);
-
-  useEffect(() => {
     checkOverflow();
+    const timeout = setTimeout(checkOverflow, 500);
+    window.addEventListener("resize", checkOverflow);
+    return () => {
+      clearTimeout(timeout);
+      window.removeEventListener("resize", checkOverflow);
+    };
   }, [checkOverflow, travel]);
 
-  useEffect(() => {
-    const timeout = setTimeout(() => checkOverflow(), 500);
-    return () => clearTimeout(timeout);
-  }, [checkOverflow]);
+  if (!travel) return <div className="gallery" />;
 
   return (
     <div className="gallery">
@@ -93,11 +104,12 @@ export default function Gallery(): JSX.Element {
         />
         <TravelSelector
           cityName={city.name}
+          navigationState={navigationState}
           selectedTravelIdx={travelIdx}
-          travels={city.travels}
+          travels={getCityPhotoTravels(city, visitedTrips)}
         />
         <CloseButton
-          onClick={() => navigate(from === "map" ? "/" : "/visited")}
+          onClick={() => navigate(fromPath ?? (from === "map" ? "/" : "/"))}
         />
       </div>
       <div className="gallery__content">
@@ -108,7 +120,9 @@ export default function Gallery(): JSX.Element {
           style={{ visibility: isLightbox ? "hidden" : "visible" }}
         >
           <RowsPhotoAlbum
-            onClick={({ index }) => navigate(`./${index}`)}
+            onClick={({ index }) =>
+              navigate(`./${index}`, { state: navigationState })
+            }
             photos={photos}
             render={{
               image: (props, { photo }) => (
@@ -122,17 +136,21 @@ export default function Gallery(): JSX.Element {
                     <>
                       <PlayIcon
                         className="gallery__content__image__play"
-                        onClick={() => navigate(`./${photo.index}`)}
-                      />
-                      <div
-                        className="gallery__content__image__gradient"
-                        onClick={() => navigate(`./${photo.index}`)}
-                        onKeyDown={(e) =>
-                          (e.key === "Enter" || e.key === " ") &&
-                          navigate(`./${photo.index}`)
+                        onClick={() =>
+                          navigate(`./${photo.index}`, {
+                            state: navigationState,
+                          })
                         }
-                        role="button"
-                        tabIndex={0}
+                      />
+                      <button
+                        aria-label={t("lightbox.youtubeVideo")}
+                        className="gallery__content__image__gradient"
+                        onClick={() =>
+                          navigate(`./${photo.index}`, {
+                            state: navigationState,
+                          })
+                        }
+                        type="button"
                       />
                     </>
                   ) : null}
