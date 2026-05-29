@@ -108,6 +108,13 @@ type DisplaySegment =
 function collapseTransportChains(
   items: TripDetailTimelineItem[],
 ): IntermediateItem[] {
+  const baseCities = new Set<string>();
+  for (const item of items) {
+    if (item.kind === "base-stop" && !item.isLayover) {
+      baseCities.add(item.city.name);
+    }
+  }
+
   const result: IntermediateItem[] = [];
   let i = 0;
 
@@ -127,10 +134,12 @@ function collapseTransportChains(
           leg.ferryInfo ??
           leg.busInfo ??
           leg.trainInfo ??
-          leg.carInfo;
+          leg.carInfo ??
+          leg.taxiInfo ??
+          leg.walkInfo;
         const company = leg.flightInfo
           ? TRIP_DETAIL_FLIGHT_COMPANY_NAMES[leg.flightInfo.company]
-          : leg.ferryInfo
+          : leg.ferryInfo?.company
             ? TRIP_DETAIL_FERRY_COMPANY_NAMES[leg.ferryInfo.company]
             : undefined;
 
@@ -145,6 +154,10 @@ function collapseTransportChains(
           isRoundTrip: leg.isRoundTrip,
         });
         i++;
+
+        if (baseCities.has(leg.to.name)) {
+          break;
+        }
 
         const peek = items[i];
         if (
@@ -239,7 +252,10 @@ function buildDisplaySegments(
         if (
           lastLeg.mode === "car" ||
           lastLeg.mode === "bus" ||
-          lastLeg.mode === "train"
+          lastLeg.mode === "taxi" ||
+          lastLeg.mode === "train" ||
+          lastLeg.mode === "ferry" ||
+          lastLeg.mode === "walk"
         ) {
           pendingDayTripTransport = {
             mode: lastLeg.mode,

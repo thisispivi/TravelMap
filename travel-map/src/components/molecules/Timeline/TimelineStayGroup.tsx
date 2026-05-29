@@ -7,8 +7,7 @@ import {
   useNavigate,
 } from "react-router-dom";
 
-import { AirplaneIcon, BusIcon, CarIcon, FerryIcon, TrainIcon } from "@/assets";
-import { CountryFlag } from "@/components/atoms";
+import { CountryFlag, TransportModeIcon } from "@/components/atoms";
 import { HomeContext } from "@/components/pages/Home/HomeContext";
 import { City, TransportMode, TripStop } from "@/core";
 import { visitedTrips } from "@/data";
@@ -49,21 +48,6 @@ interface TimelineStayGroupProps {
   excursions: ExcursionItem[];
   animDelay: number;
   showYear: boolean;
-}
-
-function ModeIcon({
-  mode,
-  className,
-}: {
-  mode: TransportMode;
-  className?: string;
-}) {
-  if (mode === "plane") return <AirplaneIcon className={className} />;
-  if (mode === "ferry") return <FerryIcon className={className} />;
-  if (mode === "bus") return <BusIcon className={className} />;
-  if (mode === "train") return <TrainIcon className={className} />;
-  if (mode === "car") return <CarIcon className={className} />;
-  return null;
 }
 
 /** Consecutive excursions grouped into movement chains. */
@@ -133,7 +117,7 @@ export function TimelineStayGroup({
       <div className="stay-group__excursion" key={exc.key}>
         {tp ? (
           <div className="stay-group__exc-transport-header">
-            <ModeIcon
+            <TransportModeIcon
               className="stay-group__exc-transport-icon"
               mode={tp.mode}
             />
@@ -295,7 +279,7 @@ export function TimelineStayGroup({
                     {chain.stops.map((exc) => renderExcursionStop(exc))}
                     {rt ? (
                       <div className="stay-group__chain-return">
-                        <ModeIcon
+                        <TransportModeIcon
                           className="stay-group__exc-transport-icon"
                           mode={rt.mode}
                         />

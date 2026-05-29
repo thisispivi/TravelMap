@@ -3,7 +3,6 @@ import { unique } from "remeda";
 import {
   d,
   ferry,
-  layover,
   move,
   plane,
   roundTripByPlane,
@@ -190,10 +189,6 @@ export const visitedTrips: Trip[] = [
         company: FlightCompany.RYANAIR,
         data: { durationMinutes: 50 },
       }),
-      layover({
-        city: Palermo,
-        date: d({ year: 2021, monthIndex: 8, day: 23 }),
-      }),
       move({
         mode: "car",
         from: Palermo,
@@ -222,10 +217,6 @@ export const visitedTrips: Trip[] = [
           durationMinutes: 1 * 60,
         },
       }),
-      layover({
-        city: Palermo,
-        date: d({ year: 2021, monthIndex: 8, day: 26 }),
-      }),
       plane({
         from: Palermo,
         to: Cagliari,
@@ -246,10 +237,6 @@ export const visitedTrips: Trip[] = [
         to: Rome,
         company: FlightCompany.ITA_AIRWAYS,
         data: { durationMinutes: 1 * 60 + 10 },
-      }),
-      layover({
-        city: Rome,
-        date: d({ year: 2022, monthIndex: 1, day: 25 }),
       }),
       move({
         mode: "car",
@@ -279,10 +266,6 @@ export const visitedTrips: Trip[] = [
           durationMinutes: 1 * 60 + 16,
         },
       }),
-      layover({
-        city: Rome,
-        date: d({ year: 2022, monthIndex: 1, day: 27 }),
-      }),
       plane({
         from: Rome,
         to: Cagliari,
@@ -309,7 +292,6 @@ export const visitedTrips: Trip[] = [
           durationMinutes: 190,
         },
       }),
-      layover({ city: Olbia, date: d({ year: 2022, monthIndex: 3, day: 21 }) }),
       move({
         mode: "ferry",
         from: Olbia,
@@ -323,10 +305,6 @@ export const visitedTrips: Trip[] = [
           sDate: d({ year: 2022, monthIndex: 3, day: 21 }),
           eDate: d({ year: 2022, monthIndex: 3, day: 22 }),
         },
-      }),
-      layover({
-        city: Livorno,
-        date: d({ year: 2022, monthIndex: 3, day: 22 }),
       }),
       move({
         mode: "car",
@@ -356,10 +334,6 @@ export const visitedTrips: Trip[] = [
           eDate: d({ year: 2022, monthIndex: 3, day: 25 }),
         },
       }),
-      layover({
-        city: Livorno,
-        date: d({ year: 2022, monthIndex: 3, day: 25 }),
-      }),
       move({
         mode: "ferry",
         from: Livorno,
@@ -373,10 +347,6 @@ export const visitedTrips: Trip[] = [
           sDate: d({ year: 2022, monthIndex: 3, day: 25 }),
           eDate: d({ year: 2022, monthIndex: 3, day: 26 }),
         },
-      }),
-      layover({
-        city: Olbia,
-        date: d({ year: 2022, monthIndex: 3, day: 26 }),
       }),
       move({
         mode: "car",
@@ -412,10 +382,6 @@ export const visitedTrips: Trip[] = [
         to: Charleroi,
         company: FlightCompany.RYANAIR,
         data: { durationMinutes: 2 * 60 + 20 },
-      }),
-      layover({
-        city: Charleroi,
-        date: d({ year: 2023, monthIndex: 7, day: 5 }),
       }),
       move({
         mode: "bus",
@@ -480,10 +446,6 @@ export const visitedTrips: Trip[] = [
           sDate: d({ year: 2023, monthIndex: 7, day: 10 }),
           eDate: d({ year: 2023, monthIndex: 7, day: 10 }),
         },
-      }),
-      layover({
-        city: Charleroi,
-        date: d({ year: 2023, monthIndex: 7, day: 10 }),
       }),
       plane({
         from: Charleroi,
@@ -576,111 +538,262 @@ export const visitedTrips: Trip[] = [
   }),
   trip({
     id: "japan-trip-2024",
-    sDate: d({ year: 2024, monthIndex: 7, day: 13 }),
-    eDate: d({ year: 2024, monthIndex: 7, day: 25 }),
+    sDate: d({ year: 2024, monthIndex: 7, day: 10 }),
+    eDate: d({ year: 2024, monthIndex: 7, day: 27 }),
     origin: Cagliari,
     returnTo: Cagliari,
     steps: [
-      plane({ from: Cagliari, to: Rome, company: FlightCompany.AEROITALIA }),
+      plane({
+        from: Cagliari,
+        to: Rome,
+        company: FlightCompany.ITA_AIRWAYS,
+        data: { durationMinutes: 1 * 60 + 10 },
+      }),
       stay({
         city: Rome,
         sDate: d({ year: 2024, monthIndex: 7, day: 10 }),
         eDate: d({ year: 2024, monthIndex: 7, day: 12 }),
         photoPath: "Italy/Rome/photos/tr_100824_120824",
       }),
-      plane({ from: Rome, to: Tokyo, company: FlightCompany.ITA_AIRWAYS }),
+      plane({
+        from: Rome,
+        to: Tokyo,
+        company: FlightCompany.ITA_AIRWAYS,
+        data: { durationMinutes: 12 * 60 + 30 },
+      }),
       stay({
         city: Tokyo,
         sDate: d({ year: 2024, monthIndex: 7, day: 13 }),
         eDate: d({ year: 2024, monthIndex: 7, day: 18 }),
         photoPath: "Japan/Tokyo/photos/tr_130824_180824",
       }),
-      move({ mode: "bus", from: Tokyo, to: Oshino }),
+      move({
+        mode: "bus",
+        from: Tokyo,
+        to: Oshino,
+        data: {
+          distanceInKm: 100,
+          durationMinutes: 132,
+          sDate: d({ year: 2024, monthIndex: 7, day: 15 }),
+          eDate: d({ year: 2024, monthIndex: 7, day: 15 }),
+        },
+      }),
       stay({
         city: Oshino,
         sDate: d({ year: 2024, monthIndex: 7, day: 15, hours: 12 }),
         eDate: d({ year: 2024, monthIndex: 7, day: 15, hours: 12 }),
         photoPath: "Japan/Oshino/photos/tr_150824_150824",
       }),
-      move({ mode: "bus", from: Oshino, to: Fujikawaguchiko }),
+      move({
+        mode: "bus",
+        from: Oshino,
+        to: Fujikawaguchiko,
+        data: {
+          distanceInKm: 15.2,
+          durationMinutes: 25,
+          sDate: d({ year: 2024, monthIndex: 7, day: 15, hours: 12 }),
+          eDate: d({ year: 2024, monthIndex: 7, day: 15, hours: 12 }),
+        },
+      }),
       stay({
         city: Fujikawaguchiko,
         sDate: d({ year: 2024, monthIndex: 7, day: 15, hours: 13 }),
         eDate: d({ year: 2024, monthIndex: 7, day: 15, hours: 13 }),
         photoPath: "Japan/Fujikawaguchiko/photos/tr_150824_150824",
       }),
-      move({ mode: "bus", from: Tokyo, to: Matsumoto }),
+      move({
+        mode: "bus",
+        from: Fujikawaguchiko,
+        to: Tokyo,
+        data: {
+          distanceInKm: 100,
+          durationMinutes: 120,
+          sDate: d({ year: 2024, monthIndex: 7, day: 15, hours: 14 }),
+          eDate: d({ year: 2024, monthIndex: 7, day: 15, hours: 14 }),
+        },
+      }),
+      move({
+        mode: "bus",
+        from: Tokyo,
+        to: Matsumoto,
+        data: {
+          distanceInKm: 225,
+          durationMinutes: 190,
+          sDate: d({
+            year: 2024,
+            monthIndex: 7,
+            day: 18,
+            hours: 6,
+            minutes: 0,
+          }),
+          eDate: d({
+            year: 2024,
+            monthIndex: 7,
+            day: 18,
+            hours: 9,
+            minutes: 10,
+          }),
+        },
+      }),
       stay({
         city: Matsumoto,
         sDate: d({ year: 2024, monthIndex: 7, day: 18 }),
         eDate: d({ year: 2024, monthIndex: 7, day: 18 }),
         photoPath: "Japan/Matsumoto/photos/tr_180824_180824",
       }),
-      move({ mode: "bus", from: Matsumoto, to: Takayama }),
+      move({
+        mode: "bus",
+        from: Matsumoto,
+        to: Takayama,
+        data: {
+          distanceInKm: 87,
+          durationMinutes: 153,
+          sDate: d({
+            year: 2024,
+            monthIndex: 7,
+            day: 18,
+            hours: 11,
+            minutes: 55,
+          }),
+          eDate: d({
+            year: 2024,
+            monthIndex: 7,
+            day: 18,
+            hours: 14,
+            minutes: 28,
+          }),
+        },
+      }),
       stay({
         city: Takayama,
         sDate: d({ year: 2024, monthIndex: 7, day: 18 }),
         eDate: d({ year: 2024, monthIndex: 7, day: 19 }),
         photoPath: "Japan/Takayama/photos/tr_180824_190824",
       }),
-      move({ mode: "bus", from: Takayama, to: Shirakawago }),
+      move({
+        mode: "bus",
+        from: Takayama,
+        to: Shirakawago,
+        data: {
+          distanceInKm: 48,
+          durationMinutes: 50,
+          sDate: d({ year: 2024, monthIndex: 7, day: 19 }),
+          eDate: d({ year: 2024, monthIndex: 7, day: 19 }),
+        },
+      }),
       stay({
         city: Shirakawago,
         sDate: d({ year: 2024, monthIndex: 7, day: 19 }),
         eDate: d({ year: 2024, monthIndex: 7, day: 19 }),
         photoPath: "Japan/Shirakawago/photos/tr_190824_190824",
       }),
-      move({ mode: "bus", from: Shirakawago, to: Kanazawa }),
+      move({
+        mode: "bus",
+        from: Shirakawago,
+        to: Kanazawa,
+        data: {
+          distanceInKm: 75,
+          durationMinutes: 90,
+          sDate: d({ year: 2024, monthIndex: 7, day: 19 }),
+          eDate: d({ year: 2024, monthIndex: 7, day: 19 }),
+        },
+      }),
       stay({
         city: Kanazawa,
         sDate: d({ year: 2024, monthIndex: 7, day: 19 }),
         eDate: d({ year: 2024, monthIndex: 7, day: 21 }),
         photoPath: "Japan/Kanazawa/photos/tr_190824_210824",
       }),
-      move({ mode: "train", from: Kanazawa, to: Kyoto }),
+      move({
+        mode: "train",
+        from: Kanazawa,
+        to: Kyoto,
+        data: { durationMinutes: 120, distanceInKm: 220 },
+      }),
       stay({
         city: Kyoto,
         sDate: d({ year: 2024, monthIndex: 7, day: 21 }),
         eDate: d({ year: 2024, monthIndex: 7, day: 27 }),
         photoPath: "Japan/Kyoto/photos/tr_210824_270824",
       }),
-      move({ mode: "train", from: Kyoto, to: Himeji }),
+      move({
+        mode: "train",
+        from: Kyoto,
+        to: Himeji,
+        data: { durationMinutes: 90, distanceInKm: 120 },
+      }),
       stay({
         city: Himeji,
         sDate: d({ year: 2024, monthIndex: 7, day: 23 }),
         eDate: d({ year: 2024, monthIndex: 7, day: 23 }),
         photoPath: "Japan/Himeji/photos/tr_230824_230824",
       }),
-      move({ mode: "train", from: Himeji, to: Kobe }),
+      move({
+        mode: "train",
+        from: Himeji,
+        to: Kobe,
+        data: { durationMinutes: 40, distanceInKm: 55 },
+      }),
       stay({
         city: Kobe,
         sDate: d({ year: 2024, monthIndex: 7, day: 23 }),
         eDate: d({ year: 2024, monthIndex: 7, day: 23 }),
         photoPath: "Japan/Kobe/photos/tr_230824_230824",
       }),
-      move({ mode: "train", from: Kyoto, to: Nara }),
+      move({
+        mode: "train",
+        from: Kobe,
+        to: Kyoto,
+        data: { durationMinutes: 55, distanceInKm: 75 },
+      }),
+      move({
+        mode: "train",
+        from: Kyoto,
+        to: Nara,
+        data: { durationMinutes: 40, distanceInKm: 42, roundTrip: true },
+      }),
       stay({
         city: Nara,
         sDate: d({ year: 2024, monthIndex: 7, day: 24 }),
         eDate: d({ year: 2024, monthIndex: 7, day: 24 }),
         photoPath: "Japan/Nara/photos/tr_240824_240824",
       }),
-      move({ mode: "train", from: Nara, to: Osaka }),
+      move({
+        mode: "train",
+        from: Kyoto,
+        to: Osaka,
+        data: { durationMinutes: 32, distanceInKm: 42, roundTrip: true },
+      }),
       stay({
         city: Osaka,
         sDate: d({ year: 2024, monthIndex: 7, day: 25 }),
         eDate: d({ year: 2024, monthIndex: 7, day: 25 }),
         photoPath: "Japan/Osaka/photos/tr_250824_250824",
       }),
+      move({
+        mode: "train",
+        from: Kyoto,
+        to: Osaka,
+        data: { durationMinutes: 32, distanceInKm: 42, roundTrip: true },
+      }),
       plane({
         from: Osaka,
         to: Tokyo,
         company: FlightCompany.ALL_NIPPON_AIRWAYS,
+        data: { durationMinutes: 30 },
       }),
-      layover({ city: Tokyo, date: d({ year: 2024, monthIndex: 7, day: 25 }) }),
-      plane({ from: Tokyo, to: Rome, company: FlightCompany.ITA_AIRWAYS }),
-      layover({ city: Rome, date: d({ year: 2024, monthIndex: 7, day: 25 }) }),
-      plane({ from: Rome, to: Cagliari, company: FlightCompany.ITA_AIRWAYS }),
+      plane({
+        from: Tokyo,
+        to: Rome,
+        company: FlightCompany.ITA_AIRWAYS,
+        data: { durationMinutes: 14 * 60 + 45 },
+      }),
+      plane({
+        from: Rome,
+        to: Cagliari,
+        company: FlightCompany.ITA_AIRWAYS,
+        data: { durationMinutes: 1 * 60 + 10 },
+      }),
     ],
   }),
   trip({
@@ -696,7 +809,6 @@ export const visitedTrips: Trip[] = [
         company: FlightCompany.RYANAIR,
         data: { durationMinutes: 1 * 60 + 25 },
       }),
-      layover({ city: Verona, date: d({ year: 2024, monthIndex: 9, day: 4 }) }),
       move({
         mode: "train",
         from: Verona,
@@ -737,19 +849,23 @@ export const visitedTrips: Trip[] = [
     returnTo: Cagliari,
     steps: [
       plane({ from: Cagliari, to: Luqa, company: FlightCompany.RYANAIR }),
-      layover({ city: Luqa, date: d({ year: 2025, monthIndex: 0, day: 1 }) }),
-      move({ mode: "car", from: Luqa, to: Sliema }),
+      move({
+        mode: "taxi",
+        from: Luqa,
+        to: Sliema,
+        data: { distanceInKm: 8, durationMinutes: 15 },
+      }),
       stay({
         city: Sliema,
         sDate: d({ year: 2025, monthIndex: 0, day: 1 }),
         eDate: d({ year: 2025, monthIndex: 0, day: 5 }),
         photoPath: "Malta/Sliema/photos/tr_010125_050125",
       }),
-      stay({
-        city: Valletta,
-        sDate: d({ year: 2025, monthIndex: 0, day: 2, hours: 2 }),
-        eDate: d({ year: 2025, monthIndex: 0, day: 2, hours: 2 }),
-        photoPath: "Malta/Valletta/photos/tr_020125_020125",
+      move({
+        mode: "taxi",
+        from: Sliema,
+        to: Mdina,
+        data: { distanceInKm: 13.6, durationMinutes: 20 },
       }),
       stay({
         city: Mdina,
@@ -757,17 +873,41 @@ export const visitedTrips: Trip[] = [
         eDate: d({ year: 2025, monthIndex: 0, day: 2 }),
         photoPath: "Malta/Mdina/photos/tr_020125_020125",
       }),
+      move({
+        mode: "walk",
+        from: Mdina,
+        to: Rabat,
+        data: { distanceInKm: 0.8, durationMinutes: 10 },
+      }),
       stay({
         city: Rabat,
         sDate: d({ year: 2025, monthIndex: 0, day: 2, hours: 1 }),
         eDate: d({ year: 2025, monthIndex: 0, day: 2, hours: 1 }),
         photoPath: "Malta/Rabat/photos/tr_020125_020125",
       }),
+      move({
+        mode: "taxi",
+        from: Rabat,
+        to: Valletta,
+        data: { distanceInKm: 13.7, durationMinutes: 22 },
+      }),
       stay({
         city: Valletta,
-        sDate: d({ year: 2025, monthIndex: 0, day: 3 }),
-        eDate: d({ year: 2025, monthIndex: 0, day: 3 }),
-        photoPath: "Malta/Valletta/photos/tr_030125_030125",
+        sDate: d({ year: 2025, monthIndex: 0, day: 2, hours: 2 }),
+        eDate: d({ year: 2025, monthIndex: 0, day: 2, hours: 2 }),
+        photoPath: "Malta/Valletta/photos/tr_020125_020125",
+      }),
+      move({
+        mode: "taxi",
+        from: Valletta,
+        to: Sliema,
+        data: { distanceInKm: 9, durationMinutes: 15 },
+      }),
+      move({
+        mode: "taxi",
+        from: Sliema,
+        to: SanGiljan,
+        data: { distanceInKm: 2.4, durationMinutes: 6, roundTrip: true },
       }),
       stay({
         city: SanGiljan,
@@ -775,11 +915,54 @@ export const visitedTrips: Trip[] = [
         eDate: d({ year: 2025, monthIndex: 0, day: 2, hours: 23 }),
         photoPath: "Malta/SanGiljan/photos/tr_020125_020125",
       }),
+      move({
+        mode: "taxi",
+        from: Sliema,
+        to: Valletta,
+        data: { distanceInKm: 9, durationMinutes: 15, roundTrip: true },
+      }),
+      stay({
+        city: Valletta,
+        sDate: d({ year: 2025, monthIndex: 0, day: 3 }),
+        eDate: d({ year: 2025, monthIndex: 0, day: 3 }),
+        photoPath: "Malta/Valletta/photos/tr_030125_030125",
+      }),
+      move({
+        mode: "taxi",
+        from: Sliema,
+        to: SanGiljan,
+        data: {
+          distanceInKm: 2.4,
+          durationMinutes: 6,
+          roundTrip: true,
+          sDate: d({ year: 2025, monthIndex: 0, day: 4, hours: 18 }),
+          eDate: d({ year: 2025, monthIndex: 0, day: 4, hours: 18 }),
+        },
+      }),
+      stay({
+        city: SanGiljan,
+        sDate: d({ year: 2025, monthIndex: 0, day: 4, hours: 23 }),
+        eDate: d({ year: 2025, monthIndex: 0, day: 4, hours: 23 }),
+        photoPath: "Malta/SanGiljan/photos/tr_040125_040125",
+        data: { rowConstraints: { minPhotos: 2, maxPhotos: 7 } },
+      }),
+      move({
+        mode: "taxi",
+        from: Sliema,
+        to: SanPawlIlBahar,
+        data: { distanceInKm: 11.8, durationMinutes: 18 },
+      }),
       stay({
         city: SanPawlIlBahar,
         sDate: d({ year: 2025, monthIndex: 0, day: 4 }),
         eDate: d({ year: 2025, monthIndex: 0, day: 4 }),
         photoPath: "Malta/SanPawlIlBahar/photos/tr_040125_040125",
+      }),
+      move({
+        mode: "ferry",
+        from: SanPawlIlBahar,
+        to: Comino,
+        data: { distanceInKm: 28, durationMinutes: 25 },
       }),
       stay({
         city: Comino,
@@ -787,23 +970,30 @@ export const visitedTrips: Trip[] = [
         eDate: d({ year: 2025, monthIndex: 0, day: 4, hours: 11 }),
         photoPath: "Malta/Comino/photos/tr_040125_040125",
       }),
+      move({
+        mode: "ferry",
+        from: Comino,
+        to: Victoria,
+        data: { distanceInKm: 8, durationMinutes: 15 },
+      }),
       stay({
         city: Victoria,
         sDate: d({ year: 2025, monthIndex: 0, day: 4, hours: 15 }),
         eDate: d({ year: 2025, monthIndex: 0, day: 4, hours: 15 }),
         photoPath: "Malta/Victoria/photos/tr_040125_040125",
       }),
-      stay({
-        city: SanGiljan,
-        sDate: d({ year: 2025, monthIndex: 0, day: 4, hours: 23 }),
-        eDate: d({ year: 2025, monthIndex: 0, day: 4, hours: 23 }),
-        photoPath: "Malta/SanGiljan/photos/tr_040125_040125",
-        data: {
-          rowConstraints: { minPhotos: 2, maxPhotos: 7 },
-        },
+      move({
+        mode: "ferry",
+        from: Victoria,
+        to: Sliema,
+        data: { distanceInKm: 28, durationMinutes: 43 },
       }),
-      move({ mode: "car", from: Sliema, to: Luqa }),
-      layover({ city: Luqa, date: d({ year: 2025, monthIndex: 0, day: 5 }) }),
+      move({
+        mode: "car",
+        from: Sliema,
+        to: Luqa,
+        data: { distanceInKm: 8, durationMinutes: 15 },
+      }),
       plane({ from: Luqa, to: Cagliari, company: FlightCompany.RYANAIR }),
     ],
   }),
@@ -823,13 +1013,54 @@ export const visitedTrips: Trip[] = [
     company: FlightCompany.RYANAIR,
     photoPath: "Austria/Vienna/photos/tr_170525_200525",
   }),
-  roundTripByPlane({
+  trip({
     id: "cefalù-trip-2025",
-    city: Cefalù,
     sDate: d({ year: 2025, monthIndex: 5, day: 14 }),
     eDate: d({ year: 2025, monthIndex: 5, day: 17 }),
-    company: FlightCompany.RYANAIR,
-    photoPath: "Italy/Cefalù/photos/tr_140625_170625",
+    origin: Cagliari,
+    returnTo: Cagliari,
+    steps: [
+      plane({
+        from: Cagliari,
+        to: Palermo,
+        company: FlightCompany.RYANAIR,
+        data: { durationMinutes: 50 },
+      }),
+      move({
+        mode: "car",
+        from: Palermo,
+        to: Cefalù,
+        data: {
+          sDate: d({ year: 2025, monthIndex: 5, day: 14 }),
+          eDate: d({ year: 2025, monthIndex: 5, day: 14 }),
+          distanceInKm: 70,
+          durationMinutes: 1 * 60,
+        },
+      }),
+      stay({
+        city: Cefalù,
+        sDate: d({ year: 2025, monthIndex: 5, day: 14 }),
+        eDate: d({ year: 2025, monthIndex: 5, day: 17 }),
+        photoPath: "Italy/Cefalù/photos/tr_140625_170625",
+      }),
+      move({
+        mode: "car",
+        from: Cefalù,
+        to: Palermo,
+        data: {
+          sDate: d({ year: 2025, monthIndex: 5, day: 17 }),
+          eDate: d({ year: 2025, monthIndex: 5, day: 17 }),
+          distanceInKm: 70,
+          durationMinutes: 1 * 60,
+        },
+      }),
+      plane({
+        from: Palermo,
+        to: Cagliari,
+        company: FlightCompany.RYANAIR,
+        data: { durationMinutes: 50 },
+      }),
+    ],
   }),
   trip({
     id: "bulgaria-trip-2025",
@@ -838,23 +1069,48 @@ export const visitedTrips: Trip[] = [
     origin: Cagliari,
     returnTo: Cagliari,
     steps: [
-      move({ mode: "car", from: Cagliari, to: Alghero }),
-      plane({ from: Alghero, to: Sofia, company: FlightCompany.WIZZ_AIR }),
+      move({
+        mode: "car",
+        from: Cagliari,
+        to: Alghero,
+        data: { distanceInKm: 251, durationMinutes: 2 * 60 + 50 },
+      }),
+      plane({
+        from: Alghero,
+        to: Sofia,
+        company: FlightCompany.WIZZ_AIR,
+        data: { durationMinutes: 2 * 60 + 10 },
+      }),
       stay({
         city: Sofia,
         sDate: d({ year: 2025, monthIndex: 7, day: 17 }),
         eDate: d({ year: 2025, monthIndex: 7, day: 21 }),
         photoPath: "Bulgaria/Sofia/photos/tr_170825_210825",
       }),
-      move({ mode: "car", from: Sofia, to: Rila }),
+      move({
+        mode: "car",
+        from: Sofia,
+        to: Rila,
+        data: { distanceInKm: 87, durationMinutes: 110, roundTrip: true },
+      }),
       stay({
         city: Rila,
         sDate: d({ year: 2025, monthIndex: 7, day: 19 }),
         eDate: d({ year: 2025, monthIndex: 7, day: 19 }),
         photoPath: "Bulgaria/Rila/photos/tr_190825_190825",
       }),
-      plane({ from: Sofia, to: Alghero, company: FlightCompany.WIZZ_AIR }),
-      move({ mode: "car", from: Alghero, to: Cagliari }),
+      plane({
+        from: Sofia,
+        to: Alghero,
+        company: FlightCompany.WIZZ_AIR,
+        data: { durationMinutes: 2 * 60 + 10 },
+      }),
+      move({
+        mode: "car",
+        from: Alghero,
+        to: Cagliari,
+        data: { distanceInKm: 251, durationMinutes: 2 * 60 + 50 },
+      }),
     ],
   }),
   trip({
@@ -864,21 +1120,23 @@ export const visitedTrips: Trip[] = [
     origin: Cagliari,
     returnTo: Cagliari,
     steps: [
-      plane({ from: Cagliari, to: Rome, company: FlightCompany.AEROITALIA }),
-      layover({ city: Rome, date: d({ year: 2025, monthIndex: 10, day: 18 }) }),
+      plane({
+        from: Cagliari,
+        to: Rome,
+        company: FlightCompany.AEROITALIA,
+        data: { durationMinutes: 1 * 60 + 10 },
+      }),
       plane({
         from: Rome,
         to: Shanghai,
         company: FlightCompany.CHINA_EASTERN_AIRLINES,
-      }),
-      layover({
-        city: Shanghai,
-        date: d({ year: 2025, monthIndex: 10, day: 19 }),
+        data: { durationMinutes: 12 * 60 },
       }),
       plane({
         from: Shanghai,
         to: Sydney,
         company: FlightCompany.CHINA_EASTERN_AIRLINES,
+        data: { durationMinutes: 11 * 60 },
       }),
       stay({
         city: Sydney,
@@ -886,7 +1144,12 @@ export const visitedTrips: Trip[] = [
         eDate: d({ year: 2025, monthIndex: 10, day: 20 }),
         photoPath: "Australia/Sydney/photos/tr_181125_281125",
       }),
-      plane({ from: Sydney, to: Cairns, company: FlightCompany.JETSTAR }),
+      plane({
+        from: Sydney,
+        to: Cairns,
+        company: FlightCompany.JETSTAR,
+        data: { durationMinutes: 3 * 60 + 10 },
+      }),
       stay({
         city: Cairns,
         sDate: d({ year: 2025, monthIndex: 10, day: 20 }),
@@ -897,6 +1160,7 @@ export const visitedTrips: Trip[] = [
         from: Cairns,
         to: Sydney,
         company: FlightCompany.VIRGIN_AUSTRALIA,
+        data: { durationMinutes: 3 * 60 },
       }),
       stay({
         city: Sydney,
@@ -908,18 +1172,20 @@ export const visitedTrips: Trip[] = [
         from: Sydney,
         to: Shanghai,
         company: FlightCompany.CHINA_EASTERN_AIRLINES,
-      }),
-      layover({
-        city: Shanghai,
-        date: d({ year: 2025, monthIndex: 10, day: 28 }),
+        data: { durationMinutes: 10 * 60 + 30 },
       }),
       plane({
         from: Shanghai,
         to: Rome,
         company: FlightCompany.CHINA_EASTERN_AIRLINES,
+        data: { durationMinutes: 12 * 60 },
       }),
-      layover({ city: Rome, date: d({ year: 2025, monthIndex: 10, day: 28 }) }),
-      plane({ from: Rome, to: Cagliari, company: FlightCompany.AEROITALIA }),
+      plane({
+        from: Rome,
+        to: Cagliari,
+        company: FlightCompany.AEROITALIA,
+        data: { durationMinutes: 1 * 60 + 10 },
+      }),
     ],
   }),
   trip({
@@ -938,10 +1204,6 @@ export const visitedTrips: Trip[] = [
           distanceInKm: 244,
         },
       }),
-      layover({
-        city: PortoTorres,
-        date: d({ year: 2025, monthIndex: 11, day: 28 }),
-      }),
       ferry({
         from: PortoTorres,
         to: Toulon,
@@ -955,6 +1217,7 @@ export const visitedTrips: Trip[] = [
         city: Toulon,
         sDate: d({ year: 2025, monthIndex: 11, day: 28 }),
         eDate: d({ year: 2025, monthIndex: 11, day: 28 }),
+        photoPath: "France/Toulon/photos/tr_281225_020126",
       }),
       move({
         mode: "car",
@@ -1049,10 +1312,6 @@ export const visitedTrips: Trip[] = [
           ferry: { via: [Ajaccio], durationMinutes: 900, distanceInKm: 506 },
         },
       }),
-      layover({
-        city: Ajaccio,
-        date: d({ year: 2026, monthIndex: 0, day: 2 }),
-      }),
       move({
         mode: "car",
         from: PortoTorres,
@@ -1076,10 +1335,6 @@ export const visitedTrips: Trip[] = [
         to: Bergamo,
         company: FlightCompany.RYANAIR,
         data: { durationMinutes: 90 },
-      }),
-      layover({
-        city: Bergamo,
-        date: d({ year: 2026, monthIndex: 2, day: 26 }),
       }),
       plane({
         from: Bergamo,
@@ -1141,10 +1396,6 @@ export const visitedTrips: Trip[] = [
         company: FlightCompany.RYANAIR,
         data: { durationMinutes: 2 * 60 + 20 },
       }),
-      layover({
-        city: Bergamo,
-        date: d({ year: 2026, monthIndex: 2, day: 31 }),
-      }),
       plane({
         from: Bergamo,
         to: Cagliari,
@@ -1183,6 +1434,7 @@ export const visitedTrips: Trip[] = [
         from: Bratislava,
         to: Devin,
         data: {
+          roundTrip: true,
           distanceInKm: 16.7,
           durationMinutes: 42,
           sDate: d({ year: 2026, monthIndex: 4, day: 3 }),
@@ -1227,6 +1479,6 @@ export const takenFlights: Flight[] = visitedTrips.flatMap((trip) =>
   trip.getFlights(),
 );
 
-export const takenFerries: Ferry[] = visitedTrips.flatMap((trip) =>
-  trip.getFerries(),
-);
+export const takenFerries: Ferry[] = visitedTrips
+  .flatMap((trip) => trip.getFerries())
+  .filter((ferry) => !!ferry.company);

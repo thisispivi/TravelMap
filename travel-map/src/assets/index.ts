@@ -34,6 +34,7 @@ import TaxiIcon from "./icons/Taxi.svg?react";
 import TimezoneIcon from "./icons/Timezone.svg?react";
 import TrainIcon from "./icons/Train.svg?react";
 import UnescoIcon from "./icons/Unesco.svg?react";
+import WalkIcon from "./icons/Walk.svg?react";
 
 export {
   AirplaneIcon,
@@ -72,6 +73,7 @@ export {
   TimezoneIcon,
   TrainIcon,
   UnescoIcon,
+  WalkIcon,
 };
 
 import AustraliaFlag from "./icons/flags/Australia.svg?react";

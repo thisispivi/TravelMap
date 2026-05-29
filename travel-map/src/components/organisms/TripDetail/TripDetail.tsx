@@ -10,6 +10,7 @@ import {
   CalendarIcon,
   CarIcon,
   FerryIcon,
+  TaxiIcon,
   TimezoneIcon,
   TrainIcon,
 } from "@/assets";
@@ -39,9 +40,15 @@ function computeTripStats(items: TripDetailTimelineItem[]) {
   let buses = 0,
     busKm = 0,
     busMinutes = 0;
+  let taxis = 0,
+    taxiKm = 0,
+    taxiMinutes = 0;
   let cars = 0,
     carKm = 0,
     carMinutes = 0;
+  let walks = 0,
+    walkKm = 0,
+    walkMinutes = 0;
   const timezones = new Set<string>();
 
   for (const item of items) {
@@ -72,6 +79,14 @@ function computeTripStats(items: TripDetailTimelineItem[]) {
         cars += mult;
         carKm += (item.carInfo?.distanceKm ?? 0) * mult;
         carMinutes += (item.carInfo?.durationMinutes ?? 0) * mult;
+      } else if (item.mode === "taxi") {
+        taxis += mult;
+        taxiKm += (item.taxiInfo?.distanceKm ?? 0) * mult;
+        taxiMinutes += (item.taxiInfo?.durationMinutes ?? 0) * mult;
+      } else if (item.mode === "walk") {
+        walks += mult;
+        walkKm += (item.walkInfo?.distanceKm ?? 0) * mult;
+        walkMinutes += (item.walkInfo?.durationMinutes ?? 0) * mult;
       }
     }
   }
@@ -90,9 +105,15 @@ function computeTripStats(items: TripDetailTimelineItem[]) {
     buses,
     busKm,
     busMinutes,
+    taxis,
+    taxiKm,
+    taxiMinutes,
     cars,
     carKm,
     carMinutes,
+    walks,
+    walkKm,
+    walkMinutes,
     timezoneCount: timezones.size,
   };
 }
@@ -228,6 +249,19 @@ export function TripDetail(): JSX.Element | null {
                 : ""}
               {stats.carMinutes > 0
                 ? ` · ~${formatTripDetailDuration(stats.carMinutes)}`
+                : ""}
+            </span>
+          ) : null}
+          {stats.taxis > 0 ? (
+            <span className="trip-detail__stat-pill trip-detail__stat-pill--taxi">
+              <TaxiIcon className="trip-detail__stat-pill-icon" />
+              {stats.taxis}{" "}
+              {stats.taxis === 1 ? t("tripDetail.taxi") : t("tripDetail.taxis")}
+              {stats.taxiKm > 0
+                ? ` · ${formatMileage(stats.taxiKm, lang)} km`
+                : ""}
+              {stats.taxiMinutes > 0
+                ? ` · ~${formatTripDetailDuration(stats.taxiMinutes)}`
                 : ""}
             </span>
           ) : null}

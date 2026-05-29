@@ -82,6 +82,12 @@
       &--car {
         color: v.$transportCar;
       }
+      &--taxi {
+        color: v.$transportTaxi;
+      }
+      &--walk {
+        color: v.$transportWalk;
+      }
     }
 
     background: rgba(22, 22, 30, 0.45);
@@ -126,6 +132,12 @@
       }
       &--car {
         color: v.$transportCar;
+      }
+      &--taxi {
+        color: v.$transportTaxi;
+      }
+      &--walk {
+        color: v.$transportWalk;
       }
     }
 

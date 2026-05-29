@@ -9,7 +9,14 @@ import { Ferry } from "./Ferry";
 import { Flight } from "./Flight";
 import { Travel } from "./Travel";
 
-export type TransportMode = "ferry" | "plane" | "car" | "train" | "bus";
+export type TransportMode =
+  | "ferry"
+  | "plane"
+  | "car"
+  | "train"
+  | "bus"
+  | "taxi"
+  | "walk";
 
 interface FlightLeg {
   company?: FlightCompany;

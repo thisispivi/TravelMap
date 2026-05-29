@@ -37,3 +37,6 @@ export { SegmentedControl };
 
 import { AnimatedCounter } from "./AnimatedCounter/AnimatedCounter";
 export { AnimatedCounter };
+
+import { TransportModeIcon } from "./TransportModeIcon/TransportModeIcon";
+export { TransportModeIcon };

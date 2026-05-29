@@ -51,6 +51,10 @@ $exc-gap: 0.25rem;
     &:has(> .stay-group__chain:only-child)::before {
       bottom: 50%;
     }
+
+    &:has(> .stay-group__chain:last-child > .stay-group__chain-return)::before {
+      bottom: 7.3rem;
+    }
   }
 
   .stay-group__chain {

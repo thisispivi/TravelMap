@@ -270,6 +270,10 @@
     "buses": "buses",
     "drive": "drive",
     "drives": "drives",
+    "taxi": "taxi",
+    "taxis": "taxis",
+    "walk": "walk",
+    "walks": "walks",
     "timeZone": "time zone",
     "timeZones": "time zones",
     "dayTrip": "Day trip"

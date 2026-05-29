@@ -3,8 +3,7 @@ import "./TimelineTransportConnector.scss";
 import { m } from "framer-motion";
 import { Fragment, JSX } from "react";
 
-import { AirplaneIcon, BusIcon, CarIcon, FerryIcon, TrainIcon } from "@/assets";
-import { CountryFlag } from "@/components/atoms";
+import { CountryFlag, TransportModeIcon } from "@/components/atoms";
 import { City, TransportMode } from "@/core";
 import { useLanguage } from "@/hooks/language/language";
 import { formatMileage } from "@/utils/format";
@@ -27,21 +26,6 @@ export type TransportLeg = {
 interface TimelineTransportConnectorProps {
   legs: TransportLeg[];
   animDelay: number;
-}
-
-function TransportIcon({
-  mode,
-  className,
-}: {
-  mode: TransportMode;
-  className?: string;
-}) {
-  if (mode === "plane") return <AirplaneIcon className={className} />;
-  if (mode === "ferry") return <FerryIcon className={className} />;
-  if (mode === "bus") return <BusIcon className={className} />;
-  if (mode === "train") return <TrainIcon className={className} />;
-  if (mode === "car") return <CarIcon className={className} />;
-  return null;
 }
 
 /**
@@ -108,7 +92,7 @@ export function TimelineTransportConnector({
             <span
               className={`trip-detail__connector-icon trip-detail__connector-icon--${leg.mode}`}
             >
-              <TransportIcon
+              <TransportModeIcon
                 className="trip-detail__connector-icon-svg"
                 mode={leg.mode}
               />

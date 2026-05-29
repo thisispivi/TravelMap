@@ -15,6 +15,8 @@ const TRANSPORT_COLORS: Partial<Record<TransportMode, string>> = {
   bus: variables.transportBus,
   train: variables.transportTrain,
   car: variables.transportCar,
+  taxi: variables.transportTaxi,
+  walk: variables.transportWalk,
 };
 
 function segmentColor(

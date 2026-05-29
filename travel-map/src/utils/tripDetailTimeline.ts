@@ -28,7 +28,7 @@ type TripDetailDayTripItem = {
   parentCity: City | null;
 };
 
-export type TripDetailFlightInfo = {
+type TripDetailFlightInfo = {
   company: FlightCompany;
   distanceKm: number;
   durationMinutes: number;
@@ -38,27 +38,24 @@ export type TripDetailFlightInfo = {
   arrival?: string;
 };
 
-export type TripDetailFerryInfo = {
-  company: FerryCompany;
+type TripDetailFerryInfo = {
+  company?: FerryCompany;
   distanceKm: number;
   durationMinutes: number;
   via: City[];
 };
 
-export type TripDetailBusInfo = {
+/** Distance and duration for a ground transport leg (bus, train, car, taxi, walk). */
+type TripDetailGroundInfo = {
   distanceKm: number;
   durationMinutes: number;
 };
 
-export type TripDetailTrainInfo = {
-  distanceKm: number;
-  durationMinutes: number;
-};
-
-export type TripDetailCarInfo = {
-  distanceKm: number;
-  durationMinutes: number;
-};
+type TripDetailBusInfo = TripDetailGroundInfo;
+type TripDetailTrainInfo = TripDetailGroundInfo;
+type TripDetailCarInfo = TripDetailGroundInfo;
+type TripDetailTaxiInfo = TripDetailGroundInfo;
+type TripDetailWalkInfo = TripDetailGroundInfo;
 
 export type TripDetailTimelineItem =
   | { kind: "origin"; city: City }
@@ -74,6 +71,8 @@ export type TripDetailTimelineItem =
       busInfo?: TripDetailBusInfo;
       trainInfo?: TripDetailTrainInfo;
       carInfo?: TripDetailCarInfo;
+      taxiInfo?: TripDetailTaxiInfo;
+      walkInfo?: TripDetailWalkInfo;
     }
   | TripDetailBaseStopItem
   | TripDetailDayTripItem;
@@ -128,7 +127,9 @@ function resolveTripDetailFlightInfo(
 function resolveTripDetailFerryInfo(
   ferry?: Ferry,
 ): TripDetailFerryInfo | undefined {
-  if (!ferry?.company) return undefined;
+  if (!ferry) return undefined;
+  if (!ferry.company && !ferry.distanceInKm && !ferry.durationMinutes)
+    return undefined;
 
   return {
     company: ferry.company,
@@ -220,6 +221,10 @@ export function buildTripDetailTimelineItems(
           step.mode === "train" ? resolveTripDetailGroundInfo(step) : undefined,
         carInfo:
           step.mode === "car" ? resolveTripDetailGroundInfo(step) : undefined,
+        taxiInfo:
+          step.mode === "taxi" ? resolveTripDetailGroundInfo(step) : undefined,
+        walkInfo:
+          step.mode === "walk" ? resolveTripDetailGroundInfo(step) : undefined,
       });
       continue;
     }
