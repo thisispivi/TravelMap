@@ -39,73 +39,76 @@
     top: 2.75rem;
     z-index: 13;
     border-radius: 0.75rem;
-    padding: 1rem;
-    width: 16rem;
+    padding: 0.75rem;
+    width: 15rem;
     flex-shrink: 0;
     transform-origin: top right;
 
     .filter__options__list {
       display: flex;
-      max-height: 14rem;
+      max-height: 16rem;
       overflow-y: auto;
       flex-direction: column;
-      padding-right: 0.6rem;
       flex-shrink: 0;
+      padding-right: 0.5rem;
 
       .filter__option {
         display: flex;
         align-items: center;
-        padding: 0.5rem 1rem;
-        border-radius: 0.375rem;
-        margin-block: 0.1rem;
-        opacity: 0.3;
+        gap: 0.5rem;
+        padding: 0.5rem 0.625rem;
+        margin-block: 0.125rem;
+        border-radius: 0.5rem;
+        border: none;
+        background: none;
+        outline: none;
         flex-shrink: 0;
         cursor: pointer;
-        @include m.transition(all, 0.2s, ease-in-out);
+        @include m.transition(background-color, 0.15s, ease);
 
         h4 {
-          @include m.transition(all, 0.2s, ease-in-out);
+          font-size: 0.875rem;
+          font-weight: 400;
+          @include m.transition(all, 0.15s, ease);
         }
 
         svg {
-          width: 1.5rem;
-          height: 1.5rem;
-          margin-right: 0.5rem;
+          width: 1.25rem;
+          height: 1.25rem;
           flex-shrink: 0;
         }
 
         &.filter__option--selected {
-          opacity: 1;
-
           h4 {
             font-weight: 600;
           }
         }
 
         &.filter__option--select-all {
-          opacity: 1;
-          margin-bottom: 0.75rem;
+          margin-bottom: 0.25rem;
+          padding-bottom: 0.5rem;
           border-radius: 0;
 
           .filter__option--select-all__icon {
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 1.5rem;
-            height: 1.5rem;
-            margin-right: 0.25rem;
-            @include m.transition(all, 0.2s, ease-in-out);
+            width: 1.25rem;
+            height: 1.25rem;
+            flex-shrink: 0;
+            @include m.transition(all, 0.15s, ease);
 
             svg {
               width: 100%;
               height: 100%;
-              @include m.transition(all, 0.2s, ease-in-out);
+              @include m.transition(all, 0.15s, ease);
             }
           }
 
           .filter__option--select-all__text {
-            font-weight: 600;
-            @include m.transition(all, 0.2s, ease-in-out);
+            font-size: 0.8125rem;
+            font-weight: 500;
+            @include m.transition(all, 0.15s, ease);
           }
         }
       }
@@ -134,20 +137,27 @@
 
     .filter__option {
       h4 {
-        color: v.$darkLeftBar;
+        color: rgba(v.$darkLeftBar, 0.45);
       }
 
       &.filter__option--selected {
-        background-color: rgba(0, 0, 0, 0.07);
+        background-color: rgba(0, 0, 0, 0.12);
+
+        h4 {
+          color: v.$darkLeftBar;
+        }
       }
 
       &:hover {
-        background-color: rgba(0, 0, 0, 0.06);
-        opacity: 1;
+        background-color: rgba(0, 0, 0, 0.08);
+
+        h4 {
+          color: v.$darkLeftBar;
+        }
       }
 
       &.filter__option--select-all {
-        border-bottom: 0.0625rem solid rgba(v.$darkLeftBar, 0.1);
+        border-bottom: 0.0625rem solid rgba(v.$darkLeftBar, 0.08);
 
         .filter__option--select-all__icon {
           color: v.$darkLeftBar;
@@ -198,20 +208,27 @@
 
     .filter__option {
       h4 {
-        color: v.$lightLeftBar;
+        color: rgba(v.$lightLeftBar, 0.4);
       }
 
       &.filter__option--selected {
-        background-color: rgba(255, 255, 255, 0.1);
+        background-color: rgba(255, 255, 255, 0.14);
+
+        h4 {
+          color: v.$lightLeftBar;
+        }
       }
 
       &:not(.filter__option--mobile):hover {
-        background-color: rgba(255, 255, 255, 0.06);
-        opacity: 1;
+        background-color: rgba(255, 255, 255, 0.08);
+
+        h4 {
+          color: v.$lightLeftBar;
+        }
       }
 
       &.filter__option--select-all {
-        border-bottom: 0.0625rem solid rgba(v.$lightLeftBar, 0.1);
+        border-bottom: 0.0625rem solid rgba(v.$lightLeftBar, 0.08);
 
         .filter__option--select-all__icon {
           color: v.$lightLeftBar;
@@ -223,6 +240,10 @@
 
         &:not(.filter__option--mobile):hover {
           background-color: transparent;
+
+          h4 {
+            color: v.$lightLeftBar;
+          }
         }
       }
     }
