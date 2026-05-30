@@ -4,12 +4,13 @@ import "./styles/_mixins.scss";
 import "./styles/_scrollbar.scss";
 import "./i18n/i18n";
 
-import React, { useEffect, useRef } from "react";
+import React, { Suspense, useEffect, useRef } from "react";
 import ReactDOM from "react-dom/client";
-import { createHashRouter, RouterProvider } from "react-router-dom";
+import { createHashRouter, Navigate, RouterProvider } from "react-router-dom";
 import type { TooltipRefProps } from "react-tooltip";
 import { Tooltip } from "react-tooltip";
 
+import { Loading } from "./components/atoms";
 import { Fallback } from "./components/pages/Fallback/Fallback";
 import { Home } from "./components/pages/Home/Home";
 import { mobileAndTabletCheck } from "./utils/responsive";
@@ -62,6 +63,7 @@ const router = createHashRouter([
           },
         ],
       },
+      { path: "*", element: <Navigate replace to="/trips" /> },
     ],
   },
 ]);
@@ -110,7 +112,15 @@ function BaseTooltip() {
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Suspense
+      fallback={
+        <div className="app-loading">
+          <Loading />
+        </div>
+      }
+    >
+      <RouterProvider router={router} />
+    </Suspense>
     {!isMobileOrTablet ? <BaseTooltip /> : null}
   </React.StrictMode>,
 );

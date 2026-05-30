@@ -31,8 +31,6 @@
       flex-direction: column;
     }
 
-    // In column layout the chart shrinks to its natural height so the donut
-    // doesn't consume the whole card.
     .bento-transport__chart {
       flex: 0 0 auto;
       align-items: center;

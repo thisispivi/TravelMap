@@ -3,5 +3,9 @@
     "title": "Oops!",
     "subtitle": "Qualcosa è andato storto."
   },
+  "notFound": {
+    "title": "Pagina Non Trovata",
+    "subtitle": "La pagina che stai cercando non esiste."
+  },
   "goToHome": "Vai alla Home"
 }

@@ -27,6 +27,7 @@
     "framer-motion": "^12.40.0",
     "i18next": "^26.3.0",
     "i18next-browser-languagedetector": "^8.2.1",
+    "i18next-http-backend": "^4.0.0",
     "mobile-device-detect": "^0.4.3",
     "react": "^19.2.6",
     "react-apexcharts": "^2.1.0",
@@ -46,7 +47,8 @@
     "@eslint/compat": "^2.1.0",
     "@eslint/eslintrc": "^3.3.5",
     "@eslint/js": "^10.0.1",
-    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@rolldown/plugin-babel": "^0.2.3",
+    "@types/babel__core": "^7.20.5",
     "@types/node": "^25.9.1",
     "@types/react": "^19.2.15",
     "@types/react-dom": "^19.2.3",
@@ -73,13 +75,13 @@
     "lint-staged": "^17.0.5",
     "postcss": "^8.5.15",
     "prettier": "3.8.3",
+    "react-doctor": "^0.2.6",
     "sass": "^1.100.0",
     "terser": "^5.48.0",
     "typescript": "^6.0.3",
     "vite": "^8.0.14",
     "vite-plugin-qrcode": "^0.4.1",
-    "vite-plugin-svgr": "^5.2.0",
-    "react-doctor": "^0.2.6"
+    "vite-plugin-svgr": "^5.2.0"
   },
   "lint-staged": {
     "*.js": "pnpm run lint",

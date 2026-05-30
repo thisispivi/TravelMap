@@ -49,6 +49,15 @@ body,
   z-index: 30 !important;
 }
 
+.app-loading {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: v.$darkBackground;
+}
+
 .home--light {
   .react-tooltip {
     background-color: v.$lightLeftBar;

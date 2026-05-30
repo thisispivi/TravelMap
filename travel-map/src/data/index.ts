@@ -545,7 +545,6 @@ export const visitedTrips: Trip[] = [
     eDate: d({ year: 2024, monthIndex: 7, day: 27 }),
     origin: Cagliari,
     returnTo: Cagliari,
-    // Center on Japan; Rome layover intentionally excluded from focus
     mapFocus: { center: [137.19, 35.63], zoom: 14 },
     steps: [
       plane({
@@ -853,7 +852,6 @@ export const visitedTrips: Trip[] = [
     eDate: d({ year: 2025, monthIndex: 0, day: 5 }),
     origin: Cagliari,
     returnTo: Cagliari,
-    // Center covers Malta + Gozo islands
     mapFocus: { center: [14.43, 35.95], zoom: 50 },
     steps: [
       plane({ from: Cagliari, to: Luqa, company: FlightCompany.RYANAIR }),
@@ -1128,7 +1126,6 @@ export const visitedTrips: Trip[] = [
     eDate: d({ year: 2025, monthIndex: 10, day: 29 }),
     origin: Cagliari,
     returnTo: Cagliari,
-    // Center between Sydney and Cairns; long-haul route through China excluded from focus
     mapFocus: { center: [148.49, -25.39], zoom: 9 },
     steps: [
       plane({
@@ -1205,7 +1202,6 @@ export const visitedTrips: Trip[] = [
     eDate: d({ year: 2026, monthIndex: 0, day: 3 }),
     origin: Muravera,
     returnTo: Muravera,
-    // Center on the French Riviera coast from Marseille to Monaco
     mapFocus: { center: [6.4, 43.43], zoom: 22 },
     steps: [
       move({
@@ -1342,7 +1338,6 @@ export const visitedTrips: Trip[] = [
     eDate: d({ year: 2026, monthIndex: 2, day: 31 }),
     origin: Cagliari,
     returnTo: Cagliari,
-    // Center between Bucharest and the Transylvanian mountains area
     mapFocus: { center: [25.74, 45.04], zoom: 22 },
     steps: [
       plane({
@@ -1425,7 +1420,6 @@ export const visitedTrips: Trip[] = [
     eDate: d({ year: 2026, monthIndex: 4, day: 4 }),
     origin: Cagliari,
     returnTo: Cagliari,
-    // Bratislava + Devín are only ~16km apart
     mapFocus: { center: [17.04, 48.16], zoom: 65 },
     steps: [
       move({

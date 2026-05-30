@@ -88,9 +88,6 @@ export function TripBrowser(): JSX.Element {
       ? [...page.querySelectorAll<HTMLElement>(".trip-card")]
       : [];
 
-    // getBoundingClientRect stops at the last card's bottom edge — add the
-    // container's padding-bottom so we don't undercount and trigger a
-    // spurious scrollbar.
     const pageHeight =
       page && cards.length > 0
         ? Math.max(
@@ -111,7 +108,6 @@ export function TripBrowser(): JSX.Element {
       (listStyle ? parseFloat(listStyle.paddingBottom) : 0);
 
     const contentHeight = fixedHeight + pageHeight;
-    // Shrink to content when it fits; cap at the CSS max-height otherwise.
     const targetHeight = Number.isFinite(maxHeight)
       ? Math.min(contentHeight, maxHeight)
       : contentHeight;
@@ -152,10 +148,6 @@ export function TripBrowser(): JSX.Element {
       frame = window.requestAnimationFrame(measure);
     };
 
-    // ResizeObserver covers the panel shrinking (CSS max-height caps it, element
-    // size changes). A window resize listener covers the panel growing — the
-    // inline height doesn't change so the panel element doesn't resize, but the
-    // available max-height did, and we need to recompute scrollability.
     const observer = new ResizeObserver(schedule);
     observer.observe(panel);
     window.addEventListener("resize", schedule);

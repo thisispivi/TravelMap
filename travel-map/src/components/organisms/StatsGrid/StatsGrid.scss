@@ -43,8 +43,6 @@
   }
 }
 
-// ── Bento card column spans ──────────────────────────────────────────────────
-
 .bento-card {
   grid-column: span 12;
   min-width: 0;
@@ -73,8 +71,6 @@
   align-self: stretch;
   min-height: max-content;
 }
-
-// ── Shared bento-detail layout ───────────────────────────────────────────────
 
 .bento-detail {
   display: flex;
@@ -129,8 +125,6 @@
   }
 }
 
-// ── Stack panel: two equal-height cards side-by-side with a sibling ─────────
-
 .bento-panel--stack {
   grid-column: span 6;
   align-self: stretch;
@@ -139,8 +133,6 @@
   gap: 0.75rem;
   min-width: 0;
 
-  // First child (TransportModes) sizes to its content.
-  // Second child (CitiesPerCountry) fills the remaining space.
   > *:first-child {
     flex: 0 0 auto;
   }
@@ -152,8 +144,6 @@
   }
 }
 
-// ── Days-per-year card ───────────────────────────────────────────────────────
-
 .bento-days-year {
   .bento-detail__top {
     display: flex;
@@ -163,15 +153,11 @@
   }
 }
 
-// ── Continents chart card ────────────────────────────────────────────────────
-
 .bento-continents-chart {
   .bento-detail__top {
     padding-bottom: 0.5rem;
   }
 }
-
-// ── Dark / light mode overrides ──────────────────────────────────────────────
 
 .home--dark {
   --not-visited-color: #3a3a4a;
@@ -262,8 +248,6 @@
     }
   }
 }
-
-// ── Responsive ───────────────────────────────────────────────────────────────
 
 @media screen and (max-width: 52rem) {
   .stats-bento {

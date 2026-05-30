@@ -1,57 +1,121 @@
 @use "../../../styles/variables" as v;
 
 .fallback {
-  width: 100%;
-  height: 100%;
+  position: fixed;
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 1.5rem;
 
   &__content {
-    padding: 1.5rem;
-    border-radius: 2rem;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 2rem 2.5rem;
+    border-radius: v.$floatingCardRadiusLg;
+    max-width: 36rem;
+    width: 100%;
+    text-align: center;
+  }
 
-    &__title {
-      width: 100%;
-      text-align: center;
-      font-size: 2rem;
-      font-weight: bold;
-      margin-bottom: 0.5rem;
-    }
-    &__subtitle {
-      width: 100%;
-      text-align: center;
-      font-size: 1.2rem;
-      margin-bottom: 1.5rem;
-    }
-    &__message {
-      margin-bottom: 0.5rem;
-    }
-    &__button {
-      margin-top: 1.5rem;
-      border-radius: 0.25rem;
-      height: 2.25rem;
-      width: 100%;
-      p {
-        font-size: 0.9rem;
-        font-weight: 500;
-      }
+  &__code {
+    font-size: 5rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    margin-bottom: 0.25rem;
+    opacity: 0.15;
+  }
+
+  &__title {
+    font-size: v.$headingLg;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+
+  &__subtitle {
+    font-size: v.$bodySm;
+    opacity: 0.6;
+    margin-bottom: 0.75rem;
+  }
+
+  &__message {
+    font-size: v.$bodySm;
+    font-family: monospace;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    width: 100%;
+    text-align: left;
+    word-break: break-word;
+    margin-bottom: 0.5rem;
+  }
+
+  &__stack {
+    font-size: 0.7rem;
+    font-family: monospace;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    width: 100%;
+    text-align: left;
+    max-height: 12rem;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    word-break: break-all;
+    margin-bottom: 0.5rem;
+  }
+
+  &__button {
+    margin-top: 1rem;
+    border-radius: 0.5rem;
+    height: 2.5rem;
+    padding: 0 1.5rem;
+    width: 100%;
+
+    p {
+      font-size: v.$bodySm;
+      font-weight: 600;
     }
   }
 }
 
 .fallback--light {
+  background-color: v.$lightBackground;
+
   .fallback__content {
     background-color: v.$lightLeftBar;
-    color: v.$darkLeftBar;
+    color: v.$lightButtonContent;
+    box-shadow: v.$glassShadowLight;
+  }
+
+  .fallback__code {
+    color: v.$lightButtonContent;
+  }
+
+  .fallback__message,
+  .fallback__stack {
+    background-color: v.$lightBackground;
+    color: v.$lightAltText;
   }
 }
 
 .fallback--dark {
+  background-color: v.$darkBackground;
+
   .fallback__content {
     background-color: v.$darkLeftBar;
     color: v.$darkButtonContent;
+    box-shadow: v.$glassShadowDark;
+  }
+
+  .fallback__code {
+    color: v.$darkButtonContent;
+  }
+
+  .fallback__message,
+  .fallback__stack {
+    background-color: v.$darkBackground;
+    color: v.$darkAltText;
   }
 }

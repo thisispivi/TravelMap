@@ -133,7 +133,6 @@ function computeStats() {
     ferryCompanyStats,
     countryVisitStats,
     kmByModeStats,
-    // expose these so cards don't need to re-import constants
     EARTH_CIRCUMFERENCE,
     MOON_DISTANCE,
     TOTAL_CONTINENTS,
