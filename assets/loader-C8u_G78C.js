@@ -1,1 +1,0 @@
-import{a as t}from"./data-DObB69xO.js";function a(a){const{cityName:r,travelIdx:n,photoIdx:o}=a.params,e=t.find(t=>t.name===r);return e&&n&&o?{city:e,travelIdx:parseInt(n,10),photoIdx:parseInt(o,10)}:null}export{a as loader};
