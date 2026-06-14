@@ -86,13 +86,14 @@ import { Bratislava } from "./Slovakia/Bratislava/Bratislava";
 import { Devin } from "./Slovakia/Devin/Devin";
 import { Barcelona } from "./Spain/Barcelona/Barcelona";
 import { Sevilla } from "./Spain/Sevilla/Sevilla";
+import { Arlanda } from "./Sweden/Arlanda/Arlanda";
 import { Stockholm } from "./Sweden/Stockholm/Stockholm";
 import { London } from "./UnitedKingdom/London/London";
 import { VaticanCity } from "./Vatican/Vatican/VaticanCity";
 
 export const livedCities: City[] = [Muravera, Cagliari];
 
-export const futureCities: City[] = [Stockholm];
+export const futureCities: City[] = [];
 
 export const visitedTrips: Trip[] = [
   roundTripByPlane({
@@ -1469,6 +1470,62 @@ export const visitedTrips: Trip[] = [
         from: Alghero,
         to: Cagliari,
         data: { durationMinutes: 170, distanceInKm: 251 },
+      }),
+    ],
+  }),
+  trip({
+    id: "stockholm-trip-2026",
+    sDate: d({ year: 2026, monthIndex: 5, day: 5 }),
+    eDate: d({ year: 2026, monthIndex: 5, day: 8 }),
+    origin: Cagliari,
+    returnTo: Cagliari,
+    mapFocus: { center: [18.02, 59.49], zoom: 45 },
+    steps: [
+      plane({
+        from: Cagliari,
+        to: Arlanda,
+        data: {
+          durationMinutes: 3 * 60 + 20,
+          sDate: d({ year: 2026, monthIndex: 5, day: 5 }),
+          eDate: d({ year: 2026, monthIndex: 5, day: 5 }),
+        },
+      }),
+      move({
+        mode: "train",
+        from: Arlanda,
+        to: Stockholm,
+        data: {
+          distanceInKm: 40,
+          durationMinutes: 18,
+          sDate: d({ year: 2026, monthIndex: 5, day: 5 }),
+          eDate: d({ year: 2026, monthIndex: 5, day: 5 }),
+        },
+      }),
+      stay({
+        city: Stockholm,
+        sDate: d({ year: 2026, monthIndex: 5, day: 5 }),
+        eDate: d({ year: 2026, monthIndex: 5, day: 8 }),
+        photoPath: "Sweden/Stockholm/photos/tr_050626_080626",
+      }),
+      move({
+        mode: "train",
+        from: Stockholm,
+        to: Arlanda,
+        data: {
+          distanceInKm: 40,
+          durationMinutes: 18,
+          sDate: d({ year: 2026, monthIndex: 5, day: 8 }),
+          eDate: d({ year: 2026, monthIndex: 5, day: 8 }),
+        },
+      }),
+      plane({
+        from: Arlanda,
+        to: Cagliari,
+        data: {
+          durationMinutes: 3 * 60 + 20,
+          sDate: d({ year: 2026, monthIndex: 5, day: 8 }),
+          eDate: d({ year: 2026, monthIndex: 5, day: 8 }),
+        },
       }),
     ],
   }),

@@ -3,6 +3,7 @@
     "Ajaccio": "Ajaccio",
     "Alghero": "Alghero",
     "Anderlecht": "Anderlecht",
+    "Arlanda": "Arlanda",
     "Barcelona": "Barcelona",
     "Bran": "Bran",
     "Brasov": "Brașov",
@@ -255,7 +256,8 @@
     "australia-trip-2025": "Australia Trip",
     "cote-d-azur-trip-2025-2026": "Côte d'Azur Trip",
     "romania-trip-2026": "Romania Trip",
-    "slovakia-trip-2026": "Champions of Slovakia"
+    "slovakia-trip-2026": "Champions of Slovakia",
+    "stockholm-trip-2026": "Stockholm Diamond League"
   },
   "nav": {
     "trips": "Trips",
