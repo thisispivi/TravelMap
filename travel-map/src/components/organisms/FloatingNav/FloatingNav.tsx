@@ -1,7 +1,7 @@
 import "./FloatingNav.scss";
 
 import { domAnimation, LazyMotion, m } from "framer-motion";
-import { JSX, use, useEffect, useMemo, useRef, useState } from "react";
+import { ReactNode, use, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { LogoIcon } from "@/assets";
@@ -15,13 +15,11 @@ import { classNames } from "@/utils/className";
 
 import { DarkModeButton } from "../../atoms";
 import { LanguageSelector } from "../Language/Language";
-
 interface FloatingNavProps {
   className?: string;
   isDarkTheme: HomeContextType["isDarkTheme"];
   handleDarkModeSwitch: HomeContextType["handleDarkModeSwitch"];
 }
-
 /**
  * FloatingNav component
  *
@@ -39,12 +37,10 @@ interface FloatingNavProps {
  * @param {string} [props.className] - Additional class names
  * @param {boolean} props.isDarkTheme - Current theme state
  * @param {() => void} props.handleDarkModeSwitch - Toggles dark / light mode
- * @returns {JSX.Element} The navigation bar
+ * @returns {ReactNode} The navigation bar
  */
-
 let navHasAnimated = false;
 const PANEL_CLOSE_DELAY_MS = 220;
-
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -52,7 +48,6 @@ const containerVariants = {
     transition: { staggerChildren: 0.04, delayChildren: 0.08 },
   },
 } as const;
-
 const itemVariants = {
   hidden: { opacity: 0, y: -8 },
   visible: {
@@ -61,24 +56,21 @@ const itemVariants = {
     transition: { type: "spring", stiffness: 400, damping: 24 },
   },
 } as const;
-
 type NavTab = {
   id: "trips" | "places" | "timeline" | "stats";
   path: string;
 };
-
 const NAV_TABS: NavTab[] = [
   { id: "trips", path: "/trips" },
   { id: "places", path: "/places" },
   { id: "timeline", path: "/timeline" },
   { id: "stats", path: "/stats" },
 ];
-
 export function FloatingNav({
   className = "",
   isDarkTheme,
   handleDarkModeSwitch,
-}: FloatingNavProps): JSX.Element {
+}: FloatingNavProps): ReactNode {
   const navigate = useNavigate();
   const { activeTab, isGallery } = useLocation();
   const { t } = useLanguage(["home"]);
@@ -88,11 +80,9 @@ export function FloatingNav({
   const [skipAnimation] = useState(() => navHasAnimated);
   const closePanelTimeoutRef = useRef<number | null>(null);
   const pendingOpenTabRef = useRef<NavTab["id"] | null>(null);
-
   useEffect(() => {
     navHasAnimated = true;
   }, []);
-
   useEffect(
     () => () => {
       if (closePanelTimeoutRef.current !== null) {
@@ -102,41 +92,30 @@ export function FloatingNav({
     },
     [],
   );
-
   useEffect(() => {
     if (pendingOpenTabRef.current !== activeTab) return;
-
     setIsPanelOpen?.(true);
     pendingOpenTabRef.current = null;
   }, [activeTab, setIsPanelOpen]);
-
-  const tabs = useMemo(
-    () =>
-      NAV_TABS.map((tab) => ({
-        ...tab,
-        label: t(`nav.${tab.id}`),
-        isActive: activeTab === tab.id,
-      })),
-    [activeTab, t],
-  );
-
+  const tabs = NAV_TABS.map((tab) => ({
+    ...tab,
+    label: t(`nav.${tab.id}`),
+    isActive: activeTab === tab.id,
+  }));
   const handleTabClick = (tab: (typeof tabs)[0]) => {
     if (closePanelTimeoutRef.current !== null) {
       window.clearTimeout(closePanelTimeoutRef.current);
       closePanelTimeoutRef.current = null;
     }
     pendingOpenTabRef.current = null;
-
     const isLeavingBottomPanel =
       (activeTab === "stats" || activeTab === "timeline") &&
       (tab.id === "trips" || tab.id === "places");
-
     if (tab.isActive) {
       if (!isPanelOpen) {
         setIsPanelOpen?.(true);
         return;
       }
-
       if (setIsPanelOpen) {
         setIsPanelOpen(false);
         closePanelTimeoutRef.current = window.setTimeout(() => {
@@ -145,11 +124,9 @@ export function FloatingNav({
         }, PANEL_CLOSE_DELAY_MS);
         return;
       }
-
       navigate("/", { state: { mapOnly: true } });
       return;
     }
-
     if (isLeavingBottomPanel && setIsPanelOpen) {
       setIsPanelOpen(false);
       closePanelTimeoutRef.current = window.setTimeout(() => {
@@ -159,11 +136,9 @@ export function FloatingNav({
       }, PANEL_CLOSE_DELAY_MS);
       return;
     }
-
     if (setIsPanelOpen) setIsPanelOpen(true);
     navigate(tab.path);
   };
-
   return (
     <LazyMotion features={domAnimation}>
       <m.nav

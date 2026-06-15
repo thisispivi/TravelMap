@@ -1,6 +1,6 @@
 import "./TripDetailHero.scss";
 
-import { JSX } from "react";
+import { ReactNode } from "react";
 
 import { CalendarIcon, ChevronIcon, MapIcon } from "@/assets";
 import { CountryFlag } from "@/components/atoms";
@@ -27,14 +27,14 @@ interface TripDetailHeroProps {
  * @param {Trip} props.trip - Trip to display
  * @param {Country[]} props.countries - Countries visited on the trip (for flags)
  * @param {() => void} props.onBack - Handler called when the back button is pressed
- * @returns {JSX.Element} The trip hero header
+ * @returns {ReactNode} The trip hero header
  */
 export function TripDetailHero({
   trip,
   countries,
   onBack,
   onViewMap,
-}: TripDetailHeroProps): JSX.Element {
+}: TripDetailHeroProps): ReactNode {
   const { t, currLanguage: lang } = useLanguage(["home"]);
 
   return (

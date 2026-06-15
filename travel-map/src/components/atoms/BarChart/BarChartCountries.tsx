@@ -1,16 +1,14 @@
 import "./BarChartCountries.scss";
 
-import { JSX, useMemo } from "react";
+import { ReactNode } from "react";
 
 import { useLanguage } from "@/hooks/language/language";
 import { CountryVisitStat } from "@/utils/transport";
 
 import { CountryFlag } from "../CountryFlag/CountryFlag";
-
 interface BarChartCountriesProps {
   data: CountryVisitStat[];
 }
-
 /**
  * BarChartCountries component
  *
@@ -22,15 +20,9 @@ interface BarChartCountriesProps {
  * @param {BarChartCountriesProps} props
  * @param {CountryVisitStat[]} props.data - Country stats sorted by cities descending.
  */
-export function BarChartCountries({
-  data,
-}: BarChartCountriesProps): JSX.Element {
+export function BarChartCountries({ data }: BarChartCountriesProps): ReactNode {
   const { t } = useLanguage(["home"]);
-  const maxCities = useMemo(
-    () => Math.max(1, ...data.map((d) => d.cities)),
-    [data],
-  );
-
+  const maxCities = Math.max(1, ...data.map((d) => d.cities));
   return (
     <div className="countries-bar-chart">
       {data.map(({ countryId, cities }) => (

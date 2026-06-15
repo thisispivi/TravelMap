@@ -1,6 +1,6 @@
 import "./RowCity.scss";
 
-import { JSX } from "react";
+import { ReactNode } from "react";
 
 import { DistanceIcon } from "../../../assets";
 import { City } from "../../../core";
@@ -28,13 +28,13 @@ interface CityRowProps {
  * @param {string} [props.className] - Additional class names
  * @param {City} [props.sCity] - The start city
  * @param {City} props.eCity - The end city
- * @returns {JSX.Element} The city row
+ * @returns {ReactNode} The city row
  */
 export function CityRow({
   sCity = parameters.birthCity,
   eCity,
   className = "",
-}: CityRowProps): JSX.Element {
+}: CityRowProps): ReactNode {
   const { t, currLanguage } = useLanguage(["home"]);
   const distanceInKm = getCitiesDistance(sCity, eCity);
   return (

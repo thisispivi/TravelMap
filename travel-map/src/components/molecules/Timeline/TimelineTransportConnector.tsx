@@ -1,7 +1,7 @@
 import "./TimelineTransportConnector.scss";
 
 import { m } from "framer-motion";
-import { Fragment, JSX } from "react";
+import { Fragment, ReactNode } from "react";
 
 import { CountryFlag, TransportModeIcon } from "@/components/atoms";
 import { City, TransportMode } from "@/core";
@@ -40,12 +40,12 @@ interface TimelineTransportConnectorProps {
  * @param {TimelineTransportConnectorProps} props - The connector props
  * @param {TransportLeg[]} props.legs - One or more transport legs to display
  * @param {number} props.animDelay - Staggered animation delay in seconds
- * @returns {JSX.Element} The transport connector row
+ * @returns {ReactNode} The transport connector row
  */
 export function TimelineTransportConnector({
   legs,
   animDelay,
-}: TimelineTransportConnectorProps): JSX.Element | null {
+}: TimelineTransportConnectorProps): ReactNode {
   const { t, currLanguage: lang } = useLanguage(["home"]);
 
   if (!legs.length) return null;

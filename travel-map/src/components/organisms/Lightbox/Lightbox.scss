@@ -81,6 +81,57 @@
     }
   }
 
+  .lightbox__nav-button {
+    position: absolute;
+    top: 50%;
+    z-index: 4;
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+    filter: none;
+    transform: translateY(-50%);
+    @include m.transition(all, 0.3s, ease-in-out);
+
+    &.lightbox__nav-button--disabled {
+      display: none;
+    }
+
+    &.image-gallery-left-nav {
+      left: 0;
+      margin-left: 0.35rem;
+
+      .chevron {
+        @include m.transition(transform, 0.3s, ease-in-out);
+      }
+
+      &:hover .chevron {
+        transform: scale(1.08);
+      }
+
+      &:active .chevron {
+        transform: scale(0.95);
+      }
+    }
+
+    &.image-gallery-right-nav {
+      right: 0;
+      margin-right: 0.35rem;
+
+      .chevron {
+        transform: rotate(180deg);
+        @include m.transition(transform, 0.3s, ease-in-out);
+      }
+
+      &:hover .chevron {
+        transform: rotate(180deg) scale(1.08);
+      }
+
+      &:active .chevron {
+        transform: rotate(180deg) scale(0.95);
+      }
+    }
+  }
+
   .image-gallery {
     display: block;
     height: 100%;
@@ -122,50 +173,6 @@
         }
       }
     }
-
-    .image-gallery-icon {
-      padding: 0;
-      width: 2.5rem;
-      height: 2.5rem;
-      filter: none;
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: 4;
-      &.image-gallery-icon--disabled {
-        display: none;
-      }
-      &.image-gallery-left-nav {
-        left: 0;
-        margin-left: 0.35rem;
-        @include m.transition(all, 0.3s, ease-in-out);
-        .chevron {
-          @include m.transition(transform, 0.3s, ease-in-out);
-        }
-        &:hover .chevron {
-          transform: scale(1.08);
-        }
-        &:active .chevron {
-          transform: scale(0.95);
-        }
-      }
-      &.image-gallery-right-nav {
-        right: 0;
-        margin-right: 0.35rem;
-        @include m.transition(all, 0.3s, ease-in-out);
-        .chevron {
-          transform: rotate(180deg);
-          @include m.transition(transform, 0.3s, ease-in-out);
-        }
-        &:hover .chevron {
-          transform: rotate(180deg) scale(1.08);
-        }
-        &:active .chevron {
-          transform: rotate(180deg) scale(0.95);
-        }
-      }
-    }
-
     .image-gallery-index {
       display: none;
     }

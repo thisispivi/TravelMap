@@ -1,6 +1,6 @@
 import "./BarChartTransportModes.scss";
 
-import { JSX, useMemo } from "react";
+import { ReactNode } from "react";
 
 import { TransportMode } from "@/core";
 import { useLanguage } from "@/hooks/language/language";
@@ -9,7 +9,6 @@ import { formatMileage } from "@/utils/format";
 import { TransportModeStat } from "@/utils/transport";
 
 import { TransportModeIcon } from "../TransportModeIcon/TransportModeIcon";
-
 const transportModeColors: Record<string, string> = {
   plane: "#a855f7",
   ferry: "#0ea5e9",
@@ -19,14 +18,11 @@ const transportModeColors: Record<string, string> = {
   taxi: "#eab308",
   walk: "#14b8a6",
 };
-
 const FILL_MODES = new Set(["taxi"]);
-
 interface BarChartTransportModesProps {
   data: TransportModeStat[];
   metric?: "count" | "km";
 }
-
 /**
  * BarChartTransportModes component
  *
@@ -41,19 +37,13 @@ interface BarChartTransportModesProps {
 export function BarChartTransportModes({
   data,
   metric = "count",
-}: BarChartTransportModesProps): JSX.Element {
+}: BarChartTransportModesProps): ReactNode {
   const { currLanguage } = useLanguage(["home"]);
-
-  const visibleData = useMemo(
-    () => (metric === "km" ? data.filter((d) => d.km > 0) : data),
-    [data, metric],
-  );
-
-  const maxValue = useMemo(() => {
+  const visibleData = metric === "km" ? data.filter((d) => d.km > 0) : data;
+  const maxValue = (() => {
     if (metric === "km") return Math.max(1, ...visibleData.map((d) => d.km));
     return Math.max(1, ...visibleData.map((d) => d.count));
-  }, [visibleData, metric]);
-
+  })();
   return (
     <div className="transport-bar-chart">
       {visibleData.map(({ mode, count, km }) => {

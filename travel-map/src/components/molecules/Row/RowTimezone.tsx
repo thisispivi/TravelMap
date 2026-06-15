@@ -1,6 +1,6 @@
 import "./RowTimezone.scss";
 
-import { JSX } from "react";
+import { ReactNode } from "react";
 
 import { formatDeltaVsCityForDateSpan } from "@/utils/timezoneOffset";
 
@@ -34,7 +34,7 @@ interface TimezoneRowProps {
  * @param {City} props.eCity - End city
  * @param {Date} [props.sDate] - Start date for offset calculation
  * @param {Date} [props.eDate] - End date for offset calculation
- * @returns {JSX.Element} The timezone row
+ * @returns {ReactNode} The timezone row
  */
 export function TimezoneRow({
   sCity,
@@ -42,7 +42,7 @@ export function TimezoneRow({
   sDate,
   eDate,
   className = "",
-}: TimezoneRowProps): JSX.Element {
+}: TimezoneRowProps): ReactNode {
   const { t, currLanguage } = useLanguage(["home"]);
   const firstTravel = getCityTravels(eCity, visitedTrips)[0];
   const startDate = sDate ?? firstTravel?.sDate ?? new Date();

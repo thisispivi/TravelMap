@@ -1,7 +1,7 @@
 import "./TimelineOriginNode.scss";
 
 import { m } from "framer-motion";
-import { CSSProperties, JSX } from "react";
+import { CSSProperties, ReactNode } from "react";
 
 import { CountryFlag } from "@/components/atoms";
 import { City } from "@/core";
@@ -23,12 +23,12 @@ interface TimelineOriginNodeProps {
  * @param {TimelineOriginNodeProps} props - The origin node props
  * @param {City} props.city - The origin/return city
  * @param {number} props.animDelay - Staggered animation delay in seconds
- * @returns {JSX.Element} The origin node
+ * @returns {ReactNode} The origin node
  */
 export function TimelineOriginNode({
   city,
   animDelay,
-}: TimelineOriginNodeProps): JSX.Element {
+}: TimelineOriginNodeProps): ReactNode {
   const { t } = useLanguage(["home"]);
   const cityLabel = t(`cities.${city.name}`) || city.name;
 

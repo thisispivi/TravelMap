@@ -1,6 +1,6 @@
 import "./FilterByCountry.scss";
 
-import { JSX, ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { CSSTransition } from "react-transition-group";
 
@@ -19,6 +19,14 @@ interface FilterByCountryProps {
   className?: string;
 }
 
+const getOptionClassName = (isSelected = false) => {
+  return classNames(
+    "filter__option",
+    isSelected && "filter__option--selected",
+    mobileAndTabletCheck() && "filter__option--mobile",
+  );
+};
+
 /**
  * FilterByCountry component
  *
@@ -33,7 +41,7 @@ interface FilterByCountryProps {
  * @param {(selected: Country[]) => void} props.onChange - Called when the selection changes
  * @param {React.ReactNode} [props.buttonIcon] - Icon rendered inside the trigger button
  * @param {string} [props.className] - Additional class names for the trigger button
- * @returns {JSX.Element} The filter dropdown
+ * @returns {ReactNode} The filter dropdown
  */
 export function FilterByCountry({
   options,
@@ -41,7 +49,7 @@ export function FilterByCountry({
   onChange,
   buttonIcon,
   className = "",
-}: FilterByCountryProps): JSX.Element {
+}: FilterByCountryProps): ReactNode {
   const { t } = useLanguage(["home"]);
   const [isOpen, setIsOpen] = useState(false);
   const nodeRef = useRef<HTMLDivElement>(null);
@@ -76,14 +84,6 @@ export function FilterByCountry({
       ? selected.filter((s) => s !== country)
       : [...selected, country];
     onChange(newSelected);
-  };
-
-  const getOptionClassName = (isSelected = false) => {
-    return classNames(
-      "filter__option",
-      isSelected && "filter__option--selected",
-      mobileAndTabletCheck() && "filter__option--mobile",
-    );
   };
 
   return (

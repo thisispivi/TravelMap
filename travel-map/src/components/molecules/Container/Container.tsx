@@ -1,10 +1,10 @@
 import "./Container.scss";
 
-import { JSX, PropsWithChildren } from "react";
+import { PropsWithChildren, ReactNode } from "react";
 
 import { classNames } from "@/utils/className";
 
-import { Box } from "..";
+import { Box } from "../Box/Box";
 
 interface ContainerProps extends PropsWithChildren {
   className?: string;
@@ -22,13 +22,13 @@ interface ContainerProps extends PropsWithChildren {
  * @param {string} [props.className] - Additional class names
  * @param {boolean} [props.isVisible] - Whether the container is visible
  * @param {React.ReactNode} props.children - Container content
- * @returns {JSX.Element} The gallery container
+ * @returns {ReactNode} The gallery container
  */
 export function Container({
   className = "",
   children,
   isVisible,
-}: ContainerProps): JSX.Element {
+}: ContainerProps): ReactNode {
   return (
     <div
       className={classNames(

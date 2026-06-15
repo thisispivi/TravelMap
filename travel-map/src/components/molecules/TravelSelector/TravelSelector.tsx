@@ -1,6 +1,6 @@
 import "./TravelSelector.scss";
 
-import { JSX } from "react";
+import { ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { CalendarIcon, DoubleChevronIcon } from "../../../assets";
@@ -28,14 +28,14 @@ interface TravelSelectorProps {
  * @param {number} props.selectedTravelIdx - Active travel index
  * @param {string} props.cityName - City route segment
  * @param {{ fromPath?: string }} [props.navigationState] - State to preserve across gallery travel changes
- * @returns {JSX.Element} The travel selector
+ * @returns {ReactNode} The travel selector
  */
 export function TravelSelector({
   travels,
   selectedTravelIdx,
   cityName,
   navigationState,
-}: TravelSelectorProps): JSX.Element {
+}: TravelSelectorProps): ReactNode {
   const { currLanguage } = useLanguage([]);
   const navigate = useNavigate();
   const currTravel = travels[selectedTravelIdx];

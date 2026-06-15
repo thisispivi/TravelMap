@@ -1,6 +1,6 @@
 import "./DonutChartTransports.scss";
 
-import { JSX, lazy, useMemo } from "react";
+import { lazy, ReactNode } from "react";
 
 import { Flight } from "@/core";
 import { Ferry } from "@/core/classes/Ferry";
@@ -8,27 +8,24 @@ import { TravelType } from "@/core/typings/Travel";
 import { useLanguage } from "@/hooks/language/language";
 import variables from "@/styles/_variables.module.scss";
 const ReactApexChart = lazy(() => import("react-apexcharts"));
-
 interface TransportsDonutChartProps {
   takenFlights: Flight[];
   takenFerries: Ferry[];
 }
-
 /**
  * Donut chart showing the distribution of the transport types of taken transports.
  * @param {TransportsDonutChartProps} props - Component props.
  * @param {Flight[]} props.takenFlights - The user's taken flights.
  * @param {Ferry[]} props.takenFerries - The user's taken ferries.
- * @returns {JSX.Element} The donut chart.
+ * @returns {ReactNode} The donut chart.
  */
 export function TransportsDonutChart({
   takenFlights,
   takenFerries,
-}: TransportsDonutChartProps): JSX.Element {
+}: TransportsDonutChartProps): ReactNode {
   const { t } = useLanguage(["home"]);
-
   const { numNationalFlights, numInternationalFlights, numIntercontinental } =
-    useMemo(() => {
+    (() => {
       return takenFlights.reduce(
         (acc, flight) => {
           if (flight.travelType === TravelType.INTERCONTINENTAL)
@@ -45,44 +42,33 @@ export function TransportsDonutChart({
           numIntercontinental: 0,
         },
       );
-    }, [takenFlights]);
-
+    })();
   const numFerries = takenFerries.length;
-
   const totalTransports =
     numNationalFlights +
     numInternationalFlights +
     numIntercontinental +
     numFerries;
-
-  const series = useMemo(() => {
+  const series = (() => {
     return [
       numNationalFlights,
       numInternationalFlights,
       numIntercontinental,
       numFerries,
     ];
-  }, [
-    numNationalFlights,
-    numInternationalFlights,
-    numIntercontinental,
-    numFerries,
-  ]);
-
-  const labels = useMemo(() => {
+  })();
+  const labels = (() => {
     return [
       t("stats.national"),
       t("stats.international"),
       t("stats.intercontinental"),
       t("stats.ferries"),
     ];
-  }, [t]);
-
-  const enabledOnSeries = useMemo(() => {
+  })();
+  const enabledOnSeries = (() => {
     return series.map((_, idx) => idx);
-  }, [series]);
-
-  const options = useMemo(() => {
+  })();
+  const options = (() => {
     return {
       chart: {
         animations: { enabled: false },
@@ -171,8 +157,7 @@ export function TransportsDonutChart({
       },
       colors: ["#107895", "#c02e1d", "#79a14e", "#bb8e23"],
     } as ApexCharts.ApexOptions;
-  }, [enabledOnSeries, labels, t, totalTransports]);
-
+  })();
   return (
     <div className="flights-donut-chart">
       <ReactApexChart

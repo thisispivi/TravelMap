@@ -1,19 +1,17 @@
 import "./BarChartPopulation.scss";
 
-import { JSX, lazy, useMemo } from "react";
+import { lazy, ReactNode } from "react";
 import { filter, pipe, sortBy } from "remeda";
 
 import { City } from "@/core";
 import { useLanguage } from "@/hooks/language/language";
 const ReactApexChart = lazy(() => import("react-apexcharts"));
-
 interface PopulationsBarChartProps {
   data: City[];
   barColors?: string[];
   isDarkTheme?: boolean;
   numToShow?: number;
 }
-
 /**
  * PopulationBarChart component
  *
@@ -26,7 +24,7 @@ interface PopulationsBarChartProps {
  * @param {string[]} [props.barColors] - Colors used for the distributed bars.
  * @param {boolean} [props.isDarkTheme=false] - Current theme.
  * @param {number} [props.numToShow=10] - How many cities to show.
- * @returns {JSX.Element} - The population bar chart.
+ * @returns {ReactNode} - The population bar chart.
  */
 export function PopulationBarChart({
   data,
@@ -44,34 +42,29 @@ export function PopulationBarChart({
   ],
   isDarkTheme = false,
   numToShow = 10,
-}: PopulationsBarChartProps): JSX.Element {
+}: PopulationsBarChartProps): ReactNode {
   const { t, currLanguage } = useLanguage(["home"]);
-
-  const topCities = useMemo(() => {
+  const topCities = (() => {
     return pipe(
       data,
       filter((city) => city.population !== undefined),
       sortBy((city) => -city.population!),
     ).slice(0, numToShow);
-  }, [data, numToShow]);
-
-  const series = useMemo(() => {
+  })();
+  const series = (() => {
     return [{ data: topCities.map((city) => city.population!) }];
-  }, [topCities]);
-
-  const categories = useMemo(() => {
+  })();
+  const categories = (() => {
     return topCities.map((city) => city.getName(t));
-  }, [topCities, t]);
-
-  const maxValue = useMemo(() => {
+  })();
+  const maxValue = (() => {
     const maxPopulation = topCities.reduce(
       (acc, city) => Math.max(acc, city.population ?? 0),
       0,
     );
     return maxPopulation * 1.5;
-  }, [topCities]);
-
-  const options = useMemo(() => {
+  })();
+  const options = (() => {
     return {
       chart: {
         animations: { enabled: false },
@@ -131,8 +124,7 @@ export function PopulationBarChart({
         active: { filter: { type: "none" } },
       },
     };
-  }, [barColors, categories, currLanguage, maxValue]);
-
+  })();
   return (
     <div className="populations-bar-chart">
       <ReactApexChart

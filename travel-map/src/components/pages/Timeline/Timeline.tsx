@@ -1,6 +1,6 @@
 import "./Timeline.scss";
 
-import { JSX } from "react";
+import { ReactNode } from "react";
 
 import { useLanguage } from "@/hooks/language/language";
 
@@ -14,9 +14,9 @@ import { TimelineTrack } from "../../organisms/TimelineTrack/TimelineTrack";
  *
  * @component
  *
- * @returns {JSX.Element} The timeline page
+ * @returns {ReactNode} The timeline page
  */
-export function TimelinePage(): JSX.Element {
+export function TimelinePage(): ReactNode {
   const { t } = useLanguage(["home"]);
 
   return (

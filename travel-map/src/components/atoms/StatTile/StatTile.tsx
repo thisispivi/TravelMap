@@ -1,6 +1,6 @@
 import "./StatTile.scss";
 
-import { ComponentType, JSX, SVGProps } from "react";
+import { ComponentType, ReactNode, SVGProps } from "react";
 
 import { classNames } from "@/utils/className";
 
@@ -43,7 +43,7 @@ export type StatTileProps = {
  * @param {string | number} props.value - The primary statistic to display
  * @param {string} [props.suffix] - Optional text appended after the value
  * @param {string} [props.className] - Additional class names
- * @returns {JSX.Element} The stat tile
+ * @returns {ReactNode} The stat tile
  */
 export function StatTile({
   icon: Icon,
@@ -51,7 +51,7 @@ export function StatTile({
   value,
   suffix,
   className = "",
-}: StatTileProps): JSX.Element {
+}: StatTileProps): ReactNode {
   return (
     <Card className={classNames("bento-stat card--box-shadow", className)}>
       <Icon className="bento-stat__icon" />

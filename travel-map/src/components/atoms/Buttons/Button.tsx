@@ -1,7 +1,7 @@
 import "./Button.scss";
 
 import { domAnimation, LazyMotion, m } from "framer-motion";
-import { JSX, MouseEventHandler, PropsWithChildren } from "react";
+import { MouseEventHandler, PropsWithChildren, ReactNode } from "react";
 
 export interface ButtonProps extends PropsWithChildren {
   className?: string;
@@ -33,7 +33,7 @@ export interface ButtonProps extends PropsWithChildren {
  * @param {number} [props.hoverScale] - Framer Motion hover scale
  * @param {number} [props.tapScale] - Framer Motion tap scale
  * @param {React.ReactNode} props.children - Button content
- * @returns {JSX.Element} The button
+ * @returns {ReactNode} The button
  */
 export function Button({
   onClick,
@@ -46,7 +46,7 @@ export function Button({
   onMouseLeave,
   hoverScale = 1.08,
   tapScale = 0.95,
-}: ButtonProps): JSX.Element {
+}: ButtonProps): ReactNode {
   return (
     <LazyMotion features={domAnimation}>
       <m.button

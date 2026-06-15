@@ -1,5 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-
+import { useEffect, useState } from "react";
 /**
  * Hook to detect the current theme of the user's system
  * @returns {ThemeDetector} - Object containing the current theme and a function to set the theme
@@ -12,15 +11,13 @@ export function useThemeDetector(): ThemeDetector {
     localStorage.setItem("theme", prefers ? "dark" : "light");
     return prefers;
   });
-
-  const handleDarkModeSwitch = useCallback(() => {
+  const handleDarkModeSwitch = () => {
     setIsDarkTheme((prev) => {
       const newTheme = !prev;
       localStorage.setItem("theme", newTheme ? "dark" : "light");
       return newTheme;
     });
-  }, []);
-
+  };
   useEffect(() => {
     const body = document.querySelector("body");
     if (isDarkTheme) {
@@ -31,13 +28,8 @@ export function useThemeDetector(): ThemeDetector {
       body?.classList.remove("body--dark");
     }
   }, [isDarkTheme]);
-
-  return useMemo(
-    () => ({ isDarkTheme, handleDarkModeSwitch }),
-    [isDarkTheme, handleDarkModeSwitch],
-  );
+  return { isDarkTheme, handleDarkModeSwitch };
 }
-
 export type ThemeDetector = {
   isDarkTheme: boolean;
   handleDarkModeSwitch: () => void;

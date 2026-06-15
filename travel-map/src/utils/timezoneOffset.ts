@@ -1,5 +1,26 @@
 import { City } from "@/core";
 
+const dateTimeFormatters = new Map<string, Intl.DateTimeFormat>();
+
+function getDateTimeFormatter(locale: string, timeZone: string) {
+  const key = `${locale}:${timeZone}`;
+  const cached = dateTimeFormatters.get(key);
+  if (cached) return cached;
+
+  const formatter = Intl.DateTimeFormat(locale, {
+    timeZone,
+    hour12: false,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  });
+  dateTimeFormatters.set(key, formatter);
+  return formatter;
+}
+
 /**
  * Extracts calendar date/time parts for a given instant as seen in a specific IANA time zone.
  *
@@ -12,18 +33,7 @@ import { City } from "@/core";
  * @returns {{ year: number; month: number; day: number; hour: number; minute: number; second: number }} Calendar date/time parts in the target time zone
  */
 function getDatePartsInTimeZone(locale: string, timeZone: string, date: Date) {
-  const dtf = new Intl.DateTimeFormat(locale, {
-    timeZone,
-    hour12: false,
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-  });
-
-  const parts = dtf.formatToParts(date);
+  const parts = getDateTimeFormatter(locale, timeZone).formatToParts(date);
   const lookup: Record<string, string> = {};
   for (const part of parts) {
     if (part.type !== "literal") lookup[part.type] = part.value;

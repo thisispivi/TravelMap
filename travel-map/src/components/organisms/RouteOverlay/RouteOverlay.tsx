@@ -1,14 +1,13 @@
 import "./RouteOverlay.scss";
 
 import { AnimatePresence, domAnimation, LazyMotion, m } from "framer-motion";
-import { JSX, use, useMemo } from "react";
+import { ReactNode, use } from "react";
 import { Line } from "react-simple-maps";
 
 import { HomeContext } from "@/components/pages/Home/HomeContext";
 import { TransportMode } from "@/core";
 import { useLocation } from "@/hooks/location/location";
 import variables from "@/styles/_variables.module.scss";
-
 const TRANSPORT_COLORS: Partial<Record<TransportMode, string>> = {
   ferry: variables.transportFerry,
   plane: variables.transportPlane,
@@ -18,7 +17,6 @@ const TRANSPORT_COLORS: Partial<Record<TransportMode, string>> = {
   taxi: variables.transportTaxi,
   walk: variables.transportWalk,
 };
-
 function segmentColor(
   mode: TransportMode | undefined,
   isDark: boolean,
@@ -28,7 +26,6 @@ function segmentColor(
     TRANSPORT_COLORS[mode] ?? (isDark ? "rgba(255,255,255,0.45)" : "#1a73e8")
   );
 }
-
 /**
  * RouteOverlay component
  *
@@ -39,15 +36,13 @@ function segmentColor(
  *
  * @component
  *
- * @returns {JSX.Element} SVG group with animated route lines, or empty group when no trip is selected
+ * @returns {ReactNode} SVG group with animated route lines, or empty group when no trip is selected
  */
-export function RouteOverlay(): JSX.Element {
+export function RouteOverlay(): ReactNode {
   const { selectedTrip, isDarkTheme } = use(HomeContext)!;
   const { isTripDetail } = useLocation();
-
-  const segments = useMemo(() => {
+  const segments = (() => {
     if (!selectedTrip) return [];
-
     const allSegments = selectedTrip
       .getRouteSegments()
       .flatMap((step, stepIdx) => {
@@ -63,7 +58,6 @@ export function RouteOverlay(): JSX.Element {
           idx: stepIdx + cityIdx / 10,
         }));
       });
-
     const seen = new Set<string>();
     return allSegments.filter((seg) => {
       const [lon1, lat1] = seg.from;
@@ -76,8 +70,7 @@ export function RouteOverlay(): JSX.Element {
       seen.add(key);
       return true;
     });
-  }, [selectedTrip]);
-
+  })();
   return (
     <LazyMotion features={domAnimation}>
       <AnimatePresence>

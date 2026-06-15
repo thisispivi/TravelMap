@@ -1,4 +1,4 @@
-import { JSX } from "react";
+import { ReactNode } from "react";
 
 import { useLanguage } from "@/hooks/language/language";
 import { CountryVisitStat } from "@/utils/transport";
@@ -30,13 +30,13 @@ export type CitiesPerCountryCardProps = {
  * @component
  *
  * @param {CitiesPerCountryCardProps} props
- * @returns {JSX.Element} The cities-per-country bento card
+ * @returns {ReactNode} The cities-per-country bento card
  */
 export function CitiesPerCountryCard({
   data,
   maxItems,
   className = "bento-card bento-card--half bento-detail card--box-shadow",
-}: CitiesPerCountryCardProps): JSX.Element {
+}: CitiesPerCountryCardProps): ReactNode {
   const { t } = useLanguage(["home"]);
   const visibleData = maxItems !== undefined ? data.slice(0, maxItems) : data;
 

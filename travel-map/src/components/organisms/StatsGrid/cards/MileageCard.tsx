@@ -1,6 +1,6 @@
 import "./MileageCard.scss";
 
-import { JSX } from "react";
+import { ReactNode } from "react";
 
 import { EarthFlatIcon, MoonFlatIcon } from "@/assets";
 import { City } from "@/core";
@@ -36,7 +36,7 @@ export type MileageCardProps = {
  * @component
  *
  * @param {MileageCardProps} props
- * @returns {JSX.Element} The mileage bento card
+ * @returns {ReactNode} The mileage bento card
  */
 export function MileageCard({
   totalMileage,
@@ -44,7 +44,7 @@ export function MileageCard({
   totalMileageToMoon,
   furthestCity,
   nearestCity,
-}: MileageCardProps): JSX.Element {
+}: MileageCardProps): ReactNode {
   const { t, currLanguage } = useLanguage(["home"]);
 
   return (

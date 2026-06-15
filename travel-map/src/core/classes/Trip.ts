@@ -121,9 +121,9 @@ export class Trip {
     this.returnTo = data.returnTo;
     this.mapFocus = data.mapFocus;
     this.destinations = this.getDestinationsFromSteps();
-    this.route = this.destinations
-      .filter((destination) => !destination.isLayover)
-      .map(({ city }) => city.name);
+    this.route = this.destinations.flatMap((destination) =>
+      destination.isLayover ? [] : [destination.city.name],
+    );
     this.backgroundImgSource = data.backgroundImgSourceKey
       ? `https://pivi-travel-map.b-cdn.net/TravelMap/Trips/${data.backgroundImgSourceKey}`
       : this.destinations[0]?.city.getBackgroundImgSourceByIndex(0) ||
@@ -138,67 +138,68 @@ export class Trip {
 
   getCountriesVisited(): Country[] {
     return unique(
-      this.destinations
-        .filter((d) => !d.isLayover)
-        .map(({ city }) => city.country),
+      this.destinations.flatMap((destination) =>
+        destination.isLayover ? [] : [destination.city.country],
+      ),
     );
   }
 
   getCityTravels(city: City): Travel[] {
-    return this.destinations
-      .filter((destination) => destination.city.name === city.name)
-      .map(
-        (destination) =>
-          new Travel({
-            sDate: destination.sDate,
-            eDate: destination.eDate,
-            photos: destination.photos,
-            isFuture: false,
-            rowConstraints: destination.rowConstraints,
-            targetRowHeight: destination.targetRowHeight,
-          }),
-      );
+    return this.destinations.flatMap((destination) =>
+      destination.city.name === city.name
+        ? [
+            new Travel({
+              sDate: destination.sDate,
+              eDate: destination.eDate,
+              photos: destination.photos,
+              isFuture: false,
+              rowConstraints: destination.rowConstraints,
+              targetRowHeight: destination.targetRowHeight,
+            }),
+          ]
+        : [],
+    );
   }
 
   getFlights(): Flight[] {
-    return this.steps
-      .filter((step): step is TripTransportStep => step.type === "transport")
-      .filter((step) => step.mode === "plane")
-      .map(
-        (step) =>
-          new Flight({
-            sCity: step.from,
-            eCity: step.to,
-            company: step.flight?.company,
-            sDate: step.sDate,
-            eDate: step.eDate,
-            distanceInKm: step.flight?.distanceInKm ?? step.distanceInKm,
-            durationMinutes:
-              step.flight?.durationMinutes ?? step.durationMinutes,
-            number: step.flight?.number,
-            class: step.flight?.class,
-          }),
-      );
+    return this.steps.flatMap((step) =>
+      step.type === "transport" && step.mode === "plane"
+        ? [
+            new Flight({
+              sCity: step.from,
+              eCity: step.to,
+              company: step.flight?.company,
+              sDate: step.sDate,
+              eDate: step.eDate,
+              distanceInKm: step.flight?.distanceInKm ?? step.distanceInKm,
+              durationMinutes:
+                step.flight?.durationMinutes ?? step.durationMinutes,
+              number: step.flight?.number,
+              class: step.flight?.class,
+            }),
+          ]
+        : [],
+    );
   }
 
   getFerries(): Ferry[] {
-    return this.steps
-      .filter((step): step is TripTransportStep => step.type === "transport")
-      .filter((step) => step.mode === "ferry")
-      .map(
-        (step) =>
-          new Ferry({
-            sCity: step.from,
-            eCity: step.to,
-            company: step.ferry?.company,
-            sDate: step.sDate,
-            eDate: step.eDate,
-            via: step.ferry?.via ?? step.via,
-            distanceInKm: step.ferry?.distanceInKm ?? step.distanceInKm,
-            durationMinutes:
-              step.ferry?.durationMinutes ?? step.durationMinutes,
-          }),
-      );
+    return this.steps.flatMap((step) =>
+      step.type === "transport" && step.mode === "ferry"
+        ? [
+            new Ferry({
+              sCity: step.from,
+              eCity: step.to,
+              company: step.ferry?.company,
+              sDate: step.sDate,
+              eDate: step.eDate,
+              via: step.ferry?.via ?? step.via,
+              distanceInKm: step.ferry?.distanceInKm ?? step.distanceInKm,
+              durationMinutes:
+                step.ferry?.durationMinutes ?? step.durationMinutes,
+            }),
+          ]
+        : [],
+    );
   }
 
   getRouteSegments(): TripTransportStep[] {

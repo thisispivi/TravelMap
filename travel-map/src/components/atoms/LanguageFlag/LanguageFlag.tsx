@@ -1,4 +1,4 @@
-import { JSX } from "react";
+import { ReactNode } from "react";
 
 import {
   GermanyFlag,
@@ -27,12 +27,12 @@ interface LanguageFlagProps {
  * @param {string} props.language - The current language
  * @param {string} props.className - The class to apply to the flag
  *
- * @returns {JSX.Element|null} The language flag
+ * @returns {ReactNode} The language flag
  */
 export function LanguageFlag({
   language,
   className = "",
-}: LanguageFlagProps): JSX.Element | null {
+}: LanguageFlagProps): ReactNode {
   if (language.includes("it")) return <ItalyFlag className={className} />;
   if (language.includes("en"))
     return <UnitedKingdomFlag className={className} />;

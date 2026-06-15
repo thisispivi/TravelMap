@@ -1,6 +1,6 @@
 import "./Backdrop.scss";
 
-import { JSX } from "react";
+import { ReactNode } from "react";
 
 import { classNames } from "@/utils/className";
 import { isActivationKey } from "@/utils/keyboard";
@@ -22,13 +22,13 @@ interface BackdropProps {
  * @param {() => void} [props.onClick] - Click handler
  * @param {boolean} [props.isVisible] - Whether the backdrop is visible
  * @param {string} [props.className] - Additional class names
- * @returns {JSX.Element} The backdrop
+ * @returns {ReactNode} The backdrop
  */
 export function Backdrop({
   onClick,
   isVisible = true,
   className = "",
-}: BackdropProps): JSX.Element {
+}: BackdropProps): ReactNode {
   return (
     <div
       className={classNames(

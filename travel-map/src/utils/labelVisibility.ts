@@ -70,7 +70,7 @@ export function computeVisibleLabels(
 ): Set<string> {
   const visible = new Set<string>();
 
-  const sorted = [...cities].sort(
+  const sorted = cities.toSorted(
     (a, b) => (b.population ?? 0) - (a.population ?? 0),
   );
 

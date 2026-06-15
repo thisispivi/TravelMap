@@ -1,6 +1,6 @@
 import "./Stats.scss";
 
-import { JSX } from "react";
+import { ReactNode } from "react";
 
 import { StatsGrid } from "../../organisms/StatsGrid/StatsGrid";
 
@@ -12,9 +12,9 @@ import { StatsGrid } from "../../organisms/StatsGrid/StatsGrid";
  *
  * @component
  *
- * @returns {JSX.Element} The stats page
+ * @returns {ReactNode} The stats page
  */
-export function StatsPage(): JSX.Element {
+export function StatsPage(): ReactNode {
   return (
     <section className="stats-page">
       <StatsGrid isVisible />

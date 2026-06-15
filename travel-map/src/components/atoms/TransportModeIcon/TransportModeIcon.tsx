@@ -1,4 +1,4 @@
-import { JSX } from "react";
+import { ReactNode } from "react";
 
 import {
   AirplaneIcon,
@@ -29,7 +29,7 @@ interface TransportModeIconProps {
 export function TransportModeIcon({
   mode,
   className,
-}: TransportModeIconProps): JSX.Element | null {
+}: TransportModeIconProps): ReactNode {
   if (mode === "plane") return <AirplaneIcon className={className} />;
   if (mode === "ferry") return <FerryIcon className={className} />;
   if (mode === "bus") return <BusIcon className={className} />;

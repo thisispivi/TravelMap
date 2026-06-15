@@ -123,11 +123,18 @@ $exc-gap: 0.25rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    width: 100%;
     padding: 0.375rem 0.5rem;
+    border: 0;
     border-radius: 0.75rem;
+    appearance: none;
+    background: transparent;
+    color: inherit;
     cursor: default;
+    font: inherit;
     outline: none;
     position: relative;
+    text-align: left;
     @include m.transition(background-color, 0.12s);
 
     &::before {

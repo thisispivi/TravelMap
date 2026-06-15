@@ -79,7 +79,7 @@ const isMobileOrTablet = mobileAndTabletCheck();
  *
  * @component
  *
- * @returns {JSX.Element} The shared tooltip element
+ * @returns {ReactNode} The shared tooltip element
  */
 function BaseTooltip() {
   const tooltipRef = useRef<TooltipRefProps>(null);

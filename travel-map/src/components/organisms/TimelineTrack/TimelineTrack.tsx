@@ -1,7 +1,7 @@
 import "./TimelineTrack.scss";
 
 import { domAnimation, LazyMotion, m, useInView } from "framer-motion";
-import { JSX, useMemo, useRef } from "react";
+import { ReactNode, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { CalendarIcon } from "@/assets";
@@ -10,19 +10,15 @@ import { useLanguage } from "@/hooks/language/language";
 import { formatDateRangeShort } from "@/i18n/functions/date";
 
 import { CountryFlag } from "../../atoms";
-
 type TripItem = {
   trip: (typeof visitedTrips)[0];
   side: "left" | "right";
 };
-
 type YearGroup = {
   year: number;
   trips: TripItem[];
 };
-
 type TimelineCardItemProps = TripItem;
-
 /**
  * TimelineTrack component
  *
@@ -32,10 +28,10 @@ type TimelineCardItemProps = TripItem;
  *
  * @component
  *
- * @returns {JSX.Element} The timeline track
+ * @returns {ReactNode} The timeline track
  */
-export function TimelineTrack(): JSX.Element {
-  const yearGroups = useMemo<YearGroup[]>(() => {
+export function TimelineTrack(): ReactNode {
+  const yearGroups = (() => {
     const sorted = visitedTrips.toSorted(
       (a, b) => b.sDate.getTime() - a.sDate.getTime(),
     );
@@ -51,17 +47,20 @@ export function TimelineTrack(): JSX.Element {
       const sortedTrips = trips.toSorted(
         (a, b) => b.trip.sDate.getTime() - a.trip.sDate.getTime(),
       );
+      const nextTrips = sortedTrips.map((item, itemIndex) => ({
+        ...item,
+        side: ((index + itemIndex) % 2 === 0 ? "left" : "right") as
+          | "left"
+          | "right",
+      }));
+      index += sortedTrips.length;
       groups.push({
         year,
-        trips: sortedTrips.map((item) => ({
-          ...item,
-          side: (index++ % 2 === 0 ? "left" : "right") as "left" | "right",
-        })),
+        trips: nextTrips,
       });
     }
     return groups;
-  }, []);
-
+  })() as YearGroup[];
   return (
     <LazyMotion features={domAnimation}>
       <div className="timeline-track">
@@ -73,7 +72,6 @@ export function TimelineTrack(): JSX.Element {
     </LazyMotion>
   );
 }
-
 /**
  * TimelineYearGroup component
  *
@@ -85,12 +83,11 @@ export function TimelineTrack(): JSX.Element {
  * @param {YearGroup} props
  * @param {number} props.year - The calendar year for this group
  * @param {TripItem[]} props.trips - Trips belonging to this year
- * @returns {JSX.Element} The year section
+ * @returns {ReactNode} The year section
  */
-function TimelineYearGroup({ year, trips }: YearGroup): JSX.Element {
+function TimelineYearGroup({ year, trips }: YearGroup): ReactNode {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { amount: 0.2 });
-
   return (
     <div className="timeline-year-group" ref={ref}>
       <m.div
@@ -107,7 +104,6 @@ function TimelineYearGroup({ year, trips }: YearGroup): JSX.Element {
     </div>
   );
 }
-
 /**
  * TimelineCardItem component
  *
@@ -119,9 +115,9 @@ function TimelineYearGroup({ year, trips }: YearGroup): JSX.Element {
  * @param {TimelineCardItemProps} props - The timeline card props
  * @param {TripItem["trip"]} props.trip - The trip data to display
  * @param {"left" | "right"} props.side - Which side of the timeline axis the card appears on
- * @returns {JSX.Element} The trip card
+ * @returns {ReactNode} The trip card
  */
-function TimelineCardItem({ trip, side }: TimelineCardItemProps): JSX.Element {
+function TimelineCardItem({ trip, side }: TimelineCardItemProps): ReactNode {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, {
     amount: 0.25,
@@ -130,7 +126,6 @@ function TimelineCardItem({ trip, side }: TimelineCardItemProps): JSX.Element {
   const navigate = useNavigate();
   const { t, currLanguage: lang } = useLanguage(["home"]);
   const countries = trip.getCountriesVisited();
-
   const hiddenState = {
     opacity: 0,
     x: side === "left" ? -64 : 64,
@@ -145,7 +140,6 @@ function TimelineCardItem({ trip, side }: TimelineCardItemProps): JSX.Element {
     scale: 1,
     filter: "blur(0rem)",
   };
-
   return (
     <m.div
       animate={isInView ? visibleState : hiddenState}
@@ -197,9 +191,9 @@ function TimelineCardItem({ trip, side }: TimelineCardItemProps): JSX.Element {
           <p className="timeline-card__cities-count">
             {t("timeline.city", {
               count: new Set(
-                trip.destinations
-                  .filter((d) => !d.isLayover)
-                  .map((d) => d.city.name),
+                trip.destinations.flatMap((d) =>
+                  d.isLayover ? [] : [d.city.name],
+                ),
               ).size,
             })}
           </p>

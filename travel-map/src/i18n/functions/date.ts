@@ -1,5 +1,26 @@
 import { normalizeLocale } from "../locale";
 
+const monthFormatters = new Map<string, Intl.DateTimeFormat>();
+const weekdayFormatters = new Map<string, Intl.DateTimeFormat>();
+
+function getMonthFormatter(locale: string) {
+  const cached = monthFormatters.get(locale);
+  if (cached) return cached;
+
+  const formatter = Intl.DateTimeFormat(locale, { month: "short" });
+  monthFormatters.set(locale, formatter);
+  return formatter;
+}
+
+function getWeekdayFormatter(locale: string) {
+  const cached = weekdayFormatters.get(locale);
+  if (cached) return cached;
+
+  const formatter = Intl.DateTimeFormat(locale, { weekday: "short" });
+  weekdayFormatters.set(locale, formatter);
+  return formatter;
+}
+
 type FormatDateRangeShortInput = {
   sDateInput?: string | Date | null;
   eDateInput?: string | Date | null;
@@ -21,13 +42,11 @@ export function formatDateRangeShort({
   const normalizedLocale = normalizeLocale(locale);
 
   const day = (d: Date) => d.getDate();
-  const monthFmt = (d: Date) =>
-    new Intl.DateTimeFormat(normalizedLocale, { month: "short" }).format(d);
+  const monthFormatter = getMonthFormatter(normalizedLocale);
+  const monthFmt = (d: Date) => monthFormatter.format(d);
   const year = (d: Date) => d.getFullYear();
-  const weekdayFmt = (d: Date) =>
-    new Intl.DateTimeFormat(normalizedLocale, { weekday: "short" })
-      .format(d)
-      .slice(0, 3);
+  const weekdayFormatter = getWeekdayFormatter(normalizedLocale);
+  const weekdayFmt = (d: Date) => weekdayFormatter.format(d).slice(0, 3);
 
   const dayWithOptWeekday = (d: Date) =>
     `${includeWeekday ? weekdayFmt(d) + " " : ""}${day(d)}`;

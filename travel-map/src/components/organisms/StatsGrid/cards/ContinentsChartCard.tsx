@@ -1,4 +1,4 @@
-import { JSX } from "react";
+import { ReactNode } from "react";
 
 import { Continent } from "@/core";
 import { useLanguage } from "@/hooks/language/language";
@@ -24,11 +24,11 @@ export type ContinentsChartCardProps = {
  * @component
  *
  * @param {ContinentsChartCardProps} props
- * @returns {JSX.Element} The continents chart bento card
+ * @returns {ReactNode} The continents chart bento card
  */
 export function ContinentsChartCard({
   data,
-}: ContinentsChartCardProps): JSX.Element {
+}: ContinentsChartCardProps): ReactNode {
   const { t } = useLanguage(["home"]);
 
   return (

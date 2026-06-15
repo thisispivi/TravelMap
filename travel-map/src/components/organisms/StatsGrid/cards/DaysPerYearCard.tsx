@@ -1,4 +1,4 @@
-import { JSX } from "react";
+import { ReactNode } from "react";
 
 import { Trip } from "@/core";
 import { useLanguage } from "@/hooks/language/language";
@@ -23,9 +23,9 @@ export type DaysPerYearCardProps = {
  * @component
  *
  * @param {DaysPerYearCardProps} props
- * @returns {JSX.Element} The days-per-year bento card
+ * @returns {ReactNode} The days-per-year bento card
  */
-export function DaysPerYearCard({ trips }: DaysPerYearCardProps): JSX.Element {
+export function DaysPerYearCard({ trips }: DaysPerYearCardProps): ReactNode {
   const { t } = useLanguage(["home"]);
 
   return (

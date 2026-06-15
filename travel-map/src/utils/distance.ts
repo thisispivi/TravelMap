@@ -1,9 +1,9 @@
 import { firstBy, sumBy } from "remeda";
 
-import { Ferry } from "@/core/classes/Ferry";
+import type { City } from "@/core/classes/City";
+import type { Ferry } from "@/core/classes/Ferry";
+import type { Flight } from "@/core/classes/Flight";
 
-import { City } from "../core";
-import { Flight } from "../core";
 import { toRadians } from "./convert";
 
 /**

@@ -1,7 +1,7 @@
 import "./TooltipMap.scss";
 
 import { domAnimation, LazyMotion, m } from "framer-motion";
-import { JSX, useEffect } from "react";
+import { ReactNode, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { CoinIcon, GalleryIcon, PeopleIcon, TimezoneIcon } from "@/assets";
@@ -39,6 +39,19 @@ const TOOLTIP_BACKDROP_SIDES: TooltipBackdropProps["side"][] = [
   "bottom",
   "left",
 ];
+const timezoneFormatters = new Map<string, Intl.DateTimeFormat>();
+
+function getTimezoneFormatter(timeZone: string) {
+  const cached = timezoneFormatters.get(timeZone);
+  if (cached) return cached;
+
+  const formatter = Intl.DateTimeFormat("en", {
+    timeZone,
+    timeZoneName: "short",
+  });
+  timezoneFormatters.set(timeZone, formatter);
+  return formatter;
+}
 
 function TooltipBackdrop({
   side,
@@ -58,9 +71,9 @@ function getTzAbbr(timeZone: string | undefined): string | null {
   if (!timeZone) return null;
   try {
     return (
-      new Intl.DateTimeFormat("en", { timeZone, timeZoneName: "short" })
+      getTimezoneFormatter(timeZone)
         .formatToParts(new Date())
-        .find((p) => p.type === "timeZoneName")?.value ?? null
+        .find((part) => part.type === "timeZoneName")?.value ?? null
     );
   } catch {
     return null;
@@ -79,7 +92,7 @@ export function MapTooltip({
   onMouseEnter,
   onMouseLeave,
   setIsOpen,
-}: MapTooltipProps): JSX.Element {
+}: MapTooltipProps): ReactNode {
   const navigate = useNavigate();
   const location = useLocation();
   const { t, currLanguage: lang } = useLanguage(["home"]);

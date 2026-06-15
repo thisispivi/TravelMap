@@ -1,6 +1,6 @@
 import "./CityCard.scss";
 
-import { JSX, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { CalendarIcon, PositionIcon } from "@/assets";
@@ -14,7 +14,6 @@ import { computeMapCenter } from "@/utils/mapCenter";
 import { parameters } from "@/utils/parameters";
 
 import { CountryFlag, Loading } from "../../atoms";
-
 interface CityCardProps {
   className?: string;
   city: City;
@@ -29,7 +28,6 @@ interface CityCardProps {
   isHidden?: boolean;
   showDates?: boolean;
 }
-
 /**
  * CityCard component
  *
@@ -50,7 +48,7 @@ interface CityCardProps {
  * @param {(position: { center: [number, number]; zoom: number }) => void} [props.setMapPosition] - Centers the map on the city
  * @param {boolean} [props.isHidden] - Hides the card (CSS only, keeps it in the DOM)
  * @param {boolean} [props.showDates] - Whether to show the travel date range
- * @returns {JSX.Element} The city card
+ * @returns {ReactNode} The city card
  */
 export function CityCard({
   className = "",
@@ -62,7 +60,7 @@ export function CityCard({
   setMapPosition,
   isHidden = false,
   showDates = true,
-}: CityCardProps): JSX.Element {
+}: CityCardProps): ReactNode {
   const lang = useLanguage([]).currLanguage;
   const navigate = useNavigate();
   const location = useLocation();
@@ -72,21 +70,15 @@ export function CityCard({
   const [shouldLoadImage, setShouldLoadImage] = useState(
     () => typeof window !== "undefined" && !("IntersectionObserver" in window),
   );
-  const backgroundSource = useMemo(
-    () => city.getBackgroundImgSourceByIndex(travelIdx),
-    [city, travelIdx],
-  );
+  const backgroundSource = city.getBackgroundImgSourceByIndex(travelIdx);
   const cachedBackgroundSource = useCachedImageSource(
     backgroundSource,
     shouldLoadImage,
   );
-
   useEffect(() => {
     if (shouldLoadImage) return;
-
     const card = cardRef.current;
     if (!card) return;
-
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (!entry?.isIntersecting) return;
@@ -95,42 +87,33 @@ export function CityCard({
       },
       { rootMargin: "25%" },
     );
-
     observer.observe(card);
     return () => observer.disconnect();
   }, [shouldLoadImage]);
-
-  const handleMouseEnter = useCallback(() => {
+  const handleMouseEnter = () => {
     setHoveredCity(city);
-  }, [city, setHoveredCity]);
-
-  const handleMouseLeave = useCallback(() => {
+  };
+  const handleMouseLeave = () => {
     setHoveredCity(null);
-  }, [setHoveredCity]);
-
-  const handleCenterMap = useCallback(
-    (e: React.MouseEvent) => {
-      e.stopPropagation();
-      if (setMapPosition) {
-        setMapPosition({
-          center: computeMapCenter(
-            city.coordinates,
-            parameters.map.hoveredCityZoom,
-          ),
-          zoom: parameters.map.hoveredCityZoom,
-        });
-        setHoveredCity(city);
-      }
-    },
-    [city, setMapPosition, setHoveredCity],
-  );
-
-  const openGallery = useCallback(() => {
+  };
+  const handleCenterMap = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (setMapPosition) {
+      setMapPosition({
+        center: computeMapCenter(
+          city.coordinates,
+          parameters.map.hoveredCityZoom,
+        ),
+        zoom: parameters.map.hoveredCityZoom,
+      });
+      setHoveredCity(city);
+    }
+  };
+  const openGallery = () => {
     navigate(`/gallery/${city.name}/${travelIdx}`, {
       state: { fromPath: `${location.pathname}${location.search}` },
     });
-  }, [city.name, location, navigate, travelIdx]);
-
+  };
   return (
     <div
       className={classNames(

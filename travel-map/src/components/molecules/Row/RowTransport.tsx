@@ -1,6 +1,6 @@
 import "./RowTransport.scss";
 
-import { JSX } from "react";
+import { ReactNode } from "react";
 
 import { AirplaneIcon, FerryIcon } from "../../../assets";
 import { Ferry, Flight } from "../../../core";
@@ -25,12 +25,12 @@ interface TransportRowProps {
  * @param {TransportRowProps} props - The transport row props
  * @param {string} [props.className] - Additional class names
  * @param {Flight | Ferry} props.transport - Transport route to display
- * @returns {JSX.Element} The transport row
+ * @returns {ReactNode} The transport row
  */
 export function TransportRow({
   transport,
   className = "",
-}: TransportRowProps): JSX.Element {
+}: TransportRowProps): ReactNode {
   const { t, currLanguage } = useLanguage(["home"]);
   const isFerry = transport instanceof Ferry;
   const TransportIcon = isFerry ? FerryIcon : AirplaneIcon;

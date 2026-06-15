@@ -1,6 +1,6 @@
 import "./Loading.scss";
 
-import { JSX } from "react";
+import { ReactNode } from "react";
 
 import { classNames } from "@/utils/className";
 
@@ -17,8 +17,8 @@ interface LoadingProps {
  *
  * @param {LoadingProps} props - The loading props
  * @param {string} [props.className] - Additional class names
- * @returns {JSX.Element} The loading spinner
+ * @returns {ReactNode} The loading spinner
  */
-export function Loading({ className = "" }: LoadingProps): JSX.Element {
+export function Loading({ className = "" }: LoadingProps): ReactNode {
   return <div className={classNames("loader", className)} />;
 }

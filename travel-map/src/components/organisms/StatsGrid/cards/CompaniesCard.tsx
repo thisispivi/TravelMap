@@ -1,6 +1,6 @@
 import "./CompaniesCard.scss";
 
-import { ComponentType, JSX, SVGProps } from "react";
+import { ComponentType, ReactNode, SVGProps } from "react";
 
 import {
   AeroitaliaLogo,
@@ -60,12 +60,12 @@ export type CompaniesCardProps = {
  * @component
  *
  * @param {CompaniesCardProps} props
- * @returns {JSX.Element} The companies bento card
+ * @returns {ReactNode} The companies bento card
  */
 export function CompaniesCard({
   flightCompanyStats,
   ferryCompanyStats,
-}: CompaniesCardProps): JSX.Element {
+}: CompaniesCardProps): ReactNode {
   const { t } = useLanguage(["home"]);
 
   return (

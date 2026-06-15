@@ -1,7 +1,7 @@
 import "./TripCard.scss";
 
 import { domAnimation, LazyMotion, m, useReducedMotion } from "framer-motion";
-import { JSX } from "react";
+import { ReactNode } from "react";
 
 import { formatDateRangeShort } from "@/i18n/functions/date";
 
@@ -28,13 +28,13 @@ interface TripCardProps {
  * @param {string} [props.className] - Additional class names
  * @param {Trip} props.trip - Trip to display
  * @param {() => void} [props.onSelect] - Selection handler
- * @returns {JSX.Element} The trip card
+ * @returns {ReactNode} The trip card
  */
 export function TripCard({
   className = "",
   trip,
   onSelect,
-}: TripCardProps): JSX.Element {
+}: TripCardProps): ReactNode {
   const { t, currLanguage: lang } = useLanguage(["home"]);
   const prefersReducedMotion = useReducedMotion();
   const tripTitle = t(`trips.${trip.id}`);

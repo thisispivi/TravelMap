@@ -1,10 +1,9 @@
 import "./BarChartContinents.scss";
 
-import { JSX, useMemo } from "react";
+import { ReactNode } from "react";
 
 import { Continent } from "@/core";
 import { useLanguage } from "@/hooks/language/language";
-
 interface ContinentsBarChartProps {
   data: {
     continent: Continent;
@@ -14,15 +13,13 @@ interface ContinentsBarChartProps {
   barColors?: string[];
   isDarkTheme?: boolean;
 }
-
 interface BarRowProps {
   value: number;
   maxVal: number;
   color: string;
   label: string;
 }
-
-function BarRow({ value, maxVal, color, label }: BarRowProps): JSX.Element {
+function BarRow({ value, maxVal, color, label }: BarRowProps): ReactNode {
   const pct =
     maxVal > 0 && value > 0 ? (Math.sqrt(value) / Math.sqrt(maxVal)) * 100 : 0;
   return (
@@ -40,7 +37,6 @@ function BarRow({ value, maxVal, color, label }: BarRowProps): JSX.Element {
     </div>
   );
 }
-
 /**
  * ContinentsBarChart component
  *
@@ -53,22 +49,15 @@ export function ContinentsBarChart({
   data,
   barColors = ["#107895", "#79a14e"],
   isDarkTheme = false,
-}: ContinentsBarChartProps): JSX.Element {
+}: ContinentsBarChartProps): ReactNode {
   const { t } = useLanguage(["home"]);
-
-  const filtered = useMemo(
-    () => data.filter((c) => c.cities > 0 || c.countries > 0),
-    [data],
+  const filtered = data.filter((c) => c.cities > 0 || c.countries > 0);
+  const maxVal = Math.max(
+    1,
+    ...filtered.map((c) => Math.max(c.countries, c.cities)),
   );
-
-  const maxVal = useMemo(
-    () => Math.max(1, ...filtered.map((c) => Math.max(c.countries, c.cities))),
-    [filtered],
-  );
-
   const continentLabel = (continent: Continent) =>
     t(`continents.${continent.replace(/\s+/g, "_").toUpperCase()}`);
-
   return (
     <div
       className={`continents-bar-chart ${isDarkTheme ? "continents-bar-chart--dark" : "continents-bar-chart--light"}`}

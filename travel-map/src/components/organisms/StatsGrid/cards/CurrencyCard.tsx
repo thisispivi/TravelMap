@@ -1,6 +1,6 @@
 import "./CurrencyCard.scss";
 
-import { JSX } from "react";
+import { ReactNode } from "react";
 
 import { Currency } from "@/core";
 import { useLanguage } from "@/hooks/language/language";
@@ -26,9 +26,9 @@ export type CurrencyCardProps = {
  * @component
  *
  * @param {CurrencyCardProps} props
- * @returns {JSX.Element} The currency bento card
+ * @returns {ReactNode} The currency bento card
  */
-export function CurrencyCard({ currencies }: CurrencyCardProps): JSX.Element {
+export function CurrencyCard({ currencies }: CurrencyCardProps): ReactNode {
   const { t } = useLanguage(["home"]);
 
   return (

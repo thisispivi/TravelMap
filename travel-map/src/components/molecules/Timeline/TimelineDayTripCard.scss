@@ -36,11 +36,18 @@
     display: flex;
     align-items: center;
     gap: 0.75rem;
+    width: 100%;
     padding: 0.625rem 0.75rem;
+    border: 0;
     border-radius: 0.875rem;
+    appearance: none;
+    background: transparent;
+    color: inherit;
     min-height: 4rem;
     cursor: default;
+    font: inherit;
     outline: none;
+    text-align: left;
     @include m.transition(background-color, 0.15s);
 
     &--nested {

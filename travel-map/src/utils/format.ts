@@ -1,5 +1,21 @@
 import { normalizeLocale } from "@/i18n/locale";
 
+const mileageFormatters = new Map<string, Intl.NumberFormat>();
+
+function getMileageFormatter(language: string, digits: number) {
+  const locale = normalizeLocale(language);
+  const key = `${locale}:${digits}`;
+  const cached = mileageFormatters.get(key);
+  if (cached) return cached;
+
+  const formatter = Intl.NumberFormat(locale, {
+    maximumFractionDigits: digits,
+    useGrouping: true,
+  });
+  mileageFormatters.set(key, formatter);
+  return formatter;
+}
+
 /**
  * Format the mileage number to a string with the given language and digits.
  * @param {number} mileage - The mileage number
@@ -12,8 +28,5 @@ export function formatMileage(
   language: string,
   digits: number = 2,
 ): string {
-  return new Intl.NumberFormat(normalizeLocale(language), {
-    maximumFractionDigits: digits,
-    useGrouping: true,
-  }).format(mileage);
+  return getMileageFormatter(language, digits).format(mileage);
 }

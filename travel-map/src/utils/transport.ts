@@ -6,7 +6,6 @@ import {
   FlightCompany,
   TransportMode,
   Trip,
-  TripTransportStep,
 } from "@/core";
 
 export interface CountryVisitStat {
@@ -58,12 +57,11 @@ export function getTransportModeStats(
   const groundModes: TransportMode[] = ["train", "bus", "car", "taxi"];
 
   const groundStats = groundModes.map((mode) => {
-    const steps = trips
-      .flatMap((t) => t.steps)
-      .filter(
-        (s): s is TripTransportStep =>
-          s.type === "transport" && s.mode === mode,
-      );
+    const steps = trips.flatMap((trip) =>
+      trip.steps.flatMap((step) =>
+        step.type === "transport" && step.mode === mode ? [step] : [],
+      ),
+    );
     const count = steps.reduce((acc, s) => acc + (s.roundTrip ? 2 : 1), 0);
     const km = steps.reduce(
       (acc, s) => acc + (s.distanceInKm ?? 0) * (s.roundTrip ? 2 : 1),

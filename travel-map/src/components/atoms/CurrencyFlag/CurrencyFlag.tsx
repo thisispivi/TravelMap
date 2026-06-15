@@ -1,4 +1,4 @@
-import { JSX } from "react";
+import { ReactNode } from "react";
 
 import {
   AustraliaFlag,
@@ -27,12 +27,12 @@ interface CurrencyFlagProps {
  * @param {CurrencyFlagProps} props - The props of the component
  * @param {Currency} props.currency - The currency
  * @param {string} [props.className=""] - The class name of the component
- * @returns {JSX.Element|null} The currency flag
+ * @returns {ReactNode} The currency flag
  */
 export function CurrencyFlag({
   currency,
   className = "",
-}: CurrencyFlagProps): JSX.Element | null {
+}: CurrencyFlagProps): ReactNode {
   switch (currency) {
     case Currency.EUR:
       return <EuropeFlag className={className} />;

@@ -1,6 +1,6 @@
 import "./RowContinent.scss";
 
-import { JSX } from "react";
+import { ReactNode } from "react";
 
 import { Continent } from "../../../core";
 import { useLanguage } from "../../../hooks/language/language";
@@ -22,12 +22,12 @@ interface ContinentRowProps {
  * @param {ContinentRowProps} props - The continent row props
  * @param {Continent} props.continent - The continent to display
  * @param {boolean} props.isVisited - Whether the continent is visited
- * @returns {JSX.Element} The continent row
+ * @returns {ReactNode} The continent row
  */
 export function ContinentRow({
   continent,
   isVisited,
-}: ContinentRowProps): JSX.Element {
+}: ContinentRowProps): ReactNode {
   const { t } = useLanguage(["home"]);
   return (
     <Row className={classNames("continent-row", `continent-row--${continent}`)}>

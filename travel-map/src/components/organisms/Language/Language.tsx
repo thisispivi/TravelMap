@@ -1,7 +1,7 @@
 import "./Language.scss";
 
 import { AnimatePresence, domAnimation, LazyMotion, m } from "framer-motion";
-import { JSX, useCallback, useEffect, useRef, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";
 
@@ -10,20 +10,21 @@ import { useLanguage } from "@/hooks/language/language";
 import { SUPPORTED_LOCALES } from "@/i18n/locale";
 
 import { Button, LanguageFlag } from "../../atoms";
-
 const possibleLanguages = [...SUPPORTED_LOCALES] as const;
-
 const LANGUAGE_LABELS: Record<string, string> = {
   "en-US": "English",
   "it-IT": "Italiano",
 };
-
 type PanelPos =
-  | { top: number; right: number }
-  | { bottom: number; right: number };
-
+  | {
+      top: number;
+      right: number;
+    }
+  | {
+      bottom: number;
+      right: number;
+    };
 const PANEL_OFFSET_PX = 8;
-
 function computePanelPos(el: HTMLElement): PanelPos {
   const rect = el.getBoundingClientRect();
   const right = window.innerWidth - rect.right;
@@ -31,7 +32,6 @@ function computePanelPos(el: HTMLElement): PanelPos {
     ? { top: rect.bottom + PANEL_OFFSET_PX, right }
     : { bottom: window.innerHeight - rect.top + PANEL_OFFSET_PX, right };
 }
-
 /**
  * LanguageSelector component
  *
@@ -43,23 +43,21 @@ function computePanelPos(el: HTMLElement): PanelPos {
  *
  * @component
  *
- * @returns {JSX.Element} The language selector
+ * @returns {ReactNode} The language selector
  */
-export function LanguageSelector(): JSX.Element {
+export function LanguageSelector(): ReactNode {
   const { t } = useTranslation("home");
   const [isOpen, setIsOpen] = useState(false);
   const [panelPos, setPanelPos] = useState<PanelPos | null>(null);
   const { currLanguage, changeLanguage } = useLanguage([]);
   const buttonRef = useRef<HTMLDivElement>(null);
-
-  const handleToggle = useCallback(() => {
+  const handleToggle = () => {
     setIsOpen((prev) => {
       if (!prev && buttonRef.current)
         setPanelPos(computePanelPos(buttonRef.current));
       return !prev;
     });
-  }, []);
-
+  };
   useEffect(() => {
     if (!isOpen || !buttonRef.current) return;
     const el = buttonRef.current;
@@ -67,10 +65,8 @@ export function LanguageSelector(): JSX.Element {
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, [isOpen]);
-
   const isAbove = panelPos ? "top" in panelPos : true;
   const slideY = isAbove ? -8 : 8;
-
   const langOptions = possibleLanguages.map((language, i) => (
     <m.button
       animate={{
@@ -102,7 +98,6 @@ export function LanguageSelector(): JSX.Element {
       </span>
     </m.button>
   ));
-
   return (
     <LazyMotion features={domAnimation}>
       <div className="language-selector" ref={buttonRef}>
@@ -141,9 +136,7 @@ export function LanguageSelector(): JSX.Element {
         )}
         <Button
           ariaLabel={t("language")}
-          className={`language-selector__activator ${
-            isOpen ? "language-selector__activator--open" : ""
-          }`}
+          className={`language-selector__activator ${isOpen ? "language-selector__activator--open" : ""}`}
           onClick={handleToggle}
           tooltipContent={t("language")}
           tooltipId="base-tooltip"

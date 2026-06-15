@@ -1,6 +1,6 @@
 import "./RowCurrency.scss";
 
-import { JSX } from "react";
+import { ReactNode } from "react";
 
 import { Currency } from "../../../core";
 import { useLanguage } from "../../../hooks/language/language";
@@ -22,12 +22,12 @@ interface CurrencyRowProps {
  * @param {CurrencyRowProps} props - The currency row props
  * @param {Currency} [props.currency] - Currency to display
  * @param {string} [props.className] - Additional class names
- * @returns {JSX.Element} The currency row
+ * @returns {ReactNode} The currency row
  */
 export function CurrencyRow({
   currency,
   className = "",
-}: CurrencyRowProps): JSX.Element {
+}: CurrencyRowProps): ReactNode {
   const { t } = useLanguage(["home"]);
   return (
     <Row className={`currency-row ${className}`}>

@@ -1533,9 +1533,9 @@ export const visitedTrips: Trip[] = [
 
 export const visitedCities: City[] = unique(
   visitedTrips.flatMap((trip) =>
-    trip.destinations
-      .filter((destination) => !destination.isLayover)
-      .map(({ city }) => city),
+    trip.destinations.flatMap((destination) =>
+      destination.isLayover ? [] : [destination.city],
+    ),
   ),
 ).sort((a, b) => a.name.localeCompare(b.name));
 
@@ -1547,6 +1547,6 @@ export const takenFlights: Flight[] = visitedTrips.flatMap((trip) =>
   trip.getFlights(),
 );
 
-export const takenFerries: Ferry[] = visitedTrips
-  .flatMap((trip) => trip.getFerries())
-  .filter((ferry) => !!ferry.company);
+export const takenFerries: Ferry[] = visitedTrips.flatMap((trip) =>
+  trip.getFerries().flatMap((ferry) => (ferry.company ? [ferry] : [])),
+);

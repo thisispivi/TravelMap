@@ -7,7 +7,7 @@ import {
   useMotionValue,
   useTransform,
 } from "framer-motion";
-import { JSX, useEffect, useRef } from "react";
+import { ReactNode, useEffect, useRef } from "react";
 
 interface AnimatedCounterProps {
   value: number;
@@ -25,14 +25,14 @@ interface AnimatedCounterProps {
  * @param {string} props.className - The class to apply to the counter.
  * @param {number} props.duration - The animation duration.
  * @param {function} props.formatFn - The formatter for the displayed value.
- * @returns {JSX.Element} The AnimatedCounter component.
+ * @returns {ReactNode} The AnimatedCounter component.
  */
 export function AnimatedCounter({
   value,
   className = "",
   duration = 1.5,
   formatFn,
-}: AnimatedCounterProps): JSX.Element {
+}: AnimatedCounterProps): ReactNode {
   const ref = useRef<HTMLSpanElement>(null);
   const isInView = useInView(ref, { once: true });
   const count = useMotionValue(0);

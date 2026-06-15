@@ -1,15 +1,7 @@
 import "./TripDetail.scss";
 
 import { domAnimation, LazyMotion, m } from "framer-motion";
-import {
-  JSX,
-  use,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { ReactNode, use, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -36,7 +28,6 @@ import {
   formatTripDetailDuration,
   TripDetailTimelineItem,
 } from "@/utils/tripDetailTimeline";
-
 /**
  * Aggregate transport and stay statistics from a flat list of timeline items.
  * @param {TripDetailTimelineItem[]} items - Timeline items for the trip
@@ -66,13 +57,13 @@ function computeTripStats(items: TripDetailTimelineItem[]) {
     walkKm = 0,
     walkMinutes = 0;
   const timezones = new Set<string>();
-
   for (const item of items) {
+    const timeZone = "city" in item ? item.city.timeZone : undefined;
     if (item.kind === "base-stop") {
       nights += item.nights;
-      if (item.city.timeZone) timezones.add(item.city.timeZone);
+      if (timeZone) timezones.add(timeZone);
     } else if (item.kind === "day-trip") {
-      if (item.city.timeZone) timezones.add(item.city.timeZone);
+      if (timeZone) timezones.add(timeZone);
     } else if (item.kind === "transport") {
       const mult = item.isRoundTrip ? 2 : 1;
       if (item.mode === "plane") {
@@ -106,7 +97,6 @@ function computeTripStats(items: TripDetailTimelineItem[]) {
       }
     }
   }
-
   return {
     nights,
     flights,
@@ -133,7 +123,6 @@ function computeTripStats(items: TripDetailTimelineItem[]) {
     timezoneCount: timezones.size,
   };
 }
-
 /**
  * TripDetail component
  *
@@ -143,9 +132,9 @@ function computeTripStats(items: TripDetailTimelineItem[]) {
  *
  * @component
  *
- * @returns {JSX.Element | null} The trip detail panel, or null when no trip is selected
+ * @returns {ReactNode} The trip detail panel, or null when no trip is selected
  */
-export function TripDetail(): JSX.Element | null {
+export function TripDetail(): ReactNode {
   const { t, currLanguage: lang } = useLanguage(["home"]);
   const navigate = useNavigate();
   const { tripDetailId } = useLocation();
@@ -153,17 +142,11 @@ export function TripDetail(): JSX.Element | null {
     use(HomeContext)!;
   const bodyRef = useRef<HTMLDivElement | null>(null);
   const [isBodyScrollable, setIsBodyScrollable] = useState(false);
-
-  const trip = useMemo(
-    () =>
-      selectedTrip ?? visitedTrips.find((tr) => tr.id === tripDetailId) ?? null,
-    [selectedTrip, tripDetailId],
-  );
-
+  const trip =
+    selectedTrip ?? visitedTrips.find((tr) => tr.id === tripDetailId) ?? null;
   useEffect(() => {
     if (trip && selectedTrip?.id !== trip.id) setSelectedTrip(trip);
   }, [selectedTrip?.id, setSelectedTrip, trip]);
-
   useEffect(() => {
     if (!trip) return;
     const zoom = trip.mapFocus?.zoom ?? parameters.map.hoveredCityZoom;
@@ -172,48 +155,42 @@ export function TripDetail(): JSX.Element | null {
       trip.destinations.find((d) => !d.isLayover)?.city.coordinates ??
       parameters.map.defaultCenter;
     setMapPosition({ center: computeMapCenter(rawCenter, zoom), zoom });
-  }, [trip?.id]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const timelineItems = useMemo(
-    () => (trip ? buildTripDetailTimelineItems(trip) : []),
-    [trip],
-  );
-
-  const updateBodyScrollable = useCallback(() => {
+  }, [setMapPosition, trip]);
+  const timelineItems = trip ? buildTripDetailTimelineItems(trip) : [];
+  const updateBodyScrollable = () => {
     const body = bodyRef.current;
     if (!body) return;
     setIsBodyScrollable(body.scrollHeight > body.clientHeight + 1);
-  }, []);
+  };
+  const updateBodyScrollableRef = useRef(updateBodyScrollable);
+
+  useEffect(() => {
+    updateBodyScrollableRef.current = updateBodyScrollable;
+  });
 
   useEffect(() => {
     const body = bodyRef.current;
     if (!body) return;
+    const handleScrollableChange = () => updateBodyScrollableRef.current();
 
-    updateBodyScrollable();
-
+    handleScrollableChange();
     const observer =
       typeof ResizeObserver === "undefined"
         ? null
-        : new ResizeObserver(updateBodyScrollable);
+        : new ResizeObserver(handleScrollableChange);
     observer?.observe(body);
-    window.addEventListener("resize", updateBodyScrollable);
-
+    window.addEventListener("resize", handleScrollableChange);
     return () => {
       observer?.disconnect();
-      window.removeEventListener("resize", updateBodyScrollable);
+      window.removeEventListener("resize", handleScrollableChange);
     };
-  }, [updateBodyScrollable, timelineItems]);
-
+  }, [trip?.id]);
   const showYear = trip
     ? trip.sDate.getFullYear() !== trip.eDate.getFullYear()
     : false;
-
-  const stats = useMemo(() => computeTripStats(timelineItems), [timelineItems]);
-
+  const stats = computeTripStats(timelineItems);
   if (!trip) return null;
-
   const countries = trip.getCountriesVisited();
-
   return (
     <LazyMotion features={domAnimation}>
       <m.div

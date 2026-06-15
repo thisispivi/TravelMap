@@ -1,15 +1,7 @@
 import "./TripBrowser.scss";
 
 import { domAnimation, LazyMotion, m } from "framer-motion";
-import {
-  JSX,
-  use,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { ReactNode, use, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { keys } from "remeda";
 
@@ -23,9 +15,7 @@ import { computeMapCenter } from "@/utils/mapCenter";
 import { parameters } from "@/utils/parameters";
 import { constants } from "@/utils/parameters";
 import { groupTripsByYear } from "@/utils/trips";
-
 const TRIP_YEAR_TRANSITION_DURATION_MS = 280;
-
 /**
  * TripBrowser component
  *
@@ -36,27 +26,18 @@ const TRIP_YEAR_TRANSITION_DURATION_MS = 280;
  *
  * @component
  *
- * @returns {JSX.Element} The trip browser panel
+ * @returns {ReactNode} The trip browser panel
  */
-export function TripBrowser(): JSX.Element {
+export function TripBrowser(): ReactNode {
   const { t } = useLanguage(["home"]);
   const navigate = useNavigate();
   const { setSelectedTrip, setMapPosition } = use(HomeContext)!;
-
-  const groups = useMemo(
-    () =>
-      groupTripsByYear(visitedTrips, {
-        cutoffYear: constants.GROUP_BY_CITIES_CUTOFF_YEAR,
-      }),
-    [],
-  );
-  const years = useMemo<string[]>(
-    () =>
-      keys(groups)
-        .map(String)
-        .sort((a, b) => Number(b) - Number(a)),
-    [groups],
-  );
+  const groups = groupTripsByYear(visitedTrips, {
+    cutoffYear: constants.GROUP_BY_CITIES_CUTOFF_YEAR,
+  });
+  const years = keys(groups)
+    .map(String)
+    .sort((a, b) => Number(b) - Number(a)) as string[];
   const initialYear = Number(
     years[0] ?? constants.GROUP_BY_CITIES_DEFAULT_OPENED_YEAR,
   );
@@ -67,11 +48,9 @@ export function TripBrowser(): JSX.Element {
   const panelRef = useRef<HTMLDivElement>(null);
   const activeYearIndex = Math.max(years.indexOf(String(activeYear)), 0);
   const selectedTrips = groups[activeYear] ?? [];
-
-  const measure = useCallback(() => {
+  const measure = () => {
     const panel = panelRef.current;
     if (!panel) return;
-
     const style = window.getComputedStyle(panel);
     const maxHeight = parseFloat(style.maxHeight);
     const header = panel.querySelector<HTMLElement>(".trip-browser__header");
@@ -87,7 +66,6 @@ export function TripBrowser(): JSX.Element {
     const cards = page
       ? [...page.querySelectorAll<HTMLElement>(".trip-card")]
       : [];
-
     const pageHeight =
       page && cards.length > 0
         ? Math.max(
@@ -98,7 +76,6 @@ export function TripBrowser(): JSX.Element {
             ),
           ) + (pageStyle ? parseFloat(pageStyle.paddingBottom) : 0)
         : (page?.scrollHeight ?? 0);
-
     const fixedHeight =
       parseFloat(style.paddingTop) +
       parseFloat(style.paddingBottom) +
@@ -106,17 +83,14 @@ export function TripBrowser(): JSX.Element {
       (yearSelector?.offsetHeight ?? 0) +
       (listStyle ? parseFloat(listStyle.paddingTop) : 0) +
       (listStyle ? parseFloat(listStyle.paddingBottom) : 0);
-
     const contentHeight = fixedHeight + pageHeight;
     const targetHeight = Number.isFinite(maxHeight)
       ? Math.min(contentHeight, maxHeight)
       : contentHeight;
     const availableListHeight = targetHeight - fixedHeight;
-
     const rootSize =
       parseFloat(window.getComputedStyle(document.documentElement).fontSize) ||
       16;
-
     setIsListScrollable(pageHeight > availableListHeight + 2);
     setStageHeight((curr) => {
       const next = `${pageHeight / rootSize}rem`;
@@ -126,65 +100,55 @@ export function TripBrowser(): JSX.Element {
       const next = `${targetHeight / rootSize}rem`;
       return curr === next ? curr : next;
     });
-  }, [activeYear]);
+  };
+  const measureRef = useRef(measure);
 
-  const selectYear = useCallback(
-    (year: string) => {
-      const next = parseInt(year, 10);
-      if (next === activeYear) return;
-      setActiveYear(next);
-    },
-    [activeYear],
-  );
+  useEffect(() => {
+    measureRef.current = measure;
+  });
 
+  const selectYear = (year: string) => {
+    const next = parseInt(year, 10);
+    if (next === activeYear) return;
+    setActiveYear(next);
+  };
   useEffect(() => {
     const panel = panelRef.current;
     if (!panel) return;
-
-    let frame = window.requestAnimationFrame(measure);
-
+    let frame = window.requestAnimationFrame(() => measureRef.current());
     const schedule = () => {
       window.cancelAnimationFrame(frame);
-      frame = window.requestAnimationFrame(measure);
+      frame = window.requestAnimationFrame(() => measureRef.current());
     };
-
     const observer = new ResizeObserver(schedule);
     observer.observe(panel);
     window.addEventListener("resize", schedule);
-
     return () => {
       window.cancelAnimationFrame(frame);
       observer.disconnect();
       window.removeEventListener("resize", schedule);
     };
-  }, [measure]);
-
+  }, []);
   useEffect(() => {
-    const frame = window.requestAnimationFrame(measure);
+    const frame = window.requestAnimationFrame(() => measureRef.current());
     const timeout = window.setTimeout(() => {
-      window.requestAnimationFrame(measure);
+      window.requestAnimationFrame(() => measureRef.current());
     }, TRIP_YEAR_TRANSITION_DURATION_MS + 80);
-
     return () => {
       window.cancelAnimationFrame(frame);
       window.clearTimeout(timeout);
     };
-  }, [measure, selectedTrips.length]);
-
-  const openTrip = useCallback(
-    (trip: Trip) => {
-      setSelectedTrip(trip);
-      navigate(`/trip/${trip.id}`);
-      const zoom = trip.mapFocus?.zoom ?? parameters.map.hoveredCityZoom;
-      const rawCenter =
-        trip.mapFocus?.center ??
-        trip.destinations.find((d) => !d.isLayover)?.city.coordinates ??
-        parameters.map.defaultCenter;
-      setMapPosition({ center: computeMapCenter(rawCenter, zoom), zoom });
-    },
-    [navigate, setMapPosition, setSelectedTrip],
-  );
-
+  }, [activeYear, selectedTrips.length]);
+  const openTrip = (trip: Trip) => {
+    setSelectedTrip(trip);
+    navigate(`/trip/${trip.id}`);
+    const zoom = trip.mapFocus?.zoom ?? parameters.map.hoveredCityZoom;
+    const rawCenter =
+      trip.mapFocus?.center ??
+      trip.destinations.find((d) => !d.isLayover)?.city.coordinates ??
+      parameters.map.defaultCenter;
+    setMapPosition({ center: computeMapCenter(rawCenter, zoom), zoom });
+  };
   return (
     <LazyMotion features={domAnimation}>
       <m.div

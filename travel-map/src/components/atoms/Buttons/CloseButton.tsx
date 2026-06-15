@@ -1,6 +1,6 @@
 import "./CloseButton.scss";
 
-import { JSX } from "react";
+import { ReactNode } from "react";
 
 import { CloseIcon } from "../../../assets";
 
@@ -19,12 +19,12 @@ interface CloseButtonProps {
  * @param {CloseButtonProps} props - The close button props
  * @param {() => void} props.onClick - Click handler
  * @param {string} [props.className] - Additional class names
- * @returns {JSX.Element} The close button
+ * @returns {ReactNode} The close button
  */
 export function CloseButton({
   onClick,
   className = "",
-}: CloseButtonProps): JSX.Element {
+}: CloseButtonProps): ReactNode {
   return (
     <CloseIcon className={`close-button ${className}`} onClick={onClick} />
   );

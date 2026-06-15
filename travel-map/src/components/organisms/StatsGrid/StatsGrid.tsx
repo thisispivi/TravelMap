@@ -1,6 +1,6 @@
 import "./StatsGrid.scss";
 
-import { JSX, useCallback, useEffect, useRef, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 
 import {
   AirplaneIcon,
@@ -37,7 +37,6 @@ import { MileageCard } from "./cards/MileageCard";
 import { PopulationCard } from "./cards/PopulationCard";
 import { TransportCard } from "./cards/TransportCard";
 import { TransportModesCard } from "./cards/TransportModesCard";
-
 /**
  * Props for the StatsGrid component.
  *
@@ -48,7 +47,6 @@ export type StatsGridProps = {
   className?: string;
   isVisible?: boolean;
 };
-
 /**
  * StatsGrid component
  *
@@ -61,42 +59,44 @@ export type StatsGridProps = {
  * @param {StatsGridProps} props
  * @param {string} [props.className] - Additional class names
  * @param {boolean} [props.isVisible] - Controls CSS visibility
- * @returns {JSX.Element} The stats dashboard
+ * @returns {ReactNode} The stats dashboard
  */
 export function StatsGrid({
   className = "",
   isVisible = false,
-}: StatsGridProps): JSX.Element {
+}: StatsGridProps): ReactNode {
   const { t, currLanguage } = useLanguage(["home"]);
   const stats = useStatsData();
   const bentoRef = useRef<HTMLDivElement | null>(null);
   const [isScrollable, setIsScrollable] = useState(false);
   const { TOTAL_CONTINENTS, TOTAL_COUNTRIES, TOTAL_UNESCO_SITES } = constants;
-
-  const updateScrollableState = useCallback(() => {
+  const updateScrollableState = () => {
     const bento = bentoRef.current;
     if (!bento) return;
     setIsScrollable(bento.scrollHeight > bento.clientHeight + 1);
-  }, []);
+  };
+  const updateScrollableStateRef = useRef(updateScrollableState);
 
   useEffect(() => {
-    updateScrollableState();
+    updateScrollableStateRef.current = updateScrollableState;
+  });
 
+  useEffect(() => {
+    const handleScrollableChange = () => updateScrollableStateRef.current();
+
+    handleScrollableChange();
     const bento = bentoRef.current;
     const resizeObserver =
       typeof ResizeObserver === "undefined"
         ? null
-        : new ResizeObserver(updateScrollableState);
-
+        : new ResizeObserver(handleScrollableChange);
     if (bento) resizeObserver?.observe(bento);
-    window.addEventListener("resize", updateScrollableState);
-
+    window.addEventListener("resize", handleScrollableChange);
     return () => {
       resizeObserver?.disconnect();
-      window.removeEventListener("resize", updateScrollableState);
+      window.removeEventListener("resize", handleScrollableChange);
     };
-  }, [isVisible, stats, updateScrollableState]);
-
+  }, [isVisible, stats]);
   return (
     <div
       className={classNames(

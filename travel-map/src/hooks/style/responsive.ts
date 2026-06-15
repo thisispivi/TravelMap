@@ -1,15 +1,12 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-
+import { useEffect, useRef, useState } from "react";
 type WindowSize = {
   width: number;
   height: number;
 };
-
 export type ResponsiveType = {
   window: WindowSize;
   inner: WindowSize;
 };
-
 /**
  * Hook to detect the current window size.
  *
@@ -20,16 +17,19 @@ export function useResponsive(): ResponsiveType {
     width: window.innerWidth,
     height: window.innerHeight,
   });
-
-  const handleResize = useCallback(
-    () => setSize({ width: window.innerWidth, height: window.innerHeight }),
-    [],
-  );
+  const handleResize = () =>
+    setSize({ width: window.innerWidth, height: window.innerHeight });
+  const handleResizeRef = useRef(handleResize);
 
   useEffect(() => {
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, [handleResize]);
+    handleResizeRef.current = handleResize;
+  });
 
-  return useMemo(() => ({ window: size, inner: size }), [size]);
+  useEffect(() => {
+    const handleWindowResize = () => handleResizeRef.current();
+
+    window.addEventListener("resize", handleWindowResize);
+    return () => window.removeEventListener("resize", handleWindowResize);
+  }, []);
+  return { window: size, inner: size };
 }

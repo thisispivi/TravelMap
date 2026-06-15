@@ -1,0 +1,7 @@
+{
+  "$schema": "https://react.doctor/schema/config.json",
+  "rules": {
+    "react-doctor/iframe-missing-sandbox": "off",
+    "react-doctor/no-barrel-import": "off"
+  }
+}

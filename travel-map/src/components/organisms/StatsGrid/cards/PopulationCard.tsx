@@ -1,6 +1,6 @@
 import "./PopulationCard.scss";
 
-import { JSX } from "react";
+import { ReactNode } from "react";
 
 import { City } from "@/core";
 import { useLanguage } from "@/hooks/language/language";
@@ -26,9 +26,9 @@ export type PopulationCardProps = {
  * @component
  *
  * @param {PopulationCardProps} props
- * @returns {JSX.Element} The population bento card
+ * @returns {ReactNode} The population bento card
  */
-export function PopulationCard({ cities }: PopulationCardProps): JSX.Element {
+export function PopulationCard({ cities }: PopulationCardProps): ReactNode {
   const { t } = useLanguage(["home"]);
 
   return (

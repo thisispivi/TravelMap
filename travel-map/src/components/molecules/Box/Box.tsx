@@ -1,6 +1,6 @@
 import "./Box.scss";
 
-import { JSX, PropsWithChildren } from "react";
+import { PropsWithChildren, ReactNode } from "react";
 
 import { classNames } from "@/utils/className";
 
@@ -18,8 +18,8 @@ interface BoxProps extends PropsWithChildren {
  * @param {BoxProps} props - The box props
  * @param {string} [props.className] - Additional class names
  * @param {React.ReactNode} props.children - Box content
- * @returns {JSX.Element} The box
+ * @returns {ReactNode} The box
  */
-export function Box({ className = "", children }: BoxProps): JSX.Element {
+export function Box({ className = "", children }: BoxProps): ReactNode {
   return <div className={classNames("box", className)}>{children}</div>;
 }

@@ -13,9 +13,10 @@ import type {
   TripPhotosArgs,
 } from "./types";
 
-const photoModules = import.meta.glob("../../../data/**/photos/tr_*.ts", {
+const photoModules = import.meta.glob("../../../data/**/photos/tr_*.json", {
   eager: true,
-}) as Record<string, Record<string, Image[]>>;
+  import: "default",
+}) as Record<string, Image[]>;
 
 /**
  * Build a Date from explicit parts for consistent data declarations.
@@ -49,7 +50,7 @@ export const d = ({
  * @returns {Image[]} Resolved image list, or an empty array if missing.
  */
 function tripPhotos({ path }: TripPhotosArgs): Image[] {
-  return Object.values(photoModules[`../../../data/${path}.ts`] ?? {})[0] ?? [];
+  return photoModules[`../../../data/${path}.json`] ?? [];
 }
 
 /**

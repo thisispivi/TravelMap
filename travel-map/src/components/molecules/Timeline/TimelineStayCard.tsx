@@ -1,7 +1,7 @@
 import "./TimelineStayCard.scss";
 
 import { m } from "framer-motion";
-import { CSSProperties, JSX, use } from "react";
+import { CSSProperties, ReactNode, use } from "react";
 import {
   useLocation as useRouterLocation,
   useNavigate,
@@ -40,7 +40,7 @@ interface TimelineStayCardProps {
  * @param {number} props.nights - Number of nights spent
  * @param {number} props.animDelay - Staggered animation delay in seconds
  * @param {boolean} props.showYear - Whether to include the year in date labels
- * @returns {JSX.Element} The stay card
+ * @returns {ReactNode} The stay card
  */
 export function TimelineStayCard({
   city,
@@ -49,7 +49,7 @@ export function TimelineStayCard({
   nights,
   animDelay,
   showYear,
-}: TimelineStayCardProps): JSX.Element {
+}: TimelineStayCardProps): ReactNode {
   const { t, currLanguage: lang } = useLanguage(["home"]);
   const navigate = useNavigate();
   const routerLocation = useRouterLocation();
@@ -61,6 +61,12 @@ export function TimelineStayCard({
     hasPhotos ? galleryTravelIdx : travelIdx,
   );
   const cityLabel = t(`cities.${city.name}`) || city.name;
+  const openGallery = () =>
+    navigate(`/gallery/${city.name}/${galleryTravelIdx}`, {
+      state: {
+        fromPath: `${routerLocation.pathname}${routerLocation.search}`,
+      },
+    });
 
   const dateRange = formatDateRangeShort({
     sDateInput: stop.sDate,
@@ -92,24 +98,17 @@ export function TimelineStayCard({
         <div className="trip-detail__stay-dot" />
       </div>
 
-      <div
+      <button
+        aria-disabled={!hasPhotos}
         className={classNames(
           "trip-detail__stay-card",
           hasPhotos && "trip-detail__stay-card--clickable",
         )}
-        onClick={
-          hasPhotos
-            ? () =>
-                navigate(`/gallery/${city.name}/${galleryTravelIdx}`, {
-                  state: {
-                    fromPath: `${routerLocation.pathname}${routerLocation.search}`,
-                  },
-                })
-            : undefined
-        }
+        onClick={hasPhotos ? openGallery : undefined}
         onMouseEnter={() => setHoveredCity(city)}
         onMouseLeave={() => setHoveredCity(null)}
-        {...(hasPhotos ? { role: "button" as const, tabIndex: 0 } : {})}
+        tabIndex={hasPhotos ? 0 : -1}
+        type="button"
       >
         <div className="trip-detail__stay-thumb">
           {thumbSrc ? (
@@ -142,7 +141,7 @@ export function TimelineStayCard({
             {nights} {nightsLabel}
           </div>
         ) : null}
-      </div>
+      </button>
     </m.div>
   );
 }

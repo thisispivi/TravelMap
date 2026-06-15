@@ -1,6 +1,6 @@
 import "./CoverageCard.scss";
 
-import { JSX } from "react";
+import { ReactNode } from "react";
 
 import { ContinentsIcon } from "@/assets";
 import { Continent } from "@/core";
@@ -32,13 +32,13 @@ export type CoverageCardProps = {
  * @component
  *
  * @param {CoverageCardProps} props
- * @returns {JSX.Element} The coverage bento card
+ * @returns {ReactNode} The coverage bento card
  */
 export function CoverageCard({
   visitedContinents,
   allContinents,
   totalContinents,
-}: CoverageCardProps): JSX.Element {
+}: CoverageCardProps): ReactNode {
   const { t } = useLanguage(["home"]);
 
   const mapClassName = [

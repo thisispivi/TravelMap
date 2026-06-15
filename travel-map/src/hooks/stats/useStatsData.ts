@@ -1,5 +1,3 @@
-import { useMemo } from "react";
-
 import { Continent } from "@/core";
 import {
   takenFerries,
@@ -28,13 +26,11 @@ import {
   getTransportModeStats,
 } from "@/utils/transport";
 import { getCityTravels } from "@/utils/trips";
-
 /**
  * Pre-computed travel statistics derived from all visited data.
  * Consumed by the stats bento grid and its card components.
  */
 export type StatsData = ReturnType<typeof computeStats>;
-
 function computeStats() {
   const {
     EARTH_CIRCUMFERENCE,
@@ -43,22 +39,17 @@ function computeStats() {
     TOTAL_COUNTRIES,
     TOTAL_UNESCO_SITES,
   } = constants;
-
   const visitedCountriesCount = visitedCountries.length;
-
   const { furthest: furthestCity, nearest: nearestCity } =
     getFurthestAndNearestCity(visitedCities, parameters.birthCity);
-
   const { max: maxFlight, min: minFlight } =
     getMinAndMaxTransport(takenFlights);
   const { max: maxFerry, min: minFerry } = getMinAndMaxTransport(takenFerries);
-
   const totalMileage = getTotalMileage(takenFlights, takenFerries);
   const totalMileageAroundEarth = (
     Number(totalMileage) / EARTH_CIRCUMFERENCE
   ).toFixed(2);
   const totalMileageToMoon = (Number(totalMileage) / MOON_DISTANCE).toFixed(2);
-
   const visitedContinents = getContinentsByCities(visitedCities);
   const allContinents = Object.values(Continent).filter(
     (v): v is Continent => typeof v === "string",
@@ -66,7 +57,6 @@ function computeStats() {
   const continentCities = allContinents
     .map((c) => getContinentStats(c, visitedCities, visitedCountries))
     .sort((a, b) => b.countries - a.countries);
-
   const cityBiggestTimezoneJump = getCityBiggestTimezoneJump(visitedCities);
   const cityBiggestTimezoneJumpTravel = cityBiggestTimezoneJump
     ? getCityTravels(cityBiggestTimezoneJump, visitedTrips)[0]
@@ -78,7 +68,6 @@ function computeStats() {
     (acc, sites) => acc + sites.length,
     0,
   );
-
   const totalDaysAbroad = visitedTrips.reduce(
     (acc, trip) =>
       acc +
@@ -92,7 +81,6 @@ function computeStats() {
     ...visitedTrips.map((t) => t.sDate.getFullYear()),
   );
   const yearsTraveling = new Date().getFullYear() - firstTripYear;
-
   const transportModeStats = getTransportModeStats(
     visitedTrips,
     takenFlights,
@@ -104,7 +92,6 @@ function computeStats() {
   const kmByModeStats = [...transportModeStats]
     .filter((s) => s.km > 0)
     .sort((a, b) => b.km - a.km);
-
   return {
     visitedCountriesCount,
     furthestCity,
@@ -140,7 +127,6 @@ function computeStats() {
     TOTAL_UNESCO_SITES,
   };
 }
-
 /**
  * useStatsData hook
  *
@@ -151,5 +137,5 @@ function computeStats() {
  * @returns {StatsData} The full set of pre-computed stats
  */
 export function useStatsData(): StatsData {
-  return useMemo(() => computeStats(), []);
+  return computeStats();
 }

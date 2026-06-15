@@ -1,6 +1,6 @@
 import "./Row.scss";
 
-import { JSX, PropsWithChildren } from "react";
+import { PropsWithChildren, ReactNode } from "react";
 
 interface RowProps extends PropsWithChildren {
   className?: string;
@@ -16,8 +16,8 @@ interface RowProps extends PropsWithChildren {
  * @param {RowProps} props - The props of the row
  * @param {string} [props.className] - Additional class names
  * @param {React.ReactNode} props.children - Row content
- * @returns {JSX.Element} The row container
+ * @returns {ReactNode} The row container
  */
-export function Row({ className = "", children }: RowProps): JSX.Element {
+export function Row({ className = "", children }: RowProps): ReactNode {
   return <div className={`row ${className}`}>{children}</div>;
 }

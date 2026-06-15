@@ -1,15 +1,7 @@
 import "./PlacesBrowser.scss";
 
 import { AnimatePresence, domAnimation, LazyMotion, m } from "framer-motion";
-import {
-  JSX,
-  use,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { ReactNode, use, useEffect, useReducer, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { FilterIcon } from "@/assets";
@@ -23,12 +15,21 @@ import { classNames } from "@/utils/className";
 
 import { SegmentedControl } from "../../atoms";
 import { CityCard } from "../../molecules";
-
 type PlacesFilter = "visited" | "lived" | "future";
+type PlacesState = {
+  filter: PlacesFilter;
+  selectedCountries: Country[] | null;
+  transitionDirection: number;
+  panelHeight?: string;
+  isGridScrollable: boolean;
+};
+type PlacesAction =
+  | { type: "selectFilter"; filter: PlacesFilter; direction: number }
+  | { type: "selectedCountries"; countries: Country[] | null }
+  | { type: "layoutMeasured"; panelHeight: string; isGridScrollable: boolean };
 
 const placesFilterOrder: PlacesFilter[] = ["visited", "lived", "future"];
 const PLACES_TAB_TRANSITION_DURATION_MS = 280;
-
 const gridPageVariants = {
   enter: (direction: number) => ({
     opacity: 0,
@@ -44,6 +45,29 @@ const gridPageVariants = {
   }),
 };
 
+function placesReducer(state: PlacesState, action: PlacesAction): PlacesState {
+  switch (action.type) {
+    case "selectFilter":
+      return {
+        ...state,
+        filter: action.filter,
+        selectedCountries: null,
+        transitionDirection: action.direction,
+      };
+    case "selectedCountries":
+      return { ...state, selectedCountries: action.countries };
+    case "layoutMeasured":
+      return state.panelHeight === action.panelHeight &&
+        state.isGridScrollable === action.isGridScrollable
+        ? state
+        : {
+            ...state,
+            panelHeight: action.panelHeight,
+            isGridScrollable: action.isGridScrollable,
+          };
+  }
+}
+
 /**
  * PlacesBrowser component
  *
@@ -53,28 +77,24 @@ const gridPageVariants = {
  *
  * @component
  *
- * @returns {JSX.Element} The places browser panel
+ * @returns {ReactNode} The places browser panel
  */
-export function PlacesBrowser(): JSX.Element {
+export function PlacesBrowser(): ReactNode {
   const { t } = useLanguage(["home"]);
   const navigate = useNavigate();
   const { placesFilter } = useLocation();
   const { setHoveredCity, setMapPosition } = use(HomeContext)!;
-
-  const [filter, setFilter] = useState<PlacesFilter>(placesFilter ?? "visited");
-  const [selectedCountries, setSelectedCountries] = useState<Country[] | null>(
-    null,
-  );
-  const [transitionDirection, setTransitionDirection] = useState(1);
-  const [panelHeight, setPanelHeight] = useState<string>();
-  const [isGridScrollable, setIsGridScrollable] = useState(false);
+  const [state, dispatch] = useReducer(placesReducer, {
+    filter: placesFilter ?? "visited",
+    selectedCountries: null,
+    transitionDirection: 1,
+    isGridScrollable: false,
+  });
   const panelRef = useRef<HTMLDivElement>(null);
   const routeUpdateTimeoutRef = useRef<number | null>(null);
-
-  const measurePanelHeight = useCallback(() => {
+  const measurePanelHeight = () => {
     const panel = panelRef.current;
     if (!panel) return;
-
     const style = window.getComputedStyle(panel);
     const maxHeight = parseFloat(style.maxHeight);
     const header = panel.querySelector<HTMLElement>(".places-browser__header");
@@ -83,7 +103,7 @@ export function PlacesBrowser(): JSX.Element {
     );
     const grid = panel.querySelector<HTMLElement>(".places-browser__grid");
     const gridPage = panel.querySelector<HTMLElement>(
-      `.places-browser__grid-page[data-places-filter="${filter}"]`,
+      `.places-browser__grid-page[data-places-filter="${state.filter}"]`,
     );
     const filterStyle = filterControl
       ? window.getComputedStyle(filterControl)
@@ -119,17 +139,21 @@ export function PlacesBrowser(): JSX.Element {
       parseFloat(window.getComputedStyle(document.documentElement).fontSize) ||
       16;
     const nextHeight = `${targetHeight / rootSize}rem`;
+    dispatch({
+      type: "layoutMeasured",
+      panelHeight: nextHeight,
+      isGridScrollable: gridPageHeight > availableGridHeight + 1,
+    });
+  };
+  const measurePanelHeightRef = useRef(measurePanelHeight);
 
-    setIsGridScrollable(gridPageHeight > availableGridHeight + 1);
-    setPanelHeight((currentHeight) =>
-      currentHeight === nextHeight ? currentHeight : nextHeight,
-    );
-  }, [filter]);
+  useEffect(() => {
+    measurePanelHeightRef.current = measurePanelHeight;
+  });
 
-  const handleGridExitComplete = useCallback(() => {
-    window.requestAnimationFrame(measurePanelHeight);
-  }, [measurePanelHeight]);
-
+  const handleGridExitComplete = () => {
+    window.requestAnimationFrame(() => measurePanelHeightRef.current());
+  };
   useEffect(
     () => () => {
       if (routeUpdateTimeoutRef.current !== null) {
@@ -138,27 +162,26 @@ export function PlacesBrowser(): JSX.Element {
     },
     [],
   );
-
   useEffect(() => {
     const panel = panelRef.current;
     if (!panel) return;
-
-    let frame = window.requestAnimationFrame(measurePanelHeight);
+    let frame = window.requestAnimationFrame(() =>
+      measurePanelHeightRef.current(),
+    );
     const observer = new ResizeObserver(() => {
       window.cancelAnimationFrame(frame);
-      frame = window.requestAnimationFrame(measurePanelHeight);
+      frame = window.requestAnimationFrame(() =>
+        measurePanelHeightRef.current(),
+      );
     });
-
     observer.observe(panel);
-
     return () => {
       window.cancelAnimationFrame(frame);
       observer.disconnect();
     };
-  }, [measurePanelHeight]);
-
-  const allCities = useMemo(() => {
-    switch (filter) {
+  }, []);
+  const allCities = (() => {
+    switch (state.filter) {
       case "lived":
         return livedCities;
       case "future":
@@ -166,9 +189,8 @@ export function PlacesBrowser(): JSX.Element {
       default:
         return visitedCities;
     }
-  }, [filter]);
-
-  const countries = useMemo(() => {
+  })();
+  const countries = (() => {
     const seen = new Set<string>();
     const result: Country[] = [];
     for (const city of allCities) {
@@ -181,81 +203,69 @@ export function PlacesBrowser(): JSX.Element {
     return result.sort((a, b) =>
       t(`countries.${key(a.id)}`).localeCompare(t(`countries.${key(b.id)}`)),
     );
-  }, [allCities, t]);
-
-  const activeSelected = selectedCountries ?? countries;
-
-  const cities = useMemo(() => {
-    const active = selectedCountries ?? countries;
+  })();
+  const activeSelected = state.selectedCountries ?? countries;
+  const cities = (() => {
+    const active = state.selectedCountries ?? countries;
     if (active.length === 0 || active.length === countries.length) {
       return allCities;
     }
     const ids = new Set(active.map((c) => c.id));
     return allCities.filter((c) => ids.has(c.country.id));
-  }, [allCities, selectedCountries, countries]);
-
+  })();
   useEffect(() => {
-    const frame = window.requestAnimationFrame(measurePanelHeight);
+    const frame = window.requestAnimationFrame(() =>
+      measurePanelHeightRef.current(),
+    );
     const timeout = window.setTimeout(() => {
-      window.requestAnimationFrame(measurePanelHeight);
+      window.requestAnimationFrame(() => measurePanelHeightRef.current());
     }, PLACES_TAB_TRANSITION_DURATION_MS + 80);
-
     return () => {
       window.cancelAnimationFrame(frame);
       window.clearTimeout(timeout);
     };
-  }, [cities.length, countries.length, filter, measurePanelHeight]);
-
+  }, [cities.length, countries.length, state.filter]);
   const filterOptions: {
     value: PlacesFilter;
     label: string;
     tooltip: string;
-  }[] = useMemo(
-    () => [
-      {
-        value: "visited",
-        label: t("places.visited"),
-        tooltip: t("places.tooltips.visited"),
-      },
-      {
-        value: "lived",
-        label: t("places.lived"),
-        tooltip: t("places.tooltips.lived"),
-      },
-      {
-        value: "future",
-        label: t("places.future"),
-        tooltip: t("places.tooltips.future"),
-      },
-    ],
-    [t],
-  );
-
+  }[] = [
+    {
+      value: "visited",
+      label: t("places.visited"),
+      tooltip: t("places.tooltips.visited"),
+    },
+    {
+      value: "lived",
+      label: t("places.lived"),
+      tooltip: t("places.tooltips.lived"),
+    },
+    {
+      value: "future",
+      label: t("places.future"),
+      tooltip: t("places.tooltips.future"),
+    },
+  ];
   const handleSelect = (nextFilter: PlacesFilter) => {
-    if (nextFilter === filter) return;
-
-    setTransitionDirection(
-      placesFilterOrder.indexOf(nextFilter) > placesFilterOrder.indexOf(filter)
+    if (nextFilter === state.filter) return;
+    const direction =
+      placesFilterOrder.indexOf(nextFilter) >
+      placesFilterOrder.indexOf(state.filter)
         ? 1
-        : -1,
-    );
-    setFilter(nextFilter);
-    setSelectedCountries(null);
-
+        : -1;
+    dispatch({ type: "selectFilter", filter: nextFilter, direction });
     if (routeUpdateTimeoutRef.current !== null) {
       window.clearTimeout(routeUpdateTimeoutRef.current);
     }
-
     routeUpdateTimeoutRef.current = window.setTimeout(() => {
       navigate(`/places/${nextFilter}`);
       routeUpdateTimeoutRef.current = null;
     }, PLACES_TAB_TRANSITION_DURATION_MS);
   };
-
   return (
     <LazyMotion features={domAnimation}>
       <m.div
-        animate={{ height: panelHeight ?? "auto", scale: 1, x: 0 }}
+        animate={{ height: state.panelHeight ?? "auto", scale: 1, x: 0 }}
         className="places-browser"
         exit={{ scale: 0.98, x: "-120%" }}
         initial={{ scale: 0.98, x: "-120%" }}
@@ -272,7 +282,9 @@ export function PlacesBrowser(): JSX.Element {
             {countries.length > 1 ? (
               <FilterByCountry
                 buttonIcon={<FilterIcon className="filter__icon" />}
-                onChange={setSelectedCountries}
+                onChange={(countries) =>
+                  dispatch({ type: "selectedCountries", countries })
+                }
                 options={countries}
                 selected={activeSelected}
               />
@@ -285,19 +297,19 @@ export function PlacesBrowser(): JSX.Element {
           layoutId="places-filter"
           onSelect={handleSelect}
           options={filterOptions}
-          selected={filter}
+          selected={state.filter}
           tooltipId="base-tooltip"
         />
 
         <div
           className={classNames(
             "places-browser__grid",
-            isGridScrollable && "places-browser__grid--scrollable",
+            state.isGridScrollable && "places-browser__grid--scrollable",
           )}
         >
           <div className="places-browser__grid-stage">
             <AnimatePresence
-              custom={transitionDirection}
+              custom={state.transitionDirection}
               initial={false}
               onExitComplete={handleGridExitComplete}
             >
@@ -307,11 +319,11 @@ export function PlacesBrowser(): JSX.Element {
                   "places-browser__grid-page",
                   cities.length === 1 && "places-browser__grid-page--single",
                 )}
-                custom={transitionDirection}
-                data-places-filter={filter}
+                custom={state.transitionDirection}
+                data-places-filter={state.filter}
                 exit="exit"
                 initial="enter"
-                key={filter}
+                key={state.filter}
                 transition={{
                   duration: PLACES_TAB_TRANSITION_DURATION_MS / 1000,
                   ease: [0.35, 0, 0.25, 1],

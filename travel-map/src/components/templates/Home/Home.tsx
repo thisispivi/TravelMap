@@ -1,7 +1,7 @@
 import "./Home.scss";
 
 import { AnimatePresence, domAnimation, LazyMotion, m } from "framer-motion";
-import { JSX, lazy, PropsWithChildren, Suspense, use } from "react";
+import { lazy, PropsWithChildren, ReactNode, Suspense, use } from "react";
 
 import { ChevronIcon } from "@/assets";
 import { useLanguage } from "@/hooks/language/language";
@@ -50,9 +50,9 @@ const bottomPanelMotion = {
  *
  * @param {React.PropsWithChildren} props
  * @param {React.ReactNode} props.children - The active route element (lazy page)
- * @returns {JSX.Element} The main application layout
+ * @returns {ReactNode} The main application layout
  */
-export function HomeTemplate({ children }: PropsWithChildren): JSX.Element {
+export function HomeTemplate({ children }: PropsWithChildren): ReactNode {
   const { isGallery, isTrips, isPlaces, isTripDetail, isStats, isTimeline } =
     useLocation();
   const { isDarkTheme, handleDarkModeSwitch, isPanelOpen, setIsPanelOpen } =

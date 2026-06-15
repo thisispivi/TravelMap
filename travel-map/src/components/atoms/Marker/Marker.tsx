@@ -1,12 +1,14 @@
 import "./Marker.scss";
 
-import { JSX } from "react";
+import { ReactNode } from "react";
 import { Marker as MarkerMap, useZoomPanContext } from "react-simple-maps";
 
 import { MarkerIcon } from "../../../assets";
 import { City } from "../../../core";
 import { getMinZoomForPopulation } from "../../../utils/labelVisibility";
 import { parameters } from "../../../utils/parameters";
+
+type MarkerVariant = "visited" | "future" | "lived" | "layover";
 
 interface MarkerProps {
   city: City;
@@ -17,9 +19,7 @@ interface MarkerProps {
   defaultScale?: number;
   minScale?: number;
   maxScale?: number;
-  isFuture?: boolean;
-  isLived?: boolean;
-  isLayover?: boolean;
+  variant?: MarkerVariant;
 }
 
 /** Base font size in screen pixels for labels. */
@@ -53,10 +53,8 @@ const MARKER_STYLE = {
  * @param {number} [props.defaultScale] - Default marker scale at base zoom
  * @param {number} [props.minScale] - Minimum allowed marker scale
  * @param {number} [props.maxScale] - Maximum allowed marker scale
- * @param {boolean} [props.isFuture] - Future (planned) city styling
- * @param {boolean} [props.isLived] - Lived-in city styling
- * @param {boolean} [props.isLayover] - Transit/layover city styling
- * @returns {JSX.Element} The map marker
+ * @param {MarkerVariant} [props.variant] - Marker styling variant
+ * @returns {ReactNode} The map marker
  */
 export function Marker({
   city,
@@ -67,10 +65,8 @@ export function Marker({
   defaultScale = parameters.map.marker.defaultScale,
   minScale = parameters.map.marker.minScale,
   maxScale = parameters.map.marker.maxScale,
-  isFuture = false,
-  isLived = false,
-  isLayover = false,
-}: MarkerProps): JSX.Element {
+  variant = "visited",
+}: MarkerProps): ReactNode {
   const { k } = useZoomPanContext();
   const currScale = defaultScale * (baseZoom / k);
   minScale = city.country.minMarkerScale || minScale;
@@ -88,6 +84,9 @@ export function Marker({
     (isHovered ? LABEL_HOVERED_FONT_SIZE : LABEL_BASE_FONT_SIZE) / k;
 
   const labelOffsetY = LABEL_OFFSET_PX / k;
+  const variantClass = variant === "visited" ? "" : `marker-icon--${variant}`;
+  const labelVariantClass =
+    variant === "visited" ? "" : `marker-label--${variant}`;
 
   return (
     <MarkerMap
@@ -100,16 +99,12 @@ export function Marker({
     >
       <g className={`marker-group ${isHovered ? "marker-group--hovered" : ""}`}>
         <MarkerIcon
-          className={`${isHovered ? "marker-icon--hovered" : ""}
-            ${isFuture ? "marker-icon--future" : ""}
-            ${isLived ? "marker-icon--lived" : ""}
-            ${isLayover ? "marker-icon--layover" : ""}
-          `}
+          className={`${isHovered ? "marker-icon--hovered" : ""} ${variantClass}`}
           scale={scale}
         />
         {labelVisible ? (
           <text
-            className={`marker-label ${isHovered ? "marker-label--hovered" : ""} ${isFuture ? "marker-label--future" : ""} ${isLived ? "marker-label--lived" : ""} ${isLayover ? "marker-label--layover" : ""}`}
+            className={`marker-label ${isHovered ? "marker-label--hovered" : ""} ${labelVariantClass}`}
             dy={labelOffsetY}
             fontSize={labelFontSize}
             textAnchor="middle"

@@ -1,6 +1,6 @@
 import "./Card.scss";
 
-import { JSX, PropsWithChildren } from "react";
+import { PropsWithChildren, ReactNode } from "react";
 
 interface CardProps extends PropsWithChildren {
   className?: string;
@@ -16,8 +16,8 @@ interface CardProps extends PropsWithChildren {
  * @param {CardProps} props - The card props
  * @param {string} [props.className] - Additional class names
  * @param {React.ReactNode} props.children - Card content
- * @returns {JSX.Element} The card
+ * @returns {ReactNode} The card
  */
-export function Card({ className = "", children }: CardProps): JSX.Element {
+export function Card({ className = "", children }: CardProps): ReactNode {
   return <div className={`card ${className}`}>{children}</div>;
 }

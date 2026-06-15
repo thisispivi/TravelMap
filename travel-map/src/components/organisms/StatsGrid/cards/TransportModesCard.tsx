@@ -1,6 +1,6 @@
 import "./TransportModesCard.scss";
 
-import { JSX } from "react";
+import { ReactNode } from "react";
 
 import { TransportModeStat } from "@/utils/transport";
 
@@ -32,14 +32,14 @@ export type TransportModesCardProps = {
  * @component
  *
  * @param {TransportModesCardProps} props
- * @returns {JSX.Element} The transport modes bento card
+ * @returns {ReactNode} The transport modes bento card
  */
 export function TransportModesCard({
   data,
   metric,
   title,
   className = "bento-card bento-card--half bento-detail card--box-shadow",
-}: TransportModesCardProps): JSX.Element {
+}: TransportModesCardProps): ReactNode {
   return (
     <Card className={className}>
       <div className="bento-detail__top">

@@ -1,6 +1,6 @@
 import "./Timeline.scss";
 
-import { JSX, useMemo } from "react";
+import { ReactNode } from "react";
 
 import { City, TransportMode, TripStop } from "@/core";
 import {
@@ -17,15 +17,22 @@ import {
   TimelineTransportConnector,
   TransportLeg,
 } from "./TimelineTransportConnector";
-
 interface TimelineProps {
   items: TripDetailTimelineItem[];
   showYear: boolean;
 }
-
-type IntermediateOrigin = { type: "origin"; city: City };
-type IntermediateReturn = { type: "return"; city: City };
-type IntermediateTransport = { type: "transport"; legs: TransportLeg[] };
+type IntermediateOrigin = {
+  type: "origin";
+  city: City;
+};
+type IntermediateReturn = {
+  type: "return";
+  city: City;
+};
+type IntermediateTransport = {
+  type: "transport";
+  legs: TransportLeg[];
+};
 type IntermediateStay = {
   type: "stay";
   city: City;
@@ -41,16 +48,22 @@ type IntermediateDayTrip = {
   isNested: boolean;
   parentCity: City | null;
 };
-
 type IntermediateItem =
   | IntermediateOrigin
   | IntermediateReturn
   | IntermediateTransport
   | IntermediateStay
   | IntermediateDayTrip;
-
-type SegmentOrigin = { type: "origin"; city: City; key: string };
-type SegmentReturn = { type: "return"; city: City; key: string };
+type SegmentOrigin = {
+  type: "origin";
+  city: City;
+  key: string;
+};
+type SegmentReturn = {
+  type: "return";
+  city: City;
+  key: string;
+};
 type SegmentTransport = {
   type: "transport";
   legs: TransportLeg[];
@@ -78,7 +91,6 @@ type SegmentDayTrip = {
   };
   chainBreakBefore: boolean;
 };
-
 type SegmentStay = {
   type: "stay";
   city: City;
@@ -96,7 +108,6 @@ type SegmentStayGroup = {
   excursions: ExcursionItem[];
   key: string;
 };
-
 type DisplaySegment =
   | SegmentOrigin
   | SegmentReturn
@@ -104,7 +115,6 @@ type DisplaySegment =
   | SegmentStay
   | SegmentStayGroup
   | SegmentDayTrip;
-
 /**
  * Merge consecutive transport items into single multi-leg connectors, stopping
  * at each base-city stop. Layover stops inside a transport chain are consumed.
@@ -120,20 +130,18 @@ function collapseTransportChains(
       baseCities.add(item.city.name);
     }
   }
-
   const result: IntermediateItem[] = [];
   let i = 0;
-
   while (i < items.length) {
     const item = items[i];
-
     if (item.kind === "transport") {
       const legs: TransportLeg[] = [];
-
       while (i < items.length && items[i].kind === "transport") {
         const leg = items[i] as Extract<
           TripDetailTimelineItem,
-          { kind: "transport" }
+          {
+            kind: "transport";
+          }
         >;
         const info =
           leg.flightInfo ??
@@ -148,7 +156,6 @@ function collapseTransportChains(
           : leg.ferryInfo?.company
             ? TRIP_DETAIL_FERRY_COMPANY_NAMES[leg.ferryInfo.company]
             : undefined;
-
         legs.push({
           mode: leg.mode,
           from: leg.from,
@@ -160,23 +167,26 @@ function collapseTransportChains(
           isRoundTrip: leg.isRoundTrip,
         });
         i++;
-
         if (baseCities.has(leg.to.name)) {
           break;
         }
-
         const peek = items[i];
         if (
           peek?.kind === "base-stop" &&
-          (peek as Extract<TripDetailTimelineItem, { kind: "base-stop" }>)
-            .isLayover
+          (
+            peek as Extract<
+              TripDetailTimelineItem,
+              {
+                kind: "base-stop";
+              }
+            >
+          ).isLayover
         ) {
           i++;
         } else {
           break;
         }
       }
-
       result.push({ type: "transport", legs });
     } else if (item.kind === "base-stop") {
       if (!item.isLayover) {
@@ -209,10 +219,8 @@ function collapseTransportChains(
       i++;
     }
   }
-
   return result;
 }
-
 /**
  * Convert intermediate timeline items into final display segments, grouping
  * nested day trips under their parent stay and promoting forward-exit excursions
@@ -232,12 +240,9 @@ function buildDisplaySegments(
     | SegmentDayTrip
   )[] = [];
   let pendingDayTripTransport: SegmentDayTrip["inboundTransport"];
-
   let pendingDayTripTransportFrom: City | null = null;
-
   for (let i = 0; i < intermediate.length; i++) {
     const item = intermediate[i];
-
     if (item.type === "transport") {
       const prev = i > 0 ? intermediate[i - 1] : null;
       if (prev?.type === "day-trip" && prev.parentCity) {
@@ -256,7 +261,6 @@ function buildDisplaySegments(
           continue;
         }
       }
-
       const next = i + 1 < intermediate.length ? intermediate[i + 1] : null;
       const leadsToNestedDayTrip =
         next?.type === "day-trip" && (next as IntermediateDayTrip).isNested;
@@ -281,7 +285,6 @@ function buildDisplaySegments(
           continue;
         }
       }
-
       pendingDayTripTransportFrom = null;
       raw.push({ type: "transport", legs: item.legs, key: `transport-${i}` });
     } else if (item.type === "stay") {
@@ -299,12 +302,10 @@ function buildDisplaySegments(
       const isNested = (item as IntermediateDayTrip).isNested;
       const parentCity = (item as IntermediateDayTrip).parentCity;
       const inboundTransport = isNested ? pendingDayTripTransport : undefined;
-
       const chainBreakBefore =
         !pendingDayTripTransportFrom ||
         !parentCity ||
         pendingDayTripTransportFrom.name === parentCity.name;
-
       pendingDayTripTransport = undefined;
       pendingDayTripTransportFrom = null;
       raw.push({
@@ -324,7 +325,6 @@ function buildDisplaySegments(
       raw.push({ type: "return", city: item.city, key: "return" });
     }
   }
-
   const merged: DisplaySegment[] = [];
   let j = 0;
   while (j < raw.length) {
@@ -349,7 +349,6 @@ function buildDisplaySegments(
         });
         k++;
       }
-
       let forwardExitExc: ExcursionItem | null = null;
       const nextRaw = k < raw.length ? raw[k] : null;
       if (nextRaw?.type === "transport" && excursions.length > 0) {
@@ -359,7 +358,6 @@ function buildDisplaySegments(
           forwardExitExc = excursions.pop()!;
         }
       }
-
       if (excursions.length > 0) {
         merged.push({
           type: "stay-group",
@@ -381,7 +379,6 @@ function buildDisplaySegments(
         });
       }
       j = k;
-
       if (forwardExitExc) {
         const tp = forwardExitExc.inboundTransport;
         if (tp) {
@@ -415,10 +412,8 @@ function buildDisplaySegments(
       j++;
     }
   }
-
   return merged;
 }
-
 /**
  * Timeline component
  *
@@ -431,16 +426,14 @@ function buildDisplaySegments(
  * @param {TimelineProps} props - The timeline props
  * @param {TripDetailTimelineItem[]} props.items - Flat timeline items from buildTripDetailTimelineItems
  * @param {boolean} props.showYear - Whether to include the year in date labels
- * @returns {JSX.Element} The route timeline
+ * @returns {ReactNode} The route timeline
  */
-export function Timeline({ items, showYear }: TimelineProps): JSX.Element {
-  const segments = useMemo(() => buildDisplaySegments(items), [items]);
-
+export function Timeline({ items, showYear }: TimelineProps): ReactNode {
+  const segments = buildDisplaySegments(items);
   return (
     <div className="trip-detail__timeline">
       {segments.map((seg, idx) => {
         const animDelay = 0.08 + idx * 0.03;
-
         if (seg.type === "origin" || seg.type === "return") {
           return (
             <TimelineOriginNode
@@ -450,7 +443,6 @@ export function Timeline({ items, showYear }: TimelineProps): JSX.Element {
             />
           );
         }
-
         if (seg.type === "transport") {
           return (
             <TimelineTransportConnector
@@ -460,7 +452,6 @@ export function Timeline({ items, showYear }: TimelineProps): JSX.Element {
             />
           );
         }
-
         if (seg.type === "stay") {
           return (
             <TimelineStayCard
@@ -474,7 +465,6 @@ export function Timeline({ items, showYear }: TimelineProps): JSX.Element {
             />
           );
         }
-
         if (seg.type === "stay-group") {
           return (
             <TimelineStayGroup
@@ -489,7 +479,6 @@ export function Timeline({ items, showYear }: TimelineProps): JSX.Element {
             />
           );
         }
-
         if (seg.type === "day-trip") {
           return (
             <TimelineDayTripCard
@@ -504,7 +493,6 @@ export function Timeline({ items, showYear }: TimelineProps): JSX.Element {
             />
           );
         }
-
         return null;
       })}
     </div>

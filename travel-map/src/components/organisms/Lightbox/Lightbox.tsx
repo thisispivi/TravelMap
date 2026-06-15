@@ -1,14 +1,7 @@
 import "./Lightbox.scss";
 import "react-image-gallery/styles/image-gallery.css";
 
-import {
-  JSX,
-  MouseEventHandler,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import ImageGallery, {
   ImageGalleryProps,
   ImageGalleryRef,
@@ -28,18 +21,22 @@ import { classNames } from "../../../utils/className";
 import { parameters } from "../../../utils/parameters";
 import { getTravelByCityIndex } from "../../../utils/trips";
 import { Button } from "../../atoms";
-
 const HIDE_NAV_AFTER_MS = 2000;
-
 type LightboxItem = ImageGalleryProps["items"][number] & {
   youtube?: boolean;
   alt?: string;
 };
-
 export interface LightboxProps {
   city: City;
   travelIdx: number;
   photoIdx: number;
+}
+
+function getYoutubeEmbedSrc(original: string): string {
+  const normalizedOriginal = original.replace(/^https:\//, "https://");
+  if (/^https?:\/\//.test(normalizedOriginal)) return normalizedOriginal;
+
+  return `${import.meta.env.VITE_YOUTUBE_PATH ?? "https://www.youtube.com/embed/"}${normalizedOriginal}`;
 }
 
 /**
@@ -50,46 +47,46 @@ export interface LightboxProps {
  *
  * @component
  *
- * @returns {JSX.Element} The lightbox overlay
+ * @returns {ReactNode} The lightbox overlay
  */
-export default function Lightbox(): JSX.Element {
+export default function Lightbox(): ReactNode {
   const { t } = useLanguage(["home"]);
   const navigate = useNavigate();
   const location = useLocation();
   const { city, travelIdx, photoIdx } = useLoaderData() as LightboxProps;
   const photos =
     getTravelByCityIndex(city, travelIdx, visitedTrips)?.photos ?? [];
-
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(photoIdx);
   const hideNavTimeoutRef = useRef<number | undefined>(undefined);
   const galleryRef = useRef<ImageGalleryRef>(null);
-
-  const scheduleHideNav = useCallback(() => {
+  const scheduleHideNav = () => {
     if (hideNavTimeoutRef.current !== undefined) {
       window.clearTimeout(hideNavTimeoutRef.current);
     }
     hideNavTimeoutRef.current = window.setTimeout(() => {
       setIsNavVisible(false);
     }, HIDE_NAV_AFTER_MS);
-  }, []);
-
-  const revealNav = useCallback(() => {
-    setIsNavVisible(true);
-    scheduleHideNav();
-  }, [scheduleHideNav]);
+  };
+  const scheduleHideNavRef = useRef(scheduleHideNav);
 
   useEffect(() => {
-    scheduleHideNav();
-    return () => {
-      const timeoutId = hideNavTimeoutRef.current;
-      if (timeoutId !== undefined) {
-        window.clearTimeout(timeoutId);
-      }
-    };
-  }, [scheduleHideNav]);
+    scheduleHideNavRef.current = scheduleHideNav;
+  });
 
+  const revealNav = () => {
+    setIsNavVisible(true);
+    scheduleHideNavRef.current();
+  };
+  useEffect(() => {
+    const timeoutId = window.setTimeout(() => {
+      setIsNavVisible(false);
+    }, HIDE_NAV_AFTER_MS);
+    hideNavTimeoutRef.current = timeoutId;
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, []);
   const handleRenderItem = (item: LightboxItem) => {
     if (item.youtube) {
       return (
@@ -98,11 +95,7 @@ export default function Lightbox(): JSX.Element {
           allowFullScreen
           className="image-gallery-video"
           sandbox="allow-scripts allow-same-origin allow-presentation"
-          src={
-            parameters.isShowPhotos
-              ? `${import.meta.env.VITE_YOUTUBE_PATH}${item.original}`
-              : ""
-          }
+          src={parameters.isShowPhotos ? getYoutubeEmbedSrc(item.original) : ""}
           title={t("lightbox.youtubeVideo")}
         />
       );
@@ -120,60 +113,33 @@ export default function Lightbox(): JSX.Element {
       );
     }
   };
-
-  const handleChange = useCallback(
-    (newIndex: number | undefined) => {
-      if (photoIdx !== undefined) {
-        const element = document.querySelector(
-          `[aria-label="Go to Slide ${photoIdx + 1}"]`,
-        );
-        if (element) {
-          const child = element.children[0];
-          if (child) {
-            if (child.tagName === "VIDEO") (child as HTMLVideoElement).pause();
-            if (child.tagName === "IFRAME") {
-              const iframeSrc = (child as HTMLIFrameElement).src;
-              (child as HTMLIFrameElement).src = iframeSrc;
-            }
+  const handleChange = (newIndex: number | undefined) => {
+    if (photoIdx !== undefined) {
+      const element = document.querySelector(
+        `[aria-label="Go to Slide ${photoIdx + 1}"]`,
+      );
+      if (element) {
+        const child = element.children[0];
+        if (child) {
+          if (child.tagName === "VIDEO") (child as HTMLVideoElement).pause();
+          if (child.tagName === "IFRAME") {
+            const iframeSrc = (child as HTMLIFrameElement).src;
+            (child as HTMLIFrameElement).src = iframeSrc;
           }
         }
-        navigate(`../${newIndex}`, { state: location.state });
       }
-    },
-    [location, photoIdx, navigate],
-  );
-
-  const renderNavigationButton = (
-    onClick: MouseEventHandler,
-    disabled: boolean,
-    direction: "left" | "right",
-  ) => (
-    <Button
-      ariaLabel={
-        direction === "left"
-          ? t("lightbox.previousSlide")
-          : t("lightbox.nextSlide")
-      }
-      className={`image-gallery-icon image-gallery-${direction}-nav ${
-        disabled ? "image-gallery-icon--disabled" : ""
-      }`}
-      hoverScale={1}
-      onClick={(event) => {
-        revealNav();
-        onClick(event);
-      }}
-      tapScale={1}
-    >
-      <ChevronIcon className="chevron" />
-    </Button>
-  );
-
+      navigate(`../${newIndex}`, { state: location.state });
+    }
+  };
   const handleSlide = (idx: number) => {
-    setCurrentIndex(idx);
     handleChange(idx);
   };
-
-  const handleToggleFullscreen = useCallback(() => {
+  const handleNavigateSlide = (idx: number) => {
+    if (idx < 0 || idx >= photos.length) return;
+    revealNav();
+    handleChange(idx);
+  };
+  const handleToggleFullscreen = () => {
     if (galleryRef.current) {
       if (isFullscreen) {
         galleryRef.current.exitFullScreen();
@@ -181,8 +147,7 @@ export default function Lightbox(): JSX.Element {
         galleryRef.current.fullScreen();
       }
     }
-  }, [isFullscreen]);
-
+  };
   return (
     <div
       className={classNames(
@@ -203,7 +168,7 @@ export default function Lightbox(): JSX.Element {
         </Button>
         <span className="lightbox__spacer" />
         <span className="lightbox__index">
-          <span className="lightbox__index--current">{currentIndex + 1}</span> /{" "}
+          <span className="lightbox__index--current">{photoIdx + 1}</span> /{" "}
           {photos.length}
         </span>
         <Button
@@ -221,19 +186,32 @@ export default function Lightbox(): JSX.Element {
         onScreenChange={(fs) => setIsFullscreen(fs)}
         onSlide={handleSlide}
         ref={galleryRef}
-        renderFullscreenButton={() => null}
         renderItem={handleRenderItem}
-        renderLeftNav={(onClick, disabled) =>
-          renderNavigationButton(onClick, disabled, "left")
-        }
-        renderRightNav={(onClick, disabled) =>
-          renderNavigationButton(onClick, disabled, "right")
-        }
+        showFullscreenButton={false}
         showIndex={false}
+        showNav={false}
         showPlayButton={false}
         showThumbnails={false}
         startIndex={photoIdx}
       />
+      <Button
+        ariaLabel={t("lightbox.previousSlide")}
+        className={`lightbox__nav-button image-gallery-left-nav ${photoIdx === 0 ? "lightbox__nav-button--disabled" : ""}`}
+        hoverScale={1}
+        onClick={() => handleNavigateSlide(photoIdx - 1)}
+        tapScale={1}
+      >
+        <ChevronIcon className="chevron" />
+      </Button>
+      <Button
+        ariaLabel={t("lightbox.nextSlide")}
+        className={`lightbox__nav-button image-gallery-right-nav ${photoIdx >= photos.length - 1 ? "lightbox__nav-button--disabled" : ""}`}
+        hoverScale={1}
+        onClick={() => handleNavigateSlide(photoIdx + 1)}
+        tapScale={1}
+      >
+        <ChevronIcon className="chevron" />
+      </Button>
     </div>
   );
 }

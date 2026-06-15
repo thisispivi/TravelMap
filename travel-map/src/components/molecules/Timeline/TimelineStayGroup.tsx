@@ -1,7 +1,7 @@
 import "./TimelineStayGroup.scss";
 
 import { m } from "framer-motion";
-import { CSSProperties, JSX, use } from "react";
+import { CSSProperties, ReactNode, use } from "react";
 import {
   useLocation as useRouterLocation,
   useNavigate,
@@ -92,7 +92,7 @@ function groupIntoChains(excursions: ExcursionItem[]): ExcursionChain[] {
  * @param {ExcursionItem[]} props.excursions - Nested day-trip excursions
  * @param {number} props.animDelay - Staggered animation delay in seconds
  * @param {boolean} props.showYear - Whether to include the year in date labels
- * @returns {JSX.Element} The stay group with excursion branch
+ * @returns {ReactNode} The stay group with excursion branch
  */
 export function TimelineStayGroup({
   city,
@@ -102,7 +102,7 @@ export function TimelineStayGroup({
   excursions,
   animDelay,
   showYear,
-}: TimelineStayGroupProps): JSX.Element {
+}: TimelineStayGroupProps): ReactNode {
   const { t, currLanguage: lang } = useLanguage(["home"]);
   const navigate = useNavigate();
   const routerLocation = useRouterLocation();
@@ -119,6 +119,12 @@ export function TimelineStayGroup({
     const excThumbSrc = exc.city.getBackgroundImgSourceByIndex(
       excHasPhotos ? excGalleryIdx : exc.travelIdx,
     );
+    const openExcursionGallery = () =>
+      navigate(`/gallery/${exc.city.name}/${excGalleryIdx}`, {
+        state: {
+          fromPath: `${routerLocation.pathname}${routerLocation.search}`,
+        },
+      });
     const excDate = formatDateRangeShort({
       sDateInput: exc.stop.sDate,
       eDateInput: exc.stop.eDate,
@@ -146,24 +152,17 @@ export function TimelineStayGroup({
             ) : null}
           </div>
         ) : null}
-        <div
+        <button
+          aria-disabled={!excHasPhotos}
           className={classNames(
             "stay-group__exc-card",
             excHasPhotos && "stay-group__exc-card--clickable",
           )}
-          onClick={
-            excHasPhotos
-              ? () =>
-                  navigate(`/gallery/${exc.city.name}/${excGalleryIdx}`, {
-                    state: {
-                      fromPath: `${routerLocation.pathname}${routerLocation.search}`,
-                    },
-                  })
-              : undefined
-          }
+          onClick={excHasPhotos ? openExcursionGallery : undefined}
           onMouseEnter={() => setHoveredCity(exc.city)}
           onMouseLeave={() => setHoveredCity(null)}
-          {...(excHasPhotos ? { role: "button" as const, tabIndex: 0 } : {})}
+          tabIndex={excHasPhotos ? 0 : -1}
+          type="button"
         >
           <div className="stay-group__exc-thumb">
             {excThumbSrc ? (
@@ -191,7 +190,7 @@ export function TimelineStayGroup({
           <div className="stay-group__exc-badge">
             {t("tripDetail.dayTrip") || "Day trip"}
           </div>
-        </div>
+        </button>
       </div>
     );
   };
@@ -202,6 +201,12 @@ export function TimelineStayGroup({
     hasPhotos ? galleryTravelIdx : travelIdx,
   );
   const cityLabel = t(`cities.${city.name}`) || city.name;
+  const openGallery = () =>
+    navigate(`/gallery/${city.name}/${galleryTravelIdx}`, {
+      state: {
+        fromPath: `${routerLocation.pathname}${routerLocation.search}`,
+      },
+    });
   const dateRange = formatDateRangeShort({
     sDateInput: stop.sDate,
     eDateInput: stop.eDate,
@@ -233,24 +238,17 @@ export function TimelineStayGroup({
       </div>
 
       <div className="stay-group__content">
-        <div
+        <button
+          aria-disabled={!hasPhotos}
           className={classNames(
             "trip-detail__stay-card",
             hasPhotos && "trip-detail__stay-card--clickable",
           )}
-          onClick={
-            hasPhotos
-              ? () =>
-                  navigate(`/gallery/${city.name}/${galleryTravelIdx}`, {
-                    state: {
-                      fromPath: `${routerLocation.pathname}${routerLocation.search}`,
-                    },
-                  })
-              : undefined
-          }
+          onClick={hasPhotos ? openGallery : undefined}
           onMouseEnter={() => setHoveredCity(city)}
           onMouseLeave={() => setHoveredCity(null)}
-          {...(hasPhotos ? { role: "button" as const, tabIndex: 0 } : {})}
+          tabIndex={hasPhotos ? 0 : -1}
+          type="button"
         >
           <div className="trip-detail__stay-thumb">
             {thumbSrc ? (
@@ -281,7 +279,7 @@ export function TimelineStayGroup({
               {nights} {nightsLabel}
             </div>
           ) : null}
-        </div>
+        </button>
 
         {excursions.length > 0 ? (
           <div className="stay-group__excursions">

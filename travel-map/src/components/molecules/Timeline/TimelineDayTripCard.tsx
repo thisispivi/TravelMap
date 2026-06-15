@@ -1,7 +1,7 @@
 import "./TimelineDayTripCard.scss";
 
 import { m } from "framer-motion";
-import { CSSProperties, JSX, use } from "react";
+import { CSSProperties, ReactNode, use } from "react";
 import {
   useLocation as useRouterLocation,
   useNavigate,
@@ -49,7 +49,7 @@ interface TimelineDayTripCardProps {
  * @param {boolean} props.showYear - Whether to include the year in date labels
  * @param {boolean} props.isNested - Whether this card is nested under a parent stay
  * @param {{ mode, distanceKm, durationMinutes }} [props.inboundTransport] - Inbound leg details
- * @returns {JSX.Element} The day trip card
+ * @returns {ReactNode} The day trip card
  */
 export function TimelineDayTripCard({
   city,
@@ -59,7 +59,7 @@ export function TimelineDayTripCard({
   showYear,
   isNested,
   inboundTransport,
-}: TimelineDayTripCardProps): JSX.Element {
+}: TimelineDayTripCardProps): ReactNode {
   const { t, currLanguage: lang } = useLanguage(["home"]);
   const navigate = useNavigate();
   const routerLocation = useRouterLocation();
@@ -71,6 +71,12 @@ export function TimelineDayTripCard({
     isClickable ? galleryTravelIdx : travelIdx,
   );
   const cityLabel = t(`cities.${city.name}`) || city.name;
+  const openGallery = () =>
+    navigate(`/gallery/${city.name}/${galleryTravelIdx}`, {
+      state: {
+        fromPath: `${routerLocation.pathname}${routerLocation.search}`,
+      },
+    });
 
   const dateRange = formatDateRangeShort({
     sDateInput: stop.sDate,
@@ -100,25 +106,18 @@ export function TimelineDayTripCard({
         <div className="trip-detail__day-trip-dot" />
       </div>
 
-      <div
+      <button
+        aria-disabled={!isClickable}
         className={classNames(
           "trip-detail__day-trip-card",
           isClickable && "trip-detail__day-trip-card--clickable",
           isNested && "trip-detail__day-trip-card--nested",
         )}
-        onClick={
-          isClickable
-            ? () =>
-                navigate(`/gallery/${city.name}/${galleryTravelIdx}`, {
-                  state: {
-                    fromPath: `${routerLocation.pathname}${routerLocation.search}`,
-                  },
-                })
-            : undefined
-        }
+        onClick={isClickable ? openGallery : undefined}
         onMouseEnter={() => setHoveredCity(city)}
         onMouseLeave={() => setHoveredCity(null)}
-        {...(isClickable ? { role: "button" as const, tabIndex: 0 } : {})}
+        tabIndex={isClickable ? 0 : -1}
+        type="button"
       >
         <div className="trip-detail__day-trip-thumb">
           {thumbSrc ? (
@@ -156,7 +155,7 @@ export function TimelineDayTripCard({
             ) : null}
           </span>
         </div>
-      </div>
+      </button>
     </m.div>
   );
 }

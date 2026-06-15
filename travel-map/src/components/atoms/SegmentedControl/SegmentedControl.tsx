@@ -1,7 +1,7 @@
 import "./SegmentedControl.scss";
 
 import { domAnimation, LazyMotion, m } from "framer-motion";
-import { JSX } from "react";
+import { ReactNode } from "react";
 
 import { classNames } from "@/utils/className";
 
@@ -28,7 +28,7 @@ interface SegmentedControlProps<T extends string> {
  * @param {(value: string) => void} props.onSelect - Selection handler
  * @param {string} props.layoutId - Framer Motion shared layout id
  * @param {string} [props.tooltipId] - Tooltip id for option descriptions
- * @returns {JSX.Element} The segmented control
+ * @returns {ReactNode} The segmented control
  */
 export function SegmentedControl<T extends string>({
   className = "",
@@ -37,7 +37,7 @@ export function SegmentedControl<T extends string>({
   onSelect,
   layoutId,
   tooltipId,
-}: SegmentedControlProps<T>): JSX.Element {
+}: SegmentedControlProps<T>): ReactNode {
   return (
     <LazyMotion features={domAnimation}>
       <div className={classNames("segmented-control", className)}>

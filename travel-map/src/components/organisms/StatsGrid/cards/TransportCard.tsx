@@ -1,6 +1,6 @@
 import "./TransportCard.scss";
 
-import { JSX } from "react";
+import { ReactNode } from "react";
 
 import { City, Ferry, Flight } from "@/core";
 import { useLanguage } from "@/hooks/language/language";
@@ -43,7 +43,7 @@ export type TransportCardProps = {
  * @component
  *
  * @param {TransportCardProps} props
- * @returns {JSX.Element} The transport bento card
+ * @returns {ReactNode} The transport bento card
  */
 export function TransportCard({
   takenFlights,
@@ -54,7 +54,7 @@ export function TransportCard({
   minFerry,
   cityBiggestTimezoneJump,
   cityBiggestTimezoneJumpTravel,
-}: TransportCardProps): JSX.Element {
+}: TransportCardProps): ReactNode {
   const { t } = useLanguage(["home"]);
 
   return (

@@ -1,7 +1,7 @@
 import "./DarkModeButton.scss";
 
 import { AnimatePresence, domAnimation, LazyMotion, m } from "framer-motion";
-import { JSX } from "react";
+import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 
 import { MoonFilledIcon, SunFilledIcon } from "@/assets";
@@ -40,13 +40,13 @@ const iconVariants = {
  * @param {string} [props.className] - Additional class names
  * @param {boolean} props.isDarkTheme - Whether the dark mode is currently active
  * @param {() => void} props.handleDarkModeSwitch - Toggles the theme
- * @returns {JSX.Element} The dark mode button
+ * @returns {ReactNode} The dark mode button
  */
 export function DarkModeButton({
   isDarkTheme,
   handleDarkModeSwitch,
   className = "",
-}: DarkModeButtonProps): JSX.Element {
+}: DarkModeButtonProps): ReactNode {
   const { t } = useTranslation("home");
 
   return (

@@ -1,4 +1,4 @@
-import { JSX } from "react";
+import { ReactNode } from "react";
 
 interface CheckboxProps {
   isChecked: boolean;
@@ -13,9 +13,9 @@ interface CheckboxProps {
  *
  * @param {CheckboxProps} props - The checkbox props
  * @param {boolean} props.isChecked - Whether the checkbox is in the checked state
- * @returns {JSX.Element} The checkbox icon
+ * @returns {ReactNode} The checkbox icon
  */
-export function Checkbox({ isChecked }: CheckboxProps): JSX.Element {
+export function Checkbox({ isChecked }: CheckboxProps): ReactNode {
   return (
     <svg
       fill="none"

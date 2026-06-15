@@ -1,13 +1,11 @@
 import "./BarChartYears.scss";
 
-import { JSX, useMemo } from "react";
+import { ReactNode } from "react";
 
 import { Trip } from "@/core";
-
 interface BarChartYearsProps {
   trips: Trip[];
 }
-
 /**
  * BarChartYears component
  *
@@ -16,10 +14,10 @@ interface BarChartYearsProps {
  * @component
  * @param {BarChartYearsProps} props
  * @param {Trip[]} props.trips - All trips to derive year data from.
- * @returns {JSX.Element}
+ * @returns {ReactNode}
  */
-export function BarChartYears({ trips }: BarChartYearsProps): JSX.Element {
-  const yearData = useMemo(() => {
+export function BarChartYears({ trips }: BarChartYearsProps): ReactNode {
+  const yearData = (() => {
     const result: Record<number, number> = {};
     for (const trip of trips) {
       const year = trip.sDate.getFullYear();
@@ -29,13 +27,8 @@ export function BarChartYears({ trips }: BarChartYearsProps): JSX.Element {
     return Object.entries(result)
       .map(([year, days]) => ({ year: parseInt(year, 10), days }))
       .sort((a, b) => a.year - b.year);
-  }, [trips]);
-
-  const maxDays = useMemo(
-    () => Math.max(1, ...yearData.map((d) => d.days)),
-    [yearData],
-  );
-
+  })();
+  const maxDays = Math.max(1, ...yearData.map((d) => d.days));
   return (
     <div className="years-bar-chart">
       <div className="years-bar-chart__bars">
