@@ -397,29 +397,26 @@ export function Map() {
     const existing = new Set(allCities.map((c) => c.name));
     const seen = new Set<string>();
     const layovers: City[] = [];
+    const add = (city?: City) => {
+      if (!city || existing.has(city.name) || seen.has(city.name)) return;
+      seen.add(city.name);
+      layovers.push(city);
+    };
     for (const destination of selectedTrip.destinations) {
-      const cityName = destination.city.name;
-      if (
-        !destination.isLayover ||
-        existing.has(cityName) ||
-        seen.has(cityName)
-      ) {
-        continue;
-      }
-      seen.add(cityName);
-      layovers.push(destination.city);
+      if (destination.isLayover) add(destination.city);
     }
-    if (
-      selectedTrip.origin &&
-      !existing.has(selectedTrip.origin.city.name) &&
-      !seen.has(selectedTrip.origin.city.name)
-    ) {
-      layovers.push(selectedTrip.origin.city);
+    for (const step of selectedTrip.steps) {
+      if (step.type !== "transport") continue;
+      add(step.from);
+      add(step.to);
+      for (const via of step.via ?? step.ferry?.via ?? []) add(via);
     }
+    add(selectedTrip.origin?.city);
+    add(selectedTrip.returnTo?.city);
     return layovers;
   })();
   const visibleLabels = computeVisibleLabels(
-    allCities,
+    [...allCities, ...tripLayoverCities],
     mapPosition.zoom,
     hoveredCity?.name,
   );

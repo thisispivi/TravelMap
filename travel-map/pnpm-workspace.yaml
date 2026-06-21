@@ -31,6 +31,9 @@ minimumReleaseAgeExclude:
   - react-router-dom
   - remeda
   - sass
+  - lint-staged@17.0.8
+  - react-apexcharts@2.1.1
+  - react-tooltip@6.0.8
 
 onlyBuiltDependencies:
   - "@parcel/watcher"
