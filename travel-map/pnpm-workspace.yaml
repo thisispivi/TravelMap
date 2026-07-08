@@ -46,5 +46,6 @@ trustPolicyExclude:
 overrides:
   d3-color@<3.1.0: ">=3.1.0"
   js-yaml@>=4.0.0 <4.1.1: ">=4.1.1"
+  depcheck>js-yaml: ">=4.1.1" # depcheck pins vulnerable js-yaml 3.x (GHSA-h67p-54hq-rp68); force patched 4.x
   react-dom@<19.0.0: ">=19.0.0"
   react@<19.0.0: ">=19.0.0"
