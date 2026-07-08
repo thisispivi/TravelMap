@@ -50,8 +50,7 @@ export function TimelineTrack(): ReactNode {
       const nextTrips = sortedTrips.map((item, itemIndex) => ({
         ...item,
         side: ((index + itemIndex) % 2 === 0 ? "left" : "right") as
-          | "left"
-          | "right",
+          "left" | "right",
       }));
       index += sortedTrips.length;
       groups.push({

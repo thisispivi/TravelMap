@@ -86,8 +86,7 @@ export function Home(): ReactNode {
       mapOnly?: boolean;
     } | null;
     const navigation = performance.getEntriesByType("navigation")[0] as
-      | PerformanceNavigationTiming
-      | undefined;
+      PerformanceNavigationTiming | undefined;
     const isRefresh = navigation?.type === "reload";
     if (isInitialRoute && (isRefresh || state?.mapOnly !== true)) {
       navigate("/trips", { replace: true });

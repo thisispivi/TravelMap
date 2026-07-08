@@ -11,6 +11,7 @@ import {
   HungaryFlag,
   ItalyFlag,
   JapanFlag,
+  LuxembourgFlag,
   MaltaFlag,
   MonacoFlag,
   PortugalFlag,
@@ -82,6 +83,8 @@ export function CountryFlag({
       return <SlovakiaFlag className={className} />;
     case "Sweden":
       return <SwedenFlag className={className} />;
+    case "Luxembourg":
+      return <LuxembourgFlag className={className} />;
     default:
       return null;
   }

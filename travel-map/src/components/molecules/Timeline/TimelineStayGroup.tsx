@@ -1,7 +1,7 @@
 import "./TimelineStayGroup.scss";
 
 import { m } from "framer-motion";
-import { CSSProperties, ReactNode, use } from "react";
+import { CSSProperties, ReactNode, use, useLayoutEffect, useRef } from "react";
 import {
   useLocation as useRouterLocation,
   useNavigate,
@@ -107,6 +107,75 @@ export function TimelineStayGroup({
   const navigate = useNavigate();
   const routerLocation = useRouterLocation();
   const { setHoveredCity } = use(HomeContext)!;
+  const excursionsRef = useRef<HTMLDivElement | null>(null);
+
+  useLayoutEffect(() => {
+    const container = excursionsRef.current;
+    if (!container || excursions.length === 0) return;
+
+    const findBranchCenter = (item: Element): number | null => {
+      const target = item.classList.contains("stay-group__chain")
+        ? item
+        : item.querySelector(".stay-group__exc-card");
+
+      if (!(target instanceof HTMLElement)) return null;
+
+      const connectorTop = Number.parseFloat(
+        getComputedStyle(target, "::before").top,
+      );
+      const rect = target.getBoundingClientRect();
+      return (
+        rect.top + (Number.isNaN(connectorTop) ? rect.height / 2 : connectorTop)
+      );
+    };
+
+    const updateBranchEndpoint = () => {
+      const lastItem = container.lastElementChild;
+      if (!lastItem) return;
+
+      const branchCenter = findBranchCenter(lastItem);
+      if (branchCenter === null) return;
+
+      const bottom = container.getBoundingClientRect().bottom - branchCenter;
+      container.style.setProperty(
+        "--stay-group-branch-bottom",
+        `${Math.max(0, bottom)}px`,
+      );
+    };
+
+    let frameId = window.requestAnimationFrame(updateBranchEndpoint);
+    const timeoutIds = [100, 300, 1000].map((delay) =>
+      window.setTimeout(updateBranchEndpoint, delay),
+    );
+
+    if (typeof ResizeObserver === "undefined") {
+      window.addEventListener("resize", updateBranchEndpoint);
+      return () => {
+        window.cancelAnimationFrame(frameId);
+        timeoutIds.forEach((timeoutId) => window.clearTimeout(timeoutId));
+        window.removeEventListener("resize", updateBranchEndpoint);
+      };
+    }
+
+    const scheduleBranchEndpointUpdate = () => {
+      window.cancelAnimationFrame(frameId);
+      frameId = window.requestAnimationFrame(updateBranchEndpoint);
+    };
+
+    const resizeObserver = new ResizeObserver(scheduleBranchEndpointUpdate);
+    resizeObserver.observe(container);
+    Array.from(container.children).forEach((child) =>
+      resizeObserver.observe(child),
+    );
+    window.addEventListener("resize", scheduleBranchEndpointUpdate);
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+      timeoutIds.forEach((timeoutId) => window.clearTimeout(timeoutId));
+      resizeObserver.disconnect();
+      window.removeEventListener("resize", scheduleBranchEndpointUpdate);
+    };
+  }, [excursions]);
 
   const renderExcursionStop = (exc: ExcursionItem) => {
     const excLabel = t(`cities.${exc.city.name}`) || exc.city.name;
@@ -282,7 +351,7 @@ export function TimelineStayGroup({
         </button>
 
         {excursions.length > 0 ? (
-          <div className="stay-group__excursions">
+          <div className="stay-group__excursions" ref={excursionsRef}>
             {groupIntoChains(excursions).map((chain) => {
               if (chain.stops.length > 1) {
                 const rt = chain.returnTransport;

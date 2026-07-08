@@ -16,6 +16,7 @@ import {
 } from "@/assets";
 import { Timeline, TripDetailHero } from "@/components/molecules";
 import { HomeContext } from "@/components/pages/Home/HomeContext";
+import { City } from "@/core";
 import { visitedTrips } from "@/data";
 import { useLanguage } from "@/hooks/language/language";
 import { useLocation } from "@/hooks/location/location";
@@ -23,6 +24,7 @@ import { classNames } from "@/utils/className";
 import { formatMileage } from "@/utils/format";
 import { computeMapCenter } from "@/utils/mapCenter";
 import { parameters } from "@/utils/parameters";
+import { getCityOffsetMinutesOnDate } from "@/utils/timezoneOffset";
 import {
   buildTripDetailTimelineItems,
   formatTripDetailDuration,
@@ -33,6 +35,28 @@ import {
  * @param {TripDetailTimelineItem[]} items - Timeline items for the trip
  * @returns Counts, distances, and durations grouped by transport mode, plus night count and timezone set
  */
+function addCityOffsetsForStop(
+  offsets: Set<number>,
+  city: City,
+  sDate: Date,
+  eDate: Date,
+) {
+  const start = sDate.getTime() <= eDate.getTime() ? sDate : eDate;
+  const end = sDate.getTime() <= eDate.getTime() ? eDate : sDate;
+  const days =
+    Math.floor(
+      (Date.UTC(end.getFullYear(), end.getMonth(), end.getDate()) -
+        Date.UTC(start.getFullYear(), start.getMonth(), start.getDate())) /
+        86400000,
+    ) + 1;
+
+  for (let i = 0; i < days; i++) {
+    const date = new Date(start);
+    date.setDate(start.getDate() + i);
+    offsets.add(getCityOffsetMinutesOnDate("en-US", city, date));
+  }
+}
+
 function computeTripStats(items: TripDetailTimelineItem[]) {
   let nights = 0;
   let flights = 0,
@@ -56,14 +80,23 @@ function computeTripStats(items: TripDetailTimelineItem[]) {
   let walks = 0,
     walkKm = 0,
     walkMinutes = 0;
-  const timezones = new Set<string>();
+  const timezoneOffsets = new Set<number>();
   for (const item of items) {
-    const timeZone = "city" in item ? item.city.timeZone : undefined;
     if (item.kind === "base-stop") {
       nights += item.nights;
-      if (timeZone) timezones.add(timeZone);
+      addCityOffsetsForStop(
+        timezoneOffsets,
+        item.city,
+        item.stop.sDate,
+        item.stop.eDate,
+      );
     } else if (item.kind === "day-trip") {
-      if (timeZone) timezones.add(timeZone);
+      addCityOffsetsForStop(
+        timezoneOffsets,
+        item.city,
+        item.stop.sDate,
+        item.stop.eDate,
+      );
     } else if (item.kind === "transport") {
       const mult = item.isRoundTrip ? 2 : 1;
       if (item.mode === "plane") {
@@ -120,7 +153,7 @@ function computeTripStats(items: TripDetailTimelineItem[]) {
     walks,
     walkKm,
     walkMinutes,
-    timezoneCount: timezones.size,
+    timezoneCount: timezoneOffsets.size,
   };
 }
 /**

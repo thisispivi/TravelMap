@@ -43,17 +43,17 @@ $exc-gap: 0.25rem;
       left: 0;
       transform: translateX(-50%);
       top: -0.3rem;
-      bottom: 1.5rem;
+      bottom: var(--stay-group-branch-bottom, 1.5rem);
       width: 0.0625rem;
       background: var(--dot-color-faint, rgba(255, 255, 255, 0.12));
     }
 
     &:has(> .stay-group__chain:only-child)::before {
-      bottom: 50%;
+      bottom: var(--stay-group-branch-bottom, 50%);
     }
 
     &:has(> .stay-group__chain:last-child > .stay-group__chain-return)::before {
-      bottom: 7.3rem;
+      bottom: var(--stay-group-branch-bottom, 7.3rem);
     }
   }
 

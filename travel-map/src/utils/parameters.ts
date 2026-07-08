@@ -49,6 +49,7 @@ export const parameters = {
         "Historic Monuments of Ancient Nara",
         "Fujisan, sacred place and source of artistic inspiration",
       ],
+      Luxembourg: ["City of Luxembourg: its Old Quarters and Fortifications"],
       Malta: ["City of Valletta"],
       Portugal: [
         "Historic Centre of Oporto, Luiz I Bridge and Monastery of Serra do Pilar",

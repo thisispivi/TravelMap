@@ -11,13 +11,7 @@ import { Travel } from "./Travel";
 
 /** All supported transport modes for route steps. */
 export type TransportMode =
-  | "ferry"
-  | "plane"
-  | "car"
-  | "train"
-  | "bus"
-  | "taxi"
-  | "walk";
+  "ferry" | "plane" | "car" | "train" | "bus" | "taxi" | "walk";
 
 interface FlightLeg {
   company?: FlightCompany;

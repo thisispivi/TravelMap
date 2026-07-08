@@ -35,7 +35,17 @@ import { Marseille } from "./France/Marseille/Marseille";
 import { Nice } from "./France/Nice/Nice";
 import { SaintTropez } from "./France/SaintTropez/SaintTropez";
 import { Toulon } from "./France/Toulon/Toulon";
+import { Beilstein } from "./Germany/Beilstein/Beilstein";
 import { Berlin } from "./Germany/Berlin/Berlin";
+import { Briedern } from "./Germany/Briedern/Briedern";
+import { BruttigFankel } from "./Germany/BruttigFankel/BruttigFankel";
+import { BurgEltz } from "./Germany/BurgEltz/BurgEltz";
+import { Cochem } from "./Germany/Cochem/Cochem";
+import { EllenzPoltersdorf } from "./Germany/EllenzPoltersdorf/EllenzPoltersdorf";
+import { HahnAirport } from "./Germany/HahnAirport/HahnAirport";
+import { Mesenich } from "./Germany/Mesenich/Mesenich";
+import { Morsdorf } from "./Germany/Morsdorf/Morsdorf";
+import { Senheim } from "./Germany/Senheim/Senheim";
 import { Budapest } from "./Hungary/Budapest/Budapest";
 import { Alghero } from "./Italy/Alghero/Alghero";
 import { Bergamo } from "./Italy/Bergamo/Bergamo";
@@ -66,6 +76,7 @@ import { Oshino } from "./Japan/Oshino/Oshino";
 import { Shirakawago } from "./Japan/Shirakawago/Shirakawago";
 import { Takayama } from "./Japan/Takayama/Takayama";
 import { Tokyo } from "./Japan/Tokyo/Tokyo";
+import { LuxembourgCity } from "./Luxembourg/LuxembourgCity/LuxembourgCity";
 import { Comino } from "./Malta/Comino/Comino";
 import { Luqa } from "./Malta/Luqa/Luqa";
 import { Mdina } from "./Malta/Mdina/Mdina";
@@ -1525,6 +1536,289 @@ export const visitedTrips: Trip[] = [
           durationMinutes: 3 * 60 + 20,
           sDate: d({ year: 2026, monthIndex: 5, day: 8 }),
           eDate: d({ year: 2026, monthIndex: 5, day: 8 }),
+        },
+      }),
+    ],
+  }),
+  trip({
+    id: "moselle-luxembourg-trip-2026",
+    sDate: d({ year: 2026, monthIndex: 6, day: 4 }),
+    eDate: d({ year: 2026, monthIndex: 6, day: 7 }),
+    origin: Cagliari,
+    returnTo: Cagliari,
+    mapFocus: { center: [6.83, 49.96], zoom: 18 },
+    steps: [
+      plane({
+        from: Cagliari,
+        to: HahnAirport,
+        company: FlightCompany.RYANAIR,
+        data: {
+          durationMinutes: 2 * 60 + 15,
+          sDate: d({ year: 2026, monthIndex: 6, day: 4 }),
+          eDate: d({ year: 2026, monthIndex: 6, day: 4 }),
+        },
+      }),
+      stay({
+        city: HahnAirport,
+        sDate: d({ year: 2026, monthIndex: 6, day: 4 }),
+        eDate: d({ year: 2026, monthIndex: 6, day: 4 }),
+        photoPath: "Germany/HahnAirport/photos/tr_040726_070726",
+        data: { isLayover: true },
+      }),
+      move({
+        mode: "car",
+        from: HahnAirport,
+        to: Cochem,
+        data: {
+          distanceInKm: 41.1,
+          durationMinutes: 38,
+          sDate: d({ year: 2026, monthIndex: 6, day: 4 }),
+          eDate: d({ year: 2026, monthIndex: 6, day: 4 }),
+        },
+      }),
+      stay({
+        city: Cochem,
+        sDate: d({ year: 2026, monthIndex: 6, day: 4 }),
+        eDate: d({ year: 2026, monthIndex: 6, day: 4 }),
+        photoPath: "Germany/Cochem/photos/tr_040726_060726",
+      }),
+      move({
+        mode: "car",
+        from: Cochem,
+        to: EllenzPoltersdorf,
+        data: {
+          distanceInKm: 10.2,
+          durationMinutes: 13,
+          sDate: d({ year: 2026, monthIndex: 6, day: 4 }),
+          eDate: d({ year: 2026, monthIndex: 6, day: 4 }),
+        },
+      }),
+      stay({
+        city: EllenzPoltersdorf,
+        sDate: d({ year: 2026, monthIndex: 6, day: 4 }),
+        eDate: d({ year: 2026, monthIndex: 6, day: 6 }),
+        photoPath: "Germany/EllenzPoltersdorf/photos/tr_040726_060726",
+      }),
+      move({
+        mode: "car",
+        from: EllenzPoltersdorf,
+        to: LuxembourgCity,
+        data: {
+          distanceInKm: 131.7,
+          durationMinutes: 99,
+          roundTrip: true,
+          sDate: d({ year: 2026, monthIndex: 6, day: 5 }),
+          eDate: d({ year: 2026, monthIndex: 6, day: 5 }),
+        },
+      }),
+      stay({
+        city: LuxembourgCity,
+        sDate: d({ year: 2026, monthIndex: 6, day: 5 }),
+        eDate: d({ year: 2026, monthIndex: 6, day: 5 }),
+        photoPath: "Luxembourg/LuxembourgCity/photos/tr_050726_050726",
+      }),
+      move({
+        mode: "car",
+        from: LuxembourgCity,
+        to: Cochem,
+        data: {
+          distanceInKm: 131.7,
+          durationMinutes: 99,
+          roundTrip: true,
+          sDate: d({ year: 2026, monthIndex: 6, day: 5 }),
+          eDate: d({ year: 2026, monthIndex: 6, day: 5 }),
+        },
+      }),
+      stay({
+        city: Cochem,
+        sDate: d({ year: 2026, monthIndex: 6, day: 5 }),
+        eDate: d({ year: 2026, monthIndex: 6, day: 5 }),
+        photoPath: "Germany/Cochem/photos/tr_040726_060726",
+      }),
+      move({
+        mode: "car",
+        from: Cochem,
+        to: EllenzPoltersdorf,
+        data: {
+          distanceInKm: 10.2,
+          durationMinutes: 13,
+          sDate: d({ year: 2026, monthIndex: 6, day: 5 }),
+          eDate: d({ year: 2026, monthIndex: 6, day: 5 }),
+        },
+      }),
+      move({
+        mode: "car",
+        from: EllenzPoltersdorf,
+        to: Beilstein,
+        data: {
+          distanceInKm: 2,
+          durationMinutes: 6,
+          sDate: d({ year: 2026, monthIndex: 6, day: 6 }),
+          eDate: d({ year: 2026, monthIndex: 6, day: 6 }),
+        },
+      }),
+      stay({
+        city: Beilstein,
+        sDate: d({ year: 2026, monthIndex: 6, day: 6 }),
+        eDate: d({ year: 2026, monthIndex: 6, day: 6 }),
+        photoPath: "Germany/Beilstein/photos/tr_060726_060726",
+      }),
+      move({
+        mode: "car",
+        from: Beilstein,
+        to: Morsdorf,
+        data: {
+          distanceInKm: 16.4,
+          durationMinutes: 22,
+          sDate: d({ year: 2026, monthIndex: 6, day: 6 }),
+          eDate: d({ year: 2026, monthIndex: 6, day: 6 }),
+        },
+      }),
+      stay({
+        city: Morsdorf,
+        sDate: d({ year: 2026, monthIndex: 6, day: 6 }),
+        eDate: d({ year: 2026, monthIndex: 6, day: 6 }),
+        photoPath: "Germany/Morsdorf/photos/tr_060726_060726",
+      }),
+      move({
+        mode: "car",
+        from: Morsdorf,
+        to: BurgEltz,
+        data: {
+          distanceInKm: 37.7,
+          durationMinutes: 58,
+          sDate: d({ year: 2026, monthIndex: 6, day: 6 }),
+          eDate: d({ year: 2026, monthIndex: 6, day: 6 }),
+        },
+      }),
+      stay({
+        city: BurgEltz,
+        sDate: d({ year: 2026, monthIndex: 6, day: 6 }),
+        eDate: d({ year: 2026, monthIndex: 6, day: 6 }),
+        photoPath: "Germany/BurgEltz/photos/tr_060726_060726",
+      }),
+      move({
+        mode: "car",
+        from: BurgEltz,
+        to: Cochem,
+        data: {
+          distanceInKm: 32.9,
+          durationMinutes: 51,
+          sDate: d({ year: 2026, monthIndex: 6, day: 6 }),
+          eDate: d({ year: 2026, monthIndex: 6, day: 6 }),
+        },
+      }),
+      stay({
+        city: Cochem,
+        sDate: d({ year: 2026, monthIndex: 6, day: 6 }),
+        eDate: d({ year: 2026, monthIndex: 6, day: 6 }),
+        photoPath: "Germany/Cochem/photos/tr_040726_060726",
+      }),
+      move({
+        mode: "car",
+        from: Cochem,
+        to: BruttigFankel,
+        data: {
+          distanceInKm: 8,
+          durationMinutes: 9,
+          sDate: d({ year: 2026, monthIndex: 6, day: 6 }),
+          eDate: d({ year: 2026, monthIndex: 6, day: 6 }),
+        },
+      }),
+      stay({
+        city: BruttigFankel,
+        sDate: d({ year: 2026, monthIndex: 6, day: 6 }),
+        eDate: d({ year: 2026, monthIndex: 6, day: 6 }),
+        photoPath: "Germany/BruttigFankel/photos/tr_060726_060726",
+      }),
+      move({
+        mode: "car",
+        from: BruttigFankel,
+        to: Briedern,
+        data: {
+          distanceInKm: 5.2,
+          durationMinutes: 7,
+          sDate: d({ year: 2026, monthIndex: 6, day: 6 }),
+          eDate: d({ year: 2026, monthIndex: 6, day: 6 }),
+        },
+      }),
+      stay({
+        city: Briedern,
+        sDate: d({ year: 2026, monthIndex: 6, day: 6 }),
+        eDate: d({ year: 2026, monthIndex: 6, day: 6 }),
+        photoPath: "Germany/Briedern/photos/tr_060726_060726",
+      }),
+      move({
+        mode: "car",
+        from: Briedern,
+        to: Mesenich,
+        data: {
+          distanceInKm: 2.4,
+          durationMinutes: 4,
+          sDate: d({ year: 2026, monthIndex: 6, day: 6 }),
+          eDate: d({ year: 2026, monthIndex: 6, day: 6 }),
+        },
+      }),
+      stay({
+        city: Mesenich,
+        sDate: d({ year: 2026, monthIndex: 6, day: 6 }),
+        eDate: d({ year: 2026, monthIndex: 6, day: 6 }),
+        photoPath: "Germany/Mesenich/photos/tr_060726_060726",
+      }),
+      move({
+        mode: "car",
+        from: Mesenich,
+        to: Senheim,
+        data: {
+          distanceInKm: 1.9,
+          durationMinutes: 3,
+          sDate: d({ year: 2026, monthIndex: 6, day: 6 }),
+          eDate: d({ year: 2026, monthIndex: 6, day: 6 }),
+        },
+      }),
+      stay({
+        city: Senheim,
+        sDate: d({ year: 2026, monthIndex: 6, day: 6 }),
+        eDate: d({ year: 2026, monthIndex: 6, day: 6 }),
+        photoPath: "Germany/Senheim/photos/tr_060726_060726",
+      }),
+      move({
+        mode: "car",
+        from: Senheim,
+        to: EllenzPoltersdorf,
+        data: {
+          distanceInKm: 9.2,
+          durationMinutes: 10,
+          sDate: d({ year: 2026, monthIndex: 6, day: 6 }),
+          eDate: d({ year: 2026, monthIndex: 6, day: 6 }),
+        },
+      }),
+      move({
+        mode: "car",
+        from: EllenzPoltersdorf,
+        to: HahnAirport,
+        data: {
+          distanceInKm: 32,
+          durationMinutes: 32,
+          sDate: d({ year: 2026, monthIndex: 6, day: 7 }),
+          eDate: d({ year: 2026, monthIndex: 6, day: 7 }),
+        },
+      }),
+      stay({
+        city: HahnAirport,
+        sDate: d({ year: 2026, monthIndex: 6, day: 7 }),
+        eDate: d({ year: 2026, monthIndex: 6, day: 7 }),
+        photoPath: "Germany/HahnAirport/photos/tr_040726_070726",
+        data: { isLayover: true },
+      }),
+      plane({
+        from: HahnAirport,
+        to: Cagliari,
+        company: FlightCompany.RYANAIR,
+        data: {
+          durationMinutes: 2 * 60 + 15,
+          sDate: d({ year: 2026, monthIndex: 6, day: 7 }),
+          eDate: d({ year: 2026, monthIndex: 6, day: 7 }),
         },
       }),
     ],

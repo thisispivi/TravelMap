@@ -113,6 +113,7 @@ import GermanyFlag from "./icons/flags/Germany.svg?react";
 import HungaryFlag from "./icons/flags/Hungary.svg?react";
 import ItalyFlag from "./icons/flags/Italy.svg?react";
 import JapanFlag from "./icons/flags/Japan.svg?react";
+import LuxembourgFlag from "./icons/flags/Luxembourg.svg?react";
 import MaltaFlag from "./icons/flags/Malta.svg?react";
 import MonacoFlag from "./icons/flags/Monaco.svg?react";
 import PortugalFlag from "./icons/flags/Portugal.svg?react";
@@ -135,6 +136,7 @@ export {
   HungaryFlag,
   ItalyFlag,
   JapanFlag,
+  LuxembourgFlag,
   MaltaFlag,
   MonacoFlag,
   PortugalFlag,
