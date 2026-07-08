@@ -13,13 +13,6 @@ const GAP_X = 10;
 const GAP_Y = 6;
 
 /**
- * Above this zoom level, overlap detection is skipped and every city whose
- * population tier threshold is met will be shown — guaranteeing that all
- * labels are visible when fully zoomed in.
- */
-const SKIP_OVERLAP_ZOOM = 35;
-
-/**
  * Population-based zoom tiers.
  * Larger cities become visible at lower zoom levels, matching Google Maps
  * behavior where major cities appear first and smaller ones progressively
@@ -89,18 +82,11 @@ export function computeVisibleLabels(
     }
   }
 
-  const skipOverlap = zoom >= SKIP_OVERLAP_ZOOM;
-
   for (const city of sorted) {
     if (city.name === hoveredCityName) continue;
 
     const minZoom = getMinZoomForPopulation(city.population ?? 0);
     if (zoom < minZoom) continue;
-
-    if (skipOverlap) {
-      visible.add(city.name);
-      continue;
-    }
 
     const [lon, lat] = city.coordinates;
     const x = zoom * PROJECTION_SCALE * lon * DEG_TO_RAD;

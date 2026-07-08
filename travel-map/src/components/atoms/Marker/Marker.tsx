@@ -69,7 +69,7 @@ export function Marker({
 }: MarkerProps): ReactNode {
   const { k } = useZoomPanContext();
   const currScale = defaultScale * (baseZoom / k);
-  minScale = city.country.minMarkerScale || minScale;
+  minScale = city.minMarkerScale || city.country.minMarkerScale || minScale;
   maxScale = city.country.maxMarkerScale || maxScale;
   const scale = Math.min(Math.max(currScale, minScale), maxScale);
   const isHovered = hoveredCity?.name === city.name;

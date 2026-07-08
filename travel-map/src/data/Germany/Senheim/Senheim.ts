@@ -5,6 +5,7 @@ export const Senheim = new City({
   name: "Senheim",
   country: Germany,
   coordinates: [7.2112429, 50.0859366],
+  minMarkerScale: 0.01,
   timeZone: "Europe/Berlin",
   backgroundImgSources: ["/Germany/Senheim/Senheim.jpg"],
 });

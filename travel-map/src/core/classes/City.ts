@@ -9,6 +9,7 @@ interface CityInterface {
   country: Country;
   customMarkerSizes?: MarkerSizes;
   isLived?: boolean;
+  minMarkerScale?: number;
   name: string;
   population?: number;
   timeZone: string;
@@ -38,6 +39,7 @@ export class City implements CityInterface {
   country: Country;
   isLived?: boolean | undefined;
   mapCoordinates: [number, number];
+  minMarkerScale?: number;
   name: string;
   population?: number;
   timeZone: string;
@@ -48,6 +50,7 @@ export class City implements CityInterface {
     this.country = cityData.country;
     this.isLived = cityData.isLived;
     this.mapCoordinates = this.getMapCoordinates(this.coordinates);
+    this.minMarkerScale = cityData.minMarkerScale;
     this.name = cityData.name;
     this.population = cityData.population;
     this.timeZone = cityData.timeZone;
