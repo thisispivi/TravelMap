@@ -221,12 +221,12 @@ export function StatsGrid({
 
         <div className="bento-panel--stack">
           <TransportModesCard
-            className="bento-detail card--box-shadow"
+            className="bento-detail card--box-shadow bento-detail__top--no-mb"
             data={stats.transportModeStats}
             title={t("stats.transportModes")}
           />
           <CitiesPerCountryCard
-            className="bento-detail card--box-shadow"
+            className="bento-detail card--box-shadow bento-detail__top--no-mb"
             data={stats.countryVisitStats}
             maxItems={10}
           />

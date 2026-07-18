@@ -97,6 +97,12 @@
     }
   }
 
+  &.bento-detail__top--no-mb {
+    h2 {
+      margin-bottom: 0;
+    }
+  }
+
   .bento-detail__rows {
     border-top-width: 0.0625rem;
     border-top-style: solid;
