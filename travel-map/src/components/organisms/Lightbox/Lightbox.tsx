@@ -8,19 +8,18 @@ import ImageGallery, {
 } from "react-image-gallery";
 import { useLoaderData, useLocation, useNavigate } from "react-router-dom";
 
-import {
-  ChevronIcon,
-  FullscreenEnterIcon,
-  FullscreenExitIcon,
-  GalleryIcon,
-} from "../../../assets";
+import ChevronIcon from "@/assets/icons/Chevron.svg?react";
+import FullscreenEnterIcon from "@/assets/icons/FullscreenEnter.svg?react";
+import FullscreenExitIcon from "@/assets/icons/FullscreenExit.svg?react";
+import GalleryIcon from "@/assets/icons/Gallery.svg?react";
+import { Button } from "@/components/atoms/Buttons/Button";
+
 import { City } from "../../../core";
 import { visitedTrips } from "../../../data";
 import { useLanguage } from "../../../hooks/language/language";
 import { classNames } from "../../../utils/className";
 import { parameters } from "../../../utils/parameters";
 import { getTravelByCityIndex } from "../../../utils/trips";
-import { Button } from "../../atoms";
 const HIDE_NAV_AFTER_MS = 2000;
 type LightboxItem = ImageGalleryProps["items"][number] & {
   youtube?: boolean;

@@ -2,9 +2,10 @@ import "./RowCurrency.scss";
 
 import { ReactNode } from "react";
 
+import { CurrencyFlag } from "@/components/atoms/CurrencyFlag/CurrencyFlag";
+
 import { Currency } from "../../../core";
 import { useLanguage } from "../../../hooks/language/language";
-import { CurrencyFlag } from "../../atoms";
 import { Row } from "./Row";
 
 interface CurrencyRowProps {

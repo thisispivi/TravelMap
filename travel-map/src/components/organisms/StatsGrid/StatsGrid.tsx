@@ -2,19 +2,17 @@ import "./StatsGrid.scss";
 
 import { ReactNode, useEffect, useRef, useState } from "react";
 
-import {
-  AirplaneIcon,
-  CalendarIcon,
-  CameraIcon,
-  CityIcon,
-  FerryIcon,
-  GlobeIcon,
-  MapIcon,
-  MoonIcon,
-  SunIcon,
-  TimezoneIcon,
-  UnescoIcon,
-} from "@/assets";
+import AirplaneIcon from "@/assets/icons/Airplane.svg?react";
+import CalendarIcon from "@/assets/icons/Calendar.svg?react";
+import CameraIcon from "@/assets/icons/Camera.svg?react";
+import CityIcon from "@/assets/icons/City.svg?react";
+import FerryIcon from "@/assets/icons/Ferry.svg?react";
+import GlobeIcon from "@/assets/icons/Globe.svg?react";
+import MapIcon from "@/assets/icons/Map.svg?react";
+import MoonIcon from "@/assets/icons/Moon.svg?react";
+import SunIcon from "@/assets/icons/Sun.svg?react";
+import TimezoneIcon from "@/assets/icons/Timezone.svg?react";
+import UnescoIcon from "@/assets/icons/Unesco.svg?react";
 import {
   takenFerries,
   takenFlights,

@@ -3,12 +3,12 @@ import "./TripCard.scss";
 import { domAnimation, LazyMotion, m, useReducedMotion } from "framer-motion";
 import { ReactNode } from "react";
 
+import CalendarIcon from "@/assets/icons/Calendar.svg?react";
+import { CountryFlag } from "@/components/atoms/CountryFlag/CountryFlag";
 import { formatDateRangeShort } from "@/i18n/functions/date";
 
-import { CalendarIcon } from "../../../assets";
 import { Trip } from "../../../core";
 import { useLanguage } from "../../../hooks/language/language";
-import { CountryFlag } from "../../atoms";
 import { Row } from "../Row/Row";
 
 interface TripCardProps {

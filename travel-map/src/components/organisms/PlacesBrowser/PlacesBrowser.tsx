@@ -4,8 +4,10 @@ import { AnimatePresence, domAnimation, LazyMotion, m } from "framer-motion";
 import { ReactNode, use, useEffect, useReducer, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { FilterIcon } from "@/assets";
-import { FilterByCountry } from "@/components/molecules";
+import FilterIcon from "@/assets/icons/Filter.svg?react";
+import { SegmentedControl } from "@/components/atoms/SegmentedControl/SegmentedControl";
+import { CityCard } from "@/components/molecules/Cards/CityCard";
+import { FilterByCountry } from "@/components/molecules/FilterByCountry/FilterByCountry";
 import { HomeContext } from "@/components/pages/Home/HomeContext";
 import { Country } from "@/core";
 import { futureCities, livedCities, visitedCities } from "@/data";
@@ -13,8 +15,6 @@ import { useLanguage } from "@/hooks/language/language";
 import { useLocation } from "@/hooks/location/location";
 import { classNames } from "@/utils/className";
 
-import { SegmentedControl } from "../../atoms";
-import { CityCard } from "../../molecules";
 type PlacesFilter = "visited" | "lived" | "future";
 type PlacesState = {
   filter: PlacesFilter;
@@ -265,13 +265,15 @@ export function PlacesBrowser(): ReactNode {
   return (
     <LazyMotion features={domAnimation}>
       <m.div
-        animate={{ height: state.panelHeight ?? "auto", scale: 1, x: 0 }}
+        animate={{ scale: 1, x: 0 }}
         className="places-browser"
         exit={{ scale: 0.98, x: "-120%" }}
         initial={{ scale: 0.98, x: "-120%" }}
+        layout="size"
         ref={panelRef}
+        style={{ height: state.panelHeight ?? "auto" }}
         transition={{
-          height: { duration: 0.2, ease: [0.35, 0, 0.25, 1] },
+          layout: { duration: 0.2, ease: [0.35, 0, 0.25, 1] },
           scale: { duration: 0.22, ease: [0.35, 0, 0.25, 1] },
           x: { duration: 0.22, ease: [0.35, 0, 0.25, 1] },
         }}

@@ -22,7 +22,9 @@ import { useLocation } from "@/hooks/location/location";
 import { computeVisibleLabels } from "@/utils/labelVisibility";
 import { parameters } from "@/utils/parameters";
 
-import { Button, Loading, Marker } from "../../atoms";
+import { Button } from "../../atoms/Buttons/Button";
+import { Loading } from "../../atoms/Loading/Loading";
+import { Marker } from "../../atoms/Marker/Marker";
 import { HomeContext } from "../../pages/Home/HomeContext";
 import { RouteOverlay } from "../RouteOverlay/RouteOverlay";
 import { MapTooltip } from "../Tooltip/TooltipMap";

@@ -3,7 +3,10 @@ import "./CityCard.scss";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import { CalendarIcon, PositionIcon } from "@/assets";
+import CalendarIcon from "@/assets/icons/Calendar.svg?react";
+import PositionIcon from "@/assets/icons/Position.svg?react";
+import { CountryFlag } from "@/components/atoms/CountryFlag/CountryFlag";
+import { Loading } from "@/components/atoms/Loading/Loading";
 import { City, Travel } from "@/core";
 import { useCachedImageSource } from "@/hooks/image/cache";
 import { useLanguage } from "@/hooks/language/language";
@@ -13,7 +16,6 @@ import { isActivationKey } from "@/utils/keyboard";
 import { computeMapCenter } from "@/utils/mapCenter";
 import { parameters } from "@/utils/parameters";
 
-import { CountryFlag, Loading } from "../../atoms";
 interface CityCardProps {
   className?: string;
   city: City;

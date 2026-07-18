@@ -3,12 +3,12 @@ import "./Home.scss";
 import { AnimatePresence, domAnimation, LazyMotion, m } from "framer-motion";
 import { lazy, PropsWithChildren, ReactNode, Suspense, use } from "react";
 
-import { ChevronIcon } from "@/assets";
+import ChevronIcon from "@/assets/icons/Chevron.svg?react";
 import { useLanguage } from "@/hooks/language/language";
 import { useLocation } from "@/hooks/location/location";
 
-import { Loading } from "../../atoms";
-import { Container } from "../../molecules";
+import { Loading } from "../../atoms/Loading/Loading";
+import { Container } from "../../molecules/Container/Container";
 import { FloatingNav } from "../../organisms/FloatingNav/FloatingNav";
 import { HomeContext } from "../../pages/Home/HomeContext";
 
@@ -79,9 +79,12 @@ export function HomeTemplate({ children }: PropsWithChildren): ReactNode {
             {isPlaces && isPanelOpen ? <PlacesBrowser key="places" /> : null}
             {(isTimeline || isStats) && isPanelOpen ? (
               <m.div
+                animate={bottomPanelMotion.animate}
                 className="home-template__bottom-panel"
+                exit={bottomPanelMotion.exit}
+                initial={bottomPanelMotion.initial}
                 key={isTimeline ? "timeline" : "stats"}
-                {...bottomPanelMotion}
+                transition={bottomPanelMotion.transition}
               >
                 <Suspense fallback={null}>{children}</Suspense>
               </m.div>

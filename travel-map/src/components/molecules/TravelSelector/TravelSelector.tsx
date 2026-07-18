@@ -3,7 +3,9 @@ import "./TravelSelector.scss";
 import { ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { CalendarIcon, DoubleChevronIcon } from "../../../assets";
+import CalendarIcon from "@/assets/icons/Calendar.svg?react";
+import DoubleChevronIcon from "@/assets/icons/DoubleChevron.svg?react";
+
 import { Travel } from "../../../core";
 import { useLanguage } from "../../../hooks/language/language";
 import { formatDateRangeShort } from "../../../i18n/functions/date";

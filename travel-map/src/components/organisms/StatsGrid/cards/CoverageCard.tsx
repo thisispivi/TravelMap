@@ -2,7 +2,7 @@ import "./CoverageCard.scss";
 
 import { ReactNode } from "react";
 
-import { ContinentsIcon } from "@/assets";
+import ContinentsIcon from "@/assets/icons/Continents.svg?react";
 import { Continent } from "@/core";
 import { useLanguage } from "@/hooks/language/language";
 
@@ -40,19 +40,16 @@ export function CoverageCard({
   totalContinents,
 }: CoverageCardProps): ReactNode {
   const { t } = useLanguage(["home"]);
+  const visitedSet = new Set(visitedContinents);
 
   const mapClassName = [
     "bento-continents__map",
-    visitedContinents.includes(Continent.AFRICA) ? "" : "africa--not-visited",
-    visitedContinents.includes(Continent.ASIA) ? "" : "asia--not-visited",
-    visitedContinents.includes(Continent.EUROPE) ? "" : "europe--not-visited",
-    visitedContinents.includes(Continent.NORTH_AMERICA)
-      ? ""
-      : "north-america--not-visited",
-    visitedContinents.includes(Continent.OCEANIA) ? "" : "oceania--not-visited",
-    visitedContinents.includes(Continent.SOUTH_AMERICA)
-      ? ""
-      : "south-america--not-visited",
+    visitedSet.has(Continent.AFRICA) ? "" : "africa--not-visited",
+    visitedSet.has(Continent.ASIA) ? "" : "asia--not-visited",
+    visitedSet.has(Continent.EUROPE) ? "" : "europe--not-visited",
+    visitedSet.has(Continent.NORTH_AMERICA) ? "" : "north-america--not-visited",
+    visitedSet.has(Continent.OCEANIA) ? "" : "oceania--not-visited",
+    visitedSet.has(Continent.SOUTH_AMERICA) ? "" : "south-america--not-visited",
   ]
     .join(" ")
     .trim();
@@ -72,7 +69,7 @@ export function CoverageCard({
           {allContinents.map((continent) => (
             <ContinentRow
               continent={continent}
-              isVisited={visitedContinents.includes(continent)}
+              isVisited={visitedSet.has(continent)}
               key={continent}
             />
           ))}

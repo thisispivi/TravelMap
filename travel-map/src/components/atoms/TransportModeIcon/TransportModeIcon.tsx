@@ -1,14 +1,12 @@
 import { ReactNode } from "react";
 
-import {
-  AirplaneIcon,
-  BusIcon,
-  CarIcon,
-  FerryIcon,
-  TaxiIcon,
-  TrainIcon,
-  WalkIcon,
-} from "@/assets";
+import AirplaneIcon from "@/assets/icons/Airplane.svg?react";
+import BusIcon from "@/assets/icons/Bus.svg?react";
+import CarIcon from "@/assets/icons/Car.svg?react";
+import FerryIcon from "@/assets/icons/Ferry.svg?react";
+import TaxiIcon from "@/assets/icons/Taxi.svg?react";
+import TrainIcon from "@/assets/icons/Train.svg?react";
+import WalkIcon from "@/assets/icons/Walk.svg?react";
 import { TransportMode } from "@/core";
 
 interface TransportModeIconProps {

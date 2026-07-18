@@ -13,7 +13,7 @@ import { useThemeDetector } from "@/hooks/style/theme";
 import { mobileAndTabletCheck } from "@/utils/responsive";
 import { getWithExpiry, setWithExpiry } from "@/utils/storage";
 
-import { Button } from "../../atoms";
+import { Button } from "../../atoms/Buttons/Button";
 
 const CHUNK_FAIL_RE =
   /Failed to fetch dynamically imported module|Importing a module script failed|ChunkLoadError|Loading chunk \d+ failed/i;

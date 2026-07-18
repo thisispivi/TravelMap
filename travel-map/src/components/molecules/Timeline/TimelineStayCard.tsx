@@ -7,7 +7,7 @@ import {
   useNavigate,
 } from "react-router-dom";
 
-import { CountryFlag } from "@/components/atoms";
+import { CountryFlag } from "@/components/atoms/CountryFlag/CountryFlag";
 import { HomeContext } from "@/components/pages/Home/HomeContext";
 import { City, TripStop } from "@/core";
 import { visitedTrips } from "@/data";

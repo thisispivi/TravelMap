@@ -7,9 +7,7 @@ import { classNames } from "@/utils/className";
 import { Card } from "../../molecules/Cards/Card";
 
 /** An SVG icon component accepting standard SVG props plus an optional className. */
-export type SvgIcon = ComponentType<
-  SVGProps<SVGSVGElement> & { className?: string }
->;
+type SvgIcon = ComponentType<SVGProps<SVGSVGElement> & { className?: string }>;
 
 /**
  * Props for the StatTile component.

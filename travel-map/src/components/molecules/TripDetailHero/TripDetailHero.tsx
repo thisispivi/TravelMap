@@ -2,8 +2,10 @@ import "./TripDetailHero.scss";
 
 import { ReactNode } from "react";
 
-import { CalendarIcon, ChevronIcon, MapIcon } from "@/assets";
-import { CountryFlag } from "@/components/atoms";
+import CalendarIcon from "@/assets/icons/Calendar.svg?react";
+import ChevronIcon from "@/assets/icons/Chevron.svg?react";
+import MapIcon from "@/assets/icons/Map.svg?react";
+import { CountryFlag } from "@/components/atoms/CountryFlag/CountryFlag";
 import { Country, Trip } from "@/core";
 import { useLanguage } from "@/hooks/language/language";
 import { formatDateRangeShort } from "@/i18n/functions/date";

@@ -3,7 +3,8 @@ import "./TimelineTransportConnector.scss";
 import { m } from "framer-motion";
 import { Fragment, ReactNode } from "react";
 
-import { CountryFlag, TransportModeIcon } from "@/components/atoms";
+import { CountryFlag } from "@/components/atoms/CountryFlag/CountryFlag";
+import { TransportModeIcon } from "@/components/atoms/TransportModeIcon/TransportModeIcon";
 import { City, TransportMode } from "@/core";
 import { useLanguage } from "@/hooks/language/language";
 import { formatMileage } from "@/utils/format";
@@ -61,9 +62,19 @@ export function TimelineTransportConnector({
         ease: [0.35, 0, 0.25, 1],
       }}
     >
-      {legs.map((leg, idx) => {
+      {legs.map((leg) => {
         const fromStr = t(`cities.${leg.from.name}`) || leg.from.name;
         const toStr = t(`cities.${leg.to.name}`) || leg.to.name;
+        const legKey = [
+          leg.mode,
+          leg.from.name,
+          leg.to.name,
+          leg.company ?? "",
+          leg.distanceKm,
+          leg.durationMinutes,
+          leg.via?.map((city) => city.name).join("-") ?? "",
+          leg.isRoundTrip ? "round-trip" : "one-way",
+        ].join("-");
         const metaParts: string[] = [];
         if (leg.distanceKm > 0)
           metaParts.push(`${formatMileage(leg.distanceKm, lang)} km`);
@@ -97,7 +108,7 @@ export function TimelineTransportConnector({
           });
 
         return (
-          <Fragment key={`leg-${idx}`}>
+          <Fragment key={legKey}>
             <span
               className={`trip-detail__connector-icon trip-detail__connector-icon--${leg.mode}`}
             >

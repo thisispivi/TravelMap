@@ -4,7 +4,7 @@ import { domAnimation, LazyMotion, m } from "framer-motion";
 import { ReactNode, use, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { LogoIcon } from "@/assets";
+import LogoIcon from "@/assets/icons/Logo.svg?react";
 import {
   HomeContext,
   HomeContextType,
@@ -13,7 +13,7 @@ import { useLanguage } from "@/hooks/language/language";
 import { useLocation } from "@/hooks/location/location";
 import { classNames } from "@/utils/className";
 
-import { DarkModeButton } from "../../atoms";
+import { DarkModeButton } from "../../atoms/Buttons/DarkModeButton";
 import { LanguageSelector } from "../Language/Language";
 interface FloatingNavProps {
   className?: string;

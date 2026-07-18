@@ -2,7 +2,7 @@ import "./CloseButton.scss";
 
 import { ReactNode } from "react";
 
-import { CloseIcon } from "../../../assets";
+import CloseIcon from "@/assets/icons/Close.svg?react";
 
 interface CloseButtonProps {
   onClick: () => void;

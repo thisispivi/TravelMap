@@ -11,9 +11,12 @@ import {
   useSearchParams,
 } from "react-router-dom";
 
+import PlayIcon from "@/assets/icons/Play.svg?react";
+import { CloseButton } from "@/components/atoms/Buttons/CloseButton";
+import { CountryFlag } from "@/components/atoms/CountryFlag/CountryFlag";
+import { TravelSelector } from "@/components/molecules/TravelSelector/TravelSelector";
 import { useLocation } from "@/hooks/location/location";
 
-import { PlayIcon } from "../../../assets";
 import { City } from "../../../core";
 import { visitedTrips } from "../../../data";
 import { useLanguage } from "../../../hooks/language/language";
@@ -22,8 +25,6 @@ import {
   getCityPhotoTravels,
   getTravelByCityIndex,
 } from "../../../utils/trips";
-import { CloseButton, CountryFlag } from "../../atoms";
-import { TravelSelector } from "../../molecules";
 export interface GalleryProps {
   city: City;
   travelIdx: number;

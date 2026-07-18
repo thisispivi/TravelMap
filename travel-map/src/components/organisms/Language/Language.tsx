@@ -5,11 +5,12 @@ import { ReactNode, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";
 
-import { LanguageIcon } from "@/assets";
+import LanguageIcon from "@/assets/icons/Language.svg?react";
 import { useLanguage } from "@/hooks/language/language";
 import { SUPPORTED_LOCALES } from "@/i18n/locale";
 
-import { Button, LanguageFlag } from "../../atoms";
+import { Button } from "../../atoms/Buttons/Button";
+import { LanguageFlag } from "../../atoms/LanguageFlag/LanguageFlag";
 const possibleLanguages = [...SUPPORTED_LOCALES] as const;
 const LANGUAGE_LABELS: Record<string, string> = {
   "en-US": "English",
@@ -52,11 +53,9 @@ export function LanguageSelector(): ReactNode {
   const { currLanguage, changeLanguage } = useLanguage([]);
   const buttonRef = useRef<HTMLDivElement>(null);
   const handleToggle = () => {
-    setIsOpen((prev) => {
-      if (!prev && buttonRef.current)
-        setPanelPos(computePanelPos(buttonRef.current));
-      return !prev;
-    });
+    if (!isOpen && buttonRef.current)
+      setPanelPos(computePanelPos(buttonRef.current));
+    setIsOpen((prev) => !prev);
   };
   useEffect(() => {
     if (!isOpen || !buttonRef.current) return;

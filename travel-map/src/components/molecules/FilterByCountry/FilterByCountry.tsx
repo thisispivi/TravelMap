@@ -4,12 +4,13 @@ import { ReactNode, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { CSSTransition } from "react-transition-group";
 
+import { Button } from "@/components/atoms/Buttons/Button";
+import { Checkbox } from "@/components/atoms/Checkbox/Checkbox";
+import { CountryFlag } from "@/components/atoms/CountryFlag/CountryFlag";
 import { Country } from "@/core";
 import { useLanguage } from "@/hooks/language/language";
 import { classNames } from "@/utils/className";
 import { mobileAndTabletCheck } from "@/utils/responsive";
-
-import { Button, Checkbox, CountryFlag } from "../../atoms";
 
 interface FilterByCountryProps {
   options: Country[];
@@ -54,6 +55,7 @@ export function FilterByCountry({
   const [isOpen, setIsOpen] = useState(false);
   const nodeRef = useRef<HTMLDivElement>(null);
   const backdropRef = useRef<HTMLDivElement>(null);
+  const selectedSet = new Set(selected);
 
   useEffect(() => {
     document.body.classList.toggle("filter-open", isOpen);
@@ -80,7 +82,7 @@ export function FilterByCountry({
   };
 
   const handleCountryToggle = (country: Country) => {
-    const newSelected = selected.includes(country)
+    const newSelected = selectedSet.has(country)
       ? selected.filter((s) => s !== country)
       : [...selected, country];
     onChange(newSelected);
@@ -142,7 +144,7 @@ export function FilterByCountry({
               </button>
               {options.map((option) => (
                 <button
-                  className={getOptionClassName(selected.includes(option))}
+                  className={getOptionClassName(selectedSet.has(option))}
                   key={option.id}
                   onClick={() => handleCountryToggle(option)}
                   type="button"

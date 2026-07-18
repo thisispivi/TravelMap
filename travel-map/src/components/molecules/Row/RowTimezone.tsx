@@ -2,15 +2,15 @@ import "./RowTimezone.scss";
 
 import { ReactNode } from "react";
 
+import ChevronRightIcon from "@/assets/icons/ChevronRight.svg?react";
+import { CountryFlag } from "@/components/atoms/CountryFlag/CountryFlag";
 import { formatDeltaVsCityForDateSpan } from "@/utils/timezoneOffset";
 
-import { ChevronRightIcon } from "../../../assets";
 import { City } from "../../../core";
 import { visitedTrips } from "../../../data";
 import { useLanguage } from "../../../hooks/language/language";
 import { classNames } from "../../../utils/className";
 import { getCityTravels } from "../../../utils/trips";
-import { CountryFlag } from "../../atoms";
 import { Row } from "./Row";
 
 interface TimezoneRowProps {

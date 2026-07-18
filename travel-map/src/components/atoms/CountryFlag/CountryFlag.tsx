@@ -1,27 +1,25 @@
 import { ReactNode } from "react";
 
-import {
-  AustraliaFlag,
-  AustriaFlag,
-  BelgiumFlag,
-  BulgariaFlag,
-  ChinaFlag,
-  FranceFlag,
-  GermanyFlag,
-  HungaryFlag,
-  ItalyFlag,
-  JapanFlag,
-  LuxembourgFlag,
-  MaltaFlag,
-  MonacoFlag,
-  PortugalFlag,
-  RomaniaFlag,
-  SlovakiaFlag,
-  SpainFlag,
-  SwedenFlag,
-  UnitedKingdomFlag,
-  VaticanFlag,
-} from "../../../assets";
+import AustraliaFlag from "@/assets/icons/flags/Australia.svg?react";
+import AustriaFlag from "@/assets/icons/flags/Austria.svg?react";
+import BelgiumFlag from "@/assets/icons/flags/Belgium.svg?react";
+import BulgariaFlag from "@/assets/icons/flags/Bulgaria.svg?react";
+import ChinaFlag from "@/assets/icons/flags/China.svg?react";
+import FranceFlag from "@/assets/icons/flags/France.svg?react";
+import GermanyFlag from "@/assets/icons/flags/Germany.svg?react";
+import HungaryFlag from "@/assets/icons/flags/Hungary.svg?react";
+import ItalyFlag from "@/assets/icons/flags/Italy.svg?react";
+import JapanFlag from "@/assets/icons/flags/Japan.svg?react";
+import LuxembourgFlag from "@/assets/icons/flags/Luxembourg.svg?react";
+import MaltaFlag from "@/assets/icons/flags/Malta.svg?react";
+import MonacoFlag from "@/assets/icons/flags/Monaco.svg?react";
+import PortugalFlag from "@/assets/icons/flags/Portugal.svg?react";
+import RomaniaFlag from "@/assets/icons/flags/Romania.svg?react";
+import SlovakiaFlag from "@/assets/icons/flags/Slovakia.svg?react";
+import SpainFlag from "@/assets/icons/flags/Spain.svg?react";
+import SwedenFlag from "@/assets/icons/flags/Sweden.svg?react";
+import UnitedKingdomFlag from "@/assets/icons/flags/UnitedKingdom.svg?react";
+import VaticanFlag from "@/assets/icons/flags/Vatican.svg?react";
 
 interface CountryFlagProps {
   countryId: string;

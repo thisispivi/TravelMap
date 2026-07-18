@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 import { useLanguage } from "@/hooks/language/language";
 import { CountryVisitStat } from "@/utils/transport";
 
-import { BarChartCountries } from "../../../atoms";
+import { BarChartCountries } from "../../../atoms/BarChart/BarChartCountries";
 import { Card } from "../../../molecules/Cards/Card";
 
 /**

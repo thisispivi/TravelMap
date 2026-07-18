@@ -4,13 +4,17 @@ import { domAnimation, LazyMotion, m } from "framer-motion";
 import { ReactNode, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import { CoinIcon, GalleryIcon, PeopleIcon, TimezoneIcon } from "@/assets";
+import CoinIcon from "@/assets/icons/Coin.svg?react";
+import GalleryIcon from "@/assets/icons/Gallery.svg?react";
+import PeopleIcon from "@/assets/icons/People.svg?react";
+import TimezoneIcon from "@/assets/icons/Timezone.svg?react";
 import { City } from "@/core";
 import { visitedTrips } from "@/data";
 import { useLanguage } from "@/hooks/language/language";
 import { getCityTravels } from "@/utils/trips";
 
-import { Button, CountryFlag } from "../../atoms";
+import { Button } from "../../atoms/Buttons/Button";
+import { CountryFlag } from "../../atoms/CountryFlag/CountryFlag";
 
 interface MapTooltipProps {
   city: City;

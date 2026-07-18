@@ -10,7 +10,7 @@ import { createHashRouter, Navigate, RouterProvider } from "react-router-dom";
 import type { TooltipRefProps } from "react-tooltip";
 import { Tooltip } from "react-tooltip";
 
-import { Loading } from "./components/atoms";
+import { Loading } from "./components/atoms/Loading/Loading";
 import { Fallback } from "./components/pages/Fallback/Fallback";
 import { Home } from "./components/pages/Home/Home";
 import { mobileAndTabletCheck } from "./utils/responsive";

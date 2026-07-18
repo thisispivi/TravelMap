@@ -7,7 +7,8 @@ import {
   useNavigate,
 } from "react-router-dom";
 
-import { CountryFlag, TransportModeIcon } from "@/components/atoms";
+import { CountryFlag } from "@/components/atoms/CountryFlag/CountryFlag";
+import { TransportModeIcon } from "@/components/atoms/TransportModeIcon/TransportModeIcon";
 import { HomeContext } from "@/components/pages/Home/HomeContext";
 import { City, TransportMode, TripStop } from "@/core";
 import { visitedTrips } from "@/data";

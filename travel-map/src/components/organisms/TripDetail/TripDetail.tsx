@@ -4,17 +4,16 @@ import { domAnimation, LazyMotion, m } from "framer-motion";
 import { ReactNode, use, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import {
-  AirplaneIcon,
-  BusIcon,
-  CalendarIcon,
-  CarIcon,
-  FerryIcon,
-  TaxiIcon,
-  TimezoneIcon,
-  TrainIcon,
-} from "@/assets";
-import { Timeline, TripDetailHero } from "@/components/molecules";
+import AirplaneIcon from "@/assets/icons/Airplane.svg?react";
+import BusIcon from "@/assets/icons/Bus.svg?react";
+import CalendarIcon from "@/assets/icons/Calendar.svg?react";
+import CarIcon from "@/assets/icons/Car.svg?react";
+import FerryIcon from "@/assets/icons/Ferry.svg?react";
+import TaxiIcon from "@/assets/icons/Taxi.svg?react";
+import TimezoneIcon from "@/assets/icons/Timezone.svg?react";
+import TrainIcon from "@/assets/icons/Train.svg?react";
+import { Timeline } from "@/components/molecules/Timeline/Timeline";
+import { TripDetailHero } from "@/components/molecules/TripDetailHero/TripDetailHero";
 import { HomeContext } from "@/components/pages/Home/HomeContext";
 import { City } from "@/core";
 import { visitedTrips } from "@/data";

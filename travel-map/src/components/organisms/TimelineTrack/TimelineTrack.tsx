@@ -4,12 +4,12 @@ import { domAnimation, LazyMotion, m, useInView } from "framer-motion";
 import { ReactNode, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { CalendarIcon } from "@/assets";
+import CalendarIcon from "@/assets/icons/Calendar.svg?react";
+import { CountryFlag } from "@/components/atoms/CountryFlag/CountryFlag";
 import { visitedTrips } from "@/data";
 import { useLanguage } from "@/hooks/language/language";
 import { formatDateRangeShort } from "@/i18n/functions/date";
 
-import { CountryFlag } from "../../atoms";
 type TripItem = {
   trip: (typeof visitedTrips)[0];
   side: "left" | "right";

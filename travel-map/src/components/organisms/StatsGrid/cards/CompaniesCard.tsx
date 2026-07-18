@@ -2,19 +2,17 @@ import "./CompaniesCard.scss";
 
 import { ComponentType, ReactNode, SVGProps } from "react";
 
-import {
-  AeroitaliaLogo,
-  AnaLogo,
-  ChinaEasternLogo,
-  CorsicaFerriesLogo,
-  EasyJetLogo,
-  ItaAirwaysLogo,
-  JetstarLogo,
-  RyanairLogo,
-  TirreniaLogo,
-  VirginAustraliaLogo,
-  WizzAirLogo,
-} from "@/assets";
+import AeroitaliaLogo from "@/assets/logos/Aeroitalia.svg?react";
+import AnaLogo from "@/assets/logos/Ana.svg?react";
+import ChinaEasternLogo from "@/assets/logos/ChinaEastern.svg?react";
+import CorsicaFerriesLogo from "@/assets/logos/CorsicaFerries.svg?react";
+import EasyJetLogo from "@/assets/logos/EasyJet.svg?react";
+import ItaAirwaysLogo from "@/assets/logos/ItaAirways.svg?react";
+import JetstarLogo from "@/assets/logos/Jetstar.svg?react";
+import RyanairLogo from "@/assets/logos/Ryanair.svg?react";
+import TirreniaLogo from "@/assets/logos/Tirrenia.svg?react";
+import VirginAustraliaLogo from "@/assets/logos/VirginAustralia.svg?react";
+import WizzAirLogo from "@/assets/logos/WizzAir.svg?react";
 import { FerryCompany, FlightCompany } from "@/core";
 import { useLanguage } from "@/hooks/language/language";
 import { CompanyStat } from "@/utils/transport";

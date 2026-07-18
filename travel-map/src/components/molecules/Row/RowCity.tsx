@@ -2,13 +2,14 @@ import "./RowCity.scss";
 
 import { ReactNode } from "react";
 
-import { DistanceIcon } from "../../../assets";
+import DistanceIcon from "@/assets/icons/Distance.svg?react";
+import { CountryFlag } from "@/components/atoms/CountryFlag/CountryFlag";
+
 import { City } from "../../../core";
 import { useLanguage } from "../../../hooks/language/language";
 import { getCitiesDistance } from "../../../utils/distance";
 import { formatMileage } from "../../../utils/format";
 import { parameters } from "../../../utils/parameters";
-import { CountryFlag } from "../../atoms";
 import { Row } from "./Row";
 
 interface CityRowProps {

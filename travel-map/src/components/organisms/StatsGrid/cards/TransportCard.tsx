@@ -6,7 +6,7 @@ import { City, Ferry, Flight } from "@/core";
 import { useLanguage } from "@/hooks/language/language";
 import { parameters } from "@/utils/parameters";
 
-import { TransportsDonutChart } from "../../../atoms";
+import { TransportsDonutChart } from "../../../atoms/DonutChart/DonutChartTransports";
 import { Card } from "../../../molecules/Cards/Card";
 import { TimezoneRow } from "../../../molecules/Row/RowTimezone";
 import { TransportRow } from "../../../molecules/Row/RowTransport";

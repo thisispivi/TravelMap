@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 
 import { TransportModeStat } from "@/utils/transport";
 
-import { BarChartTransportModes } from "../../../atoms";
+import { BarChartTransportModes } from "../../../atoms/BarChart/BarChartTransportModes";
 import { Card } from "../../../molecules/Cards/Card";
 
 /**

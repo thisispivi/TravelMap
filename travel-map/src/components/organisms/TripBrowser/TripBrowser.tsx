@@ -5,7 +5,7 @@ import { ReactNode, use, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { keys } from "remeda";
 
-import { TripCard } from "@/components/molecules";
+import { TripCard } from "@/components/molecules/Cards/TripCard";
 import { HomeContext } from "@/components/pages/Home/HomeContext";
 import { Trip } from "@/core";
 import { visitedTrips } from "@/data";
@@ -152,13 +152,15 @@ export function TripBrowser(): ReactNode {
   return (
     <LazyMotion features={domAnimation}>
       <m.div
-        animate={{ height: panelHeight ?? "auto", scale: 1, x: 0 }}
+        animate={{ scale: 1, x: 0 }}
         className="trip-browser"
         exit={{ scale: 0.98, x: "-120%" }}
         initial={{ scale: 0.98, x: "-120%" }}
+        layout="size"
         ref={panelRef}
+        style={{ height: panelHeight ?? "auto" }}
         transition={{
-          height: { duration: 0 },
+          layout: { duration: 0 },
           scale: { duration: 0.22, ease: [0.35, 0, 0.25, 1] },
           x: { duration: 0.22, ease: [0.35, 0, 0.25, 1] },
         }}
@@ -191,8 +193,9 @@ export function TripBrowser(): ReactNode {
           )}
         >
           <m.div
-            animate={{ height: stageHeight ?? "auto" }}
             className="trip-browser__list-stage"
+            layout="size"
+            style={{ height: stageHeight ?? "auto" }}
             transition={{ duration: 0 }}
           >
             {years.map((year, index) => (

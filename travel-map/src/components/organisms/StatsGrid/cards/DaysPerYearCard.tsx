@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 import { Trip } from "@/core";
 import { useLanguage } from "@/hooks/language/language";
 
-import { BarChartYears } from "../../../atoms";
+import { BarChartYears } from "../../../atoms/BarChart/BarChartYears";
 import { Card } from "../../../molecules/Cards/Card";
 
 /**

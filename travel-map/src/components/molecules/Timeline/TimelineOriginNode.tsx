@@ -3,7 +3,7 @@ import "./TimelineOriginNode.scss";
 import { m } from "framer-motion";
 import { CSSProperties, ReactNode } from "react";
 
-import { CountryFlag } from "@/components/atoms";
+import { CountryFlag } from "@/components/atoms/CountryFlag/CountryFlag";
 import { City } from "@/core";
 import { useLanguage } from "@/hooks/language/language";
 

@@ -4,7 +4,8 @@ import { AnimatePresence, domAnimation, LazyMotion, m } from "framer-motion";
 import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 
-import { MoonFilledIcon, SunFilledIcon } from "@/assets";
+import MoonFilledIcon from "@/assets/icons/MoonFilled.svg?react";
+import SunFilledIcon from "@/assets/icons/SunFilled.svg?react";
 import { classNames } from "@/utils/className";
 
 interface DarkModeButtonProps {

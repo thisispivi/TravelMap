@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 import { Continent } from "@/core";
 import { useLanguage } from "@/hooks/language/language";
 
-import { ContinentsBarChart } from "../../../atoms";
+import { ContinentsBarChart } from "../../../atoms/BarChart/BarChartContinents";
 import { Card } from "../../../molecules/Cards/Card";
 
 /**

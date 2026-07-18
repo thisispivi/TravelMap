@@ -1,15 +1,10 @@
-import { useEffect, useState } from "react";
+import useSWR from "swr";
 
 const IMAGE_CACHE_NAME = "travel-map-images-v1";
 
 const objectUrlCache = new Map<string, string>();
 const pendingLoads = new Map<string, Promise<string>>();
 const fallbackSources = new Set<string>();
-
-type LoadedImageSource = {
-  cachedSource: string;
-  source: string;
-};
 
 function canUseCacheStorage() {
   return typeof window !== "undefined" && "caches" in window;
@@ -69,41 +64,19 @@ export function useCachedImageSource(
   source: string | null | undefined,
   enabled = true,
 ) {
-  const [loadedSource, setLoadedSource] = useState<LoadedImageSource | null>(
-    () =>
-      source && objectUrlCache.has(source)
-        ? { cachedSource: objectUrlCache.get(source)!, source }
-        : null,
-  );
   const immediateSource = source
     ? (objectUrlCache.get(source) ??
       (fallbackSources.has(source) ? source : undefined))
     : undefined;
-
-  useEffect(() => {
-    let isCancelled = false;
-
-    if (!source || !enabled || immediateSource) {
-      return () => {
-        isCancelled = true;
-      };
-    }
-
-    void loadImageSource(source).then((nextSource) => {
-      if (!isCancelled) {
-        setLoadedSource({ cachedSource: nextSource, source });
-      }
-    });
-
-    return () => {
-      isCancelled = true;
-    };
-  }, [enabled, immediateSource, source]);
+  const requestSource = source && enabled && !immediateSource ? source : null;
+  const { data: loadedSource } = useSWR(requestSource, loadImageSource, {
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+    shouldRetryOnError: false,
+  });
 
   if (!source) return undefined;
   if (immediateSource) return immediateSource;
   if (!enabled) return undefined;
-  return loadedSource?.source === source
-    ? loadedSource.cachedSource
-    : undefined;
+  return loadedSource;
 }

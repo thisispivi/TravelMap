@@ -22,29 +22,16 @@ export default defineConfig({
   build: {
     target: "esnext",
     chunkSizeWarningLimit: 800,
-    minify: "terser",
-    terserOptions: {
-      compress: {
-        drop_console: true,
-        drop_debugger: true,
-        passes: 2,
-        pure_getters: true,
-        unsafe_proto: true,
-      },
-    },
-    rollupOptions: {
+    minify: "oxc",
+    rolldownOptions: {
       output: {
         manualChunks(id) {
           const n = id.replace(/\\/g, "/");
 
-          if (n.includes("/src/data/")) return "data";
           if (n.endsWith("/src/utils/parameters.ts")) return "parameters";
-          if (n.includes("/src/assets/icons/")) return "icons";
 
           if (!n.includes("node_modules")) return;
 
-          if (n.includes("apexcharts") || n.includes("react-apexcharts"))
-            return "apexcharts";
           if (
             n.includes("react-photo-album") ||
             n.includes("react-image-gallery")
@@ -61,7 +48,6 @@ export default defineConfig({
           if (
             n.includes("/react/") ||
             n.includes("/react-dom/") ||
-            n.includes("/react-compiler-runtime/") ||
             n.includes("/scheduler/")
           )
             return "react-core";

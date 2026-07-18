@@ -2,12 +2,14 @@ import "./RowTransport.scss";
 
 import { ReactNode } from "react";
 
-import { AirplaneIcon, FerryIcon } from "../../../assets";
+import AirplaneIcon from "@/assets/icons/Airplane.svg?react";
+import FerryIcon from "@/assets/icons/Ferry.svg?react";
+import { CountryFlag } from "@/components/atoms/CountryFlag/CountryFlag";
+
 import { Ferry, Flight } from "../../../core";
 import { useLanguage } from "../../../hooks/language/language";
 import { classNames } from "../../../utils/className";
 import { formatMileage } from "../../../utils/format";
-import { CountryFlag } from "../../atoms";
 import { Row } from "./Row";
 
 interface TransportRowProps {

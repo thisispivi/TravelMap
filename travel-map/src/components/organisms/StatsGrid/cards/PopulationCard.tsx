@@ -5,7 +5,7 @@ import { ReactNode } from "react";
 import { City } from "@/core";
 import { useLanguage } from "@/hooks/language/language";
 
-import { PopulationBarChart } from "../../../atoms";
+import { PopulationBarChart } from "../../../atoms/BarChart/BarChartPopulation";
 import { Card } from "../../../molecules/Cards/Card";
 
 /**

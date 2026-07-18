@@ -3,7 +3,7 @@ import "./Marker.scss";
 import { ReactNode } from "react";
 import { Marker as MarkerMap, useZoomPanContext } from "react-simple-maps";
 
-import { MarkerIcon } from "../../../assets";
+import { MarkerIcon } from "../../../assets/icons/Marker";
 import { City } from "../../../core";
 import { getMinZoomForPopulation } from "../../../utils/labelVisibility";
 import { parameters } from "../../../utils/parameters";

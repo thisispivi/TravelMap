@@ -1,15 +1,14 @@
 import { ReactNode } from "react";
 
-import {
-  AustraliaFlag,
-  BulgariaFlag,
-  EuropeFlag,
-  HungaryFlag,
-  JapanFlag,
-  RomaniaFlag,
-  SwedenFlag,
-  UnitedKingdomFlag,
-} from "../../../assets";
+import AustraliaFlag from "@/assets/icons/flags/Australia.svg?react";
+import BulgariaFlag from "@/assets/icons/flags/Bulgaria.svg?react";
+import EuropeFlag from "@/assets/icons/flags/Europe.svg?react";
+import HungaryFlag from "@/assets/icons/flags/Hungary.svg?react";
+import JapanFlag from "@/assets/icons/flags/Japan.svg?react";
+import RomaniaFlag from "@/assets/icons/flags/Romania.svg?react";
+import SwedenFlag from "@/assets/icons/flags/Sweden.svg?react";
+import UnitedKingdomFlag from "@/assets/icons/flags/UnitedKingdom.svg?react";
+
 import { Currency } from "../../../core";
 
 interface CurrencyFlagProps {

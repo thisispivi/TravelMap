@@ -13,7 +13,7 @@ import { useResponsive } from "@/hooks/style/responsive";
 import { useThemeDetector } from "@/hooks/style/theme";
 import { parameters } from "@/utils/parameters";
 
-import { HomeTemplate } from "../../templates";
+import { HomeTemplate } from "../../templates/Home/Home";
 import { ActiveView, HomeContext } from "./HomeContext";
 
 type MapPosition = { center: [number, number]; zoom: number };

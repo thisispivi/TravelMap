@@ -1,15 +1,13 @@
 import { ReactNode } from "react";
 
-import {
-  GermanyFlag,
-  HungaryFlag,
-  ItalyFlag,
-  JapanFlag,
-  MaltaFlag,
-  PortugalFlag,
-  SpainFlag,
-  UnitedKingdomFlag,
-} from "@/assets";
+import GermanyFlag from "@/assets/icons/flags/Germany.svg?react";
+import HungaryFlag from "@/assets/icons/flags/Hungary.svg?react";
+import ItalyFlag from "@/assets/icons/flags/Italy.svg?react";
+import JapanFlag from "@/assets/icons/flags/Japan.svg?react";
+import MaltaFlag from "@/assets/icons/flags/Malta.svg?react";
+import PortugalFlag from "@/assets/icons/flags/Portugal.svg?react";
+import SpainFlag from "@/assets/icons/flags/Spain.svg?react";
+import UnitedKingdomFlag from "@/assets/icons/flags/UnitedKingdom.svg?react";
 
 interface LanguageFlagProps {
   language: string;

@@ -12,13 +12,10 @@ export function useThemeDetector(): ThemeDetector {
     return prefers;
   });
   const handleDarkModeSwitch = () => {
-    setIsDarkTheme((prev) => {
-      const newTheme = !prev;
-      localStorage.setItem("theme", newTheme ? "dark" : "light");
-      return newTheme;
-    });
+    setIsDarkTheme((prev) => !prev);
   };
   useEffect(() => {
+    localStorage.setItem("theme", isDarkTheme ? "dark" : "light");
     const body = document.querySelector("body");
     if (isDarkTheme) {
       body?.classList.add("body--dark");

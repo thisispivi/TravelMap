@@ -2,7 +2,8 @@ import "./MileageCard.scss";
 
 import { ReactNode } from "react";
 
-import { EarthFlatIcon, MoonFlatIcon } from "@/assets";
+import EarthFlatIcon from "@/assets/icons/EarthFlat.svg?react";
+import MoonFlatIcon from "@/assets/icons/MoonFlat.svg?react";
 import { City } from "@/core";
 import { useLanguage } from "@/hooks/language/language";
 import { formatMileage } from "@/utils/format";
