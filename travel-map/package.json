@@ -13,7 +13,7 @@
     "prepare": "cd .. & husky",
     "format": "prettier . --write",
     "predeploygh": "pnpm run build",
-    "deploygh": "gh-pages -d dist",
+    "deploygh": "gh-pages -d dist --nojekyll",
     "update:packages": "ncu -u",
     "knip": "knip",
     "knip:fix": "knip --fix",
