@@ -9,6 +9,7 @@ import { useLocation } from "@/hooks/location/location";
 
 import { Loading } from "../../atoms/Loading/Loading";
 import { Container } from "../../molecules/Container/Container";
+import { PanelLoading } from "../../molecules/PanelLoading/PanelLoading";
 import { FloatingNav } from "../../organisms/FloatingNav/FloatingNav";
 import { HomeContext } from "../../pages/Home/HomeContext";
 
@@ -67,30 +68,35 @@ export function HomeTemplate({ children }: PropsWithChildren): ReactNode {
       />
 
       <LazyMotion features={domAnimation}>
-        <Suspense fallback={null}>
-          <AnimatePresence mode="wait">
-            {(isTrips || isTripDetail) && isPanelOpen ? (
-              isTripDetail ? (
-                <TripDetail key="trip-panel" />
-              ) : (
-                <TripBrowser key="trip-panel" />
-              )
-            ) : null}
-            {isPlaces && isPanelOpen ? <PlacesBrowser key="places" /> : null}
-            {(isTimeline || isStats) && isPanelOpen ? (
-              <m.div
-                animate={bottomPanelMotion.animate}
-                className="home-template__bottom-panel"
-                exit={bottomPanelMotion.exit}
-                initial={bottomPanelMotion.initial}
-                key={isTimeline ? "timeline" : "stats"}
-                transition={bottomPanelMotion.transition}
-              >
-                <Suspense fallback={null}>{children}</Suspense>
-              </m.div>
-            ) : null}
-          </AnimatePresence>
-        </Suspense>
+        <AnimatePresence mode="wait">
+          {(isTrips || isTripDetail) && isPanelOpen ? (
+            <Suspense
+              fallback={<PanelLoading variant="side" />}
+              key="trip-panel"
+            >
+              {isTripDetail ? <TripDetail /> : <TripBrowser />}
+            </Suspense>
+          ) : null}
+          {isPlaces && isPanelOpen ? (
+            <Suspense fallback={<PanelLoading variant="side" />} key="places">
+              <PlacesBrowser />
+            </Suspense>
+          ) : null}
+          {(isTimeline || isStats) && isPanelOpen ? (
+            <m.div
+              animate={bottomPanelMotion.animate}
+              className="home-template__bottom-panel"
+              exit={bottomPanelMotion.exit}
+              initial={bottomPanelMotion.initial}
+              key={isTimeline ? "timeline" : "stats"}
+              transition={bottomPanelMotion.transition}
+            >
+              <Suspense fallback={<PanelLoading variant="bottom" />}>
+                {children}
+              </Suspense>
+            </m.div>
+          ) : null}
+        </AnimatePresence>
       </LazyMotion>
 
       <LazyMotion features={domAnimation}>

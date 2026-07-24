@@ -1,129 +1,106 @@
 @use "../../../styles/mixins" as m;
 @use "../../../styles/variables" as v;
 
-#map-tooltip {
-  min-width: 11rem !important;
-  border-radius: 0.875rem !important;
-  padding: 0 !important;
-  overflow: hidden;
-  -webkit-backdrop-filter: blur(1.5rem);
-  backdrop-filter: blur(1.5rem);
-  @include m.smooth-shadow(1);
-
-  .react-tooltip-content-wrapper {
-    padding: 0 !important;
+.map-tooltip {
+  .maplibregl-popup-tip {
+    display: none;
   }
 
-  .map-tooltip__backdrop {
-    z-index: 0;
-    position: absolute;
-    &.map-tooltip__backdrop--bottom,
-    &.map-tooltip__backdrop--top {
-      height: 1rem;
-      width: 100%;
-    }
-    &.map-tooltip__backdrop--bottom {
-      bottom: -1.5rem;
-      margin-top: 1rem;
-    }
-    &.map-tooltip__backdrop--top {
-      top: -1.5rem;
-      margin-bottom: 1rem;
-    }
-    &.map-tooltip__backdrop--right,
-    &.map-tooltip__backdrop--left {
-      height: 100%;
-      width: 1rem;
-    }
-    &.map-tooltip__backdrop--left {
-      left: -1.5rem;
-      margin-right: 1rem;
-    }
-    &.map-tooltip__backdrop--right {
-      right: -1.5rem;
-      margin-left: 1rem;
-    }
+  .maplibregl-popup-content {
+    min-width: 15rem;
+    border-radius: 0.875rem !important;
+    padding: 0 !important;
+    overflow: hidden;
+    -webkit-backdrop-filter: blur(1.5rem);
+    backdrop-filter: blur(1.5rem);
+    animation: map-tooltip-in 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+    @include m.smooth-shadow(1);
   }
 
   .map-tooltip__container {
     padding: 0.875rem 1rem;
+  }
 
-    .map-tooltip__header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 0.5rem;
+  .map-tooltip__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
 
-      h2 {
-        font-size: 1.15rem;
-        font-weight: 700;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        @include m.transition(color, 0.2s);
+    h2 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      @include m.transition(color, 0.2s);
+    }
+
+    svg {
+      width: 1.5rem;
+      height: 1.5rem;
+      flex-shrink: 0;
+    }
+  }
+
+  .map-tooltip__pills {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0.375rem;
+    margin-top: 0.5rem;
+  }
+
+  .map-tooltip__pill {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: v.$caption;
+    font-weight: 500;
+    padding: 0.25rem 0.5625rem;
+    border-radius: 62rem;
+    white-space: nowrap;
+  }
+
+  .map-tooltip__pill-icon {
+    width: 0.7rem;
+    height: 0.7rem;
+    flex-shrink: 0;
+  }
+
+  .map-tooltip__footer {
+    margin-top: 0.625rem;
+
+    .map-tooltip__footer__button {
+      padding-inline: 0.75rem;
+      border-radius: 0.5rem;
+      height: 2rem;
+      width: 100%;
+      gap: 0.4rem;
+
+      p {
+        font-size: v.$bodySm;
+        font-weight: 500;
       }
 
       svg {
-        width: 1.5rem;
-        height: 1.5rem;
-        flex-shrink: 0;
+        width: 0.8rem;
+        height: 0.8rem;
       }
     }
-
-    .map-tooltip__pills {
-      display: flex;
-      gap: 0.375rem;
-      flex-wrap: wrap;
-      margin-top: 0.5rem;
-    }
-
-    .map-tooltip__pill {
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-      font-size: v.$caption;
-      font-weight: 500;
-      padding: 0.25rem 0.5625rem;
-      border-radius: 62rem;
-      white-space: nowrap;
-    }
-
-    .map-tooltip__pill-icon {
-      width: 0.7rem;
-      height: 0.7rem;
-      flex-shrink: 0;
-    }
-
-    .map-tooltip__footer {
-      margin-top: 0.625rem;
-
-      .map-tooltip__footer__button {
-        padding-inline: 0.75rem;
-        border-radius: 0.5rem;
-        height: 2rem;
-        width: 100%;
-        gap: 0.4rem;
-
-        p {
-          font-size: v.$bodySm;
-          font-weight: 500;
-        }
-
-        svg {
-          width: 0.8rem;
-          height: 0.8rem;
-        }
-      }
-    }
-  }
-
-  .react-tooltip-arrow {
-    z-index: -1;
   }
 }
 
-.body--light {
-  #map-tooltip {
+@keyframes map-tooltip-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.body--light .map-tooltip {
+  .maplibregl-popup-content {
     background: rgba(255, 255, 255, 0.22);
     border: 0.0625rem solid rgba(0, 0, 0, 0.06);
     color: v.$lightButtonContent;
@@ -135,8 +112,8 @@
   }
 }
 
-.body--dark {
-  #map-tooltip {
+.body--dark .map-tooltip {
+  .maplibregl-popup-content {
     background: rgba(22, 22, 30, 0.3);
     border: 0.0625rem solid rgba(255, 255, 255, 0.07);
     color: v.$darkButtonContent;
@@ -145,5 +122,11 @@
   .map-tooltip__pill {
     background: rgba(255, 255, 255, 0.07);
     color: v.$darkAltText;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .map-tooltip .maplibregl-popup-content {
+    animation: none;
   }
 }

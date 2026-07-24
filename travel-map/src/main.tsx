@@ -4,7 +4,7 @@ import "./styles/_mixins.scss";
 import "./styles/_scrollbar.scss";
 import "./i18n/i18n";
 
-import React, { Suspense, useEffect, useRef } from "react";
+import React, { lazy, Suspense, useEffect, useRef } from "react";
 import ReactDOM from "react-dom/client";
 import { createHashRouter, Navigate, RouterProvider } from "react-router-dom";
 import type { TooltipRefProps } from "react-tooltip";
@@ -14,6 +14,17 @@ import { Loading } from "./components/atoms/Loading/Loading";
 import { Fallback } from "./components/pages/Fallback/Fallback";
 import { Home } from "./components/pages/Home/Home";
 import { mobileAndTabletCheck } from "./utils/responsive";
+
+const TimelinePage = lazy(() =>
+  import("./components/pages/Timeline/Timeline").then((mod) => ({
+    default: mod.TimelinePage,
+  })),
+);
+const StatsPage = lazy(() =>
+  import("./components/pages/Stats/Stats").then((mod) => ({
+    default: mod.StatsPage,
+  })),
+);
 
 const router = createHashRouter([
   {
@@ -26,21 +37,8 @@ const router = createHashRouter([
       { path: "trip/:tripId", element: null },
       { path: "places", element: null },
       { path: "places/:filter", element: null },
-      {
-        path: "timeline",
-        lazy: async () => {
-          const { TimelinePage } =
-            await import("./components/pages/Timeline/Timeline");
-          return { Component: TimelinePage };
-        },
-      },
-      {
-        path: "stats",
-        lazy: async () => {
-          const { StatsPage } = await import("./components/pages/Stats/Stats");
-          return { Component: StatsPage };
-        },
-      },
+      { path: "timeline", element: <TimelinePage /> },
+      { path: "stats", element: <StatsPage /> },
       {
         path: "gallery/:cityName/:travelIdx",
         lazy: async () => {

@@ -1214,7 +1214,7 @@ export const visitedTrips: Trip[] = [
     eDate: d({ year: 2026, monthIndex: 0, day: 3 }),
     origin: Muravera,
     returnTo: Muravera,
-    mapFocus: { center: [6.4, 43.43], zoom: 22 },
+    mapFocus: { center: [6.4, 42.43], zoom: 30 },
     steps: [
       move({
         mode: "car",

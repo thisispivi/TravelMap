@@ -6,13 +6,12 @@ import { useNavigate } from "react-router-dom";
 import { keys } from "remeda";
 
 import { TripCard } from "@/components/molecules/Cards/TripCard";
+import { isPanelLoadingVisible } from "@/components/molecules/PanelLoading/PanelLoading";
 import { HomeContext } from "@/components/pages/Home/HomeContext";
 import { Trip } from "@/core";
 import { visitedTrips } from "@/data";
 import { useLanguage } from "@/hooks/language/language";
 import { classNames } from "@/utils/className";
-import { computeMapCenter } from "@/utils/mapCenter";
-import { parameters } from "@/utils/parameters";
 import { constants } from "@/utils/parameters";
 import { groupTripsByYear } from "@/utils/trips";
 const TRIP_YEAR_TRANSITION_DURATION_MS = 280;
@@ -31,7 +30,7 @@ const TRIP_YEAR_TRANSITION_DURATION_MS = 280;
 export function TripBrowser(): ReactNode {
   const { t } = useLanguage(["home"]);
   const navigate = useNavigate();
-  const { setSelectedTrip, setMapPosition } = use(HomeContext)!;
+  const { setSelectedTrip } = use(HomeContext)!;
   const groups = groupTripsByYear(visitedTrips, {
     cutoffYear: constants.GROUP_BY_CITIES_CUTOFF_YEAR,
   });
@@ -41,6 +40,7 @@ export function TripBrowser(): ReactNode {
   const initialYear = Number(
     years[0] ?? constants.GROUP_BY_CITIES_DEFAULT_OPENED_YEAR,
   );
+  const [skipEntrance] = useState(isPanelLoadingVisible);
   const [activeYear, setActiveYear] = useState<number>(initialYear);
   const [panelHeight, setPanelHeight] = useState<string>();
   const [stageHeight, setStageHeight] = useState<string>();
@@ -142,12 +142,6 @@ export function TripBrowser(): ReactNode {
   const openTrip = (trip: Trip) => {
     setSelectedTrip(trip);
     navigate(`/trip/${trip.id}`);
-    const zoom = trip.mapFocus?.zoom ?? parameters.map.hoveredCityZoom;
-    const rawCenter =
-      trip.mapFocus?.center ??
-      trip.destinations.find((d) => !d.isLayover)?.city.coordinates ??
-      parameters.map.defaultCenter;
-    setMapPosition({ center: computeMapCenter(rawCenter, zoom), zoom });
   };
   return (
     <LazyMotion features={domAnimation}>
@@ -155,7 +149,7 @@ export function TripBrowser(): ReactNode {
         animate={{ scale: 1, x: 0 }}
         className="trip-browser"
         exit={{ scale: 0.98, x: "-120%" }}
-        initial={{ scale: 0.98, x: "-120%" }}
+        initial={skipEntrance ? false : { scale: 0.98, x: "-120%" }}
         layout="size"
         ref={panelRef}
         style={{ height: panelHeight ?? "auto" }}

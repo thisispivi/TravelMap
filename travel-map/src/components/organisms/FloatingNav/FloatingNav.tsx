@@ -10,7 +10,7 @@ import {
   HomeContextType,
 } from "@/components/pages/Home/HomeContext";
 import { useLanguage } from "@/hooks/language/language";
-import { useLocation } from "@/hooks/location/location";
+import { NavTabId, useLocation } from "@/hooks/location/location";
 import { classNames } from "@/utils/className";
 
 import { DarkModeButton } from "../../atoms/Buttons/DarkModeButton";
@@ -57,7 +57,7 @@ const itemVariants = {
   },
 } as const;
 type NavTab = {
-  id: "trips" | "places" | "timeline" | "stats";
+  id: NavTabId;
   path: string;
 };
 const NAV_TABS: NavTab[] = [

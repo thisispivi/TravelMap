@@ -1,13 +1,14 @@
 import "./PlacesBrowser.scss";
 
 import { AnimatePresence, domAnimation, LazyMotion, m } from "framer-motion";
-import { ReactNode, use, useEffect, useReducer, useRef } from "react";
+import { ReactNode, use, useEffect, useReducer, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import FilterIcon from "@/assets/icons/Filter.svg?react";
 import { SegmentedControl } from "@/components/atoms/SegmentedControl/SegmentedControl";
 import { CityCard } from "@/components/molecules/Cards/CityCard";
 import { FilterByCountry } from "@/components/molecules/FilterByCountry/FilterByCountry";
+import { isPanelLoadingVisible } from "@/components/molecules/PanelLoading/PanelLoading";
 import { HomeContext } from "@/components/pages/Home/HomeContext";
 import { Country } from "@/core";
 import { futureCities, livedCities, visitedCities } from "@/data";
@@ -84,6 +85,7 @@ export function PlacesBrowser(): ReactNode {
   const navigate = useNavigate();
   const { placesFilter } = useLocation();
   const { setHoveredCity, setMapPosition } = use(HomeContext)!;
+  const [skipEntrance] = useState(isPanelLoadingVisible);
   const [state, dispatch] = useReducer(placesReducer, {
     filter: placesFilter ?? "visited",
     selectedCountries: null,
@@ -268,7 +270,7 @@ export function PlacesBrowser(): ReactNode {
         animate={{ scale: 1, x: 0 }}
         className="places-browser"
         exit={{ scale: 0.98, x: "-120%" }}
-        initial={{ scale: 0.98, x: "-120%" }}
+        initial={skipEntrance ? false : { scale: 0.98, x: "-120%" }}
         layout="size"
         ref={panelRef}
         style={{ height: state.panelHeight ?? "auto" }}

@@ -13,7 +13,6 @@ import { useLanguage } from "@/hooks/language/language";
 import { formatDateRangeShort } from "@/i18n/functions/date";
 import { classNames } from "@/utils/className";
 import { isActivationKey } from "@/utils/keyboard";
-import { computeMapCenter } from "@/utils/mapCenter";
 import { parameters } from "@/utils/parameters";
 
 interface CityCardProps {
@@ -102,10 +101,7 @@ export function CityCard({
     e.stopPropagation();
     if (setMapPosition) {
       setMapPosition({
-        center: computeMapCenter(
-          city.coordinates,
-          parameters.map.hoveredCityZoom,
-        ),
+        center: city.coordinates,
         zoom: parameters.map.hoveredCityZoom,
       });
       setHoveredCity(city);

@@ -12,6 +12,7 @@ import FerryIcon from "@/assets/icons/Ferry.svg?react";
 import TaxiIcon from "@/assets/icons/Taxi.svg?react";
 import TimezoneIcon from "@/assets/icons/Timezone.svg?react";
 import TrainIcon from "@/assets/icons/Train.svg?react";
+import { isPanelLoadingVisible } from "@/components/molecules/PanelLoading/PanelLoading";
 import { Timeline } from "@/components/molecules/Timeline/Timeline";
 import { TripDetailHero } from "@/components/molecules/TripDetailHero/TripDetailHero";
 import { HomeContext } from "@/components/pages/Home/HomeContext";
@@ -21,8 +22,6 @@ import { useLanguage } from "@/hooks/language/language";
 import { useLocation } from "@/hooks/location/location";
 import { classNames } from "@/utils/className";
 import { formatMileage } from "@/utils/format";
-import { computeMapCenter } from "@/utils/mapCenter";
-import { parameters } from "@/utils/parameters";
 import { getCityOffsetMinutesOnDate } from "@/utils/timezoneOffset";
 import {
   buildTripDetailTimelineItems,
@@ -170,24 +169,15 @@ export function TripDetail(): ReactNode {
   const { t, currLanguage: lang } = useLanguage(["home"]);
   const navigate = useNavigate();
   const { tripDetailId } = useLocation();
-  const { selectedTrip, setSelectedTrip, setMapPosition, setIsPanelOpen } =
-    use(HomeContext)!;
+  const { selectedTrip, setSelectedTrip, setIsPanelOpen } = use(HomeContext)!;
   const bodyRef = useRef<HTMLDivElement | null>(null);
+  const [skipEntrance] = useState(isPanelLoadingVisible);
   const [isBodyScrollable, setIsBodyScrollable] = useState(false);
   const trip =
     selectedTrip ?? visitedTrips.find((tr) => tr.id === tripDetailId) ?? null;
   useEffect(() => {
     if (trip && selectedTrip?.id !== trip.id) setSelectedTrip(trip);
   }, [selectedTrip?.id, setSelectedTrip, trip]);
-  useEffect(() => {
-    if (!trip) return;
-    const zoom = trip.mapFocus?.zoom ?? parameters.map.hoveredCityZoom;
-    const rawCenter =
-      trip.mapFocus?.center ??
-      trip.destinations.find((d) => !d.isLayover)?.city.coordinates ??
-      parameters.map.defaultCenter;
-    setMapPosition({ center: computeMapCenter(rawCenter, zoom), zoom });
-  }, [setMapPosition, trip]);
   const timelineItems = trip ? buildTripDetailTimelineItems(trip) : [];
   const updateBodyScrollable = () => {
     const body = bodyRef.current;
@@ -229,7 +219,7 @@ export function TripDetail(): ReactNode {
         animate={{ scale: 1, x: 0 }}
         className="trip-detail"
         exit={{ scale: 0.98, x: "-120%" }}
-        initial={{ scale: 0.98, x: "-120%" }}
+        initial={skipEntrance ? false : { scale: 0.98, x: "-120%" }}
         key={trip.id}
         layout="position"
         transition={{ duration: 0.22, ease: [0.35, 0, 0.25, 1] }}

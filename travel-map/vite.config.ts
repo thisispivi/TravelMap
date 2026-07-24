@@ -38,9 +38,8 @@ export default defineConfig({
           )
             return "gallery";
           if (
-            n.includes("react-simple-maps") ||
-            n.includes("/d3") ||
-            n.includes("d3-") ||
+            n.includes("react-map-gl") ||
+            n.includes("maplibre-gl") ||
             n.includes("topojson")
           )
             return "map";

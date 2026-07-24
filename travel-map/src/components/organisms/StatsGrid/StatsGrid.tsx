@@ -226,7 +226,7 @@ export function StatsGrid({
             title={t("stats.transportModes")}
           />
           <CitiesPerCountryCard
-            className="bento-detail card--box-shadow bento-detail__top--no-mb"
+            className="bento-detail bento-cities-per-country card--box-shadow bento-detail__top--no-mb"
             data={stats.countryVisitStats}
             maxItems={10}
           />

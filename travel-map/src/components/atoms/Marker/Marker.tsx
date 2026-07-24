@@ -1,118 +1,72 @@
 import "./Marker.scss";
 
 import { ReactNode } from "react";
-import { Marker as MarkerMap, useZoomPanContext } from "react-simple-maps";
+import { Marker as MapLibreMarker } from "react-map-gl/maplibre";
 
-import { MarkerIcon } from "../../../assets/icons/Marker";
-import { City } from "../../../core";
-import { getMinZoomForPopulation } from "../../../utils/labelVisibility";
-import { parameters } from "../../../utils/parameters";
+import { City } from "@/core";
+import { classNames } from "@/utils/className";
+import { isActivationKey } from "@/utils/keyboard";
 
-type MarkerVariant = "visited" | "future" | "lived" | "layover";
+export type MarkerVariant = "visited" | "future" | "lived" | "layover";
 
 interface MarkerProps {
   city: City;
   hoveredCity: City | null;
-  setHoveredCity: (city: City | null) => void;
-  showLabel?: boolean;
-  baseZoom?: number;
-  defaultScale?: number;
-  minScale?: number;
-  maxScale?: number;
+  onHoverCity: (city: City | null) => void;
+  onSelectCity: (city: City) => void;
   variant?: MarkerVariant;
 }
-
-/** Base font size in screen pixels for labels. */
-const LABEL_BASE_FONT_SIZE = 16;
-/** Slightly larger font size for hovered labels. */
-const LABEL_HOVERED_FONT_SIZE = 19;
-/** Screen-pixel offset below the marker tip. */
-const LABEL_OFFSET_PX = 20;
-
-const MARKER_STYLE = {
-  default: { outline: "none" },
-  hover: { outline: "none" },
-  pressed: { outline: "none" },
-} as const;
 
 /**
  * Marker component
  *
- * Displays a map pin marker with an optional city-name label underneath.
- * The label fades in when the zoom level is sufficient for the city's
- * population tier.
+ * A map pin for a single city, coloured by how the city was visited.
  *
  * @component
- *
- * @param {MarkerProps} props - The marker props
- * @param {City} props.city - The city to mark
- * @param {City | null} props.hoveredCity - Currently hovered city (for highlight)
- * @param {(city: City | null) => void} props.setHoveredCity - Hover state setter
- * @param {boolean} [props.showLabel] - Whether to show the city name label at low zoom
- * @param {number} [props.baseZoom] - Reference zoom level for marker scale calculation
- * @param {number} [props.defaultScale] - Default marker scale at base zoom
- * @param {number} [props.minScale] - Minimum allowed marker scale
- * @param {number} [props.maxScale] - Maximum allowed marker scale
- * @param {MarkerVariant} [props.variant] - Marker styling variant
- * @returns {ReactNode} The map marker
+ * @param {MarkerProps} props
+ * @param {City} props.city - The city the pin points at
+ * @param {City | null} props.hoveredCity - The city currently hovered on the map
+ * @param {MarkerVariant} [props.variant] - Which palette the pin uses
+ * @returns {ReactNode} The map pin
  */
 export function Marker({
   city,
   hoveredCity,
-  setHoveredCity,
-  showLabel = false,
-  baseZoom = parameters.map.defaultZoom,
-  defaultScale = parameters.map.marker.defaultScale,
-  minScale = parameters.map.marker.minScale,
-  maxScale = parameters.map.marker.maxScale,
+  onHoverCity,
+  onSelectCity,
   variant = "visited",
 }: MarkerProps): ReactNode {
-  const { k } = useZoomPanContext();
-  const currScale = defaultScale * (baseZoom / k);
-  minScale = city.minMarkerScale || city.country.minMarkerScale || minScale;
-  maxScale = city.country.maxMarkerScale || maxScale;
-  const scale = Math.min(Math.max(currScale, minScale), maxScale);
   const isHovered = hoveredCity?.name === city.name;
 
-  const labelVisible = (() => {
-    if (isHovered) return true;
-    if (!showLabel) return false;
-    return k >= getMinZoomForPopulation(city.population ?? 0);
-  })();
-
-  const labelFontSize =
-    (isHovered ? LABEL_HOVERED_FONT_SIZE : LABEL_BASE_FONT_SIZE) / k;
-
-  const labelOffsetY = LABEL_OFFSET_PX / k;
-  const variantClass = variant === "visited" ? "" : `marker-icon--${variant}`;
-  const labelVariantClass =
-    variant === "visited" ? "" : `marker-label--${variant}`;
-
   return (
-    <MarkerMap
-      coordinates={city.coordinates}
-      id={city.name + "-marker"}
-      key={city.name}
-      onMouseEnter={() => setHoveredCity && setHoveredCity(city)}
-      onMouseLeave={() => setHoveredCity && setHoveredCity(null)}
-      style={MARKER_STYLE}
+    <MapLibreMarker
+      anchor="bottom"
+      latitude={city.coordinates[1]}
+      longitude={city.coordinates[0]}
+      onClick={(event) => {
+        event.originalEvent.stopPropagation();
+        onSelectCity(city);
+      }}
     >
-      <g className={`marker-group ${isHovered ? "marker-group--hovered" : ""}`}>
-        <MarkerIcon
-          className={`${isHovered ? "marker-icon--hovered" : ""} ${variantClass}`}
-          scale={scale}
-        />
-        {labelVisible ? (
-          <text
-            className={`marker-label ${isHovered ? "marker-label--hovered" : ""} ${labelVariantClass}`}
-            dy={labelOffsetY}
-            fontSize={labelFontSize}
-            textAnchor="middle"
-          >
-            {city.name}
-          </text>
-        ) : null}
-      </g>
-    </MarkerMap>
+      <span
+        aria-label={city.name}
+        className={classNames(
+          "map-city-marker",
+          `map-city-marker--${variant}`,
+          isHovered && "map-city-marker--hovered",
+        )}
+        id={`${city.name}-marker`}
+        onKeyDown={(event) => isActivationKey(event) && onSelectCity(city)}
+        onMouseEnter={() => onHoverCity(city)}
+        onMouseLeave={() => onHoverCity(null)}
+        role="button"
+        tabIndex={0}
+      >
+        <svg aria-hidden="true" viewBox="0 0 466.7 666.7">
+          <path d="M233.3,0C104.5,0,0,104.5,0,233.3c0,128.9,233.3,433.3,233.3,433.3s233.3-304.5,233.3-433.3C466.7,104.5,362.2,0,233.3,0L233.3,0z M233.3,350c-64.4,0-116.7-52.2-116.7-116.7s52.2-116.7,116.7-116.7l0,0c64.4,0,116.7,52.2,116.7,116.7S297.8,350,233.3,350z" />
+          <circle cx="233.3" cy="233.3" r="116.7" />
+        </svg>
+      </span>
+    </MapLibreMarker>
   );
 }

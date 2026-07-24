@@ -13,10 +13,10 @@ export const constants = {
 export const parameters = {
   isShowPhotos: true, // Used to show or hide the photos on the city card and not waste cdn bandwidth
   map: {
-    defaultZoom: 4,
+    defaultZoom: 3,
     defaultMinZoom: 1,
     defaultMaxZoom: 150,
-    defaultCenter: [4, 48] as [number, number],
+    defaultCenter: [8, 52] as [number, number],
     hoveredCityZoom: 100,
     marker: {
       defaultScale: 0.15,

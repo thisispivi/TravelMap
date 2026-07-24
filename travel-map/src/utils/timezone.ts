@@ -9,6 +9,26 @@ import { getCityTravels } from "./trips";
 const DEFAULT_LOCALE = "en-US";
 
 /**
+ * Get the short abbreviation of a time zone as of now (e.g. "GMT+2", "JST").
+ * @param {string | undefined} timeZone - IANA time zone id (e.g. "Europe/Rome")
+ * @returns {string | null} The abbreviation, or null when the zone is unknown
+ */
+export function getTimeZoneAbbreviation(
+  timeZone: string | undefined,
+): string | null {
+  if (!timeZone) return null;
+  try {
+    return (
+      Intl.DateTimeFormat("en", { timeZone, timeZoneName: "short" })
+        .formatToParts(new Date())
+        .find((part) => part.type === "timeZoneName")?.value ?? null
+    );
+  } catch {
+    return null;
+  }
+}
+
+/**
  * Get the City with the biggest timezone jump. In case of a tie, the one with the biggest population is returned.
  * @param {City[]} countries - The list of countries
  * @returns {City | undefined} - The City with the biggest timezone jump

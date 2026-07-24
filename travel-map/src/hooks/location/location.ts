@@ -1,4 +1,8 @@
 import { useLocation as useLocationRouter } from "react-router-dom";
+
+/** The four top-level tabs of the floating nav. */
+export type NavTabId = "trips" | "places" | "timeline" | "stats";
+
 export type UseLocationReturn = {
   isTrips: boolean;
   isPlaces: boolean;
@@ -7,7 +11,7 @@ export type UseLocationReturn = {
   isStats: boolean;
   isGallery: boolean;
   isLightbox: boolean;
-  activeTab: "trips" | "places" | "timeline" | "stats" | null;
+  activeTab: NavTabId | null;
   tripDetailId: string | null;
   placesFilter: "lived" | "visited" | "future" | null;
 };

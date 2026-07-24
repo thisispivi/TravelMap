@@ -1,16 +1,20 @@
 import "./Map.scss";
+import "maplibre-gl/dist/maplibre-gl.css";
 
-import { use, useEffect, useRef, useState } from "react";
 import {
-  ComposableMap,
-  Geographies,
-  Geography,
-  ZoomableGroup,
-} from "react-simple-maps";
-import { Tooltip } from "react-tooltip";
+  LngLatBounds,
+  type PaddingOptions,
+  type StyleSpecification,
+} from "maplibre-gl";
+import { ReactNode, use, useEffect, useMemo, useRef, useState } from "react";
+import MapGL, {
+  Layer,
+  type MapRef,
+  Popup,
+  Source,
+} from "react-map-gl/maplibre";
 
-import { worldDataUrl } from "@/assets/worldData";
-import { City } from "@/core";
+import { City, Trip } from "@/core";
 import {
   futureCities,
   livedCities,
@@ -19,17 +23,48 @@ import {
 } from "@/data";
 import { useLanguage } from "@/hooks/language/language";
 import { useLocation } from "@/hooks/location/location";
-import { computeVisibleLabels } from "@/utils/labelVisibility";
 import { parameters } from "@/utils/parameters";
 
 import { Button } from "../../atoms/Buttons/Button";
 import { Loading } from "../../atoms/Loading/Loading";
-import { Marker } from "../../atoms/Marker/Marker";
+import { Marker, MarkerVariant } from "../../atoms/Marker/Marker";
 import { HomeContext } from "../../pages/Home/HomeContext";
 import { RouteOverlay } from "../RouteOverlay/RouteOverlay";
 import { MapTooltip } from "../Tooltip/TooltipMap";
-const HOVER_LEAVE_DELAY_MS = 150;
-const FLY_TO_DURATION_MS = 800;
+import {
+  CITY_LABEL_TIERS,
+  cityLabelsGeoJson,
+  countriesGeoJson,
+  countryLabelsGeoJson,
+  MAP_THEMES,
+  toOpaqueFill,
+} from "./mapData";
+
+const HOVER_LEAVE_DELAY_MS = 300;
+const CAMERA_DURATION_MS = 1100;
+const MAPLIBRE_MIN_ZOOM = 0;
+const MAPLIBRE_MAX_ZOOM = 12;
+// How close fitBounds may go once a trip's stops collapse to a point. 5.25 left
+// a lone city sitting in ~1400km of context; this matches the closest authored
+// `mapFocus` for a one-city trip (Stockholm, 6.49).
+const SINGLE_DESTINATION_ZOOM = 6.5;
+const TOOLTIP_OFFSET_PX = 14;
+const MAP_MAX_BOUNDS: [[number, number], [number, number]] = [
+  [-179, -72],
+  [179, 74],
+];
+const GLYPHS_URL = "/glyphs/{fontstack}/{range}.pbf";
+const LABEL_FONT = ["Urbanist SemiBold"];
+// Matches the SCSS breakpoint where the panels stop sitting beside the map.
+const SIDE_PANEL_BREAKPOINT_PX = 680;
+// Panel offset (1rem) + width (25rem) + a 1rem gap.
+const SIDE_PANEL_CLEARANCE_PX = 432;
+const NAV_CLEARANCE_PX = 88;
+const ZOOM_CONTROLS_CLEARANCE_PX = 64;
+const MAP_EDGE_PADDING_PX = 24;
+/** Trips are framed on where they actually went, not on the flight out of it. */
+const HOME_COUNTRY_ID = parameters.birthCity.country.id;
+
 const sortByCoordinates = (a: City, b: City) => {
   const [lonA, latA] = a.coordinates;
   const [lonB, latB] = b.coordinates;
@@ -37,470 +72,486 @@ const sortByCoordinates = (a: City, b: City) => {
   if (lonA !== lonB) return lonA < lonB ? -1 : 1;
   return 0;
 };
-const DEFAULT_COUNTRY_FILL_DARK = "#1e1e2a";
-const DEFAULT_COUNTRY_FILL_LIGHT = "#d4d8e0";
-const GEO_STYLE = {
-  default: { outline: "none" },
-  hover: { outline: "none" },
-  pressed: { outline: "none" },
-} as const;
-const PROJECTION_CONFIG = { scale: 160 } as const;
-function easeInOutCubic(t: number): number {
-  return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-}
-interface GeographyLayerProps {
-  geographies: Array<{
-    properties: {
-      name: string;
-    };
-    rsmKey: string;
-  }>;
-  getCountryFillColor: (countryId: string) => string;
-  onLoaded: () => void;
-}
+
+const toMapLibreZoom = (zoom: number) => Math.log2(Math.max(zoom, 1)) + 1;
+
 /**
- * GeographyLayer component
+ * The part of the canvas the camera is allowed to use.
  *
- * Renders the world map's filled country shapes and fires `onLoaded` once
- * geographies have been received from the GeoJSON source.
+ * Wide screens carry the panel beside the map, so the whole left column is
+ * reserved and the trip settles in the free space to its right. Below the
+ * breakpoint the panel lies across the bottom instead and there is no free
+ * column — every side gets the same padding and the trip settles in the middle
+ * of the screen.
  *
- * @component
- *
- * @param {GeographyLayerProps} props
- * @param {GeographyLayerProps["geographies"]} props.geographies - GeoJSON feature array
- * @param {(countryId: string) => string} props.getCountryFillColor - Returns the fill color for a given country name.
- * @param {() => void} props.onLoaded - Called once on the first non-empty render.
- * @returns {ReactNode} SVG geography shapes
+ * @param {number} viewportWidth - Current canvas width in pixels
+ * @param {boolean} isPanelOpen - Whether a panel is on screen at all
+ * @returns {PaddingOptions} Padding for `flyTo` / `fitBounds`
  */
-function GeographyLayer({
-  geographies,
-  getCountryFillColor,
-  onLoaded,
-}: GeographyLayerProps) {
-  const didNotifyLoadedRef = useRef(false);
-  useEffect(() => {
-    if (!didNotifyLoadedRef.current && geographies.length > 0) {
-      didNotifyLoadedRef.current = true;
-      onLoaded();
-    }
-  }, [geographies.length, onLoaded]);
-  return (
-    <>
-      {geographies.map((geo) => (
-        <Geography
-          fill={getCountryFillColor(geo.properties.name)}
-          geography={geo}
-          key={geo.rsmKey}
-          strokeWidth={0}
-          style={GEO_STYLE}
-        />
-      ))}
-    </>
+function getCameraPadding(
+  viewportWidth: number,
+  isPanelOpen: boolean,
+): PaddingOptions {
+  const hasSidePanel = viewportWidth >= SIDE_PANEL_BREAKPOINT_PX && isPanelOpen;
+
+  if (!hasSidePanel) {
+    return {
+      top: MAP_EDGE_PADDING_PX,
+      right: MAP_EDGE_PADDING_PX,
+      bottom: MAP_EDGE_PADDING_PX,
+      left: MAP_EDGE_PADDING_PX,
+    };
+  }
+
+  return {
+    top: NAV_CLEARANCE_PX,
+    right: MAP_EDGE_PADDING_PX,
+    bottom: ZOOM_CONTROLS_CLEARANCE_PX,
+    left: SIDE_PANEL_CLEARANCE_PX,
+  };
+}
+
+/**
+ * The places the trip is actually about. Layovers and the home origin are left
+ * out on purpose: including them frames Cagliari→Sydney instead of Australia.
+ * A trip that went abroad is framed on the foreign stops alone for the same
+ * reason — the night in Rome on the way to Japan would otherwise drag the
+ * camera back across Europe. Trips that never left home keep every stop.
+ */
+function getTripBounds(trip: Trip): LngLatBounds | null {
+  const cities = new globalThis.Map<string, City>();
+  for (const destination of trip.destinations) {
+    if (destination.isLayover) continue;
+    cities.set(destination.city.name, destination.city);
+  }
+
+  const stops = Array.from(cities.values());
+  const abroad = stops.filter((city) => city.country.id !== HOME_COUNTRY_ID);
+  const framed = abroad.length > 0 ? abroad : stops;
+  if (framed.length === 0) return null;
+
+  return framed.reduce(
+    (bounds, city) => bounds.extend(city.coordinates as [number, number]),
+    new LngLatBounds(
+      framed[0].coordinates as [number, number],
+      framed[0].coordinates as [number, number],
+    ),
   );
+}
+
+/** Every layover, origin and return city of a trip that has no marker yet. */
+function getTripLayoverCities(trip: Trip, existing: City[]): City[] {
+  const known = new Set(existing.map((city) => city.name));
+  const layovers = new globalThis.Map<string, City>();
+  const add = (city?: City) => {
+    if (city && !known.has(city.name)) layovers.set(city.name, city);
+  };
+
+  for (const destination of trip.destinations) {
+    if (destination.isLayover) add(destination.city);
+  }
+  for (const step of trip.steps) {
+    if (step.type !== "transport") continue;
+    add(step.from);
+    add(step.to);
+    for (const via of step.via ?? step.ferry?.via ?? []) add(via);
+  }
+  add(trip.origin?.city);
+  add(trip.returnTo?.city);
+  return Array.from(layovers.values());
 }
 
 interface MapMarkersProps {
   hoveredCity: City | null;
-  sortedVisitedCities: City[];
-  sortedFutureCities: City[];
-  sortedLivedCities: City[];
-  tripLayoverCities: City[];
-  visibleLabels: Set<string>;
+  layoverCities: City[];
   onHoverCity: (city: City | null) => void;
+  onSelectCity: (city: City) => void;
 }
 
 function MapMarkers({
   hoveredCity,
-  sortedVisitedCities,
-  sortedFutureCities,
-  sortedLivedCities,
-  tripLayoverCities,
-  visibleLabels,
+  layoverCities,
   onHoverCity,
-}: MapMarkersProps) {
+  onSelectCity,
+}: MapMarkersProps): ReactNode {
+  const groups: [City[], MarkerVariant][] = [
+    [visitedCities, "visited"],
+    [futureCities, "future"],
+    [livedCities, "lived"],
+    [layoverCities, "layover"],
+  ];
+
   return (
     <>
-      {sortedVisitedCities.map((city) => (
-        <Marker
-          city={city}
-          hoveredCity={hoveredCity}
-          key={city.name}
-          setHoveredCity={onHoverCity}
-          showLabel={visibleLabels.has(city.name)}
-        />
-      ))}
-      {sortedFutureCities.map((city) => (
-        <Marker
-          city={city}
-          hoveredCity={hoveredCity}
-          key={city.name}
-          setHoveredCity={onHoverCity}
-          showLabel={visibleLabels.has(city.name)}
-          variant="future"
-        />
-      ))}
-      {sortedLivedCities.map((city) => (
-        <Marker
-          city={city}
-          hoveredCity={hoveredCity}
-          key={city.name}
-          setHoveredCity={onHoverCity}
-          showLabel={visibleLabels.has(city.name)}
-          variant="lived"
-        />
-      ))}
-      {tripLayoverCities.map((city) => (
-        <Marker
-          city={city}
-          hoveredCity={hoveredCity}
-          key={`layover-${city.name}`}
-          setHoveredCity={onHoverCity}
-          showLabel={visibleLabels.has(city.name)}
-          variant="layover"
-        />
-      ))}
+      {groups.map(([cities, variant]) =>
+        cities
+          .toSorted(sortByCoordinates)
+          .map((city) => (
+            <Marker
+              city={city}
+              hoveredCity={hoveredCity}
+              key={`${variant}-${city.name}`}
+              onHoverCity={onHoverCity}
+              onSelectCity={onSelectCity}
+              variant={variant}
+            />
+          )),
+      )}
     </>
   );
 }
 
-interface MapTooltipOverlayProps {
-  hoveredCity: City | null;
-  onHoverCity: (city: City | null) => void;
+interface MapLabelsProps {
+  cityLabel: string;
+  cityLabelHalo: string;
+  countryLabel: string;
+  countryLabelHalo: string;
 }
 
-function MapTooltipOverlay({
-  hoveredCity,
-  onHoverCity,
-}: MapTooltipOverlayProps) {
-  const tooltipAnchorSelect = hoveredCity
-    ? `#${CSS.escape(`${hoveredCity.name}-marker`)}`
-    : "";
-
+function MapLabels({
+  cityLabel,
+  cityLabelHalo,
+  countryLabel,
+  countryLabelHalo,
+}: MapLabelsProps): ReactNode {
   return (
-    <Tooltip
-      anchorSelect={tooltipAnchorSelect}
-      clickable
-      id="map-tooltip"
-      isOpen={!!hoveredCity}
-      key={hoveredCity?.name ?? "none"}
-      noArrow
-      opacity={1}
-      variant="light"
-    >
-      {hoveredCity ? (
-        <MapTooltip
-          city={hoveredCity}
-          onMouseEnter={(city: City) => onHoverCity(city)}
-          onMouseLeave={() => onHoverCity(null)}
-          setIsOpen={(open: boolean) =>
-            open ? onHoverCity(hoveredCity) : onHoverCity(null)
-          }
+    <>
+      <Source
+        data={countryLabelsGeoJson}
+        id="country-label-points"
+        type="geojson"
+      >
+        <Layer
+          id="country-labels"
+          layout={{
+            "text-field": ["upcase", ["get", "name"]],
+            "text-font": LABEL_FONT,
+            "text-size": [
+              "interpolate",
+              ["linear"],
+              ["zoom"],
+              1,
+              9.45,
+              6,
+              12.6,
+            ],
+            "text-max-width": 9,
+            "text-letter-spacing": 0.06,
+          }}
+          maxzoom={6.5}
+          minzoom={1.1}
+          paint={{
+            "text-color": countryLabel,
+            "text-halo-color": countryLabelHalo,
+            "text-halo-width": 1,
+            "text-opacity": [
+              "interpolate",
+              ["linear"],
+              ["zoom"],
+              1,
+              0.48,
+              2.5,
+              0.72,
+            ],
+          }}
+          type="symbol"
         />
-      ) : null}
-    </Tooltip>
+      </Source>
+
+      <Source data={cityLabelsGeoJson} id="city-label-points" type="geojson">
+        {CITY_LABEL_TIERS.map((tier) => (
+          <Layer
+            filter={
+              [
+                "all",
+                [">=", ["get", "population"], tier.minPopulation],
+                ...(Number.isFinite(tier.maxPopulation)
+                  ? [["<", ["get", "population"], tier.maxPopulation]]
+                  : []),
+              ] as never
+            }
+            id={`city-labels-${tier.id}`}
+            key={tier.id}
+            layout={{
+              "symbol-sort-key": ["-", ["get", "population"]],
+              "text-anchor": "top",
+              "text-field": ["get", "name"],
+              "text-font": LABEL_FONT,
+              "text-offset": [0, 0.6],
+              "text-optional": true,
+              "text-padding": 5,
+              "text-size": [
+                "interpolate",
+                ["linear"],
+                ["zoom"],
+                2,
+                11.03,
+                7,
+                13.65,
+              ],
+            }}
+            minzoom={tier.minZoom}
+            paint={{
+              "text-color": cityLabel,
+              "text-halo-color": cityLabelHalo,
+              "text-halo-width": 1,
+            }}
+            type="symbol"
+          />
+        ))}
+      </Source>
+    </>
   );
 }
 
-interface MapZoomControlsProps {
-  zoomInLabel: string;
-  zoomOutLabel: string;
-  onZoomIn: () => void;
-  onZoomOut: () => void;
-}
-
-function MapZoomControls({
-  zoomInLabel,
-  zoomOutLabel,
-  onZoomIn,
-  onZoomOut,
-}: MapZoomControlsProps) {
-  return (
-    <div className="map-zoom-controls">
-      <Button
-        ariaLabel={zoomInLabel}
-        className="map-zoom-controls__button"
-        onClick={onZoomIn}
-      >
-        +
-      </Button>
-      <Button
-        ariaLabel={zoomOutLabel}
-        className="map-zoom-controls__button"
-        onClick={onZoomOut}
-      >
-        -
-      </Button>
-    </div>
-  );
-}
-
-/**
- * Map component
- *
- * Interactive world map rendered with react-simple-maps. Displays visited,
- * lived, and future city markers with animated fly-to transitions, city-name
- * labels, and a hover tooltip.
- *
- * @component
- *
- * @returns {ReactNode} The full-screen map canvas
- */
-export function Map() {
+export function Map(): ReactNode {
   const { t } = useLanguage(["home"]);
-  const context = use(HomeContext);
   const {
     isDarkTheme,
     hoveredCity,
     setHoveredCity,
     mapPosition,
-    responsive,
-    setMapPosition,
     selectedTrip,
-  } = context!;
+    isPanelOpen,
+    responsive,
+  } = use(HomeContext)!;
   const { isTripDetail } = useLocation();
-  const [isLoaded, setIsLoaded] = useState(false);
+  const mapRef = useRef<MapRef>(null);
   const hoverLeaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const lastTapRef = useRef<{
-    time: number;
-    x: number;
-    y: number;
-  } | null>(null);
-  const [displayedPosition, setDisplayedPosition] = useState(mapPosition);
-  const animFrameRef = useRef<number | null>(null);
-  const isFromMoveEndRef = useRef(false);
-  const currentPosRef = useRef(mapPosition);
-  useEffect(() => {
-    let currentFrame: number | null = null;
-    const scheduleFrame = (callback: FrameRequestCallback) => {
-      currentFrame = requestAnimationFrame(callback);
-      animFrameRef.current = currentFrame;
-    };
+  const [pinnedCity, setPinnedCity] = useState<City | null>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
 
-    if (animFrameRef.current) {
-      cancelAnimationFrame(animFrameRef.current);
-      animFrameRef.current = null;
-    }
-    if (isFromMoveEndRef.current) {
-      isFromMoveEndRef.current = false;
-      currentPosRef.current = mapPosition;
-      scheduleFrame(() => {
-        animFrameRef.current = null;
-        setDisplayedPosition(mapPosition);
-      });
-      return () => {
-        if (currentFrame !== null) cancelAnimationFrame(currentFrame);
-      };
-    }
-    const start = { ...currentPosRef.current };
-    const target = mapPosition;
-    const startTime = performance.now();
-    const animate = (now: number) => {
-      const t = Math.min((now - startTime) / FLY_TO_DURATION_MS, 1);
-      const e = easeInOutCubic(t);
-      const current = {
-        center: [
-          start.center[0] + (target.center[0] - start.center[0]) * e,
-          start.center[1] + (target.center[1] - start.center[1]) * e,
-        ] as [number, number],
-        zoom: start.zoom + (target.zoom - start.zoom) * e,
-      };
-      setDisplayedPosition(current);
-      currentPosRef.current = current;
-      if (t < 1) {
-        scheduleFrame(animate);
-      } else {
-        animFrameRef.current = null;
-        currentPosRef.current = target;
-      }
-    };
-    scheduleFrame(animate);
-    return () => {
-      if (currentFrame !== null) cancelAnimationFrame(currentFrame);
-    };
-  }, [mapPosition]);
-  const handleSetHoveredCity = (city: City | null) => {
-    if (hoverLeaveTimer.current) {
-      clearTimeout(hoverLeaveTimer.current);
-      hoverLeaveTimer.current = null;
-    }
-    if (city === null) {
-      hoverLeaveTimer.current = setTimeout(
-        () => setHoveredCity(null),
-        HOVER_LEAVE_DELAY_MS,
-      );
-    } else {
-      setHoveredCity(city);
-    }
-  };
-  useEffect(() => {
-    if (!hoveredCity) return;
-    const handleTouchStart = (e: TouchEvent) => {
-      const target = e.target as Element;
-      if (
-        !target.closest(".rsm-marker") &&
-        !target.closest("#map-tooltip") &&
-        !target.closest(".map-tooltip__container")
-      ) {
-        setHoveredCity(null);
-      }
-    };
-    document.addEventListener("touchstart", handleTouchStart, {
-      passive: true,
-    });
-    return () => document.removeEventListener("touchstart", handleTouchStart);
-  }, [hoveredCity, setHoveredCity]);
-  const handleDoubleTap = (e: React.TouchEvent<HTMLDivElement>) => {
-    if (e.changedTouches.length !== 1) return;
-    const touch = e.changedTouches[0];
-    const now = Date.now();
-    const last = lastTapRef.current;
-    if (
-      last &&
-      now - last.time < 300 &&
-      Math.abs(touch.clientX - last.x) < 30 &&
-      Math.abs(touch.clientY - last.y) < 30
-    ) {
-      lastTapRef.current = null;
-      const cur = currentPosRef.current;
-      setMapPosition({
-        center: cur.center,
-        zoom: Math.min(cur.zoom * 2, parameters.map.defaultMaxZoom),
-      });
-    } else {
-      lastTapRef.current = { time: now, x: touch.clientX, y: touch.clientY };
-    }
-  };
-  const handleZoomIn = () => {
-    const cur = currentPosRef.current;
-    setMapPosition({
-      center: cur.center,
-      zoom: Math.min(cur.zoom * 2, parameters.map.defaultMaxZoom),
-    });
-  };
-  const handleZoomOut = () => {
-    const cur = currentPosRef.current;
-    setMapPosition({
-      center: cur.center,
-      zoom: Math.max(cur.zoom / 2, parameters.map.defaultMinZoom),
-    });
-  };
-  const visitedCountryFill = Object.fromEntries(
-    visitedCountries.map((country) => [country.id, country.fillColor] as const),
-  ) as Record<string, string>;
-  const getCountryFillColor = (countryId: string) =>
-    visitedCountryFill[countryId] ??
-    (isDarkTheme ? DEFAULT_COUNTRY_FILL_DARK : DEFAULT_COUNTRY_FILL_LIGHT);
-  const sortedVisitedCities = visitedCities.toSorted(sortByCoordinates);
-  const sortedFutureCities = futureCities.toSorted(sortByCoordinates);
-  const sortedLivedCities = livedCities.toSorted(sortByCoordinates);
-  const allCities = [...visitedCities, ...futureCities, ...livedCities];
-  const tripLayoverCities = (() => {
-    if (!isTripDetail || !selectedTrip) return [];
-    const existing = new Set(allCities.map((c) => c.name));
-    const seen = new Set<string>();
-    const layovers: City[] = [];
-    const add = (city?: City) => {
-      if (!city || existing.has(city.name) || seen.has(city.name)) return;
-      seen.add(city.name);
-      layovers.push(city);
-    };
-    for (const destination of selectedTrip.destinations) {
-      if (destination.isLayover) add(destination.city);
-    }
-    for (const step of selectedTrip.steps) {
-      if (step.type !== "transport") continue;
-      add(step.from);
-      add(step.to);
-      for (const via of step.via ?? step.ferry?.via ?? []) add(via);
-    }
-    add(selectedTrip.origin?.city);
-    add(selectedTrip.returnTo?.city);
-    return layovers;
-  })();
-  const visibleLabels = computeVisibleLabels(
-    [...allCities, ...tripLayoverCities],
-    mapPosition.zoom,
-    hoveredCity?.name,
+  const theme = MAP_THEMES[isDarkTheme ? "dark" : "light"];
+
+  const mapStyle = useMemo<StyleSpecification>(
+    () => ({
+      version: 8,
+      glyphs: GLYPHS_URL,
+      sources: {},
+      layers: [
+        {
+          id: "background",
+          type: "background",
+          paint: { "background-color": theme.ocean },
+        },
+      ],
+    }),
+    [theme.ocean],
   );
-  const handleWorldLoaded = () => {
-    setIsLoaded(true);
+
+  const countryFillColor = useMemo(
+    () =>
+      [
+        "match",
+        ["get", "name"],
+        ...visitedCountries.flatMap((country) => [
+          country.id,
+          toOpaqueFill(country.fillColor, theme.land),
+        ]),
+        theme.land,
+      ] as never,
+    [theme.land],
+  );
+
+  const appliedPosition = useRef(mapPosition);
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !isLoaded) return;
+    if (appliedPosition.current === mapPosition) return;
+    appliedPosition.current = mapPosition;
+    map.flyTo({
+      center: mapPosition.center,
+      zoom: toMapLibreZoom(mapPosition.zoom),
+      padding: getCameraPadding(responsive.window.width, isPanelOpen),
+      duration: CAMERA_DURATION_MS,
+      essential: true,
+    });
+  }, [isLoaded, isPanelOpen, mapPosition, responsive.window.width]);
+
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !isLoaded || !isTripDetail || !selectedTrip) return;
+    const padding = getCameraPadding(responsive.window.width, isPanelOpen);
+    if (selectedTrip.mapFocus) {
+      map.flyTo({
+        center: selectedTrip.mapFocus.center,
+        zoom: toMapLibreZoom(selectedTrip.mapFocus.zoom),
+        duration: CAMERA_DURATION_MS,
+        essential: true,
+        padding,
+      });
+      return;
+    }
+    const bounds = getTripBounds(selectedTrip);
+    if (!bounds) return;
+    map.fitBounds(bounds, {
+      duration: CAMERA_DURATION_MS,
+      essential: true,
+      maxZoom: SINGLE_DESTINATION_ZOOM,
+      padding,
+    });
+  }, [
+    isLoaded,
+    isPanelOpen,
+    isTripDetail,
+    responsive.window.width,
+    selectedTrip,
+  ]);
+
+  const closeTooltip = () => {
+    setPinnedCity(null);
+    setHoveredCity(null);
   };
-  const handleMoveEnd = (position: {
-    coordinates: [number, number];
-    zoom: number;
-  }) => {
-    isFromMoveEndRef.current = true;
-    const pos = {
-      center: position.coordinates,
-      zoom: position.zoom,
+
+  useEffect(() => {
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") closeTooltip();
     };
-    currentPosRef.current = pos;
-    setMapPosition(pos);
+    window.addEventListener("keydown", handleEscape);
+    return () => window.removeEventListener("keydown", handleEscape);
+  });
+
+  const handleHoverCity = (city: City | null) => {
+    if (hoverLeaveTimer.current) clearTimeout(hoverLeaveTimer.current);
+    if (city) {
+      if (pinnedCity && pinnedCity.name !== city.name) setPinnedCity(null);
+      setHoveredCity(city);
+      return;
+    }
+    hoverLeaveTimer.current = setTimeout(() => {
+      if (!pinnedCity) setHoveredCity(null);
+    }, HOVER_LEAVE_DELAY_MS);
   };
-  const windowProps = responsive.window;
+
+  const handleSelectCity = (city: City) => {
+    if (hoverLeaveTimer.current) clearTimeout(hoverLeaveTimer.current);
+    const shouldClose = pinnedCity?.name === city.name;
+    setPinnedCity(shouldClose ? null : city);
+    setHoveredCity(shouldClose ? null : city);
+  };
+
+  const layoverCities =
+    isTripDetail && selectedTrip
+      ? getTripLayoverCities(selectedTrip, [
+          ...visitedCities,
+          ...futureCities,
+          ...livedCities,
+        ])
+      : [];
+
   return (
-    <div
-      className="map-container"
-      onTouchEnd={handleDoubleTap}
-      style={windowProps}
-    >
+    <div className="map-container">
       {!isLoaded ? (
-        <div className="loading" style={windowProps}>
+        <div className="loading">
           <Loading />
         </div>
       ) : null}
 
-      <ComposableMap
-        className="map"
-        data-tip=""
-        projection="geoMercator"
-        projectionConfig={PROJECTION_CONFIG}
-        {...windowProps}
+      <MapGL
+        attributionControl={false}
+        dragRotate={false}
+        initialViewState={{
+          longitude: mapPosition.center[0],
+          latitude: mapPosition.center[1],
+          zoom: toMapLibreZoom(mapPosition.zoom),
+        }}
+        mapStyle={mapStyle}
+        maxPitch={0}
+        maxZoom={MAPLIBRE_MAX_ZOOM}
+        minPitch={0}
+        minZoom={MAPLIBRE_MIN_ZOOM}
+        onClick={closeTooltip}
+        onLoad={(event) => {
+          try {
+            event.target.setMaxBounds(MAP_MAX_BOUNDS);
+          } catch (error) {
+            console.error("Map.setMaxBounds failed", error);
+          }
+          setIsLoaded(true);
+        }}
+        ref={mapRef}
+        renderWorldCopies={false}
+        touchPitch={false}
       >
-        <ZoomableGroup
-          center={displayedPosition.center}
-          maxZoom={parameters.map.defaultMaxZoom}
-          minZoom={parameters.map.defaultMinZoom}
-          onMoveEnd={handleMoveEnd}
-          zoom={displayedPosition.zoom}
-        >
-          <Geographies geography={worldDataUrl}>
-            {({ geographies }) =>
-              geographies.length > 0 ? (
-                <GeographyLayer
-                  geographies={geographies}
-                  getCountryFillColor={getCountryFillColor}
-                  onLoaded={handleWorldLoaded}
-                />
-              ) : null
-            }
-          </Geographies>
+        <Source data={countriesGeoJson} id="countries" type="geojson">
+          <Layer
+            id="country-fill"
+            paint={{ "fill-color": countryFillColor }}
+            type="fill"
+          />
+          <Layer
+            id="country-border"
+            paint={{
+              "line-color": theme.border,
+              "line-width": ["interpolate", ["linear"], ["zoom"], 1, 0.4, 6, 1],
+              "line-opacity": [
+                "interpolate",
+                ["linear"],
+                ["zoom"],
+                1,
+                0.35,
+                4,
+                1,
+              ],
+            }}
+            type="line"
+          />
+        </Source>
 
-          <RouteOverlay />
-          {isLoaded ? (
-            <MapMarkers
-              hoveredCity={hoveredCity}
-              onHoverCity={handleSetHoveredCity}
-              sortedFutureCities={sortedFutureCities}
-              sortedLivedCities={sortedLivedCities}
-              sortedVisitedCities={sortedVisitedCities}
-              tripLayoverCities={tripLayoverCities}
-              visibleLabels={visibleLabels}
+        <RouteOverlay />
+
+        <MapLabels
+          cityLabel={theme.cityLabel}
+          cityLabelHalo={theme.cityLabelHalo}
+          countryLabel={theme.countryLabel}
+          countryLabelHalo={theme.countryLabelHalo}
+        />
+
+        {isLoaded ? (
+          <MapMarkers
+            hoveredCity={hoveredCity}
+            layoverCities={layoverCities}
+            onHoverCity={handleHoverCity}
+            onSelectCity={handleSelectCity}
+          />
+        ) : null}
+
+        {hoveredCity ? (
+          <Popup
+            className="map-tooltip"
+            closeButton={false}
+            closeOnClick={false}
+            latitude={hoveredCity.coordinates[1]}
+            longitude={hoveredCity.coordinates[0]}
+            maxWidth="none"
+            offset={TOOLTIP_OFFSET_PX}
+            onClose={closeTooltip}
+          >
+            <MapTooltip
+              city={hoveredCity}
+              onClose={closeTooltip}
+              onHoverCity={handleHoverCity}
             />
-          ) : null}
-        </ZoomableGroup>
-      </ComposableMap>
+          </Popup>
+        ) : null}
+      </MapGL>
 
-      <MapTooltipOverlay
-        hoveredCity={hoveredCity}
-        onHoverCity={handleSetHoveredCity}
-      />
-      <MapZoomControls
-        onZoomIn={handleZoomIn}
-        onZoomOut={handleZoomOut}
-        zoomInLabel={t("map.zoomIn")}
-        zoomOutLabel={t("map.zoomOut")}
-      />
+      <div className="map-zoom-controls">
+        <Button
+          ariaLabel={t("map.zoomIn")}
+          className="map-zoom-controls__button"
+          onClick={() => mapRef.current?.zoomIn({ duration: 300 })}
+        >
+          +
+        </Button>
+        <Button
+          ariaLabel={t("map.zoomOut")}
+          className="map-zoom-controls__button"
+          onClick={() => mapRef.current?.zoomOut({ duration: 300 })}
+        >
+          −
+        </Button>
+      </div>
     </div>
   );
 }
