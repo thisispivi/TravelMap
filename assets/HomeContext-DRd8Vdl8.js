@@ -1,0 +1,1 @@
+import{a as e}from"./rolldown-runtime-CNC7AqOf.js";import{c as t,s as n}from"./framer-CTUB0icS.js";import{t as r}from"./className-hZG6twJP.js";var i=n();function a({className:e=``}){return(0,i.jsx)(`div`,{className:r(`loader`,e)})}var o=(0,e(t(),1).createContext)(void 0);export{a as n,o as t};

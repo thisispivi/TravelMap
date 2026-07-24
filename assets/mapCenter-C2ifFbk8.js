@@ -1,1 +1,0 @@
-function e([e,t],n){return[e-((typeof window<`u`?window.innerWidth:680)>=680?400/2/(160*n*(Math.PI/180)):0),t+.18]}export{e as t};
