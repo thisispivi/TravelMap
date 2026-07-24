@@ -5,9 +5,15 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
+  brace-expansion@<1.1.16: ">=1.1.16 <2.0.0"
+  brace-expansion@>=2.0.0 <2.1.2: ">=2.1.2 <3.0.0"
+  brace-expansion@>=3.0.0 <5.0.7: ">=5.0.7"
   d3-color@<3.1.0: ">=3.1.0"
-  js-yaml@>=4.0.0 <4.1.1: ">=4.1.1"
-  depcheck>js-yaml: ">=4.1.1"
+  fast-uri@>=3.0.0 <3.1.4: ">=3.1.4 <4.0.0"
+  fast-uri@>=4.0.0 <4.1.1: ">=4.1.1"
+  immutable@>=5.0.0-beta.1 <5.1.8: ">=5.1.8"
+  js-yaml@>=4.0.0 <4.3.0: ">=4.3.0"
+  depcheck>js-yaml: ">=4.3.0"
   react-dom@<19.0.0: ">=19.0.0"
   react@<19.0.0: ">=19.0.0"
 
@@ -2656,22 +2662,22 @@ packages:
     engines: { node: ">=6.0.0" }
     hasBin: true
 
-  brace-expansion@1.1.15:
+  brace-expansion@1.1.16:
     resolution:
       {
-        integrity: sha512-EwOCDEex4quD37XhqM3omwtMoJjr//isUZz1JopUNWms+4Z2ViyM/k1YIRePpoVNnQhENnxtFjLaxNHrT7xIUg==,
+        integrity: sha512-IDw48K2/2kRkg9LdJxurvq3lV3aBgq0REY89duEqFRthjlPdXHKMj7EnQOXVckxzgisinf3nHfrcE2FufFLXMw==,
       }
 
-  brace-expansion@2.1.1:
+  brace-expansion@2.1.2:
     resolution:
       {
-        integrity: sha512-WR1cURNjuvBLMZBMbqM0UoE+WAfdUcEV1ccD8PVBVOI+Z3ND4+SZbN8RsfT2bMuG1qwz5RFvPukSZm5fF2D5eA==,
+        integrity: sha512-w5JZcKgdhDOgOwm8H+KgbosopHMuGcl6qbulwjtz3SM7I7P3yW1eAjzMPLrIE+NQ9vjgANKHWeMHnrT0OXW1oA==,
       }
 
-  brace-expansion@5.0.6:
+  brace-expansion@5.0.7:
     resolution:
       {
-        integrity: sha512-kLpxurY4Z4r9sgMsyG0Z9uzsBlgiU/EFKhj/h91/8yHu0edo7XuixOIH3VcJ8kkxs6/jPzoI6U9Vj3WqbMQ94g==,
+        integrity: sha512-7oFy703dxfY3/NLxC1fh2SUCQ0H9rmAY+5EpDVfXjUTTs+HEwR2nYaqLv+GWcTsumwxPfiz6CzCNkwXwBUwqCA==,
       }
     engines: { node: 18 || 20 || >=22 }
 
@@ -3377,10 +3383,10 @@ packages:
         integrity: sha512-DCXu6Ifhqcks7TZKY3Hxp3y6qphY5SJZmrWMDrKcERSOXWQdMhU9Ig/PYrzyw/ul9jOIyh0N4M0tbC5hodg8dw==,
       }
 
-  fast-uri@3.1.2:
+  fast-uri@3.1.4:
     resolution:
       {
-        integrity: sha512-rVjf7ArG3LTk+FS6Yw81V1DLuZl1bRbNrev6Tmd/9RaroeeRRJhAt7jg/6YFxbvAQXUCavSoZhPPj6oOx+5KjQ==,
+        integrity: sha512-8JnbkQ4juDyvYs4mgFGQqg4yCYtFDtUtmp2QIQq11ZZe5CFQ5wcqm1rqDgAh/QdMySuBnPzMUiJUNZG5N/AiQw==,
       }
 
   fastq@1.20.1:
@@ -3805,10 +3811,10 @@ packages:
       }
     engines: { node: ">= 4" }
 
-  immutable@5.1.6:
+  immutable@5.1.9:
     resolution:
       {
-        integrity: sha512-q1swsS8K7L8usSHuOqF2TAoCCkonYz0SG38wLAggaa4Wml70zixIvt2ql4coQ2C2B3hTjltJry4r6bULwgAXLQ==,
+        integrity: sha512-m8nVez3rwrgmWxtLMt1ZYXB2Lv7OKYn/disyxAlSDYAlKSlFoPPfIAmAM/M5xqL4m4C/wAPw7S2/CNaUii1Hxg==,
       }
 
   import-fresh@3.3.1:
@@ -4125,13 +4131,6 @@ packages:
       {
         integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==,
       }
-
-  js-yaml@4.2.0:
-    resolution:
-      {
-        integrity: sha512-ePWsvanv0DWuDRsW8dnt+R4jQ31SCRCQ7hhNcPXZPsoBZiemuZNYGf7adZdqX2D86j6rvKp3RpCxVTSb8WQlOw==,
-      }
-    hasBin: true
 
   js-yaml@4.3.0:
     resolution:
@@ -7274,7 +7273,7 @@ snapshots:
   ajv@8.20.0:
     dependencies:
       fast-deep-equal: 3.1.3
-      fast-uri: 3.1.2
+      fast-uri: 3.1.4
       json-schema-traverse: 1.0.0
       require-from-string: 2.0.2
 
@@ -7395,16 +7394,16 @@ snapshots:
 
   baseline-browser-mapping@2.10.43: {}
 
-  brace-expansion@1.1.15:
+  brace-expansion@1.1.16:
     dependencies:
       balanced-match: 1.0.2
       concat-map: 0.0.1
 
-  brace-expansion@2.1.1:
+  brace-expansion@2.1.2:
     dependencies:
       balanced-match: 1.0.2
 
-  brace-expansion@5.0.6:
+  brace-expansion@5.0.7:
     dependencies:
       balanced-match: 4.0.4
 
@@ -7527,7 +7526,7 @@ snapshots:
   cosmiconfig@8.3.6(typescript@6.0.3):
     dependencies:
       import-fresh: 3.3.1
-      js-yaml: 4.2.0
+      js-yaml: 4.3.0
       parse-json: 5.2.0
       path-type: 4.0.0
     optionalDependencies:
@@ -7594,7 +7593,7 @@ snapshots:
       findup-sync: 5.0.0
       ignore: 5.3.2
       is-core-module: 2.16.2
-      js-yaml: 4.2.0
+      js-yaml: 4.3.0
       json5: 2.2.3
       lodash: 4.18.1
       minimatch: 7.4.9
@@ -7935,7 +7934,7 @@ snapshots:
 
   fast-levenshtein@2.0.6: {}
 
-  fast-uri@3.1.2: {}
+  fast-uri@3.1.4: {}
 
   fastq@1.20.1:
     dependencies:
@@ -8183,7 +8182,7 @@ snapshots:
 
   ignore@7.0.5: {}
 
-  immutable@5.1.6: {}
+  immutable@5.1.9: {}
 
   import-fresh@3.3.1:
     dependencies:
@@ -8361,10 +8360,6 @@ snapshots:
   js-tokens@10.0.0: {}
 
   js-tokens@4.0.0: {}
-
-  js-yaml@4.2.0:
-    dependencies:
-      argparse: 2.0.1
 
   js-yaml@4.3.0:
     dependencies:
@@ -8583,15 +8578,15 @@ snapshots:
 
   minimatch@10.2.5:
     dependencies:
-      brace-expansion: 5.0.6
+      brace-expansion: 5.0.7
 
   minimatch@3.1.5:
     dependencies:
-      brace-expansion: 1.1.15
+      brace-expansion: 1.1.16
 
   minimatch@7.4.9:
     dependencies:
-      brace-expansion: 2.1.1
+      brace-expansion: 2.1.2
 
   minimist@1.2.8: {}
 
@@ -9148,7 +9143,7 @@ snapshots:
   sass@1.101.0:
     dependencies:
       chokidar: 5.0.0
-      immutable: 5.1.6
+      immutable: 5.1.9
       source-map-js: 1.2.1
     optionalDependencies:
       "@parcel/watcher": 2.5.6

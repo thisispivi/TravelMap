@@ -23,6 +23,8 @@ minimumReleaseAgeExclude:
   - apexcharts
   - deslop-js
   - eslint
+  - fast-uri@3.1.4
+  - fast-uri@4.1.1
   - knip
   - oxlint-plugin-react-doctor
   - prettier
@@ -44,8 +46,14 @@ trustPolicyExclude:
   - semver@6.3.1
 
 overrides:
+  brace-expansion@<1.1.16: ">=1.1.16 <2.0.0"
+  brace-expansion@>=2.0.0 <2.1.2: ">=2.1.2 <3.0.0"
+  brace-expansion@>=3.0.0 <5.0.7: ">=5.0.7"
   d3-color@<3.1.0: ">=3.1.0"
-  js-yaml@>=4.0.0 <4.1.1: ">=4.1.1"
-  depcheck>js-yaml: ">=4.1.1" # depcheck pins vulnerable js-yaml 3.x (GHSA-h67p-54hq-rp68); force patched 4.x
+  fast-uri@>=3.0.0 <3.1.4: ">=3.1.4 <4.0.0"
+  fast-uri@>=4.0.0 <4.1.1: ">=4.1.1"
+  immutable@>=5.0.0-beta.1 <5.1.8: ">=5.1.8"
+  js-yaml@>=4.0.0 <4.3.0: ">=4.3.0"
+  depcheck>js-yaml: ">=4.3.0" # depcheck pins vulnerable js-yaml 3.x; force patched 4.x
   react-dom@<19.0.0: ">=19.0.0"
   react@<19.0.0: ">=19.0.0"
