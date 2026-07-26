@@ -20,11 +20,8 @@ interface TravelSelectorProps {
 
 /**
  * TravelSelector component
- *
  * Compact previous / next selector for a city's travel entries.
- *
  * @component
- *
  * @param {TravelSelectorProps} props - The travel selector props
  * @param {Travel[]} props.travels - City travels to navigate through
  * @param {number} props.selectedTravelIdx - Active travel index

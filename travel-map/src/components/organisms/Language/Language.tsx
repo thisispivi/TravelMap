@@ -35,15 +35,12 @@ function computePanelPos(el: HTMLElement): PanelPos {
 }
 /**
  * LanguageSelector component
- *
  * Dropdown language switcher for supported locales. The panel is portaled
  * to the document body and anchored to the right edge of the trigger button.
  * It opens downward on desktop (top nav) and upward on mobile (bottom nav),
  * always staying within the viewport. A transparent backdrop captures
  * outside clicks to close the panel.
- *
  * @component
- *
  * @returns {ReactNode} The language selector
  */
 export function LanguageSelector(): ReactNode {

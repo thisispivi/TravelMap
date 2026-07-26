@@ -18,13 +18,10 @@ interface CurrencyFlagProps {
 
 /**
  * CurrencyFlag component
- *
  * Given a currency name, it returns the flag of the currency
- *
  * @component
- *
  * @param {CurrencyFlagProps} props - The props of the component
- * @param {Currency} props.currency - The currency
+ * @param {Currency} [props.currency] - The currency
  * @param {string} [props.className=""] - The class name of the component
  * @returns {ReactNode} The currency flag
  */

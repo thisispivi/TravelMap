@@ -11,7 +11,6 @@ import { ContinentRow } from "../../../molecules/Row/RowContinent";
 
 /**
  * Props for the CoverageCard component.
- *
  * @property {Continent[]} visitedContinents - Continents the user has visited.
  * @property {Continent[]} allContinents - All possible continents.
  * @property {number} totalContinents - Total number of continents in the world.
@@ -24,14 +23,14 @@ export type CoverageCardProps = {
 
 /**
  * CoverageCard component
- *
  * Bento detail card showing continent coverage: a world-continent SVG map
  * with unvisited continents grayed out, a visited/total score, and a badge
  * row listing each continent's visited status.
- *
  * @component
- *
  * @param {CoverageCardProps} props
+ * @param {Continent[]} props.visitedContinents - Continents the user has visited
+ * @param {Continent[]} props.allContinents - All available continents
+ * @param {number} props.totalContinents - Total number of available continents
  * @returns {ReactNode} The coverage bento card
  */
 export function CoverageCard({

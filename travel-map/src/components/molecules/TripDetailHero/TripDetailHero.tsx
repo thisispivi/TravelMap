@@ -19,16 +19,14 @@ interface TripDetailHeroProps {
 
 /**
  * TripDetailHero component
- *
  * Full-bleed hero image with back button, country flags, trip title and date
  * range. Rendered at the top of the TripDetail panel.
- *
  * @component
- *
  * @param {TripDetailHeroProps} props - The hero props
  * @param {Trip} props.trip - Trip to display
  * @param {Country[]} props.countries - Countries visited on the trip (for flags)
  * @param {() => void} props.onBack - Handler called when the back button is pressed
+ * @param {() => void} props.onViewMap - Handler called when the map button is pressed
  * @returns {ReactNode} The trip hero header
  */
 export function TripDetailHero({

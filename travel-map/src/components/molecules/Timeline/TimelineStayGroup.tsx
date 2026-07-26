@@ -19,7 +19,16 @@ import { formatMileage } from "@/utils/format";
 import { formatTripDetailDuration } from "@/utils/tripDetailTimeline";
 import { getPhotoTravelIndex } from "@/utils/trips";
 
-/** A single excursion (nested day trip) to be rendered under a stay group. */
+/**
+ * A single excursion (nested day trip) to be rendered under a stay group.
+ * @property {City} city - The excursion city
+ * @property {number} travelIdx - The city's travel index
+ * @property {TripStop} stop - The excursion stop data
+ * @property {string} key - The stable render key
+ * @property {{ mode: TransportMode; distanceKm: number; durationMinutes: number; fromCity: City; isRoundTrip?: boolean }} [inboundTransport] - Transport into the excursion
+ * @property {{ mode: TransportMode; distanceKm: number; durationMinutes: number; toCity: City }} [returnTransport] - Transport returning from the excursion
+ * @property {boolean} chainBreakBefore - Whether a new excursion chain starts here
+ */
 export interface ExcursionItem {
   city: City;
   travelIdx: number;
@@ -51,13 +60,19 @@ interface TimelineStayGroupProps {
   showYear: boolean;
 }
 
-/** Consecutive excursions grouped into movement chains. */
+/**
+ * Consecutive excursions grouped into movement chains.
+ */
 interface ExcursionChain {
   stops: ExcursionItem[];
   returnTransport?: ExcursionItem["returnTransport"];
 }
 
-/** Groups flat excursions into sequential chains using chainBreakBefore flags. */
+/**
+ * Groups flat excursions into sequential chains using chainBreakBefore flags.
+ * @param {ExcursionItem[]} excursions - The excursions to group
+ * @returns {ExcursionChain[]} The sequential excursion chains
+ */
 function groupIntoChains(excursions: ExcursionItem[]): ExcursionChain[] {
   const chains: ExcursionChain[] = [];
   for (const exc of excursions) {
@@ -78,13 +93,10 @@ function groupIntoChains(excursions: ExcursionItem[]): ExcursionChain[] {
 
 /**
  * TimelineStayGroup component
- *
  * Renders a base-city stay card together with its nested excursion rows.
  * Excursions are connected to the stay via a vertical branch line drawn
  * entirely in CSS.
- *
  * @component
- *
  * @param {TimelineStayGroupProps} props - The stay group props
  * @param {City} props.city - The base city of the stay
  * @param {number} props.travelIdx - Visit index for the background image

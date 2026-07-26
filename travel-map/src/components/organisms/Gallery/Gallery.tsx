@@ -25,6 +25,11 @@ import {
   getCityPhotoTravels,
   getTravelByCityIndex,
 } from "../../../utils/trips";
+/**
+ * Data resolved by the gallery route loader.
+ * @property {City} city - The city whose gallery is displayed
+ * @property {number} travelIdx - The selected travel index
+ */
 export interface GalleryProps {
   city: City;
   travelIdx: number;
@@ -34,16 +39,13 @@ type GalleryLocationState = {
 };
 /**
  * Gallery component
- *
  * Masonry photo album for a single city travel. Renders thumbnails via
  * `react-photo-album` and navigates to the Lightbox on click. Supports
  * YouTube video previews with a play-button overlay.
- *
  * @component
- *
  * @returns {ReactNode} The gallery page
  */
-export default function Gallery(): ReactNode {
+export function Gallery(): ReactNode {
   const { t } = useLanguage(["home"]);
   const navigate = useNavigate();
   const routerLocation = useRouterLocation();

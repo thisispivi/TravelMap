@@ -5,7 +5,7 @@ import { City, Continent, Country } from "../core";
 /**
  * Get the continents by cities.
  * @param {City[]} cities - The list of cities
- * @returns {Continent[]} - The list of continents
+ * @returns {Continent[]} The list of continents
  */
 export function getContinentsByCities(cities: City[]): Continent[] {
   return pipe(
@@ -20,7 +20,7 @@ export function getContinentsByCities(cities: City[]): Continent[] {
  * @param {Continent} continent - The continent
  * @param {City[]} cities - The list of cities
  * @param {Country[]} countries - The list of countries
- * @returns {{ continent: Continent; countries: number; cities: number }} - The continent stats
+ * @returns {{ continent: Continent; countries: number; cities: number }} The continent stats
  */
 export function getContinentStats(
   continent: Continent,

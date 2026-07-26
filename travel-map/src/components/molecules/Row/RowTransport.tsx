@@ -19,14 +19,11 @@ interface TransportRowProps {
 
 /**
  * TransportRow component
- *
  * Displays a flight or ferry route with its distance.
- *
  * @component
- *
  * @param {TransportRowProps} props - The transport row props
- * @param {string} [props.className] - Additional class names
  * @param {Flight | Ferry} props.transport - Transport route to display
+ * @param {string} [props.className=""] - Additional class names
  * @returns {ReactNode} The transport row
  */
 export function TransportRow({

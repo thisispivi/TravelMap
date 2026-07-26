@@ -11,14 +11,11 @@ interface CloseButtonProps {
 
 /**
  * CloseButton component
- *
  * Icon-only close action.
- *
  * @component
- *
  * @param {CloseButtonProps} props - The close button props
  * @param {() => void} props.onClick - Click handler
- * @param {string} [props.className] - Additional class names
+ * @param {string} [props.className=""] - Additional class names
  * @returns {ReactNode} The close button
  */
 export function CloseButton({

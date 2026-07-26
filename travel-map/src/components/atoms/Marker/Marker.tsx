@@ -7,6 +7,9 @@ import { City } from "@/core";
 import { classNames } from "@/utils/className";
 import { isActivationKey } from "@/utils/keyboard";
 
+/**
+ * The visual state used to render a map marker.
+ */
 export type MarkerVariant = "visited" | "future" | "lived" | "layover";
 
 interface MarkerProps {
@@ -19,14 +22,14 @@ interface MarkerProps {
 
 /**
  * Marker component
- *
  * A map pin for a single city, coloured by how the city was visited.
- *
  * @component
  * @param {MarkerProps} props
  * @param {City} props.city - The city the pin points at
  * @param {City | null} props.hoveredCity - The city currently hovered on the map
- * @param {MarkerVariant} [props.variant] - Which palette the pin uses
+ * @param {(city: City | null) => void} props.onHoverCity - Updates the hovered city
+ * @param {(city: City) => void} props.onSelectCity - Selects the marker city
+ * @param {MarkerVariant} [props.variant="visited"] - Which palette the pin uses
  * @returns {ReactNode} The map pin
  */
 export function Marker({

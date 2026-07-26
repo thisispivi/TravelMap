@@ -9,7 +9,6 @@ import { Card } from "../../../molecules/Cards/Card";
 
 /**
  * Props for the TransportModesCard component.
- *
  * @property {TransportModeStat[]} data - Per-mode count and km stats.
  * @property {"count" | "km"} [metric] - Whether to display count or distance. Defaults to count.
  * @property {string} title - Card heading text.
@@ -24,14 +23,15 @@ export type TransportModesCardProps = {
 
 /**
  * TransportModesCard component
- *
  * Bento card displaying a bar chart of transport modes by count or distance.
  * The default className positions it as a standalone half-width bento card;
  * pass `className` to override when placing it inside a stack panel.
- *
  * @component
- *
  * @param {TransportModesCardProps} props
+ * @param {TransportModeStat[]} props.data - Per-mode journey and distance statistics
+ * @param {"count" | "km"} [props.metric] - Metric used to size the bars
+ * @param {string} props.title - Card heading
+ * @param {string} [props.className="bento-card bento-card--half bento-detail card--box-shadow"] - Root card class names
  * @returns {ReactNode} The transport modes bento card
  */
 export function TransportModesCard({

@@ -10,10 +10,7 @@ type LightboxLoader = {
 };
 
 /**
- * Lightbox loader
- *
  * Resolves the selected city, travel, and photo index for the lightbox route.
- *
  * @param {LoaderFunctionArgs<LightboxLoader>} data - React Router loader data
  * @returns {LightboxProps | null} Lightbox props, or null when the route is invalid
  */

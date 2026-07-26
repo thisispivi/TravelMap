@@ -6,7 +6,7 @@ type GroupTripsByYearOptions = { cutoffYear: number };
  * @param {Trip[]} trips - The list of trips to group
  * @param {GroupTripsByYearOptions} options - The options for grouping
  * @param {number} options.cutoffYear - Year cutoff. All travels from this year and below will be grouped together
- * @returns {Record<number, Trip[]>} - The trips grouped by year
+ * @returns {Record<number, Trip[]>} The trips grouped by year
  */
 export function groupTripsByYear(
   trips: Trip[],
@@ -34,6 +34,12 @@ export function groupTripsByYear(
   return result;
 }
 
+/**
+ * Returns every travel entry for a city in chronological order.
+ * @param {City} city - The city whose travels should be collected
+ * @param {Trip[]} trips - The trips to search
+ * @returns {Travel[]} The city's chronological travel entries
+ */
 export function getCityTravels(city: City, trips: Trip[]): Travel[] {
   return trips
     .flatMap((trip) => trip.getCityTravels(city))
@@ -43,11 +49,21 @@ export function getCityTravels(city: City, trips: Trip[]): Travel[] {
 /**
  * Returns only the photo-bearing travels for a city across all trips,
  * sorted chronologically. Layovers and stays without photos are excluded.
+ * @param {City} city - The city whose photo travels should be collected
+ * @param {Trip[]} trips - The trips to search
+ * @returns {Travel[]} The city's chronological photo-bearing travels
  */
 export function getCityPhotoTravels(city: City, trips: Trip[]): Travel[] {
   return getCityTravels(city, trips).filter((t) => t.photos.length > 0);
 }
 
+/**
+ * Finds a city's photo-bearing travel by its gallery index.
+ * @param {City} city - The city whose travel should be found
+ * @param {number} travelIdx - The travel's gallery index
+ * @param {Trip[]} trips - The trips to search
+ * @returns {Travel | undefined} The matching travel when present
+ */
 export function getTravelByCityIndex(
   city: City,
   travelIdx: number,
@@ -61,6 +77,10 @@ export function getTravelByCityIndex(
  * the given stop's start date, or -1 if none is found.
  * This is the correct index to use when navigating to the gallery from
  * a timeline stop, since stop dates are stable across trips.
+ * @param {City} city - The city whose photo travels should be searched
+ * @param {Date} stopSDate - The start date used to identify the travel
+ * @param {Trip[]} trips - The trips to search
+ * @returns {number} The matching photo travel index or `-1`
  */
 export function getPhotoTravelIndex(
   city: City,

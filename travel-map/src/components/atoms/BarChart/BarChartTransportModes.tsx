@@ -25,14 +25,13 @@ interface BarChartTransportModesProps {
 }
 /**
  * BarChartTransportModes component
- *
  * Horizontal bar chart showing transport mode usage, colored by mode.
  * `metric="count"` (default) sizes bars by trip count; `metric="km"` by distance.
- *
  * @component
  * @param {BarChartTransportModesProps} props
  * @param {TransportModeStat[]} props.data - Transport stats to display.
  * @param {"count"|"km"} [props.metric="count"] - Which value drives bar width.
+ * @returns {ReactNode} The transport modes bar chart
  */
 export function BarChartTransportModes({
   data,

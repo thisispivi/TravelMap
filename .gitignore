@@ -2,7 +2,7 @@ travel-map-old
 travel-mapa
 travel-map/public/Turin/
 scripts/json-generator/photos/
-.github
+.github/skills/
 .agents
 .claude/launch.json
 .claude/settings.local.json

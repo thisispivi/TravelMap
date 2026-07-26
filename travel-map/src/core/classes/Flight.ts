@@ -16,18 +16,18 @@ interface FlightInterface {
 }
 
 /**
- * Flight class
- *
  * The flight class is used to represent a flight.
- *
  * @class
- *
  * @param {FlightInterface} flightData - The data of the flight
  * @param {City} flightData.sCity - The start city of the flight
  * @param {City} flightData.eCity - The end city of the flight
- * @param {TravelType} flightData.travelType - The type of the travel
- * @param {number} flightData.distanceInKm - The distance of the flight in kilometers
- * @param {FlightCompany} flightData.company - The company of the flight
+ * @param {FlightCompany} [flightData.company] - The company of the flight
+ * @param {Date} [flightData.sDate] - The start date of the flight
+ * @param {Date} [flightData.eDate] - The end date of the flight
+ * @param {number} [flightData.distanceInKm] - The distance of the flight in kilometers
+ * @param {number} [flightData.durationMinutes] - The flight duration in minutes
+ * @param {string} [flightData.number] - The flight number
+ * @param {string} [flightData.class] - The travel class
  */
 export class Flight implements FlightInterface {
   sCity: City;

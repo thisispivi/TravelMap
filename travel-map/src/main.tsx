@@ -4,8 +4,15 @@ import "./styles/_mixins.scss";
 import "./styles/_scrollbar.scss";
 import "./i18n/i18n";
 
-import React, { lazy, Suspense, useEffect, useRef } from "react";
-import ReactDOM from "react-dom/client";
+import {
+  lazy,
+  ReactNode,
+  StrictMode,
+  Suspense,
+  useEffect,
+  useRef,
+} from "react";
+import { createRoot } from "react-dom/client";
 import { createHashRouter, Navigate, RouterProvider } from "react-router-dom";
 import type { TooltipRefProps } from "react-tooltip";
 import { Tooltip } from "react-tooltip";
@@ -42,7 +49,7 @@ const router = createHashRouter([
       {
         path: "gallery/:cityName/:travelIdx",
         lazy: async () => {
-          const [{ default: Component }, { loader }] = await Promise.all([
+          const [{ Gallery: Component }, { loader }] = await Promise.all([
             import("./components/organisms/Gallery/Gallery"),
             import("./components/organisms/Gallery/loader"),
           ]);
@@ -52,7 +59,7 @@ const router = createHashRouter([
           {
             path: ":photoIdx",
             lazy: async () => {
-              const [{ default: Component }, { loader }] = await Promise.all([
+              const [{ Lightbox: Component }, { loader }] = await Promise.all([
                 import("./components/organisms/Lightbox/Lightbox"),
                 import("./components/organisms/Lightbox/loader"),
               ]);
@@ -70,16 +77,13 @@ const isMobileOrTablet = mobileAndTabletCheck();
 
 /**
  * BaseTooltip component
- *
  * Global `react-tooltip` instance used for all `data-tooltip-id="base-tooltip"`
  * anchors. Automatically closes when the window loses focus or the tab becomes
  * hidden to prevent stale tooltips after context switches.
- *
  * @component
- *
  * @returns {ReactNode} The shared tooltip element
  */
-function BaseTooltip() {
+function BaseTooltip(): ReactNode {
   const tooltipRef = useRef<TooltipRefProps>(null);
 
   useEffect(() => {
@@ -108,8 +112,8 @@ function BaseTooltip() {
   );
 }
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
+createRoot(document.getElementById("root")!).render(
+  <StrictMode>
     <Suspense
       fallback={
         <div className="app-loading">
@@ -120,5 +124,5 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <RouterProvider router={router} />
     </Suspense>
     {!isMobileOrTablet ? <BaseTooltip /> : null}
-  </React.StrictMode>,
+  </StrictMode>,
 );

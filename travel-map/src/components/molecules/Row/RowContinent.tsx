@@ -14,11 +14,8 @@ interface ContinentRowProps {
 
 /**
  * ContinentRow component
- *
  * Displays a continent badge and visited state.
- *
  * @component
- *
  * @param {ContinentRowProps} props - The continent row props
  * @param {Continent} props.continent - The continent to display
  * @param {boolean} props.isVisited - Whether the continent is visited

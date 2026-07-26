@@ -25,6 +25,12 @@ type LightboxItem = ImageGalleryProps["items"][number] & {
   youtube?: boolean;
   alt?: string;
 };
+/**
+ * Data resolved by the lightbox route loader.
+ * @property {City} city - The city whose media is displayed
+ * @property {number} travelIdx - The selected travel index
+ * @property {number} photoIdx - The selected media index
+ */
 export interface LightboxProps {
   city: City;
   travelIdx: number;
@@ -40,15 +46,12 @@ function getYoutubeEmbedSrc(original: string): string {
 
 /**
  * Lightbox component
- *
  * Full-screen photo and video viewer. Wraps `react-image-gallery` with custom
  * navigation buttons, a fullscreen toggle, and an auto-hiding top bar.
- *
  * @component
- *
  * @returns {ReactNode} The lightbox overlay
  */
-export default function Lightbox(): ReactNode {
+export function Lightbox(): ReactNode {
   const { t } = useLanguage(["home"]);
   const navigate = useNavigate();
   const location = useLocation();

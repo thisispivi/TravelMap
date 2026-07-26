@@ -10,21 +10,17 @@ interface TravelInterface {
 }
 
 /**
- * Travel class
- *
  * The travel class is used to represent a travel.
- *
  * @class
- *
  * @param {TravelInterface} travelData - The data of the travel
  * @param {Date} travelData.sDate - The start date of the travel
  * @param {Date} travelData.eDate - The end date of the travel
- * @param {Image[]} travelData.photos - The photos of the travel
- * @param {boolean} travelData.isFuture - If the travel is in the future
- * @param {object} travelData.rowConstraints - The constraints of the rows of the gallery
- * @param {number} travelData.rowConstraints.minPhotos - The minimum number of photos per row
- * @param {number} travelData.rowConstraints.maxPhotos - The maximum number of photos per row
- * @param {number} travelData.targetRowHeight - The target height of the rows of the gallery
+ * @param {Image[]} [travelData.photos] - The photos of the travel
+ * @param {boolean} [travelData.isFuture] - If the travel is in the future
+ * @param {{ minPhotos?: number; maxPhotos?: number }} [travelData.rowConstraints] - The constraints of the gallery rows
+ * @param {number} [travelData.rowConstraints.minPhotos] - The minimum number of photos per row
+ * @param {number} [travelData.rowConstraints.maxPhotos] - The maximum number of photos per row
+ * @param {number} [travelData.targetRowHeight] - The target height of the gallery rows
  */
 export class Travel implements TravelInterface {
   sDate: Date;

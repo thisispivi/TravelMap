@@ -1,33 +1,31 @@
 import "./Container.scss";
 
-import { PropsWithChildren, ReactNode } from "react";
+import { ReactNode } from "react";
 
 import { classNames } from "@/utils/className";
 
 import { Box } from "../Box/Box";
 
-interface ContainerProps extends PropsWithChildren {
+interface ContainerProps {
   className?: string;
+  children: ReactNode;
   isVisible?: boolean;
 }
 
 /**
  * Container component
- *
  * Visibility-aware wrapper for boxed gallery content.
- *
  * @component
- *
  * @param {ContainerProps} props - The container props
- * @param {string} [props.className] - Additional class names
- * @param {boolean} [props.isVisible] - Whether the container is visible
- * @param {React.ReactNode} props.children - Container content
+ * @param {string} [props.className=""] - Additional class names
+ * @param {ReactNode} props.children - Container content
+ * @param {boolean} [props.isVisible=false] - Whether the container is visible
  * @returns {ReactNode} The gallery container
  */
 export function Container({
   className = "",
   children,
-  isVisible,
+  isVisible = false,
 }: ContainerProps): ReactNode {
   return (
     <div

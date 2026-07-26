@@ -21,7 +21,7 @@ function getMileageFormatter(language: string, digits: number) {
  * @param {number} mileage - The mileage number
  * @param {string} language - The language
  * @param {number} digits - The number of digits. Default is 2.
- * @returns {string} - The formatted mileage
+ * @returns {string} The formatted mileage
  */
 export function formatMileage(
   mileage: number,

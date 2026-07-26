@@ -30,18 +30,15 @@ const getOptionClassName = (isSelected = false) => {
 
 /**
  * FilterByCountry component
- *
  * A toggle-button that opens a portal-rendered dropdown listing countries with
  * checkboxes. Supports a select-all toggle and closes on Escape or backdrop click.
- *
  * @component
- *
  * @param {FilterByCountryProps} props
  * @param {Country[]} props.options - The full list of countries to filter by
  * @param {Country[]} props.selected - Currently selected countries
  * @param {(selected: Country[]) => void} props.onChange - Called when the selection changes
- * @param {React.ReactNode} [props.buttonIcon] - Icon rendered inside the trigger button
- * @param {string} [props.className] - Additional class names for the trigger button
+ * @param {ReactNode} [props.buttonIcon] - Icon rendered inside the trigger button
+ * @param {string} [props.className=""] - Additional class names for the trigger button
  * @returns {ReactNode} The filter dropdown
  */
 export function FilterByCountry({

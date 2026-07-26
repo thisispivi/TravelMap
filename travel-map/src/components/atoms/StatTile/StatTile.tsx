@@ -6,12 +6,13 @@ import { classNames } from "@/utils/className";
 
 import { Card } from "../../molecules/Cards/Card";
 
-/** An SVG icon component accepting standard SVG props plus an optional className. */
+/**
+ * An SVG icon component accepting standard SVG props plus an optional className.
+ */
 type SvgIcon = ComponentType<SVGProps<SVGSVGElement> & { className?: string }>;
 
 /**
  * Props for the StatTile component.
- *
  * @property {SvgIcon} icon - SVG icon component to render.
  * @property {string} label - Descriptive label shown below the value.
  * @property {string | number} value - The primary statistic to display.
@@ -28,19 +29,16 @@ export type StatTileProps = {
 
 /**
  * StatTile component
- *
  * A compact bento stat tile that displays an icon, a label, a primary value,
  * and an optional suffix. Used inside the stats bento grid for single-metric
  * summary cards.
- *
  * @component
- *
  * @param {StatTileProps} props
  * @param {SvgIcon} props.icon - SVG icon component to render
  * @param {string} props.label - Descriptive label below the value
  * @param {string | number} props.value - The primary statistic to display
  * @param {string} [props.suffix] - Optional text appended after the value
- * @param {string} [props.className] - Additional class names
+ * @param {string} [props.className=""] - Additional class names
  * @returns {ReactNode} The stat tile
  */
 export function StatTile({

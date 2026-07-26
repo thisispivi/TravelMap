@@ -18,6 +18,12 @@ import { Button } from "../../atoms/Buttons/Button";
 const CHUNK_FAIL_RE =
   /Failed to fetch dynamically imported module|Importing a module script failed|ChunkLoadError|Loading chunk \d+ failed/i;
 
+/**
+ * Fallback component
+ * Renders route and application errors and retries stale dynamic chunks once.
+ * @component
+ * @returns {ReactNode} The route error page
+ */
 export function Fallback(): ReactNode {
   const routerError = useRouteError();
   const { t } = useTranslation(["error"]);

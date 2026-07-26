@@ -34,13 +34,10 @@ interface TimelineDayTripCardProps {
 
 /**
  * TimelineDayTripCard component
- *
  * A compact card for a day-trip or excursion stop in the trip timeline.
  * Optionally shows inbound transport details when the excursion requires
  * its own travel (nested day trip).
- *
  * @component
- *
  * @param {TimelineDayTripCardProps} props - The day trip card props
  * @param {City} props.city - The excursion destination
  * @param {number} props.travelIdx - Visit index for the background image

@@ -1,8 +1,23 @@
 import { useLocation as useLocationRouter } from "react-router-dom";
 
-/** The four top-level tabs of the floating nav. */
+/**
+ * The four top-level tabs of the floating nav.
+ */
 export type NavTabId = "trips" | "places" | "timeline" | "stats";
 
+/**
+ * Structured route state derived from the current location.
+ * @property {boolean} isTrips - Whether the trips route is active
+ * @property {boolean} isPlaces - Whether the places route is active
+ * @property {boolean} isTripDetail - Whether a trip detail route is active
+ * @property {boolean} isTimeline - Whether the timeline route is active
+ * @property {boolean} isStats - Whether the statistics route is active
+ * @property {boolean} isGallery - Whether a gallery route is active
+ * @property {boolean} isLightbox - Whether a lightbox route is active
+ * @property {NavTabId | null} activeTab - The active navigation tab
+ * @property {string | null} tripDetailId - The selected trip identifier
+ * @property {"lived" | "visited" | "future" | null} placesFilter - The active places filter
+ */
 export type UseLocationReturn = {
   isTrips: boolean;
   isPlaces: boolean;
@@ -17,7 +32,6 @@ export type UseLocationReturn = {
 };
 /**
  * Derives structured route state from the current URL pathname.
- *
  * @returns {UseLocationReturn} Flags and extracted segments for the active route.
  */
 export function useLocation(): UseLocationReturn {

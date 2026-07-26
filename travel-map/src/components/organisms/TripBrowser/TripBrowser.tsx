@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { keys } from "remeda";
 
 import { TripCard } from "@/components/molecules/Cards/TripCard";
-import { isPanelLoadingVisible } from "@/components/molecules/PanelLoading/PanelLoading";
+import { isPanelLoadingVisible } from "@/components/molecules/PanelLoading/panelLoadingState";
 import { HomeContext } from "@/components/pages/Home/HomeContext";
 import { Trip } from "@/core";
 import { visitedTrips } from "@/data";
@@ -17,14 +17,11 @@ import { groupTripsByYear } from "@/utils/trips";
 const TRIP_YEAR_TRANSITION_DURATION_MS = 280;
 /**
  * TripBrowser component
- *
  * Displays visited trips grouped by year. The panel height is
  * `min(content height, max available height)`: it shrinks to fit when trips are
  * few and fills the viewport when they overflow — with a scrollbar only in the
  * latter case.
- *
  * @component
- *
  * @returns {ReactNode} The trip browser panel
  */
 export function TripBrowser(): ReactNode {

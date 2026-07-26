@@ -8,13 +8,11 @@ interface BarChartYearsProps {
 }
 /**
  * BarChartYears component
- *
  * Vertical bar chart showing total days abroad per travel year.
- *
  * @component
  * @param {BarChartYearsProps} props
  * @param {Trip[]} props.trips - All trips to derive year data from.
- * @returns {ReactNode}
+ * @returns {ReactNode} The travel years bar chart
  */
 export function BarChartYears({ trips }: BarChartYearsProps): ReactNode {
   const yearData = (() => {

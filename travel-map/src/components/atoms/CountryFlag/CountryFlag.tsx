@@ -28,11 +28,8 @@ interface CountryFlagProps {
 
 /**
  * CountryFlag component
- *
  * Given a country name, it returns the flag of the country
- *
  * @component
- *
  * @param {CountryFlagProps} props - The props of the component
  * @param {string} props.countryId - The id of the country
  * @param {string} [props.className=""] - The class name of the component

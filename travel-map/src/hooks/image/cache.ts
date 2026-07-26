@@ -60,10 +60,16 @@ async function loadImageSource(source: string): Promise<string> {
   return load;
 }
 
+/**
+ * Resolves an image through the shared object-URL cache when loading is enabled.
+ * @param {string | null | undefined} source - The original image source
+ * @param {boolean} [enabled=true] - Whether the image may be loaded
+ * @returns {string | undefined} The cached, fallback, or newly loaded source
+ */
 export function useCachedImageSource(
   source: string | null | undefined,
   enabled = true,
-) {
+): string | undefined {
   const immediateSource = source
     ? (objectUrlCache.get(source) ??
       (fallbackSources.has(source) ? source : undefined))

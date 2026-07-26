@@ -9,7 +9,9 @@ import { Ferry } from "./Ferry";
 import { Flight } from "./Flight";
 import { Travel } from "./Travel";
 
-/** All supported transport modes for route steps. */
+/**
+ * All supported transport modes for route steps.
+ */
 export type TransportMode =
   "ferry" | "plane" | "car" | "train" | "bus" | "taxi" | "walk";
 
@@ -30,12 +32,25 @@ interface FerryLeg {
   via?: City[];
 }
 
-/** Origin or return city of a trip (e.g. home city). */
+/**
+ * Origin or return city of a trip (e.g. home city).
+ * @property {City} city - The endpoint city
+ */
 export interface TripEndpoint {
   city: City;
 }
 
-/** A city visit within a trip, with date range, optional photos and layover flag. */
+/**
+ * A city visit within a trip, with date range, optional photos and layover flag.
+ * @property {City} city - The visited city
+ * @property {Date} sDate - The visit start date
+ * @property {Date} eDate - The visit end date
+ * @property {Image[]} [photos] - The visit photos
+ * @property {string} [imgSource] - The visit image source
+ * @property {boolean} [isLayover] - Whether the visit is a layover
+ * @property {{ minPhotos?: number; maxPhotos?: number }} [rowConstraints] - Gallery row constraints
+ * @property {number} [targetRowHeight] - Gallery target row height
+ */
 export interface TripStop {
   city: City;
   sDate: Date;
@@ -47,7 +62,21 @@ export interface TripStop {
   targetRowHeight?: number;
 }
 
-/** A transport step (flight, ferry, drive, etc.) between two cities in a trip. */
+/**
+ * A transport step (flight, ferry, drive, etc.) between two cities in a trip.
+ * @property {"transport"} type - The route step discriminator
+ * @property {TransportMode} mode - The transport mode
+ * @property {City} from - The origin city
+ * @property {City} to - The destination city
+ * @property {Date} [sDate] - The departure date
+ * @property {Date} [eDate] - The arrival date
+ * @property {number} [distanceInKm] - The distance in kilometers
+ * @property {number} [durationMinutes] - The duration in minutes
+ * @property {City[]} [via] - Intermediate cities
+ * @property {FlightLeg} [flight] - Flight-specific metadata
+ * @property {FerryLeg} [ferry] - Ferry-specific metadata
+ * @property {boolean} [roundTrip] - Whether the step is a round trip
+ */
 export interface TripTransportStep {
   type: "transport";
   mode: TransportMode;
@@ -63,15 +92,24 @@ export interface TripTransportStep {
   roundTrip?: boolean;
 }
 
-/** A stop step (city visit) within a trip's route steps array. */
+/**
+ * A stop step (city visit) within a trip's route steps array.
+ * @property {"stop"} type - The route step discriminator
+ */
 export interface TripStopStep extends TripStop {
   type: "stop";
 }
 
-/** Union of a stop step and a transport step — one element in a trip's route. */
+/**
+ * Union of a stop step and a transport step — one element in a trip's route.
+ */
 export type TripRouteStep = TripStopStep | TripTransportStep;
 
-/** A resolved city visit derived from route steps, enriched with visit index and arrival mode. */
+/**
+ * A resolved city visit derived from route steps, enriched with visit index and arrival mode.
+ * @property {number} travelIdx - The city's travel index
+ * @property {TransportMode} [arrivalTransport] - The transport mode used to arrive
+ */
 export interface TripDestination extends TripStop {
   travelIdx: number;
   arrivalTransport?: TransportMode;
@@ -93,6 +131,17 @@ interface TripData {
  * Represents a single travel trip — its origin, itinerary steps, date range,
  * and derived destination list. Provides helpers to extract flights, ferries,
  * visited countries, and map route coordinates.
+ * @class
+ * @param {TripData} data - The trip data
+ * @param {string} data.id - The trip identifier
+ * @param {string} [data.description] - The optional trip description
+ * @param {Date} data.sDate - The trip start date
+ * @param {Date} data.eDate - The trip end date
+ * @param {TripRouteStep[]} data.steps - The ordered route steps
+ * @param {string} [data.backgroundImgSourceKey] - The background image key
+ * @param {TripEndpoint} data.origin - The trip origin
+ * @param {TripEndpoint} data.returnTo - The trip return endpoint
+ * @param {{ center: [number, number]; zoom: number }} [data.mapFocus] - The authored map viewport
  */
 export class Trip {
   id: string;

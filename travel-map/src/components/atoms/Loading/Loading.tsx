@@ -10,13 +10,10 @@ interface LoadingProps {
 
 /**
  * Loading component
- *
  * Spinner shown while async content is loading.
- *
  * @component
- *
  * @param {LoadingProps} props - The loading props
- * @param {string} [props.className] - Additional class names
+ * @param {string} [props.className=""] - Additional class names
  * @returns {ReactNode} The loading spinner
  */
 export function Loading({ className = "" }: LoadingProps): ReactNode {

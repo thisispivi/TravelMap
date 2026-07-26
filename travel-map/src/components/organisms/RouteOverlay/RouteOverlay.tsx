@@ -22,6 +22,12 @@ const DASHES: Partial<Record<TransportMode, [number, number]>> = {
   ferry: [1.5, 2],
 };
 
+/**
+ * RouteOverlay component
+ * Draws the selected trip route as map layers grouped by transport mode.
+ * @component
+ * @returns {ReactNode} The selected trip route overlay
+ */
 export function RouteOverlay(): ReactNode {
   const { selectedTrip, isDarkTheme } = use(HomeContext)!;
   const { isTripDetail } = useLocation();

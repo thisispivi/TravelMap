@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 cd "$(dirname "$0")/../travel-map"
 
-npx tsc --noEmit
-npx lint-staged
-pnpm run lint
+pnpm typecheck
+pnpm exec lint-staged
+pnpm lint

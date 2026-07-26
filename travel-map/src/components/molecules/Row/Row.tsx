@@ -1,21 +1,19 @@
 import "./Row.scss";
 
-import { PropsWithChildren, ReactNode } from "react";
+import { ReactNode } from "react";
 
-interface RowProps extends PropsWithChildren {
+interface RowProps {
   className?: string;
+  children: ReactNode;
 }
 
 /**
  * Row component
- *
  * Generic horizontal flex container used as a layout primitive across the app.
- *
  * @component
- *
  * @param {RowProps} props - The props of the row
- * @param {string} [props.className] - Additional class names
- * @param {React.ReactNode} props.children - Row content
+ * @param {string} [props.className=""] - Additional class names
+ * @param {ReactNode} props.children - Row content
  * @returns {ReactNode} The row container
  */
 export function Row({ className = "", children }: RowProps): ReactNode {

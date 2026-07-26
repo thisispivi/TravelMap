@@ -10,7 +10,6 @@ import { CurrencyRow } from "../../../molecules/Row/RowCurrency";
 
 /**
  * Props for the CurrencyCard component.
- *
  * @property {Currency[]} currencies - Currencies used across all visited countries.
  */
 export type CurrencyCardProps = {
@@ -19,13 +18,11 @@ export type CurrencyCardProps = {
 
 /**
  * CurrencyCard component
- *
  * Bento half-width card displaying all currencies encountered while traveling
  * as pill badges with flag, name, and symbol.
- *
  * @component
- *
  * @param {CurrencyCardProps} props
+ * @param {Currency[]} props.currencies - Currencies encountered while traveling
  * @returns {ReactNode} The currency bento card
  */
 export function CurrencyCard({ currencies }: CurrencyCardProps): ReactNode {

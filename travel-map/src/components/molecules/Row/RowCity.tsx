@@ -20,15 +20,12 @@ interface CityRowProps {
 
 /**
  * CityRow component
- *
  * Displays a start city, end city, and their distance.
- *
  * @component
- *
  * @param {CityRowProps} props - The city row props
- * @param {string} [props.className] - Additional class names
- * @param {City} [props.sCity] - The start city
+ * @param {City} [props.sCity] - The start city; defaults to the configured birth city
  * @param {City} props.eCity - The end city
+ * @param {string} [props.className=""] - Additional class names
  * @returns {ReactNode} The city row
  */
 export function CityRow({

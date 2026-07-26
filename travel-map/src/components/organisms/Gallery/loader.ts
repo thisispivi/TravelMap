@@ -9,10 +9,7 @@ type GalleryLoader = {
 };
 
 /**
- * Gallery loader
- *
  * Resolves the selected city and travel index for the gallery route.
- *
  * @param {LoaderFunctionArgs<GalleryLoader>} data - React Router loader data
  * @returns {GalleryProps | null} Gallery props, or null when the route is invalid
  */

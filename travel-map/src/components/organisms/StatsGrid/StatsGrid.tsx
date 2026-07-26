@@ -37,7 +37,6 @@ import { TransportCard } from "./cards/TransportCard";
 import { TransportModesCard } from "./cards/TransportModesCard";
 /**
  * Props for the StatsGrid component.
- *
  * @property {string} [className] - Additional class names to apply to the root element.
  * @property {boolean} [isVisible] - When true the grid is displayed (default: false).
  */
@@ -47,16 +46,13 @@ export type StatsGridProps = {
 };
 /**
  * StatsGrid component
- *
  * Bento-grid statistics dashboard. Delegates stat computation to
  * `useStatsData` and rendering to focused card components. Handles only the
  * grid layout, scroll-shadow state, and the header.
- *
  * @component
- *
  * @param {StatsGridProps} props
- * @param {string} [props.className] - Additional class names
- * @param {boolean} [props.isVisible] - Controls CSS visibility
+ * @param {string} [props.className=""] - Additional class names
+ * @param {boolean} [props.isVisible=false] - Controls CSS visibility
  * @returns {ReactNode} The stats dashboard
  */
 export function StatsGrid({

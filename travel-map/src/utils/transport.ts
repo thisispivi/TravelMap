@@ -8,6 +8,11 @@ import {
   Trip,
 } from "@/core";
 
+/**
+ * The number of visited cities recorded for a country.
+ * @property {string} countryId - The country identifier
+ * @property {number} cities - The number of visited cities
+ */
 export interface CountryVisitStat {
   countryId: string;
   cities: number;
@@ -29,12 +34,23 @@ export function getCountryVisitStats(cities: City[]): CountryVisitStat[] {
     .sort((a, b) => b.cities - a.cities);
 }
 
+/**
+ * Aggregated usage statistics for a transport mode.
+ * @property {TransportMode} mode - The transport mode
+ * @property {number} count - The number of recorded journeys
+ * @property {number} km - The recorded distance in kilometers
+ */
 export interface TransportModeStat {
   mode: TransportMode;
   count: number;
   km: number;
 }
 
+/**
+ * Aggregated usage statistics for a transport company.
+ * @property {T} company - The transport company
+ * @property {number} count - The number of recorded journeys
+ */
 export interface CompanyStat<T> {
   company: T;
   count: number;

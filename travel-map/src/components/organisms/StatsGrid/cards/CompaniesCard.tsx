@@ -40,7 +40,6 @@ const ferryCompanyLogos: Partial<Record<FerryCompany, SvgIcon>> = {
 
 /**
  * Props for the CompaniesCard component.
- *
  * @property {CompanyStat<FlightCompany>[]} flightCompanyStats - Flight companies ranked by trip count.
  * @property {CompanyStat<FerryCompany>[]} ferryCompanyStats - Ferry companies ranked by crossing count.
  */
@@ -51,13 +50,12 @@ export type CompaniesCardProps = {
 
 /**
  * CompaniesCard component
- *
  * Bento half-width card listing flight and ferry companies used, each with
  * their logo and trip count, sorted by frequency.
- *
  * @component
- *
  * @param {CompaniesCardProps} props
+ * @param {CompanyStat<FlightCompany>[]} props.flightCompanyStats - Flight companies ranked by journey count
+ * @param {CompanyStat<FerryCompany>[]} props.ferryCompanyStats - Ferry companies ranked by crossing count
  * @returns {ReactNode} The companies bento card
  */
 export function CompaniesCard({

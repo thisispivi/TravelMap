@@ -45,7 +45,9 @@ type TripDetailFerryInfo = {
   via: City[];
 };
 
-/** Distance and duration for a ground transport leg (bus, train, car, taxi, walk). */
+/**
+ * Distance and duration for a ground transport leg (bus, train, car, taxi, walk).
+ */
 type TripDetailGroundInfo = {
   distanceKm: number;
   durationMinutes: number;
@@ -57,6 +59,9 @@ type TripDetailCarInfo = TripDetailGroundInfo;
 type TripDetailTaxiInfo = TripDetailGroundInfo;
 type TripDetailWalkInfo = TripDetailGroundInfo;
 
+/**
+ * A renderable item in the flattened trip detail timeline.
+ */
 export type TripDetailTimelineItem =
   | { kind: "origin"; city: City }
   | { kind: "return"; city: City }
@@ -77,6 +82,9 @@ export type TripDetailTimelineItem =
   | TripDetailBaseStopItem
   | TripDetailDayTripItem;
 
+/**
+ * Display names for flight companies shown in trip details.
+ */
 export const TRIP_DETAIL_FLIGHT_COMPANY_NAMES: Record<FlightCompany, string> = {
   [FlightCompany.RYANAIR]: "Ryanair",
   [FlightCompany.ALL_NIPPON_AIRWAYS]: "ANA",
@@ -89,6 +97,9 @@ export const TRIP_DETAIL_FLIGHT_COMPANY_NAMES: Record<FlightCompany, string> = {
   [FlightCompany.AEROITALIA]: "Aeroitalia",
 };
 
+/**
+ * Display names for ferry companies shown in trip details.
+ */
 export const TRIP_DETAIL_FERRY_COMPANY_NAMES: Record<FerryCompany, string> = {
   [FerryCompany.TIRRENIA]: "Tirrenia",
   [FerryCompany.CORSICA_FERRIES]: "Corsica Ferries",
@@ -96,6 +107,8 @@ export const TRIP_DETAIL_FERRY_COMPANY_NAMES: Record<FerryCompany, string> = {
 
 /**
  * Formats a duration in minutes to a human-readable string (e.g. `"2h 30m"` or `"3h"`).
+ * @param {number} minutes - The duration in minutes
+ * @returns {string} The compact duration label
  */
 export function formatTripDetailDuration(minutes: number): string {
   const h = Math.floor(minutes / 60);
@@ -138,6 +151,8 @@ function resolveTripDetailFerryInfo(
 /**
  * Builds a minimal distance+duration info object for ground transport modes
  * (bus, train, car) that have no company or extra leg data.
+ * @param {TripTransportStep} step - The ground transport step
+ * @returns {{ distanceKm: number; durationMinutes: number } | undefined} Ground transport details when present
  */
 function resolveTripDetailGroundInfo(
   step: TripTransportStep,
@@ -154,9 +169,8 @@ function resolveTripDetailGroundInfo(
  * suitable for rendering the vertical trip timeline. The list always starts
  * with an `"origin"` item and ends with a `"return"` item; everything in
  * between is derived from the trip's steps in order.
- *
- * @param trip - The trip to transform
- * @returns Ordered list of timeline items
+ * @param {Trip} trip - The trip to transform
+ * @returns {TripDetailTimelineItem[]} Ordered list of timeline items
  */
 export function buildTripDetailTimelineItems(
   trip: Trip,

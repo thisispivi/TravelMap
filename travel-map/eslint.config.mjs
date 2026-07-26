@@ -6,6 +6,7 @@ import { FlatCompat } from "@eslint/eslintrc";
 import js from "@eslint/js";
 import typescriptEslint from "@typescript-eslint/eslint-plugin";
 import tsParser from "@typescript-eslint/parser";
+import jsdoc from "eslint-plugin-jsdoc";
 import noUnsanitized from "eslint-plugin-no-unsanitized";
 import react from "eslint-plugin-react";
 import reactHooks from "eslint-plugin-react-hooks";
@@ -33,6 +34,7 @@ export default [
   {
     plugins: {
       "@typescript-eslint": fixupPluginRules(typescriptEslint),
+      jsdoc,
       react,
       "react-hooks": fixupPluginRules(reactHooks),
       nounsanitized: noUnsanitized,
@@ -51,6 +53,14 @@ export default [
     },
 
     settings: {
+      jsdoc: {
+        mode: "typescript",
+        structuredTags: {
+          component: {
+            required: [],
+          },
+        },
+      },
       react: {
         version: "19.2",
       },
@@ -108,6 +118,93 @@ export default [
       "react/react-in-jsx-scope": "off",
 
       "@typescript-eslint/no-unused-expressions": "off",
+
+      "jsdoc/check-alignment": "error",
+      "jsdoc/check-param-names": "error",
+      "jsdoc/check-property-names": "error",
+      "jsdoc/check-tag-names": [
+        "error",
+        {
+          definedTags: ["component"],
+          typed: false,
+        },
+      ],
+      "jsdoc/check-types": "error",
+      "jsdoc/empty-tags": "error",
+      "jsdoc/multiline-blocks": [
+        "error",
+        {
+          noFinalLineText: true,
+          noSingleLineBlocks: true,
+          noZeroLineText: true,
+        },
+      ],
+      "jsdoc/match-description": [
+        "error",
+        {
+          contexts: ["FunctionDeclaration[id.name=/^[A-Z]/]"],
+          mainDescription: {
+            match:
+              "^(?![\\s\\S]*\\n\\s*\\n)[A-Z][A-Za-z0-9]* component(?:\\n|$)",
+            message:
+              "Component JSDoc must start with '<ComponentName> component' and contain no blank lines.",
+          },
+        },
+      ],
+      "jsdoc/no-blank-block-descriptions": "error",
+      "jsdoc/no-blank-blocks": "error",
+      "jsdoc/no-multi-asterisks": "error",
+      "jsdoc/no-undefined-types": "error",
+      "jsdoc/reject-any-type": "error",
+      "jsdoc/require-description": ["error", { contexts: ["any"] }],
+      "jsdoc/require-hyphen-before-param-description": [
+        "error",
+        "always",
+        { tags: { property: "always", returns: "never" } },
+      ],
+      "jsdoc/require-jsdoc": [
+        "error",
+        {
+          contexts: [
+            "ExportDefaultDeclaration > ClassDeclaration",
+            "ExportDefaultDeclaration > FunctionDeclaration",
+            "ExportNamedDeclaration > ClassDeclaration",
+            "ExportNamedDeclaration > FunctionDeclaration",
+            "ExportNamedDeclaration > TSInterfaceDeclaration",
+            "ExportNamedDeclaration > TSTypeAliasDeclaration",
+            "ExportNamedDeclaration > TSEnumDeclaration",
+            "FunctionDeclaration[id.name=/^[A-Z]/]",
+          ],
+          require: {
+            ArrowFunctionExpression: false,
+            ClassDeclaration: false,
+            ClassExpression: false,
+            FunctionDeclaration: false,
+            FunctionExpression: false,
+            MethodDefinition: false,
+          },
+        },
+      ],
+      "jsdoc/require-param": ["error", { checkTypesPattern: ".*" }],
+      "jsdoc/require-param-name": "error",
+      "jsdoc/require-param-type": "error",
+      "jsdoc/require-property": "error",
+      "jsdoc/require-property-description": "error",
+      "jsdoc/require-property-name": "error",
+      "jsdoc/require-property-type": "error",
+      "jsdoc/require-returns": "error",
+      "jsdoc/require-returns-check": "error",
+      "jsdoc/require-returns-description": "error",
+      "jsdoc/require-returns-type": "error",
+      "jsdoc/tag-lines": [
+        "error",
+        "never",
+        {
+          endLines: 0,
+          startLines: 0,
+        },
+      ],
+      "jsdoc/valid-types": "error",
 
       "nounsanitized/method": "error",
       "nounsanitized/property": "error",

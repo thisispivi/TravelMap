@@ -19,6 +19,17 @@ interface BarRowProps {
   color: string;
   label: string;
 }
+/**
+ * BarRow component
+ * Renders one proportional bar and its numeric value.
+ * @component
+ * @param {BarRowProps} props
+ * @param {number} props.value - The value represented by the bar
+ * @param {number} props.maxVal - The maximum value used for scaling
+ * @param {string} props.color - The bar fill color
+ * @param {string} props.label - The accessible value label
+ * @returns {ReactNode} The proportional bar row
+ */
 function BarRow({ value, maxVal, color, label }: BarRowProps): ReactNode {
   const pct =
     maxVal > 0 && value > 0 ? (Math.sqrt(value) / Math.sqrt(maxVal)) * 100 : 0;
@@ -39,11 +50,14 @@ function BarRow({ value, maxVal, color, label }: BarRowProps): ReactNode {
 }
 /**
  * ContinentsBarChart component
- *
  * Custom horizontal bar chart showing countries and cities visited per continent.
  * Numbers are always displayed outside bars for clarity, even for very small values.
- *
  * @component
+ * @param {ContinentsBarChartProps} props - The continent chart props
+ * @param {ContinentsBarChartProps["data"]} props.data - Continent statistics
+ * @param {string[]} [props.barColors] - Bar palette; defaults to the chart palette
+ * @param {boolean} [props.isDarkTheme=false] - Whether to use the dark theme
+ * @returns {ReactNode} The continent bar chart
  */
 export function ContinentsBarChart({
   data,

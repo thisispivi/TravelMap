@@ -19,13 +19,10 @@ interface TripCardProps {
 
 /**
  * TripCard component
- *
  * Photo card that opens the trip detail panel.
- *
  * @component
- *
  * @param {TripCardProps} props - The trip card props
- * @param {string} [props.className] - Additional class names
+ * @param {string} [props.className=""] - Additional class names
  * @param {Trip} props.trip - Trip to display
  * @param {() => void} [props.onSelect] - Selection handler
  * @returns {ReactNode} The trip card

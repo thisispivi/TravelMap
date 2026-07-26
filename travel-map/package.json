@@ -7,11 +7,14 @@
   "scripts": {
     "dev": "vite --host",
     "build": "tsc && vite build",
+    "check": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm knip && pnpm react:doctor",
     "lint": "eslint . --report-unused-disable-directives --max-warnings=0",
     "lint:fix": "eslint . --fix --max-warnings=0",
+    "typecheck": "tsc --noEmit",
     "preview": "vite preview",
     "prepare": "cd .. & husky",
-    "format": "prettier . --write",
+    "format": "prettier . ../README.md ../AGENTS.md ../CLAUDE.md ../CODING_GUIDELINES.md ../.github/copilot-instructions.md --write",
+    "format:check": "prettier . ../README.md ../AGENTS.md ../CLAUDE.md ../CODING_GUIDELINES.md ../.github/copilot-instructions.md --check",
     "predeploygh": "pnpm run build",
     "deploygh": "gh-pages -d dist --nojekyll",
     "update:packages": "ncu -u",
@@ -64,6 +67,7 @@
     "depcheck": "^1.4.7",
     "eslint": "^10.7.0",
     "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-jsdoc": "^63.1.0",
     "eslint-plugin-no-unsanitized": "^4.1.5",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.1.1",
@@ -84,8 +88,8 @@
     "vite-plugin-svgr": "^5.2.0"
   },
   "lint-staged": {
-    "*.js": "pnpm run lint",
-    "*.{js,css,md,html,json}": "pnpm run format"
+    "*.{js,mjs,cjs,ts,tsx}": "eslint --fix --max-warnings=0",
+    "*.{js,mjs,cjs,ts,tsx,css,scss,md,html,json,yaml,yml}": "prettier --write"
   },
   "browserslist": {
     "production": [

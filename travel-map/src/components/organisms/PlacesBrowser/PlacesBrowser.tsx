@@ -8,7 +8,7 @@ import FilterIcon from "@/assets/icons/Filter.svg?react";
 import { SegmentedControl } from "@/components/atoms/SegmentedControl/SegmentedControl";
 import { CityCard } from "@/components/molecules/Cards/CityCard";
 import { FilterByCountry } from "@/components/molecules/FilterByCountry/FilterByCountry";
-import { isPanelLoadingVisible } from "@/components/molecules/PanelLoading/PanelLoading";
+import { isPanelLoadingVisible } from "@/components/molecules/PanelLoading/panelLoadingState";
 import { HomeContext } from "@/components/pages/Home/HomeContext";
 import { Country } from "@/core";
 import { futureCities, livedCities, visitedCities } from "@/data";
@@ -71,13 +71,10 @@ function placesReducer(state: PlacesState, action: PlacesAction): PlacesState {
 
 /**
  * PlacesBrowser component
- *
  * Displays cities in a filterable grid, segmented by category (Visited, Lived,
  * Future). Supports optional country filtering via a dropdown. The panel height
  * adapts to the active grid page, and tabs slide with a directional animation.
- *
  * @component
- *
  * @returns {ReactNode} The places browser panel
  */
 export function PlacesBrowser(): ReactNode {

@@ -16,15 +16,11 @@ interface LanguageFlagProps {
 
 /**
  * LanguageFlag component
- *
  * Given the current i18n language, it returns the flag of the language
- *
  * @component
- *
  * @param {LanguageFlagProps} props - The props of the component
  * @param {string} props.language - The current language
- * @param {string} props.className - The class to apply to the flag
- *
+ * @param {string} [props.className=""] - The class to apply to the flag
  * @returns {ReactNode} The language flag
  */
 export function LanguageFlag({

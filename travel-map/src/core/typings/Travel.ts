@@ -1,6 +1,11 @@
 import { City } from "../classes/City";
 
-/** Flight distance category relative to country and continent boundaries. */
+/**
+ * Flight distance category relative to country and continent boundaries.
+ * @property {string} NATIONAL - The national travel category
+ * @property {string} INTERNATIONAL - The international travel category
+ * @property {string} INTERCONTINENTAL - The intercontinental travel category
+ */
 export enum TravelType {
   NATIONAL = "national",
   INTERNATIONAL = "international",
@@ -9,8 +14,8 @@ export enum TravelType {
 
 /**
  * Return the travel type given the start and end city
- * @param {City} flightData.sCity - The start city of the flight
- * @param {City} flightData.eCity - The end city of the flight
+ * @param {City} sCity - The start city of the travel
+ * @param {City} eCity - The end city of the travel
  * @returns {TravelType} The travel type
  */
 export function getTravelTypeByStartAndEndCity(

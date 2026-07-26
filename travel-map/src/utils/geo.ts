@@ -100,12 +100,9 @@ function splitRingAtAntimeridian(ring: LinearRing): LinearRing[] {
 }
 
 /**
- * Split a polygon geometry into parts that never cross the antimeridian.
- *
  * MapLibre triangulates a ring spanning -180°/180° as a straight line through
  * the middle of the map — that is what banded Russia, Fiji and Antarctica
  * across the world view.
- *
  * @param {Geometry} geometry - Any GeoJSON geometry
  * @returns {Geometry} A MultiPolygon whose rings all stay within [-180, 180]
  */

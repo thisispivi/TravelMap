@@ -16,18 +16,15 @@ interface CityInterface {
 }
 
 /**
- * City class
- *
  * The city class is used to represent a city.
- *
  * @class
- *
  * @param {CityInterface} cityData - The data of the city
  * @param {string[]} [cityData.backgroundImgSources] - The background image source of the city
- * @param {MarkerSizes} [cityData.customMarkerSizes] - The custom marker sizes of the city
- * @param {coordinates} cityData.coordinates - The coordinates of the city [longitude, latitude]
+ * @param {[number, number]} cityData.coordinates - The city coordinates as longitude and latitude
  * @param {Country} cityData.country - The country of the city
+ * @param {MarkerSizes} [cityData.customMarkerSizes] - The custom marker sizes of the city
  * @param {boolean} [cityData.isLived] - If the city is lived
+ * @param {number} [cityData.minMarkerScale] - The minimum scale of the city marker
  * @param {string} cityData.name - The name of the city
  * @param {number} [cityData.population] - The population of the city
  * @param {string} cityData.timeZone - The IANA time zone id of the city

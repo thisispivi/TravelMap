@@ -11,14 +11,13 @@ interface BarChartCountriesProps {
 }
 /**
  * BarChartCountries component
- *
  * Horizontal bar chart showing the number of cities visited per country,
  * sorted by city count descending. Each row shows the country flag,
  * translated country name, a proportional bar, and the city count.
- *
  * @component
  * @param {BarChartCountriesProps} props
  * @param {CountryVisitStat[]} props.data - Country stats sorted by cities descending.
+ * @returns {ReactNode} The countries bar chart
  */
 export function BarChartCountries({ data }: BarChartCountriesProps): ReactNode {
   const { t } = useLanguage(["home"]);

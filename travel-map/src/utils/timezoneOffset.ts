@@ -22,11 +22,8 @@ function getDateTimeFormatter(locale: string, timeZone: string) {
 }
 
 /**
- * Extracts calendar date/time parts for a given instant as seen in a specific IANA time zone.
- *
  * This uses Intl.DateTimeFormat with `formatToParts` to avoid locale-dependent parsing
  * and returns numeric components suitable for UTC reconstruction.
- *
  * @param {string} locale - BCP 47 locale identifier (e.g. "en-US")
  * @param {string} timeZone - IANA time zone id (e.g. "Europe/Rome")
  * @param {Date} date - The instant to be represented in the given time zone
@@ -50,13 +47,7 @@ function getDatePartsInTimeZone(locale: string, timeZone: string, date: Date) {
 }
 
 /**
- * Computes the time zone offset (in minutes) for a given instant in a specific IANA time zone.
- *
- * The offset is calculated by reconstructing a UTC timestamp from the wall-clock
- * representation of the instant in the target time zone.
- *
  * Positive values mean the time zone is ahead of UTC (e.g. UTC+2 → +120).
- *
  * @param {string} locale - BCP 47 locale identifier (e.g. "en-US")
  * @param {string} timeZone - IANA time zone id (e.g. "Europe/Rome")
  * @param {Date} instant - The instant for which to compute the offset
@@ -80,11 +71,8 @@ function getTimeZoneOffsetMinutes(
 }
 
 /**
- * Converts a calendar date into a stable UTC instant at 12:00 UTC.
- *
  * This intentionally avoids local midnight to prevent DST transition issues
  * (e.g. missing or duplicated midnights).
- *
  * @param {Date} date - Date whose year/month/day should be preserved
  * @returns {Date} A Date representing 12:00 UTC on the same calendar day
  */
@@ -95,11 +83,8 @@ function toUtcNoonOfCalendarDate(date: Date): Date {
 }
 
 /**
- * Returns the GMT offset (in minutes) for a city on a given calendar day.
- *
  * The date is treated as a calendar date, not a precise instant,
  * and is evaluated at UTC noon to ensure DST stability.
- *
  * @param {string} locale - BCP 47 locale identifier (e.g. "en-US")
  * @param {City} city - City containing an IANA time zone
  * @param {Date} calendarDate - Calendar day to evaluate
@@ -118,10 +103,7 @@ export function getCityOffsetMinutesOnDate(
 }
 
 /**
- * Formats a delta offset (in minutes) as `±HH:MM`.
- *
  * Used for expressing differences between two time zones.
- *
  * @param {number} deltaMinutes - Offset difference in minutes
  * @returns {string} Formatted delta string
  */
@@ -135,7 +117,6 @@ function formatGmtOffsetDeltaFromMinutes(deltaMinutes: number): string {
 
 /**
  * Ensures a date span is ordered chronologically.
- *
  * @param {Date} start - One end of the span
  * @param {Date} end - Other end of the span
  * @returns {{ start: Date; end: Date }} Ordered `{ start, end }`
@@ -156,11 +137,8 @@ type TimeZoneSpanOffsets = {
 };
 
 /**
- * Computes time zone offsets for a city across a calendar date span.
- *
  * Iterates day-by-day (evaluated at UTC noon) to detect DST changes.
  * For very large spans, it falls back to start/end offsets only.
- *
  * @param {string} locale - BCP 47 locale identifier (e.g. "en-US")
  * @param {City} city - City containing an IANA time zone
  * @param {Date} sDate - Start date (inclusive)
@@ -205,11 +183,8 @@ function getCityOffsetsForDateSpan(
 }
 
 /**
- * Formats the time difference between two cities across a date span.
- *
  * If the delta is constant, a single value is returned.
  * If it changes due to DST differences, a range is shown.
- *
  * @param {string} locale - BCP 47 locale identifier (e.g. "en-US")
  * @param {City} aCity - First city
  * @param {City} bCity - Second city

@@ -13,7 +13,6 @@ import { CityRow } from "../../../molecules/Row/RowCity";
 
 /**
  * Props for the MileageCard component.
- *
  * @property {number} totalMileage - Total distance traveled in km.
  * @property {string} totalMileageAroundEarth - How many times around the Earth (formatted string).
  * @property {string} totalMileageToMoon - How many times to the Moon (formatted string).
@@ -30,13 +29,15 @@ export type MileageCardProps = {
 
 /**
  * MileageCard component
- *
  * Bento detail card showing total travel distance with Earth/Moon comparisons,
  * plus the furthest and nearest cities visited from home.
- *
  * @component
- *
  * @param {MileageCardProps} props
+ * @param {number} props.totalMileage - Total distance traveled in kilometers
+ * @param {string} props.totalMileageAroundEarth - Earth-circumference comparison
+ * @param {string} props.totalMileageToMoon - Earth-to-Moon comparison
+ * @param {City} props.furthestCity - The furthest visited city from home
+ * @param {City} props.nearestCity - The nearest visited city from home
  * @returns {ReactNode} The mileage bento card
  */
 export function MileageCard({

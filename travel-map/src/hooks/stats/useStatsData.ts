@@ -128,12 +128,9 @@ function computeStats() {
   };
 }
 /**
- * useStatsData hook
- *
  * Computes all travel statistics needed by the stats bento grid. The result
  * is memoized for the lifetime of the component tree — all inputs are module-
  * level constants, so the memo never invalidates.
- *
  * @returns {StatsData} The full set of pre-computed stats
  */
 export function useStatsData(): StatsData {

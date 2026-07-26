@@ -14,17 +14,14 @@ interface PopulationsBarChartProps {
 }
 /**
  * PopulationBarChart component
- *
  * Horizontal bar chart showing the top N cities by population.
- *
  * @component
- *
  * @param {PopulationsBarChartProps} props - The props of the component
  * @param {City[]} props.data - Cities to display (population must be set).
  * @param {string[]} [props.barColors] - Colors used for the distributed bars.
  * @param {boolean} [props.isDarkTheme=false] - Current theme.
  * @param {number} [props.numToShow=10] - How many cities to show.
- * @returns {ReactNode} - The population bar chart.
+ * @returns {ReactNode} The population bar chart.
  */
 export function PopulationBarChart({
   data,

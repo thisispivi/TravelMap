@@ -10,19 +10,24 @@ import WalkIcon from "@/assets/icons/Walk.svg?react";
 import { TransportMode } from "@/core";
 
 interface TransportModeIconProps {
-  /** Transport mode to render an icon for. */
+  /**
+   * Transport mode to render an icon for.
+   */
   mode: TransportMode;
-  /** Optional CSS class name applied to the SVG element. */
+  /**
+   * Optional CSS class name applied to the SVG element.
+   */
   className?: string;
 }
 
 /**
+ * TransportModeIcon component
  * Renders the icon corresponding to a given transport mode.
- *
- * @param props - Component props.
- * @param props.mode - The transport mode.
- * @param props.className - CSS class name for the SVG.
- * @returns The icon element, or null for unknown modes.
+ * @component
+ * @param {TransportModeIconProps} props - The transport icon props
+ * @param {TransportMode} props.mode - The transport mode
+ * @param {string} [props.className] - CSS class name for the SVG
+ * @returns {ReactNode} The icon element, or null for unknown modes
  */
 export function TransportModeIcon({
   mode,

@@ -10,7 +10,16 @@ import {
   splitGeometryAtAntimeridian,
 } from "@/utils/geo";
 
-/** Colours for one theme, resolved once and shared by every map layer. */
+/**
+ * Colours for one theme, resolved once and shared by every map layer.
+ * @property {string} ocean - The ocean fill
+ * @property {string} land - The land fill
+ * @property {string} border - The country border color
+ * @property {string} countryLabel - The country label color
+ * @property {string} countryLabelHalo - The country label halo color
+ * @property {string} cityLabel - The city label color
+ * @property {string} cityLabelHalo - The city label halo color
+ */
 export interface MapTheme {
   ocean: string;
   land: string;
@@ -42,7 +51,9 @@ export const MAP_THEMES: Record<"dark" | "light", MapTheme> = {
   },
 };
 
-/** City labels appear tier by tier so the world view stays readable. */
+/**
+ * City labels appear tier by tier so the world view stays readable.
+ */
 export const CITY_LABEL_TIERS = [
   {
     id: "major",
@@ -92,7 +103,6 @@ function hslToRgb(h: number, s: number, l: number): [number, number, number] {
  * Alpha-composite a country's translucent `hsla(…)` fill over the land tone.
  * Translucent GeoJSON fills leak their internal tile seams as faint hairlines,
  * and opaque tones read cleaner in dark mode.
- *
  * @param {string} hsla - A Country `fillColor`, e.g. `hsla(210, 60%, 50%, 0.6)`
  * @param {string} baseHex - The land colour to composite over, e.g. `#181a26`
  * @returns {string} An opaque `rgb(…)` string
@@ -126,7 +136,9 @@ export const countriesGeoJson: FeatureCollection<Geometry, { name: string }> = {
   })),
 };
 
-/** One label point per country, placed on its biggest landmass. */
+/**
+ * One label point per country, placed on its biggest landmass.
+ */
 export const countryLabelsGeoJson: FeatureCollection<
   GeoJSON.Point,
   { name: string }

@@ -1,7 +1,7 @@
 import "./Home.scss";
 
 import { AnimatePresence, domAnimation, LazyMotion, m } from "framer-motion";
-import { lazy, PropsWithChildren, ReactNode, Suspense, use } from "react";
+import { lazy, ReactNode, Suspense, use } from "react";
 
 import ChevronIcon from "@/assets/icons/Chevron.svg?react";
 import { useLanguage } from "@/hooks/language/language";
@@ -39,21 +39,22 @@ const bottomPanelMotion = {
   transition: { duration: 0.22, ease: [0.35, 0, 0.25, 1] },
 } as const;
 
+interface HomeTemplateProps {
+  children: ReactNode;
+}
+
 /**
  * HomeTemplate component
- *
  * Root layout template for the home route. Composes the FloatingNav, the
  * lazily-loaded side panels (TripBrowser, TripDetail, PlacesBrowser), the
  * animated bottom panel for Timeline and Stats, the Gallery container, and the
  * Map underneath everything.
- *
  * @component
- *
- * @param {React.PropsWithChildren} props
- * @param {React.ReactNode} props.children - The active route element (lazy page)
+ * @param {HomeTemplateProps} props
+ * @param {ReactNode} props.children - The active route element (lazy page)
  * @returns {ReactNode} The main application layout
  */
-export function HomeTemplate({ children }: PropsWithChildren): ReactNode {
+export function HomeTemplate({ children }: HomeTemplateProps): ReactNode {
   const { isGallery, isTrips, isPlaces, isTripDetail, isStats, isTimeline } =
     useLocation();
   const { isDarkTheme, handleDarkModeSwitch, isPanelOpen, setIsPanelOpen } =

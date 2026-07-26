@@ -1,6 +1,6 @@
 import "./TooltipMap.scss";
 
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import CoinIcon from "@/assets/icons/Coin.svg?react";
@@ -24,13 +24,13 @@ interface MapTooltipProps {
 
 /**
  * MapTooltip component
- *
  * Displays city name, flag, population, timezone, currency and gallery access
  * from a map marker.
- *
  * @component
  * @param {MapTooltipProps} props
  * @param {City} props.city - The city the marker points at
+ * @param {() => void} props.onClose - Closes the tooltip
+ * @param {(city: City | null) => void} props.onHoverCity - Updates the hovered city
  * @returns {ReactNode} The tooltip content
  */
 export function MapTooltip({
@@ -41,6 +41,11 @@ export function MapTooltip({
   const navigate = useNavigate();
   const location = useLocation();
   const { t, currLanguage: lang } = useLanguage(["home"]);
+  const onCloseRef = useRef(onClose);
+
+  useEffect(() => {
+    onCloseRef.current = onClose;
+  }, [onClose]);
 
   const travels = getCityTravels(city, visitedTrips).filter(
     (travel) => !travel.isFuture,
@@ -51,14 +56,17 @@ export function MapTooltip({
   const timeZone = getTimeZoneAbbreviation(city.timeZone);
 
   useEffect(() => {
-    const handleVisibilityChange = () => document.hidden && onClose();
+    const handleClose = () => onCloseRef.current();
+    const handleVisibilityChange = () => {
+      if (document.hidden) handleClose();
+    };
     document.addEventListener("visibilitychange", handleVisibilityChange);
-    window.addEventListener("blur", onClose);
+    window.addEventListener("blur", handleClose);
     return () => {
       document.removeEventListener("visibilitychange", handleVisibilityChange);
-      window.removeEventListener("blur", onClose);
+      window.removeEventListener("blur", handleClose);
     };
-  }, [onClose]);
+  }, []);
 
   return (
     <div

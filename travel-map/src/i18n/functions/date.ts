@@ -21,6 +21,14 @@ function getWeekdayFormatter(locale: string) {
   return formatter;
 }
 
+/**
+ * Inputs used to format a compact date range.
+ * @property {string | Date | null} [sDateInput] - The start date
+ * @property {string | Date | null} [eDateInput] - The optional end date
+ * @property {string} [locale] - The requested locale
+ * @property {boolean} [includeWeekday] - Whether weekday labels are included
+ * @property {boolean} [showYear] - Whether year labels are included
+ */
 type FormatDateRangeShortInput = {
   sDateInput?: string | Date | null;
   eDateInput?: string | Date | null;
@@ -28,6 +36,16 @@ type FormatDateRangeShortInput = {
   includeWeekday?: boolean;
   showYear?: boolean;
 };
+/**
+ * Formats a start and optional end date as a compact localized range.
+ * @param {FormatDateRangeShortInput} input - The date range formatting options
+ * @param {string | Date | null} [input.sDateInput] - The start date
+ * @param {string | Date | null} [input.eDateInput] - The optional end date
+ * @param {string} [input.locale] - The requested locale
+ * @param {boolean} [input.includeWeekday=false] - Whether weekdays are included
+ * @param {boolean} [input.showYear=true] - Whether years are included
+ * @returns {string} The compact localized date range
+ */
 export function formatDateRangeShort({
   sDateInput,
   eDateInput,

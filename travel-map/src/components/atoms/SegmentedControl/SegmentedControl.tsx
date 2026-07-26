@@ -16,13 +16,10 @@ interface SegmentedControlProps<T extends string> {
 
 /**
  * SegmentedControl component
- *
  * Button group for switching between related views.
- *
  * @component
- *
  * @param {SegmentedControlProps<string>} props - The segmented control props
- * @param {string} [props.className] - Additional class names
+ * @param {string} [props.className=""] - Additional class names
  * @param {{ value: string; label: string; tooltip?: string }[]} props.options - Selectable options
  * @param {string} props.selected - Selected option value
  * @param {(value: string) => void} props.onSelect - Selection handler

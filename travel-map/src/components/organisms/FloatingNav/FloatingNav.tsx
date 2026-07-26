@@ -20,25 +20,6 @@ interface FloatingNavProps {
   isDarkTheme: HomeContextType["isDarkTheme"];
   handleDarkModeSwitch: HomeContextType["handleDarkModeSwitch"];
 }
-/**
- * FloatingNav component
- *
- * Primary navigation bar. On desktop it appears as a left-side panel; on mobile
- * it floats at the bottom of the screen. Contains tab navigation, the language
- * selector, and the dark-mode toggle.
- *
- * Clicking an active tab collapses the side panel and navigates to the map-only
- * view. Switching from a full-page route (Timeline, Stats) to a panel route
- * (Trips, Places) animates the panel close before opening the new one.
- *
- * @component
- *
- * @param {FloatingNavProps} props
- * @param {string} [props.className] - Additional class names
- * @param {boolean} props.isDarkTheme - Current theme state
- * @param {() => void} props.handleDarkModeSwitch - Toggles dark / light mode
- * @returns {ReactNode} The navigation bar
- */
 let navHasAnimated = false;
 const PANEL_CLOSE_DELAY_MS = 220;
 const containerVariants = {
@@ -66,6 +47,18 @@ const NAV_TABS: NavTab[] = [
   { id: "timeline", path: "/timeline" },
   { id: "stats", path: "/stats" },
 ];
+/**
+ * FloatingNav component
+ * Primary navigation bar. On desktop it appears as a left-side panel; on mobile
+ * it floats at the bottom of the screen. Clicking an active tab collapses the
+ * side panel before navigation when a transition is required.
+ * @component
+ * @param {FloatingNavProps} props
+ * @param {string} [props.className=""] - Additional class names
+ * @param {boolean} props.isDarkTheme - Current theme state
+ * @param {() => void} props.handleDarkModeSwitch - Toggles dark and light mode
+ * @returns {ReactNode} The navigation bar
+ */
 export function FloatingNav({
   className = "",
   isDarkTheme,

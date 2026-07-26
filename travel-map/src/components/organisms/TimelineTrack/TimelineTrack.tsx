@@ -21,13 +21,10 @@ type YearGroup = {
 type TimelineCardItemProps = TripItem;
 /**
  * TimelineTrack component
- *
  * Renders a vertical timeline of all visited trips, grouped by year and sorted
  * chronologically descending. Individual trip cards alternate left / right for a
  * zigzag layout, each animating in from the side as they enter the viewport.
- *
  * @component
- *
  * @returns {ReactNode} The timeline track
  */
 export function TimelineTrack(): ReactNode {
@@ -73,12 +70,9 @@ export function TimelineTrack(): ReactNode {
 }
 /**
  * TimelineYearGroup component
- *
  * Renders the year divider and all trip cards for a single year group. The
  * divider fades in when the group scrolls into view.
- *
  * @component
- *
  * @param {YearGroup} props
  * @param {number} props.year - The calendar year for this group
  * @param {TripItem[]} props.trips - Trips belonging to this year
@@ -105,12 +99,9 @@ function TimelineYearGroup({ year, trips }: YearGroup): ReactNode {
 }
 /**
  * TimelineCardItem component
- *
  * A single trip card on the timeline. Slides in from the left or right when it
  * enters the viewport and navigates to the trip detail on click.
- *
  * @component
- *
  * @param {TimelineCardItemProps} props - The timeline card props
  * @param {TripItem["trip"]} props.trip - The trip data to display
  * @param {"left" | "right"} props.side - Which side of the timeline axis the card appears on

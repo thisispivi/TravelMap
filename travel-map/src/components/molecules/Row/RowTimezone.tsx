@@ -23,17 +23,14 @@ interface TimezoneRowProps {
 
 /**
  * TimezoneRow component
- *
  * Displays the timezone offset between two cities.
- *
  * @component
- *
  * @param {TimezoneRowProps} props - The timezone row props
- * @param {string} [props.className] - Additional class names
  * @param {City} props.sCity - Start city
  * @param {City} props.eCity - End city
  * @param {Date} [props.sDate] - Start date for offset calculation
  * @param {Date} [props.eDate] - End date for offset calculation
+ * @param {string} [props.className=""] - Additional class names
  * @returns {ReactNode} The timezone row
  */
 export function TimezoneRow({

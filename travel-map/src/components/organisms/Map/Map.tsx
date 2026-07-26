@@ -62,7 +62,9 @@ const SIDE_PANEL_CLEARANCE_PX = 432;
 const NAV_CLEARANCE_PX = 88;
 const ZOOM_CONTROLS_CLEARANCE_PX = 64;
 const MAP_EDGE_PADDING_PX = 24;
-/** Trips are framed on where they actually went, not on the flight out of it. */
+/**
+ * Trips are framed on where they actually went, not on the flight out of it.
+ */
 const HOME_COUNTRY_ID = parameters.birthCity.country.id;
 
 const sortByCoordinates = (a: City, b: City) => {
@@ -76,14 +78,11 @@ const sortByCoordinates = (a: City, b: City) => {
 const toMapLibreZoom = (zoom: number) => Math.log2(Math.max(zoom, 1)) + 1;
 
 /**
- * The part of the canvas the camera is allowed to use.
- *
  * Wide screens carry the panel beside the map, so the whole left column is
  * reserved and the trip settles in the free space to its right. Below the
  * breakpoint the panel lies across the bottom instead and there is no free
  * column — every side gets the same padding and the trip settles in the middle
  * of the screen.
- *
  * @param {number} viewportWidth - Current canvas width in pixels
  * @param {boolean} isPanelOpen - Whether a panel is on screen at all
  * @returns {PaddingOptions} Padding for `flyTo` / `fitBounds`
@@ -117,6 +116,8 @@ function getCameraPadding(
  * A trip that went abroad is framed on the foreign stops alone for the same
  * reason — the night in Rome on the way to Japan would otherwise drag the
  * camera back across Europe. Trips that never left home keep every stop.
+ * @param {Trip} trip - The trip whose destination bounds should be calculated
+ * @returns {LngLatBounds | null} Bounds around the relevant trip destinations
  */
 function getTripBounds(trip: Trip): LngLatBounds | null {
   const cities = new globalThis.Map<string, City>();
@@ -139,7 +140,12 @@ function getTripBounds(trip: Trip): LngLatBounds | null {
   );
 }
 
-/** Every layover, origin and return city of a trip that has no marker yet. */
+/**
+ * Every layover, origin and return city of a trip that has no marker yet.
+ * @param {Trip} trip - The trip whose auxiliary cities should be collected
+ * @param {City[]} existing - Cities that already have markers
+ * @returns {City[]} Auxiliary cities that still need markers
+ */
 function getTripLayoverCities(trip: Trip, existing: City[]): City[] {
   const known = new Set(existing.map((city) => city.name));
   const layovers = new globalThis.Map<string, City>();
@@ -168,6 +174,17 @@ interface MapMarkersProps {
   onSelectCity: (city: City) => void;
 }
 
+/**
+ * MapMarkers component
+ * Renders every city marker in its corresponding visit-state group.
+ * @component
+ * @param {MapMarkersProps} props
+ * @param {City | null} props.hoveredCity - The currently highlighted city
+ * @param {City[]} props.layoverCities - Auxiliary cities shown as layovers
+ * @param {(city: City | null) => void} props.onHoverCity - Updates the highlighted city
+ * @param {(city: City) => void} props.onSelectCity - Selects a city marker
+ * @returns {ReactNode} The grouped city markers
+ */
 function MapMarkers({
   hoveredCity,
   layoverCities,
@@ -208,6 +225,17 @@ interface MapLabelsProps {
   countryLabelHalo: string;
 }
 
+/**
+ * MapLabels component
+ * Renders country and city label layers using the active map theme.
+ * @component
+ * @param {MapLabelsProps} props
+ * @param {string} props.cityLabel - The city label color
+ * @param {string} props.cityLabelHalo - The city label halo color
+ * @param {string} props.countryLabel - The country label color
+ * @param {string} props.countryLabelHalo - The country label halo color
+ * @returns {ReactNode} The themed map label layers
+ */
 function MapLabels({
   cityLabel,
   cityLabelHalo,
@@ -304,6 +332,13 @@ function MapLabels({
   );
 }
 
+/**
+ * Map component
+ * Renders the interactive travel map, city markers, labels, route overlays,
+ * camera transitions, and the selected-city tooltip.
+ * @component
+ * @returns {ReactNode} The interactive travel map
+ */
 export function Map(): ReactNode {
   const { t } = useLanguage(["home"]);
   const {
@@ -318,7 +353,7 @@ export function Map(): ReactNode {
   const { isTripDetail } = useLocation();
   const mapRef = useRef<MapRef>(null);
   const hoverLeaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const [pinnedCity, setPinnedCity] = useState<City | null>(null);
+  const pinnedCityRef = useRef<City | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
   const theme = MAP_THEMES[isDarkTheme ? "dark" : "light"];
@@ -399,34 +434,38 @@ export function Map(): ReactNode {
   ]);
 
   const closeTooltip = () => {
-    setPinnedCity(null);
+    pinnedCityRef.current = null;
     setHoveredCity(null);
   };
 
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") closeTooltip();
+      if (event.key !== "Escape") return;
+      pinnedCityRef.current = null;
+      setHoveredCity(null);
     };
     window.addEventListener("keydown", handleEscape);
     return () => window.removeEventListener("keydown", handleEscape);
-  });
+  }, [setHoveredCity]);
 
   const handleHoverCity = (city: City | null) => {
     if (hoverLeaveTimer.current) clearTimeout(hoverLeaveTimer.current);
     if (city) {
-      if (pinnedCity && pinnedCity.name !== city.name) setPinnedCity(null);
+      if (pinnedCityRef.current?.name !== city.name) {
+        pinnedCityRef.current = null;
+      }
       setHoveredCity(city);
       return;
     }
     hoverLeaveTimer.current = setTimeout(() => {
-      if (!pinnedCity) setHoveredCity(null);
+      if (!pinnedCityRef.current) setHoveredCity(null);
     }, HOVER_LEAVE_DELAY_MS);
   };
 
   const handleSelectCity = (city: City) => {
     if (hoverLeaveTimer.current) clearTimeout(hoverLeaveTimer.current);
-    const shouldClose = pinnedCity?.name === city.name;
-    setPinnedCity(shouldClose ? null : city);
+    const shouldClose = pinnedCityRef.current?.name === city.name;
+    pinnedCityRef.current = shouldClose ? null : city;
     setHoveredCity(shouldClose ? null : city);
   };
 

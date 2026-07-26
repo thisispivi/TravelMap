@@ -14,19 +14,15 @@ interface CountryData {
 }
 
 /**
- * Country class
- *
  * The country class is used to represent a country.
- *
  * @class
- *
- * @param {CountryData} countryData - The data of the country
- * @param {string} countryData.id - The id of the country
- * @param {ColorData} countryData.color - The color of the country
- * @param {Continent} countryData.continent - The continent of the country
- * @param {number} [countryData.minMarkerScale] - The minimum scale of the marker
- * @param {number} [countryData.maxMarkerScale] - The maximum scale of the marker
- * @param {Currency} countryData.currency - The currency of the country
+ * @param {CountryData} data - The data of the country
+ * @param {string} data.id - The id of the country
+ * @param {ColorData} data.color - The color of the country
+ * @param {Continent} data.continent - The continent of the country
+ * @param {number} [data.minMarkerScale] - The minimum scale of the marker
+ * @param {number} [data.maxMarkerScale] - The maximum scale of the marker
+ * @param {Currency} data.currency - The currency of the country
  */
 export class Country {
   id: string;

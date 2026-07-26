@@ -10,16 +10,24 @@ import { useLanguage } from "@/hooks/language/language";
 import { formatMileage } from "@/utils/format";
 import { formatTripDetailDuration } from "@/utils/tripDetailTimeline";
 
-/** One segment of a (possibly multi-leg) transport connector row. */
+/**
+ * One segment of a (possibly multi-leg) transport connector row.
+ * @property {TransportMode} mode - The transport mode
+ * @property {City} from - The origin city
+ * @property {City} to - The destination city
+ * @property {string} [company] - The carrier name
+ * @property {number} distanceKm - The distance in kilometers
+ * @property {number} durationMinutes - The duration in minutes
+ * @property {City[]} [via] - Intermediate cities
+ * @property {boolean} [isRoundTrip] - Whether the leg is a round trip
+ */
 export type TransportLeg = {
   mode: TransportMode;
   from: City;
   to: City;
-  /** Carrier name, e.g. "Ryanair" or "Corsica Ferries". */
   company?: string;
   distanceKm: number;
   durationMinutes: number;
-  /** Intermediate port or station stops (ferry layovers, etc.). */
   via?: City[];
   isRoundTrip?: boolean;
 };
@@ -31,13 +39,10 @@ interface TimelineTransportConnectorProps {
 
 /**
  * TimelineTransportConnector component
- *
  * Renders one or more transport legs as a compact connector row in the trip
  * timeline. Multiple consecutive legs (with layovers consumed) are stacked
  * vertically inside a single animated row.
- *
  * @component
- *
  * @param {TimelineTransportConnectorProps} props - The connector props
  * @param {TransportLeg[]} props.legs - One or more transport legs to display
  * @param {number} props.animDelay - Staggered animation delay in seconds

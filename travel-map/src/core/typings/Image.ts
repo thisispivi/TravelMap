@@ -1,6 +1,5 @@
 /**
  * Image type
- *
  * @property {string} original - The original image URL
  * @property {string} thumbnail - The thumbnail image URL
  * @property {string} [alt] - The image alt text

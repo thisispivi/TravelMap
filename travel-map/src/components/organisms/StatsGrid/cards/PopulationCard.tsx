@@ -10,7 +10,6 @@ import { Card } from "../../../molecules/Cards/Card";
 
 /**
  * Props for the PopulationCard component.
- *
  * @property {City[]} cities - All visited cities, used to derive the top-10 by population.
  */
 export type PopulationCardProps = {
@@ -19,13 +18,11 @@ export type PopulationCardProps = {
 
 /**
  * PopulationCard component
- *
  * Bento half-width card showing a bar chart of the top 10 most populated
  * cities visited.
- *
  * @component
- *
  * @param {PopulationCardProps} props
+ * @param {City[]} props.cities - Cities used to calculate the population ranking
  * @returns {ReactNode} The population bento card
  */
 export function PopulationCard({ cities }: PopulationCardProps): ReactNode {

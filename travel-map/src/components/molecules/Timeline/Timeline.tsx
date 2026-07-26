@@ -416,13 +416,10 @@ function buildDisplaySegments(
 }
 /**
  * Timeline component
- *
  * Renders the vertical step-by-step route timeline inside a trip detail panel.
  * Collapses transport chains, groups nested day trips under their parent stays,
  * and delegates each segment type to a dedicated sub-component.
- *
  * @component
- *
  * @param {TimelineProps} props - The timeline props
  * @param {TripDetailTimelineItem[]} props.items - Flat timeline items from buildTripDetailTimelineItems
  * @param {boolean} props.showYear - Whether to include the year in date labels

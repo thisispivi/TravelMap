@@ -8,7 +8,6 @@ import { Card } from "../../../molecules/Cards/Card";
 
 /**
  * Props for the DaysPerYearCard component.
- *
  * @property {Trip[]} trips - All visited trips, used to derive days abroad per year.
  */
 export type DaysPerYearCardProps = {
@@ -17,12 +16,10 @@ export type DaysPerYearCardProps = {
 
 /**
  * DaysPerYearCard component
- *
  * Bento half-width card showing a bar chart of days abroad per calendar year.
- *
  * @component
- *
  * @param {DaysPerYearCardProps} props
+ * @param {Trip[]} props.trips - Trips used to calculate days abroad
  * @returns {ReactNode} The days-per-year bento card
  */
 export function DaysPerYearCard({ trips }: DaysPerYearCardProps): ReactNode {

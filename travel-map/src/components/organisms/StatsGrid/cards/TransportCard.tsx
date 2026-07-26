@@ -13,7 +13,6 @@ import { TransportRow } from "../../../molecules/Row/RowTransport";
 
 /**
  * Props for the TransportCard component.
- *
  * @property {Flight[]} takenFlights - All flights taken.
  * @property {Ferry[]} takenFerries - All ferries taken.
  * @property {Flight} maxFlight - Longest flight taken.
@@ -36,13 +35,18 @@ export type TransportCardProps = {
 
 /**
  * TransportCard component
- *
  * Bento full-width card showing a transport donut chart alongside detail rows
  * for longest/shortest flight and ferry, and the biggest timezone jump.
- *
  * @component
- *
  * @param {TransportCardProps} props
+ * @param {Flight[]} props.takenFlights - All recorded flights
+ * @param {Ferry[]} props.takenFerries - All recorded ferry crossings
+ * @param {Flight} props.maxFlight - The longest recorded flight
+ * @param {Flight} props.minFlight - The shortest recorded flight
+ * @param {Ferry} props.maxFerry - The longest recorded ferry crossing
+ * @param {Ferry} props.minFerry - The shortest recorded ferry crossing
+ * @param {City} [props.cityBiggestTimezoneJump] - City with the largest timezone jump
+ * @param {{ sDate?: Date; eDate?: Date }} [props.cityBiggestTimezoneJumpTravel] - Dates for the largest timezone jump
  * @returns {ReactNode} The transport bento card
  */
 export function TransportCard({

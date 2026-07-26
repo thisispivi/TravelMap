@@ -7,7 +7,7 @@ import { getCityTravels } from "./trips";
 /**
  * Get total media taken
  * @param {City[]} cities - The list of cities
- * @returns {number} - The total media taken
+ * @returns {number} The total media taken
  */
 export function getTotalMediaTaken(cities: City[]): number {
   return pipe(

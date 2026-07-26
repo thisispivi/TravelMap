@@ -31,6 +31,11 @@ The live app is available at [map.pivi.dev](https://map.pivi.dev/).
 
 ```text
 .
+├── .github
+│   └── copilot-instructions.md
+├── AGENTS.md
+├── CLAUDE.md
+├── CODING_GUIDELINES.md
 ├── logos
 ├── scripts
 │   └── uploader
@@ -43,6 +48,8 @@ The live app is available at [map.pivi.dev](https://map.pivi.dev/).
 - `scripts`: Contains a folder with the scripts used to process and upload images/videos and generate the JSON file.
   - [Uploader](./scripts/uploader/README.md): generates compressed and thumbnail images from travel photos and videos. It uploads them to bunnyCDN and generates a JSON file with the metadata. This JSON file is then used by the React app to display the galleries.
 - `logos` contains app and README logo assets.
+- [`CODING_GUIDELINES.md`](./CODING_GUIDELINES.md) is the single source of truth for code style and engineering conventions.
+- `AGENTS.md`, `CLAUDE.md`, and `.github/copilot-instructions.md` configure Codex, Claude, and GitHub Copilot to follow those same guidelines for every code file.
 
 ## Local Development
 
@@ -55,10 +62,21 @@ pnpm dev
 Useful commands:
 
 ```bash
+pnpm run check
 pnpm run lint
+pnpm run format
 pnpm run build
 pnpm run knip
 ```
+
+`pnpm run check` runs TypeScript checking, ESLint with zero warnings, a Prettier
+formatting check, unused-code analysis, and React Doctor. Run it before
+committing. The Husky pre-commit hook also checks staged TypeScript, TSX,
+JavaScript, styles, markup, and data files.
+
+ESLint uses `eslint-plugin-jsdoc` to enforce the canonical documentation
+layout, including component titles, contiguous spacing, typed parameters,
+documented destructured props, return values, and public type documentation.
 
 ## Deploy
 

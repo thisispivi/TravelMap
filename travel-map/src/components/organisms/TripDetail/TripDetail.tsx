@@ -12,7 +12,7 @@ import FerryIcon from "@/assets/icons/Ferry.svg?react";
 import TaxiIcon from "@/assets/icons/Taxi.svg?react";
 import TimezoneIcon from "@/assets/icons/Timezone.svg?react";
 import TrainIcon from "@/assets/icons/Train.svg?react";
-import { isPanelLoadingVisible } from "@/components/molecules/PanelLoading/PanelLoading";
+import { isPanelLoadingVisible } from "@/components/molecules/PanelLoading/panelLoadingState";
 import { Timeline } from "@/components/molecules/Timeline/Timeline";
 import { TripDetailHero } from "@/components/molecules/TripDetailHero/TripDetailHero";
 import { HomeContext } from "@/components/pages/Home/HomeContext";
@@ -29,9 +29,11 @@ import {
   TripDetailTimelineItem,
 } from "@/utils/tripDetailTimeline";
 /**
- * Aggregate transport and stay statistics from a flat list of timeline items.
- * @param {TripDetailTimelineItem[]} items - Timeline items for the trip
- * @returns Counts, distances, and durations grouped by transport mode, plus night count and timezone set
+ * Adds every timezone offset observed during a city stay to the supplied set.
+ * @param {Set<number>} offsets - The timezone offsets collected for the trip
+ * @param {City} city - The city whose offsets should be sampled
+ * @param {Date} sDate - The first date of the stay
+ * @param {Date} eDate - The last date of the stay
  */
 function addCityOffsetsForStop(
   offsets: Set<number>,
@@ -156,13 +158,10 @@ function computeTripStats(items: TripDetailTimelineItem[]) {
 }
 /**
  * TripDetail component
- *
  * Floating panel showing the full route timeline and transport stats for
  * the selected trip. Slides in from the left and persists the trip in
  * HomeContext so the route overlay stays visible on the map.
- *
  * @component
- *
  * @returns {ReactNode} The trip detail panel, or null when no trip is selected
  */
 export function TripDetail(): ReactNode {

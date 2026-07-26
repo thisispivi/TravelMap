@@ -31,7 +31,7 @@ export function getTimeZoneAbbreviation(
 /**
  * Get the City with the biggest timezone jump. In case of a tie, the one with the biggest population is returned.
  * @param {City[]} countries - The list of countries
- * @returns {City | undefined} - The City with the biggest timezone jump
+ * @returns {City | undefined} The City with the biggest timezone jump
  */
 export function getCityBiggestTimezoneJump(
   countries: City[],
@@ -63,7 +63,7 @@ export function getCityBiggestTimezoneJump(
 /**
  * Get the number of timezones jumped.
  * @param {City[]} countries - The list of countries
- * @returns {number} - The number of timezones jumped
+ * @returns {number} The number of timezones jumped
  */
 export function getNumberOfTimezonesJumped(countries: City[]): number {
   const birthCity = parameters.birthCity;

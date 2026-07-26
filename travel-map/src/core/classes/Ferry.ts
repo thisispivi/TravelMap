@@ -15,17 +15,17 @@ interface FerryInterface {
 }
 
 /**
- * Ferry class
- *
  * The ferry class is used to represent a ferry trip.
- *
  * @class
- *
  * @param {FerryInterface} ferryData - The data of the ferry trip
  * @param {City} ferryData.sCity - The start city of the ferry trip
  * @param {City} ferryData.eCity - The end city of the ferry trip
- * @param {FerryCompany} ferryData.company - The company of the ferry trip
- * @param {number} ferryData.distanceInKm - The distance of the ferry trip in kilometers
+ * @param {FerryCompany} [ferryData.company] - The company of the ferry trip
+ * @param {Date} [ferryData.sDate] - The start date of the ferry trip
+ * @param {Date} [ferryData.eDate] - The end date of the ferry trip
+ * @param {City[]} [ferryData.via] - Intermediate cities on the ferry route
+ * @param {number} [ferryData.distanceInKm] - The distance of the ferry trip in kilometers
+ * @param {number} [ferryData.durationMinutes] - The ferry duration in minutes
  */
 export class Ferry implements FerryInterface {
   sCity: City;

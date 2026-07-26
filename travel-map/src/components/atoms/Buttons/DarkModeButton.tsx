@@ -32,15 +32,12 @@ const iconVariants = {
 
 /**
  * DarkModeButton component
- *
  * Animated theme toggle button.
- *
  * @component
- *
  * @param {DarkModeButtonProps} props - The dark mode button props
- * @param {string} [props.className] - Additional class names
  * @param {boolean} props.isDarkTheme - Whether the dark mode is currently active
  * @param {() => void} props.handleDarkModeSwitch - Toggles the theme
+ * @param {string} [props.className=""] - Additional class names
  * @returns {ReactNode} The dark mode button
  */
 export function DarkModeButton({

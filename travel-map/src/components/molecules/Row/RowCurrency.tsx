@@ -15,14 +15,11 @@ interface CurrencyRowProps {
 
 /**
  * CurrencyRow component
- *
  * Displays a currency flag, localized name, and symbol.
- *
  * @component
- *
  * @param {CurrencyRowProps} props - The currency row props
  * @param {Currency} [props.currency] - Currency to display
- * @param {string} [props.className] - Additional class names
+ * @param {string} [props.className=""] - Additional class names
  * @returns {ReactNode} The currency row
  */
 export function CurrencyRow({

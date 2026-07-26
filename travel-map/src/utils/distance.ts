@@ -9,8 +9,12 @@ import { toRadians } from "./convert";
 /**
  * Get the haversine distance between two points.
  * @param {{ lat: number; lon: number }} start - The start point
+ * @param {number} start.lat - The start latitude
+ * @param {number} start.lon - The start longitude
  * @param {{ lat: number; lon: number }} end - The end point
- * @returns {number} - The distance between the two points in kilometers
+ * @param {number} end.lat - The end latitude
+ * @param {number} end.lon - The end longitude
+ * @returns {number} The distance between the two points in kilometers
  */
 function haversineDistance(
   start: { lat: number; lon: number },
@@ -32,7 +36,7 @@ function haversineDistance(
  * Get the distance between two cities.
  * @param {City} start - The start city
  * @param {City} end - The end city
- * @returns {number} - The distance between the two cities in kilometers
+ * @returns {number} The distance between the two cities in kilometers
  */
 export function getCitiesDistance(start: City, end: City): number {
   return haversineDistance(
@@ -45,7 +49,7 @@ export function getCitiesDistance(start: City, end: City): number {
  * Get the furthest and nearest cities from a reference city.
  * @param {City[]} cities - The list of cities
  * @param {City} referenceCity - The reference city
- * @returns {{ furthest: City; nearest: City }} - The furthest and nearest cities
+ * @returns {{ furthest: City; nearest: City }} The furthest and nearest cities
  */
 export function getFurthestAndNearestCity(
   cities: City[],
@@ -67,7 +71,7 @@ type TransportWithDistance = { distanceInKm: number };
 /**
  * Get the minimum and maximum transports from a list of transports.
  * @param {T[]} transports - The list of transports
- * @returns {{ min: T; max: T }} - The minimum and maximum transports
+ * @returns {{ min: T; max: T }} The minimum and maximum transports
  */
 export function getMinAndMaxTransport<T extends TransportWithDistance>(
   transports: T[],
@@ -85,7 +89,7 @@ export function getMinAndMaxTransport<T extends TransportWithDistance>(
  * Get the total mileage from a list of flights.
  * @param {Flight[]} takenFlights - The list of flights
  * @param {Ferry[]} takenFerries - The list of ferries
- * @returns {string} - The total mileage in kilometers
+ * @returns {string} The total mileage in kilometers
  */
 export function getTotalMileage(
   takenFlights: Flight[],

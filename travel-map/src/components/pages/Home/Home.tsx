@@ -61,14 +61,11 @@ function homeReducer(state: HomeState, action: HomeAction): HomeState {
 
 /**
  * Home component
- *
  * Root page component. Owns all shared state (theme, map position, hovered
  * city, selected trip, active view, panel open/close) and exposes it via
  * `HomeContext`. Redirects to `/trips` on first load unless the user navigated
  * to the map-only view explicitly.
- *
  * @component
- *
  * @returns {ReactNode} The home page with context and layout template
  */
 export function Home(): ReactNode {

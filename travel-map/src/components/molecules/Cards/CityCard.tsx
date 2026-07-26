@@ -1,6 +1,6 @@
 import "./CityCard.scss";
 
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { MouseEvent, ReactNode, useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import CalendarIcon from "@/assets/icons/Calendar.svg?react";
@@ -31,24 +31,21 @@ interface CityCardProps {
 }
 /**
  * CityCard component
- *
  * A photo card representing a single city visit. Lazily loads the background
  * image via an IntersectionObserver and caches it using the service worker.
  * Highlights the corresponding map marker on hover and, when clickable,
  * navigates to the photo gallery for that travel.
- *
  * @component
- *
  * @param {CityCardProps} props
- * @param {string} [props.className] - Additional class names
+ * @param {string} [props.className=""] - Additional class names
  * @param {City} props.city - The city to display
  * @param {Travel} [props.travel] - The specific travel entry to show dates for
- * @param {number} [props.travelIdx] - Visit index used for the background image
- * @param {boolean} [props.isClickable] - Whether clicking opens the gallery
+ * @param {number} [props.travelIdx=0] - Visit index used for the background image
+ * @param {boolean} [props.isClickable=false] - Whether clicking opens the gallery
  * @param {(city: City | null) => void} props.setHoveredCity - Highlights the city on the map
  * @param {(position: { center: [number, number]; zoom: number }) => void} [props.setMapPosition] - Centers the map on the city
- * @param {boolean} [props.isHidden] - Hides the card (CSS only, keeps it in the DOM)
- * @param {boolean} [props.showDates] - Whether to show the travel date range
+ * @param {boolean} [props.isHidden=false] - Hides the card (CSS only, keeps it in the DOM)
+ * @param {boolean} [props.showDates=true] - Whether to show the travel date range
  * @returns {ReactNode} The city card
  */
 export function CityCard({
@@ -97,8 +94,8 @@ export function CityCard({
   const handleMouseLeave = () => {
     setHoveredCity(null);
   };
-  const handleCenterMap = (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const handleCenterMap = (event: MouseEvent) => {
+    event.stopPropagation();
     if (setMapPosition) {
       setMapPosition({
         center: city.coordinates,
