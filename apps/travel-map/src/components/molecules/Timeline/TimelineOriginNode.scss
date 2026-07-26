@@ -1,0 +1,57 @@
+@use "../../../styles/variables" as v;
+
+.trip-detail {
+  .trip-detail__row--origin {
+    padding: 0.25rem 0;
+
+    .trip-detail__track {
+      justify-content: center;
+    }
+  }
+
+  .trip-detail__origin-dot {
+    width: 0.625rem;
+    height: 0.625rem;
+    border-radius: 50%;
+    border: 0.125rem solid var(--dot-color, var(--dot-default-border));
+    background: transparent;
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+  }
+
+  .trip-detail__origin-label {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.1875rem 0;
+  }
+
+  .trip-detail__origin-name {
+    font-size: v.$bodySm;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .trip-detail__origin-flag {
+    width: 0.9375rem;
+    height: 0.9375rem;
+    flex-shrink: 0;
+  }
+}
+
+.home--dark {
+  .trip-detail {
+    .trip-detail__origin-name {
+      color: v.$darkAltText;
+    }
+  }
+}
+
+.home--light {
+  .trip-detail {
+    .trip-detail__origin-name {
+      color: v.$lightAltText;
+    }
+  }
+}

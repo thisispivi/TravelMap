@@ -1,0 +1,52 @@
+@use "../../../styles/variables" as v;
+@use "../../../styles/mixins" as m;
+
+@mixin loader($color) {
+  $size: 1.8rem;
+  $border: 0.25rem;
+
+  margin: auto;
+  width: $size;
+  height: $size;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(farthest-side, $color 94%, #0000) top/$border $border
+      no-repeat,
+    conic-gradient(#0000 30%, $color);
+  -webkit-mask: radial-gradient(
+    farthest-side,
+    #0000 calc(100% - $border),
+    #000 0
+  );
+  mask: radial-gradient(farthest-side, #0000 calc(100% - $border), #000 0);
+  animation: spinLoader 0.8s infinite cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.loader {
+  @include loader(#ea4335);
+}
+
+div[class*="visited"] {
+  .loader {
+    @include loader(v.$visitedButtonContent);
+  }
+}
+
+div[class*="lived"] {
+  .loader {
+    @include loader(v.$livedButtonContent);
+  }
+}
+
+div[class*="future"] {
+  .loader {
+    @include loader(v.$futureButtonContent);
+  }
+}
+
+@keyframes spinLoader {
+  100% {
+    transform: rotate(1turn);
+  }
+}

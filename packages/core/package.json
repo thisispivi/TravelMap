@@ -1,0 +1,17 @@
+{
+  "name": "@travelmap/core",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./helpers/tripBuilders/tripBuilders": "./src/helpers/tripBuilders/tripBuilders.ts",
+    "./classes/Ferry": "./src/classes/Ferry.ts",
+    "./classes/Flight": "./src/classes/Flight.ts",
+    "./classes/City": "./src/classes/City.ts",
+    "./typings/Travel": "./src/typings/Travel.ts"
+  },
+  "dependencies": {
+    "i18next": "^26.3.6",
+    "remeda": "^2.39.0"
+  }
+}

@@ -1,0 +1,132 @@
+@use "../../../styles/variables" as v;
+
+.bento-stat {
+  grid-column: span 3;
+  align-self: start;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-areas:
+    "icon label"
+    "value value";
+  column-gap: 0.65rem;
+  row-gap: 0.65rem;
+  align-items: center;
+  min-width: 0;
+  min-height: 5.5rem;
+  padding: 0.75rem;
+  overflow: hidden;
+
+  &.bento-stat--wide {
+    grid-column: span 4;
+  }
+
+  .bento-stat__icon {
+    grid-area: icon;
+    width: 1.25rem;
+    height: 1.25rem;
+    flex-shrink: 0;
+
+    * {
+      fill: none !important;
+      stroke: currentColor !important;
+    }
+  }
+
+  &.bento-stat--globe {
+    .bento-stat__icon * {
+      fill: currentColor !important;
+      stroke: none !important;
+    }
+  }
+
+  &.bento-stat--calendar {
+    .bento-stat__icon .calendar-0 {
+      stroke-width: 60 !important;
+    }
+  }
+
+  .bento-stat__label {
+    grid-area: label;
+    font-size: v.$bodySm;
+    font-weight: 600;
+    line-height: 1.15;
+  }
+
+  .bento-stat__value {
+    grid-area: value;
+    display: flex;
+    align-items: baseline;
+    gap: 0.25rem;
+    flex-wrap: wrap;
+
+    b {
+      font-size: 1.35rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .bento-stat__suffix {
+      font-size: v.$bodySm;
+      font-weight: 500;
+      opacity: 0.55;
+    }
+  }
+}
+
+.home--dark {
+  .bento-stat {
+    .bento-stat__label,
+    .bento-stat__suffix {
+      color: v.$darkAltText;
+    }
+
+    b {
+      color: v.$darkButtonContent;
+    }
+
+    .bento-stat__icon {
+      color: v.$darkButtonContent;
+    }
+  }
+}
+
+.home--light {
+  .bento-stat {
+    .bento-stat__label,
+    .bento-stat__suffix {
+      color: v.$lightAltText;
+    }
+
+    b {
+      color: v.$lightButtonContent;
+    }
+
+    .bento-stat__icon {
+      color: v.$lightButtonContent;
+    }
+  }
+}
+
+@media screen and (max-width: 52rem) {
+  .bento-stat {
+    grid-column: span 2;
+  }
+
+  .bento-stat.bento-stat--wide {
+    grid-column: span 4;
+  }
+}
+
+@media screen and (max-width: 40rem) {
+  .bento-stat,
+  .bento-stat.bento-stat--wide {
+    grid-column: span 2;
+  }
+}
+
+@media screen and (max-width: 26rem) {
+  .bento-stat,
+  .bento-stat.bento-stat--wide {
+    grid-column: span 1;
+  }
+}

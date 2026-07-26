@@ -1,0 +1,61 @@
+.map-city-marker {
+  --marker-color: #ea4335;
+  --marker-hover-color: #ff3d00;
+  display: block;
+  width: 0.964rem;
+  height: 1.377rem;
+  color: var(--marker-color);
+  cursor: pointer;
+  filter: drop-shadow(0 0.075rem 0.125rem rgba(0, 0, 0, 0.4));
+  transform-origin: 50% 100%;
+  transition: transform 150ms ease;
+
+  svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  path {
+    fill: currentColor;
+  }
+
+  circle {
+    fill: #ffffff;
+  }
+
+  &--hovered,
+  &:hover,
+  &:focus-visible {
+    z-index: 3;
+    outline: none;
+    transform: scale(1.22);
+
+    path {
+      color: var(--marker-hover-color);
+    }
+  }
+
+  &--future {
+    --marker-color: #1565c0;
+    --marker-hover-color: #42a5f5;
+  }
+
+  &--lived {
+    --marker-color: #f9a825;
+    --marker-hover-color: #ffca28;
+  }
+
+  &--layover {
+    --marker-color: #8a8ea4;
+    --marker-hover-color: #c0c0d0;
+    opacity: 0.72;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .map-city-marker {
+    transition: none;
+  }
+}

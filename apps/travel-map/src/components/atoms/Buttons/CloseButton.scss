@@ -1,0 +1,38 @@
+@use "../../../styles/variables" as v;
+@use "../../../styles/mixins" as m;
+
+.close-button {
+  width: 1.5rem;
+  height: 1.5rem;
+  cursor: pointer;
+  border-radius: 50%;
+  padding: 0.15rem;
+}
+
+.home--light {
+  .close-button {
+    path {
+      fill: v.$lightAltTextDarker;
+    }
+    &:hover {
+      background: rgba(0, 0, 0, 0.06);
+      path {
+        fill: #080808;
+      }
+    }
+  }
+}
+
+.home--dark {
+  .close-button {
+    path {
+      fill: v.$darkAltText;
+    }
+    &:hover {
+      background: rgba(255, 255, 255, 0.08);
+      path {
+        fill: #e0e0e0;
+      }
+    }
+  }
+}

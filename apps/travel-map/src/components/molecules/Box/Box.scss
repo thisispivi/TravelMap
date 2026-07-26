@@ -1,0 +1,36 @@
+@use "../../../styles/variables" as v;
+@use "../../../styles/mixins" as m;
+
+.box {
+  display: flex;
+  flex-direction: column;
+  @include m.transition(all, 0.3s);
+
+  .box__title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .box__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+}
+
+.home--light {
+  .box {
+    @include m.full-panel-light();
+    color: v.$lightButtonContent;
+  }
+}
+
+.home--dark {
+  .box {
+    @include m.full-panel-dark();
+    color: v.$darkButtonContent;
+  }
+}

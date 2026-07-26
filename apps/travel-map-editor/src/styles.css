@@ -1,0 +1,9 @@
+:root { color: #1d2433; font-family: Inter, system-ui, sans-serif; background: #f6f7fb; }
+body { margin: 0; }
+.editor { display: grid; grid-template-columns: 13rem 1fr; min-height: 100vh; }
+nav { display: grid; align-content: start; gap: .75rem; padding: 1.5rem; background: #182033; }
+nav a { color: white; }
+main { max-width: 72rem; padding: 2rem; }
+section { display: grid; gap: .35rem; margin: 1.5rem 0; }
+textarea { box-sizing: border-box; width: 100%; min-height: 36rem; padding: 1rem; font: .875rem/1.5 ui-monospace, monospace; }
+button { padding: .6rem 1rem; }

@@ -1,0 +1,18 @@
+@use "../../../styles/variables" as v;
+@use "../../../styles/mixins" as m;
+
+.route-overlay {
+  pointer-events: none;
+}
+
+@keyframes route-draw {
+  from {
+    stroke-dashoffset: 1000;
+    opacity: 0;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}

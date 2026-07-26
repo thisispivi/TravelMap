@@ -1,0 +1,20 @@
+<svg id="b6b1d96b-8e97-4fb8-9c7b-085cbbf2f822" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
+	xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 40 40">
+	<defs>
+		<clipPath id="bd1e7254-cbf4-48e7-b41b-8489a2618cf1">
+			<rect y="13.16" width="40" height="13.68" style="fill:none" />
+		</clipPath>
+	</defs>
+	<rect width="40" height="40" rx="6" style="fill:#fff" />
+	<path id="ae039556-7035-4bbc-bf7d-8dae845c86ce" data-name="path5697" d="M36.71,15.09l-5.33,9.22h1.48l5.33-9.22Z"
+		style="fill:#00b3f0" />
+	<path id="f3130127-097e-4e0d-a66a-469171509004" data-name="path5699" d="M31.38,24.31l5.33-9.22H30.78l-5.32,9.22Z"
+		style="fill:#223f9a" />
+	<g style="clip-path:url(#bd1e7254-cbf4-48e7-b41b-8489a2618cf1)">
+		<g id="a827d56d-78f4-4f60-8a5a-e9a56667d67d" data-name="g5701">
+			<path id="bdd0e620-0025-4b57-88b6-18a1652034e0" data-name="path5703"
+				d="M12.35,18.17a.16.16,0,0,1,.16-.14.17.17,0,0,1,.16.12l1.7,6.16h2.77l1.41-8H17.33l-1.08,6.17a.17.17,0,0,1-.17.14.16.16,0,0,1-.15-.12l-1.7-6.19H11.46l-1.42,8h1.22l1.09-6.14M7.61,21.6,7.37,18a.17.17,0,0,0-.13-.17.18.18,0,0,0-.21.1L3.41,24.31H2l4.54-8H9.24l.54,8h-2l0-.87a.34.34,0,0,0-.34-.34h-3l.68-1.19H7.33a.29.29,0,0,0,.28-.31m15.07,0-.31-3.56a.18.18,0,0,0-.18-.16A.19.19,0,0,0,22,18l-3.25,6.34H17.43l4.11-8h2.67l.71,8h-2l-.07-.87a.35.35,0,0,0-.34-.33H19.7l.61-1.2H22.4a.28.28,0,0,0,.28-.3"
+				style="fill:#223f9a" />
+		</g>
+	</g>
+</svg>

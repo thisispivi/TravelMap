@@ -1,0 +1,96 @@
+@use "../../../../styles/variables" as v;
+@use "../../../../styles/mixins" as m;
+
+@mixin not-visited($continent, $id) {
+  &.#{$continent}--not-visited {
+    ##{$id} {
+      * {
+        fill: var(--not-visited-color) !important;
+      }
+    }
+  }
+}
+
+.bento-continents {
+  .bento-continents__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1rem;
+  }
+
+  .bento-continents__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+
+    h2 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+  }
+
+  .bento-continents__score {
+    display: flex;
+    align-items: baseline;
+    gap: 0.2rem;
+    flex-shrink: 0;
+
+    b {
+      font-size: 1.4rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    span {
+      font-size: v.$bodySm;
+      font-weight: 700;
+    }
+  }
+
+  .bento-continents__map {
+    width: 100%;
+    height: auto;
+    display: block;
+    max-height: 12.5rem;
+
+    @include not-visited("africa", "Africa");
+    @include not-visited("asia", "Asia");
+    @include not-visited("europe", "Europe");
+    @include not-visited("north-america", "NorthAmerica");
+    @include not-visited("oceania", "Oceania");
+    @include not-visited("south-america", "SouthAmerica");
+  }
+
+  .bento-continents__badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+}
+
+.home--dark {
+  .bento-continents__score {
+    b {
+      color: v.$darkButtonContent;
+    }
+
+    span {
+      color: v.$darkAltText;
+    }
+  }
+}
+
+.home--light {
+  .bento-continents__score {
+    b {
+      color: v.$lightButtonContent;
+    }
+
+    span {
+      color: v.$lightAltText;
+    }
+  }
+}

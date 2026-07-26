@@ -1,0 +1,1 @@
+import{s as e}from"./framer-CTUB0icS.js";var t=e();function n({className:e=``,children:n}){return(0,t.jsx)(`div`,{className:`row ${e}`,children:n})}export{n as t};

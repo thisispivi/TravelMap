@@ -1,0 +1,47 @@
+@use "../../../styles/mixins" as m;
+@use "../../../styles/variables" as v;
+
+.card {
+  border-radius: 1rem;
+  padding: 1rem;
+  @include m.transition(all, 0.3s);
+  &.card--box-shadow {
+    @include m.smooth-shadow(1);
+  }
+}
+
+.home--light {
+  .card {
+    background: rgba(255, 255, 255, 0.7);
+    -webkit-backdrop-filter: blur(0.75rem);
+    backdrop-filter: blur(0.75rem);
+    border: 0.0625rem solid rgba(255, 255, 255, 0.5);
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: v.$lightButtonContent;
+      @include m.transition(all, 0.3s);
+    }
+  }
+}
+
+.home--dark {
+  .card {
+    background: rgba(22, 22, 30, 0.6);
+    -webkit-backdrop-filter: blur(0.75rem);
+    backdrop-filter: blur(0.75rem);
+    border: 0.0625rem solid rgba(255, 255, 255, 0.06);
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: v.$darkButtonContent;
+      @include m.transition(all, 0.3s);
+    }
+  }
+}

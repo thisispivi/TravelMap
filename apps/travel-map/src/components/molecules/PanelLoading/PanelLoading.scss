@@ -1,0 +1,46 @@
+@use "../../../styles/variables" as v;
+@use "../../../styles/mixins" as m;
+
+.panel-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: v.$floatingCardRadiusLg;
+
+  &--bottom {
+    width: 100%;
+    height: 100%;
+  }
+
+  &--side {
+    position: fixed;
+    top: calc(v.$floatingNavHeight + 2rem);
+    left: 1rem;
+    width: v.$floatingCardMaxWidth;
+    height: 14rem;
+    z-index: 2;
+    transform-origin: left top;
+  }
+}
+
+.home--dark .panel-loading {
+  @include m.full-panel-dark();
+}
+
+.home--light .panel-loading {
+  @include m.full-panel-light();
+}
+
+@media screen and (max-width: 42.5rem) {
+  .panel-loading--side {
+    top: auto;
+    bottom: calc(
+      v.$floatingNavHeight + v.$mobileFloatingMargin * 2 +
+        env(safe-area-inset-bottom, 0rem)
+    );
+    left: v.$mobileFloatingMargin;
+    right: v.$mobileFloatingMargin;
+    width: auto;
+    border-radius: 1.5rem;
+  }
+}

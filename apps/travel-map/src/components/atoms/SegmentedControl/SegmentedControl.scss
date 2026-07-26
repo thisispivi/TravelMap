@@ -1,0 +1,79 @@
+@use "../../../styles/variables" as v;
+@use "../../../styles/mixins" as m;
+
+.segmented-control {
+  display: flex;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  border-radius: 0.75rem;
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  .segmented-control__option {
+    position: relative;
+    padding: 0.5rem 1rem;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    border-radius: 0.5rem;
+    flex-shrink: 0;
+    @include m.transition(color, 0.2s);
+
+    .segmented-control__indicator {
+      position: absolute;
+      inset: 0;
+      border-radius: 0.5rem;
+      z-index: 0;
+    }
+
+    .segmented-control__label {
+      position: relative;
+      z-index: 1;
+      font-size: v.$bodySm;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+  }
+}
+
+.home--dark {
+  .segmented-control {
+    background: rgba(255, 255, 255, 0.06);
+
+    .segmented-control__option {
+      color: v.$darkAltTextDarker;
+
+      &--active {
+        color: #ffffff;
+      }
+
+      .segmented-control__indicator {
+        background: rgba(255, 255, 255, 0.12);
+      }
+    }
+  }
+}
+
+.home--light {
+  .segmented-control {
+    background: rgba(0, 0, 0, 0.04);
+
+    .segmented-control__option {
+      color: v.$lightAltText;
+
+      &--active {
+        color: v.$lightButtonContent;
+      }
+
+      .segmented-control__indicator {
+        background: #ffffff;
+        @include m.smooth-shadow(1);
+      }
+    }
+  }
+}
