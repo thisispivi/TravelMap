@@ -1,0 +1,244 @@
+@use "variables" as v;
+@use "mixins" as m;
+
+// The public app locks scrolling because the map owns the viewport. The editor
+// is a document tool, so it opts back in.
+body,
+#root {
+  overflow: auto;
+}
+
+.editor {
+  display: grid;
+  grid-template-columns: 19rem minmax(0, 1fr);
+  align-items: start;
+  min-height: 100vh;
+  gap: v.$floatingCardGap;
+  padding: v.$floatingCardGap;
+
+  &--dark {
+    color: v.$darkButtonContent;
+  }
+  &--light {
+    color: v.$lightButtonContent;
+  }
+
+  &__screen {
+    display: flex;
+    flex-direction: column;
+    gap: v.$floatingCardGap;
+    max-width: 64rem;
+    padding: 0.5rem 0.5rem 4rem;
+  }
+
+  &__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  &__eyebrow {
+    font-size: v.$caption;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  &__path {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: ui-monospace, "SFMono-Regular", monospace;
+    font-size: v.$caption;
+  }
+
+  &__badge {
+    padding: 0.15rem 0.5rem;
+    border-radius: 62.4375rem;
+    background-color: v.$accentPrimary;
+    color: #ffffff;
+    font-size: v.$caption;
+    font-weight: 600;
+  }
+
+  &__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 3rem 0;
+  }
+
+  &__link-button {
+    text-decoration: none;
+  }
+
+  &--dark &__eyebrow,
+  &--dark &__path {
+    color: v.$darkAltTextDarker;
+  }
+  &--light &__eyebrow,
+  &--light &__path {
+    color: v.$lightAltTextDarker;
+  }
+}
+
+// ─── Panels ─────────────────────────────────────────────────
+.editor-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: v.$floatingCardPadding;
+  border-radius: v.$floatingCardRadiusLg;
+
+  &__legend {
+    font-size: v.$headingMd;
+    font-weight: 600;
+  }
+
+  &__hint {
+    margin: 0;
+    font-size: v.$bodySm;
+    line-height: 1.5;
+  }
+
+  &__row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+    align-items: end;
+    gap: 1rem;
+  }
+}
+
+.editor--dark .editor-panel {
+  @include m.full-panel-dark();
+  padding: v.$floatingCardPadding;
+}
+.editor--light .editor-panel {
+  @include m.full-panel-light();
+  padding: v.$floatingCardPadding;
+}
+.editor--dark .editor-panel__hint {
+  color: v.$darkAltText;
+}
+.editor--light .editor-panel__hint {
+  color: v.$lightAltText;
+}
+
+// ─── Buttons ────────────────────────────────────────────────
+.editor-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.55rem 1rem;
+  border: 0.0625rem solid transparent;
+  border-radius: 62.4375rem;
+  font-size: v.$bodySm;
+  font-weight: 600;
+  cursor: pointer;
+  @include m.transition(transform, 0.2s);
+
+  &:hover:not(:disabled) {
+    transform: scale(1.03);
+  }
+  &:active:not(:disabled) {
+    transform: scale(0.97);
+  }
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    transform: none;
+  }
+  &:focus-visible {
+    outline: 0.125rem solid v.$accentPrimary;
+    outline-offset: 0.15rem;
+  }
+
+  &--primary {
+    background-color: v.$accentPrimary;
+    color: #ffffff;
+
+    &:hover:not(:disabled) {
+      background-color: v.$accentPrimaryHover;
+    }
+  }
+
+  &--danger {
+    background-color: v.$visitedButton;
+    color: v.$visitedButtonContent;
+
+    &:hover:not(:disabled) {
+      background-color: v.$visitedButtonHover;
+    }
+  }
+}
+
+.editor--dark
+  .editor-button:not(.editor-button--primary):not(.editor-button--danger) {
+  background-color: v.$darkButton;
+  color: v.$darkButtonContent;
+
+  &:hover:not(:disabled) {
+    background-color: v.$darkButtonHover;
+  }
+}
+.editor--light
+  .editor-button:not(.editor-button--primary):not(.editor-button--danger) {
+  background-color: v.$lightButton;
+  color: v.$lightButtonContent;
+
+  &:hover:not(:disabled) {
+    background-color: v.$lightButtonHover;
+  }
+}
+
+// ─── Messages ───────────────────────────────────────────────
+.editor-notice {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0.85rem 1rem;
+  border-radius: v.$floatingCardRadius;
+  list-style: none;
+  font-size: v.$bodySm;
+
+  &__item {
+    line-height: 1.5;
+  }
+
+  &--error {
+    background-color: v.$visitedButton;
+    color: v.$visitedButtonContent;
+  }
+
+  &--warning {
+    background-color: v.$livedButton;
+    color: #8a6100;
+  }
+
+  &--success {
+    background-color: v.$futureButton;
+    color: v.$futureButtonContent;
+  }
+}
+
+@media (max-width: 60rem) {
+  .editor {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .editor-button {
+    transition: none;
+
+    &:hover:not(:disabled),
+    &:active:not(:disabled) {
+      transform: none;
+    }
+  }
+}

@@ -1,0 +1,305 @@
+@use "variables" as v;
+@use "mixins" as m;
+@use "scrollbar" as s;
+
+.editor-nav {
+  position: sticky;
+  top: v.$floatingCardGap;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: calc(100vh - #{v.$floatingCardGap} * 2);
+  padding: v.$floatingCardPadding;
+  border-radius: v.$floatingCardRadiusLg;
+  overflow-y: auto;
+
+  &__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding-bottom: 0.5rem;
+  }
+
+  &__logo {
+    width: 1.75rem;
+    height: 1.75rem;
+    flex-shrink: 0;
+  }
+
+  &__title {
+    font-size: v.$headingMd;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  &__theme {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    margin-left: auto;
+    border: 0;
+    border-radius: 62.4375rem;
+    cursor: pointer;
+    @include m.transition(transform, 0.2s);
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+    }
+    &:hover {
+      transform: scale(1.1);
+    }
+    &:focus-visible {
+      outline: 0.125rem solid v.$accentPrimary;
+      outline-offset: 0.15rem;
+    }
+  }
+
+  &__filter {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    margin: 0.5rem 0;
+  }
+
+  &__filter-label {
+    font-size: v.$caption;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  &__sections {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  &__section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  &__heading {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin: 0.75rem 0 0.35rem;
+    font-size: v.$caption;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+
+    svg {
+      width: 0.85rem;
+      height: 0.85rem;
+      flex-shrink: 0;
+    }
+  }
+
+  &__count {
+    padding: 0.05rem 0.4rem;
+    border-radius: 62.4375rem;
+    font-size: v.$caption;
+    font-weight: 600;
+
+    &--error {
+      margin-left: auto;
+      background-color: v.$accentPrimary;
+      color: #ffffff;
+    }
+  }
+
+  &__add {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.35rem;
+    height: 1.35rem;
+    margin-left: auto;
+    border-radius: 62.4375rem;
+    font-size: v.$bodyLg;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+    @include m.transition(transform, 0.2s);
+
+    &:hover {
+      transform: scale(1.12);
+    }
+    &:focus-visible {
+      outline: 0.125rem solid v.$accentPrimary;
+      outline-offset: 0.15rem;
+    }
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.6rem;
+    border-radius: 0.6rem;
+    font-size: v.$bodySm;
+    font-weight: 600;
+    text-decoration: none;
+    @include m.transition(background-color, 0.2s);
+
+    &--item {
+      font-weight: 500;
+    }
+    &:focus-visible {
+      outline: 0.125rem solid v.$accentPrimary;
+      outline-offset: -0.125rem;
+    }
+  }
+
+  &__label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__hint {
+    margin-left: auto;
+    font-size: v.$caption;
+    flex-shrink: 0;
+  }
+
+  &__empty {
+    margin: 0;
+    padding: 0.3rem 0.6rem;
+    font-size: v.$caption;
+  }
+}
+
+// ─── Dark ───────────────────────────────────────────────────
+.editor--dark .editor-nav {
+  @include m.full-panel-dark();
+  padding: v.$floatingCardPadding;
+  @include s.setScrollbar(
+    transparent,
+    v.$darkButton,
+    v.$darkButtonHover,
+    v.$darkAltTextDarker
+  );
+
+  .editor-nav__theme,
+  .editor-nav__add {
+    background-color: v.$darkButton;
+    color: v.$darkButtonContent;
+  }
+  .editor-nav__theme:hover,
+  .editor-nav__add:hover {
+    background-color: v.$darkButtonHover;
+  }
+  .editor-nav__theme svg {
+    fill: v.$darkButtonContent;
+  }
+  .editor-nav__heading,
+  .editor-nav__filter-label,
+  .editor-nav__hint,
+  .editor-nav__empty {
+    color: v.$darkAltTextDarker;
+  }
+  .editor-nav__heading svg {
+    fill: v.$darkAltTextDarker;
+  }
+  .editor-nav__count {
+    background-color: v.$darkButton;
+    color: v.$darkAltText;
+  }
+  .editor-nav__count--error {
+    background-color: v.$accentPrimary;
+    color: #ffffff;
+  }
+  .editor-nav__link {
+    color: v.$darkAltText;
+
+    &:hover {
+      background-color: v.$darkButton;
+      color: v.$darkButtonContent;
+    }
+    &.active,
+    &--active {
+      background-color: v.$darkButtonHover;
+      color: v.$darkButtonContent;
+    }
+  }
+}
+
+// ─── Light ──────────────────────────────────────────────────
+.editor--light .editor-nav {
+  @include m.full-panel-light();
+  padding: v.$floatingCardPadding;
+  @include s.setScrollbar(
+    transparent,
+    v.$lightButton,
+    v.$lightButtonHover,
+    v.$lightAltTextDarker
+  );
+
+  .editor-nav__theme,
+  .editor-nav__add {
+    background-color: v.$lightButton;
+    color: v.$lightButtonContent;
+  }
+  .editor-nav__theme:hover,
+  .editor-nav__add:hover {
+    background-color: v.$lightButtonHover;
+  }
+  .editor-nav__theme svg {
+    fill: v.$lightButtonContent;
+  }
+  .editor-nav__heading,
+  .editor-nav__filter-label,
+  .editor-nav__hint,
+  .editor-nav__empty {
+    color: v.$lightAltTextDarker;
+  }
+  .editor-nav__heading svg {
+    fill: v.$lightAltTextDarker;
+  }
+  .editor-nav__count {
+    background-color: v.$lightButton;
+    color: v.$lightAltText;
+  }
+  .editor-nav__count--error {
+    background-color: v.$accentPrimary;
+    color: #ffffff;
+  }
+  .editor-nav__link {
+    color: v.$lightAltText;
+
+    &:hover {
+      background-color: v.$lightButton;
+      color: v.$lightButtonContent;
+    }
+    &.active,
+    &--active {
+      background-color: v.$lightButtonHover;
+      color: v.$lightButtonContent;
+    }
+  }
+}
+
+@media (max-width: 60rem) {
+  .editor-nav {
+    position: static;
+    max-height: 22rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .editor-nav__theme,
+  .editor-nav__add,
+  .editor-nav__link {
+    transition: none;
+
+    &:hover {
+      transform: none;
+    }
+  }
+}

@@ -13,6 +13,6 @@ export * from "./typings/FlightCompany";
 export * from "./typings/Image";
 export * from "./typings/Localized";
 export * from "./typings/Marker";
-export * from "./world/date";
 export * from "./world/buildWorld";
+export * from "./world/date";
 export * from "./world/distance";

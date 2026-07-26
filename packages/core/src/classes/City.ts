@@ -115,5 +115,4 @@ export class City implements CityInterface {
   getLocalizedName(locale: string): string {
     return localize(this, locale);
   }
-
 }

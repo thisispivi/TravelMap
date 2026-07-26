@@ -2,9 +2,12 @@
   "name": "@travelmap/core",
   "private": true,
   "type": "module",
+  "scripts": {
+    "lint": "eslint . --report-unused-disable-directives --max-warnings=0",
+    "lint:fix": "eslint . --fix --max-warnings=0"
+  },
   "exports": {
     ".": "./src/index.ts",
-    "./helpers/tripBuilders/tripBuilders": "./src/helpers/tripBuilders/tripBuilders.ts",
     "./classes/Ferry": "./src/classes/Ferry.ts",
     "./classes/Flight": "./src/classes/Flight.ts",
     "./classes/City": "./src/classes/City.ts",

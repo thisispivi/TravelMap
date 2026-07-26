@@ -1,7 +1,7 @@
+import type { TransportMode } from "../classes/Trip";
 import type { Continent } from "../typings/Continent";
 import type { Currency } from "../typings/Currency";
 import type { MarkerSizes } from "../typings/Marker";
-import type { TransportMode } from "../classes/Trip";
 
 /**
  * Serializable country data authored in the forkable dataset.

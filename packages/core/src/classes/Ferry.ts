@@ -1,5 +1,4 @@
 import { getCitiesDistance } from "../world/distance";
-
 import { City } from "./City";
 
 /**

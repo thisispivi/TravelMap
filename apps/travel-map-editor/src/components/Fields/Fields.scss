@@ -1,0 +1,119 @@
+@use "variables" as v;
+@use "mixins" as m;
+
+.editor-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+
+  &--checkbox {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.6rem;
+    cursor: pointer;
+  }
+
+  &__label {
+    font-size: v.$caption;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  &__hint {
+    font-size: v.$caption;
+    line-height: 1.4;
+  }
+
+  &__date {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 0.4rem;
+  }
+
+  &__control {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    border-radius: 0.6rem;
+    border: 0.0625rem solid transparent;
+    font-size: v.$bodySm;
+    @include m.transition(border-color, 0.2s);
+
+    &:focus-visible {
+      outline: none;
+      border-color: v.$accentPrimary;
+    }
+
+    &--area {
+      min-height: 5.5rem;
+      font-family: ui-monospace, "SFMono-Regular", monospace;
+      resize: vertical;
+    }
+
+    &--list {
+      min-height: 8rem;
+      padding: 0.4rem;
+    }
+  }
+
+  &__checkbox {
+    width: 1.05rem;
+    height: 1.05rem;
+    flex-shrink: 0;
+    accent-color: v.$accentPrimary;
+    cursor: pointer;
+  }
+}
+
+// ─── Dark ───────────────────────────────────────────────────
+.editor--dark .editor-field {
+  &__label {
+    color: v.$darkAltTextDarker;
+  }
+  &__hint {
+    color: v.$darkAltTextDarker;
+  }
+  &__control {
+    background-color: v.$darkButton;
+    color: v.$darkButtonContent;
+
+    &::placeholder {
+      color: v.$darkDisabledText;
+    }
+    &:hover {
+      background-color: v.$darkButtonHover;
+    }
+  }
+  option {
+    background-color: v.$darkInfoTab;
+    color: v.$darkButtonContent;
+  }
+}
+
+// ─── Light ──────────────────────────────────────────────────
+.editor--light .editor-field {
+  &__label {
+    color: v.$lightAltTextDarker;
+  }
+  &__hint {
+    color: v.$lightAltText;
+  }
+  &__control {
+    background-color: v.$lightButton;
+    color: v.$lightButtonContent;
+
+    &::placeholder {
+      color: v.$lightDisabledText;
+    }
+    &:hover {
+      background-color: v.$lightButtonHover;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .editor-field__control {
+    transition: none;
+  }
+}

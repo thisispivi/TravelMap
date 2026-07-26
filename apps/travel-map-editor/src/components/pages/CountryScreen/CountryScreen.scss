@@ -1,0 +1,8 @@
+@use "variables" as v;
+
+.country-screen {
+  &__swatch {
+    height: 3.5rem;
+    border-radius: v.$floatingCardRadius;
+  }
+}

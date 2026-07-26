@@ -1,10 +1,10 @@
 import { City } from "../classes/City";
 import { Country } from "../classes/Country";
 import { Trip, TripRouteStep } from "../classes/Trip";
-import { Image } from "../typings/Image";
+import { CityJson, CountryJson, TripJson } from "../schema";
 import { FerryCompany } from "../typings/FerryCompany";
 import { FlightCompany } from "../typings/FlightCompany";
-import { CityJson, CountryJson, TripJson } from "../schema";
+import { Image } from "../typings/Image";
 import { parseLocalDate } from "./date";
 
 /**
@@ -138,10 +138,17 @@ export function buildWorld(sources: WorldSources): World {
                   ),
                   sDate: step.sDate ? parseLocalDate(step.sDate) : undefined,
                   eDate: step.eDate ? parseLocalDate(step.eDate) : undefined,
-            flight: step.flight ? { ...step.flight, company: step.flight.company as FlightCompany | undefined } : undefined,
+                  flight: step.flight
+                    ? {
+                        ...step.flight,
+                        company: step.flight.company as
+                          FlightCompany | undefined,
+                      }
+                    : undefined,
                   ferry: step.ferry
                     ? {
-                  ...step.ferry, company: step.ferry.company as FerryCompany | undefined,
+                        ...step.ferry,
+                        company: step.ferry.company as FerryCompany | undefined,
                         via: step.ferry.viaIds?.map((id) =>
                           requireReference(citiesById, id, `trip ${data.id}`),
                         ),
@@ -155,8 +162,15 @@ export function buildWorld(sources: WorldSources): World {
       (a, b) =>
         a.sDate.getTime() - b.sDate.getTime() || a.id.localeCompare(b.id),
     );
+
+  /**
+   * Resolves configured city references against the shared city registry.
+   * @param {string[]} [ids] - City ids listed in the site configuration
+   * @returns {City[]} The resolved cities
+   */
   const resolveCities = (ids: string[] = []): City[] =>
     ids.map((id) => requireReference(citiesById, id, "config"));
+
   return {
     countriesById,
     citiesById,

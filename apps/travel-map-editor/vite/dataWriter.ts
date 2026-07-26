@@ -1,4 +1,4 @@
-import { mkdir, rm, writeFile } from "node:fs/promises";
+import { mkdir, readdir, rm, rmdir, writeFile } from "node:fs/promises";
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { dirname, resolve, sep } from "node:path";
 
@@ -43,6 +43,28 @@ function resolveDataPath(dataRoot: string, relativePath: string): string {
 }
 
 /**
+ * Removes directories left empty by a delete, stopping at the data root.
+ * A country lives at `<Id>/<Id>.json` and a city at `<Country>/<Id>/<Id>.json`,
+ * so deleting one would otherwise strand an empty folder that still reads as an
+ * existing entity to anyone browsing the dataset.
+ * @param {string} dataRoot - Absolute data directory
+ * @param {string} directory - Directory the deleted file lived in
+ * @returns {Promise<void>} Completion once empty parents are gone
+ */
+async function pruneEmptyDirectories(
+  dataRoot: string,
+  directory: string,
+): Promise<void> {
+  let current = directory;
+  while (current.startsWith(`${dataRoot}${sep}`)) {
+    const entries = await readdir(current);
+    if (entries.length > 0) return;
+    await rmdir(current);
+    current = dirname(current);
+  }
+}
+
+/**
  * Sends a concise JSON response from the localhost-only editor middleware.
  * @param {ServerResponse} response - HTTP response
  * @param {number} status - HTTP status code
@@ -74,6 +96,12 @@ export function dataWriter(dataRoot: string): Plugin {
      * @returns {void}
      */
     configureServer(server: ViteDevServer): void {
+      // data/ lives outside the editor's Vite root, so only the JSON files
+      // already in the module graph are watched. Without this the directory is
+      // unwatched and a newly created country or city never reaches the eager
+      // globs, no matter how hard the browser reloads.
+      server.watcher.add(dataRoot);
+
       server.middlewares.use("/__data", async (request, response) => {
         if (request.method !== "POST") return;
         try {
@@ -90,6 +118,7 @@ export function dataWriter(dataRoot: string): Plugin {
           }
           if (request.url === "/delete") {
             await rm(path);
+            await pruneEmptyDirectories(dataRoot, dirname(path));
             sendJson(response, 200, { ok: true });
             return;
           }

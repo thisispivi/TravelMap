@@ -4,7 +4,7 @@
   "packageManager": "pnpm@11.8.0",
   "scripts": {
     "build": "pnpm --filter travel-map build",
-    "check": "pnpm --filter travel-map check",
+    "check": "pnpm -r typecheck && pnpm -r lint && pnpm --filter travel-map format:check && pnpm --filter travel-map knip && pnpm --filter travel-map react:doctor",
     "dev": "pnpm -r --parallel --filter travel-map --filter travel-map-editor dev",
     "editor": "pnpm --filter travel-map-editor dev"
   },

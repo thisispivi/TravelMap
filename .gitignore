@@ -1,10 +1,10 @@
-travel-map-old
-travel-mapa
-travel-map/public/Turin/
+apps/travel-map/public/Turin/
 scripts/json-generator/photos/
 .github/skills/
 .agents
 .claude/launch.json
 .claude/settings.local.json
-travel-map/.claude/launch.json
+apps/travel-map/.claude/launch.json
 node_modules/
+dist/
+test-results/

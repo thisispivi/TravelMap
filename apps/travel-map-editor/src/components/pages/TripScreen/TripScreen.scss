@@ -1,0 +1,92 @@
+@use "variables" as v;
+
+.trip-screen {
+  &__steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__step {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1rem;
+    border-radius: v.$floatingCardRadius;
+    // A left edge in the transport colour makes the itinerary readable at a
+    // glance, matching how routes are coloured on the public map.
+    border-left: 0.1875rem solid transparent;
+  }
+
+  &__step-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__step-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 62.4375rem;
+    flex-shrink: 0;
+
+    svg {
+      width: 0.9rem;
+      height: 0.9rem;
+    }
+  }
+
+  &__step-title {
+    font-size: v.$bodySm;
+    font-weight: 600;
+    text-transform: capitalize;
+  }
+
+  &__step-action {
+    padding: 0.3rem 0.65rem;
+    font-size: v.$caption;
+
+    &:first-of-type {
+      margin-left: auto;
+    }
+  }
+
+  &__add {
+    display: flex;
+    gap: 0.5rem;
+  }
+}
+
+.editor--dark .trip-screen {
+  &__step {
+    background-color: rgba(255, 255, 255, 0.03);
+    border-left-color: v.$darkButtonHover;
+  }
+  &__step-icon {
+    background-color: v.$darkButton;
+
+    svg {
+      fill: v.$darkButtonContent;
+    }
+  }
+}
+
+.editor--light .trip-screen {
+  &__step {
+    background-color: rgba(0, 0, 0, 0.02);
+    border-left-color: v.$lightButtonHover;
+  }
+  &__step-icon {
+    background-color: v.$lightButton;
+
+    svg {
+      fill: v.$lightButtonContent;
+    }
+  }
+}

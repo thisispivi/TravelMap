@@ -1,6 +1,5 @@
-import { getCitiesDistance } from "../world/distance";
-
 import { getTravelTypeByStartAndEndCity, TravelType } from "../typings/Travel";
+import { getCitiesDistance } from "../world/distance";
 import { City } from "./City";
 
 /**
