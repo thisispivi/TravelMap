@@ -2,7 +2,7 @@ import "./TimelineTrack.scss";
 
 import { domAnimation, LazyMotion, m, useInView } from "framer-motion";
 import { ReactNode, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 import CalendarIcon from "@/assets/icons/Calendar.svg?react";
 import { CountryFlag } from "@/components/atoms/CountryFlag/CountryFlag";

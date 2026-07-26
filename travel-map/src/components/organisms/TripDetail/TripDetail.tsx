@@ -2,7 +2,7 @@ import "./TripDetail.scss";
 
 import { domAnimation, LazyMotion, m } from "framer-motion";
 import { ReactNode, use, useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 import AirplaneIcon from "@/assets/icons/Airplane.svg?react";
 import BusIcon from "@/assets/icons/Bus.svg?react";

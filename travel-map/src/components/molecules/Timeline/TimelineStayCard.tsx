@@ -2,10 +2,7 @@ import "./TimelineStayCard.scss";
 
 import { m } from "framer-motion";
 import { CSSProperties, ReactNode, use } from "react";
-import {
-  useLocation as useRouterLocation,
-  useNavigate,
-} from "react-router-dom";
+import { useLocation as useRouterLocation, useNavigate } from "react-router";
 
 import { CountryFlag } from "@/components/atoms/CountryFlag/CountryFlag";
 import { HomeContext } from "@/components/pages/Home/HomeContext";

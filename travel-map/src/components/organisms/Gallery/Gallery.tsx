@@ -9,7 +9,7 @@ import {
   useLocation as useRouterLocation,
   useNavigate,
   useSearchParams,
-} from "react-router-dom";
+} from "react-router";
 
 import PlayIcon from "@/assets/icons/Play.svg?react";
 import { CloseButton } from "@/components/atoms/Buttons/CloseButton";

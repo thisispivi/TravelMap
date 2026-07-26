@@ -6,7 +6,7 @@ import {
   Outlet,
   useLocation as useRouterLocation,
   useNavigate,
-} from "react-router-dom";
+} from "react-router";
 
 import { City, Trip } from "@/core";
 import { useResponsive } from "@/hooks/style/responsive";

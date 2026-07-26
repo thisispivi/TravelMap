@@ -1,7 +1,7 @@
 import "./TravelSelector.scss";
 
 import { ReactNode } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 import CalendarIcon from "@/assets/icons/Calendar.svg?react";
 import DoubleChevronIcon from "@/assets/icons/DoubleChevron.svg?react";

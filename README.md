@@ -67,6 +67,7 @@ pnpm run lint
 pnpm run format
 pnpm run build
 pnpm run knip
+pnpm run security:audit
 ```
 
 `pnpm run check` runs TypeScript checking, ESLint with zero warnings, a Prettier
@@ -77,6 +78,13 @@ JavaScript, styles, markup, and data files.
 ESLint uses `eslint-plugin-jsdoc` to enforce the canonical documentation
 layout, including component titles, contiguous spacing, typed parameters,
 documented destructured props, return values, and public type documentation.
+
+Dependency installation uses pnpm's seven-day release quarantine. Only
+time-sensitive security patches are exempted, and the single transitive
+override replaces vulnerable legacy `brace-expansion` releases. Run
+`pnpm run security:audit` for the JavaScript dependency audit. The uploader's
+Python pins can be checked with
+`uvx pip-audit -r scripts/uploader/requirements.txt` from the repository root.
 
 ## Deploy
 

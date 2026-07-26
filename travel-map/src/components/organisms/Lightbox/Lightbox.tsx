@@ -6,7 +6,7 @@ import ImageGallery, {
   ImageGalleryProps,
   ImageGalleryRef,
 } from "react-image-gallery";
-import { useLoaderData, useLocation, useNavigate } from "react-router-dom";
+import { useLoaderData, useLocation, useNavigate } from "react-router";
 
 import ChevronIcon from "@/assets/icons/Chevron.svg?react";
 import FullscreenEnterIcon from "@/assets/icons/FullscreenEnter.svg?react";

@@ -68,7 +68,7 @@ import "./CityCard.scss"; // 1. Side-effect CSS first
 import "maplibre-gl/dist/maplibre-gl.css";
 
 import { ReactNode, useEffect, useRef } from "react"; // 2. External packages
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 import CalendarIcon from "@/assets/icons/Calendar.svg?react"; // 3. @/ aliases
 import { City, Travel } from "@/core";

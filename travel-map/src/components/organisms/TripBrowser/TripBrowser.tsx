@@ -2,7 +2,7 @@ import "./TripBrowser.scss";
 
 import { domAnimation, LazyMotion, m } from "framer-motion";
 import { ReactNode, use, useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { keys } from "remeda";
 
 import { TripCard } from "@/components/molecules/Cards/TripCard";

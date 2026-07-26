@@ -2,7 +2,7 @@ import "./FloatingNav.scss";
 
 import { domAnimation, LazyMotion, m } from "framer-motion";
 import { ReactNode, use, useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 import LogoIcon from "@/assets/icons/Logo.svg?react";
 import {

@@ -2,10 +2,7 @@ import "./TimelineStayGroup.scss";
 
 import { m } from "framer-motion";
 import { CSSProperties, ReactNode, use, useLayoutEffect, useRef } from "react";
-import {
-  useLocation as useRouterLocation,
-  useNavigate,
-} from "react-router-dom";
+import { useLocation as useRouterLocation, useNavigate } from "react-router";
 
 import { CountryFlag } from "@/components/atoms/CountryFlag/CountryFlag";
 import { TransportModeIcon } from "@/components/atoms/TransportModeIcon/TransportModeIcon";

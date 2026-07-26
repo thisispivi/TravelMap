@@ -13,7 +13,7 @@ import {
   useRef,
 } from "react";
 import { createRoot } from "react-dom/client";
-import { createHashRouter, Navigate, RouterProvider } from "react-router-dom";
+import { createHashRouter, Navigate, RouterProvider } from "react-router";
 import type { TooltipRefProps } from "react-tooltip";
 import { Tooltip } from "react-tooltip";
 

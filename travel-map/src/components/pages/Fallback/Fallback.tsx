@@ -2,11 +2,7 @@ import "./Fallback.scss";
 
 import { ReactNode, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  isRouteErrorResponse,
-  useNavigate,
-  useRouteError,
-} from "react-router-dom";
+import { isRouteErrorResponse, useNavigate, useRouteError } from "react-router";
 
 import { useResponsive } from "@/hooks/style/responsive";
 import { useThemeDetector } from "@/hooks/style/theme";

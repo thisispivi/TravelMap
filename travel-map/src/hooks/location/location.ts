@@ -1,4 +1,4 @@
-import { useLocation as useLocationRouter } from "react-router-dom";
+import { useLocation as useLocationRouter } from "react-router";
 
 /**
  * The four top-level tabs of the floating nav.

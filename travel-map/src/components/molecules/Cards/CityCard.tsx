@@ -1,7 +1,7 @@
 import "./CityCard.scss";
 
 import { MouseEvent, ReactNode, useEffect, useRef, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router";
 
 import CalendarIcon from "@/assets/icons/Calendar.svg?react";
 import PositionIcon from "@/assets/icons/Position.svg?react";

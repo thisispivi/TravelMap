@@ -1,7 +1,7 @@
 import "./TooltipMap.scss";
 
 import { ReactNode, useEffect, useRef } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router";
 
 import CoinIcon from "@/assets/icons/Coin.svg?react";
 import GalleryIcon from "@/assets/icons/Gallery.svg?react";

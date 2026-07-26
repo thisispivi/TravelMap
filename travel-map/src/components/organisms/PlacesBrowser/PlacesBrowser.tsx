@@ -2,7 +2,7 @@ import "./PlacesBrowser.scss";
 
 import { AnimatePresence, domAnimation, LazyMotion, m } from "framer-motion";
 import { ReactNode, use, useEffect, useReducer, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 import FilterIcon from "@/assets/icons/Filter.svg?react";
 import { SegmentedControl } from "@/components/atoms/SegmentedControl/SegmentedControl";
