@@ -18,6 +18,7 @@ import { FormEvent, ReactNode, useEffect, useState } from "react";
  * @param {string} props.path - Dataset-relative JSON path
  * @param {string[]} [props.problems] - Reasons the draft cannot be saved
  * @param {string} props.title - Screen title
+ * @param {string} [props.titleIconUrl] - Flag or icon shown beside the title
  * @returns {ReactNode} The saveable form frame
  */
 export function EditorForm({
@@ -29,6 +30,7 @@ export function EditorForm({
   path,
   problems = [],
   title,
+  titleIconUrl,
 }: EditorFormProps): ReactNode {
   const [message, setMessage] = useState("");
   const [isSaved, setIsSaved] = useState(false);
@@ -101,7 +103,16 @@ export function EditorForm({
       <header className="editor__header">
         <div>
           <p className="editor__eyebrow">{eyebrow}</p>
-          <h1>{title}</h1>
+          <h1 className="editor-form__title">
+            {titleIconUrl ? (
+              <img
+                alt=""
+                className="editor-form__title-icon"
+                src={titleIconUrl}
+              />
+            ) : null}
+            {title}
+          </h1>
           <p className="editor__path">
             {path}
             {isDirty ? <span className="editor__badge">unsaved</span> : null}
@@ -181,6 +192,7 @@ export function EditorForm({
  * @property {string} path - Dataset-relative JSON path
  * @property {string[]} [problems] - Reasons the draft cannot be saved
  * @property {string} title - Screen title
+ * @property {string} [titleIconUrl] - Flag or icon shown beside the title
  */
 interface EditorFormProps {
   children: ReactNode;
@@ -191,4 +203,5 @@ interface EditorFormProps {
   path: string;
   problems?: string[];
   title: string;
+  titleIconUrl?: string;
 }

@@ -14,8 +14,10 @@ import {
   tripPath,
   writeData,
 } from "../../../dataset";
+import { findWorldCountry } from "../../../world";
+import { Combobox, ComboboxOption } from "../../Combobox/Combobox";
 import { EditorForm } from "../../EditorForm/EditorForm";
-import { DateField, Option, SelectField, TextField } from "../../Fields/Fields";
+import { DateField, TextField } from "../../Fields/Fields";
 import { LocalizedNames } from "../../LocalizedNames/LocalizedNames";
 import { StopFields, TransportFields } from "../../StepFields/StepFields";
 
@@ -36,7 +38,9 @@ type Step = TripJson["steps"][number];
 export function TripScreen({ file }: TripScreenProps): ReactNode {
   const [value, setValue] = useState(file.value);
   const isDirty = JSON.stringify(value) !== JSON.stringify(file.value);
-  const cityOptions: Option[] = cities.map(({ value: city }) => ({
+  const cityOptions: ComboboxOption[] = cities.map(({ value: city }) => ({
+    hint: city.countryId,
+    iconUrl: findWorldCountry(city.countryId)?.flagUrl,
     label: city.name,
     value: city.id,
   }));
@@ -142,13 +146,13 @@ export function TripScreen({ file }: TripScreenProps): ReactNode {
           />
         </div>
         <div className="editor-panel__row">
-          <SelectField
+          <Combobox
             label="Origin"
             onChange={(originCityId) => setValue({ ...value, originCityId })}
             options={cityOptions}
             value={value.originCityId}
           />
-          <SelectField
+          <Combobox
             label="Return to"
             onChange={(returnCityId) => setValue({ ...value, returnCityId })}
             options={cityOptions}

@@ -1,0 +1,79 @@
+@use "variables" as v;
+
+.color-field {
+  &__row {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  &__picker {
+    width: 3.25rem;
+    height: 2.5rem;
+    padding: 0;
+    border: 0;
+    border-radius: 0.6rem;
+    background: transparent;
+    cursor: pointer;
+
+    // Chrome and Firefox each wrap the swatch in their own chrome; both need
+    // flattening for the control to read as a single tile.
+    &::-webkit-color-swatch-wrapper {
+      padding: 0;
+    }
+    &::-webkit-color-swatch {
+      border: 0.0625rem solid rgba(128, 128, 128, 0.35);
+      border-radius: 0.6rem;
+    }
+    &::-moz-color-swatch {
+      border: 0.0625rem solid rgba(128, 128, 128, 0.35);
+      border-radius: 0.6rem;
+    }
+    &:focus-visible {
+      outline: 0.125rem solid v.$accentPrimary;
+      outline-offset: 0.15rem;
+    }
+  }
+
+  &__hex {
+    max-width: 8rem;
+    font-family: ui-monospace, "SFMono-Regular", monospace;
+    text-transform: lowercase;
+  }
+
+  &__swatches {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin: 0.15rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__swatch {
+    width: 1.4rem;
+    height: 1.4rem;
+    border: 0.0625rem solid rgba(128, 128, 128, 0.3);
+    border-radius: 62.4375rem;
+    cursor: pointer;
+    transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:hover {
+      transform: scale(1.15);
+    }
+    &:focus-visible {
+      outline: 0.125rem solid v.$accentPrimary;
+      outline-offset: 0.15rem;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .color-field__swatch {
+    transition: none;
+
+    &:hover {
+      transform: none;
+    }
+  }
+}

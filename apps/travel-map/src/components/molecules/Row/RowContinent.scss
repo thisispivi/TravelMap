@@ -9,6 +9,7 @@ $continents-colors: (
   "NORTH_AMERICA": v.$continentsNorthAmerica,
   "OCEANIA": v.$continentsOceania,
   "SOUTH_AMERICA": v.$continentsSouthAmerica,
+  "ANTARCTICA": v.$continentsAntarctica,
 );
 
 @mixin continent-row($continent) {

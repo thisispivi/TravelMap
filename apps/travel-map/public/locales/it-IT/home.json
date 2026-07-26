@@ -107,6 +107,7 @@
   },
   "continents": {
     "AFRICA": "Africa",
+    "ANTARCTICA": "Antartide",
     "ASIA": "Asia",
     "EUROPE": "Europa",
     "NORTH_AMERICA": "Nord America",

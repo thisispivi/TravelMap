@@ -11,6 +11,20 @@
     gap: 0.5rem;
   }
 
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  &__title-icon {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 62.4375rem;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
   // Kept in view so a long document never hides the save action.
   &__actions {
     position: sticky;

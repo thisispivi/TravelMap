@@ -5,22 +5,23 @@ import { ReactNode, useState } from "react";
 
 import {
   cities,
-  continents,
   countryPath,
-  currencies,
   DataFile,
   deleteData,
+  locales,
   reloadAt,
   writeData,
 } from "../../../dataset";
+import { findWorldCountry, translationsForLocales } from "../../../world";
+import { ColorField } from "../../ColorField/ColorField";
 import { EditorForm } from "../../EditorForm/EditorForm";
-import { NumberField, SelectField } from "../../Fields/Fields";
-import { LocalizedNames } from "../../LocalizedNames/LocalizedNames";
+import { NumberField } from "../../Fields/Fields";
 
 /**
  * CountryScreen component
- * Edits one country document, including the HSL colour the map derives its
- * fill from.
+ * Edits one country. Its name, translations, continent, and currency come from
+ * world data rather than being typed, so the only real decision is the colour
+ * it takes on the map.
  * @component
  * @param {CountryScreenProps} props
  * @param {DataFile<CountryJson>} props.file - Country source file
@@ -29,10 +30,41 @@ import { LocalizedNames } from "../../LocalizedNames/LocalizedNames";
 export function CountryScreen({ file }: CountryScreenProps): ReactNode {
   const [value, setValue] = useState(file.value);
   const isDirty = JSON.stringify(value) !== JSON.stringify(file.value);
+  const world = findWorldCountry(file.value.id);
   const dependents = cities.filter(
     (city) => city.value.countryId === file.value.id,
   );
   const problems = value.name.trim() ? [] : ["A canonical name is required."];
+  const configuredLocales = locales();
+  const worldNames = world
+    ? {
+        name: world.name,
+        nameByLocale: translationsForLocales(world, configuredLocales),
+      }
+    : undefined;
+  const isStale =
+    world !== undefined &&
+    worldNames !== undefined &&
+    (worldNames.name !== value.name ||
+      JSON.stringify(worldNames.nameByLocale ?? {}) !==
+        JSON.stringify(value.nameByLocale ?? {}) ||
+      world.continent !== value.continent ||
+      world.currency !== value.currency);
+
+  /**
+   * Restores every derived field from the world catalogue.
+   * @returns {void}
+   */
+  function refreshFromWorld(): void {
+    if (!world || !worldNames) return;
+    setValue({
+      ...value,
+      continent: world.continent,
+      currency: world.currency,
+      name: worldNames.name,
+      nameByLocale: worldNames.nameByLocale,
+    });
+  }
 
   /**
    * Removes the country document and returns to the overview.
@@ -51,83 +83,83 @@ export function CountryScreen({ file }: CountryScreenProps): ReactNode {
       path={file.path}
       problems={problems}
       title={file.value.name}
+      titleIconUrl={world?.flagUrl}
     >
-      <LocalizedNames
-        canonicalHint="Must match the country name in the world map data, or the country will not be filled in."
-        label="Names"
-        onChange={(names) => setValue({ ...value, ...names })}
-        value={value}
-      />
       <section className="editor-panel">
-        <h2 className="editor-panel__legend">Classification</h2>
-        <div className="editor-panel__row">
-          <SelectField
-            label="Continent"
-            onChange={(continent) =>
-              setValue({
-                ...value,
-                continent: continent as CountryJson["continent"],
-              })
-            }
-            options={continents.map((continent) => ({
-              label: continent,
-              value: continent,
-            }))}
-            value={value.continent}
-          />
-          <SelectField
-            label="Currency"
-            onChange={(currency) =>
-              setValue({
-                ...value,
-                currency: currency as CountryJson["currency"],
-              })
-            }
-            options={currencies.map((currency) => ({
-              label: currency,
-              value: currency,
-            }))}
-            value={value.currency}
-          />
-        </div>
+        <h2 className="editor-panel__legend">Identity</h2>
+        {world ? (
+          <>
+            <dl className="country-screen__facts">
+              <div className="country-screen__fact">
+                <dt>Name</dt>
+                <dd>{value.name}</dd>
+              </div>
+              <div className="country-screen__fact">
+                <dt>Continent</dt>
+                <dd>{value.continent.replace("_", " ").toLowerCase()}</dd>
+              </div>
+              <div className="country-screen__fact">
+                <dt>Currency</dt>
+                <dd>{value.currency}</dd>
+              </div>
+              <div className="country-screen__fact">
+                <dt>Map id</dt>
+                <dd>
+                  <code>{value.id}</code>
+                </dd>
+              </div>
+            </dl>
+            {configuredLocales.length > 0 ? (
+              <dl className="country-screen__facts">
+                {configuredLocales.map((locale) => (
+                  <div className="country-screen__fact" key={locale}>
+                    <dt>{locale}</dt>
+                    <dd>{value.nameByLocale?.[locale] ?? value.name}</dd>
+                  </div>
+                ))}
+              </dl>
+            ) : null}
+            <p className="editor-panel__hint">
+              Taken from world data — nothing here needs typing.
+            </p>
+            {isStale ? (
+              <div className="country-screen__actions">
+                <button
+                  className="editor-button editor-button--primary"
+                  onClick={refreshFromWorld}
+                  type="button"
+                >
+                  Restore from world data
+                </button>
+              </div>
+            ) : null}
+          </>
+        ) : (
+          <p className="editor-notice editor-notice--warning">
+            <span className="editor-notice__item">
+              <code>{value.id}</code> is not in the world map data, so it will
+              not be filled in on the map and its details cannot be refreshed
+              automatically.
+            </span>
+          </p>
+        )}
       </section>
       <section className="editor-panel">
         <h2 className="editor-panel__legend">Map colour</h2>
-        <div
-          className="country-screen__swatch"
-          style={{
-            background: `hsl(${value.color.h} ${value.color.s}% ${value.color.l}%)`,
-          }}
+        <p className="editor-panel__hint">
+          Fills the country on the map once you have visited it.
+        </p>
+        <ColorField
+          label="Fill"
+          onChange={(color) => setValue({ ...value, color })}
+          value={value.color}
         />
-        <div className="editor-panel__row">
-          <NumberField
-            label="Hue"
-            min={0}
-            onChange={(h) =>
-              setValue({ ...value, color: { ...value.color, h: h ?? 0 } })
-            }
-            value={value.color.h}
-          />
-          <NumberField
-            label="Saturation"
-            min={0}
-            onChange={(s) =>
-              setValue({ ...value, color: { ...value.color, s: s ?? 0 } })
-            }
-            value={value.color.s}
-          />
-          <NumberField
-            label="Lightness"
-            min={0}
-            onChange={(l) =>
-              setValue({ ...value, color: { ...value.color, l: l ?? 0 } })
-            }
-            value={value.color.l}
-          />
-        </div>
       </section>
       <section className="editor-panel">
         <h2 className="editor-panel__legend">Marker scale</h2>
+        <p className="editor-panel__hint">
+          Optional bounds on how large this country&apos;s city markers grow.
+        </p>
         <div className="editor-panel__row">
           <NumberField
             label="Minimum"

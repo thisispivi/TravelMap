@@ -1,0 +1,209 @@
+@use "variables" as v;
+@use "mixins" as m;
+
+.combobox {
+  position: relative;
+
+  &__control {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__input {
+    padding-right: 2rem;
+    text-overflow: ellipsis;
+  }
+
+  // The flag sits inside the input rather than beside it, so a row of fields
+  // keeps one alignment whether or not an option carries an icon.
+  &__control > &__icon {
+    position: absolute;
+    left: 0.6rem;
+    pointer-events: none;
+  }
+  &__control > &__icon ~ &__input {
+    padding-left: 2.1rem;
+  }
+
+  &__icon {
+    width: 1.15rem;
+    height: 1.15rem;
+    border-radius: 62.4375rem;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  &__toggle {
+    position: absolute;
+    right: 0.35rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 0;
+    border-radius: 62.4375rem;
+    background: transparent;
+    font-size: v.$caption;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 0.125rem solid v.$accentPrimary;
+    }
+  }
+
+  &__menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 5;
+    max-height: 18rem;
+    margin: 0.25rem 0 0;
+    padding: 0.25rem;
+    border-radius: 0.75rem;
+    list-style: none;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+
+    &--hidden {
+      display: none;
+    }
+  }
+
+  &__option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.45rem 0.6rem;
+    border-radius: 0.5rem;
+    font-size: v.$bodySm;
+    cursor: pointer;
+  }
+
+  &__option-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__option-hint {
+    margin-left: auto;
+    padding-left: 0.5rem;
+    font-size: v.$caption;
+    flex-shrink: 0;
+  }
+
+  &__empty {
+    padding: 0.75rem 0.6rem;
+    font-size: v.$bodySm;
+    text-align: center;
+  }
+
+  &__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin: 0 0 0.15rem;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__chip {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.2rem 0.25rem 0.2rem 0.55rem;
+    border-radius: 62.4375rem;
+    font-size: v.$caption;
+    font-weight: 500;
+  }
+
+  &__chip-remove {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.1rem;
+    height: 1.1rem;
+    border: 0;
+    border-radius: 62.4375rem;
+    background: transparent;
+    font-size: v.$bodySm;
+    line-height: 1;
+    cursor: pointer;
+  }
+}
+
+// ─── Dark ───────────────────────────────────────────────────
+.editor--dark .combobox {
+  &__toggle,
+  &__chip-remove {
+    color: v.$darkAltText;
+
+    &:hover {
+      color: v.$darkButtonContent;
+    }
+  }
+  &__menu {
+    @include m.glassmorphism-dark();
+    background: v.$darkInfoTab;
+  }
+  &__option {
+    color: v.$darkAltText;
+
+    &--highlighted {
+      background-color: v.$darkButtonHover;
+      color: v.$darkButtonContent;
+    }
+    &--selected {
+      color: v.$darkButtonContent;
+      font-weight: 600;
+    }
+  }
+  &__option-hint,
+  &__empty {
+    color: v.$darkAltTextDarker;
+  }
+  &__chip {
+    background-color: v.$darkButton;
+    color: v.$darkButtonContent;
+  }
+}
+
+// ─── Light ──────────────────────────────────────────────────
+.editor--light .combobox {
+  &__toggle,
+  &__chip-remove {
+    color: v.$lightAltText;
+
+    &:hover {
+      color: v.$lightButtonContent;
+    }
+  }
+  &__menu {
+    @include m.glassmorphism-light();
+    background: #ffffff;
+  }
+  &__option {
+    color: v.$lightAltText;
+
+    &--highlighted {
+      background-color: v.$lightButtonHover;
+      color: v.$lightButtonContent;
+    }
+    &--selected {
+      color: v.$lightButtonContent;
+      font-weight: 600;
+    }
+  }
+  &__option-hint,
+  &__empty {
+    color: v.$lightAltTextDarker;
+  }
+  &__chip {
+    background-color: v.$lightButton;
+    color: v.$lightButtonContent;
+  }
+}

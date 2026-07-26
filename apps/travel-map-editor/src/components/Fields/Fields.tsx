@@ -101,6 +101,7 @@ interface TextFieldProps {
  * A labelled numeric input that reports an absent value as undefined.
  * @component
  * @param {NumberFieldProps} props
+ * @param {string} [props.hint] - Guidance shown under the control
  * @param {string} props.label - Field label
  * @param {number} [props.min] - Minimum accepted value
  * @param {(value: number | undefined) => void} props.onChange - Value change callback
@@ -109,6 +110,7 @@ interface TextFieldProps {
  * @returns {ReactNode} The labelled input
  */
 export function NumberField({
+  hint,
   label,
   min,
   onChange,
@@ -116,7 +118,7 @@ export function NumberField({
   value,
 }: NumberFieldProps): ReactNode {
   return (
-    <FieldShell label={label}>
+    <FieldShell hint={hint} label={label}>
       <input
         className="editor-field__control"
         min={min}
@@ -133,6 +135,7 @@ export function NumberField({
 
 /**
  * Props for NumberField.
+ * @property {string} [hint] - Guidance shown under the control
  * @property {string} label - Field label
  * @property {number} [min] - Minimum accepted value
  * @property {(value: number | undefined) => void} onChange - Value change callback
@@ -140,119 +143,12 @@ export function NumberField({
  * @property {number} [value] - Current value
  */
 interface NumberFieldProps {
+  hint?: string;
   label: string;
   min?: number;
   onChange: (value: number | undefined) => void;
   step?: string;
   value?: number;
-}
-
-/**
- * SelectField component
- * A labelled dropdown with an optional empty choice.
- * @component
- * @param {SelectFieldProps} props
- * @param {string} [props.emptyLabel] - Label for the empty choice, omitted when absent
- * @param {string} props.label - Field label
- * @param {(value: string) => void} props.onChange - Value change callback
- * @param {Option[]} props.options - Selectable options
- * @param {string} props.value - Current value
- * @returns {ReactNode} The labelled dropdown
- */
-export function SelectField({
-  emptyLabel,
-  label,
-  onChange,
-  options,
-  value,
-}: SelectFieldProps): ReactNode {
-  return (
-    <FieldShell label={label}>
-      <select
-        className="editor-field__control"
-        onChange={(event) => onChange(event.target.value)}
-        value={value}
-      >
-        {emptyLabel === undefined ? null : (
-          <option value="">{emptyLabel}</option>
-        )}
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
-    </FieldShell>
-  );
-}
-
-/**
- * Props for SelectField.
- * @property {string} [emptyLabel] - Label for the empty choice, omitted when absent
- * @property {string} label - Field label
- * @property {(value: string) => void} onChange - Value change callback
- * @property {Option[]} options - Selectable options
- * @property {string} value - Current value
- */
-interface SelectFieldProps {
-  emptyLabel?: string;
-  label: string;
-  onChange: (value: string) => void;
-  options: Option[];
-  value: string;
-}
-
-/**
- * MultiSelectField component
- * A labelled multiple-choice list backed by an array value.
- * @component
- * @param {MultiSelectFieldProps} props
- * @param {string} props.label - Field label
- * @param {(value: string[]) => void} props.onChange - Value change callback
- * @param {Option[]} props.options - Selectable options
- * @param {string[]} props.value - Currently selected values
- * @returns {ReactNode} The labelled list
- */
-export function MultiSelectField({
-  label,
-  onChange,
-  options,
-  value,
-}: MultiSelectFieldProps): ReactNode {
-  return (
-    <FieldShell hint="Hold Ctrl or Cmd to select several." label={label}>
-      <select
-        className="editor-field__control editor-field__control--list"
-        multiple
-        onChange={(event) =>
-          onChange(
-            Array.from(event.target.selectedOptions, (option) => option.value),
-          )
-        }
-        value={value}
-      >
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
-    </FieldShell>
-  );
-}
-
-/**
- * Props for MultiSelectField.
- * @property {string} label - Field label
- * @property {(value: string[]) => void} onChange - Value change callback
- * @property {Option[]} options - Selectable options
- * @property {string[]} value - Currently selected values
- */
-interface MultiSelectFieldProps {
-  label: string;
-  onChange: (value: string[]) => void;
-  options: Option[];
-  value: string[];
 }
 
 /**

@@ -2,21 +2,19 @@ import { TripStopJson, TripTransportJson } from "@travelmap/core";
 import { ReactNode } from "react";
 
 import { companyIds, config, photoPaths, transportModes } from "../../dataset";
+import { Combobox, ComboboxOption, MultiCombobox } from "../Combobox/Combobox";
 import {
   CheckboxField,
   DateField,
-  MultiSelectField,
   NumberField,
-  Option,
-  SelectField,
   TextField,
 } from "../Fields/Fields";
 
 /**
  * Lists the transport operators a fork has configured.
- * @returns {Option[]} Company options
+ * @returns {ComboboxOption[]} Company options
  */
-function companyOptions(): Option[] {
+function companyOptions(): ComboboxOption[] {
   return companyIds().map((id) => ({
     label: config.value.companies?.[id]?.name ?? id,
     value: id,
@@ -28,7 +26,7 @@ function companyOptions(): Option[] {
  * Edits a stay in one city, including which photo manifest its gallery uses.
  * @component
  * @param {StopFieldsProps} props
- * @param {Option[]} props.cityOptions - Selectable cities
+ * @param {ComboboxOption[]} props.cityOptions - Selectable cities
  * @param {(step: TripStopJson) => void} props.onChange - Step update callback
  * @param {TripStopJson} props.step - Current stop
  * @returns {ReactNode} The stop fields
@@ -41,7 +39,7 @@ export function StopFields({
   return (
     <>
       <div className="editor-panel__row">
-        <SelectField
+        <Combobox
           label="City"
           onChange={(cityId) => onChange({ ...step, cityId })}
           options={cityOptions}
@@ -59,7 +57,7 @@ export function StopFields({
         />
       </div>
       <div className="editor-panel__row">
-        <SelectField
+        <Combobox
           emptyLabel="No photos"
           label="Photo manifest"
           onChange={(photoPath) =>
@@ -80,12 +78,12 @@ export function StopFields({
 
 /**
  * Props for StopFields.
- * @property {Option[]} cityOptions - Selectable cities
+ * @property {ComboboxOption[]} cityOptions - Selectable cities
  * @property {(step: TripStopJson) => void} onChange - Step update callback
  * @property {TripStopJson} step - Current stop
  */
 interface StopFieldsProps {
-  cityOptions: Option[];
+  cityOptions: ComboboxOption[];
   onChange: (step: TripStopJson) => void;
   step: TripStopJson;
 }
@@ -96,7 +94,7 @@ interface StopFieldsProps {
  * the modes that carry them.
  * @component
  * @param {TransportFieldsProps} props
- * @param {Option[]} props.cityOptions - Selectable cities
+ * @param {ComboboxOption[]} props.cityOptions - Selectable cities
  * @param {(step: TripTransportJson) => void} props.onChange - Step update callback
  * @param {TripTransportJson} props.step - Current transport step
  * @returns {ReactNode} The transport fields
@@ -109,7 +107,7 @@ export function TransportFields({
   return (
     <>
       <div className="editor-panel__row">
-        <SelectField
+        <Combobox
           label="Mode"
           onChange={(mode) =>
             onChange({ ...step, mode: mode as TripTransportJson["mode"] })
@@ -117,13 +115,13 @@ export function TransportFields({
           options={transportModes.map((mode) => ({ label: mode, value: mode }))}
           value={step.mode}
         />
-        <SelectField
+        <Combobox
           label="From"
           onChange={(fromId) => onChange({ ...step, fromId })}
           options={cityOptions}
           value={step.fromId}
         />
-        <SelectField
+        <Combobox
           label="To"
           onChange={(toId) => onChange({ ...step, toId })}
           options={cityOptions}
@@ -156,7 +154,7 @@ export function TransportFields({
         />
       </div>
       <div className="editor-panel__row">
-        <MultiSelectField
+        <MultiCombobox
           label="Via cities"
           onChange={(viaIds) =>
             onChange({
@@ -175,7 +173,7 @@ export function TransportFields({
       </div>
       {step.mode === "plane" ? (
         <div className="editor-panel__row">
-          <SelectField
+          <Combobox
             emptyLabel="No airline"
             label="Airline"
             onChange={(company) =>
@@ -211,7 +209,7 @@ export function TransportFields({
       ) : null}
       {step.mode === "ferry" ? (
         <div className="editor-panel__row">
-          <SelectField
+          <Combobox
             emptyLabel="No ferry company"
             label="Ferry company"
             onChange={(company) =>
@@ -231,12 +229,12 @@ export function TransportFields({
 
 /**
  * Props for TransportFields.
- * @property {Option[]} cityOptions - Selectable cities
+ * @property {ComboboxOption[]} cityOptions - Selectable cities
  * @property {(step: TripTransportJson) => void} onChange - Step update callback
  * @property {TripTransportJson} step - Current transport step
  */
 interface TransportFieldsProps {
-  cityOptions: Option[];
+  cityOptions: ComboboxOption[];
   onChange: (step: TripTransportJson) => void;
   step: TripTransportJson;
 }

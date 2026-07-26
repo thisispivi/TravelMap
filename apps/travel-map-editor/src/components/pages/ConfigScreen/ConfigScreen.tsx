@@ -12,14 +12,10 @@ import {
   SiteConfig,
   writeData,
 } from "../../../dataset";
+import { findWorldCountry } from "../../../world";
+import { Combobox, MultiCombobox } from "../../Combobox/Combobox";
 import { EditorForm } from "../../EditorForm/EditorForm";
-import {
-  MultiSelectField,
-  NumberField,
-  SelectField,
-  StringListField,
-  TextField,
-} from "../../Fields/Fields";
+import { NumberField, StringListField, TextField } from "../../Fields/Fields";
 
 const MAP_ZOOM_FIELDS = [
   ["defaultZoom", "Default zoom"],
@@ -54,6 +50,8 @@ export function ConfigScreen({ file }: ConfigScreenProps): ReactNode {
   const locales = value.locales ?? [];
   const companies = value.companies ?? {};
   const cityOptions = cities.map(({ value: city }) => ({
+    hint: city.countryId,
+    iconUrl: findWorldCountry(city.countryId)?.flagUrl,
     label: city.name,
     value: city.id,
   }));
@@ -194,7 +192,7 @@ export function ConfigScreen({ file }: ConfigScreenProps): ReactNode {
       </section>
       <section className="editor-panel">
         <h2 className="editor-panel__legend">City roles</h2>
-        <SelectField
+        <Combobox
           emptyLabel="None"
           label="Home city"
           onChange={(homeCityId) =>
@@ -204,13 +202,13 @@ export function ConfigScreen({ file }: ConfigScreenProps): ReactNode {
           value={value.homeCityId ?? ""}
         />
         <div className="editor-panel__row">
-          <MultiSelectField
+          <MultiCombobox
             label="Former homes"
             onChange={(livedCityIds) => setValue({ ...value, livedCityIds })}
             options={cityOptions}
             value={value.livedCityIds ?? []}
           />
-          <MultiSelectField
+          <MultiCombobox
             label="Future cities"
             onChange={(futureCityIds) => setValue({ ...value, futureCityIds })}
             options={cityOptions}

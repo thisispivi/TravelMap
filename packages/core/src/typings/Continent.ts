@@ -6,6 +6,7 @@
  * @property {string} AFRICA - The africa continent
  * @property {string} NORTH_AMERICA - The north america continent
  * @property {string} SOUTH_AMERICA - The south america continent
+ * @property {string} ANTARCTICA - The antarctica continent
  */
 export enum Continent {
   ASIA = "ASIA",
@@ -14,4 +15,5 @@ export enum Continent {
   AFRICA = "AFRICA",
   NORTH_AMERICA = "NORTH_AMERICA",
   SOUTH_AMERICA = "SOUTH_AMERICA",
+  ANTARCTICA = "ANTARCTICA",
 }

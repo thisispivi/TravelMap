@@ -7,31 +7,127 @@ import MapIcon from "@app/assets/icons/Map.svg?react";
 import MoonFilledIcon from "@app/assets/icons/MoonFilled.svg?react";
 import SunFilledIcon from "@app/assets/icons/SunFilled.svg?react";
 import { classNames } from "@app/utils/className";
-import { ComponentType, ReactNode, SVGProps, useState } from "react";
-import { NavLink } from "react-router";
+import Fuse from "fuse.js";
+import { ReactNode, useMemo, useState } from "react";
+import { NavLink, useLocation } from "react-router";
 
 import { cities, countries, trips } from "../../dataset";
+import { findWorldCountry } from "../../world";
 
 /**
- * One sidebar group listing documents of a single kind.
- * @property {ComponentType<SVGProps<SVGSVGElement>>} icon - Section icon
- * @property {{ id: string; label: string; hint?: string }[]} items - Visible documents
- * @property {string} kind - Create-route segment for the section
- * @property {string} route - Route prefix for the section's documents
- * @property {string} title - Section heading
+ * One navigable document in the sidebar.
+ * @property {string} country - Owning country id, empty when not applicable
+ * @property {string} [flagUrl] - Flag shown beside the entry
+ * @property {string} id - Document identifier
+ * @property {string} kind - Which list the entry belongs to
+ * @property {string} label - Display text
+ * @property {string} to - Route for the entry
  */
-interface NavSection {
-  icon: ComponentType<SVGProps<SVGSVGElement>>;
-  items: { id: string; label: string; hint?: string }[];
-  kind: string;
-  route: string;
-  title: string;
+interface NavEntry {
+  country: string;
+  flagUrl?: string;
+  id: string;
+  kind: "country" | "city" | "trip";
+  label: string;
+  to: string;
+}
+
+const FUSE_OPTIONS = {
+  ignoreLocation: true,
+  keys: [
+    { name: "label", weight: 3 },
+    { name: "country", weight: 1 },
+    { name: "id", weight: 1 },
+  ],
+  threshold: 0.4,
+};
+const KIND_LABELS: Record<NavEntry["kind"], string> = {
+  city: "City",
+  country: "Country",
+  trip: "Trip",
+};
+
+/**
+ * Builds every navigable entry once, resolving flags from the world catalogue.
+ * @returns {NavEntry[]} All sidebar entries
+ */
+function buildEntries(): NavEntry[] {
+  const countryEntries: NavEntry[] = countries.map(({ value }) => ({
+    country: value.id,
+    flagUrl: findWorldCountry(value.id)?.flagUrl,
+    id: value.id,
+    kind: "country",
+    label: value.name,
+    to: `/countries/${value.id}`,
+  }));
+  const cityEntries: NavEntry[] = cities.map(({ value }) => ({
+    country: value.countryId,
+    flagUrl: findWorldCountry(value.countryId)?.flagUrl,
+    id: value.id,
+    kind: "city",
+    label: value.name,
+    to: `/cities/${value.id}`,
+  }));
+  // Newest first: recent trips are the ones being edited.
+  const tripEntries: NavEntry[] = trips
+    .toSorted((first, second) =>
+      second.value.sDate.localeCompare(first.value.sDate),
+    )
+    .map(({ value }) => ({
+      country: "",
+      id: value.id,
+      kind: "trip" as const,
+      label: value.title,
+      to: `/trips/${value.id}`,
+    }));
+
+  return [...countryEntries, ...cityEntries, ...tripEntries];
+}
+
+/**
+ * EntryLink component
+ * One document link, with its flag and an optional trailing hint.
+ * @component
+ * @param {EntryLinkProps} props
+ * @param {NavEntry} props.entry - The entry to render
+ * @param {string} [props.hint] - Trailing text such as the entry kind
+ * @returns {ReactNode} The navigation link
+ */
+function EntryLink({ entry, hint }: EntryLinkProps): ReactNode {
+  return (
+    <NavLink
+      className={({ isActive }) =>
+        classNames("editor-nav__link", isActive && "editor-nav__link--active")
+      }
+      to={entry.to}
+    >
+      {entry.flagUrl ? (
+        <img alt="" className="editor-nav__flag" src={entry.flagUrl} />
+      ) : (
+        <span className="editor-nav__flag editor-nav__flag--none" />
+      )}
+      <span className="editor-nav__label">{entry.label}</span>
+      {hint ? <span className="editor-nav__hint">{hint}</span> : null}
+    </NavLink>
+  );
+}
+
+/**
+ * Props for EntryLink.
+ * @property {NavEntry} entry - The entry to render
+ * @property {string} [hint] - Trailing text such as the entry kind
+ */
+interface EntryLinkProps {
+  entry: NavEntry;
+  hint?: string;
 }
 
 /**
  * Nav component
- * The editor sidebar: brand, theme switch, a filter across every document, and
- * one group per document kind with an inline create action.
+ * The editor sidebar. A fuzzy search spans every document so a large dataset
+ * is reachable in a few keystrokes, and the browsable lists below it collapse
+ * by kind — with cities nested under their country — so the sidebar length
+ * stays bounded no matter how much data a fork holds.
  * @component
  * @param {NavProps} props
  * @param {boolean} props.isDarkTheme - Whether the dark theme is active
@@ -44,50 +140,40 @@ export function Nav({
   onToggleTheme,
   problemCount,
 }: NavProps): ReactNode {
-  const [filter, setFilter] = useState("");
-  const term = filter.trim().toLowerCase();
-
-  /**
-   * Reports whether an entry should stay visible under the current filter.
-   * @param {string[]} haystack - Searchable text for the entry
-   * @returns {boolean} Whether the entry matches
-   */
-  function matches(haystack: string[]): boolean {
-    return (
-      term === "" || haystack.some((text) => text.toLowerCase().includes(term))
-    );
-  }
-
-  const sections: NavSection[] = [
+  const entries = useMemo(() => buildEntries(), []);
+  const fuse = useMemo(() => new Fuse(entries, FUSE_OPTIONS), [entries]);
+  const [term, setTerm] = useState("");
+  const { pathname } = useLocation();
+  const [openKind, setOpenKind] = useState<NavEntry["kind"] | null>(() =>
+    pathname.startsWith("/cities")
+      ? "city"
+      : pathname.startsWith("/trips")
+        ? "trip"
+        : pathname.startsWith("/countries")
+          ? "country"
+          : null,
+  );
+  const [openCountry, setOpenCountry] = useState<string | null>(null);
+  const results = term.trim()
+    ? fuse.search(term, { limit: 40 }).map((result) => result.item)
+    : [];
+  const sections = [
     {
       icon: GlobeIcon,
-      items: countries
-        .filter(({ value }) => matches([value.id, value.name]))
-        .map(({ value }) => ({ id: value.id, label: value.name })),
-      kind: "country",
-      route: "/countries",
+      items: entries.filter((entry) => entry.kind === "country"),
+      kind: "country" as const,
       title: "Countries",
     },
     {
       icon: CityIcon,
-      items: cities
-        .filter(({ value }) => matches([value.id, value.name, value.countryId]))
-        .map(({ value }) => ({
-          hint: value.countryId,
-          id: value.id,
-          label: value.name,
-        })),
-      kind: "city",
-      route: "/cities",
+      items: entries.filter((entry) => entry.kind === "city"),
+      kind: "city" as const,
       title: "Cities",
     },
     {
       icon: MapIcon,
-      items: trips
-        .filter(({ value }) => matches([value.id, value.title]))
-        .map(({ value }) => ({ id: value.id, label: value.title })),
-      kind: "trip",
-      route: "/trips",
+      items: entries.filter((entry) => entry.kind === "trip"),
+      kind: "trip" as const,
       title: "Trips",
     },
   ];
@@ -111,67 +197,181 @@ export function Nav({
           )}
         </button>
       </div>
-      <NavLink className="editor-nav__link" end to="/">
-        Overview
-        {problemCount > 0 ? (
-          <span className="editor-nav__count editor-nav__count--error">
-            {problemCount}
-          </span>
-        ) : null}
-      </NavLink>
-      <NavLink className="editor-nav__link" to="/config">
-        Configuration
-      </NavLink>
-      <label className="editor-nav__filter">
-        <span className="editor-nav__filter-label">Filter</span>
+      <label className="editor-nav__search">
+        <span className="editor-nav__search-label">Search</span>
         <input
-          onChange={(event) => setFilter(event.target.value)}
-          placeholder="Search everything"
+          onChange={(event) => setTerm(event.target.value)}
+          placeholder="Countries, cities, trips"
           type="search"
-          value={filter}
+          value={term}
         />
       </label>
-      <div className="editor-nav__sections">
-        {sections.map((section) => (
-          <section className="editor-nav__section" key={section.route}>
-            <h2 className="editor-nav__heading">
-              <section.icon aria-hidden="true" />
-              {section.title}
-              <span className="editor-nav__count">{section.items.length}</span>
-              <NavLink
-                aria-label={`New ${section.kind}`}
-                className="editor-nav__add"
-                to={`/new/${section.kind}`}
-              >
-                +
-              </NavLink>
-            </h2>
-            {section.items.map((item) => (
-              <NavLink
-                className={({ isActive }) =>
-                  classNames(
-                    "editor-nav__link",
-                    "editor-nav__link--item",
-                    isActive && "editor-nav__link--active",
-                  )
-                }
-                key={item.id}
-                to={`${section.route}/${item.id}`}
-              >
-                <span className="editor-nav__label">{item.label}</span>
-                {item.hint ? (
-                  <span className="editor-nav__hint">{item.hint}</span>
-                ) : null}
-              </NavLink>
-            ))}
-            {section.items.length === 0 ? (
-              <p className="editor-nav__empty">Nothing here yet.</p>
+      {term.trim() ? (
+        <div className="editor-nav__results">
+          {results.length > 0 ? (
+            results.map((entry) => (
+              <EntryLink
+                entry={entry}
+                hint={KIND_LABELS[entry.kind]}
+                key={`${entry.kind}-${entry.id}`}
+              />
+            ))
+          ) : (
+            <p className="editor-nav__empty">No matches.</p>
+          )}
+        </div>
+      ) : (
+        <>
+          <NavLink className="editor-nav__link" end to="/">
+            <span className="editor-nav__label">Overview</span>
+            {problemCount > 0 ? (
+              <span className="editor-nav__count editor-nav__count--error">
+                {problemCount}
+              </span>
             ) : null}
-          </section>
-        ))}
-      </div>
+          </NavLink>
+          <NavLink className="editor-nav__link" to="/config">
+            <span className="editor-nav__label">Configuration</span>
+          </NavLink>
+          <div className="editor-nav__sections">
+            {sections.map((section) => {
+              const isOpen = openKind === section.kind;
+              return (
+                <section className="editor-nav__section" key={section.kind}>
+                  <h2 className="editor-nav__heading">
+                    <button
+                      aria-expanded={isOpen}
+                      className="editor-nav__disclosure"
+                      onClick={() => setOpenKind(isOpen ? null : section.kind)}
+                      type="button"
+                    >
+                      <span
+                        className={classNames(
+                          "editor-nav__chevron",
+                          isOpen && "editor-nav__chevron--open",
+                        )}
+                      >
+                        ▸
+                      </span>
+                      <section.icon aria-hidden="true" />
+                      {section.title}
+                      <span className="editor-nav__count">
+                        {section.items.length}
+                      </span>
+                    </button>
+                    <NavLink
+                      aria-label={`New ${section.kind}`}
+                      className="editor-nav__add"
+                      to={`/new/${section.kind}`}
+                    >
+                      +
+                    </NavLink>
+                  </h2>
+                  {isOpen && section.kind === "city" ? (
+                    <CityTree
+                      cities={section.items}
+                      onToggleCountry={(id) =>
+                        setOpenCountry(openCountry === id ? null : id)
+                      }
+                      openCountry={openCountry}
+                    />
+                  ) : null}
+                  {isOpen && section.kind !== "city"
+                    ? section.items.map((entry) => (
+                        <EntryLink entry={entry} key={entry.id} />
+                      ))
+                    : null}
+                  {isOpen && section.items.length === 0 ? (
+                    <p className="editor-nav__empty">Nothing here yet.</p>
+                  ) : null}
+                </section>
+              );
+            })}
+          </div>
+        </>
+      )}
     </nav>
   );
+}
+
+/**
+ * CityTree component
+ * Groups cities under their country so the longest list in the sidebar stays
+ * one screen tall.
+ * @component
+ * @param {CityTreeProps} props
+ * @param {NavEntry[]} props.cities - Every city entry
+ * @param {(countryId: string) => void} props.onToggleCountry - Expands or collapses a country
+ * @param {string | null} props.openCountry - The expanded country, if any
+ * @returns {ReactNode} The grouped city list
+ */
+function CityTree({
+  cities: cityEntries,
+  onToggleCountry,
+  openCountry,
+}: CityTreeProps): ReactNode {
+  const grouped = new Map<string, NavEntry[]>();
+  for (const entry of cityEntries) {
+    const group = grouped.get(entry.country) ?? [];
+    group.push(entry);
+    grouped.set(entry.country, group);
+  }
+  return (
+    <>
+      {[...grouped.entries()]
+        .sort(([first], [second]) => first.localeCompare(second))
+        .map(([countryId, group]) => {
+          const isOpen = openCountry === countryId;
+          return (
+            <div className="editor-nav__group" key={countryId}>
+              <button
+                aria-expanded={isOpen}
+                className="editor-nav__group-header"
+                onClick={() => onToggleCountry(countryId)}
+                type="button"
+              >
+                <span
+                  className={classNames(
+                    "editor-nav__chevron",
+                    isOpen && "editor-nav__chevron--open",
+                  )}
+                >
+                  ▸
+                </span>
+                {group[0]?.flagUrl ? (
+                  <img
+                    alt=""
+                    className="editor-nav__flag"
+                    src={group[0].flagUrl}
+                  />
+                ) : (
+                  <span className="editor-nav__flag editor-nav__flag--none" />
+                )}
+                <span className="editor-nav__label">{countryId}</span>
+                <span className="editor-nav__count">{group.length}</span>
+              </button>
+              {isOpen
+                ? group.map((entry) => (
+                    <EntryLink entry={entry} key={entry.id} />
+                  ))
+                : null}
+            </div>
+          );
+        })}
+    </>
+  );
+}
+
+/**
+ * Props for CityTree.
+ * @property {NavEntry[]} cities - Every city entry
+ * @property {(countryId: string) => void} onToggleCountry - Expands or collapses a country
+ * @property {string | null} openCountry - The expanded country, if any
+ */
+interface CityTreeProps {
+  cities: NavEntry[];
+  onToggleCountry: (countryId: string) => void;
+  openCountry: string | null;
 }
 
 /**
