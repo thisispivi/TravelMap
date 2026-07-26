@@ -53,7 +53,7 @@ type GalleryLocationState = {
  * @returns {ReactNode} The gallery page
  */
 export function Gallery(): ReactNode {
-  const { t, currLanguage } = useLanguage(["home"]);
+  const { currLanguage } = useLanguage(["home"]);
   const navigate = useNavigate();
   const routerLocation = useRouterLocation();
   const { city, travelIdx } = useLoaderData() as GalleryProps;
@@ -155,15 +155,9 @@ export function Gallery(): ReactNode {
                           })
                         }
                       />
-                      <button
-                        aria-label={t("lightbox.youtubeVideo")}
+                      <span
+                        aria-hidden="true"
                         className="gallery__content__image__gradient"
-                        onClick={() =>
-                          navigate(`./${photo.index}`, {
-                            state: navigationState,
-                          })
-                        }
-                        type="button"
                       />
                     </>
                   ) : null}

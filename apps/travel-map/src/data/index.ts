@@ -19,6 +19,7 @@ import { unique } from "remeda";
  * @property {{ defaultZoom: number; defaultMinZoom: number; defaultMaxZoom: number; defaultCenter: [number, number]; hoveredCityZoom: number; marker: { defaultScale: number; minScale: number; maxScale: number } }} [map] - Map configuration
  * @property {{ groupByCitiesCutoffYear: number }} [trips] - Trip display settings
  * @property {Record<string, string[]>} [unescoSites] - Authored UNESCO sites
+ * @property {Record<string, { name: string; logo?: string }>} [companies] - Transport company metadata
  */
 interface SiteConfig {
   homeCityId?: string | null;
@@ -34,6 +35,7 @@ interface SiteConfig {
   };
   trips?: { groupByCitiesCutoffYear: number };
   unescoSites?: Record<string, string[]>;
+  companies?: Record<string, { name: string; logo?: string }>;
 }
 
 /**
@@ -46,7 +48,10 @@ function values<T>(modules: Record<string, { default: T }>): T[] {
 }
 
 const countries = values<CountryJson>(
-  import.meta.glob("../../../../data/*/*.json", { eager: true }),
+  import.meta.glob(
+    ["../../../../data/*/*.json", "!../../../../data/trips/*.json"],
+    { eager: true },
+  ),
 );
 const cities = values<CityJson>(
   import.meta.glob("../../../../data/*/*/*.json", { eager: true }),

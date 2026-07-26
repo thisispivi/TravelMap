@@ -43,6 +43,7 @@ export function TripDetailHero({
   onViewMap,
 }: TripDetailHeroProps): ReactNode {
   const { t, currLanguage: lang } = useLanguage(["home"]);
+  const tripTitle = trip.getLocalizedTitle(lang);
 
   return (
     <>
@@ -54,7 +55,7 @@ export function TripDetailHero({
       <div className="trip-detail__hero">
         {trip.backgroundImgSource ? (
           <img
-            alt={t(`trips.${trip.id}`)}
+            alt={tripTitle}
             className="trip-detail__hero-img"
             src={trip.backgroundImgSource}
           />
@@ -72,7 +73,7 @@ export function TripDetailHero({
         </div>
 
         <div className="trip-detail__hero-content">
-          <h2 className="trip-detail__hero-title">{t(`trips.${trip.id}`)}</h2>
+          <h2 className="trip-detail__hero-title">{tripTitle}</h2>
           <div className="trip-detail__hero-meta">
             <div className="trip-detail__hero-date">
               <CalendarIcon className="trip-detail__hero-date-icon" />

@@ -106,7 +106,7 @@ function placesReducer(state: PlacesState, action: PlacesAction): PlacesState {
  * @returns {ReactNode} The places browser panel
  */
 export function PlacesBrowser(): ReactNode {
-  const { t } = useLanguage(["home"]);
+  const { t, currLanguage } = useLanguage(["home"]);
   const navigate = useNavigate();
   const { placesFilter } = useLocation();
   const { setHoveredCity, setMapPosition } = use(HomeContext)!;
@@ -236,14 +236,10 @@ export function PlacesBrowser(): ReactNode {
       }
     }
 
-    /**
-     * Normalizes a country identifier for its translation key.
-     * @param {string} id - The country identifier
-     * @returns {string} The identifier without whitespace
-     */
-    const key = (id: string) => id.replace(/\s+/g, "");
     return result.sort((a, b) =>
-      t(`countries.${key(a.id)}`).localeCompare(t(`countries.${key(b.id)}`)),
+      a
+        .getLocalizedName(currLanguage)
+        .localeCompare(b.getLocalizedName(currLanguage)),
     );
   })();
   const activeSelected = state.selectedCountries ?? countries;

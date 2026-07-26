@@ -30,6 +30,24 @@ interface SiteDetails {
  * @returns {Plugin} Vite HTML and bundle asset plugin
  */
 function siteBranding(site: SiteDetails): Plugin {
+  const manifest = JSON.stringify({
+    icons: [
+      {
+        sizes: "192x192",
+        src: "/android-chrome-192x192.png",
+        type: "image/png",
+      },
+      {
+        sizes: "512x512",
+        src: "/android-chrome-512x512.png",
+        type: "image/png",
+      },
+    ],
+    name: site.name,
+    short_name: site.name,
+    start_url: "/",
+  });
+
   return {
     name: "site-branding",
 
@@ -47,6 +65,23 @@ function siteBranding(site: SiteDetails): Plugin {
     },
 
     /**
+     * Serves the generated manifest during development. Without this middleware
+     * Vite's history fallback returns index.html for the manifest request.
+     * @param {import("vite").ViteDevServer} server - The active Vite server
+     * @returns {void}
+     */
+    configureServer(server): void {
+      server.middlewares.use((request, response, next) => {
+        if (request.url !== "/site.webmanifest") {
+          next();
+          return;
+        }
+        response.setHeader("Content-Type", "application/manifest+json");
+        response.end(manifest);
+      });
+    },
+
+    /**
      * Adds generated domain and manifest assets to the production bundle.
      * @returns {void}
      */
@@ -60,23 +95,7 @@ function siteBranding(site: SiteDetails): Plugin {
       }
       this.emitFile({
         fileName: "site.webmanifest",
-        source: JSON.stringify({
-          icons: [
-            {
-              sizes: "192x192",
-              src: "/android-chrome-192x192.png",
-              type: "image/png",
-            },
-            {
-              sizes: "512x512",
-              src: "/android-chrome-512x512.png",
-              type: "image/png",
-            },
-          ],
-          name: site.name,
-          short_name: site.name,
-          start_url: "/",
-        }),
+        source: manifest,
         type: "asset",
       });
     },

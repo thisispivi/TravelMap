@@ -61,7 +61,7 @@ export function FilterByCountry({
   buttonIcon,
   className = "",
 }: FilterByCountryProps): ReactNode {
-  const { t } = useLanguage(["home"]);
+  const { t, currLanguage } = useLanguage(["home"]);
   const [isOpen, setIsOpen] = useState(false);
   const nodeRef = useRef<HTMLDivElement>(null);
   const backdropRef = useRef<HTMLDivElement>(null);
@@ -174,7 +174,7 @@ export function FilterByCountry({
                   type="button"
                 >
                   <CountryFlag countryId={option.id} />
-                  <h4>{t(`countries.${option.id.replace(/\s+/g, "")}`)}</h4>
+                  <h4>{option.getLocalizedName(currLanguage)}</h4>
                 </button>
               ))}
             </div>

@@ -35,7 +35,7 @@ export function TransportRow({
   transport,
   className = "",
 }: TransportRowProps): ReactNode {
-  const { t, currLanguage } = useLanguage(["home"]);
+  const { currLanguage } = useLanguage(["home"]);
   const isFerry = transport instanceof Ferry;
   const TransportIcon = isFerry ? FerryIcon : AirplaneIcon;
   return (
@@ -43,7 +43,7 @@ export function TransportRow({
       <div className="transport-row__cities">
         <h2 className="transport-row__cities__city">
           <CountryFlag countryId={transport.sCity.country.id} />
-          {t(`cities.${transport.sCity.name}`)}
+          {transport.sCity.getLocalizedName(currLanguage)}
         </h2>
         <TransportIcon
           className={classNames(
@@ -53,7 +53,7 @@ export function TransportRow({
         />
         <h2 className="transport-row__cities__city">
           <CountryFlag countryId={transport.eCity.country.id} />
-          {t(`cities.${transport.eCity.name}`)}
+          {transport.eCity.getLocalizedName(currLanguage)}
         </h2>
       </div>
       <b className="transport-row__distance">

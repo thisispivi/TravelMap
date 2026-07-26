@@ -133,6 +133,7 @@ function TimelineCardItem({ trip, side }: TimelineCardItemProps): ReactNode {
   });
   const navigate = useNavigate();
   const { t, currLanguage: lang } = useLanguage(["home"]);
+  const tripTitle = trip.getLocalizedTitle(lang);
   const countries = trip.getCountriesVisited();
   const hiddenState = {
     opacity: 0,
@@ -165,7 +166,7 @@ function TimelineCardItem({ trip, side }: TimelineCardItemProps): ReactNode {
       {trip.backgroundImgSource ? (
         <div className="timeline-card__image-container">
           <img
-            alt={t(`trips.${trip.id}`)}
+            alt={tripTitle}
             className="timeline-card__image"
             src={trip.backgroundImgSource}
           />
@@ -182,7 +183,7 @@ function TimelineCardItem({ trip, side }: TimelineCardItemProps): ReactNode {
         ))}
       </div>
       <div className="timeline-card__body">
-        <h3 className="timeline-card__title">{t(`trips.${trip.id}`)}</h3>
+        <h3 className="timeline-card__title">{tripTitle}</h3>
         <div className="timeline-card__meta">
           <div className="timeline-card__date">
             <CalendarIcon className="timeline-card__date-icon" />

@@ -1,9 +1,127 @@
-:root { color: #1d2433; font-family: Inter, system-ui, sans-serif; background: #f6f7fb; }
-body { margin: 0; }
-.editor { display: grid; grid-template-columns: 13rem 1fr; min-height: 100vh; }
-nav { display: grid; align-content: start; gap: .75rem; padding: 1.5rem; background: #182033; }
-nav a { color: white; }
-main { max-width: 72rem; padding: 2rem; }
-section { display: grid; gap: .35rem; margin: 1.5rem 0; }
-textarea { box-sizing: border-box; width: 100%; min-height: 36rem; padding: 1rem; font: .875rem/1.5 ui-monospace, monospace; }
-button { padding: .6rem 1rem; }
+:root {
+  color: #1d2433;
+  font-family: Inter, system-ui, sans-serif;
+  background: #f6f7fb;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+.editor {
+  display: grid;
+  grid-template-columns: 17rem minmax(0, 1fr);
+  min-height: 100vh;
+}
+nav {
+  display: grid;
+  align-content: start;
+  gap: 0.45rem;
+  padding: 1.25rem;
+  background: #182033;
+  overflow-y: auto;
+}
+nav a,
+nav h2 {
+  color: white;
+}
+nav h2 {
+  margin: 1rem 0 0;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+main {
+  max-width: 76rem;
+  padding: 2rem;
+}
+form {
+  display: grid;
+  gap: 1.25rem;
+}
+fieldset {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid #ccd2df;
+  border-radius: 0.4rem;
+}
+legend {
+  padding: 0 0.35rem;
+  font-weight: 700;
+}
+label {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.9rem;
+}
+.checkbox {
+  grid-template-columns: auto 1fr;
+  align-items: center;
+}
+.checkbox input {
+  width: auto;
+}
+input,
+select,
+textarea,
+button {
+  font: inherit;
+}
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 0.55rem;
+  border: 1px solid #aeb7c7;
+  border-radius: 0.25rem;
+  background: white;
+}
+textarea {
+  min-height: 8rem;
+  font-family: ui-monospace, monospace;
+}
+button {
+  padding: 0.55rem 0.8rem;
+  border: 0;
+  border-radius: 0.25rem;
+  background: #1d5ea8;
+  color: white;
+  cursor: pointer;
+}
+footer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+output,
+.path {
+  color: #526176;
+}
+.swatch {
+  min-height: 3rem;
+  border-radius: 0.25rem;
+}
+.maplibregl-map {
+  min-height: 25rem;
+  border-radius: 0.4rem;
+  overflow: hidden;
+}
+.step {
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+}
+.step > button {
+  align-self: end;
+}
+@media (max-width: 48rem) {
+  .editor {
+    grid-template-columns: 1fr;
+  }
+  nav {
+    max-height: 18rem;
+  }
+  main {
+    padding: 1.25rem;
+  }
+}

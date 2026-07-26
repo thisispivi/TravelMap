@@ -63,7 +63,7 @@ export function TimelineStayCard({
   const thumbSrc = city.getBackgroundImgSourceByIndex(
     hasPhotos ? galleryTravelIdx : travelIdx,
   );
-  const cityLabel = t(`cities.${city.name}`) || city.name;
+  const cityLabel = city.getLocalizedName(lang);
 
   /**
    * Opens the gallery for this city stay.

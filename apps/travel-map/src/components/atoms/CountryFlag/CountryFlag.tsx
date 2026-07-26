@@ -1,3 +1,5 @@
+import "./CountryFlag.scss";
+
 import { ReactNode, SyntheticEvent } from "react";
 
 /**
@@ -37,7 +39,7 @@ export function CountryFlag({
     <img
       alt=""
       aria-hidden="true"
-      className={className}
+      className={`country-flag ${className}`}
       onError={handleImageError}
       src={`/flags/${countryId}.svg`}
     />

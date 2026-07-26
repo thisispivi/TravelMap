@@ -1,54 +1,21 @@
 import "./CompaniesCard.scss";
 
-import { FerryCompany, FlightCompany } from "@travelmap/core";
-import { ComponentType, ReactNode, SVGProps } from "react";
+import { ReactNode } from "react";
 
-import AeroitaliaLogo from "@/assets/logos/Aeroitalia.svg?react";
-import AnaLogo from "@/assets/logos/Ana.svg?react";
-import ChinaEasternLogo from "@/assets/logos/ChinaEastern.svg?react";
-import CorsicaFerriesLogo from "@/assets/logos/CorsicaFerries.svg?react";
-import EasyJetLogo from "@/assets/logos/EasyJet.svg?react";
-import ItaAirwaysLogo from "@/assets/logos/ItaAirways.svg?react";
-import JetstarLogo from "@/assets/logos/Jetstar.svg?react";
-import RyanairLogo from "@/assets/logos/Ryanair.svg?react";
-import TirreniaLogo from "@/assets/logos/Tirrenia.svg?react";
-import VirginAustraliaLogo from "@/assets/logos/VirginAustralia.svg?react";
-import WizzAirLogo from "@/assets/logos/WizzAir.svg?react";
+import { siteConfig } from "@/data";
 import { useLanguage } from "@/hooks/language/language";
 import { CompanyStat } from "@/utils/transport";
 
 import { Card } from "../../../molecules/Cards/Card";
 
 /**
- * Represents a svg icon.
- */
-type SvgIcon = ComponentType<SVGProps<SVGSVGElement> & { className?: string }>;
-
-const flightCompanyLogos: Partial<Record<FlightCompany, SvgIcon>> = {
-  [FlightCompany.RYANAIR]: RyanairLogo,
-  [FlightCompany.EASYJET]: EasyJetLogo,
-  [FlightCompany.WIZZ_AIR]: WizzAirLogo,
-  [FlightCompany.ITA_AIRWAYS]: ItaAirwaysLogo,
-  [FlightCompany.ALL_NIPPON_AIRWAYS]: AnaLogo,
-  [FlightCompany.CHINA_EASTERN_AIRLINES]: ChinaEasternLogo,
-  [FlightCompany.JETSTAR]: JetstarLogo,
-  [FlightCompany.VIRGIN_AUSTRALIA]: VirginAustraliaLogo,
-  [FlightCompany.AEROITALIA]: AeroitaliaLogo,
-};
-
-const ferryCompanyLogos: Partial<Record<FerryCompany, SvgIcon>> = {
-  [FerryCompany.CORSICA_FERRIES]: CorsicaFerriesLogo,
-  [FerryCompany.TIRRENIA]: TirreniaLogo,
-};
-
-/**
  * Props for the CompaniesCard component.
- * @property {CompanyStat<FlightCompany>[]} flightCompanyStats - Flight companies ranked by trip count.
- * @property {CompanyStat<FerryCompany>[]} ferryCompanyStats - Ferry companies ranked by crossing count.
+ * @property {CompanyStat<string>[]} flightCompanyStats - Flight companies ranked by trip count.
+ * @property {CompanyStat<string>[]} ferryCompanyStats - Ferry companies ranked by crossing count.
  */
 export type CompaniesCardProps = {
-  flightCompanyStats: CompanyStat<FlightCompany>[];
-  ferryCompanyStats: CompanyStat<FerryCompany>[];
+  flightCompanyStats: CompanyStat<string>[];
+  ferryCompanyStats: CompanyStat<string>[];
 };
 
 /**
@@ -57,8 +24,8 @@ export type CompaniesCardProps = {
  * their logo and trip count, sorted by frequency.
  * @component
  * @param {CompaniesCardProps} props
- * @param {CompanyStat<FlightCompany>[]} props.flightCompanyStats - Flight companies ranked by journey count
- * @param {CompanyStat<FerryCompany>[]} props.ferryCompanyStats - Ferry companies ranked by crossing count
+ * @param {CompanyStat<string>[]} props.flightCompanyStats - Flight companies ranked by journey count
+ * @param {CompanyStat<string>[]} props.ferryCompanyStats - Ferry companies ranked by crossing count
  * @returns {ReactNode} The companies bento card
  */
 export function CompaniesCard({
@@ -66,7 +33,6 @@ export function CompaniesCard({
   ferryCompanyStats,
 }: CompaniesCardProps): ReactNode {
   const { t } = useLanguage(["home"]);
-
   return (
     <Card className="bento-card bento-card--half bento-detail card--box-shadow">
       <div className="bento-detail__top">
@@ -74,12 +40,19 @@ export function CompaniesCard({
       </div>
       <div className="bento-detail__rows">
         {flightCompanyStats.map(({ company, count }) => {
-          const Logo = flightCompanyLogos[company];
+          const metadata = siteConfig?.companies?.[company];
           return (
             <div className="bento-detail__row bento-company-row" key={company}>
-              {Logo ? <Logo className="bento-company-row__logo" /> : null}
+              {metadata?.logo ? (
+                <img
+                  alt=""
+                  aria-hidden="true"
+                  className="bento-company-row__logo"
+                  src={metadata.logo}
+                />
+              ) : null}
               <p className="bento-company-row__name">
-                {t(`flightCompany.${company}`)}
+                {metadata?.name ?? company}
               </p>
               <b className="bento-company-row__count">{count}</b>
             </div>
@@ -91,12 +64,19 @@ export function CompaniesCard({
       </div>
       <div className="bento-detail__rows">
         {ferryCompanyStats.map(({ company, count }) => {
-          const Logo = ferryCompanyLogos[company];
+          const metadata = siteConfig?.companies?.[company];
           return (
             <div className="bento-detail__row bento-company-row" key={company}>
-              {Logo ? <Logo className="bento-company-row__logo" /> : null}
+              {metadata?.logo ? (
+                <img
+                  alt=""
+                  aria-hidden="true"
+                  className="bento-company-row__logo"
+                  src={metadata.logo}
+                />
+              ) : null}
               <p className="bento-company-row__name">
-                {t(`ferryCompany.${company}`)}
+                {metadata?.name ?? company}
               </p>
               <b className="bento-company-row__count">{count}</b>
             </div>

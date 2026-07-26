@@ -1,8 +1,8 @@
 import { mkdir, rm, writeFile } from "node:fs/promises";
+import type { IncomingMessage, ServerResponse } from "node:http";
 import { dirname, resolve, sep } from "node:path";
 
-import type { IncomingMessage, ServerResponse } from "node:http";
-import type { Plugin } from "vite";
+import type { Plugin, ViteDevServer } from "vite";
 
 /**
  * Payload accepted by the local JSON writer endpoints.
@@ -33,7 +33,10 @@ async function readPayload(request: IncomingMessage): Promise<WritePayload> {
  */
 function resolveDataPath(dataRoot: string, relativePath: string): string {
   const path = resolve(dataRoot, relativePath);
-  if (!relativePath.endsWith(".json") || !path.startsWith(`${dataRoot}${sep}`)) {
+  if (
+    !relativePath.endsWith(".json") ||
+    !path.startsWith(`${dataRoot}${sep}`)
+  ) {
     throw new Error("Only JSON files inside data/ can be changed.");
   }
   return path;
@@ -46,7 +49,11 @@ function resolveDataPath(dataRoot: string, relativePath: string): string {
  * @param {object} body - JSON response body
  * @returns {void}
  */
-function sendJson(response: ServerResponse, status: number, body: object): void {
+function sendJson(
+  response: ServerResponse,
+  status: number,
+  body: object,
+): void {
   response.writeHead(status, { "Content-Type": "application/json" });
   response.end(JSON.stringify(body));
 }
@@ -60,7 +67,13 @@ export function dataWriter(dataRoot: string): Plugin {
   return {
     name: "data-writer",
     apply: "serve",
-    configureServer(server) {
+
+    /**
+     * Installs the local JSON endpoints on the development server.
+     * @param {ViteDevServer} server - Editor development server
+     * @returns {void}
+     */
+    configureServer(server: ViteDevServer): void {
       server.middlewares.use("/__data", async (request, response) => {
         if (request.method !== "POST") return;
         try {
@@ -68,7 +81,10 @@ export function dataWriter(dataRoot: string): Plugin {
           const path = resolveDataPath(dataRoot, payload.path);
           if (request.url === "/write") {
             await mkdir(dirname(path), { recursive: true });
-            await writeFile(path, `${JSON.stringify(payload.value, null, 2)}\n`);
+            await writeFile(
+              path,
+              `${JSON.stringify(payload.value, null, 2)}\n`,
+            );
             sendJson(response, 200, { ok: true });
             return;
           }

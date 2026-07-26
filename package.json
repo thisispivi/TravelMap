@@ -5,7 +5,7 @@
   "scripts": {
     "build": "pnpm --filter travel-map build",
     "check": "pnpm --filter travel-map check",
-    "dev": "pnpm --filter travel-map dev",
+    "dev": "pnpm -r --parallel --filter travel-map --filter travel-map-editor dev",
     "editor": "pnpm --filter travel-map-editor dev"
   },
   "devDependencies": {

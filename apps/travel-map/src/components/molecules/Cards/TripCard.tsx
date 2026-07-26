@@ -40,7 +40,7 @@ export function TripCard({
 }: TripCardProps): ReactNode {
   const { t, currLanguage: lang } = useLanguage(["home"]);
   const prefersReducedMotion = useReducedMotion();
-  const tripTitle = t(`trips.${trip.id}`);
+  const tripTitle = trip.getLocalizedTitle(lang);
 
   const countries = trip.getCountriesVisited();
 
