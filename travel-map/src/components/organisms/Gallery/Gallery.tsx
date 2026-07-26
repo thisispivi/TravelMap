@@ -25,6 +25,7 @@ import {
   getCityPhotoTravels,
   getTravelByCityIndex,
 } from "../../../utils/trips";
+
 /**
  * Data resolved by the gallery route loader.
  * @property {City} city - The city whose gallery is displayed
@@ -34,9 +35,15 @@ export interface GalleryProps {
   city: City;
   travelIdx: number;
 }
+
+/**
+ * Data passed via the location state when navigating to the gallery route.
+ * @property {string} [fromPath] - The path from which the user navigated to the gallery route
+ */
 type GalleryLocationState = {
   fromPath?: string;
 };
+
 /**
  * Gallery component
  * Masonry photo album for a single city travel. Renders thumbnails via
@@ -69,6 +76,11 @@ export function Gallery(): ReactNode {
   }));
   const [hasOverflow, setHasOverflow] = useState<boolean>(false);
   const contentRef = useRef<HTMLDivElement | null>(null);
+
+  /**
+   * Check overflow.
+   * @returns {void}
+   */
   const checkOverflow = () => {
     const el = contentRef.current;
     if (el) setHasOverflow(el.scrollHeight > el.clientHeight);
@@ -80,7 +92,11 @@ export function Gallery(): ReactNode {
   });
 
   useEffect(() => {
-    const handleResize = () => checkOverflowRef.current();
+    /**
+     * Rechecks gallery overflow after the browser viewport changes.
+     * @returns {void}
+     */
+    const handleResize = (): void => checkOverflowRef.current();
 
     checkOverflowRef.current();
     const timeout = setTimeout(() => checkOverflowRef.current(), 500);

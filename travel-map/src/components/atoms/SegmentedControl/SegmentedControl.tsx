@@ -5,6 +5,15 @@ import { ReactNode } from "react";
 
 import { classNames } from "@/utils/className";
 
+/**
+ * Properties accepted by the SegmentedControl component.
+ * @property {string} [className] - The class name
+ * @property {{ value: T; label: string; tooltip?: string }[]} options - The options
+ * @property {T} selected - The selected
+ * @property {(value: T) => void} onSelect - The on select
+ * @property {string} layoutId - The layout id
+ * @property {string} [tooltipId] - The tooltip id
+ */
 interface SegmentedControlProps<T extends string> {
   className?: string;
   options: { value: T; label: string; tooltip?: string }[];

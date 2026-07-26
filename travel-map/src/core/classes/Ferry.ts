@@ -3,6 +3,17 @@ import { getCitiesDistance } from "@/utils/distance";
 import { FerryCompany } from "../typings/FerryCompany";
 import { City } from "./City";
 
+/**
+ * Data used to construct a ferry journey.
+ * @property {City} sCity - The departure city
+ * @property {City} eCity - The arrival city
+ * @property {FerryCompany} [company] - The ferry operator
+ * @property {Date} [sDate] - The departure date
+ * @property {Date} [eDate] - The arrival date
+ * @property {City[]} [via] - Intermediate ports
+ * @property {number} [distanceInKm] - The authored distance in kilometers
+ * @property {number} [durationMinutes] - The authored duration in minutes
+ */
 interface FerryInterface {
   sCity: City;
   eCity: City;
@@ -37,16 +48,22 @@ export class Ferry implements FerryInterface {
   distanceInKm: number;
   durationMinutes: number;
 
-  constructor({
-    sCity,
-    eCity,
-    company,
-    sDate,
-    eDate,
-    via = [],
-    distanceInKm,
-    durationMinutes,
-  }: FerryInterface) {
+  /**
+   * Creates a ferry journey and derives missing distance or duration values.
+   * @param {FerryInterface} ferryData - The ferry journey data
+   */
+  constructor(ferryData: FerryInterface) {
+    const {
+      sCity,
+      eCity,
+      company,
+      sDate,
+      eDate,
+      via = [],
+      distanceInKm,
+      durationMinutes,
+    } = ferryData;
+
     this.sCity = sCity;
     this.eCity = eCity;
     this.company = company;

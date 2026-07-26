@@ -10,6 +10,15 @@ import {
   TripTransportStep,
 } from "@/core";
 
+/**
+ * Represents a trip detail base stop item.
+ * @property {"base-stop"} kind - The kind
+ * @property {City} city - The city
+ * @property {number} travelIdx - The travel idx
+ * @property {TripStop} stop - The stop
+ * @property {number} nights - The nights
+ * @property {boolean} isLayover - Whether the stop is only a layover
+ */
 type TripDetailBaseStopItem = {
   kind: "base-stop";
   city: City;
@@ -19,6 +28,15 @@ type TripDetailBaseStopItem = {
   isLayover: boolean;
 };
 
+/**
+ * Represents a trip detail day trip item.
+ * @property {"day-trip"} kind - The kind
+ * @property {City} city - The city
+ * @property {number} travelIdx - The travel idx
+ * @property {TripStop} stop - The stop
+ * @property {boolean} isNested - Whether the item belongs to a nested excursion
+ * @property {City | null} parentCity - The parent city
+ */
 type TripDetailDayTripItem = {
   kind: "day-trip";
   city: City;
@@ -28,6 +46,16 @@ type TripDetailDayTripItem = {
   parentCity: City | null;
 };
 
+/**
+ * Represents a trip detail flight info.
+ * @property {FlightCompany} company - The company
+ * @property {number} distanceKm - The distance km
+ * @property {number} durationMinutes - The duration minutes
+ * @property {string} [number] - The number
+ * @property {string} [class] - The class
+ * @property {string} [departure] - The departure
+ * @property {string} [arrival] - The arrival
+ */
 type TripDetailFlightInfo = {
   company: FlightCompany;
   distanceKm: number;
@@ -38,6 +66,13 @@ type TripDetailFlightInfo = {
   arrival?: string;
 };
 
+/**
+ * Represents a trip detail ferry info.
+ * @property {FerryCompany} [company] - The company
+ * @property {number} distanceKm - The distance km
+ * @property {number} durationMinutes - The duration minutes
+ * @property {City[]} via - The via
+ */
 type TripDetailFerryInfo = {
   company?: FerryCompany;
   distanceKm: number;
@@ -47,16 +82,37 @@ type TripDetailFerryInfo = {
 
 /**
  * Distance and duration for a ground transport leg (bus, train, car, taxi, walk).
+ * @property {number} distanceKm - The segment distance in kilometres
+ * @property {number} durationMinutes - The segment duration in minutes
  */
 type TripDetailGroundInfo = {
   distanceKm: number;
   durationMinutes: number;
 };
 
+/**
+ * Represents a trip detail bus info.
+ */
 type TripDetailBusInfo = TripDetailGroundInfo;
+
+/**
+ * Represents a trip detail train info.
+ */
 type TripDetailTrainInfo = TripDetailGroundInfo;
+
+/**
+ * Represents a trip detail car info.
+ */
 type TripDetailCarInfo = TripDetailGroundInfo;
+
+/**
+ * Represents a trip detail taxi info.
+ */
 type TripDetailTaxiInfo = TripDetailGroundInfo;
+
+/**
+ * Represents a trip detail walk info.
+ */
 type TripDetailWalkInfo = TripDetailGroundInfo;
 
 /**
@@ -116,6 +172,12 @@ export function formatTripDetailDuration(minutes: number): string {
   return m === 0 ? `${h}h` : `${h}h ${m}m`;
 }
 
+/**
+ * Normalizes optional flight and route-step data for the trip timeline.
+ * @param {Flight} [flight] - The flight domain object
+ * @param {TripTransportStep} [step] - The corresponding transport step
+ * @returns {TripDetailFlightInfo | undefined} Flight details when a company is available
+ */
 function resolveTripDetailFlightInfo(
   flight?: Flight,
   step?: TripTransportStep,
@@ -133,6 +195,11 @@ function resolveTripDetailFlightInfo(
   };
 }
 
+/**
+ * Normalizes optional ferry data for the trip timeline.
+ * @param {Ferry} [ferry] - The ferry domain object
+ * @returns {TripDetailFerryInfo | undefined} Ferry details when meaningful data is available
+ */
 function resolveTripDetailFerryInfo(
   ferry?: Ferry,
 ): TripDetailFerryInfo | undefined {

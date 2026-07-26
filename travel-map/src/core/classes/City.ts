@@ -3,6 +3,18 @@ import { i18n } from "i18next";
 import { MarkerSizes } from "../typings/Marker";
 import { Country } from "./Country";
 
+/**
+ * Data used to construct a city.
+ * @property {string[]} [backgroundImgSources] - Background images shown for the city
+ * @property {[number, number]} coordinates - Longitude and latitude
+ * @property {Country} country - The country containing the city
+ * @property {MarkerSizes} [customMarkerSizes] - Custom map marker dimensions
+ * @property {boolean} [isLived] - Whether the city is a former home
+ * @property {number} [minMarkerScale] - The minimum visible marker scale
+ * @property {string} name - The city name
+ * @property {number} [population] - The city population
+ * @property {string} timeZone - The IANA time-zone identifier
+ */
 interface CityInterface {
   backgroundImgSources?: string[];
   coordinates: [number, number];
@@ -41,6 +53,10 @@ export class City implements CityInterface {
   population?: number;
   timeZone: string;
 
+  /**
+   * Creates a city instance.
+   * @param {CityInterface} cityData - The city data
+   */
   constructor(cityData: CityInterface) {
     this.coordinates = cityData.coordinates;
     this.customMarkerSizes = cityData.customMarkerSizes;
@@ -54,20 +70,40 @@ export class City implements CityInterface {
     this.backgroundImgSources = cityData.backgroundImgSources ?? [];
   }
 
-  getMapCoordinates([x, y]: [number, number]): [number, number] {
+  /**
+   * Returns coordinates in MapLibre's longitude-latitude order.
+   * @param {[number, number]} coordinates - The longitude and latitude
+   * @returns {[number, number]} The unchanged MapLibre coordinates
+   */
+  getMapCoordinates(coordinates: [number, number]): [number, number] {
+    const [x, y] = coordinates;
     return [x, y];
   }
 
+  /**
+   * Resolves a city background image from a cyclic travel index.
+   * @param {number} index - The travel index used to select an image
+   * @returns {string | null} The CDN image source, or null when none exist
+   */
   getBackgroundImgSourceByIndex(index: number): string | null {
     if (this.backgroundImgSources.length === 0) return null;
     return `${import.meta.env.VITE_CDN_PATH}${this.backgroundImgSources[index % this.backgroundImgSources.length]}`;
   }
 
+  /**
+   * Converts the city's coordinate tuple into a named latitude/longitude object.
+   * @returns {{ lat: number; lon: number }} The named geographic coordinates
+   */
   getCoordinatesAsLatLon(): { lat: number; lon: number } {
     return { lat: this.coordinates[1], lon: this.coordinates[0] };
   }
 
-  getName(t: i18n["t"]) {
+  /**
+   * Translates the city's canonical name for display.
+   * @param {i18n["t"]} t - The active i18next translation function
+   * @returns {string} The localized city name
+   */
+  getName(t: i18n["t"]): string {
     return t(`cities.${this.name}`);
   }
 }

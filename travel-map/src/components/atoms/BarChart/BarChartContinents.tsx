@@ -4,6 +4,13 @@ import { ReactNode } from "react";
 
 import { Continent } from "@/core";
 import { useLanguage } from "@/hooks/language/language";
+
+/**
+ * Properties accepted by the ContinentsBarChart component.
+ * @property {{ continent: Continent; cities: number; countries: number }[]} data - The data
+ * @property {string[]} [barColors] - The bar colors
+ * @property {boolean} [isDarkTheme] - Whether the dark theme is active
+ */
 interface ContinentsBarChartProps {
   data: {
     continent: Continent;
@@ -13,12 +20,21 @@ interface ContinentsBarChartProps {
   barColors?: string[];
   isDarkTheme?: boolean;
 }
+
+/**
+ * Properties accepted by the BarRow component.
+ * @property {number} value - The value
+ * @property {number} maxVal - The max val
+ * @property {string} color - The color
+ * @property {string} label - The label
+ */
 interface BarRowProps {
   value: number;
   maxVal: number;
   color: string;
   label: string;
 }
+
 /**
  * BarRow component
  * Renders one proportional bar and its numeric value.
@@ -48,6 +64,7 @@ function BarRow({ value, maxVal, color, label }: BarRowProps): ReactNode {
     </div>
   );
 }
+
 /**
  * ContinentsBarChart component
  * Custom horizontal bar chart showing countries and cities visited per continent.
@@ -70,7 +87,13 @@ export function ContinentsBarChart({
     1,
     ...filtered.map((c) => Math.max(c.countries, c.cities)),
   );
-  const continentLabel = (continent: Continent) =>
+
+  /**
+   * Translates a continent identifier for the chart.
+   * @param {Continent} continent - The continent to translate
+   * @returns {string} The localized continent label
+   */
+  const continentLabel = (continent: Continent): string =>
     t(`continents.${continent.replace(/\s+/g, "_").toUpperCase()}`);
   return (
     <div

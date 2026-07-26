@@ -16,7 +16,19 @@ import { useLanguage } from "@/hooks/language/language";
 import { useLocation } from "@/hooks/location/location";
 import { classNames } from "@/utils/className";
 
+/**
+ * Represents a places filter.
+ */
 type PlacesFilter = "visited" | "lived" | "future";
+
+/**
+ * Represents a places state.
+ * @property {PlacesFilter} filter - The filter
+ * @property {Country[] | null} selectedCountries - The selected countries
+ * @property {number} transitionDirection - The transition direction
+ * @property {string} [panelHeight] - The panel height
+ * @property {boolean} isGridScrollable - Whether the city grid can scroll
+ */
 type PlacesState = {
   filter: PlacesFilter;
   selectedCountries: Country[] | null;
@@ -24,6 +36,16 @@ type PlacesState = {
   panelHeight?: string;
   isGridScrollable: boolean;
 };
+
+/**
+ * Represents a places action.
+ * @property {"selectFilter"} type - The type
+ * @property {PlacesFilter} filter - The filter
+ * @property {number} direction - The direction
+ * @property {Country[] | null} countries - The countries
+ * @property {string} panelHeight - The panel height
+ * @property {boolean} isGridScrollable - Whether the city grid can scroll
+ */
 type PlacesAction =
   | { type: "selectFilter"; filter: PlacesFilter; direction: number }
   | { type: "selectedCountries"; countries: Country[] | null }
@@ -46,6 +68,12 @@ const gridPageVariants = {
   }),
 };
 
+/**
+ * Applies navigation, filtering, and layout changes to the places panel.
+ * @param {PlacesState} state - The current places-panel state
+ * @param {PlacesAction} action - The state transition to apply
+ * @returns {PlacesState} The next places-panel state
+ */
 function placesReducer(state: PlacesState, action: PlacesAction): PlacesState {
   switch (action.type) {
     case "selectFilter":
@@ -91,6 +119,11 @@ export function PlacesBrowser(): ReactNode {
   });
   const panelRef = useRef<HTMLDivElement>(null);
   const routeUpdateTimeoutRef = useRef<number | null>(null);
+
+  /**
+   * Measure panel height.
+   * @returns {void}
+   */
   const measurePanelHeight = () => {
     const panel = panelRef.current;
     if (!panel) return;
@@ -150,7 +183,11 @@ export function PlacesBrowser(): ReactNode {
     measurePanelHeightRef.current = measurePanelHeight;
   });
 
-  const handleGridExitComplete = () => {
+  /**
+   * Remeasures the panel after an animated grid page exits.
+   * @returns {void}
+   */
+  const handleGridExitComplete = (): void => {
     window.requestAnimationFrame(() => measurePanelHeightRef.current());
   };
   useEffect(
@@ -198,6 +235,12 @@ export function PlacesBrowser(): ReactNode {
         result.push(city.country);
       }
     }
+
+    /**
+     * Normalizes a country identifier for its translation key.
+     * @param {string} id - The country identifier
+     * @returns {string} The identifier without whitespace
+     */
     const key = (id: string) => id.replace(/\s+/g, "");
     return result.sort((a, b) =>
       t(`countries.${key(a.id)}`).localeCompare(t(`countries.${key(b.id)}`)),
@@ -245,7 +288,13 @@ export function PlacesBrowser(): ReactNode {
       tooltip: t("places.tooltips.future"),
     },
   ];
-  const handleSelect = (nextFilter: PlacesFilter) => {
+
+  /**
+   * Changes the active places filter and records animation direction.
+   * @param {PlacesFilter} nextFilter - The destination places filter
+   * @returns {void}
+   */
+  const handleSelect = (nextFilter: PlacesFilter): void => {
     if (nextFilter === state.filter) return;
     const direction =
       placesFilterOrder.indexOf(nextFilter) >

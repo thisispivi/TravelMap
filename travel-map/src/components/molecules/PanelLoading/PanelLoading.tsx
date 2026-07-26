@@ -6,6 +6,9 @@ import { ReactNode, useEffect } from "react";
 import { Loading } from "../../atoms/Loading/Loading";
 import { setPanelLoadingVisible } from "./panelLoadingState";
 
+/**
+ * Represents a panel loading variant.
+ */
 type PanelLoadingVariant = "side" | "bottom";
 
 const sidePanelMotion = {
@@ -14,6 +17,10 @@ const sidePanelMotion = {
   transition: { duration: 0.22, ease: [0.35, 0, 0.25, 1] },
 } as const;
 
+/**
+ * Properties accepted by the PanelLoading component.
+ * @property {PanelLoadingVariant} variant - The variant
+ */
 interface PanelLoadingProps {
   variant: PanelLoadingVariant;
 }

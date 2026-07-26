@@ -12,6 +12,12 @@ import { formatMileage } from "../../../utils/format";
 import { parameters } from "../../../utils/parameters";
 import { Row } from "./Row";
 
+/**
+ * Properties accepted by the CityRow component.
+ * @property {string} [className] - The class name
+ * @property {City} [sCity] - The optional origin city
+ * @property {City} eCity - The destination city
+ */
 interface CityRowProps {
   className?: string;
   sCity?: City;

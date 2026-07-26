@@ -35,6 +35,7 @@ import { MileageCard } from "./cards/MileageCard";
 import { PopulationCard } from "./cards/PopulationCard";
 import { TransportCard } from "./cards/TransportCard";
 import { TransportModesCard } from "./cards/TransportModesCard";
+
 /**
  * Props for the StatsGrid component.
  * @property {string} [className] - Additional class names to apply to the root element.
@@ -44,6 +45,7 @@ export type StatsGridProps = {
   className?: string;
   isVisible?: boolean;
 };
+
 /**
  * StatsGrid component
  * Bento-grid statistics dashboard. Delegates stat computation to
@@ -64,6 +66,11 @@ export function StatsGrid({
   const bentoRef = useRef<HTMLDivElement | null>(null);
   const [isScrollable, setIsScrollable] = useState(false);
   const { TOTAL_CONTINENTS, TOTAL_COUNTRIES, TOTAL_UNESCO_SITES } = constants;
+
+  /**
+   * Updates scrollable state.
+   * @returns {void}
+   */
   const updateScrollableState = () => {
     const bento = bentoRef.current;
     if (!bento) return;
@@ -76,7 +83,12 @@ export function StatsGrid({
   });
 
   useEffect(() => {
-    const handleScrollableChange = () => updateScrollableStateRef.current();
+    /**
+     * Recalculates whether the statistics grid can scroll.
+     * @returns {void}
+     */
+    const handleScrollableChange = (): void =>
+      updateScrollableStateRef.current();
 
     handleScrollableChange();
     const bento = bentoRef.current;

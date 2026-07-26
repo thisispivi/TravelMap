@@ -2,6 +2,11 @@ import "./Card.scss";
 
 import { ReactNode } from "react";
 
+/**
+ * Properties accepted by the Card component.
+ * @property {string} [className] - The class name
+ * @property {ReactNode} children - The children
+ */
 interface CardProps {
   className?: string;
   children: ReactNode;

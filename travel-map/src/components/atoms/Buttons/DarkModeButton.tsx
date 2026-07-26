@@ -8,6 +8,12 @@ import MoonFilledIcon from "@/assets/icons/MoonFilled.svg?react";
 import SunFilledIcon from "@/assets/icons/SunFilled.svg?react";
 import { classNames } from "@/utils/className";
 
+/**
+ * Properties accepted by the DarkModeButton component.
+ * @property {string} [className] - The class name
+ * @property {boolean} isDarkTheme - Whether the dark theme is active
+ * @property {() => void} handleDarkModeSwitch - The handle dark mode switch
+ */
 interface DarkModeButtonProps {
   className?: string;
   isDarkTheme: boolean;

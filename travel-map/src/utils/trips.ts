@@ -1,6 +1,11 @@
 import { City, Travel, Trip } from "../core";
 
+/**
+ * Represents a group trips by year options.
+ * @property {number} cutoffYear - The cutoff year
+ */
 type GroupTripsByYearOptions = { cutoffYear: number };
+
 /**
  * Group trips by year of travel
  * @param {Trip[]} trips - The list of trips to group

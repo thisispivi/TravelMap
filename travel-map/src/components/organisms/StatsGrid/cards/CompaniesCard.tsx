@@ -19,6 +19,9 @@ import { CompanyStat } from "@/utils/transport";
 
 import { Card } from "../../../molecules/Cards/Card";
 
+/**
+ * Represents a svg icon.
+ */
 type SvgIcon = ComponentType<SVGProps<SVGSVGElement> & { className?: string }>;
 
 const flightCompanyLogos: Partial<Record<FlightCompany, SvgIcon>> = {

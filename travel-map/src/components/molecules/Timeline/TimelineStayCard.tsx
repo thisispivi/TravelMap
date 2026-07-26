@@ -13,6 +13,15 @@ import { formatDateRangeShort } from "@/i18n/functions/date";
 import { classNames } from "@/utils/className";
 import { getPhotoTravelIndex } from "@/utils/trips";
 
+/**
+ * Properties accepted by the TimelineStayCard component.
+ * @property {City} city - The city
+ * @property {number} travelIdx - The travel idx
+ * @property {TripStop} stop - The stop
+ * @property {number} nights - The nights
+ * @property {number} animDelay - The anim delay
+ * @property {boolean} showYear - The show year
+ */
 interface TimelineStayCardProps {
   city: City;
   travelIdx: number;
@@ -55,12 +64,18 @@ export function TimelineStayCard({
     hasPhotos ? galleryTravelIdx : travelIdx,
   );
   const cityLabel = t(`cities.${city.name}`) || city.name;
-  const openGallery = () =>
-    navigate(`/gallery/${city.name}/${galleryTravelIdx}`, {
+
+  /**
+   * Opens the gallery for this city stay.
+   * @returns {void}
+   */
+  const openGallery = (): void => {
+    void navigate(`/gallery/${city.name}/${galleryTravelIdx}`, {
       state: {
         fromPath: `${routerLocation.pathname}${routerLocation.search}`,
       },
     });
+  };
 
   const dateRange = formatDateRangeShort({
     sDateInput: stop.sDate,

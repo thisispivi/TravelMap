@@ -28,19 +28,21 @@ import {
   formatTripDetailDuration,
   TripDetailTimelineItem,
 } from "@/utils/tripDetailTimeline";
+
 /**
  * Adds every timezone offset observed during a city stay to the supplied set.
  * @param {Set<number>} offsets - The timezone offsets collected for the trip
  * @param {City} city - The city whose offsets should be sampled
  * @param {Date} sDate - The first date of the stay
  * @param {Date} eDate - The last date of the stay
+ * @returns {void}
  */
 function addCityOffsetsForStop(
   offsets: Set<number>,
   city: City,
   sDate: Date,
   eDate: Date,
-) {
+): void {
   const start = sDate.getTime() <= eDate.getTime() ? sDate : eDate;
   const end = sDate.getTime() <= eDate.getTime() ? eDate : sDate;
   const days =
@@ -57,7 +59,64 @@ function addCityOffsetsForStop(
   }
 }
 
-function computeTripStats(items: TripDetailTimelineItem[]) {
+/**
+ * Transport and stay totals derived from a trip timeline.
+ * @property {number} nights - The total number of overnight stays
+ * @property {number} flights - The number of flight legs
+ * @property {number} flightKm - The total flight distance in kilometres
+ * @property {number} flightMinutes - The total time spent flying
+ * @property {number} ferries - The number of ferry legs
+ * @property {number} ferryKm - The total ferry distance in kilometres
+ * @property {number} ferryMinutes - The total time spent on ferries
+ * @property {number} trains - The number of train legs
+ * @property {number} trainKm - The total train distance in kilometres
+ * @property {number} trainMinutes - The total time spent on trains
+ * @property {number} buses - The number of bus legs
+ * @property {number} busKm - The total bus distance in kilometres
+ * @property {number} busMinutes - The total time spent on buses
+ * @property {number} taxis - The number of taxi legs
+ * @property {number} taxiKm - The total taxi distance in kilometres
+ * @property {number} taxiMinutes - The total time spent in taxis
+ * @property {number} cars - The number of car legs
+ * @property {number} carKm - The total car distance in kilometres
+ * @property {number} carMinutes - The total time spent in cars
+ * @property {number} walks - The number of walking legs
+ * @property {number} walkKm - The total walking distance in kilometres
+ * @property {number} walkMinutes - The total time spent walking
+ * @property {number} timezoneCount - The number of distinct timezone offsets
+ */
+interface TripStats {
+  nights: number;
+  flights: number;
+  flightKm: number;
+  flightMinutes: number;
+  ferries: number;
+  ferryKm: number;
+  ferryMinutes: number;
+  trains: number;
+  trainKm: number;
+  trainMinutes: number;
+  buses: number;
+  busKm: number;
+  busMinutes: number;
+  taxis: number;
+  taxiKm: number;
+  taxiMinutes: number;
+  cars: number;
+  carKm: number;
+  carMinutes: number;
+  walks: number;
+  walkKm: number;
+  walkMinutes: number;
+  timezoneCount: number;
+}
+
+/**
+ * Computes transport, stay, and timezone totals for a trip timeline.
+ * @param {TripDetailTimelineItem[]} items - The normalized timeline items
+ * @returns {TripStats} The aggregate trip statistics
+ */
+function computeTripStats(items: TripDetailTimelineItem[]): TripStats {
   let nights = 0;
   let flights = 0,
     flightKm = 0,
@@ -156,6 +215,7 @@ function computeTripStats(items: TripDetailTimelineItem[]) {
     timezoneCount: timezoneOffsets.size,
   };
 }
+
 /**
  * TripDetail component
  * Floating panel showing the full route timeline and transport stats for
@@ -178,6 +238,11 @@ export function TripDetail(): ReactNode {
     if (trip && selectedTrip?.id !== trip.id) setSelectedTrip(trip);
   }, [selectedTrip?.id, setSelectedTrip, trip]);
   const timelineItems = trip ? buildTripDetailTimelineItems(trip) : [];
+
+  /**
+   * Updates body scrollable.
+   * @returns {void}
+   */
   const updateBodyScrollable = () => {
     const body = bodyRef.current;
     if (!body) return;
@@ -192,7 +257,13 @@ export function TripDetail(): ReactNode {
   useEffect(() => {
     const body = bodyRef.current;
     if (!body) return;
-    const handleScrollableChange = () => updateBodyScrollableRef.current();
+
+    /**
+     * Recalculates whether the trip-detail body can scroll.
+     * @returns {void}
+     */
+    const handleScrollableChange = (): void =>
+      updateBodyScrollableRef.current();
 
     handleScrollableChange();
     const observer =

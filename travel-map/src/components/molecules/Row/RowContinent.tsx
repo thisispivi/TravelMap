@@ -7,6 +7,11 @@ import { useLanguage } from "../../../hooks/language/language";
 import { classNames } from "../../../utils/className";
 import { Row } from "./Row";
 
+/**
+ * Properties accepted by the ContinentRow component.
+ * @property {Continent} continent - The continent
+ * @property {boolean} isVisited - Whether the continent has been visited
+ */
 interface ContinentRowProps {
   continent: Continent;
   isVisited: boolean;

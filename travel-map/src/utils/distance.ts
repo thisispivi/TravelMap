@@ -66,6 +66,10 @@ export function getFurthestAndNearestCity(
   };
 }
 
+/**
+ * Represents a transport with distance.
+ * @property {number} distanceInKm - The distance in km
+ */
 type TransportWithDistance = { distanceInKm: number };
 
 /**

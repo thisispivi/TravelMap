@@ -6,11 +6,21 @@ const objectUrlCache = new Map<string, string>();
 const pendingLoads = new Map<string, Promise<string>>();
 const fallbackSources = new Set<string>();
 
-function canUseCacheStorage() {
+/**
+ * Checks whether the Cache Storage API is available in the current runtime.
+ * @returns {boolean} Whether images can be stored in Cache Storage
+ */
+function canUseCacheStorage(): boolean {
   return typeof window !== "undefined" && "caches" in window;
 }
 
-function createCachedObjectUrl(source: string, blob: Blob) {
+/**
+ * Creates or reuses an object URL for a cached image response.
+ * @param {string} source - The original image source
+ * @param {Blob} blob - The cached image data
+ * @returns {string} The reusable object URL
+ */
+function createCachedObjectUrl(source: string, blob: Blob): string {
   const cached = objectUrlCache.get(source);
   if (cached) return cached;
 
@@ -19,6 +29,11 @@ function createCachedObjectUrl(source: string, blob: Blob) {
   return objectUrl;
 }
 
+/**
+ * Resolves an image from memory, Cache Storage, or the network.
+ * @param {string} source - The original image source
+ * @returns {Promise<string>} An object URL or the original fallback source
+ */
 async function loadImageSource(source: string): Promise<string> {
   const objectUrl = objectUrlCache.get(source);
   if (objectUrl) return objectUrl;

@@ -4,6 +4,15 @@ import { Continent } from "../typings/Continent";
 import { Currency } from "../typings/Currency";
 import { Color, ColorData } from "./Color";
 
+/**
+ * Data represented by the country data interface.
+ * @property {string} id - The id
+ * @property {ColorData} color - The color
+ * @property {Continent} continent - The continent
+ * @property {number} [minMarkerScale] - The min marker scale
+ * @property {number} [maxMarkerScale] - The max marker scale
+ * @property {Currency} currency - The currency
+ */
 interface CountryData {
   id: string;
   color: ColorData;
@@ -33,6 +42,10 @@ export class Country {
   maxMarkerScale?: number;
   currency: Currency;
 
+  /**
+   * Creates a country instance.
+   * @param {Partial<CountryData> & Pick<CountryData, "id" | "continent" | "color" | "currency">} data - The data
+   */
   constructor(
     data: Partial<CountryData> &
       Pick<CountryData, "id" | "continent" | "color" | "currency">,
@@ -46,7 +59,12 @@ export class Country {
     this.currency = data.currency;
   }
 
-  getName(t: i18n["t"]) {
+  /**
+   * Translates the country's canonical identifier for display.
+   * @param {i18n["t"]} t - The active i18next translation function
+   * @returns {string} The localized country name
+   */
+  getName(t: i18n["t"]): string {
     return t(`countries.${this.id}`);
   }
 }

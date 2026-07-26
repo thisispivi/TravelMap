@@ -16,6 +16,12 @@ import { getCityTravels } from "@/utils/trips";
 import { Button } from "../../atoms/Buttons/Button";
 import { CountryFlag } from "../../atoms/CountryFlag/CountryFlag";
 
+/**
+ * Properties accepted by the MapTooltip component.
+ * @property {City} city - The city
+ * @property {() => void} onClose - The on close
+ * @property {(city: City | null) => void} onHoverCity - The on hover city
+ */
 interface MapTooltipProps {
   city: City;
   onClose: () => void;
@@ -56,8 +62,17 @@ export function MapTooltip({
   const timeZone = getTimeZoneAbbreviation(city.timeZone);
 
   useEffect(() => {
-    const handleClose = () => onCloseRef.current();
-    const handleVisibilityChange = () => {
+    /**
+     * Closes the tooltip through the latest callback reference.
+     * @returns {void}
+     */
+    const handleClose = (): void => onCloseRef.current();
+
+    /**
+     * Closes the tooltip when its browser tab becomes hidden.
+     * @returns {void}
+     */
+    const handleVisibilityChange = (): void => {
       if (document.hidden) handleClose();
     };
     document.addEventListener("visibilitychange", handleVisibilityChange);

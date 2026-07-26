@@ -12,6 +12,14 @@ import { useLanguage } from "@/hooks/language/language";
 import { classNames } from "@/utils/className";
 import { mobileAndTabletCheck } from "@/utils/responsive";
 
+/**
+ * Properties accepted by the FilterByCountry component.
+ * @property {Country[]} options - The options
+ * @property {Country[]} selected - The selected
+ * @property {(selected: Country[]) => void} onChange - The on change
+ * @property {ReactNode} [buttonIcon] - The button icon
+ * @property {string} [className] - The class name
+ */
 interface FilterByCountryProps {
   options: Country[];
   selected: Country[];
@@ -20,7 +28,12 @@ interface FilterByCountryProps {
   className?: string;
 }
 
-const getOptionClassName = (isSelected = false) => {
+/**
+ * Builds the class list for a country option.
+ * @param {unknown} isSelected - Whether the country is selected
+ * @returns {string} The option's BEM class list
+ */
+const getOptionClassName = (isSelected = false): string => {
   return classNames(
     "filter__option",
     isSelected && "filter__option--selected",
@@ -64,7 +77,12 @@ export function FilterByCountry({
   useEffect(() => {
     if (!isOpen) return;
 
-    const handleKeyDown = (event: KeyboardEvent) => {
+    /**
+     * Closes the filter when the user presses Escape.
+     * @param {KeyboardEvent} event - The window keyboard event
+     * @returns {void}
+     */
+    const handleKeyDown = (event: KeyboardEvent): void => {
       if (event.key === "Escape") setIsOpen(false);
     };
 
@@ -74,11 +92,20 @@ export function FilterByCountry({
 
   const allSelected = selected.length === options.length;
 
-  const handleSelectAllToggle = () => {
+  /**
+   * Selects every country or clears the current selection.
+   * @returns {void}
+   */
+  const handleSelectAllToggle = (): void => {
     onChange(allSelected ? [] : options);
   };
 
-  const handleCountryToggle = (country: Country) => {
+  /**
+   * Adds or removes one country from the active filter.
+   * @param {Country} country - The country to toggle
+   * @returns {void}
+   */
+  const handleCountryToggle = (country: Country): void => {
     const newSelected = selectedSet.has(country)
       ? selected.filter((s) => s !== country)
       : [...selected, country];

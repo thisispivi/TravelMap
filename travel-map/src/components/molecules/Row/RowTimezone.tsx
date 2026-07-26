@@ -13,6 +13,14 @@ import { classNames } from "../../../utils/className";
 import { getCityTravels } from "../../../utils/trips";
 import { Row } from "./Row";
 
+/**
+ * Properties accepted by the TimezoneRow component.
+ * @property {string} [className] - The class name
+ * @property {City} sCity - The origin city
+ * @property {City} eCity - The destination city
+ * @property {Date} [sDate] - The departure date
+ * @property {Date} [eDate] - The arrival date
+ */
 interface TimezoneRowProps {
   className?: string;
   sCity: City;

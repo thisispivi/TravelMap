@@ -15,6 +15,7 @@ import { classNames } from "@/utils/className";
 import { constants } from "@/utils/parameters";
 import { groupTripsByYear } from "@/utils/trips";
 const TRIP_YEAR_TRANSITION_DURATION_MS = 280;
+
 /**
  * TripBrowser component
  * Displays visited trips grouped by year. The panel height is
@@ -45,6 +46,11 @@ export function TripBrowser(): ReactNode {
   const panelRef = useRef<HTMLDivElement>(null);
   const activeYearIndex = Math.max(years.indexOf(String(activeYear)), 0);
   const selectedTrips = groups[activeYear] ?? [];
+
+  /**
+   * Measures the panel and active page to keep the animated stage stable.
+   * @returns {void}
+   */
   const measure = () => {
     const panel = panelRef.current;
     if (!panel) return;
@@ -104,6 +110,11 @@ export function TripBrowser(): ReactNode {
     measureRef.current = measure;
   });
 
+  /**
+   * Select year.
+   * @param {string} year - The year
+   * @returns {void}
+   */
   const selectYear = (year: string) => {
     const next = parseInt(year, 10);
     if (next === activeYear) return;
@@ -113,6 +124,11 @@ export function TripBrowser(): ReactNode {
     const panel = panelRef.current;
     if (!panel) return;
     let frame = window.requestAnimationFrame(() => measureRef.current());
+
+    /**
+     * Schedules .
+     * @returns {void}
+     */
     const schedule = () => {
       window.cancelAnimationFrame(frame);
       frame = window.requestAnimationFrame(() => measureRef.current());
@@ -136,6 +152,12 @@ export function TripBrowser(): ReactNode {
       window.clearTimeout(timeout);
     };
   }, [activeYear, selectedTrips.length]);
+
+  /**
+   * Opens trip.
+   * @param {Trip} trip - The trip
+   * @returns {void}
+   */
   const openTrip = (trip: Trip) => {
     setSelectedTrip(trip);
     navigate(`/trip/${trip.id}`);

@@ -3,7 +3,12 @@ import { normalizeLocale } from "../locale";
 const monthFormatters = new Map<string, Intl.DateTimeFormat>();
 const weekdayFormatters = new Map<string, Intl.DateTimeFormat>();
 
-function getMonthFormatter(locale: string) {
+/**
+ * Returns the cached abbreviated-month formatter for a locale.
+ * @param {string} locale - The locale used to format month names
+ * @returns {Intl.DateTimeFormat} The locale-specific month formatter
+ */
+function getMonthFormatter(locale: string): Intl.DateTimeFormat {
   const cached = monthFormatters.get(locale);
   if (cached) return cached;
 
@@ -12,7 +17,12 @@ function getMonthFormatter(locale: string) {
   return formatter;
 }
 
-function getWeekdayFormatter(locale: string) {
+/**
+ * Returns the cached abbreviated-weekday formatter for a locale.
+ * @param {string} locale - The locale used to format weekday names
+ * @returns {Intl.DateTimeFormat} The locale-specific weekday formatter
+ */
+function getWeekdayFormatter(locale: string): Intl.DateTimeFormat {
   const cached = weekdayFormatters.get(locale);
   if (cached) return cached;
 
@@ -36,6 +46,7 @@ type FormatDateRangeShortInput = {
   includeWeekday?: boolean;
   showYear?: boolean;
 };
+
 /**
  * Formats a start and optional end date as a compact localized range.
  * @param {FormatDateRangeShortInput} input - The date range formatting options
@@ -59,17 +70,51 @@ export function formatDateRangeShort({
 
   const normalizedLocale = normalizeLocale(locale);
 
-  const day = (d: Date) => d.getDate();
+  /**
+   * Gets the day of the month from a date.
+   * @param {Date} date - The date to read
+   * @returns {number} The day of the month
+   */
+  const day = (date: Date) => date.getDate();
   const monthFormatter = getMonthFormatter(normalizedLocale);
-  const monthFmt = (d: Date) => monthFormatter.format(d);
-  const year = (d: Date) => d.getFullYear();
-  const weekdayFormatter = getWeekdayFormatter(normalizedLocale);
-  const weekdayFmt = (d: Date) => weekdayFormatter.format(d).slice(0, 3);
 
-  const dayWithOptWeekday = (d: Date) =>
-    `${includeWeekday ? weekdayFmt(d) + " " : ""}${day(d)}`;
-  const fullDate = (d: Date) =>
-    `${dayWithOptWeekday(d)} ${monthFmt(d)}${showYear ? " " + year(d) : ""}`;
+  /**
+   * Formats the localized month for a date.
+   * @param {Date} date - The date to format
+   * @returns {string} The localized abbreviated month
+   */
+  const monthFmt = (date: Date) => monthFormatter.format(date);
+
+  /**
+   * Gets the full year from a date.
+   * @param {Date} date - The date to read
+   * @returns {number} The full year
+   */
+  const year = (date: Date) => date.getFullYear();
+  const weekdayFormatter = getWeekdayFormatter(normalizedLocale);
+
+  /**
+   * Formats the localized short weekday for a date.
+   * @param {Date} date - The date to format
+   * @returns {string} The localized three-character weekday
+   */
+  const weekdayFmt = (date: Date) => weekdayFormatter.format(date).slice(0, 3);
+
+  /**
+   * Formats a day with the optional localized weekday prefix.
+   * @param {Date} date - The date to format
+   * @returns {string} The formatted day label
+   */
+  const dayWithOptWeekday = (date: Date) =>
+    `${includeWeekday ? weekdayFmt(date) + " " : ""}${day(date)}`;
+
+  /**
+   * Formats a complete date using the caller's weekday and year options.
+   * @param {Date} date - The date to format
+   * @returns {string} The complete localized date
+   */
+  const fullDate = (date: Date) =>
+    `${dayWithOptWeekday(date)} ${monthFmt(date)}${showYear ? " " + year(date) : ""}`;
 
   if (!e) {
     return fullDate(s).trim();
@@ -97,7 +142,12 @@ export function formatDateRangeShort({
     return `${dayWithOptWeekday(s)} ${monthFmt(s)} - ${dayWithOptWeekday(e)} ${monthFmt(e)}${showYear ? " " + year(s) : ""}`.trim();
   }
 
-  const fullDateForceYear = (d: Date) =>
-    `${dayWithOptWeekday(d)} ${monthFmt(d)} ${year(d)}`;
+  /**
+   * Formats a complete date with its year for a cross-year range.
+   * @param {Date} date - The date to format
+   * @returns {string} The complete localized date including its year
+   */
+  const fullDateForceYear = (date: Date) =>
+    `${dayWithOptWeekday(date)} ${monthFmt(date)} ${year(date)}`;
   return `${fullDateForceYear(s)} - ${fullDateForceYear(e)}`.trim();
 }

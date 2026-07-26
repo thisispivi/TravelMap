@@ -167,6 +167,7 @@ class TravelVideo:
             return None
 
     def _parse_creation_time_to_ddmmyyyy(self, raw: str) -> Optional[str]:
+        """Convert an embedded creation timestamp to the exported date format."""
         raw = (raw or "").strip()
         if not raw:
             return None
@@ -192,6 +193,7 @@ class TravelVideo:
     def _get_video_creation_date_str(
         self, logger: Optional[Logger] = None
     ) -> Optional[str]:
+        """Return the embedded video date, falling back to filesystem metadata."""
         logger = self._get_logger(logger)
         video_path = os.path.join(self.city_folder_path, self.filename)
 
@@ -217,6 +219,7 @@ class TravelVideo:
     def _create_thumbnail_from_frame(
         self, frame_path: str, logger: Optional[Logger] = None
     ) -> Optional[VideoInfo]:
+        """Compress an extracted frame and return its exported video metadata."""
         logger = self._get_logger(logger)
 
         base_filename = os.path.splitext(self.filename)[0]

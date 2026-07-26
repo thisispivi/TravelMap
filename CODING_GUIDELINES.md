@@ -201,11 +201,13 @@ const MAPLIBRE_MIN_ZOOM = 0;
 
 This is the most distinctive part of the codebase. Two layers:
 
-### JSDoc on the public surface
+### JSDoc on every named declaration
 
-Exported components, classes, and non-trivial helpers get a JSDoc block.
-Components use the fuller form with `@param` (typed, even though TS already
-types them — it's for the hover tooltip) and `@returns`:
+Every named function, local handler, class, method, type alias, interface, and
+enum gets a JSDoc block, regardless of whether it is exported. Inline anonymous
+callbacks are the only exception. Components use the fuller form with `@param`
+(typed, even though TS already types them — it is for the hover tooltip) and
+`@returns`:
 
 ```tsx
 /**
@@ -225,6 +227,10 @@ types them — it's for the hover tooltip) and `@returns`:
 The spacing shown above is required:
 
 - Start with `/**` and end with `*/` on their own lines.
+- Leave one blank line before every JSDoc block, except when it starts a file
+  or is the first statement immediately inside an opening block.
+- Leave one blank line between complete declarations. The JSDoc stays directly
+  attached to the declaration it documents, with no blank line between them.
 - Do not place blank `*` lines anywhere inside a JSDoc block.
 - Keep the component title, description, `@component`, every `@param`, and
   `@returns` contiguous.
@@ -233,6 +239,13 @@ The spacing shown above is required:
 - Use `-` between a `@param`/`@property` name and its description.
 - Keep JSDoc type names consistent with direct imports; never qualify them with
   the `React.*` namespace.
+- Every named function documents each parameter and its return value. Use
+  `@returns {void}` for functions that intentionally return nothing.
+- Every object-shaped type or interface documents every field with
+  `@property`. Union and primitive aliases still need a description but do not
+  invent properties.
+- Every class method and constructor documents its parameters; non-constructor
+  methods also document their return value.
 
 These requirements are enforced by `eslint-plugin-jsdoc`. Do not disable a
 JSDoc rule to work around an inconsistent comment; update the comment to match

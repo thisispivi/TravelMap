@@ -2,7 +2,16 @@ import { City } from "@/core";
 
 const dateTimeFormatters = new Map<string, Intl.DateTimeFormat>();
 
-function getDateTimeFormatter(locale: string, timeZone: string) {
+/**
+ * Returns a cached formatter for calendar parts in a specific time zone.
+ * @param {string} locale - The locale used by the formatter
+ * @param {string} timeZone - The IANA time zone represented by the formatter
+ * @returns {Intl.DateTimeFormat} The matching date-time formatter
+ */
+function getDateTimeFormatter(
+  locale: string,
+  timeZone: string,
+): Intl.DateTimeFormat {
   const key = `${locale}:${timeZone}`;
   const cached = dateTimeFormatters.get(key);
   if (cached) return cached;
@@ -129,6 +138,9 @@ function clampDateSpan(start: Date, end: Date): { start: Date; end: Date } {
 
 /**
  * Offset information for a city across a date span.
+ * @property {number} startOffsetMinutes - The UTC offset at the start of the span
+ * @property {number} endOffsetMinutes - The UTC offset at the end of the span
+ * @property {number[]} uniqueOffsetsMinutes - Every UTC offset observed during the span
  */
 type TimeZoneSpanOffsets = {
   startOffsetMinutes: number;

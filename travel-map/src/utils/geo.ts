@@ -1,5 +1,8 @@
 import type { Geometry, Position } from "geojson";
 
+/**
+ * Represents a linear ring.
+ */
 type LinearRing = Position[];
 
 /**
@@ -38,14 +41,34 @@ export function ringCentroid(ring: number[][]): [number, number] {
   return [longitude / (6 * area), latitude / (6 * area)];
 }
 
+/**
+ * Clips a polygon ring against one longitude boundary.
+ * @param {LinearRing} ring - The polygon ring to clip
+ * @param {number} longitude - The clipping longitude
+ * @param {boolean} keepEast - Whether to retain points east of the boundary
+ * @returns {LinearRing} The clipped closed ring
+ */
 function clipRingAtLongitude(
   ring: LinearRing,
   longitude: number,
   keepEast: boolean,
 ): LinearRing {
   const clipped: LinearRing = [];
+
+  /**
+   * Checks whether a point lies on the retained side of the boundary.
+   * @param {Position} point - The point to test
+   * @returns {boolean} Whether the point is inside the clipping boundary
+   */
   const isInside = (point: Position) =>
     keepEast ? point[0] >= longitude : point[0] <= longitude;
+
+  /**
+   * Finds where a line segment crosses the clipping longitude.
+   * @param {Position} from - The segment origin
+   * @param {Position} to - The segment destination
+   * @returns {Position} The intersection point
+   */
   const intersection = (from: Position, to: Position): Position => {
     const progress = (longitude - from[0]) / (to[0] - from[0]);
     return [longitude, from[1] + (to[1] - from[1]) * progress];
@@ -65,6 +88,11 @@ function clipRingAtLongitude(
   return clipped;
 }
 
+/**
+ * Splits a polygon ring into closed parts that do not cross the antimeridian.
+ * @param {LinearRing} ring - The polygon ring to split
+ * @returns {LinearRing[]} The visible closed ring parts
+ */
 function splitRingAtAntimeridian(ring: LinearRing): LinearRing[] {
   if (ring.length < 4) return [];
 

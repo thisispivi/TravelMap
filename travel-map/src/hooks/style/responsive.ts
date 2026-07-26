@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+
 /**
  * A viewport size in CSS pixels.
  * @property {number} width - The viewport width
@@ -8,6 +9,7 @@ type WindowSize = {
   width: number;
   height: number;
 };
+
 /**
  * Responsive viewport measurements returned by `useResponsive`.
  * @property {WindowSize} window - The browser window dimensions
@@ -17,6 +19,7 @@ export type ResponsiveType = {
   window: WindowSize;
   inner: WindowSize;
 };
+
 /**
  * Hook to detect the current window size.
  * @returns {ResponsiveType} Object containing `window` and `inner` size objects.
@@ -26,7 +29,12 @@ export function useResponsive(): ResponsiveType {
     width: window.innerWidth,
     height: window.innerHeight,
   });
-  const handleResize = () =>
+
+  /**
+   * Captures the current browser viewport dimensions.
+   * @returns {void}
+   */
+  const handleResize = (): void =>
     setSize({ width: window.innerWidth, height: window.innerHeight });
   const handleResizeRef = useRef(handleResize);
 
@@ -35,7 +43,11 @@ export function useResponsive(): ResponsiveType {
   });
 
   useEffect(() => {
-    const handleWindowResize = () => handleResizeRef.current();
+    /**
+     * Delegates window resize events through the latest resize callback.
+     * @returns {void}
+     */
+    const handleWindowResize = (): void => handleResizeRef.current();
 
     window.addEventListener("resize", handleWindowResize);
     return () => window.removeEventListener("resize", handleWindowResize);

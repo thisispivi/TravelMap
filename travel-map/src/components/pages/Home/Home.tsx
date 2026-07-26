@@ -16,8 +16,21 @@ import { parameters } from "@/utils/parameters";
 import { HomeTemplate } from "../../templates/Home/Home";
 import { ActiveView, HomeContext } from "./HomeContext";
 
+/**
+ * Represents a map position.
+ * @property {[number, number]} center - The center
+ * @property {number} zoom - The zoom
+ */
 type MapPosition = { center: [number, number]; zoom: number };
 
+/**
+ * Represents a home state.
+ * @property {City | null} hoveredCity - The hovered city
+ * @property {MapPosition} mapPosition - The map position
+ * @property {Trip | null} selectedTrip - The selected trip
+ * @property {ActiveView} activeView - The active view
+ * @property {boolean} isPanelOpen - Whether a content panel is open
+ */
 type HomeState = {
   hoveredCity: City | null;
   mapPosition: MapPosition;
@@ -26,6 +39,11 @@ type HomeState = {
   isPanelOpen: boolean;
 };
 
+/**
+ * Represents a home action.
+ * @property {"hoveredCity"} type - The type
+ * @property {City | null} value - The value
+ */
 type HomeAction =
   | { type: "hoveredCity"; value: City | null }
   | { type: "mapPosition"; value: MapPosition }
@@ -44,6 +62,12 @@ const initialHomeState: HomeState = {
   isPanelOpen: true,
 };
 
+/**
+ * Applies a map or panel state transition to the home page.
+ * @param {HomeState} state - The current home-page state
+ * @param {HomeAction} action - The state transition to apply
+ * @returns {HomeState} The next home-page state
+ */
 function homeReducer(state: HomeState, action: HomeAction): HomeState {
   switch (action.type) {
     case "hoveredCity":

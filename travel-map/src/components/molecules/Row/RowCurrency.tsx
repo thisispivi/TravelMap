@@ -8,6 +8,11 @@ import { Currency } from "../../../core";
 import { useLanguage } from "../../../hooks/language/language";
 import { Row } from "./Row";
 
+/**
+ * Properties accepted by the CurrencyRow component.
+ * @property {string} [className] - The class name
+ * @property {Currency} [currency] - The currency
+ */
 interface CurrencyRowProps {
   className?: string;
   currency?: Currency;

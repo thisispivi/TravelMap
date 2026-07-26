@@ -3,8 +3,9 @@
  * @param {string} key - The key under which the value is stored.
  * @param {unknown} value - The value to be stored.
  * @param {number} ttl - Time to live in milliseconds.
+ * @returns {void}
  */
-export function setWithExpiry(key: string, value: unknown, ttl: number) {
+export function setWithExpiry(key: string, value: unknown, ttl: number): void {
   const item = {
     value: value,
     expiry: new Date().getTime() + ttl,

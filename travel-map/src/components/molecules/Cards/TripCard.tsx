@@ -11,6 +11,12 @@ import { Trip } from "../../../core";
 import { useLanguage } from "../../../hooks/language/language";
 import { Row } from "../Row/Row";
 
+/**
+ * Properties accepted by the TripCard component.
+ * @property {string} [className] - The class name
+ * @property {Trip} trip - The trip
+ * @property {() => void} [onSelect] - The on select
+ */
 interface TripCardProps {
   className?: string;
   trip: Trip;

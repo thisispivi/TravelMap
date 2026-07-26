@@ -1,5 +1,14 @@
 import { Image } from "../typings/Image";
 
+/**
+ * Data used to construct one city visit.
+ * @property {Date} sDate - The visit start date
+ * @property {Date} eDate - The visit end date
+ * @property {Image[]} [photos] - The visit media
+ * @property {boolean} [isFuture] - Whether the visit is planned
+ * @property {{ minPhotos?: number; maxPhotos?: number }} [rowConstraints] - Gallery row constraints
+ * @property {number} [targetRowHeight] - The preferred gallery row height
+ */
 interface TravelInterface {
   sDate: Date;
   eDate: Date;
@@ -30,14 +39,14 @@ export class Travel implements TravelInterface {
   rowConstraints?: { minPhotos?: number; maxPhotos?: number };
   targetRowHeight?: number;
 
-  constructor({
-    sDate,
-    eDate,
-    photos,
-    isFuture,
-    rowConstraints,
-    targetRowHeight,
-  }: TravelInterface) {
+  /**
+   * Creates a city visit with gallery defaults.
+   * @param {TravelInterface} travelData - The city visit data
+   */
+  constructor(travelData: TravelInterface) {
+    const { sDate, eDate, photos, isFuture, rowConstraints, targetRowHeight } =
+      travelData;
+
     this.sDate = sDate;
     this.eDate = eDate;
     this.photos = photos || [];

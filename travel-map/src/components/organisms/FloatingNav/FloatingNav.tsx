@@ -15,6 +15,13 @@ import { classNames } from "@/utils/className";
 
 import { DarkModeButton } from "../../atoms/Buttons/DarkModeButton";
 import { LanguageSelector } from "../Language/Language";
+
+/**
+ * Properties accepted by the FloatingNav component.
+ * @property {string} [className] - The class name
+ * @property {HomeContextType["isDarkTheme"]} isDarkTheme - Whether the dark theme is active
+ * @property {HomeContextType["handleDarkModeSwitch"]} handleDarkModeSwitch - The handle dark mode switch
+ */
 interface FloatingNavProps {
   className?: string;
   isDarkTheme: HomeContextType["isDarkTheme"];
@@ -37,6 +44,12 @@ const itemVariants = {
     transition: { type: "spring", stiffness: 400, damping: 24 },
   },
 } as const;
+
+/**
+ * Represents a nav tab.
+ * @property {NavTabId} id - The id
+ * @property {string} path - The path
+ */
 type NavTab = {
   id: NavTabId;
   path: string;
@@ -47,6 +60,7 @@ const NAV_TABS: NavTab[] = [
   { id: "timeline", path: "/timeline" },
   { id: "stats", path: "/stats" },
 ];
+
 /**
  * FloatingNav component
  * Primary navigation bar. On desktop it appears as a left-side panel; on mobile
@@ -95,7 +109,13 @@ export function FloatingNav({
     label: t(`nav.${tab.id}`),
     isActive: activeTab === tab.id,
   }));
-  const handleTabClick = (tab: (typeof tabs)[0]) => {
+
+  /**
+   * Opens, closes, or switches the panel represented by a navigation tab.
+   * @param {(typeof tabs)[0]} tab - The selected navigation tab
+   * @returns {void}
+   */
+  const handleTabClick = (tab: (typeof tabs)[0]): void => {
     if (closePanelTimeoutRef.current !== null) {
       window.clearTimeout(closePanelTimeoutRef.current);
       closePanelTimeoutRef.current = null;

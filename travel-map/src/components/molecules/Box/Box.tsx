@@ -4,6 +4,11 @@ import { ReactNode } from "react";
 
 import { classNames } from "@/utils/className";
 
+/**
+ * Properties accepted by the Box component.
+ * @property {string} [className] - The class name
+ * @property {ReactNode} children - The children
+ */
 interface BoxProps {
   className?: string;
   children: ReactNode;

@@ -25,6 +25,11 @@ export default defineConfig({
     minify: "oxc",
     rolldownOptions: {
       output: {
+        /**
+         * Groups large dependencies by runtime concern for stable cacheable chunks.
+         * @param {string} id - The resolved module identifier
+         * @returns {string | undefined} The manual chunk name when the module is grouped
+         */
         manualChunks(id) {
           const n = id.replace(/\\/g, "/");
 

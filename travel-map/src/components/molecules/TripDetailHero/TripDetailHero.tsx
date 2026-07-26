@@ -10,6 +10,13 @@ import { Country, Trip } from "@/core";
 import { useLanguage } from "@/hooks/language/language";
 import { formatDateRangeShort } from "@/i18n/functions/date";
 
+/**
+ * Properties accepted by the TripDetailHero component.
+ * @property {Trip} trip - The trip
+ * @property {Country[]} countries - The countries
+ * @property {() => void} onBack - The on back
+ * @property {() => void} onViewMap - The on view map
+ */
 interface TripDetailHeroProps {
   trip: Trip;
   countries: Country[];

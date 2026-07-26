@@ -7,6 +7,11 @@ import { CountryFlag } from "@/components/atoms/CountryFlag/CountryFlag";
 import { City } from "@/core";
 import { useLanguage } from "@/hooks/language/language";
 
+/**
+ * Properties accepted by the TimelineOriginNode component.
+ * @property {City} city - The city
+ * @property {number} animDelay - The anim delay
+ */
 interface TimelineOriginNodeProps {
   city: City;
   animDelay: number;

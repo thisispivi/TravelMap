@@ -17,22 +17,55 @@ import {
   TimelineTransportConnector,
   TransportLeg,
 } from "./TimelineTransportConnector";
+
+/**
+ * Properties accepted by the Timeline component.
+ * @property {TripDetailTimelineItem[]} items - The items
+ * @property {boolean} showYear - The show year
+ */
 interface TimelineProps {
   items: TripDetailTimelineItem[];
   showYear: boolean;
 }
+
+/**
+ * Represents an intermediate origin.
+ * @property {"origin"} type - The type
+ * @property {City} city - The city
+ */
 type IntermediateOrigin = {
   type: "origin";
   city: City;
 };
+
+/**
+ * Represents an intermediate return.
+ * @property {"return"} type - The type
+ * @property {City} city - The city
+ */
 type IntermediateReturn = {
   type: "return";
   city: City;
 };
+
+/**
+ * Represents an intermediate transport.
+ * @property {"transport"} type - The type
+ * @property {TransportLeg[]} legs - The legs
+ */
 type IntermediateTransport = {
   type: "transport";
   legs: TransportLeg[];
 };
+
+/**
+ * Represents an intermediate stay.
+ * @property {"stay"} type - The type
+ * @property {City} city - The city
+ * @property {TripStop} stop - The stop
+ * @property {number} nights - The nights
+ * @property {number} travelIdx - The travel idx
+ */
 type IntermediateStay = {
   type: "stay";
   city: City;
@@ -40,6 +73,16 @@ type IntermediateStay = {
   nights: number;
   travelIdx: number;
 };
+
+/**
+ * Represents an intermediate day trip.
+ * @property {"day-trip"} type - The type
+ * @property {City} city - The city
+ * @property {TripStop} stop - The stop
+ * @property {number} travelIdx - The travel idx
+ * @property {boolean} isNested - Whether the item belongs to a nested excursion
+ * @property {City | null} parentCity - The parent city
+ */
 type IntermediateDayTrip = {
   type: "day-trip";
   city: City;
@@ -48,27 +91,65 @@ type IntermediateDayTrip = {
   isNested: boolean;
   parentCity: City | null;
 };
+
+/**
+ * Represents an intermediate item.
+ */
 type IntermediateItem =
   | IntermediateOrigin
   | IntermediateReturn
   | IntermediateTransport
   | IntermediateStay
   | IntermediateDayTrip;
+
+/**
+ * Represents a segment origin.
+ * @property {"origin"} type - The type
+ * @property {City} city - The city
+ * @property {string} key - The key
+ */
 type SegmentOrigin = {
   type: "origin";
   city: City;
   key: string;
 };
+
+/**
+ * Represents a segment return.
+ * @property {"return"} type - The type
+ * @property {City} city - The city
+ * @property {string} key - The key
+ */
 type SegmentReturn = {
   type: "return";
   city: City;
   key: string;
 };
+
+/**
+ * Represents a segment transport.
+ * @property {"transport"} type - The type
+ * @property {TransportLeg[]} legs - The legs
+ * @property {string} key - The key
+ */
 type SegmentTransport = {
   type: "transport";
   legs: TransportLeg[];
   key: string;
 };
+
+/**
+ * Represents a segment day trip.
+ * @property {"day-trip"} type - The type
+ * @property {City} city - The city
+ * @property {TripStop} stop - The stop
+ * @property {number} travelIdx - The travel idx
+ * @property {boolean} isNested - Whether the segment belongs to a nested excursion
+ * @property {string} key - The key
+ * @property {{ mode: TransportMode; distanceKm: number; durationMinutes: number; fromCity: City; isRoundTrip?: boolean }} [inboundTransport] - The inbound transport
+ * @property {{ mode: TransportMode; distanceKm: number; durationMinutes: number; toCity: City }} [returnTransport] - The return transport
+ * @property {boolean} chainBreakBefore - The chain break before
+ */
 type SegmentDayTrip = {
   type: "day-trip";
   city: City;
@@ -91,6 +172,16 @@ type SegmentDayTrip = {
   };
   chainBreakBefore: boolean;
 };
+
+/**
+ * Represents a segment stay.
+ * @property {"stay"} type - The type
+ * @property {City} city - The city
+ * @property {TripStop} stop - The stop
+ * @property {number} nights - The nights
+ * @property {number} travelIdx - The travel idx
+ * @property {string} key - The key
+ */
 type SegmentStay = {
   type: "stay";
   city: City;
@@ -99,6 +190,17 @@ type SegmentStay = {
   travelIdx: number;
   key: string;
 };
+
+/**
+ * Represents a segment stay group.
+ * @property {"stay-group"} type - The type
+ * @property {City} city - The city
+ * @property {TripStop} stop - The stop
+ * @property {number} nights - The nights
+ * @property {number} travelIdx - The travel idx
+ * @property {ExcursionItem[]} excursions - The excursions
+ * @property {string} key - The key
+ */
 type SegmentStayGroup = {
   type: "stay-group";
   city: City;
@@ -108,6 +210,10 @@ type SegmentStayGroup = {
   excursions: ExcursionItem[];
   key: string;
 };
+
+/**
+ * Represents a display segment.
+ */
 type DisplaySegment =
   | SegmentOrigin
   | SegmentReturn
@@ -115,6 +221,7 @@ type DisplaySegment =
   | SegmentStay
   | SegmentStayGroup
   | SegmentDayTrip;
+
 /**
  * Merge consecutive transport items into single multi-leg connectors, stopping
  * at each base-city stop. Layover stops inside a transport chain are consumed.
@@ -221,6 +328,7 @@ function collapseTransportChains(
   }
   return result;
 }
+
 /**
  * Convert intermediate timeline items into final display segments, grouping
  * nested day trips under their parent stay and promoting forward-exit excursions
@@ -414,6 +522,7 @@ function buildDisplaySegments(
   }
   return merged;
 }
+
 /**
  * Timeline component
  * Renders the vertical step-by-step route timeline inside a trip detail panel.

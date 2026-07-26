@@ -24,6 +24,12 @@ export type UseLanguageReturn = {
 export function useLanguage(namespaces: string[]): UseLanguageReturn {
   const { i18n, t } = useTranslation(namespaces);
   const currLanguage = normalizeLocale(i18n.resolvedLanguage ?? i18n.language);
+
+  /**
+   * Change language.
+   * @param {string} lang - The lang
+   * @returns {void}
+   */
   const changeLanguage = (lang: string) => {
     i18n.changeLanguage(normalizeLocale(lang));
   };

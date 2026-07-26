@@ -9,11 +9,17 @@ import TrainIcon from "@/assets/icons/Train.svg?react";
 import WalkIcon from "@/assets/icons/Walk.svg?react";
 import { TransportMode } from "@/core";
 
+/**
+ * Properties accepted by the TransportModeIcon component.
+ * @property {TransportMode} mode - The mode
+ * @property {string} [className] - The class name
+ */
 interface TransportModeIconProps {
   /**
    * Transport mode to render an icon for.
    */
   mode: TransportMode;
+
   /**
    * Optional CSS class name applied to the SVG element.
    */

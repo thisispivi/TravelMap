@@ -6,12 +6,21 @@ import { filter, pipe, sortBy } from "remeda";
 import { City } from "@/core";
 import { useLanguage } from "@/hooks/language/language";
 const ReactApexChart = lazy(() => import("react-apexcharts"));
+
+/**
+ * Properties accepted by the PopulationsBarChart component.
+ * @property {City[]} data - The data
+ * @property {string[]} [barColors] - The bar colors
+ * @property {boolean} [isDarkTheme] - Whether the dark theme is active
+ * @property {number} [numToShow] - The num to show
+ */
 interface PopulationsBarChartProps {
   data: City[];
   barColors?: string[];
   isDarkTheme?: boolean;
   numToShow?: number;
 }
+
 /**
  * PopulationBarChart component
  * Horizontal bar chart showing the top N cities by population.

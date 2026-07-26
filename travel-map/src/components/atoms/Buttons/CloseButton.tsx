@@ -4,6 +4,11 @@ import { ReactNode } from "react";
 
 import CloseIcon from "@/assets/icons/Close.svg?react";
 
+/**
+ * Properties accepted by the CloseButton component.
+ * @property {() => void} onClick - The on click
+ * @property {string} [className] - The class name
+ */
 interface CloseButtonProps {
   onClick: () => void;
   className?: string;

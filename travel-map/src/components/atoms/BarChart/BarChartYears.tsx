@@ -3,9 +3,15 @@ import "./BarChartYears.scss";
 import { ReactNode } from "react";
 
 import { Trip } from "@/core";
+
+/**
+ * Properties accepted by the BarChartYears component.
+ * @property {Trip[]} trips - The trips
+ */
 interface BarChartYearsProps {
   trips: Trip[];
 }
+
 /**
  * BarChartYears component
  * Vertical bar chart showing total days abroad per travel year.

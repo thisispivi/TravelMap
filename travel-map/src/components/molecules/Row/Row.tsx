@@ -2,6 +2,11 @@ import "./Row.scss";
 
 import { ReactNode } from "react";
 
+/**
+ * Properties accepted by the Row component.
+ * @property {string} [className] - The class name
+ * @property {ReactNode} children - The children
+ */
 interface RowProps {
   className?: string;
   children: ReactNode;

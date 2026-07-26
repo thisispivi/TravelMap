@@ -1,5 +1,9 @@
 import { ReactNode } from "react";
 
+/**
+ * Properties accepted by the Checkbox component.
+ * @property {boolean} isChecked - Whether the checkbox is selected
+ */
 interface CheckboxProps {
   isChecked: boolean;
 }

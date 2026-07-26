@@ -26,11 +26,17 @@ import {
   getTransportModeStats,
 } from "@/utils/transport";
 import { getCityTravels } from "@/utils/trips";
+
 /**
  * Pre-computed travel statistics derived from all visited data.
  * Consumed by the stats bento grid and its card components.
  */
 export type StatsData = ReturnType<typeof computeStats>;
+
+/**
+ * Computes the complete statistics snapshot from the authored travel data.
+ * @returns {StatsData} The statistics consumed by the dashboard cards
+ */
 function computeStats() {
   const {
     EARTH_CIRCUMFERENCE,
@@ -127,6 +133,7 @@ function computeStats() {
     TOTAL_UNESCO_SITES,
   };
 }
+
 /**
  * Computes all travel statistics needed by the stats bento grid. The result
  * is memoized for the lifetime of the component tree — all inputs are module-

@@ -8,10 +8,17 @@ import { TravelType } from "@/core/typings/Travel";
 import { useLanguage } from "@/hooks/language/language";
 import variables from "@/styles/_variables.module.scss";
 const ReactApexChart = lazy(() => import("react-apexcharts"));
+
+/**
+ * Properties accepted by the TransportsDonutChart component.
+ * @property {Flight[]} takenFlights - The taken flights
+ * @property {Ferry[]} takenFerries - The taken ferries
+ */
 interface TransportsDonutChartProps {
   takenFlights: Flight[];
   takenFerries: Ferry[];
 }
+
 /**
  * TransportsDonutChart component
  * Shows the distribution of transport types across recorded journeys.

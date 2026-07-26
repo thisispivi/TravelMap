@@ -39,6 +39,10 @@ const bottomPanelMotion = {
   transition: { duration: 0.22, ease: [0.35, 0, 0.25, 1] },
 } as const;
 
+/**
+ * Properties accepted by the HomeTemplate component.
+ * @property {ReactNode} children - The children
+ */
 interface HomeTemplateProps {
   children: ReactNode;
 }

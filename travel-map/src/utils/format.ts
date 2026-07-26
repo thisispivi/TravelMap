@@ -2,7 +2,16 @@ import { normalizeLocale } from "@/i18n/locale";
 
 const mileageFormatters = new Map<string, Intl.NumberFormat>();
 
-function getMileageFormatter(language: string, digits: number) {
+/**
+ * Returns a cached mileage formatter for a locale and precision.
+ * @param {string} language - The requested language or locale
+ * @param {number} digits - The maximum number of fractional digits
+ * @returns {Intl.NumberFormat} The matching number formatter
+ */
+function getMileageFormatter(
+  language: string,
+  digits: number,
+): Intl.NumberFormat {
   const locale = normalizeLocale(language);
   const key = `${locale}:${digits}`;
   const cached = mileageFormatters.get(key);

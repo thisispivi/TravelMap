@@ -87,8 +87,21 @@ function BaseTooltip(): ReactNode {
   const tooltipRef = useRef<TooltipRefProps>(null);
 
   useEffect(() => {
-    const closeTooltip = () => tooltipRef.current?.close({ delay: 0 });
-    const handleVisibilityChange = () => document.hidden && closeTooltip();
+    /**
+     * Closes the global tooltip immediately.
+     * @returns {void}
+     */
+    const closeTooltip = (): void => {
+      tooltipRef.current?.close({ delay: 0 });
+    };
+
+    /**
+     * Closes the tooltip when its browser tab becomes hidden.
+     * @returns {void}
+     */
+    const handleVisibilityChange = (): void => {
+      if (document.hidden) closeTooltip();
+    };
 
     document.addEventListener("visibilitychange", handleVisibilityChange);
     window.addEventListener("blur", closeTooltip);

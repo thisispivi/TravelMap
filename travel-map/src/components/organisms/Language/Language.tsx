@@ -16,6 +16,13 @@ const LANGUAGE_LABELS: Record<string, string> = {
   "en-US": "English",
   "it-IT": "Italiano",
 };
+
+/**
+ * Represents a panel pos.
+ * @property {number} top - The top
+ * @property {number} right - The right
+ * @property {number} bottom - The bottom
+ */
 type PanelPos =
   | {
       top: number;
@@ -26,6 +33,12 @@ type PanelPos =
       right: number;
     };
 const PANEL_OFFSET_PX = 8;
+
+/**
+ * Positions the language panel above or below its trigger based on available space.
+ * @param {HTMLElement} el - The language-button element
+ * @returns {PanelPos} The viewport-relative panel position
+ */
 function computePanelPos(el: HTMLElement): PanelPos {
   const rect = el.getBoundingClientRect();
   const right = window.innerWidth - rect.right;
@@ -33,6 +46,7 @@ function computePanelPos(el: HTMLElement): PanelPos {
     ? { top: rect.bottom + PANEL_OFFSET_PX, right }
     : { bottom: window.innerHeight - rect.top + PANEL_OFFSET_PX, right };
 }
+
 /**
  * LanguageSelector component
  * Dropdown language switcher for supported locales. The panel is portaled
@@ -49,7 +63,12 @@ export function LanguageSelector(): ReactNode {
   const [panelPos, setPanelPos] = useState<PanelPos | null>(null);
   const { currLanguage, changeLanguage } = useLanguage([]);
   const buttonRef = useRef<HTMLDivElement>(null);
-  const handleToggle = () => {
+
+  /**
+   * Opens or closes the language panel and positions it when opening.
+   * @returns {void}
+   */
+  const handleToggle = (): void => {
     if (!isOpen && buttonRef.current)
       setPanelPos(computePanelPos(buttonRef.current));
     setIsOpen((prev) => !prev);
@@ -57,7 +76,12 @@ export function LanguageSelector(): ReactNode {
   useEffect(() => {
     if (!isOpen || !buttonRef.current) return;
     const el = buttonRef.current;
-    const onResize = () => setPanelPos(computePanelPos(el));
+
+    /**
+     * Repositions the language panel after a viewport resize.
+     * @returns {void}
+     */
+    const onResize = (): void => setPanelPos(computePanelPos(el));
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, [isOpen]);

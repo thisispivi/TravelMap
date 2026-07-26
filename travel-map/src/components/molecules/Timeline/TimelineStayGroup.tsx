@@ -47,6 +47,16 @@ export interface ExcursionItem {
   chainBreakBefore: boolean;
 }
 
+/**
+ * Properties accepted by the TimelineStayGroup component.
+ * @property {City} city - The city
+ * @property {number} travelIdx - The travel idx
+ * @property {TripStop} stop - The stop
+ * @property {number} nights - The nights
+ * @property {ExcursionItem[]} excursions - The excursions
+ * @property {number} animDelay - The anim delay
+ * @property {boolean} showYear - The show year
+ */
 interface TimelineStayGroupProps {
   city: City;
   travelIdx: number;
@@ -59,6 +69,8 @@ interface TimelineStayGroupProps {
 
 /**
  * Consecutive excursions grouped into movement chains.
+ * @property {ExcursionItem[]} stops - The ordered excursion stops in the chain
+ * @property {ExcursionItem["returnTransport"]} [returnTransport] - Transport returning from the final stop
  */
 interface ExcursionChain {
   stops: ExcursionItem[];
@@ -123,6 +135,11 @@ export function TimelineStayGroup({
     const container = excursionsRef.current;
     if (!container || excursions.length === 0) return;
 
+    /**
+     * Finds the vertical center of an excursion branch connector.
+     * @param {Element} item - The excursion branch element
+     * @returns {number | null} The connector center in viewport coordinates
+     */
     const findBranchCenter = (item: Element): number | null => {
       const target = item.classList.contains("stay-group__chain")
         ? item
@@ -139,6 +156,10 @@ export function TimelineStayGroup({
       );
     };
 
+    /**
+     * Updates branch endpoint.
+     * @returns {void}
+     */
     const updateBranchEndpoint = () => {
       const lastItem = container.lastElementChild;
       if (!lastItem) return;
@@ -167,6 +188,10 @@ export function TimelineStayGroup({
       };
     }
 
+    /**
+     * Schedules branch endpoint update.
+     * @returns {void}
+     */
     const scheduleBranchEndpointUpdate = () => {
       window.cancelAnimationFrame(frameId);
       frameId = window.requestAnimationFrame(updateBranchEndpoint);
@@ -187,7 +212,12 @@ export function TimelineStayGroup({
     };
   }, [excursions]);
 
-  const renderExcursionStop = (exc: ExcursionItem) => {
+  /**
+   * Renders one nested excursion stop and its optional gallery action.
+   * @param {ExcursionItem} exc - The excursion to render
+   * @returns {ReactNode} The nested excursion stop
+   */
+  const renderExcursionStop = (exc: ExcursionItem): ReactNode => {
     const excLabel = t(`cities.${exc.city.name}`) || exc.city.name;
     const excGalleryIdx = getPhotoTravelIndex(
       exc.city,
@@ -198,12 +228,18 @@ export function TimelineStayGroup({
     const excThumbSrc = exc.city.getBackgroundImgSourceByIndex(
       excHasPhotos ? excGalleryIdx : exc.travelIdx,
     );
-    const openExcursionGallery = () =>
-      navigate(`/gallery/${exc.city.name}/${excGalleryIdx}`, {
+
+    /**
+     * Opens the gallery for the nested excursion.
+     * @returns {void}
+     */
+    const openExcursionGallery = (): void => {
+      void navigate(`/gallery/${exc.city.name}/${excGalleryIdx}`, {
         state: {
           fromPath: `${routerLocation.pathname}${routerLocation.search}`,
         },
       });
+    };
     const excDate = formatDateRangeShort({
       sDateInput: exc.stop.sDate,
       eDateInput: exc.stop.eDate,
@@ -280,12 +316,18 @@ export function TimelineStayGroup({
     hasPhotos ? galleryTravelIdx : travelIdx,
   );
   const cityLabel = t(`cities.${city.name}`) || city.name;
-  const openGallery = () =>
-    navigate(`/gallery/${city.name}/${galleryTravelIdx}`, {
+
+  /**
+   * Opens the gallery for the main stay.
+   * @returns {void}
+   */
+  const openGallery = (): void => {
+    void navigate(`/gallery/${city.name}/${galleryTravelIdx}`, {
       state: {
         fromPath: `${routerLocation.pathname}${routerLocation.search}`,
       },
     });
+  };
   const dateRange = formatDateRangeShort({
     sDateInput: stop.sDate,
     eDateInput: stop.eDate,

@@ -21,6 +21,11 @@ import SwedenFlag from "@/assets/icons/flags/Sweden.svg?react";
 import UnitedKingdomFlag from "@/assets/icons/flags/UnitedKingdom.svg?react";
 import VaticanFlag from "@/assets/icons/flags/Vatican.svg?react";
 
+/**
+ * Properties accepted by the CountryFlag component.
+ * @property {string} countryId - The country id
+ * @property {string} [className] - The class name
+ */
 interface CountryFlagProps {
   countryId: string;
   className?: string;

@@ -15,6 +15,16 @@ import { formatMileage } from "@/utils/format";
 import { formatTripDetailDuration } from "@/utils/tripDetailTimeline";
 import { getPhotoTravelIndex } from "@/utils/trips";
 
+/**
+ * Properties accepted by the TimelineDayTripCard component.
+ * @property {City} city - The city
+ * @property {number} travelIdx - The travel idx
+ * @property {TripStop} stop - The stop
+ * @property {number} animDelay - The anim delay
+ * @property {boolean} showYear - The show year
+ * @property {boolean} isNested - Whether the day trip is nested in another stay
+ * @property {{ mode: TransportMode; distanceKm: number; durationMinutes: number }} [inboundTransport] - The inbound transport
+ */
 interface TimelineDayTripCardProps {
   city: City;
   travelIdx: number;
@@ -65,12 +75,18 @@ export function TimelineDayTripCard({
     isClickable ? galleryTravelIdx : travelIdx,
   );
   const cityLabel = t(`cities.${city.name}`) || city.name;
-  const openGallery = () =>
-    navigate(`/gallery/${city.name}/${galleryTravelIdx}`, {
+
+  /**
+   * Opens the gallery for this day-trip destination.
+   * @returns {void}
+   */
+  const openGallery = (): void => {
+    void navigate(`/gallery/${city.name}/${galleryTravelIdx}`, {
       state: {
         fromPath: `${routerLocation.pathname}${routerLocation.search}`,
       },
     });
+  };
 
   const dateRange = formatDateRangeShort({
     sDateInput: stop.sDate,

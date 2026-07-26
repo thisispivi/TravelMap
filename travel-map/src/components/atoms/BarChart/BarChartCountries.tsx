@@ -6,9 +6,15 @@ import { useLanguage } from "@/hooks/language/language";
 import { CountryVisitStat } from "@/utils/transport";
 
 import { CountryFlag } from "../CountryFlag/CountryFlag";
+
+/**
+ * Properties accepted by the BarChartCountries component.
+ * @property {CountryVisitStat[]} data - The data
+ */
 interface BarChartCountriesProps {
   data: CountryVisitStat[];
 }
+
 /**
  * BarChartCountries component
  * Horizontal bar chart showing the number of cities visited per country,

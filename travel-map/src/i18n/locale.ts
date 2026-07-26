@@ -13,6 +13,11 @@ export type SupportedLocale = (typeof SUPPORTED_LOCALES)[number];
  */
 export const DEFAULT_LOCALE: SupportedLocale = "en-US";
 
+/**
+ * Checks whether a locale is supported by the application.
+ * @param {string} locale - The locale to validate
+ * @returns {locale is SupportedLocale} Whether the locale is supported
+ */
 function isSupportedLocale(locale: string): locale is SupportedLocale {
   return (SUPPORTED_LOCALES as readonly string[]).includes(locale);
 }

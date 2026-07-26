@@ -11,6 +11,11 @@ import UnitedKingdomFlag from "@/assets/icons/flags/UnitedKingdom.svg?react";
 
 import { Currency } from "../../../core";
 
+/**
+ * Properties accepted by the CurrencyFlag component.
+ * @property {Currency} [currency] - The currency
+ * @property {string} [className] - The class name
+ */
 interface CurrencyFlagProps {
   currency?: Currency;
   className?: string;

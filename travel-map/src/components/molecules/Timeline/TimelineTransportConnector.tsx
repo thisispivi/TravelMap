@@ -32,6 +32,11 @@ export type TransportLeg = {
   isRoundTrip?: boolean;
 };
 
+/**
+ * Properties accepted by the TimelineTransportConnector component.
+ * @property {TransportLeg[]} legs - The legs
+ * @property {number} animDelay - The anim delay
+ */
 interface TimelineTransportConnectorProps {
   legs: TransportLeg[];
   animDelay: number;
@@ -91,6 +96,12 @@ export function TimelineTransportConnector({
             ? `via ${leg.via!.map((c) => t(`cities.${c.name}`) || c.name).join(", ")}`
             : null;
 
+        /**
+         * Represents a sub part.
+         * @property {string} key - The key
+         * @property {string} cls - The cls
+         * @property {string} text - The text
+         */
         type SubPart = { key: string; cls: string; text: string };
         const subParts: SubPart[] = [];
         if (viaText)

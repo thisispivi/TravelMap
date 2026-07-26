@@ -10,15 +10,31 @@ import { visitedTrips } from "@/data";
 import { useLanguage } from "@/hooks/language/language";
 import { formatDateRangeShort } from "@/i18n/functions/date";
 
+/**
+ * Represents a trip item.
+ * @property {(typeof visitedTrips)[0]} trip - The trip
+ * @property {"left" | "right"} side - The side
+ */
 type TripItem = {
   trip: (typeof visitedTrips)[0];
   side: "left" | "right";
 };
+
+/**
+ * Represents a year group.
+ * @property {number} year - The year
+ * @property {TripItem[]} trips - The trips
+ */
 type YearGroup = {
   year: number;
   trips: TripItem[];
 };
+
+/**
+ * Represents a timeline card item props.
+ */
 type TimelineCardItemProps = TripItem;
+
 /**
  * TimelineTrack component
  * Renders a vertical timeline of all visited trips, grouped by year and sorted
@@ -68,6 +84,7 @@ export function TimelineTrack(): ReactNode {
     </LazyMotion>
   );
 }
+
 /**
  * TimelineYearGroup component
  * Renders the year divider and all trip cards for a single year group. The
@@ -97,6 +114,7 @@ function TimelineYearGroup({ year, trips }: YearGroup): ReactNode {
     </div>
   );
 }
+
 /**
  * TimelineCardItem component
  * A single trip card on the timeline. Slides in from the left or right when it

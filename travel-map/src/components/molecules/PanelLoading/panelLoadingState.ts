@@ -14,6 +14,7 @@ export function isPanelLoadingVisible(): boolean {
  * Updates the shared panel-skeleton visibility without coupling consumers to
  * the fallback component.
  * @param {boolean} value - Whether the skeleton is mounted
+ * @returns {void}
  */
 export function setPanelLoadingVisible(value: boolean): void {
   isVisible = value;

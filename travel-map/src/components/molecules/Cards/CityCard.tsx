@@ -15,6 +15,18 @@ import { classNames } from "@/utils/className";
 import { isActivationKey } from "@/utils/keyboard";
 import { parameters } from "@/utils/parameters";
 
+/**
+ * Properties accepted by the CityCard component.
+ * @property {string} [className] - The class name
+ * @property {City} city - The city
+ * @property {Travel} [travel] - The travel
+ * @property {number} [travelIdx] - The travel idx
+ * @property {boolean} [isClickable] - Whether the card opens a gallery
+ * @property {(city: City | null) => void} setHoveredCity - The set hovered city
+ * @property {(position: { center: [number, number]; zoom: number }) => void} [setMapPosition] - The set map position
+ * @property {boolean} [isHidden] - Whether the card is visually hidden
+ * @property {boolean} [showDates] - The show dates
+ */
 interface CityCardProps {
   className?: string;
   city: City;
@@ -29,6 +41,7 @@ interface CityCardProps {
   isHidden?: boolean;
   showDates?: boolean;
 }
+
 /**
  * CityCard component
  * A photo card representing a single city visit. Lazily loads the background
@@ -88,13 +101,29 @@ export function CityCard({
     observer.observe(card);
     return () => observer.disconnect();
   }, [shouldLoadImage]);
-  const handleMouseEnter = () => {
+
+  /**
+   * Highlights the corresponding city marker when the card is hovered.
+   * @returns {void}
+   */
+  const handleMouseEnter = (): void => {
     setHoveredCity(city);
   };
-  const handleMouseLeave = () => {
+
+  /**
+   * Clears the corresponding city marker highlight.
+   * @returns {void}
+   */
+  const handleMouseLeave = (): void => {
     setHoveredCity(null);
   };
-  const handleCenterMap = (event: MouseEvent) => {
+
+  /**
+   * Centers the map on the card's city without opening the gallery.
+   * @param {MouseEvent} event - The center-map button event
+   * @returns {void}
+   */
+  const handleCenterMap = (event: MouseEvent): void => {
     event.stopPropagation();
     if (setMapPosition) {
       setMapPosition({
@@ -104,6 +133,11 @@ export function CityCard({
       setHoveredCity(city);
     }
   };
+
+  /**
+   * Opens gallery.
+   * @returns {void}
+   */
   const openGallery = () => {
     navigate(`/gallery/${city.name}/${travelIdx}`, {
       state: { fromPath: `${location.pathname}${location.search}` },

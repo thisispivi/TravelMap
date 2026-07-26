@@ -21,10 +21,15 @@ import { classNames } from "../../../utils/className";
 import { parameters } from "../../../utils/parameters";
 import { getTravelByCityIndex } from "../../../utils/trips";
 const HIDE_NAV_AFTER_MS = 2000;
+
+/**
+ * Represents a lightbox item.
+ */
 type LightboxItem = ImageGalleryProps["items"][number] & {
   youtube?: boolean;
   alt?: string;
 };
+
 /**
  * Data resolved by the lightbox route loader.
  * @property {City} city - The city whose media is displayed
@@ -37,6 +42,11 @@ export interface LightboxProps {
   photoIdx: number;
 }
 
+/**
+ * Normalizes an absolute or configured YouTube embed source.
+ * @param {string} original - The media's stored URL or video identifier
+ * @returns {string} The complete YouTube embed URL
+ */
 function getYoutubeEmbedSrc(original: string): string {
   const normalizedOriginal = original.replace(/^https:\//, "https://");
   if (/^https?:\/\//.test(normalizedOriginal)) return normalizedOriginal;
@@ -62,7 +72,12 @@ export function Lightbox(): ReactNode {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const hideNavTimeoutRef = useRef<number | undefined>(undefined);
   const galleryRef = useRef<ImageGalleryRef>(null);
-  const scheduleHideNav = () => {
+
+  /**
+   * Restarts the timer that hides the lightbox navigation.
+   * @returns {void}
+   */
+  const scheduleHideNav = (): void => {
     if (hideNavTimeoutRef.current !== undefined) {
       window.clearTimeout(hideNavTimeoutRef.current);
     }
@@ -76,7 +91,11 @@ export function Lightbox(): ReactNode {
     scheduleHideNavRef.current = scheduleHideNav;
   });
 
-  const revealNav = () => {
+  /**
+   * Reveals the lightbox navigation and restarts its hide timer.
+   * @returns {void}
+   */
+  const revealNav = (): void => {
     setIsNavVisible(true);
     scheduleHideNavRef.current();
   };
@@ -89,7 +108,13 @@ export function Lightbox(): ReactNode {
       window.clearTimeout(timeoutId);
     };
   }, []);
-  const handleRenderItem = (item: LightboxItem) => {
+
+  /**
+   * Renders either a sandboxed video embed or a responsive image slide.
+   * @param {LightboxItem} item - The lightbox item to render
+   * @returns {ReactNode} The rendered media slide
+   */
+  const handleRenderItem = (item: LightboxItem): ReactNode => {
     if (item.youtube) {
       return (
         <iframe
@@ -115,7 +140,13 @@ export function Lightbox(): ReactNode {
       );
     }
   };
-  const handleChange = (newIndex: number | undefined) => {
+
+  /**
+   * Stops media on the previous slide and navigates to a new media index.
+   * @param {number | undefined} newIndex - The destination media index
+   * @returns {void}
+   */
+  const handleChange = (newIndex: number | undefined): void => {
     if (photoIdx !== undefined) {
       const element = document.querySelector(
         `[aria-label="Go to Slide ${photoIdx + 1}"]`,
@@ -133,15 +164,32 @@ export function Lightbox(): ReactNode {
       navigate(`../${newIndex}`, { state: location.state });
     }
   };
-  const handleSlide = (idx: number) => {
+
+  /**
+   * Synchronizes router state after the gallery changes slides.
+   * @param {number} idx - The active media index
+   * @returns {void}
+   */
+  const handleSlide = (idx: number): void => {
     handleChange(idx);
   };
-  const handleNavigateSlide = (idx: number) => {
+
+  /**
+   * Navigates to an in-range slide and reveals the navigation controls.
+   * @param {number} idx - The destination media index
+   * @returns {void}
+   */
+  const handleNavigateSlide = (idx: number): void => {
     if (idx < 0 || idx >= photos.length) return;
     revealNav();
     handleChange(idx);
   };
-  const handleToggleFullscreen = () => {
+
+  /**
+   * Toggles the underlying image gallery's fullscreen mode.
+   * @returns {void}
+   */
+  const handleToggleFullscreen = (): void => {
     if (galleryRef.current) {
       if (isFullscreen) {
         galleryRef.current.exitFullScreen();

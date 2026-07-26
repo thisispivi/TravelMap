@@ -19,10 +19,17 @@ const transportModeColors: Record<string, string> = {
   walk: "#14b8a6",
 };
 const FILL_MODES = new Set(["taxi"]);
+
+/**
+ * Properties accepted by the BarChartTransportModes component.
+ * @property {TransportModeStat[]} data - The data
+ * @property {"count" | "km"} [metric] - The metric
+ */
 interface BarChartTransportModesProps {
   data: TransportModeStat[];
   metric?: "count" | "km";
 }
+
 /**
  * BarChartTransportModes component
  * Horizontal bar chart showing transport mode usage, colored by mode.

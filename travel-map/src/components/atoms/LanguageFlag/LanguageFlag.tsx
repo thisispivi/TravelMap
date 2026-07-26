@@ -9,6 +9,11 @@ import PortugalFlag from "@/assets/icons/flags/Portugal.svg?react";
 import SpainFlag from "@/assets/icons/flags/Spain.svg?react";
 import UnitedKingdomFlag from "@/assets/icons/flags/UnitedKingdom.svg?react";
 
+/**
+ * Properties accepted by the LanguageFlag component.
+ * @property {string} language - The language
+ * @property {string} [className] - The class name
+ */
 interface LanguageFlagProps {
   language: string;
   className?: string;

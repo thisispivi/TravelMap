@@ -15,6 +15,16 @@ import { Travel } from "./Travel";
 export type TransportMode =
   "ferry" | "plane" | "car" | "train" | "bus" | "taxi" | "walk";
 
+/**
+ * Data represented by the flight leg interface.
+ * @property {FlightCompany} [company] - The company
+ * @property {string} [number] - The number
+ * @property {string} [class] - The class
+ * @property {string} [departure] - The departure
+ * @property {string} [arrival] - The arrival
+ * @property {number} [durationMinutes] - The duration minutes
+ * @property {number} [distanceInKm] - The distance in km
+ */
 interface FlightLeg {
   company?: FlightCompany;
   number?: string;
@@ -25,6 +35,13 @@ interface FlightLeg {
   distanceInKm?: number;
 }
 
+/**
+ * Data represented by the ferry leg interface.
+ * @property {FerryCompany} [company] - The company
+ * @property {number} [durationMinutes] - The duration minutes
+ * @property {number} [distanceInKm] - The distance in km
+ * @property {City[]} [via] - The via
+ */
 interface FerryLeg {
   company?: FerryCompany;
   durationMinutes?: number;
@@ -115,6 +132,18 @@ export interface TripDestination extends TripStop {
   arrivalTransport?: TransportMode;
 }
 
+/**
+ * Data represented by the trip data interface.
+ * @property {string} id - The id
+ * @property {string} [description] - The description
+ * @property {Date} sDate - The trip start date
+ * @property {Date} eDate - The trip end date
+ * @property {TripRouteStep[]} steps - The steps
+ * @property {string} [backgroundImgSourceKey] - The background img source key
+ * @property {TripEndpoint} origin - The origin
+ * @property {TripEndpoint} returnTo - The return to
+ * @property {{ center: [number, number]; zoom: number }} [mapFocus] - The map focus
+ */
 interface TripData {
   id: string;
   description?: string;
@@ -155,6 +184,10 @@ export class Trip {
   returnTo: TripEndpoint;
   mapFocus?: { center: [number, number]; zoom: number };
 
+  /**
+   * Creates a trip instance.
+   * @param {TripData} data - The data
+   */
   constructor(data: TripData) {
     this.id = data.id;
     this.sDate = data.sDate;
@@ -173,12 +206,20 @@ export class Trip {
         undefined;
   }
 
+  /**
+   * Calculates the inclusive duration of the trip in calendar days.
+   * @returns {number} The inclusive trip duration
+   */
   getDurationInDays(): number {
     const millisecondsPerDay = 1000 * 60 * 60 * 24;
     const durationInMilliseconds = this.eDate.getTime() - this.sDate.getTime();
     return Math.ceil(durationInMilliseconds / millisecondsPerDay) + 1;
   }
 
+  /**
+   * Returns the unique countries visited outside layover stops.
+   * @returns {Country[]} The countries visited during the trip
+   */
   getCountriesVisited(): Country[] {
     return unique(
       this.destinations.flatMap((destination) =>
@@ -187,6 +228,11 @@ export class Trip {
     );
   }
 
+  /**
+   * Builds travel records for every stay in a specific city.
+   * @param {City} city - The city whose stays should be returned
+   * @returns {Travel[]} The city's travel records
+   */
   getCityTravels(city: City): Travel[] {
     return this.destinations.flatMap((destination) =>
       destination.city.name === city.name
@@ -204,6 +250,10 @@ export class Trip {
     );
   }
 
+  /**
+   * Builds flight records from the trip's plane transport steps.
+   * @returns {Flight[]} The flights taken during the trip
+   */
   getFlights(): Flight[] {
     return this.steps.flatMap((step) =>
       step.type === "transport" && step.mode === "plane"
@@ -225,6 +275,10 @@ export class Trip {
     );
   }
 
+  /**
+   * Builds ferry records from the trip's ferry transport steps.
+   * @returns {Ferry[]} The ferries taken during the trip
+   */
   getFerries(): Ferry[] {
     return this.steps.flatMap((step) =>
       step.type === "transport" && step.mode === "ferry"
@@ -245,12 +299,20 @@ export class Trip {
     );
   }
 
+  /**
+   * Returns the transport steps that connect trip destinations.
+   * @returns {TripTransportStep[]} The trip's transport segments
+   */
   getRouteSegments(): TripTransportStep[] {
     return this.steps.filter(
       (step): step is TripTransportStep => step.type === "transport",
     );
   }
 
+  /**
+   * Flattens transport steps into origin-destination coordinate pairs.
+   * @returns {[number, number][]} Coordinates consumed in pairs by the route overlay
+   */
   getRouteLines(): [number, number][] {
     return this.getRouteSegments().flatMap((step) => {
       const cities = [
@@ -270,6 +332,10 @@ export class Trip {
     });
   }
 
+  /**
+   * Derives destination records and arrival modes from ordered trip steps.
+   * @returns {TripDestination[]} The normalized trip destinations
+   */
   private getDestinationsFromSteps(): TripDestination[] {
     const cityIndexes = new Map<string, number>();
     let arrivalTransport: TransportMode | undefined;

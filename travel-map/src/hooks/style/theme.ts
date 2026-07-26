@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+
 /**
  * Hook to detect the current theme of the user's system
  * @returns {ThemeDetector} The current theme and its toggle handler
@@ -11,7 +12,12 @@ export function useThemeDetector(): ThemeDetector {
     localStorage.setItem("theme", prefers ? "dark" : "light");
     return prefers;
   });
-  const handleDarkModeSwitch = () => {
+
+  /**
+   * Toggles between the light and dark application themes.
+   * @returns {void}
+   */
+  const handleDarkModeSwitch = (): void => {
     setIsDarkTheme((prev) => !prev);
   };
   useEffect(() => {
@@ -27,6 +33,7 @@ export function useThemeDetector(): ThemeDetector {
   }, [isDarkTheme]);
   return { isDarkTheme, handleDarkModeSwitch };
 }
+
 /**
  * Theme state returned by `useThemeDetector`.
  * @property {boolean} isDarkTheme - Whether the dark theme is active

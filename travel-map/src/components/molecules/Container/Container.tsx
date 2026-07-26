@@ -6,6 +6,12 @@ import { classNames } from "@/utils/className";
 
 import { Box } from "../Box/Box";
 
+/**
+ * Properties accepted by the Container component.
+ * @property {string} [className] - The class name
+ * @property {ReactNode} children - The children
+ * @property {boolean} [isVisible] - Whether the container is visible
+ */
 interface ContainerProps {
   className?: string;
   children: ReactNode;

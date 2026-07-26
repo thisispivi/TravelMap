@@ -30,6 +30,7 @@ export type UseLocationReturn = {
   tripDetailId: string | null;
   placesFilter: "lived" | "visited" | "future" | null;
 };
+
 /**
  * Derives structured route state from the current URL pathname.
  * @returns {UseLocationReturn} Flags and extracted segments for the active route.

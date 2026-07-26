@@ -3,6 +3,18 @@ import { FlightCompany } from "../typings/FlightCompany";
 import { getTravelTypeByStartAndEndCity, TravelType } from "../typings/Travel";
 import { City } from "./City";
 
+/**
+ * Data used to construct a flight.
+ * @property {City} sCity - The departure city
+ * @property {City} eCity - The arrival city
+ * @property {FlightCompany} [company] - The airline
+ * @property {Date} [sDate] - The departure date
+ * @property {Date} [eDate] - The arrival date
+ * @property {number} [distanceInKm] - The authored distance in kilometers
+ * @property {number} [durationMinutes] - The authored duration in minutes
+ * @property {string} [number] - The flight number
+ * @property {string} [class] - The cabin class
+ */
 interface FlightInterface {
   sCity: City;
   eCity: City;
@@ -41,17 +53,23 @@ export class Flight implements FlightInterface {
   number?: string;
   class?: string;
 
-  constructor({
-    sCity,
-    eCity,
-    company,
-    sDate,
-    eDate,
-    distanceInKm,
-    durationMinutes,
-    number,
-    class: flightClass,
-  }: FlightInterface) {
+  /**
+   * Creates a flight and derives its travel type, distance, and duration.
+   * @param {FlightInterface} flightData - The flight data
+   */
+  constructor(flightData: FlightInterface) {
+    const {
+      sCity,
+      eCity,
+      company,
+      sDate,
+      eDate,
+      distanceInKm,
+      durationMinutes,
+      number,
+      class: flightClass,
+    } = flightData;
+
     this.sCity = sCity;
     this.eCity = eCity;
     this.travelType = getTravelTypeByStartAndEndCity(sCity, eCity);

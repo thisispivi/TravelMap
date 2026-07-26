@@ -4,6 +4,10 @@ import { ReactNode } from "react";
 
 import { classNames } from "@/utils/className";
 
+/**
+ * Properties accepted by the Loading component.
+ * @property {string} [className] - The class name
+ */
 interface LoadingProps {
   className?: string;
 }

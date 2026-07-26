@@ -12,6 +12,11 @@ import { classNames } from "../../../utils/className";
 import { formatMileage } from "../../../utils/format";
 import { Row } from "./Row";
 
+/**
+ * Properties accepted by the TransportRow component.
+ * @property {string} [className] - The class name
+ * @property {Flight | Ferry} transport - The transport
+ */
 interface TransportRowProps {
   className?: string;
   transport: Flight | Ferry;

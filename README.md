@@ -76,8 +76,9 @@ committing. The Husky pre-commit hook also checks staged TypeScript, TSX,
 JavaScript, styles, markup, and data files.
 
 ESLint uses `eslint-plugin-jsdoc` to enforce the canonical documentation
-layout, including component titles, contiguous spacing, typed parameters,
-documented destructured props, return values, and public type documentation.
+layout, including component titles, declaration spacing, typed parameters,
+documented destructured props, return values, and documentation for every
+named function, class, method, type, interface, and enum.
 
 Dependency installation uses pnpm's seven-day release quarantine. Only
 time-sensitive security patches are exempted, and the single transitive

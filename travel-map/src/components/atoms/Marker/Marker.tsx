@@ -12,6 +12,14 @@ import { isActivationKey } from "@/utils/keyboard";
  */
 export type MarkerVariant = "visited" | "future" | "lived" | "layover";
 
+/**
+ * Properties accepted by the Marker component.
+ * @property {City} city - The city
+ * @property {City | null} hoveredCity - The hovered city
+ * @property {(city: City | null) => void} onHoverCity - The on hover city
+ * @property {(city: City) => void} onSelectCity - The on select city
+ * @property {MarkerVariant} [variant] - The variant
+ */
 interface MarkerProps {
   city: City;
   hoveredCity: City | null;

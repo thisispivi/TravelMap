@@ -11,6 +11,13 @@ import { useLanguage } from "../../../hooks/language/language";
 import { formatDateRangeShort } from "../../../i18n/functions/date";
 import { classNames } from "../../../utils/className";
 
+/**
+ * Properties accepted by the TravelSelector component.
+ * @property {Travel[]} travels - The travels
+ * @property {number} selectedTravelIdx - The selected travel idx
+ * @property {string} cityName - The city name
+ * @property {{ fromPath?: string }} [navigationState] - The navigation state
+ */
 interface TravelSelectorProps {
   travels: Travel[];
   selectedTravelIdx: number;
