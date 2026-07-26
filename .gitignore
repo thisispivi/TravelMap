@@ -7,3 +7,5 @@ scripts/json-generator/photos/
 .claude/launch.json
 .claude/settings.local.json
 travel-map/.claude/launch.json
+travel-map/
+node_modules/
