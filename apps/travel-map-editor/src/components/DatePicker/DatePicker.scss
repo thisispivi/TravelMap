@@ -1,0 +1,285 @@
+@use "variables" as v;
+@use "mixins" as m;
+
+.date-picker {
+  &__control {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  &__trigger {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding-right: 2rem;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  &__icon {
+    width: 0.95rem;
+    height: 0.95rem;
+    flex-shrink: 0;
+  }
+
+  &__value {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__time-badge {
+    margin-left: auto;
+    padding: 0.05rem 0.35rem;
+    border-radius: 62.4375rem;
+    font-size: v.$caption;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__clear {
+    position: absolute;
+    right: 0.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.3rem;
+    height: 1.3rem;
+    border: 0;
+    border-radius: 62.4375rem;
+    background: transparent;
+    font-size: v.$bodyLg;
+    line-height: 1;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 0.125rem solid v.$accentPrimary;
+    }
+  }
+}
+
+// Portalled to the body, so theming hangs off the body class.
+.date-picker__panel {
+  position: fixed;
+  z-index: 60;
+  width: 17.5rem;
+  padding: 0.85rem;
+  border-radius: v.$floatingCardRadiusLg;
+  transform-origin: top center;
+}
+
+.date-picker__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.6rem;
+}
+
+.date-picker__month {
+  font-size: v.$bodySm;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.date-picker__nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 0;
+  border-radius: 62.4375rem;
+  background: transparent;
+  font-size: v.$headingMd;
+  line-height: 1;
+  cursor: pointer;
+  @include m.transition(background-color, 0.15s);
+
+  &:focus-visible {
+    outline: 0.125rem solid v.$accentPrimary;
+  }
+}
+
+.date-picker__weekdays,
+.date-picker__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.15rem;
+}
+
+.date-picker__weekday {
+  padding: 0.25rem 0;
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.date-picker__day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 0.5rem;
+  background: transparent;
+  font-size: v.$bodySm;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  @include m.transition(background-color, 0.15s);
+
+  &--outside {
+    opacity: 0.35;
+  }
+  &--today {
+    font-weight: 700;
+    outline: 0.0625rem solid v.$accentPrimary;
+    outline-offset: -0.0625rem;
+  }
+  &--selected {
+    background-color: v.$accentPrimary !important;
+    color: #ffffff !important;
+    font-weight: 700;
+  }
+  &:focus-visible {
+    outline: 0.125rem solid v.$accentPrimary;
+  }
+}
+
+.date-picker__footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.6rem;
+  margin-top: 0.7rem;
+  padding-top: 0.7rem;
+  border-top: 0.0625rem solid rgba(128, 128, 128, 0.2);
+}
+
+.date-picker__today {
+  padding: 0.35rem 0.7rem;
+  font-size: v.$caption;
+}
+
+.date-picker__time {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: v.$caption;
+  font-weight: 600;
+
+  input {
+    width: 6rem;
+    padding: 0.3rem 0.45rem;
+    font-size: v.$caption;
+  }
+}
+
+// ─── Dark ───────────────────────────────────────────────────
+.editor--dark .date-picker {
+  &__trigger--empty .date-picker__value {
+    color: v.$darkDisabledText;
+  }
+  &__icon {
+    color: v.$darkAltTextDarker;
+  }
+  &__time-badge {
+    background-color: v.$darkButtonHover;
+    color: v.$darkButtonContent;
+  }
+  &__clear {
+    color: v.$darkAltText;
+
+    &:hover {
+      color: v.$darkButtonContent;
+    }
+  }
+}
+.body--dark .date-picker__panel {
+  @include m.glassmorphism-dark();
+  background: v.$darkInfoTab;
+  color: v.$darkButtonContent;
+
+  .date-picker__nav,
+  .date-picker__day {
+    color: v.$darkAltText;
+
+    &:hover {
+      background-color: v.$darkButton;
+      color: v.$darkButtonContent;
+    }
+  }
+  .date-picker__weekday {
+    color: v.$darkAltTextDarker;
+  }
+  .date-picker__today {
+    background-color: v.$darkButton;
+    color: v.$darkButtonContent;
+  }
+  .date-picker__time input {
+    background-color: v.$darkButton;
+    color: v.$darkButtonContent;
+    border: 0;
+    border-radius: 0.4rem;
+  }
+}
+
+// ─── Light ──────────────────────────────────────────────────
+.editor--light .date-picker {
+  &__trigger--empty .date-picker__value {
+    color: v.$lightDisabledText;
+  }
+  &__icon {
+    color: v.$lightAltTextDarker;
+  }
+  &__time-badge {
+    background-color: v.$lightButtonHover;
+    color: v.$lightButtonContent;
+  }
+  &__clear {
+    color: v.$lightAltText;
+
+    &:hover {
+      color: v.$lightButtonContent;
+    }
+  }
+}
+.body--light .date-picker__panel {
+  @include m.glassmorphism-light();
+  background: #ffffff;
+  color: v.$lightButtonContent;
+
+  .date-picker__nav,
+  .date-picker__day {
+    color: v.$lightAltText;
+
+    &:hover {
+      background-color: v.$lightButton;
+      color: v.$lightButtonContent;
+    }
+  }
+  .date-picker__weekday {
+    color: v.$lightAltTextDarker;
+  }
+  .date-picker__today {
+    background-color: v.$lightButton;
+    color: v.$lightButtonContent;
+  }
+  .date-picker__time input {
+    background-color: v.$lightButton;
+    color: v.$lightButtonContent;
+    border: 0;
+    border-radius: 0.4rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .date-picker__nav,
+  .date-picker__day {
+    transition: none;
+  }
+}

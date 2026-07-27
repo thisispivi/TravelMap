@@ -5,6 +5,7 @@ import autoprefixer from "autoprefixer";
 import { defineConfig } from "vite";
 import svgr from "vite-plugin-svgr";
 
+import { cityIndex } from "./vite/cityIndex";
 import { dataWriter } from "./vite/dataWriter";
 
 // The editor shares the public app's design tokens rather than copying them, so
@@ -15,7 +16,12 @@ const appSource = resolve(__dirname, "../travel-map/src");
 const appStyles = resolve(appSource, "styles");
 
 export default defineConfig({
-  plugins: [react(), svgr(), dataWriter(resolve(__dirname, "../../data"))],
+  plugins: [
+    react(),
+    svgr(),
+    dataWriter(resolve(__dirname, "../../data")),
+    cityIndex(),
+  ],
   resolve: {
     // `@app/*` is how editor code reaches the public app. `@/*` exists only so
     // reused app components resolve their own internal imports; editor files

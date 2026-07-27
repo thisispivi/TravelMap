@@ -71,6 +71,16 @@
     text-transform: uppercase;
   }
 
+  &__search-input {
+    // Safari draws its own rounded pill and a decoration button on search
+    // inputs, which fights the shared control styling.
+    appearance: none;
+
+    &::-webkit-search-cancel-button {
+      appearance: none;
+    }
+  }
+
   &__results {
     display: flex;
     flex-direction: column;

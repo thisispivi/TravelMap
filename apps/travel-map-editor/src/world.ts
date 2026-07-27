@@ -37,52 +37,23 @@ const CONTINENT_BY_REGION: Record<string, Continent> = {
 // subregion decides which of the two enum values applies.
 const SOUTH_AMERICAN_SUBREGIONS = new Set(["South America"]);
 
-// world-countries keys translations by ISO 639-3, while locales are BCP 47.
-const TRANSLATION_BY_LANGUAGE: Record<string, string> = {
-  ar: "ara",
-  cs: "ces",
-  de: "deu",
-  es: "spa",
-  et: "est",
-  fa: "per",
-  fi: "fin",
-  fr: "fra",
-  hr: "hrv",
-  hu: "hun",
-  it: "ita",
-  ja: "jpn",
-  ko: "kor",
-  nl: "nld",
-  pl: "pol",
-  pt: "por",
-  ru: "rus",
-  sk: "slk",
-  sr: "srp",
-  sv: "swe",
-  tr: "tur",
-  ur: "urd",
-  zh: "zho",
-};
-
 /**
  * One selectable country, combining the map polygon with its real-world
  * metadata so nothing about it has to be typed by hand.
+ * @property {string} cca2 - The ISO 3166-1 alpha-2 code, used to join world cities
  * @property {Continent} continent - The continent the country belongs to
  * @property {Currency} currency - The country's primary currency
  * @property {string} [flagUrl] - Resolved flag asset, absent when the pack has no match
  * @property {string} id - The Natural Earth polygon name, used to fill the map
- * @property {[number, number]} [latlng] - Approximate country centre as longitude and latitude
  * @property {string} name - The common English name
- * @property {Record<string, string>} translations - Common name keyed by ISO 639-1 language
  */
 export interface WorldCountry {
+  cca2: string;
   continent: Continent;
   currency: Currency;
   flagUrl?: string;
   id: string;
-  latlng?: [number, number];
   name: string;
-  translations: Record<string, string>;
 }
 
 /**
@@ -166,25 +137,19 @@ function buildCatalogue(): WorldCountry[] {
     // correct the continent and currency by hand afterwards.
     if (!metadata) {
       catalogue.push({
+        cca2: "",
         continent: Continent.EUROPE,
         currency: Currency.USD,
         flagUrl: resolveFlag([polygonName]),
         id: polygonName,
         name: polygonName,
-        translations: {},
       });
       continue;
     }
 
     const currencyCode = Object.keys(metadata.currencies)[0];
-    const [latitude, longitude] = metadata.latlng;
-    const translations: Record<string, string> = {};
-    for (const [language, key] of Object.entries(TRANSLATION_BY_LANGUAGE)) {
-      const translated = metadata.translations[key]?.common;
-      if (translated) translations[language] = translated;
-    }
-
     catalogue.push({
+      cca2: metadata.cca2,
       continent: toContinent(metadata.region, metadata.subregion),
       currency:
         currencyCode && currencyCodes.has(currencyCode)
@@ -192,9 +157,7 @@ function buildCatalogue(): WorldCountry[] {
           : Currency.USD,
       flagUrl: resolveFlag([metadata.name.common, polygonName]),
       id: polygonName,
-      latlng: [longitude ?? 0, latitude ?? 0],
       name: metadata.name.common,
-      translations,
     });
   }
   return catalogue.sort((first, second) =>
@@ -204,17 +167,57 @@ function buildCatalogue(): WorldCountry[] {
 
 export const worldCatalogue = buildCatalogue();
 
+const catalogueById = new Map(
+  worldCatalogue.map((country) => [country.id, country]),
+);
+const catalogueByCode = new Map(
+  worldCatalogue
+    .filter((country) => country.cca2)
+    .map((country) => [country.cca2, country]),
+);
+
 /**
  * Looks up a country in the catalogue by its dataset id.
  * @param {string} id - The country id
  * @returns {WorldCountry | undefined} The catalogue entry, when known
  */
 export function findWorldCountry(id: string): WorldCountry | undefined {
-  return worldCatalogue.find((country) => country.id === id);
+  return catalogueById.get(id);
 }
 
 /**
- * Picks the translated names for the locales a fork has configured.
+ * Looks up a country by its ISO 3166-1 alpha-2 code, which is how the world
+ * city dataset refers to countries.
+ * @param {string} code - The alpha-2 country code
+ * @returns {WorldCountry | undefined} The catalogue entry, when known
+ */
+export function findWorldCountryByCode(code: string): WorldCountry | undefined {
+  return catalogueByCode.get(code);
+}
+
+/**
+ * Names a country in one locale using the platform's own CLDR data, which
+ * covers far more locales than any bundled translation table would.
+ * @param {string} code - The alpha-2 country code
+ * @param {string} locale - A BCP 47 locale tag
+ * @returns {string | undefined} The localised name, when the platform knows it
+ */
+function localisedCountryName(
+  code: string,
+  locale: string,
+): string | undefined {
+  if (!code) return undefined;
+  try {
+    return new Intl.DisplayNames([locale], { type: "region" }).of(code);
+  } catch {
+    // An unsupported locale tag costs the translation, not the country.
+    return undefined;
+  }
+}
+
+/**
+ * Picks the translated names for the locales a fork has configured, dropping
+ * any that match the canonical name.
  * @param {WorldCountry} country - The catalogue entry
  * @param {string[]} locales - Configured BCP 47 locale tags
  * @returns {Record<string, string> | undefined} Names by locale, when any apply
@@ -225,7 +228,7 @@ export function translationsForLocales(
 ): Record<string, string> | undefined {
   const names: Record<string, string> = {};
   for (const locale of locales) {
-    const translated = country.translations[locale.split("-")[0]!];
+    const translated = localisedCountryName(country.cca2, locale);
     if (translated && translated !== country.name) names[locale] = translated;
   }
   return Object.keys(names).length > 0 ? names : undefined;

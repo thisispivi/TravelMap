@@ -1,0 +1,61 @@
+@use "variables" as v;
+
+.world-city-search {
+  &__control {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  &__input {
+    width: 100%;
+    padding-right: 2.25rem;
+  }
+
+  &__spinner {
+    position: absolute;
+    right: 0.75rem;
+    width: 0.9rem;
+    height: 0.9rem;
+    border: 0.125rem solid rgba(128, 128, 128, 0.3);
+    border-top-color: v.$accentPrimary;
+    border-radius: 62.4375rem;
+    animation: world-city-spin 0.7s linear infinite;
+  }
+
+  &__country {
+    margin-left: auto;
+    padding-left: 0.6rem;
+    font-size: v.$caption;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+// The country sits between label and population, so the population keeps the
+// auto margin that would otherwise push both apart.
+.world-city-search__menu .combobox__option-hint {
+  margin-left: 0.6rem;
+  min-width: 2.5rem;
+  text-align: right;
+}
+
+.body--dark .world-city-search__menu .world-city-search__country {
+  color: v.$darkAltTextDarker;
+}
+.body--light .world-city-search__menu .world-city-search__country {
+  color: v.$lightAltTextDarker;
+}
+
+@keyframes world-city-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .world-city-search__spinner {
+    animation-duration: 2s;
+  }
+}

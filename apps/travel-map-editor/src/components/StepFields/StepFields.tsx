@@ -3,12 +3,8 @@ import { ReactNode } from "react";
 
 import { companyIds, config, photoPaths, transportModes } from "../../dataset";
 import { Combobox, ComboboxOption, MultiCombobox } from "../Combobox/Combobox";
-import {
-  CheckboxField,
-  DateField,
-  NumberField,
-  TextField,
-} from "../Fields/Fields";
+import { DatePicker } from "../DatePicker/DatePicker";
+import { CheckboxField, NumberField, TextField } from "../Fields/Fields";
 
 /**
  * Lists the transport operators a fork has configured.
@@ -45,12 +41,12 @@ export function StopFields({
           options={cityOptions}
           value={step.cityId}
         />
-        <DateField
+        <DatePicker
           label="Arrival"
           onChange={(sDate) => onChange({ ...step, sDate: sDate ?? "" })}
           value={step.sDate}
         />
-        <DateField
+        <DatePicker
           label="Departure"
           onChange={(eDate) => onChange({ ...step, eDate: eDate ?? "" })}
           value={step.eDate}
@@ -129,12 +125,12 @@ export function TransportFields({
         />
       </div>
       <div className="editor-panel__row">
-        <DateField
+        <DatePicker
           label="Departure"
           onChange={(sDate) => onChange({ ...step, sDate })}
           value={step.sDate}
         />
-        <DateField
+        <DatePicker
           label="Arrival"
           onChange={(eDate) => onChange({ ...step, eDate })}
           value={step.eDate}

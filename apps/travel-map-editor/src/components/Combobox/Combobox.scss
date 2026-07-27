@@ -8,23 +8,25 @@
     position: relative;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
   }
 
-  &__input {
-    padding-right: 2rem;
-    text-overflow: ellipsis;
-  }
-
-  // The flag sits inside the input rather than beside it, so a row of fields
-  // keeps one alignment whether or not an option carries an icon.
+  // The icon sits inside the input so a row of fields keeps one alignment
+  // whether or not an option carries a flag.
   &__control > &__icon {
     position: absolute;
     left: 0.6rem;
     pointer-events: none;
+    z-index: 1;
   }
-  &__control > &__icon ~ &__input {
-    padding-left: 2.1rem;
+
+  &__input {
+    width: 100%;
+    padding-right: 2.1rem;
+    text-overflow: ellipsis;
+
+    &--with-icon {
+      padding-left: 2.25rem;
+    }
   }
 
   &__icon {
@@ -33,20 +35,23 @@
     border-radius: 62.4375rem;
     object-fit: cover;
     flex-shrink: 0;
+
+    &--none {
+      background-color: rgba(128, 128, 128, 0.18);
+    }
   }
 
   &__toggle {
     position: absolute;
-    right: 0.35rem;
+    right: 0.3rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 1.6rem;
+    height: 1.6rem;
     border: 0;
     border-radius: 62.4375rem;
     background: transparent;
-    font-size: v.$caption;
     cursor: pointer;
 
     &:focus-visible {
@@ -54,52 +59,17 @@
     }
   }
 
-  &__menu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    z-index: 5;
-    max-height: 18rem;
-    margin: 0.25rem 0 0;
-    padding: 0.25rem;
-    border-radius: 0.75rem;
-    list-style: none;
-    overflow-y: auto;
-    overscroll-behavior: contain;
+  &__caret {
+    width: 0.4rem;
+    height: 0.4rem;
+    border-right: 0.09375rem solid currentcolor;
+    border-bottom: 0.09375rem solid currentcolor;
+    transform: translateY(-0.1rem) rotate(45deg);
+    transition: transform 0.18s cubic-bezier(0.4, 0, 0.2, 1);
 
-    &--hidden {
-      display: none;
+    &--open {
+      transform: translateY(0.05rem) rotate(-135deg);
     }
-  }
-
-  &__option {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.45rem 0.6rem;
-    border-radius: 0.5rem;
-    font-size: v.$bodySm;
-    cursor: pointer;
-  }
-
-  &__option-label {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  &__option-hint {
-    margin-left: auto;
-    padding-left: 0.5rem;
-    font-size: v.$caption;
-    flex-shrink: 0;
-  }
-
-  &__empty {
-    padding: 0.75rem 0.6rem;
-    font-size: v.$bodySm;
-    text-align: center;
   }
 
   &__chips {
@@ -115,7 +85,7 @@
     display: flex;
     align-items: center;
     gap: 0.35rem;
-    padding: 0.2rem 0.25rem 0.2rem 0.55rem;
+    padding: 0.2rem 0.25rem 0.2rem 0.5rem;
     border-radius: 62.4375rem;
     font-size: v.$caption;
     font-weight: 500;
@@ -133,24 +103,83 @@
     font-size: v.$bodySm;
     line-height: 1;
     cursor: pointer;
+
+    &:focus-visible {
+      outline: 0.125rem solid v.$accentPrimary;
+    }
   }
 }
 
+// Portalled to the body, so it is styled from the theme class on the shell
+// rather than nested inside the combobox block.
+.combobox__menu {
+  position: fixed;
+  z-index: 60;
+  margin: 0;
+  padding: 0.3rem;
+  border-radius: 0.85rem;
+  list-style: none;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  transform-origin: top center;
+
+  // Kept mounted for downshift's ref, so it must not swallow clicks or be
+  // reachable while closed.
+  &--hidden {
+    pointer-events: none;
+    visibility: hidden;
+  }
+}
+
+.combobox__option {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.45rem 0.6rem;
+  border-radius: 0.55rem;
+  font-size: v.$bodySm;
+  cursor: pointer;
+}
+
+.combobox__option-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.combobox__option-hint {
+  margin-left: auto;
+  padding-left: 0.6rem;
+  font-size: v.$caption;
+  flex-shrink: 0;
+}
+
+.combobox__empty {
+  padding: 0.85rem 0.6rem;
+  font-size: v.$bodySm;
+  text-align: center;
+}
+
 // ─── Dark ───────────────────────────────────────────────────
-.editor--dark .combobox {
-  &__toggle,
-  &__chip-remove {
+.editor--dark {
+  .combobox__toggle,
+  .combobox__chip-remove {
     color: v.$darkAltText;
 
     &:hover {
       color: v.$darkButtonContent;
     }
   }
-  &__menu {
-    @include m.glassmorphism-dark();
-    background: v.$darkInfoTab;
+  .combobox__chip {
+    background-color: v.$darkButton;
+    color: v.$darkButtonContent;
   }
-  &__option {
+}
+.body--dark .combobox__menu {
+  @include m.glassmorphism-dark();
+  background: v.$darkInfoTab;
+
+  .combobox__option {
     color: v.$darkAltText;
 
     &--highlighted {
@@ -162,31 +191,32 @@
       font-weight: 600;
     }
   }
-  &__option-hint,
-  &__empty {
+  .combobox__option-hint,
+  .combobox__empty {
     color: v.$darkAltTextDarker;
-  }
-  &__chip {
-    background-color: v.$darkButton;
-    color: v.$darkButtonContent;
   }
 }
 
 // ─── Light ──────────────────────────────────────────────────
-.editor--light .combobox {
-  &__toggle,
-  &__chip-remove {
+.editor--light {
+  .combobox__toggle,
+  .combobox__chip-remove {
     color: v.$lightAltText;
 
     &:hover {
       color: v.$lightButtonContent;
     }
   }
-  &__menu {
-    @include m.glassmorphism-light();
-    background: #ffffff;
+  .combobox__chip {
+    background-color: v.$lightButton;
+    color: v.$lightButtonContent;
   }
-  &__option {
+}
+.body--light .combobox__menu {
+  @include m.glassmorphism-light();
+  background: #ffffff;
+
+  .combobox__option {
     color: v.$lightAltText;
 
     &--highlighted {
@@ -198,12 +228,14 @@
       font-weight: 600;
     }
   }
-  &__option-hint,
-  &__empty {
+  .combobox__option-hint,
+  .combobox__empty {
     color: v.$lightAltTextDarker;
   }
-  &__chip {
-    background-color: v.$lightButton;
-    color: v.$lightButtonContent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .combobox__caret {
+    transition: none;
   }
 }

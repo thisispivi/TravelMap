@@ -200,6 +200,7 @@ export function Nav({
       <label className="editor-nav__search">
         <span className="editor-nav__search-label">Search</span>
         <input
+          className="editor-field__control editor-nav__search-input"
           onChange={(event) => setTerm(event.target.value)}
           placeholder="Countries, cities, trips"
           type="search"
@@ -259,13 +260,15 @@ export function Nav({
                         {section.items.length}
                       </span>
                     </button>
-                    <NavLink
-                      aria-label={`New ${section.kind}`}
-                      className="editor-nav__add"
-                      to={`/new/${section.kind}`}
-                    >
-                      +
-                    </NavLink>
+                    {section.kind === "country" ? null : (
+                      <NavLink
+                        aria-label={`New ${section.kind}`}
+                        className="editor-nav__add"
+                        to={`/new/${section.kind}`}
+                      >
+                        +
+                      </NavLink>
+                    )}
                   </h2>
                   {isOpen && section.kind === "city" ? (
                     <CityTree

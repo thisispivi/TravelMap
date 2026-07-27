@@ -21,7 +21,7 @@ import { reviewDataset } from "./validation";
 // buildWorld walks the whole dataset, so it runs once per document load rather
 // than on every render.
 const report = reviewDataset();
-const CREATE_KINDS: CreateKind[] = ["country", "city", "trip"];
+const CREATE_KINDS: CreateKind[] = ["city", "trip"];
 
 /**
  * Finds an editor document by its stable identifier.

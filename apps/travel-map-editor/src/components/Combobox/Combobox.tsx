@@ -2,8 +2,12 @@ import "./Combobox.scss";
 
 import { classNames } from "@app/utils/className";
 import { useCombobox, useMultipleSelection } from "downshift";
+import { domAnimation, LazyMotion, m } from "framer-motion";
 import Fuse, { IFuseOptions } from "fuse.js";
-import { ReactNode, useMemo, useState } from "react";
+import { ReactNode, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+
+import { MenuPosition, useAnchoredMenu } from "../../hooks/anchoredMenu";
 
 /**
  * One choice in a combobox.
@@ -20,11 +24,10 @@ export interface ComboboxOption {
 }
 
 // Matching stays deliberately permissive: every token counts, so short words
-// like "san", "st", or "new" narrow a country list instead of being discarded
-// as noise. Location is ignored so a match anywhere in the string ranks.
+// like "san", "st", or "new" narrow a list instead of being discarded as noise.
+// Location is ignored so a match anywhere in the string ranks.
 const FUSE_OPTIONS: IFuseOptions<ComboboxOption> = {
   ignoreLocation: true,
-  includeScore: true,
   keys: [
     { name: "label", weight: 3 },
     { name: "hint", weight: 1 },
@@ -33,6 +36,17 @@ const FUSE_OPTIONS: IFuseOptions<ComboboxOption> = {
   threshold: 0.4,
 };
 const MAX_VISIBLE_OPTIONS = 100;
+
+const menuVariants = {
+  initial: { opacity: 0, scale: 0.98, y: -4 },
+  animate: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: { duration: 0.14, ease: [0.4, 0, 0.2, 1] },
+  },
+  exit: { opacity: 0, scale: 0.98, y: -4, transition: { duration: 0.1 } },
+} as const;
 
 /**
  * Ranks options against a search term, falling back to the full list when the
@@ -66,7 +80,9 @@ function OptionRow({ option }: OptionRowProps): ReactNode {
     <>
       {option.iconUrl ? (
         <img alt="" className="combobox__icon" src={option.iconUrl} />
-      ) : null}
+      ) : (
+        <span className="combobox__icon combobox__icon--none" />
+      )}
       <span className="combobox__option-label">{option.label}</span>
       {option.hint ? (
         <span className="combobox__option-hint">{option.hint}</span>
@@ -81,6 +97,74 @@ function OptionRow({ option }: OptionRowProps): ReactNode {
  */
 interface OptionRowProps {
   option: ComboboxOption;
+}
+
+/**
+ * ComboboxMenu component
+ * The floating option list, portalled out of the panel so no stacking context
+ * can clip it or draw over it.
+ * @component
+ * @param {ComboboxMenuProps} props
+ * @param {ReactNode} props.children - The option items
+ * @param {boolean} props.isOpen - Whether the menu is shown
+ * @param {MenuPosition | null} props.position - Where to draw the menu
+ * @param {object} props.menuProps - Downshift's menu props
+ * @returns {ReactNode} The portalled menu
+ */
+function ComboboxMenu({
+  children,
+  isOpen,
+  menuProps,
+  position,
+}: ComboboxMenuProps): ReactNode {
+  const isShown = isOpen && position !== null;
+  return createPortal(
+    <LazyMotion features={domAnimation}>
+      {/* Downshift needs its menu ref attached on every render, so the element
+          always exists and is hidden rather than unmounted while closed. */}
+      <m.ul
+        animate={isShown ? "animate" : "initial"}
+        className={classNames(
+          "combobox__menu",
+          !isShown && "combobox__menu--hidden",
+        )}
+        initial="initial"
+        style={
+          position
+            ? {
+                left: position.left,
+                maxHeight: position.maxHeight,
+                top: position.placement === "top" ? undefined : position.top,
+                bottom:
+                  position.placement === "top"
+                    ? window.innerHeight - position.top
+                    : undefined,
+                width: position.width,
+              }
+            : undefined
+        }
+        variants={menuVariants}
+        {...menuProps}
+      >
+        {isShown ? children : null}
+      </m.ul>
+    </LazyMotion>,
+    document.body,
+  );
+}
+
+/**
+ * Props for ComboboxMenu.
+ * @property {ReactNode} children - The option items
+ * @property {boolean} isOpen - Whether the menu is shown
+ * @property {object} menuProps - Downshift's menu props
+ * @property {MenuPosition | null} position - Where to draw the menu
+ */
+interface ComboboxMenuProps {
+  children: ReactNode;
+  isOpen: boolean;
+  menuProps: Record<string, unknown>;
+  position: MenuPosition | null;
 }
 
 /**
@@ -107,6 +191,7 @@ export function Combobox({
   placeholder,
   value,
 }: ComboboxProps): ReactNode {
+  const controlRef = useRef<HTMLDivElement>(null);
   const items = useMemo(
     () =>
       emptyLabel === undefined
@@ -142,17 +227,22 @@ export function Combobox({
     },
     selectedItem: selected,
   });
+  const position = useAnchoredMenu(controlRef, isOpen);
   return (
     <div className="editor-field combobox">
       <label className="editor-field__label" {...getLabelProps()}>
         {label}
       </label>
-      <div className="combobox__control">
+      <div className="combobox__control" ref={controlRef}>
         {selected?.iconUrl && !isOpen ? (
           <img alt="" className="combobox__icon" src={selected.iconUrl} />
         ) : null}
         <input
-          className="editor-field__control combobox__input"
+          className={classNames(
+            "editor-field__control",
+            "combobox__input",
+            selected?.iconUrl && !isOpen && "combobox__input--with-icon",
+          )}
           {...getInputProps({
             placeholder: isOpen
               ? "Type to search"
@@ -165,35 +255,36 @@ export function Combobox({
           type="button"
           {...getToggleButtonProps({ "aria-label": `Open ${label} options` })}
         >
-          ▾
+          <span
+            className={classNames(
+              "combobox__caret",
+              isOpen && "combobox__caret--open",
+            )}
+          />
         </button>
       </div>
-      <ul
-        className={classNames(
-          "combobox__menu",
-          !isOpen && "combobox__menu--hidden",
-        )}
-        {...getMenuProps()}
+      <ComboboxMenu
+        isOpen={isOpen}
+        menuProps={getMenuProps()}
+        position={position}
       >
-        {isOpen
-          ? visible.map((option, index) => (
-              <li
-                className={classNames(
-                  "combobox__option",
-                  highlightedIndex === index && "combobox__option--highlighted",
-                  option.value === value && "combobox__option--selected",
-                )}
-                key={option.value}
-                {...getItemProps({ index, item: option })}
-              >
-                <OptionRow option={option} />
-              </li>
-            ))
-          : null}
-        {isOpen && visible.length === 0 ? (
+        {visible.map((option, index) => (
+          <li
+            className={classNames(
+              "combobox__option",
+              highlightedIndex === index && "combobox__option--highlighted",
+              option.value === value && "combobox__option--selected",
+            )}
+            key={option.value}
+            {...getItemProps({ index, item: option })}
+          >
+            <OptionRow option={option} />
+          </li>
+        ))}
+        {visible.length === 0 ? (
           <li className="combobox__empty">No matches</li>
         ) : null}
-      </ul>
+      </ComboboxMenu>
       {hint ? <span className="editor-field__hint">{hint}</span> : null}
     </div>
   );
@@ -239,6 +330,7 @@ export function MultiCombobox({
   options,
   value,
 }: MultiComboboxProps): ReactNode {
+  const controlRef = useRef<HTMLDivElement>(null);
   const [term, setTerm] = useState("");
   const selectedItems = useMemo(
     () =>
@@ -257,23 +349,7 @@ export function MultiCombobox({
     [available, fuse, term],
   );
   const { getDropdownProps, getSelectedItemProps, removeSelectedItem } =
-    useMultipleSelection({
-      onStateChange: ({ selectedItems: next, type }) => {
-        if (
-          type ===
-            useMultipleSelection.stateChangeTypes
-              .SelectedItemKeyDownBackspace ||
-          type ===
-            useMultipleSelection.stateChangeTypes.SelectedItemKeyDownDelete ||
-          type ===
-            useMultipleSelection.stateChangeTypes.DropdownKeyDownBackspace ||
-          type ===
-            useMultipleSelection.stateChangeTypes.FunctionRemoveSelectedItem
-        )
-          onChange((next ?? []).map((option) => option.value));
-      },
-      selectedItems,
-    });
+    useMultipleSelection({ selectedItems });
   const {
     getInputProps,
     getItemProps,
@@ -299,6 +375,17 @@ export function MultiCombobox({
         ? { ...changes, highlightedIndex: 0, isOpen: true }
         : changes,
   });
+  const position = useAnchoredMenu(controlRef, isOpen);
+
+  /**
+   * Drops one selection, keeping downshift's own bookkeeping in step.
+   * @param {ComboboxOption} option - The option to remove
+   * @returns {void}
+   */
+  function handleRemove(option: ComboboxOption): void {
+    removeSelectedItem(option);
+    onChange(value.filter((entry) => entry !== option.value));
+  }
   return (
     <div className="editor-field combobox">
       <label className="editor-field__label" {...getLabelProps()}>
@@ -319,10 +406,7 @@ export function MultiCombobox({
               <button
                 aria-label={`Remove ${option.label}`}
                 className="combobox__chip-remove"
-                onClick={() => {
-                  removeSelectedItem(option);
-                  onChange(value.filter((entry) => entry !== option.value));
-                }}
+                onClick={() => handleRemove(option)}
                 type="button"
               >
                 ×
@@ -331,7 +415,7 @@ export function MultiCombobox({
           ))}
         </ul>
       ) : null}
-      <div className="combobox__control">
+      <div className="combobox__control" ref={controlRef}>
         <input
           className="editor-field__control combobox__input"
           {...getInputProps(
@@ -342,31 +426,27 @@ export function MultiCombobox({
           )}
         />
       </div>
-      <ul
-        className={classNames(
-          "combobox__menu",
-          !isOpen && "combobox__menu--hidden",
-        )}
-        {...getMenuProps()}
+      <ComboboxMenu
+        isOpen={isOpen}
+        menuProps={getMenuProps()}
+        position={position}
       >
-        {isOpen
-          ? visible.map((option, index) => (
-              <li
-                className={classNames(
-                  "combobox__option",
-                  highlightedIndex === index && "combobox__option--highlighted",
-                )}
-                key={option.value}
-                {...getItemProps({ index, item: option })}
-              >
-                <OptionRow option={option} />
-              </li>
-            ))
-          : null}
-        {isOpen && visible.length === 0 ? (
+        {visible.map((option, index) => (
+          <li
+            className={classNames(
+              "combobox__option",
+              highlightedIndex === index && "combobox__option--highlighted",
+            )}
+            key={option.value}
+            {...getItemProps({ index, item: option })}
+          >
+            <OptionRow option={option} />
+          </li>
+        ))}
+        {visible.length === 0 ? (
           <li className="combobox__empty">No matches</li>
         ) : null}
-      </ul>
+      </ComboboxMenu>
       {hint ? <span className="editor-field__hint">{hint}</span> : null}
     </div>
   );
