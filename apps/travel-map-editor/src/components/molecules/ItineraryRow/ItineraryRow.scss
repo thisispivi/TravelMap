@@ -1,0 +1,250 @@
+@use "variables" as v;
+@use "mixins" as m;
+
+// Half of &__badge's width, so the connecting rail (drawn by the parent list,
+// TripScreen.scss's .trip-screen__steps) passes through every badge's centre.
+$badgeCenter: 1.125rem;
+
+.itinerary-row {
+  position: relative;
+  border-radius: 0.85rem;
+  @include m.transition(background-color, 0.15s);
+
+  &__row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+    padding: 0.5rem 0.5rem 0.5rem 0;
+  }
+
+  // The bead on the rail: bigger than the old icon-only badge so the glyph
+  // reads clearly, and positioned so the rail passes through its centre.
+  &__badge {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: $badgeCenter * 2;
+    height: $badgeCenter * 2;
+    border-radius: 62.4375rem;
+    flex-shrink: 0;
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+
+  &--transport &__badge {
+    background-color: v.$transportPlane;
+    color: #ffffff;
+  }
+  &--stop &__badge {
+    background-color: v.$accentPrimary;
+    color: #ffffff;
+  }
+
+  &__summary {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    flex: 1;
+    min-width: 0;
+    padding: 0.35rem 0;
+    border: 0;
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 0.125rem solid v.$accentPrimary;
+      outline-offset: 0.125rem;
+    }
+  }
+
+  &__index {
+    flex-shrink: 0;
+    padding-top: 0.15rem;
+    font-size: v.$caption;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    min-width: 0;
+  }
+
+  &__title {
+    font-size: v.$bodySm;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__kind {
+    padding: 0.1rem 0.45rem;
+    border-radius: 62.4375rem;
+    font-size: v.$caption;
+    font-weight: 600;
+    text-transform: capitalize;
+    white-space: nowrap;
+  }
+
+  &__dates {
+    font-size: v.$caption;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  &__caret {
+    flex-shrink: 0;
+    margin-top: 0.4rem;
+    width: 0.4rem;
+    height: 0.4rem;
+    border-right: 0.09375rem solid currentcolor;
+    border-bottom: 0.09375rem solid currentcolor;
+    transform: rotate(45deg);
+    transition: transform 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &--open {
+      transform: translateY(0.1rem) rotate(-135deg);
+    }
+  }
+
+  // Every action is the same square, so the column never ragged-edges the way
+  // mixed-width text buttons did.
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.15rem;
+    flex-shrink: 0;
+    padding-top: 0.2rem;
+  }
+
+  &__action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.6rem;
+    height: 1.6rem;
+    border: 0;
+    border-radius: 0.45rem;
+    background: transparent;
+    font-size: v.$bodySm;
+    line-height: 1;
+    cursor: pointer;
+    @include m.transition(background-color, 0.15s);
+
+    &:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+    &:focus-visible {
+      outline: 0.125rem solid v.$accentPrimary;
+    }
+  }
+
+  &__body {
+    overflow: hidden;
+  }
+
+  &__fields {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    // Lines up with &__text above, past the badge and its gap.
+    padding: 0.25rem 0.5rem 0.85rem ($badgeCenter * 2 + 0.7rem);
+  }
+}
+
+// ─── Dark ───────────────────────────────────────────────────
+.editor--dark .itinerary-row {
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+  &--open {
+    background-color: rgba(255, 255, 255, 0.06);
+  }
+  &__summary {
+    color: v.$darkButtonContent;
+  }
+  &__index,
+  &__dates,
+  &__caret {
+    color: v.$darkAltTextDarker;
+  }
+  &__kind {
+    background-color: v.$darkButton;
+    color: v.$darkAltText;
+  }
+  &__action {
+    color: v.$darkAltText;
+
+    &:hover:not(:disabled) {
+      background-color: v.$darkButtonHover;
+      color: v.$darkButtonContent;
+    }
+    &--danger:hover:not(:disabled) {
+      background-color: v.$visitedButton;
+      color: v.$visitedButtonContent;
+    }
+  }
+}
+
+// ─── Light ──────────────────────────────────────────────────
+.editor--light .itinerary-row {
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.035);
+  }
+  &--open {
+    background-color: rgba(0, 0, 0, 0.045);
+  }
+  &__summary {
+    color: v.$lightButtonContent;
+  }
+  &__index,
+  &__dates,
+  &__caret {
+    color: v.$lightAltTextDarker;
+  }
+  &__kind {
+    background-color: v.$lightButton;
+    color: v.$lightAltText;
+  }
+  &__action {
+    color: v.$lightAltText;
+
+    &:hover:not(:disabled) {
+      background-color: v.$lightButtonHover;
+      color: v.$lightButtonContent;
+    }
+    &--danger:hover:not(:disabled) {
+      background-color: v.$visitedButton;
+      color: v.$visitedButtonContent;
+    }
+  }
+}
+
+@media (max-width: 48rem) {
+  .itinerary-row__dates {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .itinerary-row,
+  .itinerary-row__action,
+  .itinerary-row__caret {
+    transition: none;
+  }
+}

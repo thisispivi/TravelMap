@@ -1,0 +1,408 @@
+@use "variables" as v;
+@use "mixins" as m;
+@use "scrollbar" as s;
+
+.editor-nav {
+  position: sticky;
+  top: v.$floatingCardGap;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  max-height: calc(100vh - #{v.$floatingCardGap} * 2);
+  padding: v.$floatingCardPadding;
+  border-radius: v.$floatingCardRadiusLg;
+  overflow-y: auto;
+
+  &__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding-bottom: 0.5rem;
+  }
+
+  &__logo {
+    width: 1.75rem;
+    height: 1.75rem;
+    flex-shrink: 0;
+  }
+
+  &__title {
+    font-size: v.$headingMd;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  &__theme {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    margin-left: auto;
+    border: 0;
+    border-radius: 62.4375rem;
+    cursor: pointer;
+    @include m.transition(transform, 0.2s);
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+    }
+    &:hover {
+      transform: scale(1.1);
+    }
+    &:focus-visible {
+      outline: 0.125rem solid v.$accentPrimary;
+      outline-offset: 0.15rem;
+    }
+  }
+
+  &__search {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    margin-bottom: 0.6rem;
+  }
+
+  &__search-label {
+    font-size: v.$caption;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  &__search-input {
+    // Safari draws its own rounded pill and a decoration button on search
+    // inputs, which fights the shared control styling.
+    appearance: none;
+
+    &::-webkit-search-cancel-button {
+      appearance: none;
+    }
+  }
+
+  &__results {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+
+  &__sections {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin-top: 0.5rem;
+  }
+
+  &__section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+
+  &__heading {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin: 0.35rem 0 0.15rem;
+  }
+
+  &__disclosure {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex: 1;
+    padding: 0.3rem 0.4rem;
+    border: 0;
+    border-radius: 0.5rem;
+    background: transparent;
+    font-size: v.$caption;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-align: left;
+    cursor: pointer;
+
+    svg {
+      width: 0.85rem;
+      height: 0.85rem;
+      flex-shrink: 0;
+    }
+    &:focus-visible {
+      outline: 0.125rem solid v.$accentPrimary;
+    }
+  }
+
+  &__chevron {
+    display: inline-block;
+    width: 0.6rem;
+    font-size: 0.6rem;
+    transition: transform 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &--open {
+      transform: rotate(90deg);
+    }
+  }
+
+  &__group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+
+  &__group-header {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.5rem;
+    border: 0;
+    border-radius: 0.5rem;
+    background: transparent;
+    font-size: v.$bodySm;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 0.125rem solid v.$accentPrimary;
+    }
+  }
+
+  // Circular flags, matching how the pickers render them. object-fit: contain
+  // plus a permanent backdrop shows the whole flag instead of cropping
+  // whichever corners a non-square source doesn't fill.
+  &__flag {
+    width: 1.1rem;
+    height: 1.1rem;
+    aspect-ratio: 1 / 1;
+    box-sizing: border-box;
+    padding: 0.15rem;
+    border-radius: 62.4375rem;
+    background-color: rgba(128, 128, 128, 0.2);
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+
+  &__count {
+    margin-left: auto;
+    padding: 0.05rem 0.4rem;
+    border-radius: 62.4375rem;
+    font-size: v.$caption;
+    font-weight: 600;
+    flex-shrink: 0;
+
+    &--error {
+      background-color: v.$accentPrimary;
+      color: #ffffff;
+    }
+  }
+
+  &__add {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.35rem;
+    height: 1.35rem;
+    border-radius: 62.4375rem;
+    font-size: v.$bodyLg;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+    flex-shrink: 0;
+    @include m.transition(transform, 0.2s);
+
+    &:hover {
+      transform: scale(1.12);
+    }
+    &:focus-visible {
+      outline: 0.125rem solid v.$accentPrimary;
+      outline-offset: 0.15rem;
+    }
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.35rem 0.5rem 0.35rem 1.35rem;
+    border-radius: 0.5rem;
+    font-size: v.$bodySm;
+    text-decoration: none;
+    @include m.transition(background-color, 0.2s);
+
+    &:focus-visible {
+      outline: 0.125rem solid v.$accentPrimary;
+      outline-offset: -0.125rem;
+    }
+  }
+
+  &__group &__link {
+    padding-left: 2.1rem;
+  }
+
+  &__label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__hint {
+    margin-left: auto;
+    font-size: v.$caption;
+    flex-shrink: 0;
+  }
+
+  &__empty {
+    margin: 0;
+    padding: 0.4rem 0.6rem;
+    font-size: v.$caption;
+  }
+}
+
+// ─── Dark ───────────────────────────────────────────────────
+.editor--dark .editor-nav {
+  @include m.full-panel-dark();
+  padding: v.$floatingCardPadding;
+  @include s.setScrollbar(
+    transparent,
+    v.$darkButton,
+    v.$darkButtonHover,
+    v.$darkAltTextDarker
+  );
+
+  .editor-nav__theme,
+  .editor-nav__add {
+    background-color: v.$darkButton;
+    color: v.$darkButtonContent;
+
+    &:hover {
+      background-color: v.$darkButtonHover;
+    }
+  }
+  .editor-nav__theme svg {
+    fill: v.$darkButtonContent;
+  }
+  .editor-nav__disclosure,
+  .editor-nav__group-header {
+    color: v.$darkAltTextDarker;
+
+    &:hover {
+      background-color: v.$darkButton;
+      color: v.$darkButtonContent;
+    }
+  }
+  .editor-nav__disclosure svg {
+    fill: currentcolor;
+  }
+  .editor-nav__search-label,
+  .editor-nav__hint,
+  .editor-nav__empty {
+    color: v.$darkAltTextDarker;
+  }
+  .editor-nav__count {
+    background-color: v.$darkButton;
+    color: v.$darkAltText;
+  }
+  .editor-nav__count--error {
+    background-color: v.$accentPrimary;
+    color: #ffffff;
+  }
+  .editor-nav__link {
+    color: v.$darkAltText;
+
+    &:hover {
+      background-color: v.$darkButton;
+      color: v.$darkButtonContent;
+    }
+    &.active,
+    &--active {
+      background-color: v.$darkButtonHover;
+      color: v.$darkButtonContent;
+      font-weight: 600;
+    }
+  }
+}
+
+// ─── Light ──────────────────────────────────────────────────
+.editor--light .editor-nav {
+  @include m.full-panel-light();
+  padding: v.$floatingCardPadding;
+  @include s.setScrollbar(
+    transparent,
+    v.$lightButton,
+    v.$lightButtonHover,
+    v.$lightAltTextDarker
+  );
+
+  .editor-nav__theme,
+  .editor-nav__add {
+    background-color: v.$lightButton;
+    color: v.$lightButtonContent;
+
+    &:hover {
+      background-color: v.$lightButtonHover;
+    }
+  }
+  .editor-nav__theme svg {
+    fill: v.$lightButtonContent;
+  }
+  .editor-nav__disclosure,
+  .editor-nav__group-header {
+    color: v.$lightAltTextDarker;
+
+    &:hover {
+      background-color: v.$lightButton;
+      color: v.$lightButtonContent;
+    }
+  }
+  .editor-nav__disclosure svg {
+    fill: currentcolor;
+  }
+  .editor-nav__search-label,
+  .editor-nav__hint,
+  .editor-nav__empty {
+    color: v.$lightAltTextDarker;
+  }
+  .editor-nav__count {
+    background-color: v.$lightButton;
+    color: v.$lightAltText;
+  }
+  .editor-nav__count--error {
+    background-color: v.$accentPrimary;
+    color: #ffffff;
+  }
+  .editor-nav__link {
+    color: v.$lightAltText;
+
+    &:hover {
+      background-color: v.$lightButton;
+      color: v.$lightButtonContent;
+    }
+    &.active,
+    &--active {
+      background-color: v.$lightButtonHover;
+      color: v.$lightButtonContent;
+      font-weight: 600;
+    }
+  }
+}
+
+@media (max-width: 60rem) {
+  .editor-nav {
+    position: static;
+    max-height: 24rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .editor-nav__theme,
+  .editor-nav__add,
+  .editor-nav__link,
+  .editor-nav__chevron {
+    transition: none;
+
+    &:hover {
+      transform: none;
+    }
+  }
+}

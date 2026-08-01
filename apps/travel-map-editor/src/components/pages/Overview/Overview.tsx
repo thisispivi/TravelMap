@@ -4,11 +4,12 @@ import CameraIcon from "@app/assets/icons/Camera.svg?react";
 import CityIcon from "@app/assets/icons/City.svg?react";
 import GlobeIcon from "@app/assets/icons/Globe.svg?react";
 import MapIcon from "@app/assets/icons/Map.svg?react";
+import { useLanguage } from "@app/hooks/language/language";
 import { ComponentType, ReactNode, SVGProps } from "react";
 import { Link } from "react-router";
 
-import { cities, countries, photos, trips } from "../../../dataset";
-import { DatasetReport } from "../../../validation";
+import { cities, countries, photos, trips } from "../../../core/dataset";
+import { DatasetReport } from "../../../core/validation";
 
 /**
  * One headline number describing the size of the dataset.
@@ -32,11 +33,20 @@ interface Metric {
  * @returns {ReactNode} The overview screen
  */
 export function Overview({ report }: OverviewProps): ReactNode {
+  const { t } = useLanguage(["editor"]);
   const metrics: Metric[] = [
-    { icon: GlobeIcon, label: "Countries", value: countries.length },
-    { icon: CityIcon, label: "Cities", value: cities.length },
-    { icon: MapIcon, label: "Trips", value: trips.length },
-    { icon: CameraIcon, label: "Photo manifests", value: photos.length },
+    {
+      icon: GlobeIcon,
+      label: t("overview.countries"),
+      value: countries.length,
+    },
+    { icon: CityIcon, label: t("overview.cities"), value: cities.length },
+    { icon: MapIcon, label: t("overview.trips"), value: trips.length },
+    {
+      icon: CameraIcon,
+      label: t("overview.photoManifests"),
+      value: photos.length,
+    },
   ];
 
   if (countries.length === 0)
@@ -44,33 +54,25 @@ export function Overview({ report }: OverviewProps): ReactNode {
       <main className="editor__screen">
         <header className="editor__header">
           <div>
-            <p className="editor__eyebrow">Getting started</p>
-            <h1>Welcome</h1>
+            <p className="editor__eyebrow">{t("overview.gettingStarted")}</p>
+            <h1>{t("overview.welcome")}</h1>
           </div>
         </header>
         <section className="editor-panel">
-          <p className="editor-panel__hint">
-            This editor writes the JSON files the public site is built from.
-            There is no data yet, so start here.
-          </p>
+          <p className="editor-panel__hint">{t("overview.introHint")}</p>
           <ol className="overview__steps">
             <li>
-              <Link to="/new/country">Create a country</Link> — its id becomes a
-              folder under <code>data/</code>.
+              <Link to="/new/country">{t("overview.step1Link")}</Link>{" "}
+              {t("overview.step1After")} <code>data/</code>.
             </li>
-            <li>Create a city inside it and place it on the map.</li>
+            <li>{t("overview.step2")}</li>
+            <li>{t("overview.step3")}</li>
             <li>
-              Create a trip, then add stops and transport between your cities.
-            </li>
-            <li>
-              Set your site name, locales, and home city in{" "}
-              <Link to="/config">Configuration</Link>.
+              {t("overview.step4Before")}{" "}
+              <Link to="/config">{t("overview.step4Link")}</Link>.
             </li>
           </ol>
-          <p className="editor-panel__hint">
-            Photos stay outside the editor: upload them with the Python
-            uploader, then pick the generated manifest on a stop.
-          </p>
+          <p className="editor-panel__hint">{t("overview.photosHint")}</p>
         </section>
       </main>
     );
@@ -78,8 +80,8 @@ export function Overview({ report }: OverviewProps): ReactNode {
     <main className="editor__screen">
       <header className="editor__header">
         <div>
-          <p className="editor__eyebrow">Dataset</p>
-          <h1>Overview</h1>
+          <p className="editor__eyebrow">{t("overview.dataset")}</p>
+          <h1>{t("overview.overview")}</h1>
         </div>
       </header>
       <div className="overview__metrics">
@@ -92,7 +94,7 @@ export function Overview({ report }: OverviewProps): ReactNode {
         ))}
       </div>
       <section className="editor-panel">
-        <h2 className="editor-panel__legend">Errors</h2>
+        <h2 className="editor-panel__legend">{t("overview.errors")}</h2>
         {report.errors.length > 0 ? (
           <ul className="editor-notice editor-notice--error">
             {report.errors.map((error) => (
@@ -103,13 +105,13 @@ export function Overview({ report }: OverviewProps): ReactNode {
           </ul>
         ) : (
           <p className="editor-notice editor-notice--success">
-            The dataset loads cleanly.
+            {t("overview.loadsCleanly")}
           </p>
         )}
       </section>
       <section className="editor-panel">
         <h2 className="editor-panel__legend">
-          Warnings
+          {t("overview.warnings")}
           {report.warnings.length > 0 ? (
             <span className="editor__badge">{report.warnings.length}</span>
           ) : null}
@@ -123,7 +125,7 @@ export function Overview({ report }: OverviewProps): ReactNode {
             ))}
           </ul>
         ) : (
-          <p className="editor-panel__hint">Nothing to review.</p>
+          <p className="editor-panel__hint">{t("overview.nothingToReview")}</p>
         )}
       </section>
     </main>

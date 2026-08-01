@@ -1,11 +1,12 @@
 import "./App.scss";
 
+import { useLanguage } from "@app/hooks/language/language";
 import { useThemeDetector } from "@app/hooks/style/theme";
 import { classNames } from "@app/utils/className";
 import { ReactNode } from "react";
 import { Link, Route, Routes, useParams } from "react-router";
 
-import { Nav } from "./components/Nav/Nav";
+import { Nav } from "./components/organisms/Nav/Nav";
 import { CityScreen } from "./components/pages/CityScreen/CityScreen";
 import { ConfigScreen } from "./components/pages/ConfigScreen/ConfigScreen";
 import { CountryScreen } from "./components/pages/CountryScreen/CountryScreen";
@@ -15,8 +16,8 @@ import {
 } from "./components/pages/CreateScreen/CreateScreen";
 import { Overview } from "./components/pages/Overview/Overview";
 import { TripScreen } from "./components/pages/TripScreen/TripScreen";
-import { cities, config, countries, DataFile, trips } from "./dataset";
-import { reviewDataset } from "./validation";
+import { cities, config, countries, DataFile, trips } from "./core/dataset";
+import { reviewDataset } from "./core/validation";
 
 // buildWorld walks the whole dataset, so it runs once per document load rather
 // than on every render.
@@ -43,14 +44,15 @@ function findById<T extends { id: string }>(
  * @returns {ReactNode} The not-found screen
  */
 function MissingDocument(): ReactNode {
+  const { t } = useLanguage(["editor"]);
   return (
     <main className="editor__screen">
       <div className="editor__empty">
-        <p className="editor__eyebrow">Nothing here</p>
-        <h1>Not found</h1>
-        <p>That document is not in the dataset.</p>
+        <p className="editor__eyebrow">{t("app.nothingHere")}</p>
+        <h1>{t("app.notFound")}</h1>
+        <p>{t("app.notFoundHint")}</p>
         <Link className="editor-button editor-button--primary" to="/">
-          Back to overview
+          {t("app.backToOverview")}
         </Link>
       </div>
     </main>

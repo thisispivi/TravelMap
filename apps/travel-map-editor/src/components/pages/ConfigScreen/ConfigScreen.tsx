@@ -1,5 +1,6 @@
 import "./ConfigScreen.scss";
 
+import { useLanguage } from "@app/hooks/language/language";
 import { ReactNode, useState } from "react";
 
 import {
@@ -9,26 +10,32 @@ import {
   countries,
   DataFile,
   idError,
+  resolveLogoUrl,
   SiteConfig,
   writeData,
-} from "../../../dataset";
-import { findWorldCountry } from "../../../world";
-import { Combobox, MultiCombobox } from "../../Combobox/Combobox";
-import { EditorForm } from "../../EditorForm/EditorForm";
-import { NumberField, StringListField, TextField } from "../../Fields/Fields";
+} from "../../../core/dataset";
+import { findWorldCountry } from "../../../core/world";
+import {
+  NumberField,
+  StringListField,
+  TextField,
+} from "../../atoms/Fields/Fields";
+import { ImageUploadField } from "../../atoms/ImageUploadField/ImageUploadField";
+import { Combobox, MultiCombobox } from "../../molecules/Combobox/Combobox";
+import { EditorForm } from "../../organisms/EditorForm/EditorForm";
 
 const MAP_ZOOM_FIELDS = [
-  ["defaultZoom", "Default zoom"],
-  ["defaultMinZoom", "Minimum zoom"],
-  ["defaultMaxZoom", "Maximum zoom"],
-  ["hoveredCityZoom", "Hovered-city zoom"],
+  ["defaultZoom", "configScreen.defaultZoom"],
+  ["defaultMinZoom", "configScreen.minimumZoom"],
+  ["defaultMaxZoom", "configScreen.maximumZoom"],
+  ["hoveredCityZoom", "configScreen.hoveredCityZoom"],
 ] as const;
 
 const SITE_FIELDS = [
-  ["name", "Name", "My Travels"],
-  ["domain", "Domain", "map.example.com"],
-  ["description", "Description", "A personal map of travels."],
-  ["author", "Author", "Your name"],
+  ["name", "configScreen.siteName", "My Travels"],
+  ["domain", "configScreen.domain", "map.example.com"],
+  ["description", "configScreen.description", "A personal map of travels."],
+  ["author", "configScreen.author", "Your name"],
 ] as const;
 
 /**
@@ -41,6 +48,7 @@ const SITE_FIELDS = [
  * @returns {ReactNode} The site settings screen
  */
 export function ConfigScreen({ file }: ConfigScreenProps): ReactNode {
+  const { t } = useLanguage(["editor"]);
   const [value, setValue] = useState(file.value);
   const [newLocale, setNewLocale] = useState("");
   const [newCompanyId, setNewCompanyId] = useState("");
@@ -108,19 +116,21 @@ export function ConfigScreen({ file }: ConfigScreenProps): ReactNode {
   }
   return (
     <EditorForm
-      eyebrow="Settings"
+      eyebrow={t("configScreen.eyebrow")}
       isDirty={isDirty}
       onSave={() => writeData(file.path, value)}
       path={file.path}
-      title="Configuration"
+      title={t("configScreen.title")}
     >
       <section className="editor-panel">
-        <h2 className="editor-panel__legend">Site metadata</h2>
+        <h2 className="editor-panel__legend">
+          {t("configScreen.siteMetadata")}
+        </h2>
         <div className="editor-panel__row">
-          {SITE_FIELDS.map(([key, label, placeholder]) => (
+          {SITE_FIELDS.map(([key, labelKey, placeholder]) => (
             <TextField
               key={key}
-              label={label}
+              label={t(labelKey)}
               onChange={(next) =>
                 setValue((current) => ({
                   ...current,
@@ -133,8 +143,8 @@ export function ConfigScreen({ file }: ConfigScreenProps): ReactNode {
           ))}
         </div>
         <TextField
-          hint="Comma separated."
-          label="Keywords"
+          hint={t("configScreen.commaSeparated")}
+          label={t("configScreen.keywords")}
           onChange={(keywords) =>
             setValue({
               ...value,
@@ -151,18 +161,15 @@ export function ConfigScreen({ file }: ConfigScreenProps): ReactNode {
         />
       </section>
       <section className="editor-panel">
-        <h2 className="editor-panel__legend">Locales</h2>
-        <p className="editor-panel__hint">
-          Every country, city, and trip can carry a translated name for each
-          locale listed here.
-        </p>
+        <h2 className="editor-panel__legend">{t("configScreen.locales")}</h2>
+        <p className="editor-panel__hint">{t("configScreen.localesHint")}</p>
         {locales.length > 0 ? (
           <ul className="config-screen__tags">
             {locales.map((locale) => (
               <li className="config-screen__tag" key={locale}>
                 <code>{locale}</code>
                 <button
-                  aria-label={`Remove ${locale}`}
+                  aria-label={t("configScreen.removeLocale", { locale })}
                   className="config-screen__tag-remove"
                   onClick={() =>
                     setValue({
@@ -180,21 +187,21 @@ export function ConfigScreen({ file }: ConfigScreenProps): ReactNode {
         ) : null}
         <div className="config-screen__add">
           <TextField
-            label="Add locale"
+            label={t("configScreen.addLocale")}
             onChange={setNewLocale}
             placeholder="it-IT"
             value={newLocale}
           />
           <button className="editor-button" onClick={addLocale} type="button">
-            Add
+            {t("configScreen.add")}
           </button>
         </div>
       </section>
       <section className="editor-panel">
-        <h2 className="editor-panel__legend">City roles</h2>
+        <h2 className="editor-panel__legend">{t("configScreen.cityRoles")}</h2>
         <Combobox
-          emptyLabel="None"
-          label="Home city"
+          emptyLabel={t("configScreen.none")}
+          label={t("configScreen.homeCity")}
           onChange={(homeCityId) =>
             setValue({ ...value, homeCityId: homeCityId || null })
           }
@@ -203,13 +210,13 @@ export function ConfigScreen({ file }: ConfigScreenProps): ReactNode {
         />
         <div className="editor-panel__row">
           <MultiCombobox
-            label="Former homes"
+            label={t("configScreen.formerHomes")}
             onChange={(livedCityIds) => setValue({ ...value, livedCityIds })}
             options={cityOptions}
             value={value.livedCityIds ?? []}
           />
           <MultiCombobox
-            label="Future cities"
+            label={t("configScreen.futureCities")}
             onChange={(futureCityIds) => setValue({ ...value, futureCityIds })}
             options={cityOptions}
             value={value.futureCityIds ?? []}
@@ -217,10 +224,12 @@ export function ConfigScreen({ file }: ConfigScreenProps): ReactNode {
         </div>
       </section>
       <section className="editor-panel">
-        <h2 className="editor-panel__legend">Map defaults</h2>
+        <h2 className="editor-panel__legend">
+          {t("configScreen.mapDefaults")}
+        </h2>
         <div className="editor-panel__row">
           <NumberField
-            label="Longitude"
+            label={t("cityScreen.longitude")}
             onChange={(longitude) =>
               setValue({
                 ...value,
@@ -234,7 +243,7 @@ export function ConfigScreen({ file }: ConfigScreenProps): ReactNode {
             value={map.defaultCenter[0]}
           />
           <NumberField
-            label="Latitude"
+            label={t("cityScreen.latitude")}
             onChange={(latitude) =>
               setValue({
                 ...value,
@@ -249,10 +258,10 @@ export function ConfigScreen({ file }: ConfigScreenProps): ReactNode {
           />
         </div>
         <div className="editor-panel__row">
-          {MAP_ZOOM_FIELDS.map(([key, label]) => (
+          {MAP_ZOOM_FIELDS.map(([key, labelKey]) => (
             <NumberField
               key={key}
-              label={label}
+              label={t(labelKey)}
               onChange={(next) =>
                 setValue({ ...value, map: { ...map, [key]: next ?? 0 } })
               }
@@ -263,9 +272,11 @@ export function ConfigScreen({ file }: ConfigScreenProps): ReactNode {
         </div>
       </section>
       <section className="editor-panel">
-        <h2 className="editor-panel__legend">Trip display</h2>
+        <h2 className="editor-panel__legend">
+          {t("configScreen.tripDisplay")}
+        </h2>
         <NumberField
-          label="Group-by-cities cutoff year"
+          label={t("configScreen.groupByCitiesCutoffYear")}
           onChange={(groupByCitiesCutoffYear) =>
             setValue({
               ...value,
@@ -279,41 +290,45 @@ export function ConfigScreen({ file }: ConfigScreenProps): ReactNode {
         />
       </section>
       <section className="editor-panel">
-        <h2 className="editor-panel__legend">Transport companies</h2>
+        <h2 className="editor-panel__legend">
+          {t("configScreen.transportCompanies")}
+        </h2>
         <p className="editor-panel__hint">
-          Airlines and ferry operators offered when authoring transport steps.
-          The logo path is served by the public app.
+          {t("configScreen.transportCompaniesHint")}
         </p>
         {Object.entries(companies).map(([id, company]) => (
           <div className="config-screen__company" key={id}>
             <code className="config-screen__company-id">{id}</code>
             <TextField
-              label="Name"
+              label={t("configScreen.name")}
               onChange={(name) => setCompany(id, { ...company, name })}
               value={company.name}
             />
-            <TextField
-              label="Logo"
-              onChange={(logo) =>
-                setCompany(id, { ...company, logo: logo || undefined })
-              }
-              placeholder="/logos/Example.svg"
-              value={company.logo ?? ""}
+            <ImageUploadField
+              fileNameHint={id}
+              hint={t("configScreen.svgOrPng")}
+              label={t("configScreen.logo")}
+              onUpload={(logo) => setCompany(id, { ...company, logo })}
+              value={resolveLogoUrl(company.logo)}
             />
             <button
-              aria-label={`Remove ${id}`}
+              aria-label={t("configScreen.removeCompany", { id })}
               className="editor-button"
               onClick={() => removeCompany(id)}
               type="button"
             >
-              Remove
+              {t("configScreen.remove")}
             </button>
           </div>
         ))}
         <div className="config-screen__add">
           <TextField
-            hint={newCompanyId ? (companyIdProblem ?? "Ready to add.") : ""}
-            label="Add company id"
+            hint={
+              newCompanyId
+                ? (companyIdProblem ?? t("configScreen.readyToAdd"))
+                : ""
+            }
+            label={t("configScreen.addCompanyId")}
             onChange={setNewCompanyId}
             placeholder="ryanair"
             value={newCompanyId}
@@ -324,15 +339,16 @@ export function ConfigScreen({ file }: ConfigScreenProps): ReactNode {
             onClick={addCompany}
             type="button"
           >
-            Add
+            {t("configScreen.add")}
           </button>
         </div>
       </section>
       <section className="editor-panel">
-        <h2 className="editor-panel__legend">UNESCO sites</h2>
+        <h2 className="editor-panel__legend">
+          {t("configScreen.unescoSites")}
+        </h2>
         <p className="editor-panel__hint">
-          Only used to count how many sites you have visited. Leave empty to
-          show a zero.
+          {t("configScreen.unescoSitesHint")}
         </p>
         {countries.map(({ value: country }) => (
           <StringListField

@@ -20,6 +20,20 @@ const MENU_GAP_REM = 0.25;
 const MENU_MAX_HEIGHT_REM = 18;
 const REM_IN_PX = 16;
 
+// Every panel anchored by useAnchoredMenu (a combobox's option list, the date
+// picker's calendar) shares this open/close motion, so they read as one
+// family of floating panel rather than each having drifted its own feel.
+export const ANCHORED_PANEL_VARIANTS = {
+  initial: { opacity: 0, scale: 0.98, y: -4 },
+  animate: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: { duration: 0.14, ease: [0.4, 0, 0.2, 1] },
+  },
+  exit: { opacity: 0, scale: 0.98, y: -4, transition: { duration: 0.1 } },
+} as const;
+
 /**
  * Measures an anchor and picks the side of it with more room.
  * @param {HTMLElement | null} anchor - The control the menu attaches to

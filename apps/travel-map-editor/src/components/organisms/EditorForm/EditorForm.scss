@@ -1,0 +1,75 @@
+@use "variables" as v;
+@use "mixins" as m;
+
+.editor-form {
+  display: flex;
+  flex-direction: column;
+  gap: v.$floatingCardGap;
+
+  &__delete {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  &__title-icon {
+    width: 2rem;
+    height: 2rem;
+    aspect-ratio: 1 / 1;
+    box-sizing: border-box;
+    padding: 0.25rem;
+    border-radius: 62.4375rem;
+    background-color: rgba(128, 128, 128, 0.18);
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+
+  // Kept in view so a long document never hides the save action.
+  &__actions {
+    position: sticky;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem v.$floatingCardPadding;
+    border-radius: v.$floatingCardRadiusLg;
+    z-index: 1;
+  }
+
+  &__message {
+    font-size: v.$bodySm;
+  }
+}
+
+.editor--dark .editor-form {
+  &__actions {
+    @include m.floating-card-dark();
+    padding: 0.75rem v.$floatingCardPadding;
+  }
+  &__message {
+    color: v.$darkAltText;
+
+    &--ok {
+      color: v.$futureButton;
+    }
+  }
+}
+
+.editor--light .editor-form {
+  &__actions {
+    @include m.floating-card-light();
+    padding: 0.75rem v.$floatingCardPadding;
+  }
+  &__message {
+    color: v.$lightAltText;
+
+    &--ok {
+      color: v.$futureButtonContent;
+    }
+  }
+}

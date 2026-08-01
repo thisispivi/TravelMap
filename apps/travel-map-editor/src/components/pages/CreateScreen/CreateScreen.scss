@@ -10,8 +10,12 @@
   &__flag {
     width: 3.5rem;
     height: 3.5rem;
+    aspect-ratio: 1 / 1;
+    box-sizing: border-box;
+    padding: 0.4rem;
     border-radius: 62.4375rem;
-    object-fit: cover;
+    background-color: rgba(128, 128, 128, 0.18);
+    object-fit: contain;
     flex-shrink: 0;
   }
 

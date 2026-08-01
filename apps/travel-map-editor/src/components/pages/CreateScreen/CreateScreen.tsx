@@ -1,5 +1,6 @@
 import "./CreateScreen.scss";
 
+import { useLanguage } from "@app/hooks/language/language";
 import { classNames } from "@app/utils/className";
 import {
   CityJson,
@@ -22,12 +23,12 @@ import {
   tripPath,
   trips,
   writeData,
-} from "../../../dataset";
-import { translationsForLocales, WorldCountry } from "../../../world";
-import { WorldCity } from "../../../worldCities";
-import { DatePicker } from "../../DatePicker/DatePicker";
-import { TextField } from "../../Fields/Fields";
-import { WorldCitySearch } from "../../WorldCitySearch/WorldCitySearch";
+} from "../../../core/dataset";
+import { translationsForLocales, WorldCountry } from "../../../core/world";
+import { WorldCity } from "../../../core/worldCities";
+import { TextField } from "../../atoms/Fields/Fields";
+import { DatePicker } from "../../molecules/DatePicker/DatePicker";
+import { WorldCitySearch } from "../../organisms/WorldCitySearch/WorldCitySearch";
 
 /**
  * The kinds of document the editor can create. Countries are not among them:
@@ -41,11 +42,6 @@ export type CreateKind = "city" | "trip";
 const HUE_STEP = 137;
 const DEFAULT_SATURATION = 68;
 const DEFAULT_LIGHTNESS = 50;
-
-const TITLES: Record<CreateKind, string> = {
-  city: "Add a city",
-  trip: "Add a trip",
-};
 
 /**
  * Picks a map colour for a newly created country, spaced away from the ones
@@ -104,6 +100,7 @@ async function ensureCountry(country: WorldCountry): Promise<void> {
  * @returns {ReactNode} The city creation screen
  */
 function CityCreate(): ReactNode {
+  const { t } = useLanguage(["editor"]);
   const [picked, setPicked] = useState<WorldCity | null>(null);
   const [name, setName] = useState("");
   const [customId, setCustomId] = useState("");
@@ -114,11 +111,9 @@ function CityCreate(): ReactNode {
     picked?.country !== undefined &&
     !countries.some(({ value }) => value.id === picked.country!.id);
   const problems = [
-    ...(picked ? [] : ["Find the city first."]),
-    ...(picked && !picked.country
-      ? ["That country is not on the world map, so it cannot be added."]
-      : []),
-    ...(name.trim() ? [] : ["A name is required."]),
+    ...(picked ? [] : [t("createScreen.findCityFirst")]),
+    ...(picked && !picked.country ? [t("createScreen.countryNotOnMap")] : []),
+    ...(name.trim() ? [] : [t("createScreen.nameRequired")]),
     ...(idError(id, taken) ? [idError(id, taken)!] : []),
   ];
 
@@ -154,21 +149,20 @@ function CityCreate(): ReactNode {
       reloadAt(`/cities/${id}`);
     } catch (error) {
       setMessage(
-        error instanceof Error ? error.message : "Could not create the file.",
+        error instanceof Error ? error.message : t("createScreen.createError"),
       );
     }
   }
   return (
     <>
       <section className="editor-panel">
-        <h2 className="editor-panel__legend">Find the city</h2>
-        <p className="editor-panel__hint">
-          Search anywhere in the world. Everything about the place — country,
-          coordinates, timezone, population — comes with it.
-        </p>
+        <h2 className="editor-panel__legend">
+          {t("createScreen.findTheCity")}
+        </h2>
+        <p className="editor-panel__hint">{t("createScreen.findCityHint")}</p>
         <WorldCitySearch
-          hint="Results are ranked by population, so the well-known place comes first."
-          label="City"
+          hint={t("createScreen.citySearchHint")}
+          label={t("createScreen.city")}
           onSelect={handleSelect}
         />
       </section>
@@ -180,7 +174,9 @@ function CityCreate(): ReactNode {
             initial={{ opacity: 0, y: 8 }}
             transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
           >
-            <h2 className="editor-panel__legend">What will be created</h2>
+            <h2 className="editor-panel__legend">
+              {t("createScreen.whatWillBeCreated")}
+            </h2>
             <div className="create-screen__preview">
               {picked.country?.flagUrl ? (
                 <img
@@ -191,36 +187,38 @@ function CityCreate(): ReactNode {
               ) : null}
               <dl className="create-screen__facts">
                 <div className="create-screen__fact">
-                  <dt>Country</dt>
+                  <dt>{t("createScreen.country")}</dt>
                   <dd>
                     {picked.country?.name ?? picked.countryCode}
                     {isNewCountry ? (
-                      <span className="create-screen__tag">new</span>
+                      <span className="create-screen__tag">
+                        {t("createScreen.new")}
+                      </span>
                     ) : null}
                   </dd>
                 </div>
                 <div className="create-screen__fact">
-                  <dt>Coordinates</dt>
+                  <dt>{t("createScreen.coordinates")}</dt>
                   <dd className="create-screen__mono">
                     {picked.coordinates[1].toFixed(4)},{" "}
                     {picked.coordinates[0].toFixed(4)}
                   </dd>
                 </div>
                 <div className="create-screen__fact">
-                  <dt>Timezone</dt>
+                  <dt>{t("createScreen.timezone")}</dt>
                   <dd className="create-screen__mono">{picked.timeZone}</dd>
                 </div>
                 <div className="create-screen__fact">
-                  <dt>Population</dt>
+                  <dt>{t("createScreen.population")}</dt>
                   <dd>{picked.population.toLocaleString()}</dd>
                 </div>
               </dl>
             </div>
             {isNewCountry ? (
               <p className="editor-panel__hint">
-                This is your first city in {picked.country?.name}, so the
-                country will be added too — with its name, translations,
-                continent, currency, and a map colour already filled in.
+                {t("createScreen.newCountryHint", {
+                  country: picked.country?.name,
+                })}
               </p>
             ) : null}
           </m.section>
@@ -228,17 +226,17 @@ function CityCreate(): ReactNode {
       ) : null}
       {picked ? (
         <section className="editor-panel">
-          <h2 className="editor-panel__legend">Naming</h2>
+          <h2 className="editor-panel__legend">{t("createScreen.naming")}</h2>
           <div className="editor-panel__row">
             <TextField
-              hint="Shown on cards and map labels."
-              label="Name"
+              hint={t("createScreen.nameHint")}
+              label={t("createScreen.name")}
               onChange={setName}
               value={name}
             />
             <TextField
-              hint="Folder and gallery URL. Change it only if you need to."
-              label="Id"
+              hint={t("createScreen.idHint")}
+              label={t("createScreen.id")}
               onChange={setCustomId}
               placeholder={toId(name)}
               value={customId || toId(name)}
@@ -263,6 +261,7 @@ function CityCreate(): ReactNode {
  * @returns {ReactNode} The trip creation screen
  */
 function TripCreate(): ReactNode {
+  const { t } = useLanguage(["editor"]);
   const now = new Date();
   const today = formatLocalDate(
     new Date(now.getFullYear(), now.getMonth(), now.getDate()),
@@ -278,10 +277,10 @@ function TripCreate(): ReactNode {
   const id = customId || derivedId;
   const taken = trips.map(({ value }) => value.id);
   const problems = [
-    ...(title.trim() ? [] : ["A title is required."]),
-    ...(cities.length === 0 ? ["Add a city first."] : []),
+    ...(title.trim() ? [] : [t("createScreen.titleRequired")]),
+    ...(cities.length === 0 ? [t("createScreen.addCityFirst")] : []),
     ...(sDate && eDate && eDate < sDate
-      ? ["The end date is before the start date."]
+      ? [t("createScreen.endBeforeStart")]
       : []),
     ...(idError(id, taken) ? [idError(id, taken)!] : []),
   ];
@@ -307,44 +306,42 @@ function TripCreate(): ReactNode {
       reloadAt(`/trips/${id}`);
     } catch (error) {
       setMessage(
-        error instanceof Error ? error.message : "Could not create the file.",
+        error instanceof Error ? error.message : t("createScreen.createError"),
       );
     }
   }
   return (
     <>
       <section className="editor-panel">
-        <h2 className="editor-panel__legend">Details</h2>
+        <h2 className="editor-panel__legend">{t("createScreen.details")}</h2>
         <TextField
-          label="Title"
+          label={t("createScreen.title")}
           onChange={setTitle}
           placeholder="Rome Trip"
           value={title}
         />
         <div className="editor-panel__row">
           <DatePicker
-            label="Start"
+            label={t("trip.start")}
             onChange={(next) => setSDate(next ?? today)}
             value={sDate}
             withTime={false}
           />
           <DatePicker
-            label="End"
+            label={t("trip.end")}
             onChange={(next) => setEDate(next ?? today)}
             value={eDate}
             withTime={false}
           />
         </div>
         <TextField
-          hint="File name and trip page URL. Derived from the title."
-          label="Id"
+          hint={t("createScreen.tripIdHint")}
+          label={t("createScreen.id")}
           onChange={setCustomId}
           placeholder={derivedId || "rome-trip-2026"}
           value={customId || derivedId}
         />
-        <p className="editor-panel__hint">
-          Stops and transport are added next, on the trip screen.
-        </p>
+        <p className="editor-panel__hint">{t("createScreen.tripNextHint")}</p>
       </section>
       <CreateProblems problems={problems} show={Boolean(title)} />
       <CreateActions
@@ -403,6 +400,7 @@ function CreateActions({
   message,
   onCreate,
 }: CreateActionsProps): ReactNode {
+  const { t } = useLanguage(["editor"]);
   return (
     <div className="editor-form__actions">
       <button
@@ -411,7 +409,7 @@ function CreateActions({
         onClick={onCreate}
         type="button"
       >
-        Create
+        {t("createScreen.create")}
       </button>
       <output className="editor-form__message">{message}</output>
     </div>
@@ -439,12 +437,13 @@ interface CreateActionsProps {
  * @returns {ReactNode} The creation screen
  */
 export function CreateScreen({ kind }: CreateScreenProps): ReactNode {
+  const { t } = useLanguage(["editor"]);
   return (
     <main className="editor__screen">
       <header className="editor__header">
         <div>
-          <p className="editor__eyebrow">Create</p>
-          <h1>{TITLES[kind]}</h1>
+          <p className="editor__eyebrow">{t("createScreen.eyebrow")}</p>
+          <h1>{t(`createScreen.addA.${kind}`)}</h1>
         </div>
       </header>
       {kind === "city" ? <CityCreate /> : <TripCreate />}

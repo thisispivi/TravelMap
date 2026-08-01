@@ -1,0 +1,29 @@
+@use "variables" as v;
+
+.image-upload-field {
+  &__row {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  // Same treatment as the circular flag/logo icons elsewhere: contain plus a
+  // permanent backdrop, so a non-square logo is never cropped.
+  &__preview {
+    width: 2rem;
+    height: 2rem;
+    aspect-ratio: 1 / 1;
+    box-sizing: border-box;
+    padding: 0.25rem;
+    border-radius: 62.4375rem;
+    background-color: rgba(128, 128, 128, 0.18);
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+
+  &__input {
+    flex: 1;
+    min-width: 0;
+    font-size: v.$bodySm;
+  }
+}

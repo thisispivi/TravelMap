@@ -1,5 +1,6 @@
 import "./CountryScreen.scss";
 
+import { useLanguage } from "@app/hooks/language/language";
 import { CountryJson } from "@travelmap/core";
 import { ReactNode, useState } from "react";
 
@@ -11,11 +12,11 @@ import {
   locales,
   reloadAt,
   writeData,
-} from "../../../dataset";
-import { findWorldCountry, translationsForLocales } from "../../../world";
-import { ColorField } from "../../ColorField/ColorField";
-import { EditorForm } from "../../EditorForm/EditorForm";
-import { NumberField } from "../../Fields/Fields";
+} from "../../../core/dataset";
+import { findWorldCountry, translationsForLocales } from "../../../core/world";
+import { ColorField } from "../../atoms/ColorField/ColorField";
+import { NumberField } from "../../atoms/Fields/Fields";
+import { EditorForm } from "../../organisms/EditorForm/EditorForm";
 
 /**
  * CountryScreen component
@@ -28,13 +29,14 @@ import { NumberField } from "../../Fields/Fields";
  * @returns {ReactNode} The country editor screen
  */
 export function CountryScreen({ file }: CountryScreenProps): ReactNode {
+  const { t } = useLanguage(["editor"]);
   const [value, setValue] = useState(file.value);
   const isDirty = JSON.stringify(value) !== JSON.stringify(file.value);
   const world = findWorldCountry(file.value.id);
   const dependents = cities.filter(
     (city) => city.value.countryId === file.value.id,
   );
-  const problems = value.name.trim() ? [] : ["A canonical name is required."];
+  const problems = value.name.trim() ? [] : [t("countryScreen.nameRequired")];
   const configuredLocales = locales();
   const worldNames = world
     ? {
@@ -76,7 +78,7 @@ export function CountryScreen({ file }: CountryScreenProps): ReactNode {
   }
   return (
     <EditorForm
-      eyebrow="Country"
+      eyebrow={t("countryScreen.eyebrow")}
       isDirty={isDirty}
       onDelete={dependents.length === 0 ? handleDelete : undefined}
       onSave={() => writeData(countryPath(value.id), value)}
@@ -86,24 +88,24 @@ export function CountryScreen({ file }: CountryScreenProps): ReactNode {
       titleIconUrl={world?.flagUrl}
     >
       <section className="editor-panel">
-        <h2 className="editor-panel__legend">Identity</h2>
+        <h2 className="editor-panel__legend">{t("countryScreen.identity")}</h2>
         {world ? (
           <>
             <dl className="country-screen__facts">
               <div className="country-screen__fact">
-                <dt>Name</dt>
+                <dt>{t("countryScreen.name")}</dt>
                 <dd>{value.name}</dd>
               </div>
               <div className="country-screen__fact">
-                <dt>Continent</dt>
+                <dt>{t("countryScreen.continent")}</dt>
                 <dd>{value.continent.replace("_", " ").toLowerCase()}</dd>
               </div>
               <div className="country-screen__fact">
-                <dt>Currency</dt>
+                <dt>{t("countryScreen.currency")}</dt>
                 <dd>{value.currency}</dd>
               </div>
               <div className="country-screen__fact">
-                <dt>Map id</dt>
+                <dt>{t("countryScreen.mapId")}</dt>
                 <dd>
                   <code>{value.id}</code>
                 </dd>
@@ -120,7 +122,7 @@ export function CountryScreen({ file }: CountryScreenProps): ReactNode {
               </dl>
             ) : null}
             <p className="editor-panel__hint">
-              Taken from world data — nothing here needs typing.
+              {t("countryScreen.fromWorldDataHint")}
             </p>
             {isStale ? (
               <div className="country-screen__actions">
@@ -129,7 +131,7 @@ export function CountryScreen({ file }: CountryScreenProps): ReactNode {
                   onClick={refreshFromWorld}
                   type="button"
                 >
-                  Restore from world data
+                  {t("countryScreen.restoreFromWorldData")}
                 </button>
               </div>
             ) : null}
@@ -137,32 +139,30 @@ export function CountryScreen({ file }: CountryScreenProps): ReactNode {
         ) : (
           <p className="editor-notice editor-notice--warning">
             <span className="editor-notice__item">
-              <code>{value.id}</code> is not in the world map data, so it will
-              not be filled in on the map and its details cannot be refreshed
-              automatically.
+              <code>{value.id}</code> {t("countryScreen.notInWorldData")}
             </span>
           </p>
         )}
       </section>
       <section className="editor-panel">
-        <h2 className="editor-panel__legend">Map colour</h2>
-        <p className="editor-panel__hint">
-          Fills the country on the map once you have visited it.
-        </p>
+        <h2 className="editor-panel__legend">{t("countryScreen.mapColour")}</h2>
+        <p className="editor-panel__hint">{t("countryScreen.mapColourHint")}</p>
         <ColorField
-          label="Fill"
+          label={t("countryScreen.fill")}
           onChange={(color) => setValue({ ...value, color })}
           value={value.color}
         />
       </section>
       <section className="editor-panel">
-        <h2 className="editor-panel__legend">Marker scale</h2>
+        <h2 className="editor-panel__legend">
+          {t("countryScreen.markerScale")}
+        </h2>
         <p className="editor-panel__hint">
-          Optional bounds on how large this country&apos;s city markers grow.
+          {t("countryScreen.markerScaleHint")}
         </p>
         <div className="editor-panel__row">
           <NumberField
-            label="Minimum"
+            label={t("countryScreen.minimum")}
             min={0}
             onChange={(minMarkerScale) =>
               setValue({ ...value, minMarkerScale })
@@ -171,7 +171,7 @@ export function CountryScreen({ file }: CountryScreenProps): ReactNode {
             value={value.minMarkerScale}
           />
           <NumberField
-            label="Maximum"
+            label={t("countryScreen.maximum")}
             min={0}
             onChange={(maxMarkerScale) =>
               setValue({ ...value, maxMarkerScale })
@@ -182,10 +182,7 @@ export function CountryScreen({ file }: CountryScreenProps): ReactNode {
         </div>
         {dependents.length > 0 ? (
           <p className="editor-panel__hint">
-            {dependents.length === 1
-              ? "1 city belongs"
-              : `${dependents.length} cities belong`}{" "}
-            to this country, so it cannot be deleted yet.
+            {t("countryScreen.cannotDelete", { count: dependents.length })}
           </p>
         ) : null}
       </section>

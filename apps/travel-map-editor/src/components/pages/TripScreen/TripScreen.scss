@@ -1,265 +1,32 @@
 @use "variables" as v;
-@use "mixins" as m;
 
 .trip-screen {
   &__steps {
+    position: relative;
     display: flex;
     flex-direction: column;
-    gap: 0.35rem;
+    gap: 0.15rem;
     margin: 0;
     padding: 0;
     list-style: none;
-    counter-reset: none;
+
+    // The connecting rail behind every itinerary row's badge. 1.125rem is
+    // that badge's radius (ItineraryRow.scss's $badgeCenter) — this has to
+    // stay in step with it for the line to pass through every badge's centre.
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 1.125rem;
+      width: 0.125rem;
+      border-radius: 62.4375rem;
+      background-color: rgba(128, 128, 128, 0.2);
+    }
   }
 
   &__add {
     display: flex;
     gap: 0.5rem;
-  }
-}
-
-.trip-step {
-  border-radius: 0.85rem;
-  overflow: hidden;
-  // A left edge distinguishes stays from legs at a glance, matching how the
-  // public map colours a route.
-  border-left: 0.1875rem solid transparent;
-  @include m.transition(background-color, 0.15s);
-
-  &--transport {
-    border-left-color: v.$transportPlane;
-  }
-  &--stop {
-    border-left-color: v.$accentPrimary;
-  }
-
-  // One grid, so every row's columns line up down the whole itinerary instead
-  // of each row sizing itself.
-  &__row {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: center;
-  }
-
-  &__summary {
-    display: grid;
-    grid-template-columns: 1.5rem 1.5rem minmax(0, 1fr) auto auto 1rem;
-    align-items: center;
-    gap: 0.5rem;
-    min-width: 0;
-    padding: 0.6rem 0.5rem 0.6rem 0.7rem;
-    border: 0;
-    background: transparent;
-    font-size: v.$bodySm;
-    text-align: left;
-    cursor: pointer;
-
-    &:focus-visible {
-      outline: 0.125rem solid v.$accentPrimary;
-      outline-offset: -0.125rem;
-    }
-  }
-
-  &__index {
-    font-size: v.$caption;
-    font-variant-numeric: tabular-nums;
-    text-align: right;
-  }
-
-  &__icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 1.5rem;
-    height: 1.5rem;
-    border-radius: 62.4375rem;
-
-    svg {
-      width: 0.85rem;
-      height: 0.85rem;
-    }
-  }
-
-  &__title {
-    font-weight: 600;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  &__kind {
-    padding: 0.1rem 0.45rem;
-    border-radius: 62.4375rem;
-    font-size: v.$caption;
-    font-weight: 600;
-    text-transform: capitalize;
-    white-space: nowrap;
-  }
-
-  &__dates {
-    font-size: v.$caption;
-    font-variant-numeric: tabular-nums;
-    white-space: nowrap;
-  }
-
-  &__caret {
-    justify-self: center;
-    width: 0.4rem;
-    height: 0.4rem;
-    border-right: 0.09375rem solid currentcolor;
-    border-bottom: 0.09375rem solid currentcolor;
-    transform: translateY(-0.1rem) rotate(45deg);
-    transition: transform 0.18s cubic-bezier(0.4, 0, 0.2, 1);
-
-    &--open {
-      transform: translateY(0.05rem) rotate(-135deg);
-    }
-  }
-
-  // Every action is the same square, so the column never ragged-edges the way
-  // mixed-width text buttons did.
-  &__actions {
-    display: flex;
-    align-items: center;
-    gap: 0.15rem;
-    padding-right: 0.5rem;
-  }
-
-  &__action {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 1.6rem;
-    height: 1.6rem;
-    border: 0;
-    border-radius: 0.45rem;
-    background: transparent;
-    font-size: v.$bodySm;
-    line-height: 1;
-    cursor: pointer;
-    @include m.transition(background-color, 0.15s);
-
-    &:disabled {
-      opacity: 0.3;
-      cursor: not-allowed;
-    }
-    &:focus-visible {
-      outline: 0.125rem solid v.$accentPrimary;
-    }
-  }
-
-  &__body {
-    overflow: hidden;
-  }
-
-  &__fields {
-    display: flex;
-    flex-direction: column;
-    gap: 0.85rem;
-    padding: 0.25rem 0.7rem 0.85rem;
-  }
-}
-
-// ─── Dark ───────────────────────────────────────────────────
-.editor--dark .trip-step {
-  background-color: rgba(255, 255, 255, 0.03);
-
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.05);
-  }
-  &--open {
-    background-color: rgba(255, 255, 255, 0.06);
-  }
-  &__summary {
-    color: v.$darkButtonContent;
-  }
-  &__index,
-  &__dates,
-  &__caret {
-    color: v.$darkAltTextDarker;
-  }
-  &__icon {
-    background-color: v.$darkButton;
-
-    svg {
-      fill: v.$darkButtonContent;
-    }
-  }
-  &__kind {
-    background-color: v.$darkButton;
-    color: v.$darkAltText;
-  }
-  &__action {
-    color: v.$darkAltText;
-
-    &:hover:not(:disabled) {
-      background-color: v.$darkButtonHover;
-      color: v.$darkButtonContent;
-    }
-    &--danger:hover:not(:disabled) {
-      background-color: v.$visitedButton;
-      color: v.$visitedButtonContent;
-    }
-  }
-}
-
-// ─── Light ──────────────────────────────────────────────────
-.editor--light .trip-step {
-  background-color: rgba(0, 0, 0, 0.02);
-
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.035);
-  }
-  &--open {
-    background-color: rgba(0, 0, 0, 0.045);
-  }
-  &__summary {
-    color: v.$lightButtonContent;
-  }
-  &__index,
-  &__dates,
-  &__caret {
-    color: v.$lightAltTextDarker;
-  }
-  &__icon {
-    background-color: v.$lightButton;
-
-    svg {
-      fill: v.$lightButtonContent;
-    }
-  }
-  &__kind {
-    background-color: v.$lightButton;
-    color: v.$lightAltText;
-  }
-  &__action {
-    color: v.$lightAltText;
-
-    &:hover:not(:disabled) {
-      background-color: v.$lightButtonHover;
-      color: v.$lightButtonContent;
-    }
-    &--danger:hover:not(:disabled) {
-      background-color: v.$visitedButton;
-      color: v.$visitedButtonContent;
-    }
-  }
-}
-
-@media (max-width: 48rem) {
-  .trip-step__summary {
-    grid-template-columns: 1.5rem 1.5rem minmax(0, 1fr) 1rem;
-  }
-  .trip-step__kind,
-  .trip-step__dates {
-    display: none;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .trip-step,
-  .trip-step__action,
-  .trip-step__caret {
-    transition: none;
   }
 }

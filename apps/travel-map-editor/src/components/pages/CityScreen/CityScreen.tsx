@@ -1,3 +1,4 @@
+import { useLanguage } from "@app/hooks/language/language";
 import { CityJson } from "@travelmap/core";
 import { ReactNode, useState } from "react";
 
@@ -9,18 +10,18 @@ import {
   reloadAt,
   trips,
   writeData,
-} from "../../../dataset";
-import { findWorldCountry } from "../../../world";
-import { Combobox, ComboboxOption } from "../../Combobox/Combobox";
-import { CoordinatePicker } from "../../CoordinatePicker/CoordinatePicker";
-import { EditorForm } from "../../EditorForm/EditorForm";
+} from "../../../core/dataset";
+import { findWorldCountry } from "../../../core/world";
 import {
   CheckboxField,
   NumberField,
   StringListField,
-} from "../../Fields/Fields";
-import { LocalizedNames } from "../../LocalizedNames/LocalizedNames";
-import { PlaceImport } from "../../PlaceImport/PlaceImport";
+} from "../../atoms/Fields/Fields";
+import { Combobox, ComboboxOption } from "../../molecules/Combobox/Combobox";
+import { LocalizedNames } from "../../molecules/LocalizedNames/LocalizedNames";
+import { PlaceImport } from "../../molecules/PlaceImport/PlaceImport";
+import { CoordinatePicker } from "../../organisms/CoordinatePicker/CoordinatePicker";
+import { EditorForm } from "../../organisms/EditorForm/EditorForm";
 
 /**
  * Builds the country choices, each carrying its flag.
@@ -56,6 +57,7 @@ export function timeZoneOptions(): ComboboxOption[] {
  * @returns {ReactNode} The city editor screen
  */
 export function CityScreen({ file, isDarkTheme }: CityScreenProps): ReactNode {
+  const { t } = useLanguage(["editor"]);
   const [value, setValue] = useState(file.value);
   const isDirty = JSON.stringify(value) !== JSON.stringify(file.value);
   const dependents = trips.filter(({ value: trip }) =>
@@ -68,8 +70,8 @@ export function CityScreen({ file, isDarkTheme }: CityScreenProps): ReactNode {
     ),
   );
   const problems = [
-    ...(value.name.trim() ? [] : ["A canonical name is required."]),
-    ...(value.timeZone.trim() ? [] : ["A timezone is required."]),
+    ...(value.name.trim() ? [] : [t("cityScreen.nameRequired")]),
+    ...(value.timeZone.trim() ? [] : [t("cityScreen.timezoneRequired")]),
   ];
 
   /**
@@ -95,7 +97,7 @@ export function CityScreen({ file, isDarkTheme }: CityScreenProps): ReactNode {
   }
   return (
     <EditorForm
-      eyebrow="City"
+      eyebrow={t("cityScreen.eyebrow")}
       isDirty={isDirty}
       onDelete={dependents.length === 0 ? handleDelete : undefined}
       onSave={handleSave}
@@ -105,7 +107,7 @@ export function CityScreen({ file, isDarkTheme }: CityScreenProps): ReactNode {
       titleIconUrl={findWorldCountry(value.countryId)?.flagUrl}
     >
       <section className="editor-panel">
-        <h2 className="editor-panel__legend">Position</h2>
+        <h2 className="editor-panel__legend">{t("cityScreen.position")}</h2>
         <PlaceImport
           onImport={(place) =>
             setValue((current) => ({
@@ -121,7 +123,7 @@ export function CityScreen({ file, isDarkTheme }: CityScreenProps): ReactNode {
         />
         <div className="editor-panel__row">
           <NumberField
-            label="Longitude"
+            label={t("cityScreen.longitude")}
             onChange={(longitude) =>
               setValue({
                 ...value,
@@ -132,7 +134,7 @@ export function CityScreen({ file, isDarkTheme }: CityScreenProps): ReactNode {
             value={value.coordinates[0]}
           />
           <NumberField
-            label="Latitude"
+            label={t("cityScreen.latitude")}
             onChange={(latitude) =>
               setValue({
                 ...value,
@@ -145,23 +147,23 @@ export function CityScreen({ file, isDarkTheme }: CityScreenProps): ReactNode {
         </div>
       </section>
       <LocalizedNames
-        canonicalHint="Shown on cards and map labels. The gallery URL uses the id instead, so renaming is safe."
-        label="Names"
+        canonicalHint={t("cityScreen.namesHint")}
+        label={t("cityScreen.names")}
         onChange={(names) => setValue({ ...value, ...names })}
         value={value}
       />
       <section className="editor-panel">
-        <h2 className="editor-panel__legend">Details</h2>
+        <h2 className="editor-panel__legend">{t("cityScreen.details")}</h2>
         <div className="editor-panel__row">
           <Combobox
-            label="Country"
+            label={t("cityScreen.country")}
             onChange={(countryId) => setValue({ ...value, countryId })}
             options={countryOptions()}
             value={value.countryId}
           />
           <Combobox
-            hint="Used to show local arrival and departure times."
-            label="Timezone"
+            hint={t("cityScreen.timezoneHint")}
+            label={t("cityScreen.timezone")}
             onChange={(timeZone) => setValue({ ...value, timeZone })}
             options={timeZoneOptions()}
             value={value.timeZone}
@@ -169,14 +171,14 @@ export function CityScreen({ file, isDarkTheme }: CityScreenProps): ReactNode {
         </div>
         <div className="editor-panel__row">
           <NumberField
-            hint="Decides when the map shows this city's label."
-            label="Population"
+            hint={t("cityScreen.populationHint")}
+            label={t("cityScreen.population")}
             min={0}
             onChange={(population) => setValue({ ...value, population })}
             value={value.population}
           />
           <NumberField
-            label="Minimum marker scale"
+            label={t("cityScreen.minMarkerScale")}
             min={0}
             onChange={(minMarkerScale) =>
               setValue({ ...value, minMarkerScale })
@@ -185,17 +187,19 @@ export function CityScreen({ file, isDarkTheme }: CityScreenProps): ReactNode {
             value={value.minMarkerScale}
           />
           <CheckboxField
-            label="Former home"
+            label={t("cityScreen.formerHome")}
             onChange={(isLived) => setValue({ ...value, isLived })}
             value={value.isLived}
           />
         </div>
       </section>
       <section className="editor-panel">
-        <h2 className="editor-panel__legend">Background images</h2>
+        <h2 className="editor-panel__legend">
+          {t("cityScreen.backgroundImages")}
+        </h2>
         <StringListField
-          hint="One CDN-relative path per line, cycled through on repeat visits."
-          label="Paths"
+          hint={t("cityScreen.pathsHint")}
+          label={t("cityScreen.paths")}
           onChange={(backgroundImages) =>
             setValue({
               ...value,
@@ -207,10 +211,7 @@ export function CityScreen({ file, isDarkTheme }: CityScreenProps): ReactNode {
         />
         {dependents.length > 0 ? (
           <p className="editor-panel__hint">
-            {dependents.length === 1
-              ? "1 trip references"
-              : `${dependents.length} trips reference`}{" "}
-            this city, so it cannot be deleted yet.
+            {t("cityScreen.cannotDelete", { count: dependents.length })}
           </p>
         ) : null}
       </section>
