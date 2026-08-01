@@ -8,3 +8,9 @@ apps/travel-map/.claude/launch.json
 node_modules/
 dist/
 test-results/
+data-copy
+
+# Personal travel data. The repo ships with an empty data/ so a fork starts
+# from scratch; the editor (apps/travel-map-editor) creates this as you add
+# countries, cities, and trips.
+/data/
