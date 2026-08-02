@@ -88,6 +88,23 @@
         width: 3rem;
         z-index: 2;
         opacity: 0.7;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        background: none;
+        padding: 0;
+        cursor: pointer;
+        appearance: none;
+
+        svg {
+          width: 100%;
+          height: 100%;
+        }
+
+        &:focus-visible {
+          @include m.focus-ring();
+        }
       }
       .gallery__content__image__gradient {
         position: absolute;

@@ -1,6 +1,5 @@
 import "./TimelineTransportConnector.scss";
 
-import { City, TransportMode } from "@travelmap/core";
 import { m } from "framer-motion";
 import { Fragment, ReactNode } from "react";
 
@@ -8,29 +7,10 @@ import { CountryFlag } from "@/components/atoms/CountryFlag/CountryFlag";
 import { TransportModeIcon } from "@/components/atoms/TransportModeIcon/TransportModeIcon";
 import { useLanguage } from "@/hooks/language/language";
 import { formatMileage } from "@/utils/format";
-import { formatTripDetailDuration } from "@/utils/tripDetailTimeline";
-
-/**
- * One segment of a (possibly multi-leg) transport connector row.
- * @property {TransportMode} mode - The transport mode
- * @property {City} from - The origin city
- * @property {City} to - The destination city
- * @property {string} [company] - The carrier name
- * @property {number} distanceKm - The distance in kilometers
- * @property {number} durationMinutes - The duration in minutes
- * @property {City[]} [via] - Intermediate cities
- * @property {boolean} [isRoundTrip] - Whether the leg is a round trip
- */
-export type TransportLeg = {
-  mode: TransportMode;
-  from: City;
-  to: City;
-  company?: string;
-  distanceKm: number;
-  durationMinutes: number;
-  via?: City[];
-  isRoundTrip?: boolean;
-};
+import {
+  formatTripDetailDuration,
+  TransportLeg,
+} from "@/utils/tripDetailTimeline";
 
 /**
  * Properties accepted by the TimelineTransportConnector component.

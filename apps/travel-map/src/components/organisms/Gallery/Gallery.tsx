@@ -53,7 +53,7 @@ type GalleryLocationState = {
  * @returns {ReactNode} The gallery page
  */
 export function Gallery(): ReactNode {
-  const { currLanguage } = useLanguage(["home"]);
+  const { currLanguage, t } = useLanguage(["home"]);
   const navigate = useNavigate();
   const routerLocation = useRouterLocation();
   const { city, travelIdx } = useLoaderData() as GalleryProps;
@@ -78,7 +78,9 @@ export function Gallery(): ReactNode {
   const contentRef = useRef<HTMLDivElement | null>(null);
 
   /**
-   * Check overflow.
+   * Recomputes whether the photo album overflows its container, so the
+   * scrollable area only gets its overflow padding when it actually needs
+   * a scrollbar.
    * @returns {void}
    */
   const checkOverflow = () => {
@@ -122,6 +124,7 @@ export function Gallery(): ReactNode {
           travels={getCityPhotoTravels(city, visitedTrips)}
         />
         <CloseButton
+          ariaLabel={t("close")}
           onClick={() => navigate(fromPath ?? (from === "map" ? "/" : "/"))}
         />
       </div>
@@ -147,14 +150,18 @@ export function Gallery(): ReactNode {
                   />
                   {photo.youtube ? (
                     <>
-                      <PlayIcon
+                      <button
+                        aria-label={t("playVideo")}
                         className="gallery__content__image__play"
                         onClick={() =>
                           navigate(`./${photo.index}`, {
                             state: navigationState,
                           })
                         }
-                      />
+                        type="button"
+                      >
+                        <PlayIcon />
+                      </button>
                       <span
                         aria-hidden="true"
                         className="gallery__content__image__gradient"

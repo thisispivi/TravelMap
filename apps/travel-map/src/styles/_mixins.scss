@@ -59,6 +59,11 @@
     box-shadow #{$td} #{$tt};
 }
 
+@mixin focus-ring() {
+  outline: none;
+  box-shadow: 0 0 0 0.1875rem rgba(v.$accentPrimary, 0.5);
+}
+
 @mixin glassmorphism-dark() {
   background: v.$glassBgDark;
   -webkit-backdrop-filter: blur(v.$glassBlur);
@@ -157,10 +162,4 @@
   @include glassmorphism-light();
   border: 0.0625rem solid rgba(0, 0, 0, 0.06);
   border-radius: v.$floatingCardRadiusLg;
-}
-
-@mixin bottom-sheet() {
-  border-radius: v.$bottomSheetRadius;
-  touch-action: none;
-  will-change: transform;
 }

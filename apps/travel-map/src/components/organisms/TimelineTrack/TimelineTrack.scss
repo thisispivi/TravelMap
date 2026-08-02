@@ -173,10 +173,7 @@
   }
 
   .timeline-card {
-    background: v.$glassBgDark;
-    backdrop-filter: blur(v.$glassBlur);
-    -webkit-backdrop-filter: blur(v.$glassBlur);
-    border: 0.0625rem solid v.$glassBorderDark;
+    @include m.glassmorphism-dark();
     box-shadow:
       0 0.0625rem 0.125rem rgba(0, 0, 0, 0.3),
       0 0.0625rem 0.25rem rgba(0, 0, 0, 0.22);
@@ -218,9 +215,7 @@
   }
 
   .timeline-card {
-    background: v.$glassBgLight;
-    backdrop-filter: blur(v.$glassBlur);
-    -webkit-backdrop-filter: blur(v.$glassBlur);
+    @include m.glassmorphism-light();
     border: 0.0625rem solid rgba(0, 0, 0, 0.06);
     box-shadow:
       0 0.0625rem 0.125rem rgba(0, 0, 0, 0.1),
@@ -288,5 +283,11 @@
     .timeline-card__image-container {
       height: 7rem;
     }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .timeline-card__image {
+    transition: none;
   }
 }

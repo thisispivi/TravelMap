@@ -12,6 +12,7 @@ import { isPanelLoadingVisible } from "@/components/molecules/PanelLoading/panel
 import { HomeContext } from "@/components/pages/Home/HomeContext";
 import { visitedTrips } from "@/data";
 import { useLanguage } from "@/hooks/language/language";
+import { useResizeMeasurement } from "@/hooks/layout/useResizeMeasurement";
 import { classNames } from "@/utils/className";
 import { constants } from "@/utils/parameters";
 import { groupTripsByYear } from "@/utils/trips";
@@ -125,28 +126,7 @@ export function TripBrowser(): ReactNode {
     if (next === activeYear) return;
     setActiveYear(next);
   };
-  useEffect(() => {
-    const panel = panelRef.current;
-    if (!panel) return;
-    let frame = window.requestAnimationFrame(() => measureRef.current());
-
-    /**
-     * Schedules .
-     * @returns {void}
-     */
-    const schedule = () => {
-      window.cancelAnimationFrame(frame);
-      frame = window.requestAnimationFrame(() => measureRef.current());
-    };
-    const observer = new ResizeObserver(schedule);
-    observer.observe(panel);
-    window.addEventListener("resize", schedule);
-    return () => {
-      window.cancelAnimationFrame(frame);
-      observer.disconnect();
-      window.removeEventListener("resize", schedule);
-    };
-  }, []);
+  useResizeMeasurement(panelRef, measure);
   useEffect(() => {
     const frame = window.requestAnimationFrame(() => measureRef.current());
     const timeout = window.setTimeout(() => {

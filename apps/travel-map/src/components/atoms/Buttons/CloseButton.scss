@@ -2,11 +2,28 @@
 @use "../../../styles/mixins" as m;
 
 .close-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 1.5rem;
   height: 1.5rem;
-  cursor: pointer;
-  border-radius: 50%;
   padding: 0.15rem;
+  border: none;
+  background: none;
+  border-radius: 50%;
+  cursor: pointer;
+  appearance: none;
+  font: inherit;
+  color: inherit;
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  &:focus-visible {
+    @include m.focus-ring();
+  }
 }
 
 .home--light {

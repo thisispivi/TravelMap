@@ -12,13 +12,17 @@ guidelines when a repository-wide rule changes.
 
 Repository areas:
 
-- `travel-map/`: React, TypeScript, Vite, and SCSS application.
+- `apps/travel-map/`: React, TypeScript, Vite, and SCSS application.
+- `apps/travel-map-editor/`: the companion authoring tool for `data/` content.
+- `packages/core/`: `@travelmap/core`, the shared domain model used by both apps.
 - `scripts/uploader/`: typed Python media uploader.
 - `logos/`: source and exported brand assets.
 
 Verification:
 
-- From `travel-map/`, run `pnpm check` for application changes.
+- From the repository root, run `pnpm check` for application changes (it runs
+  typecheck/lint across the workspace plus `travel-map`'s format/knip/
+  react:doctor checks).
 - Also run `pnpm build` for behavior, dependency, configuration, routing, or
   production-output changes.
 - From the repository root, run

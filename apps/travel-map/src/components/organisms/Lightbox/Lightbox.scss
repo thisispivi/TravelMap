@@ -244,3 +244,12 @@
     color: v.$darkButtonContent;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .lightbox {
+    .lightbox__nav-button,
+    .chevron {
+      transition: none;
+    }
+  }
+}

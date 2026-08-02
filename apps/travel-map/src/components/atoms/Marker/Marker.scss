@@ -1,3 +1,5 @@
+@use "../../../styles/variables" as v;
+
 .map-city-marker {
   --marker-color: #ea4335;
   --marker-hover-color: #ff3d00;
@@ -48,7 +50,7 @@
   }
 
   &--layover {
-    --marker-color: #8a8ea4;
+    --marker-color: #{v.$darkAltTextDarker};
     --marker-hover-color: #c0c0d0;
     opacity: 0.72;
   }

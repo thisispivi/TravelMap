@@ -129,7 +129,7 @@ export function Lightbox(): ReactNode {
     } else {
       return (
         <img
-          alt=""
+          alt={item.alt ?? ""}
           className="image-gallery-image"
           src={
             parameters.isShowPhotos

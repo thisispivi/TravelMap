@@ -1,6 +1,5 @@
 import "./TripDetail.scss";
 
-import { City } from "@travelmap/core";
 import { domAnimation, LazyMotion, m } from "framer-motion";
 import { ReactNode, use, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
@@ -22,199 +21,11 @@ import { useLanguage } from "@/hooks/language/language";
 import { useLocation } from "@/hooks/location/location";
 import { classNames } from "@/utils/className";
 import { formatMileage } from "@/utils/format";
-import { getCityOffsetMinutesOnDate } from "@/utils/timezoneOffset";
 import {
   buildTripDetailTimelineItems,
+  computeTripStats,
   formatTripDetailDuration,
-  TripDetailTimelineItem,
 } from "@/utils/tripDetailTimeline";
-
-/**
- * Adds every timezone offset observed during a city stay to the supplied set.
- * @param {Set<number>} offsets - The timezone offsets collected for the trip
- * @param {City} city - The city whose offsets should be sampled
- * @param {Date} sDate - The first date of the stay
- * @param {Date} eDate - The last date of the stay
- * @returns {void}
- */
-function addCityOffsetsForStop(
-  offsets: Set<number>,
-  city: City,
-  sDate: Date,
-  eDate: Date,
-): void {
-  const start = sDate.getTime() <= eDate.getTime() ? sDate : eDate;
-  const end = sDate.getTime() <= eDate.getTime() ? eDate : sDate;
-  const days =
-    Math.floor(
-      (Date.UTC(end.getFullYear(), end.getMonth(), end.getDate()) -
-        Date.UTC(start.getFullYear(), start.getMonth(), start.getDate())) /
-        86400000,
-    ) + 1;
-
-  for (let i = 0; i < days; i++) {
-    const date = new Date(start);
-    date.setDate(start.getDate() + i);
-    offsets.add(getCityOffsetMinutesOnDate("en-US", city, date));
-  }
-}
-
-/**
- * Transport and stay totals derived from a trip timeline.
- * @property {number} nights - The total number of overnight stays
- * @property {number} flights - The number of flight legs
- * @property {number} flightKm - The total flight distance in kilometres
- * @property {number} flightMinutes - The total time spent flying
- * @property {number} ferries - The number of ferry legs
- * @property {number} ferryKm - The total ferry distance in kilometres
- * @property {number} ferryMinutes - The total time spent on ferries
- * @property {number} trains - The number of train legs
- * @property {number} trainKm - The total train distance in kilometres
- * @property {number} trainMinutes - The total time spent on trains
- * @property {number} buses - The number of bus legs
- * @property {number} busKm - The total bus distance in kilometres
- * @property {number} busMinutes - The total time spent on buses
- * @property {number} taxis - The number of taxi legs
- * @property {number} taxiKm - The total taxi distance in kilometres
- * @property {number} taxiMinutes - The total time spent in taxis
- * @property {number} cars - The number of car legs
- * @property {number} carKm - The total car distance in kilometres
- * @property {number} carMinutes - The total time spent in cars
- * @property {number} walks - The number of walking legs
- * @property {number} walkKm - The total walking distance in kilometres
- * @property {number} walkMinutes - The total time spent walking
- * @property {number} timezoneCount - The number of distinct timezone offsets
- */
-interface TripStats {
-  nights: number;
-  flights: number;
-  flightKm: number;
-  flightMinutes: number;
-  ferries: number;
-  ferryKm: number;
-  ferryMinutes: number;
-  trains: number;
-  trainKm: number;
-  trainMinutes: number;
-  buses: number;
-  busKm: number;
-  busMinutes: number;
-  taxis: number;
-  taxiKm: number;
-  taxiMinutes: number;
-  cars: number;
-  carKm: number;
-  carMinutes: number;
-  walks: number;
-  walkKm: number;
-  walkMinutes: number;
-  timezoneCount: number;
-}
-
-/**
- * Computes transport, stay, and timezone totals for a trip timeline.
- * @param {TripDetailTimelineItem[]} items - The normalized timeline items
- * @returns {TripStats} The aggregate trip statistics
- */
-function computeTripStats(items: TripDetailTimelineItem[]): TripStats {
-  let nights = 0;
-  let flights = 0,
-    flightKm = 0,
-    flightMinutes = 0;
-  let ferries = 0,
-    ferryKm = 0,
-    ferryMinutes = 0;
-  let trains = 0,
-    trainKm = 0,
-    trainMinutes = 0;
-  let buses = 0,
-    busKm = 0,
-    busMinutes = 0;
-  let taxis = 0,
-    taxiKm = 0,
-    taxiMinutes = 0;
-  let cars = 0,
-    carKm = 0,
-    carMinutes = 0;
-  let walks = 0,
-    walkKm = 0,
-    walkMinutes = 0;
-  const timezoneOffsets = new Set<number>();
-  for (const item of items) {
-    if (item.kind === "base-stop") {
-      nights += item.nights;
-      addCityOffsetsForStop(
-        timezoneOffsets,
-        item.city,
-        item.stop.sDate,
-        item.stop.eDate,
-      );
-    } else if (item.kind === "day-trip") {
-      addCityOffsetsForStop(
-        timezoneOffsets,
-        item.city,
-        item.stop.sDate,
-        item.stop.eDate,
-      );
-    } else if (item.kind === "transport") {
-      const mult = item.isRoundTrip ? 2 : 1;
-      if (item.mode === "plane") {
-        flights += mult;
-        flightKm += (item.flightInfo?.distanceKm ?? 0) * mult;
-        flightMinutes += (item.flightInfo?.durationMinutes ?? 0) * mult;
-      } else if (item.mode === "ferry") {
-        ferries += mult;
-        ferryKm += (item.ferryInfo?.distanceKm ?? 0) * mult;
-        ferryMinutes += (item.ferryInfo?.durationMinutes ?? 0) * mult;
-      } else if (item.mode === "train") {
-        trains += mult;
-        trainKm += (item.trainInfo?.distanceKm ?? 0) * mult;
-        trainMinutes += (item.trainInfo?.durationMinutes ?? 0) * mult;
-      } else if (item.mode === "bus") {
-        buses += mult;
-        busKm += (item.busInfo?.distanceKm ?? 0) * mult;
-        busMinutes += (item.busInfo?.durationMinutes ?? 0) * mult;
-      } else if (item.mode === "car") {
-        cars += mult;
-        carKm += (item.carInfo?.distanceKm ?? 0) * mult;
-        carMinutes += (item.carInfo?.durationMinutes ?? 0) * mult;
-      } else if (item.mode === "taxi") {
-        taxis += mult;
-        taxiKm += (item.taxiInfo?.distanceKm ?? 0) * mult;
-        taxiMinutes += (item.taxiInfo?.durationMinutes ?? 0) * mult;
-      } else if (item.mode === "walk") {
-        walks += mult;
-        walkKm += (item.walkInfo?.distanceKm ?? 0) * mult;
-        walkMinutes += (item.walkInfo?.durationMinutes ?? 0) * mult;
-      }
-    }
-  }
-  return {
-    nights,
-    flights,
-    flightKm,
-    flightMinutes,
-    ferries,
-    ferryKm,
-    ferryMinutes,
-    trains,
-    trainKm,
-    trainMinutes,
-    buses,
-    busKm,
-    busMinutes,
-    taxis,
-    taxiKm,
-    taxiMinutes,
-    cars,
-    carKm,
-    carMinutes,
-    walks,
-    walkKm,
-    walkMinutes,
-    timezoneCount: timezoneOffsets.size,
-  };
-}
 
 /**
  * TripDetail component
@@ -240,7 +51,9 @@ export function TripDetail(): ReactNode {
   const timelineItems = trip ? buildTripDetailTimelineItems(trip) : [];
 
   /**
-   * Updates body scrollable.
+   * Recomputes whether the trip detail body overflows its container, so the
+   * scroll-shadow/back-to-trip affordances only show up when there's
+   * actually more content to scroll to.
    * @returns {void}
    */
   const updateBodyScrollable = () => {

@@ -25,6 +25,10 @@
     width: 55%;
     height: 55%;
   }
+
+  &:focus-visible {
+    @include m.focus-ring();
+  }
 }
 
 .home--light,

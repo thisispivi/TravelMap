@@ -209,3 +209,11 @@
     }
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .city-card {
+    .city-card__background-img {
+      transition: none;
+    }
+  }
+}

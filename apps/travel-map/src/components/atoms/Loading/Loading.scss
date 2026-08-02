@@ -50,3 +50,9 @@ div[class*="future"] {
     transform: rotate(1turn);
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .loader {
+    animation: none;
+  }
+}

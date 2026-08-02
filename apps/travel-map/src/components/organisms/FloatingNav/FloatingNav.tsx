@@ -81,9 +81,7 @@ export function FloatingNav({
   const navigate = useNavigate();
   const { activeTab, isGallery } = useLocation();
   const { t } = useLanguage(["home"]);
-  const context = use(HomeContext);
-  const isPanelOpen = context?.isPanelOpen ?? true;
-  const setIsPanelOpen = context?.setIsPanelOpen;
+  const { isPanelOpen, setIsPanelOpen } = use(HomeContext)!;
   const [skipAnimation] = useState(() => navHasAnimated);
   const closePanelTimeoutRef = useRef<number | null>(null);
   const pendingOpenTabRef = useRef<NavTab["id"] | null>(null);
@@ -101,7 +99,7 @@ export function FloatingNav({
   );
   useEffect(() => {
     if (pendingOpenTabRef.current !== activeTab) return;
-    setIsPanelOpen?.(true);
+    setIsPanelOpen(true);
     pendingOpenTabRef.current = null;
   }, [activeTab, setIsPanelOpen]);
   const tabs = NAV_TABS.map((tab) => ({
@@ -126,21 +124,17 @@ export function FloatingNav({
       (tab.id === "trips" || tab.id === "places");
     if (tab.isActive) {
       if (!isPanelOpen) {
-        setIsPanelOpen?.(true);
+        setIsPanelOpen(true);
         return;
       }
-      if (setIsPanelOpen) {
-        setIsPanelOpen(false);
-        closePanelTimeoutRef.current = window.setTimeout(() => {
-          navigate("/", { state: { mapOnly: true } });
-          closePanelTimeoutRef.current = null;
-        }, PANEL_CLOSE_DELAY_MS);
-        return;
-      }
-      navigate("/", { state: { mapOnly: true } });
+      setIsPanelOpen(false);
+      closePanelTimeoutRef.current = window.setTimeout(() => {
+        navigate("/", { state: { mapOnly: true } });
+        closePanelTimeoutRef.current = null;
+      }, PANEL_CLOSE_DELAY_MS);
       return;
     }
-    if (isLeavingBottomPanel && setIsPanelOpen) {
+    if (isLeavingBottomPanel) {
       setIsPanelOpen(false);
       closePanelTimeoutRef.current = window.setTimeout(() => {
         pendingOpenTabRef.current = tab.id;
@@ -149,7 +143,7 @@ export function FloatingNav({
       }, PANEL_CLOSE_DELAY_MS);
       return;
     }
-    if (setIsPanelOpen) setIsPanelOpen(true);
+    setIsPanelOpen(true);
     navigate(tab.path);
   };
   return (
@@ -168,12 +162,16 @@ export function FloatingNav({
           className="floating-nav__logo"
           variants={skipAnimation ? undefined : itemVariants}
         >
-          <m.div whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.95 }}>
-            <LogoIcon
-              className="floating-nav__logo-icon"
-              onClick={() => navigate("/")}
-            />
-          </m.div>
+          <m.button
+            aria-label={t("goHome")}
+            className="floating-nav__logo-button"
+            onClick={() => navigate("/")}
+            type="button"
+            whileHover={{ scale: 1.08 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <LogoIcon className="floating-nav__logo-icon" />
+          </m.button>
         </m.div>
 
         <div className="floating-nav__tabs">

@@ -84,6 +84,10 @@
           }
         }
 
+        &:focus-visible {
+          @include m.focus-ring();
+        }
+
         &.filter__option--select-all {
           margin-bottom: 0.25rem;
           padding-bottom: 0.5rem;

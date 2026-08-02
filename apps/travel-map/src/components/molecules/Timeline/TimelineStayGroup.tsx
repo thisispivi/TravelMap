@@ -1,6 +1,6 @@
 import "./TimelineStayGroup.scss";
 
-import { City, TransportMode, TripStop } from "@travelmap/core";
+import { City, TripStop } from "@travelmap/core";
 import { m } from "framer-motion";
 import { CSSProperties, ReactNode, use, useLayoutEffect, useRef } from "react";
 import { useLocation as useRouterLocation, useNavigate } from "react-router";
@@ -13,39 +13,11 @@ import { useLanguage } from "@/hooks/language/language";
 import { formatDateRangeShort } from "@/i18n/functions/date";
 import { classNames } from "@/utils/className";
 import { formatMileage } from "@/utils/format";
-import { formatTripDetailDuration } from "@/utils/tripDetailTimeline";
+import {
+  ExcursionItem,
+  formatTripDetailDuration,
+} from "@/utils/tripDetailTimeline";
 import { getPhotoTravelIndex } from "@/utils/trips";
-
-/**
- * A single excursion (nested day trip) to be rendered under a stay group.
- * @property {City} city - The excursion city
- * @property {number} travelIdx - The city's travel index
- * @property {TripStop} stop - The excursion stop data
- * @property {string} key - The stable render key
- * @property {{ mode: TransportMode; distanceKm: number; durationMinutes: number; fromCity: City; isRoundTrip?: boolean }} [inboundTransport] - Transport into the excursion
- * @property {{ mode: TransportMode; distanceKm: number; durationMinutes: number; toCity: City }} [returnTransport] - Transport returning from the excursion
- * @property {boolean} chainBreakBefore - Whether a new excursion chain starts here
- */
-export interface ExcursionItem {
-  city: City;
-  travelIdx: number;
-  stop: TripStop;
-  key: string;
-  inboundTransport?: {
-    mode: TransportMode;
-    distanceKm: number;
-    durationMinutes: number;
-    fromCity: City;
-    isRoundTrip?: boolean;
-  };
-  returnTransport?: {
-    mode: TransportMode;
-    distanceKm: number;
-    durationMinutes: number;
-    toCity: City;
-  };
-  chainBreakBefore: boolean;
-}
 
 /**
  * Properties accepted by the TimelineStayGroup component.

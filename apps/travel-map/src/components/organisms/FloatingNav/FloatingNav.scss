@@ -25,11 +25,26 @@
     padding: 0 0.5rem;
     height: 100%;
 
-    .floating-nav__logo-icon {
+    .floating-nav__logo-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       width: 2rem;
       height: 2rem;
+      padding: 0;
+      border: none;
+      background: none;
       cursor: pointer;
-      outline: none !important;
+      appearance: none;
+
+      &:focus-visible {
+        @include m.focus-ring();
+      }
+    }
+
+    .floating-nav__logo-icon {
+      width: 100%;
+      height: 100%;
       display: block;
     }
   }

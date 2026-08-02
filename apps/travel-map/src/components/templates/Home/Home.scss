@@ -1,4 +1,5 @@
 @use "../../../styles/variables" as v;
+@use "../../../styles/mixins" as m;
 
 .home-template {
   height: inherit;
@@ -20,8 +21,6 @@
     font-size: v.$bodySm;
     font-weight: 600;
     white-space: nowrap;
-    -webkit-backdrop-filter: blur(v.$glassBlur);
-    backdrop-filter: blur(v.$glassBlur);
 
     .home-template__back-to-trip-chevron {
       height: 1rem;
@@ -53,10 +52,8 @@
 }
 
 .home--dark .home-template__back-to-trip {
-  background: v.$glassBgDark;
-  border: 0.0625rem solid v.$glassBorderDark;
+  @include m.glassmorphism-dark();
   color: v.$darkButtonContent;
-  box-shadow: v.$glassShadowDark;
 
   .home-template__back-to-trip-chevron path {
     stroke: v.$darkButtonContent;
@@ -64,10 +61,8 @@
 }
 
 .home--light .home-template__back-to-trip {
-  background: v.$glassBgLight;
-  border: 0.0625rem solid v.$glassBorderLight;
+  @include m.glassmorphism-light();
   color: v.$lightButtonContent;
-  box-shadow: v.$glassShadowLight;
 
   .home-template__back-to-trip-chevron path {
     stroke: v.$lightButtonContent;

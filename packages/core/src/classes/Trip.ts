@@ -1,5 +1,7 @@
 import { unique } from "remeda";
 
+import { FerryCompany } from "../typings/FerryCompany";
+import { FlightCompany } from "../typings/FlightCompany";
 import { Image } from "../typings/Image";
 import { localize } from "../typings/Localized";
 import { City } from "./City";
@@ -384,5 +386,3 @@ export class Trip {
     });
   }
 }
-import { FerryCompany } from "../typings/FerryCompany";
-import { FlightCompany } from "../typings/FlightCompany";

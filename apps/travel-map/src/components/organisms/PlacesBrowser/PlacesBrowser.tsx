@@ -14,6 +14,7 @@ import { isPanelLoadingVisible } from "@/components/molecules/PanelLoading/panel
 import { HomeContext } from "@/components/pages/Home/HomeContext";
 import { futureCities, livedCities, visitedCities } from "@/data";
 import { useLanguage } from "@/hooks/language/language";
+import { useResizeMeasurement } from "@/hooks/layout/useResizeMeasurement";
 import { useLocation } from "@/hooks/location/location";
 import { classNames } from "@/utils/className";
 
@@ -199,24 +200,7 @@ export function PlacesBrowser(): ReactNode {
     },
     [],
   );
-  useEffect(() => {
-    const panel = panelRef.current;
-    if (!panel) return;
-    let frame = window.requestAnimationFrame(() =>
-      measurePanelHeightRef.current(),
-    );
-    const observer = new ResizeObserver(() => {
-      window.cancelAnimationFrame(frame);
-      frame = window.requestAnimationFrame(() =>
-        measurePanelHeightRef.current(),
-      );
-    });
-    observer.observe(panel);
-    return () => {
-      window.cancelAnimationFrame(frame);
-      observer.disconnect();
-    };
-  }, []);
+  useResizeMeasurement(panelRef, measurePanelHeight);
   const allCities = (() => {
     switch (state.filter) {
       case "lived":

@@ -57,6 +57,10 @@
     &--clickable {
       cursor: pointer;
     }
+
+    &:focus-visible {
+      @include m.focus-ring();
+    }
   }
 
   .trip-detail__day-trip-thumb {
