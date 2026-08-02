@@ -225,7 +225,7 @@ export function StatsGrid({
 
           <ContinentsChartCard data={stats.continentCities} />
 
-          <CurrencyCard currencies={stats.usedCurrencies} />
+          <CurrencyCard countries={stats.currencyCountries} />
 
           <CompaniesCard
             ferryCompanyStats={stats.ferryCompanyStats}

@@ -16,7 +16,7 @@ import { getCityTravels } from "@/shared/lib/travelQueries";
 
 import { getTotalMediaTaken } from "./cities";
 import { getContinentsByCities, getContinentStats } from "./continents";
-import { getCurrenciesFromCountries } from "./countries";
+import { getCurrencyCountries } from "./countries";
 import {
   getFurthestAndNearestCity,
   getMinAndMaxTransport,
@@ -77,7 +77,7 @@ function computeStats() {
     : undefined;
   const numberTimezonesJumped = getNumberOfTimezonesJumped(visitedCities);
   const totalMediaTaken = getTotalMediaTaken(visitedCities);
-  const usedCurrencies = getCurrenciesFromCountries(visitedCountries);
+  const currencyCountries = getCurrencyCountries(visitedCountries);
   const numUnescoSites = Object.values(parameters.stats.unescoSites).reduce(
     (acc, sites) => acc + sites.length,
     0,
@@ -128,7 +128,7 @@ function computeStats() {
     cityBiggestTimezoneJumpTravel,
     numberTimezonesJumped,
     totalMediaTaken,
-    usedCurrencies,
+    currencyCountries,
     numUnescoSites,
     totalDaysAbroad,
     avgTripDays,

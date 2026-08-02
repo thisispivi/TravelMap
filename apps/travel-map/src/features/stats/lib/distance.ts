@@ -56,10 +56,15 @@ export function getFurthestAndNearestCity(
 ): { furthest: City; nearest: City } | undefined {
   if (cities.length === 0) return undefined;
 
-  const distances = cities.map((city) => ({
-    distance: getCitiesDistance(city, referenceCity),
-    city,
-  }));
+  const distances: { city: City; distance: number }[] = [];
+  for (const city of cities) {
+    if (city.id === referenceCity.id) continue;
+    distances.push({
+      distance: getCitiesDistance(city, referenceCity),
+      city,
+    });
+  }
+  if (distances.length === 0) return undefined;
 
   return {
     furthest: firstBy(distances, (d) => -d.distance)!.city,

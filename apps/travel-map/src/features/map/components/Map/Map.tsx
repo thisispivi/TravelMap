@@ -16,13 +16,14 @@ import { ResponsiveType } from "@/shared/hooks/useResponsive";
 
 import {
   CAMERA_DURATION_MS,
+  getCameraOffset,
   getCameraPadding,
   getTripBounds,
-  MAP_MAX_BOUNDS,
   MAPLIBRE_MAX_ZOOM,
   MAPLIBRE_MIN_ZOOM,
   SINGLE_DESTINATION_ZOOM,
   toMapLibreZoom,
+  WORLD_CENTER,
 } from "../../lib/mapCamera";
 import { createMapStyle, MAP_THEMES } from "../../lib/mapTheme";
 import { getTripLayoverCities } from "../../lib/mapTripCities";
@@ -32,6 +33,8 @@ import { MapLayers } from "./MapLayers";
 import { MapMarkers } from "./MapMarkers";
 
 const HOVER_LEAVE_DELAY_MS = 300;
+const MAP_TILE_SIZE_PX = 512;
+const MIN_ZOOM_EPSILON = 0.01;
 const TOOLTIP_OFFSET_PX = 14;
 const ZOOM_CONTROL_DURATION_MS = 300;
 
@@ -63,6 +66,7 @@ export function Map({ isDarkTheme, responsive }: MapProps): ReactNode {
   const { isTripDetail } = useAppRoute();
   const mapRef = useRef<MapRef>(null);
   const hoverLeaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const isFramingWorld = useRef(false);
   const pinnedCityRef = useRef<City | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -78,7 +82,7 @@ export function Map({ isDarkTheme, responsive }: MapProps): ReactNode {
     map.flyTo({
       center: mapPosition.center,
       zoom: toMapLibreZoom(mapPosition.zoom),
-      padding: getCameraPadding(responsive.window.width, isPanelOpen),
+      offset: getCameraOffset(responsive.window.width, isPanelOpen),
       duration: CAMERA_DURATION_MS,
       essential: true,
     });
@@ -96,7 +100,7 @@ export function Map({ isDarkTheme, responsive }: MapProps): ReactNode {
         zoom: toMapLibreZoom(selectedTrip.mapFocus.zoom),
         duration: CAMERA_DURATION_MS,
         essential: true,
-        padding,
+        offset: getCameraOffset(responsive.window.width, isPanelOpen),
       });
       return;
     }
@@ -177,6 +181,68 @@ export function Map({ isDarkTheme, responsive }: MapProps): ReactNode {
     setHoveredCity(shouldClose ? null : city);
   };
 
+  /**
+   * Centers the complete world in the map area not covered by the panel.
+   * @param {MapRef} map - The active MapLibre map
+   * @param {number} zoom - The viewport-constrained minimum zoom
+   * @returns {void}
+   */
+  const frameWorld = (map: MapRef, zoom: number): void => {
+    isFramingWorld.current = true;
+    map.easeTo({
+      center: WORLD_CENTER,
+      duration: ZOOM_CONTROL_DURATION_MS,
+      essential: true,
+      offset: getCameraOffset(responsive.window.width, isPanelOpen),
+      zoom,
+    });
+  };
+
+  /**
+   * Zooms out one level or frames the complete world when the next zoom step
+   * would reach MapLibre's viewport-constrained minimum zoom.
+   * @returns {void}
+   */
+  const handleZoomOut = (): void => {
+    const map = mapRef.current;
+    if (!map) return;
+
+    const viewportMinZoom = Math.max(
+      MAPLIBRE_MIN_ZOOM,
+      Math.log2(map.getCanvas().clientHeight / MAP_TILE_SIZE_PX),
+    );
+
+    if (map.getZoom() - 1 > viewportMinZoom) {
+      map.zoomOut({ duration: ZOOM_CONTROL_DURATION_MS });
+      return;
+    }
+
+    frameWorld(map, viewportMinZoom);
+  };
+
+  /**
+   * Applies the same complete-world framing after trackpad or mouse-wheel zoom.
+   * @returns {void}
+   */
+  const handleZoomEnd = (): void => {
+    if (isFramingWorld.current) {
+      isFramingWorld.current = false;
+      return;
+    }
+
+    const map = mapRef.current;
+    if (!map) return;
+
+    const viewportMinZoom = Math.max(
+      MAPLIBRE_MIN_ZOOM,
+      Math.log2(map.getCanvas().clientHeight / MAP_TILE_SIZE_PX),
+    );
+
+    if (map.getZoom() > viewportMinZoom + MIN_ZOOM_EPSILON) return;
+
+    frameWorld(map, viewportMinZoom);
+  };
+
   const layoverCities =
     isTripDetail && selectedTrip
       ? getTripLayoverCities(selectedTrip, [
@@ -208,14 +274,8 @@ export function Map({ isDarkTheme, responsive }: MapProps): ReactNode {
         minPitch={0}
         minZoom={MAPLIBRE_MIN_ZOOM}
         onClick={closeTooltip}
-        onLoad={(event) => {
-          try {
-            event.target.setMaxBounds(MAP_MAX_BOUNDS);
-          } catch (error) {
-            console.error("Map.setMaxBounds failed", error);
-          }
-          setIsLoaded(true);
-        }}
+        onLoad={() => setIsLoaded(true)}
+        onZoomEnd={handleZoomEnd}
         ref={mapRef}
         renderWorldCopies={false}
         touchPitch={false}
@@ -265,9 +325,7 @@ export function Map({ isDarkTheme, responsive }: MapProps): ReactNode {
         <Button
           ariaLabel={t("map.zoomOut")}
           className="map-zoom-controls__button"
-          onClick={() =>
-            mapRef.current?.zoomOut({ duration: ZOOM_CONTROL_DURATION_MS })
-          }
+          onClick={handleZoomOut}
         >
           −
         </Button>

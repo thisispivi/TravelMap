@@ -90,11 +90,13 @@ export const livedCities: City[] = world.livedCities;
 export const futureCities: City[] = world.futureCities;
 export const homeCity: City | null = world.homeCity;
 export const visitedCities: City[] = unique(
-  visitedTrips.flatMap((trip) =>
-    trip.destinations.flatMap((destination) =>
+  visitedTrips.flatMap((trip) => [
+    trip.origin.city,
+    ...trip.destinations.flatMap((destination) =>
       destination.isLayover ? [] : [destination.city],
     ),
-  ),
+    trip.returnTo.city,
+  ]),
 ).sort((first, second) => first.name.localeCompare(second.name));
 export const visitedCountries: Country[] = unique(
   visitedCities.map((city) => city.country),

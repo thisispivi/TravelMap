@@ -1,75 +1,47 @@
 import "./RowCurrency.scss";
 
-import { Currency } from "@travelmap/core";
+import { Country } from "@travelmap/core";
 import { ReactNode } from "react";
 
+import { CountryFlag } from "@/shared/components/CountryFlag/CountryFlag";
 import { Row } from "@/shared/components/Row/Row";
 import { useLanguage } from "@/shared/hooks/useLanguage";
 
-/**
- * Resolves a currency's localized display name through the browser's CLDR data.
- * @param {string} currency - ISO 4217 currency code
- * @param {string} locale - Active UI locale
- * @returns {string} Localized currency name with the code as fallback
- */
-function getCurrencyName(currency: string, locale: string): string {
-  return (
-    new Intl.DisplayNames([locale], { type: "currency" }).of(currency) ??
-    currency
-  );
-}
-
-/**
- * Resolves a compact localized currency symbol without rendering a country flag.
- * @param {string} currency - ISO 4217 currency code
- * @param {string} locale - Active UI locale
- * @returns {string} Currency symbol or code
- */
-function getCurrencySymbol(currency: string, locale: string): string {
-  return (
-    new Intl.NumberFormat(locale, {
-      currency,
-      currencyDisplay: "narrowSymbol",
-      style: "currency",
-    })
-      .formatToParts(0)
-      .find(({ type }) => type === "currency")?.value ?? currency
-  );
-}
+import { getCurrencyDisplay } from "../../lib/countries";
 
 /**
  * Properties accepted by the CurrencyRow component.
- * @property {string} [className] - The class name
- * @property {Currency} [currency] - The currency
+ * @property {string} [className] - Additional class names
+ * @property {Country} country - Representative country for the currency
  */
 interface CurrencyRowProps {
   className?: string;
-  currency?: Currency;
+  country: Country;
 }
 
 /**
  * CurrencyRow component
- * Displays a localized currency name and symbol from browser locale data.
- * @component
+ * Displays a visited country's flag with its localized currency name and symbol.
  * @param {CurrencyRowProps} props - The currency row props
- * @param {Currency} [props.currency] - Currency to display
+ * @param {Country} props.country - Representative country and currency to display
  * @param {string} [props.className=""] - Additional class names
  * @returns {ReactNode} The currency row
  */
 export function CurrencyRow({
-  currency,
+  country,
   className = "",
 }: CurrencyRowProps): ReactNode {
-  const { currLanguage } = useLanguage(["home"]);
-  if (!currency) return null;
+  const { t } = useLanguage(["home"]);
+  const currency = getCurrencyDisplay(country, t);
+
   return (
     <Row className={`currency-row ${className}`}>
-      <p className="currency-row__name">
-        {getCurrencyName(currency, currLanguage)}
-      </p>
-      <b className="currency-row__symbol">
-        {getCurrencySymbol(currency, currLanguage)}
-      </b>
+      <CountryFlag
+        className="currency-row__flag"
+        countryId={currency.countryId}
+      />
+      <p className="currency-row__name">{currency.name}</p>
+      <b className="currency-row__symbol">{currency.symbol}</b>
     </Row>
   );
 }

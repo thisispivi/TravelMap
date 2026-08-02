@@ -7,10 +7,7 @@ export const CAMERA_DURATION_MS = 1100;
 export const MAPLIBRE_MIN_ZOOM = 0;
 export const MAPLIBRE_MAX_ZOOM = 12;
 export const SINGLE_DESTINATION_ZOOM = 6.5;
-export const MAP_MAX_BOUNDS: [[number, number], [number, number]] = [
-  [-179, -72],
-  [179, 74],
-];
+export const WORLD_CENTER: [number, number] = [0, 0];
 
 const SIDE_PANEL_BREAKPOINT_PX = 680;
 const SIDE_PANEL_CLEARANCE_PX = 432;
@@ -46,6 +43,23 @@ export function getCameraPadding(
     bottom: ZOOM_CONTROLS_CLEARANCE_PX,
     left: SIDE_PANEL_CLEARANCE_PX,
   };
+}
+
+/**
+ * Calculates a temporary camera offset that keeps a target clear of the panel
+ * without retaining asymmetric padding on later user-controlled camera moves.
+ * @param {number} viewportWidth - The current map canvas width in pixels
+ * @param {boolean} isPanelOpen - Whether a content panel is visible
+ * @returns {[number, number]} The horizontal and vertical target offset
+ */
+export function getCameraOffset(
+  viewportWidth: number,
+  isPanelOpen: boolean,
+): [number, number] {
+  const padding = getCameraPadding(viewportWidth, isPanelOpen);
+  const { bottom = 0, left = 0, right = 0, top = 0 } = padding;
+
+  return [(left - right) / 2, (top - bottom) / 2];
 }
 
 /**

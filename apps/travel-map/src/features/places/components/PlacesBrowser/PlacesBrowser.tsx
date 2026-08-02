@@ -147,6 +147,7 @@ export function PlacesBrowser(): ReactNode {
     const cards = gridPage
       ? [...gridPage.querySelectorAll<HTMLElement>(".city-card")]
       : [];
+    const emptyState = gridPage?.querySelector<HTMLElement>(".empty-state");
     const gridPageHeight =
       gridPage && cards.length > 0
         ? Math.max(
@@ -156,7 +157,7 @@ export function PlacesBrowser(): ReactNode {
                 gridPage.getBoundingClientRect().top,
             ),
           )
-        : (gridPage?.scrollHeight ?? 0);
+        : (emptyState?.offsetHeight ?? 0);
     const fixedHeight =
       parseFloat(style.paddingTop) +
       parseFloat(style.paddingBottom) +
@@ -299,11 +300,9 @@ export function PlacesBrowser(): ReactNode {
         className="places-browser"
         exit={{ scale: 0.98, x: "-120%" }}
         initial={skipEntrance ? false : { scale: 0.98, x: "-120%" }}
-        layout="size"
         ref={panelRef}
         style={{ height: state.panelHeight ?? "auto" }}
         transition={{
-          layout: { duration: 0.2, ease: [0.35, 0, 0.25, 1] },
           scale: { duration: 0.22, ease: [0.35, 0, 0.25, 1] },
           x: { duration: 0.22, ease: [0.35, 0, 0.25, 1] },
         }}

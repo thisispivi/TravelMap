@@ -1,6 +1,6 @@
 import "./CurrencyCard.scss";
 
-import { Currency } from "@travelmap/core";
+import { Country } from "@travelmap/core";
 import { ReactNode } from "react";
 
 import { useLanguage } from "@/shared/hooks/useLanguage";
@@ -10,10 +10,10 @@ import { CurrencyRow } from "../../rows/RowCurrency";
 
 /**
  * Props for the CurrencyCard component.
- * @property {Currency[]} currencies - Currencies used across all visited countries.
+ * @property {Country[]} countries - Representative visited countries for each currency.
  */
 export type CurrencyCardProps = {
-  currencies: Currency[];
+  countries: Country[];
 };
 
 /**
@@ -22,10 +22,10 @@ export type CurrencyCardProps = {
  * as pill badges with flag, name, and symbol.
  * @component
  * @param {CurrencyCardProps} props
- * @param {Currency[]} props.currencies - Currencies encountered while traveling
+ * @param {Country[]} props.countries - Representative countries for currencies encountered while traveling
  * @returns {ReactNode} The currency bento card
  */
-export function CurrencyCard({ currencies }: CurrencyCardProps): ReactNode {
+export function CurrencyCard({ countries }: CurrencyCardProps): ReactNode {
   const { t } = useLanguage(["home"]);
 
   return (
@@ -34,8 +34,8 @@ export function CurrencyCard({ currencies }: CurrencyCardProps): ReactNode {
         <h2>{t("stats.currency")}</h2>
       </div>
       <div className="bento-currency">
-        {currencies.map((currency) => (
-          <CurrencyRow currency={currency} key={currency} />
+        {countries.map((country) => (
+          <CurrencyRow country={country} key={country.currency} />
         ))}
       </div>
     </Card>
