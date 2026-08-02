@@ -115,7 +115,8 @@
     "SOUTH_AMERICA": "South America"
   },
   "visited": {
-    "title": "My Trips"
+    "title": "My Trips",
+    "empty": "No trips yet."
   },
   "tripCard": {
     "openTrip": "Open {{trip}}"
@@ -129,9 +130,15 @@
       "visited": "Show places I have visited.",
       "lived": "Show places I have lived in.",
       "future": "Show future destinations."
+    },
+    "empty": {
+      "visited": "No visited cities yet.",
+      "lived": "No former homes yet.",
+      "future": "No future destinations yet."
     }
   },
   "stats": {
+    "empty": "No data yet.",
     "aroundEarth": "around the Earth",
     "biggestTimezoneJump": "Largest timezone jump",
     "cities": "Cities",
@@ -281,6 +288,7 @@
   },
   "timeline": {
     "title": "Timeline",
+    "empty": "No timeline data yet.",
     "city_one": "{{count}} city",
     "city_other": "{{count}} cities"
   },

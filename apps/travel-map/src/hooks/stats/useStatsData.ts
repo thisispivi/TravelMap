@@ -47,12 +47,17 @@ function computeStats() {
     TOTAL_UNESCO_SITES,
   } = constants;
   const visitedCountriesCount = visitedCountries.length;
-  const { furthest: furthestCity, nearest: nearestCity } = parameters.homeCity
+  const furthestAndNearestCity = parameters.homeCity
     ? getFurthestAndNearestCity(visitedCities, parameters.homeCity)
-    : { furthest: undefined, nearest: undefined };
-  const { max: maxFlight, min: minFlight } =
-    getMinAndMaxTransport(takenFlights);
-  const { max: maxFerry, min: minFerry } = getMinAndMaxTransport(takenFerries);
+    : undefined;
+  const furthestCity = furthestAndNearestCity?.furthest;
+  const nearestCity = furthestAndNearestCity?.nearest;
+  const flightData = getMinAndMaxTransport(takenFlights);
+  const minFlight = flightData?.min;
+  const maxFlight = flightData?.max;
+  const ferryData = getMinAndMaxTransport(takenFerries);
+  const minFerry = ferryData?.min;
+  const maxFerry = ferryData?.max;
   const totalMileage = getTotalMileage(takenFlights, takenFerries);
   const totalMileageAroundEarth = (
     Number(totalMileage) / EARTH_CIRCUMFERENCE
@@ -88,11 +93,11 @@ function computeStats() {
     visitedTrips.length > 0
       ? Math.round(totalDaysAbroad / visitedTrips.length)
       : 0;
-  const firstTripYear = Math.min(
-    ...visitedTrips.map((t) => t.sDate.getFullYear()),
-  );
   const yearsTraveling =
-    visitedTrips.length > 0 ? new Date().getFullYear() - firstTripYear : 0;
+    visitedTrips.length > 0
+      ? new Date().getFullYear() -
+        Math.min(...visitedTrips.map((t) => t.sDate.getFullYear()))
+      : 0;
   const transportModeStats = getTransportModeStats(
     visitedTrips,
     takenFlights,

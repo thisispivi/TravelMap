@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 
 import babel from "@rolldown/plugin-babel";
@@ -85,7 +85,7 @@ function siteBranding(site: SiteDetails): Plugin {
      * Adds generated domain and manifest assets to the production bundle.
      * @returns {void}
      */
-    generateBundle() {
+    generateBundle(): void {
       if (site.domain) {
         this.emitFile({
           fileName: "CNAME",
@@ -102,9 +102,21 @@ function siteBranding(site: SiteDetails): Plugin {
   };
 }
 
-const site = JSON.parse(
-  readFileSync(resolve(__dirname, "../../data/site.config.json"), "utf8"),
-).site as SiteDetails;
+// A fork starts with an empty data/, so the build must not require
+// site.config.json (or a fully-filled-in `site` block) to exist yet.
+const DEFAULT_SITE: SiteDetails = {
+  name: "Travel Map",
+  domain: "",
+  description: "A personal map of travels.",
+  author: "",
+  keywords: [],
+};
+const siteConfigPath = resolve(__dirname, "../../data/site.config.json");
+const configuredSite = existsSync(siteConfigPath)
+  ? (JSON.parse(readFileSync(siteConfigPath, "utf8")).site as
+      Partial<SiteDetails> | undefined)
+  : undefined;
+const site: SiteDetails = { ...DEFAULT_SITE, ...configuredSite };
 
 export default defineConfig({
   plugins: [

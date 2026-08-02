@@ -48,12 +48,14 @@ export function getCitiesDistance(start: City, end: City): number {
  * Get the furthest and nearest cities from a reference city.
  * @param {City[]} cities - The list of cities
  * @param {City} referenceCity - The reference city
- * @returns {{ furthest: City; nearest: City }} The furthest and nearest cities
+ * @returns {{ furthest: City; nearest: City } | undefined} The furthest and nearest cities, or undefined when there are none
  */
 export function getFurthestAndNearestCity(
   cities: City[],
   referenceCity: City,
-): { furthest: City; nearest: City } {
+): { furthest: City; nearest: City } | undefined {
+  if (cities.length === 0) return undefined;
+
   const distances = cities.map((city) => ({
     distance: getCitiesDistance(city, referenceCity),
     city,
@@ -74,13 +76,12 @@ type TransportWithDistance = { distanceInKm: number };
 /**
  * Get the minimum and maximum transports from a list of transports.
  * @param {T[]} transports - The list of transports
- * @returns {{ min: T; max: T }} The minimum and maximum transports
+ * @returns {{ min: T; max: T } | undefined} The minimum and maximum transports
  */
 export function getMinAndMaxTransport<T extends TransportWithDistance>(
   transports: T[],
-): { min: T; max: T } {
-  if (transports.length === 0)
-    throw new Error("getMinAndMaxTransport: transports must not be empty");
+): { min: T; max: T } | undefined {
+  if (transports.length === 0) return;
 
   return {
     min: firstBy(transports, (t) => t.distanceInKm)!,

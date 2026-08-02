@@ -115,7 +115,8 @@
     "SOUTH_AMERICA": "Sud America"
   },
   "visited": {
-    "title": "I miei viaggi"
+    "title": "I miei viaggi",
+    "empty": "Nessun viaggio ancora."
   },
   "tripCard": {
     "openTrip": "Apri {{trip}}"
@@ -129,9 +130,15 @@
       "visited": "Mostra i luoghi che ho visitato.",
       "lived": "Mostra i luoghi in cui ho vissuto.",
       "future": "Mostra le destinazioni future."
+    },
+    "empty": {
+      "visited": "Nessuna città visitata ancora.",
+      "lived": "Nessuna ex residenza ancora.",
+      "future": "Nessuna destinazione futura ancora."
     }
   },
   "stats": {
+    "empty": "Nessun dato ancora.",
     "aroundEarth": "intorno alla Terra",
     "biggestTimezoneJump": "Maggiore salto di fuso orario",
     "cities": "Città",
@@ -281,6 +288,7 @@
   },
   "timeline": {
     "title": "Cronologia",
+    "empty": "Nessun dato di cronologia ancora.",
     "city_one": "{{count}} città",
     "city_other": "{{count}} città"
   },

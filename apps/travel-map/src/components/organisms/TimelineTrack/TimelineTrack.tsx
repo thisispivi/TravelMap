@@ -6,6 +6,7 @@ import { useNavigate } from "react-router";
 
 import CalendarIcon from "@/assets/icons/Calendar.svg?react";
 import { CountryFlag } from "@/components/atoms/CountryFlag/CountryFlag";
+import { EmptyState } from "@/components/atoms/EmptyState/EmptyState";
 import { visitedTrips } from "@/data";
 import { useLanguage } from "@/hooks/language/language";
 import { formatDateRangeShort } from "@/i18n/functions/date";
@@ -44,6 +45,7 @@ type TimelineCardItemProps = TripItem;
  * @returns {ReactNode} The timeline track
  */
 export function TimelineTrack(): ReactNode {
+  const { t } = useLanguage(["home"]);
   const yearGroups = (() => {
     const sorted = visitedTrips.toSorted(
       (a, b) => b.sDate.getTime() - a.sDate.getTime(),
@@ -76,10 +78,16 @@ export function TimelineTrack(): ReactNode {
   return (
     <LazyMotion features={domAnimation}>
       <div className="timeline-track">
-        <div className="timeline-track__line" />
-        {yearGroups.map(({ year, trips }) => (
-          <TimelineYearGroup key={year} trips={trips} year={year} />
-        ))}
+        {yearGroups.length > 0 ? (
+          <>
+            <div className="timeline-track__line" />
+            {yearGroups.map(({ year, trips }) => (
+              <TimelineYearGroup key={year} trips={trips} year={year} />
+            ))}
+          </>
+        ) : (
+          <EmptyState message={t("timeline.empty")} />
+        )}
       </div>
     </LazyMotion>
   );

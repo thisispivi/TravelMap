@@ -24,6 +24,7 @@ import { useStatsData } from "@/hooks/stats/useStatsData";
 import { classNames } from "@/utils/className";
 import { constants } from "@/utils/parameters";
 
+import { EmptyState } from "../../atoms/EmptyState/EmptyState";
 import { StatTile } from "../../atoms/StatTile/StatTile";
 import { CitiesPerCountryCard } from "./cards/CitiesPerCountryCard";
 import { CompaniesCard } from "./cards/CompaniesCard";
@@ -66,6 +67,7 @@ export function StatsGrid({
   const bentoRef = useRef<HTMLDivElement | null>(null);
   const [isScrollable, setIsScrollable] = useState(false);
   const { TOTAL_CONTINENTS, TOTAL_COUNTRIES, TOTAL_UNESCO_SITES } = constants;
+  const hasData = visitedTrips.length > 0 || visitedCities.length > 0;
 
   /**
    * Updates scrollable state.
@@ -115,133 +117,137 @@ export function StatsGrid({
         <h1>{t("stats.title")}</h1>
       </div>
 
-      <div
-        className={classNames(
-          "stats-bento",
-          isScrollable && "stats-bento--scrollable",
-        )}
-        id="stats-bento"
-        ref={bentoRef}
-      >
-        {stats.furthestCity && stats.nearestCity ? (
-          <MileageCard
-            furthestCity={stats.furthestCity}
-            nearestCity={stats.nearestCity}
-            totalMileage={stats.totalMileage}
-            totalMileageAroundEarth={stats.totalMileageAroundEarth}
-            totalMileageToMoon={stats.totalMileageToMoon}
+      {hasData ? (
+        <div
+          className={classNames(
+            "stats-bento",
+            isScrollable && "stats-bento--scrollable",
+          )}
+          id="stats-bento"
+          ref={bentoRef}
+        >
+          {stats.furthestCity && stats.nearestCity ? (
+            <MileageCard
+              furthestCity={stats.furthestCity}
+              nearestCity={stats.nearestCity}
+              totalMileage={stats.totalMileage}
+              totalMileageAroundEarth={stats.totalMileageAroundEarth}
+              totalMileageToMoon={stats.totalMileageToMoon}
+            />
+          ) : null}
+
+          <CoverageCard
+            allContinents={stats.allContinents}
+            totalContinents={TOTAL_CONTINENTS}
+            visitedContinents={stats.visitedContinents}
           />
-        ) : null}
 
-        <CoverageCard
-          allContinents={stats.allContinents}
-          totalContinents={TOTAL_CONTINENTS}
-          visitedContinents={stats.visitedContinents}
-        />
-
-        <StatTile
-          className="bento-stat--globe"
-          icon={GlobeIcon}
-          label={t("stats.countries")}
-          suffix={`/ ${TOTAL_COUNTRIES}`}
-          value={stats.visitedCountriesCount}
-        />
-        <StatTile
-          icon={CityIcon}
-          label={t("stats.cities")}
-          value={visitedCities.length}
-        />
-        <StatTile
-          icon={MapIcon}
-          label={t("stats.trips")}
-          value={visitedTrips.length}
-        />
-        <StatTile
-          icon={SunIcon}
-          label={t("stats.daysAbroad")}
-          value={stats.totalDaysAbroad}
-        />
-
-        <TransportCard
-          cityBiggestTimezoneJump={stats.cityBiggestTimezoneJump}
-          cityBiggestTimezoneJumpTravel={stats.cityBiggestTimezoneJumpTravel}
-          maxFerry={stats.maxFerry}
-          maxFlight={stats.maxFlight}
-          minFerry={stats.minFerry}
-          minFlight={stats.minFlight}
-          takenFerries={takenFerries}
-          takenFlights={takenFlights}
-        />
-
-        <PopulationCard cities={visitedCities} />
-
-        <DaysPerYearCard trips={visitedTrips} />
-
-        <StatTile
-          icon={AirplaneIcon}
-          label={t("stats.flights")}
-          value={takenFlights.length}
-        />
-        <StatTile
-          icon={FerryIcon}
-          label={t("stats.ferries")}
-          value={takenFerries.length}
-        />
-        <StatTile
-          icon={TimezoneIcon}
-          label={t("stats.timezoneJumped")}
-          value={stats.numberTimezonesJumped}
-        />
-        <StatTile
-          className="bento-stat--calendar"
-          icon={CalendarIcon}
-          label={t("stats.avgTrip")}
-          suffix={t("stats.daySuffix")}
-          value={stats.avgTripDays}
-        />
-        <StatTile
-          className="bento-stat--wide"
-          icon={CameraIcon}
-          label={t("stats.media")}
-          value={stats.totalMediaTaken.toLocaleString(currLanguage)}
-        />
-        <StatTile
-          className="bento-stat--wide"
-          icon={UnescoIcon}
-          label={t("stats.unesco")}
-          suffix={`/ ${TOTAL_UNESCO_SITES}`}
-          value={stats.numUnescoSites}
-        />
-        <StatTile
-          className="bento-stat--wide bento-stat--hide-compact"
-          icon={MoonIcon}
-          label={t("stats.yearsTraveling")}
-          suffix={t("stats.yearSuffix")}
-          value={stats.yearsTraveling}
-        />
-
-        <ContinentsChartCard data={stats.continentCities} />
-
-        <CurrencyCard currencies={stats.usedCurrencies} />
-
-        <CompaniesCard
-          ferryCompanyStats={stats.ferryCompanyStats}
-          flightCompanyStats={stats.flightCompanyStats}
-        />
-
-        <div className="bento-panel--stack">
-          <TransportModesCard
-            className="bento-detail card--box-shadow bento-detail__top--no-mb"
-            data={stats.transportModeStats}
-            title={t("stats.transportModes")}
+          <StatTile
+            className="bento-stat--globe"
+            icon={GlobeIcon}
+            label={t("stats.countries")}
+            suffix={`/ ${TOTAL_COUNTRIES}`}
+            value={stats.visitedCountriesCount}
           />
-          <CitiesPerCountryCard
-            className="bento-detail bento-cities-per-country card--box-shadow bento-detail__top--no-mb"
-            data={stats.countryVisitStats}
-            maxItems={10}
+          <StatTile
+            icon={CityIcon}
+            label={t("stats.cities")}
+            value={visitedCities.length}
           />
+          <StatTile
+            icon={MapIcon}
+            label={t("stats.trips")}
+            value={visitedTrips.length}
+          />
+          <StatTile
+            icon={SunIcon}
+            label={t("stats.daysAbroad")}
+            value={stats.totalDaysAbroad}
+          />
+
+          <TransportCard
+            cityBiggestTimezoneJump={stats.cityBiggestTimezoneJump}
+            cityBiggestTimezoneJumpTravel={stats.cityBiggestTimezoneJumpTravel}
+            maxFerry={stats.maxFerry}
+            maxFlight={stats.maxFlight}
+            minFerry={stats.minFerry}
+            minFlight={stats.minFlight}
+            takenFerries={takenFerries}
+            takenFlights={takenFlights}
+          />
+
+          <PopulationCard cities={visitedCities} />
+
+          <DaysPerYearCard trips={visitedTrips} />
+
+          <StatTile
+            icon={AirplaneIcon}
+            label={t("stats.flights")}
+            value={takenFlights.length}
+          />
+          <StatTile
+            icon={FerryIcon}
+            label={t("stats.ferries")}
+            value={takenFerries.length}
+          />
+          <StatTile
+            icon={TimezoneIcon}
+            label={t("stats.timezoneJumped")}
+            value={stats.numberTimezonesJumped}
+          />
+          <StatTile
+            className="bento-stat--calendar"
+            icon={CalendarIcon}
+            label={t("stats.avgTrip")}
+            suffix={t("stats.daySuffix")}
+            value={stats.avgTripDays}
+          />
+          <StatTile
+            className="bento-stat--wide"
+            icon={CameraIcon}
+            label={t("stats.media")}
+            value={stats.totalMediaTaken.toLocaleString(currLanguage)}
+          />
+          <StatTile
+            className="bento-stat--wide"
+            icon={UnescoIcon}
+            label={t("stats.unesco")}
+            suffix={`/ ${TOTAL_UNESCO_SITES}`}
+            value={stats.numUnescoSites}
+          />
+          <StatTile
+            className="bento-stat--wide bento-stat--hide-compact"
+            icon={MoonIcon}
+            label={t("stats.yearsTraveling")}
+            suffix={t("stats.yearSuffix")}
+            value={stats.yearsTraveling}
+          />
+
+          <ContinentsChartCard data={stats.continentCities} />
+
+          <CurrencyCard currencies={stats.usedCurrencies} />
+
+          <CompaniesCard
+            ferryCompanyStats={stats.ferryCompanyStats}
+            flightCompanyStats={stats.flightCompanyStats}
+          />
+
+          <div className="bento-panel--stack">
+            <TransportModesCard
+              className="bento-detail card--box-shadow bento-detail__top--no-mb"
+              data={stats.transportModeStats}
+              title={t("stats.transportModes")}
+            />
+            <CitiesPerCountryCard
+              className="bento-detail bento-cities-per-country card--box-shadow bento-detail__top--no-mb"
+              data={stats.countryVisitStats}
+              maxItems={10}
+            />
+          </div>
         </div>
-      </div>
+      ) : (
+        <EmptyState message={t("stats.empty")} />
+      )}
     </div>
   );
 }

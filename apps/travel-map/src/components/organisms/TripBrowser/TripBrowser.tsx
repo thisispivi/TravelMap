@@ -6,6 +6,7 @@ import { ReactNode, use, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { keys } from "remeda";
 
+import { EmptyState } from "@/components/atoms/EmptyState/EmptyState";
 import { TripCard } from "@/components/molecules/Cards/TripCard";
 import { isPanelLoadingVisible } from "@/components/molecules/PanelLoading/panelLoadingState";
 import { HomeContext } from "@/components/pages/Home/HomeContext";
@@ -64,6 +65,10 @@ export function TripBrowser(): ReactNode {
     const page = panel.querySelector<HTMLElement>(
       `.trip-browser__trips[data-trip-year="${activeYear}"]`,
     );
+    // No page exists at all once there are no years to show — the empty-state
+    // message takes its place, and still needs to be counted so the panel
+    // doesn't collapse to header height and clip it.
+    const emptyState = list?.querySelector<HTMLElement>(".empty-state");
     const listStyle = list ? window.getComputedStyle(list) : null;
     const pageStyle = page ? window.getComputedStyle(page) : null;
     const cards = page
@@ -78,7 +83,7 @@ export function TripBrowser(): ReactNode {
                 page.getBoundingClientRect().top,
             ),
           ) + (pageStyle ? parseFloat(pageStyle.paddingBottom) : 0)
-        : (page?.scrollHeight ?? 0);
+        : (page?.scrollHeight ?? emptyState?.scrollHeight ?? 0);
     const fixedHeight =
       parseFloat(style.paddingTop) +
       parseFloat(style.paddingBottom) +
@@ -182,22 +187,24 @@ export function TripBrowser(): ReactNode {
           <h2>{t("visited.title")}</h2>
         </div>
 
-        <div className="trip-browser__year-selector">
-          {years.map((year, i) => (
-            <button
-              className={classNames(
-                "trip-browser__year-btn",
-                activeYear === parseInt(year, 10) &&
-                  "trip-browser__year-btn--active",
-              )}
-              key={year}
-              onClick={() => selectYear(year)}
-              type="button"
-            >
-              {i === years.length - 1 ? `≤ ${year}` : year}
-            </button>
-          ))}
-        </div>
+        {years.length > 0 ? (
+          <div className="trip-browser__year-selector">
+            {years.map((year, i) => (
+              <button
+                className={classNames(
+                  "trip-browser__year-btn",
+                  activeYear === parseInt(year, 10) &&
+                    "trip-browser__year-btn--active",
+                )}
+                key={year}
+                onClick={() => selectYear(year)}
+                type="button"
+              >
+                {i === years.length - 1 ? `≤ ${year}` : year}
+              </button>
+            ))}
+          </div>
+        ) : null}
 
         <div
           className={classNames(
@@ -205,34 +212,38 @@ export function TripBrowser(): ReactNode {
             isListScrollable && "trip-browser__list--scrollable",
           )}
         >
-          <m.div
-            className="trip-browser__list-stage"
-            layout="size"
-            style={{ height: stageHeight ?? "auto" }}
-            transition={{ duration: 0 }}
-          >
-            {years.map((year, index) => (
-              <m.div
-                animate={{ x: `${(index - activeYearIndex) * 100}%` }}
-                className="trip-browser__trips"
-                data-trip-year={year}
-                initial={false}
-                key={year}
-                transition={{
-                  duration: TRIP_YEAR_TRANSITION_DURATION_MS / 1000,
-                  ease: [0.35, 0, 0.25, 1],
-                }}
-              >
-                {(groups[Number(year)] ?? []).map((trip: Trip) => (
-                  <TripCard
-                    key={trip.id}
-                    onSelect={() => openTrip(trip)}
-                    trip={trip}
-                  />
-                ))}
-              </m.div>
-            ))}
-          </m.div>
+          {years.length > 0 ? (
+            <m.div
+              className="trip-browser__list-stage"
+              layout="size"
+              style={{ height: stageHeight ?? "auto" }}
+              transition={{ duration: 0 }}
+            >
+              {years.map((year, index) => (
+                <m.div
+                  animate={{ x: `${(index - activeYearIndex) * 100}%` }}
+                  className="trip-browser__trips"
+                  data-trip-year={year}
+                  initial={false}
+                  key={year}
+                  transition={{
+                    duration: TRIP_YEAR_TRANSITION_DURATION_MS / 1000,
+                    ease: [0.35, 0, 0.25, 1],
+                  }}
+                >
+                  {(groups[Number(year)] ?? []).map((trip: Trip) => (
+                    <TripCard
+                      key={trip.id}
+                      onSelect={() => openTrip(trip)}
+                      trip={trip}
+                    />
+                  ))}
+                </m.div>
+              ))}
+            </m.div>
+          ) : (
+            <EmptyState message={t("visited.empty")} />
+          )}
         </div>
       </m.div>
     </LazyMotion>

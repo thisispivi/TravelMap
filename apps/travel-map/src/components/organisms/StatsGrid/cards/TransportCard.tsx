@@ -15,20 +15,20 @@ import { TransportRow } from "../../../molecules/Row/RowTransport";
  * Props for the TransportCard component.
  * @property {Flight[]} takenFlights - All flights taken.
  * @property {Ferry[]} takenFerries - All ferries taken.
- * @property {Flight} maxFlight - Longest flight taken.
- * @property {Flight} minFlight - Shortest flight taken.
- * @property {Ferry} maxFerry - Longest ferry taken.
- * @property {Ferry} minFerry - Shortest ferry taken.
+ * @property {Flight} [maxFlight] - Longest flight taken, when at least one flight was taken.
+ * @property {Flight} [minFlight] - Shortest flight taken, when at least one flight was taken.
+ * @property {Ferry} [maxFerry] - Longest ferry taken, when at least one ferry was taken.
+ * @property {Ferry} [minFerry] - Shortest ferry taken, when at least one ferry was taken.
  * @property {City} [cityBiggestTimezoneJump] - City with the biggest timezone jump from home.
  * @property {{ sDate?: Date; eDate?: Date }} [cityBiggestTimezoneJumpTravel] - Travel dates for the timezone jump city.
  */
 export type TransportCardProps = {
   takenFlights: Flight[];
   takenFerries: Ferry[];
-  maxFlight: Flight;
-  minFlight: Flight;
-  maxFerry: Ferry;
-  minFerry: Ferry;
+  maxFlight?: Flight;
+  minFlight?: Flight;
+  maxFerry?: Ferry;
+  minFerry?: Ferry;
   cityBiggestTimezoneJump?: City;
   cityBiggestTimezoneJumpTravel?: { sDate?: Date; eDate?: Date };
 };
@@ -41,10 +41,10 @@ export type TransportCardProps = {
  * @param {TransportCardProps} props
  * @param {Flight[]} props.takenFlights - All recorded flights
  * @param {Ferry[]} props.takenFerries - All recorded ferry crossings
- * @param {Flight} props.maxFlight - The longest recorded flight
- * @param {Flight} props.minFlight - The shortest recorded flight
- * @param {Ferry} props.maxFerry - The longest recorded ferry crossing
- * @param {Ferry} props.minFerry - The shortest recorded ferry crossing
+ * @param {Flight} [props.maxFlight] - The longest recorded flight
+ * @param {Flight} [props.minFlight] - The shortest recorded flight
+ * @param {Ferry} [props.maxFerry] - The longest recorded ferry crossing
+ * @param {Ferry} [props.minFerry] - The shortest recorded ferry crossing
  * @param {City} [props.cityBiggestTimezoneJump] - City with the largest timezone jump
  * @param {{ sDate?: Date; eDate?: Date }} [props.cityBiggestTimezoneJumpTravel] - Dates for the largest timezone jump
  * @returns {ReactNode} The transport bento card
@@ -72,28 +72,38 @@ export function TransportCard({
           />
         </div>
         <div className="bento-transport__rows bento-detail__rows">
-          <div className="bento-detail__row">
-            <p className="bento-detail__row-label">
-              {t("stats.longestFlight")}
-            </p>
-            <TransportRow transport={maxFlight} />
-          </div>
-          <div className="bento-detail__row">
-            <p className="bento-detail__row-label">
-              {t("stats.shortestFlight")}
-            </p>
-            <TransportRow transport={minFlight} />
-          </div>
-          <div className="bento-detail__row">
-            <p className="bento-detail__row-label">{t("stats.longestFerry")}</p>
-            <TransportRow transport={maxFerry} />
-          </div>
-          <div className="bento-detail__row">
-            <p className="bento-detail__row-label">
-              {t("stats.shortestFerry")}
-            </p>
-            <TransportRow transport={minFerry} />
-          </div>
+          {maxFlight && minFlight ? (
+            <>
+              <div className="bento-detail__row">
+                <p className="bento-detail__row-label">
+                  {t("stats.longestFlight")}
+                </p>
+                <TransportRow transport={maxFlight} />
+              </div>
+              <div className="bento-detail__row">
+                <p className="bento-detail__row-label">
+                  {t("stats.shortestFlight")}
+                </p>
+                <TransportRow transport={minFlight} />
+              </div>
+            </>
+          ) : null}
+          {maxFerry && minFerry ? (
+            <>
+              <div className="bento-detail__row">
+                <p className="bento-detail__row-label">
+                  {t("stats.longestFerry")}
+                </p>
+                <TransportRow transport={maxFerry} />
+              </div>
+              <div className="bento-detail__row">
+                <p className="bento-detail__row-label">
+                  {t("stats.shortestFerry")}
+                </p>
+                <TransportRow transport={minFerry} />
+              </div>
+            </>
+          ) : null}
           {cityBiggestTimezoneJump ? (
             <div className="bento-detail__row">
               <p className="bento-detail__row-label">

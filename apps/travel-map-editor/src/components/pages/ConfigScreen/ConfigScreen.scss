@@ -36,23 +36,32 @@
 
   &__add {
     display: flex;
-    align-items: flex-end;
+    align-items: flex-start;
     gap: 0.5rem;
 
     .editor-field {
       flex: 1;
+    }
+
+    > .editor-button {
+      margin-top: 1.25rem;
     }
   }
 
   &__company {
     display: grid;
     grid-template-columns: minmax(6rem, auto) 1fr 1fr auto;
-    align-items: flex-end;
+    align-items: start;
     gap: 0.75rem;
+
+    > .editor-button {
+      margin-top: 1.25rem;
+    }
   }
 
   &__company-id {
     padding: 0.6rem 0;
+    margin-top: 1.25rem;
     font-family: ui-monospace, "SFMono-Regular", monospace;
     font-size: v.$caption;
     overflow: hidden;

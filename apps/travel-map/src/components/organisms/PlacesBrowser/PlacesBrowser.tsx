@@ -6,6 +6,7 @@ import { ReactNode, use, useEffect, useReducer, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 
 import FilterIcon from "@/assets/icons/Filter.svg?react";
+import { EmptyState } from "@/components/atoms/EmptyState/EmptyState";
 import { SegmentedControl } from "@/components/atoms/SegmentedControl/SegmentedControl";
 import { CityCard } from "@/components/molecules/Cards/CityCard";
 import { FilterByCountry } from "@/components/molecules/FilterByCountry/FilterByCountry";
@@ -376,15 +377,19 @@ export function PlacesBrowser(): ReactNode {
                 }}
                 variants={gridPageVariants}
               >
-                {cities.map((city) => (
-                  <CityCard
-                    city={city}
-                    isClickable
-                    key={city.name}
-                    setHoveredCity={setHoveredCity}
-                    setMapPosition={setMapPosition}
-                  />
-                ))}
+                {cities.length > 0 ? (
+                  cities.map((city) => (
+                    <CityCard
+                      city={city}
+                      isClickable
+                      key={city.name}
+                      setHoveredCity={setHoveredCity}
+                      setMapPosition={setMapPosition}
+                    />
+                  ))
+                ) : (
+                  <EmptyState message={t(`places.empty.${state.filter}`)} />
+                )}
               </m.div>
             </AnimatePresence>
           </div>

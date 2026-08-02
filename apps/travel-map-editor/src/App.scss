@@ -107,7 +107,7 @@ body,
   &__row {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
-    align-items: end;
+    align-items: start;
     gap: 1rem;
   }
 }
@@ -176,8 +176,7 @@ body,
   }
 }
 
-.editor--dark
-  .editor-button:not(.editor-button--primary):not(.editor-button--danger) {
+.editor--dark .editor-button:not(.editor-button--primary):not(.editor-button--danger) {
   background-color: v.$darkButton;
   color: v.$darkButtonContent;
 
@@ -185,8 +184,7 @@ body,
     background-color: v.$darkButtonHover;
   }
 }
-.editor--light
-  .editor-button:not(.editor-button--primary):not(.editor-button--danger) {
+.editor--light .editor-button:not(.editor-button--primary):not(.editor-button--danger) {
   background-color: v.$lightButton;
   color: v.$lightButtonContent;
 
