@@ -170,12 +170,20 @@ export function buildWorld(sources: WorldSources): World {
    */
   const resolveCities = (ids: string[] = []): City[] =>
     ids.map((id) => requireReference(citiesById, id, "config"));
+  const livedCities = Array.from(
+    new Map(
+      [
+        ...Array.from(citiesById.values()).filter((city) => city.isLived),
+        ...resolveCities(sources.livedCityIds),
+      ].map((city) => [city.id, city]),
+    ).values(),
+  );
 
   return {
     countriesById,
     citiesById,
     trips,
-    livedCities: resolveCities(sources.livedCityIds),
+    livedCities,
     futureCities: resolveCities(sources.futureCityIds),
     homeCity: sources.homeCityId
       ? requireReference(citiesById, sources.homeCityId, "config")

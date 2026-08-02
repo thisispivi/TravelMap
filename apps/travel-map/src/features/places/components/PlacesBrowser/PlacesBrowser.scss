@@ -84,6 +84,13 @@
         calc((100% - 0.625rem) / 2)
       );
     }
+
+    &.places-browser__grid-page--empty {
+      display: flex;
+      min-height: 7.5rem;
+      align-items: center;
+      justify-content: center;
+    }
   }
 }
 

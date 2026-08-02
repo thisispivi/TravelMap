@@ -73,9 +73,16 @@
     .map-tooltip__footer__button {
       padding-inline: 0.75rem;
       border-radius: 0.5rem;
+      border-color: transparent;
+      box-shadow: none;
       height: 2rem;
       width: 100%;
       gap: 0.4rem;
+
+      &:hover,
+      &:focus-visible {
+        box-shadow: none;
+      }
 
       p {
         font-size: v.$bodySm;

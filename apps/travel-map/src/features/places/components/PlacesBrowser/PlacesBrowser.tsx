@@ -349,6 +349,7 @@ export function PlacesBrowser(): ReactNode {
                 className={classNames(
                   "places-browser__grid-page",
                   cities.length === 1 && "places-browser__grid-page--single",
+                  cities.length === 0 && "places-browser__grid-page--empty",
                 )}
                 custom={state.transitionDirection}
                 data-places-filter={state.filter}
