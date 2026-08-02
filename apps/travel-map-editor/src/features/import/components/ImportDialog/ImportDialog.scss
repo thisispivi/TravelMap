@@ -1,0 +1,108 @@
+@use "variables" as v;
+@use "mixins" as m;
+
+.import-dialog {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: min(52rem, 94vw);
+  max-height: 88vh;
+  padding: 1.1rem;
+  border: 0;
+  border-radius: v.$floatingCardRadius;
+  overflow-y: auto;
+
+  &::backdrop {
+    background: rgb(0 0 0 / 45%);
+  }
+
+  &__title {
+    font-size: v.$headingMd;
+    font-weight: 600;
+  }
+
+  &__summary {
+    font-size: v.$bodySm;
+    font-weight: 600;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  &__file {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+
+  &__table-scroll {
+    max-height: 40vh;
+    overflow: auto;
+  }
+
+  &__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: v.$bodySm;
+
+    th,
+    td {
+      padding: 0.35rem 0.5rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      font-size: v.$caption;
+      text-transform: uppercase;
+    }
+  }
+
+  &__candidates {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+
+  &__unmatched {
+    color: v.$languageButtonContent;
+  }
+}
+
+.editor--dark .import-dialog {
+  @include m.full-panel-dark;
+
+  color: v.$darkButtonContent;
+
+  .import-dialog__table th {
+    background: v.$darkInfoTab;
+    color: v.$darkAltTextDarker;
+  }
+
+  .import-dialog__table tbody tr:hover {
+    background: v.$darkButton;
+  }
+}
+
+.editor--light .import-dialog {
+  @include m.full-panel-light;
+
+  color: v.$lightButtonContent;
+
+  .import-dialog__table th {
+    background: v.$lightLeftBar;
+    color: v.$lightAltTextDarker;
+  }
+
+  .import-dialog__table tbody tr:hover {
+    background: v.$lightButton;
+  }
+}

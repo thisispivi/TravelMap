@@ -1,0 +1,36 @@
+@use "variables" as v;
+
+.preview-frame {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  &__widths {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  &__viewport {
+    display: flex;
+    justify-content: center;
+    height: 32vh;
+    overflow: auto;
+  }
+
+  &__iframe {
+    height: 100%;
+    max-width: 100%;
+    border: 0;
+    border-radius: 0.5rem;
+  }
+}
+
+.editor--dark .preview-frame__iframe {
+  background: v.$darkBackground;
+}
+
+.editor--light .preview-frame__iframe {
+  background: v.$lightBackground;
+}

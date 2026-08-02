@@ -1,28 +1,21 @@
 import "./App.scss";
 
+import MoonFilledIcon from "@app/assets/icons/MoonFilled.svg?react";
+import SunFilledIcon from "@app/assets/icons/SunFilled.svg?react";
 import { useLanguage } from "@app/shared/hooks/useLanguage";
 import { useThemeDetector } from "@app/shared/hooks/useThemeDetector";
 import { classNames } from "@app/shared/lib/classNames";
 import { ReactNode } from "react";
 import { Link, Route, Routes, useParams } from "react-router";
 
-import { Nav } from "./components/organisms/Nav/Nav";
-import { CityScreen } from "./components/pages/CityScreen/CityScreen";
-import { ConfigScreen } from "./components/pages/ConfigScreen/ConfigScreen";
-import { CountryScreen } from "./components/pages/CountryScreen/CountryScreen";
-import {
-  CreateKind,
-  CreateScreen,
-} from "./components/pages/CreateScreen/CreateScreen";
-import { Overview } from "./components/pages/Overview/Overview";
-import { TripScreen } from "./components/pages/TripScreen/TripScreen";
-import { cities, config, countries, DataFile, trips } from "./core/dataset";
-import { reviewDataset } from "./core/validation";
-
-// buildWorld walks the whole dataset, so it runs once per document load rather
-// than on every render.
-const report = reviewDataset();
-const CREATE_KINDS: CreateKind[] = ["city", "trip"];
+import { DataFile } from "./data/store";
+import { Library } from "./features/library/components/Library/Library";
+import { CommandPalette } from "./features/palette/components/CommandPalette/CommandPalette";
+import { CityScreen } from "./features/places/components/CityScreen/CityScreen";
+import { CountryScreen } from "./features/places/components/CountryScreen/CountryScreen";
+import { SettingsScreen } from "./features/settings/components/SettingsScreen/SettingsScreen";
+import { Workspace } from "./features/workspace/components/Workspace/Workspace";
+import { useDataset } from "./shared/hooks/useDataset";
 
 /**
  * Finds an editor document by its stable identifier.
@@ -60,18 +53,30 @@ function MissingDocument(): ReactNode {
 }
 
 /**
- * CountryRoute component
- * Resolves the country id in the route to its document.
+ * TripRoute component
+ * Opens the workspace for the trip named in the route. The workspace is keyed
+ * by dataset path so switching trips starts a fresh draft and history rather
+ * than carrying one trip's undo stack into another.
  * @component
- * @returns {ReactNode} The country screen or a not-found message
+ * @param {TripRouteProps} props
+ * @param {boolean} props.isDarkTheme - Whether the dark map theme is active
+ * @returns {ReactNode} The workspace or a not-found message
  */
-function CountryRoute(): ReactNode {
-  const file = findById(countries, useParams().id);
+function TripRoute({ isDarkTheme }: TripRouteProps): ReactNode {
+  const file = findById(useDataset().trips, useParams().id);
   return file ? (
-    <CountryScreen file={file} key={file.path} />
+    <Workspace file={file} isDarkTheme={isDarkTheme} key={file.path} />
   ) : (
     <MissingDocument />
   );
+}
+
+/**
+ * Props for TripRoute.
+ * @property {boolean} isDarkTheme - Whether the dark map theme is active
+ */
+interface TripRouteProps {
+  isDarkTheme: boolean;
 }
 
 /**
@@ -83,7 +88,7 @@ function CountryRoute(): ReactNode {
  * @returns {ReactNode} The city screen or a not-found message
  */
 function CityRoute({ isDarkTheme }: CityRouteProps): ReactNode {
-  const file = findById(cities, useParams().id);
+  const file = findById(useDataset().cities, useParams().id);
   return file ? (
     <CityScreen file={file} isDarkTheme={isDarkTheme} key={file.path} />
   ) : (
@@ -100,43 +105,41 @@ interface CityRouteProps {
 }
 
 /**
- * TripRoute component
- * Resolves the trip id in the route to its document.
+ * CountryRoute component
+ * Resolves the country id in the route to its document.
  * @component
- * @returns {ReactNode} The trip screen or a not-found message
+ * @returns {ReactNode} The country screen or a not-found message
  */
-function TripRoute(): ReactNode {
-  const file = findById(trips, useParams().id);
+function CountryRoute(): ReactNode {
+  const file = findById(useDataset().countries, useParams().id);
   return file ? (
-    <TripScreen file={file} key={file.path} />
+    <CountryScreen file={file} key={file.path} />
   ) : (
     <MissingDocument />
   );
 }
 
 /**
- * CreateRoute component
- * Resolves the create route to a supported document kind.
+ * SettingsRoute component
+ * Opens the site configuration, which exists whether or not the fork has a
+ * file for it yet.
  * @component
- * @returns {ReactNode} The create screen or a not-found message
+ * @returns {ReactNode} The settings screen
  */
-function CreateRoute(): ReactNode {
-  const { kind } = useParams();
-  return CREATE_KINDS.includes(kind as CreateKind) ? (
-    <CreateScreen key={kind} kind={kind as CreateKind} />
-  ) : (
-    <MissingDocument />
-  );
+function SettingsRoute(): ReactNode {
+  return <SettingsScreen file={useDataset().config} key="site-config" />;
 }
 
 /**
  * App component
- * The editor shell: a filterable sidebar beside the active document screen,
- * themed with the same tokens and dark/light switch as the public site.
+ * The editor shell. Everything is one of two things: the library of trips, or
+ * the workspace for one of them. Documents that exist to support a trip are
+ * reachable but never the starting point.
  * @component
  * @returns {ReactNode} The local editor UI
  */
 export function App(): ReactNode {
+  const { t } = useLanguage(["editor"]);
   const { isDarkTheme, handleDarkModeSwitch } = useThemeDetector();
   return (
     <div
@@ -145,21 +148,31 @@ export function App(): ReactNode {
         isDarkTheme ? "editor--dark" : "editor--light",
       )}
     >
-      <Nav
-        isDarkTheme={isDarkTheme}
-        onToggleTheme={handleDarkModeSwitch}
-        problemCount={report.errors.length}
-      />
+      <button
+        aria-label={t(isDarkTheme ? "nav.switchToLight" : "nav.switchToDark")}
+        className="editor__theme-toggle"
+        onClick={handleDarkModeSwitch}
+        type="button"
+      >
+        {isDarkTheme ? (
+          <SunFilledIcon aria-hidden="true" />
+        ) : (
+          <MoonFilledIcon aria-hidden="true" />
+        )}
+      </button>
+      <CommandPalette />
       <Routes>
-        <Route element={<Overview report={report} />} path="/" />
-        <Route element={<ConfigScreen file={config} />} path="/config" />
-        <Route element={<CreateRoute />} path="/new/:kind" />
-        <Route element={<CountryRoute />} path="/countries/:id" />
+        <Route element={<Library />} path="/" />
+        <Route element={<SettingsRoute />} path="/settings" />
+        <Route
+          element={<TripRoute isDarkTheme={isDarkTheme} />}
+          path="/trip/:id"
+        />
         <Route
           element={<CityRoute isDarkTheme={isDarkTheme} />}
-          path="/cities/:id"
+          path="/places/cities/:id"
         />
-        <Route element={<TripRoute />} path="/trips/:id" />
+        <Route element={<CountryRoute />} path="/places/countries/:id" />
         <Route element={<MissingDocument />} path="*" />
       </Routes>
     </div>

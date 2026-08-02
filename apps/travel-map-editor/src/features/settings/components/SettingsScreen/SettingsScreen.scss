@@ -1,0 +1,112 @@
+@use "variables" as v;
+
+.settings-screen {
+  &__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__tag {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.25rem 0.35rem 0.25rem 0.65rem;
+    border-radius: 62.4375rem;
+    font-family: ui-monospace, "SFMono-Regular", monospace;
+    font-size: v.$caption;
+  }
+
+  &__tag-remove {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.15rem;
+    height: 1.15rem;
+    border: 0;
+    border-radius: 62.4375rem;
+    background: transparent;
+    font-size: v.$bodySm;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  &__add {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+
+    .editor-field {
+      flex: 1;
+    }
+
+    > .editor-button {
+      margin-top: 1.25rem;
+    }
+  }
+
+  &__company {
+    display: grid;
+    grid-template-columns: minmax(6rem, auto) 1fr 1fr auto;
+    align-items: start;
+    gap: 0.75rem;
+
+    > .editor-button {
+      margin-top: 1.25rem;
+    }
+  }
+
+  &__company-id {
+    padding: 0.6rem 0;
+    margin-top: 1.25rem;
+    font-family: ui-monospace, "SFMono-Regular", monospace;
+    font-size: v.$caption;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.editor--dark .settings-screen {
+  &__tag {
+    background-color: v.$darkButton;
+    color: v.$darkButtonContent;
+  }
+  &__tag-remove {
+    color: v.$darkAltText;
+
+    &:hover {
+      background-color: v.$darkButtonHover;
+      color: v.$darkButtonContent;
+    }
+  }
+  &__company-id {
+    color: v.$darkAltTextDarker;
+  }
+}
+
+.editor--light .settings-screen {
+  &__tag {
+    background-color: v.$lightButton;
+    color: v.$lightButtonContent;
+  }
+  &__tag-remove {
+    color: v.$lightAltText;
+
+    &:hover {
+      background-color: v.$lightButtonHover;
+      color: v.$lightButtonContent;
+    }
+  }
+  &__company-id {
+    color: v.$lightAltTextDarker;
+  }
+}
+
+@media (max-width: 48rem) {
+  .settings-screen__company {
+    grid-template-columns: 1fr;
+  }
+}

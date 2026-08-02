@@ -6,10 +6,13 @@
   "scripts": {
     "dev": "vite",
     "lint": "eslint . --report-unused-disable-directives --max-warnings=0",
-    "test": "node --experimental-strip-types src/core/geo.test.ts",
+    "test": "node --experimental-strip-types src/features/places/lib/googleMaps.test.ts && node --experimental-strip-types src/features/import/lib/parsePlaces.test.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/sortable": "^10.0.0",
+    "@dnd-kit/utilities": "^3.2.2",
     "@travelmap/core": "workspace:*",
     "all-the-cities": "^3.1.0",
     "downshift": "^9.4.0",

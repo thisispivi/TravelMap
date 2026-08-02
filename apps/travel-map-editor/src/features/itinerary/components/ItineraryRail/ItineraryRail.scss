@@ -1,0 +1,202 @@
+@use "variables" as v;
+
+.itinerary-rail {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  height: 100%;
+  padding: 0.75rem;
+  overflow-y: auto;
+
+  &--empty {
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0.5rem;
+    text-align: left;
+  }
+
+  &__empty-title {
+    font-size: v.$headingMd;
+    font-weight: 600;
+  }
+
+  &__empty-hint {
+    font-size: v.$bodySm;
+  }
+
+  &__day {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  &__day-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.25rem 0.35rem;
+    border-radius: 0.5rem;
+    font-size: v.$caption;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 2px solid v.$accentPrimary;
+      outline-offset: 2px;
+    }
+  }
+
+  &__rows {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__row {
+    display: grid;
+    grid-template-columns: 1.75rem minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem;
+    border-radius: 0.6rem;
+    border-left: 3px solid transparent;
+
+    &--selected {
+      border-left-color: v.$accentPrimary;
+    }
+
+    &--blocking .itinerary-rail__issues {
+      color: v.$visitedButtonContent;
+    }
+
+    &--warning .itinerary-rail__issues {
+      color: v.$languageButtonContent;
+    }
+  }
+
+  &__bead {
+    display: grid;
+    place-items: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    font-size: v.$caption;
+    font-weight: 600;
+
+    svg {
+      width: 0.9rem;
+      height: 0.9rem;
+    }
+  }
+
+  &__summary {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    min-width: 0;
+    padding: 0.15rem 0.25rem;
+    border: 0;
+    background: none;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 2px solid v.$accentPrimary;
+      outline-offset: 2px;
+      border-radius: 0.35rem;
+    }
+  }
+
+  &__title {
+    overflow: hidden;
+    font-size: v.$bodySm;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__meta,
+  &__issues {
+    font-size: v.$caption;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 0.15rem;
+  }
+
+  &__action {
+    min-width: 1.75rem;
+    min-height: 1.75rem;
+    padding: 0;
+    border: 0;
+    border-radius: 0.4rem;
+    background: none;
+    color: inherit;
+    cursor: pointer;
+
+    &:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    &:focus-visible {
+      outline: 2px solid v.$accentPrimary;
+      outline-offset: 1px;
+    }
+
+    &--danger:hover:not(:disabled) {
+      color: v.$visitedButtonContent;
+    }
+  }
+
+  &__add {
+    align-self: flex-start;
+  }
+}
+
+.editor--dark .itinerary-rail {
+  &__day-heading,
+  &__meta {
+    color: v.$darkAltTextDarker;
+  }
+
+  &__bead {
+    background: v.$darkButton;
+  }
+
+  &__row--selected,
+  &__row:hover {
+    background: v.$darkButton;
+  }
+}
+
+.editor--light .itinerary-rail {
+  &__day-heading,
+  &__meta {
+    color: v.$lightAltTextDarker;
+  }
+
+  &__bead {
+    background: v.$lightButton;
+  }
+
+  &__row--selected,
+  &__row:hover {
+    background: v.$lightButton;
+  }
+}
+
+@media (max-width: 56.25rem) {
+  .itinerary-rail__action {
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+  }
+}

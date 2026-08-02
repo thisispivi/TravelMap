@@ -1,0 +1,156 @@
+@use "variables" as v;
+@use "mixins" as m;
+
+.workspace {
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  height: 100vh;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.6rem 0.9rem;
+    border-bottom: 1px solid;
+  }
+
+  &__back {
+    font-size: v.$caption;
+    white-space: nowrap;
+  }
+
+  &__identity {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__title {
+    overflow: hidden;
+    font-size: v.$headingMd;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__summary {
+    font-size: v.$caption;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  &__recovery {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 0.9rem;
+    background: v.$languageButton;
+    color: v.$languageButtonContent;
+    font-size: v.$bodySm;
+  }
+
+  &__panes {
+    display: grid;
+    grid-template-columns: 20rem minmax(0, 1fr) 22.5rem;
+    min-height: 0;
+  }
+
+  &__rail,
+  &__inspector {
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  &__rail {
+    border-right: 1px solid;
+  }
+
+  &__inspector {
+    border-left: 1px solid;
+  }
+
+  &__map {
+    min-height: 0;
+  }
+}
+
+.editor--dark .workspace {
+  background: v.$darkBackground;
+  color: v.$darkButtonContent;
+
+  .workspace__header,
+  .workspace__rail,
+  .workspace__inspector {
+    border-color: v.$glassBorderDark;
+  }
+
+  .workspace__summary {
+    color: v.$darkAltTextDarker;
+  }
+}
+
+.editor--light .workspace {
+  background: v.$lightBackground;
+  color: v.$lightButtonContent;
+
+  .workspace__header,
+  .workspace__rail,
+  .workspace__inspector {
+    border-color: rgb(0 0 0 / 10%);
+  }
+
+  .workspace__summary {
+    color: v.$lightAltTextDarker;
+  }
+}
+
+@media (max-width: 81.25rem) {
+  .workspace__panes {
+    grid-template-columns: 20rem minmax(0, 1fr);
+  }
+
+  .workspace__inspector {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    width: min(22.5rem, 90vw);
+    transform: translateX(100%);
+
+    @include m.transition(transform, 0.2s);
+
+    &--active {
+      transform: translateX(0);
+    }
+  }
+
+  .editor--dark .workspace__inspector {
+    @include m.full-panel-dark;
+  }
+
+  .editor--light .workspace__inspector {
+    @include m.full-panel-light;
+  }
+}
+
+@media (max-width: 56.25rem) {
+  .workspace__panes {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) 40vh;
+  }
+
+  .workspace__rail {
+    border-right: 0;
+    border-bottom: 1px solid;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .workspace__inspector {
+    transition: none;
+  }
+}

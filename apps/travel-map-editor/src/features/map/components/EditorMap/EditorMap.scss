@@ -1,0 +1,53 @@
+@use "variables" as v;
+
+.editor-map {
+  position: relative;
+  height: 100%;
+  min-height: 20rem;
+  overflow: hidden;
+
+  &__marker {
+    display: grid;
+    place-items: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    padding: 0;
+    border: 2px solid rgb(255 255 255 / 85%);
+    border-radius: 50%;
+    background: v.$accentPrimary;
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.15s ease;
+
+    &:hover,
+    &:focus-visible {
+      transform: scale(1.15);
+    }
+
+    &:focus-visible {
+      outline: 2px solid v.$accentPrimary;
+      outline-offset: 3px;
+    }
+
+    &--selected {
+      transform: scale(1.25);
+      box-shadow: 0 0 0 4px rgb(0 0 0 / 20%);
+    }
+  }
+
+  &__actions {
+    position: absolute;
+    bottom: 0.75rem;
+    left: 0.75rem;
+    display: flex;
+    gap: 0.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .editor-map__marker {
+    transition: none;
+  }
+}

@@ -272,5 +272,243 @@
     "readyToAdd": "Ready to add.",
     "unescoSites": "UNESCO sites",
     "unescoSitesHint": "Only used to count how many sites you have visited. Leave empty to show a zero."
+  },
+  "library": {
+    "eyebrow": "Dataset",
+    "title": "Trips",
+    "newTrip": "New trip",
+    "settings": "Settings",
+    "welcome": "No trips yet",
+    "welcomeHint": "A trip is the only thing you create here. The cities and countries it needs are written for you as you add places.",
+    "step1": "Create a trip and give it a title.",
+    "step2": "Add places to its itinerary. Each one writes its city, and its country when it is the first place there.",
+    "step3": "Commit the files under data/ with git to publish them.",
+    "stopCount_one": "{{count}} stop",
+    "stopCount_other": "{{count}} stops",
+    "readyBadge": "Ready",
+    "blockingBadge_one": "{{count}} problem",
+    "blockingBadge_other": "{{count}} problems",
+    "health": "Dataset health",
+    "loadsCleanly": "The dataset loads cleanly.",
+    "places": "Countries and cities",
+    "placesHint": "Cities and countries are created for you. Open one only to correct it.",
+    "placesCount": "{{countries}} countries, {{cities}} cities"
+  },
+  "workspace": {
+    "backToLibrary": "Trips",
+    "undo": "Undo",
+    "redo": "Redo",
+    "recoveryFound": "Unsaved changes from {{at}} were found in this browser.",
+    "restore": "Restore",
+    "discard": "Discard",
+    "summary": "{{steps}} steps, {{cities}} cities"
+  },
+  "rail": {
+    "emptyTitle": "Nothing in this itinerary yet",
+    "emptyHint": "Add the first place you went. The city file, its country, and the leg that reaches it are written for you.",
+    "addStop": "Add place",
+    "dayNumber": "Day {{number}}",
+    "unscheduled": "Unscheduled",
+    "blockingCount_one": "{{count}} problem",
+    "blockingCount_other": "{{count}} problems",
+    "warningCount_one": "{{count}} warning",
+    "warningCount_other": "{{count}} warnings",
+    "dragHandle": "Reorder step {{position}}"
+  },
+  "inspector": {
+    "title": "Details",
+    "trip": "Trip",
+    "stop": "Stay",
+    "leg": "Leg",
+    "openCity": "Open city file",
+    "more": "More options",
+    "gallery": "Gallery",
+    "galleryHint": "Galleries come from scripts/uploader; the editor only references them.",
+    "minPhotos": "Minimum photos per row",
+    "maxPhotos": "Maximum photos per row",
+    "targetRowHeight": "Target row height",
+    "rowConstraintsHint": "Gallery layout hints used by the public site.",
+    "useSuggestion": "Use",
+    "greatCircle": "great-circle",
+    "forThisMode": "for this mode",
+    "suggestMode": "Suggested: {{mode}}",
+    "endpointsHint": "Endpoints follow the stays on either side of this leg.",
+    "mapFocus": "Map focus",
+    "mapFocusAuto": "Fitted to the trip",
+    "clearMapFocus": "Clear map focus",
+    "mergeWithPrevious": "Merge into the previous stay"
+  },
+  "map": {
+    "fitToTrip": "Fit to trip",
+    "useThisView": "Use this view",
+    "selectStop": "Select stop {{position}}, {{city}}"
+  },
+  "tray": {
+    "title": "Validation and changes",
+    "validation": "Validation",
+    "changes_one": "Changes ({{count}})",
+    "changes_other": "Changes ({{count}})",
+    "blockingSummary_one": "{{count}} blocking problem",
+    "blockingSummary_other": "{{count}} blocking problems",
+    "warningSummary_one": "{{count}} warning",
+    "warningSummary_other": "{{count}} warnings",
+    "cleanSummary": "No blocking problems",
+    "noIssues_one": "Nothing to fix. {{steps}} step.",
+    "noIssues_other": "Nothing to fix. {{steps}} steps.",
+    "noChanges": "Nothing written this session.",
+    "commitHint": "The editor writes files; git publishes them.",
+    "change": {
+      "created": "created",
+      "updated": "updated",
+      "deleted": "deleted"
+    },
+    "preview": "Preview"
+  },
+  "save": {
+    "saving": "Saving",
+    "pending": "Saving shortly",
+    "savedAt": "Saved {{time}}",
+    "upToDate": "Up to date",
+    "failed": "Not saving",
+    "retry": "Retry"
+  },
+  "addPlace": {
+    "title": "Add a place",
+    "search": "Search the world",
+    "searchHint": "Cities above 5,000 people, from the local gazetteer.",
+    "existing": "Already in this dataset",
+    "existingHint": "Reuse a city rather than creating a second copy.",
+    "countryNotOnMap": "That country is not in the world catalogue, so a city there cannot be created yet.",
+    "willCreateCity": "Creates the city {{city}}.",
+    "reusesExisting": "Reuses the existing city {{city}}.",
+    "willCreateCountry": "This is the first place in {{country}}, so its country file is created too.",
+    "nearbyDuplicate": "{{city}} is already within 25 km of here.",
+    "manualTitle": "Create a place at {{latitude}}, {{longitude}}",
+    "manualName": "Name",
+    "manualCountry": "Country",
+    "createHere": "Create here",
+    "add": "Add to itinerary",
+    "writeFailed": "The place could not be written."
+  },
+  "backup": {
+    "title": "Backups",
+    "hint": "data/ is not in git, so these snapshots are the only second copy of your content. One is taken automatically before every delete and import.",
+    "takeSnapshot": "Take a snapshot",
+    "download": "Download a copy",
+    "snapshotTaken": "Snapshot taken.",
+    "restored": "Snapshot restored.",
+    "failed": "That did not work.",
+    "none": "No snapshots yet.",
+    "restore": "Restore",
+    "confirmRestore": "Overwrite with this"
+  },
+  "bulk": {
+    "selected_one": "{{count}} step selected",
+    "selected_other": "{{count}} steps selected",
+    "setMode": "Mode",
+    "shift": "Move",
+    "delete": "Delete",
+    "clear": "Clear"
+  },
+  "palette": {
+    "title": "Commands",
+    "placeholder": "Search commands, trips, and places",
+    "noMatches": "Nothing matches.",
+    "openLibrary": "Go to trips",
+    "openSettings": "Go to settings",
+    "sortByDate": "Sort itinerary by date",
+    "trip": "Trip",
+    "city": "City",
+    "country": "Country"
+  },
+  "preview": {
+    "title": "Public site preview",
+    "desktop": "Desktop",
+    "tablet": "Tablet",
+    "mobile": "Mobile",
+    "openInTab": "Open in a tab",
+    "notRunning": "The public site is not running. Start it with pnpm dev."
+  },
+  "import": {
+    "title": "Import",
+    "hint": "Paste a written itinerary, a trip JSON, a CSV, GeoJSON, GPX, or KML. Nothing is written until you approve it.",
+    "paste": "Paste or drop content",
+    "chooseFile": "Choose a file",
+    "read": "Read it",
+    "matching": "Matching places",
+    "apply": "Apply",
+    "back": "Back",
+    "failed": "The import could not be applied.",
+    "nothingFound": "No places could be read from that.",
+    "summary": "Creates {{created}} places, reuses {{reused}}, skips {{skipped}}.",
+    "replaceSummary": "Replaces this trip with the imported {{id}}.",
+    "reuse": "Reuses {{city}}",
+    "create": "Creates {{city}}, {{country}}",
+    "unmatched": "No match — add it by hand later",
+    "column": {
+      "row": "Row",
+      "parsed": "Read as",
+      "match": "Match"
+    }
+  },
+  "issues": {
+    "trip": {
+      "titleRequired": "The trip needs a title.",
+      "invalidStart": "The trip start is not a date.",
+      "invalidEnd": "The trip end is not a date.",
+      "endBeforeStart": "The trip ends before it starts.",
+      "unknownOrigin": "The origin city \"{{cityId}}\" does not exist.",
+      "unknownReturn": "The return city \"{{cityId}}\" does not exist.",
+      "invalidMapFocus": "The map focus zoom is not a number.",
+      "coverImagePath": "Cover image paths are relative to the CDN and start with a slash.",
+      "noSteps": "The trip has no itinerary yet.",
+      "originMismatch": "The trip starts somewhere other than its recorded origin ({{origin}}).",
+      "returnMismatch": "The trip ends somewhere other than its recorded return ({{return}}).",
+      "noDatedStops": "The trip has legs but no stays, so it has no dates of its own.",
+      "rangeLooserThanStops": "The stops only cover {{sDate}} to {{eDate}}."
+    },
+    "stop": {
+      "unknownCity": "Stop {{position}} references the unknown city \"{{cityId}}\".",
+      "invalidArrival": "{{city}} has no valid arrival date.",
+      "invalidDeparture": "{{city}} has no valid departure date.",
+      "endBeforeStart": "{{city}} departs before it is reached.",
+      "missingGallery": "{{city}} references the missing gallery \"{{photoPath}}\".",
+      "duplicateConsecutive": "{{city}} is recorded twice in a row.",
+      "beforeTripStart": "{{city}} starts before the trip does.",
+      "afterTripEnd": "{{city}} ends after the trip does."
+    },
+    "leg": {
+      "unknownCity": "Step {{position}} has an unknown {{field}} city \"{{cityId}}\".",
+      "unknownVia": "Step {{position}} passes through the unknown city \"{{cityId}}\".",
+      "invalidDeparture": "The {{from}} departure is not a date.",
+      "invalidArrival": "The {{to}} arrival is not a date.",
+      "arrivalBeforeDeparture": "The leg to {{to}} arrives before it departs.",
+      "identicalEndpoints": "This {{mode}} leg starts and ends in {{city}}.",
+      "endpointMismatch": "This leg does not connect {{from}} to {{to}}.",
+      "flightOnNonFlight": "Flight details are recorded on a {{mode}} leg.",
+      "ferryOnNonFerry": "Ferry details are recorded on a {{mode}} leg.",
+      "impossibleSpeed": "{{from}} to {{to}} in {{minutes}} minutes is faster than any of these modes travel."
+    },
+    "itinerary": {
+      "missingLeg": "No transport is recorded between {{from}} and {{to}}."
+    },
+    "city": {
+      "unknownCountry": "City \"{{id}}\" belongs to the unknown country \"{{countryId}}\".",
+      "timeZoneRequired": "City \"{{id}}\" has no timezone.",
+      "invalidCoordinates": "City \"{{id}}\" has coordinates outside the world.",
+      "nullIsland": "City \"{{id}}\" sits at 0,0, which usually means its position was never set.",
+      "unused": "City \"{{id}}\" is not used by any trip."
+    },
+    "country": {
+      "nameRequired": "Country \"{{id}}\" has no name.",
+      "unknownContinent": "Country \"{{id}}\" has an unrecognised continent.",
+      "unknownCurrency": "Country \"{{id}}\" has an unrecognised currency."
+    },
+    "dataset": {
+      "duplicateId": "More than one {{kind}} uses the id \"{{id}}\"."
+    },
+    "config": {
+      "unknownCity": "The site configuration's {{field}} references the unknown city \"{{id}}\"."
+    }
   }
 }

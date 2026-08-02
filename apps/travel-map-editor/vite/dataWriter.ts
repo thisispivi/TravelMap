@@ -1,4 +1,11 @@
-import { mkdir, readdir, rm, rmdir, writeFile } from "node:fs/promises";
+import {
+  mkdir,
+  readdir,
+  readFile,
+  rm,
+  rmdir,
+  writeFile,
+} from "node:fs/promises";
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { dirname, resolve, sep } from "node:path";
 
@@ -8,10 +15,12 @@ import type { Plugin, ViteDevServer } from "vite";
  * Payload accepted by the local JSON writer endpoints.
  * @property {string} path - Dataset-relative JSON path
  * @property {unknown} [value] - Serializable JSON value to write
+ * @property {unknown} [base] - What the editor believes is currently on disk
  */
 interface WritePayload {
   path: string;
   value?: unknown;
+  base?: unknown;
 }
 
 /**
@@ -65,6 +74,31 @@ async function pruneEmptyDirectories(
 }
 
 /**
+ * Reports whether the file on disk still holds what the editor last read.
+ * Compares parsed values rather than raw text so a hand-formatted file is not
+ * mistaken for a conflict. This is the guard that stops a browser tab holding a
+ * stale draft from silently overwriting a change made outside it — including
+ * one made by another tab of the editor itself.
+ * @param {string} path - Absolute JSON file path
+ * @param {unknown} base - What the editor believes is currently on disk
+ * @returns {Promise<boolean>} Whether the write may proceed
+ */
+async function isUnchanged(path: string, base: unknown): Promise<boolean> {
+  let existing: string;
+  try {
+    existing = await readFile(path, "utf8");
+  } catch {
+    /* A file that does not exist yet cannot have been changed under us. */
+    return true;
+  }
+  try {
+    return JSON.stringify(JSON.parse(existing)) === JSON.stringify(base);
+  } catch {
+    return false;
+  }
+}
+
+/**
  * Sends a concise JSON response from the localhost-only editor middleware.
  * @param {ServerResponse} response - HTTP response
  * @param {number} status - HTTP status code
@@ -108,6 +142,16 @@ export function dataWriter(dataRoot: string): Plugin {
           const payload = await readPayload(request);
           const path = resolveDataPath(dataRoot, payload.path);
           if (request.url === "/write") {
+            if (
+              payload.base !== undefined &&
+              !(await isUnchanged(path, payload.base))
+            ) {
+              sendJson(response, 409, {
+                error:
+                  "This file changed on disk since the editor read it. Reload the editor to pick up the change before saving.",
+              });
+              return;
+            }
             await mkdir(dirname(path), { recursive: true });
             await writeFile(
               path,

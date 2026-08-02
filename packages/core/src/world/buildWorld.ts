@@ -2,6 +2,7 @@ import { City } from "../classes/City";
 import { Country } from "../classes/Country";
 import { Trip, TripRouteStep } from "../classes/Trip";
 import { CityJson, CountryJson, TripJson } from "../schema";
+import { checkDatasetShape } from "../schema/parse";
 import { FerryCompany } from "../typings/FerryCompany";
 import { FlightCompany } from "../typings/FlightCompany";
 import { Image } from "../typings/Image";
@@ -68,6 +69,24 @@ function requireReference<T>(
  * @returns {World} The resolved world
  */
 export function buildWorld(sources: WorldSources): World {
+  /*
+   * Shape is checked before anything is linked, so a hand-edited or imported
+   * file fails at the boundary naming the offending field rather than much
+   * later, wherever the missing value happens to be read.
+   */
+  const shapeIssues = checkDatasetShape(
+    sources.countries,
+    sources.cities,
+    sources.trips,
+  );
+  if (shapeIssues.length > 0)
+    throw new Error(
+      `Malformed dataset: ${shapeIssues
+        .slice(0, 5)
+        .map((issue) => issue.message)
+        .join(" ")}`,
+    );
+
   const countriesById = new Map(
     sources.countries.map((data) => [data.id, new Country(data)]),
   );

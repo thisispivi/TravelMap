@@ -8,6 +8,7 @@ import svgr from "vite-plugin-svgr";
 import { assetWriter } from "./vite/assetWriter";
 import { cityIndex } from "./vite/cityIndex";
 import { dataWriter } from "./vite/dataWriter";
+import { snapshots } from "./vite/snapshots";
 
 // The editor shares the public app's design tokens rather than copying them, so
 // a change to a colour or mixin lands in both. Putting the app's styles folder
@@ -24,6 +25,7 @@ export default defineConfig({
     dataWriter(resolve(__dirname, "../../data")),
     assetWriter(resolve(appPublic, "logos")),
     cityIndex(),
+    snapshots(resolve(__dirname, "../../.data-snapshots")),
   ],
   resolve: {
     // `@app/*` is how editor code reaches the public app. `@/*` exists only so

@@ -1,0 +1,129 @@
+@use "variables" as v;
+
+.library {
+  display: flex;
+  flex-direction: column;
+  gap: v.$floatingCardGap;
+  width: min(64rem, 100%);
+  margin: 0 auto;
+  padding: 1.5rem 1rem 4rem;
+
+  &__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  &__header-actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  &__steps {
+    margin: 0;
+    padding-left: 1.2rem;
+    font-size: v.$bodySm;
+  }
+
+  &__trips,
+  &__places {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__places {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+    font-size: v.$bodySm;
+  }
+
+  &__flag {
+    width: 1rem;
+    margin-right: 0.35rem;
+    vertical-align: -0.1rem;
+  }
+
+  &__trip {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto auto;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.7rem 0.85rem;
+    border-radius: v.$floatingCardRadius;
+    text-decoration: none;
+    color: inherit;
+
+    &:focus-visible {
+      outline: 2px solid v.$accentPrimary;
+      outline-offset: 2px;
+    }
+  }
+
+  &__trip-title {
+    overflow: hidden;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__trip-meta {
+    font-size: v.$caption;
+    white-space: nowrap;
+  }
+
+  &__trip-badge {
+    padding: 0.15rem 0.5rem;
+    border-radius: 62.4375rem;
+    background: v.$livedButton;
+    color: v.$livedButtonContent;
+    font-size: v.$caption;
+    font-weight: 600;
+    white-space: nowrap;
+
+    &--blocking {
+      background: v.$visitedButton;
+      color: v.$visitedButtonContent;
+    }
+  }
+
+  &__disclosure {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 2px solid v.$accentPrimary;
+      outline-offset: 2px;
+    }
+  }
+}
+
+.editor--dark .library {
+  &__trip {
+    background: v.$darkInfoTab;
+  }
+
+  &__trip-meta {
+    color: v.$darkAltTextDarker;
+  }
+}
+
+.editor--light .library {
+  &__trip {
+    background: v.$lightLeftBar;
+  }
+
+  &__trip-meta {
+    color: v.$lightAltTextDarker;
+  }
+}

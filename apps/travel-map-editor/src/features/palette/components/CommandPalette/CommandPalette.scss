@@ -1,0 +1,109 @@
+@use "variables" as v;
+@use "mixins" as m;
+
+.command-palette {
+  width: min(34rem, 92vw);
+  margin-top: 12vh;
+  padding: 0.6rem;
+  border: 0;
+  border-radius: v.$floatingCardRadius;
+
+  &::backdrop {
+    background: rgb(0 0 0 / 45%);
+  }
+
+  &__input {
+    width: 100%;
+    padding: 0.6rem 0.7rem;
+    border: 0;
+    border-radius: 0.5rem;
+    color: inherit;
+    font: inherit;
+
+    &:focus-visible {
+      outline: 2px solid v.$accentPrimary;
+      outline-offset: 1px;
+    }
+  }
+
+  &__results {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    max-height: 50vh;
+    margin: 0.5rem 0 0;
+    padding: 0;
+    list-style: none;
+    overflow-y: auto;
+  }
+
+  &__result {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 0.45rem 0.6rem;
+    border: 0;
+    border-radius: 0.45rem;
+    background: none;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 2px solid v.$accentPrimary;
+      outline-offset: -2px;
+    }
+  }
+
+  &__hint,
+  &__empty {
+    font-size: v.$caption;
+  }
+
+  &__empty {
+    padding: 0.6rem;
+  }
+}
+
+.editor--dark .command-palette {
+  @include m.full-panel-dark;
+
+  color: v.$darkButtonContent;
+
+  .command-palette__input {
+    background: v.$darkButton;
+  }
+
+  .command-palette__result--highlighted,
+  .command-palette__result:hover {
+    background: v.$darkButton;
+  }
+
+  .command-palette__hint,
+  .command-palette__empty {
+    color: v.$darkAltTextDarker;
+  }
+}
+
+.editor--light .command-palette {
+  @include m.full-panel-light;
+
+  color: v.$lightButtonContent;
+
+  .command-palette__input {
+    background: v.$lightButton;
+  }
+
+  .command-palette__result--highlighted,
+  .command-palette__result:hover {
+    background: v.$lightButton;
+  }
+
+  .command-palette__hint,
+  .command-palette__empty {
+    color: v.$lightAltTextDarker;
+  }
+}

@@ -1,0 +1,127 @@
+@use "variables" as v;
+
+.validation-tray {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+
+  &__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.4rem 0.75rem;
+  }
+
+  &__status {
+    font-size: v.$bodySm;
+  }
+
+  &__tabs {
+    display: flex;
+    gap: 0.35rem;
+  }
+
+  &__panel {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-height: 40vh;
+    padding: 0.5rem 0.75rem 0.9rem;
+    overflow-y: auto;
+  }
+
+  &__issues,
+  &__changes {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__issue {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.35rem 0.5rem;
+    border-left: 3px solid transparent;
+    border-radius: 0.4rem;
+    font-size: v.$bodySm;
+
+    &--blocking {
+      border-left-color: v.$visitedButtonContent;
+    }
+
+    &--warning {
+      border-left-color: v.$languageButtonContent;
+    }
+
+    &--suggestion {
+      border-left-color: v.$futureButtonContent;
+    }
+  }
+
+  &__issue-button {
+    flex: 1;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 2px solid v.$accentPrimary;
+      outline-offset: 2px;
+    }
+  }
+
+  &__change {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    font-family: ui-monospace, "SFMono-Regular", monospace;
+    font-size: v.$caption;
+  }
+
+  &__change-kind {
+    min-width: 4.5rem;
+    font-family: inherit;
+    text-transform: uppercase;
+  }
+
+  &__command {
+    display: block;
+    padding: 0.5rem 0.65rem;
+    border-radius: 0.5rem;
+    font-family: ui-monospace, "SFMono-Regular", monospace;
+    font-size: v.$caption;
+    overflow-x: auto;
+  }
+}
+
+.editor--dark .validation-tray {
+  &__issue:hover,
+  &__command {
+    background: v.$darkButton;
+  }
+
+  &__change-kind {
+    color: v.$darkAltTextDarker;
+  }
+}
+
+.editor--light .validation-tray {
+  &__issue:hover,
+  &__command {
+    background: v.$lightButton;
+  }
+
+  &__change-kind {
+    color: v.$lightAltTextDarker;
+  }
+}

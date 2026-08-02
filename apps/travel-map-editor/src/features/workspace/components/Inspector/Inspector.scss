@@ -1,0 +1,183 @@
+@use "variables" as v;
+
+.inspector {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  height: 100%;
+  padding: 0.9rem;
+  overflow-y: auto;
+
+  &__heading {
+    font-size: v.$caption;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  &__row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+
+    > * {
+      flex: 1 1 8rem;
+      min-width: 0;
+    }
+  }
+
+  &__facts {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin: 0;
+  }
+
+  &__fact {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem;
+    font-size: v.$bodySm;
+
+    dt {
+      font-size: v.$caption;
+    }
+
+    dd {
+      margin: 0;
+      font-weight: 600;
+    }
+  }
+
+  &__link {
+    align-self: flex-start;
+    font-size: v.$caption;
+  }
+
+  &__derived {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.4rem 0.6rem;
+    border-radius: 0.5rem;
+    border: 1px dashed currentcolor;
+    font-size: v.$bodySm;
+  }
+
+  &__derived-value {
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__derived-label {
+    font-size: v.$caption;
+  }
+
+  &__modes {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  &__mode-suggestion {
+    margin-left: 0.5rem;
+    padding: 0.1rem 0.4rem;
+    border: 0;
+    border-radius: 62.4375rem;
+    background: v.$accentPrimary;
+    color: #ffffff;
+    font-size: v.$caption;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 2px solid v.$accentPrimary;
+      outline-offset: 2px;
+    }
+  }
+
+  &__mode-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  &__mode {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.3rem 0.55rem;
+    border-radius: 62.4375rem;
+    font-size: v.$caption;
+    cursor: pointer;
+
+    svg {
+      width: 0.9rem;
+      height: 0.9rem;
+    }
+
+    &:focus-within {
+      outline: 2px solid v.$accentPrimary;
+      outline-offset: 2px;
+    }
+  }
+
+  &__mode-input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+
+  &__disclosure {
+    align-self: flex-start;
+    padding: 0.25rem 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font-size: v.$caption;
+    text-decoration: underline;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 2px solid v.$accentPrimary;
+      outline-offset: 2px;
+    }
+  }
+}
+
+.editor--dark .inspector {
+  &__heading,
+  &__derived-label,
+  &__fact dt {
+    color: v.$darkAltTextDarker;
+  }
+
+  &__mode {
+    background: v.$darkButton;
+  }
+
+  &__mode--selected {
+    background: v.$darkButtonHover;
+  }
+}
+
+.editor--light .inspector {
+  &__heading,
+  &__derived-label,
+  &__fact dt {
+    color: v.$lightAltTextDarker;
+  }
+
+  &__mode {
+    background: v.$lightButton;
+  }
+
+  &__mode--selected {
+    background: v.$lightButtonHover;
+  }
+}

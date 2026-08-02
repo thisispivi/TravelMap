@@ -1,0 +1,69 @@
+@use "variables" as v;
+@use "mixins" as m;
+
+.add-place {
+  width: min(34rem, 92vw);
+  padding: 1.1rem;
+  border: 0;
+  border-radius: v.$floatingCardRadius;
+
+  &::backdrop {
+    background: rgb(0 0 0 / 45%);
+  }
+
+  &__title,
+  &__plan-title {
+    font-size: v.$headingMd;
+    font-weight: 600;
+  }
+
+  &__plan-title {
+    font-size: v.$bodySm;
+  }
+
+  &__plan,
+  &__manual {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 0.85rem;
+    padding: 0.7rem;
+    border-radius: 0.6rem;
+  }
+
+  &__writes {
+    margin: 0;
+    padding-left: 1.1rem;
+    font-family: ui-monospace, "SFMono-Regular", monospace;
+    font-size: v.$caption;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+}
+
+.editor--dark .add-place {
+  @include m.full-panel-dark;
+
+  color: v.$darkButtonContent;
+
+  .add-place__plan,
+  .add-place__manual {
+    background: v.$darkButton;
+  }
+}
+
+.editor--light .add-place {
+  @include m.full-panel-light;
+
+  color: v.$lightButtonContent;
+
+  .add-place__plan,
+  .add-place__manual {
+    background: v.$lightButton;
+  }
+}

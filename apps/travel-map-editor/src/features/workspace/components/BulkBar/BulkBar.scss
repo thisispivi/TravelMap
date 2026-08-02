@@ -1,0 +1,72 @@
+@use "variables" as v;
+
+.bulk-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  font-size: v.$caption;
+
+  &__count {
+    font-weight: 600;
+  }
+
+  &__group {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  &__mode {
+    display: grid;
+    place-items: center;
+    width: 1.9rem;
+    height: 1.9rem;
+    padding: 0;
+    border: 0;
+    border-radius: 0.4rem;
+    color: inherit;
+    cursor: pointer;
+
+    svg {
+      width: 0.9rem;
+      height: 0.9rem;
+    }
+
+    &:focus-visible {
+      outline: 2px solid v.$accentPrimary;
+      outline-offset: 2px;
+    }
+  }
+}
+
+.editor--dark .bulk-bar {
+  background: v.$darkInfoTab;
+
+  &__label {
+    color: v.$darkAltTextDarker;
+  }
+
+  .bulk-bar__mode {
+    background: v.$darkButton;
+  }
+}
+
+.editor--light .bulk-bar {
+  background: v.$lightLeftBar;
+
+  &__label {
+    color: v.$lightAltTextDarker;
+  }
+
+  .bulk-bar__mode {
+    background: v.$lightButton;
+  }
+}
+
+@media (max-width: 56.25rem) {
+  .bulk-bar {
+    display: none;
+  }
+}

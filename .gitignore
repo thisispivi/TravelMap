@@ -15,3 +15,6 @@ apps/travel-map-copy
 # from scratch; the editor (apps/travel-map-editor) creates this as you add
 # countries, cities, and trips.
 /data/
+
+# Editor backups of data/. Local safety net, never shared.
+/.data-snapshots/
