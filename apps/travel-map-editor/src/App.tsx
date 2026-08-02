@@ -1,8 +1,8 @@
 import "./App.scss";
 
-import { useLanguage } from "@app/hooks/language/language";
-import { useThemeDetector } from "@app/hooks/style/theme";
-import { classNames } from "@app/utils/className";
+import { useLanguage } from "@app/shared/hooks/useLanguage";
+import { useThemeDetector } from "@app/shared/hooks/useThemeDetector";
+import { classNames } from "@app/shared/lib/classNames";
 import { ReactNode } from "react";
 import { Link, Route, Routes, useParams } from "react-router";
 

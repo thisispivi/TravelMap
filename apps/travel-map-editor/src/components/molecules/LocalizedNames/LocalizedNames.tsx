@@ -1,4 +1,4 @@
-import { useLanguage } from "@app/hooks/language/language";
+import { useLanguage } from "@app/shared/hooks/useLanguage";
 import { ReactNode } from "react";
 import { Link } from "react-router";
 

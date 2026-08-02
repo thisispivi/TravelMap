@@ -1,7 +1,7 @@
 import "./EditorForm.scss";
 
-import { useLanguage } from "@app/hooks/language/language";
-import { classNames } from "@app/utils/className";
+import { useLanguage } from "@app/shared/hooks/useLanguage";
+import { classNames } from "@app/shared/lib/classNames";
 import { FormEvent, ReactNode, useEffect, useState } from "react";
 
 /**

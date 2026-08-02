@@ -1,9 +1,9 @@
 import "./ItineraryRow.scss";
 
 import PositionIcon from "@app/assets/icons/Position.svg?react";
-import { TransportModeIcon } from "@app/components/atoms/TransportModeIcon/TransportModeIcon";
-import { useLanguage } from "@app/hooks/language/language";
-import { classNames } from "@app/utils/className";
+import { TransportModeIcon } from "@app/shared/components/TransportModeIcon/TransportModeIcon";
+import { useLanguage } from "@app/shared/hooks/useLanguage";
+import { classNames } from "@app/shared/lib/classNames";
 import { TripJson } from "@travelmap/core";
 import { AnimatePresence, domAnimation, LazyMotion, m } from "framer-motion";
 import { ReactNode } from "react";

@@ -1,5 +1,5 @@
-import { TransportModeIcon } from "@app/components/atoms/TransportModeIcon/TransportModeIcon";
-import { useLanguage } from "@app/hooks/language/language";
+import { TransportModeIcon } from "@app/shared/components/TransportModeIcon/TransportModeIcon";
+import { useLanguage } from "@app/shared/hooks/useLanguage";
 import { TripStopJson, TripTransportJson } from "@travelmap/core";
 import { ReactNode } from "react";
 

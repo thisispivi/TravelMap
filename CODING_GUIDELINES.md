@@ -74,30 +74,33 @@ keep their generator's or upstream format — these rules don't apply to them.
 
 ## 3. Repository architecture
 
-`apps/travel-map` is organized by **architectural layer**, not by feature or
-route:
+`apps/travel-map` is organized by **feature ownership** with explicit
+dependency direction:
 
-- **Atomic design** for UI (`components/atoms → molecules → organisms →
-pages → templates`) — see §4.
-- **One shared page-level context** (`HomeContext`, in
-  `components/pages/Home/HomeContext.ts`) holds cross-cutting state (theme,
-  map viewport, hover, selected trip, active panel). Everything under `Home`
-  reads from it via `use(HomeContext)!`.
+- `app` owns route composition, the persistent map shell, and global hosts.
+- `features` owns the UI and logic for gallery, map, navigation, places,
+  stats, timeline, and trips.
+- `shared` owns technical primitives and narrow cross-feature contracts.
+- Dependencies flow `app → features → shared`; `shared` never imports `app`
+  or `features`, and one feature never imports another feature's internals.
+- The shell provides `MapInteractionContext` and `PanelContext` from
+  `shared/context`. Features consume their hooks instead of importing app
+  composition modules.
 - **Domain model lives outside the app**, in the `@travelmap/core` workspace
   package (`packages/core`) — classes (`Trip`, `City`, `Country`, `Travel`,
   `Ferry`, `Flight`, `Color`), typings, a `schema/` module describing the raw
   JSON shapes, and `world/buildWorld.ts`, which is the single place that turns
   raw JSON into a linked object graph (see §9).
-- **Routing is a persistent shell, not per-route pages.** `src/main.tsx`
-  defines a `createHashRouter` tree where most routes resolve to
+- **Routing is a persistent shell, not per-route pages.**
+  `app/routing/router.tsx` defines a `createHashRouter` tree where most routes resolve to
   `element: null` (`/trips`, `/trip/:tripId`, `/places`, `/places/:filter`) —
-  `Home` stays mounted for all of them and reads the matched path itself via
-  `hooks/location/location.ts` (a pathname classifier, not `useParams`) to
+  `MapShell` stays mounted for all of them and reads the matched path via
+  `app/routing/useAppLocation.ts` (a pathname classifier, not `useParams`) to
   decide which panel to show over the map. Only genuinely separate views
   (`Timeline`, `Stats`, `Gallery`, `Lightbox`) get a real routed `element`,
   and those are lazy-loaded. **When adding a new panel that lives inside the
   map shell, follow this pattern**: add the path with `element: null`, then
-  extend `hooks/location/location.ts` and `Home` — don't give it its own
+  extend `useAppLocation.ts` and `MapShell` — don't give it its own
   routed page component. When adding a genuinely standalone view, follow the
   `Timeline`/`Stats` pattern (own lazy-loaded route element).
 - **No client-server API.** There is no backend. All content is static JSON
@@ -106,11 +109,9 @@ pages → templates`) — see §4.
   audited code — if you introduce actual network requests, `swr` is the
   established choice; don't add a second data-fetching library.
 
-This layered-by-role structure fits the app's current size well: ownership is
-already unambiguous (a component's folder tells you what it is; `packages/core`
-tells you where domain logic lives), and there's no evidence of the kind of
-cross-feature entanglement that a feature-folder migration would fix. Don't
-migrate to `src/features/*` speculatively — see §20 for what to do instead.
+The feature boundary is architectural, not a reason to add abstraction.
+Features use only the `components`, `lib`, and `loaders` subfolders they need,
+and imports always target concrete modules without barrels.
 
 ---
 
@@ -118,19 +119,11 @@ migrate to `src/features/*` speculatively — see §20 for what to do instead.
 
 ```
 apps/travel-map/src/
-  components/
-    atoms/       Smallest reusable pieces (Marker, Button, Loading, EmptyState)
-    molecules/   Small compositions of atoms (Cards, Row, Timeline)
-    organisms/   Feature-level blocks (Map, TripBrowser, TripDetail, Gallery)
-    pages/       Route-level containers (Home + HomeContext, Timeline, Stats)
-    templates/   Page-level layout shells (templates/Home)
-  data/          Loads /data JSON via import.meta.glob and calls buildWorld()
-  hooks/         Reusable hooks, grouped by concern (image, language,
-                 location, stats, style)
+  app/           Routing, persistent shell, and app-global hosts
+  features/      User capabilities with owned components, loaders, and logic
+  shared/        Cross-feature components, contexts, hooks, and technical logic
+  data/          world.ts loads JSON and calls buildWorld() exactly once
   i18n/          Translation setup and formatting functions
-  utils/         Pure, dependency-free, domain-named helpers (trips.ts,
-                 countries.ts, transport.ts, className.ts, keyboard.ts —
-                 never a generic utils.ts/helpers.ts grab bag)
   styles/        Global SCSS: _variables.scss, _variables.module.scss, mixins
   assets/        Icons (SVG via svgr), JSON, flags
 
@@ -147,17 +140,15 @@ anywhere in the app today — keep it that way; import from the concrete file.
 
 **When a module belongs where:**
 
-- A component used by exactly one organism stays a private sub-component in
-  that organism's file (see §6) — it doesn't get its own folder just because
-  it's a function.
+- A component used by exactly one owner stays private to that feature or app
+  composer; it does not move to `shared` merely because its name is generic.
 - A helper used by exactly one component can live at the bottom of that
   component's file or as a same-folder sibling; once a second component needs
-  it, promote it to `utils/` (app) or `packages/core` (if it's a domain
-  concept, not a UI concern).
+  it, promote it to the owning feature's `lib/`, `shared/lib/`, or
+  `packages/core` according to its semantics.
 - Pure algorithmic logic that doesn't touch React (data reshaping, grouping,
-  sorting) belongs in `utils/` even if only one component currently calls it
-  — see the `Timeline`/`TripDetail` cleanup in §20 for why this matters in
-  practice, not just in theory.
+  sorting) belongs in the owning feature's `lib/` even if only one component
+  currently calls it.
 - Anything that operates on the raw JSON shape or the domain classes
   (`Trip`, `City`, …) belongs in `packages/core`, not duplicated in the app.
 
@@ -165,20 +156,32 @@ anywhere in the app today — keep it that way; import from the concrete file.
 
 ## 5. File and folder naming
 
-| Thing                     | Convention                              | Example                                |
-| ------------------------- | --------------------------------------- | -------------------------------------- |
-| Component file & folder   | `PascalCase`, folder = file name        | `Marker/Marker.tsx`                    |
-| Component stylesheet      | Same base name, `.scss`                 | `Marker/Marker.scss`                   |
-| Hook file                 | `camelCase`, grouped by concern         | `hooks/style/theme.ts`                 |
-| Domain-named utility file | `camelCase`, names the domain           | `utils/trips.ts`, `utils/transport.ts` |
-| Domain class file (core)  | `PascalCase`, matches export            | `packages/core/src/classes/Trip.ts`    |
-| Type/typings file (core)  | `PascalCase` for a single concept       | `typings/FlightCompany.ts`             |
-| Test file (see §16)       | Colocated, `.test.ts`/`.test.tsx`       | `Trip.test.ts` next to `Trip.ts`       |
-| SVG asset                 | `PascalCase.svg`, imported as component | `Calendar.svg` → `?react`              |
+| Thing                           | Convention                               | Example                             |
+| ------------------------------- | ---------------------------------------- | ----------------------------------- |
+| Primary component file & folder | `PascalCase`, folder = file name         | `Marker/Marker.tsx`                 |
+| Component stylesheet            | Same base name, `.scss`                  | `Marker/Marker.scss`                |
+| Component companion module      | `<Owner>.<lowercase-role>.ts`/`.tsx`     | `MapShell.context.ts`               |
+| Hook file                       | `camelCase`, grouped by owner            | `shared/hooks/useResponsive.ts`     |
+| Domain-named library file       | `camelCase`, names the domain            | `features/trips/lib/trips.ts`       |
+| Domain class file (core)        | `PascalCase`, matches export             | `packages/core/src/classes/Trip.ts` |
+| Type/typings file (core)        | `PascalCase` for a single concept        | `typings/FlightCompany.ts`          |
+| Test file (see §16)             | Colocated, `<Owner>.test.ts`/`.test.tsx` | `Trip.test.ts` next to `Trip.ts`    |
+| SVG asset                       | `PascalCase.svg`, imported as component  | `Calendar.svg` → `?react`           |
 
 - `PascalCase` for anything that exports a component, class, or type as its
   primary export.
 - `camelCase` for anything that exports functions/values (hooks, utils).
+- **Use dot-qualified filenames for modules owned by a primary component or
+  concept.** Keep the owner name first and add one lowercase responsibility:
+  `MapShell.context.ts`, `MapShell.layout.tsx`, `MapShell.state.ts`,
+  `Gallery.loader.ts`, and `Trip.test.ts`. This keeps companion files adjacent
+  in directory listings and makes ownership visible without another folder.
+  The primary component remains `MapShell.tsx`, not `MapShell.component.tsx`.
+  A role suffix describes the whole module; do not stack roles such as
+  `MapShell.context.types.ts` or use vague roles such as `.helpers.ts`.
+- A standalone module that is not subordinate to an owner keeps its normal
+  domain name (`trips.ts`, `useResponsive.ts`). Do not add a dot suffix merely
+  to imitate the pattern.
 - Never name a file `utils.ts`, `helpers.ts`, `types.ts`, or `constants.ts` —
   every current utility file is named for the domain concept it covers
   (`trips.ts`, `countries.ts`, `continent.ts`, `timezone.ts`,
@@ -251,7 +254,7 @@ export function Marker({
 
   ```tsx
   {isLoaded ? <MapMarkers … /> : null}
-  {showDates && travel?.sDate ? <DateRow … /> : null}   // guard first, then ternary
+  {showDates && travel?.sDate ? <DateRow … /> : null}
   ```
 
 - **Conditional class names** go through the `classNames` util, not a
@@ -281,12 +284,10 @@ export function Marker({
 
 Split when a file mixes concerns that don't need to be adjacent to work: pure
 data transformation, imperative DOM measurement, and JSX rendering are three
-different jobs. `molecules/Timeline/Timeline.tsx` (606 lines) is the clearest
-current example — `collapseTransportChains` and `buildDisplaySegments` are
-pure functions with no JSX and no hooks; they belong in `utils/
-tripDetailTimeline.ts` (which already exists and already holds related logic)
-next to the component that renders the result, not inside it.
-`organisms/TripDetail/TripDetail.tsx`'s `computeTripStats` is the same
+different jobs. Trip-detail timeline transformations belong in
+`features/trips/lib/tripDetailTimeline.ts`, next to the component that renders
+the result, not inside it. `features/trips/components/TripDetail/TripDetail.tsx`'s
+`computeTripStats` is the same
 problem in a different shape: it re-derives statistics that should be a
 method on `Trip` in `packages/core`, not a one-off function in a component.
 
@@ -335,7 +336,7 @@ vs. rendering, or "used elsewhere" vs. "used here"), not by line count alone.
   inline (or in a `useMemo` per the rule below) instead of `useState` +
   `useEffect` that copies it. The one existing borderline case,
   `TripDetail.tsx` computing `trip` inline and then using an effect to push
-  it into `selectedTrip` on the shared `HomeContext`, is not this
+  it into `selectedTrip` through `useMapInteraction`, is not this
   anti-pattern — it's syncing a locally-derived value into
   ancestor-owned state so a trip reached by direct URL updates the shared
   context, which state can't do without an effect. Don't copy this shape for
@@ -382,22 +383,13 @@ Choose the narrowest scope that works, in this order:
    to their nearest common parent and pass it down. Don't reach for Context
    just to skip one level of prop passing.
 3. **Context** — for state genuinely shared across a subtree with no single
-   natural owner. `HomeContext` (`components/pages/Home/HomeContext.ts`) is
-   the one context in the app: theme, map viewport, hover, selected trip, and
-   panel visibility, provided once at `Home` and consumed everywhere below it
-   via `use(HomeContext)!` — the non-null assertion is safe because `Home`
-   guarantees the provider. Every new consumer should follow this exact
-   pattern (`use`, not `useContext`; non-null assertion, not an optional
-   chain). **Known gap**: `FloatingNav.tsx` calls `use(HomeContext)` without
-   the assertion — align it with the rest rather than treating it as a second
-   valid style.
-
-   `HomeContext` bundles five unrelated concerns into one value, so any
-   `dispatch` re-renders every consumer regardless of which field it reads.
-   This isn't a problem worth a rewrite today — the app is small and the
-   value is a small object — but if `HomeContext` grows further, split it by
-   concern (e.g. a separate `ThemeContext`) before adding more fields to it,
-   rather than after performance becomes visible.
+   feature owner. `MapInteractionContext` coordinates map viewport, hover,
+   and selected trip; `PanelContext` owns route-panel visibility. Both are
+   defined under `shared/context`, provided once by `MapShell`, and consumed
+   through `useMapInteraction` or `usePanel`. Context hooks MUST throw a clear
+   error outside their provider; consumers never import a raw context or use
+   non-null assertions. Split a new contract by actual consumer set rather
+   than adding unrelated fields to either existing value.
 
 4. **URL state** — for anything that should survive a refresh or be
    shareable: which trip/gallery/photo is open. The app already does this
@@ -436,7 +428,7 @@ copying "there's no data layer" as an assumption into new work.
    cities, and trips (throwing via `requireReference()` if a reference
    doesn't resolve) and instantiates the domain classes (`Country`, `City`,
    `Trip`).
-4. `apps/travel-map/src/data/index.ts` calls `buildWorld()` once and exports
+4. `apps/travel-map/src/data/world.ts` calls `buildWorld()` once and exports
    the results (`visitedTrips`, `visitedCities`, `visitedCountries`,
    `takenFlights`, `takenFerries`) as module-level constants that hooks and
    components import directly.
@@ -449,8 +441,7 @@ copying "there's no data layer" as an assumption into new work.
   — that's how duplicated/ad-hoc data transformation creeps in.
 - MUST NOT fetch or transform data inside a component body. If a component
   needs a derived slice of the world data, that's a method on the relevant
-  domain class or a function in `apps/travel-map/src/utils/`, not inline JSX
-  logic.
+  domain class, the owning feature's `lib/`, or `shared/lib/`, not inline JSX.
 - **Runtime validation is a real, currently-open gap, not a hypothetical
   one.** `requireReference()` catches broken id links, but nothing validates
   that a JSON file has the shape `CountryJson`/`CityJson`/`TripJson` claim —
@@ -493,7 +484,7 @@ copying "there's no data layer" as an assumption into new work.
   ```ts
   const CITY_LABEL_TIERS = [
     { id: "major", minPopulation: 1_000_000, minZoom: 2 },
-    // …
+    /* … */
   ] as const;
   ```
 
@@ -506,9 +497,9 @@ copying "there's no data layer" as an assumption into new work.
   accepted pragmatic cast, not sloppiness. A cast with no comment explaining
   why it's safe is a review flag.
 - **Non-null assertions** are allowed where a genuine invariant guarantees the
-  value exists — the established example is `use(HomeContext)!`, safe because
-  `Home` always provides it. Don't use `!` to silence a case that could
-  actually be null; narrow it instead.
+  value exists. Shared context hooks enforce their provider invariant by
+  throwing, so feature consumers do not assert context values. Don't use `!`
+  to silence a case that could actually be null; narrow it instead.
 - **Enums vs. union types**: this codebase uses `enum` for closed,
   JSDoc-documented domain vocabularies (`TransportMode`) and plain string
   unions for everything else. Prefer a union type unless you specifically
@@ -530,18 +521,22 @@ Ordered by `simple-import-sort`, in groups separated by blank lines
 (`pnpm lint:fix` sorts for you):
 
 ```tsx
-import "./CityCard.scss"; // 1. Side-effect CSS first
+import "./CityCard.scss";
 import "maplibre-gl/dist/maplibre-gl.css";
 
-import { ReactNode, useEffect, useRef } from "react"; // 2. External packages
+import { City, Travel } from "@travelmap/core";
+import { ReactNode, useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
 
-import CalendarIcon from "@/assets/icons/Calendar.svg?react"; // 3. @/ aliases
-import { City, Travel } from "@travelmap/core"; // workspace package, sorts with externals
-import { useLanguage } from "@/hooks/language/language";
+import CalendarIcon from "@/assets/icons/Calendar.svg?react";
+import { useLanguage } from "@/shared/hooks/useLanguage";
 
-import { Button } from "../../atoms/Buttons/Button"; // 4. Relative
+import { CityCard } from "../CityCard/CityCard";
 ```
+
+The groups are, in order: side-effect imports, external/workspace packages,
+`@/` aliases, then relative imports. Do not label groups with comments; the
+blank lines and import paths make them self-evident.
 
 - **Named exports only, everywhere.** Zero default exports for components,
   hooks, utils, or classes in the audited code — keep it that way. (`lazy()`
@@ -554,9 +549,10 @@ import { Button } from "../../atoms/Buttons/Button"; // 4. Relative
   via a `@/` alias; it's a separate workspace package, not part of the app's
   own source tree.
 - Use the `@/` alias (mapped to `apps/travel-map/src` in both
-  `tsconfig.json` and `vite.config.ts`) for anything outside the current
-  feature; short relative paths (`../../../utils`) are still fine inside a
-  feature. Prefer `@/` in new code — it survives file moves.
+  `tsconfig.json` and `vite.config.ts`) for `shared`, `data`, `i18n`, and
+  assets. Use relative imports inside one feature. App composition may import
+  concrete feature entry components through `@/features/*`; feature modules
+  may not import that alias or another feature's private path.
 - SVGs import as React components via svgr: `import Icon from
 "…/Icon.svg?react"`.
 - Import React APIs and types directly from `react`, never a default `React`
@@ -572,16 +568,51 @@ import { Button } from "../../atoms/Buttons/Button"; // 4. Relative
 - **No barrel files** (§5). Each module's public surface is just its named
   exports, imported directly.
 - **No circular dependencies were found** in the audited code — keep the
-  layering intentional so that stays true: `packages/core` never imports from
-  `apps/travel-map`; `apps/travel-map/src/utils` and `hooks` don't import
-  from `components`; components import from `utils`/`hooks`/`core`, not the
-  reverse.
+  dependency direction intentional so that stays true: `packages/core` never
+  imports from either app; `shared` never imports `app` or `features`; and a
+  feature never imports another feature's internals.
+
+### Vertical spacing
+
+Vertical whitespace communicates structure and MUST be deterministic:
+
+- Use exactly one blank line between import groups and no blank lines within a
+  group. Leave exactly one blank line after the final import.
+- Use exactly one blank line between complete top-level declarations. A JSDoc
+  block belongs to its declaration, so there is no blank line between the
+  closing `*/` and the declaration.
+- Never put a blank line immediately after an opening `{`, `(`, or `[` or
+  immediately before its closing counterpart merely for visual padding.
+- Never use two or more consecutive blank lines.
+- Inside a function, keep statements that perform one step contiguous. Use one
+  blank line when responsibility changes: setup to derived data, derived data
+  to effects, effects to handlers, or handlers to the returned JSX.
+- Keep consecutive hooks of the same kind together. Separate a group of hooks
+  from derived values or handler declarations with one blank line. Do not put a
+  blank line between every hook.
+- Keep related guard clauses contiguous. Add one blank line after the final
+  guard before the main path. Do not force a blank line before a `return` when
+  the function consists only of that return or when the return is the direct
+  body of a branch.
+- In object and array literals, do not insert blank lines between ordinary
+  members. If a literal needs visual sections, that is usually a signal to
+  extract a named value rather than format an implicit grouping.
+- In JSX, use one blank line only between major sibling regions of a large
+  component. Never add blank lines as the first or last child, and do not space
+  every sibling element apart.
+- In SCSS, keep declarations contiguous, then insert one blank line before the
+  first nested selector, modifier, element, or at-rule. Put exactly one blank
+  line between sibling BEM branches. Do not insert blank lines between related
+  declarations.
+- Formatting tools establish the baseline, but passing Prettier does not excuse
+  arbitrary logical spacing that violates these rules.
 
 ---
 
 ## 12. Styling (SCSS)
 
-- **BEM**: `.block`, `.block__element`, `.block--modifier`, nested with `&`:
+- **BEM is mandatory for every authored UI class selector.** Use a kebab-case
+  `.block`, `.block__element`, and `.block--modifier`, nested with Sass `&`:
 
   ```scss
   .map-city-marker {
@@ -591,6 +622,7 @@ import { Button } from "../../atoms/Buttons/Button"; // 4. Relative
     &--future {
       --marker-color: #1565c0;
     }
+
     &--hovered,
     &:hover,
     &:focus-visible {
@@ -599,10 +631,41 @@ import { Button } from "../../atoms/Buttons/Button"; // 4. Relative
   }
   ```
 
-  Avoid chaining an element onto a modifier (`block__element--modifier__sub`)
-  — `FilterByCountry.scss`'s `filter__option--select-all__icon` is the one
-  current exception; don't extend that shape, restructure it to
-  `filter__select-all-icon` or similar next time that file is touched.
+  Apply these constraints everywhere, including pages, layouts, loading states,
+  and one-off controls:
+
+  - One owning component or cohesive feature block per component stylesheet by
+    default. A `MapShell` stylesheet uses `.map-shell`; a `FallbackPage`
+    stylesheet uses `.fallback-page`.
+  - Generic classes such as `.centered`, `.active`, `.dark`, `.loading`, or
+    `.container` are forbidden in authored UI. Name the ownership explicitly,
+    such as `.map-shell__loading` or `.trip-card--active`.
+  - A modifier never replaces its base class in JSX. Render
+    `class="trip-card trip-card--selected"`, not only
+    `class="trip-card--selected"`.
+  - Elements belong directly to the block in naming, even when markup is
+    nested. Use `.trip-card__title`, not
+    `.trip-card__content__header__title`.
+  - Never chain an element after a modifier
+    (`block__element--modifier__sub`). Restructure it as a direct element such
+    as `block__select-all-icon`, with a separate modifier where state is needed.
+  - Use a modifier for visual/component state instead of ad-hoc `is-*` or
+    utility classes.
+  - Use `&__element` and `&--modifier` within the block. Keep block-specific
+    media queries inside the block so the parent selector remains visible.
+  - Do not increase specificity by writing `.block .block__element` unless a
+    modifier or external integration genuinely scopes the element. The element
+    selector is independently meaningful.
+  - Styling owned child markup by tag (`p`, `svg path`) is allowed only when the
+    child cannot receive a class or is deliberately part of the element's
+    private markup. Prefer a BEM class whenever the markup is controlled here.
+
+  Global platform selectors (`html`, `body`, `#root`, `:root`, pseudo-elements),
+  vendor selectors (`::-webkit-scrollbar`), and third-party classes that cannot
+  be renamed (`.react-tooltip`) are the only BEM exceptions. Scope third-party
+  selectors beneath the owning BEM block whenever possible. Existing IDs used
+  as integration hooks are tolerated, but new authored UI styling MUST use BEM
+  classes.
 
 - **`rem` units** for sizing/spacing, not `px` — consistently followed.
 - **CSS custom properties** for values a modifier overrides (`--marker-color`).
@@ -617,14 +680,21 @@ import { Button } from "../../atoms/Buttons/Button"; // 4. Relative
   ```
 
 - **Theming is class-scoped**, not media-query-based: style under
-  `.home--dark` and `.home--light` blocks, always provide both.
+  `.map-shell--dark` and `.map-shell--light` modifiers, always provide both.
 
   ```scss
-  .home--dark .map-container {
-    /* … */
-  }
-  .home--light .map-container {
-    background: v.$lightBackground;
+  .map-shell {
+    &--dark {
+      .map__canvas {
+        background: v.$darkBackground;
+      }
+    }
+
+    &--light {
+      .map__canvas {
+        background: v.$lightBackground;
+      }
+    }
   }
   ```
 
@@ -654,7 +724,7 @@ import { Button } from "../../atoms/Buttons/Button"; // 4. Relative
   `floating-card-dark/light`, `full-panel-dark/light` in `_mixins.scss`)
   instead of hand-rolling a blur radius per file — about half the files that
   need this effect already use the mixins; the other half
-  (`Home.scss`, `TripDetailHero.scss`, `TooltipMap.scss`, `Map.scss`,
+  (`MapShell.scss`, `TripDetailHero.scss`, `TooltipMap.scss`, `Map.scss`,
   `Card.scss`, `TimelineTrack.scss`, `CityCard.scss`) each picked their own
   radius by hand. Converge new work on the mixins.
 - `outline: none` MUST always be paired with a visible focus replacement
@@ -674,7 +744,7 @@ Not optional. The existing markers show the baseline:
   manual pattern below only when the element genuinely can't be a `<button>`.
 - For elements that can't be a native control: `role="button"` +
   `tabIndex={0}` **and** keyboard activation via the `isActivationKey` helper
-  (`utils/keyboard`), never a hand-rolled key check:
+  (`shared/lib/keyboard`), never a hand-rolled key check:
 
   ```tsx
   onKeyDown={(event) => isActivationKey(event) && openGallery()}
@@ -785,8 +855,8 @@ cheap to test and expensive to get subtly wrong.
   colocation convention for styles: `Trip.ts` → `Trip.test.ts`, not a
   separate `tests/`/`__tests__/` tree.
 - **Priority order**, highest value first: `packages/core` domain classes and
-  `buildWorld` (pure, high-consequence, zero DOM) → `apps/travel-map/src/
-utils/*` pure functions (`collapseTransportChains`,
+  `buildWorld` (pure, high-consequence, zero DOM) → feature/shared `lib/`
+  pure functions (`collapseTransportChains`,
   `buildDisplaySegments` once extracted per §6) → component behavior tests
   for organisms with real interaction logic (`FilterByCountry`, `Gallery`)
   → skip pure-presentational atoms unless they have real conditional logic.
@@ -834,7 +904,21 @@ tooltip) and `@returns`:
 Spacing rules (enforced by `eslint-plugin-jsdoc` and this repo's custom
 `documentation/*` rules):
 
-- Start with `/**` and end with `*/` on their own lines.
+- Multiline JSDoc starts with `/**` and ends with `*/` on their own lines.
+- A simple primitive, literal-union, tuple, or direct alias type MUST use a
+  mandatory single-line JSDoc immediately above it. The single-line form is
+  reserved for aliases that need only one sentence and have no fields to
+  document:
+
+  ```ts
+  /** The panel currently displayed beside the map. */
+  export type ActiveView = "trips" | "places" | null;
+  ```
+
+  Do not expand a simple alias into a ceremonial multiline block. Object-shaped
+  aliases, interfaces, conditional/mapped types that need explanation, and all
+  declarations with tags continue to use multiline JSDoc.
+
 - One blank line before every JSDoc block, except when it starts a file or is
   the first statement immediately inside an opening block.
 - One blank line between complete declarations. The JSDoc stays directly
@@ -850,8 +934,8 @@ Spacing rules (enforced by `eslint-plugin-jsdoc` and this repo's custom
 - Every named function documents each parameter and its return value; use
   `@returns {void}` for functions that intentionally return nothing.
 - Every object-shaped type/interface documents every field with `@property`.
-  Unions and primitive aliases still need a description, no invented
-  properties.
+  Unions and primitive aliases use the mandatory single-line form above, with
+  no invented properties.
 - Every class method and constructor documents its parameters;
   non-constructor methods also document their return value.
 
@@ -881,22 +965,49 @@ function toOpaqueFill(hsla: string, baseHex: string): string {
 }
 ```
 
-Types/interfaces and enums get a brief block with `@property` per field/value
-— see the examples in the previous revision of this document if you need the
-exact shape; the pattern is unchanged.
+Object-shaped types/interfaces and enums get a block with `@property` per
+field/value. Simple aliases use the mandatory one-line JSDoc form above.
 
 ### Inline comments explain WHY, never WHAT
 
 Don't narrate the code — it should be clear enough to explain what it does.
 Use comments for why a particular approach was taken, a non-obvious decision,
-or context that isn't visible in the code itself. Never leave a comment that
-just restates the code (`// set the zoom`).
+or context that isn't visible in the code itself.
+
+Human-authored `//` line comments are forbidden, both on their own line and
+after a statement. Trailing comments of any kind are forbidden: a comment never
+shares a line with code. When rationale is genuinely necessary, put a block
+comment on its own line immediately before the smallest relevant statement:
+
+```ts
+/* MapLibre renders internal tile seams when this fill remains translucent. */
+const fill = toOpaqueFill(color, landColor);
+```
+
+Do not use block comments to preserve narration that should be deleted. The
+comment above is justified by a constraint invisible in the statement; a
+comment such as `/* Set the map fill. */` is forbidden because it repeats the
+code.
+
+The only `//` exceptions are syntax consumed by tooling and unavailable in
+another form: `// @ts-expect-error` with its required reason,
+`// eslint-disable-next-line` with the narrow rule and reason, TypeScript
+triple-slash directives, and generated/upstream files. Tooling directives must
+sit on their own line directly above the affected code and are not permission
+for prose line comments.
 
 ### TODOs and workarounds
 
-- A `// TODO:` comment MUST say what's missing and, where relevant, what would
-  trigger doing it ("TODO: add pagination once trip count exceeds ~50") —
-  not a bare `// TODO` with no context for the next reader.
+- A TODO uses an own-line block comment and MUST say what's missing and, where
+  relevant, what would trigger doing it:
+
+  ```ts
+  /* TODO: Add pagination once trip count exceeds approximately 50. */
+  const visibleTrips = trips;
+  ```
+
+  A bare TODO with no context for the next reader is forbidden.
+
 - A workaround for someone else's bug (a library quirk, a browser
   inconsistency) gets a comment naming the actual constraint, not just "hack"
   — e.g. the existing `MAPLIBRE_MIN_ZOOM` comment explaining why `0` and not
@@ -914,9 +1025,8 @@ already in the file; none of them justify a standalone rewrite pass (see
 §20).
 
 - **Business/algorithmic logic inside a rendering file.**
-  `Timeline.tsx` (segment-merging), `TripDetail.tsx` (`computeTripStats`),
-  `PlacesBrowser.tsx` (inline country dedupe/sort) — extract to `utils/` or a
-  domain-class method (§6).
+  Feature components should not absorb calculations that belong in their
+  feature `lib/`, `shared/lib/`, or a domain-class method (§6).
 - **Duplicated imperative measurement logic.** `TripBrowser.tsx` and
   `PlacesBrowser.tsx` each hand-roll a near-identical
   ResizeObserver+`requestAnimationFrame` panel-height measurement. This is a
@@ -926,8 +1036,6 @@ already in the file; none of them justify a standalone rewrite pass (see
   statements after the class body (valid JS via hoisting, but violates
   `simple-import-sort/imports` and this doc's import-ordering rule) — move
   them to the top on next touch.
-- **Inconsistent `use(HomeContext)` assertion.** `FloatingNav.tsx` omits the
-  `!` that every other consumer uses (§8).
 - **Bare-SVG click targets with no keyboard/role support.**
   `CloseButton`, `FloatingNav`'s logo, `Gallery`'s play-icon overlay (§6, §13).
 - **`outline: none` with no visible-focus replacement.** `TripCard.scss`,
@@ -939,10 +1047,8 @@ already in the file; none of them justify a standalone rewrite pass (see
 - **Placeholder JSDoc that satisfies lint but says nothing.**
   `TripBrowser.tsx`, `TripDetail.tsx`, `Gallery.tsx` each have at least one
   (§17).
-- **Half-finished scaffolding.** `atoms/BottomSheet/` (empty) and its unused
-  `bottom-sheet()` mixin — finish or delete.
-- **A kitchen-sink Context.** `HomeContext` bundling five concerns (§8) — not
-  wrong at current scale, but don't grow it further without splitting.
+- **A kitchen-sink context.** Do not recombine the narrow
+  `MapInteractionContext` and `PanelContext` contracts into one shell context.
 - **Stale documentation paths.** `CLAUDE.md`, `AGENTS.md`, and
   `.github/copilot-instructions.md` referred to a `travel-map/` directory that
   no longer exists (the real path is `apps/travel-map/`) and didn't mention
@@ -965,16 +1071,23 @@ Before opening or approving a PR touching `apps/travel-map` or
 `packages/core`:
 
 - [ ] **Placement**: new files live where §4/§5 say they should (component
-      folder co-located with its `.scss`; pure logic in `utils/` or
-      `packages/core`, not inside a component file).
+      folder co-located with its `.scss`; pure logic in the owning `lib/`,
+      `shared/lib`, or `packages/core`, not inside a component file).
 - [ ] **Naming**: files, components, hooks, handlers, and CSS classes follow
-      §5/§6 conventions; no new generic `utils.ts`/`helpers.ts`/`types.ts`.
+      §5/§6 conventions; companion modules use dot-qualified owner names; no
+      new generic `utils.ts`/`helpers.ts`/`types.ts`.
+- [ ] **BEM**: every authored UI class belongs to a named BEM block; state uses
+      modifiers; no generic utility/state class or chained element hierarchy
+      was introduced (§12).
+- [ ] **Vertical spacing**: import groups, declarations, function phases, JSX,
+      and SCSS branches follow §11; there are no doubled or decorative blank
+      lines.
 - [ ] **Component responsibility**: no new god-component mixing data
       transformation, DOM measurement, and rendering (§6); JSX doesn't hide
-      business logic that belongs in `utils/`/`packages/core`.
+      business logic that belongs in a `lib/` module or `packages/core`.
 - [ ] **State ownership**: state lives at the narrowest scope that works
-      (§8); nothing is duplicated that could be derived; no new state added
-      to `HomeContext` without considering whether it should split first.
+      (§8); nothing is duplicated that could be derived; shared state uses a
+      narrow contract rather than growing an unrelated context.
 - [ ] **Effects**: every subscribing effect has a dependency array and a
       cleanup; no effect added just to sync derivable state (§7).
 - [ ] **Types**: no new `any`; casts and non-null assertions are justified;
@@ -991,8 +1104,9 @@ Before opening or approving a PR touching `apps/travel-map` or
       infrastructure exists at review time, it has a test; if it doesn't
       exist yet, this PR isn't blocked on adding it single-handedly (§16).
 - [ ] **Documentation**: every new named function/component/type/class has a
-      real (non-placeholder) JSDoc block (§17); stale comments in touched
-      files are removed.
+      real (non-placeholder) JSDoc (§17); simple aliases use mandatory one-line
+      JSDoc; stale comments in touched files are removed; no human-authored
+      `//` or trailing comment remains.
 - [ ] `pnpm check` passes from the repository root (or `apps/travel-map`) —
       see §20 for what that covers.
 
@@ -1000,8 +1114,10 @@ Before opening or approving a PR touching `apps/travel-map` or
 
 ## 20. Migration notes
 
-Prioritized, incremental — none of this is a rewrite, and nothing here
-should be done as a single sweeping PR.
+The public app's feature-based migration is defined by
+`FEATURE_BASED_REFACTOR_MIGRATION_GUIDE.md`. New work must preserve its final
+dependency boundaries; the remaining items below are independent follow-up
+work, not reasons to weaken feature ownership.
 
 **Immediate documentation corrections** (do these first, they're pure
 accuracy fixes with no code risk):
@@ -1025,7 +1141,6 @@ behavior change):
 
 - Move the two misplaced imports in `packages/core/src/classes/Trip.ts` to
   the top of the file.
-- Add the missing `!` to `FloatingNav.tsx`'s `use(HomeContext)` call.
 - Rewrite the placeholder JSDoc blocks in `TripBrowser.tsx`, `TripDetail.tsx`,
   and `Gallery.tsx` to actually describe what those functions do.
 - Fix `Lightbox.tsx`'s hardcoded `alt=""` to use the photo's real `alt` data,
@@ -1035,16 +1150,14 @@ behavior change):
   `FloatingNav.scss`).
 - Reference `$darkAltTextDarker` from `Marker.scss` instead of repeating its
   hex value.
-- Delete `atoms/BottomSheet/` and the unused `bottom-sheet()` mixin, or
-  finish the component — don't leave it in limbo.
 - Wrap `CloseButton`, `FloatingNav`'s logo, and `Gallery`'s play-icon overlay
   in real `<button type="button">` elements.
 
 **Medium-size refactors** (worth a dedicated, reviewable PR each):
 
-- Extract `Timeline.tsx`'s `collapseTransportChains`/`buildDisplaySegments`
-  into `utils/tripDetailTimeline.ts`, leaving `Timeline.tsx` as rendering
-  only.
+- Keep trip-detail timeline calculations in
+  `features/trips/lib/tripDetailTimeline.ts`, leaving `TripTimeline.tsx` as
+  rendering only.
 - Move `TripDetail.tsx`'s `computeTripStats` into a method on `Trip`
   (`packages/core`), and have the component call it instead of re-deriving
   the numbers locally.
@@ -1064,16 +1177,12 @@ concrete trigger, not preemptively):
 - Add a lightweight runtime shape check at the `buildWorld()` boundary (§9).
   Trigger: before `data/` starts accepting content from people other than
   the current maintainer, or after the first real malformed-JSON incident.
-- Split `HomeContext` by concern if it gains more fields or a measured
-  re-render cost becomes visible (§8). Not a trigger today — the context is
-  still small.
+- Keep map interaction and panel visibility in their existing narrow shared
+  contexts; add another contract only for a concrete cross-feature consumer
+  set (§8).
 - Run this same audit pass against `apps/travel-map-editor`, which shares the
   stack but wasn't in scope for this revision.
 
-**Explicitly not recommended**: migrating `apps/travel-map` from
-atomic-design layers to a feature-folder (`src/features/*`) structure. The
-app's real problems today are localized (a few oversized files, one
-kitchen-sink context, some accessibility gaps) — a structural reorg would
-touch nearly every import in the app to fix problems that don't need it, and
-nothing in the current codebase shows the cross-feature coupling that a
-feature-folder structure is meant to solve.
+The feature-folder migration is complete when the definition of done in the
+migration guide passes. Do not reintroduce the legacy `components`, `hooks`,
+or `utils` roots.

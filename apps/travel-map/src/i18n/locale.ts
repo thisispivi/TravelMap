@@ -1,16 +1,10 @@
-/**
- * Locales supported by the application.
- */
+/** Locales supported by the application. */
 export const SUPPORTED_LOCALES = ["en-US", "it-IT"] as const;
 
-/**
- * A locale supported by the application.
- */
+/** A locale supported by the application. */
 export type SupportedLocale = (typeof SUPPORTED_LOCALES)[number];
 
-/**
- * The fallback locale used when a requested locale is unsupported.
- */
+/** The fallback locale used when a requested locale is unsupported. */
 export const DEFAULT_LOCALE: SupportedLocale = "en-US";
 
 /**

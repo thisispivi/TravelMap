@@ -4,126 +4,16 @@ import "./styles/_mixins.scss";
 import "./styles/_scrollbar.scss";
 import "./i18n/i18n";
 
-import {
-  lazy,
-  ReactNode,
-  StrictMode,
-  Suspense,
-  useEffect,
-  useRef,
-} from "react";
+import { StrictMode, Suspense } from "react";
 import { createRoot } from "react-dom/client";
-import { createHashRouter, Navigate, RouterProvider } from "react-router";
-import type { TooltipRefProps } from "react-tooltip";
-import { Tooltip } from "react-tooltip";
+import { RouterProvider } from "react-router";
 
-import { Loading } from "./components/atoms/Loading/Loading";
-import { Fallback } from "./components/pages/Fallback/Fallback";
-import { Home } from "./components/pages/Home/Home";
-import { mobileAndTabletCheck } from "./utils/responsive";
-
-const TimelinePage = lazy(() =>
-  import("./components/pages/Timeline/Timeline").then((mod) => ({
-    default: mod.TimelinePage,
-  })),
-);
-const StatsPage = lazy(() =>
-  import("./components/pages/Stats/Stats").then((mod) => ({
-    default: mod.StatsPage,
-  })),
-);
-
-const router = createHashRouter([
-  {
-    path: "/",
-    element: <Home />,
-    errorElement: <Fallback />,
-    children: [
-      { index: true, element: null },
-      { path: "trips", element: null },
-      { path: "trip/:tripId", element: null },
-      { path: "places", element: null },
-      { path: "places/:filter", element: null },
-      { path: "timeline", element: <TimelinePage /> },
-      { path: "stats", element: <StatsPage /> },
-      {
-        path: "gallery/:cityName/:travelIdx",
-        lazy: async () => {
-          const [{ Gallery: Component }, { loader }] = await Promise.all([
-            import("./components/organisms/Gallery/Gallery"),
-            import("./components/organisms/Gallery/loader"),
-          ]);
-          return { Component, loader };
-        },
-        children: [
-          {
-            path: ":photoIdx",
-            lazy: async () => {
-              const [{ Lightbox: Component }, { loader }] = await Promise.all([
-                import("./components/organisms/Lightbox/Lightbox"),
-                import("./components/organisms/Lightbox/loader"),
-              ]);
-              return { Component, loader };
-            },
-          },
-        ],
-      },
-      { path: "*", element: <Navigate replace to="/trips" /> },
-    ],
-  },
-]);
+import { router } from "./app/routing/router";
+import { BaseTooltip } from "./app/tooltip/BaseTooltip";
+import { Loading } from "./shared/components/Loading/Loading";
+import { mobileAndTabletCheck } from "./shared/lib/responsive";
 
 const isMobileOrTablet = mobileAndTabletCheck();
-
-/**
- * BaseTooltip component
- * Global `react-tooltip` instance used for all `data-tooltip-id="base-tooltip"`
- * anchors. Automatically closes when the window loses focus or the tab becomes
- * hidden to prevent stale tooltips after context switches.
- * @component
- * @returns {ReactNode} The shared tooltip element
- */
-function BaseTooltip(): ReactNode {
-  const tooltipRef = useRef<TooltipRefProps>(null);
-
-  useEffect(() => {
-    /**
-     * Closes the global tooltip immediately.
-     * @returns {void}
-     */
-    const closeTooltip = (): void => {
-      tooltipRef.current?.close({ delay: 0 });
-    };
-
-    /**
-     * Closes the tooltip when its browser tab becomes hidden.
-     * @returns {void}
-     */
-    const handleVisibilityChange = (): void => {
-      if (document.hidden) closeTooltip();
-    };
-
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-    window.addEventListener("blur", closeTooltip);
-
-    return () => {
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-      window.removeEventListener("blur", closeTooltip);
-    };
-  }, []);
-
-  return (
-    <Tooltip
-      className="tooltip"
-      delayShow={300}
-      globalCloseEvents={{ clickOutsideAnchor: true, escape: true }}
-      id="base-tooltip"
-      noArrow
-      opacity={1}
-      ref={tooltipRef}
-    />
-  );
-}
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

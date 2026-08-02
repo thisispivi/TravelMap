@@ -1,6 +1,6 @@
 import "./ColorField.scss";
 
-import { useLanguage } from "@app/hooks/language/language";
+import { useLanguage } from "@app/shared/hooks/useLanguage";
 import { ColorData } from "@travelmap/core";
 import { ReactNode } from "react";
 

@@ -4,7 +4,7 @@ import CameraIcon from "@app/assets/icons/Camera.svg?react";
 import CityIcon from "@app/assets/icons/City.svg?react";
 import GlobeIcon from "@app/assets/icons/Globe.svg?react";
 import MapIcon from "@app/assets/icons/Map.svg?react";
-import { useLanguage } from "@app/hooks/language/language";
+import { useLanguage } from "@app/shared/hooks/useLanguage";
 import { ComponentType, ReactNode, SVGProps } from "react";
 import { Link } from "react-router";
 

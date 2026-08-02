@@ -1,6 +1,6 @@
 import "./ImageUploadField.scss";
 
-import { useLanguage } from "@app/hooks/language/language";
+import { useLanguage } from "@app/shared/hooks/useLanguage";
 import { ReactNode, useEffect, useState } from "react";
 
 const ASSET_WRITE_ENDPOINT = "/__assets/write";

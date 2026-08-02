@@ -1,7 +1,7 @@
 import "./DatePicker.scss";
 
-import { useLanguage } from "@app/hooks/language/language";
-import { classNames } from "@app/utils/className";
+import { useLanguage } from "@app/shared/hooks/useLanguage";
+import { classNames } from "@app/shared/lib/classNames";
 import { AnimatePresence, domAnimation, LazyMotion, m } from "framer-motion";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";

@@ -1,10 +1,7 @@
 import "./CoordinatePicker.scss";
 
 import countriesTopologyJson from "@app/assets/json/countries-50m.json";
-import {
-  createMapStyle,
-  MAP_THEMES,
-} from "@app/components/organisms/Map/mapTheme";
+import { createMapStyle, MAP_THEMES } from "@app/features/map/lib/mapTheme";
 import type { FeatureCollection, Geometry } from "geojson";
 import { ReactNode, useMemo } from "react";
 import Map, {

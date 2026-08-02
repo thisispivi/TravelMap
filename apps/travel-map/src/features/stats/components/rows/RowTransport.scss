@@ -1,0 +1,83 @@
+@use "../../../../styles/variables" as v;
+@use "../../../../styles/mixins" as m;
+
+.transport-row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+  column-gap: 1rem;
+  .transport-row__cities {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    .transport-row__cities__city {
+      display: flex;
+      align-items: center;
+      margin-block: 0;
+      font-size: 1.1rem;
+      font-weight: 500;
+      svg {
+        width: 1rem;
+        height: 1rem;
+        margin-right: 0.3rem;
+      }
+    }
+    .transport-row__icon {
+      width: 1.1rem;
+      height: 1.1rem;
+      margin-inline: 0.5rem;
+      flex-shrink: 0;
+      color: #107895;
+
+      * {
+        stroke: #107895;
+      }
+    }
+  }
+  .transport-row__distance {
+    font-size: 1.1rem;
+    font-weight: 800;
+  }
+}
+
+.map-shell--light {
+  .transport-row {
+    .transport-row__distance,
+    b,
+    p {
+      color: v.$darkLeftBar;
+      @include m.transition(all, 0.3s, ease-in-out);
+    }
+  }
+}
+
+.map-shell--dark {
+  .transport-row {
+    .transport-row__distance,
+    b,
+    p {
+      color: v.$lightLeftBar;
+      @include m.transition(all, 0.3s, ease-in-out);
+    }
+  }
+}
+
+@media (max-width: 28.75rem) {
+  .transport-row {
+    justify-content: space-between;
+    gap: 0.75rem;
+
+    .transport-row__cities {
+      justify-content: flex-start;
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+
+    .transport-row__distance {
+      flex-shrink: 0;
+      text-align: right;
+    }
+  }
+}

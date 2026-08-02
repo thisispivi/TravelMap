@@ -348,7 +348,7 @@ export default [
         "error",
         {
           noFinalLineText: true,
-          noSingleLineBlocks: true,
+          noSingleLineBlocks: false,
           noZeroLineText: true,
         },
       ],
@@ -424,8 +424,98 @@ export default [
       "nounsanitized/method": "error",
       "nounsanitized/property": "error",
 
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: ["@/components/*", "@/hooks/*", "@/utils/*"],
+              message: "Import from the owning app, feature, or shared module.",
+            },
+          ],
+        },
+      ],
+
       "simple-import-sort/imports": "warn",
       "simple-import-sort/exports": "warn",
+    },
+  },
+  {
+    files: [
+      "apps/travel-map/src/shared/**/*.ts",
+      "apps/travel-map/src/shared/**/*.tsx",
+    ],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: [
+                "@/app/*",
+                "@/components/*",
+                "@/features/*",
+                "@/hooks/*",
+                "@/utils/*",
+              ],
+              message:
+                "Shared modules cannot depend on app or feature internals.",
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
+    files: [
+      "apps/travel-map/src/features/**/*.ts",
+      "apps/travel-map/src/features/**/*.tsx",
+    ],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: [
+                "@/app/*",
+                "@/components/*",
+                "@/features/*",
+                "@/hooks/*",
+                "@/utils/*",
+              ],
+              message:
+                "Features use relative imports internally and cannot depend on app or other feature internals.",
+            },
+            {
+              regex:
+                "^(?:\\.\\./)+(?:gallery|map|navigation|places|stats|timeline|trips)/",
+              message:
+                "Features cannot import another feature's private modules.",
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
+    files: [
+      "apps/travel-map/src/data/**/*.ts",
+      "apps/travel-map/src/data/**/*.tsx",
+    ],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: ["@/app/*", "@/features/*", "@/shared/*"],
+              message:
+                "The data boundary may only depend on static data and core.",
+            },
+          ],
+        },
+      ],
     },
   },
 ];

@@ -1,7 +1,7 @@
 import "./Combobox.scss";
 
-import { useLanguage } from "@app/hooks/language/language";
-import { classNames } from "@app/utils/className";
+import { useLanguage } from "@app/shared/hooks/useLanguage";
+import { classNames } from "@app/shared/lib/classNames";
 import { useCombobox, useMultipleSelection } from "downshift";
 import { domAnimation, LazyMotion, m } from "framer-motion";
 import Fuse, { IFuseOptions } from "fuse.js";

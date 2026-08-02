@@ -1,7 +1,7 @@
 import "./PlaceImport.scss";
 
 import PositionIcon from "@app/assets/icons/Position.svg?react";
-import { useLanguage } from "@app/hooks/language/language";
+import { useLanguage } from "@app/shared/hooks/useLanguage";
 import { ReactNode, useState } from "react";
 
 import { ParsedPlace, parseGoogleMapsUrl } from "../../../core/geo";

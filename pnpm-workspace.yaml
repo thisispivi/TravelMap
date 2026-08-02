@@ -17,6 +17,7 @@ onlyBuiltDependencies:
 
 packages:
   - "apps/*"
+  - "!apps/travel-map-copy"
   - "packages/*"
 
 trustPolicy: no-downgrade

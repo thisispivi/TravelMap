@@ -36,25 +36,31 @@ The live app is available at [map.pivi.dev](https://map.pivi.dev/).
 ├── AGENTS.md
 ├── CLAUDE.md
 ├── CODING_GUIDELINES.md
+├── FEATURE_BASED_REFACTOR_MIGRATION_GUIDE.md
+├── apps
+│   ├── travel-map
+│   └── travel-map-editor
+├── packages
+│   └── core
 ├── logos
 ├── scripts
 │   └── uploader
-└── travel-map
-    ├── public
-    └── src
+└── data
 ```
 
-- `travel-map` is the React application.
+- `apps/travel-map` is the public React application.
+- `apps/travel-map-editor` is the companion content-authoring application.
+- `packages/core` contains the shared `@travelmap/core` domain model.
 - `scripts`: Contains a folder with the scripts used to process and upload images/videos and generate the JSON file.
   - [Uploader](./scripts/uploader/README.md): generates compressed and thumbnail images from travel photos and videos. It uploads them to bunnyCDN and generates a JSON file with the metadata. This JSON file is then used by the React app to display the galleries.
 - `logos` contains app and README logo assets.
 - [`CODING_GUIDELINES.md`](./CODING_GUIDELINES.md) is the single source of truth for code style and engineering conventions.
+- [`FEATURE_BASED_REFACTOR_MIGRATION_GUIDE.md`](./FEATURE_BASED_REFACTOR_MIGRATION_GUIDE.md) records the public app's feature-first architecture and migration acceptance criteria.
 - `AGENTS.md`, `CLAUDE.md`, and `.github/copilot-instructions.md` configure Codex, Claude, and GitHub Copilot to follow those same guidelines for every code file.
 
 ## Local Development
 
 ```bash
-cd travel-map
 pnpm install
 pnpm dev
 ```
@@ -90,6 +96,5 @@ Python pins can be checked with
 ## Deploy
 
 ```bash
-cd travel-map
-pnpm run deploygh
+pnpm --filter travel-map deploygh
 ```

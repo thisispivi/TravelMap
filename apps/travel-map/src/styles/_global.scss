@@ -58,16 +58,18 @@ body,
   background-color: v.$darkBackground;
 }
 
-.home--light {
-  .react-tooltip {
-    background-color: v.$lightLeftBar;
-    color: v.$darkLeftBar;
+.map-shell {
+  &--light {
+    .react-tooltip {
+      background-color: v.$lightLeftBar;
+      color: v.$darkLeftBar;
+    }
   }
-}
 
-.home--dark {
-  .react-tooltip {
-    background-color: v.$darkLeftBar;
-    color: v.$lightLeftBar;
+  &--dark {
+    .react-tooltip {
+      background-color: v.$darkLeftBar;
+      color: v.$lightLeftBar;
+    }
   }
 }
