@@ -80,10 +80,11 @@ layout, including component titles, declaration spacing, typed parameters,
 documented destructured props, return values, and documentation for every
 named function, class, method, type, interface, and enum.
 
-Dependency installation uses pnpm's seven-day release quarantine. Only
-time-sensitive security patches are exempted, and the single transitive
-override replaces vulnerable legacy `brace-expansion` releases. Run
-`pnpm run security:audit` for the JavaScript dependency audit. The uploader's
+Dependency installation uses pnpm's seven-day release quarantine. The package
+update command also respects peer compatibility, while time-sensitive security
+patches are exempted and known-incompatible formatter, linter, and TypeScript
+releases are excluded. Transitive overrides replace vulnerable legacy releases.
+Run `pnpm run security:audit` for the JavaScript dependency audit. The uploader's
 Python pins can be checked with
 `uvx pip-audit -r scripts/uploader/requirements.txt` from the repository root.
 
