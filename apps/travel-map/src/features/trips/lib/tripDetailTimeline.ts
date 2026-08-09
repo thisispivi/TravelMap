@@ -1019,35 +1019,34 @@ export function computeTripStats(items: TripDetailTimelineItem[]): TripStats {
         item.stop.eDate,
       );
     } else if (item.kind === "transport") {
-      const mult = item.isRoundTrip ? 2 : 1;
       if (item.mode === "plane") {
-        flights += mult;
-        flightKm += (item.flightInfo?.distanceKm ?? 0) * mult;
-        flightMinutes += (item.flightInfo?.durationMinutes ?? 0) * mult;
+        flights += 1;
+        flightKm += item.flightInfo?.distanceKm ?? 0;
+        flightMinutes += item.flightInfo?.durationMinutes ?? 0;
       } else if (item.mode === "ferry") {
-        ferries += mult;
-        ferryKm += (item.ferryInfo?.distanceKm ?? 0) * mult;
-        ferryMinutes += (item.ferryInfo?.durationMinutes ?? 0) * mult;
+        ferries += 1;
+        ferryKm += item.ferryInfo?.distanceKm ?? 0;
+        ferryMinutes += item.ferryInfo?.durationMinutes ?? 0;
       } else if (item.mode === "train") {
-        trains += mult;
-        trainKm += (item.trainInfo?.distanceKm ?? 0) * mult;
-        trainMinutes += (item.trainInfo?.durationMinutes ?? 0) * mult;
+        trains += 1;
+        trainKm += item.trainInfo?.distanceKm ?? 0;
+        trainMinutes += item.trainInfo?.durationMinutes ?? 0;
       } else if (item.mode === "bus") {
-        buses += mult;
-        busKm += (item.busInfo?.distanceKm ?? 0) * mult;
-        busMinutes += (item.busInfo?.durationMinutes ?? 0) * mult;
+        buses += 1;
+        busKm += item.busInfo?.distanceKm ?? 0;
+        busMinutes += item.busInfo?.durationMinutes ?? 0;
       } else if (item.mode === "car") {
-        cars += mult;
-        carKm += (item.carInfo?.distanceKm ?? 0) * mult;
-        carMinutes += (item.carInfo?.durationMinutes ?? 0) * mult;
+        cars += 1;
+        carKm += item.carInfo?.distanceKm ?? 0;
+        carMinutes += item.carInfo?.durationMinutes ?? 0;
       } else if (item.mode === "taxi") {
-        taxis += mult;
-        taxiKm += (item.taxiInfo?.distanceKm ?? 0) * mult;
-        taxiMinutes += (item.taxiInfo?.durationMinutes ?? 0) * mult;
+        taxis += 1;
+        taxiKm += item.taxiInfo?.distanceKm ?? 0;
+        taxiMinutes += item.taxiInfo?.durationMinutes ?? 0;
       } else if (item.mode === "walk") {
-        walks += mult;
-        walkKm += (item.walkInfo?.distanceKm ?? 0) * mult;
-        walkMinutes += (item.walkInfo?.durationMinutes ?? 0) * mult;
+        walks += 1;
+        walkKm += item.walkInfo?.distanceKm ?? 0;
+        walkMinutes += item.walkInfo?.durationMinutes ?? 0;
       }
     }
   }

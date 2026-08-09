@@ -27,7 +27,7 @@ export interface AnchoredMenuState {
 }
 
 const MENU_GAP_REM = 0.25;
-const MENU_MAX_HEIGHT_REM = 18;
+const MENU_MAX_HEIGHT_REM = 22;
 const REM_IN_PX = 16;
 
 /** Shared animation states for anchored editor panels. */
@@ -45,23 +45,31 @@ export const ANCHORED_PANEL_VARIANTS = {
 /**
  * Measures an anchor and picks the side of it with more room.
  * @param {HTMLElement | null} anchor - The control the menu attaches to
+ * @param {number} [preferredWidth] - Minimum panel width in pixels
  * @returns {MenuPosition | null} The position, when the anchor is mounted
  */
-function measure(anchor: HTMLElement | null): MenuPosition | null {
+function measure(
+  anchor: HTMLElement | null,
+  preferredWidth?: number,
+): MenuPosition | null {
   if (!anchor) return null;
   const rect = anchor.getBoundingClientRect();
   const gap = MENU_GAP_REM * REM_IN_PX;
   const maxHeight = MENU_MAX_HEIGHT_REM * REM_IN_PX;
+  const width = Math.min(
+    Math.max(rect.width, preferredWidth ?? rect.width),
+    window.innerWidth - gap * 2,
+  );
   const below = window.innerHeight - rect.bottom - gap * 2;
   const above = rect.top - gap * 2;
   const opensUp = below < maxHeight && above > below;
 
   return {
-    left: rect.left,
+    left: Math.min(Math.max(gap, rect.left), window.innerWidth - width - gap),
     maxHeight: Math.max(0, Math.min(maxHeight, opensUp ? above : below)),
     placement: opensUp ? "top" : "bottom",
     top: opensUp ? rect.top - gap : rect.bottom + gap,
-    width: rect.width,
+    width,
   };
 }
 
@@ -93,11 +101,13 @@ function hasMoved(
  * the viewport, flipping above the anchor when there is more room there.
  * @param {RefObject<HTMLElement | null>} anchorRef - The control the menu attaches to
  * @param {boolean} isOpen - Whether the menu is currently shown
+ * @param {number} [preferredWidth] - Minimum panel width in pixels
  * @returns {AnchoredMenuState} The portal host and current position
  */
 export function useAnchoredMenu(
   anchorRef: RefObject<HTMLElement | null>,
   isOpen: boolean,
+  preferredWidth?: number,
 ): AnchoredMenuState {
   const [position, setPosition] = useState<MenuPosition | null>(null);
   const [container, setContainer] = useState<Element>(document.body);
@@ -113,7 +123,7 @@ export function useAnchoredMenu(
      */
     function update(): void {
       const anchor = anchorRef.current;
-      const next = measure(anchor);
+      const next = measure(anchor, preferredWidth);
       setContainer(anchor?.closest("dialog") ?? document.body);
       setPosition((current) => (hasMoved(current, next) ? next : current));
     }
@@ -128,7 +138,7 @@ export function useAnchoredMenu(
       window.removeEventListener("scroll", update, true);
       window.removeEventListener("resize", update);
     };
-  }, [anchorRef, isOpen]);
+  }, [anchorRef, isOpen, preferredWidth]);
 
   return { container, position: isOpen ? position : null };
 }

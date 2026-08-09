@@ -23,6 +23,9 @@ interface WritePayload {
   base?: unknown;
 }
 
+/** Google hostnames accepted by the short-link resolver. */
+const GOOGLE_MAP_HOSTS = new Set(["goo.gl", "maps.app.goo.gl"]);
+
 /**
  * Reads a JSON request body without adding a server dependency to the editor.
  * @param {IncomingMessage} request - Incoming HTTP request
@@ -53,9 +56,10 @@ function resolveDataPath(dataRoot: string, relativePath: string): string {
 
 /**
  * Removes directories left empty by a delete, stopping at the data root.
- * A country lives at `<Id>/<Id>.json` and a city at `<Country>/<Id>/<Id>.json`,
- * so deleting one would otherwise strand an empty folder that still reads as an
- * existing entity to anyone browsing the dataset.
+ * A country lives at `cities/<Id>/<Id>.json` and a city at
+ * `cities/<Country>/<Id>/<Id>.json`, so deleting one would otherwise strand an
+ * empty folder that still reads as an existing entity to anyone browsing the
+ * dataset.
  * @param {string} dataRoot - Absolute data directory
  * @param {string} directory - Directory the deleted file lived in
  * @returns {Promise<void>} Completion once empty parents are gone
@@ -130,15 +134,27 @@ export function dataWriter(dataRoot: string): Plugin {
      * @returns {void}
      */
     configureServer(server: ViteDevServer): void {
-      // data/ lives outside the editor's Vite root, so only the JSON files
-      // already in the module graph are watched. Without this the directory is
-      // unwatched and a newly created country or city never reaches the eager
-      // globs, no matter how hard the browser reloads.
+      /*
+       * data/ lives outside the editor's Vite root. Watching it explicitly is
+       * what lets newly created documents reach the eager globs after reload.
+       */
       server.watcher.add(dataRoot);
 
       server.middlewares.use("/__data", async (request, response) => {
-        if (request.method !== "POST") return;
         try {
+          if (
+            request.method === "GET" &&
+            request.url?.startsWith("/resolve-map-link")
+          ) {
+            const requestUrl = new URL(request.url, "http://localhost");
+            const target = new URL(requestUrl.searchParams.get("url") ?? "");
+            if (!GOOGLE_MAP_HOSTS.has(target.hostname))
+              throw new Error("Only Google Maps share links can be resolved.");
+            const resolved = await fetch(target, { redirect: "follow" });
+            sendJson(response, 200, { url: resolved.url });
+            return;
+          }
+          if (request.method !== "POST") return;
           const payload = await readPayload(request);
           const path = resolveDataPath(dataRoot, payload.path);
           if (request.url === "/write") {

@@ -32,11 +32,8 @@ const HUE_STEP = 137;
 const DEFAULT_SATURATION = 68;
 const DEFAULT_LIGHTNESS = 50;
 
-/*
- * Two gazetteer entries this close together are almost always the same place
- * recorded twice, or a suburb the author means to fold into its city.
- */
-const DUPLICATE_RADIUS_KM = 25;
+/* Gazetteers may vary slightly for the same pin, but neighbouring cities are distinct. */
+const DUPLICATE_RADIUS_KM = 1;
 
 /**
  * Picks a map colour for a newly created country, spaced away from the ones
@@ -57,8 +54,7 @@ function nextCountryColor(dataset: DatasetSnapshot): {
 }
 
 /**
- * Finds a city already in the dataset that is close enough to be the same
- * place, so an import or a second search never creates a duplicate Rome.
+ * Finds a city already in the dataset at effectively the same map point.
  * @param {DatasetSnapshot} dataset - The current dataset
  * @param {[number, number]} coordinates - Longitude and latitude
  * @returns {string | null} The nearby city's id, when there is one
@@ -76,8 +72,8 @@ export function findNearbyCity(
 
 /**
  * Works out what adding a gazetteer match would create.
- * An existing city with the same id, or one within a few kilometres, is reused
- * instead: the itinerary wants a reference, not a second copy of the place.
+ * An existing city with the same name in the same country, or at effectively
+ * the same coordinates, is reused instead of creating a duplicate document.
  * @param {DatasetSnapshot} dataset - The current dataset
  * @param {WorldCity} city - The chosen gazetteer entry
  * @returns {PlannedPlace | null} The plan, or null when the country is unknown
@@ -89,7 +85,12 @@ export function planPlace(
   if (!city.country) return null;
 
   const nearbyCityId = findNearbyCity(dataset, city.coordinates);
-  const byName = dataset.cities.find(({ value }) => value.name === city.name);
+  const normalizedName = city.name.trim().toLocaleLowerCase();
+  const byName = dataset.cities.find(
+    ({ value }) =>
+      value.countryId === city.country?.id &&
+      value.name.trim().toLocaleLowerCase() === normalizedName,
+  );
   const reused = byName?.value.id ?? nearbyCityId;
   if (reused)
     return {

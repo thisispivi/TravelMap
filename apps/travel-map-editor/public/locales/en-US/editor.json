@@ -111,7 +111,6 @@
     "distanceKm": "Distance km",
     "durationMinutes": "Duration minutes",
     "viaCities": "Via cities",
-    "roundTrip": "Round trip",
     "airline": "Airline",
     "noAirline": "No airline",
     "flightNumber": "Flight number",
@@ -138,7 +137,8 @@
     "title": "Import from Google Maps",
     "placeholder": "Paste a maps link or 41.9028, 12.4964",
     "use": "Use",
-    "shortLinkError": "Short links cannot be read. Open it in Google Maps and copy the full URL.",
+    "resolving": "Resolving…",
+    "shortLinkError": "That Google Maps share link could not be resolved.",
     "noCoordinatesError": "No coordinates found in that link.",
     "preview": "Longitude {{longitude}}, latitude {{latitude}}"
   },
@@ -299,11 +299,16 @@
     "readyBadge": "Ready",
     "blockingBadge_one": "{{count}} problem",
     "blockingBadge_other": "{{count}} problems",
-    "health": "Dataset health",
-    "loadsCleanly": "The dataset loads cleanly.",
     "places": "Countries and cities",
     "placesHint": "Cities and countries are created for you. Open one only to correct it.",
-    "placesCount": "{{countries}} countries, {{cities}} cities"
+    "placesCount": "{{countries}} countries, {{cities}} cities",
+    "countries": "Countries",
+    "cities": "Cities",
+    "previousPage": "Previous page",
+    "nextPage": "Next page",
+    "page": "Page {{current}} of {{total}}",
+    "transportCompanies": "Transport companies",
+    "noCompanies": "Add transport companies in Settings to show them here."
   },
   "workspace": {
     "backToLibrary": "Trips",
@@ -334,8 +339,7 @@
     "leg": "Leg",
     "openCity": "Open city file",
     "more": "More options",
-    "gallery": "Gallery",
-    "galleryHint": "Galleries come from scripts/uploader; the editor only references them.",
+    "photoManifestHint": "Select the generated JSON below data/photos to link it to this stay.",
     "minPhotos": "Minimum photos per row",
     "maxPhotos": "Maximum photos per row",
     "targetRowHeight": "Target row height",
@@ -343,7 +347,6 @@
     "useSuggestion": "Use",
     "greatCircle": "great-circle",
     "forThisMode": "for this mode",
-    "suggestMode": "Suggested: {{mode}}",
     "endpointsHint": "Endpoints follow the stays on either side of this leg.",
     "mapFocus": "Map focus",
     "mapFocusAuto": "Fitted to the trip",
@@ -373,8 +376,7 @@
       "created": "created",
       "updated": "updated",
       "deleted": "deleted"
-    },
-    "preview": "Preview"
+    }
   },
   "save": {
     "saving": "Saving",
@@ -394,8 +396,8 @@
     "willCreateCity": "Creates the city {{city}}.",
     "reusesExisting": "Reuses the existing city {{city}}.",
     "willCreateCountry": "This is the first place in {{country}}, so its country file is created too.",
-    "nearbyDuplicate": "{{city}} is already within 25 km of here.",
-    "manualTitle": "Create a place at {{latitude}}, {{longitude}}",
+    "nearbyDuplicate": "{{city}} is already at this location.",
+    "manualTitle": "Create a custom place",
     "manualName": "Name",
     "manualCountry": "Country",
     "createHere": "Create here",
@@ -432,14 +434,6 @@
     "trip": "Trip",
     "city": "City",
     "country": "Country"
-  },
-  "preview": {
-    "title": "Public site preview",
-    "desktop": "Desktop",
-    "tablet": "Tablet",
-    "mobile": "Mobile",
-    "openInTab": "Open in a tab",
-    "notRunning": "The public site is not running. Start it with pnpm dev."
   },
   "import": {
     "title": "Import",

@@ -191,7 +191,7 @@ export function TimelineStayGroup({
    * @returns {ReactNode} The nested excursion stop
    */
   const renderExcursionStop = (exc: ExcursionItem): ReactNode => {
-    const excLabel = t(`cities.${exc.city.name}`) || exc.city.name;
+    const excLabel = exc.city.getLocalizedName(lang);
     const excGalleryIdx = getPhotoTravelIndex(
       exc.city,
       exc.stop.sDate,
@@ -288,7 +288,7 @@ export function TimelineStayGroup({
   const thumbSrc = city.getBackgroundImgSourceByIndex(
     hasPhotos ? galleryTravelIdx : travelIdx,
   );
-  const cityLabel = t(`cities.${city.name}`) || city.name;
+  const cityLabel = city.getLocalizedName(lang);
 
   /**
    * Opens the gallery for the main stay.

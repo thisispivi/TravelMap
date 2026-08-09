@@ -23,7 +23,7 @@ export interface IdProblem {
  * @returns {string} Dataset-relative JSON path
  */
 export function countryPath(id: string): string {
-  return `${id}/${id}.json`;
+  return `cities/${id}/${id}.json`;
 }
 
 /**
@@ -33,7 +33,7 @@ export function countryPath(id: string): string {
  * @returns {string} Dataset-relative JSON path
  */
 export function cityPath(countryId: string, id: string): string {
-  return `${countryId}/${id}/${id}.json`;
+  return `cities/${countryId}/${id}/${id}.json`;
 }
 
 /**

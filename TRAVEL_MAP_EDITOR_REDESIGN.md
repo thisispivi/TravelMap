@@ -23,9 +23,9 @@ The current editor states that principle for countries and then abandons it for
 everything else. Cities are a separate top-level create flow, a separate
 sidebar section, and a separate screen. A trip step cannot reference a city that
 does not already exist as a document, so the actual authoring sequence is:
-*think of a place → leave the trip → create a city → return to the trip → find
-the city in a combobox*. The redesign collapses that into: *type the place name
-into the itinerary*.
+_think of a place → leave the trip → create a city → return to the trip → find
+the city in a combobox_. The redesign collapses that into: _type the place name
+into the itinerary_.
 
 ### Main user promise
 
@@ -39,13 +39,18 @@ The current editor is a **file browser with forms attached**. Its information
 architecture is a one-to-one mirror of the `data/` directory layout
 (`Nav.tsx:49-79` builds sidebar sections literally named `country`, `city`,
 `trip`; `App.tsx:153-164` routes `/countries/:id`, `/cities/:id`, `/trips/:id`).
-That is the *storage* model, not the *task* model. The task is "record a trip".
+That is the _storage_ model, not the _task_ model. The task is "record a trip".
 
 The cost of that mismatch is visible in the repository's own shipped data.
 `data/trips/cagliari-2026.json` contains three identical steps:
 
 ```json
-{ "type": "transport", "fromId": "Cagliari", "mode": "train", "toId": "Cagliari" }
+{
+  "type": "transport",
+  "fromId": "Cagliari",
+  "mode": "train",
+  "toId": "Cagliari"
+}
 ```
 
 That is not a typo — it is the literal default produced by
@@ -60,8 +65,8 @@ argument that the editing model, not the styling, is what needs replacing.**
 
 A **persistent trip workspace**: one screen, three synchronized panes
 (itinerary rail, map, inspector), no navigation between documents to complete a
-single task. Cities and countries are created *inline as a consequence of
-adding a stop*, exactly the way `ensureCountry()` (`CreateScreen.tsx:81-92`)
+single task. Cities and countries are created _inline as a consequence of
+adding a stop_, exactly the way `ensureCountry()` (`CreateScreen.tsx:81-92`)
 already creates a country when you add the first city inside it — that function
 is the right idea applied one level too high in the tree.
 
@@ -73,13 +78,13 @@ thing: the mode. The Cagliari bug becomes unrepresentable.
 
 ### Expected improvement in ease of use
 
-| Task | Today | Proposed |
-| --- | --- | --- |
+| Task                                        | Today                                                                                                                                                                                                 | Proposed                                                                                                  |
+| ------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
 | Add a stop in a city not yet in the dataset | Leave trip → `/new/city` → gazetteer search → name → id → create → **full page reload** → navigate back to trip → open combobox → find city → add stop → add transport → set from → set to → set mode | Type place name in the rail → pick from gazetteer → done (city + country files written in the background) |
-| Correct a wrong itinerary order | ↑/↓ one position per click (`TripScreen.tsx:126-135`) | Drag, or ↑/↓, or cut/paste, or "sort by date" |
-| Know a step is wrong | Not detected; `reviewDataset()` runs once at module load (`App.tsx:24`) and never re-runs while editing | Live, inline, on the map, and in a validation tray |
-| Undo a mistake | Reload the page and lose everything else too | Ctrl+Z, unlimited within session |
-| Save | Click Save; page reloads on structural changes (`dataset.ts:233`) | Autosaves; never reloads |
+| Correct a wrong itinerary order             | ↑/↓ one position per click (`TripScreen.tsx:126-135`)                                                                                                                                                 | Drag, or ↑/↓, or cut/paste, or "sort by date"                                                             |
+| Know a step is wrong                        | Not detected; `reviewDataset()` runs once at module load (`App.tsx:24`) and never re-runs while editing                                                                                               | Live, inline, on the map, and in a validation tray                                                        |
+| Undo a mistake                              | Reload the page and lose everything else too                                                                                                                                                          | Ctrl+Z, unlimited within session                                                                          |
+| Save                                        | Click Save; page reloads on structural changes (`dataset.ts:233`)                                                                                                                                     | Autosaves; never reloads                                                                                  |
 
 ---
 
@@ -90,13 +95,13 @@ thing: the mode. The Cagliari bug becomes unrepresentable.
 Four JSON document kinds under `data/`, all bundled through
 `import.meta.glob(..., { eager: true })` in `apps/travel-map-editor/src/core/dataset.ts:105-125`:
 
-| Kind | Path | Schema | Editor screen |
-| --- | --- | --- | --- |
-| Site config | `site.config.json` | `SiteConfig` (`dataset.ts:43-66`) | `ConfigScreen` |
-| Country | `<Id>/<Id>.json` | `CountryJson` (`packages/core/src/schema/index.ts:17`) | `CountryScreen` |
-| City | `<CountryId>/<Id>/<Id>.json` | `CityJson` (`schema/index.ts:42`) | `CityScreen` |
-| Trip | `trips/<id>.json` | `TripJson` (`schema/index.ts:132`) | `TripScreen` |
-| Photo manifest | `photos/<Country>/<City>/<name>.json` | `Image[]` | **None — read-only, referenced by path** |
+| Kind           | Path                                  | Schema                                                 | Editor screen                            |
+| -------------- | ------------------------------------- | ------------------------------------------------------ | ---------------------------------------- |
+| Site config    | `site.config.json`                    | `SiteConfig` (`dataset.ts:43-66`)                      | `ConfigScreen`                           |
+| Country        | `<Id>/<Id>.json`                      | `CountryJson` (`packages/core/src/schema/index.ts:17`) | `CountryScreen`                          |
+| City           | `<CountryId>/<Id>/<Id>.json`          | `CityJson` (`schema/index.ts:42`)                      | `CityScreen`                             |
+| Trip           | `trips/<id>.json`                     | `TripJson` (`schema/index.ts:132`)                     | `TripScreen`                             |
+| Photo manifest | `photos/<Country>/<City>/<name>.json` | `Image[]`                                              | **None — read-only, referenced by path** |
 
 Photo manifests are produced out of band by `scripts/uploader/main.py`, which
 converts media to WEBP, uploads to BunnyCDN, and exports
@@ -138,13 +143,13 @@ Consumed but authored by hand: `mapFocus` (`Map.tsx:97-101`), `coverImage`
 There is **no runtime network dependency**. Everything external is dev-server
 side or out of band:
 
-| Service | Where | Nature |
-| --- | --- | --- |
-| `all-the-cities` gazetteer | `vite/cityIndex.ts:54-64`, filtered to population ≥ 5 000 | Node-only, served at `/__cities` |
-| `tz-lookup` | same plugin | Node-only, served at `/__cities/timezone` |
-| `world-countries` | `src/core/world.ts` | Flags, continent, currency, translations |
-| Google Maps paste | `src/core/geo.ts` | **Regex only, no network.** Short `maps.app.goo.gl` links deliberately fail rather than guess |
-| BunnyCDN | `scripts/uploader/main.py` | Out of band, Python |
+| Service                    | Where                                                     | Nature                                                                                        |
+| -------------------------- | --------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| `all-the-cities` gazetteer | `vite/cityIndex.ts:54-64`, filtered to population ≥ 5 000 | Node-only, served at `/__cities`                                                              |
+| `tz-lookup`                | same plugin                                               | Node-only, served at `/__cities/timezone`                                                     |
+| `world-countries`          | `src/core/world.ts`                                       | Flags, continent, currency, translations                                                      |
+| Google Maps paste          | `src/core/geo.ts`                                         | **Regex only, no network.** Short `maps.app.goo.gl` links deliberately fail rather than guess |
+| BunnyCDN                   | `scripts/uploader/main.py`                                | Out of band, Python                                                                           |
 
 **There is no geocoding API, no routing API, no directions API, and no
 backend.** Any proposal that assumes one is proposing a new dependency, and
@@ -157,14 +162,14 @@ this document flags every such case.
    middleware. `resolveDataPath()` jails writes to `data/` and to `.json`.
    Output format is fixed: `JSON.stringify(value, null, 2)` + `\n`.
 2. **No auth, no multi-user, no server.** Conflict handling between "users" is
-   not a real requirement. Conflict handling between *the editor and git* is.
+   not a real requirement. Conflict handling between _the editor and git_ is.
 3. **`id` is a filesystem path segment and a URL segment.** `ID_PATTERN`
    (`dataset.ts:267`) allows `[A-Za-z0-9][A-Za-z0-9_-]*` because city ids become
    gallery URL segments and every id becomes a directory name.
 4. **A city's file path embeds its `countryId`.** Changing a city's country is a
    file move: write new, delete old (`CityScreen.tsx:81-88`).
 5. **A fresh fork has no `data/` at all.** `DEFAULT_CONFIG` (`dataset.ts:72-89`)
-   exists precisely for that. The empty state is the *first* state, not an edge
+   exists precisely for that. The empty state is the _first_ state, not an edge
    case.
 6. **Photo manifests are generated, never authored here.**
 7. **`buildWorld` throws on dangling references** — deleting a city that a trip
@@ -223,18 +228,18 @@ this document flags every such case.
 
 ### Confusing terminology
 
-| Current term | Problem | Proposed |
-| --- | --- | --- |
-| "Step" | Covers both "I stayed in Rome for 3 days" and "I took a train" | **Stop** and **Leg** |
-| "Photo manifest" | Implementation detail of the Python uploader | **Gallery** |
-| "Layover" | Reasonable, but buried in a checkbox below the fold | Stop *type* toggle: Stay / Layover |
-| "Origin" / "Return to" | Reads as trip metadata, but is really "where the trip begins and ends" and is separate from step 1 | Derived from the itinerary, overridable |
-| "Canonical name" vs `nameByLocale` | Correct but unexplained | **Display name** + **Translations** |
-| "Min marker scale" | Rendering internal exposed as a raw number | **Marker size** with a live preview |
+| Current term                       | Problem                                                                                            | Proposed                                |
+| ---------------------------------- | -------------------------------------------------------------------------------------------------- | --------------------------------------- |
+| "Step"                             | Covers both "I stayed in Rome for 3 days" and "I took a train"                                     | **Stop** and **Leg**                    |
+| "Photo manifest"                   | Implementation detail of the Python uploader                                                       | **Gallery**                             |
+| "Layover"                          | Reasonable, but buried in a checkbox below the fold                                                | Stop _type_ toggle: Stay / Layover      |
+| "Origin" / "Return to"             | Reads as trip metadata, but is really "where the trip begins and ends" and is separate from step 1 | Derived from the itinerary, overridable |
+| "Canonical name" vs `nameByLocale` | Correct but unexplained                                                                            | **Display name** + **Translations**     |
+| "Min marker scale"                 | Rendering internal exposed as a raw number                                                         | **Marker size** with a live preview     |
 
 ### Preserve only for compatibility
 
-- `originCityId` / `returnCityId` as *stored* fields (the app reads them), but
+- `originCityId` / `returnCityId` as _stored_ fields (the app reads them), but
   **derive them** from the first and last stop with an override.
 - `distanceInKm` / `durationMinutes` on transport steps as stored fields, but
   populate them from derivation and mark authored overrides.
@@ -258,14 +263,14 @@ split exist so **other people fork this template**. The memory of the project
 records that `data/` will eventually not ship — so the "empty dataset" user is
 not hypothetical, they are the modal new user.
 
-| User | Job | Main pain today |
-| --- | --- | --- |
-| **Forker (first run, empty `data/`)** | "Get *something* on the map so I know it works" | The welcome screen's first link is dead (`/new/country`). Nothing explains that a trip needs a city which needs a country. |
-| **The maintainer, back from a trip** | "Record 14 days, 6 cities, 9 legs, before I forget" | ~60 combobox interactions and 6 page reloads for a two-week trip. Transport defaults are wrong and silent. |
-| **Frequent traveller (power user)** | "Same shape as last time, different places" | No duplicate, no template, no bulk edit, no keyboard path, no paste. |
-| **Content maintainer** | "Attach this year's galleries and cover images" | `photoPath` is a raw key; `coverImage` is a free-text path with no validation and no preview. |
-| **Importer** | "I already have this in Google Maps / a spreadsheet / a GPX file" | Only a single Google Maps link → single coordinate (`geo.ts`), used on the city screen only. |
-| **Fixer** | "Something is wrong on the live site" | `reviewDataset` reports it in prose on the overview, unlinked to the thing that is wrong. |
+| User                                  | Job                                                               | Main pain today                                                                                                            |
+| ------------------------------------- | ----------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| **Forker (first run, empty `data/`)** | "Get _something_ on the map so I know it works"                   | The welcome screen's first link is dead (`/new/country`). Nothing explains that a trip needs a city which needs a country. |
+| **The maintainer, back from a trip**  | "Record 14 days, 6 cities, 9 legs, before I forget"               | ~60 combobox interactions and 6 page reloads for a two-week trip. Transport defaults are wrong and silent.                 |
+| **Frequent traveller (power user)**   | "Same shape as last time, different places"                       | No duplicate, no template, no bulk edit, no keyboard path, no paste.                                                       |
+| **Content maintainer**                | "Attach this year's galleries and cover images"                   | `photoPath` is a raw key; `coverImage` is a free-text path with no validation and no preview.                              |
+| **Importer**                          | "I already have this in Google Maps / a spreadsheet / a GPX file" | Only a single Google Maps link → single coordinate (`geo.ts`), used on the city screen only.                               |
+| **Fixer**                             | "Something is wrong on the live site"                             | `reviewDataset` reports it in prose on the overview, unlinked to the thing that is wrong.                                  |
 
 ---
 
@@ -285,8 +290,8 @@ Settings              (site config; visited rarely, deliberately out of the way)
 ```
 
 **Why not "Overview / Itinerary / Map / Content / Appearance / Preview /
-Publish" as separate sections:** every one of those is a *view onto the same
-trip*, and the prompt's own rule — "avoid forcing the user to switch repeatedly
+Publish" as separate sections:** every one of those is a _view onto the same
+trip_, and the prompt's own rule — "avoid forcing the user to switch repeatedly
 between unrelated screens" — argues against turning them into destinations. They
 become panes and trays within one workspace.
 
@@ -312,11 +317,12 @@ where progressive disclosure lives: a stop shows city, dates, gallery; "More"
 reveals layover, `rowConstraints`, `targetRowHeight`.
 
 **Trays** (bottom, collapsible, never modal):
-- *Validation* — every issue, grouped, each one selecting its subject on click.
-- *Changes* — which files on disk this session has written, with a diff. This
+
+- _Validation_ — every issue, grouped, each one selecting its subject on click.
+- _Changes_ — which files on disk this session has written, with a diff. This
   replaces the "publish" concept (see §6).
-- *Appearance* — country colour, marker scales, cover image, map focus.
-- *Preview* — the public app's own rendering at desktop/tablet/mobile widths.
+- _Appearance_ — country colour, marker scales, cover image, map focus.
+- _Preview_ — the public app's own rendering at desktop/tablet/mobile widths.
 
 **Settings** — `site.config.json`: site metadata, locales, home/lived/future
 city roles, map defaults, companies, UNESCO lists. Rarely touched, so it is a
@@ -338,9 +344,9 @@ fake a UI for it).
 - **System automation:** Generates `id` from title + start year (today's
   `derivedId`, `CreateScreen.tsx:274-276`, is already right). Writes the trip
   file immediately as a draft with zero steps. On each place pick: resolves
-  country via `world-countries`, writes `<Country>/<Country>.json` if absent
+  country via `world-countries`, writes `cities/<Country>/<Country>.json` if absent
   with a hue-spaced colour (`nextCountryColor()`), writes
-  `<Country>/<City>/<City>.json` with coordinates, timezone and population from
+  `cities/<Country>/<City>/<City>.json` with coordinates, timezone and population from
   the gazetteer, inserts the stop, **inserts a leg** from the previous stop with
   derived `fromId`/`toId` and haversine `distanceInKm`, extends the trip's
   `sDate`/`eDate` to cover all stops, sets `originCityId`/`returnCityId` from
@@ -351,8 +357,7 @@ fake a UI for it).
   Changes tray lists each written file.
 - **Error states:** A write failure (disk permissions, dev server restarted)
   surfaces as a persistent header banner "Not saving — retry" with a Retry
-  button, and the in-memory draft is preserved. Gazetteer offline (`/__cities`
-  500) → falls back to "Add place manually" with map click + coordinate fields,
+  button, and the in-memory draft is preserved. Gazetteer offline (`/__cities` 500) → falls back to "Add place manually" with map click + coordinate fields,
   the current `CoordinatePicker` flow.
 
 ### 5.2 Paste a written itinerary → draft
@@ -430,7 +435,7 @@ fake a UI for it).
   adjacent countries — a generalization of `nextCountryColor()`.
 - **Validation:** Contrast check for country fill against the land tone; warn
   when two bordering countries are within a small hue distance.
-- **Success state:** The map pane *is* the preview; there is nothing to confirm.
+- **Success state:** The map pane _is_ the preview; there is nothing to confirm.
 - **Error/recovery:** "Reset to suggested" per field.
 
 ### 5.7 Preview and publish
@@ -440,7 +445,7 @@ server, no CMS, no draft/live split — `data/` is read at build time by
 `apps/travel-map`. Publishing is whatever gets the built site deployed.
 
 **Correction (verified against `.gitignore`):** `/data/` is gitignored, so
-publishing is *not* `git commit`. The author's content never enters this
+publishing is _not_ `git commit`. The author's content never enters this
 repository's history at all — it exists only in their working tree and in
 whatever they build from it. That makes the checklist below more important, not
 less, and it makes "export a backup" a required feature rather than a
@@ -486,7 +491,7 @@ Four independent layers, weakest to strongest:
 
 Deletion is the one irreversible action, and it keeps today's guard: a city
 referenced by any trip cannot be deleted (`CityScreen.tsx:102`), extended to
-*every* delete showing its dependents first.
+_every_ delete showing its dependents first.
 
 ### 5.10 Bulk edits
 
@@ -511,7 +516,7 @@ Rejected alternatives, with reasons specific to this repository:
   cover images later). A wizard optimizes the one-time path and punishes the
   repeated one.
 - **Map-first (map full-bleed, itinerary as an overlay)** — the itinerary is an
-  *ordered, dated* structure. Order and dates are where the real errors live
+  _ordered, dated_ structure. Order and dates are where the real errors live
   (the Cagliari steps, overlapping ranges), and a map shows neither well.
 - **Timeline-first with no map** — this is what exists today, and it is why
   `Cagliari → Cagliari` was invisible for a whole trip.
@@ -577,8 +582,8 @@ Empty · Loading · Error · Accessibility.**
   section, Settings link.
 - **Primary:** New trip. **Secondary:** Import, Duplicate, Open Settings.
 - **Empty (fresh fork, no `data/`):** A three-step guide that actually works —
-  *"Create your first trip → add a place → the city and country files are
-  written for you."* No link to `/new/country`; countries are never created
+  _"Create your first trip → add a place → the city and country files are
+  written for you."_ No link to `/new/country`; countries are never created
   directly. This replaces `Overview.tsx:52-78`, including its dead link.
 - **Loading:** Not applicable — data is bundled at module load.
 - **Error:** If `buildWorld` throws (dangling reference), the health panel shows
@@ -596,7 +601,7 @@ Empty · Loading · Error · Accessibility.**
   **Duplicate** from a trip picker.
 - **Primary:** Create. **Secondary:** Cancel.
 - **Automation:** id derived from title + year, editable via a disclosure. Date
-  fields prefilled with today, and *removable* — a trip with no dates yet is
+  fields prefilled with today, and _removable_ — a trip with no dates yet is
   valid in the editor and only warned about at commit time.
 - **Empty/Loading/Error:** Duplicate-id is caught inline by `idError()`
   (`dataset.ts:275`, reused verbatim). Write failure keeps the dialog open with
@@ -615,8 +620,8 @@ Empty · Loading · Error · Accessibility.**
 - **Loading:** Gazetteer search shows a skeleton list; the map shows the app's
   existing loading treatment.
 - **Error:** A dev-server disconnect (Vite restarted) is detectable — writes
-  start failing. Show a persistent, non-modal banner: *"Editor server not
-  responding. Your changes are kept in this tab. Retry."*
+  start failing. Show a persistent, non-modal banner: _"Editor server not
+  responding. Your changes are kept in this tab. Retry."_
 - **A11y:** Three landmark regions (`complementary`, `main`, `complementary`),
   `F6` cycles panes, selection announced via a polite live region.
 
@@ -659,8 +664,8 @@ Empty · Loading · Error · Accessibility.**
 - **Purpose:** Describe how the author moved between two stops.
 - **Components:** Mode selector (icon radio group over the seven
   `transportModes`), from/to as **read-only derived text** with an "Override"
-  disclosure, depart/arrive, distance and duration shown as *derived values with
-  an edit affordance*, via-cities multi-select, round-trip toggle, and
+  disclosure, depart/arrive, distance and duration shown as _derived values with
+  an edit affordance_, via-cities multi-select, round-trip toggle, and
   mode-conditional flight (company/number/class) or ferry (company) fields —
   the conditional disclosure in `StepFields.tsx:191-242` is already correct and
   should be kept.
@@ -683,7 +688,7 @@ Empty · Loading · Error · Accessibility.**
   collapse toggle, optional note.
 - **Note on scope:** `TripJson` has **no field for day headings or notes.**
   Adding one is a schema change to `packages/core` and a public-app change. This
-  document proposes day grouping as a *derived editor-side view of stop dates*
+  document proposes day grouping as a _derived editor-side view of stop dates_
   and defers persisted day metadata to §22 "Later", with the schema addition
   spelled out there.
 - **Empty:** A day with no stops → "Nothing on 5 Aug" + "Add stop".
@@ -808,7 +813,7 @@ in-session undo stack cover the realistic loss cases.
 
 ## 8. Interaction model
 
-**Selection.** Exactly one *primary* selection shared by rail, map, and
+**Selection.** Exactly one _primary_ selection shared by rail, map, and
 inspector — a discriminated union: `{kind: "trip"} | {kind: "stop", index} |
 {kind: "leg", index} | {kind: "day", date}`. Clicking a marker selects its stop;
 selecting a stop highlights its marker and scrolls the rail. This is the "one
@@ -826,18 +831,18 @@ survive as the keyboard path.
 
 **Keyboard shortcuts.**
 
-| Key | Action |
-| --- | --- |
-| `Ctrl/⌘ K` | Command palette |
-| `Ctrl/⌘ Z` / `Ctrl/⌘ ⇧ Z` | Undo / redo |
-| `N` | New stop (search focused) |
-| `↑ / ↓` | Move selection in the rail |
-| `Alt + ↑ / ↓` | Move the selected step |
-| `Enter` | Edit the selected step's first field |
-| `Escape` | Clear selection / close drawer / cancel drag |
-| `F6` | Cycle panes |
-| `Delete` | Delete selection (with confirm for stops that own data) |
-| `?` | Shortcut reference |
+| Key                       | Action                                                  |
+| ------------------------- | ------------------------------------------------------- |
+| `Ctrl/⌘ K`                | Command palette                                         |
+| `Ctrl/⌘ Z` / `Ctrl/⌘ ⇧ Z` | Undo / redo                                             |
+| `N`                       | New stop (search focused)                               |
+| `↑ / ↓`                   | Move selection in the rail                              |
+| `Alt + ↑ / ↓`             | Move the selected step                                  |
+| `Enter`                   | Edit the selected step's first field                    |
+| `Escape`                  | Clear selection / close drawer / cancel drag            |
+| `F6`                      | Cycle panes                                             |
+| `Delete`                  | Delete selection (with confirm for stops that own data) |
+| `?`                       | Shortcut reference                                      |
 
 **Context menus.** Right-click in the rail and on map markers, always mirroring
 an existing visible control. Every context-menu item is reachable another way.
@@ -856,6 +861,7 @@ selection change and on `visibilitychange`. States: `idle` → `pending` →
 surfaces the banner and stops.
 
 **Confirmation rules.**
+
 - No confirmation for anything undoable.
 - Confirmation for deleting a stop that carries a gallery reference.
 - Confirmation, with a dependent list, for deleting a city or country file —
@@ -897,31 +903,31 @@ and always correct; **suggested** when it is a good guess that could be wrong;
 **explicit confirmation** when it writes or deletes a file the author did not
 name.
 
-| Task | What the system automates | Confirmation | Failure mode | Manual fallback |
-| --- | --- | --- | --- | --- |
-| **Geocoding** (name → coords) | `/__cities` ranked match: exact > prefix > contains, population tiebreak (`cityIndex.ts:83-116`) | **Suggested** — author picks from the list | No match, or wrong same-named city | Map click + `timeZoneAt()`; manual lng/lat fields |
-| **Country resolution** | ISO alpha-2 → `world-countries` → continent, currency, flag, translations | Silent | Code missing from `world-countries` → `picked.country` undefined; today this blocks creation (`CreateScreen.tsx:115`) | Country combobox |
-| **Country file creation** | Writes `<Id>/<Id>.json` with hue-spaced colour | **Explicit** — "This also creates Italy" shown before Apply | Write failure | Retry; create from Places |
-| **City file creation** | Writes `<Country>/<City>/<City>.json` from the gazetteer entry | **Explicit**, same disclosure | Duplicate id | `idError()` inline; edit the id |
-| **Timezone** | `tz-lookup` at the coordinate | Silent | Ocean coords → `"UTC"` (`cityIndex.ts:113`) | Timezone combobox over `Intl.supportedValuesOf` |
-| **Population** | From the gazetteer | Silent | Absent for < 5 000 pop | Number field |
-| **Route order** | Order = rail order; date-sort available on demand | **Suggested** for date-sort, silent for rail order | Undated stops can't sort | Drag / ↑↓ |
-| **Leg materialization** | Insert a leg between consecutive stops; derive `fromId`/`toId` | Silent | — | Delete the leg |
-| **Distance** | `getCitiesDistance()` great-circle | Silent, labelled "≈ great-circle" | Understates road/rail distance | Type a value; badged "manual", never overwritten |
-| **Duration** | Per-mode heuristic from distance | **Suggested** — greyed placeholder until accepted | Wrong for stopovers | Type a value |
-| **Transport mode guess** | Distance heuristic: > 800 km → plane; sea crossing → ferry; else train | **Suggested** chip | Frequently wrong | Radio group; never auto-applied |
-| **Date grouping (days)** | Derived from stop dates | Silent | Undated stops → "Unscheduled" | Assign a date |
-| **Trip date range** | Min/max of stop dates | **Suggested** — "Extend trip to 14 Aug?" | Outlier stop stretches the trip | Edit trip dates directly |
-| **Origin / return city** | First and last stop | Silent, overridable | One-way trips | Override in the trip inspector |
-| **Slug / id** | `toId(title).toLowerCase() + "-" + year` (`CreateScreen.tsx:274`) | Silent, editable before create | Collision | `idError()` + manual id |
-| **Map viewport** | Bounding box of stops → `{center, zoom}` | **Suggested** — "Use this view" button | Antimeridian-crossing trips | Frame by hand, then save |
-| **Country colour** | Hue-spaced from existing countries (`nextCountryColor()`) | Silent at creation, editable | Adjacent countries too close in hue | HSL picker |
-| **Marker style** | Defaults from `site.config.json.map.marker` | Silent | — | Per-city `minMarkerScale` |
-| **Duplicate detection** | Same city id in consecutive stops; new city within 25 km of an existing one | **Suggested** — "Did you mean Rome?" | False positives in dense metros | Dismiss |
-| **Import cleanup** | Trim, strip bullets/numbering, normalize dashes and dates | Silent, shown in the review table | Odd formats | Edit rows before applying |
-| **Validation fixes** | Each issue may carry a concrete mutation | **Explicit** per fix | — | Edit by hand |
-| **Cover image** | Suggest the first `original` from the trip's first gallery | **Suggested** | No gallery | Type a path |
-| **Accessibility labels** | Alt text is `Image.alt` from the uploader's JSON, blank by default | **Suggested** (see §10) | — | Edit the manifest |
+| Task                          | What the system automates                                                                        | Confirmation                                                | Failure mode                                                                                                          | Manual fallback                                   |
+| ----------------------------- | ------------------------------------------------------------------------------------------------ | ----------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------- |
+| **Geocoding** (name → coords) | `/__cities` ranked match: exact > prefix > contains, population tiebreak (`cityIndex.ts:83-116`) | **Suggested** — author picks from the list                  | No match, or wrong same-named city                                                                                    | Map click + `timeZoneAt()`; manual lng/lat fields |
+| **Country resolution**        | ISO alpha-2 → `world-countries` → continent, currency, flag, translations                        | Silent                                                      | Code missing from `world-countries` → `picked.country` undefined; today this blocks creation (`CreateScreen.tsx:115`) | Country combobox                                  |
+| **Country file creation**     | Writes `<Id>/<Id>.json` with hue-spaced colour                                                   | **Explicit** — "This also creates Italy" shown before Apply | Write failure                                                                                                         | Retry; create from Places                         |
+| **City file creation**        | Writes `cities/<Country>/<City>/<City>.json` from the gazetteer entry                            | **Explicit**, same disclosure                               | Duplicate id                                                                                                          | `idError()` inline; edit the id                   |
+| **Timezone**                  | `tz-lookup` at the coordinate                                                                    | Silent                                                      | Ocean coords → `"UTC"` (`cityIndex.ts:113`)                                                                           | Timezone combobox over `Intl.supportedValuesOf`   |
+| **Population**                | From the gazetteer                                                                               | Silent                                                      | Absent for < 5 000 pop                                                                                                | Number field                                      |
+| **Route order**               | Order = rail order; date-sort available on demand                                                | **Suggested** for date-sort, silent for rail order          | Undated stops can't sort                                                                                              | Drag / ↑↓                                         |
+| **Leg materialization**       | Insert a leg between consecutive stops; derive `fromId`/`toId`                                   | Silent                                                      | —                                                                                                                     | Delete the leg                                    |
+| **Distance**                  | `getCitiesDistance()` great-circle                                                               | Silent, labelled "≈ great-circle"                           | Understates road/rail distance                                                                                        | Type a value; badged "manual", never overwritten  |
+| **Duration**                  | Per-mode heuristic from distance                                                                 | **Suggested** — greyed placeholder until accepted           | Wrong for stopovers                                                                                                   | Type a value                                      |
+| **Transport mode guess**      | Distance heuristic: > 800 km → plane; sea crossing → ferry; else train                           | **Suggested** chip                                          | Frequently wrong                                                                                                      | Radio group; never auto-applied                   |
+| **Date grouping (days)**      | Derived from stop dates                                                                          | Silent                                                      | Undated stops → "Unscheduled"                                                                                         | Assign a date                                     |
+| **Trip date range**           | Min/max of stop dates                                                                            | **Suggested** — "Extend trip to 14 Aug?"                    | Outlier stop stretches the trip                                                                                       | Edit trip dates directly                          |
+| **Origin / return city**      | First and last stop                                                                              | Silent, overridable                                         | One-way trips                                                                                                         | Override in the trip inspector                    |
+| **Slug / id**                 | `toId(title).toLowerCase() + "-" + year` (`CreateScreen.tsx:274`)                                | Silent, editable before create                              | Collision                                                                                                             | `idError()` + manual id                           |
+| **Map viewport**              | Bounding box of stops → `{center, zoom}`                                                         | **Suggested** — "Use this view" button                      | Antimeridian-crossing trips                                                                                           | Frame by hand, then save                          |
+| **Country colour**            | Hue-spaced from existing countries (`nextCountryColor()`)                                        | Silent at creation, editable                                | Adjacent countries too close in hue                                                                                   | HSL picker                                        |
+| **Marker style**              | Defaults from `site.config.json.map.marker`                                                      | Silent                                                      | —                                                                                                                     | Per-city `minMarkerScale`                         |
+| **Duplicate detection**       | Same city id in consecutive stops; new city within 25 km of an existing one                      | **Suggested** — "Did you mean Rome?"                        | False positives in dense metros                                                                                       | Dismiss                                           |
+| **Import cleanup**            | Trim, strip bullets/numbering, normalize dashes and dates                                        | Silent, shown in the review table                           | Odd formats                                                                                                           | Edit rows before applying                         |
+| **Validation fixes**          | Each issue may carry a concrete mutation                                                         | **Explicit** per fix                                        | —                                                                                                                     | Edit by hand                                      |
+| **Cover image**               | Suggest the first `original` from the trip's first gallery                                       | **Suggested**                                               | No gallery                                                                                                            | Type a path                                       |
+| **Accessibility labels**      | Alt text is `Image.alt` from the uploader's JSON, blank by default                               | **Suggested** (see §10)                                     | —                                                                                                                     | Edit the manifest                                 |
 
 **Never automate silently:** creating or deleting any file, overwriting an
 author-typed value, or changing a shared city document from within a trip
@@ -938,16 +944,16 @@ feature is opt-in, requires the author to paste their own key into Settings
 path.** If no key is configured, the AI affordances are absent — not disabled
 and nagging.
 
-| Feature | User value | Input | Output | Review step | Privacy | Non-AI fallback |
-| --- | --- | --- | --- | --- | --- | --- |
-| **Itinerary → draft** | The highest-value one: paste a trip write-up, get a structured draft | Pasted prose | Proposed stops/legs/dates as a review table | Full table, every row editable, nothing written until Apply | Prose leaves the machine; the warning names the provider before the first send | The line parser in §5.2 — handles list-shaped input without any model |
-| **Normalize place names** | "Firenze" / "Florence" / "florence" → one city | Unmatched import rows | Candidate names | Shown as gazetteer candidates, author picks | Place names only | Fuzzy match via `fuse.js`, already a dependency |
-| **Detect inconsistencies** | Catches "flew Rome→Tokyo in 40 minutes" | Trip JSON | Prose issues | Advisory only, never blocking, never auto-fixed | Whole trip leaves the machine | The deterministic rules in §18 catch most of this already |
-| **Summarize a day** | Day headings without writing them | Stops for a day | One sentence | Editable text field, pre-filled | Place names and dates | Type it |
-| **Rewrite descriptions** | Polish the trip title/description | Author text | Variants | Author picks or keeps theirs | Author text | Type it |
-| **Generate alt text** | Real accessibility value: uploader manifests ship `"alt": ""` | Image URL | Alt text | Per-image review; writes to the manifest, which is generated data — a warning explains it will be lost if the uploader re-runs | Image leaves the machine | Type it |
-| **Explain a validation issue** | "Why is this blocking?" | Issue code | Plain-language explanation | Read-only | Issue code only | Static explanation text per code — do this first regardless |
-| **Suggest missing stops** | "You flew Rome→Cagliari but recorded no arrival" | Trip JSON | Suggestions | Explicit accept | Whole trip | Route-continuity rules in §18 |
+| Feature                        | User value                                                           | Input                 | Output                                      | Review step                                                                                                                    | Privacy                                                                        | Non-AI fallback                                                       |
+| ------------------------------ | -------------------------------------------------------------------- | --------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | --------------------------------------------------------------------- |
+| **Itinerary → draft**          | The highest-value one: paste a trip write-up, get a structured draft | Pasted prose          | Proposed stops/legs/dates as a review table | Full table, every row editable, nothing written until Apply                                                                    | Prose leaves the machine; the warning names the provider before the first send | The line parser in §5.2 — handles list-shaped input without any model |
+| **Normalize place names**      | "Firenze" / "Florence" / "florence" → one city                       | Unmatched import rows | Candidate names                             | Shown as gazetteer candidates, author picks                                                                                    | Place names only                                                               | Fuzzy match via `fuse.js`, already a dependency                       |
+| **Detect inconsistencies**     | Catches "flew Rome→Tokyo in 40 minutes"                              | Trip JSON             | Prose issues                                | Advisory only, never blocking, never auto-fixed                                                                                | Whole trip leaves the machine                                                  | The deterministic rules in §18 catch most of this already             |
+| **Summarize a day**            | Day headings without writing them                                    | Stops for a day       | One sentence                                | Editable text field, pre-filled                                                                                                | Place names and dates                                                          | Type it                                                               |
+| **Rewrite descriptions**       | Polish the trip title/description                                    | Author text           | Variants                                    | Author picks or keeps theirs                                                                                                   | Author text                                                                    | Type it                                                               |
+| **Generate alt text**          | Real accessibility value: uploader manifests ship `"alt": ""`        | Image URL             | Alt text                                    | Per-image review; writes to the manifest, which is generated data — a warning explains it will be lost if the uploader re-runs | Image leaves the machine                                                       | Type it                                                               |
+| **Explain a validation issue** | "Why is this blocking?"                                              | Issue code            | Plain-language explanation                  | Read-only                                                                                                                      | Issue code only                                                                | Static explanation text per code — do this first regardless           |
+| **Suggest missing stops**      | "You flew Rome→Cagliari but recorded no arrival"                     | Trip JSON             | Suggestions                                 | Explicit accept                                                                                                                | Whole trip                                                                     | Route-continuity rules in §18                                         |
 
 **Explicitly not proposed:** AI that writes files without review, AI on the
 critical path of any workflow, or AI-generated coordinates. Coordinates come
@@ -966,51 +972,51 @@ keeps it and expands what is shared.
 
 ### Components
 
-| Component | Status | Notes |
-| --- | --- | --- |
-| Button, Input, NumberField, Checkbox, StringList | **Exists** (`atoms/Fields`) | Rehome under `shared/`, keep behaviour |
-| Combobox / MultiCombobox | **Exists** (Downshift, 494 lines) | Correct a11y already; keep |
-| DatePicker | **Exists** (355 hand-written lines) | Audit against native `<input type="date">`; keep only the parts native input can't do (see below) |
-| ColorField | **Exists** | Add a live map preview |
-| ImageUploadField | **Exists** | Logos only; keep scoped |
-| Map canvas | **Exists** (`CoordinatePicker`) | Generalize: markers, route lines, validation badges |
-| **Itinerary rail** | New | Virtualized list, drag, multi-select |
-| **Stop row / Leg row** | Replaces `ItineraryRow` | Split by type; today one component branches on both |
-| **Day header** | New | Collapsible section |
-| **Inspector panel** | New | Selection-driven field host |
-| **Validation row** | New | Message + subject + fix |
-| **Command palette** | New | `Ctrl+K` |
-| **Import review table** | New | Real `<table>` |
-| **Save-state chip** | New | Replaces the Save button |
-| **Diff view** | New | Changes tray |
-| Toast host | New | Small, one file |
-| Empty state | **Exists in the app** (`EmptyState`) | Import it via `@app/` |
-| Skeleton | New | Trivial CSS |
+| Component                                        | Status                               | Notes                                                                                             |
+| ------------------------------------------------ | ------------------------------------ | ------------------------------------------------------------------------------------------------- |
+| Button, Input, NumberField, Checkbox, StringList | **Exists** (`atoms/Fields`)          | Rehome under `shared/`, keep behaviour                                                            |
+| Combobox / MultiCombobox                         | **Exists** (Downshift, 494 lines)    | Correct a11y already; keep                                                                        |
+| DatePicker                                       | **Exists** (355 hand-written lines)  | Audit against native `<input type="date">`; keep only the parts native input can't do (see below) |
+| ColorField                                       | **Exists**                           | Add a live map preview                                                                            |
+| ImageUploadField                                 | **Exists**                           | Logos only; keep scoped                                                                           |
+| Map canvas                                       | **Exists** (`CoordinatePicker`)      | Generalize: markers, route lines, validation badges                                               |
+| **Itinerary rail**                               | New                                  | Virtualized list, drag, multi-select                                                              |
+| **Stop row / Leg row**                           | Replaces `ItineraryRow`              | Split by type; today one component branches on both                                               |
+| **Day header**                                   | New                                  | Collapsible section                                                                               |
+| **Inspector panel**                              | New                                  | Selection-driven field host                                                                       |
+| **Validation row**                               | New                                  | Message + subject + fix                                                                           |
+| **Command palette**                              | New                                  | `Ctrl+K`                                                                                          |
+| **Import review table**                          | New                                  | Real `<table>`                                                                                    |
+| **Save-state chip**                              | New                                  | Replaces the Save button                                                                          |
+| **Diff view**                                    | New                                  | Changes tray                                                                                      |
+| Toast host                                       | New                                  | Small, one file                                                                                   |
+| Empty state                                      | **Exists in the app** (`EmptyState`) | Import it via `@app/`                                                                             |
+| Skeleton                                         | New                                  | Trivial CSS                                                                                       |
 
 ### Library recommendations
 
-| Category | Recommendation | Why / Risk / Alternative |
-| --- | --- | --- |
-| Map | **Keep `maplibre-gl` + `react-map-gl`** | Already used by both apps and shares the style factory. No alternative worth the churn. |
-| Combobox primitives | **Keep `downshift`** | Already a dependency, already correct on a11y. Alternative (Radix/Ark) would add a second primitives system for no gain. |
-| Fuzzy search | **Keep `fuse.js`** | Powers the nav; reuse for the command palette. |
-| Animation | **Keep `framer-motion`**, `LazyMotion` + `m` as today | Already scoped to lazy features. |
-| Drag and drop | **Adopt `@dnd-kit/core` + `@dnd-kit/sortable`** | The only genuinely new dependency proposed. It ships a keyboard sensor and live-region announcements, which is exactly the §13 requirement; hand-rolling accessible DnD is a multi-week trap. Risk: bundle weight in a dev-only tool (acceptable). Alternative: HTML5 drag events (poor keyboard/touch support) or menu-only reordering (already the fallback, so dnd-kit is additive, not load-bearing). |
-| Component primitives | **None** | The editor has ~12 controls, most of which exist. Radix/Ark/MUI would be a large surface for a local tool. Re-evaluate if a date-range picker and a rich-text field both become necessary. |
-| Styling | **Keep SCSS + BEM** | Mandated by `CODING_GUIDELINES.md` §12 and shared with the app via `loadPaths`. |
-| Forms | **None** | React Hook Form solves submit-time validation and re-render batching; with autosave there is no submit, and React Compiler handles re-renders. Adopting it would add a second state owner beside the draft store. |
-| Schema validation | **Hand-written validators in `packages/core`**, `zod` **evaluated only** | §9 of the coding guidelines already calls for a lightweight runtime check at the `buildWorld()` boundary and says zod only "if the checks get complex enough". Five interfaces with ~30 fields is not that. Revisit if the schema grows a discriminated-union third step type. |
-| State | **Plain module store + `useSyncExternalStore`**; Zustand **evaluated** | See §17. |
-| Server state | **None** | No server. `swr` is a dependency of the *public* app only and should not be added here. |
-| Geocoding | **Keep the local gazetteer** | A hosted geocoder (Nominatim/Mapbox) would add a network dependency, a rate limit, and an attribution obligation to a tool that currently works on a plane. Evaluate only if authors need POIs rather than cities — and note the data model stores **cities**, not POIs. |
-| Routing (directions) | **None** | The model stores `distanceInKm`/`durationMinutes` scalars, not geometry. Great-circle + manual override covers it. A directions API would be a real external dependency for a cosmetic gain. |
-| Dates | **Native `Date` + `Intl` + core's `parseLocalDate`/`formatLocalDate`** | Already the repo's approach; `TripScreen.tsx:50-59` uses `Intl.DateTimeFormat` directly. Adding `date-fns`/Temporal polyfill is unjustified. |
-| Rich text | **None** | No rich-text field exists in the schema. |
-| File import | **Native `File`/`FileReader` + `DOMParser`** for GPX/KML; **hand-rolled CSV** | A CSV library for a known 3-column shape is not worth it. `togeojson` **evaluated** if GPX/KML ship. |
-| Virtualization | **None initially** | Longest realistic trip is dozens of steps. Add `@tanstack/react-virtual` only when a real trip renders slowly. |
-| Command palette | **Build it** (~120 lines over `fuse.js`) | `cmdk` is fine but redundant given `fuse.js` + Downshift are present. |
-| A11y testing | **Adopt `eslint-plugin-jsx-a11y`** | Static, zero runtime, fits the existing lint gate. `axe-core` in tests once tests exist. |
-| E2E | **Playwright, deferred** | Worth it for the import and autosave flows. Blocked on there being any test infrastructure at all — `CODING_GUIDELINES.md` §16 documents that the repo has none. |
+| Category             | Recommendation                                                                | Why / Risk / Alternative                                                                                                                                                                                                                                                                                                                                                                                  |
+| -------------------- | ----------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Map                  | **Keep `maplibre-gl` + `react-map-gl`**                                       | Already used by both apps and shares the style factory. No alternative worth the churn.                                                                                                                                                                                                                                                                                                                   |
+| Combobox primitives  | **Keep `downshift`**                                                          | Already a dependency, already correct on a11y. Alternative (Radix/Ark) would add a second primitives system for no gain.                                                                                                                                                                                                                                                                                  |
+| Fuzzy search         | **Keep `fuse.js`**                                                            | Powers the nav; reuse for the command palette.                                                                                                                                                                                                                                                                                                                                                            |
+| Animation            | **Keep `framer-motion`**, `LazyMotion` + `m` as today                         | Already scoped to lazy features.                                                                                                                                                                                                                                                                                                                                                                          |
+| Drag and drop        | **Adopt `@dnd-kit/core` + `@dnd-kit/sortable`**                               | The only genuinely new dependency proposed. It ships a keyboard sensor and live-region announcements, which is exactly the §13 requirement; hand-rolling accessible DnD is a multi-week trap. Risk: bundle weight in a dev-only tool (acceptable). Alternative: HTML5 drag events (poor keyboard/touch support) or menu-only reordering (already the fallback, so dnd-kit is additive, not load-bearing). |
+| Component primitives | **None**                                                                      | The editor has ~12 controls, most of which exist. Radix/Ark/MUI would be a large surface for a local tool. Re-evaluate if a date-range picker and a rich-text field both become necessary.                                                                                                                                                                                                                |
+| Styling              | **Keep SCSS + BEM**                                                           | Mandated by `CODING_GUIDELINES.md` §12 and shared with the app via `loadPaths`.                                                                                                                                                                                                                                                                                                                           |
+| Forms                | **None**                                                                      | React Hook Form solves submit-time validation and re-render batching; with autosave there is no submit, and React Compiler handles re-renders. Adopting it would add a second state owner beside the draft store.                                                                                                                                                                                         |
+| Schema validation    | **Hand-written validators in `packages/core`**, `zod` **evaluated only**      | §9 of the coding guidelines already calls for a lightweight runtime check at the `buildWorld()` boundary and says zod only "if the checks get complex enough". Five interfaces with ~30 fields is not that. Revisit if the schema grows a discriminated-union third step type.                                                                                                                            |
+| State                | **Plain module store + `useSyncExternalStore`**; Zustand **evaluated**        | See §17.                                                                                                                                                                                                                                                                                                                                                                                                  |
+| Server state         | **None**                                                                      | No server. `swr` is a dependency of the _public_ app only and should not be added here.                                                                                                                                                                                                                                                                                                                   |
+| Geocoding            | **Keep the local gazetteer**                                                  | A hosted geocoder (Nominatim/Mapbox) would add a network dependency, a rate limit, and an attribution obligation to a tool that currently works on a plane. Evaluate only if authors need POIs rather than cities — and note the data model stores **cities**, not POIs.                                                                                                                                  |
+| Routing (directions) | **None**                                                                      | The model stores `distanceInKm`/`durationMinutes` scalars, not geometry. Great-circle + manual override covers it. A directions API would be a real external dependency for a cosmetic gain.                                                                                                                                                                                                              |
+| Dates                | **Native `Date` + `Intl` + core's `parseLocalDate`/`formatLocalDate`**        | Already the repo's approach; `TripScreen.tsx:50-59` uses `Intl.DateTimeFormat` directly. Adding `date-fns`/Temporal polyfill is unjustified.                                                                                                                                                                                                                                                              |
+| Rich text            | **None**                                                                      | No rich-text field exists in the schema.                                                                                                                                                                                                                                                                                                                                                                  |
+| File import          | **Native `File`/`FileReader` + `DOMParser`** for GPX/KML; **hand-rolled CSV** | A CSV library for a known 3-column shape is not worth it. `togeojson` **evaluated** if GPX/KML ship.                                                                                                                                                                                                                                                                                                      |
+| Virtualization       | **None initially**                                                            | Longest realistic trip is dozens of steps. Add `@tanstack/react-virtual` only when a real trip renders slowly.                                                                                                                                                                                                                                                                                            |
+| Command palette      | **Build it** (~120 lines over `fuse.js`)                                      | `cmdk` is fine but redundant given `fuse.js` + Downshift are present.                                                                                                                                                                                                                                                                                                                                     |
+| A11y testing         | **Adopt `eslint-plugin-jsx-a11y`**                                            | Static, zero runtime, fits the existing lint gate. `axe-core` in tests once tests exist.                                                                                                                                                                                                                                                                                                                  |
+| E2E                  | **Playwright, deferred**                                                      | Worth it for the import and autosave flows. Blocked on there being any test infrastructure at all — `CODING_GUIDELINES.md` §16 documents that the repo has none.                                                                                                                                                                                                                                          |
 
 **On the hand-written `DatePicker` (355 lines):** before rebuilding it, check
 whether `<input type="date">` plus `<input type="time">` covers the need. The
@@ -1027,8 +1033,8 @@ The editor already inherits the public site's tokens. The redesign's visual job
 is not a new look — it is **making structure legible in a three-pane tool**,
 which the current single-column form does not have to solve.
 
-**Visual hierarchy.** Three levels only: *surface* (pane background), *object*
-(a stop, a leg, a card), *control*. Panes are separated by a 1 px border, not
+**Visual hierarchy.** Three levels only: _surface_ (pane background), _object_
+(a stop, a leg, a card), _control_. Panes are separated by a 1 px border, not
 by shadows — shadows are reserved for things that float (drawers, menus,
 palette), so elevation always means "temporary".
 
@@ -1077,14 +1083,14 @@ icon inline), unscheduled stops sit off-rail.
 
 **States.**
 
-| State | Treatment |
-| --- | --- |
-| Hover | Background step from surface 2 → 2.5 |
-| Focus-visible | 2 px accent ring, **always** — `CODING_GUIDELINES.md` §12 calls out three files that strip outlines with no replacement; do not repeat that |
-| Selected | Accent left-edge bar + tinted background + synchronized map marker |
-| Warning | Amber badge + icon + text |
-| Error/blocking | Red badge + icon + text, and the row is never hidden by a collapsed day |
-| Success | Green save chip, decaying to neutral after 3 s |
+| State          | Treatment                                                                                                                                   |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| Hover          | Background step from surface 2 → 2.5                                                                                                        |
+| Focus-visible  | 2 px accent ring, **always** — `CODING_GUIDELINES.md` §12 calls out three files that strip outlines with no replacement; do not repeat that |
+| Selected       | Accent left-edge bar + tinted background + synchronized map marker                                                                          |
+| Warning        | Amber badge + icon + text                                                                                                                   |
+| Error/blocking | Red badge + icon + text, and the row is never hidden by a collapsed day                                                                     |
+| Success        | Green save chip, decaying to neutral after 3 s                                                                                              |
 
 Colour is never the only channel: every state carries an icon or text.
 
@@ -1102,14 +1108,14 @@ guidelines and must not be optional in new code.
 
 ## 13. Responsive strategy
 
-| Breakpoint | Rail | Map | Inspector | Trays |
-| --- | --- | --- | --- | --- |
-| **≥ 1600 px** | 360 px fixed | Flexible | 400 px fixed | Docked, expandable |
-| **1280–1599 px** | 320 px | Flexible | 360 px | Docked |
-| **1100–1279 px** | 320 px | Flexible | **Drawer** (opens on selection, overlays the map) | Status strip only |
-| **900–1099 px** | 320 px | **Toggle** — rail+map or rail+inspector | Drawer | Strip |
-| **700–899 px (tablet portrait)** | Full width | **Bottom sheet**, peek 120 px, drag to full | Full-height drawer | Strip |
-| **< 700 px (mobile)** | Full width | Sheet | Full-screen drawer | Strip → full-screen when opened |
+| Breakpoint                       | Rail         | Map                                         | Inspector                                         | Trays                           |
+| -------------------------------- | ------------ | ------------------------------------------- | ------------------------------------------------- | ------------------------------- |
+| **≥ 1600 px**                    | 360 px fixed | Flexible                                    | 400 px fixed                                      | Docked, expandable              |
+| **1280–1599 px**                 | 320 px       | Flexible                                    | 360 px                                            | Docked                          |
+| **1100–1279 px**                 | 320 px       | Flexible                                    | **Drawer** (opens on selection, overlays the map) | Status strip only               |
+| **900–1099 px**                  | 320 px       | **Toggle** — rail+map or rail+inspector     | Drawer                                            | Strip                           |
+| **700–899 px (tablet portrait)** | Full width   | **Bottom sheet**, peek 120 px, drag to full | Full-height drawer                                | Strip                           |
+| **< 700 px (mobile)**            | Full width   | Sheet                                       | Full-screen drawer                                | Strip → full-screen when opened |
 
 **Map/itinerary switching.** Below 900 px, a two-state segmented control
 (`Itinerary` / `Map`) in the header. Selection persists across the switch, so
@@ -1175,7 +1181,7 @@ themes. Country fill colours are author-chosen, so the appearance panel warns
 when a chosen fill drops below 3:1 against the land tone rather than silently
 allowing an unreadable map.
 
-**Touch targets.** 44 × 44 px minimum below 900 px. The current 
+**Touch targets.** 44 × 44 px minimum below 900 px. The current
 `itinerary-row__action` buttons are desktop-sized and must scale up.
 
 **Reduced motion.** §12.
@@ -1196,12 +1202,12 @@ give map badges a text alternative.
 
 ```ts
 interface EditorState {
-  dataset: DatasetSnapshot;              // every document as loaded/written
-  draft: Record<string, DocumentDraft>;  // in-flight edits keyed by dataset path
-  selection: Selection;                  // discriminated union, §8
+  dataset: DatasetSnapshot; // every document as loaded/written
+  draft: Record<string, DocumentDraft>; // in-flight edits keyed by dataset path
+  selection: Selection; // discriminated union, §8
   history: { past: Patch[]; future: Patch[] };
-  save: Record<string, SaveState>;       // per document path
-  issues: Issue[];                       // derived, never stored
+  save: Record<string, SaveState>; // per document path
+  issues: Issue[]; // derived, never stored
 }
 ```
 
@@ -1226,11 +1232,11 @@ in a git working tree.
 type Severity = "blocking" | "warning" | "suggestion";
 
 interface Issue {
-  code: string;                 // "trip.leg.endpointMismatch"
+  code: string; // "trip.leg.endpointMismatch"
   severity: Severity;
-  subject: Selection;           // what to select when clicked
-  path: string;                 // dataset-relative document path
-  message: string;              // translated at render, not at creation
+  subject: Selection; // what to select when clicked
+  path: string; // dataset-relative document path
+  message: string; // translated at render, not at creation
   fix?: { label: string; apply: (draft: TripJson) => TripJson };
 }
 ```
@@ -1309,7 +1315,7 @@ message passing. Zero new infrastructure.
 the UI derives versus asks for, and which fields are reachable at all
 (`mapFocus`, `customMarkerSizes`, `rowConstraints`, `targetRowHeight` become
 reachable). Any file the current editor writes, the new one reads, and vice
-versa. Day headings are the one proposed schema *addition*, deferred to §22 with
+versa. Day headings are the one proposed schema _addition_, deferred to §22 with
 its own migration note.
 
 ### Migration strategy from the current editor
@@ -1460,15 +1466,15 @@ packages/core/src/
 
 ### State classification
 
-| Kind | Where | Persistence |
-| --- | --- | --- |
-| Canonical (dataset + drafts) | Module store | Disk via autosave; `localStorage` snapshot |
-| Server state | — | Does not exist |
-| Form state | Derived from the draft | — |
-| Selection | URL + store | URL |
-| History | Store (`past`/`future`) | Session only |
-| Derived (days, distances, issues) | Computed on read | Never persisted |
-| Transient UI (open menu, hover, drag) | Local `useState` | None |
+| Kind                                  | Where                   | Persistence                                |
+| ------------------------------------- | ----------------------- | ------------------------------------------ |
+| Canonical (dataset + drafts)          | Module store            | Disk via autosave; `localStorage` snapshot |
+| Server state                          | —                       | Does not exist                             |
+| Form state                            | Derived from the draft  | —                                          |
+| Selection                             | URL + store             | URL                                        |
+| History                               | Store (`past`/`future`) | Session only                               |
+| Derived (days, distances, issues)     | Computed on read        | Never persisted                            |
+| Transient UI (open menu, hover, drag) | Local `useState`        | None                                       |
 
 ### Avoiding synchronization bugs
 
@@ -1511,34 +1517,34 @@ with autosave it would mean silently discarding work.
 
 ### Field validation
 
-| Field | Rule | Severity |
-| --- | --- | --- |
-| Any `id` | `ID_PATTERN`, unique within kind (`idError`, reused) | Blocking |
-| `coordinates` | `[-180, 180]` × `[-90, 90]`, not `[0, 0]` | Blocking / Warning for null island |
-| `timeZone` | In `Intl.supportedValuesOf("timeZone")` | Blocking |
-| `sDate` / `eDate` | Parses via `parseLocalDate` | Blocking |
-| `color` | `h ∈ [0,360)`, `s`/`l` ∈ `[0,100]` | Blocking |
-| `continent` / `currency` | In the enums | Blocking |
-| `coverImage` | Starts with `/`, warn if not under `/Trips/` (per `data/README.md`) | Warning |
-| `backgroundImages` | Warn if not under `/Travels/` | Warning |
-| `title` / `name` | Non-empty after trim | Blocking |
+| Field                    | Rule                                                                | Severity                           |
+| ------------------------ | ------------------------------------------------------------------- | ---------------------------------- |
+| Any `id`                 | `ID_PATTERN`, unique within kind (`idError`, reused)                | Blocking                           |
+| `coordinates`            | `[-180, 180]` × `[-90, 90]`, not `[0, 0]`                           | Blocking / Warning for null island |
+| `timeZone`               | In `Intl.supportedValuesOf("timeZone")`                             | Blocking                           |
+| `sDate` / `eDate`        | Parses via `parseLocalDate`                                         | Blocking                           |
+| `color`                  | `h ∈ [0,360)`, `s`/`l` ∈ `[0,100]`                                  | Blocking                           |
+| `continent` / `currency` | In the enums                                                        | Blocking                           |
+| `coverImage`             | Starts with `/`, warn if not under `/Trips/` (per `data/README.md`) | Warning                            |
+| `backgroundImages`       | Warn if not under `/Travels/`                                       | Warning                            |
+| `title` / `name`         | Non-empty after trim                                                | Blocking                           |
 
 ### Cross-field validation
 
-| Rule | Severity |
-| --- | --- |
-| Stop `eDate` ≥ `sDate` | Blocking |
-| Trip `eDate` ≥ `sDate` | Blocking |
-| Every stop within the trip range | Warning + fix "Extend trip" |
-| Leg `fromId` matches the preceding stop's city | Warning + fix |
-| Leg `toId` matches the following stop's city | Warning + fix |
-| **`fromId === toId` on a leg** | **Warning + fix** — the Cagliari case, currently undetected |
-| Consecutive stops in the same city | Warning ("merge these?") |
-| Overlapping stop date ranges | Warning |
-| Leg arrival before its departure | Blocking |
-| Implied speed > 1 000 km/h | Warning |
-| `flight`/`ferry` details present on a non-matching mode | Warning |
-| `originCityId` ≠ first stop's city | Suggestion |
+| Rule                                                    | Severity                                                    |
+| ------------------------------------------------------- | ----------------------------------------------------------- |
+| Stop `eDate` ≥ `sDate`                                  | Blocking                                                    |
+| Trip `eDate` ≥ `sDate`                                  | Blocking                                                    |
+| Every stop within the trip range                        | Warning + fix "Extend trip"                                 |
+| Leg `fromId` matches the preceding stop's city          | Warning + fix                                               |
+| Leg `toId` matches the following stop's city            | Warning + fix                                               |
+| **`fromId === toId` on a leg**                          | **Warning + fix** — the Cagliari case, currently undetected |
+| Consecutive stops in the same city                      | Warning ("merge these?")                                    |
+| Overlapping stop date ranges                            | Warning                                                     |
+| Leg arrival before its departure                        | Blocking                                                    |
+| Implied speed > 1 000 km/h                              | Warning                                                     |
+| `flight`/`ferry` details present on a non-matching mode | Warning                                                     |
+| `originCityId` ≠ first stop's city                      | Suggestion                                                  |
 
 ### Whole-trip validation
 
@@ -1577,7 +1583,7 @@ Hand-written narrow parsers in `packages/core/src/schema/parse.ts`, called at
 the `buildWorld()` boundary — closing the gap `CODING_GUIDELINES.md` §9
 documents as open. They return `Issue[]` rather than throwing, so the editor can
 show a malformed file instead of white-screening on it. `buildWorld` keeps
-throwing for the public app, which *should* fail loudly.
+throwing for the public app, which _should_ fail loudly.
 
 ---
 
@@ -1624,11 +1630,11 @@ keywords onto the seven `transportModes`.
 Rows with one high-confidence match auto-fill; ties are marked ambiguous.
 
 **6. Match duplicates** against the existing dataset by exact id, then folded
-name, then coordinate proximity < 25 km. A match defaults to *reuse existing
-city* — never create a second Rome.
+name, then coordinate proximity < 25 km. A match defaults to _reuse existing
+city_ — never create a second Rome.
 
-**7. Show conflicts.** The review table. Every row is one of *create*,
-*reuse*, *ambiguous*, *unmatched*, each individually editable.
+**7. Show conflicts.** The review table. Every row is one of _create_,
+_reuse_, _ambiguous_, _unmatched_, each individually editable.
 
 **8. Preview changes.** "Will create 4 cities, 1 country, 1 trip with 12 steps.
 Will reuse 3 existing cities." For native `TripJson` import onto an existing
@@ -1641,7 +1647,7 @@ old bodies.
 **10. Undo.** One history entry for the whole import, including created city and
 country files.
 
-**Partial failure.** The default is *apply what worked*. Unmatched rows land in
+**Partial failure.** The default is _apply what worked_. Unmatched rows land in
 the rail's Unscheduled section carrying their original text, so nothing pasted
 is ever lost — the author finishes them by hand.
 
@@ -1672,7 +1678,7 @@ is ever lost — the author finishes them by hand.
   `/__cities` endpoint, because the interaction depends on real match quality.
 - Workflow 2: static high-fidelity mock of the review table with real messy
   input pasted in.
-- Workflow 3: **code only** — no prototype can test whether autosave *feels*
+- Workflow 3: **code only** — no prototype can test whether autosave _feels_
   safe.
 - Workflow 4: a CSS-only layout spike at 1280 px with real data.
 
@@ -1688,13 +1694,13 @@ Five authors, at least two who have never used the current editor.
 
 ### Success criteria
 
-| Task | Criterion |
-| --- | --- |
-| 1 | Complete in < 4 minutes with no help; zero navigations away from the workspace |
-| 2 | ≥ 80 % of pasted places correctly placed without manual search |
-| 3 | Mistake found in < 60 s, with 4 of 5 authors using the validation surface rather than reading JSON |
-| 4 | 5 of 5 recover without asking whether their work was lost |
-| 5 | 4 of 5 correctly say "commit it to git" |
+| Task | Criterion                                                                                          |
+| ---- | -------------------------------------------------------------------------------------------------- |
+| 1    | Complete in < 4 minutes with no help; zero navigations away from the workspace                     |
+| 2    | ≥ 80 % of pasted places correctly placed without manual search                                     |
+| 3    | Mistake found in < 60 s, with 4 of 5 authors using the validation surface rather than reading JSON |
+| 4    | 5 of 5 recover without asking whether their work was lost                                          |
+| 5    | 4 of 5 correctly say "commit it to git"                                                            |
 
 ### Test before implementing
 
@@ -1801,7 +1807,7 @@ The smallest release that is already clearly better than what exists.
 7. Live validation in `packages/core`, surfaced in tray + rail + map,
    including the identical-endpoint rule.
 8. A working empty state — **and the `/new/country` dead link gone**.
-9. Reordering by drag *and* by menu/keyboard.
+9. Reordering by drag _and_ by menu/keyboard.
 10. `prefers-reduced-motion` and a visible focus ring on every new control.
 
 ### Should have
@@ -1840,32 +1846,32 @@ The smallest release that is already clearly better than what exists.
 
 ## 23. Acceptance criteria
 
-| Area | Criterion | Measured how |
-| --- | --- | --- |
-| **First trip creation** | A new author with an empty `data/` creates a trip with 3 stops in < 5 min without reading docs | Moderated test, 5 authors |
-| | Zero dead links in the first-run flow | Manual, plus a route-coverage lint |
-| **Time to add locations** | Adding a stop for a city already in the dataset: ≤ 3 interactions | Interaction count |
-| | Adding a stop for a *new* city: ≤ 5 interactions and zero navigations | Interaction count |
-| **Import success** | ≥ 80 % of rows in a 30-line pasted itinerary matched without manual search | Fixture corpus of 10 real itineraries |
-| | Partial failure never leaves a partially-written dataset | Automated test with an injected write failure |
-| **Error recovery** | Any single edit reversible by `Ctrl+Z` in < 1 s | Automated |
-| | After a forced tab close, ≤ 1 s of work lost | Automated |
-| **Autosave reliability** | Every committed change reaches disk within 2 s under normal conditions | Automated |
-| | A dev-server outage never loses in-memory work and always surfaces a banner | Automated |
-| **Accessibility** | Every §5 workflow completable by keyboard alone | Manual, scripted |
-| | Zero `eslint-plugin-jsx-a11y` errors | CI |
-| | 4.5:1 text contrast in both themes | Automated |
-| | Every icon-only control has an accessible name | Automated |
-| **Mobile/tablet** | At 390 px, an author can find a trip, open a stop, fix a date, and see it saved | Manual on a real device |
-| | Unavailable operations are stated, not silently absent | Manual |
-| **Publish confidence** | The commit checklist is empty **iff** `buildWorld` succeeds | Automated against fixtures, both directions |
-| | The Changes tray lists exactly the files `git status` reports | Automated |
-| **Performance** | Workspace interactive < 1.5 s on a mid laptop with 50 cities and 20 trips | Measured |
-| | Rail keystroke → repaint < 50 ms at 100 steps | Profiled |
-| | `/__cities` search returns in < 200 ms after warm-up | Measured |
-| **Compatibility** | Every file the new editor writes is byte-comparable in shape to the old one (2-space, trailing newline) | Automated |
-| | Round-trip: open and save every file in the fixture dataset → zero git diff | **Automated, and the single most important compatibility gate** |
-| | The public app builds from any dataset the checklist calls clean | CI |
+| Area                      | Criterion                                                                                               | Measured how                                                    |
+| ------------------------- | ------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| **First trip creation**   | A new author with an empty `data/` creates a trip with 3 stops in < 5 min without reading docs          | Moderated test, 5 authors                                       |
+|                           | Zero dead links in the first-run flow                                                                   | Manual, plus a route-coverage lint                              |
+| **Time to add locations** | Adding a stop for a city already in the dataset: ≤ 3 interactions                                       | Interaction count                                               |
+|                           | Adding a stop for a _new_ city: ≤ 5 interactions and zero navigations                                   | Interaction count                                               |
+| **Import success**        | ≥ 80 % of rows in a 30-line pasted itinerary matched without manual search                              | Fixture corpus of 10 real itineraries                           |
+|                           | Partial failure never leaves a partially-written dataset                                                | Automated test with an injected write failure                   |
+| **Error recovery**        | Any single edit reversible by `Ctrl+Z` in < 1 s                                                         | Automated                                                       |
+|                           | After a forced tab close, ≤ 1 s of work lost                                                            | Automated                                                       |
+| **Autosave reliability**  | Every committed change reaches disk within 2 s under normal conditions                                  | Automated                                                       |
+|                           | A dev-server outage never loses in-memory work and always surfaces a banner                             | Automated                                                       |
+| **Accessibility**         | Every §5 workflow completable by keyboard alone                                                         | Manual, scripted                                                |
+|                           | Zero `eslint-plugin-jsx-a11y` errors                                                                    | CI                                                              |
+|                           | 4.5:1 text contrast in both themes                                                                      | Automated                                                       |
+|                           | Every icon-only control has an accessible name                                                          | Automated                                                       |
+| **Mobile/tablet**         | At 390 px, an author can find a trip, open a stop, fix a date, and see it saved                         | Manual on a real device                                         |
+|                           | Unavailable operations are stated, not silently absent                                                  | Manual                                                          |
+| **Publish confidence**    | The commit checklist is empty **iff** `buildWorld` succeeds                                             | Automated against fixtures, both directions                     |
+|                           | The Changes tray lists exactly the files `git status` reports                                           | Automated                                                       |
+| **Performance**           | Workspace interactive < 1.5 s on a mid laptop with 50 cities and 20 trips                               | Measured                                                        |
+|                           | Rail keystroke → repaint < 50 ms at 100 steps                                                           | Profiled                                                        |
+|                           | `/__cities` search returns in < 200 ms after warm-up                                                    | Measured                                                        |
+| **Compatibility**         | Every file the new editor writes is byte-comparable in shape to the old one (2-space, trailing newline) | Automated                                                       |
+|                           | Round-trip: open and save every file in the fixture dataset → zero git diff                             | **Automated, and the single most important compatibility gate** |
+|                           | The public app builds from any dataset the checklist calls clean                                        | CI                                                              |
 
 ---
 
@@ -1989,7 +1995,7 @@ Per the brief, no rewrite follows this document.
 7. Inline place search and creation.
 8. Everything in Phase 3+.
 
-Steps 1–3 are shippable behind no flag: they improve the *existing* screens
+Steps 1–3 are shippable behind no flag: they improve the _existing_ screens
 before any new UI exists. That is the cheapest possible de-risking of the
 riskiest change.
 

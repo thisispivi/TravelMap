@@ -146,11 +146,6 @@ export function Workspace({ file, isDarkTheme }: WorkspaceProps): ReactNode {
           label: t("tray.validation"),
           run: () => setTray("validation"),
         },
-        {
-          id: "preview",
-          label: t("tray.preview"),
-          run: () => setTray("preview"),
-        },
       ]),
     [redoEdit, t, trip, undoEdit, update],
   );

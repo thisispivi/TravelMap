@@ -78,9 +78,9 @@ export function getTransportModeStats(
         step.type === "transport" && step.mode === mode ? [step] : [],
       ),
     );
-    const count = steps.reduce((acc, s) => acc + (s.roundTrip ? 2 : 1), 0);
+    const count = steps.length;
     const km = steps.reduce(
-      (acc, s) => acc + (s.distanceInKm ?? 0) * (s.roundTrip ? 2 : 1),
+      (total, step) => total + (step.distanceInKm ?? 0),
       0,
     );
     return { mode, count, km };

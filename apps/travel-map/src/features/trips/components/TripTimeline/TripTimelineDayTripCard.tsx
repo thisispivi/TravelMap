@@ -65,7 +65,7 @@ export function TimelineDayTripCard({
   isNested,
   inboundTransport,
 }: TimelineDayTripCardProps): ReactNode {
-  const { t, currLanguage: lang } = useLanguage(["home"]);
+  const { currLanguage: lang } = useLanguage(["home"]);
   const navigate = useNavigate();
   const routerLocation = useRouterLocation();
   const { setHoveredCity } = useMapInteraction();
@@ -75,7 +75,7 @@ export function TimelineDayTripCard({
   const thumbSrc = city.getBackgroundImgSourceByIndex(
     isClickable ? galleryTravelIdx : travelIdx,
   );
-  const cityLabel = t(`cities.${city.name}`) || city.name;
+  const cityLabel = city.getLocalizedName(lang);
 
   /**
    * Opens the gallery for this day-trip destination.

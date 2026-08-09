@@ -25,6 +25,7 @@ import {
 import { ImageUploadField } from "../../../../shared/components/ImageUploadField/ImageUploadField";
 import { useDataset } from "../../../../shared/hooks/useDataset";
 import { findWorldCountry } from "../../../../shared/lib/worldCountries";
+import { BackupPanel } from "../../../backup/components/BackupPanel/BackupPanel";
 
 const MAP_ZOOM_FIELDS = [
   ["defaultZoom", "configScreen.defaultZoom"],
@@ -380,6 +381,7 @@ export function SettingsScreen({ file }: SettingsScreenProps): ReactNode {
           />
         ))}
       </section>
+      <BackupPanel />
     </DocumentScreen>
   );
 }

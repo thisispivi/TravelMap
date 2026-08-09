@@ -30,7 +30,8 @@
   }
 
   &__trips,
-  &__places {
+  &__places,
+  &__companies {
     display: flex;
     flex-direction: column;
     gap: 0.35rem;
@@ -40,16 +41,77 @@
   }
 
   &__places {
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 0.5rem 1rem;
+    max-height: 17rem;
+    padding-right: 0.25rem;
+    overflow-y: auto;
     font-size: v.$bodySm;
   }
 
+  &__place-groups {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  &__place-group {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    h3 {
+      margin: 0;
+      font-size: v.$bodySm;
+    }
+  }
+
+  &__place-button {
+    justify-content: flex-start;
+    width: 100%;
+    text-decoration: none;
+  }
+
+  &__pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    font-size: v.$caption;
+  }
+
+  &__pagination-button {
+    min-width: 2rem;
+    padding-inline: 0.35rem;
+  }
+
   &__flag {
-    width: 1rem;
-    margin-right: 0.35rem;
-    vertical-align: -0.1rem;
+    width: 1.15rem;
+    height: 0.8rem;
+    object-fit: cover;
+  }
+
+  &__companies {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+  }
+
+  &__company {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.65rem 0.75rem;
+    border-radius: v.$floatingCardRadius;
+
+    > svg {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+  }
+
+  &__company-logo {
+    width: 2rem;
+    height: 2rem;
+    object-fit: contain;
   }
 
   &__trip {
@@ -124,7 +186,8 @@
 }
 
 .editor--dark .library {
-  &__trip {
+  &__trip,
+  &__company {
     background: v.$darkInfoTab;
   }
 
@@ -140,11 +203,18 @@
 }
 
 .editor--light .library {
-  &__trip {
+  &__trip,
+  &__company {
     background: v.$lightLeftBar;
   }
 
   &__trip-meta {
     color: v.$lightAltTextDarker;
+  }
+}
+
+@media (max-width: 42rem) {
+  .library__place-groups {
+    grid-template-columns: 1fr;
   }
 }

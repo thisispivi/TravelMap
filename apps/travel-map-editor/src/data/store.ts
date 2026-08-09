@@ -79,14 +79,11 @@ const seededConfig = files<SiteConfig>(
 
 let snapshot: DatasetSnapshot = {
   cities: files<CityJson>(
-    import.meta.glob("../../../../data/*/*/*.json", { eager: true }),
+    import.meta.glob("../../../../data/cities/*/*/*.json", { eager: true }),
   ),
   config: seededConfig ?? { path: CONFIG_PATH, value: DEFAULT_CONFIG },
   countries: files<CountryJson>(
-    import.meta.glob(
-      ["../../../../data/*/*.json", "!../../../../data/trips/*.json"],
-      { eager: true },
-    ),
+    import.meta.glob("../../../../data/cities/*/*.json", { eager: true }),
   ),
   photos: files<Image[]>(
     import.meta.glob("../../../../data/photos/**/*.json", { eager: true }),
@@ -151,8 +148,8 @@ function publish(next: DatasetSnapshot): void {
 
 /**
  * Decides which collection a dataset path belongs to from its shape alone,
- * because the layout encodes the kind: `<Country>/<Country>.json` is a country
- * and `<Country>/<City>/<City>.json` is a city.
+ * because the layout encodes the kind: `cities/<Country>/<Country>.json` is a
+ * country and `cities/<Country>/<City>/<City>.json` is a city.
  * @param {string} path - Dataset-relative JSON path
  * @returns {keyof DatasetSnapshot} The collection the path belongs to
  */
@@ -160,7 +157,9 @@ function collectionFor(path: string): keyof DatasetSnapshot {
   if (path === CONFIG_PATH) return "config";
   if (path.startsWith("trips/")) return "trips";
   if (path.startsWith("photos/")) return "photos";
-  return path.split("/").length >= 3 ? "cities" : "countries";
+  if (path.startsWith("cities/"))
+    return path.split("/").length >= 4 ? "cities" : "countries";
+  throw new Error(`Unknown dataset path: ${path}`);
 }
 
 /**

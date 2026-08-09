@@ -9,6 +9,7 @@ import {
   TripStopJson,
   TripTransportJson,
 } from "@travelmap/core";
+import { ChevronDown, FilePenLine } from "lucide-react";
 import { ReactNode, useState } from "react";
 import { Link } from "react-router";
 
@@ -104,32 +105,14 @@ interface DerivedValueProps {
  * @component
  * @param {ModeSelectorProps} props
  * @param {(mode: TransportMode) => void} props.onChange - Selection callback
- * @param {TransportMode} [props.suggested] - The mode the distance implies
  * @param {TransportMode} props.value - The current mode
  * @returns {ReactNode} The mode radio group
  */
-function ModeSelector({
-  onChange,
-  suggested,
-  value,
-}: ModeSelectorProps): ReactNode {
+function ModeSelector({ onChange, value }: ModeSelectorProps): ReactNode {
   const { t } = useLanguage(["editor"]);
   return (
     <fieldset className="inspector__modes">
-      <legend className="editor-field__label">
-        {t("stepFields.mode")}
-        {suggested && suggested !== value ? (
-          <button
-            className="inspector__mode-suggestion"
-            onClick={() => onChange(suggested)}
-            type="button"
-          >
-            {t("inspector.suggestMode", {
-              mode: t(`transportMode.${suggested}`),
-            })}
-          </button>
-        ) : null}
-      </legend>
+      <legend className="editor-field__label">{t("stepFields.mode")}</legend>
       <div className="inspector__mode-options">
         {transportModes.map((mode) => (
           <label
@@ -159,12 +142,10 @@ function ModeSelector({
 /**
  * Props for ModeSelector.
  * @property {(mode: TransportMode) => void} onChange - Selection callback
- * @property {TransportMode} [suggested] - The mode the distance implies
  * @property {TransportMode} value - The current mode
  */
 interface ModeSelectorProps {
   onChange: (mode: TransportMode) => void;
-  suggested?: TransportMode;
   value: TransportMode;
 }
 
@@ -298,9 +279,10 @@ function StopInspector({
       />
       {city ? (
         <Link
-          className="inspector__link"
+          className="editor-button inspector__city-button"
           to={`/places/cities/${city.value.id}`}
         >
+          <FilePenLine aria-hidden="true" />
           {t("inspector.openCity")}
         </Link>
       ) : null}
@@ -318,8 +300,8 @@ function StopInspector({
       </div>
       <Combobox
         emptyLabel={t("stepFields.noPhotos")}
-        hint={t("inspector.galleryHint")}
-        label={t("inspector.gallery")}
+        hint={t("inspector.photoManifestHint")}
+        label={t("stepFields.photoManifest")}
         onChange={(photoPath) =>
           onChange({ ...step, photoPath: photoPath || undefined })
         }
@@ -345,11 +327,18 @@ function StopInspector({
       ) : null}
       <button
         aria-expanded={isExpanded}
-        className="inspector__disclosure"
+        className="editor-button inspector__disclosure"
         onClick={() => setIsExpanded(!isExpanded)}
         type="button"
       >
         {t("inspector.more")}
+        <ChevronDown
+          aria-hidden="true"
+          className={classNames(
+            "inspector__disclosure-icon",
+            isExpanded && "inspector__disclosure-icon--open",
+          )}
+        />
       </button>
       {isExpanded ? (
         <div className="inspector__row">
@@ -446,7 +435,6 @@ function LegInspector({
       <p className="editor-panel__hint">{t("inspector.endpointsHint")}</p>
       <ModeSelector
         onChange={(mode) => onChange({ ...step, mode })}
-        suggested={suggestions.mode}
         value={step.mode}
       />
       <div className="inspector__row">
@@ -503,11 +491,6 @@ function LegInspector({
         }
         options={cityOptions(dataset)}
         value={step.viaIds ?? []}
-      />
-      <CheckboxField
-        label={t("stepFields.roundTrip")}
-        onChange={(roundTrip) => onChange({ ...step, roundTrip })}
-        value={step.roundTrip}
       />
       {step.mode === "plane" ? (
         <div className="inspector__row">

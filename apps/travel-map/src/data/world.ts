@@ -48,13 +48,10 @@ function values<T>(modules: Record<string, { default: T }>): T[] {
 }
 
 const countries = values<CountryJson>(
-  import.meta.glob(
-    ["../../../../data/*/*.json", "!../../../../data/trips/*.json"],
-    { eager: true },
-  ),
+  import.meta.glob("../../../../data/cities/*/*.json", { eager: true }),
 );
 const cities = values<CityJson>(
-  import.meta.glob("../../../../data/*/*/*.json", { eager: true }),
+  import.meta.glob("../../../../data/cities/*/*/*.json", { eager: true }),
 );
 const trips = values<TripJson>(
   import.meta.glob("../../../../data/trips/*.json", { eager: true }),

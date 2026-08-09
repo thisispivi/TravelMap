@@ -6,11 +6,33 @@ import { ReactNode, useEffect, useRef, useState } from "react";
 
 import { applyWrites, DatasetSnapshot } from "../../../../data/store";
 import { Combobox } from "../../../../shared/components/Combobox/Combobox";
-import { TextField } from "../../../../shared/components/Fields/Fields";
+import {
+  NumberField,
+  TextField,
+} from "../../../../shared/components/Fields/Fields";
 import { timeZoneAt, WorldCity } from "../../lib/gazetteer";
 import { planManualPlace, planPlace } from "../../lib/placeCreate";
 import { cityOptions, countryOptions } from "../../lib/placeOptions";
+import { PlaceImport } from "../PlaceImport/PlaceImport";
 import { WorldCitySearch } from "../WorldCitySearch/WorldCitySearch";
+
+/**
+ * Checks that an authored point fits longitude and latitude bounds.
+ * @param {number | undefined} longitude - Authored longitude
+ * @param {number | undefined} latitude - Authored latitude
+ * @returns {[number, number] | null} The storable point, or null when invalid
+ */
+function validPoint(
+  longitude: number | undefined,
+  latitude: number | undefined,
+): [number, number] | null {
+  const isValid =
+    longitude !== undefined &&
+    latitude !== undefined &&
+    Math.abs(longitude) <= 180 &&
+    Math.abs(latitude) <= 90;
+  return isValid ? [longitude, latitude] : null;
+}
 
 /**
  * AddPlaceDialog component
@@ -37,6 +59,12 @@ export function AddPlaceDialog({
   const [manualName, setManualName] = useState("");
   const [manualCountryId, setManualCountryId] = useState(
     dataset.countries[0]?.value.id ?? "",
+  );
+  const [longitude, setLongitude] = useState<number | undefined>(
+    coordinates?.[0],
+  );
+  const [latitude, setLatitude] = useState<number | undefined>(
+    coordinates?.[1],
   );
   const [message, setMessage] = useState("");
 
@@ -65,20 +93,21 @@ export function AddPlaceDialog({
   }
 
   /**
-   * Creates a city at a point the author clicked, for places the gazetteer
-   * does not carry. The country cannot be worked out from coordinates without
-   * land polygons the editor does not load, so it is asked for.
+   * Creates a city from authored coordinates when catalogue search is not
+   * sufficient. The country remains explicit because the editor does not load
+   * land polygons for reverse geocoding.
    * @returns {Promise<void>} Completion once the write is acknowledged
    */
   async function handleCreateManual(): Promise<void> {
-    if (!coordinates || !manualName.trim() || !manualCountryId) return;
+    const manualCoordinates = validPoint(longitude, latitude);
+    if (!manualCoordinates || !manualName.trim() || !manualCountryId) return;
     try {
-      const timeZone = (await timeZoneAt(coordinates)) ?? "UTC";
+      const timeZone = (await timeZoneAt(manualCoordinates)) ?? "UTC";
       const manual = planManualPlace(
         dataset,
         manualName.trim(),
         manualCountryId,
-        coordinates,
+        manualCoordinates,
         timeZone,
       );
       await applyWrites(manual.writes);
@@ -154,14 +183,16 @@ export function AddPlaceDialog({
           </ul>
         </div>
       ) : null}
-      {coordinates ? (
-        <div className="add-place__manual">
-          <p className="add-place__plan-title">
-            {t("addPlace.manualTitle", {
-              latitude: coordinates[1].toFixed(4),
-              longitude: coordinates[0].toFixed(4),
-            })}
-          </p>
+      <div className="add-place__manual">
+        <p className="add-place__plan-title">{t("addPlace.manualTitle")}</p>
+        <PlaceImport
+          onImport={(place) => {
+            setLongitude(place.coordinates[0]);
+            setLatitude(place.coordinates[1]);
+            if (place.name) setManualName(place.name);
+          }}
+        />
+        <div className="editor-panel__row">
           <TextField
             label={t("addPlace.manualName")}
             onChange={setManualName}
@@ -173,17 +204,35 @@ export function AddPlaceDialog({
             options={countryOptions(dataset)}
             value={manualCountryId}
           />
-          <button
-            className="editor-button"
-            disabled={!manualName.trim() || !manualCountryId}
-            onClick={handleCreateManual}
-            type="button"
-          >
-            <MapPinPlus aria-hidden="true" />
-            {t("addPlace.createHere")}
-          </button>
         </div>
-      ) : null}
+        <div className="editor-panel__row">
+          <NumberField
+            label={t("cityScreen.longitude")}
+            onChange={setLongitude}
+            step="any"
+            value={longitude}
+          />
+          <NumberField
+            label={t("cityScreen.latitude")}
+            onChange={setLatitude}
+            step="any"
+            value={latitude}
+          />
+        </div>
+        <button
+          className="editor-button"
+          disabled={
+            !manualName.trim() ||
+            !manualCountryId ||
+            !validPoint(longitude, latitude)
+          }
+          onClick={handleCreateManual}
+          type="button"
+        >
+          <MapPinPlus aria-hidden="true" />
+          {t("addPlace.createHere")}
+        </button>
+      </div>
       <footer className="add-place__actions">
         <button
           className="editor-button editor-button--primary"

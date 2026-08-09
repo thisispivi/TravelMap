@@ -31,8 +31,8 @@ export function TimelineOriginNode({
   city,
   animDelay,
 }: TimelineOriginNodeProps): ReactNode {
-  const { t } = useLanguage(["home"]);
-  const cityLabel = t(`cities.${city.name}`) || city.name;
+  const { currLanguage } = useLanguage(["home"]);
+  const cityLabel = city.getLocalizedName(currLanguage);
 
   return (
     <m.div

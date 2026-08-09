@@ -8,18 +8,16 @@ import {
   CircleCheck,
   Files,
   ListChecks,
-  MonitorPlay,
   Sparkles,
   TriangleAlert,
 } from "lucide-react";
 import { ReactNode } from "react";
 
 import { DocumentChange } from "../../../../data/store";
-import { PreviewFrame } from "../../../preview/components/PreviewFrame/PreviewFrame";
 import { Selection } from "../../../workspace/Workspace.state";
 
 /** Which tray is currently open beneath the workspace. */
-export type TrayTab = "validation" | "changes" | "preview" | "closed";
+export type TrayTab = "validation" | "changes" | "closed";
 
 /**
  * Turns an issue into the sentence the author reads, preferring a translation
@@ -156,17 +154,6 @@ export function ValidationTray({
             <Files aria-hidden="true" />
             {t("tray.changes", { count: changes.length })}
           </button>
-          <button
-            aria-pressed={tab === "preview"}
-            className="editor-button"
-            onClick={() =>
-              onChangeTab(tab === "preview" ? "closed" : "preview")
-            }
-            type="button"
-          >
-            <MonitorPlay aria-hidden="true" />
-            {t("tray.preview")}
-          </button>
         </div>
       </div>
       {tab === "validation" ? (
@@ -195,11 +182,6 @@ export function ValidationTray({
               ))}
             </ul>
           )}
-        </div>
-      ) : null}
-      {tab === "preview" ? (
-        <div className="validation-tray__panel">
-          <PreviewFrame tripId={trip.id} />
         </div>
       ) : null}
       {tab === "changes" ? (

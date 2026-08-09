@@ -8,9 +8,8 @@ import { ParsedPlace, parseGoogleMapsUrl } from "../../lib/googleMaps";
 
 /**
  * PlaceImport component
- * Reads a location out of a pasted Google Maps link, so coordinates are copied
- * rather than transcribed. Short goo.gl links are rejected because resolving
- * them needs a network round trip the editor deliberately avoids.
+ * Reads a location out of a pasted Google Maps link, resolving Google share
+ * links through the local editor server when necessary.
  * @component
  * @param {PlaceImportProps} props
  * @param {(place: ParsedPlace) => void} props.onImport - Called with the parsed location
@@ -20,14 +19,33 @@ export function PlaceImport({ onImport }: PlaceImportProps): ReactNode {
   const { t } = useLanguage(["editor"]);
   const [link, setLink] = useState("");
   const [error, setError] = useState("");
+  const [isResolving, setIsResolving] = useState(false);
   const parsed = parseGoogleMapsUrl(link);
 
   /**
    * Applies the parsed location, or explains why the link cannot be used.
-   * @returns {void}
+   * @returns {Promise<void>} Completion after an optional short-link redirect
    */
-  function handleImport(): void {
-    if (!parsed) {
+  async function handleImport(): Promise<void> {
+    let place = parsed;
+    if (!place && link.includes("goo.gl")) {
+      setIsResolving(true);
+      try {
+        const response = await fetch(
+          `/__data/resolve-map-link?url=${encodeURIComponent(link)}`,
+        );
+        if (response.ok) {
+          const body = (await response.json()) as { url: string };
+          place = parseGoogleMapsUrl(body.url);
+        }
+      } catch {
+        setError(t("placeImport.shortLinkError"));
+        return;
+      } finally {
+        setIsResolving(false);
+      }
+    }
+    if (!place) {
       setError(
         link.includes("goo.gl")
           ? t("placeImport.shortLinkError")
@@ -35,7 +53,7 @@ export function PlaceImport({ onImport }: PlaceImportProps): ReactNode {
       );
       return;
     }
-    onImport(parsed);
+    onImport(place);
     setError("");
     setLink("");
   }
@@ -54,7 +72,7 @@ export function PlaceImport({ onImport }: PlaceImportProps): ReactNode {
             onKeyDown={(event) => {
               if (event.key !== "Enter") return;
               event.preventDefault();
-              handleImport();
+              void handleImport();
             }}
             placeholder={t("placeImport.placeholder")}
             type="text"
@@ -62,11 +80,11 @@ export function PlaceImport({ onImport }: PlaceImportProps): ReactNode {
           />
           <button
             className="editor-button editor-button--primary"
-            disabled={!link.trim()}
-            onClick={handleImport}
+            disabled={!link.trim() || isResolving}
+            onClick={() => void handleImport()}
             type="button"
           >
-            {t("placeImport.use")}
+            {isResolving ? t("placeImport.resolving") : t("placeImport.use")}
           </button>
         </div>
       </label>

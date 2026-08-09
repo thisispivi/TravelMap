@@ -3,19 +3,17 @@ import { Continent, Currency } from "@travelmap/core";
 import type { GeometryCollection, Topology } from "topojson-specification";
 import worldCountries from "world-countries";
 
-// The public map fills a country by matching the Natural Earth polygon name
-// against the country id, so ids are not free-form: they must be the polygon
-// name, abbreviations ("S. Sudan") included. Everything an author actually
-// reads — display name, translations, flag — comes from world-countries
-// instead, joined on the ISO 3166-1 numeric code the topology carries.
+/*
+ * Country ids match Natural Earth polygon names. Display metadata instead
+ * comes from world-countries, joined through the topology's numeric ISO code.
+ */
 const topology = countriesTopologyJson as unknown as Topology<{
   countries: GeometryCollection<{ name: string }>;
 }>;
 
-// Vite serves the public app's flag pack from its own source tree, so the
-// editor cannot reference /flags/*.svg the way the site does.
+/* The editor bundles the public app's flag pack through its own Vite graph. */
 const flagUrls = import.meta.glob<string>(
-  "../../../travel-map/public/flags/*.svg",
+  "../../../../travel-map/public/flags/*.svg",
   { eager: true, import: "default", query: "?url" },
 );
 const flagsByName = new Map(
@@ -33,8 +31,7 @@ const CONTINENT_BY_REGION: Record<string, Continent> = {
   Oceania: Continent.OCEANIA,
 };
 
-// world-countries groups both American continents under one region, so the
-// subregion decides which of the two enum values applies.
+/* world-countries uses the subregion to distinguish the two Americas. */
 const SOUTH_AMERICAN_SUBREGIONS = new Set(["South America"]);
 
 /**
@@ -132,9 +129,7 @@ function buildCatalogue(): WorldCountry[] {
       ? metadataByCode.get(String(geometry.id))
       : undefined;
 
-    // Disputed and unrecognised territories have a polygon but no ISO entry.
-    // They stay selectable using the polygon name alone, and an author can
-    // correct the continent and currency by hand afterwards.
+    /* Polygons without ISO metadata remain selectable under their map name. */
     if (!metadata) {
       catalogue.push({
         cca2: "",
@@ -210,7 +205,6 @@ function localisedCountryName(
   try {
     return new Intl.DisplayNames([locale], { type: "region" }).of(code);
   } catch {
-    // An unsupported locale tag costs the translation, not the country.
     return undefined;
   }
 }

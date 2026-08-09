@@ -60,15 +60,13 @@
   }
 }
 
-// Portalled to the body, so theming hangs off the body class. Same radius as
-// .combobox__menu — both are anchored panels positioned by useAnchoredMenu
-// and should read as one family of floating panel.
 .date-picker__panel {
   position: fixed;
   z-index: 60;
-  width: 17.5rem;
+  max-width: calc(100vw - 0.5rem);
   padding: 0.85rem;
   border-radius: 0.85rem;
+  overflow-y: auto;
   transform-origin: top center;
 }
 
@@ -181,7 +179,6 @@
   }
 }
 
-// ─── Dark ───────────────────────────────────────────────────
 .editor--dark .date-picker {
   &__trigger--empty .date-picker__value {
     color: v.$darkDisabledText;
@@ -230,7 +227,6 @@
   }
 }
 
-// ─── Light ──────────────────────────────────────────────────
 .editor--light .date-picker {
   &__trigger--empty .date-picker__value {
     color: v.$lightDisabledText;

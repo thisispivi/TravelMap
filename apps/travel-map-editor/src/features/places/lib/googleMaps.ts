@@ -8,16 +8,11 @@ export interface ParsedPlace {
   name?: string;
 }
 
-// Google writes latitude before longitude everywhere, while the dataset stores
-// [lng, lat]; every branch below swaps on the way out.
+/* Google writes latitude first; the dataset stores longitude first. */
 const PATTERNS = [
-  // Place pins: the authoritative location, more precise than the viewport.
   /!3d(-?\d+(?:\.\d+)?)!4d(-?\d+(?:\.\d+)?)/,
-  // Viewport centre in /maps/@lat,lng,zoom links.
   /@(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/,
-  // Query forms: ?q=, ?ll=, ?daddr=, and the search API's &query=.
   /[?&](?:q|ll|query|daddr|center)=(-?\d+(?:\.\d+)?)(?:,|%2C)\s*(-?\d+(?:\.\d+)?)/i,
-  // A bare "lat, lng" pair, so copying the coordinates alone also works.
   /^\s*(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)\s*$/,
 ];
 
@@ -33,7 +28,6 @@ function parseName(input: string): string | undefined {
     const name = decodeURIComponent(match[1]!).replace(/\+/g, " ").trim();
     return name || undefined;
   } catch {
-    // A malformed escape sequence only costs the name, not the coordinates.
     return undefined;
   }
 }

@@ -13,6 +13,7 @@ import {
 
 const WEEKDAY_COUNT = 7;
 const CALENDAR_CELLS = 42;
+const PANEL_WIDTH_PX = 280;
 
 /**
  * Splits an authored value into its date and time halves.
@@ -113,7 +114,11 @@ export function DatePicker({
   const [datePart, timePart] = splitValue(value);
   const selected = datePart ? new Date(`${datePart}T00:00:00`) : null;
   const [month, setMonth] = useState(() => selected ?? new Date());
-  const { container, position } = useAnchoredMenu(controlRef, isOpen);
+  const { container, position } = useAnchoredMenu(
+    controlRef,
+    isOpen,
+    PANEL_WIDTH_PX,
+  );
   const firstDay = firstDayOfWeek();
   const today = toLocalDate(new Date());
 
@@ -236,12 +241,14 @@ export function DatePicker({
                 initial="initial"
                 ref={panelRef}
                 style={{
+                  maxHeight: position.maxHeight,
                   left: position.left,
                   top: position.placement === "top" ? undefined : position.top,
                   bottom:
                     position.placement === "top"
                       ? window.innerHeight - position.top
                       : undefined,
+                  width: position.width,
                 }}
                 variants={ANCHORED_PANEL_VARIANTS}
               >

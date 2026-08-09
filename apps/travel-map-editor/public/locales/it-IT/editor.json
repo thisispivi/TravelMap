@@ -111,7 +111,6 @@
     "distanceKm": "Distanza km",
     "durationMinutes": "Durata minuti",
     "viaCities": "Città di passaggio",
-    "roundTrip": "Andata e ritorno",
     "airline": "Compagnia aerea",
     "noAirline": "Nessuna compagnia aerea",
     "flightNumber": "Numero di volo",
@@ -138,7 +137,8 @@
     "title": "Importa da Google Maps",
     "placeholder": "Incolla un link di Maps o 41.9028, 12.4964",
     "use": "Usa",
-    "shortLinkError": "I link brevi non possono essere letti. Aprilo in Google Maps e copia l'URL completo.",
+    "resolving": "Risoluzione…",
+    "shortLinkError": "Non è stato possibile risolvere il link condiviso di Google Maps.",
     "noCoordinatesError": "Nessuna coordinata trovata in quel link.",
     "preview": "Longitudine {{longitude}}, latitudine {{latitude}}"
   },
@@ -299,11 +299,16 @@
     "readyBadge": "Pronto",
     "blockingBadge_one": "{{count}} problema",
     "blockingBadge_other": "{{count}} problemi",
-    "health": "Stato del dataset",
-    "loadsCleanly": "Il dataset si carica senza errori.",
     "places": "Paesi e citta'",
     "placesHint": "Citta' e paesi vengono creati per te. Aprine uno solo per correggerlo.",
-    "placesCount": "{{countries}} paesi, {{cities}} citta'"
+    "placesCount": "{{countries}} paesi, {{cities}} citta'",
+    "countries": "Paesi",
+    "cities": "Città",
+    "previousPage": "Pagina precedente",
+    "nextPage": "Pagina successiva",
+    "page": "Pagina {{current}} di {{total}}",
+    "transportCompanies": "Compagnie di trasporto",
+    "noCompanies": "Aggiungi le compagnie di trasporto nelle Impostazioni per mostrarle qui."
   },
   "workspace": {
     "backToLibrary": "Viaggi",
@@ -334,8 +339,7 @@
     "leg": "Tratta",
     "openCity": "Apri il file della citta'",
     "more": "Altre opzioni",
-    "gallery": "Galleria",
-    "galleryHint": "Le gallerie vengono da scripts/uploader; l'editor le referenzia soltanto.",
+    "photoManifestHint": "Seleziona il JSON generato in data/photos per collegarlo a questo soggiorno.",
     "minPhotos": "Foto minime per riga",
     "maxPhotos": "Foto massime per riga",
     "targetRowHeight": "Altezza riga desiderata",
@@ -343,7 +347,6 @@
     "useSuggestion": "Usa",
     "greatCircle": "in linea d'aria",
     "forThisMode": "per questo mezzo",
-    "suggestMode": "Suggerito: {{mode}}",
     "endpointsHint": "Gli estremi seguono i soggiorni prima e dopo questa tratta.",
     "mapFocus": "Inquadratura mappa",
     "mapFocusAuto": "Adattata al viaggio",
@@ -373,8 +376,7 @@
       "created": "creato",
       "updated": "aggiornato",
       "deleted": "eliminato"
-    },
-    "preview": "Anteprima"
+    }
   },
   "save": {
     "saving": "Salvataggio",
@@ -394,8 +396,8 @@
     "willCreateCity": "Crea la citta' {{city}}.",
     "reusesExisting": "Riusa la citta' esistente {{city}}.",
     "willCreateCountry": "E' il primo luogo in {{country}}, quindi viene creato anche il file del paese.",
-    "nearbyDuplicate": "{{city}} e' gia' entro 25 km da qui.",
-    "manualTitle": "Crea un luogo a {{latitude}}, {{longitude}}",
+    "nearbyDuplicate": "{{city}} è già in questa posizione.",
+    "manualTitle": "Crea un luogo personalizzato",
     "manualName": "Nome",
     "manualCountry": "Paese",
     "createHere": "Crea qui",
@@ -432,14 +434,6 @@
     "trip": "Viaggio",
     "city": "Citta'",
     "country": "Paese"
-  },
-  "preview": {
-    "title": "Anteprima del sito pubblico",
-    "desktop": "Desktop",
-    "tablet": "Tablet",
-    "mobile": "Mobile",
-    "openInTab": "Apri in una scheda",
-    "notRunning": "Il sito pubblico non e' in esecuzione. Avvialo con pnpm dev."
   },
   "import": {
     "title": "Importa",
