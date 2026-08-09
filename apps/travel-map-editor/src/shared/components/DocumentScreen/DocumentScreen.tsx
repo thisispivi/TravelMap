@@ -1,6 +1,7 @@
 import "./DocumentScreen.scss";
 
 import { useLanguage } from "@app/shared/hooks/useLanguage";
+import { ArrowLeft, Trash2 } from "lucide-react";
 import { ReactNode, useState } from "react";
 import { Link } from "react-router";
 
@@ -66,7 +67,11 @@ export function DocumentScreen({
       <header className="editor__header">
         <div>
           <p className="editor__eyebrow">
-            <Link to="/">{t("workspace.backToLibrary")}</Link> · {eyebrow}
+            <Link className="editor-inline-link" to="/">
+              <ArrowLeft aria-hidden="true" />
+              {t("workspace.backToLibrary")}
+            </Link>{" "}
+            · {eyebrow}
           </p>
           <h1 className="document-screen__title">
             {titleIconUrl ? (
@@ -95,6 +100,7 @@ export function DocumentScreen({
                   onClick={handleDelete}
                   type="button"
                 >
+                  <Trash2 aria-hidden="true" />
                   {t("editorForm.confirmDelete")}
                 </button>
                 <button
@@ -111,6 +117,7 @@ export function DocumentScreen({
                 onClick={() => setIsConfirmingDelete(true)}
                 type="button"
               >
+                <Trash2 aria-hidden="true" />
                 {t("editorForm.delete")}
               </button>
             )

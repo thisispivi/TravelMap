@@ -27,7 +27,7 @@ export function parseImport(input: string): ParsedInput {
     } catch {
       return {
         format: "unknown",
-        problems: ["The input looks like JSON but could not be parsed."],
+        problems: [{ code: "invalidJson" }],
         rows: [],
       };
     }
@@ -48,7 +48,7 @@ export function parseImport(input: string): ParsedInput {
       return parseGeoJson(value);
     return {
       format: "unknown",
-      problems: ["The JSON is not a trip, a backup, or a GeoJSON collection."],
+      problems: [{ code: "unsupportedJson" }],
       rows: [],
     };
   }
@@ -57,7 +57,7 @@ export function parseImport(input: string): ParsedInput {
     if (trimmed.includes("<kml")) return parseXmlPlaces(trimmed, "kml");
     return {
       format: "unknown",
-      problems: ["The XML is neither GPX nor KML."],
+      problems: [{ code: "unsupportedXml" }],
       rows: [],
     };
   }

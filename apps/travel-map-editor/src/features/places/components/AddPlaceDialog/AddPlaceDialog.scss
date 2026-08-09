@@ -1,11 +1,18 @@
 @use "variables" as v;
-@use "mixins" as m;
 
 .add-place {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
   width: min(34rem, 92vw);
+  max-height: calc(100vh - 2rem);
+  margin: auto;
   padding: 1.1rem;
   border: 0;
   border-radius: v.$floatingCardRadius;
+  overflow-y: auto;
 
   &::backdrop {
     background: rgb(0 0 0 / 45%);
@@ -42,28 +49,42 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    margin-top: 1rem;
+    margin: 0.25rem -1.1rem -1.1rem;
+    padding: 0.9rem 1.1rem;
+    border-top: 0.0625rem solid;
   }
 }
 
 .editor--dark .add-place {
-  @include m.full-panel-dark;
-
+  border: 0.0625rem solid v.$glassBorderDark;
+  background: v.$darkInfoTab;
+  box-shadow: v.$glassShadowDark;
   color: v.$darkButtonContent;
 
   .add-place__plan,
   .add-place__manual {
     background: v.$darkButton;
   }
+
+  .add-place__actions {
+    border-color: v.$glassBorderDark;
+    background: v.$darkInfoTab;
+  }
 }
 
 .editor--light .add-place {
-  @include m.full-panel-light;
-
+  border: 0.0625rem solid rgb(0 0 0 / 6%);
+  background: v.$lightLeftBar;
+  box-shadow: v.$glassShadowLight;
   color: v.$lightButtonContent;
 
   .add-place__plan,
   .add-place__manual {
     background: v.$lightButton;
+  }
+
+  .add-place__actions {
+    border-color: rgb(0 0 0 / 10%);
+    background: v.$lightLeftBar;
   }
 }

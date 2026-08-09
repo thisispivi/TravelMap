@@ -11,10 +11,29 @@ export type ImportFormat =
   | "text"
   | "unknown";
 
+/** A parser problem that the UI can translate without parsing prose. */
+export type ImportProblemCode =
+  | "csvMissingName"
+  | "geoJsonNotPoint"
+  | "invalidJson"
+  | "invalidXml"
+  | "unsupportedJson"
+  | "unsupportedXml";
+
+/**
+ * One recoverable problem found while parsing imported content.
+ * @property {ImportProblemCode} code - Translation key suffix
+ * @property {number} [position] - One-based row or feature position
+ */
+export interface ImportProblem {
+  code: ImportProblemCode;
+  position?: number;
+}
+
 /**
  * One place recovered from imported input, before it is matched to the dataset.
  * @property {number} line - Source line or row the place came from
- * @property {string} text - The original text, kept so nothing is ever lost
+ * @property {string} text - The original source text
  * @property {string} name - The parsed place name
  * @property {[number, number]} [coordinates] - Longitude and latitude when carried
  * @property {string} [sDate] - Arrival date when carried
@@ -36,13 +55,13 @@ export interface ParsedRow {
  * @property {ImportFormat} format - What the input was detected as
  * @property {ParsedRow[]} rows - Places recovered from it
  * @property {TripJson} [trip] - A complete trip, when the input carried one
- * @property {string[]} problems - Lines that could not be read
+ * @property {ImportProblem[]} problems - Content that could not be read
  */
 export interface ParsedInput {
   format: ImportFormat;
   rows: ParsedRow[];
   trip?: TripJson;
-  problems: string[];
+  problems: ImportProblem[];
 }
 
 const MODE_WORDS: Record<string, TransportMode> = {
@@ -227,14 +246,14 @@ export function parseCsv(input: string): ParsedInput {
   const startAt = indexOf("start", "arrival", "from", "sdate");
   const endAt = indexOf("end", "departure", "to", "edate");
   const modeAt = indexOf("mode", "transport");
-  const problems: string[] = [];
+  const problems: ImportProblem[] = [];
   const rows: ParsedRow[] = [];
 
   lines.slice(1).forEach((line, index) => {
     const cells = line.split(delimiter).map((cell) => cell.trim());
     const name = (nameAt >= 0 ? cells[nameAt] : cells[0]) ?? "";
     if (!name) {
-      problems.push(`Row ${index + 2} has no place name.`);
+      problems.push({ code: "csvMissingName", position: index + 2 });
       return;
     }
     const latitude = latitudeAt >= 0 ? Number(cells[latitudeAt]) : Number.NaN;
@@ -269,7 +288,7 @@ export function parseGeoJson(value: unknown): ParsedInput {
       properties?: Record<string, unknown>;
     }[];
   };
-  const problems: string[] = [];
+  const problems: ImportProblem[] = [];
   const rows: ParsedRow[] = [];
 
   (collection.features ?? []).forEach((feature, index) => {
@@ -279,13 +298,13 @@ export function parseGeoJson(value: unknown): ParsedInput {
       !Array.isArray(coordinates) ||
       coordinates.length < 2
     ) {
-      problems.push(`Feature ${index + 1} is not a point.`);
+      problems.push({ code: "geoJsonNotPoint", position: index + 1 });
       return;
     }
     const name =
       (feature.properties?.name as string | undefined) ??
       (feature.properties?.title as string | undefined) ??
-      `Point ${index + 1}`;
+      `#${index + 1}`;
     rows.push({
       coordinates: [Number(coordinates[0]), Number(coordinates[1])],
       line: index + 1,
@@ -311,7 +330,7 @@ export function parseXmlPlaces(
   if (document.querySelector("parsererror"))
     return {
       format,
-      problems: ["The file is not valid XML."],
+      problems: [{ code: "invalidXml" }],
       rows: [],
     };
 
@@ -325,8 +344,8 @@ export function parseXmlPlaces(
       rows.push({
         coordinates: [longitude, latitude],
         line: index + 1,
-        name: name || `Waypoint ${index + 1}`,
-        text: name || `Waypoint ${index + 1}`,
+        name: name || `#${index + 1}`,
+        text: name || `#${index + 1}`,
       });
     });
     return { format, problems: [], rows };
@@ -341,8 +360,8 @@ export function parseXmlPlaces(
     rows.push({
       coordinates: [longitude!, latitude!],
       line: index + 1,
-      name: name || `Placemark ${index + 1}`,
-      text: name || `Placemark ${index + 1}`,
+      name: name || `#${index + 1}`,
+      text: name || `#${index + 1}`,
     });
   });
   return { format, problems: [], rows };

@@ -4,6 +4,19 @@
  */
 const ID_PATTERN = /^[A-Za-z0-9][A-Za-z0-9_-]*$/;
 
+/** The validation rule an authored identifier failed. */
+export type IdProblemCode = "required" | "invalid" | "taken";
+
+/**
+ * A translatable identifier validation result.
+ * @property {IdProblemCode} code - Failed validation rule
+ * @property {string} id - Proposed identifier
+ */
+export interface IdProblem {
+  code: IdProblemCode;
+  id: string;
+}
+
 /**
  * Builds the dataset path a country document is stored at.
  * @param {string} id - Country identifier
@@ -36,13 +49,12 @@ export function tripPath(id: string): string {
  * Explains why an identifier cannot be used, if it cannot.
  * @param {string} id - Proposed identifier
  * @param {string[]} taken - Identifiers already present in the dataset
- * @returns {string | null} Validation message, or null when the id is usable
+ * @returns {IdProblem | null} Failed rule, or null when the id is usable
  */
-export function idError(id: string, taken: string[]): string | null {
-  if (!id) return "An id is required.";
-  if (!ID_PATTERN.test(id))
-    return "Use letters, digits, hyphens, and underscores only.";
-  if (taken.includes(id)) return `The id "${id}" is already used.`;
+export function idError(id: string, taken: string[]): IdProblem | null {
+  if (!id) return { code: "required", id };
+  if (!ID_PATTERN.test(id)) return { code: "invalid", id };
+  if (taken.includes(id)) return { code: "taken", id };
   return null;
 }
 

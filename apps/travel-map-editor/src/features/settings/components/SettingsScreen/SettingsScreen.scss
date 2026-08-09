@@ -21,9 +21,8 @@
   }
 
   &__tag-remove {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: grid;
+    place-items: center;
     width: 1.15rem;
     height: 1.15rem;
     border: 0;
@@ -32,6 +31,16 @@
     font-size: v.$bodySm;
     line-height: 1;
     cursor: pointer;
+
+    svg {
+      width: 0.7rem;
+      height: 0.7rem;
+    }
+
+    &:focus-visible {
+      outline: 0.125rem solid v.$accentPrimary;
+      outline-offset: 0.1rem;
+    }
   }
 
   &__add {

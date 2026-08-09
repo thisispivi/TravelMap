@@ -1,11 +1,16 @@
 import "./SettingsScreen.scss";
 
 import { useLanguage } from "@app/shared/hooks/useLanguage";
+import { Plus, Trash2 } from "lucide-react";
 import { ReactNode, useState } from "react";
 
 import { resolveLogoUrl } from "../../../../data/dataset";
 import { idError } from "../../../../data/paths";
-import { Company, SiteConfig } from "../../../../data/siteConfig";
+import {
+  Company,
+  resolveMapSettings,
+  SiteConfig,
+} from "../../../../data/siteConfig";
 import { DataFile, saveDocument } from "../../../../data/store";
 import {
   Combobox,
@@ -29,10 +34,14 @@ const MAP_ZOOM_FIELDS = [
 ] as const;
 
 const SITE_FIELDS = [
-  ["name", "configScreen.siteName", "My Travels"],
-  ["domain", "configScreen.domain", "map.example.com"],
-  ["description", "configScreen.description", "A personal map of travels."],
-  ["author", "configScreen.author", "Your name"],
+  ["name", "configScreen.siteName", "configScreen.siteNamePlaceholder"],
+  ["domain", "configScreen.domain", "configScreen.domainPlaceholder"],
+  [
+    "description",
+    "configScreen.description",
+    "configScreen.descriptionPlaceholder",
+  ],
+  ["author", "configScreen.author", "configScreen.authorPlaceholder"],
 ] as const;
 
 /**
@@ -52,7 +61,7 @@ export function SettingsScreen({ file }: SettingsScreenProps): ReactNode {
   const [newCompanyId, setNewCompanyId] = useState("");
   const isDirty = JSON.stringify(value) !== JSON.stringify(file.value);
   const site = value.site ?? {};
-  const map = value.map ?? dataset.config.value.map!;
+  const map = resolveMapSettings(value.map);
   const locales = value.locales ?? [];
   const companies = value.companies ?? {};
   const cityOptions = dataset.cities.map(({ value: city }) => ({
@@ -62,6 +71,9 @@ export function SettingsScreen({ file }: SettingsScreenProps): ReactNode {
     value: city.id,
   }));
   const companyIdProblem = idError(newCompanyId, Object.keys(companies));
+  const companyIdMessage = companyIdProblem
+    ? t(`idProblem.${companyIdProblem.code}`, { id: companyIdProblem.id })
+    : null;
 
   /**
    * Replaces one company entry.
@@ -136,7 +148,7 @@ export function SettingsScreen({ file }: SettingsScreenProps): ReactNode {
                   site: { ...(current.site ?? {}), [key]: next },
                 }))
               }
-              placeholder={placeholder}
+              placeholder={t(placeholder)}
               value={site[key] ?? ""}
             />
           ))}
@@ -178,7 +190,7 @@ export function SettingsScreen({ file }: SettingsScreenProps): ReactNode {
                   }
                   type="button"
                 >
-                  ×
+                  <Trash2 aria-hidden="true" />
                 </button>
               </li>
             ))}
@@ -192,6 +204,7 @@ export function SettingsScreen({ file }: SettingsScreenProps): ReactNode {
             value={newLocale}
           />
           <button className="editor-button" onClick={addLocale} type="button">
+            <Plus aria-hidden="true" />
             {t("configScreen.add")}
           </button>
         </div>
@@ -316,6 +329,7 @@ export function SettingsScreen({ file }: SettingsScreenProps): ReactNode {
               onClick={() => removeCompany(id)}
               type="button"
             >
+              <Trash2 aria-hidden="true" />
               {t("configScreen.remove")}
             </button>
           </div>
@@ -324,7 +338,7 @@ export function SettingsScreen({ file }: SettingsScreenProps): ReactNode {
           <TextField
             hint={
               newCompanyId
-                ? (companyIdProblem ?? t("configScreen.readyToAdd"))
+                ? (companyIdMessage ?? t("configScreen.readyToAdd"))
                 : ""
             }
             label={t("configScreen.addCompanyId")}
@@ -338,6 +352,7 @@ export function SettingsScreen({ file }: SettingsScreenProps): ReactNode {
             onClick={addCompany}
             type="button"
           >
+            <Plus aria-hidden="true" />
             {t("configScreen.add")}
           </button>
         </div>

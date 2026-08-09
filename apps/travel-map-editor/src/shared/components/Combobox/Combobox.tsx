@@ -30,9 +30,7 @@ export interface ComboboxOption {
   value: string;
 }
 
-// Matching stays deliberately permissive: every token counts, so short words
-// like "san", "st", or "new" narrow a list instead of being discarded as noise.
-// Location is ignored so a match anywhere in the string ranks.
+/** Fuzzy matching configuration for place and transport options. */
 const FUSE_OPTIONS: IFuseOptions<ComboboxOption> = {
   ignoreLocation: true,
   keys: [
@@ -129,6 +127,7 @@ interface OptionRowProps {
  * @component
  * @param {ComboboxMenuProps} props
  * @param {ReactNode} props.children - The option items
+ * @param {Element} props.container - Portal host in the same top layer as the control
  * @param {boolean} props.isOpen - Whether the menu is shown
  * @param {MenuPosition | null} props.position - Where to draw the menu
  * @param {object} props.menuProps - Downshift's menu props
@@ -136,6 +135,7 @@ interface OptionRowProps {
  */
 function ComboboxMenu({
   children,
+  container,
   isOpen,
   menuProps,
   position,
@@ -172,19 +172,21 @@ function ComboboxMenu({
         {isShown ? children : null}
       </m.ul>
     </LazyMotion>,
-    document.body,
+    container,
   );
 }
 
 /**
  * Props for ComboboxMenu.
  * @property {ReactNode} children - The option items
+ * @property {Element} container - Portal host in the control's top layer
  * @property {boolean} isOpen - Whether the menu is shown
  * @property {object} menuProps - Downshift's menu props
  * @property {MenuPosition | null} position - Where to draw the menu
  */
 interface ComboboxMenuProps {
   children: ReactNode;
+  container: Element;
   isOpen: boolean;
   menuProps: Record<string, unknown>;
   position: MenuPosition | null;
@@ -241,8 +243,6 @@ export function Combobox({
     itemToString: (option) => option?.label ?? "",
     onInputValueChange: ({ inputValue }) => setTerm(inputValue ?? ""),
     onIsOpenChange: ({ isOpen: nextIsOpen }) => {
-      // The term is scratch space for searching, not the field's value, so it
-      // resets whenever the menu closes.
       if (!nextIsOpen) setTerm("");
     },
     onSelectedItemChange: ({ selectedItem }) => {
@@ -251,7 +251,7 @@ export function Combobox({
     },
     selectedItem: selected,
   });
-  const position = useAnchoredMenu(controlRef, isOpen);
+  const { container, position } = useAnchoredMenu(controlRef, isOpen);
   const showSelectedIcon =
     Boolean(selected?.icon ?? selected?.iconUrl) && !isOpen;
   return (
@@ -277,7 +277,9 @@ export function Combobox({
         <button
           className="combobox__toggle"
           type="button"
-          {...getToggleButtonProps({ "aria-label": `Open ${label} options` })}
+          {...getToggleButtonProps({
+            "aria-label": t("combobox.openOptions", { label }),
+          })}
         >
           <span
             className={classNames(
@@ -288,6 +290,7 @@ export function Combobox({
         </button>
       </div>
       <ComboboxMenu
+        container={container}
         isOpen={isOpen}
         menuProps={getMenuProps()}
         position={position}
@@ -394,13 +397,12 @@ export function MultiCombobox({
     },
     selectedItem: null,
     stateReducer: (_state, { changes, type }) =>
-      // Keep the menu open so several choices can be added in one pass.
       type === useCombobox.stateChangeTypes.ItemClick ||
       type === useCombobox.stateChangeTypes.InputKeyDownEnter
         ? { ...changes, highlightedIndex: 0, isOpen: true }
         : changes,
   });
-  const position = useAnchoredMenu(controlRef, isOpen);
+  const { container, position } = useAnchoredMenu(controlRef, isOpen);
 
   /**
    * Drops one selection, keeping downshift's own bookkeeping in step.
@@ -452,6 +454,7 @@ export function MultiCombobox({
         />
       </div>
       <ComboboxMenu
+        container={container}
         isOpen={isOpen}
         menuProps={getMenuProps()}
         position={position}

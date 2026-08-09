@@ -16,13 +16,21 @@ export interface MenuPosition {
   width: number;
 }
 
+/**
+ * Placement and portal host for a floating control panel.
+ * @property {Element} container - Portal host in the control's top layer
+ * @property {MenuPosition | null} position - Viewport placement while open
+ */
+export interface AnchoredMenuState {
+  container: Element;
+  position: MenuPosition | null;
+}
+
 const MENU_GAP_REM = 0.25;
 const MENU_MAX_HEIGHT_REM = 18;
 const REM_IN_PX = 16;
 
-// Every panel anchored by useAnchoredMenu (a combobox's option list, the date
-// picker's calendar) shares this open/close motion, so they read as one
-// family of floating panel rather than each having drifted its own feel.
+/** Shared animation states for anchored editor panels. */
 export const ANCHORED_PANEL_VARIANTS = {
   initial: { opacity: 0, scale: 0.98, y: -4 },
   animate: {
@@ -44,8 +52,6 @@ function measure(anchor: HTMLElement | null): MenuPosition | null {
   const rect = anchor.getBoundingClientRect();
   const gap = MENU_GAP_REM * REM_IN_PX;
   const maxHeight = MENU_MAX_HEIGHT_REM * REM_IN_PX;
-  // The same gap is left against the viewport edge, so a menu opening near the
-  // bottom stops short of it rather than sitting flush against it.
   const below = window.innerHeight - rect.bottom - gap * 2;
   const above = rect.top - gap * 2;
   const opensUp = below < maxHeight && above > below;
@@ -87,23 +93,17 @@ function hasMoved(
  * the viewport, flipping above the anchor when there is more room there.
  * @param {RefObject<HTMLElement | null>} anchorRef - The control the menu attaches to
  * @param {boolean} isOpen - Whether the menu is currently shown
- * @returns {MenuPosition | null} The position, once the menu is open
+ * @returns {AnchoredMenuState} The portal host and current position
  */
 export function useAnchoredMenu(
   anchorRef: RefObject<HTMLElement | null>,
   isOpen: boolean,
-): MenuPosition | null {
+): AnchoredMenuState {
   const [position, setPosition] = useState<MenuPosition | null>(null);
+  const [container, setContainer] = useState<Element>(document.body);
 
-  // A layout effect, because the anchor can only be measured once the DOM that
-  // opened the menu is committed, and this must happen before the browser
-  // paints or the menu shows up in the wrong place for a frame. Deferring to a
-  // frame callback or a ResizeObserver instead would leave the menu unplaced
-  // for as long as no frames are produced, which is what happens in a
-  // background tab.
+  /* The first measurement must precede paint to avoid an incorrectly placed frame. */
   useLayoutEffect(() => {
-    // A stale position is never shown, because a closed menu reports none, so
-    // there is nothing to clear on the way out.
     if (!isOpen) return;
 
     /**
@@ -112,17 +112,15 @@ export function useAnchoredMenu(
      * @returns {void}
      */
     function update(): void {
-      const next = measure(anchorRef.current);
+      const anchor = anchorRef.current;
+      const next = measure(anchor);
+      setContainer(anchor?.closest("dialog") ?? document.body);
       setPosition((current) => (hasMoved(current, next) ? next : current));
     }
 
     update();
-    // Capture covers scrolling inside the screen container, not just the page.
     window.addEventListener("scroll", update, true);
     window.addEventListener("resize", update);
-    // Opening a menu often changes the layout around it — an itinerary step
-    // expanding above it, a panel growing — which moves the anchor without any
-    // scroll or resize event.
     const observer = new ResizeObserver(update);
     observer.observe(document.documentElement);
     return () => {
@@ -132,7 +130,5 @@ export function useAnchoredMenu(
     };
   }, [anchorRef, isOpen]);
 
-  // The menu is kept mounted for its ref, so a closed one must report no
-  // position rather than the last one measured.
-  return isOpen ? position : null;
+  return { container, position: isOpen ? position : null };
 }

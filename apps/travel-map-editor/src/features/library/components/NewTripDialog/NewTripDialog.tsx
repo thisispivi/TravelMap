@@ -2,6 +2,7 @@ import "./NewTripDialog.scss";
 
 import { useLanguage } from "@app/shared/hooks/useLanguage";
 import { formatLocalDate, TripJson } from "@travelmap/core";
+import { Plus, X } from "lucide-react";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 
@@ -47,12 +48,15 @@ export function NewTripDialog({
     : "";
   const id = customId || derivedId;
   const taken = dataset.trips.map(({ value }) => value.id);
+  const idProblem = idError(id, taken);
   const problems = [
     ...(title.trim() ? [] : [t("createScreen.titleRequired")]),
     ...(sDate && eDate && eDate < sDate
       ? [t("createScreen.endBeforeStart")]
       : []),
-    ...(idError(id, taken) ? [idError(id, taken)!] : []),
+    ...(idProblem
+      ? [t(`idProblem.${idProblem.code}`, { id: idProblem.id })]
+      : []),
   ];
 
   /**
@@ -93,7 +97,7 @@ export function NewTripDialog({
       <TextField
         label={t("createScreen.title")}
         onChange={setTitle}
-        placeholder="Rome Trip"
+        placeholder={t("createScreen.tripTitlePlaceholder")}
         value={title}
       />
       <div className="new-trip__row">
@@ -133,9 +137,11 @@ export function NewTripDialog({
           onClick={handleCreate}
           type="button"
         >
+          <Plus aria-hidden="true" />
           {t("createScreen.create")}
         </button>
         <button className="editor-button" onClick={onClose} type="button">
+          <X aria-hidden="true" />
           {t("editorForm.cancel")}
         </button>
         <output className="editor-form__message">{message}</output>

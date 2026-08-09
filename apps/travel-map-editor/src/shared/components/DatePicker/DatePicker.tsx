@@ -45,7 +45,7 @@ function toLocalDate(date: Date): string {
  */
 function weekdayLabels(firstDay: number): string[] {
   const formatter = new Intl.DateTimeFormat(undefined, { weekday: "short" });
-  // 2024-01-07 was a Sunday, giving a stable base for weekday ordering.
+  /* A known Sunday provides a stable base for weekday ordering. */
   return Array.from({ length: WEEKDAY_COUNT }, (_unused, index) =>
     formatter.format(new Date(2024, 0, 7 + ((firstDay + index) % 7))),
   );
@@ -61,7 +61,7 @@ function firstDayOfWeek(): number {
   const info = (
     locale as Intl.Locale & { getWeekInfo?: () => { firstDay: number } }
   ).getWeekInfo?.();
-  // getWeekInfo reports 1-7 with 7 for Sunday; the calendar grid wants 0-6.
+  /* Intl uses 1-7, while the calendar grid uses JavaScript's 0-6 range. */
   return info ? info.firstDay % 7 : 1;
 }
 
@@ -113,12 +113,10 @@ export function DatePicker({
   const [datePart, timePart] = splitValue(value);
   const selected = datePart ? new Date(`${datePart}T00:00:00`) : null;
   const [month, setMonth] = useState(() => selected ?? new Date());
-  const position = useAnchoredMenu(controlRef, isOpen);
+  const { container, position } = useAnchoredMenu(controlRef, isOpen);
   const firstDay = firstDayOfWeek();
   const today = toLocalDate(new Date());
 
-  // A calendar that stays open after a click elsewhere feels stuck, and Escape
-  // is the expected way out of any popup.
   useEffect(() => {
     if (!isOpen) return;
 
@@ -331,7 +329,7 @@ export function DatePicker({
             ) : null}
           </AnimatePresence>
         </LazyMotion>,
-        document.body,
+        container,
       )}
       {hint ? <span className="editor-field__hint">{hint}</span> : null}
     </div>

@@ -3,6 +3,7 @@ import "./Workspace.scss";
 import { useLanguage } from "@app/shared/hooks/useLanguage";
 import { classNames } from "@app/shared/lib/classNames";
 import { Issue, TransportMode, TripJson } from "@travelmap/core";
+import { ArrowLeft, FileInput, Redo2, Trash2, Undo2, X } from "lucide-react";
 import { ReactNode, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
 
@@ -18,7 +19,7 @@ import { ItineraryRail } from "../../../itinerary/components/ItineraryRail/Itine
 import {
   addStop,
   mergeWithPreviousStop,
-  moveStep,
+  moveStop,
   removeStep,
   removeSteps,
   replaceStep,
@@ -41,9 +42,8 @@ import { SaveChip } from "../SaveChip/SaveChip";
 /**
  * Workspace component
  * The whole editing surface for one trip: the itinerary rail, the map, and the
- * inspector, all rendering from one draft so they cannot disagree. There is no
- * save button — the draft autosaves — and no navigation away from here to add
- * a place, which together are the two changes that make a trip fast to record.
+ * inspector, all rendering from one draft. It autosaves edits and adds places
+ * without leaving the current trip.
  * @component
  * @param {WorkspaceProps} props
  * @param {DataFile<TripJson>} props.file - The trip document being edited
@@ -199,7 +199,8 @@ export function Workspace({ file, isDarkTheme }: WorkspaceProps): ReactNode {
   return (
     <div className="workspace">
       <header className="workspace__header">
-        <Link className="workspace__back" to="/">
+        <Link className="editor-button workspace__back" to="/">
+          <ArrowLeft aria-hidden="true" />
           {t("workspace.backToLibrary")}
         </Link>
         <div className="workspace__identity">
@@ -221,6 +222,7 @@ export function Workspace({ file, isDarkTheme }: WorkspaceProps): ReactNode {
             onClick={() => setIsImporting(true)}
             type="button"
           >
+            <FileInput aria-hidden="true" />
             {t("import.title")}
           </button>
           <button
@@ -229,6 +231,7 @@ export function Workspace({ file, isDarkTheme }: WorkspaceProps): ReactNode {
             onClick={undoEdit}
             type="button"
           >
+            <Undo2 aria-hidden="true" />
             {t("workspace.undo")}
           </button>
           <button
@@ -237,6 +240,7 @@ export function Workspace({ file, isDarkTheme }: WorkspaceProps): ReactNode {
             onClick={redoEdit}
             type="button"
           >
+            <Redo2 aria-hidden="true" />
             {t("workspace.redo")}
           </button>
           {isConfirmingDelete ? (
@@ -246,6 +250,7 @@ export function Workspace({ file, isDarkTheme }: WorkspaceProps): ReactNode {
                 onClick={handleDeleteTrip}
                 type="button"
               >
+                <Trash2 aria-hidden="true" />
                 {t("editorForm.confirmDelete")}
               </button>
               <button
@@ -253,6 +258,7 @@ export function Workspace({ file, isDarkTheme }: WorkspaceProps): ReactNode {
                 onClick={() => setIsConfirmingDelete(false)}
                 type="button"
               >
+                <X aria-hidden="true" />
                 {t("editorForm.cancel")}
               </button>
             </>
@@ -262,6 +268,7 @@ export function Workspace({ file, isDarkTheme }: WorkspaceProps): ReactNode {
               onClick={() => setIsConfirmingDelete(true)}
               type="button"
             >
+              <Trash2 aria-hidden="true" />
               {t("editorForm.delete")}
             </button>
           )}
@@ -314,7 +321,7 @@ export function Workspace({ file, isDarkTheme }: WorkspaceProps): ReactNode {
             issues={workspace.issues}
             onAddStop={() => openPlaceDialog()}
             onRemove={(index) => update(removeStep(trip, index))}
-            onReorder={(from, to) => update(moveStep(trip, from, to))}
+            onReorder={(from, to) => update(moveStop(trip, from, to))}
             onSelect={workspace.select}
             onTogglePicked={handleTogglePicked}
             picked={picked}

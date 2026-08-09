@@ -1,8 +1,17 @@
 import "./ImportDialog.scss";
 
 import { useLanguage } from "@app/shared/hooks/useLanguage";
+import { classNames } from "@app/shared/lib/classNames";
 import { TripJson } from "@travelmap/core";
-import { ChangeEvent, ReactNode, useEffect, useRef, useState } from "react";
+import { ArrowLeft, Check, FileUp, X } from "lucide-react";
+import {
+  ChangeEvent,
+  DragEvent,
+  ReactNode,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 import { applyWrites } from "../../../../data/store";
 import { useDataset } from "../../../../shared/hooks/useDataset";
@@ -45,6 +54,7 @@ export function ImportDialog({
   const [rows, setRows] = useState<MatchedRow[]>([]);
   const [stage, setStage] = useState<Stage>("input");
   const [message, setMessage] = useState("");
+  const [isDraggingFile, setIsDraggingFile] = useState(false);
 
   useEffect(() => {
     dialogRef.current?.showModal();
@@ -75,16 +85,59 @@ export function ImportDialog({
   }
 
   /**
-   * Reads a dropped or chosen file into the input area.
+   * Reads a selected file into the reviewable text area.
+   * @param {File | undefined} file - The chosen or dropped file
+   * @returns {Promise<void>} Completion once the file is read
+   */
+  async function readFile(file: File | undefined): Promise<void> {
+    if (!file) return;
+    setText(await file.text());
+  }
+
+  /**
+   * Reads a file selected through the native picker.
    * @param {ChangeEvent<HTMLInputElement>} event - The file input change
    * @returns {Promise<void>} Completion once the file is read
    */
   async function handleFile(
     event: ChangeEvent<HTMLInputElement>,
   ): Promise<void> {
-    const file = event.target.files?.[0];
-    if (!file) return;
-    setText(await file.text());
+    await readFile(event.target.files?.[0]);
+  }
+
+  /**
+   * Keeps the browser from opening a dragged itinerary file.
+   * @param {DragEvent<HTMLLabelElement>} event - The active drag
+   * @returns {void}
+   */
+  function handleDragOver(event: DragEvent<HTMLLabelElement>): void {
+    event.preventDefault();
+    setIsDraggingFile(true);
+  }
+
+  /**
+   * Clears the drop highlight after the pointer leaves the input.
+   * @returns {void}
+   */
+  function handleDragLeave(): void {
+    setIsDraggingFile(false);
+  }
+
+  /**
+   * Reads either a dropped file or dropped plain text into the import input.
+   * @param {DragEvent<HTMLLabelElement>} event - The completed drop
+   * @returns {Promise<void>} Completion once dropped content is available
+   */
+  async function handleDrop(event: DragEvent<HTMLLabelElement>): Promise<void> {
+    event.preventDefault();
+    setIsDraggingFile(false);
+    const file = event.dataTransfer.files[0];
+    if (file) {
+      await readFile(file);
+      return;
+    }
+    const droppedText = event.dataTransfer.getData("text/plain");
+    if (droppedText) setText(droppedText);
   }
 
   /**
@@ -136,7 +189,16 @@ export function ImportDialog({
       {stage === "input" || stage === "matching" ? (
         <>
           <p className="editor-panel__hint">{t("import.hint")}</p>
-          <label className="editor-field">
+          <label
+            className={classNames(
+              "editor-field",
+              "import-dialog__dropzone",
+              isDraggingFile && "import-dialog__dropzone--active",
+            )}
+            onDragLeave={handleDragLeave}
+            onDragOver={handleDragOver}
+            onDrop={handleDrop}
+          >
             <span className="editor-field__label">{t("import.paste")}</span>
             <textarea
               className="editor-field__control editor-field__control--area"
@@ -151,6 +213,7 @@ export function ImportDialog({
               onClick={() => fileRef.current?.click()}
               type="button"
             >
+              <FileUp aria-hidden="true" />
               {t("import.chooseFile")}
             </button>
             <input
@@ -166,6 +229,7 @@ export function ImportDialog({
               onClick={handleParse}
               type="button"
             >
+              <Check aria-hidden="true" />
               {stage === "matching" ? t("import.matching") : t("import.read")}
             </button>
             <output className="editor-form__message">{message}</output>
@@ -185,9 +249,14 @@ export function ImportDialog({
           </p>
           {parsed && parsed.problems.length > 0 ? (
             <ul className="editor-notice editor-notice--warning">
-              {parsed.problems.map((problem) => (
-                <li className="editor-notice__item" key={problem}>
-                  {problem}
+              {parsed.problems.map((problem, index) => (
+                <li
+                  className="editor-notice__item"
+                  key={`${problem.code}-${problem.position ?? index}`}
+                >
+                  {t(`import.problem.${problem.code}`, {
+                    position: problem.position,
+                  })}
                 </li>
               ))}
             </ul>
@@ -248,6 +317,7 @@ export function ImportDialog({
               onClick={handleApply}
               type="button"
             >
+              <Check aria-hidden="true" />
               {t("import.apply")}
             </button>
             <button
@@ -255,14 +325,16 @@ export function ImportDialog({
               onClick={() => setStage("input")}
               type="button"
             >
+              <ArrowLeft aria-hidden="true" />
               {t("import.back")}
             </button>
             <output className="editor-form__message">{message}</output>
           </div>
         </>
       ) : null}
-      <footer className="import-dialog__actions">
+      <footer className="import-dialog__footer">
         <button className="editor-button" onClick={onClose} type="button">
+          <X aria-hidden="true" />
           {t("editorForm.cancel")}
         </button>
       </footer>

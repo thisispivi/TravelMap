@@ -22,6 +22,13 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { CityJson, Issue, TripJson } from "@travelmap/core";
+import {
+  ChevronDown,
+  ChevronUp,
+  GripVertical,
+  MapPinPlus,
+  Trash2,
+} from "lucide-react";
 import { MouseEvent, ReactNode } from "react";
 
 import { formatDuration } from "../../../routes/lib/legDerivation";
@@ -32,14 +39,15 @@ import { Step } from "../../lib/itinerary";
 /**
  * Formats a day heading, falling back to the unscheduled bucket's own label.
  * @param {string | null} date - The day key
+ * @param {string} locale - Locale used for the weekday and month
  * @returns {string} A short weekday and date
  */
-function formatDay(date: string | null): string {
+function formatDay(date: string | null, locale: string): string {
   if (!date) return "";
   const parsed = new Date(`${date}T00:00:00`);
   return Number.isNaN(parsed.getTime())
     ? date
-    : new Intl.DateTimeFormat(undefined, {
+    : new Intl.DateTimeFormat(locale, {
         day: "numeric",
         month: "short",
         weekday: "short",
@@ -91,7 +99,7 @@ function StepRow({
     setNodeRef,
     transform,
     transition,
-  } = useSortable({ id: index });
+  } = useSortable({ disabled: step.type === "transport", id: index });
   const blocking = issues.filter((issue) => issue.severity === "blocking");
   const warnings = issues.filter((issue) => issue.severity === "warning");
 
@@ -137,13 +145,20 @@ function StepRow({
       ref={setNodeRef}
       style={{ transform: CSS.Transform.toString(transform), transition }}
     >
-      <button
-        aria-label={t("rail.dragHandle", { position: index + 1 })}
-        className="itinerary-rail__bead"
-        type="button"
-        {...attributes}
-        {...listeners}
-      >
+      {step.type === "stop" ? (
+        <button
+          aria-label={t("rail.dragHandle", { position: index + 1 })}
+          className="itinerary-rail__drag-handle"
+          type="button"
+          {...attributes}
+          {...listeners}
+        >
+          <GripVertical aria-hidden="true" />
+        </button>
+      ) : (
+        <span className="itinerary-rail__drag-spacer" />
+      )}
+      <span aria-hidden="true" className="itinerary-rail__bead">
         {step.type === "stop" ? (
           stopNumber > 0 ? (
             stopNumber
@@ -153,7 +168,7 @@ function StepRow({
         ) : (
           <TransportModeIcon mode={step.mode} />
         )}
-      </button>
+      </span>
       <button
         aria-current={isSelected ? "true" : undefined}
         className="itinerary-rail__summary"
@@ -171,31 +186,35 @@ function StepRow({
         ) : null}
       </button>
       <span className="itinerary-rail__actions">
-        <button
-          aria-label={t("trip.moveEarlier", { index: index + 1 })}
-          className="itinerary-rail__action"
-          disabled={isFirst}
-          onClick={() => onMove(-1)}
-          type="button"
-        >
-          ↑
-        </button>
-        <button
-          aria-label={t("trip.moveLater", { index: index + 1 })}
-          className="itinerary-rail__action"
-          disabled={isLast}
-          onClick={() => onMove(1)}
-          type="button"
-        >
-          ↓
-        </button>
+        {step.type === "stop" ? (
+          <>
+            <button
+              aria-label={t("trip.moveEarlier", { index: index + 1 })}
+              className="itinerary-rail__action"
+              disabled={isFirst}
+              onClick={() => onMove(-1)}
+              type="button"
+            >
+              <ChevronUp aria-hidden="true" />
+            </button>
+            <button
+              aria-label={t("trip.moveLater", { index: index + 1 })}
+              className="itinerary-rail__action"
+              disabled={isLast}
+              onClick={() => onMove(1)}
+              type="button"
+            >
+              <ChevronDown aria-hidden="true" />
+            </button>
+          </>
+        ) : null}
         <button
           aria-label={t("trip.removeStep", { index: index + 1 })}
           className="itinerary-rail__action itinerary-rail__action--danger"
           onClick={onRemove}
           type="button"
         >
-          ×
+          <Trash2 aria-hidden="true" />
         </button>
       </span>
     </li>
@@ -235,9 +254,8 @@ interface StepRowProps {
 /**
  * ItineraryRail component
  * The ordered truth of the trip: day headings, stays, and the legs between
- * them. Every reordering is available three ways — drag, arrow buttons, and
- * dnd-kit's keyboard sensor on the bead — because a trip that can only be
- * corrected with a mouse stays wrong on a tablet.
+ * them. Stops can be reordered by dragging, with arrow buttons, or with
+ * dnd-kit's keyboard sensor on the drag handle.
  * @component
  * @param {ItineraryRailProps} props
  * @param {Map<string, CityJson>} props.cityById - Cities the trip can reference
@@ -264,7 +282,7 @@ export function ItineraryRail({
   selection,
   trip,
 }: ItineraryRailProps): ReactNode {
-  const { t } = useLanguage(["editor"]);
+  const { currLanguage, t } = useLanguage(["editor"]);
   const days = groupByDay(trip.steps);
   const stopOrder = trip.steps.flatMap((step, index) =>
     step.type === "stop" ? [index] : [],
@@ -316,12 +334,17 @@ export function ItineraryRail({
   return (
     <div className="itinerary-rail">
       <DndContext
+        accessibility={{
+          screenReaderInstructions: {
+            draggable: t("rail.dragInstructions"),
+          },
+        }}
         collisionDetection={closestCenter}
         onDragEnd={handleDragEnd}
         sensors={sensors}
       >
         <SortableContext
-          items={trip.steps.map((_step, index) => index)}
+          items={stopOrder}
           strategy={verticalListSortingStrategy}
         >
           {days.map((day: ItineraryDay) => (
@@ -345,7 +368,7 @@ export function ItineraryRail({
                     : t("rail.unscheduled")}
                 </span>
                 <span className="itinerary-rail__day-date">
-                  {formatDay(day.date)}
+                  {formatDay(day.date, currLanguage)}
                 </span>
               </h3>
               <ol className="itinerary-rail__rows">
@@ -358,15 +381,17 @@ export function ItineraryRail({
                     <StepRow
                       cityById={cityById}
                       index={index}
-                      isFirst={index === 0}
-                      isLast={index === trip.steps.length - 1}
+                      isFirst={stopOrder.indexOf(index) === 0}
+                      isLast={stopOrder.indexOf(index) === stopOrder.length - 1}
                       isPicked={picked.includes(index)}
                       isSelected={isSelected}
                       issues={issuesFor(index)}
                       key={index}
-                      onMove={(direction) =>
-                        onReorder(index, index + direction)
-                      }
+                      onMove={(direction) => {
+                        const position = stopOrder.indexOf(index);
+                        const target = stopOrder[position + direction];
+                        if (target !== undefined) onReorder(index, target);
+                      }}
                       onRemove={() => onRemove(index)}
                       onSelect={(event) => {
                         if (event.metaKey || event.ctrlKey || event.shiftKey) {
@@ -390,6 +415,7 @@ export function ItineraryRail({
         onClick={onAddStop}
         type="button"
       >
+        <MapPinPlus aria-hidden="true" />
         {t("rail.addStop")}
       </button>
     </div>

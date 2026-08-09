@@ -1,8 +1,7 @@
 @use "variables" as v;
 @use "mixins" as m;
 
-// The public app locks scrolling because the map owns the viewport. The editor
-// is a document tool, so it opts back in.
+/* The public app owns the viewport; the editor must remain scrollable. */
 body,
 #root {
   overflow: auto;
@@ -34,6 +33,7 @@ body,
     justify-content: space-between;
     gap: 1rem;
     flex-wrap: wrap;
+    padding-right: 3rem;
   }
 
   &__eyebrow {
@@ -76,7 +76,7 @@ body,
     position: fixed;
     top: 0.75rem;
     right: 0.75rem;
-    z-index: 4;
+    z-index: 80;
     display: grid;
     place-items: center;
     width: 2.25rem;
@@ -108,7 +108,6 @@ body,
   }
 }
 
-// ─── Panels ─────────────────────────────────────────────────
 .editor-panel {
   display: flex;
   flex-direction: column;
@@ -150,7 +149,6 @@ body,
   color: v.$lightAltText;
 }
 
-// ─── Buttons ────────────────────────────────────────────────
 .editor-button {
   display: inline-flex;
   align-items: center;
@@ -161,6 +159,8 @@ body,
   border-radius: 62.4375rem;
   font-size: v.$bodySm;
   font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
   cursor: pointer;
   @include m.transition(transform, 0.2s);
 
@@ -180,6 +180,13 @@ body,
     outline-offset: 0.15rem;
   }
 
+  svg {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+    stroke-width: 2.25;
+  }
+
   &--primary {
     background-color: v.$accentPrimary;
     color: #ffffff;
@@ -196,6 +203,43 @@ body,
     &:hover:not(:disabled) {
       background-color: v.$visitedButtonHover;
     }
+  }
+}
+
+.editor-inline-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 0.35rem;
+  color: inherit;
+  font-weight: 600;
+  text-decoration: none;
+
+  &:focus-visible {
+    outline: 0.125rem solid v.$accentPrimary;
+    outline-offset: 0.1rem;
+  }
+
+  svg {
+    width: 0.8rem;
+    height: 0.8rem;
+  }
+}
+
+.editor--dark .editor-inline-link {
+  background: v.$darkButton;
+
+  &:hover {
+    background: v.$darkButtonHover;
+  }
+}
+
+.editor--light .editor-inline-link {
+  background: v.$lightButton;
+
+  &:hover {
+    background: v.$lightButtonHover;
   }
 }
 
@@ -218,7 +262,6 @@ body,
   }
 }
 
-// ─── Messages ───────────────────────────────────────────────
 .editor-notice {
   display: flex;
   flex-direction: column;

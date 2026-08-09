@@ -1,4 +1,5 @@
 import { useLanguage } from "@app/shared/hooks/useLanguage";
+import { ChevronRight } from "lucide-react";
 import { ReactNode } from "react";
 import { Link } from "react-router";
 
@@ -76,7 +77,10 @@ export function LocalizedNames({
       ) : (
         <p className="editor-panel__hint">
           {t("localizedNames.noLocalesBefore")}{" "}
-          <Link to="/config">{t("nav.configuration")}</Link>{" "}
+          <Link className="editor-inline-link" to="/settings">
+            {t("nav.configuration")}
+            <ChevronRight aria-hidden="true" />
+          </Link>{" "}
           {t("localizedNames.noLocalesAfter")}
         </p>
       )}

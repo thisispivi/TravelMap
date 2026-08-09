@@ -59,8 +59,6 @@ export function WorldCitySearch({
   const [results, setResults] = useState<WorldCity[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Debounced so the gazetteer is queried once the author pauses, not on every
-  // keystroke.
   useEffect(() => {
     if (term.trim().length < 2) return;
     const controller = new AbortController();
@@ -72,7 +70,6 @@ export function WorldCitySearch({
           setIsLoading(false);
         })
         .catch(() => {
-          // An aborted request is a superseded keystroke, not a failure.
           if (!controller.signal.aborted) setIsLoading(false);
         });
     }, DEBOUNCE_MS);
@@ -83,8 +80,6 @@ export function WorldCitySearch({
     };
   }, [term]);
 
-  // Results are kept out of the render below a usable term rather than cleared
-  // in the effect, so a stale list never flashes while typing.
   const visible = term.trim().length < 2 ? [] : results;
 
   const {
@@ -106,7 +101,7 @@ export function WorldCitySearch({
     },
     selectedItem: null,
   });
-  const position = useAnchoredMenu(controlRef, isOpen);
+  const { container, position } = useAnchoredMenu(controlRef, isOpen);
   return (
     <div className="editor-field world-city-search">
       <label className="editor-field__label" {...getLabelProps()}>
@@ -194,7 +189,7 @@ export function WorldCitySearch({
             ) : null}
           </m.ul>
         </LazyMotion>,
-        document.body,
+        container,
       )}
       {hint ? <span className="editor-field__hint">{hint}</span> : null}
     </div>

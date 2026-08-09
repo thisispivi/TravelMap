@@ -3,6 +3,15 @@ import "./ValidationTray.scss";
 import { useLanguage } from "@app/shared/hooks/useLanguage";
 import { classNames } from "@app/shared/lib/classNames";
 import { countBySeverity, Issue, TripJson } from "@travelmap/core";
+import {
+  CircleAlert,
+  CircleCheck,
+  Files,
+  ListChecks,
+  MonitorPlay,
+  Sparkles,
+  TriangleAlert,
+} from "lucide-react";
 import { ReactNode } from "react";
 
 import { DocumentChange } from "../../../../data/store";
@@ -48,6 +57,11 @@ function IssueRow({ issue, onApplyFix, onSelect }: IssueRowProps): ReactNode {
         `validation-tray__issue--${issue.severity}`,
       )}
     >
+      <span aria-hidden="true" className="validation-tray__issue-icon">
+        {issue.severity === "blocking" ? <CircleAlert /> : null}
+        {issue.severity === "warning" ? <TriangleAlert /> : null}
+        {issue.severity === "suggestion" ? <Sparkles /> : null}
+      </span>
       <button
         className="validation-tray__issue-button"
         onClick={onSelect}
@@ -57,7 +71,10 @@ function IssueRow({ issue, onApplyFix, onSelect }: IssueRowProps): ReactNode {
       </button>
       {onApplyFix && issue.fix ? (
         <button className="editor-button" onClick={onApplyFix} type="button">
-          {issue.fix.label}
+          {t(`issueFix.${issue.code}`, {
+            ...issue.params,
+            defaultValue: issue.fix.label,
+          })}
         </button>
       ) : null}
     </li>
@@ -108,6 +125,7 @@ export function ValidationTray({
     <section aria-label={t("tray.title")} className="validation-tray">
       <div className="validation-tray__bar">
         <p aria-live="polite" className="validation-tray__status">
+          {counts.blocking === 0 ? <CircleCheck aria-hidden="true" /> : null}
           {counts.blocking > 0
             ? t("tray.blockingSummary", { count: counts.blocking })
             : t("tray.cleanSummary")}
@@ -124,6 +142,7 @@ export function ValidationTray({
             }
             type="button"
           >
+            <ListChecks aria-hidden="true" />
             {t("tray.validation")}
           </button>
           <button
@@ -134,6 +153,7 @@ export function ValidationTray({
             }
             type="button"
           >
+            <Files aria-hidden="true" />
             {t("tray.changes", { count: changes.length })}
           </button>
           <button
@@ -144,6 +164,7 @@ export function ValidationTray({
             }
             type="button"
           >
+            <MonitorPlay aria-hidden="true" />
             {t("tray.preview")}
           </button>
         </div>

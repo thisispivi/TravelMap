@@ -48,6 +48,11 @@
     "delete": "Elimina",
     "saveChanges": "Salva modifiche"
   },
+  "idProblem": {
+    "required": "L'id è obbligatorio.",
+    "invalid": "Usa solo lettere, numeri, trattini e trattini bassi.",
+    "taken": "L'id “{{id}}” è già in uso."
+  },
   "overview": {
     "countries": "Paesi",
     "cities": "Città",
@@ -117,6 +122,7 @@
   "combobox": {
     "typeToSearch": "Digita per cercare",
     "select": "Seleziona",
+    "openOptions": "Apri le opzioni di {{label}}",
     "noMatches": "Nessun risultato",
     "removeChip": "Rimuovi {{label}}"
   },
@@ -229,6 +235,7 @@
     "title": "Titolo",
     "tripIdHint": "Nome del file e URL della pagina del viaggio. Derivato dal titolo.",
     "tripNextHint": "Tappe e trasporti si aggiungono dopo, nella schermata del viaggio.",
+    "tripTitlePlaceholder": "Viaggio a Roma",
     "titleRequired": "Il titolo è obbligatorio.",
     "addCityFirst": "Aggiungi prima una città.",
     "endBeforeStart": "La data di fine è precedente alla data di inizio.",
@@ -239,9 +246,13 @@
     "title": "Configurazione",
     "siteMetadata": "Metadati del sito",
     "siteName": "Nome",
+    "siteNamePlaceholder": "I miei viaggi",
     "domain": "Dominio",
+    "domainPlaceholder": "mappa.esempio.it",
     "description": "Descrizione",
+    "descriptionPlaceholder": "Una mappa personale dei viaggi.",
     "author": "Autore",
+    "authorPlaceholder": "Il tuo nome",
     "commaSeparated": "Separati da virgola.",
     "keywords": "Parole chiave",
     "locales": "Lingue",
@@ -313,7 +324,8 @@
     "blockingCount_other": "{{count}} problemi",
     "warningCount_one": "{{count}} avviso",
     "warningCount_other": "{{count}} avvisi",
-    "dragHandle": "Riordina il passo {{position}}"
+    "dragHandle": "Riordina il passo {{position}}",
+    "dragInstructions": "Premi Spazio per sollevare questo passo, usa i tasti freccia per spostarlo, quindi premi di nuovo Spazio per rilasciarlo."
   },
   "inspector": {
     "title": "Dettagli",
@@ -445,10 +457,36 @@
     "reuse": "Riusa {{city}}",
     "create": "Crea {{city}}, {{country}}",
     "unmatched": "Nessuna corrispondenza: aggiungilo a mano",
+    "problem": {
+      "csvMissingName": "La riga {{position}} non contiene il nome di un luogo.",
+      "geoJsonNotPoint": "La geometria {{position}} non è un punto.",
+      "invalidJson": "L'input sembra JSON ma non può essere analizzato.",
+      "invalidXml": "Il file non contiene XML valido.",
+      "unsupportedJson": "Il JSON non è un viaggio, un backup o una raccolta GeoJSON.",
+      "unsupportedXml": "L'XML non è né GPX né KML."
+    },
     "column": {
       "row": "Riga",
       "parsed": "Letto come",
       "match": "Corrispondenza"
+    }
+  },
+  "issueFix": {
+    "trip": {
+      "originMismatch": "Usa la prima tappa come partenza",
+      "returnMismatch": "Usa l'ultima tappa come ritorno",
+      "rangeLooserThanStops": "Allinea le date del viaggio alle tappe"
+    },
+    "stop": {
+      "missingGallery": "Rimuovi il riferimento alla galleria",
+      "beforeTripStart": "Inizia il viaggio il {{sDate}}",
+      "afterTripEnd": "Termina il viaggio il {{eDate}}"
+    },
+    "leg": {
+      "identicalEndpoints": "Rimuovi la tratta",
+      "endpointMismatch": "Ricollega le tappe circostanti",
+      "flightOnNonFlight": "Rimuovi i dettagli del volo",
+      "ferryOnNonFerry": "Rimuovi i dettagli del traghetto"
     }
   },
   "issues": {

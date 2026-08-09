@@ -184,18 +184,52 @@ export function removeStep(trip: TripJson, index: number): TripJson {
 }
 
 /**
- * Moves a step to another position, then realigns the legs it passed.
- * @param {TripJson} trip - The trip to edit
- * @param {number} from - Current position
- * @param {number} to - Destination position
- * @returns {TripJson} A copy with the step moved
+ * Interleaves stays with the available legs, retaining surplus legs at the
+ * end so an imperfect imported itinerary never loses authored data.
+ * @param {TripStopJson[]} stops - Stays in their intended order
+ * @param {TripTransportJson[]} legs - Legs to place between them
+ * @returns {Step[]} The normalized itinerary order
  */
-export function moveStep(trip: TripJson, from: number, to: number): TripJson {
-  const step = trip.steps[from];
-  if (!step || to < 0 || to >= trip.steps.length || from === to) return trip;
+function interleaveStopsAndLegs(
+  stops: TripStopJson[],
+  legs: TripTransportJson[],
+): Step[] {
+  const interleaved = stops.flatMap((stop, index) => {
+    if (index === 0) return [stop];
+    const leg = legs[index - 1];
+    return leg ? [leg, stop] : [stop];
+  });
+  return [...interleaved, ...legs.slice(Math.max(0, stops.length - 1))];
+}
+
+/**
+ * Moves a stay to another stay's position, then rebuilds and realigns the legs
+ * between them. Transport details remain attached to their route position.
+ * @param {TripJson} trip - The trip to edit
+ * @param {number} from - Current step position of the stay
+ * @param {number} to - Destination step position of another stay
+ * @returns {TripJson} A copy with the stay moved
+ */
+export function moveStop(trip: TripJson, from: number, to: number): TripJson {
+  const source = trip.steps[from];
+  const target = trip.steps[to];
+  if (source?.type !== "stop" || target?.type !== "stop" || from === to)
+    return trip;
+  const stops = trip.steps.filter(
+    (step): step is TripStopJson => step.type === "stop",
+  );
+  const legs = trip.steps.filter(
+    (step): step is TripTransportJson => step.type === "transport",
+  );
+  const fromStop = stops.indexOf(source);
+  const toStop = stops.indexOf(target);
+  const reorderedStops = stops
+    .toSpliced(fromStop, 1)
+    .toSpliced(toStop, 0, source);
+
   return normalizeTrip({
     ...trip,
-    steps: trip.steps.toSpliced(from, 1).toSpliced(to, 0, step),
+    steps: interleaveStopsAndLegs(reorderedStops, legs),
   });
 }
 
@@ -213,17 +247,10 @@ export function sortByDate(trip: TripJson): TripJson {
   const legs = trip.steps.filter(
     (step): step is TripTransportJson => step.type === "transport",
   );
-  const steps: Step[] = [];
-
-  stops.forEach((stop, position) => {
-    if (position > 0) {
-      const leg = legs.shift();
-      if (leg) steps.push(leg);
-    }
-    steps.push(stop);
+  return normalizeTrip({
+    ...trip,
+    steps: interleaveStopsAndLegs(stops, legs),
   });
-
-  return normalizeTrip({ ...trip, steps: [...steps, ...legs] });
 }
 
 /**

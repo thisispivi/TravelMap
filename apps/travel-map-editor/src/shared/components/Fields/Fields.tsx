@@ -1,5 +1,6 @@
 import "./Fields.scss";
 
+import { Checkbox } from "@app/shared/components/Checkbox/Checkbox";
 import { ReactNode } from "react";
 
 /**
@@ -168,13 +169,18 @@ export function CheckboxField({
 }: CheckboxFieldProps): ReactNode {
   return (
     <label className="editor-field editor-field--checkbox">
-      <input
-        checked={value ?? false}
-        className="editor-field__checkbox"
-        onChange={(event) => onChange(event.target.checked || undefined)}
-        type="checkbox"
-      />
       <span className="editor-field__label">{label}</span>
+      <span className="editor-field__checkbox-control">
+        <input
+          checked={value ?? false}
+          className="editor-field__checkbox-input"
+          onChange={(event) => onChange(event.target.checked || undefined)}
+          type="checkbox"
+        />
+        <span aria-hidden="true" className="editor-field__checkbox-visual">
+          <Checkbox isChecked={value ?? false} />
+        </span>
+      </span>
     </label>
   );
 }

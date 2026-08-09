@@ -2,15 +2,14 @@ import "./SaveChip.scss";
 
 import { useLanguage } from "@app/shared/hooks/useLanguage";
 import { classNames } from "@app/shared/lib/classNames";
+import { Check, CircleAlert, LoaderCircle } from "lucide-react";
 import { ReactNode } from "react";
 
 import { SaveState } from "../../../../shared/hooks/useAutosave";
 
 /**
  * SaveChip component
- * Replaces the save button. Authors trust an explicit save, so removing one
- * only works if the editor says plainly where the document stands, and offers
- * a retry rather than silence when a write fails.
+ * Reports autosave progress and exposes a retry action after write failures.
  * @component
  * @param {SaveChipProps} props
  * @param {string | null} props.error - Why the last write failed
@@ -25,12 +24,13 @@ export function SaveChip({
   savedAt,
   state,
 }: SaveChipProps): ReactNode {
-  const { t } = useLanguage(["editor"]);
+  const { currLanguage, t } = useLanguage(["editor"]);
 
   if (state === "failed")
     return (
       <span className="save-chip save-chip--failed">
         <span className="save-chip__label" role="alert">
+          <CircleAlert aria-hidden="true" />
           {error ?? t("save.failed")}
         </span>
         <button className="editor-button" onClick={onRetry} type="button">
@@ -43,10 +43,20 @@ export function SaveChip({
       aria-live="polite"
       className={classNames("save-chip", `save-chip--${state}`)}
     >
+      {state === "saving" || state === "pending" ? (
+        <LoaderCircle aria-hidden="true" className="save-chip__spinner" />
+      ) : (
+        <Check aria-hidden="true" />
+      )}
       {state === "saving" ? t("save.saving") : null}
       {state === "pending" ? t("save.pending") : null}
       {state === "saved" && savedAt
-        ? t("save.savedAt", { time: savedAt.toLocaleTimeString() })
+        ? t("save.savedAt", {
+            time: savedAt.toLocaleTimeString(currLanguage, {
+              hour: "2-digit",
+              minute: "2-digit",
+            }),
+          })
         : null}
       {state === "idle" ? t("save.upToDate") : null}
     </span>

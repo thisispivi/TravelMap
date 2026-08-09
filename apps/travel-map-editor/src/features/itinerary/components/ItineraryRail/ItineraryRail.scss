@@ -60,7 +60,7 @@
 
   &__row {
     display: grid;
-    grid-template-columns: 1.75rem minmax(0, 1fr) auto;
+    grid-template-columns: 1.25rem 1.75rem minmax(0, 1fr) auto;
     align-items: center;
     gap: 0.5rem;
     padding: 0.35rem;
@@ -77,6 +77,34 @@
 
     &--warning .itinerary-rail__issues {
       color: v.$languageButtonContent;
+    }
+  }
+
+  &__drag-handle {
+    display: grid;
+    place-items: center;
+    width: 1.25rem;
+    height: 2rem;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    cursor: grab;
+    touch-action: none;
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+    }
+
+    &:active {
+      cursor: grabbing;
+    }
+
+    &:focus-visible {
+      border-radius: 0.25rem;
+      outline: 0.125rem solid v.$accentPrimary;
+      outline-offset: 0.1rem;
     }
   }
 
@@ -142,6 +170,11 @@
     color: inherit;
     cursor: pointer;
 
+    svg {
+      width: 0.9rem;
+      height: 0.9rem;
+    }
+
     &:disabled {
       opacity: 0.35;
       cursor: not-allowed;
@@ -172,6 +205,10 @@
     background: v.$darkButton;
   }
 
+  &__drag-handle {
+    color: v.$darkAltTextDarker;
+  }
+
   &__row--selected,
   &__row:hover {
     background: v.$darkButton;
@@ -186,6 +223,10 @@
 
   &__bead {
     background: v.$lightButton;
+  }
+
+  &__drag-handle {
+    color: v.$lightAltTextDarker;
   }
 
   &__row--selected,

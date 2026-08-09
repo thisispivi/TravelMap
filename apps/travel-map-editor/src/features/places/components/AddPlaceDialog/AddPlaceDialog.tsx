@@ -1,6 +1,7 @@
 import "./AddPlaceDialog.scss";
 
 import { useLanguage } from "@app/shared/hooks/useLanguage";
+import { MapPinPlus, X } from "lucide-react";
 import { ReactNode, useEffect, useRef, useState } from "react";
 
 import { applyWrites, DatasetSnapshot } from "../../../../data/store";
@@ -13,10 +14,9 @@ import { WorldCitySearch } from "../WorldCitySearch/WorldCitySearch";
 
 /**
  * AddPlaceDialog component
- * The one way into the itinerary. Searching the gazetteer writes the city and,
- * when it is the first there, the country too — disclosed before it happens,
- * because a tool that creates files without saying so cannot be trusted with
- * the ones it did not create.
+ * Adds an existing or gazetteer-backed city to the itinerary. The dialog
+ * previews any country and city files that will be created before applying
+ * those writes.
  * @component
  * @param {AddPlaceDialogProps} props
  * @param {[number, number]} [props.coordinates] - A point the author clicked on the map
@@ -179,6 +179,7 @@ export function AddPlaceDialog({
             onClick={handleCreateManual}
             type="button"
           >
+            <MapPinPlus aria-hidden="true" />
             {t("addPlace.createHere")}
           </button>
         </div>
@@ -190,9 +191,11 @@ export function AddPlaceDialog({
           onClick={handleConfirm}
           type="button"
         >
+          <MapPinPlus aria-hidden="true" />
           {t("addPlace.add")}
         </button>
         <button className="editor-button" onClick={onClose} type="button">
+          <X aria-hidden="true" />
           {t("editorForm.cancel")}
         </button>
         <output className="editor-form__message">{message}</output>

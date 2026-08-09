@@ -4,6 +4,7 @@
   display: flex;
   flex-direction: column;
   min-height: 0;
+  border-top: 0.0625rem solid;
 
   &__bar {
     display: flex;
@@ -14,11 +15,21 @@
   }
 
   &__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
     font-size: v.$bodySm;
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+      color: v.$futureButtonContent;
+    }
   }
 
   &__tabs {
     display: flex;
+    flex-wrap: wrap;
     gap: 0.35rem;
   }
 
@@ -29,6 +40,7 @@
     max-height: 40vh;
     padding: 0.5rem 0.75rem 0.9rem;
     overflow-y: auto;
+    border-top: 0.0625rem solid;
   }
 
   &__issues,
@@ -61,6 +73,17 @@
 
     &--suggestion {
       border-left-color: v.$futureButtonContent;
+    }
+  }
+
+  &__issue-icon {
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+
+    svg {
+      width: 1rem;
+      height: 1rem;
     }
   }
 
@@ -105,6 +128,13 @@
 }
 
 .editor--dark .validation-tray {
+  border-color: v.$glassBorderDark;
+  background: v.$darkInfoTab;
+
+  &__panel {
+    border-color: v.$glassBorderDark;
+  }
+
   &__issue:hover,
   &__command {
     background: v.$darkButton;
@@ -116,6 +146,13 @@
 }
 
 .editor--light .validation-tray {
+  border-color: rgb(0 0 0 / 10%);
+  background: v.$lightLeftBar;
+
+  &__panel {
+    border-color: rgb(0 0 0 / 10%);
+  }
+
   &__issue:hover,
   &__command {
     background: v.$lightButton;
@@ -123,5 +160,24 @@
 
   &__change-kind {
     color: v.$lightAltTextDarker;
+  }
+}
+
+@media (max-width: 42rem) {
+  .validation-tray__bar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .validation-tray__tabs {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 100%;
+
+    .editor-button {
+      min-width: 0;
+      padding-inline: 0.45rem;
+      font-size: v.$caption;
+    }
   }
 }

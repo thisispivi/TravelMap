@@ -1,7 +1,9 @@
 import "./Library.scss";
 
 import { useLanguage } from "@app/shared/hooks/useLanguage";
+import { classNames } from "@app/shared/lib/classNames";
 import { countBySeverity, Issue } from "@travelmap/core";
+import { ChevronDown, Plus, Settings } from "lucide-react";
 import { ReactNode, useState } from "react";
 import { Link } from "react-router";
 
@@ -14,9 +16,10 @@ import { NewTripDialog } from "../NewTripDialog/NewTripDialog";
  * Formats a trip's span for a card, tolerating a trip that has no dates yet.
  * @param {string} sDate - Trip start
  * @param {string} eDate - Trip end
+ * @param {string} locale - Locale used for month and day names
  * @returns {string} A compact range
  */
-function formatRange(sDate: string, eDate: string): string {
+function formatRange(sDate: string, eDate: string, locale: string): string {
   /**
    * Formats one authored date as a readable day, month, and year.
    * @param {string} value - The authored date
@@ -26,7 +29,7 @@ function formatRange(sDate: string, eDate: string): string {
     const parsed = new Date(`${value.slice(0, 10)}T00:00:00`);
     return Number.isNaN(parsed.getTime())
       ? value
-      : new Intl.DateTimeFormat(undefined, {
+      : new Intl.DateTimeFormat(locale, {
           day: "numeric",
           month: "short",
           year: "numeric",
@@ -47,7 +50,7 @@ function formatRange(sDate: string, eDate: string): string {
  * @returns {ReactNode} The library screen
  */
 export function Library(): ReactNode {
-  const { t } = useLanguage(["editor"]);
+  const { currLanguage, t } = useLanguage(["editor"]);
   const dataset = useDataset();
   const [isCreating, setIsCreating] = useState(false);
   const [arePlacesShown, setArePlacesShown] = useState(false);
@@ -75,6 +78,7 @@ export function Library(): ReactNode {
         </div>
         <div className="library__header-actions">
           <Link className="editor-button" to="/settings">
+            <Settings aria-hidden="true" />
             {t("library.settings")}
           </Link>
           <button
@@ -82,6 +86,7 @@ export function Library(): ReactNode {
             onClick={() => setIsCreating(true)}
             type="button"
           >
+            <Plus aria-hidden="true" />
             {t("library.newTrip")}
           </button>
         </div>
@@ -100,6 +105,7 @@ export function Library(): ReactNode {
             onClick={() => setIsCreating(true)}
             type="button"
           >
+            <Plus aria-hidden="true" />
             {t("library.newTrip")}
           </button>
         </section>
@@ -121,7 +127,7 @@ export function Library(): ReactNode {
                       {value.title || value.id}
                     </span>
                     <span className="library__trip-meta">
-                      {formatRange(value.sDate, value.eDate)}
+                      {formatRange(value.sDate, value.eDate, currLanguage)}
                     </span>
                     <span className="library__trip-meta">
                       {t("library.stopCount", {
@@ -186,6 +192,13 @@ export function Library(): ReactNode {
             type="button"
           >
             {t("library.places")}
+            <ChevronDown
+              aria-hidden="true"
+              className={classNames(
+                "library__disclosure-icon",
+                arePlacesShown && "library__disclosure-icon--open",
+              )}
+            />
           </button>
         </h2>
         <p className="editor-panel__hint">

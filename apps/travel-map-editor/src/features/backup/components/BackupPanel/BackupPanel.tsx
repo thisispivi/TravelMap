@@ -1,6 +1,7 @@
 import "./BackupPanel.scss";
 
 import { useLanguage } from "@app/shared/hooks/useLanguage";
+import { Download, RotateCcw, ShieldPlus } from "lucide-react";
 import { ReactNode, useEffect, useState } from "react";
 
 import { useDataset } from "../../../../shared/hooks/useDataset";
@@ -90,6 +91,7 @@ export function BackupPanel(): ReactNode {
           onClick={handleSnapshot}
           type="button"
         >
+          <ShieldPlus aria-hidden="true" />
           {t("backup.takeSnapshot")}
         </button>
         <button
@@ -97,6 +99,7 @@ export function BackupPanel(): ReactNode {
           onClick={() => downloadBundle(buildBundle(dataset, "export"))}
           type="button"
         >
+          <Download aria-hidden="true" />
           {t("backup.download")}
         </button>
         <output className="editor-form__message">{message}</output>
@@ -117,6 +120,7 @@ export function BackupPanel(): ReactNode {
                     onClick={handleRestore}
                     type="button"
                   >
+                    <RotateCcw aria-hidden="true" />
                     {t("backup.confirmRestore")}
                   </button>
                   <button
@@ -133,6 +137,7 @@ export function BackupPanel(): ReactNode {
                   onClick={() => setPendingRestore(name)}
                   type="button"
                 >
+                  <RotateCcw aria-hidden="true" />
                   {t("backup.restore")}
                 </button>
               )}

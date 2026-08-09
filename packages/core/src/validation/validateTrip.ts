@@ -274,7 +274,7 @@ export function validateTrip(
         "warning",
         `${label} starts before the trip does.`,
         index,
-        { city: label },
+        { city: label, sDate: step.sDate },
         {
           apply: (current) => ({ ...current, sDate: step.sDate }),
           label: `Start the trip on ${step.sDate}`,
@@ -290,7 +290,7 @@ export function validateTrip(
         "warning",
         `${label} ends after the trip does.`,
         index,
-        { city: label },
+        { city: label, eDate: step.eDate },
         {
           apply: (current) => ({ ...current, eDate: step.eDate }),
           label: `End the trip on ${step.eDate}`,

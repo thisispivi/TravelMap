@@ -13,6 +13,7 @@ import {
   TripJson,
 } from "@travelmap/core";
 import type { FeatureCollection, Geometry } from "geojson";
+import { Focus, ScanLine } from "lucide-react";
 import { LngLatBounds } from "maplibre-gl";
 import { ReactNode, useMemo, useRef } from "react";
 import Map, {
@@ -131,9 +132,7 @@ export function EditorMap({
   }
 
   /**
-   * Stores the camera the author framed by hand as the trip's map focus. This
-   * is the only humane way to author a centre and zoom pair, and it is the
-   * only way to reach `mapFocus` at all: the previous editor never exposed it.
+   * Stores the current camera centre and zoom as the trip's authored map focus.
    * @returns {void}
    */
   function handleCaptureView(): void {
@@ -223,6 +222,7 @@ export function EditorMap({
           onClick={handleFit}
           type="button"
         >
+          <ScanLine aria-hidden="true" />
           {t("map.fitToTrip")}
         </button>
         <button
@@ -230,6 +230,7 @@ export function EditorMap({
           onClick={handleCaptureView}
           type="button"
         >
+          <Focus aria-hidden="true" />
           {t("map.useThisView")}
         </button>
       </div>

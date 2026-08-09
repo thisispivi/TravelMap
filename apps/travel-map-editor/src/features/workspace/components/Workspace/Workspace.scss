@@ -7,15 +7,15 @@
   height: 100vh;
 
   &__header {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto minmax(8rem, 1fr) auto;
     align-items: center;
     gap: 0.85rem;
-    padding: 0.6rem 0.9rem;
+    padding: 0.6rem 3.75rem 0.6rem 0.9rem;
     border-bottom: 1px solid;
   }
 
   &__back {
-    font-size: v.$caption;
     white-space: nowrap;
   }
 
@@ -40,6 +40,7 @@
     display: flex;
     align-items: center;
     gap: 0.4rem;
+    min-width: 0;
   }
 
   &__recovery {
@@ -137,6 +138,18 @@
   }
 }
 
+@media (max-width: 68.75rem) {
+  .workspace__header {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .workspace__actions {
+    grid-column: 1 / -1;
+    overflow-x: auto;
+    scrollbar-width: thin;
+  }
+}
+
 @media (max-width: 56.25rem) {
   .workspace__panes {
     grid-template-columns: minmax(0, 1fr);
@@ -146,6 +159,27 @@
   .workspace__rail {
     border-right: 0;
     border-bottom: 1px solid;
+  }
+}
+
+@media (max-width: 42rem) {
+  .workspace__actions {
+    display: flex;
+    overflow: visible;
+
+    .editor-button,
+    .save-chip {
+      width: 2.5rem;
+      height: 2.5rem;
+      padding: 0;
+      font-size: 0;
+    }
+
+    .editor-button svg,
+    .save-chip svg {
+      width: 1rem;
+      height: 1rem;
+    }
   }
 }
 
