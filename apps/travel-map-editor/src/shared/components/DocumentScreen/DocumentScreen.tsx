@@ -5,8 +5,8 @@ import { ArrowLeft, Trash2 } from "lucide-react";
 import { ReactNode, useState } from "react";
 import { Link } from "react-router";
 
-import { SaveChip } from "../../../features/workspace/components/SaveChip/SaveChip";
 import { useAutosave } from "../../hooks/useAutosave";
+import { SaveChip } from "../SaveChip/SaveChip";
 
 /**
  * DocumentScreen component

@@ -1,23 +1,24 @@
 import "./Library.scss";
 
 import { useLanguage } from "@app/shared/hooks/useLanguage";
-import { classNames } from "@app/shared/lib/classNames";
 import { Issue } from "@travelmap/core";
 import {
-  Building2,
-  ChevronDown,
+  ArrowUpRight,
   ChevronLeft,
   ChevronRight,
+  Globe2,
+  MapPin,
+  MapPinned,
   Plus,
   Settings,
 } from "lucide-react";
 import { ReactNode, useState } from "react";
 import { Link } from "react-router";
 
-import { resolveLogoUrl } from "../../../../data/dataset";
 import { datasetIssues, useDataset } from "../../../../shared/hooks/useDataset";
 import { findWorldCountry } from "../../../../shared/lib/worldCountries";
 import { NewTripDialog } from "../NewTripDialog/NewTripDialog";
+import { TransportCompanies } from "../TransportCompanies/TransportCompanies";
 
 /** Maximum number of countries or cities shown on one library page. */
 const PLACE_PAGE_SIZE = 8;
@@ -61,7 +62,6 @@ export function Library(): ReactNode {
   const { currLanguage, t } = useLanguage(["editor"]);
   const dataset = useDataset();
   const [isCreating, setIsCreating] = useState(false);
-  const [arePlacesShown, setArePlacesShown] = useState(false);
   const [countryPage, setCountryPage] = useState(0);
   const [cityPage, setCityPage] = useState(0);
   const issues = datasetIssues(dataset);
@@ -71,6 +71,9 @@ export function Library(): ReactNode {
   const cities = dataset.cities.toSorted((first, second) =>
     first.value.name.localeCompare(second.value.name),
   );
+  const countryNames = new Map(
+    dataset.countries.map(({ value }) => [value.id, value.name]),
+  );
   const countryPageCount = Math.max(
     1,
     Math.ceil(countries.length / PLACE_PAGE_SIZE),
@@ -78,9 +81,6 @@ export function Library(): ReactNode {
   const cityPageCount = Math.max(1, Math.ceil(cities.length / PLACE_PAGE_SIZE));
   const visibleCountryPage = Math.min(countryPage, countryPageCount - 1);
   const visibleCityPage = Math.min(cityPage, cityPageCount - 1);
-  const companies = Object.entries(
-    dataset.config.value.companies ?? {},
-  ).toSorted((first, second) => first[1].name.localeCompare(second[1].name));
 
   /**
    * Counts the problems attached to one trip, for its card badge.
@@ -178,169 +178,165 @@ export function Library(): ReactNode {
             })}
         </ul>
       )}
-      <section className="editor-panel">
-        <h2 className="editor-panel__legend">
-          <button
-            aria-expanded={arePlacesShown}
-            className="library__disclosure"
-            onClick={() => setArePlacesShown(!arePlacesShown)}
-            type="button"
-          >
-            {t("library.places")}
-            <ChevronDown
-              aria-hidden="true"
-              className={classNames(
-                "library__disclosure-icon",
-                arePlacesShown && "library__disclosure-icon--open",
-              )}
-            />
-          </button>
-        </h2>
-        <p className="editor-panel__hint">
-          {t("library.placesCount", {
-            cities: dataset.cities.length,
-            countries: dataset.countries.length,
-          })}
-        </p>
-        {arePlacesShown ? (
-          <div className="library__place-groups">
-            <section className="library__place-group">
+      <section className="editor-panel library__places-panel">
+        <header className="library__section-header">
+          <span aria-hidden="true" className="library__section-icon">
+            <MapPinned />
+          </span>
+          <div>
+            <h2 className="editor-panel__legend">{t("library.places")}</h2>
+            <p className="editor-panel__hint">
+              {t("library.placesCount", {
+                cities: dataset.cities.length,
+                countries: dataset.countries.length,
+              })}
+            </p>
+          </div>
+        </header>
+        <div className="library__place-groups">
+          <section className="library__place-group">
+            <header className="library__place-group-header">
+              <Globe2 aria-hidden="true" />
               <h3>{t("library.countries")}</h3>
-              <ul className="library__places">
-                {countries
-                  .slice(
-                    visibleCountryPage * PLACE_PAGE_SIZE,
-                    (visibleCountryPage + 1) * PLACE_PAGE_SIZE,
-                  )
-                  .map(({ value }) => (
+              <span>{dataset.countries.length}</span>
+            </header>
+            <ul className="library__places">
+              {countries
+                .slice(
+                  visibleCountryPage * PLACE_PAGE_SIZE,
+                  (visibleCountryPage + 1) * PLACE_PAGE_SIZE,
+                )
+                .map(({ value }) => {
+                  const flagUrl = findWorldCountry(value.id)?.flagUrl;
+                  return (
                     <li key={value.id}>
                       <Link
-                        className="editor-button library__place-button"
+                        className="library__place-link"
                         to={`/places/countries/${value.id}`}
                       >
-                        {findWorldCountry(value.id)?.flagUrl ? (
-                          <img
-                            alt=""
-                            className="library__flag"
-                            src={findWorldCountry(value.id)?.flagUrl}
-                          />
-                        ) : null}
-                        {value.name}
+                        <span className="library__flag-frame">
+                          {flagUrl ? (
+                            <img
+                              alt=""
+                              className="library__flag"
+                              src={flagUrl}
+                            />
+                          ) : (
+                            <Globe2 aria-hidden="true" />
+                          )}
+                        </span>
+                        <span className="library__place-name">
+                          {value.name}
+                        </span>
+                        <ArrowUpRight aria-hidden="true" />
                       </Link>
                     </li>
-                  ))}
-              </ul>
-              <div className="library__pagination">
-                <button
-                  aria-label={t("library.previousPage")}
-                  className="editor-button library__pagination-button"
-                  disabled={visibleCountryPage === 0}
-                  onClick={() => setCountryPage(visibleCountryPage - 1)}
-                  type="button"
-                >
-                  <ChevronLeft aria-hidden="true" />
-                </button>
-                <span>
-                  {t("library.page", {
-                    current: visibleCountryPage + 1,
-                    total: countryPageCount,
-                  })}
-                </span>
-                <button
-                  aria-label={t("library.nextPage")}
-                  className="editor-button library__pagination-button"
-                  disabled={visibleCountryPage === countryPageCount - 1}
-                  onClick={() => setCountryPage(visibleCountryPage + 1)}
-                  type="button"
-                >
-                  <ChevronRight aria-hidden="true" />
-                </button>
-              </div>
-            </section>
-            <section className="library__place-group">
+                  );
+                })}
+            </ul>
+            <footer className="library__pagination">
+              <button
+                aria-label={t("library.previousPage")}
+                className="library__pagination-button"
+                disabled={visibleCountryPage === 0}
+                onClick={() => setCountryPage(visibleCountryPage - 1)}
+                type="button"
+              >
+                <ChevronLeft aria-hidden="true" />
+              </button>
+              <span>
+                {t("library.page", {
+                  current: visibleCountryPage + 1,
+                  total: countryPageCount,
+                })}
+              </span>
+              <button
+                aria-label={t("library.nextPage")}
+                className="library__pagination-button"
+                disabled={visibleCountryPage === countryPageCount - 1}
+                onClick={() => setCountryPage(visibleCountryPage + 1)}
+                type="button"
+              >
+                <ChevronRight aria-hidden="true" />
+              </button>
+            </footer>
+          </section>
+          <section className="library__place-group">
+            <header className="library__place-group-header">
+              <MapPin aria-hidden="true" />
               <h3>{t("library.cities")}</h3>
-              <ul className="library__places">
-                {cities
-                  .slice(
-                    visibleCityPage * PLACE_PAGE_SIZE,
-                    (visibleCityPage + 1) * PLACE_PAGE_SIZE,
-                  )
-                  .map(({ value }) => (
+              <span>{dataset.cities.length}</span>
+            </header>
+            <ul className="library__places">
+              {cities
+                .slice(
+                  visibleCityPage * PLACE_PAGE_SIZE,
+                  (visibleCityPage + 1) * PLACE_PAGE_SIZE,
+                )
+                .map(({ value }) => {
+                  const flagUrl = findWorldCountry(value.countryId)?.flagUrl;
+                  return (
                     <li key={value.id}>
                       <Link
-                        className="editor-button library__place-button"
+                        className="library__place-link"
                         to={`/places/cities/${value.id}`}
                       >
-                        {findWorldCountry(value.countryId)?.flagUrl ? (
-                          <img
-                            alt=""
-                            className="library__flag"
-                            src={findWorldCountry(value.countryId)?.flagUrl}
-                          />
-                        ) : null}
-                        {value.name}
+                        <span className="library__flag-frame">
+                          {flagUrl ? (
+                            <img
+                              alt=""
+                              className="library__flag"
+                              src={flagUrl}
+                            />
+                          ) : (
+                            <MapPin aria-hidden="true" />
+                          )}
+                        </span>
+                        <span className="library__place-copy">
+                          <span className="library__place-name">
+                            {value.name}
+                          </span>
+                          <span className="library__place-country">
+                            {countryNames.get(value.countryId) ??
+                              value.countryId}
+                          </span>
+                        </span>
+                        <ArrowUpRight aria-hidden="true" />
                       </Link>
                     </li>
-                  ))}
-              </ul>
-              <div className="library__pagination">
-                <button
-                  aria-label={t("library.previousPage")}
-                  className="editor-button library__pagination-button"
-                  disabled={visibleCityPage === 0}
-                  onClick={() => setCityPage(visibleCityPage - 1)}
-                  type="button"
-                >
-                  <ChevronLeft aria-hidden="true" />
-                </button>
-                <span>
-                  {t("library.page", {
-                    current: visibleCityPage + 1,
-                    total: cityPageCount,
-                  })}
-                </span>
-                <button
-                  aria-label={t("library.nextPage")}
-                  className="editor-button library__pagination-button"
-                  disabled={visibleCityPage === cityPageCount - 1}
-                  onClick={() => setCityPage(visibleCityPage + 1)}
-                  type="button"
-                >
-                  <ChevronRight aria-hidden="true" />
-                </button>
-              </div>
-            </section>
-          </div>
-        ) : (
-          <p className="editor-panel__hint">{t("library.placesHint")}</p>
-        )}
+                  );
+                })}
+            </ul>
+            <footer className="library__pagination">
+              <button
+                aria-label={t("library.previousPage")}
+                className="library__pagination-button"
+                disabled={visibleCityPage === 0}
+                onClick={() => setCityPage(visibleCityPage - 1)}
+                type="button"
+              >
+                <ChevronLeft aria-hidden="true" />
+              </button>
+              <span>
+                {t("library.page", {
+                  current: visibleCityPage + 1,
+                  total: cityPageCount,
+                })}
+              </span>
+              <button
+                aria-label={t("library.nextPage")}
+                className="library__pagination-button"
+                disabled={visibleCityPage === cityPageCount - 1}
+                onClick={() => setCityPage(visibleCityPage + 1)}
+                type="button"
+              >
+                <ChevronRight aria-hidden="true" />
+              </button>
+            </footer>
+          </section>
+        </div>
       </section>
-      <section className="editor-panel">
-        <h2 className="editor-panel__legend">
-          <Building2 aria-hidden="true" />
-          {t("library.transportCompanies")}
-        </h2>
-        {companies.length > 0 ? (
-          <ul className="library__companies">
-            {companies.map(([id, company]) => (
-              <li className="library__company" key={id}>
-                {resolveLogoUrl(company.logo) ? (
-                  <img
-                    alt=""
-                    className="library__company-logo"
-                    src={resolveLogoUrl(company.logo)}
-                  />
-                ) : (
-                  <Building2 aria-hidden="true" />
-                )}
-                <span>{company.name}</span>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="editor-panel__hint">{t("library.noCompanies")}</p>
-        )}
-      </section>
+      <TransportCompanies file={dataset.config} />
       {isCreating ? (
         <NewTripDialog dataset={dataset} onClose={() => setIsCreating(false)} />
       ) : null}

@@ -8,6 +8,7 @@ import { ReactNode, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
 
 import { DataFile, deleteDocument } from "../../../../data/store";
+import { SaveChip } from "../../../../shared/components/SaveChip/SaveChip";
 import {
   useDataset,
   useSessionChanges,
@@ -37,7 +38,6 @@ import {
 import { useTripWorkspace } from "../../Workspace.state";
 import { BulkBar } from "../BulkBar/BulkBar";
 import { Inspector } from "../Inspector/Inspector";
-import { SaveChip } from "../SaveChip/SaveChip";
 
 /**
  * Workspace component

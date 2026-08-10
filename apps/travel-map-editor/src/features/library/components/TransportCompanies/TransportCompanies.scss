@@ -1,0 +1,160 @@
+@use "variables" as v;
+
+.transport-companies {
+  &__header,
+  &__heading,
+  &__company-header,
+  &__add,
+  &__empty {
+    display: flex;
+    align-items: center;
+  }
+
+  &__header,
+  &__company-header {
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  &__heading {
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  &__icon {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    flex: 0 0 auto;
+    border-radius: 0.75rem;
+
+    svg {
+      width: 1.2rem;
+      height: 1.2rem;
+    }
+  }
+
+  &__add {
+    align-items: flex-start;
+    gap: 0.65rem;
+    padding: 0.85rem;
+    border: 0.0625rem solid;
+    border-radius: v.$floatingCardRadius;
+
+    .editor-field {
+      flex: 1;
+    }
+
+    > .editor-button {
+      margin-top: 1.25rem;
+    }
+  }
+
+  &__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(22rem, 100%), 1fr));
+    gap: 0.75rem;
+  }
+
+  &__company {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    padding: 0.9rem;
+    border: 0.0625rem solid;
+    border-radius: v.$floatingCardRadius;
+  }
+
+  &__company-header code {
+    overflow: hidden;
+    font-size: v.$caption;
+    font-weight: 700;
+    text-overflow: ellipsis;
+  }
+
+  &__fields {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: start;
+    gap: 0.75rem;
+  }
+
+  &__empty {
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 6rem;
+    margin: 0;
+    border: 0.0625rem dashed;
+    border-radius: v.$floatingCardRadius;
+    font-size: v.$bodySm;
+
+    svg {
+      width: 1.1rem;
+      height: 1.1rem;
+    }
+  }
+}
+
+.editor--dark .transport-companies {
+  &__icon,
+  &__company {
+    border-color: v.$glassBorderDark;
+    background: v.$darkButton;
+  }
+
+  &__add,
+  &__empty {
+    border-color: v.$glassBorderDark;
+  }
+
+  &__icon {
+    color: v.$accentPrimary;
+  }
+
+  &__company-header code,
+  &__empty {
+    color: v.$darkAltText;
+  }
+}
+
+.editor--light .transport-companies {
+  &__icon,
+  &__company {
+    border-color: rgb(0 0 0 / 8%);
+    background: v.$lightButton;
+  }
+
+  &__add,
+  &__empty {
+    border-color: rgb(0 0 0 / 10%);
+  }
+
+  &__icon {
+    color: v.$accentPrimary;
+  }
+
+  &__company-header code,
+  &__empty {
+    color: v.$lightAltText;
+  }
+}
+
+@media (max-width: 40rem) {
+  .transport-companies {
+    &__header,
+    &__add {
+      align-items: stretch;
+      flex-direction: column;
+    }
+
+    &__add > .editor-button {
+      align-self: flex-start;
+      margin-top: 0;
+    }
+
+    &__fields {
+      grid-template-columns: 1fr;
+    }
+  }
+}

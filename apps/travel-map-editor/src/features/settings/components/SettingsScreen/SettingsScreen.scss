@@ -56,26 +56,6 @@
       margin-top: 1.25rem;
     }
   }
-
-  &__company {
-    display: grid;
-    grid-template-columns: minmax(6rem, auto) 1fr 1fr auto;
-    align-items: start;
-    gap: 0.75rem;
-
-    > .editor-button {
-      margin-top: 1.25rem;
-    }
-  }
-
-  &__company-id {
-    padding: 0.6rem 0;
-    margin-top: 1.25rem;
-    font-family: ui-monospace, "SFMono-Regular", monospace;
-    font-size: v.$caption;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
 }
 
 .editor--dark .settings-screen {
@@ -91,9 +71,6 @@
       color: v.$darkButtonContent;
     }
   }
-  &__company-id {
-    color: v.$darkAltTextDarker;
-  }
 }
 
 .editor--light .settings-screen {
@@ -108,14 +85,5 @@
       background-color: v.$lightButtonHover;
       color: v.$lightButtonContent;
     }
-  }
-  &__company-id {
-    color: v.$lightAltTextDarker;
-  }
-}
-
-@media (max-width: 48rem) {
-  .settings-screen__company {
-    grid-template-columns: 1fr;
   }
 }

@@ -4,13 +4,7 @@ import { useLanguage } from "@app/shared/hooks/useLanguage";
 import { Plus, Trash2 } from "lucide-react";
 import { ReactNode, useState } from "react";
 
-import { resolveLogoUrl } from "../../../../data/dataset";
-import { idError } from "../../../../data/paths";
-import {
-  Company,
-  resolveMapSettings,
-  SiteConfig,
-} from "../../../../data/siteConfig";
+import { resolveMapSettings, SiteConfig } from "../../../../data/siteConfig";
 import { DataFile, saveDocument } from "../../../../data/store";
 import {
   Combobox,
@@ -22,7 +16,6 @@ import {
   StringListField,
   TextField,
 } from "../../../../shared/components/Fields/Fields";
-import { ImageUploadField } from "../../../../shared/components/ImageUploadField/ImageUploadField";
 import { useDataset } from "../../../../shared/hooks/useDataset";
 import { findWorldCountry } from "../../../../shared/lib/worldCountries";
 import { BackupPanel } from "../../../backup/components/BackupPanel/BackupPanel";
@@ -48,7 +41,7 @@ const SITE_FIELDS = [
 /**
  * SettingsScreen component
  * Edits everything a fork owns outside the travel data itself: identity,
- * locales, city roles, map defaults, transport operators, and UNESCO counts.
+ * locales, city roles, map defaults, backups, and UNESCO counts.
  * @component
  * @param {SettingsScreenProps} props
  * @param {DataFile<SiteConfig>} props.file - Site configuration source file
@@ -59,58 +52,16 @@ export function SettingsScreen({ file }: SettingsScreenProps): ReactNode {
   const [value, setValue] = useState(file.value);
   const [newLocale, setNewLocale] = useState("");
   const dataset = useDataset();
-  const [newCompanyId, setNewCompanyId] = useState("");
   const isDirty = JSON.stringify(value) !== JSON.stringify(file.value);
   const site = value.site ?? {};
   const map = resolveMapSettings(value.map);
   const locales = value.locales ?? [];
-  const companies = value.companies ?? {};
   const cityOptions = dataset.cities.map(({ value: city }) => ({
     hint: city.countryId,
     iconUrl: findWorldCountry(city.countryId)?.flagUrl,
     label: city.name,
     value: city.id,
   }));
-  const companyIdProblem = idError(newCompanyId, Object.keys(companies));
-  const companyIdMessage = companyIdProblem
-    ? t(`idProblem.${companyIdProblem.code}`, { id: companyIdProblem.id })
-    : null;
-
-  /**
-   * Replaces one company entry.
-   * @param {string} id - Company identifier
-   * @param {Company} company - Replacement company
-   * @returns {void}
-   */
-  function setCompany(id: string, company: Company): void {
-    setValue((current) => ({
-      ...current,
-      companies: { ...(current.companies ?? {}), [id]: company },
-    }));
-  }
-
-  /**
-   * Removes a company entry.
-   * @param {string} id - Company identifier
-   * @returns {void}
-   */
-  function removeCompany(id: string): void {
-    setValue((current) => {
-      const next = { ...(current.companies ?? {}) };
-      delete next[id];
-      return { ...current, companies: next };
-    });
-  }
-
-  /**
-   * Adds a company after checking its identifier is usable.
-   * @returns {void}
-   */
-  function addCompany(): void {
-    if (companyIdProblem) return;
-    setCompany(newCompanyId, { name: newCompanyId });
-    setNewCompanyId("");
-  }
 
   /**
    * Adds a locale tag used for translated names across the dataset.
@@ -301,62 +252,6 @@ export function SettingsScreen({ file }: SettingsScreenProps): ReactNode {
           }
           value={value.trips?.groupByCitiesCutoffYear}
         />
-      </section>
-      <section className="editor-panel">
-        <h2 className="editor-panel__legend">
-          {t("configScreen.transportCompanies")}
-        </h2>
-        <p className="editor-panel__hint">
-          {t("configScreen.transportCompaniesHint")}
-        </p>
-        {Object.entries(companies).map(([id, company]) => (
-          <div className="settings-screen__company" key={id}>
-            <code className="settings-screen__company-id">{id}</code>
-            <TextField
-              label={t("configScreen.name")}
-              onChange={(name) => setCompany(id, { ...company, name })}
-              value={company.name}
-            />
-            <ImageUploadField
-              fileNameHint={id}
-              hint={t("configScreen.svgOrPng")}
-              label={t("configScreen.logo")}
-              onUpload={(logo) => setCompany(id, { ...company, logo })}
-              value={resolveLogoUrl(company.logo)}
-            />
-            <button
-              aria-label={t("configScreen.removeCompany", { id })}
-              className="editor-button"
-              onClick={() => removeCompany(id)}
-              type="button"
-            >
-              <Trash2 aria-hidden="true" />
-              {t("configScreen.remove")}
-            </button>
-          </div>
-        ))}
-        <div className="settings-screen__add">
-          <TextField
-            hint={
-              newCompanyId
-                ? (companyIdMessage ?? t("configScreen.readyToAdd"))
-                : ""
-            }
-            label={t("configScreen.addCompanyId")}
-            onChange={setNewCompanyId}
-            placeholder="ryanair"
-            value={newCompanyId}
-          />
-          <button
-            className="editor-button"
-            disabled={Boolean(companyIdProblem)}
-            onClick={addCompany}
-            type="button"
-          >
-            <Plus aria-hidden="true" />
-            {t("configScreen.add")}
-          </button>
-        </div>
       </section>
       <section className="editor-panel">
         <h2 className="editor-panel__legend">
