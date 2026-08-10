@@ -281,6 +281,9 @@
     "hoveredCityZoom": "Zoom al passaggio del mouse",
     "tripDisplay": "Visualizzazione viaggi",
     "groupByCitiesCutoffYear": "Anno limite per raggruppare per città",
+    "mediaPaths": "Percorsi multimediali",
+    "mediaRoot": "Radice multimediale",
+    "mediaRootHint": "Viene inserita nei percorsi generati dall'uploader. I manifest esistenti non cambiano.",
     "unescoSites": "Siti UNESCO",
     "unescoSitesHint": "Usato solo per contare quanti siti hai visitato. Lascia vuoto per mostrare zero."
   },
@@ -376,6 +379,33 @@
     "mapFocusAuto": "Adattata al viaggio",
     "clearMapFocus": "Rimuovi inquadratura",
     "mergeWithPrevious": "Unisci al soggiorno precedente"
+  },
+  "photoImport": {
+    "title": "Importa manifest fotografico",
+    "open": "Importa…",
+    "hint": "Incolla il JSON dell'uploader o scegli il file. L'editor ricava paese, città e date da questo soggiorno.",
+    "paste": "JSON dell'uploader",
+    "chooseFile": "Scegli JSON",
+    "review": "Controlla",
+    "entries": "Elementi",
+    "target": "File di destinazione",
+    "existing": "File esistente",
+    "existingEntries_one": "{{count}} elemento attuale",
+    "existingEntries_other": "{{count}} elementi attuali",
+    "youtubeId": "ID YouTube per l'elemento {{position}}",
+    "replace": "Sostituisci",
+    "import": "Importa",
+    "back": "Indietro",
+    "close": "Chiudi",
+    "done": "Il manifest è stato importato e collegato a questo soggiorno.",
+    "failed": "Non è stato possibile importare il manifest fotografico.",
+    "problem": {
+      "invalidJson": "L'input non è un JSON valido.",
+      "notArray": "Un manifest fotografico deve essere un array JSON.",
+      "invalidEntry": "L'elemento {{position}} richiede miniatura, larghezza e altezza.",
+      "missingOriginal": "L'elemento {{position}} non ha un percorso originale. Aggiungi qui sotto il suo ID YouTube.",
+      "unexpectedRoot": "L'elemento {{position}} usa {{path}}, che non inizia con {{root}}."
+    }
   },
   "map": {
     "fitToTrip": "Inquadra il viaggio",

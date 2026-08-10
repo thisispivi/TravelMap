@@ -36,13 +36,14 @@ The live app is available at [map.pivi.dev](https://map.pivi.dev/).
 ├── AGENTS.md
 ├── CLAUDE.md
 ├── CODING_GUIDELINES.md
-├── FEATURE_BASED_REFACTOR_MIGRATION_GUIDE.md
 ├── apps
 │   ├── travel-map
 │   └── travel-map-editor
 ├── packages
 │   └── core
+├── docker
 ├── logos
+├── media
 ├── scripts
 │   └── uploader
 └── data
@@ -52,10 +53,9 @@ The live app is available at [map.pivi.dev](https://map.pivi.dev/).
 - `apps/travel-map-editor` is the companion content-authoring application.
 - `packages/core` contains the shared `@travelmap/core` domain model.
 - `scripts`: Contains a folder with the scripts used to process and upload images/videos and generate the JSON file.
-  - [Uploader](./scripts/uploader/README.md): generates compressed and thumbnail images from travel photos and videos. It uploads them to bunnyCDN and generates a JSON file with the metadata. This JSON file is then used by the React app to display the galleries.
+  - [Uploader](./scripts/uploader/README.md): generates compressed and thumbnail images from travel photos and videos, sends them to BunnyCDN or local `media/`, and exports gallery metadata for the React app.
 - `logos` contains app and README logo assets.
 - [`CODING_GUIDELINES.md`](./CODING_GUIDELINES.md) is the single source of truth for code style and engineering conventions.
-- [`FEATURE_BASED_REFACTOR_MIGRATION_GUIDE.md`](./FEATURE_BASED_REFACTOR_MIGRATION_GUIDE.md) records the public app's feature-first architecture and migration acceptance criteria.
 - `AGENTS.md`, `CLAUDE.md`, and `.github/copilot-instructions.md` configure Codex, Claude, and GitHub Copilot to follow those same guidelines for every code file.
 
 ## Local Development
@@ -64,6 +64,33 @@ The live app is available at [map.pivi.dev](https://map.pivi.dev/).
 pnpm install
 pnpm dev
 ```
+
+## Self-hosting images
+
+Set `media.root` in `data/site.config.json` when you want a path prefix other
+than `/Travels`. Process a city locally from `scripts/uploader/` with:
+
+```bash
+python main.py -c Monza -C Italy --local
+```
+
+The uploader writes optimized files below
+`media/Travels/Italy/Monza/`, skips BunnyCDN, and still produces
+`scripts/uploader/Monza.json`. Import that manifest from the trip stop in the
+editor; the editor names and places it from the stop's city and dates.
+
+For local development, set `VITE_CDN_PATH="/media"` in
+`apps/travel-map/env/.env` and restart `pnpm dev`. Leave the committed Bunny
+host value in place to use the hosted delivery path instead.
+
+Run the public app and mount `media/` read-only with Docker:
+
+```bash
+docker compose -f docker/compose.yml up --build
+```
+
+The site is available at `http://localhost:8080`. Media added to the mounted
+folder is served immediately without rebuilding the image.
 
 Useful commands:
 

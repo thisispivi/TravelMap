@@ -217,7 +217,7 @@ export class Trip {
     this.backgroundImgSource = data.coverImage
       ? `${import.meta.env.VITE_CDN_PATH}${data.coverImage}`
       : data.backgroundImgSourceKey
-        ? `https://pivi-travel-map.b-cdn.net/TravelMap/Trips/${data.backgroundImgSourceKey}`
+        ? `${import.meta.env.VITE_CDN_PATH}/Trips/${data.backgroundImgSourceKey}`
         : this.destinations[0]?.city.getBackgroundImgSourceByIndex(0) ||
           undefined;
   }

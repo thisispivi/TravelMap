@@ -255,6 +255,18 @@ export function SettingsScreen({ file }: SettingsScreenProps): ReactNode {
         />
       </section>
       <section className="editor-panel">
+        <h2 className="editor-panel__legend">{t("configScreen.mediaPaths")}</h2>
+        <TextField
+          hint={t("configScreen.mediaRootHint")}
+          label={t("configScreen.mediaRoot")}
+          onChange={(root) =>
+            setValue({ ...value, media: { root: root || "/Travels" } })
+          }
+          placeholder="/Travels"
+          value={value.media?.root ?? "/Travels"}
+        />
+      </section>
+      <section className="editor-panel">
         <h2 className="editor-panel__legend">
           {t("configScreen.unescoSites")}
         </h2>

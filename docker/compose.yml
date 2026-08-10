@@ -1,0 +1,9 @@
+services:
+  travel-map:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    ports:
+      - "8080:80"
+    volumes:
+      - ../media:/srv/media:ro

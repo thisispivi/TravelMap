@@ -55,6 +55,21 @@
     text-decoration: none;
   }
 
+  &__photo-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.5rem;
+
+    > :first-child {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+  }
+
+  &__photo-import {
+    flex: 0 0 auto;
+  }
+
   &__derived {
     display: flex;
     align-items: center;

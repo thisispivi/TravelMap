@@ -2,10 +2,10 @@
 
 import getopt
 from logging import Logger
-from typing import Sequence
+from typing import Any, Sequence
 
 
-def get_args(argumentList: Sequence[str], logger: Logger) -> dict[str, str]:
+def get_args(argumentList: Sequence[str], logger: Logger) -> dict[str, Any]:
     """
     Parse command-line arguments.
 
@@ -14,7 +14,7 @@ def get_args(argumentList: Sequence[str], logger: Logger) -> dict[str, str]:
         logger (Logger): The logger instance.
 
     Returns:
-        A dict containing required keys: `city`, `country`.
+        A dict containing required keys: `city`, `country`, and `local`.
 
     Raises:
         ValueError: If required args are missing.
@@ -23,17 +23,18 @@ def get_args(argumentList: Sequence[str], logger: Logger) -> dict[str, str]:
     """
 
     usage = (
-        "Usage: python main.py -c <city> -C <country>\n"
+        "Usage: python main.py -c <city> -C <country> [--local]\n"
         "\n"
         "Options:\n"
         "  -c, --city       City folder name under photos/\n"
         "  -C, --country    Country slug used for CDN paths\n"
+        "  -l, --local      Copy media locally instead of uploading to Bunny\n"
         "  -h, --help       Show this help and exit\n"
     )
 
     argument_list = list(argumentList)[1:]
-    options = "hc:C:"
-    long_options = ["help", "city=", "country="]
+    options = "hlc:C:"
+    long_options = ["help", "local", "city=", "country="]
 
     try:
         arguments, _ = getopt.getopt(argument_list, options, long_options)
@@ -48,13 +49,15 @@ def get_args(argumentList: Sequence[str], logger: Logger) -> dict[str, str]:
                 "No arguments provided. Please provide the city name with -c/--city and country with -C/--country."
             )
 
-        data: dict[str, str] = {}
+        data: dict[str, Any] = {"local": False}
 
         for currentArgument, currentValue in arguments:
             if currentArgument in ("-c", "--city"):
                 data["city"] = currentValue
             elif currentArgument in ("-C", "--country"):
                 data["country"] = currentValue
+            elif currentArgument in ("-l", "--local"):
+                data["local"] = True
 
         if "city" not in data:
             raise ValueError(

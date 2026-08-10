@@ -44,8 +44,8 @@ def build_base_storage_path(args: Mapping[str, Any]) -> str:
 
 def build_cdn_city_path(args: Mapping[str, Any], filename: str) -> str:
     """Build the public CDN path for a file within the city folder."""
-
-    return f"/{args['country']}/{args['city']}/{filename}"
+    media_root = str(args["media_root"]).rstrip("/")
+    return f"{media_root}/{args['country']}/{args['city']}/{filename}"
 
 
 def get_max_common_divisor(a: int, b: int) -> int:

@@ -10,6 +10,7 @@ This module:
 
 Expected `args` keys (strings unless noted):
 - country, city
+- local (bool), media_dir, media_root
 - CDN_BASE_URL, CDN_BASE_STORAGE_PATH
 - CDN_STORAGE_ZONE_API_KEY, CDN_STORAGE_ZONE_NAME, CDN_STORAGE_ZONE_REGION
 - COMPRESSED_MIN_SIZE, COMPRESSED_MAX_SIZE, COMPRESSED_RESOLUTION (ints in string form)
@@ -17,6 +18,7 @@ Expected `args` keys (strings unless noted):
 """
 
 import os
+import shutil
 from logging import Logger
 from typing import Any, Mapping, Optional, Tuple, TypedDict
 
@@ -348,11 +350,30 @@ class TravelImage:
             logger = TravelImage._get_logger(logger)
             logger.error("Error uploading image %s to BunnyCDN: %s", self.filename, e)
 
+    def copy_to_media(self, logger: Optional[Logger] = None) -> None:
+        """Copy the derived compressed image and thumbnail into local media."""
+        logger = self._get_logger(logger)
+        media_dir = str(self.args["media_dir"])
+        base_filename = os.path.splitext(self.filename)[0]
+        os.makedirs(media_dir, exist_ok=True)
+        for suffix in ("c.webp", "t.webp"):
+            filename = f"{base_filename}{suffix}"
+            shutil.copy2(
+                os.path.join(self.results_city_folder_path, filename),
+                os.path.join(media_dir, filename),
+            )
+        logger.info("Copied %s to local media.", self.filename)
+
     def run(self, logger: Optional[Logger] = None) -> Optional[ImageInfo]:
         """
         Convenience method to compress and upload the image in one call.
         Returns the ImageInfo metadata produced by `compress()`.
         """
         image_info = self.compress(logger)
-        self.upload_to_bunny_cdn(logger)
+        if image_info is None:
+            return None
+        if self.args.get("local"):
+            self.copy_to_media(logger)
+        else:
+            self.upload_to_bunny_cdn(logger)
         return image_info

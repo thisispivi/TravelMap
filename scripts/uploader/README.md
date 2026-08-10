@@ -4,7 +4,8 @@ This script prepares a city’s media for the TravelMap project:
 
 - Converts photos into two optimized WEBP files: a **compressed** version and a **thumbnail**.
 - Extracts the **first frame** of videos and creates a **thumbnail WEBP**.
-- Uploads the generated WEBP files to **BunnyCDN Storage**.
+- Uploads the generated WEBP files to **BunnyCDN Storage**, or copies them to
+  the repository `media/` folder with `--local`.
 - Exports a `<city>.json` file describing the processed media (paths + basic metadata).
 
 ## Features
@@ -13,7 +14,7 @@ This script prepares a city’s media for the TravelMap project:
   - `*c.webp` (compressed)
   - `*t.webp` (thumbnail)
 - Extracts first frame from video files using `ffmpeg` and generates `*t.webp` thumbnails.
-- Uploads generated files to BunnyCDN Storage.
+- Uploads generated files to BunnyCDN Storage or copies them into local media.
 - Exports `<city>.json` sorted by numeric index in filenames (e.g. `001t.webp`, `12t.webp`).
 
 ## Requirements
@@ -49,7 +50,7 @@ Expected keys:
 - `COMPRESSED_MIN_SIZE`, `COMPRESSED_MAX_SIZE`, `COMPRESSED_RESOLUTION`
 - `CDN_STORAGE_ZONE_API_KEY`, `CDN_STORAGE_ZONE_NAME`, `CDN_STORAGE_ZONE_REGION`
 - `CDN_BASE_STORAGE_PATH`
-- `CDN_BASE_URL` (optional for consumers; the exported JSON uses paths like `/<country>/<city>/...`)
+- `CDN_BASE_URL` (optional for consumers; exported paths use `media.root`)
 
 Environment variables override values from the file.
 
@@ -60,7 +61,8 @@ Environment variables override values from the file.
 ├── env/
 │   └── example.env              # Template config (copy to env/.env)
 ├── lib/
-│   ├── args.py                  # CLI parsing (-c/--city, -C/--country)
+│   ├── args.py                  # CLI parsing, including --local
+│   ├── config.py                # Reads media.root and builds local paths
 │   ├── env.py                   # Loads env/.env (or env/example.env)
 │   ├── export.py                # Writes <city>.json
 │   ├── image.py                 # Image → WEBP (compressed + thumbnail) + BunnyCDN upload
@@ -83,6 +85,7 @@ Environment variables override values from the file.
 | ----------------- | ------------------------------------ | -------- |
 | `-c`, `--city`    | City folder name under `photos/`     | Yes      |
 | `-C`, `--country` | Country slug used to build CDN paths | Yes      |
+| `-l`, `--local`   | Copy into `media/` instead of Bunny  | No       |
 
 ### Running the Program
 
@@ -96,12 +99,19 @@ Example:
 python main.py -c Cairns -C Australia
 ```
 
+For self-hosted media:
+
+```bash
+python main.py -c Cairns -C Australia --local
+```
+
 This will:
 
 - Read all files in `photos/<city_name>/`.
 - For images: generate `*c.webp` and `*t.webp` in `results/<city_name>/`.
 - For videos: extract the first frame and generate `*t.webp` in `results/<city_name>/`.
-- Upload generated WEBP files to BunnyCDN Storage.
+- Upload generated WEBP files to BunnyCDN Storage, or copy them into the local
+  media tree when `--local` is set.
 - Write `<city_name>.json` to the repository root.
 
 ## Processing Logic
@@ -122,7 +132,9 @@ This will:
 
 - Generated media files are written to `results/<city_name>/`.
 - The JSON is written to `<city_name>.json` at the repo root.
-- The JSON contains CDN-style paths like `/<country>/<city>/<filename>`. If you want full URLs, prepend your CDN base URL in your app.
+- The JSON contains paths like `/Travels/<country>/<city>/<filename>`. The
+  prefix comes from `data/site.config.json`'s `media.root` and defaults to
+  `/Travels`; the app prepends `VITE_CDN_PATH`.
 
 ## Logging
 

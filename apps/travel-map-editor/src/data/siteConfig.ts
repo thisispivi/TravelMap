@@ -17,6 +17,7 @@ export interface Company {
  * @property {string[]} [futureCityIds] - Planned city references
  * @property {{ defaultZoom: number; defaultMinZoom: number; defaultMaxZoom: number; defaultCenter: [number, number]; hoveredCityZoom: number; marker: { defaultScale: number; minScale: number; maxScale: number } }} [map] - Map settings
  * @property {{ groupByCitiesCutoffYear: number }} [trips] - Trip display settings
+ * @property {{ root: string }} [media] - Root baked into generated media paths
  * @property {Record<string, string[]>} [unescoSites] - UNESCO site names by country
  * @property {Record<string, Company>} [companies] - Transport companies
  */
@@ -41,6 +42,7 @@ export interface SiteConfig {
     marker: { defaultScale: number; minScale: number; maxScale: number };
   };
   trips?: { groupByCitiesCutoffYear: number };
+  media?: { root: string };
   unescoSites?: Record<string, string[]>;
   companies?: Record<string, Company>;
 }
@@ -66,6 +68,7 @@ export const DEFAULT_CONFIG: SiteConfig = {
   livedCityIds: [],
   locales: [],
   map: DEFAULT_MAP_SETTINGS,
+  media: { root: "/Travels" },
   site: { name: "Travel Map" },
   trips: { groupByCitiesCutoffYear: new Date().getFullYear() },
   unescoSites: {},

@@ -3,7 +3,7 @@
 This script processes all files in a city folder under `photos/<city>/` and:
 - creates compressed + thumbnail WEBP assets for images
 - creates a thumbnail WEBP for supported video formats
-- uploads derived assets to BunnyCDN Storage
+- uploads derived assets to BunnyCDN Storage or copies them into local media
 - exports a `<city>.json` manifest consumed by the TravelMap web app
 """
 
@@ -16,6 +16,7 @@ from pathlib import Path
 from typing import Any, Mapping, Optional, Sequence
 
 from lib.args import get_args
+from lib.config import build_media_dir, read_media_root
 from lib.env import get_env
 from lib.export import export_json
 from lib.image import TravelImage
@@ -77,6 +78,8 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
 
         env = get_env(root_path, logger)
         args.update(env)
+        args["media_root"] = read_media_root(root_path)
+        args["media_dir"] = build_media_dir(root_path, args)
 
         (
             _base_folder_path,
@@ -87,6 +90,8 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
 
         logger.debug("City folder path: %s", city_folder_path)
         logger.debug("Results city folder path: %s", results_city_folder_path)
+        if args["local"]:
+            logger.info("Local media directory: %s", args["media_dir"])
 
         os.makedirs(results_city_folder_path, exist_ok=True)
 

@@ -14,7 +14,11 @@ apps/travel-map-copy
 # Personal travel data. The repo ships with an empty data/ so a fork starts
 # from scratch; the editor (apps/travel-map-editor) creates this as you add
 # countries, cities, and trips.
-/data/
+/data/*
+!/data/README.md
+
+# Generated and self-hosted photo assets stay local or in the mounted volume.
+/media/
 
 # Editor backups of data/. Local safety net, never shared.
 /.data-snapshots/

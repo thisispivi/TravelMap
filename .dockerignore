@@ -1,0 +1,12 @@
+node_modules
+dist
+.git
+.venv
+**/__pycache__
+scripts/uploader/venv
+scripts/uploader/photos
+scripts/uploader/results
+media
+data-copy
+apps/travel-map-copy
+.data-snapshots

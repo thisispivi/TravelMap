@@ -9,7 +9,7 @@ import {
   TripStopJson,
   TripTransportJson,
 } from "@travelmap/core";
-import { ChevronDown, FilePenLine } from "lucide-react";
+import { ChevronDown, FilePenLine, Images } from "lucide-react";
 import { ReactNode, useState } from "react";
 import { Link } from "react-router";
 
@@ -31,6 +31,8 @@ import {
   TextField,
 } from "../../../../shared/components/Fields/Fields";
 import { LocalizedNames } from "../../../../shared/components/LocalizedNames/LocalizedNames";
+import { PhotoImportDialog } from "../../../photos/components/PhotoImportDialog/PhotoImportDialog";
+import { canImportForStop } from "../../../photos/lib/photoManifest";
 import { cityOptions } from "../../../places/lib/placeOptions";
 import {
   formatDuration,
@@ -268,6 +270,7 @@ function StopInspector({
 }: StopInspectorProps): ReactNode {
   const { t } = useLanguage(["editor"]);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isPhotoImportOpen, setIsPhotoImportOpen] = useState(false);
   const city = dataset.cities.find(({ value }) => value.id === step.cityId);
   return (
     <>
@@ -298,19 +301,38 @@ function StopInspector({
           value={step.eDate}
         />
       </div>
-      <Combobox
-        emptyLabel={t("stepFields.noPhotos")}
-        hint={t("inspector.photoManifestHint")}
-        label={t("stepFields.photoManifest")}
-        onChange={(photoPath) =>
-          onChange({ ...step, photoPath: photoPath || undefined })
-        }
-        options={photoKeys(dataset).map((path) => ({
-          label: path,
-          value: path,
-        }))}
-        value={step.photoPath ?? ""}
-      />
+      <div className="inspector__photo-row">
+        <Combobox
+          emptyLabel={t("stepFields.noPhotos")}
+          hint={t("inspector.photoManifestHint")}
+          label={t("stepFields.photoManifest")}
+          onChange={(photoPath) =>
+            onChange({ ...step, photoPath: photoPath || undefined })
+          }
+          options={photoKeys(dataset).map((path) => ({
+            label: path,
+            value: path,
+          }))}
+          value={step.photoPath ?? ""}
+        />
+        <button
+          className="editor-button inspector__photo-import"
+          disabled={!canImportForStop(dataset, step)}
+          onClick={() => setIsPhotoImportOpen(true)}
+          type="button"
+        >
+          <Images aria-hidden="true" />
+          {t("photoImport.open")}
+        </button>
+      </div>
+      {isPhotoImportOpen ? (
+        <PhotoImportDialog
+          dataset={dataset}
+          onChange={onChange}
+          onClose={() => setIsPhotoImportOpen(false)}
+          step={step}
+        />
+      ) : null}
       <CheckboxField
         label={t("stepFields.layover")}
         onChange={(isLayover) => onChange({ ...step, isLayover })}
