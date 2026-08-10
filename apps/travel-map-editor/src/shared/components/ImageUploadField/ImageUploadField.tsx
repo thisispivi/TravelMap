@@ -1,7 +1,11 @@
 import "./ImageUploadField.scss";
 
 import { useLanguage } from "@app/shared/hooks/useLanguage";
-import { ReactNode, useEffect, useState } from "react";
+import { classNames } from "@app/shared/lib/classNames";
+import { Image, UploadCloud, X } from "lucide-react";
+import { DragEvent, ReactNode, useEffect, useId, useState } from "react";
+
+import { useToast } from "../Toast/Toast";
 
 const ASSET_WRITE_ENDPOINT = "/__assets/write";
 
@@ -42,6 +46,7 @@ function readFileAsBase64(file: File): Promise<string> {
  * @param {string} props.fileNameHint - Destination filename, without extension
  * @param {string} [props.hint] - Guidance shown under the control
  * @param {string} props.label - Field label
+ * @param {() => void} [props.onClear] - Removes the current image
  * @param {(path: string) => void} props.onUpload - Called with the new public path once the upload succeeds
  * @param {string} [props.value] - Current logo path, shown as a preview
  * @returns {ReactNode} The labelled upload control
@@ -50,16 +55,16 @@ export function ImageUploadField({
   fileNameHint,
   hint,
   label,
+  onClear,
   onUpload,
   value,
 }: ImageUploadFieldProps): ReactNode {
   const { t } = useLanguage(["editor"]);
+  const { showToast } = useToast();
+  const inputId = useId();
   const [error, setError] = useState<string | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
-  // The editor's dev server can't resolve a just-uploaded file's public path
-  // until the next reload (Vite's eager glob captured the module graph before
-  // this file existed), so the picked file's own bytes stand in as the
-  // preview until then.
   const [previewOverride, setPreviewOverride] = useState<string | null>(null);
 
   useEffect(() => {
@@ -93,21 +98,48 @@ export function ImageUploadField({
       if (!response.ok)
         throw new Error(body.error ?? t("imageUploadField.uploadFailed"));
       onUpload(body.path);
+      showToast(t("toast.logoUploaded"));
     } catch (uploadError) {
-      setError(
+      const errorMessage =
         uploadError instanceof Error
           ? uploadError.message
-          : t("imageUploadField.uploadFailed"),
-      );
+          : t("imageUploadField.uploadFailed");
+      setError(errorMessage);
+      showToast(errorMessage, "error");
     } finally {
       setIsUploading(false);
     }
   }
+
+  /**
+   * Uploads the first supported image dropped onto the selector.
+   * @param {DragEvent<HTMLLabelElement>} event - File drop event
+   * @returns {void}
+   */
+  function handleDrop(event: DragEvent<HTMLLabelElement>): void {
+    event.preventDefault();
+    setIsDragging(false);
+    const file = event.dataTransfer.files[0];
+    if (file) void upload(file);
+  }
+
   const previewSrc = previewOverride ?? value;
   return (
-    <label className="editor-field">
-      <span className="editor-field__label">{label}</span>
-      <div className="image-upload-field__row">
+    <div className="editor-field image-upload-field">
+      <span className="editor-field__label" id={`${inputId}-label`}>
+        {label}
+      </span>
+      <label
+        className={classNames(
+          "image-upload-field__dropzone",
+          isDragging ? "image-upload-field__dropzone--dragging" : "",
+        )}
+        htmlFor={inputId}
+        onDragEnter={() => setIsDragging(true)}
+        onDragLeave={() => setIsDragging(false)}
+        onDragOver={(event) => event.preventDefault()}
+        onDrop={handleDrop}
+      >
         {previewSrc ? (
           <img
             alt=""
@@ -115,11 +147,21 @@ export function ImageUploadField({
             src={previewSrc}
           />
         ) : (
-          <span className="image-upload-field__preview image-upload-field__preview--none" />
+          <span className="image-upload-field__preview image-upload-field__preview--none">
+            <Image aria-hidden="true" />
+          </span>
         )}
+        <span className="image-upload-field__copy">
+          <strong>
+            <UploadCloud aria-hidden="true" />
+            {t("imageUploadField.choose")}
+          </strong>
+          <span>{t("imageUploadField.dropHint")}</span>
+        </span>
         <input
           accept=".svg,.png"
           className="image-upload-field__input"
+          id={inputId}
           onChange={(event) => {
             const file = event.target.files?.[0];
             if (file) void upload(file);
@@ -127,7 +169,17 @@ export function ImageUploadField({
           }}
           type="file"
         />
-      </div>
+      </label>
+      {previewSrc && onClear ? (
+        <button
+          className="image-upload-field__clear"
+          onClick={onClear}
+          type="button"
+        >
+          <X aria-hidden="true" />
+          {t("imageUploadField.remove")}
+        </button>
+      ) : null}
       {error ? (
         <span className="editor-field__hint">{error}</span>
       ) : isUploading ? (
@@ -137,7 +189,7 @@ export function ImageUploadField({
       ) : hint ? (
         <span className="editor-field__hint">{hint}</span>
       ) : null}
-    </label>
+    </div>
   );
 }
 
@@ -146,6 +198,7 @@ export function ImageUploadField({
  * @property {string} fileNameHint - Destination filename, without extension
  * @property {string} [hint] - Guidance shown under the control
  * @property {string} label - Field label
+ * @property {() => void} [onClear] - Removes the current image
  * @property {(path: string) => void} onUpload - Called with the new public path once the upload succeeds
  * @property {string} [value] - Current logo path, shown as a preview
  */
@@ -153,6 +206,7 @@ interface ImageUploadFieldProps {
   fileNameHint: string;
   hint?: string;
   label: string;
+  onClear?: () => void;
   onUpload: (path: string) => void;
   value?: string;
 }

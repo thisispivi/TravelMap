@@ -82,6 +82,7 @@ export function SettingsScreen({ file }: SettingsScreenProps): ReactNode {
       isDirty={isDirty}
       onSave={() => saveDocument(file.path, value)}
       path={file.path}
+      savedMessage={t("toast.settingsSaved")}
       title={t("configScreen.title")}
       value={value}
     >

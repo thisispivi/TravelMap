@@ -16,6 +16,12 @@
   },
   "nav": {
     "editor": "Editor",
+    "brandHint": "Travel Map",
+    "primary": "Primary navigation",
+    "home": "Home",
+    "places": "Places",
+    "companies": "Companies",
+    "settings": "Settings",
     "search": "Search",
     "searchPlaceholder": "Countries, cities, trips",
     "noMatches": "No matches.",
@@ -159,7 +165,10 @@
   },
   "imageUploadField": {
     "uploading": "Uploading…",
-    "uploadFailed": "Upload failed."
+    "uploadFailed": "Upload failed.",
+    "choose": "Choose a logo",
+    "dropHint": "Drop an SVG or PNG here, or browse your files.",
+    "remove": "Remove logo"
   },
   "cityScreen": {
     "eyebrow": "City",
@@ -276,8 +285,9 @@
     "unescoSitesHint": "Only used to count how many sites you have visited. Leave empty to show a zero."
   },
   "library": {
-    "eyebrow": "Dataset",
-    "title": "Trips",
+    "eyebrow": "Travel Map editor",
+    "title": "Your journeys, in one place",
+    "subtitle": "Review trips by year, keep places tidy, and manage the operators used across your map.",
     "newTrip": "New trip",
     "settings": "Settings",
     "welcome": "No trips yet",
@@ -288,12 +298,24 @@
     "stopCount_one": "{{count}} stop",
     "stopCount_other": "{{count}} stops",
     "readyBadge": "Ready",
+    "warningBadge_one": "{{count}} warning",
+    "warningBadge_other": "{{count}} warnings",
     "blockingBadge_one": "{{count}} problem",
     "blockingBadge_other": "{{count}} problems",
     "places": "Countries and cities",
     "placesCount": "{{countries}} countries, {{cities}} cities",
     "countries": "Countries",
     "cities": "Cities",
+    "archive": "Trip archive",
+    "allTrips": "All trips",
+    "tripCount_one": "{{count}} trip across your map",
+    "tripCount_other": "{{count}} trips across your map",
+    "drafts": "Drafts",
+    "noDates": "Dates not set",
+    "explore": "Place library",
+    "operators": "Transport library",
+    "companyCount_one": "{{count}} company available",
+    "companyCount_other": "{{count}} companies available",
     "previousPage": "Previous page",
     "nextPage": "Next page",
     "page": "Page {{current}} of {{total}}"
@@ -309,7 +331,8 @@
     "svgOrPng": "SVG or PNG.",
     "removeCompany": "Remove {{id}}",
     "remove": "Remove",
-    "empty": "No transport companies yet."
+    "empty": "No transport companies yet.",
+    "manage": "Manage companies"
   },
   "workspace": {
     "backToLibrary": "Trips",
@@ -386,6 +409,22 @@
     "upToDate": "Up to date",
     "failed": "Not saving",
     "retry": "Retry"
+  },
+  "toast": {
+    "notifications": "Notifications",
+    "dismiss": "Dismiss notification",
+    "documentSaved": "Changes saved.",
+    "documentDeleted": "Document deleted.",
+    "tripCreated": "Trip created.",
+    "tripSaved": "Trip saved.",
+    "tripDeleted": "Trip deleted.",
+    "citySaved": "City saved.",
+    "cityDeleted": "City deleted.",
+    "countrySaved": "Country saved.",
+    "countryDeleted": "Country deleted.",
+    "settingsSaved": "Settings saved.",
+    "companiesSaved": "Transport companies saved.",
+    "logoUploaded": "Logo uploaded."
   },
   "addPlace": {
     "title": "Add a place",

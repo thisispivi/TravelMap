@@ -4,6 +4,7 @@ import { useLanguage } from "@app/shared/hooks/useLanguage";
 import { Download, RotateCcw, ShieldPlus } from "lucide-react";
 import { ReactNode, useEffect, useState } from "react";
 
+import { useToast } from "../../../../shared/components/Toast/Toast";
 import { useDataset } from "../../../../shared/hooks/useDataset";
 import {
   buildBundle,
@@ -37,6 +38,7 @@ function describeSnapshot(name: string): string {
  */
 export function BackupPanel(): ReactNode {
   const { t } = useLanguage(["editor"]);
+  const { showToast } = useToast();
   const dataset = useDataset();
   const [names, setNames] = useState<string[]>([]);
   const [message, setMessage] = useState("");
@@ -61,8 +63,12 @@ export function BackupPanel(): ReactNode {
       await takeSnapshot("manual");
       setNames(await listSnapshots());
       setMessage(t("backup.snapshotTaken"));
+      showToast(t("backup.snapshotTaken"));
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : t("backup.failed"));
+      const errorMessage =
+        error instanceof Error ? error.message : t("backup.failed");
+      setMessage(errorMessage);
+      showToast(errorMessage, "error");
     }
   }
 
@@ -77,8 +83,12 @@ export function BackupPanel(): ReactNode {
       setPendingRestore(null);
       setNames(await listSnapshots());
       setMessage(t("backup.restored"));
+      showToast(t("backup.restored"));
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : t("backup.failed"));
+      const errorMessage =
+        error instanceof Error ? error.message : t("backup.failed");
+      setMessage(errorMessage);
+      showToast(errorMessage, "error");
     }
   }
   return (

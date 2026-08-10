@@ -7,6 +7,7 @@ import { Link } from "react-router";
 
 import { useAutosave } from "../../hooks/useAutosave";
 import { SaveChip } from "../SaveChip/SaveChip";
+import { useToast } from "../Toast/Toast";
 
 /**
  * DocumentScreen component
@@ -19,12 +20,14 @@ import { SaveChip } from "../SaveChip/SaveChip";
  * @component
  * @param {DocumentScreenProps} props
  * @param {ReactNode} props.children - Form fields
+ * @param {string} [props.deletedMessage] - Toast shown after deletion
  * @param {string} props.eyebrow - Document kind shown above the title
  * @param {boolean} props.isDirty - Whether the draft differs from the saved file
  * @param {() => Promise<void>} [props.onDelete] - Removes the document when provided
  * @param {() => Promise<void>} props.onSave - Persists the current draft
  * @param {string} props.path - Dataset-relative JSON path
  * @param {string[]} [props.problems] - Things worth fixing before publishing
+ * @param {string} [props.savedMessage] - Toast shown after autosave
  * @param {string} props.title - Screen title
  * @param {string} [props.titleIconUrl] - Flag or icon shown beside the title
  * @param {unknown} props.value - The draft, watched so a burst of typing writes once
@@ -32,20 +35,25 @@ import { SaveChip } from "../SaveChip/SaveChip";
  */
 export function DocumentScreen({
   children,
+  deletedMessage,
   eyebrow,
   isDirty,
   onDelete,
   onSave,
   path,
   problems = [],
+  savedMessage,
   title,
   titleIconUrl,
   value,
 }: DocumentScreenProps): ReactNode {
   const { t } = useLanguage(["editor"]);
+  const { showToast } = useToast();
   const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
   const [message, setMessage] = useState("");
-  const save = useAutosave(value, onSave, isDirty);
+  const save = useAutosave(value, onSave, isDirty, {
+    onSaved: () => showToast(savedMessage ?? t("toast.documentSaved")),
+  });
 
   /**
    * Deletes the document once the author has confirmed.
@@ -55,11 +63,13 @@ export function DocumentScreen({
     if (!onDelete) return;
     try {
       await onDelete();
+      showToast(deletedMessage ?? t("toast.documentDeleted"));
     } catch (error) {
       setIsConfirmingDelete(false);
-      setMessage(
-        error instanceof Error ? error.message : t("editorForm.deleteError"),
-      );
+      const errorMessage =
+        error instanceof Error ? error.message : t("editorForm.deleteError");
+      setMessage(errorMessage);
+      showToast(errorMessage, "error");
     }
   }
   return (
@@ -144,24 +154,28 @@ export function DocumentScreen({
 /**
  * Props for DocumentScreen.
  * @property {ReactNode} children - Form fields
+ * @property {string} [deletedMessage] - Toast shown after deletion
  * @property {string} eyebrow - Document kind shown above the title
  * @property {boolean} isDirty - Whether the draft differs from the saved file
  * @property {() => Promise<void>} [onDelete] - Removes the document when provided
  * @property {() => Promise<void>} onSave - Persists the current draft
  * @property {string} path - Dataset-relative JSON path
  * @property {string[]} [problems] - Things worth fixing before publishing
+ * @property {string} [savedMessage] - Toast shown after autosave
  * @property {string} title - Screen title
  * @property {string} [titleIconUrl] - Flag or icon shown beside the title
  * @property {unknown} value - The draft, watched so a burst of typing writes once
  */
 interface DocumentScreenProps {
   children: ReactNode;
+  deletedMessage?: string;
   eyebrow: string;
   isDirty: boolean;
   onDelete?: () => Promise<void>;
   onSave: () => Promise<void>;
   path: string;
   problems?: string[];
+  savedMessage?: string;
   title: string;
   titleIconUrl?: string;
   value: unknown;

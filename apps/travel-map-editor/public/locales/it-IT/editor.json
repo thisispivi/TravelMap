@@ -16,6 +16,12 @@
   },
   "nav": {
     "editor": "Editor",
+    "brandHint": "Travel Map",
+    "primary": "Navigazione principale",
+    "home": "Home",
+    "places": "Luoghi",
+    "companies": "Compagnie",
+    "settings": "Impostazioni",
     "search": "Cerca",
     "searchPlaceholder": "Paesi, città, viaggi",
     "noMatches": "Nessun risultato.",
@@ -159,7 +165,10 @@
   },
   "imageUploadField": {
     "uploading": "Caricamento…",
-    "uploadFailed": "Caricamento non riuscito."
+    "uploadFailed": "Caricamento non riuscito.",
+    "choose": "Scegli un logo",
+    "dropHint": "Trascina qui un SVG o PNG, oppure scegli un file.",
+    "remove": "Rimuovi logo"
   },
   "cityScreen": {
     "eyebrow": "Città",
@@ -276,8 +285,9 @@
     "unescoSitesHint": "Usato solo per contare quanti siti hai visitato. Lascia vuoto per mostrare zero."
   },
   "library": {
-    "eyebrow": "Dataset",
-    "title": "Viaggi",
+    "eyebrow": "Editor di Travel Map",
+    "title": "I tuoi viaggi, in un solo posto",
+    "subtitle": "Controlla i viaggi per anno, mantieni ordinati i luoghi e gestisci le compagnie usate nella mappa.",
     "newTrip": "Nuovo viaggio",
     "settings": "Impostazioni",
     "welcome": "Ancora nessun viaggio",
@@ -288,12 +298,24 @@
     "stopCount_one": "{{count}} tappa",
     "stopCount_other": "{{count}} tappe",
     "readyBadge": "Pronto",
+    "warningBadge_one": "{{count}} avviso",
+    "warningBadge_other": "{{count}} avvisi",
     "blockingBadge_one": "{{count}} problema",
     "blockingBadge_other": "{{count}} problemi",
     "places": "Paesi e citta'",
     "placesCount": "{{countries}} paesi, {{cities}} citta'",
     "countries": "Paesi",
     "cities": "Città",
+    "archive": "Archivio viaggi",
+    "allTrips": "Tutti i viaggi",
+    "tripCount_one": "{{count}} viaggio nella mappa",
+    "tripCount_other": "{{count}} viaggi nella mappa",
+    "drafts": "Bozze",
+    "noDates": "Date non impostate",
+    "explore": "Raccolta luoghi",
+    "operators": "Raccolta trasporti",
+    "companyCount_one": "{{count}} compagnia disponibile",
+    "companyCount_other": "{{count}} compagnie disponibili",
     "previousPage": "Pagina precedente",
     "nextPage": "Pagina successiva",
     "page": "Pagina {{current}} di {{total}}"
@@ -309,7 +331,8 @@
     "svgOrPng": "SVG o PNG.",
     "removeCompany": "Rimuovi {{id}}",
     "remove": "Rimuovi",
-    "empty": "Nessuna compagnia di trasporto."
+    "empty": "Nessuna compagnia di trasporto.",
+    "manage": "Gestisci compagnie"
   },
   "workspace": {
     "backToLibrary": "Viaggi",
@@ -386,6 +409,22 @@
     "upToDate": "Aggiornato",
     "failed": "Non sto salvando",
     "retry": "Riprova"
+  },
+  "toast": {
+    "notifications": "Notifiche",
+    "dismiss": "Chiudi notifica",
+    "documentSaved": "Modifiche salvate.",
+    "documentDeleted": "Documento eliminato.",
+    "tripCreated": "Viaggio creato.",
+    "tripSaved": "Viaggio salvato.",
+    "tripDeleted": "Viaggio eliminato.",
+    "citySaved": "Città salvata.",
+    "cityDeleted": "Città eliminata.",
+    "countrySaved": "Paese salvato.",
+    "countryDeleted": "Paese eliminato.",
+    "settingsSaved": "Impostazioni salvate.",
+    "companiesSaved": "Compagnie di trasporto salvate.",
+    "logoUploaded": "Logo caricato."
   },
   "addPlace": {
     "title": "Aggiungi un luogo",

@@ -20,6 +20,14 @@ export interface UseAutosaveReturn {
   retry: () => void;
 }
 
+/**
+ * Optional reactions to a completed disk write.
+ * @property {() => void} [onSaved] - Called after a successful write
+ */
+export interface UseAutosaveOptions {
+  onSaved?: () => void;
+}
+
 const AUTOSAVE_DELAY_MS = 800;
 
 /**
@@ -30,24 +38,28 @@ const AUTOSAVE_DELAY_MS = 800;
  * @param {T} value - The value to persist
  * @param {(value: T) => Promise<void>} save - Performs the write
  * @param {boolean} isDirty - Whether the value differs from what is on disk
+ * @param {UseAutosaveOptions} [options] - Reactions to a completed write
  * @returns {UseAutosaveReturn} Autosave status and controls
  */
 export function useAutosave<T>(
   value: T,
   save: (value: T) => Promise<void>,
   isDirty: boolean,
+  options: UseAutosaveOptions = {},
 ): UseAutosaveReturn {
   const [writeState, setWriteState] = useState<WriteState>("idle");
   const [savedAt, setSavedAt] = useState<Date | null>(null);
   const [error, setError] = useState<string | null>(null);
   const valueRef = useRef(value);
   const saveRef = useRef(save);
+  const onSavedRef = useRef(options.onSaved);
   const isWritingRef = useRef(false);
 
   /* The latest-value refs a timer callback cannot take as dependencies. */
   useEffect(() => {
     valueRef.current = value;
     saveRef.current = save;
+    onSavedRef.current = options.onSaved;
   });
 
   const persist = useCallback(async (): Promise<void> => {
@@ -59,6 +71,7 @@ export function useAutosave<T>(
       setError(null);
       setSavedAt(new Date());
       setWriteState("saved");
+      onSavedRef.current?.();
     } catch (writeError) {
       setError(
         writeError instanceof Error

@@ -1,82 +1,202 @@
 @use "variables" as v;
+@use "mixins" as m;
 
 .library {
   display: flex;
-  flex-direction: column;
-  gap: v.$floatingCardGap;
-  width: min(64rem, 100%);
+  width: min(88rem, 100%);
   margin: 0 auto;
-  padding: 1.5rem 1rem 4rem;
+  padding: 2.25rem 1.25rem 6rem;
+  flex-direction: column;
+  gap: 1.25rem;
 
-  &__header {
+  &__hero {
     display: flex;
-    align-items: flex-start;
+    align-items: flex-end;
     justify-content: space-between;
     gap: 1rem;
-    flex-wrap: wrap;
-    padding-right: 3rem;
+  }
+
+  &__hero h1 {
+    margin-top: 0.15rem;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 780;
+    letter-spacing: -0.045em;
+    line-height: 0.95;
+  }
+
+  &__hero-copy {
+    max-width: 34rem;
+    margin-top: 0.65rem;
+    font-size: v.$bodyLg;
+    line-height: 1.5;
   }
 
   &__header-actions {
     display: flex;
     gap: 0.5rem;
+    flex-wrap: wrap;
   }
 
-  &__steps {
-    margin: 0;
-    padding-left: 1.2rem;
-    font-size: v.$bodySm;
+  &__bento {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    align-items: start;
+    gap: 1rem;
   }
 
-  &__trips,
-  &__places {
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
+  &__panel {
+    min-width: 0;
+    padding: 1.15rem;
+    border-radius: v.$floatingCardRadiusLg;
+    scroll-margin-top: 5rem;
 
-  &__places {
-    min-height: 3.25rem;
-    max-height: 15rem;
-    padding: 0.35rem;
-    overflow-y: auto;
-    font-size: v.$bodySm;
+    &--trips {
+      grid-column: 1 / -1;
+    }
+
+    &--places {
+      grid-column: span 8;
+    }
+
+    &--companies {
+      grid-column: span 4;
+    }
   }
 
   &__section-header,
   &__place-group-header,
   &__place-link,
-  &__pagination {
+  &__pagination,
+  &__year-header,
+  &__company,
+  &__companies-empty {
     display: flex;
     align-items: center;
   }
 
   &__section-header {
     gap: 0.75rem;
+    margin-bottom: 1rem;
+
+    h2 {
+      font-size: v.$headingMd;
+      font-weight: 720;
+    }
+
+    &--trips {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+    }
+  }
+
+  &__section-kicker {
+    margin-bottom: 0.1rem;
+    color: v.$accentPrimary;
+    font-size: v.$caption;
+    font-weight: 750;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+  }
+
+  &__section-hint {
+    margin-top: 0.15rem;
+    font-size: v.$bodySm;
+    line-height: 1.4;
   }
 
   &__section-icon {
     display: grid;
     place-items: center;
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 2.75rem;
+    height: 2.75rem;
     flex: 0 0 auto;
-    border-radius: 0.75rem;
+    border-radius: 0.85rem;
+    background: v.$accentSoftLight;
     color: v.$accentPrimary;
 
     svg {
-      width: 1.2rem;
-      height: 1.2rem;
+      width: 1.25rem;
+      height: 1.25rem;
+      stroke-width: 2.2;
+    }
+  }
+
+  &__section-action {
+    justify-self: end;
+  }
+
+  &__years {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  &__year {
+    min-width: 0;
+  }
+
+  &__year-header {
+    gap: 0.5rem;
+    margin-bottom: 0.65rem;
+
+    h3 {
+      font-size: v.$headingMd;
+      font-weight: 750;
+      letter-spacing: -0.02em;
+    }
+
+    span {
+      display: grid;
+      place-items: center;
+      min-width: 1.55rem;
+      height: 1.55rem;
+      padding-inline: 0.4rem;
+      border-radius: 62.4375rem;
+      font-size: v.$caption;
+      font-weight: 700;
+    }
+  }
+
+  &__trips {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  &__welcome {
+    display: flex;
+    min-height: 14rem;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem;
+    padding: 2rem;
+    border: 0.0625rem dashed;
+    border-radius: v.$floatingCardRadius;
+    text-align: center;
+
+    > svg {
+      width: 2rem;
+      height: 2rem;
+      color: v.$accentPrimary;
+    }
+
+    h3 {
+      font-size: v.$headingMd;
+      font-weight: 700;
+    }
+
+    p {
+      max-width: 32rem;
+      font-size: v.$bodySm;
+      line-height: 1.5;
     }
   }
 
   &__place-groups {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1rem;
+    gap: 0.75rem;
   }
 
   &__place-group {
@@ -117,6 +237,24 @@
     }
   }
 
+  &__places,
+  &__companies {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__places {
+    display: flex;
+    min-height: 3.25rem;
+    max-height: 19rem;
+    padding: 0.35rem;
+    flex-direction: column;
+    gap: 0.2rem;
+    overflow-y: auto;
+    font-size: v.$bodySm;
+  }
+
   &__place-link {
     gap: 0.65rem;
     width: 100%;
@@ -137,6 +275,47 @@
       outline: 0.125rem solid v.$accentPrimary;
       outline-offset: -0.125rem;
     }
+  }
+
+  &__flag-frame {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    flex: 0 0 auto;
+    border-radius: 0.55rem;
+  }
+
+  &__flag {
+    width: 1.35rem;
+    height: 0.95rem;
+    border-radius: 0.16rem;
+    object-fit: cover;
+  }
+
+  &__place-copy,
+  &__company-copy {
+    display: flex;
+    min-width: 0;
+    flex: 1;
+    flex-direction: column;
+  }
+
+  &__place-copy {
+    gap: 0.1rem;
+  }
+
+  &__place-name {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    font-weight: 650;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__place-country {
+    font-size: v.$caption;
   }
 
   &__pagination {
@@ -175,157 +354,387 @@
     }
   }
 
-  &__flag-frame {
+  &__companies {
+    display: flex;
+    max-height: 18rem;
+    flex-direction: column;
+    gap: 0.45rem;
+    overflow-y: auto;
+  }
+
+  &__company {
+    gap: 0.65rem;
+    padding: 0.55rem;
+    border-radius: 0.75rem;
+  }
+
+  &__company-logo {
     display: grid;
     place-items: center;
-    width: 2rem;
-    height: 2rem;
+    width: 2.7rem;
+    height: 2.7rem;
     flex: 0 0 auto;
-    border-radius: 0.55rem;
+    padding: 0.4rem;
+    border-radius: 0.75rem;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    svg {
+      width: 1.1rem;
+      height: 1.1rem;
+    }
+  }
+
+  &__company-copy {
+    gap: 0.12rem;
+
+    strong {
+      overflow: hidden;
+      font-size: v.$bodySm;
+      font-weight: 700;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    code {
+      font-size: v.$caption;
+    }
+  }
+
+  &__companies-empty {
+    min-height: 8rem;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.5rem;
+    border: 0.0625rem dashed;
+    border-radius: v.$floatingCardRadius;
+    font-size: v.$bodySm;
+    text-align: center;
+
+    svg {
+      width: 1.5rem;
+      height: 1.5rem;
+      color: v.$accentPrimary;
+    }
+  }
+
+  &__manage-link {
+    width: 100%;
+    margin-top: 0.75rem;
+  }
+}
+
+.trip-library-card {
+  display: flex;
+  min-width: 0;
+  min-height: 15rem;
+  flex-direction: column;
+  overflow: hidden;
+  border: 0.0625rem solid;
+  border-radius: v.$floatingCardRadius;
+  color: inherit;
+  text-decoration: none;
+  @include m.transition(transform, 0.2s);
+
+  &:hover {
+    transform: translateY(-0.2rem);
+  }
+
+  &:focus-visible {
+    outline: 0.1875rem solid v.$accentPrimary;
+    outline-offset: 0.15rem;
+  }
+
+  &__media {
+    position: relative;
+    display: grid;
+    min-height: 7.6rem;
+    place-items: center;
+    overflow: hidden;
+    background:
+      linear-gradient(145deg, v.$accentSoftDark, transparent 70%),
+      color-mix(in srgb, v.$continentsNorthAmerica 24%, transparent);
+  }
+
+  &__fallback {
+    width: 1.7rem;
+    height: 1.7rem;
+    opacity: 0.45;
+  }
+
+  &__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__flags {
+    position: absolute;
+    right: 0.6rem;
+    bottom: 0.55rem;
+    display: flex;
+    min-height: 1.8rem;
+    align-items: center;
+    gap: 0.2rem;
+    padding: 0.25rem 0.35rem;
+    border: 0.0625rem solid rgb(255 255 255 / 22%);
+    border-radius: 62.4375rem;
+    background: rgb(10 10 18 / 70%);
+    color: #ffffff;
+    -webkit-backdrop-filter: blur(0.7rem);
+    backdrop-filter: blur(0.7rem);
 
     > svg {
-      width: 0.95rem;
-      height: 0.95rem;
-      opacity: 0.55;
+      width: 0.9rem;
+      height: 0.9rem;
     }
   }
 
   &__flag {
-    width: 1.35rem;
-    height: 0.9rem;
-    border-radius: 0.15rem;
+    width: 1.2rem;
+    height: 0.8rem;
+    border-radius: 0.12rem;
     object-fit: cover;
   }
 
-  &__place-copy {
+  &__body {
     display: flex;
     min-width: 0;
     flex: 1;
     flex-direction: column;
-    gap: 0.1rem;
+    gap: 0.35rem;
+    padding: 0.75rem;
   }
 
-  &__place-name {
-    flex: 1;
-    min-width: 0;
-    overflow: hidden;
-    font-weight: 650;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  &__place-country {
-    font-size: v.$caption;
-  }
-
-  &__trip {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto auto auto;
+  &__heading,
+  &__footer,
+  &__status {
+    display: flex;
     align-items: center;
-    gap: 0.85rem;
-    padding: 0.7rem 0.85rem;
-    border-radius: v.$floatingCardRadius;
-    text-decoration: none;
-    color: inherit;
+  }
 
-    &:focus-visible {
-      outline: 2px solid v.$accentPrimary;
-      outline-offset: 2px;
+  &__heading {
+    justify-content: space-between;
+    gap: 0.5rem;
+
+    strong {
+      overflow: hidden;
+      font-weight: 720;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    svg {
+      width: 0.95rem;
+      height: 0.95rem;
+      flex: 0 0 auto;
+      opacity: 0.5;
     }
   }
 
-  &__trip-title {
-    overflow: hidden;
-    font-weight: 600;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  &__trip-meta {
+  &__date {
     font-size: v.$caption;
-    white-space: nowrap;
   }
 
-  &__trip-badge {
-    padding: 0.15rem 0.5rem;
+  &__footer {
+    justify-content: space-between;
+    gap: 0.4rem;
+    margin-top: auto;
+    padding-top: 0.35rem;
+    font-size: v.$caption;
+  }
+
+  &__status {
+    gap: 0.2rem;
+    padding: 0.18rem 0.4rem;
     border-radius: 62.4375rem;
-    background: v.$livedButton;
-    color: v.$livedButtonContent;
-    font-size: v.$caption;
-    font-weight: 600;
-    white-space: nowrap;
+    font-weight: 700;
+
+    svg {
+      width: 0.75rem;
+      height: 0.75rem;
+    }
+
+    &--ready {
+      background: color-mix(in srgb, v.$transportBus 18%, transparent);
+      color: v.$transportBus;
+    }
+
+    &--warning {
+      background: color-mix(in srgb, v.$transportTrain 18%, transparent);
+      color: #b26a00;
+    }
 
     &--blocking {
-      background: v.$visitedButton;
-      color: v.$visitedButtonContent;
+      background: color-mix(in srgb, v.$transportCar 18%, transparent);
+      color: v.$transportCar;
     }
   }
 }
 
 .editor--dark .library {
-  &__trip {
-    background: v.$darkInfoTab;
-  }
-
-  &__trip-meta {
+  &__hero-copy,
+  &__section-hint,
+  &__place-country,
+  &__company-copy code {
     color: v.$darkAltTextDarker;
   }
 
-  &__section-icon,
+  &__panel {
+    @include m.floating-card-dark;
+    padding: 1.15rem;
+  }
+
+  &__section-icon {
+    background: v.$accentSoftDark;
+  }
+
+  &__year-header span,
   &__flag-frame,
   &__place-group-header span,
-  &__pagination-button {
+  &__pagination-button,
+  &__company-logo {
     background: v.$darkButton;
   }
 
   &__place-group,
   &__place-group-header,
-  &__pagination {
+  &__pagination,
+  &__welcome,
+  &__companies-empty {
     border-color: v.$glassBorderDark;
   }
 
-  &__place-link:hover {
+  &__place-link:hover,
+  &__company:hover {
     background: v.$darkButtonHover;
-  }
-
-  &__place-country {
-    color: v.$darkAltTextDarker;
   }
 }
 
 .editor--light .library {
-  &__trip {
-    background: v.$lightLeftBar;
-  }
-
-  &__trip-meta {
+  &__hero-copy,
+  &__section-hint,
+  &__place-country,
+  &__company-copy code {
     color: v.$lightAltTextDarker;
   }
 
-  &__section-icon,
+  &__panel {
+    @include m.floating-card-light;
+    padding: 1.15rem;
+  }
+
+  &__year-header span,
   &__flag-frame,
   &__place-group-header span,
-  &__pagination-button {
+  &__pagination-button,
+  &__company-logo {
     background: v.$lightButton;
   }
 
   &__place-group,
   &__place-group-header,
-  &__pagination {
+  &__pagination,
+  &__welcome,
+  &__companies-empty {
     border-color: rgb(0 0 0 / 9%);
   }
 
-  &__place-link:hover {
+  &__place-link:hover,
+  &__company:hover {
     background: v.$lightButtonHover;
   }
+}
 
-  &__place-country {
+.editor--dark .trip-library-card {
+  border-color: v.$glassBorderDark;
+  background: color-mix(in srgb, v.$darkInfoTab 86%, transparent);
+
+  &__date,
+  &__footer > span:first-child {
+    color: v.$darkAltTextDarker;
+  }
+}
+
+.editor--light .trip-library-card {
+  border-color: rgb(0 0 0 / 8%);
+  background: rgb(255 255 255 / 72%);
+
+  &__date,
+  &__footer > span:first-child {
     color: v.$lightAltTextDarker;
   }
 }
 
-@media (max-width: 42rem) {
-  .library__place-groups {
-    grid-template-columns: 1fr;
+@media (max-width: 70rem) {
+  .library {
+    &__panel--places,
+    &__panel--companies {
+      grid-column: 1 / -1;
+    }
+
+    &__trips {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+}
+
+@media (max-width: 52rem) {
+  .library {
+    padding: 1.5rem 1rem 7rem;
+
+    &__hero {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    &__trips {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+}
+
+@media (max-width: 38rem) {
+  .library {
+    padding-inline: 0.75rem;
+
+    &__header-actions,
+    &__header-actions .editor-button {
+      width: 100%;
+    }
+
+    &__section-header--trips {
+      grid-template-columns: auto minmax(0, 1fr);
+    }
+
+    &__section-action {
+      grid-column: 1 / -1;
+      justify-self: stretch;
+    }
+
+    &__trips,
+    &__place-groups {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .trip-library-card {
+    min-height: 13rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trip-library-card {
+    transition: none;
+
+    &:hover {
+      transform: none;
+    }
   }
 }

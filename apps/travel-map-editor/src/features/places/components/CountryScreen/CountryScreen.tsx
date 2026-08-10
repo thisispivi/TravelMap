@@ -81,12 +81,14 @@ export function CountryScreen({ file }: CountryScreenProps): ReactNode {
   }
   return (
     <DocumentScreen
+      deletedMessage={t("toast.countryDeleted")}
       eyebrow={t("countryScreen.eyebrow")}
       isDirty={isDirty}
       onDelete={dependents.length === 0 ? handleDelete : undefined}
       onSave={() => saveDocument(countryPath(value.id), value)}
       path={file.path}
       problems={problems}
+      savedMessage={t("toast.countrySaved")}
       title={file.value.name}
       titleIconUrl={world?.flagUrl}
       value={value}

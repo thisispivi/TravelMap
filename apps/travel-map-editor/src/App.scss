@@ -4,17 +4,32 @@
 /* The public app owns the viewport; the editor must remain scrollable. */
 body,
 #root {
+  height: auto;
+  min-height: 100%;
   overflow: auto;
 }
 
 .editor {
   position: relative;
   min-height: 100vh;
+  background:
+    radial-gradient(
+      circle at 8% 4%,
+      color-mix(in srgb, v.$continentsNorthAmerica 16%, transparent),
+      transparent 24rem
+    ),
+    radial-gradient(
+      circle at 96% 22%,
+      color-mix(in srgb, v.$continentsSouthAmerica 14%, transparent),
+      transparent 26rem
+    );
 
   &--dark {
+    background-color: v.$darkBackground;
     color: v.$darkButtonContent;
   }
   &--light {
+    background-color: v.$lightBackground;
     color: v.$lightButtonContent;
   }
 
@@ -22,9 +37,9 @@ body,
     display: flex;
     flex-direction: column;
     gap: v.$floatingCardGap;
-    width: min(64rem, 100%);
+    width: min(80rem, 100%);
     margin: 0 auto;
-    padding: 1.5rem 1rem 4rem;
+    padding: 1.5rem 1rem 5rem;
   }
 
   &__header {
@@ -33,7 +48,6 @@ body,
     justify-content: space-between;
     gap: 1rem;
     flex-wrap: wrap;
-    padding-right: 3rem;
   }
 
   &__eyebrow {
@@ -70,32 +84,6 @@ body,
 
   &__link-button {
     text-decoration: none;
-  }
-
-  &__theme-toggle {
-    position: fixed;
-    top: 0.75rem;
-    right: 0.75rem;
-    z-index: 80;
-    display: grid;
-    place-items: center;
-    width: 2.25rem;
-    height: 2.25rem;
-    padding: 0;
-    border: 0;
-    border-radius: 50%;
-    color: inherit;
-    cursor: pointer;
-
-    svg {
-      width: 1rem;
-      height: 1rem;
-    }
-
-    &:focus-visible {
-      outline: 2px solid v.$accentPrimary;
-      outline-offset: 2px;
-    }
   }
 
   &--dark &__eyebrow,
@@ -292,9 +280,9 @@ body,
   }
 }
 
-@media (max-width: 60rem) {
-  .editor {
-    grid-template-columns: 1fr;
+@media (max-width: 58rem) {
+  .editor__screen {
+    padding-bottom: 7rem;
   }
 }
 
@@ -307,12 +295,4 @@ body,
       transform: none;
     }
   }
-}
-
-.editor--dark .editor__theme-toggle {
-  background: v.$darkButton;
-}
-
-.editor--light .editor__theme-toggle {
-  background: v.$lightButton;
 }

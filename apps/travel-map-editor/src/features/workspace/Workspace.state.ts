@@ -115,10 +115,12 @@ function decodeSelection(value: string | null): Selection {
  * render from it and all edit through `update`, which is what keeps the three
  * panes from drifting apart the way separate component state would.
  * @param {DataFile<TripJson>} file - The trip document being edited
+ * @param {() => void} [onSaved] - Called after a successful disk write
  * @returns {UseTripWorkspaceReturn} The workspace contract
  */
 export function useTripWorkspace(
   file: DataFile<TripJson>,
+  onSaved?: () => void,
 ): UseTripWorkspaceReturn {
   const dataset = useDataset();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -138,6 +140,7 @@ export function useTripWorkspace(
       [file.path],
     ),
     isDirty,
+    { onSaved },
   );
 
   const cities = useMemo(

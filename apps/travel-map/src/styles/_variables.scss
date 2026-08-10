@@ -1,7 +1,7 @@
 $leftBarWidth: 3.5rem;
 $mobileNavHeight: calc(3.2rem + env(safe-area-inset-bottom, 0rem));
 
-// ─── Dark theme ──────────────────────────────────────────────
+/* Dark theme */
 $darkBackground: #0a0a12;
 $darkLeftBar: #16161e;
 $darkLeftBarOpacity: rgba(22, 22, 30, 0.72);
@@ -14,7 +14,7 @@ $darkAltText: #b0b4c8;
 $darkAltTextDarker: #8a8ea4;
 $darkDisabledText: #555870;
 
-// ─── Light theme ─────────────────────────────────────────────
+/* Light theme */
 $lightBackground: #f0f2f5;
 $lightLeftBar: #ffffff;
 $lightLeftBarOpacity: rgba(255, 255, 255, 0.72);
@@ -27,7 +27,7 @@ $lightAltText: #52566a;
 $lightAltTextDarker: #363948;
 $lightDisabledText: #b0b3b8;
 
-// ─── Glassmorphism tokens ────────────────────────────────────
+/* Glassmorphism tokens */
 $glassBgDark: rgba(22, 22, 30, 0.65);
 $glassBgLight: rgba(255, 255, 255, 0.55);
 $glassBorderDark: rgba(255, 255, 255, 0.08);
@@ -36,7 +36,7 @@ $glassBlur: 1.25rem;
 $glassShadowDark: 0 0.5rem 2rem rgba(0, 0, 0, 0.4);
 $glassShadowLight: 0 0.5rem 2rem rgba(0, 0, 0, 0.08);
 
-// ─── Category buttons ────────────────────────────────────────
+/* Category buttons */
 $futureButton: #bbdefb;
 $futureButtonHover: #90caf9;
 $futureButtonContent: #0d47a1;
@@ -61,7 +61,7 @@ $statsButton: #e1bee7;
 $statsButtonHover: #ce93d8;
 $statsButtonContent: #8e24aa;
 
-// ─── Continent colors ────────────────────────────────────────
+/* Continent colors */
 $continentsAfrica: #f3c75d;
 $continentsAsia: #f38caf;
 $continentsEurope: #eb6559;
@@ -70,19 +70,19 @@ $continentsOceania: #fc8d59;
 $continentsSouthAmerica: #8ac38b;
 $continentsAntarctica: #9fb8cd;
 
-// ─── Floating overlay tokens ────────────────────────────────
+/* Floating overlay tokens */
 $floatingCardRadius: 1rem;
 $floatingCardRadiusLg: 1.25rem;
 $floatingCardPadding: 1.25rem;
 $floatingCardGap: 0.75rem;
 $floatingCardMaxWidth: 25rem;
 
-// ─── Photo card tokens (Airbnb-inspired) ────────────────────
+/* Photo card tokens */
 $photoCardRadius: 1rem;
 $photoCardShadowDark: 0 0.25rem 1rem rgba(0, 0, 0, 0.3);
 $photoCardShadowLight: 0 0.25rem 1rem rgba(0, 0, 0, 0.08);
 
-// ─── Typography scale ───────────────────────────────────────
+/* Typography scale */
 $headingXl: 2rem;
 $headingLg: 1.5rem;
 $headingMd: 1.125rem;
@@ -90,17 +90,19 @@ $bodyLg: 1rem;
 $bodySm: 0.875rem;
 $caption: 0.75rem;
 
-// ─── Floating nav tokens ────────────────────────────────────
+/* Floating nav tokens */
 $floatingNavHeight: 3.5rem;
 $floatingNavMobileHeight: calc(3.5rem + env(safe-area-inset-bottom, 0rem));
 $floatingNavZIndex: 3;
 $mobileFloatingMargin: 0.625rem;
 
-// ─── Accent colors ──────────────────────────────────────────
-$accentPrimary: #ff385c;
-$accentPrimaryHover: #e0314f;
+/* Brand colors */
+$accentPrimary: #3f7fd8;
+$accentPrimaryHover: #316bbd;
+$accentSoftDark: rgba(63, 127, 216, 0.2);
+$accentSoftLight: rgba(63, 127, 216, 0.12);
 
-// ─── Route overlay ──────────────────────────────────────────
+/* Route overlay */
 $routeLineColorDark: rgba(255, 255, 255, 0.6);
 $routeLineColorLight: #1a73e8;
 $routeLineWidth: 0.125rem;

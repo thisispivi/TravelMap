@@ -9,6 +9,7 @@ import { Link, useNavigate } from "react-router";
 
 import { DataFile, deleteDocument } from "../../../../data/store";
 import { SaveChip } from "../../../../shared/components/SaveChip/SaveChip";
+import { useToast } from "../../../../shared/components/Toast/Toast";
 import {
   useDataset,
   useSessionChanges,
@@ -52,10 +53,13 @@ import { Inspector } from "../Inspector/Inspector";
  */
 export function Workspace({ file, isDarkTheme }: WorkspaceProps): ReactNode {
   const { t } = useLanguage(["editor"]);
+  const { showToast } = useToast();
   const navigate = useNavigate();
   const dataset = useDataset();
   const changes = useSessionChanges();
-  const workspace = useTripWorkspace(file);
+  const workspace = useTripWorkspace(file, () =>
+    showToast(t("toast.tripSaved")),
+  );
   const [tray, setTray] = useState<TrayTab>("closed");
   const [placePoint, setPlacePoint] = useState<[number, number] | undefined>();
   const [isAddingPlace, setIsAddingPlace] = useState(false);
@@ -84,9 +88,15 @@ export function Workspace({ file, isDarkTheme }: WorkspaceProps): ReactNode {
    * @returns {Promise<void>} Completion after the delete
    */
   async function handleDeleteTrip(): Promise<void> {
-    await snapshotBeforeChange(`before deleting ${trip.id}`);
-    await deleteDocument(file.path);
-    await navigate("/");
+    try {
+      await snapshotBeforeChange(`before deleting ${trip.id}`);
+      await deleteDocument(file.path);
+      showToast(t("toast.tripDeleted"));
+      await navigate("/");
+    } catch {
+      setIsConfirmingDelete(false);
+      showToast(t("editorForm.deleteError"), "error");
+    }
   }
 
   useEffect(() => {

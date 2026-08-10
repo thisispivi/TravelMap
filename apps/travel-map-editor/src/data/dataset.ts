@@ -73,3 +73,15 @@ export function resolveLogoUrl(logo?: string): string | undefined {
   if (!logo) return undefined;
   return logosByFilename.get(logo.slice(logo.lastIndexOf("/") + 1)) ?? logo;
 }
+
+/**
+ * Resolves an authored media path against the public site's CDN while leaving
+ * absolute URLs intact.
+ * @param {string} [path] - Authored cover or city image path
+ * @returns {string | undefined} A browser-ready image URL
+ */
+export function resolveMediaUrl(path?: string): string | undefined {
+  if (!path) return undefined;
+  if (/^(?:https?:)?\/\//.test(path) || path.startsWith("data:")) return path;
+  return `${import.meta.env.VITE_CDN_PATH ?? ""}${path}`;
+}

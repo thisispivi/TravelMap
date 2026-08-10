@@ -1,0 +1,251 @@
+@use "variables" as v;
+@use "mixins" as m;
+
+.editor-nav {
+  position: sticky;
+  top: 0;
+  z-index: 90;
+  display: grid;
+  grid-template-columns: minmax(11rem, 1fr) auto minmax(11rem, 1fr);
+  align-items: center;
+  min-height: 4rem;
+  padding: 0.5rem 1rem;
+  border-bottom: 0.0625rem solid;
+
+  &__brand,
+  &__link,
+  &__theme {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  &__brand {
+    display: inline-flex;
+    align-items: center;
+    justify-self: start;
+    gap: 0.65rem;
+    min-width: 0;
+    border-radius: 0.75rem;
+
+    &:focus-visible {
+      outline: 0.125rem solid v.$accentPrimary;
+      outline-offset: 0.2rem;
+    }
+  }
+
+  &__brand-mark {
+    display: grid;
+    place-items: center;
+    width: 2.35rem;
+    height: 2.35rem;
+    flex: 0 0 auto;
+    border-radius: 0.8rem;
+    background: linear-gradient(145deg, v.$accentPrimary, v.$transportFerry);
+    color: #ffffff;
+    box-shadow: 0 0.35rem 1rem rgb(0 0 0 / 16%);
+
+    svg {
+      width: 1.15rem;
+      height: 1.15rem;
+      stroke-width: 2.25;
+    }
+  }
+
+  &__brand-copy {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+
+    strong {
+      overflow: hidden;
+      font-size: v.$bodySm;
+      font-weight: 750;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    small {
+      font-size: v.$caption;
+    }
+  }
+
+  &__links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    padding: 0.25rem;
+    border-radius: 1rem;
+  }
+
+  &__link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-height: 2.5rem;
+    padding: 0.5rem 0.7rem;
+    border-radius: 0.75rem;
+    font-size: v.$bodySm;
+    font-weight: 650;
+    @include m.transition(transform, 0.18s);
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+      stroke-width: 2.1;
+    }
+
+    &:hover {
+      transform: translateY(-0.08rem);
+    }
+
+    &:focus-visible {
+      outline: 0.125rem solid v.$accentPrimary;
+      outline-offset: 0.1rem;
+    }
+
+    &--active {
+      color: v.$accentPrimary;
+    }
+
+    &--active::after {
+      position: absolute;
+      right: 0.65rem;
+      bottom: 0.15rem;
+      left: 0.65rem;
+      height: 0.12rem;
+      border-radius: 62.4375rem;
+      background: currentColor;
+      content: "";
+    }
+  }
+
+  &__theme {
+    display: grid;
+    place-items: center;
+    justify-self: end;
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+    border: 0;
+    border-radius: 0.8rem;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 0.125rem solid v.$accentPrimary;
+      outline-offset: 0.15rem;
+    }
+
+    svg {
+      width: 1.1rem;
+      height: 1.1rem;
+    }
+  }
+}
+
+.editor--dark .editor-nav {
+  @include m.glassmorphism-dark;
+  border-top: 0;
+  border-right: 0;
+  border-left: 0;
+
+  &__brand-copy small {
+    color: v.$darkAltTextDarker;
+  }
+
+  &__links,
+  &__theme {
+    background: v.$darkButton;
+  }
+
+  &__link:hover,
+  &__link--active {
+    background: v.$darkButtonHover;
+  }
+}
+
+.editor--light .editor-nav {
+  @include m.glassmorphism-light;
+  border-top: 0;
+  border-right: 0;
+  border-left: 0;
+
+  &__brand-copy small {
+    color: v.$lightAltTextDarker;
+  }
+
+  &__links,
+  &__theme {
+    background: v.$lightButton;
+  }
+
+  &__link:hover,
+  &__link--active {
+    background: v.$lightButtonHover;
+  }
+}
+
+@media (max-width: 58rem) {
+  .editor-nav {
+    grid-template-columns: minmax(0, 1fr) auto;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+
+    &__links {
+      position: fixed;
+      right: 0.75rem;
+      bottom: calc(0.75rem + env(safe-area-inset-bottom, 0rem));
+      left: 0.75rem;
+      z-index: 95;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      padding: 0.35rem;
+      border: 0.0625rem solid;
+      box-shadow: 0 0.75rem 2.5rem rgb(0 0 0 / 25%);
+      -webkit-backdrop-filter: blur(v.$glassBlur);
+      backdrop-filter: blur(v.$glassBlur);
+    }
+
+    &__link {
+      min-width: 0;
+      flex-direction: column;
+      gap: 0.2rem;
+      padding: 0.35rem 0.2rem;
+      font-size: 0.66rem;
+
+      &--active::after {
+        top: 0.05rem;
+        right: 30%;
+        bottom: auto;
+        left: 30%;
+      }
+    }
+  }
+
+  .editor--dark .editor-nav__links {
+    border-color: v.$glassBorderDark;
+    background: color-mix(in srgb, v.$darkLeftBar 88%, transparent);
+  }
+
+  .editor--dark .editor-nav,
+  .editor--light .editor-nav {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  .editor--light .editor-nav__links {
+    border-color: v.$glassBorderLight;
+    background: color-mix(in srgb, v.$lightLeftBar 88%, transparent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .editor-nav__link {
+    transition: none;
+
+    &:hover {
+      transform: none;
+    }
+  }
+}

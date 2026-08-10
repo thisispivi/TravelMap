@@ -1,7 +1,5 @@
 import "./App.scss";
 
-import MoonFilledIcon from "@app/assets/icons/MoonFilled.svg?react";
-import SunFilledIcon from "@app/assets/icons/SunFilled.svg?react";
 import { useLanguage } from "@app/shared/hooks/useLanguage";
 import { useThemeDetector } from "@app/shared/hooks/useThemeDetector";
 import { classNames } from "@app/shared/lib/classNames";
@@ -10,11 +8,13 @@ import { Link, Route, Routes, useParams } from "react-router";
 
 import { DataFile } from "./data/store";
 import { Library } from "./features/library/components/Library/Library";
+import { TransportCompanies } from "./features/library/components/TransportCompanies/TransportCompanies";
 import { CommandPalette } from "./features/palette/components/CommandPalette/CommandPalette";
 import { CityScreen } from "./features/places/components/CityScreen/CityScreen";
 import { CountryScreen } from "./features/places/components/CountryScreen/CountryScreen";
 import { SettingsScreen } from "./features/settings/components/SettingsScreen/SettingsScreen";
 import { Workspace } from "./features/workspace/components/Workspace/Workspace";
+import { EditorNav } from "./shared/components/EditorNav/EditorNav";
 import { useDataset } from "./shared/hooks/useDataset";
 
 /**
@@ -131,15 +131,23 @@ function SettingsRoute(): ReactNode {
 }
 
 /**
+ * CompaniesRoute component
+ * Opens the transport-company catalogue from the persistent navigation.
+ * @component
+ * @returns {ReactNode} The company editor screen
+ */
+function CompaniesRoute(): ReactNode {
+  return <TransportCompanies file={useDataset().config} />;
+}
+
+/**
  * App component
- * The editor shell. Everything is one of two things: the library of trips, or
- * the workspace for one of them. Documents that exist to support a trip are
- * reachable but never the starting point.
+ * Provides persistent navigation around the dashboard, trip workspace,
+ * supporting catalogues, and editor settings.
  * @component
  * @returns {ReactNode} The local editor UI
  */
 export function App(): ReactNode {
-  const { t } = useLanguage(["editor"]);
   const { isDarkTheme, handleDarkModeSwitch } = useThemeDetector();
   return (
     <div
@@ -148,21 +156,14 @@ export function App(): ReactNode {
         isDarkTheme ? "editor--dark" : "editor--light",
       )}
     >
-      <button
-        aria-label={t(isDarkTheme ? "nav.switchToLight" : "nav.switchToDark")}
-        className="editor__theme-toggle"
-        onClick={handleDarkModeSwitch}
-        type="button"
-      >
-        {isDarkTheme ? (
-          <SunFilledIcon aria-hidden="true" />
-        ) : (
-          <MoonFilledIcon aria-hidden="true" />
-        )}
-      </button>
+      <EditorNav
+        isDarkTheme={isDarkTheme}
+        onToggleTheme={handleDarkModeSwitch}
+      />
       <CommandPalette />
       <Routes>
         <Route element={<Library />} path="/" />
+        <Route element={<CompaniesRoute />} path="/companies" />
         <Route element={<SettingsRoute />} path="/settings" />
         <Route
           element={<TripRoute isDarkTheme={isDarkTheme} />}

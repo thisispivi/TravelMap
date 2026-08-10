@@ -10,6 +10,7 @@ import { idError, toId, tripPath } from "../../../../data/paths";
 import { DatasetSnapshot, saveDocument } from "../../../../data/store";
 import { DatePicker } from "../../../../shared/components/DatePicker/DatePicker";
 import { TextField } from "../../../../shared/components/Fields/Fields";
+import { useToast } from "../../../../shared/components/Toast/Toast";
 
 /**
  * NewTripDialog component
@@ -27,6 +28,7 @@ export function NewTripDialog({
   onClose,
 }: NewTripDialogProps): ReactNode {
   const { t } = useLanguage(["editor"]);
+  const { showToast } = useToast();
   const navigate = useNavigate();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const now = new Date();
@@ -77,12 +79,14 @@ export function NewTripDialog({
     };
     try {
       await saveDocument(tripPath(id), trip);
+      showToast(t("toast.tripCreated"));
       onClose();
       await navigate(`/trip/${id}`);
     } catch (error) {
-      setMessage(
-        error instanceof Error ? error.message : t("createScreen.createError"),
-      );
+      const errorMessage =
+        error instanceof Error ? error.message : t("createScreen.createError");
+      setMessage(errorMessage);
+      showToast(errorMessage, "error");
     }
   }
   return (
