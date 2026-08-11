@@ -1,0 +1,116 @@
+import { useCallback, useEffect, useRef, useState } from "react";
+
+import { SaveState, useSaveStatus } from "../context/SaveStatus.context";
+
+/** The part of the save state a write actually decides. */
+type WriteState = "idle" | "saving" | "saved" | "failed";
+
+/**
+ * Optional reactions to a completed disk write.
+ * @property {() => void} [onSaved] - Called after a successful write
+ */
+export interface UseAutosaveOptions {
+  onSaved?: () => void;
+}
+
+const AUTOSAVE_DELAY_MS = 800;
+
+/**
+ * Persists a value shortly after it stops changing, and immediately when the
+ * tab is hidden so a closed laptop does not lose the last edit.
+ * A failed write deliberately leaves the value in place rather than reverting:
+ * discarding what the author just typed is worse than showing them a retry.
+ * The status is published to `SaveStatusContext` so the navigation reports it
+ * for whichever screen is on show.
+ * @param {T} value - The value to persist
+ * @param {(value: T) => Promise<void>} save - Performs the write
+ * @param {boolean} isDirty - Whether the value differs from what is on disk
+ * @param {UseAutosaveOptions} [options] - Reactions to a completed write
+ * @returns {void}
+ */
+export function useAutosave<T>(
+  value: T,
+  save: (value: T) => Promise<void>,
+  isDirty: boolean,
+  options: UseAutosaveOptions = {},
+): void {
+  const { setStatus } = useSaveStatus();
+  const [writeState, setWriteState] = useState<WriteState>("idle");
+  const [savedAt, setSavedAt] = useState<Date | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const valueRef = useRef(value);
+  const saveRef = useRef(save);
+  const onSavedRef = useRef(options.onSaved);
+  const isWritingRef = useRef(false);
+
+  /* The latest-value refs a timer callback cannot take as dependencies. */
+  useEffect(() => {
+    valueRef.current = value;
+    saveRef.current = save;
+    onSavedRef.current = options.onSaved;
+  });
+
+  const persist = useCallback(async (): Promise<void> => {
+    if (isWritingRef.current) return;
+    isWritingRef.current = true;
+    setWriteState("saving");
+    try {
+      await saveRef.current(valueRef.current);
+      setError(null);
+      setSavedAt(new Date());
+      setWriteState("saved");
+      onSavedRef.current?.();
+    } catch (writeError) {
+      setError(
+        writeError instanceof Error
+          ? writeError.message
+          : "The editor could not write to disk.",
+      );
+      setWriteState("failed");
+    } finally {
+      isWritingRef.current = false;
+    }
+  }, []);
+
+  /*
+   * Rescheduling on every change is the debounce: a keystroke clears the
+   * pending timer and starts a new one, so a burst of typing writes once.
+   */
+  useEffect(() => {
+    if (!isDirty) return;
+    const timer = setTimeout(() => void persist(), AUTOSAVE_DELAY_MS);
+    return () => clearTimeout(timer);
+  }, [isDirty, persist, value]);
+
+  useEffect(() => {
+    /**
+     * Writes without waiting for the debounce when the tab stops being visible.
+     * @returns {void}
+     */
+    function handleVisibilityChange(): void {
+      if (document.visibilityState === "hidden" && isDirty) void persist();
+    }
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () =>
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+  }, [isDirty, persist]);
+
+  /*
+   * "Pending" is derived rather than stored: it is exactly "dirty and not
+   * currently mid-write", so storing it would be a second copy of state the
+   * component already has.
+   */
+  const state: SaveState =
+    writeState === "saving" || writeState === "failed"
+      ? writeState
+      : isDirty
+        ? "pending"
+        : writeState;
+  const retry = useCallback(() => void persist(), [persist]);
+
+  useEffect(() => {
+    setStatus({ error, retry, savedAt, state });
+    return () => setStatus(null);
+  }, [error, retry, savedAt, setStatus, state]);
+}

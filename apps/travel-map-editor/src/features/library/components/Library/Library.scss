@@ -1,0 +1,768 @@
+@use "variables" as v;
+@use "mixins" as m;
+
+.library {
+  display: flex;
+  width: min(88rem, 100%);
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 6rem;
+  flex-direction: column;
+  gap: 1.25rem;
+
+  /*
+   * Stretching the row is what keeps the places and operators cards the same
+   * height: their lists hold the same number of rows but not the same row
+   * height, so equal height has to come from the grid rather than a shared
+   * measurement neither card can honour.
+   */
+  &__bento {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  &__panel {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    padding: 1.15rem;
+    border-radius: v.$floatingCardRadiusLg;
+    scroll-margin-top: 5rem;
+
+    &--trips {
+      grid-column: 1 / -1;
+    }
+
+    &--places {
+      grid-column: span 8;
+    }
+
+    &--companies {
+      grid-column: span 4;
+    }
+  }
+
+  &__section-header,
+  &__place-group-header,
+  &__place-link,
+  &__pagination,
+  &__year-header,
+  &__company,
+  &__companies-empty {
+    display: flex;
+    align-items: center;
+  }
+
+  &__section-header {
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+
+    h2 {
+      font-size: v.$headingMd;
+      font-weight: 720;
+    }
+
+    &--actions {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+    }
+  }
+
+  &__section-kicker {
+    margin-bottom: 0.1rem;
+    color: var(--editor-accent);
+    font-size: v.$caption;
+    font-weight: 750;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+  }
+
+  &__section-hint {
+    margin-top: 0.15rem;
+    font-size: v.$bodySm;
+    line-height: 1.4;
+  }
+
+  &__section-icon {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    flex: 0 0 auto;
+    border-radius: 0.85rem;
+    background: var(--editor-accent-soft);
+    color: var(--editor-accent);
+
+    svg {
+      width: 1.25rem;
+      height: 1.25rem;
+      stroke-width: 2.2;
+    }
+  }
+
+  &__section-action {
+    justify-self: end;
+  }
+
+  &__search {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    padding: 0.4rem 0.7rem;
+    border: 0.0625rem solid;
+    border-radius: 0.7rem;
+
+    > svg {
+      width: 0.95rem;
+      height: 0.95rem;
+      flex: 0 0 auto;
+      opacity: 0.55;
+    }
+
+    &:focus-within {
+      border-color: var(--editor-accent);
+      outline: 0.125rem solid var(--editor-accent);
+      outline-offset: -0.125rem;
+    }
+
+    &--inset {
+      margin: 0.5rem 0.5rem 0;
+    }
+  }
+
+  &__search-input {
+    width: 100%;
+    min-width: 0;
+    padding: 0.25rem 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    font-size: v.$bodySm;
+
+    &:focus-visible {
+      outline: none;
+    }
+  }
+
+  &__no-matches {
+    padding: 1.75rem 0.5rem;
+    font-size: v.$bodySm;
+    opacity: 0.7;
+    text-align: center;
+  }
+
+  &__years {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  &__year {
+    min-width: 0;
+  }
+
+  &__year-header {
+    gap: 0.5rem;
+    margin-bottom: 0.65rem;
+
+    h3 {
+      font-size: v.$headingMd;
+      font-weight: 750;
+      letter-spacing: -0.02em;
+    }
+
+    span {
+      display: grid;
+      place-items: center;
+      min-width: 1.55rem;
+      height: 1.55rem;
+      padding-inline: 0.4rem;
+      border-radius: 62.4375rem;
+      font-size: v.$caption;
+      font-weight: 700;
+    }
+  }
+
+  &__trips {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  &__welcome {
+    display: flex;
+    min-height: 14rem;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem;
+    padding: 2rem;
+    border: 0.0625rem dashed;
+    border-radius: v.$floatingCardRadius;
+    text-align: center;
+
+    > svg {
+      width: 2rem;
+      height: 2rem;
+      color: var(--editor-accent);
+    }
+
+    h3 {
+      font-size: v.$headingMd;
+      font-weight: 700;
+    }
+
+    p {
+      max-width: 32rem;
+      font-size: v.$bodySm;
+      line-height: 1.5;
+    }
+  }
+
+  &__place-groups {
+    display: grid;
+    flex: 1;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  &__place-group {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    overflow: hidden;
+    border: 0.0625rem solid;
+    border-radius: v.$floatingCardRadius;
+  }
+
+  &__place-group-header {
+    gap: 0.5rem;
+    padding: 0.75rem 0.85rem;
+    border-bottom: 0.0625rem solid;
+
+    > svg {
+      width: 1rem;
+      height: 1rem;
+      color: var(--editor-accent);
+    }
+
+    h3 {
+      flex: 1;
+      font-size: v.$bodySm;
+      font-weight: 700;
+    }
+
+    span {
+      display: grid;
+      place-items: center;
+      min-width: 1.55rem;
+      height: 1.55rem;
+      padding-inline: 0.35rem;
+      border-radius: 62.4375rem;
+      font-size: v.$caption;
+      font-weight: 700;
+    }
+  }
+
+  &__places,
+  &__companies {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /*
+   * The list grows into whatever the row's tallest card leaves it, which keeps
+   * the pagination footer on the card's bottom edge without padding a short
+   * page out to a fixed height.
+   */
+  &__places {
+    display: flex;
+    padding: 0.35rem;
+    flex: 1;
+    flex-direction: column;
+    gap: 0.2rem;
+    font-size: v.$bodySm;
+  }
+
+  &__places-empty {
+    padding: 0.85rem 0.55rem;
+    opacity: 0.7;
+  }
+
+  &__place-link {
+    gap: 0.65rem;
+    width: 100%;
+    min-height: 2.8rem;
+    padding: 0.4rem 0.55rem;
+    border-radius: 0.65rem;
+    color: inherit;
+    text-decoration: none;
+
+    > svg {
+      width: 0.9rem;
+      height: 0.9rem;
+      flex: 0 0 auto;
+      opacity: 0.45;
+    }
+
+    &:focus-visible {
+      outline: 0.125rem solid var(--editor-accent);
+      outline-offset: -0.125rem;
+    }
+  }
+
+  &__flag-frame {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    flex: 0 0 auto;
+    border-radius: 0.55rem;
+  }
+
+  &__flag {
+    width: 1.35rem;
+    height: 0.95rem;
+    border-radius: 0.16rem;
+    object-fit: cover;
+  }
+
+  &__place-copy,
+  &__company-copy {
+    display: flex;
+    min-width: 0;
+    flex: 1;
+    flex-direction: column;
+  }
+
+  &__place-copy {
+    gap: 0.1rem;
+  }
+
+  &__place-name {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    font-weight: 650;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__place-country {
+    font-size: v.$caption;
+  }
+
+  &__pagination {
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-top: auto;
+    padding: 0.65rem 0.75rem;
+    border-top: 0.0625rem solid;
+    font-size: v.$caption;
+  }
+
+  &__pagination-button {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    color: inherit;
+    cursor: pointer;
+
+    &:disabled {
+      cursor: default;
+      opacity: 0.3;
+    }
+
+    &:focus-visible {
+      outline: 0.125rem solid var(--editor-accent);
+      outline-offset: 0.1rem;
+    }
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+
+  /*
+   * The operator rows are sized to the place rows beside them: the two cards
+   * share a grid row, so a taller row here is what would push the place lists
+   * into padding themselves out below their last entry.
+   */
+  &__companies {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  &__company {
+    gap: 0.65rem;
+    min-height: 2.8rem;
+    padding: 0.35rem 0.55rem;
+    border-radius: 0.65rem;
+  }
+
+  &__company-logo {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    flex: 0 0 auto;
+    padding: 0.25rem;
+    border-radius: 0.55rem;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    svg {
+      width: 1.1rem;
+      height: 1.1rem;
+    }
+  }
+
+  &__company-copy {
+    gap: 0.12rem;
+
+    strong {
+      overflow: hidden;
+      font-size: v.$bodySm;
+      font-weight: 700;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    code {
+      font-size: v.$caption;
+    }
+  }
+
+  &__companies-empty {
+    min-height: 8rem;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.5rem;
+    border: 0.0625rem dashed;
+    border-radius: v.$floatingCardRadius;
+    font-size: v.$bodySm;
+    text-align: center;
+
+    svg {
+      width: 1.5rem;
+      height: 1.5rem;
+      color: var(--editor-accent);
+    }
+  }
+}
+
+.trip-library-card {
+  display: flex;
+  min-width: 0;
+  min-height: 15rem;
+  flex-direction: column;
+  overflow: hidden;
+  border: 0.0625rem solid;
+  border-radius: v.$floatingCardRadius;
+  color: inherit;
+  text-decoration: none;
+  @include m.transition(transform, 0.2s);
+
+  &:hover {
+    transform: translateY(-0.2rem);
+  }
+
+  &:focus-visible {
+    outline: 0.1875rem solid var(--editor-accent);
+    outline-offset: 0.15rem;
+  }
+
+  &__media {
+    position: relative;
+    display: grid;
+    min-height: 7.6rem;
+    place-items: center;
+    overflow: hidden;
+    background:
+      linear-gradient(145deg, var(--editor-accent-soft), transparent 70%),
+      color-mix(in srgb, v.$continentsNorthAmerica 24%, transparent);
+  }
+
+  &__fallback {
+    width: 1.7rem;
+    height: 1.7rem;
+    opacity: 0.45;
+  }
+
+  &__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__flags {
+    position: absolute;
+    right: 0.6rem;
+    bottom: 0.55rem;
+    display: flex;
+    min-height: 1.8rem;
+    align-items: center;
+    gap: 0.2rem;
+    padding: 0.25rem 0.35rem;
+    border: 0.0625rem solid rgb(255 255 255 / 22%);
+    border-radius: 62.4375rem;
+    background: rgb(10 10 18 / 70%);
+    color: #ffffff;
+    -webkit-backdrop-filter: blur(0.7rem);
+    backdrop-filter: blur(0.7rem);
+
+    > svg {
+      width: 0.9rem;
+      height: 0.9rem;
+    }
+  }
+
+  &__flag {
+    width: 1.2rem;
+    height: 0.8rem;
+    border-radius: 0.12rem;
+    object-fit: cover;
+  }
+
+  &__body {
+    display: flex;
+    min-width: 0;
+    flex: 1;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 0.75rem;
+  }
+
+  &__heading,
+  &__footer,
+  &__status {
+    display: flex;
+    align-items: center;
+  }
+
+  &__heading {
+    justify-content: space-between;
+    gap: 0.5rem;
+
+    strong {
+      overflow: hidden;
+      font-weight: 720;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    svg {
+      width: 0.95rem;
+      height: 0.95rem;
+      flex: 0 0 auto;
+      opacity: 0.5;
+    }
+  }
+
+  &__date {
+    font-size: v.$caption;
+  }
+
+  &__footer {
+    justify-content: space-between;
+    gap: 0.4rem;
+    margin-top: auto;
+    padding-top: 0.35rem;
+    font-size: v.$caption;
+  }
+
+  &__status {
+    gap: 0.2rem;
+    padding: 0.18rem 0.4rem;
+    border-radius: 62.4375rem;
+    font-weight: 700;
+
+    svg {
+      width: 0.75rem;
+      height: 0.75rem;
+    }
+
+    &--ready {
+      background: color-mix(in srgb, v.$transportBus 18%, transparent);
+      color: v.$transportBus;
+    }
+
+    &--warning {
+      background: color-mix(in srgb, v.$transportTrain 18%, transparent);
+      color: #b26a00;
+    }
+
+    &--blocking {
+      background: color-mix(in srgb, v.$transportCar 18%, transparent);
+      color: v.$transportCar;
+    }
+  }
+}
+
+.editor--dark .library {
+  &__section-hint,
+  &__place-country,
+  &__company-copy code {
+    color: v.$darkAltTextDarker;
+  }
+
+  &__panel {
+    @include m.floating-card-dark;
+    padding: 1.15rem;
+  }
+
+  &__section-icon {
+    background: var(--editor-accent-soft);
+  }
+
+  &__year-header span,
+  &__flag-frame,
+  &__place-group-header span,
+  &__pagination-button,
+  &__company-logo {
+    background: v.$darkButton;
+  }
+
+  &__place-group,
+  &__place-group-header,
+  &__pagination,
+  &__search,
+  &__welcome,
+  &__companies-empty {
+    border-color: v.$glassBorderDark;
+  }
+
+  &__place-link:hover,
+  &__company:hover {
+    background: v.$darkButtonHover;
+  }
+}
+
+.editor--light .library {
+  &__section-hint,
+  &__place-country,
+  &__company-copy code {
+    color: v.$lightAltTextDarker;
+  }
+
+  &__panel {
+    @include m.floating-card-light;
+    padding: 1.15rem;
+  }
+
+  &__year-header span,
+  &__flag-frame,
+  &__place-group-header span,
+  &__pagination-button,
+  &__company-logo {
+    background: v.$lightButton;
+  }
+
+  &__place-group,
+  &__place-group-header,
+  &__pagination,
+  &__search,
+  &__welcome,
+  &__companies-empty {
+    border-color: rgb(0 0 0 / 9%);
+  }
+
+  &__place-link:hover,
+  &__company:hover {
+    background: v.$lightButtonHover;
+  }
+}
+
+.editor--dark .trip-library-card {
+  border-color: v.$glassBorderDark;
+  background: color-mix(in srgb, v.$darkInfoTab 86%, transparent);
+
+  &__date,
+  &__footer > span:first-child {
+    color: v.$darkAltTextDarker;
+  }
+}
+
+.editor--light .trip-library-card {
+  border-color: rgb(0 0 0 / 8%);
+  background: rgb(255 255 255 / 72%);
+
+  &__date,
+  &__footer > span:first-child {
+    color: v.$lightAltTextDarker;
+  }
+}
+
+@media (max-width: 70rem) {
+  .library {
+    &__panel--places,
+    &__panel--companies {
+      grid-column: 1 / -1;
+    }
+
+    &__trips {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+}
+
+@media (max-width: 52rem) {
+  .library {
+    padding: 1.5rem 1rem 7rem;
+
+    &__trips {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+}
+
+@media (max-width: 38rem) {
+  .library {
+    padding-inline: 0.75rem;
+
+    &__section-header--actions {
+      grid-template-columns: auto minmax(0, 1fr);
+    }
+
+    &__section-action {
+      grid-column: 1 / -1;
+      justify-self: stretch;
+    }
+
+    &__trips,
+    &__place-groups {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .trip-library-card {
+    min-height: 13rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trip-library-card {
+    transition: none;
+
+    &:hover {
+      transform: none;
+    }
+  }
+}

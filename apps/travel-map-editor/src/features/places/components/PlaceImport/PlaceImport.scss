@@ -1,0 +1,53 @@
+@use "variables" as v;
+
+.place-import {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+
+  &__row {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__icon {
+    position: absolute;
+    left: 0.65rem;
+    width: 0.9rem;
+    height: 0.9rem;
+    pointer-events: none;
+  }
+
+  &__input {
+    padding-left: 2rem;
+  }
+
+  &__preview {
+    margin: 0;
+    font-size: v.$caption;
+  }
+
+  &__error {
+    padding: 0.5rem 0.75rem;
+  }
+}
+
+.editor--dark .place-import {
+  &__icon {
+    fill: v.$darkAltTextDarker;
+  }
+  &__preview {
+    color: v.$futureButton;
+  }
+}
+
+.editor--light .place-import {
+  &__icon {
+    fill: v.$lightAltTextDarker;
+  }
+  &__preview {
+    color: v.$futureButtonContent;
+  }
+}

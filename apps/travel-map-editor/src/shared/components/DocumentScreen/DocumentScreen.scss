@@ -1,0 +1,27 @@
+@use "variables" as v;
+
+.document-screen {
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: v.$headingLg;
+  }
+
+  &__title-icon {
+    width: 1.5rem;
+    border-radius: 0.2rem;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: v.$floatingCardGap;
+  }
+}

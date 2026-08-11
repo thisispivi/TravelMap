@@ -1,0 +1,200 @@
+@use "variables" as v;
+@use "mixins" as m;
+
+.workspace {
+  /*
+   * A flex column rather than fixed grid rows: the recovery banner and the
+   * bulk bar are conditional, and positional rows handed the flexible one to
+   * whichever child happened to land in it.
+   */
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+
+  &__header {
+    display: grid;
+    grid-template-columns: auto minmax(8rem, 1fr) auto;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.6rem 0.9rem;
+    border-bottom: 1px solid;
+  }
+
+  &__back {
+    white-space: nowrap;
+  }
+
+  &__identity {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__title {
+    overflow: hidden;
+    font-size: v.$headingMd;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__summary {
+    font-size: v.$caption;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-width: 0;
+  }
+
+  &__recovery {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 0.9rem;
+    background: v.$languageButton;
+    color: v.$languageButtonContent;
+    font-size: v.$bodySm;
+  }
+
+  &__panes {
+    display: grid;
+    min-height: 0;
+    flex: 1;
+    grid-template-columns: 20rem minmax(0, 1fr) 22.5rem;
+  }
+
+  &__rail,
+  &__inspector {
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  &__rail {
+    border-right: 1px solid;
+  }
+
+  &__inspector {
+    border-left: 1px solid;
+  }
+
+  &__map {
+    min-height: 0;
+  }
+}
+
+.editor--dark .workspace {
+  background: v.$darkBackground;
+  color: v.$darkButtonContent;
+
+  .workspace__header,
+  .workspace__rail,
+  .workspace__inspector {
+    border-color: v.$glassBorderDark;
+  }
+
+  .workspace__summary {
+    color: v.$darkAltTextDarker;
+  }
+}
+
+.editor--light .workspace {
+  background: v.$lightBackground;
+  color: v.$lightButtonContent;
+
+  .workspace__header,
+  .workspace__rail,
+  .workspace__inspector {
+    border-color: rgb(0 0 0 / 10%);
+  }
+
+  .workspace__summary {
+    color: v.$lightAltTextDarker;
+  }
+}
+
+@media (max-width: 81.25rem) {
+  .workspace__panes {
+    grid-template-columns: 20rem minmax(0, 1fr);
+  }
+
+  .workspace__inspector {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    width: min(22.5rem, 90vw);
+    transform: translateX(100%);
+
+    @include m.transition(transform, 0.2s);
+
+    &--active {
+      transform: translateX(0);
+    }
+  }
+
+  .editor--dark .workspace__inspector {
+    @include m.full-panel-dark;
+  }
+
+  .editor--light .workspace__inspector {
+    @include m.full-panel-light;
+  }
+}
+
+@media (max-width: 68.75rem) {
+  .workspace__header {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .workspace__actions {
+    grid-column: 1 / -1;
+    overflow-x: auto;
+    scrollbar-width: thin;
+  }
+}
+
+@media (max-width: 56.25rem) {
+  .workspace__panes {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) 40vh;
+  }
+
+  .workspace__rail {
+    border-right: 0;
+    border-bottom: 1px solid;
+  }
+}
+
+/* The floating bottom navigation overlaps the panes on a phone. */
+@media (max-width: 42.5rem) {
+  .workspace {
+    padding-bottom: 4.5rem;
+  }
+
+  .workspace__actions {
+    display: flex;
+    overflow: visible;
+
+    .editor-button {
+      width: 2.5rem;
+      height: 2.5rem;
+      padding: 0;
+      font-size: 0;
+    }
+
+    .editor-button svg {
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .workspace__inspector {
+    transition: none;
+  }
+}

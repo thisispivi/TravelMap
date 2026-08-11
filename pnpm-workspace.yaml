@@ -1,0 +1,34 @@
+allowBuilds:
+  "@parcel/watcher": true
+  msgpackr-extract: true
+
+ignoredBuiltDependencies:
+  - esbuild
+
+blockExoticSubdeps: true
+
+minimumReleaseAge: 10080
+minimumReleaseAgeExclude:
+  - brace-expansion@5.0.9
+  - fast-uri@3.1.5
+  - react-router@8.3.0
+  - js-yaml@4.3.1
+  - nanoid@3.3.17
+
+onlyBuiltDependencies:
+  - "@parcel/watcher"
+
+packages:
+  - "apps/*"
+  - "!apps/travel-map-copy"
+  - "packages/*"
+
+trustPolicy: no-downgrade
+trustPolicyExclude:
+  - semver@6.3.1
+
+overrides:
+  # Legacy consumers do not all request the patched security releases yet.
+  brace-expansion: 5.0.9
+  fast-uri: 3.1.5
+  postcss: 8.5.25

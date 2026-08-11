@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
-cd "$(dirname "$0")/../travel-map"
+cd "$(dirname "$0")/.."
 
-pnpm typecheck
-pnpm exec lint-staged
-pnpm lint
+pnpm --filter travel-map typecheck
+pnpm --dir apps/travel-map exec lint-staged
+pnpm --filter travel-map lint

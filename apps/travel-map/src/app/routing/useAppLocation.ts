@@ -1,0 +1,52 @@
+import { useLocation as useLocationRouter } from "react-router";
+
+import { AppRouteContextValue } from "@/shared/context/AppRoute.context";
+
+/**
+ * Derives structured route state from the current URL pathname.
+ * @returns {AppRouteContextValue} Flags and extracted segments for the active route
+ */
+export function useAppLocation(): AppRouteContextValue {
+  const location = useLocationRouter();
+  const pathname = location.pathname;
+  return (() => {
+    const isGallery = pathname.includes("gallery");
+    const isLightbox = pathname.split("/").length === 5;
+    const isTimeline = pathname.startsWith("/timeline");
+    const isStats = pathname.startsWith("/stats");
+    const isTripDetail = pathname.startsWith("/trip/");
+    const isPlaces = pathname.startsWith("/places");
+    const isTrips = pathname === "/trips" || isTripDetail;
+    const tripDetailMatch = pathname.match(/^\/trip\/(.+)$/);
+    const tripDetailId = tripDetailMatch ? tripDetailMatch[1] : null;
+    const placesFilterMatch = pathname.match(
+      /^\/places\/(lived|visited|future)$/,
+    );
+    const placesFilter = placesFilterMatch
+      ? (placesFilterMatch[1] as "lived" | "visited" | "future")
+      : isPlaces
+        ? "visited"
+        : null;
+    const activeTab = isTimeline
+      ? "timeline"
+      : isStats
+        ? "stats"
+        : isPlaces
+          ? "places"
+          : isTrips
+            ? "trips"
+            : null;
+    return {
+      isTrips,
+      isPlaces,
+      isTripDetail,
+      isTimeline,
+      isStats,
+      isGallery,
+      isLightbox,
+      activeTab,
+      tripDetailId,
+      placesFilter,
+    };
+  })();
+}

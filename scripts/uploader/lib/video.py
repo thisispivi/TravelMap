@@ -293,6 +293,19 @@ class TravelVideo:
                 "Error uploading video thumbnail %s to BunnyCDN: %s", self.filename, e
             )
 
+    def copy_to_media(self, logger: Optional[Logger] = None) -> None:
+        """Copy the generated video thumbnail into local media."""
+        logger = self._get_logger(logger)
+        media_dir = str(self.args["media_dir"])
+        base_filename = os.path.splitext(self.filename)[0]
+        filename = f"{base_filename}t.webp"
+        os.makedirs(media_dir, exist_ok=True)
+        shutil.copy2(
+            os.path.join(self.results_city_folder_path, filename),
+            os.path.join(media_dir, filename),
+        )
+        logger.info("Copied video thumbnail for %s to local media.", self.filename)
+
     def run(self, logger: Optional[Logger] = None) -> Optional[VideoInfo]:
         """Run the full video pipeline and return the JSON-ready metadata."""
         logger = self._get_logger(logger)
@@ -311,5 +324,8 @@ class TravelVideo:
         if info is None:
             return None
 
-        self.upload_to_bunny_cdn(logger)
+        if self.args.get("local"):
+            self.copy_to_media(logger)
+        else:
+            self.upload_to_bunny_cdn(logger)
         return info

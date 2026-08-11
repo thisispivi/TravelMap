@@ -1,0 +1,107 @@
+@use "variables" as v;
+
+.photo-import-dialog {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: min(46rem, 94vw);
+  max-height: 88vh;
+  margin: auto;
+  padding: 1.1rem;
+  border: 0;
+  border-radius: v.$floatingCardRadius;
+  overflow-y: auto;
+
+  &::backdrop {
+    background: rgb(0 0 0 / 45%);
+  }
+
+  &__title {
+    font-size: v.$headingMd;
+    font-weight: 600;
+  }
+
+  &__summary {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin: 0;
+  }
+
+  &__summary-row {
+    display: grid;
+    grid-template-columns: minmax(7rem, auto) 1fr;
+    gap: 0.75rem;
+    font-size: v.$bodySm;
+
+    dt {
+      font-weight: 600;
+    }
+
+    dd {
+      min-width: 0;
+      margin: 0;
+      overflow-wrap: anywhere;
+    }
+  }
+
+  &__video-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  &__file-button {
+    position: relative;
+    cursor: pointer;
+  }
+
+  &__file {
+    position: absolute;
+    width: 0.0625rem;
+    height: 0.0625rem;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    margin: 0.25rem -1.1rem -1.1rem;
+    padding: 0.9rem 1.1rem;
+    border-top: 0.0625rem solid;
+  }
+}
+
+.editor--dark .photo-import-dialog {
+  border: 0.0625rem solid v.$glassBorderDark;
+  background: v.$darkInfoTab;
+  box-shadow: v.$glassShadowDark;
+  color: v.$darkButtonContent;
+
+  .photo-import-dialog__footer {
+    border-color: v.$glassBorderDark;
+    background: v.$darkInfoTab;
+  }
+}
+
+.editor--light .photo-import-dialog {
+  border: 0.0625rem solid rgb(0 0 0 / 6%);
+  background: v.$lightLeftBar;
+  box-shadow: v.$glassShadowLight;
+  color: v.$lightButtonContent;
+
+  .photo-import-dialog__footer {
+    border-color: rgb(0 0 0 / 10%);
+    background: v.$lightLeftBar;
+  }
+}

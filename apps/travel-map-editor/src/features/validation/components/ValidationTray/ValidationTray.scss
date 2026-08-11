@@ -1,0 +1,183 @@
+@use "variables" as v;
+
+.validation-tray {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border-top: 0.0625rem solid;
+
+  &__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.4rem 0.75rem;
+  }
+
+  &__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: v.$bodySm;
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+      color: v.$futureButtonContent;
+    }
+  }
+
+  &__tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  &__panel {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-height: 40vh;
+    padding: 0.5rem 0.75rem 0.9rem;
+    overflow-y: auto;
+    border-top: 0.0625rem solid;
+  }
+
+  &__issues,
+  &__changes {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__issue {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.35rem 0.5rem;
+    border-left: 3px solid transparent;
+    border-radius: 0.4rem;
+    font-size: v.$bodySm;
+
+    &--blocking {
+      border-left-color: v.$visitedButtonContent;
+    }
+
+    &--warning {
+      border-left-color: v.$languageButtonContent;
+    }
+
+    &--suggestion {
+      border-left-color: v.$futureButtonContent;
+    }
+  }
+
+  &__issue-icon {
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+
+  &__issue-button {
+    flex: 1;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 2px solid var(--editor-accent);
+      outline-offset: 2px;
+    }
+  }
+
+  &__change {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    font-family: ui-monospace, "SFMono-Regular", monospace;
+    font-size: v.$caption;
+  }
+
+  &__change-kind {
+    min-width: 4.5rem;
+    font-family: inherit;
+    text-transform: uppercase;
+  }
+
+  &__command {
+    display: block;
+    padding: 0.5rem 0.65rem;
+    border-radius: 0.5rem;
+    font-family: ui-monospace, "SFMono-Regular", monospace;
+    font-size: v.$caption;
+    overflow-x: auto;
+  }
+}
+
+.editor--dark .validation-tray {
+  border-color: v.$glassBorderDark;
+  background: v.$darkInfoTab;
+
+  &__panel {
+    border-color: v.$glassBorderDark;
+  }
+
+  &__issue:hover,
+  &__command {
+    background: v.$darkButton;
+  }
+
+  &__change-kind {
+    color: v.$darkAltTextDarker;
+  }
+}
+
+.editor--light .validation-tray {
+  border-color: rgb(0 0 0 / 10%);
+  background: v.$lightLeftBar;
+
+  &__panel {
+    border-color: rgb(0 0 0 / 10%);
+  }
+
+  &__issue:hover,
+  &__command {
+    background: v.$lightButton;
+  }
+
+  &__change-kind {
+    color: v.$lightAltTextDarker;
+  }
+}
+
+@media (max-width: 42rem) {
+  .validation-tray__bar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .validation-tray__tabs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+
+    .editor-button {
+      min-width: 0;
+      padding-inline: 0.45rem;
+      font-size: v.$caption;
+    }
+  }
+}
