@@ -1,7 +1,7 @@
 {
   "name": "travel-map-workspace",
   "private": true,
-  "packageManager": "pnpm@11.8.0",
+  "packageManager": "pnpm@11.18.0",
   "scripts": {
     "build": "pnpm --filter travel-map build",
     "check": "pnpm -r typecheck && pnpm -r lint && pnpm --filter travel-map format:check && pnpm --filter travel-map knip && pnpm --filter travel-map react:doctor",
