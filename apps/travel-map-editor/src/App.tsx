@@ -41,7 +41,6 @@ function MissingDocument(): ReactNode {
   return (
     <main className="editor__screen">
       <div className="editor__empty">
-        <p className="editor__eyebrow">{t("app.nothingHere")}</p>
         <h1>{t("app.notFound")}</h1>
         <p>{t("app.notFoundHint")}</p>
         <Link className="editor-button editor-button--primary" to="/">

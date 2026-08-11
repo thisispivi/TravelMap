@@ -4,7 +4,7 @@ import { useSearchParams } from "react-router";
 
 import { photoKeys } from "../../data/dataset";
 import { DataFile, saveDocument } from "../../data/store";
-import { SaveState, useAutosave } from "../../shared/hooks/useAutosave";
+import { useAutosave } from "../../shared/hooks/useAutosave";
 import { useDataset } from "../../shared/hooks/useDataset";
 import { commit, createHistory, redo, undo } from "../history/lib/history";
 
@@ -35,10 +35,6 @@ export interface RecoveredDraft {
  * @property {() => void} redoEdit - Steps one edit forwards
  * @property {boolean} canUndo - Whether there is anything to undo
  * @property {boolean} canRedo - Whether there is anything to redo
- * @property {SaveState} saveState - Where the document stands
- * @property {Date | null} savedAt - When the last write completed
- * @property {string | null} saveError - Why the last write failed
- * @property {() => void} retrySave - Retries after a failed write
  * @property {RecoveredDraft | null} recovered - An unsaved draft from a past session
  * @property {() => void} restoreRecovered - Adopts the recovered draft
  * @property {() => void} discardRecovered - Throws the recovered draft away
@@ -53,10 +49,6 @@ export interface UseTripWorkspaceReturn {
   redoEdit: () => void;
   canUndo: boolean;
   canRedo: boolean;
-  saveState: SaveState;
-  savedAt: Date | null;
-  saveError: string | null;
-  retrySave: () => void;
   recovered: RecoveredDraft | null;
   restoreRecovered: () => void;
   discardRecovered: () => void;
@@ -133,7 +125,7 @@ export function useTripWorkspace(
   const isDirty = JSON.stringify(trip) !== JSON.stringify(file.value);
   const selection = decodeSelection(searchParams.get("sel"));
 
-  const save = useAutosave(
+  useAutosave(
     trip,
     useCallback(
       async (value: TripJson) => saveDocument(file.path, value),
@@ -222,10 +214,6 @@ export function useTripWorkspace(
     recovered,
     redoEdit: () => setHistory(redo),
     restoreRecovered,
-    retrySave: save.retry,
-    saveError: save.error,
-    savedAt: save.savedAt,
-    saveState: save.state,
     select,
     selection,
     trip,

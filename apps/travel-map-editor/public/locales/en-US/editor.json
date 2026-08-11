@@ -9,7 +9,6 @@
     "walk": "Walk"
   },
   "app": {
-    "nothingHere": "Nothing here",
     "notFound": "Not found",
     "notFoundHint": "That document is not in the dataset.",
     "backToOverview": "Back to overview"
@@ -18,6 +17,7 @@
     "editor": "Editor",
     "brandHint": "Travel Map",
     "primary": "Primary navigation",
+    "breadcrumb": "Breadcrumb",
     "home": "Home",
     "places": "Places",
     "companies": "Companies",
@@ -82,7 +82,6 @@
     "nothingToReview": "Nothing to review."
   },
   "trip": {
-    "eyebrow": "Trip",
     "titles": "Titles",
     "canonicalHint": "Shown on trip cards and the trip page.",
     "details": "Trip details",
@@ -171,7 +170,7 @@
     "remove": "Remove logo"
   },
   "cityScreen": {
-    "eyebrow": "City",
+    "kind": "City",
     "position": "Position",
     "longitude": "Longitude",
     "latitude": "Latitude",
@@ -194,7 +193,7 @@
     "cannotDelete_other": "{{count}} trips reference this city, so it cannot be deleted yet."
   },
   "countryScreen": {
-    "eyebrow": "Country",
+    "kind": "Country",
     "identity": "Identity",
     "name": "Name",
     "continent": "Continent",
@@ -215,7 +214,6 @@
     "cannotDelete_other": "{{count}} cities belong to this country, so it cannot be deleted yet."
   },
   "createScreen": {
-    "eyebrow": "Create",
     "addA": {
       "city": "Add a city",
       "trip": "Add a trip"
@@ -251,7 +249,7 @@
     "create": "Create"
   },
   "configScreen": {
-    "eyebrow": "Settings",
+    "kind": "Settings",
     "title": "Configuration",
     "siteMetadata": "Site metadata",
     "siteName": "Name",
@@ -288,11 +286,7 @@
     "unescoSitesHint": "Only used to count how many sites you have visited. Leave empty to show a zero."
   },
   "library": {
-    "eyebrow": "Travel Map editor",
-    "title": "Your journeys, in one place",
-    "subtitle": "Review trips by year, keep places tidy, and manage the operators used across your map.",
     "newTrip": "New trip",
-    "settings": "Settings",
     "welcome": "No trips yet",
     "welcomeHint": "A trip is the only thing you create here. The cities and countries it needs are written for you as you add places.",
     "step1": "Create a trip and give it a title.",
@@ -335,7 +329,6 @@
     "add": "Add company",
     "name": "Name",
     "logo": "Logo",
-    "svgOrPng": "SVG or PNG.",
     "removeCompany": "Remove {{id}}",
     "remove": "Remove",
     "empty": "No transport companies yet.",

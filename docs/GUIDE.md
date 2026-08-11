@@ -57,7 +57,12 @@ pnpm editor
 
 The editor writes directly to your content files as you type, and autosaves
 about a second after you stop. There is no "save" button and no publish step —
-the site picks the changes up on reload.
+the site picks the changes up on reload. The top bar reports where the save
+stands, from "Saving shortly" to "Up to date", wherever you are in the editor.
+
+That top bar is also how you move around: **Home** for the dashboard, then
+**Trips**, **Places**, **Companies**, and **Settings**. On a phone it moves to
+the bottom of the screen.
 
 > **Do not hand-edit files under `data/` while the editor is open.** The editor
 > holds the file in memory and will write its own copy back over yours. Close

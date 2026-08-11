@@ -82,8 +82,8 @@ export function CountryScreen({ file }: CountryScreenProps): ReactNode {
   return (
     <DocumentScreen
       deletedMessage={t("toast.countryDeleted")}
-      eyebrow={t("countryScreen.eyebrow")}
       isDirty={isDirty}
+      kind={t("countryScreen.kind")}
       onDelete={dependents.length === 0 ? handleDelete : undefined}
       onSave={() => saveDocument(countryPath(value.id), value)}
       path={file.path}

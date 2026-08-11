@@ -78,8 +78,8 @@ export function SettingsScreen({ file }: SettingsScreenProps): ReactNode {
   }
   return (
     <DocumentScreen
-      eyebrow={t("configScreen.eyebrow")}
       isDirty={isDirty}
+      kind={t("configScreen.kind")}
       onSave={() => saveDocument(file.path, value)}
       path={file.path}
       savedMessage={t("toast.settingsSaved")}

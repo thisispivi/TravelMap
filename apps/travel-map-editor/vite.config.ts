@@ -27,10 +27,7 @@ export default defineConfig({
     snapshots(resolve(__dirname, "../../.data-snapshots")),
   ],
   resolve: {
-    /*
-     * Reused app components resolve their own `@/*` imports while editor code
-     * uses the explicit `@app/*` form. Anchored patterns prevent shadowing.
-     */
+    dedupe: ["react", "react-dom", "i18next", "react-i18next"],
     alias: [
       { find: /^@app\//, replacement: `${appSource}/` },
       { find: /^@\//, replacement: `${appSource}/` },

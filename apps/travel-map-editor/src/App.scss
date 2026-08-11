@@ -9,20 +9,37 @@ body,
   overflow: auto;
 }
 
+/*
+ * The accent is declared on the document and switched by the theme class the
+ * shell puts on `body`, rather than on `.editor`, so menus and pickers
+ * portalled out of the shell still inherit it — and so the light values apply
+ * on the first paint, before the shell has classed the body at all.
+ */
+:root {
+  --editor-accent: #{v.$accentPrimary};
+  --editor-accent-strong: #{v.$accentPrimaryHover};
+  --editor-accent-soft: #{v.$accentSoftLight};
+  --editor-accent-ink: #ffffff;
+}
+
+.body--dark {
+  --editor-accent: #{v.$accentOnDark};
+  --editor-accent-strong: #{v.$accentOnDarkHover};
+  --editor-accent-soft: #{v.$accentSoftDark};
+  --editor-accent-ink: #{v.$accentInkOnDark};
+}
+
+/*
+ * The shell owns the scrolling, and is a flex column of a definite height, so
+ * a full-height screen such as the workspace can claim exactly the space the
+ * navigation leaves instead of subtracting the bar's height by hand.
+ */
 .editor {
   position: relative;
-  min-height: 100vh;
-  background:
-    radial-gradient(
-      circle at 8% 4%,
-      color-mix(in srgb, v.$continentsNorthAmerica 16%, transparent),
-      transparent 24rem
-    ),
-    radial-gradient(
-      circle at 96% 22%,
-      color-mix(in srgb, v.$continentsSouthAmerica 14%, transparent),
-      transparent 26rem
-    );
+  display: flex;
+  height: 100dvh;
+  flex-direction: column;
+  overflow: auto;
 
   &--dark {
     background-color: v.$darkBackground;
@@ -50,11 +67,34 @@ body,
     flex-wrap: wrap;
   }
 
-  &__eyebrow {
-    font-size: v.$caption;
+  &__breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin-bottom: 0.35rem;
+    font-size: v.$bodySm;
+
+    svg {
+      width: 0.85rem;
+      height: 0.85rem;
+      opacity: 0.5;
+    }
+  }
+
+  &__breadcrumb-link {
+    border-radius: 0.35rem;
+    color: var(--editor-accent);
     font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    &:focus-visible {
+      outline: 0.125rem solid var(--editor-accent);
+      outline-offset: 0.15rem;
+    }
   }
 
   &__path {
@@ -65,15 +105,6 @@ body,
     font-size: v.$caption;
   }
 
-  &__badge {
-    padding: 0.15rem 0.5rem;
-    border-radius: 62.4375rem;
-    background-color: v.$accentPrimary;
-    color: #ffffff;
-    font-size: v.$caption;
-    font-weight: 600;
-  }
-
   &__empty {
     display: flex;
     flex-direction: column;
@@ -82,15 +113,11 @@ body,
     padding: 3rem 0;
   }
 
-  &__link-button {
-    text-decoration: none;
-  }
-
-  &--dark &__eyebrow,
+  &--dark &__breadcrumb,
   &--dark &__path {
     color: v.$darkAltTextDarker;
   }
-  &--light &__eyebrow,
+  &--light &__breadcrumb,
   &--light &__path {
     color: v.$lightAltTextDarker;
   }
@@ -164,7 +191,7 @@ body,
     transform: none;
   }
   &:focus-visible {
-    outline: 0.125rem solid v.$accentPrimary;
+    outline: 0.125rem solid var(--editor-accent);
     outline-offset: 0.15rem;
   }
 
@@ -176,11 +203,11 @@ body,
   }
 
   &--primary {
-    background-color: v.$accentPrimary;
-    color: #ffffff;
+    background-color: var(--editor-accent);
+    color: var(--editor-accent-ink);
 
     &:hover:not(:disabled) {
-      background-color: v.$accentPrimaryHover;
+      background-color: var(--editor-accent-strong);
     }
   }
 
@@ -205,7 +232,7 @@ body,
   text-decoration: none;
 
   &:focus-visible {
-    outline: 0.125rem solid v.$accentPrimary;
+    outline: 0.125rem solid var(--editor-accent);
     outline-offset: 0.1rem;
   }
 

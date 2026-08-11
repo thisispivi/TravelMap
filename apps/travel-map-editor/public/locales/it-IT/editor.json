@@ -9,7 +9,6 @@
     "walk": "A piedi"
   },
   "app": {
-    "nothingHere": "Niente qui",
     "notFound": "Non trovato",
     "notFoundHint": "Questo documento non è nel dataset.",
     "backToOverview": "Torna alla panoramica"
@@ -18,6 +17,7 @@
     "editor": "Editor",
     "brandHint": "Travel Map",
     "primary": "Navigazione principale",
+    "breadcrumb": "Percorso",
     "home": "Home",
     "places": "Luoghi",
     "companies": "Compagnie",
@@ -82,7 +82,6 @@
     "nothingToReview": "Niente da controllare."
   },
   "trip": {
-    "eyebrow": "Viaggio",
     "titles": "Titoli",
     "canonicalHint": "Mostrato sulle card dei viaggi e sulla pagina del viaggio.",
     "details": "Dettagli del viaggio",
@@ -171,7 +170,7 @@
     "remove": "Rimuovi logo"
   },
   "cityScreen": {
-    "eyebrow": "Città",
+    "kind": "Città",
     "position": "Posizione",
     "longitude": "Longitudine",
     "latitude": "Latitudine",
@@ -194,7 +193,7 @@
     "cannotDelete_other": "{{count}} viaggi fanno riferimento a questa città, quindi non può ancora essere eliminata."
   },
   "countryScreen": {
-    "eyebrow": "Paese",
+    "kind": "Paese",
     "identity": "Identità",
     "name": "Nome",
     "continent": "Continente",
@@ -215,7 +214,6 @@
     "cannotDelete_other": "{{count}} città appartengono a questo paese, quindi non può ancora essere eliminato."
   },
   "createScreen": {
-    "eyebrow": "Crea",
     "addA": {
       "city": "Aggiungi una città",
       "trip": "Aggiungi un viaggio"
@@ -251,7 +249,7 @@
     "create": "Crea"
   },
   "configScreen": {
-    "eyebrow": "Impostazioni",
+    "kind": "Impostazioni",
     "title": "Configurazione",
     "siteMetadata": "Metadati del sito",
     "siteName": "Nome",
@@ -288,11 +286,7 @@
     "unescoSitesHint": "Usato solo per contare quanti siti hai visitato. Lascia vuoto per mostrare zero."
   },
   "library": {
-    "eyebrow": "Editor di Travel Map",
-    "title": "I tuoi viaggi, in un solo posto",
-    "subtitle": "Controlla i viaggi per anno, mantieni ordinati i luoghi e gestisci le compagnie usate nella mappa.",
     "newTrip": "Nuovo viaggio",
-    "settings": "Impostazioni",
     "welcome": "Ancora nessun viaggio",
     "welcomeHint": "Il viaggio e' l'unica cosa che crei qui. Le citta' e i paesi necessari vengono scritti per te mentre aggiungi luoghi.",
     "step1": "Crea un viaggio e dagli un titolo.",
@@ -335,7 +329,6 @@
     "add": "Aggiungi compagnia",
     "name": "Nome",
     "logo": "Logo",
-    "svgOrPng": "SVG o PNG.",
     "removeCompany": "Rimuovi {{id}}",
     "remove": "Rimuovi",
     "empty": "Nessuna compagnia di trasporto.",

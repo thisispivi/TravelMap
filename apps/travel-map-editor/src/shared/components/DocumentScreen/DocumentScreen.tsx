@@ -1,12 +1,11 @@
 import "./DocumentScreen.scss";
 
 import { useLanguage } from "@app/shared/hooks/useLanguage";
-import { ArrowLeft, Trash2 } from "lucide-react";
+import { ChevronRight, Trash2 } from "lucide-react";
 import { ReactNode, useState } from "react";
 import { Link } from "react-router";
 
 import { useAutosave } from "../../hooks/useAutosave";
-import { SaveChip } from "../SaveChip/SaveChip";
 import { useToast } from "../Toast/Toast";
 
 /**
@@ -21,8 +20,8 @@ import { useToast } from "../Toast/Toast";
  * @param {DocumentScreenProps} props
  * @param {ReactNode} props.children - Form fields
  * @param {string} [props.deletedMessage] - Toast shown after deletion
- * @param {string} props.eyebrow - Document kind shown above the title
  * @param {boolean} props.isDirty - Whether the draft differs from the saved file
+ * @param {string} props.kind - Document kind shown as the last breadcrumb
  * @param {() => Promise<void>} [props.onDelete] - Removes the document when provided
  * @param {() => Promise<void>} props.onSave - Persists the current draft
  * @param {string} props.path - Dataset-relative JSON path
@@ -36,8 +35,8 @@ import { useToast } from "../Toast/Toast";
 export function DocumentScreen({
   children,
   deletedMessage,
-  eyebrow,
   isDirty,
+  kind,
   onDelete,
   onSave,
   path,
@@ -51,7 +50,7 @@ export function DocumentScreen({
   const { showToast } = useToast();
   const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
   const [message, setMessage] = useState("");
-  const save = useAutosave(value, onSave, isDirty, {
+  useAutosave(value, onSave, isDirty, {
     onSaved: () => showToast(savedMessage ?? t("toast.documentSaved")),
   });
 
@@ -76,13 +75,13 @@ export function DocumentScreen({
     <main className="editor__screen document-screen">
       <header className="editor__header">
         <div>
-          <p className="editor__eyebrow">
-            <Link className="editor-inline-link" to="/">
-              <ArrowLeft aria-hidden="true" />
-              {t("workspace.backToLibrary")}
-            </Link>{" "}
-            · {eyebrow}
-          </p>
+          <nav aria-label={t("nav.breadcrumb")} className="editor__breadcrumb">
+            <Link className="editor__breadcrumb-link" to="/">
+              {t("nav.home")}
+            </Link>
+            <ChevronRight aria-hidden="true" />
+            <span>{kind}</span>
+          </nav>
           <h1 className="document-screen__title">
             {titleIconUrl ? (
               <img
@@ -96,12 +95,6 @@ export function DocumentScreen({
           <p className="editor__path">{path}</p>
         </div>
         <div className="document-screen__actions">
-          <SaveChip
-            error={save.error}
-            onRetry={save.retry}
-            savedAt={save.savedAt}
-            state={save.state}
-          />
           {onDelete ? (
             isConfirmingDelete ? (
               <>
@@ -155,8 +148,8 @@ export function DocumentScreen({
  * Props for DocumentScreen.
  * @property {ReactNode} children - Form fields
  * @property {string} [deletedMessage] - Toast shown after deletion
- * @property {string} eyebrow - Document kind shown above the title
  * @property {boolean} isDirty - Whether the draft differs from the saved file
+ * @property {string} kind - Document kind shown as the last breadcrumb
  * @property {() => Promise<void>} [onDelete] - Removes the document when provided
  * @property {() => Promise<void>} onSave - Persists the current draft
  * @property {string} path - Dataset-relative JSON path
@@ -169,8 +162,8 @@ export function DocumentScreen({
 interface DocumentScreenProps {
   children: ReactNode;
   deletedMessage?: string;
-  eyebrow: string;
   isDirty: boolean;
+  kind: string;
   onDelete?: () => Promise<void>;
   onSave: () => Promise<void>;
   path: string;

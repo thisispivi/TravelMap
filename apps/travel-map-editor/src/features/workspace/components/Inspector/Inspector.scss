@@ -119,7 +119,7 @@
     }
 
     &:focus-within {
-      outline: 2px solid v.$accentPrimary;
+      outline: 2px solid var(--editor-accent);
       outline-offset: 2px;
     }
   }

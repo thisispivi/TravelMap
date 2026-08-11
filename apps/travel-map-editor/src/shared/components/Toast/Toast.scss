@@ -38,8 +38,8 @@
   }
 
   &--info {
-    border-color: color-mix(in srgb, v.$accentPrimary 50%, transparent);
-    background: color-mix(in srgb, v.$accentPrimary 20%, v.$darkLeftBar);
+    border-color: color-mix(in srgb, var(--editor-accent) 50%, transparent);
+    background: color-mix(in srgb, var(--editor-accent) 20%, v.$darkLeftBar);
     color: #f6f9ff;
   }
 

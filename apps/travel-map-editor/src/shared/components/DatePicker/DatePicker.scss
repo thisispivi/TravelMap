@@ -55,7 +55,7 @@
     cursor: pointer;
 
     &:focus-visible {
-      outline: 0.125rem solid v.$accentPrimary;
+      outline: 0.125rem solid var(--editor-accent);
     }
   }
 }
@@ -99,7 +99,7 @@
   @include m.transition(background-color, 0.15s);
 
   &:focus-visible {
-    outline: 0.125rem solid v.$accentPrimary;
+    outline: 0.125rem solid var(--editor-accent);
   }
 }
 
@@ -137,16 +137,16 @@
   }
   &--today {
     font-weight: 700;
-    outline: 0.0625rem solid v.$accentPrimary;
+    outline: 0.0625rem solid var(--editor-accent);
     outline-offset: -0.0625rem;
   }
   &--selected {
-    background-color: v.$accentPrimary !important;
-    color: #ffffff !important;
+    background-color: var(--editor-accent) !important;
+    color: var(--editor-accent-ink) !important;
     font-weight: 700;
   }
   &:focus-visible {
-    outline: 0.125rem solid v.$accentPrimary;
+    outline: 0.125rem solid var(--editor-accent);
   }
 }
 

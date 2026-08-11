@@ -101,6 +101,11 @@ $accentPrimary: #1877f2;
 $accentPrimaryHover: #166fe5;
 $accentSoftDark: rgba(45, 136, 255, 0.2);
 $accentSoftLight: rgba(24, 119, 242, 0.12);
+/* $accentPrimary reads at 3.7:1 on $darkBackground, so dark surfaces lighten
+   the brand blue and pair it with a dark ink instead of white. */
+$accentOnDark: #6cb0ff;
+$accentOnDarkHover: #8cc3ff;
+$accentInkOnDark: #0b1c33;
 
 /* Route overlay */
 $routeLineColorDark: rgba(255, 255, 255, 0.6);

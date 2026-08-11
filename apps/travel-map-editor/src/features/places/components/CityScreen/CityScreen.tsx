@@ -70,8 +70,8 @@ export function CityScreen({ file, isDarkTheme }: CityScreenProps): ReactNode {
   return (
     <DocumentScreen
       deletedMessage={t("toast.cityDeleted")}
-      eyebrow={t("cityScreen.eyebrow")}
       isDirty={isDirty}
+      kind={t("cityScreen.kind")}
       onDelete={dependents.length === 0 ? handleDelete : undefined}
       onSave={handleSave}
       path={file.path}

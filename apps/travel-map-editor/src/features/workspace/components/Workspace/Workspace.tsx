@@ -8,7 +8,6 @@ import { ReactNode, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
 
 import { DataFile, deleteDocument } from "../../../../data/store";
-import { SaveChip } from "../../../../shared/components/SaveChip/SaveChip";
 import { useToast } from "../../../../shared/components/Toast/Toast";
 import {
   useDataset,
@@ -277,12 +276,6 @@ export function Workspace({ file, isDarkTheme }: WorkspaceProps): ReactNode {
               {t("editorForm.delete")}
             </button>
           )}
-          <SaveChip
-            error={workspace.saveError}
-            onRetry={workspace.retrySave}
-            savedAt={workspace.savedAt}
-            state={workspace.saveState}
-          />
         </div>
       </header>
       {workspace.recovered ? (

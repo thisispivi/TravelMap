@@ -2,21 +2,13 @@
 
 .transport-companies {
   &__header,
-  &__heading,
-  &__company-header,
   &__add,
   &__empty {
     display: flex;
     align-items: center;
   }
 
-  &__header,
-  &__company-header {
-    justify-content: space-between;
-    gap: 1rem;
-  }
-
-  &__heading {
+  &__header {
     align-items: flex-start;
     gap: 0.75rem;
   }
@@ -53,31 +45,35 @@
 
   &__list {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(22rem, 100%), 1fr));
+    margin: 0;
+    padding: 0;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.75rem;
+    list-style: none;
   }
 
   &__company {
     display: flex;
+    min-width: 0;
     flex-direction: column;
-    gap: 0.8rem;
+    gap: 0.75rem;
     padding: 0.9rem;
     border: 0.0625rem solid;
     border-radius: v.$floatingCardRadius;
   }
 
-  &__company-header code {
+  &__company-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  &__company-id {
     overflow: hidden;
     font-size: v.$caption;
     font-weight: 700;
     text-overflow: ellipsis;
-  }
-
-  &__fields {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    align-items: start;
-    gap: 0.75rem;
   }
 
   &__empty {
@@ -109,10 +105,10 @@
   }
 
   &__icon {
-    color: v.$accentPrimary;
+    color: var(--editor-accent);
   }
 
-  &__company-header code,
+  &__company-id,
   &__empty {
     color: v.$darkAltText;
   }
@@ -131,30 +127,29 @@
   }
 
   &__icon {
-    color: v.$accentPrimary;
+    color: var(--editor-accent);
   }
 
-  &__company-header code,
+  &__company-id,
   &__empty {
     color: v.$lightAltText;
   }
 }
 
-@media (max-width: 40rem) {
-  .transport-companies {
-    &__header,
-    &__add {
-      align-items: stretch;
-      flex-direction: column;
-    }
+@media (max-width: 52rem) {
+  .transport-companies__list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
 
-    &__add > .editor-button {
+@media (max-width: 40rem) {
+  .transport-companies__add {
+    align-items: stretch;
+    flex-direction: column;
+
+    > .editor-button {
       align-self: flex-start;
       margin-top: 0;
-    }
-
-    &__fields {
-      grid-template-columns: 1fr;
     }
   }
 }

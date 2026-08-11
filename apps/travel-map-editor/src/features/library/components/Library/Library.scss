@@ -1,47 +1,13 @@
 @use "variables" as v;
 @use "mixins" as m;
 
-/*
- * Tall enough for one full page of ten rows, so the places and operators cards
- * line up and neither needs an inner scrollbar.
- */
-$list-height: 30.5rem;
-
 .library {
   display: flex;
   width: min(88rem, 100%);
   margin: 0 auto;
-  padding: 2.25rem 1.25rem 6rem;
+  padding: 1.5rem 1.25rem 6rem;
   flex-direction: column;
   gap: 1.25rem;
-
-  &__hero {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 1rem;
-  }
-
-  &__hero h1 {
-    margin-top: 0.15rem;
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    font-weight: 780;
-    letter-spacing: -0.045em;
-    line-height: 0.95;
-  }
-
-  &__hero-copy {
-    max-width: 34rem;
-    margin-top: 0.65rem;
-    font-size: v.$bodyLg;
-    line-height: 1.5;
-  }
-
-  &__header-actions {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-  }
 
   /*
    * Stretching the row is what keeps the places and operators cards the same
@@ -97,7 +63,7 @@ $list-height: 30.5rem;
       font-weight: 720;
     }
 
-    &--trips {
+    &--actions {
       display: grid;
       grid-template-columns: auto minmax(0, 1fr) auto;
     }
@@ -105,7 +71,7 @@ $list-height: 30.5rem;
 
   &__section-kicker {
     margin-bottom: 0.1rem;
-    color: v.$accentPrimary;
+    color: var(--editor-accent);
     font-size: v.$caption;
     font-weight: 750;
     letter-spacing: 0.07em;
@@ -125,8 +91,8 @@ $list-height: 30.5rem;
     height: 2.75rem;
     flex: 0 0 auto;
     border-radius: 0.85rem;
-    background: v.$accentSoftLight;
-    color: v.$accentPrimary;
+    background: var(--editor-accent-soft);
+    color: var(--editor-accent);
 
     svg {
       width: 1.25rem;
@@ -156,8 +122,8 @@ $list-height: 30.5rem;
     }
 
     &:focus-within {
-      border-color: v.$accentPrimary;
-      outline: 0.125rem solid v.$accentPrimary;
+      border-color: var(--editor-accent);
+      outline: 0.125rem solid var(--editor-accent);
       outline-offset: -0.125rem;
     }
 
@@ -241,7 +207,7 @@ $list-height: 30.5rem;
     > svg {
       width: 2rem;
       height: 2rem;
-      color: v.$accentPrimary;
+      color: var(--editor-accent);
     }
 
     h3 {
@@ -280,7 +246,7 @@ $list-height: 30.5rem;
     > svg {
       width: 1rem;
       height: 1rem;
-      color: v.$accentPrimary;
+      color: var(--editor-accent);
     }
 
     h3 {
@@ -309,12 +275,12 @@ $list-height: 30.5rem;
   }
 
   /*
-   * Sized to hold a full page rather than scrolling, so the places and
-   * operators cards stay the same height whatever each page happens to hold.
+   * The list grows into whatever the row's tallest card leaves it, which keeps
+   * the pagination footer on the card's bottom edge without padding a short
+   * page out to a fixed height.
    */
   &__places {
     display: flex;
-    min-height: $list-height;
     padding: 0.35rem;
     flex: 1;
     flex-direction: column;
@@ -344,7 +310,7 @@ $list-height: 30.5rem;
     }
 
     &:focus-visible {
-      outline: 0.125rem solid v.$accentPrimary;
+      outline: 0.125rem solid var(--editor-accent);
       outline-offset: -0.125rem;
     }
   }
@@ -416,7 +382,7 @@ $list-height: 30.5rem;
     }
 
     &:focus-visible {
-      outline: 0.125rem solid v.$accentPrimary;
+      outline: 0.125rem solid var(--editor-accent);
       outline-offset: 0.1rem;
     }
 
@@ -426,28 +392,33 @@ $list-height: 30.5rem;
     }
   }
 
+  /*
+   * The operator rows are sized to the place rows beside them: the two cards
+   * share a grid row, so a taller row here is what would push the place lists
+   * into padding themselves out below their last entry.
+   */
   &__companies {
     display: flex;
-    min-height: $list-height;
     flex: 1;
     flex-direction: column;
-    gap: 0.45rem;
+    gap: 0.2rem;
   }
 
   &__company {
     gap: 0.65rem;
-    padding: 0.55rem;
-    border-radius: 0.75rem;
+    min-height: 2.8rem;
+    padding: 0.35rem 0.55rem;
+    border-radius: 0.65rem;
   }
 
   &__company-logo {
     display: grid;
     place-items: center;
-    width: 2.7rem;
-    height: 2.7rem;
+    width: 2rem;
+    height: 2rem;
     flex: 0 0 auto;
-    padding: 0.4rem;
-    border-radius: 0.75rem;
+    padding: 0.25rem;
+    border-radius: 0.55rem;
 
     img {
       width: 100%;
@@ -490,13 +461,8 @@ $list-height: 30.5rem;
     svg {
       width: 1.5rem;
       height: 1.5rem;
-      color: v.$accentPrimary;
+      color: var(--editor-accent);
     }
-  }
-
-  &__manage-link {
-    width: 100%;
-    margin-top: 0.75rem;
   }
 }
 
@@ -517,7 +483,7 @@ $list-height: 30.5rem;
   }
 
   &:focus-visible {
-    outline: 0.1875rem solid v.$accentPrimary;
+    outline: 0.1875rem solid var(--editor-accent);
     outline-offset: 0.15rem;
   }
 
@@ -528,7 +494,7 @@ $list-height: 30.5rem;
     place-items: center;
     overflow: hidden;
     background:
-      linear-gradient(145deg, v.$accentSoftDark, transparent 70%),
+      linear-gradient(145deg, var(--editor-accent-soft), transparent 70%),
       color-mix(in srgb, v.$continentsNorthAmerica 24%, transparent);
   }
 
@@ -651,7 +617,6 @@ $list-height: 30.5rem;
 }
 
 .editor--dark .library {
-  &__hero-copy,
   &__section-hint,
   &__place-country,
   &__company-copy code {
@@ -664,7 +629,7 @@ $list-height: 30.5rem;
   }
 
   &__section-icon {
-    background: v.$accentSoftDark;
+    background: var(--editor-accent-soft);
   }
 
   &__year-header span,
@@ -691,7 +656,6 @@ $list-height: 30.5rem;
 }
 
 .editor--light .library {
-  &__hero-copy,
   &__section-hint,
   &__place-country,
   &__company-copy code {
@@ -763,11 +727,6 @@ $list-height: 30.5rem;
   .library {
     padding: 1.5rem 1rem 7rem;
 
-    &__hero {
-      align-items: flex-start;
-      flex-direction: column;
-    }
-
     &__trips {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -778,12 +737,7 @@ $list-height: 30.5rem;
   .library {
     padding-inline: 0.75rem;
 
-    &__header-actions,
-    &__header-actions .editor-button {
-      width: 100%;
-    }
-
-    &__section-header--trips {
+    &__section-header--actions {
       grid-template-columns: auto minmax(0, 1fr);
     }
 

@@ -1,29 +1,14 @@
 import "./CoordinatePicker.scss";
 
-import countriesTopologyJson from "@app/assets/json/countries-50m.json";
 import { createMapStyle, MAP_THEMES } from "@app/features/map/lib/mapTheme";
-import type { FeatureCollection, Geometry } from "geojson";
 import { ReactNode, useMemo } from "react";
 import Map, {
-  Layer,
   MapLayerMouseEvent,
   Marker,
   NavigationControl,
-  Source,
 } from "react-map-gl/maplibre";
-import { feature } from "topojson-client";
-import type { GeometryCollection, Topology } from "topojson-specification";
 
-// The public app's world polygons, so the picker reads as the same map instead
-// of a third-party tile style. Only fills and borders are drawn: labels would
-// need the app's SDF glyphs, which the editor does not serve.
-const topology = countriesTopologyJson as unknown as Topology<{
-  countries: GeometryCollection;
-}>;
-const countriesGeoJson = feature(
-  topology,
-  topology.objects.countries,
-) as FeatureCollection<Geometry>;
+import { WorldLayers } from "../WorldLayers/WorldLayers";
 
 /**
  * CoordinatePicker component
@@ -49,24 +34,16 @@ export function CoordinatePicker({
     <div className="coordinate-picker">
       <Map
         attributionControl={false}
+        dragRotate={false}
         initialViewState={{ latitude, longitude, zoom: 4 }}
         mapStyle={mapStyle}
+        maxPitch={0}
         onClick={(event: MapLayerMouseEvent) =>
           onChange([event.lngLat.lng, event.lngLat.lat])
         }
+        renderWorldCopies={false}
       >
-        <Source data={countriesGeoJson} id="countries" type="geojson">
-          <Layer
-            id="country-fill"
-            paint={{ "fill-color": theme.land }}
-            type="fill"
-          />
-          <Layer
-            id="country-border"
-            paint={{ "line-color": theme.border, "line-width": 0.5 }}
-            type="line"
-          />
-        </Source>
+        <WorldLayers theme={theme} />
         <NavigationControl position="top-right" showCompass={false} />
         <Marker
           anchor="bottom"

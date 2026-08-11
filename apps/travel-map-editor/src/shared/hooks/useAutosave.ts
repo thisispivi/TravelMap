@@ -1,24 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
-/** Where a document stands between the last edit and the last successful write. */
-export type SaveState = "idle" | "pending" | "saving" | "saved" | "failed";
+import { SaveState, useSaveStatus } from "../context/SaveStatus.context";
 
 /** The part of the save state a write actually decides. */
 type WriteState = "idle" | "saving" | "saved" | "failed";
-
-/**
- * Autosave status and controls for one document.
- * @property {SaveState} state - Where the document stands
- * @property {Date | null} savedAt - When the last successful write completed
- * @property {string | null} error - Why the last write failed, when it did
- * @property {() => void} retry - Retries after a failure
- */
-export interface UseAutosaveReturn {
-  state: SaveState;
-  savedAt: Date | null;
-  error: string | null;
-  retry: () => void;
-}
 
 /**
  * Optional reactions to a completed disk write.
@@ -35,18 +20,21 @@ const AUTOSAVE_DELAY_MS = 800;
  * tab is hidden so a closed laptop does not lose the last edit.
  * A failed write deliberately leaves the value in place rather than reverting:
  * discarding what the author just typed is worse than showing them a retry.
+ * The status is published to `SaveStatusContext` so the navigation reports it
+ * for whichever screen is on show.
  * @param {T} value - The value to persist
  * @param {(value: T) => Promise<void>} save - Performs the write
  * @param {boolean} isDirty - Whether the value differs from what is on disk
  * @param {UseAutosaveOptions} [options] - Reactions to a completed write
- * @returns {UseAutosaveReturn} Autosave status and controls
+ * @returns {void}
  */
 export function useAutosave<T>(
   value: T,
   save: (value: T) => Promise<void>,
   isDirty: boolean,
   options: UseAutosaveOptions = {},
-): UseAutosaveReturn {
+): void {
+  const { setStatus } = useSaveStatus();
   const [writeState, setWriteState] = useState<WriteState>("idle");
   const [savedAt, setSavedAt] = useState<Date | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -119,6 +107,10 @@ export function useAutosave<T>(
       : isDirty
         ? "pending"
         : writeState;
+  const retry = useCallback(() => void persist(), [persist]);
 
-  return { error, retry: () => void persist(), savedAt, state };
+  useEffect(() => {
+    setStatus({ error, retry, savedAt, state });
+    return () => setStatus(null);
+  }, [error, retry, savedAt, setStatus, state]);
 }

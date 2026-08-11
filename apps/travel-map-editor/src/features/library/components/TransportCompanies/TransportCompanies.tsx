@@ -1,7 +1,7 @@
 import "./TransportCompanies.scss";
 
 import { useLanguage } from "@app/shared/hooks/useLanguage";
-import { ArrowLeft, Building2, Plus, Trash2 } from "lucide-react";
+import { Building2, ChevronRight, Plus, Trash2 } from "lucide-react";
 import { ReactNode, useState } from "react";
 import { Link } from "react-router";
 
@@ -11,7 +11,6 @@ import { Company, SiteConfig } from "../../../../data/siteConfig";
 import { DataFile, saveDocument } from "../../../../data/store";
 import { TextField } from "../../../../shared/components/Fields/Fields";
 import { ImageUploadField } from "../../../../shared/components/ImageUploadField/ImageUploadField";
-import { SaveChip } from "../../../../shared/components/SaveChip/SaveChip";
 import { useToast } from "../../../../shared/components/Toast/Toast";
 import { useAutosave } from "../../../../shared/hooks/useAutosave";
 
@@ -34,7 +33,7 @@ export function TransportCompanies({
   const [newCompanyId, setNewCompanyId] = useState("");
   const isDirty =
     JSON.stringify(companies) !== JSON.stringify(file.value.companies ?? {});
-  const save = useAutosave(
+  useAutosave(
     companies,
     () => saveDocument(file.path, { ...file.value, companies }),
     isDirty,
@@ -85,34 +84,25 @@ export function TransportCompanies({
     <main className="editor__screen transport-companies">
       <header className="editor__header">
         <div>
-          <p className="editor__eyebrow">
-            <Link className="editor-inline-link" to="/#companies">
-              <ArrowLeft aria-hidden="true" />
+          <nav aria-label={t("nav.breadcrumb")} className="editor__breadcrumb">
+            <Link className="editor__breadcrumb-link" to="/#companies">
               {t("nav.home")}
             </Link>
-          </p>
+            <ChevronRight aria-hidden="true" />
+            <span>{t("nav.companies")}</span>
+          </nav>
           <h1>{t("companyEditor.title")}</h1>
           <p className="editor__path">{file.path}</p>
         </div>
-        <SaveChip
-          error={save.error}
-          onRetry={save.retry}
-          savedAt={save.savedAt}
-          state={save.state}
-        />
       </header>
-      <section className="editor-panel transport-companies__catalogue">
+      <section className="editor-panel">
         <header className="transport-companies__header">
-          <div className="transport-companies__heading">
-            <span aria-hidden="true" className="transport-companies__icon">
-              <Building2 />
-            </span>
-            <div>
-              <h2 className="editor-panel__legend">
-                {t("companyEditor.title")}
-              </h2>
-              <p className="editor-panel__hint">{t("companyEditor.hint")}</p>
-            </div>
+          <span aria-hidden="true" className="transport-companies__icon">
+            <Building2 />
+          </span>
+          <div>
+            <h2 className="editor-panel__legend">{t("companyEditor.title")}</h2>
+            <p className="editor-panel__hint">{t("companyEditor.hint")}</p>
           </div>
         </header>
         <div className="transport-companies__add">
@@ -138,11 +128,11 @@ export function TransportCompanies({
           </button>
         </div>
         {entries.length > 0 ? (
-          <div className="transport-companies__list">
+          <ul className="transport-companies__list">
             {entries.map(([id, company]) => (
-              <article className="transport-companies__company" key={id}>
+              <li className="transport-companies__company" key={id}>
                 <header className="transport-companies__company-header">
-                  <code>{id}</code>
+                  <code className="transport-companies__company-id">{id}</code>
                   <button
                     aria-label={t("companyEditor.removeCompany", { id })}
                     className="editor-button editor-button--danger"
@@ -153,26 +143,23 @@ export function TransportCompanies({
                     {t("companyEditor.remove")}
                   </button>
                 </header>
-                <div className="transport-companies__fields">
-                  <TextField
-                    label={t("companyEditor.name")}
-                    onChange={(name) => setCompany(id, { ...company, name })}
-                    value={company.name}
-                  />
-                  <ImageUploadField
-                    fileNameHint={id}
-                    hint={t("companyEditor.svgOrPng")}
-                    label={t("companyEditor.logo")}
-                    onClear={() =>
-                      setCompany(id, { ...company, logo: undefined })
-                    }
-                    onUpload={(logo) => setCompany(id, { ...company, logo })}
-                    value={resolveLogoUrl(company.logo)}
-                  />
-                </div>
-              </article>
+                <TextField
+                  label={t("companyEditor.name")}
+                  onChange={(name) => setCompany(id, { ...company, name })}
+                  value={company.name}
+                />
+                <ImageUploadField
+                  fileNameHint={id}
+                  label={t("companyEditor.logo")}
+                  onClear={() =>
+                    setCompany(id, { ...company, logo: undefined })
+                  }
+                  onUpload={(logo) => setCompany(id, { ...company, logo })}
+                  value={resolveLogoUrl(company.logo)}
+                />
+              </li>
             ))}
-          </div>
+          </ul>
         ) : (
           <p className="transport-companies__empty">
             <Building2 aria-hidden="true" />

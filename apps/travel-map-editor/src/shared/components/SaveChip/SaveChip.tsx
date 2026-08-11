@@ -5,7 +5,7 @@ import { classNames } from "@app/shared/lib/classNames";
 import { Check, CircleAlert, LoaderCircle } from "lucide-react";
 import { ReactNode } from "react";
 
-import { SaveState } from "../../hooks/useAutosave";
+import { SaveState } from "../../context/SaveStatus.context";
 
 /**
  * SaveChip component

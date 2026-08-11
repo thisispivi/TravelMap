@@ -33,7 +33,7 @@
 
     &:focus-visible {
       outline: none;
-      border-color: v.$accentPrimary;
+      border-color: var(--editor-accent);
     }
 
     &--area {
@@ -82,7 +82,7 @@
   }
 
   &__checkbox-input:focus-visible + &__checkbox-visual {
-    outline: 0.125rem solid v.$accentPrimary;
+    outline: 0.125rem solid var(--editor-accent);
     outline-offset: 0.15rem;
   }
 }

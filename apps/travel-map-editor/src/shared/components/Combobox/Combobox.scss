@@ -10,11 +10,13 @@
     align-items: center;
   }
 
-  // The icon sits inside the input so a row of fields keeps one alignment
-  // whether or not an option carries a flag.
+  /*
+   * The icon sits inside the input so a row of fields keeps one alignment
+   * whether or not an option carries a flag.
+   */
   &__control > &__icon {
     position: absolute;
-    left: 0.6rem;
+    left: 0.55rem;
     pointer-events: none;
     z-index: 1;
   }
@@ -25,30 +27,35 @@
     text-overflow: ellipsis;
   }
 
-  // Scoped under &__control rather than a bare modifier class, so this always
-  // beats .editor-field__control's own padding-left regardless of which
-  // stylesheet the bundler happens to emit last.
+  /*
+   * Scoped under &__control rather than a bare modifier class, so this always
+   * beats .editor-field__control's own padding-left regardless of which
+   * stylesheet the bundler happens to emit last.
+   */
   &__control &__input--with-icon {
-    padding-left: 2.25rem;
+    padding-left: 2.55rem;
   }
 
-  // aspect-ratio guards the circle even if a layout context stops matching
-  // width/height by hand. object-fit: contain plus a permanent tinted backdrop
-  // keeps the whole flag or logo visible — cover would fill the circle edge to
-  // edge by cropping whichever corners a non-square source doesn't fill.
+  /*
+   * The flag pack draws a landscape flag inside a square viewBox, so a circular
+   * frame clips its left and right edges. A landscape frame the flag's own
+   * shape holds the whole thing, and `contain` keeps a square operator logo
+   * intact inside the same frame.
+   */
   &__icon {
-    width: 1.15rem;
-    height: 1.15rem;
-    aspect-ratio: 1 / 1;
+    width: 1.55rem;
+    height: 1.1rem;
     box-sizing: border-box;
-    padding: 0.15rem;
-    border-radius: 62.4375rem;
+    padding: 0.05rem;
+    border-radius: 0.25rem;
     background-color: rgba(128, 128, 128, 0.18);
     object-fit: contain;
     flex-shrink: 0;
 
-    // A non-image icon (e.g. a transport-mode glyph) centers its own svg
-    // rather than being object-fit, since it isn't a replaced element.
+    /*
+     * A non-image icon (e.g. a transport-mode glyph) centers its own svg
+     * rather than being object-fit, since it isn't a replaced element.
+     */
     &--node {
       display: flex;
       align-items: center;
@@ -75,7 +82,7 @@
     cursor: pointer;
 
     &:focus-visible {
-      outline: 0.125rem solid v.$accentPrimary;
+      outline: 0.125rem solid var(--editor-accent);
     }
   }
 
@@ -125,13 +132,15 @@
     cursor: pointer;
 
     &:focus-visible {
-      outline: 0.125rem solid v.$accentPrimary;
+      outline: 0.125rem solid var(--editor-accent);
     }
   }
 }
 
-// Portalled to the body, so it is styled from the theme class on the shell
-// rather than nested inside the combobox block.
+/*
+ * Portalled to the body, so it is styled from the theme class on the shell
+ * rather than nested inside the combobox block.
+ */
 .combobox__menu {
   position: fixed;
   z-index: 60;
@@ -143,8 +152,10 @@
   overscroll-behavior: contain;
   transform-origin: top center;
 
-  // Kept mounted for downshift's ref, so it must not swallow clicks or be
-  // reachable while closed.
+  /*
+   * Kept mounted for downshift's ref, so it must not swallow clicks or be
+   * reachable while closed.
+   */
   &--hidden {
     pointer-events: none;
     visibility: hidden;
@@ -180,7 +191,6 @@
   text-align: center;
 }
 
-// ─── Dark ───────────────────────────────────────────────────
 .editor--dark {
   .combobox__toggle,
   .combobox__chip-remove {
@@ -217,7 +227,6 @@
   }
 }
 
-// ─── Light ──────────────────────────────────────────────────
 .editor--light {
   .combobox__toggle,
   .combobox__chip-remove {

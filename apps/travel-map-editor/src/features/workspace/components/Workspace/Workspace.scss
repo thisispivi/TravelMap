@@ -2,9 +2,15 @@
 @use "mixins" as m;
 
 .workspace {
-  display: grid;
-  grid-template-rows: auto auto minmax(0, 1fr) auto;
-  height: calc(100dvh - 4rem);
+  /*
+   * A flex column rather than fixed grid rows: the recovery banner and the
+   * bulk bar are conditional, and positional rows handed the flexible one to
+   * whichever child happened to land in it.
+   */
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
 
   &__header {
     display: grid;
@@ -55,8 +61,9 @@
 
   &__panes {
     display: grid;
-    grid-template-columns: 20rem minmax(0, 1fr) 22.5rem;
     min-height: 0;
+    flex: 1;
+    grid-template-columns: 20rem minmax(0, 1fr) 22.5rem;
   }
 
   &__rail,
@@ -162,27 +169,24 @@
   }
 }
 
-@media (max-width: 58rem) {
+/* The floating bottom navigation overlaps the panes on a phone. */
+@media (max-width: 42.5rem) {
   .workspace {
-    height: calc(100dvh - 9rem);
+    padding-bottom: 4.5rem;
   }
-}
 
-@media (max-width: 42rem) {
   .workspace__actions {
     display: flex;
     overflow: visible;
 
-    .editor-button,
-    .save-chip {
+    .editor-button {
       width: 2.5rem;
       height: 2.5rem;
       padding: 0;
       font-size: 0;
     }
 
-    .editor-button svg,
-    .save-chip svg {
+    .editor-button svg {
       width: 1rem;
       height: 1rem;
     }

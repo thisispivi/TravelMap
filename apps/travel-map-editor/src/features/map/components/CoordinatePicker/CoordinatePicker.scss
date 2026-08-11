@@ -9,8 +9,10 @@
     height: 100%;
   }
 
-  // Mirrors the visited marker on the public map so a placed city reads the
-  // same in both places.
+  /*
+   * Mirrors the visited marker on the public map so a placed city reads the
+   * same in both places.
+   */
   &__marker {
     display: block;
     width: 1rem;

@@ -41,7 +41,7 @@
     border-radius: 0.75rem;
 
     &--active {
-      border-color: v.$accentPrimary;
+      border-color: var(--editor-accent);
     }
   }
 

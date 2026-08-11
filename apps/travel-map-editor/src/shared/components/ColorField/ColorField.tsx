@@ -4,8 +4,10 @@ import { useLanguage } from "@app/shared/hooks/useLanguage";
 import { ColorData } from "@travelmap/core";
 import { ReactNode } from "react";
 
-// Suggested fills, spaced around the wheel so neighbouring countries stay
-// distinguishable on the map.
+/*
+ * Suggested fills, spaced around the wheel so neighbouring countries stay
+ * distinguishable on the map.
+ */
 const SWATCHES: ColorData[] = [
   { h: 4, s: 72, l: 52 },
   { h: 24, s: 85, l: 54 },

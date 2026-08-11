@@ -1,6 +1,5 @@
 import "./EditorMap.scss";
 
-import countriesTopologyJson from "@app/assets/json/countries-50m.json";
 import { createMapStyle, MAP_THEMES } from "@app/features/map/lib/mapTheme";
 import { useLanguage } from "@app/shared/hooks/useLanguage";
 import { classNames } from "@app/shared/lib/classNames";
@@ -24,23 +23,9 @@ import Map, {
   NavigationControl,
   Source,
 } from "react-map-gl/maplibre";
-import { feature } from "topojson-client";
-import type { GeometryCollection, Topology } from "topojson-specification";
 
 import { Selection } from "../../../workspace/Workspace.state";
-
-/*
- * The public app's world polygons, so the editor reads as the same map instead
- * of a third-party tile style. Only fills and borders are drawn: labels would
- * need the app's SDF glyphs, which the editor does not serve.
- */
-const topology = countriesTopologyJson as unknown as Topology<{
-  countries: GeometryCollection;
-}>;
-const countriesGeoJson = feature(
-  topology,
-  topology.objects.countries,
-) as FeatureCollection<Geometry>;
+import { WorldLayers } from "../WorldLayers/WorldLayers";
 
 const FIT_PADDING_PX = 64;
 
@@ -157,23 +142,15 @@ export function EditorMap({
     <div className="editor-map">
       <Map
         attributionControl={false}
+        dragRotate={false}
         initialViewState={initial}
         mapStyle={mapStyle}
+        maxPitch={0}
         onClick={handleClick}
         ref={mapRef}
+        renderWorldCopies={false}
       >
-        <Source data={countriesGeoJson} id="countries" type="geojson">
-          <Layer
-            id="country-fill"
-            paint={{ "fill-color": theme.land }}
-            type="fill"
-          />
-          <Layer
-            id="country-border"
-            paint={{ "line-color": theme.border, "line-width": 0.5 }}
-            type="line"
-          />
-        </Source>
+        <WorldLayers theme={theme} />
         <Source data={routes} id="routes" type="geojson">
           <Layer
             id="route-line"

@@ -16,12 +16,12 @@
 
     &:hover,
     &--dragging {
-      border-color: v.$accentPrimary;
+      border-color: var(--editor-accent);
       transform: translateY(-0.08rem);
     }
 
     &:focus-within {
-      outline: 0.125rem solid v.$accentPrimary;
+      outline: 0.125rem solid var(--editor-accent);
       outline-offset: 0.12rem;
     }
   }
@@ -54,7 +54,7 @@
       display: flex;
       align-items: center;
       gap: 0.35rem;
-      color: v.$accentPrimary;
+      color: var(--editor-accent);
       font-size: v.$bodySm;
       font-weight: 700;
     }

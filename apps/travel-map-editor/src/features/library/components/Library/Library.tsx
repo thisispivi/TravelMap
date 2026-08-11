@@ -18,7 +18,6 @@ import {
   Plus,
   Route,
   Search,
-  Settings,
   TriangleAlert,
 } from "lucide-react";
 import { ReactNode, SyntheticEvent, useEffect, useState } from "react";
@@ -376,7 +375,9 @@ function PlacesPanel({ dataset }: PlacesPanelProps): ReactNode {
           />
           <ul className="library__places">
             {countries.length === 0 ? (
-              <li className="library__places-empty">{t("library.noMatches")}</li>
+              <li className="library__places-empty">
+                {t("library.noMatches")}
+              </li>
             ) : null}
             {countries
               .slice(
@@ -422,7 +423,9 @@ function PlacesPanel({ dataset }: PlacesPanelProps): ReactNode {
           />
           <ul className="library__places">
             {cities.length === 0 ? (
-              <li className="library__places-empty">{t("library.noMatches")}</li>
+              <li className="library__places-empty">
+                {t("library.noMatches")}
+              </li>
             ) : null}
             {cities
               .slice(
@@ -494,7 +497,7 @@ function CompaniesPanel({ companies }: CompaniesPanelProps): ReactNode {
       className="library__panel library__panel--companies"
       id="companies"
     >
-      <header className="library__section-header">
+      <header className="library__section-header library__section-header--actions">
         <span aria-hidden="true" className="library__section-icon">
           <Building2 />
         </span>
@@ -505,6 +508,13 @@ function CompaniesPanel({ companies }: CompaniesPanelProps): ReactNode {
             {t("library.companyCount", { count: entries.length })}
           </p>
         </div>
+        <Link
+          className="editor-button editor-button--primary library__section-action"
+          to="/companies"
+        >
+          {t("companyEditor.manage")}
+          <ArrowUpRight aria-hidden="true" />
+        </Link>
       </header>
       {entries.length > 0 ? (
         <ul className="library__companies">
@@ -514,19 +524,19 @@ function CompaniesPanel({ companies }: CompaniesPanelProps): ReactNode {
               (visiblePage + 1) * LIBRARY_PAGE_SIZE,
             )
             .map(([id, company]) => {
-            const logo = resolveLogoUrl(company.logo);
-            return (
-              <li className="library__company" key={id}>
-                <span className="library__company-logo">
-                  {logo ? (
-                    <img alt="" onError={handleImageError} src={logo} />
-                  ) : (
-                    <Building2 aria-hidden="true" />
-                  )}
-                </span>
-                <span className="library__company-copy">
-                  <strong>{company.name}</strong>
-                  <code>{id}</code>
+              const logo = resolveLogoUrl(company.logo);
+              return (
+                <li className="library__company" key={id}>
+                  <span className="library__company-logo">
+                    {logo ? (
+                      <img alt="" onError={handleImageError} src={logo} />
+                    ) : (
+                      <Building2 aria-hidden="true" />
+                    )}
+                  </span>
+                  <span className="library__company-copy">
+                    <strong>{company.name}</strong>
+                    <code>{id}</code>
                   </span>
                 </li>
               );
@@ -539,13 +549,6 @@ function CompaniesPanel({ companies }: CompaniesPanelProps): ReactNode {
         </p>
       )}
       <Pagination onChange={setPage} page={visiblePage} pageCount={pageCount} />
-      <Link
-        className="editor-button editor-button--primary library__manage-link"
-        to="/companies"
-      >
-        {t("companyEditor.manage")}
-        <ArrowUpRight aria-hidden="true" />
-      </Link>
     </section>
   );
 }
@@ -601,30 +604,9 @@ export function Library(): ReactNode {
 
   return (
     <main className="library">
-      <header className="library__hero">
-        <div>
-          <p className="editor__eyebrow">{t("library.eyebrow")}</p>
-          <h1>{t("library.title")}</h1>
-          <p className="library__hero-copy">{t("library.subtitle")}</p>
-        </div>
-        <div className="library__header-actions">
-          <Link className="editor-button" to="/settings">
-            <Settings aria-hidden="true" />
-            {t("library.settings")}
-          </Link>
-          <button
-            className="editor-button editor-button--primary"
-            onClick={() => setIsCreating(true)}
-            type="button"
-          >
-            <Plus aria-hidden="true" />
-            {t("library.newTrip")}
-          </button>
-        </div>
-      </header>
       <div className="library__bento">
         <section className="library__panel library__panel--trips" id="trips">
-          <header className="library__section-header library__section-header--trips">
+          <header className="library__section-header library__section-header--actions">
             <span aria-hidden="true" className="library__section-icon">
               <Route />
             </span>

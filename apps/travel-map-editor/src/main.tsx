@@ -10,12 +10,15 @@ import { BrowserRouter } from "react-router";
 
 import { App } from "./App";
 import { ToastProvider } from "./shared/components/Toast/Toast";
+import { SaveStatusProvider } from "./shared/context/SaveStatus.context";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
       <ToastProvider>
-        <App />
+        <SaveStatusProvider>
+          <App />
+        </SaveStatusProvider>
       </ToastProvider>
     </BrowserRouter>
   </StrictMode>,

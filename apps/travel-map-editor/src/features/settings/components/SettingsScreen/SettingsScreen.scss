@@ -38,7 +38,7 @@
     }
 
     &:focus-visible {
-      outline: 0.125rem solid v.$accentPrimary;
+      outline: 0.125rem solid var(--editor-accent);
       outline-offset: 0.1rem;
     }
   }
