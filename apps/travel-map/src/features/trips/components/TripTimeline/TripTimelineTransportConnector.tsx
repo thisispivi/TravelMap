@@ -38,7 +38,7 @@ export function TimelineTransportConnector({
   legs,
   animDelay,
 }: TimelineTransportConnectorProps): ReactNode {
-  const { currLanguage: lang } = useLanguage(["home"]);
+  const { currLanguage: lang, t } = useLanguage(["home"]);
 
   if (!legs.length) return null;
 
@@ -74,7 +74,9 @@ export function TimelineTransportConnector({
 
         const viaText =
           (leg.via?.length ?? 0) > 0
-            ? `via ${leg.via!.map((city) => city.getLocalizedName(lang)).join(", ")}`
+            ? `${t("tripDetail.via")} ${leg
+                .via!.map((city) => city.getLocalizedName(lang))
+                .join(", ")}`
             : null;
 
         /**

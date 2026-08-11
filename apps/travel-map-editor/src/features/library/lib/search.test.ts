@@ -48,7 +48,9 @@ assert.equal(searchItems(cities, "the", terms).length, 0);
  * made every trip match "a trip to Japan" when terms were merged instead.
  */
 assert.deepEqual(
-  searchItems(cities, "Italy", terms).map(({ name }) => name).toSorted(),
+  searchItems(cities, "Italy", terms)
+    .map(({ name }) => name)
+    .toSorted(),
   ["Monza", "Rome"],
 );
 assert.deepEqual(

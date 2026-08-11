@@ -1,5 +1,3 @@
-import { i18n } from "i18next";
-
 import { Continent } from "../typings/Continent";
 import { Currency } from "../typings/Currency";
 import { localize } from "../typings/Localized";
@@ -79,14 +77,5 @@ export class Country {
    */
   getLocalizedName(locale: string): string {
     return localize(this, locale);
-  }
-
-  /**
-   * Translates the country's canonical identifier for display.
-   * @param {i18n["t"]} t - The active i18next translation function
-   * @returns {string} The localized country name
-   */
-  getName(t: i18n["t"]): string {
-    return t(`countries.${this.id}`);
   }
 }

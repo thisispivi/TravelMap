@@ -306,9 +306,6 @@ importers:
 
   packages/core:
     dependencies:
-      i18next:
-        specifier: ^26.3.6
-        version: 26.3.6(typescript@6.0.3)
       remeda:
         specifier: ^2.39.0
         version: 2.39.0

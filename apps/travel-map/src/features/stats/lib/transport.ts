@@ -1,5 +1,6 @@
 import {
   City,
+  Country,
   Ferry,
   FerryCompany,
   Flight,
@@ -10,11 +11,11 @@ import {
 
 /**
  * The number of visited cities recorded for a country.
- * @property {string} countryId - The country identifier
+ * @property {Country} country - The visited country, which carries its own name
  * @property {number} cities - The number of visited cities
  */
 export interface CountryVisitStat {
-  countryId: string;
+  country: Country;
   cities: number;
 }
 
@@ -24,13 +25,12 @@ export interface CountryVisitStat {
  * @returns {CountryVisitStat[]} Stats per country sorted by city count descending
  */
 export function getCountryVisitStats(cities: City[]): CountryVisitStat[] {
-  const map = new Map<string, number>();
+  const counts = new Map<Country, number>();
   for (const city of cities) {
-    const id = city.country.id;
-    map.set(id, (map.get(id) ?? 0) + 1);
+    counts.set(city.country, (counts.get(city.country) ?? 0) + 1);
   }
-  return [...map.entries()]
-    .map(([countryId, count]) => ({ countryId, cities: count }))
+  return [...counts.entries()]
+    .map(([country, count]) => ({ country, cities: count }))
     .sort((a, b) => b.cities - a.cities);
 }
 

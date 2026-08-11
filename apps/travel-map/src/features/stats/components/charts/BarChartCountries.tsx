@@ -18,26 +18,26 @@ interface BarChartCountriesProps {
 /**
  * BarChartCountries component
  * Horizontal bar chart showing the number of cities visited per country,
- * sorted by city count descending. Each row shows the country flag,
- * translated country name, a proportional bar, and the city count.
+ * sorted by city count descending. Each row shows the country flag, its
+ * authored name for the active locale, a proportional bar, and the city count.
  * @component
  * @param {BarChartCountriesProps} props
  * @param {CountryVisitStat[]} props.data - Country stats sorted by cities descending.
  * @returns {ReactNode} The countries bar chart
  */
 export function BarChartCountries({ data }: BarChartCountriesProps): ReactNode {
-  const { t } = useLanguage(["home"]);
+  const { currLanguage } = useLanguage(["home"]);
   const maxCities = Math.max(1, ...data.map((d) => d.cities));
   return (
     <div className="countries-bar-chart">
-      {data.map(({ countryId, cities }) => (
-        <div className="countries-bar-chart__row" key={countryId}>
+      {data.map(({ country, cities }) => (
+        <div className="countries-bar-chart__row" key={country.id}>
           <CountryFlag
             className="countries-bar-chart__flag"
-            countryId={countryId}
+            countryId={country.id}
           />
           <span className="countries-bar-chart__name">
-            {t(`countries.${countryId}`)}
+            {country.getLocalizedName(currLanguage)}
           </span>
           <div className="countries-bar-chart__bar-track">
             <div

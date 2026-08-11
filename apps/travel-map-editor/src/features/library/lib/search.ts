@@ -68,13 +68,14 @@ export function searchItems<T>(
     .filter((scores) => scores.size > 0);
   if (scoresPerTerm.length === 0) return [];
 
-  const totals = scoresPerTerm.reduce((kept, scores) =>
-    new Map(
-      [...kept].flatMap(([index, total]) => {
-        const score = scores.get(index);
-        return score === undefined ? [] : [[index, total + score]];
-      }),
-    ),
+  const totals = scoresPerTerm.reduce(
+    (kept, scores) =>
+      new Map(
+        [...kept].flatMap(([index, total]) => {
+          const score = scores.get(index);
+          return score === undefined ? [] : [[index, total + score]];
+        }),
+      ),
   );
 
   return [...totals.entries()]

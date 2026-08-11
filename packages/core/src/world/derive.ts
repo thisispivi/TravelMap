@@ -269,7 +269,8 @@ export function isLegConsistent(
   const after = stopAfter(steps, index);
 
   return (
-    (!before || before === step.fromId) && (!after || after.cityId === step.toId)
+    (!before || before === step.fromId) &&
+    (!after || after.cityId === step.toId)
   );
 }
 
