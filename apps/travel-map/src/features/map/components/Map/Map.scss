@@ -7,7 +7,7 @@
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  background: #0a0a12;
+  background: v.$darkBackground;
 
   .maplibregl-map {
     position: relative;
@@ -65,12 +65,12 @@
       background-color: v.$darkBackground;
     }
     .map-zoom-controls__button {
-      background: rgba(22, 22, 30, 0.6);
+      background: rgba(36, 37, 38, 0.6);
       border: 0.0625rem solid rgba(255, 255, 255, 0.1);
       color: v.$darkButtonContent;
       box-shadow: v.$glassShadowDark;
       &:hover {
-        background: rgba(22, 22, 30, 0.85);
+        background: rgba(36, 37, 38, 0.85);
       }
     }
   }

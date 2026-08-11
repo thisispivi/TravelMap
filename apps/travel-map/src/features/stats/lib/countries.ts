@@ -5,7 +5,7 @@ import { uniqueBy } from "remeda";
 /**
  * Localized currency information associated with a representative country.
  * @property {Currency} code - ISO 4217 currency code
- * @property {string} countryId - Country identifier used to resolve its flag
+ * @property {string} countryId - Flag identifier, a country id or `Europe` for the euro
  * @property {string} name - Localized currency name
  * @property {string} symbol - Localized narrow currency symbol
  */
@@ -15,6 +15,11 @@ export interface CurrencyDisplay {
   name: string;
   symbol: string;
 }
+
+/* The euro is issued supranationally, so a member state's flag misrepresents it. */
+const CURRENCY_FLAG_IDS: Partial<Record<Currency, string>> = {
+  [Currency.EUR]: "Europe",
+};
 
 /**
  * Returns one visited country for each distinct currency, preserving input order.
@@ -37,7 +42,7 @@ export function getCurrencyDisplay(
 ): CurrencyDisplay {
   return {
     code: country.currency,
-    countryId: country.id,
+    countryId: CURRENCY_FLAG_IDS[country.currency] ?? country.id,
     name: t(`currency.${country.currency}.name`, {
       defaultValue: country.currency,
     }),

@@ -13,14 +13,13 @@
 
   .stats-grid__header {
     flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    padding: 0.75rem 1rem 0.5rem;
+    text-align: center;
+    padding: 1.25rem 1rem 1rem;
 
     h1 {
       font-size: v.$headingLg;
       font-weight: 800;
-      letter-spacing: -0.01em;
+      letter-spacing: 0;
     }
   }
 }
@@ -174,7 +173,7 @@
 
   .stats-grid {
     .stats-grid__header h1 {
-      color: v.$darkButtonContent;
+      color: #ffffff;
     }
   }
 

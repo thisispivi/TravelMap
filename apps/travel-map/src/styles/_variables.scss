@@ -2,17 +2,17 @@ $leftBarWidth: 3.5rem;
 $mobileNavHeight: calc(3.2rem + env(safe-area-inset-bottom, 0rem));
 
 /* Dark theme */
-$darkBackground: #0a0a12;
-$darkLeftBar: #16161e;
-$darkLeftBarOpacity: rgba(22, 22, 30, 0.72);
-$darkLeftBarOpacityLighter: rgba(22, 22, 30, 0.5);
-$darkInfoTab: #1c1c28;
-$darkButton: rgba(255, 255, 255, 0.08);
-$darkButtonHover: rgba(255, 255, 255, 0.14);
-$darkButtonContent: #e4e6f0;
-$darkAltText: #b0b4c8;
-$darkAltTextDarker: #8a8ea4;
-$darkDisabledText: #555870;
+$darkBackground: #18191a;
+$darkLeftBar: #242526;
+$darkLeftBarOpacity: rgba(36, 37, 38, 0.72);
+$darkLeftBarOpacityLighter: rgba(36, 37, 38, 0.5);
+$darkInfoTab: #2c2d2e;
+$darkButton: rgba(255, 255, 255, 0.1);
+$darkButtonHover: rgba(255, 255, 255, 0.16);
+$darkButtonContent: #e4e6eb;
+$darkAltText: #b0b3b8;
+$darkAltTextDarker: #8a8d91;
+$darkDisabledText: #65676b;
 
 /* Light theme */
 $lightBackground: #f0f2f5;
@@ -28,9 +28,9 @@ $lightAltTextDarker: #363948;
 $lightDisabledText: #b0b3b8;
 
 /* Glassmorphism tokens */
-$glassBgDark: rgba(22, 22, 30, 0.65);
+$glassBgDark: rgba(36, 37, 38, 0.65);
 $glassBgLight: rgba(255, 255, 255, 0.55);
-$glassBorderDark: rgba(255, 255, 255, 0.08);
+$glassBorderDark: rgba(255, 255, 255, 0.1);
 $glassBorderLight: rgba(255, 255, 255, 0.45);
 $glassBlur: 1.25rem;
 $glassShadowDark: 0 0.5rem 2rem rgba(0, 0, 0, 0.4);
@@ -97,10 +97,10 @@ $floatingNavZIndex: 3;
 $mobileFloatingMargin: 0.625rem;
 
 /* Brand colors */
-$accentPrimary: #3f7fd8;
-$accentPrimaryHover: #316bbd;
-$accentSoftDark: rgba(63, 127, 216, 0.2);
-$accentSoftLight: rgba(63, 127, 216, 0.12);
+$accentPrimary: #1877f2;
+$accentPrimaryHover: #166fe5;
+$accentSoftDark: rgba(45, 136, 255, 0.2);
+$accentSoftLight: rgba(24, 119, 242, 0.12);
 
 /* Route overlay */
 $routeLineColorDark: rgba(255, 255, 255, 0.6);

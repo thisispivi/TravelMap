@@ -29,8 +29,12 @@
 
 @media screen and (max-width: 42.5rem) {
   .stats-page {
-    .stats-grid__header h1 {
-      font-size: v.$headingMd;
+    .stats-grid__header {
+      padding: 1rem;
+
+      h1 {
+        font-size: v.$headingMd;
+      }
     }
   }
 }

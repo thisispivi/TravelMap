@@ -29,13 +29,13 @@ const GLYPHS_URL = "/glyphs/{fontstack}/{range}.pbf";
 
 export const MAP_THEMES: Record<"dark" | "light", MapTheme> = {
   dark: {
-    ocean: "#0a0a12",
-    land: "#181a26",
-    border: "rgba(138, 142, 164, 0.22)",
-    countryLabel: "#8a8ea4",
-    countryLabelHalo: "#11131c",
-    cityLabel: "#e4e6f0",
-    cityLabelHalo: "rgba(10, 10, 18, 0.94)",
+    ocean: "#18191a",
+    land: "#242526",
+    border: "rgba(255, 255, 255, 0.14)",
+    countryLabel: "#8a8d91",
+    countryLabelHalo: "#18191a",
+    cityLabel: "#e4e6eb",
+    cityLabelHalo: "rgba(24, 25, 26, 0.94)",
   },
   light: {
     ocean: "#eef1f5",
