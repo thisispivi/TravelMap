@@ -1,6 +1,11 @@
 import assert from "node:assert/strict";
 
-import { parseCsv, parseGeoJson, parseText } from "./parsePlaces.ts";
+import {
+  parseCsv,
+  parseGeoJson,
+  parseText,
+  parseXmlPlaces,
+} from "./parsePlaces.ts";
 
 /**
  * Reads the place names a pasted itinerary produces.
@@ -57,5 +62,28 @@ const geo = parseGeoJson(
 );
 assert.equal(geo.format, "geojson");
 assert.equal(geo.rows[0]?.name, "Rome");
+
+const gpx = parseXmlPlaces(
+  '<gpx><wpt lat="41.9" lon="12.5"><name>&lt;img src=x onerror=alert(1)&gt;</name></wpt></gpx>',
+  "gpx",
+);
+assert.deepEqual(gpx.rows[0]?.coordinates, [12.5, 41.9]);
+assert.equal(gpx.rows[0]?.name, "<img src=x onerror=alert(1)>");
+
+const kml = parseXmlPlaces(
+  '<kml xmlns="http://www.opengis.net/kml/2.2"><Document><Placemark><name>Rome</name><Point><coordinates>12.5,41.9,0</coordinates></Point></Placemark></Document></kml>',
+  "kml",
+);
+assert.deepEqual(kml.rows[0]?.coordinates, [12.5, 41.9]);
+assert.equal(kml.rows[0]?.name, "Rome");
+
+const malformedXml = parseXmlPlaces("<gpx><wpt></gpx>", "gpx");
+assert.deepEqual(malformedXml.problems, [{ code: "invalidXml" }]);
+
+const xmlWithDoctype = parseXmlPlaces(
+  '<!DOCTYPE gpx [<!ENTITY place "Rome">]><gpx />',
+  "gpx",
+);
+assert.deepEqual(xmlWithDoctype.problems, [{ code: "invalidXml" }]);
 
 console.log("parsePlaces: all assertions passed");

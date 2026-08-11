@@ -16,6 +16,7 @@
     "@travelmap/core": "workspace:*",
     "all-the-cities": "^3.1.0",
     "downshift": "^9.4.0",
+    "fast-xml-parser": "5.10.1",
     "framer-motion": "^12.42.2",
     "fuse.js": "^7.5.0",
     "i18next": "^26.3.6",

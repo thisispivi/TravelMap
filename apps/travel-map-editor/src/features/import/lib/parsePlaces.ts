@@ -1,4 +1,5 @@
 import type { TransportMode, TripJson } from "@travelmap/core";
+import { XMLParser, XMLValidator } from "fast-xml-parser";
 
 /** The input formats the editor can read without a network round trip. */
 export type ImportFormat =
@@ -315,9 +316,62 @@ export function parseGeoJson(value: unknown): ParsedInput {
   return { format: "geojson", problems, rows };
 }
 
+/* DTD entities can expand imported input far beyond the source file's size. */
+const XML_DOCTYPE = /<!DOCTYPE/i;
+const XML_PARSER = new XMLParser({
+  attributeNamePrefix: "",
+  ignoreAttributes: false,
+  parseAttributeValue: false,
+  parseTagValue: false,
+  removeNSPrefix: true,
+  trimValues: true,
+});
+
 /**
- * Reads waypoints out of GPX or placemarks out of KML using the browser's own
- * XML parser, so neither format needs a dependency.
+ * Narrows parser output to an XML element-shaped record before reading it.
+ * @param {unknown} value - Candidate parser value
+ * @returns {value is Record<string, unknown>} Whether the value can contain XML fields
+ */
+function isXmlRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+/**
+ * Finds every value for a named XML element beneath parser output. GPX and KML
+ * allow extension elements around their standard fields, so traversal cannot
+ * assume one fixed wrapper shape.
+ * @param {unknown} value - XML parser output to search
+ * @param {string} elementName - Namespace-free element name to find
+ * @returns {unknown[]} Values carried by matching elements
+ */
+function xmlValues(value: unknown, elementName: string): unknown[] {
+  if (Array.isArray(value))
+    return value.flatMap((item) => xmlValues(item, elementName));
+  if (!isXmlRecord(value)) return [];
+
+  return Object.entries(value).flatMap(([name, child]) => {
+    if (name !== elementName) return xmlValues(child, elementName);
+    return Array.isArray(child) ? child : [child];
+  });
+}
+
+/**
+ * Reads the first text value carried by a named descendant element.
+ * @param {unknown} value - XML parser output to search
+ * @param {string} elementName - Namespace-free element name to read
+ * @returns {string | undefined} Trimmed element text when present
+ */
+function xmlText(value: unknown, elementName: string): string | undefined {
+  const text = xmlValues(value, elementName).find(
+    (candidate) => typeof candidate === "string",
+  );
+  return typeof text === "string" ? text.trim() : undefined;
+}
+
+/**
+ * Reads waypoints out of GPX or placemarks out of KML without creating DOM
+ * nodes from imported markup. DTDs are rejected before validation so custom
+ * entities cannot amplify a small import into an expensive expansion.
  * @param {string} input - The dropped file contents
  * @param {"gpx" | "kml"} format - Which of the two it is
  * @returns {ParsedInput} What could be read from it
@@ -326,29 +380,32 @@ export function parseXmlPlaces(
   input: string,
   format: "gpx" | "kml",
 ): ParsedInput {
-  /*
-   * `application/xml` is deliberate rather than `text/html`: it runs no
-   * script and fires no event handler, and the parsed document is only ever
-   * read through `getAttribute` and `textContent` — it never reaches the live
-   * DOM. CodeQL still reports the file's own text reaching a parser, so the
-   * inert flow is suppressed here rather than dismissed away from the code.
-   */
-  // codeql[js/xss-through-dom]
-  const document = new DOMParser().parseFromString(input, "application/xml");
-  if (document.querySelector("parsererror"))
+  if (XML_DOCTYPE.test(input) || XMLValidator.validate(input) !== true)
     return {
       format,
       problems: [{ code: "invalidXml" }],
       rows: [],
     };
 
+  let document: unknown;
+  try {
+    document = XML_PARSER.parse(input);
+  } catch {
+    return {
+      format,
+      problems: [{ code: "invalidXml" }],
+      rows: [],
+    };
+  }
+
   const rows: ParsedRow[] = [];
   if (format === "gpx") {
-    document.querySelectorAll("wpt").forEach((node, index) => {
-      const latitude = Number(node.getAttribute("lat"));
-      const longitude = Number(node.getAttribute("lon"));
+    xmlValues(document, "wpt").forEach((node, index) => {
+      if (!isXmlRecord(node)) return;
+      const latitude = Number(node.lat);
+      const longitude = Number(node.lon);
       if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) return;
-      const name = node.querySelector("name")?.textContent?.trim();
+      const name = xmlText(node, "name");
       rows.push({
         coordinates: [longitude, latitude],
         line: index + 1,
@@ -359,12 +416,13 @@ export function parseXmlPlaces(
     return { format, problems: [], rows };
   }
 
-  document.querySelectorAll("Placemark").forEach((node, index) => {
-    const raw = node.querySelector("Point coordinates")?.textContent?.trim();
+  xmlValues(document, "Placemark").forEach((node, index) => {
+    const point = xmlValues(node, "Point")[0];
+    const raw = xmlText(point, "coordinates");
     if (!raw) return;
     const [longitude, latitude] = raw.split(",").map(Number);
     if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) return;
-    const name = node.querySelector("name")?.textContent?.trim();
+    const name = xmlText(node, "name");
     rows.push({
       coordinates: [longitude!, latitude!],
       line: index + 1,

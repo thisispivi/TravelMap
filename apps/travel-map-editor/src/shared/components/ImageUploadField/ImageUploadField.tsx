@@ -3,11 +3,12 @@ import "./ImageUploadField.scss";
 import { useLanguage } from "@app/shared/hooks/useLanguage";
 import { classNames } from "@app/shared/lib/classNames";
 import { Image, UploadCloud, X } from "lucide-react";
-import { DragEvent, ReactNode, useEffect, useId, useState } from "react";
+import { DragEvent, ReactNode, useId, useState } from "react";
 
 import { useToast } from "../Toast/Toast";
 
 const ASSET_WRITE_ENDPOINT = "/__assets/write";
+const MAX_PREVIEW_EDGE = 512;
 
 /**
  * The asset writer's response to a successful upload.
@@ -33,6 +34,36 @@ function readFileAsBase64(file: File): Promise<string> {
     reader.onerror = () => rejectPromise(new Error("Could not read the file."));
     reader.readAsDataURL(file);
   });
+}
+
+/**
+ * Decodes a selected logo and returns only rasterized PNG pixels for preview.
+ * SVG files can contain active markup, so their source text must never become
+ * a browser-rendered URL even though the original vector remains the upload.
+ * @param {File} file - The picked PNG or SVG file
+ * @returns {Promise<string>} A canvas-produced PNG data URL
+ */
+async function createRasterPreview(file: File): Promise<string> {
+  const bitmap = await createImageBitmap(file);
+  try {
+    if (bitmap.width < 1 || bitmap.height < 1)
+      throw new Error("The image has no visible dimensions.");
+
+    const scale = Math.min(
+      1,
+      MAX_PREVIEW_EDGE / bitmap.width,
+      MAX_PREVIEW_EDGE / bitmap.height,
+    );
+    const canvas = document.createElement("canvas");
+    canvas.width = Math.max(1, Math.round(bitmap.width * scale));
+    canvas.height = Math.max(1, Math.round(bitmap.height * scale));
+    const context = canvas.getContext("2d");
+    if (!context) throw new Error("Could not prepare the image preview.");
+    context.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+    return canvas.toDataURL("image/png");
+  } finally {
+    bitmap.close();
+  }
 }
 
 /**
@@ -67,12 +98,6 @@ export function ImageUploadField({
   const [isUploading, setIsUploading] = useState(false);
   const [previewOverride, setPreviewOverride] = useState<string | null>(null);
 
-  useEffect(() => {
-    return () => {
-      if (previewOverride) URL.revokeObjectURL(previewOverride);
-    };
-  }, [previewOverride]);
-
   /**
    * Uploads the picked file and reports its resulting public path.
    * @param {File} file - The picked file
@@ -81,8 +106,8 @@ export function ImageUploadField({
   async function upload(file: File): Promise<void> {
     setError(null);
     setIsUploading(true);
-    setPreviewOverride(URL.createObjectURL(file));
     try {
+      const preview = await createRasterPreview(file);
       const base64 = await readFileAsBase64(file);
       const extension = file.name.slice(file.name.lastIndexOf("."));
       const response = await fetch(ASSET_WRITE_ENDPOINT, {
@@ -98,6 +123,7 @@ export function ImageUploadField({
       if (!response.ok)
         throw new Error(body.error ?? t("imageUploadField.uploadFailed"));
       onUpload(body.path);
+      setPreviewOverride(preview);
       showToast(t("toast.logoUploaded"));
     } catch (uploadError) {
       const errorMessage =
@@ -109,6 +135,15 @@ export function ImageUploadField({
     } finally {
       setIsUploading(false);
     }
+  }
+
+  /**
+   * Clears both the stored logo and its immediate post-upload preview.
+   * @returns {void}
+   */
+  function handleClear(): void {
+    setPreviewOverride(null);
+    onClear?.();
   }
 
   /**
@@ -173,7 +208,7 @@ export function ImageUploadField({
       {previewSrc && onClear ? (
         <button
           className="image-upload-field__clear"
-          onClick={onClear}
+          onClick={handleClear}
           type="button"
         >
           <X aria-hidden="true" />
