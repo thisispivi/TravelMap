@@ -1,1 +1,0 @@
-import{a as e}from"./data-C4oKX_9X.js";function t(t){let{cityName:n,travelIdx:r}=t.params,i=e.find(e=>e.name===n);return!i||!r?null:{city:i,travelIdx:parseInt(r,10)}}export{t as loader};
