@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "lint": "eslint . --report-unused-disable-directives --max-warnings=0",
-    "test": "node --experimental-strip-types src/features/places/lib/googleMaps.test.ts && node --experimental-strip-types src/features/import/lib/parsePlaces.test.ts && node --experimental-strip-types src/features/photos/lib/photoManifest.test.ts && node --experimental-strip-types src/features/library/lib/search.test.ts",
+    "test": "node --experimental-strip-types src/features/places/lib/googleMaps.test.ts && node --experimental-strip-types src/features/import/lib/parsePlaces.test.ts && node --experimental-strip-types src/features/photos/lib/photoManifest.test.ts && node --experimental-strip-types src/features/library/lib/search.test.ts && node --experimental-strip-types src/data/imageUrl.test.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

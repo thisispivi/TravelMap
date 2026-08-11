@@ -326,6 +326,14 @@ export function parseXmlPlaces(
   input: string,
   format: "gpx" | "kml",
 ): ParsedInput {
+  /*
+   * `application/xml` is deliberate rather than `text/html`: it runs no
+   * script and fires no event handler, and the parsed document is only ever
+   * read through `getAttribute` and `textContent` — it never reaches the live
+   * DOM. CodeQL still reports the file's own text reaching a parser, so the
+   * inert flow is suppressed here rather than dismissed away from the code.
+   */
+  // codeql[js/xss-through-dom]
   const document = new DOMParser().parseFromString(input, "application/xml");
   if (document.querySelector("parsererror"))
     return {

@@ -1,5 +1,6 @@
 import { Continent, Currency } from "@travelmap/core";
 
+import { isSafeImageUrl } from "./imageUrl";
 import { DatasetSnapshot, getDataset } from "./store";
 
 export const continents = Object.values(Continent);
@@ -68,7 +69,9 @@ const logosByFilename = new Map(
  */
 export function resolveLogoUrl(logo?: string): string | undefined {
   if (!logo) return undefined;
-  return logosByFilename.get(logo.slice(logo.lastIndexOf("/") + 1)) ?? logo;
+  const bundled = logosByFilename.get(logo.slice(logo.lastIndexOf("/") + 1));
+  if (bundled) return bundled;
+  return isSafeImageUrl(logo) ? logo : undefined;
 }
 
 /**
@@ -79,6 +82,7 @@ export function resolveLogoUrl(logo?: string): string | undefined {
  */
 export function resolveMediaUrl(path?: string): string | undefined {
   if (!path) return undefined;
+  if (!isSafeImageUrl(path)) return undefined;
   if (/^(?:https?:)?\/\//.test(path) || path.startsWith("data:")) return path;
   return `${import.meta.env.VITE_CDN_PATH ?? ""}${path}`;
 }
