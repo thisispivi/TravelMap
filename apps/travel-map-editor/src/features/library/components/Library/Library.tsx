@@ -17,6 +17,7 @@ import {
   MapPinned,
   Plus,
   Route,
+  Search,
   Settings,
   TriangleAlert,
 } from "lucide-react";
@@ -28,15 +29,68 @@ import { Company } from "../../../../data/siteConfig";
 import { DataFile, DatasetSnapshot } from "../../../../data/store";
 import { datasetIssues, useDataset } from "../../../../shared/hooks/useDataset";
 import { findWorldCountry } from "../../../../shared/lib/worldCountries";
+import { searchItems } from "../../lib/search";
 import {
   groupTripsByYear,
   tripCountryIds,
+  tripSearchTerms,
   tripThumbnail,
 } from "../../lib/tripCards";
 import { NewTripDialog } from "../NewTripDialog/NewTripDialog";
 
-/** Maximum number of countries or cities shown on one library page. */
-const PLACE_PAGE_SIZE = 8;
+/** Maximum number of rows shown on one library page. */
+const LIBRARY_PAGE_SIZE = 10;
+
+/**
+ * SearchField component
+ * The filter control shared by every library collection.
+ * @component
+ * @param {SearchFieldProps} props
+ * @param {boolean} [props.isInset=false] - Whether it sits inside a bordered group
+ * @param {string} props.label - Accessible name and placeholder
+ * @param {(value: string) => void} props.onChange - Receives the typed query
+ * @param {string} props.value - The current query
+ * @returns {ReactNode} A labelled search input
+ */
+function SearchField({
+  isInset = false,
+  label,
+  onChange,
+  value,
+}: SearchFieldProps): ReactNode {
+  return (
+    <div
+      className={classNames(
+        "library__search",
+        isInset && "library__search--inset",
+      )}
+    >
+      <Search aria-hidden="true" />
+      <input
+        aria-label={label}
+        className="library__search-input"
+        onChange={(event) => onChange(event.target.value)}
+        placeholder={label}
+        type="search"
+        value={value}
+      />
+    </div>
+  );
+}
+
+/**
+ * Props for SearchField.
+ * @property {boolean} [isInset] - Whether it sits inside a bordered group
+ * @property {string} label - Accessible name and placeholder
+ * @property {(value: string) => void} onChange - Receives the typed query
+ * @property {string} value - The current query
+ */
+interface SearchFieldProps {
+  isInset?: boolean;
+  label: string;
+  onChange: (value: string) => void;
+  value: string;
+}
 
 /** Status treatment shown on a trip card. */
 type TripStatusTone = "ready" | "warning" | "blocking";
@@ -250,20 +304,43 @@ function PlacesPanel({ dataset }: PlacesPanelProps): ReactNode {
   const { t } = useLanguage(["editor"]);
   const [countryPage, setCountryPage] = useState(0);
   const [cityPage, setCityPage] = useState(0);
-  const countries = dataset.countries.toSorted((first, second) =>
-    first.value.name.localeCompare(second.value.name),
-  );
-  const cities = dataset.cities.toSorted((first, second) =>
-    first.value.name.localeCompare(second.value.name),
-  );
+  const [countryQuery, setCountryQuery] = useState("");
+  const [cityQuery, setCityQuery] = useState("");
   const countryNames = new Map(
     dataset.countries.map(({ value }) => [value.id, value.name]),
   );
+  const countries = searchItems(
+    dataset.countries.toSorted((first, second) =>
+      first.value.name.localeCompare(second.value.name),
+    ),
+    countryQuery,
+    ({ value }) => [
+      value.id,
+      value.name,
+      ...Object.values(value.nameByLocale ?? {}),
+    ],
+  );
+  const cities = searchItems(
+    dataset.cities.toSorted((first, second) =>
+      first.value.name.localeCompare(second.value.name),
+    ),
+    cityQuery,
+    ({ value }) => [
+      value.id,
+      value.name,
+      value.countryId,
+      countryNames.get(value.countryId) ?? "",
+      ...Object.values(value.nameByLocale ?? {}),
+    ],
+  );
   const countryPageCount = Math.max(
     1,
-    Math.ceil(countries.length / PLACE_PAGE_SIZE),
+    Math.ceil(countries.length / LIBRARY_PAGE_SIZE),
   );
-  const cityPageCount = Math.max(1, Math.ceil(cities.length / PLACE_PAGE_SIZE));
+  const cityPageCount = Math.max(
+    1,
+    Math.ceil(cities.length / LIBRARY_PAGE_SIZE),
+  );
   const visibleCountryPage = Math.min(countryPage, countryPageCount - 1);
   const visibleCityPage = Math.min(cityPage, cityPageCount - 1);
 
@@ -289,13 +366,22 @@ function PlacesPanel({ dataset }: PlacesPanelProps): ReactNode {
           <header className="library__place-group-header">
             <Globe2 aria-hidden="true" />
             <h3>{t("library.countries")}</h3>
-            <span>{dataset.countries.length}</span>
+            <span>{countries.length}</span>
           </header>
+          <SearchField
+            isInset
+            label={t("library.searchCountries")}
+            onChange={setCountryQuery}
+            value={countryQuery}
+          />
           <ul className="library__places">
+            {countries.length === 0 ? (
+              <li className="library__places-empty">{t("library.noMatches")}</li>
+            ) : null}
             {countries
               .slice(
-                visibleCountryPage * PLACE_PAGE_SIZE,
-                (visibleCountryPage + 1) * PLACE_PAGE_SIZE,
+                visibleCountryPage * LIBRARY_PAGE_SIZE,
+                (visibleCountryPage + 1) * LIBRARY_PAGE_SIZE,
               )
               .map(({ value }) => (
                 <li key={value.id}>
@@ -326,13 +412,22 @@ function PlacesPanel({ dataset }: PlacesPanelProps): ReactNode {
           <header className="library__place-group-header">
             <MapPin aria-hidden="true" />
             <h3>{t("library.cities")}</h3>
-            <span>{dataset.cities.length}</span>
+            <span>{cities.length}</span>
           </header>
+          <SearchField
+            isInset
+            label={t("library.searchCities")}
+            onChange={setCityQuery}
+            value={cityQuery}
+          />
           <ul className="library__places">
+            {cities.length === 0 ? (
+              <li className="library__places-empty">{t("library.noMatches")}</li>
+            ) : null}
             {cities
               .slice(
-                visibleCityPage * PLACE_PAGE_SIZE,
-                (visibleCityPage + 1) * PLACE_PAGE_SIZE,
+                visibleCityPage * LIBRARY_PAGE_SIZE,
+                (visibleCityPage + 1) * LIBRARY_PAGE_SIZE,
               )
               .map(({ value }) => (
                 <li key={value.id}>
@@ -387,9 +482,12 @@ interface PlacesPanelProps {
  */
 function CompaniesPanel({ companies }: CompaniesPanelProps): ReactNode {
   const { t } = useLanguage(["editor"]);
+  const [page, setPage] = useState(0);
   const entries = Object.entries(companies).toSorted((first, second) =>
     first[1].name.localeCompare(second[1].name),
   );
+  const pageCount = Math.max(1, Math.ceil(entries.length / LIBRARY_PAGE_SIZE));
+  const visiblePage = Math.min(page, pageCount - 1);
 
   return (
     <section
@@ -410,7 +508,12 @@ function CompaniesPanel({ companies }: CompaniesPanelProps): ReactNode {
       </header>
       {entries.length > 0 ? (
         <ul className="library__companies">
-          {entries.map(([id, company]) => {
+          {entries
+            .slice(
+              visiblePage * LIBRARY_PAGE_SIZE,
+              (visiblePage + 1) * LIBRARY_PAGE_SIZE,
+            )
+            .map(([id, company]) => {
             const logo = resolveLogoUrl(company.logo);
             return (
               <li className="library__company" key={id}>
@@ -424,10 +527,10 @@ function CompaniesPanel({ companies }: CompaniesPanelProps): ReactNode {
                 <span className="library__company-copy">
                   <strong>{company.name}</strong>
                   <code>{id}</code>
-                </span>
-              </li>
-            );
-          })}
+                  </span>
+                </li>
+              );
+            })}
         </ul>
       ) : (
         <p className="library__companies-empty">
@@ -435,6 +538,7 @@ function CompaniesPanel({ companies }: CompaniesPanelProps): ReactNode {
           {t("companyEditor.empty")}
         </p>
       )}
+      <Pagination onChange={setPage} page={visiblePage} pageCount={pageCount} />
       <Link
         className="editor-button editor-button--primary library__manage-link"
         to="/companies"
@@ -466,9 +570,13 @@ export function Library(): ReactNode {
   const { hash } = useLocation();
   const dataset = useDataset();
   const [isCreating, setIsCreating] = useState(false);
+  const [tripQuery, setTripQuery] = useState("");
   const issues = datasetIssues(dataset);
   const cities = new Map(dataset.cities.map(({ value }) => [value.id, value]));
-  const tripGroups = groupTripsByYear(dataset.trips);
+  const matchingTrips = searchItems(dataset.trips, tripQuery, ({ value }) =>
+    tripSearchTerms(value, cities),
+  );
+  const tripGroups = groupTripsByYear(matchingTrips);
 
   useEffect(() => {
     if (!hash) return;
@@ -524,7 +632,7 @@ export function Library(): ReactNode {
               <p className="library__section-kicker">{t("library.archive")}</p>
               <h2>{t("library.allTrips")}</h2>
               <p className="library__section-hint">
-                {t("library.tripCount", { count: dataset.trips.length })}
+                {t("library.tripCount", { count: matchingTrips.length })}
               </p>
             </div>
             <button
@@ -536,6 +644,11 @@ export function Library(): ReactNode {
               {t("library.newTrip")}
             </button>
           </header>
+          <SearchField
+            label={t("library.searchTrips")}
+            onChange={setTripQuery}
+            value={tripQuery}
+          />
           {tripGroups.length > 0 ? (
             <div className="library__years">
               {tripGroups.map((group) => (
@@ -557,6 +670,8 @@ export function Library(): ReactNode {
                 </section>
               ))}
             </div>
+          ) : tripQuery ? (
+            <p className="library__no-matches">{t("library.noMatches")}</p>
           ) : (
             <div className="library__welcome">
               <Route aria-hidden="true" />

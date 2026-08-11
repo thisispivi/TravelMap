@@ -1,6 +1,12 @@
 @use "variables" as v;
 @use "mixins" as m;
 
+/*
+ * Tall enough for one full page of ten rows, so the places and operators cards
+ * line up and neither needs an inner scrollbar.
+ */
+$list-height: 30.5rem;
+
 .library {
   display: flex;
   width: min(88rem, 100%);
@@ -37,15 +43,23 @@
     flex-wrap: wrap;
   }
 
+  /*
+   * Stretching the row is what keeps the places and operators cards the same
+   * height: their lists hold the same number of rows but not the same row
+   * height, so equal height has to come from the grid rather than a shared
+   * measurement neither card can honour.
+   */
   &__bento {
     display: grid;
     grid-template-columns: repeat(12, minmax(0, 1fr));
-    align-items: start;
+    align-items: stretch;
     gap: 1rem;
   }
 
   &__panel {
+    display: flex;
     min-width: 0;
+    flex-direction: column;
     padding: 1.15rem;
     border-radius: v.$floatingCardRadiusLg;
     scroll-margin-top: 5rem;
@@ -125,6 +139,55 @@
     justify-self: end;
   }
 
+  &__search {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    padding: 0.4rem 0.7rem;
+    border: 0.0625rem solid;
+    border-radius: 0.7rem;
+
+    > svg {
+      width: 0.95rem;
+      height: 0.95rem;
+      flex: 0 0 auto;
+      opacity: 0.55;
+    }
+
+    &:focus-within {
+      border-color: v.$accentPrimary;
+      outline: 0.125rem solid v.$accentPrimary;
+      outline-offset: -0.125rem;
+    }
+
+    &--inset {
+      margin: 0.5rem 0.5rem 0;
+    }
+  }
+
+  &__search-input {
+    width: 100%;
+    min-width: 0;
+    padding: 0.25rem 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    font-size: v.$bodySm;
+
+    &:focus-visible {
+      outline: none;
+    }
+  }
+
+  &__no-matches {
+    padding: 1.75rem 0.5rem;
+    font-size: v.$bodySm;
+    opacity: 0.7;
+    text-align: center;
+  }
+
   &__years {
     display: flex;
     flex-direction: column;
@@ -195,6 +258,7 @@
 
   &__place-groups {
     display: grid;
+    flex: 1;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.75rem;
   }
@@ -244,15 +308,23 @@
     list-style: none;
   }
 
+  /*
+   * Sized to hold a full page rather than scrolling, so the places and
+   * operators cards stay the same height whatever each page happens to hold.
+   */
   &__places {
     display: flex;
-    min-height: 3.25rem;
-    max-height: 19rem;
+    min-height: $list-height;
     padding: 0.35rem;
+    flex: 1;
     flex-direction: column;
     gap: 0.2rem;
-    overflow-y: auto;
     font-size: v.$bodySm;
+  }
+
+  &__places-empty {
+    padding: 0.85rem 0.55rem;
+    opacity: 0.7;
   }
 
   &__place-link {
@@ -356,10 +428,10 @@
 
   &__companies {
     display: flex;
-    max-height: 18rem;
+    min-height: $list-height;
+    flex: 1;
     flex-direction: column;
     gap: 0.45rem;
-    overflow-y: auto;
   }
 
   &__company {
@@ -606,6 +678,7 @@
   &__place-group,
   &__place-group-header,
   &__pagination,
+  &__search,
   &__welcome,
   &__companies-empty {
     border-color: v.$glassBorderDark;
@@ -641,6 +714,7 @@
   &__place-group,
   &__place-group-header,
   &__pagination,
+  &__search,
   &__welcome,
   &__companies-empty {
     border-color: rgb(0 0 0 / 9%);

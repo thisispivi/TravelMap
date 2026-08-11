@@ -12,7 +12,7 @@ import FerryIcon from "@/assets/icons/Ferry.svg?react";
 import TaxiIcon from "@/assets/icons/Taxi.svg?react";
 import TimezoneIcon from "@/assets/icons/Timezone.svg?react";
 import TrainIcon from "@/assets/icons/Train.svg?react";
-import { visitedTrips } from "@/data/world";
+import { futureTrips, visitedTrips } from "@/data/world";
 import { isPanelLoadingVisible } from "@/shared/components/PanelLoading/PanelLoading.state";
 import { useAppRoute } from "@/shared/context/AppRoute.context";
 import { useMapInteraction } from "@/shared/context/MapInteraction.context";
@@ -46,8 +46,14 @@ export function TripDetail(): ReactNode {
   const bodyRef = useRef<HTMLDivElement | null>(null);
   const [skipEntrance] = useState(isPanelLoadingVisible);
   const [isBodyScrollable, setIsBodyScrollable] = useState(false);
+  /*
+   * Planned trips are absent from the browsable list, but a link to one still
+   * has to resolve, so the lookup spans both records.
+   */
   const trip =
-    selectedTrip ?? visitedTrips.find((tr) => tr.id === tripDetailId) ?? null;
+    selectedTrip ??
+    [...visitedTrips, ...futureTrips].find((tr) => tr.id === tripDetailId) ??
+    null;
   useEffect(() => {
     if (trip && selectedTrip?.id !== trip.id) setSelectedTrip(trip);
   }, [selectedTrip?.id, setSelectedTrip, trip]);

@@ -30,7 +30,7 @@ async function readPayload(request: IncomingMessage): Promise<WritePayload> {
 /**
  * Returns a logo file path only when the filename is a bare, allowed-extension
  * name that stays inside the configured logos root.
- * @param {string} logosRoot - Absolute public/logos directory
+ * @param {string} logosRoot - Absolute dataset logos directory
  * @param {string} filename - User-supplied destination filename
  * @returns {string} Validated absolute logo file path
  */
@@ -65,9 +65,9 @@ function sendJson(
 
 /**
  * Provides a local-only endpoint for writing uploaded transport-company logos
- * into the public app's static assets, so a fork owner can add a company
- * without touching the filesystem by hand.
- * @param {string} logosRoot - Absolute path of the public app's logos directory
+ * into the dataset, so a fork owner can add a company without touching the
+ * filesystem by hand.
+ * @param {string} logosRoot - Absolute path of the dataset's logos directory
  * @returns {Plugin} Serve-only Vite plugin
  */
 export function assetWriter(logosRoot: string): Plugin {

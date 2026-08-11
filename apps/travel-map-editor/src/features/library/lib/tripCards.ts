@@ -58,6 +58,30 @@ export function tripCountryIds(
 }
 
 /**
+ * Collects the text a trip should be findable by. Stop cities and countries are
+ * included because an author looks for "Japan" far more often than for the trip
+ * title they gave it.
+ * @param {TripJson} trip - Trip document
+ * @param {Map<string, CityJson>} cities - Cities indexed by identifier
+ * @returns {string[]} Searchable terms for the trip
+ */
+export function tripSearchTerms(
+  trip: TripJson,
+  cities: Map<string, CityJson>,
+): string[] {
+  const stopCities = trip.steps.flatMap((step) =>
+    step.type === "stop" ? [cities.get(step.cityId)] : [],
+  );
+  return [
+    trip.id,
+    trip.title,
+    trip.sDate,
+    ...Object.values(trip.titleByLocale ?? {}),
+    ...stopCities.flatMap((city) => (city ? [city.name, city.countryId] : [])),
+  ];
+}
+
+/**
  * Picks the trip's cover, falling back to the first visited city's first image.
  * @param {TripJson} trip - Trip document
  * @param {Map<string, CityJson>} cities - Cities indexed by identifier

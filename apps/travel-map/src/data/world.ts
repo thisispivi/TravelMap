@@ -9,7 +9,7 @@ import {
   Trip,
   TripJson,
 } from "@travelmap/core";
-import { unique } from "remeda";
+import { partition, unique } from "remeda";
 
 /**
  * Serializable site settings consumed by the public app.
@@ -82,19 +82,48 @@ const world = buildWorld({
   trips,
 });
 
-export const visitedTrips: Trip[] = world.trips;
+/*
+ * Planned travel is split off here rather than filtered at each call site, so
+ * every downstream total — trips, statistics, visited places — describes
+ * journeys that already happened without each feature repeating the rule.
+ */
+const [plannedTrips, takenTrips] = partition(world.trips, (trip) =>
+  trip.isFuture(),
+);
+
+export const visitedTrips: Trip[] = takenTrips;
+export const futureTrips: Trip[] = plannedTrips;
 export const livedCities: City[] = world.livedCities;
-export const futureCities: City[] = world.futureCities;
 export const homeCity: City | null = world.homeCity;
-export const visitedCities: City[] = unique(
-  visitedTrips.flatMap((trip) => [
-    trip.origin.city,
-    ...trip.destinations.flatMap((destination) =>
-      destination.isLayover ? [] : [destination.city],
+
+/**
+ * Collects the cities a trip actually stays in. Layovers are excluded because
+ * passing through an airport is not visiting a place, and the origin and return
+ * cities are excluded because they describe where a journey began rather than
+ * somewhere it went.
+ * @param {Trip[]} trips - The trips to read stops from
+ * @returns {City[]} Every stayed-in city, with duplicates removed
+ */
+function stayedInCities(trips: Trip[]): City[] {
+  return unique(
+    trips.flatMap((trip) =>
+      trip.destinations.flatMap((destination) =>
+        destination.isLayover ? [] : [destination.city],
+      ),
     ),
-    trip.returnTo.city,
-  ]),
-).sort((first, second) => first.name.localeCompare(second.name));
+  );
+}
+
+/* Lived-in cities are their own category and must not inflate visited totals. */
+const livedCityIds = new Set(livedCities.map((city) => city.id));
+
+export const visitedCities: City[] = stayedInCities(visitedTrips)
+  .filter((city) => !livedCityIds.has(city.id))
+  .sort((first, second) => first.name.localeCompare(second.name));
+export const futureCities: City[] = unique([
+  ...world.futureCities,
+  ...stayedInCities(futureTrips),
+]).sort((first, second) => first.name.localeCompare(second.name));
 export const visitedCountries: Country[] = unique(
   visitedCities.map((city) => city.country),
 ).sort((first, second) => first.id.localeCompare(second.id));

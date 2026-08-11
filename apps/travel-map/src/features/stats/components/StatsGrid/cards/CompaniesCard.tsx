@@ -2,6 +2,7 @@ import "./CompaniesCard.scss";
 
 import { ReactNode } from "react";
 
+import { resolveLogoUrl } from "@/data/logos";
 import { siteConfig } from "@/data/world";
 import { useLanguage } from "@/shared/hooks/useLanguage";
 
@@ -41,14 +42,15 @@ export function CompaniesCard({
       <div className="bento-detail__rows">
         {flightCompanyStats.map(({ company, count }) => {
           const metadata = siteConfig?.companies?.[company];
+          const logo = resolveLogoUrl(metadata?.logo);
           return (
             <div className="bento-detail__row bento-company-row" key={company}>
-              {metadata?.logo ? (
+              {logo ? (
                 <img
                   alt=""
                   aria-hidden="true"
                   className="bento-company-row__logo"
-                  src={metadata.logo}
+                  src={logo}
                 />
               ) : null}
               <p className="bento-company-row__name">
@@ -65,14 +67,15 @@ export function CompaniesCard({
       <div className="bento-detail__rows">
         {ferryCompanyStats.map(({ company, count }) => {
           const metadata = siteConfig?.companies?.[company];
+          const logo = resolveLogoUrl(metadata?.logo);
           return (
             <div className="bento-detail__row bento-company-row" key={company}>
-              {metadata?.logo ? (
+              {logo ? (
                 <img
                   alt=""
                   aria-hidden="true"
                   className="bento-company-row__logo"
-                  src={metadata.logo}
+                  src={logo}
                 />
               ) : null}
               <p className="bento-company-row__name">

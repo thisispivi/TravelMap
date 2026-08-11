@@ -43,15 +43,12 @@ export function companyIds(): string[] {
 }
 
 /*
- * Vite serves the public app's logos from its own source tree, so the editor
- * cannot reference /logos/*.svg the way the site does (the same reason
- * worldCountries.ts keeps a parallel map for flags).
+ * Logos live in the dataset, outside either app's served root, so both apps
+ * bundle them by filename rather than linking /logos/*.svg directly (the same
+ * reason worldCountries.ts keeps a parallel map for flags).
  */
 const logoUrls = import.meta.glob<string>(
-  [
-    "../../../travel-map/public/logos/*.svg",
-    "../../../travel-map/public/logos/*.png",
-  ],
+  ["../../../../data/logos/*.svg", "../../../../data/logos/*.png"],
   { eager: true, import: "default", query: "?url" },
 );
 const logosByFilename = new Map(

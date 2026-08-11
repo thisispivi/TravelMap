@@ -27,101 +27,61 @@ The live app is available at [map.pivi.dev](https://map.pivi.dev/).
 
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB) ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) ![PNPM](https://img.shields.io/badge/pnpm-%234a4a4a.svg?style=for-the-badge&logo=pnpm&logoColor=f69220) ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white) ![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white) ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white) ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) ![ESLint](https://img.shields.io/badge/ESLint-4B3263?style=for-the-badge&logo=eslint&logoColor=white) ![SASS](https://img.shields.io/badge/SASS-hotpink.svg?style=for-the-badge&logo=SASS&logoColor=white) ![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)
 
-## Repository
-
-```text
-.
-├── .github
-│   └── copilot-instructions.md
-├── AGENTS.md
-├── CLAUDE.md
-├── CODING_GUIDELINES.md
-├── apps
-│   ├── travel-map
-│   └── travel-map-editor
-├── packages
-│   └── core
-├── docker
-├── logos
-├── media
-├── scripts
-│   └── uploader
-└── data
-```
-
-- `apps/travel-map` is the public React application.
-- `apps/travel-map-editor` is the companion content-authoring application.
-- `packages/core` contains the shared `@travelmap/core` domain model.
-- `scripts`: Contains a folder with the scripts used to process and upload images/videos and generate the JSON file.
-  - [Uploader](./scripts/uploader/README.md): generates compressed and thumbnail images from travel photos and videos, sends them to BunnyCDN or local `media/`, and exports gallery metadata for the React app.
-- `logos` contains app and README logo assets.
-- [`CODING_GUIDELINES.md`](./CODING_GUIDELINES.md) is the single source of truth for code style and engineering conventions.
-- `AGENTS.md`, `CLAUDE.md`, and `.github/copilot-instructions.md` configure Codex, Claude, and GitHub Copilot to follow those same guidelines for every code file.
-
-## Local Development
+## Getting Started
 
 ```bash
 pnpm install
 pnpm dev
 ```
 
-## Self-hosting images
+The site runs at <http://localhost:5173> and the content editor at
+<http://localhost:5174>.
 
-Set `media.root` in `data/site.config.json` when you want a path prefix other
-than `/Travels`. Process a city locally from `scripts/uploader/` with:
+**→ [Read the user guide](./docs/GUIDE.md)** for how to add trips and places,
+process and attach photos, host images yourself or on a CDN, run the site with
+Docker, and publish it.
 
-```bash
-python main.py -c Monza -C Italy --local
+## Repository
+
+```text
+.
+├── apps
+│   ├── travel-map          The public site
+│   └── travel-map-editor   The content editor
+├── packages
+│   └── core                Shared domain model
+├── scripts
+│   └── uploader            Photo and video processing
+├── docker                  Container for self-hosting
+├── docs                    User guide
+├── logos                   Project brand assets
+├── data                    Your content (not in git)
+└── media                   Your images (not in git)
 ```
 
-The uploader writes optimized files below
-`media/Travels/Italy/Monza/`, skips BunnyCDN, and still produces
-`scripts/uploader/Monza.json`. Import that manifest from the trip stop in the
-editor; the editor names and places it from the stop's city and dates.
+`data/` and `media/` hold your personal content and are deliberately excluded
+from git, so a fresh clone starts empty and the editor builds it up as you go.
 
-For local development, set `VITE_CDN_PATH="/media"` in
-`apps/travel-map/env/.env` and restart `pnpm dev`. Leave the committed Bunny
-host value in place to use the hosted delivery path instead.
+## Contributing
 
-Run the public app and mount `media/` read-only with Docker:
+- [`docs/GUIDE.md`](./docs/GUIDE.md) — how to use TravelMap.
+- [`CODING_GUIDELINES.md`](./CODING_GUIDELINES.md) — the single source of truth
+  for code style and engineering conventions.
+- [`scripts/uploader/README.md`](./scripts/uploader/README.md) — uploader
+  details.
+- `AGENTS.md`, `CLAUDE.md`, and `.github/copilot-instructions.md` point Codex,
+  Claude, and GitHub Copilot at those same guidelines.
 
-```bash
-docker compose -f docker/compose.yml up --build
-```
-
-The site is available at `http://localhost:8080`. Media added to the mounted
-folder is served immediately without rebuilding the image.
-
-Useful commands:
+Before committing, from the repository root:
 
 ```bash
-pnpm run check
-pnpm run lint
-pnpm run format
-pnpm run build
-pnpm run knip
-pnpm run security:audit
+pnpm check
 ```
 
-`pnpm run check` runs TypeScript checking, ESLint with zero warnings, a Prettier
-formatting check, unused-code analysis, and React Doctor. Run it before
-committing. The Husky pre-commit hook also checks staged TypeScript, TSX,
-JavaScript, styles, markup, and data files.
+That runs type checking, linting, formatting, unused-code analysis, and React
+Doctor across the workspace. `pnpm build` additionally verifies the production
+output. A Husky pre-commit hook checks staged files.
 
-ESLint uses `eslint-plugin-jsdoc` to enforce the canonical documentation
-layout, including component titles, declaration spacing, typed parameters,
-documented destructured props, return values, and documentation for every
-named function, class, method, type, interface, and enum.
-
-Dependency installation uses pnpm's seven-day release quarantine. Only
-time-sensitive security patches are exempted, and the single transitive
-override replaces vulnerable legacy `brace-expansion` releases. Run
-`pnpm run security:audit` for the JavaScript dependency audit. The uploader's
-Python pins can be checked with
-`uvx pip-audit -r scripts/uploader/requirements.txt` from the repository root.
-
-## Deploy
-
-```bash
-pnpm --filter travel-map deploygh
-```
+Dependency installs use pnpm's seven-day release quarantine. Audit JavaScript
+dependencies with `pnpm --filter travel-map security:audit`, and the uploader's
+Python pins with `uvx pip-audit -r scripts/uploader/requirements.txt`.

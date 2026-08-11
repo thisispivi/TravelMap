@@ -16,14 +16,13 @@ import { snapshots } from "./vite/snapshots";
  */
 const appSource = resolve(__dirname, "../travel-map/src");
 const appStyles = resolve(appSource, "styles");
-const appPublic = resolve(__dirname, "../travel-map/public");
 
 export default defineConfig({
   plugins: [
     react(),
     svgr(),
     dataWriter(resolve(__dirname, "../../data")),
-    assetWriter(resolve(appPublic, "logos")),
+    assetWriter(resolve(__dirname, "../../data/logos")),
     cityIndex(),
     snapshots(resolve(__dirname, "../../.data-snapshots")),
   ],

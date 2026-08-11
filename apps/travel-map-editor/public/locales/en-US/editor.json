@@ -321,7 +321,11 @@
     "companyCount_other": "{{count}} companies available",
     "previousPage": "Previous page",
     "nextPage": "Next page",
-    "page": "Page {{current}} of {{total}}"
+    "page": "Page {{current}} of {{total}}",
+    "searchTrips": "Search trips",
+    "searchCountries": "Search countries",
+    "searchCities": "Search cities",
+    "noMatches": "Nothing matches that search."
   },
   "companyEditor": {
     "title": "Transport companies",

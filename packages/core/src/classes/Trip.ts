@@ -223,6 +223,20 @@ export class Trip {
   }
 
   /**
+   * Reports whether the trip has not started yet. Planned travel is kept out of
+   * the historical record — trip lists, statistics, and visited places — while
+   * still surfacing its cities as planned, so the numbers only ever describe
+   * journeys that actually happened.
+   * @param {Date} [reference=new Date()] - The moment to compare against
+   * @returns {boolean} Whether the trip starts after the reference day
+   */
+  isFuture(reference: Date = new Date()): boolean {
+    const startOfReferenceDay = new Date(reference);
+    startOfReferenceDay.setHours(0, 0, 0, 0);
+    return this.sDate.getTime() > startOfReferenceDay.getTime();
+  }
+
+  /**
    * Calculates the inclusive duration of the trip in calendar days.
    * @returns {number} The inclusive trip duration
    */

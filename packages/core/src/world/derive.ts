@@ -230,6 +230,30 @@ export function stopAfter(
 }
 
 /**
+ * Resolves where the traveller stands when a step begins. This is the preceding
+ * stop's city in the ordinary case, but a day trip recorded as a round-trip leg
+ * brings them back to where that leg departed from, so the stop it leads to is
+ * not where the next leg starts.
+ * @param {TripJson["steps"]} steps - Ordered itinerary steps
+ * @param {number} index - Position of the step being examined
+ * @returns {string | undefined} The city id they are in, when it is known
+ */
+export function locationBefore(
+  steps: TripJson["steps"],
+  index: number,
+): string | undefined {
+  for (let position = index - 1; position >= 0; position -= 1) {
+    const step = steps[position];
+    if (step?.type !== "stop") continue;
+    const arrival = steps[position - 1];
+    return arrival?.type === "transport" && arrival.roundTrip
+      ? arrival.fromId
+      : step.cityId;
+  }
+  return undefined;
+}
+
+/**
  * Reports whether a leg's endpoints still agree with its neighbouring stops.
  * @param {TripJson["steps"]} steps - Ordered itinerary steps
  * @param {number} index - Position of the leg
@@ -241,12 +265,11 @@ export function isLegConsistent(
 ): boolean {
   const step = steps[index];
   if (step?.type !== "transport") return true;
-  const before = stopBefore(steps, index);
+  const before = locationBefore(steps, index);
   const after = stopAfter(steps, index);
 
   return (
-    (!before || before.cityId === step.fromId) &&
-    (!after || after.cityId === step.toId)
+    (!before || before === step.fromId) && (!after || after.cityId === step.toId)
   );
 }
 

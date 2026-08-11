@@ -321,7 +321,11 @@
     "companyCount_other": "{{count}} compagnie disponibili",
     "previousPage": "Pagina precedente",
     "nextPage": "Pagina successiva",
-    "page": "Pagina {{current}} di {{total}}"
+    "page": "Pagina {{current}} di {{total}}",
+    "searchTrips": "Cerca viaggi",
+    "searchCountries": "Cerca paesi",
+    "searchCities": "Cerca città",
+    "noMatches": "Nessun risultato per questa ricerca."
   },
   "companyEditor": {
     "title": "Compagnie di trasporto",

@@ -10,6 +10,7 @@ import {
   deriveTripDateRange,
   impliedSpeedKmh,
   isLegConsistent,
+  locationBefore,
   stopAfter,
   stopBefore,
 } from "../world/derive";
@@ -256,7 +257,12 @@ export function validateTrip(
       );
 
     const previous = stopBefore(trip.steps, index);
-    if (previous?.cityId === step.cityId)
+    /*
+     * Compared against where the traveller actually stands, not the previous
+     * stop: a day trip returns them to their base, so coming back to that city
+     * later is a second visit rather than the same one recorded twice.
+     */
+    if (locationBefore(trip.steps, index) === step.cityId)
       report(
         "stop.duplicateConsecutive",
         "warning",
@@ -382,7 +388,7 @@ export function validateTrip(
         },
       );
     if (!isLegConsistent(trip.steps, index)) {
-      const expectedFrom = stopBefore(trip.steps, index)?.cityId ?? step.fromId;
+      const expectedFrom = locationBefore(trip.steps, index) ?? step.fromId;
       const expectedTo = stopAfter(trip.steps, index)?.cityId ?? step.toId;
       report(
         "leg.endpointMismatch",
