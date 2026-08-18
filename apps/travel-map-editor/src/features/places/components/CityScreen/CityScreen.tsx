@@ -19,6 +19,7 @@ import { snapshotBeforeChange } from "../../../backup/lib/snapshots";
 import { CoordinatePicker } from "../../../map/components/CoordinatePicker/CoordinatePicker";
 import { countryOptions, timeZoneOptions } from "../../lib/placeOptions";
 import { PlaceImport } from "../PlaceImport/PlaceImport";
+import { CityBackgroundPicker } from "./CityBackgroundPicker";
 
 /**
  * CityScreen component
@@ -172,6 +173,17 @@ export function CityScreen({ file, isDarkTheme }: CityScreenProps): ReactNode {
         <h2 className="editor-panel__legend">
           {t("cityScreen.backgroundImages")}
         </h2>
+        <p className="editor-panel__hint">
+          {t("cityScreen.placesBackgroundHint")}
+        </p>
+        <CityBackgroundPicker
+          cityId={value.id}
+          dataset={dataset}
+          onChange={(backgroundImages) =>
+            setValue({ ...value, backgroundImages })
+          }
+          value={value.backgroundImages}
+        />
         <StringListField
           hint={t("cityScreen.pathsHint")}
           label={t("cityScreen.paths")}

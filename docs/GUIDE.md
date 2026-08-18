@@ -117,6 +117,19 @@ filler words, so `the city of rome`, `roma` and even the typo `rme` all find
 Rome. Searching cities also matches on country, so `japan` lists every Japanese
 city.
 
+### Choosing a city's Places background
+
+Open **Places**, choose the city, then go to **Background images**. The editor
+shows every photo manifest attached to a stay in that city. Click a thumbnail
+to make it the city's card background in the public **Places** tab, then save
+the city.
+
+The order is meaningful: the first image is the Places background, the second
+is used for the city's second visit, and so on. When there are more visits than
+images, the list starts again from the first image. You can edit that exact
+order under **Image order (advanced)**. If the city has no attached gallery,
+enter a CDN-relative full-size image path there instead.
+
 ---
 
 ## 5. Creating a trip
