@@ -116,12 +116,13 @@ function StepRow({
   const summary =
     step.type === "stop"
       ? name(step.cityId)
-      : `${name(step.fromId)} → ${name(step.toId)}`;
+      : `${name(step.fromId)} ${step.roundTrip ? "↔" : "→"} ${name(step.toId)}`;
   const meta =
     step.type === "stop"
       ? t(step.isLayover ? "trip.layover" : "trip.stay")
       : [
           t(`transportMode.${step.mode}`),
+          step.roundTrip ? t("trip.dayTrip") : "",
           step.distanceInKm ? `${step.distanceInKm} km` : "",
           step.durationMinutes ? formatDuration(step.durationMinutes) : "",
         ]

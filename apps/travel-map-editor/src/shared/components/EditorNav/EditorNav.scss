@@ -105,6 +105,22 @@
       height: 1.05rem;
     }
   }
+
+  &__language {
+    height: 2.25rem;
+    padding: 0 1.75rem 0 0.7rem;
+    border: 0;
+    border-radius: 62.4375rem;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+    font-size: v.$bodySm;
+
+    &:focus-visible {
+      outline: 0.125rem solid var(--editor-accent);
+      outline-offset: 0.15rem;
+    }
+  }
 }
 
 .editor--dark .editor-nav {
@@ -112,10 +128,12 @@
   border-radius: 62.4375rem;
 
   &__tab:hover,
+  &__language,
   &__theme {
     background: v.$darkButton;
   }
 
+  &__language:hover,
   &__theme:hover {
     background: v.$darkButtonHover;
   }
@@ -127,10 +145,12 @@
   border-radius: 62.4375rem;
 
   &__tab:hover,
+  &__language,
   &__theme {
     background: v.$lightButton;
   }
 
+  &__language:hover,
   &__theme:hover {
     background: v.$lightButtonHover;
   }

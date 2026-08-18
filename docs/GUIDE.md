@@ -142,6 +142,39 @@ Mark them anyway — they make the route on the map correct, and they remove a
 whole category of validation warning (see
 [section 10](#10-fixing-validation-problems)).
 
+### Day trips
+
+Use a day trip when you visit another place but return to the same base before
+continuing the main journey. You do not need to add the base city twice or
+create a separate return leg:
+
+1. Select the base stay in the itinerary, such as Rome.
+2. In **Details**, click **Add day trip from this stay** and choose the
+   excursion destination, such as Tivoli.
+3. Select the new destination and set its arrival and departure to the day of
+   the excursion.
+4. Select the new double-arrow leg and fill in its mode, dates, distance, and
+   duration.
+
+The editor marks that leg as returning to the base. The itinerary therefore
+reads `Rome ↔ Tivoli`, and the next onward leg still starts in Rome. For an
+existing excursion, select its outbound leg and enable **Returns to departure
+(day trip)** to get the same structure.
+
+For a day trip with several destinations, create the first destination as
+above, select that destination, and click **Add next stop**. The editor expands
+the compact round trip into an explicit loop with a final layover at the base.
+Keep selecting the newest destination and using **Add next stop** until the
+loop is complete. For example, the Romania excursion becomes:
+
+```text
+Bucharest → Sinaia → Brașov → Bran → Bucharest (layover)
+```
+
+Edit each generated leg's mode, dates, distance, and duration. The final base
+layover closes the excursion; do not mark any individual leg as a round trip in
+this expanded form.
+
 ### Future trips
 
 A trip whose start date is in the future is treated as planned, not done:

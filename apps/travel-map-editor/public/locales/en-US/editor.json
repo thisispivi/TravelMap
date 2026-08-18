@@ -23,6 +23,9 @@
     "settings": "Settings",
     "configuration": "Configuration",
     "trips": "Trips",
+    "language": "Language",
+    "english": "English",
+    "italian": "Italian",
     "switchToLight": "Switch to light mode",
     "switchToDark": "Switch to dark mode"
   },
@@ -49,6 +52,7 @@
     "noSteps": "No steps yet. Add a stop for each place you stayed, and a transport step for each leg between them.",
     "stay": "Stay",
     "layover": "Layover",
+    "dayTrip": "Day trip",
     "titleRequired": "A title is required.",
     "moveEarlier": "Move step {{index}} earlier",
     "moveLater": "Move step {{index}} later",
@@ -61,6 +65,7 @@
     "photoManifest": "Photo manifest",
     "noPhotos": "No photos",
     "layover": "Layover",
+    "roundTrip": "Returns to departure (day trip)",
     "mode": "Mode",
     "from": "From",
     "to": "To",
@@ -301,7 +306,10 @@
     "mapFocus": "Map focus",
     "mapFocusAuto": "Fitted to the trip",
     "clearMapFocus": "Clear map focus",
-    "mergeWithPrevious": "Merge into the previous stay"
+    "mergeWithPrevious": "Merge into the previous stay",
+    "addDayTrip": "Add day trip from this stay",
+    "addNextStop": "Add next stop",
+    "roundTripHint": "The excursion returns to {{city}}, so the next leg also starts there. Do not add a separate return leg."
   },
   "photoImport": {
     "title": "Import photo manifest",

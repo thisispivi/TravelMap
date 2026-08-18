@@ -1,6 +1,7 @@
 import "./EditorNav.scss";
 
 import LogoIcon from "@app/assets/icons/Logo.svg?react";
+import { SUPPORTED_LOCALES } from "@app/i18n/locale";
 import { useLanguage } from "@app/shared/hooks/useLanguage";
 import { classNames } from "@app/shared/lib/classNames";
 import {
@@ -25,6 +26,10 @@ const NAV_TABS = [
   { icon: Building2, id: "companies", to: "/companies" },
   { icon: Settings, id: "settings", to: "/settings" },
 ] as const;
+const LANGUAGE_LABEL_KEYS = {
+  "en-US": "english",
+  "it-IT": "italian",
+} as const;
 
 /** The primary destination a URL belongs to. */
 type NavTabId = (typeof NAV_TABS)[number]["id"];
@@ -64,7 +69,7 @@ export function EditorNav({
   isDarkTheme,
   onToggleTheme,
 }: EditorNavProps): ReactNode {
-  const { t } = useLanguage(["editor"]);
+  const { changeLanguage, currLanguage, t } = useLanguage(["editor"]);
   const { hash, pathname } = useLocation();
   const { status } = useSaveStatus();
   const activeTab = activeTabId(pathname, hash);
@@ -101,6 +106,18 @@ export function EditorNav({
             state={status.state}
           />
         ) : null}
+        <select
+          aria-label={t("nav.language")}
+          className="editor-nav__language"
+          onChange={(event) => changeLanguage(event.target.value)}
+          value={currLanguage}
+        >
+          {SUPPORTED_LOCALES.map((locale) => (
+            <option key={locale} value={locale}>
+              {t(`nav.${LANGUAGE_LABEL_KEYS[locale]}`)}
+            </option>
+          ))}
+        </select>
         <button
           aria-label={t(isDarkTheme ? "nav.switchToLight" : "nav.switchToDark")}
           className="editor-nav__theme"

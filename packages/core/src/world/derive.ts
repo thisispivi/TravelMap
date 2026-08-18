@@ -291,7 +291,7 @@ export function realignLeg(
 ): TripTransportJson {
   return {
     ...leg,
-    fromId: stopBefore(steps, index)?.cityId ?? leg.fromId,
+    fromId: locationBefore(steps, index) ?? leg.fromId,
     toId: stopAfter(steps, index)?.cityId ?? leg.toId,
   };
 }

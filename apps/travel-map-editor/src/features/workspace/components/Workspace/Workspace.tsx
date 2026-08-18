@@ -18,7 +18,9 @@ import { snapshotBeforeChange } from "../../../backup/lib/snapshots";
 import { ImportDialog } from "../../../import/components/ImportDialog/ImportDialog";
 import { ItineraryRail } from "../../../itinerary/components/ItineraryRail/ItineraryRail";
 import {
+  addDayTrip,
   addStop,
+  addStopAfter,
   mergeWithPreviousStop,
   moveStop,
   removeStep,
@@ -61,6 +63,10 @@ export function Workspace({ file, isDarkTheme }: WorkspaceProps): ReactNode {
   );
   const [tray, setTray] = useState<TrayTab>("closed");
   const [placePoint, setPlacePoint] = useState<[number, number] | undefined>();
+  const [dayTripBaseIndex, setDayTripBaseIndex] = useState<
+    number | undefined
+  >();
+  const [afterStopIndex, setAfterStopIndex] = useState<number | undefined>();
   const [isAddingPlace, setIsAddingPlace] = useState(false);
   const [isImporting, setIsImporting] = useState(false);
   const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
@@ -77,8 +83,44 @@ export function Workspace({ file, isDarkTheme }: WorkspaceProps): ReactNode {
    * @returns {void}
    */
   function openPlaceDialog(coordinates?: [number, number]): void {
+    setAfterStopIndex(undefined);
+    setDayTripBaseIndex(undefined);
     setPlacePoint(coordinates);
     setIsAddingPlace(true);
+  }
+
+  /**
+   * Opens place selection for an excursion inserted after the chosen base stay.
+   * @param {number} baseIndex - Position of the stay the excursion returns to
+   * @returns {void}
+   */
+  function openDayTripDialog(baseIndex: number): void {
+    setAfterStopIndex(undefined);
+    setDayTripBaseIndex(baseIndex);
+    setPlacePoint(undefined);
+    setIsAddingPlace(true);
+  }
+
+  /**
+   * Opens place selection for a destination inserted after the chosen stay.
+   * @param {number} stopIndex - Position of the stay to continue from
+   * @returns {void}
+   */
+  function openNextStopDialog(stopIndex: number): void {
+    setAfterStopIndex(stopIndex);
+    setDayTripBaseIndex(undefined);
+    setPlacePoint(undefined);
+    setIsAddingPlace(true);
+  }
+
+  /**
+   * Dismisses place selection and clears the insertion mode it was opened for.
+   * @returns {void}
+   */
+  function closePlaceDialog(): void {
+    setIsAddingPlace(false);
+    setAfterStopIndex(undefined);
+    setDayTripBaseIndex(undefined);
   }
 
   /**
@@ -165,7 +207,16 @@ export function Workspace({ file, isDarkTheme }: WorkspaceProps): ReactNode {
    * @returns {void}
    */
   function handlePlace(cityId: string): void {
-    update(addStop(trip, cityId, cityCoordinates(dataset)));
+    const coordinates = cityCoordinates(dataset);
+    if (dayTripBaseIndex !== undefined) {
+      update(addDayTrip(trip, dayTripBaseIndex, cityId, coordinates));
+      return;
+    }
+    if (afterStopIndex !== undefined) {
+      update(addStopAfter(trip, afterStopIndex, cityId, coordinates));
+      return;
+    }
+    update(addStop(trip, cityId, coordinates));
   }
 
   /**
@@ -347,6 +398,8 @@ export function Workspace({ file, isDarkTheme }: WorkspaceProps): ReactNode {
         >
           <Inspector
             dataset={dataset}
+            onAddDayTrip={openDayTripDialog}
+            onAddNextStop={openNextStopDialog}
             onChange={update}
             onChangeStep={(index, step) =>
               update(replaceStep(trip, index, step))
@@ -372,7 +425,7 @@ export function Workspace({ file, isDarkTheme }: WorkspaceProps): ReactNode {
         <AddPlaceDialog
           coordinates={placePoint}
           dataset={dataset}
-          onClose={() => setIsAddingPlace(false)}
+          onClose={closePlaceDialog}
           onPlace={handlePlace}
         />
       ) : null}

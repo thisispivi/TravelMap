@@ -1,6 +1,7 @@
 import {
   deriveTripDateRange,
   guessTransportMode,
+  locationBefore,
   realignLeg,
   TripJson,
   TripStopJson,
@@ -102,6 +103,7 @@ export function addStop(
   sDate?: string,
 ): TripJson {
   const previous = lastStop(trip.steps);
+  const departureCityId = locationBefore(trip.steps, trip.steps.length);
   const arrival = sDate ?? previous?.eDate ?? trip.sDate;
   const stop: TripStopJson = {
     type: "stop",
@@ -111,15 +113,15 @@ export function addStop(
   };
   const steps: Step[] = [...trip.steps];
 
-  if (previous && previous.cityId !== cityId) {
+  if (departureCityId && departureCityId !== cityId) {
     const distance = derivedDistanceKm(
-      previous.cityId,
+      departureCityId,
       cityId,
       coordinatesById,
     );
     steps.push({
       type: "transport",
-      fromId: previous.cityId,
+      fromId: departureCityId,
       mode: guessTransportMode(distance ?? 0),
       toId: cityId,
     });
@@ -127,6 +129,127 @@ export function addStop(
   steps.push(stop);
 
   return normalizeTrip({ ...trip, steps });
+}
+
+/**
+ * Inserts a self-contained excursion after its base stay without consuming or
+ * rewriting the onward leg that already follows that stay. The outbound leg's
+ * round-trip flag makes the traveller's logical location return to the base.
+ * @param {TripJson} trip - The trip to edit
+ * @param {number} baseIndex - Position of the stay the excursion returns to
+ * @param {string} cityId - The excursion destination
+ * @param {Map<string, [number, number]>} coordinatesById - City coordinates
+ * @returns {TripJson} A copy carrying the round-trip leg and destination stop
+ */
+export function addDayTrip(
+  trip: TripJson,
+  baseIndex: number,
+  cityId: string,
+  coordinatesById: Map<string, [number, number]>,
+): TripJson {
+  const base = trip.steps[baseIndex];
+  if (base?.type !== "stop" || base.cityId === cityId) return trip;
+
+  const date = base.eDate || base.sDate || trip.sDate;
+  const distance = derivedDistanceKm(base.cityId, cityId, coordinatesById);
+  const leg: TripTransportJson = {
+    type: "transport",
+    eDate: date,
+    fromId: base.cityId,
+    mode: guessTransportMode(distance ?? 0),
+    roundTrip: true,
+    sDate: date,
+    toId: cityId,
+  };
+  const stop: TripStopJson = {
+    type: "stop",
+    cityId,
+    eDate: date,
+    sDate: date,
+  };
+
+  return normalizeTrip({
+    ...trip,
+    steps: trip.steps.toSpliced(baseIndex + 1, 0, leg, stop),
+  });
+}
+
+/**
+ * Inserts a destination after a stay. Extending a compact single-destination
+ * day trip expands it into an explicit loop with a return leg and layover at
+ * the base, which lets further destinations be inserted before that return.
+ * @param {TripJson} trip - The trip to edit
+ * @param {number} stopIndex - Position of the stay to continue from
+ * @param {string} cityId - The next destination
+ * @param {Map<string, [number, number]>} coordinatesById - City coordinates
+ * @returns {TripJson} A copy carrying the inserted destination and route legs
+ */
+export function addStopAfter(
+  trip: TripJson,
+  stopIndex: number,
+  cityId: string,
+  coordinatesById: Map<string, [number, number]>,
+): TripJson {
+  const current = trip.steps[stopIndex];
+  if (current?.type !== "stop" || current.cityId === cityId) return trip;
+
+  const date = current.eDate || current.sDate || trip.sDate;
+  const distance = derivedDistanceKm(current.cityId, cityId, coordinatesById);
+  const outgoing: TripTransportJson = {
+    type: "transport",
+    eDate: date,
+    fromId: current.cityId,
+    mode: guessTransportMode(distance ?? 0),
+    sDate: date,
+    toId: cityId,
+  };
+  const destination: TripStopJson = {
+    type: "stop",
+    cityId,
+    eDate: date,
+    sDate: date,
+  };
+  const inbound = trip.steps[stopIndex - 1];
+  if (inbound?.type !== "transport" || !inbound.roundTrip)
+    return normalizeTrip({
+      ...trip,
+      steps: trip.steps.toSpliced(stopIndex + 1, 0, outgoing, destination),
+    });
+
+  const baseCityId = inbound.fromId;
+  const returnDistance = derivedDistanceKm(cityId, baseCityId, coordinatesById);
+  const returnLeg: TripTransportJson = {
+    type: "transport",
+    eDate: date,
+    fromId: cityId,
+    mode: guessTransportMode(returnDistance ?? 0),
+    sDate: date,
+    toId: baseCityId,
+  };
+  const returnStop: TripStopJson = {
+    type: "stop",
+    cityId: baseCityId,
+    eDate: date,
+    isLayover: true,
+    sDate: date,
+  };
+  const steps = trip.steps.map((step, index) =>
+    index === stopIndex - 1 && step.type === "transport"
+      ? { ...step, roundTrip: undefined }
+      : step,
+  );
+
+  return normalizeTrip({
+    ...trip,
+    steps: steps.toSpliced(
+      stopIndex + 1,
+      0,
+      outgoing,
+      destination,
+      returnLeg,
+      returnStop,
+    ),
+  });
 }
 
 /**
@@ -151,7 +274,8 @@ export function addLeg(trip: TripJson, index: number): TripJson {
 }
 
 /**
- * Replaces one step in place, leaving the rest of the itinerary alone.
+ * Replaces one step and realigns derived endpoints. This matters when a stay's
+ * city or a leg's round-trip status changes where the following leg begins.
  * @param {TripJson} trip - The trip to edit
  * @param {number} index - Position of the step
  * @param {Step} step - The replacement step
@@ -162,12 +286,12 @@ export function replaceStep(
   index: number,
   step: Step,
 ): TripJson {
-  return {
+  return realignLegs({
     ...trip,
     steps: trip.steps.map((existing, position) =>
       position === index ? step : existing,
     ),
-  };
+  });
 }
 
 /**

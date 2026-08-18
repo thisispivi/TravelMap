@@ -23,6 +23,9 @@
     "settings": "Impostazioni",
     "configuration": "Configurazione",
     "trips": "Viaggi",
+    "language": "Lingua",
+    "english": "Inglese",
+    "italian": "Italiano",
     "switchToLight": "Passa alla modalità chiara",
     "switchToDark": "Passa alla modalità scura"
   },
@@ -49,6 +52,7 @@
     "noSteps": "Ancora nessuna tappa. Aggiungi una sosta per ogni luogo in cui sei stato e un trasporto per ogni tratta tra di essi.",
     "stay": "Soggiorno",
     "layover": "Scalo",
+    "dayTrip": "Gita in giornata",
     "titleRequired": "Il titolo è obbligatorio.",
     "moveEarlier": "Sposta la tappa {{index}} prima",
     "moveLater": "Sposta la tappa {{index}} dopo",
@@ -61,6 +65,7 @@
     "photoManifest": "Manifest foto",
     "noPhotos": "Nessuna foto",
     "layover": "Scalo",
+    "roundTrip": "Ritorno alla partenza (gita in giornata)",
     "mode": "Modalità",
     "from": "Da",
     "to": "A",
@@ -301,7 +306,10 @@
     "mapFocus": "Inquadratura mappa",
     "mapFocusAuto": "Adattata al viaggio",
     "clearMapFocus": "Rimuovi inquadratura",
-    "mergeWithPrevious": "Unisci al soggiorno precedente"
+    "mergeWithPrevious": "Unisci al soggiorno precedente",
+    "addDayTrip": "Aggiungi una gita da questo soggiorno",
+    "addNextStop": "Aggiungi tappa successiva",
+    "roundTripHint": "La gita torna a {{city}}, quindi anche la tratta successiva parte da lì. Non aggiungere una tratta di ritorno separata."
   },
   "photoImport": {
     "title": "Importa manifest fotografico",

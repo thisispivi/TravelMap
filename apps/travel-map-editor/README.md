@@ -94,6 +94,31 @@ its status into `SaveStatusContext` and `EditorNav` renders the one `SaveChip`,
 including the retry action after a failed write. Screens therefore keep their
 headers for what is specific to them.
 
+## Day trips
+
+A day trip is stored as one `roundTrip` transport followed by its destination
+stop. The transport returns the traveller's logical location to its departure
+city, so the next leg starts from the base even though the excursion stop is
+the closest preceding stop in the array.
+
+The stop inspector's **Add day trip from this stay** action inserts both steps
+before the existing onward leg. This is deliberately different from appending
+a normal place and dragging it backwards: legs retain their authored details
+by route position during a reorder, so using an explicit insertion prevents an
+existing flight or ferry from being repurposed as the excursion. The leg
+inspector also exposes the flag for imported or older itineraries, and endpoint
+realignment uses the traveller's logical post-excursion location.
+
+Selecting the excursion destination and choosing **Add next stop** converts a
+compact round trip into an explicit multi-city loop. The conversion adds the
+return leg and a layover stop at the base; later insertions split the route
+before that return, matching the structure used by the Romania itinerary.
+
+The editor navigation includes its own locale selector. Browser detection still
+chooses the initial locale, while the selector uses the same i18next preference
+mechanism as the public app so authors can verify translated fields and controls
+directly.
+
 ## Layout and responsive behavior
 
 `.editor` is the scroll container: a flex column of a definite height, so a

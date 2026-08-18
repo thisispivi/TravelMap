@@ -9,7 +9,7 @@ import {
   TripStopJson,
   TripTransportJson,
 } from "@travelmap/core";
-import { ChevronDown, FilePenLine, Images } from "lucide-react";
+import { ChevronDown, FilePenLine, Images, Route } from "lucide-react";
 import { ReactNode, useState } from "react";
 import { Link } from "react-router";
 
@@ -256,6 +256,8 @@ interface TripInspectorProps {
  * @param {StopInspectorProps} props
  * @param {DatasetSnapshot} props.dataset - The current dataset
  * @param {boolean} props.hasPreviousStop - Whether an earlier stay exists
+ * @param {() => void} props.onAddDayTrip - Opens place selection for an excursion from this stay
+ * @param {() => void} props.onAddNextStop - Opens place selection after this stay
  * @param {(step: TripStopJson) => void} props.onChange - Step update callback
  * @param {() => void} props.onMergeWithPrevious - Folds this stay into the one before
  * @param {TripStopJson} props.step - The stop being edited
@@ -264,6 +266,8 @@ interface TripInspectorProps {
 function StopInspector({
   dataset,
   hasPreviousStop,
+  onAddDayTrip,
+  onAddNextStop,
   onChange,
   onMergeWithPrevious,
   step,
@@ -338,6 +342,14 @@ function StopInspector({
         onChange={(isLayover) => onChange({ ...step, isLayover })}
         value={step.isLayover}
       />
+      <button className="editor-button" onClick={onAddDayTrip} type="button">
+        <Route aria-hidden="true" />
+        {t("inspector.addDayTrip")}
+      </button>
+      <button className="editor-button" onClick={onAddNextStop} type="button">
+        <Route aria-hidden="true" />
+        {t("inspector.addNextStop")}
+      </button>
       {hasPreviousStop ? (
         <button
           className="editor-button"
@@ -405,6 +417,8 @@ function StopInspector({
  * Props for StopInspector.
  * @property {DatasetSnapshot} dataset - The current dataset
  * @property {boolean} hasPreviousStop - Whether an earlier stay exists
+ * @property {() => void} onAddDayTrip - Opens place selection for an excursion from this stay
+ * @property {() => void} onAddNextStop - Opens place selection after this stay
  * @property {(step: TripStopJson) => void} onChange - Step update callback
  * @property {() => void} onMergeWithPrevious - Folds this stay into the one before
  * @property {TripStopJson} step - The stop being edited
@@ -412,6 +426,8 @@ function StopInspector({
 interface StopInspectorProps {
   dataset: DatasetSnapshot;
   hasPreviousStop: boolean;
+  onAddDayTrip: () => void;
+  onAddNextStop: () => void;
   onChange: (step: TripStopJson) => void;
   onMergeWithPrevious: () => void;
   step: TripStopJson;
@@ -471,6 +487,16 @@ function LegInspector({
           value={step.eDate}
         />
       </div>
+      <CheckboxField
+        label={t("stepFields.roundTrip")}
+        onChange={(roundTrip) => onChange({ ...step, roundTrip })}
+        value={step.roundTrip}
+      />
+      <p className="editor-panel__hint">
+        {t("inspector.roundTripHint", {
+          city: names.get(step.fromId) ?? step.fromId,
+        })}
+      </p>
       <div className="inspector__row">
         <NumberField
           label={t("stepFields.distanceKm")}
@@ -590,6 +616,8 @@ interface LegInspectorProps {
  * @param {DatasetSnapshot} props.dataset - The current dataset
  * @param {(next: TripJson, isMergeable?: boolean) => void} props.onChange - Edit callback
  * @param {(index: number, step: TripJson["steps"][number]) => void} props.onChangeStep - Step update callback
+ * @param {(index: number) => void} props.onAddDayTrip - Opens an excursion from the selected stay
+ * @param {(index: number) => void} props.onAddNextStop - Opens a destination after the selected stay
  * @param {(index: number) => void} props.onMergeWithPrevious - Folds a stay into the one before
  * @param {Selection} props.selection - What every pane is pointed at
  * @param {TripJson} props.trip - The trip being edited
@@ -599,6 +627,8 @@ export function Inspector({
   dataset,
   onChange,
   onChangeStep,
+  onAddDayTrip,
+  onAddNextStop,
   onMergeWithPrevious,
   selection,
   trip,
@@ -620,6 +650,8 @@ export function Inspector({
             hasPreviousStop={trip.steps
               .slice(0, selection.index)
               .some((candidate) => candidate.type === "stop")}
+            onAddDayTrip={() => onAddDayTrip(selection.index)}
+            onAddNextStop={() => onAddNextStop(selection.index)}
             onChange={(next) => onChangeStep(selection.index, next)}
             onMergeWithPrevious={() => onMergeWithPrevious(selection.index)}
             step={step}
@@ -643,6 +675,8 @@ export function Inspector({
  * @property {DatasetSnapshot} dataset - The current dataset
  * @property {(next: TripJson, isMergeable?: boolean) => void} onChange - Edit callback
  * @property {(index: number, step: TripJson["steps"][number]) => void} onChangeStep - Step update callback
+ * @property {(index: number) => void} onAddDayTrip - Opens an excursion from the selected stay
+ * @property {(index: number) => void} onAddNextStop - Opens a destination after the selected stay
  * @property {(index: number) => void} onMergeWithPrevious - Folds a stay into the one before
  * @property {Selection} selection - What every pane is pointed at
  * @property {TripJson} trip - The trip being edited
@@ -651,6 +685,8 @@ interface InspectorProps {
   dataset: DatasetSnapshot;
   onChange: (next: TripJson, isMergeable?: boolean) => void;
   onChangeStep: (index: number, step: TripJson["steps"][number]) => void;
+  onAddDayTrip: (index: number) => void;
+  onAddNextStop: (index: number) => void;
   onMergeWithPrevious: (index: number) => void;
   selection: Selection;
   trip: TripJson;
