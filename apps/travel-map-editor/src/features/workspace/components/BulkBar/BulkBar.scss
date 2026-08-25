@@ -50,6 +50,10 @@
 
   .bulk-bar__mode {
     background: v.$darkButton;
+
+    &:hover {
+      background: v.$darkButtonHover;
+    }
   }
 }
 
@@ -62,11 +66,21 @@
 
   .bulk-bar__mode {
     background: v.$lightButton;
+
+    &:hover {
+      background: v.$lightButtonHover;
+    }
   }
 }
 
 @media (max-width: 56.25rem) {
   .bulk-bar {
-    display: none;
+    padding: 0.5rem 0.75rem;
+    row-gap: 0.4rem;
+  }
+
+  .bulk-bar__mode {
+    width: 2.4rem;
+    height: 2.4rem;
   }
 }

@@ -1,16 +1,6 @@
-@use "../../../../styles/mixins" as m;
-@use "../../../../styles/variables" as v;
-
 .trip-detail {
   --tl-spine-w: 1.75rem;
   --tl-gap: 0.625rem;
-  --tl-card-radius: 0.875rem;
-
-  --transport-plane: #a855f7;
-  --transport-ferry: #0ea5e9;
-  --transport-train: #f59e0b;
-  --transport-bus: #22c55e;
-  --transport-car: #ef4444;
 
   .trip-detail__timeline {
     display: flex;
@@ -52,55 +42,25 @@
     bottom: 50%;
   }
 
-  .trip-detail__dot {
-    width: 0.75rem;
-    height: 0.75rem;
-    border-radius: 50%;
-    flex-shrink: 0;
-    position: relative;
-    z-index: 1;
-    background: var(--dot-color-faint, var(--dot-default-bg));
-    border: 0.09375rem solid var(--dot-color, var(--dot-default-border));
-    transition:
-      transform 0.12s ease,
-      background 0.12s ease,
-      border-color 0.12s ease;
-
-    &--ghost {
-      width: 0.875rem;
-      height: 0.875rem;
-      background: transparent;
-      border-width: 0.125rem;
-      border-color: var(--dot-color, var(--dot-default-border));
-    }
-
-    &--day-trip {
-      width: 0.5rem;
-      height: 0.5rem;
-      background: transparent;
-      border-style: dashed;
-      border-color: var(--dot-color, var(--dot-default-border));
-    }
-
-    &--layover {
-      background: transparent;
-      border-style: dashed;
-      opacity: 0.6;
-    }
+  /* Mirrors a marker highlight coming from the map back onto its stop, so the
+     two surfaces answer each other instead of only pointing one way. The child
+     combinators matter: a highlighted stay must not ring the excursions nested
+     underneath it, which stand for different cities. */
+  .trip-detail__row--highlighted > .trip-detail__stay-card,
+  .trip-detail__row--highlighted > .trip-detail__day-trip-card,
+  .trip-detail__row--highlighted
+    > .stay-group__content
+    > .trip-detail__stay-card,
+  .stay-group__excursion--highlighted > .stay-group__exc-card {
+    outline: 0.125rem solid var(--dot-color, transparent);
+    outline-offset: 0;
   }
 
-  .trip-detail__row--stop:has(.trip-detail__stop-card:hover) .trip-detail__dot {
-    background: var(--dot-color);
-    border-color: var(--dot-color);
-    transform: scale(1.35);
-  }
-
-  .trip-detail__row--day-trip:has(.trip-detail__day-trip-card:hover)
-    .trip-detail__dot {
-    background: var(--dot-color);
-    border-color: var(--dot-color);
-    border-style: solid;
-    transform: scale(1.5);
+  .trip-detail__row--highlighted > .trip-detail__track > .trip-detail__stay-dot,
+  .trip-detail__row--highlighted
+    > .trip-detail__track
+    > .trip-detail__day-trip-dot {
+    transform: scale(1.25);
   }
 }
 

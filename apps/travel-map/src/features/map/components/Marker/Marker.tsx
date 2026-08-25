@@ -19,6 +19,8 @@ export type MarkerVariant = "visited" | "future" | "lived" | "layover";
  * @property {(city: City | null) => void} onHoverCity - The on hover city
  * @property {(city: City) => void} onSelectCity - The on select city
  * @property {MarkerVariant} [variant] - The variant
+ * @property {number} [order] - Position of the city in the open trip's route
+ * @property {boolean} [isDimmed] - Whether the pin sits outside the open trip
  */
 interface MarkerProps {
   city: City;
@@ -26,11 +28,16 @@ interface MarkerProps {
   onHoverCity: (city: City | null) => void;
   onSelectCity: (city: City) => void;
   variant?: MarkerVariant;
+  order?: number;
+  isDimmed?: boolean;
 }
 
 /**
  * Marker component
- * A map pin for a single city, coloured by how the city was visited.
+ * A map pin for a single city, coloured by how the city was visited. A city
+ * belonging to the trip currently open renders instead as a numbered badge
+ * carrying its position in the route, so the map states the itinerary's order
+ * rather than only its extent.
  * @component
  * @param {MarkerProps} props
  * @param {City} props.city - The city the pin points at
@@ -38,6 +45,8 @@ interface MarkerProps {
  * @param {(city: City | null) => void} props.onHoverCity - Updates the hovered city
  * @param {(city: City) => void} props.onSelectCity - Selects the marker city
  * @param {MarkerVariant} [props.variant="visited"] - Which palette the pin uses
+ * @param {number} [props.order] - Position of the city in the open trip's route
+ * @param {boolean} [props.isDimmed=false] - Whether the pin sits outside the open trip
  * @returns {ReactNode} The map pin
  */
 export function Marker({
@@ -46,12 +55,15 @@ export function Marker({
   onHoverCity,
   onSelectCity,
   variant = "visited",
+  order,
+  isDimmed = false,
 }: MarkerProps): ReactNode {
   const isHovered = hoveredCity?.name === city.name;
+  const isNumbered = order !== undefined;
 
   return (
     <MapLibreMarker
-      anchor="bottom"
+      anchor={isNumbered ? "center" : "bottom"}
       latitude={city.coordinates[1]}
       longitude={city.coordinates[0]}
       onClick={(event) => {
@@ -60,10 +72,12 @@ export function Marker({
       }}
     >
       <span
-        aria-label={city.name}
+        aria-label={isNumbered ? `${order}. ${city.name}` : city.name}
         className={classNames(
           "map-city-marker",
           `map-city-marker--${variant}`,
+          isNumbered && "map-city-marker--numbered",
+          isDimmed && "map-city-marker--dimmed",
           isHovered && "map-city-marker--hovered",
         )}
         id={`${city.name}-marker`}
@@ -73,10 +87,16 @@ export function Marker({
         role="button"
         tabIndex={0}
       >
-        <svg aria-hidden="true" viewBox="0 0 466.7 666.7">
-          <path d="M233.3,0C104.5,0,0,104.5,0,233.3c0,128.9,233.3,433.3,233.3,433.3s233.3-304.5,233.3-433.3C466.7,104.5,362.2,0,233.3,0L233.3,0z M233.3,350c-64.4,0-116.7-52.2-116.7-116.7s52.2-116.7,116.7-116.7l0,0c64.4,0,116.7,52.2,116.7,116.7S297.8,350,233.3,350z" />
-          <circle cx="233.3" cy="233.3" r="116.7" />
-        </svg>
+        {isNumbered ? (
+          <span aria-hidden="true" className="map-city-marker__order">
+            {order}
+          </span>
+        ) : (
+          <svg aria-hidden="true" viewBox="0 0 466.7 666.7">
+            <path d="M233.3,0C104.5,0,0,104.5,0,233.3c0,128.9,233.3,433.3,233.3,433.3s233.3-304.5,233.3-433.3C466.7,104.5,362.2,0,233.3,0L233.3,0z M233.3,350c-64.4,0-116.7-52.2-116.7-116.7s52.2-116.7,116.7-116.7l0,0c64.4,0,116.7,52.2,116.7,116.7S297.8,350,233.3,350z" />
+            <circle cx="233.3" cy="233.3" r="116.7" />
+          </svg>
+        )}
       </span>
     </MapLibreMarker>
   );

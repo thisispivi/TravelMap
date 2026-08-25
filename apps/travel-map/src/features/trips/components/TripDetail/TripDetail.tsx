@@ -4,16 +4,12 @@ import { domAnimation, LazyMotion, m } from "framer-motion";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 
-import AirplaneIcon from "@/assets/icons/Airplane.svg?react";
-import BusIcon from "@/assets/icons/Bus.svg?react";
-import CalendarIcon from "@/assets/icons/Calendar.svg?react";
-import CarIcon from "@/assets/icons/Car.svg?react";
-import FerryIcon from "@/assets/icons/Ferry.svg?react";
-import TaxiIcon from "@/assets/icons/Taxi.svg?react";
+import ChevronIcon from "@/assets/icons/Chevron.svg?react";
 import TimezoneIcon from "@/assets/icons/Timezone.svg?react";
-import TrainIcon from "@/assets/icons/Train.svg?react";
 import { futureTrips, visitedTrips } from "@/data/world";
+import { EmptyState } from "@/shared/components/EmptyState/EmptyState";
 import { isPanelLoadingVisible } from "@/shared/components/PanelLoading/PanelLoading.state";
+import { TransportModeIcon } from "@/shared/components/TransportModeIcon/TransportModeIcon";
 import { useAppRoute } from "@/shared/context/AppRoute.context";
 import { useMapInteraction } from "@/shared/context/MapInteraction.context";
 import { usePanel } from "@/shared/context/Panel.context";
@@ -24,7 +20,8 @@ import { formatMileage } from "@/shared/lib/format";
 import {
   buildTripDetailTimelineItems,
   computeTripStats,
-  formatTripDetailDuration,
+  getTotalKm,
+  getTransportSummaries,
 } from "../../lib/tripDetailTimeline";
 import { TripDetailHero } from "../TripDetailHero/TripDetailHero";
 import { TripTimeline } from "../TripTimeline/TripTimeline";
@@ -35,23 +32,25 @@ import { TripTimeline } from "../TripTimeline/TripTimeline";
  * the selected trip. Slides in from the left and persists the trip in
  * shell-owned map interaction state so the route overlay stays visible.
  * @component
- * @returns {ReactNode} The trip detail panel, or null when no trip is selected
+ * @returns {ReactNode} The trip detail panel, or a not-found notice for an
+ * id that no longer resolves
  */
 export function TripDetail(): ReactNode {
   const { t, currLanguage: lang } = useLanguage(["home"]);
   const navigate = useNavigate();
   const { tripDetailId } = useAppRoute();
-  const { selectedTrip, setSelectedTrip } = useMapInteraction();
+  const { hoveredCity, selectedTrip, setSelectedTrip } = useMapInteraction();
   const { setIsPanelOpen } = usePanel();
   const bodyRef = useRef<HTMLDivElement | null>(null);
   const [skipEntrance] = useState(isPanelLoadingVisible);
   const [isBodyScrollable, setIsBodyScrollable] = useState(false);
   /*
-   * Planned trips are absent from the browsable list, but a link to one still
-   * has to resolve, so the lookup spans both records.
+   * The URL is what decides which trip this is: reading the shell's selection
+   * first would keep showing the previous trip when the route changes under it,
+   * as browser history does. Planned trips are absent from the browsable list
+   * but still have to resolve from a link, so the lookup spans both records.
    */
   const trip =
-    selectedTrip ??
     [...visitedTrips, ...futureTrips].find((tr) => tr.id === tripDetailId) ??
     null;
   useEffect(() => {
@@ -99,12 +98,77 @@ export function TripDetail(): ReactNode {
       window.removeEventListener("resize", handleScrollableChange);
     };
   }, [trip?.id]);
+
+  /*
+   * Highlighting a marker on the map should reveal the matching stay, but a
+   * pointer inside the panel means the highlight started here — scrolling then
+   * would yank the row out from under the cursor.
+   */
+  useEffect(() => {
+    const body = bodyRef.current;
+    if (!body || !hoveredCity || body.matches(":hover")) return;
+
+    body
+      .querySelector(`[data-city="${CSS.escape(hoveredCity.name)}"]`)
+      ?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }, [hoveredCity]);
+
+  /**
+   * Returns to the trip list, releasing the map from this trip's route.
+   * @returns {void}
+   */
+  const goToTrips = (): void => {
+    setSelectedTrip(null);
+    void navigate("/trips");
+  };
   const showYear = trip
     ? trip.sDate.getFullYear() !== trip.eDate.getFullYear()
     : false;
   const stats = computeTripStats(timelineItems);
-  if (!trip) return null;
+  const transportSummaries = getTransportSummaries(stats);
+  if (!trip) {
+    return (
+      <div className="trip-detail">
+        <button className="trip-detail__back" onClick={goToTrips} type="button">
+          <ChevronIcon
+            aria-hidden="true"
+            className="trip-detail__back-chevron"
+          />
+          <span>{t("visited.title")}</span>
+        </button>
+        <EmptyState
+          hint={t("tripDetail.notFoundHint")}
+          message={t("tripDetail.notFound")}
+        />
+      </div>
+    );
+  }
   const countries = trip.getCountriesVisited();
+  const days = trip.getDurationInDays();
+  const totalKm = getTotalKm(stats);
+  const facts = [
+    { key: "days", count: days, one: "day", other: "days" },
+    { key: "nights", count: stats.nights, one: "night", other: "nights" },
+    { key: "cities", count: stats.cities, one: "city", other: "cities" },
+    {
+      key: "countries",
+      count: countries.length,
+      one: "country",
+      other: "countries",
+    },
+  ]
+    .filter((fact) => fact.count > 0)
+    .map((fact) => ({
+      key: fact.key,
+      text: `${fact.count} ${t(
+        `tripDetail.${fact.count === 1 ? fact.one : fact.other}`,
+      )}`,
+    }));
+  if (totalKm > 0) {
+    facts.push({ key: "distance", text: `${formatMileage(totalKm, lang)} km` });
+  }
+  const hasTransportRow =
+    transportSummaries.length > 0 || stats.timezoneCount > 1;
   return (
     <LazyMotion features={domAnimation}>
       <m.div
@@ -118,118 +182,46 @@ export function TripDetail(): ReactNode {
       >
         <TripDetailHero
           countries={countries}
-          onBack={() => {
-            setSelectedTrip(null);
-            navigate("/trips");
-          }}
+          onBack={goToTrips}
           onViewMap={() => setIsPanelOpen(false)}
           trip={trip}
         />
 
-        <div className="trip-detail__stats">
-          {trip.getDurationInDays() > 0 ? (
-            <span className="trip-detail__stat-pill">
-              <CalendarIcon className="trip-detail__stat-pill-icon" />
-              {trip.getDurationInDays()}{" "}
-              {trip.getDurationInDays() === 1
-                ? t("tripDetail.day")
-                : t("tripDetail.days")}
-            </span>
-          ) : null}
-          {stats.flights > 0 ? (
-            <span className="trip-detail__stat-pill trip-detail__stat-pill--plane">
-              <AirplaneIcon className="trip-detail__stat-pill-icon" />
-              {stats.flights}{" "}
-              {stats.flights === 1
-                ? t("tripDetail.flight")
-                : t("tripDetail.flights")}
-              {stats.flightKm > 0
-                ? ` · ${formatMileage(stats.flightKm, lang)} km`
-                : ""}
-              {stats.flightMinutes > 0
-                ? ` · ~${formatTripDetailDuration(stats.flightMinutes)}`
-                : ""}
-            </span>
-          ) : null}
-          {stats.ferries > 0 ? (
-            <span className="trip-detail__stat-pill trip-detail__stat-pill--ferry">
-              <FerryIcon className="trip-detail__stat-pill-icon" />
-              {stats.ferries}{" "}
-              {stats.ferries === 1
-                ? t("tripDetail.ferry")
-                : t("tripDetail.ferries")}
-              {stats.ferryKm > 0
-                ? ` · ${formatMileage(stats.ferryKm, lang)} km`
-                : ""}
-              {stats.ferryMinutes > 0
-                ? ` · ~${formatTripDetailDuration(stats.ferryMinutes)}`
-                : ""}
-            </span>
-          ) : null}
-          {stats.trains > 0 ? (
-            <span className="trip-detail__stat-pill trip-detail__stat-pill--train">
-              <TrainIcon className="trip-detail__stat-pill-icon" />
-              {stats.trains}{" "}
-              {stats.trains === 1
-                ? t("tripDetail.train")
-                : t("tripDetail.trains")}
-              {stats.trainKm > 0
-                ? ` · ${formatMileage(stats.trainKm, lang)} km`
-                : ""}
-              {stats.trainMinutes > 0
-                ? ` · ~${formatTripDetailDuration(stats.trainMinutes)}`
-                : ""}
-            </span>
-          ) : null}
-          {stats.buses > 0 ? (
-            <span className="trip-detail__stat-pill trip-detail__stat-pill--bus">
-              <BusIcon className="trip-detail__stat-pill-icon" />
-              {stats.buses}{" "}
-              {stats.buses === 1 ? t("tripDetail.bus") : t("tripDetail.buses")}
-              {stats.busKm > 0
-                ? ` · ${formatMileage(stats.busKm, lang)} km`
-                : ""}
-              {stats.busMinutes > 0
-                ? ` · ~${formatTripDetailDuration(stats.busMinutes)}`
-                : ""}
-            </span>
-          ) : null}
-          {stats.cars > 0 ? (
-            <span className="trip-detail__stat-pill trip-detail__stat-pill--car">
-              <CarIcon className="trip-detail__stat-pill-icon" />
-              {stats.cars}{" "}
-              {stats.cars === 1
-                ? t("tripDetail.drive")
-                : t("tripDetail.drives")}
-              {stats.carKm > 0
-                ? ` · ${formatMileage(stats.carKm, lang)} km`
-                : ""}
-              {stats.carMinutes > 0
-                ? ` · ~${formatTripDetailDuration(stats.carMinutes)}`
-                : ""}
-            </span>
-          ) : null}
-          {stats.taxis > 0 ? (
-            <span className="trip-detail__stat-pill trip-detail__stat-pill--taxi">
-              <TaxiIcon className="trip-detail__stat-pill-icon" />
-              {stats.taxis}{" "}
-              {stats.taxis === 1 ? t("tripDetail.taxi") : t("tripDetail.taxis")}
-              {stats.taxiKm > 0
-                ? ` · ${formatMileage(stats.taxiKm, lang)} km`
-                : ""}
-              {stats.taxiMinutes > 0
-                ? ` · ~${formatTripDetailDuration(stats.taxiMinutes)}`
-                : ""}
-            </span>
-          ) : null}
-          {stats.timezoneCount > 1 ? (
-            <span className="trip-detail__stat-pill">
-              <TimezoneIcon className="trip-detail__stat-pill-icon" />
-              {stats.timezoneCount}{" "}
-              {stats.timezoneCount === 1
-                ? t("tripDetail.timeZone")
-                : t("tripDetail.timeZones")}
-            </span>
+        <div className="trip-detail__summary">
+          <p className="trip-detail__facts">
+            {facts.map((fact) => (
+              <span className="trip-detail__fact" key={fact.key}>
+                {fact.text}
+              </span>
+            ))}
+          </p>
+
+          {hasTransportRow ? (
+            <div className="trip-detail__transport">
+              {transportSummaries.map((summary) => (
+                <span
+                  className={`trip-detail__transport-chip trip-detail__transport-chip--${summary.mode}`}
+                  key={summary.mode}
+                >
+                  <TransportModeIcon
+                    className="trip-detail__transport-chip-icon"
+                    label={t(`tripDetail.${summary.nounKey}`)}
+                    mode={summary.mode}
+                  />
+                  {summary.count}
+                </span>
+              ))}
+              {stats.timezoneCount > 1 ? (
+                <span className="trip-detail__transport-chip">
+                  <TimezoneIcon
+                    aria-label={t("tripDetail.timeZones")}
+                    className="trip-detail__transport-chip-icon"
+                    role="img"
+                  />
+                  {stats.timezoneCount}
+                </span>
+              ) : null}
+            </div>
           ) : null}
         </div>
 
@@ -240,7 +232,6 @@ export function TripDetail(): ReactNode {
           )}
           ref={bodyRef}
         >
-          <p className="trip-detail__route-label">{t("tripDetail.route")}</p>
           <TripTimeline items={timelineItems} showYear={showYear} />
         </div>
       </m.div>

@@ -86,7 +86,10 @@ export function TripCard({
 
             {trip.sDate ? (
               <div className="trip-card__date">
-                <CalendarIcon className="trip-card__date-icon" />
+                <CalendarIcon
+                  aria-hidden="true"
+                  className="trip-card__date-icon"
+                />
                 <p className="trip-card__date-text">
                   {formatDateRangeShort({
                     sDateInput: trip.sDate,

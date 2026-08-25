@@ -48,7 +48,7 @@ export function TripDetailHero({
   return (
     <>
       <button className="trip-detail__back" onClick={onBack} type="button">
-        <ChevronIcon className="trip-detail__back-chevron" />
+        <ChevronIcon aria-hidden="true" className="trip-detail__back-chevron" />
         <span>{t("visited.title")}</span>
       </button>
 
@@ -76,7 +76,10 @@ export function TripDetailHero({
           <h2 className="trip-detail__hero-title">{tripTitle}</h2>
           <div className="trip-detail__hero-meta">
             <div className="trip-detail__hero-date">
-              <CalendarIcon className="trip-detail__hero-date-icon" />
+              <CalendarIcon
+                aria-hidden="true"
+                className="trip-detail__hero-date-icon"
+              />
               <span>
                 {formatDateRangeShort({
                   sDateInput: trip.sDate,
@@ -92,7 +95,10 @@ export function TripDetailHero({
               onClick={onViewMap}
               type="button"
             >
-              <MapIcon className="trip-detail__hero-map-btn-icon" />
+              <MapIcon
+                aria-hidden="true"
+                className="trip-detail__hero-map-btn-icon"
+              />
               {t("tripDetail.viewMap")}
             </button>
           </div>

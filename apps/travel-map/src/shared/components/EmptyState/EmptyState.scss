@@ -2,19 +2,43 @@
 
 .empty-state {
   width: 100%;
-  padding: 2rem 1rem;
-  font-style: italic;
+  padding: 2.5rem 1rem;
   text-align: center;
   // A no-op outside a grid container, but keeps the message centred and
   // spanning the full row when it stands alone inside one (e.g. a card grid
   // with a fixed row height, in place of the cards it would otherwise hold).
   grid-column: 1 / -1;
   align-self: center;
+
+  &__message {
+    margin: 0;
+    font-size: v.$bodySm;
+    font-weight: 600;
+  }
+
+  &__hint {
+    margin: 0.375rem 0 0;
+    font-size: v.$caption;
+    line-height: 1.5;
+  }
 }
 
 .map-shell--dark .empty-state {
-  color: v.$darkAltText;
+  .empty-state__message {
+    color: v.$darkAltText;
+  }
+
+  .empty-state__hint {
+    color: v.$darkDisabledText;
+  }
 }
+
 .map-shell--light .empty-state {
-  color: v.$lightAltText;
+  .empty-state__message {
+    color: v.$lightAltText;
+  }
+
+  .empty-state__hint {
+    color: v.$lightDisabledText;
+  }
 }

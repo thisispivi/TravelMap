@@ -122,8 +122,21 @@ export function ValidationTray({
   return (
     <section aria-label={t("tray.title")} className="validation-tray">
       <div className="validation-tray__bar">
-        <p aria-live="polite" className="validation-tray__status">
-          {counts.blocking === 0 ? <CircleCheck aria-hidden="true" /> : null}
+        <p
+          aria-live="polite"
+          className={classNames(
+            "validation-tray__status",
+            counts.blocking > 0 && "validation-tray__status--blocking",
+            counts.blocking === 0 &&
+              counts.warning > 0 &&
+              "validation-tray__status--warning",
+          )}
+        >
+          {counts.blocking > 0 ? (
+            <CircleAlert aria-hidden="true" />
+          ) : (
+            <CircleCheck aria-hidden="true" />
+          )}
           {counts.blocking > 0
             ? t("tray.blockingSummary", { count: counts.blocking })
             : t("tray.cleanSummary")}

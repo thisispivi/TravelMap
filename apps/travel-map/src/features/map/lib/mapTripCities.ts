@@ -52,3 +52,21 @@ export function getTripLayoverCities(
 
   return Array.from(auxiliaryCities.values());
 }
+
+/**
+ * Numbers the cities a trip actually stays in, following the order of its
+ * steps. Layovers are excluded: an airport you changed planes in is not a stop
+ * on the itinerary, and numbering it would misstate how many places were seen.
+ * @param {Trip} trip - The trip whose stops should be numbered
+ * @returns {Map<string, number>} Each stop city name mapped to its 1-based position
+ */
+export function getTripStopOrder(trip: Trip): Map<string, number> {
+  const order = new Map<string, number>();
+
+  for (const destination of trip.destinations) {
+    if (destination.isLayover || order.has(destination.city.name)) continue;
+    order.set(destination.city.name, order.size + 1);
+  }
+
+  return order;
+}

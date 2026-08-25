@@ -219,6 +219,21 @@ body,
       background-color: v.$visitedButtonHover;
     }
   }
+
+  /*
+   * Icon-only controls stand beside a labelled primary, so they stay
+   * transparent until pointed at rather than adding more filled pills to a
+   * toolbar that already has one thing to say.
+   */
+  &--icon {
+    width: 2.25rem;
+    height: 2.25rem;
+    padding: 0;
+  }
+
+  &--quiet-danger:hover:not(:disabled) {
+    color: v.$visitedButtonContent;
+  }
 }
 
 .editor-inline-link {
@@ -274,6 +289,31 @@ body,
 
   &:hover:not(:disabled) {
     background-color: v.$lightButtonHover;
+  }
+}
+.editor--dark
+  .editor-button--icon:not(.editor-button--primary):not(
+    .editor-button--danger
+  ) {
+  background-color: transparent;
+  color: v.$darkAltText;
+
+  &:hover:not(:disabled) {
+    background-color: v.$darkButtonHover;
+    color: v.$darkButtonContent;
+  }
+}
+
+.editor--light
+  .editor-button--icon:not(.editor-button--primary):not(
+    .editor-button--danger
+  ) {
+  background-color: transparent;
+  color: v.$lightAltText;
+
+  &:hover:not(:disabled) {
+    background-color: v.$lightButtonHover;
+    color: v.$lightButtonContent;
   }
 }
 

@@ -12,6 +12,8 @@ import {
 
 import { getCityOffsetMinutesOnDate } from "@/shared/lib/timezoneOffset";
 
+import { TRANSPORT_MODE_NOUNS } from "./transportLabels";
+
 /**
  * Represents a trip detail base stop item.
  * @property {"base-stop"} kind - The kind
@@ -164,13 +166,15 @@ const TRIP_DETAIL_FERRY_COMPANY_NAMES: Record<FerryCompany, string> = {
 };
 
 /**
- * Formats a duration in minutes to a human-readable string (e.g. `"2h 30m"` or `"3h"`).
+ * Formats a duration in minutes to a human-readable string (e.g. `"2h 30m"`,
+ * `"3h"`, or `"45m"`).
  * @param {number} minutes - The duration in minutes
  * @returns {string} The compact duration label
  */
 export function formatTripDetailDuration(minutes: number): string {
   const h = Math.floor(minutes / 60);
   const m = minutes % 60;
+  if (h === 0) return `${m}m`;
   return m === 0 ? `${h}h` : `${h}h ${m}m`;
 }
 
@@ -924,6 +928,7 @@ function addCityOffsetsForStop(
 /**
  * Transport and stay totals derived from a trip timeline.
  * @property {number} nights - The total number of overnight stays
+ * @property {number} cities - The number of distinct cities actually stayed in or visited
  * @property {number} flights - The number of flight legs
  * @property {number} flightKm - The total flight distance in kilometres
  * @property {number} flightMinutes - The total time spent flying
@@ -949,6 +954,7 @@ function addCityOffsetsForStop(
  */
 export interface TripStats {
   nights: number;
+  cities: number;
   flights: number;
   flightKm: number;
   flightMinutes: number;
@@ -1002,9 +1008,11 @@ export function computeTripStats(items: TripDetailTimelineItem[]): TripStats {
     walkKm = 0,
     walkMinutes = 0;
   const timezoneOffsets = new Set<number>();
+  const cityNames = new Set<string>();
   for (const item of items) {
     if (item.kind === "base-stop") {
       nights += item.nights;
+      if (!item.isLayover) cityNames.add(item.city.name);
       addCityOffsetsForStop(
         timezoneOffsets,
         item.city,
@@ -1012,6 +1020,7 @@ export function computeTripStats(items: TripDetailTimelineItem[]): TripStats {
         item.stop.eDate,
       );
     } else if (item.kind === "day-trip") {
+      cityNames.add(item.city.name);
       addCityOffsetsForStop(
         timezoneOffsets,
         item.city,
@@ -1052,6 +1061,7 @@ export function computeTripStats(items: TripDetailTimelineItem[]): TripStats {
   }
   return {
     nights,
+    cities: cityNames.size,
     flights,
     flightKm,
     flightMinutes,
@@ -1075,4 +1085,73 @@ export function computeTripStats(items: TripDetailTimelineItem[]): TripStats {
     walkMinutes,
     timezoneCount: timezoneOffsets.size,
   };
+}
+
+/**
+ * One transport mode's contribution to a trip, ready to render as a chip.
+ * @property {TransportMode} mode - The transport mode
+ * @property {number} count - How many legs of the trip used the mode
+ * @property {string} nounKey - The `tripDetail` translation key naming those legs
+ */
+export interface TransportSummary {
+  mode: TransportMode;
+  count: number;
+  nounKey: string;
+}
+
+/* Long-haul modes first, so the summary opens on the legs that shaped the trip
+   and tails off into the local hops. */
+const TRANSPORT_SUMMARY_ORDER: TransportMode[] = [
+  "plane",
+  "ferry",
+  "train",
+  "bus",
+  "car",
+  "taxi",
+  "walk",
+];
+
+/**
+ * Sums every kilometre a trip covered, across all transport modes.
+ * @param {TripStats} stats - The aggregate statistics of the trip
+ * @returns {number} The total distance travelled in kilometres
+ */
+export function getTotalKm(stats: TripStats): number {
+  return (
+    stats.flightKm +
+    stats.ferryKm +
+    stats.trainKm +
+    stats.busKm +
+    stats.carKm +
+    stats.taxiKm +
+    stats.walkKm
+  );
+}
+
+/**
+ * Lists the transport modes a trip actually used. Unused modes are dropped so
+ * a summary of them only ever carries legs that happened.
+ * @param {TripStats} stats - The aggregate statistics of the trip
+ * @returns {TransportSummary[]} The used modes with their leg counts
+ */
+export function getTransportSummaries(stats: TripStats): TransportSummary[] {
+  const legCounts: Record<TransportMode, number> = {
+    plane: stats.flights,
+    ferry: stats.ferries,
+    train: stats.trains,
+    bus: stats.buses,
+    car: stats.cars,
+    taxi: stats.taxis,
+    walk: stats.walks,
+  };
+  return TRANSPORT_SUMMARY_ORDER.filter((mode) => legCounts[mode] > 0).map(
+    (mode) => ({
+      mode,
+      count: legCounts[mode],
+      nounKey:
+        legCounts[mode] === 1
+          ? TRANSPORT_MODE_NOUNS[mode].one
+          : TRANSPORT_MODE_NOUNS[mode].other,
+    }),
+  );
 }

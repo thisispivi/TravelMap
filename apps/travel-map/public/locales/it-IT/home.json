@@ -10,7 +10,8 @@
   },
   "visited": {
     "title": "I miei viaggi",
-    "empty": "Nessun viaggio ancora."
+    "empty": "Nessun viaggio ancora.",
+    "emptyHint": "I viaggi aggiunti nella cartella dei dati compaiono qui, dal più recente."
   },
   "tripCard": {
     "openTrip": "Apri {{trip}}"
@@ -146,7 +147,6 @@
     "city_other": "{{count}} città"
   },
   "tripDetail": {
-    "route": "Percorso",
     "days": "giorni",
     "day": "giorno",
     "via": "via",
@@ -168,6 +168,15 @@
     "timeZones": "fusi orari",
     "dayTrip": "Gita",
     "viewMap": "Vedi mappa",
-    "backToTrip": "Torna al viaggio"
+    "backToTrip": "Torna al viaggio",
+    "city": "città",
+    "cities": "città",
+    "country": "paese",
+    "countries": "paesi",
+    "walk": "camminata",
+    "walks": "camminate",
+    "openGallery": "Apri le foto di {{city}}",
+    "notFound": "Questo viaggio non c'è più.",
+    "notFoundHint": "Potrebbe essere stato rinominato o rimosso. Gli altri sono ancora nell'elenco dei viaggi."
   }
 }

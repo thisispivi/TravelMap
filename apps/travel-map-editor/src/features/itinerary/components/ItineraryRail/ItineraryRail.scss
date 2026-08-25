@@ -1,74 +1,157 @@
 @use "variables" as v;
+@use "mixins" as m;
 
 .itinerary-rail {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
   height: 100%;
-  padding: 0.75rem;
+  padding: 0 0.75rem 0.75rem;
   overflow-y: auto;
 
   &--empty {
     align-items: flex-start;
     justify-content: center;
     gap: 0.5rem;
-    text-align: left;
+    padding: 1.5rem;
+  }
+
+  &__empty-icon {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    margin-bottom: 0.35rem;
+    border-radius: 0.85rem;
+    background: var(--editor-accent-soft);
+    color: var(--editor-accent);
+
+    svg {
+      width: 1.25rem;
+      height: 1.25rem;
+      stroke-width: 2.2;
+    }
   }
 
   &__empty-title {
     font-size: v.$headingMd;
-    font-weight: 600;
+    font-weight: 700;
+    letter-spacing: -0.01em;
   }
 
   &__empty-hint {
+    margin-bottom: 0.6rem;
     font-size: v.$bodySm;
+    line-height: 1.5;
   }
 
   &__day {
     display: flex;
     flex-direction: column;
-    gap: 0.35rem;
+    padding-bottom: 0.9rem;
   }
 
+  /*
+   * The heading bleeds through the pane padding so that, once stuck, it hides
+   * the rows scrolling underneath it rather than letting them show at its
+   * edges.
+   */
   &__day-heading {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    margin-inline: -0.75rem;
+    padding: 0.75rem 0.75rem 0.4rem;
+  }
+
+  /* Transitions here are written out rather than taken from the shared mixin:
+     that mixin re-declares background-color at 0.4s after whatever property it
+     is given, and the later declaration wins, so hover ends up feeling laggy. */
+  &__day-button {
     display: flex;
     align-items: baseline;
-    justify-content: space-between;
     gap: 0.5rem;
-    padding: 0.25rem 0.35rem;
+    width: 100%;
+    padding: 0.2rem 0.4rem;
+    border: 0;
     border-radius: 0.5rem;
-    font-size: v.$caption;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
+    background: none;
+    color: inherit;
+    font: inherit;
+    text-align: left;
     cursor: pointer;
+    transition: background-color 0.12s ease;
 
     &:focus-visible {
-      outline: 2px solid var(--editor-accent);
-      outline-offset: 2px;
+      outline: 0.125rem solid var(--editor-accent);
+      outline-offset: 0.125rem;
     }
+  }
+
+  &__day-number {
+    flex: 0 0 auto;
+    font-size: v.$bodySm;
+    font-weight: 750;
+    letter-spacing: -0.01em;
+  }
+
+  &__day-date {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    font-size: v.$caption;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  &__day-count {
+    flex: 0 0 auto;
+    font-size: v.$caption;
+    font-variant-numeric: tabular-nums;
   }
 
   &__rows {
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
   &__row {
+    position: relative;
     display: grid;
     grid-template-columns: 1.25rem 1.75rem minmax(0, 1fr) auto;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.35rem;
-    border-radius: 0.6rem;
-    border-left: 3px solid transparent;
+    padding: 0.3rem 0.35rem;
+    border-radius: 0.65rem;
 
-    &--selected {
-      border-left-color: var(--editor-accent);
+    &--stop {
+      min-height: 2.6rem;
+    }
+
+    /*
+     * A leg is the line between two stays, not a peer of them: it keeps the
+     * same gutter so the beads stay on one axis, but collapses to a single
+     * line so it cannot read as another destination. Endpoints come first in
+     * that line because a leg that fails to connect its neighbours is the
+     * mistake the rail exists to expose.
+     */
+    &--leg {
+      min-height: 1.75rem;
+      font-size: v.$caption;
+    }
+
+    &--picked {
+      box-shadow: inset 0 0 0 0.0625rem var(--editor-accent);
+    }
+
+    &--dragging {
+      z-index: 2;
+      opacity: 0.9;
     }
 
     &--blocking .itinerary-rail__issues {
@@ -77,6 +160,12 @@
 
     &--warning .itinerary-rail__issues {
       color: v.$languageButtonContent;
+    }
+
+    &:hover .itinerary-rail__actions,
+    &--selected .itinerary-rail__actions,
+    .itinerary-rail__actions:focus-within {
+      opacity: 1;
     }
   }
 
@@ -90,7 +179,9 @@
     background: transparent;
     color: inherit;
     cursor: grab;
+    opacity: 0;
     touch-action: none;
+    transition: opacity 0.12s ease;
 
     svg {
       width: 1rem;
@@ -105,22 +196,51 @@
       border-radius: 0.25rem;
       outline: 0.125rem solid var(--editor-accent);
       outline-offset: 0.1rem;
+      opacity: 1;
     }
   }
 
+  &__row:hover .itinerary-rail__drag-handle {
+    opacity: 1;
+  }
+
   &__bead {
+    position: relative;
     display: grid;
     place-items: center;
     width: 1.75rem;
     height: 1.75rem;
     border-radius: 50%;
     font-size: v.$caption;
-    font-weight: 600;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    @include m.transition(transform, 0.15s);
 
     svg {
       width: 0.9rem;
       height: 0.9rem;
     }
+  }
+
+  /* The connector runs the full row height so consecutive beads read as one
+     thread rather than as separate markers. */
+  &__row--leg &__bead::before,
+  &__row--leg &__bead::after {
+    position: absolute;
+    left: 50%;
+    width: 0.125rem;
+    content: "";
+    transform: translateX(-50%);
+  }
+
+  &__row--leg &__bead::before {
+    top: -0.6rem;
+    height: 0.6rem;
+  }
+
+  &__row--leg &__bead::after {
+    bottom: -0.6rem;
+    height: 0.6rem;
   }
 
   &__summary {
@@ -136,28 +256,67 @@
     cursor: pointer;
 
     &:focus-visible {
-      outline: 2px solid var(--editor-accent);
-      outline-offset: 2px;
       border-radius: 0.35rem;
+      outline: 0.125rem solid var(--editor-accent);
+      outline-offset: 0.125rem;
     }
   }
 
   &__title {
     overflow: hidden;
     font-size: v.$bodySm;
+    font-weight: 650;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__row--leg &__bead {
+    width: 1.5rem;
+    height: 1.5rem;
+    justify-self: center;
+
+    svg {
+      width: 0.8rem;
+      height: 0.8rem;
+    }
+  }
+
+  &__row--leg &__summary {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 0.3rem;
+  }
+
+  &__row--leg &__title {
+    flex: 0 1 auto;
+    overflow: hidden;
+    font-size: v.$caption;
     font-weight: 600;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
+  &__row--leg &__meta {
+    flex: 1 1 auto;
+  }
+
   &__meta,
   &__issues {
+    overflow: hidden;
     font-size: v.$caption;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__issues {
+    font-weight: 650;
   }
 
   &__actions {
     display: flex;
     gap: 0.15rem;
+    opacity: 0;
+    transition: opacity 0.12s ease;
   }
 
   &__action {
@@ -181,8 +340,8 @@
     }
 
     &:focus-visible {
-      outline: 2px solid var(--editor-accent);
-      outline-offset: 1px;
+      outline: 0.125rem solid var(--editor-accent);
+      outline-offset: 0.0625rem;
     }
 
     &--danger:hover:not(:disabled) {
@@ -190,48 +349,209 @@
     }
   }
 
-  &__add {
-    align-self: flex-start;
+  /* Aligned to the row grid so the plus sits exactly where the next bead will,
+     which is what makes it read as the next step rather than as a toolbar. */
+  &__append {
+    display: grid;
+    grid-template-columns: 1.25rem 1.75rem minmax(0, 1fr);
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    min-height: 2.6rem;
+    /* Trimmed by the border width so the plus lands on the same axis as the
+       beads above it rather than a hairline to their right. */
+    padding: calc(0.3rem - 0.0625rem) calc(0.35rem - 0.0625rem);
+    border: 0.0625rem dashed;
+    border-radius: 0.65rem;
+    background: none;
+    color: inherit;
+    font-size: v.$bodySm;
+    font-weight: 650;
+    text-align: left;
+    cursor: pointer;
+    transition:
+      border-color 0.12s ease,
+      color 0.12s ease;
+
+    &:focus-visible {
+      outline: 0.125rem solid var(--editor-accent);
+      outline-offset: 0.125rem;
+    }
+  }
+
+  &__append-bead {
+    grid-column: 2;
+    display: grid;
+    place-items: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+
+    svg {
+      width: 0.9rem;
+      height: 0.9rem;
+    }
+  }
+
+  &__append-label {
+    grid-column: 3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
 
 .editor--dark .itinerary-rail {
-  &__day-heading,
-  &__meta {
+  &__day-heading {
+    background: v.$darkBackground;
+  }
+
+  &__day-date,
+  &__day-count,
+  &__meta,
+  &__empty-hint {
     color: v.$darkAltTextDarker;
+  }
+
+  &__day-button:hover {
+    background: v.$darkButton;
+  }
+
+  &__day-button--selected {
+    background: var(--editor-accent-soft);
+    color: var(--editor-accent);
+
+    .itinerary-rail__day-date,
+    .itinerary-rail__day-count {
+      color: inherit;
+    }
   }
 
   &__bead {
     background: v.$darkButton;
   }
 
+  &__row--leg .itinerary-rail__bead {
+    background: none;
+    color: v.$darkAltTextDarker;
+  }
+
+  &__row--leg .itinerary-rail__bead::before,
+  &__row--leg .itinerary-rail__bead::after {
+    background: v.$glassBorderDark;
+  }
+
+  &__row--selected .itinerary-rail__bead {
+    background: var(--editor-accent);
+    color: var(--editor-accent-ink);
+  }
+
   &__drag-handle {
     color: v.$darkAltTextDarker;
   }
 
-  &__row--selected,
-  &__row:hover {
+  &__row:hover,
+  &__row--hovered {
+    background: v.$darkButton;
+  }
+
+  &__row--selected {
+    background: var(--editor-accent-soft);
+  }
+
+  &__append {
+    border-color: v.$glassBorderDark;
+    color: v.$darkAltTextDarker;
+
+    &:hover {
+      border-color: var(--editor-accent);
+      color: var(--editor-accent);
+    }
+  }
+
+  &__append-bead {
     background: v.$darkButton;
   }
 }
 
 .editor--light .itinerary-rail {
-  &__day-heading,
-  &__meta {
+  &__day-heading {
+    background: v.$lightBackground;
+  }
+
+  &__day-date,
+  &__day-count,
+  &__meta,
+  &__empty-hint {
     color: v.$lightAltTextDarker;
+  }
+
+  &__day-button:hover {
+    background: v.$lightButton;
+  }
+
+  &__day-button--selected {
+    background: var(--editor-accent-soft);
+    color: var(--editor-accent);
+
+    .itinerary-rail__day-date,
+    .itinerary-rail__day-count {
+      color: inherit;
+    }
   }
 
   &__bead {
     background: v.$lightButton;
   }
 
+  &__row--leg .itinerary-rail__bead {
+    background: none;
+    color: v.$lightAltTextDarker;
+  }
+
+  &__row--leg .itinerary-rail__bead::before,
+  &__row--leg .itinerary-rail__bead::after {
+    background: rgb(0 0 0 / 12%);
+  }
+
+  &__row--selected .itinerary-rail__bead {
+    background: var(--editor-accent);
+    color: var(--editor-accent-ink);
+  }
+
   &__drag-handle {
     color: v.$lightAltTextDarker;
   }
 
-  &__row--selected,
-  &__row:hover {
+  &__row:hover,
+  &__row--hovered {
     background: v.$lightButton;
+  }
+
+  &__row--selected {
+    background: var(--editor-accent-soft);
+  }
+
+  &__append {
+    border-color: rgb(0 0 0 / 14%);
+    color: v.$lightAltTextDarker;
+
+    &:hover {
+      border-color: var(--editor-accent);
+      color: var(--editor-accent);
+    }
+  }
+
+  &__append-bead {
+    background: v.$lightButton;
+  }
+}
+
+/* Touch has no hover, so the controls a pointer reveals must always be there. */
+@media (hover: none) {
+  .itinerary-rail__actions,
+  .itinerary-rail__drag-handle {
+    opacity: 1;
   }
 }
 
@@ -239,5 +559,17 @@
   .itinerary-rail__action {
     min-width: 2.75rem;
     min-height: 2.75rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .itinerary-rail {
+    &__day-button,
+    &__bead,
+    &__actions,
+    &__drag-handle,
+    &__append {
+      transition: none;
+    }
   }
 }

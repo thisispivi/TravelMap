@@ -11,12 +11,14 @@ import { Marker, MarkerVariant } from "../Marker/Marker";
  * @property {City[]} layoverCities - Auxiliary cities shown as layovers
  * @property {(city: City | null) => void} onHoverCity - Updates the highlighted city
  * @property {(city: City) => void} onSelectCity - Selects a city marker
+ * @property {Map<string, number> | null} tripStopOrder - Route positions of the open trip's stops
  */
 interface MapMarkersProps {
   hoveredCity: City | null;
   layoverCities: City[];
   onHoverCity: (city: City | null) => void;
   onSelectCity: (city: City) => void;
+  tripStopOrder: Map<string, number> | null;
 }
 
 /**
@@ -40,13 +42,16 @@ function sortByCoordinates(firstCity: City, secondCity: City): number {
 
 /**
  * MapMarkers component
- * Renders every city marker in its corresponding visit-state group.
+ * Renders every city marker in its corresponding visit-state group. While a
+ * trip is open, its own stops are numbered and every other city recedes, so the
+ * map shows that one journey instead of every place ever visited.
  * @component
  * @param {MapMarkersProps} props
  * @param {City | null} props.hoveredCity - The currently highlighted city
  * @param {City[]} props.layoverCities - Auxiliary cities shown as layovers
  * @param {(city: City | null) => void} props.onHoverCity - Updates the highlighted city
  * @param {(city: City) => void} props.onSelectCity - Selects a city marker
+ * @param {Map<string, number> | null} props.tripStopOrder - Route positions of the open trip's stops
  * @returns {ReactNode} The grouped city markers
  */
 export function MapMarkers({
@@ -54,6 +59,7 @@ export function MapMarkers({
   layoverCities,
   onHoverCity,
   onSelectCity,
+  tripStopOrder,
 }: MapMarkersProps): ReactNode {
   const groups: [City[], MarkerVariant][] = [
     [visitedCities, "visited"],
@@ -65,18 +71,26 @@ export function MapMarkers({
   return (
     <>
       {groups.map(([cities, variant]) =>
-        cities
-          .toSorted(sortByCoordinates)
-          .map((city) => (
+        cities.toSorted(sortByCoordinates).map((city) => {
+          const order = tripStopOrder?.get(city.name);
+          const isOutsideTrip =
+            tripStopOrder !== null &&
+            variant !== "layover" &&
+            order === undefined;
+
+          return (
             <Marker
               city={city}
               hoveredCity={hoveredCity}
+              isDimmed={isOutsideTrip}
               key={`${variant}-${city.name}`}
               onHoverCity={onHoverCity}
               onSelectCity={onSelectCity}
+              order={order}
               variant={variant}
             />
-          )),
+          );
+        }),
       )}
     </>
   );

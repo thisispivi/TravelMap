@@ -10,7 +10,8 @@
   },
   "visited": {
     "title": "My Trips",
-    "empty": "No trips yet."
+    "empty": "No trips yet.",
+    "emptyHint": "Trips added to the data folder show up here, newest first."
   },
   "tripCard": {
     "openTrip": "Open {{trip}}"
@@ -146,7 +147,6 @@
     "city_other": "{{count}} cities"
   },
   "tripDetail": {
-    "route": "Route",
     "days": "days",
     "day": "day",
     "via": "via",
@@ -168,6 +168,15 @@
     "timeZones": "time zones",
     "dayTrip": "Day trip",
     "viewMap": "View map",
-    "backToTrip": "Back to trip"
+    "backToTrip": "Back to trip",
+    "city": "city",
+    "cities": "cities",
+    "country": "country",
+    "countries": "countries",
+    "walk": "walk",
+    "walks": "walks",
+    "openGallery": "Open photos of {{city}}",
+    "notFound": "This trip is no longer here.",
+    "notFoundHint": "It may have been renamed or removed. Everything else is still on the trips list."
   }
 }

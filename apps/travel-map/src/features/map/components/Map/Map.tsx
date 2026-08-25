@@ -26,7 +26,10 @@ import {
   WORLD_CENTER,
 } from "../../lib/mapCamera";
 import { createMapStyle, MAP_THEMES } from "../../lib/mapTheme";
-import { getTripLayoverCities } from "../../lib/mapTripCities";
+import {
+  getTripLayoverCities,
+  getTripStopOrder,
+} from "../../lib/mapTripCities";
 import { MapTooltip } from "../MapTooltip/MapTooltip";
 import { RouteOverlay } from "../RouteOverlay/RouteOverlay";
 import { MapLayers } from "./MapLayers";
@@ -243,14 +246,15 @@ export function Map({ isDarkTheme, responsive }: MapProps): ReactNode {
     frameWorld(map, viewportMinZoom);
   };
 
-  const layoverCities =
-    isTripDetail && selectedTrip
-      ? getTripLayoverCities(selectedTrip, [
-          ...visitedCities,
-          ...futureCities,
-          ...livedCities,
-        ])
-      : [];
+  const focusedTrip = isTripDetail ? selectedTrip : null;
+  const layoverCities = focusedTrip
+    ? getTripLayoverCities(focusedTrip, [
+        ...visitedCities,
+        ...futureCities,
+        ...livedCities,
+      ])
+    : [];
+  const tripStopOrder = focusedTrip ? getTripStopOrder(focusedTrip) : null;
 
   return (
     <div className="map-container">
@@ -289,6 +293,7 @@ export function Map({ isDarkTheme, responsive }: MapProps): ReactNode {
             layoverCities={layoverCities}
             onHoverCity={handleHoverCity}
             onSelectCity={handleSelectCity}
+            tripStopOrder={tripStopOrder}
           />
         ) : null}
 

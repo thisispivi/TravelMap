@@ -65,10 +65,11 @@ export function TimelineDayTripCard({
   isNested,
   inboundTransport,
 }: TimelineDayTripCardProps): ReactNode {
-  const { currLanguage: lang } = useLanguage(["home"]);
+  const { t, currLanguage: lang } = useLanguage(["home"]);
   const navigate = useNavigate();
   const routerLocation = useRouterLocation();
-  const { setHoveredCity } = useMapInteraction();
+  const { hoveredCity, setHoveredCity } = useMapInteraction();
+  const isHighlighted = hoveredCity?.name === city.name;
 
   const galleryTravelIdx = getPhotoTravelIndex(city, stop.sDate, visitedTrips);
   const isClickable = galleryTravelIdx >= 0;
@@ -99,7 +100,12 @@ export function TimelineDayTripCard({
   return (
     <m.div
       animate={{ opacity: 1, x: 0 }}
-      className="trip-detail__row trip-detail__row--day-trip"
+      className={classNames(
+        "trip-detail__row",
+        "trip-detail__row--day-trip",
+        isHighlighted && "trip-detail__row--highlighted",
+      )}
+      data-city={city.name}
       initial={{ opacity: 0, x: -8 }}
       style={
         {
@@ -119,6 +125,7 @@ export function TimelineDayTripCard({
 
       <button
         aria-disabled={!isClickable}
+        aria-label={t("tripDetail.openGallery", { city: cityLabel })}
         className={classNames(
           "trip-detail__day-trip-card",
           isClickable && "trip-detail__day-trip-card--clickable",

@@ -56,7 +56,8 @@ export function TimelineStayCard({
   const { t, currLanguage: lang } = useLanguage(["home"]);
   const navigate = useNavigate();
   const routerLocation = useRouterLocation();
-  const { setHoveredCity } = useMapInteraction();
+  const { hoveredCity, setHoveredCity } = useMapInteraction();
+  const isHighlighted = hoveredCity?.name === city.name;
 
   const galleryTravelIdx = getPhotoTravelIndex(city, stop.sDate, visitedTrips);
   const hasPhotos = galleryTravelIdx >= 0;
@@ -89,7 +90,12 @@ export function TimelineStayCard({
   return (
     <m.div
       animate={{ opacity: 1, x: 0 }}
-      className="trip-detail__row trip-detail__row--stay"
+      className={classNames(
+        "trip-detail__row",
+        "trip-detail__row--stay",
+        isHighlighted && "trip-detail__row--highlighted",
+      )}
+      data-city={city.name}
       initial={{ opacity: 0, x: -8 }}
       style={
         {
@@ -109,6 +115,7 @@ export function TimelineStayCard({
 
       <button
         aria-disabled={!hasPhotos}
+        aria-label={t("tripDetail.openGallery", { city: cityLabel })}
         className={classNames(
           "trip-detail__stay-card",
           hasPhotos && "trip-detail__stay-card--clickable",

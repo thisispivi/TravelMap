@@ -3,7 +3,15 @@ import "./Workspace.scss";
 import { useLanguage } from "@app/shared/hooks/useLanguage";
 import { classNames } from "@app/shared/lib/classNames";
 import { Issue, TransportMode, TripJson } from "@travelmap/core";
-import { ArrowLeft, FileInput, Redo2, Trash2, Undo2, X } from "lucide-react";
+import {
+  ArrowLeft,
+  FileInput,
+  MapPinPlus,
+  Redo2,
+  Trash2,
+  Undo2,
+  X,
+} from "lucide-react";
 import { ReactNode, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
 
@@ -17,6 +25,7 @@ import { registerCommands } from "../../../../shared/lib/commands";
 import { snapshotBeforeChange } from "../../../backup/lib/snapshots";
 import { ImportDialog } from "../../../import/components/ImportDialog/ImportDialog";
 import { ItineraryRail } from "../../../itinerary/components/ItineraryRail/ItineraryRail";
+import { groupByDay } from "../../../itinerary/lib/days";
 import {
   addDayTrip,
   addStop,
@@ -71,11 +80,23 @@ export function Workspace({ file, isDarkTheme }: WorkspaceProps): ReactNode {
   const [isImporting, setIsImporting] = useState(false);
   const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
   const [picked, setPicked] = useState<number[]>([]);
+  const [hovered, setHovered] = useState<number | null>(null);
+  const [isTripDetailOpen, setIsTripDetailOpen] = useState(false);
 
-  const { redoEdit, trip, undoEdit, update } = workspace;
+  const { redoEdit, selection, trip, undoEdit, update } = workspace;
   const cityById = new Map(
     dataset.cities.map(({ value }) => [value.id, value] as const),
   );
+  /* One grouping for the rail, the inspector, and the map's day focus, so the
+     three panes can never disagree about where a day begins. */
+  const days = groupByDay(trip.steps);
+  const isDetailOpen = isTripDetailOpen || selection.kind !== "trip";
+  const activeIndexes =
+    selection.kind === "step"
+      ? [selection.index]
+      : selection.kind === "day"
+        ? (days.find((day) => day.date === selection.date)?.indexes ?? [])
+        : [];
 
   /**
    * Opens the place dialog, optionally at a point clicked on the map.
@@ -251,15 +272,46 @@ export function Workspace({ file, isDarkTheme }: WorkspaceProps): ReactNode {
     update(next);
     setPicked([]);
   }
+
+  /**
+   * Points the inspector at the trip itself. Where the pane overlays the map it
+   * also has to open it, because the trip is the one subject the rail has no
+   * row for and would otherwise be unreachable on a narrow layout.
+   * @returns {void}
+   */
+  function openTripDetail(): void {
+    setIsTripDetailOpen(true);
+    workspace.select({ kind: "trip" });
+  }
+
+  /**
+   * Dismisses the inspector where it overlays the map, which means dropping the
+   * selection that opened it.
+   * @returns {void}
+   */
+  function closeDetail(): void {
+    setIsTripDetailOpen(false);
+    workspace.select({ kind: "trip" });
+  }
   return (
     <div className="workspace">
       <header className="workspace__header">
-        <Link className="editor-button workspace__back" to="/">
+        <Link className="workspace__back" to="/">
           <ArrowLeft aria-hidden="true" />
-          {t("workspace.backToLibrary")}
+          <span className="workspace__back-label">
+            {t("workspace.backToLibrary")}
+          </span>
         </Link>
         <div className="workspace__identity">
-          <h1 className="workspace__title">{trip.title || trip.id}</h1>
+          <h1>
+            <button
+              className="workspace__title"
+              onClick={openTripDetail}
+              type="button"
+            >
+              {trip.title || trip.id}
+            </button>
+          </h1>
           <p className="workspace__summary">
             {t("workspace.summary", {
               cities: new Set(
@@ -267,66 +319,82 @@ export function Workspace({ file, isDarkTheme }: WorkspaceProps): ReactNode {
                   step.type === "stop" ? [step.cityId] : [],
                 ),
               ).size,
+              days: days.filter((day) => day.date !== null).length,
               steps: trip.steps.length,
             })}
           </p>
         </div>
         <div className="workspace__actions">
           <button
-            className="editor-button"
-            onClick={() => setIsImporting(true)}
+            className="editor-button editor-button--primary"
+            onClick={() => openPlaceDialog()}
             type="button"
           >
-            <FileInput aria-hidden="true" />
-            {t("import.title")}
+            <MapPinPlus aria-hidden="true" />
+            {t("rail.addStop")}
           </button>
-          <button
-            className="editor-button"
-            disabled={!workspace.canUndo}
-            onClick={undoEdit}
-            type="button"
-          >
-            <Undo2 aria-hidden="true" />
-            {t("workspace.undo")}
-          </button>
-          <button
-            className="editor-button"
-            disabled={!workspace.canRedo}
-            onClick={redoEdit}
-            type="button"
-          >
-            <Redo2 aria-hidden="true" />
-            {t("workspace.redo")}
-          </button>
-          {isConfirmingDelete ? (
-            <>
+          <div className="workspace__tools">
+            <button
+              aria-label={t("workspace.undo")}
+              className="editor-button editor-button--icon"
+              disabled={!workspace.canUndo}
+              onClick={undoEdit}
+              title={t("workspace.undo")}
+              type="button"
+            >
+              <Undo2 aria-hidden="true" />
+            </button>
+            <button
+              aria-label={t("workspace.redo")}
+              className="editor-button editor-button--icon"
+              disabled={!workspace.canRedo}
+              onClick={redoEdit}
+              title={t("workspace.redo")}
+              type="button"
+            >
+              <Redo2 aria-hidden="true" />
+            </button>
+            <button
+              aria-label={t("import.title")}
+              className="editor-button editor-button--icon"
+              onClick={() => setIsImporting(true)}
+              title={t("import.title")}
+              type="button"
+            >
+              <FileInput aria-hidden="true" />
+            </button>
+            {isConfirmingDelete ? (
+              <>
+                <button
+                  className="editor-button editor-button--danger"
+                  onClick={handleDeleteTrip}
+                  type="button"
+                >
+                  <Trash2 aria-hidden="true" />
+                  {t("editorForm.confirmDelete")}
+                </button>
+                <button
+                  aria-label={t("editorForm.cancel")}
+                  className="editor-button editor-button--icon"
+                  onClick={() => setIsConfirmingDelete(false)}
+                  title={t("editorForm.cancel")}
+                  type="button"
+                >
+                  <X aria-hidden="true" />
+                </button>
+              </>
+            ) : (
               <button
-                className="editor-button editor-button--danger"
-                onClick={handleDeleteTrip}
+                aria-label={t("editorForm.delete")}
+                className="editor-button editor-button--icon editor-button--quiet-danger"
+                onClick={() => setIsConfirmingDelete(true)}
+                title={t("editorForm.delete")}
                 type="button"
               >
                 <Trash2 aria-hidden="true" />
-                {t("editorForm.confirmDelete")}
               </button>
-              <button
-                className="editor-button"
-                onClick={() => setIsConfirmingDelete(false)}
-                type="button"
-              >
-                <X aria-hidden="true" />
-                {t("editorForm.cancel")}
-              </button>
-            </>
-          ) : (
-            <button
-              className="editor-button"
-              onClick={() => setIsConfirmingDelete(true)}
-              type="button"
-            >
-              <Trash2 aria-hidden="true" />
-              {t("editorForm.delete")}
-            </button>
-          )}
+            )}
+          </div>
         </div>
       </header>
       {workspace.recovered ? (
@@ -360,54 +428,76 @@ export function Workspace({ file, isDarkTheme }: WorkspaceProps): ReactNode {
           onSetMode={(mode: TransportMode) =>
             applyBulk(setLegMode(trip, picked, mode))
           }
-          onShift={(days) => applyBulk(shiftStepDates(trip, picked, days))}
+          onShift={(shift) => applyBulk(shiftStepDates(trip, picked, shift))}
         />
       ) : null}
       <div className="workspace__panes">
         <div className="workspace__rail">
           <ItineraryRail
             cityById={cityById}
+            days={days}
+            hovered={hovered}
             issues={workspace.issues}
             onAddStop={() => openPlaceDialog()}
+            onHover={setHovered}
             onRemove={(index) => update(removeStep(trip, index))}
             onReorder={(from, to) => update(moveStop(trip, from, to))}
             onSelect={workspace.select}
             onTogglePicked={handleTogglePicked}
             picked={picked}
-            selection={workspace.selection}
+            selection={selection}
             trip={trip}
           />
         </div>
         <div className="workspace__map">
           <EditorMap
+            activeIndexes={activeIndexes}
             cityById={cityById}
+            hovered={hovered}
             isDarkTheme={isDarkTheme}
             onAddHere={(coordinates) => openPlaceDialog(coordinates)}
             onCaptureView={(mapFocus) => update({ ...trip, mapFocus })}
+            onClearSelection={() => workspace.select({ kind: "trip" })}
+            onHover={setHovered}
             onSelect={workspace.select}
-            selection={workspace.selection}
+            selection={selection}
             trip={trip}
           />
         </div>
+        <button
+          aria-label={t("workspace.closeDetails")}
+          className={classNames(
+            "workspace__scrim",
+            isDetailOpen && "workspace__scrim--active",
+          )}
+          onClick={closeDetail}
+          type="button"
+        />
         <div
           className={classNames(
             "workspace__inspector",
-            workspace.selection.kind === "step" &&
-              "workspace__inspector--active",
+            isDetailOpen && "workspace__inspector--active",
           )}
         >
           <Inspector
             dataset={dataset}
+            days={days}
             onAddDayTrip={openDayTripDialog}
             onAddNextStop={openNextStopDialog}
             onChange={update}
             onChangeStep={(index, step) =>
               update(replaceStep(trip, index, step))
             }
+            onClose={closeDetail}
             onMergeWithPrevious={(index) =>
               update(mergeWithPreviousStop(trip, index))
             }
-            selection={workspace.selection}
+            onPickSteps={setPicked}
+            onSelect={workspace.select}
+            onShiftSteps={(indexes, shift) =>
+              update(shiftStepDates(trip, indexes, shift))
+            }
+            selection={selection}
             trip={trip}
           />
         </div>

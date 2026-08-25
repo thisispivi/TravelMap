@@ -9,6 +9,7 @@ import { keys } from "remeda";
 import { visitedTrips } from "@/data/world";
 import { EmptyState } from "@/shared/components/EmptyState/EmptyState";
 import { isPanelLoadingVisible } from "@/shared/components/PanelLoading/PanelLoading.state";
+import { SegmentedControl } from "@/shared/components/SegmentedControl/SegmentedControl";
 import { useMapInteraction } from "@/shared/context/MapInteraction.context";
 import { useLanguage } from "@/shared/hooks/useLanguage";
 import { useResizeMeasurement } from "@/shared/hooks/useResizeMeasurement";
@@ -170,20 +171,15 @@ export function TripBrowser(): ReactNode {
 
         {years.length > 0 ? (
           <div className="trip-browser__year-selector">
-            {years.map((year, i) => (
-              <button
-                className={classNames(
-                  "trip-browser__year-btn",
-                  activeYear === parseInt(year, 10) &&
-                    "trip-browser__year-btn--active",
-                )}
-                key={year}
-                onClick={() => selectYear(year)}
-                type="button"
-              >
-                {i === years.length - 1 ? `≤ ${year}` : year}
-              </button>
-            ))}
+            <SegmentedControl
+              layoutId="trip-browser-year"
+              onSelect={selectYear}
+              options={years.map((year, index) => ({
+                value: year,
+                label: index === years.length - 1 ? `≤ ${year}` : year,
+              }))}
+              selected={String(activeYear)}
+            />
           </div>
         ) : null}
 
@@ -223,7 +219,10 @@ export function TripBrowser(): ReactNode {
               ))}
             </m.div>
           ) : (
-            <EmptyState message={t("visited.empty")} />
+            <EmptyState
+              hint={t("visited.emptyHint")}
+              message={t("visited.empty")}
+            />
           )}
         </div>
       </m.div>

@@ -278,7 +278,9 @@
     "recoveryFound": "Unsaved changes from {{at}} were found in this browser.",
     "restore": "Restore",
     "discard": "Discard",
-    "summary": "{{steps}} steps, {{cities}} cities"
+    "summary": "{{days}} days · {{cities}} cities · {{steps}} steps",
+    "closeDetails": "Close details",
+    "history": "Edit history"
   },
   "rail": {
     "emptyTitle": "Nothing in this itinerary yet",
@@ -291,7 +293,12 @@
     "warningCount_one": "{{count}} warning",
     "warningCount_other": "{{count}} warnings",
     "dragHandle": "Reorder step {{position}}",
-    "dragInstructions": "Press Space to pick up this step, use the arrow keys to move it, then press Space again to drop it."
+    "dragInstructions": "Press Space to pick up this step, use the arrow keys to move it, then press Space again to drop it.",
+    "nights_one": "{{count}} night",
+    "nights_other": "{{count}} nights",
+    "dayStops_one": "{{count}} stop",
+    "dayStops_other": "{{count}} stops",
+    "append": "Add the next place"
   },
   "inspector": {
     "title": "Details",
@@ -313,9 +320,15 @@
     "mapFocusAuto": "Fitted to the trip",
     "clearMapFocus": "Clear map focus",
     "mergeWithPrevious": "Merge into the previous stay",
-    "addDayTrip": "Add day trip from this stay",
+    "addDayTrip": "Add day trip",
     "addNextStop": "Add next stop",
-    "roundTripHint": "The excursion returns to {{city}}, so the next leg also starts there. Do not add a separate return leg."
+    "roundTripHint": "The excursion returns to {{city}}, so the next leg also starts there. Do not add a separate return leg.",
+    "day": "Day {{number}}",
+    "dayUnscheduled": "Undated steps",
+    "selectDaySteps": "Select these steps",
+    "shiftDayEarlier": "Move a day earlier",
+    "shiftDayLater": "Move a day later",
+    "dayEmpty": "Nothing on this day yet."
   },
   "photoImport": {
     "title": "Import photo manifest",
@@ -347,7 +360,10 @@
   "map": {
     "fitToTrip": "Fit to trip",
     "useThisView": "Use this view",
-    "selectStop": "Select stop {{position}}, {{city}}"
+    "selectStop": "Select stop {{position}}, {{city}}",
+    "pinPlace": "Pin a place",
+    "pinPlaceHint": "Click anywhere on the map to add a place there.",
+    "fitToDay": "Fit to day"
   },
   "tray": {
     "title": "Validation and changes",

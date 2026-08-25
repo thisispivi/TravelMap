@@ -15,6 +15,7 @@ import { classNames } from "@/shared/lib/classNames";
 import { formatMileage } from "@/shared/lib/format";
 import { getPhotoTravelIndex } from "@/shared/lib/travelQueries";
 
+import { TRANSPORT_MODE_NOUNS } from "../../lib/transportLabels";
 import {
   ExcursionItem,
   formatTripDetailDuration,
@@ -101,7 +102,7 @@ export function TimelineStayGroup({
   const { t, currLanguage: lang } = useLanguage(["home"]);
   const navigate = useNavigate();
   const routerLocation = useRouterLocation();
-  const { setHoveredCity } = useMapInteraction();
+  const { hoveredCity, setHoveredCity } = useMapInteraction();
   const excursionsRef = useRef<HTMLDivElement | null>(null);
 
   useLayoutEffect(() => {
@@ -222,11 +223,21 @@ export function TimelineStayGroup({
     const tp = exc.inboundTransport ?? null;
 
     return (
-      <div className="stay-group__excursion" key={exc.key}>
+      <div
+        className={classNames(
+          "stay-group__excursion",
+          hoveredCity?.name === exc.city.name &&
+            "stay-group__excursion--highlighted",
+        )}
+        data-city={exc.city.name}
+        key={exc.key}
+        style={{ "--dot-color": exc.city.country.borderColor } as CSSProperties}
+      >
         {tp ? (
           <div className="stay-group__exc-transport-header">
             <TransportModeIcon
               className="stay-group__exc-transport-icon"
+              label={t(`tripDetail.${TRANSPORT_MODE_NOUNS[tp.mode].one}`)}
               mode={tp.mode}
             />
             {tp.isRoundTrip ? (
@@ -242,6 +253,7 @@ export function TimelineStayGroup({
         ) : null}
         <button
           aria-disabled={!excHasPhotos}
+          aria-label={t("tripDetail.openGallery", { city: excLabel })}
           className={classNames(
             "stay-group__exc-card",
             excHasPhotos && "stay-group__exc-card--clickable",
@@ -313,7 +325,12 @@ export function TimelineStayGroup({
   return (
     <m.div
       animate={{ opacity: 1, x: 0 }}
-      className="trip-detail__row trip-detail__row--stay-group"
+      className={classNames(
+        "trip-detail__row",
+        "trip-detail__row--stay-group",
+        hoveredCity?.name === city.name && "trip-detail__row--highlighted",
+      )}
+      data-city={city.name}
       initial={{ opacity: 0, x: -8 }}
       style={
         {
@@ -334,6 +351,7 @@ export function TimelineStayGroup({
       <div className="stay-group__content">
         <button
           aria-disabled={!hasPhotos}
+          aria-label={t("tripDetail.openGallery", { city: cityLabel })}
           className={classNames(
             "trip-detail__stay-card",
             hasPhotos && "trip-detail__stay-card--clickable",
@@ -387,6 +405,9 @@ export function TimelineStayGroup({
                       <div className="stay-group__chain-return">
                         <TransportModeIcon
                           className="stay-group__exc-transport-icon"
+                          label={t(
+                            `tripDetail.${TRANSPORT_MODE_NOUNS[rt.mode].one}`,
+                          )}
                           mode={rt.mode}
                         />
                         {rt.distanceKm > 0 ? (

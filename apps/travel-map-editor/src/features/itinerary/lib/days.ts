@@ -73,3 +73,22 @@ export function dayNumber(
   if (day.date === null) return null;
   return days.filter((entry) => entry.date !== null).indexOf(day) + 1;
 }
+
+/**
+ * Formats a day key as a short weekday and date, which is how both the rail
+ * heading and the day inspector name the same day.
+ * @param {string | null} date - The day key
+ * @param {string} locale - Locale used for the weekday and month
+ * @returns {string} A short weekday and date, empty when the day is undated
+ */
+export function formatDayLabel(date: string | null, locale: string): string {
+  if (!date) return "";
+  const parsed = new Date(`${date}T00:00:00`);
+  return Number.isNaN(parsed.getTime())
+    ? date
+    : new Intl.DateTimeFormat(locale, {
+        day: "numeric",
+        month: "short",
+        weekday: "short",
+      }).format(parsed);
+}

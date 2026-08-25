@@ -10,7 +10,9 @@
   cursor: pointer;
   filter: drop-shadow(0 0.075rem 0.125rem rgba(0, 0, 0, 0.4));
   transform-origin: 50% 100%;
-  transition: transform 150ms ease;
+  transition:
+    transform 150ms ease,
+    opacity 200ms ease;
 
   svg {
     display: block;
@@ -53,6 +55,51 @@
     --marker-color: #{v.$darkAltTextDarker};
     --marker-hover-color: #c0c0d0;
     opacity: 0.72;
+  }
+
+  /* A stop on the open trip: the pin becomes a badge so its place in the route
+     is readable straight from the map, without opening anything. */
+  &--numbered {
+    width: 1.375rem;
+    height: 1.375rem;
+    transform-origin: 50% 50%;
+  }
+
+  &--dimmed {
+    opacity: 0.22;
+
+    &:hover,
+    &.map-city-marker--hovered,
+    &:focus-visible {
+      opacity: 1;
+    }
+  }
+
+  /* The numeral has to stay readable, so the badge keeps a fixed dark fill and
+     wears its category as a ring — white on the lived-in amber or the visited
+     red would not carry at this size. */
+  &__order {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 0.125rem solid var(--marker-color);
+    box-shadow: 0 0 0 0.0625rem rgba(255, 255, 255, 0.85);
+    background: #1f2124;
+    color: #ffffff;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+
+  &--numbered.map-city-marker--hovered .map-city-marker__order,
+  &--numbered:hover .map-city-marker__order,
+  &--numbered:focus-visible .map-city-marker__order {
+    border-color: var(--marker-hover-color);
+    background: var(--marker-color);
   }
 }
 

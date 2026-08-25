@@ -65,6 +65,7 @@ export function BarChartTransportModes({
                   "transport-bar-chart__icon",
                   isFill && "transport-bar-chart__icon--fill",
                 )}
+                label={mode}
                 mode={mode as TransportMode}
               />
             </div>

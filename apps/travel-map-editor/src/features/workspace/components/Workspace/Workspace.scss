@@ -17,36 +17,84 @@
     grid-template-columns: auto minmax(8rem, 1fr) auto;
     align-items: center;
     gap: 0.85rem;
-    padding: 0.6rem 0.9rem;
-    border-bottom: 1px solid;
+    padding: 0.7rem 0.9rem;
+    border-bottom: 0.0625rem solid;
   }
 
   &__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.5rem;
+    border-radius: 0.55rem;
+    color: inherit;
+    font-size: v.$bodySm;
+    font-weight: 650;
+    text-decoration: none;
     white-space: nowrap;
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+      flex-shrink: 0;
+    }
+
+    &:focus-visible {
+      outline: 0.125rem solid var(--editor-accent);
+      outline-offset: 0.125rem;
+    }
   }
 
   &__identity {
-    flex: 1;
     min-width: 0;
   }
 
+  /* Sized to its text, not its column: the whole width of the header would
+     otherwise be a click target for opening the trip. */
   &__title {
+    display: block;
+    width: fit-content;
+    max-width: 100%;
+    padding: 0.1rem 0.35rem;
+    margin-left: -0.35rem;
     overflow: hidden;
+    border: 0;
+    border-radius: 0.45rem;
+    background: none;
+    color: inherit;
+    font: inherit;
     font-size: v.$headingMd;
-    font-weight: 600;
+    font-weight: 720;
+    letter-spacing: -0.015em;
+    text-align: left;
     text-overflow: ellipsis;
     white-space: nowrap;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 0.125rem solid var(--editor-accent);
+      outline-offset: 0.125rem;
+    }
   }
 
   &__summary {
     font-size: v.$caption;
+    font-variant-numeric: tabular-nums;
   }
 
+  /* One labelled primary, then the quiet tools: the header should answer "what
+     do I do here" before it answers "what else can I do". */
   &__actions {
     display: flex;
     align-items: center;
-    gap: 0.4rem;
+    gap: 0.6rem;
     min-width: 0;
+  }
+
+  &__tools {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
   }
 
   &__recovery {
@@ -60,6 +108,7 @@
   }
 
   &__panes {
+    position: relative;
     display: grid;
     min-height: 0;
     flex: 1;
@@ -73,15 +122,23 @@
   }
 
   &__rail {
-    border-right: 1px solid;
+    border-right: 0.0625rem solid;
   }
 
   &__inspector {
-    border-left: 1px solid;
+    border-left: 0.0625rem solid;
   }
 
   &__map {
     min-height: 0;
+  }
+
+  /* Only ever a dismiss target for the drawer, so it stays inert until the
+     layout is narrow enough for the inspector to overlay the map. */
+  &__scrim {
+    display: none;
+    border: 0;
+    background: rgb(10 10 18 / 45%);
   }
 }
 
@@ -98,6 +155,11 @@
   .workspace__summary {
     color: v.$darkAltTextDarker;
   }
+
+  .workspace__back:hover,
+  .workspace__title:hover {
+    background: v.$darkButton;
+  }
 }
 
 .editor--light .workspace {
@@ -113,6 +175,11 @@
   .workspace__summary {
     color: v.$lightAltTextDarker;
   }
+
+  .workspace__back:hover,
+  .workspace__title:hover {
+    background: v.$lightButton;
+  }
 }
 
 @media (max-width: 81.25rem) {
@@ -120,12 +187,28 @@
     grid-template-columns: 20rem minmax(0, 1fr);
   }
 
+  .workspace__scrim {
+    position: absolute;
+    display: block;
+    inset: 0;
+    z-index: 2;
+    opacity: 0;
+    pointer-events: none;
+
+    @include m.transition(opacity, 0.2s);
+
+    &--active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+
   .workspace__inspector {
     position: absolute;
     top: 0;
     right: 0;
     bottom: 0;
-    z-index: 2;
+    z-index: 3;
     width: min(22.5rem, 90vw);
     transform: translateX(100%);
 
@@ -152,6 +235,7 @@
 
   .workspace__actions {
     grid-column: 1 / -1;
+    justify-content: space-between;
     overflow-x: auto;
     scrollbar-width: thin;
   }
@@ -160,12 +244,12 @@
 @media (max-width: 56.25rem) {
   .workspace__panes {
     grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: minmax(0, 1fr) 40vh;
+    grid-template-rows: minmax(0, 1fr) clamp(11rem, 30vh, 22rem);
   }
 
   .workspace__rail {
     border-right: 0;
-    border-bottom: 1px solid;
+    border-bottom: 0.0625rem solid;
   }
 }
 
@@ -175,26 +259,18 @@
     padding-bottom: 4.5rem;
   }
 
-  .workspace__actions {
-    display: flex;
-    overflow: visible;
-
-    .editor-button {
-      width: 2.5rem;
-      height: 2.5rem;
-      padding: 0;
-      font-size: 0;
-    }
-
-    .editor-button svg {
-      width: 1rem;
-      height: 1rem;
-    }
+  .workspace__back-label {
+    position: absolute;
+    width: 0.0625rem;
+    height: 0.0625rem;
+    overflow: hidden;
+    clip-path: inset(50%);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .workspace__inspector {
+  .workspace__inspector,
+  .workspace__scrim {
     transition: none;
   }
 }

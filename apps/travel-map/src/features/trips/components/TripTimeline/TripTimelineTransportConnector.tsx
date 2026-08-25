@@ -3,11 +3,11 @@ import "./TripTimelineTransportConnector.scss";
 import { m } from "framer-motion";
 import { Fragment, ReactNode } from "react";
 
-import { CountryFlag } from "@/shared/components/CountryFlag/CountryFlag";
 import { TransportModeIcon } from "@/shared/components/TransportModeIcon/TransportModeIcon";
 import { useLanguage } from "@/shared/hooks/useLanguage";
 import { formatMileage } from "@/shared/lib/format";
 
+import { TRANSPORT_MODE_NOUNS } from "../../lib/transportLabels";
 import {
   formatTripDetailDuration,
   TransportLeg,
@@ -17,26 +17,30 @@ import {
  * Properties accepted by the TimelineTransportConnector component.
  * @property {TransportLeg[]} legs - The legs
  * @property {number} animDelay - The anim delay
+ * @property {boolean} showEndpoints - Whether each leg should name its cities
  */
 interface TimelineTransportConnectorProps {
   legs: TransportLeg[];
   animDelay: number;
+  showEndpoints: boolean;
 }
 
 /**
  * TimelineTransportConnector component
  * Renders one or more transport legs as a compact connector row in the trip
- * timeline. Multiple consecutive legs (with layovers consumed) are stacked
- * vertically inside a single animated row.
+ * timeline. A leg is labelled by its mode alone where the cards around it
+ * already name the places it joins, and by its endpoints where they do not.
  * @component
  * @param {TimelineTransportConnectorProps} props - The connector props
  * @param {TransportLeg[]} props.legs - One or more transport legs to display
  * @param {number} props.animDelay - Staggered animation delay in seconds
+ * @param {boolean} props.showEndpoints - Whether each leg should name its cities
  * @returns {ReactNode} The transport connector row
  */
 export function TimelineTransportConnector({
   legs,
   animDelay,
+  showEndpoints,
 }: TimelineTransportConnectorProps): ReactNode {
   const { currLanguage: lang, t } = useLanguage(["home"]);
 
@@ -54,8 +58,6 @@ export function TimelineTransportConnector({
       }}
     >
       {legs.map((leg) => {
-        const fromStr = leg.from.getLocalizedName(lang);
-        const toStr = leg.to.getLocalizedName(lang);
         const legKey = [
           leg.mode,
           leg.from.name,
@@ -66,45 +68,34 @@ export function TimelineTransportConnector({
           leg.via?.map((city) => city.name).join("-") ?? "",
           leg.isRoundTrip ? "round-trip" : "one-way",
         ].join("-");
-        const metaParts: string[] = [];
-        if (leg.distanceKm > 0)
-          metaParts.push(`${formatMileage(leg.distanceKm, lang)} km`);
-        if (leg.durationMinutes > 0)
-          metaParts.push(`~${formatTripDetailDuration(leg.durationMinutes)}`);
-
-        const viaText =
-          (leg.via?.length ?? 0) > 0
-            ? `${t("tripDetail.via")} ${leg
-                .via!.map((city) => city.getLocalizedName(lang))
-                .join(", ")}`
-            : null;
-
-        /**
-         * Represents a sub part.
-         * @property {string} key - The key
-         * @property {string} cls - The cls
-         * @property {string} text - The text
-         */
-        type SubPart = { key: string; cls: string; text: string };
-        const subParts: SubPart[] = [];
-        if (viaText)
-          subParts.push({
-            key: "via",
-            cls: "trip-detail__connector-via",
-            text: viaText,
-          });
-        if (leg.company)
-          subParts.push({
-            key: "co",
-            cls: "trip-detail__connector-company",
-            text: leg.company,
-          });
-        if (metaParts.length > 0)
-          subParts.push({
-            key: "meta",
-            cls: "trip-detail__connector-meta",
-            text: metaParts.join(" · "),
-          });
+        const modeNoun = t(`tripDetail.${TRANSPORT_MODE_NOUNS[leg.mode].one}`);
+        const lead = showEndpoints
+          ? `${leg.from.getLocalizedName(lang)} → ${leg.to.getLocalizedName(lang)}`
+          : modeNoun;
+        const via = leg.via ?? [];
+        const details = [
+          via.length > 0
+            ? {
+                key: "via",
+                text: `${t("tripDetail.via")} ${via
+                  .map((city) => city.getLocalizedName(lang))
+                  .join(", ")}`,
+              }
+            : null,
+          leg.company ? { key: "company", text: leg.company } : null,
+          leg.durationMinutes > 0
+            ? {
+                key: "duration",
+                text: `~${formatTripDetailDuration(leg.durationMinutes)}`,
+              }
+            : null,
+          leg.distanceKm > 0
+            ? {
+                key: "distance",
+                text: `${formatMileage(leg.distanceKm, lang)} km`,
+              }
+            : null,
+        ].filter((detail) => detail !== null);
 
         return (
           <Fragment key={legKey}>
@@ -113,33 +104,25 @@ export function TimelineTransportConnector({
             >
               <TransportModeIcon
                 className="trip-detail__connector-icon-svg"
+                label={showEndpoints ? modeNoun : undefined}
                 mode={leg.mode}
               />
             </span>
 
-            <div className="trip-detail__connector-leg">
-              <div className="trip-detail__connector-route">
-                <span className="trip-detail__connector-from">{fromStr}</span>
-                <span className="trip-detail__connector-arrow">→</span>
-                <span className="trip-detail__connector-to">{toStr}</span>
-                <CountryFlag
-                  className="trip-detail__connector-flag"
-                  countryId={leg.to.country.id}
-                />
-                {leg.isRoundTrip ? (
-                  <span className="trip-detail__connector-roundtrip">↔</span>
-                ) : null}
-              </div>
-              {subParts.length > 0 ? (
-                <div className="trip-detail__connector-sub">
-                  {subParts.map((p, i) => (
-                    <span className={p.cls} key={p.key}>
-                      {i > 0 ? `· ${p.text}` : p.text}
-                    </span>
-                  ))}
-                </div>
+            <p className="trip-detail__connector-leg">
+              <span className="trip-detail__connector-lead">{lead}</span>
+              {leg.isRoundTrip ? (
+                <span className="trip-detail__connector-roundtrip">↔</span>
               ) : null}
-            </div>
+              {details.map((detail) => (
+                <span
+                  className="trip-detail__connector-detail"
+                  key={detail.key}
+                >
+                  {detail.text}
+                </span>
+              ))}
+            </p>
           </Fragment>
         );
       })}

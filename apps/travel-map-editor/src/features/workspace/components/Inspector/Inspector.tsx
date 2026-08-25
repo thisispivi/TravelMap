@@ -9,7 +9,16 @@ import {
   TripStopJson,
   TripTransportJson,
 } from "@travelmap/core";
-import { ChevronDown, FilePenLine, Images, Route } from "lucide-react";
+import {
+  CalendarArrowDown,
+  CalendarArrowUp,
+  ChevronDown,
+  FilePenLine,
+  Images,
+  ListChecks,
+  MapPinPlus,
+  Route,
+} from "lucide-react";
 import { ReactNode, useState } from "react";
 import { Link } from "react-router";
 
@@ -31,6 +40,11 @@ import {
   TextField,
 } from "../../../../shared/components/Fields/Fields";
 import { LocalizedNames } from "../../../../shared/components/LocalizedNames/LocalizedNames";
+import {
+  dayNumber,
+  formatDayLabel,
+  ItineraryDay,
+} from "../../../itinerary/lib/days";
 import { PhotoImportDialog } from "../../../photos/components/PhotoImportDialog/PhotoImportDialog";
 import { canImportForStop } from "../../../photos/lib/photoManifest";
 import { cityOptions } from "../../../places/lib/placeOptions";
@@ -55,6 +69,20 @@ function companyOptions(dataset: DatasetSnapshot): ComboboxOption[] {
       label: companies[id]?.name ?? id,
       value: id,
     }));
+}
+
+/**
+ * Names a city for display, degrading to the raw id when the city file has
+ * been deleted out from under the trip.
+ * @param {DatasetSnapshot} dataset - The current dataset
+ * @param {string} cityId - The city to name
+ * @returns {string} The display name
+ */
+function cityName(dataset: DatasetSnapshot, cityId: string): string {
+  return (
+    dataset.cities.find(({ value }) => value.id === cityId)?.value.name ??
+    cityId
+  );
 }
 
 /**
@@ -249,9 +277,114 @@ interface TripInspectorProps {
 }
 
 /**
+ * DayInspector component
+ * One day of the itinerary as a unit. A day heading was already the rail's
+ * organising device but selecting one used to fall through to the trip form;
+ * here it becomes the place to move a whole day in time, hand its steps to the
+ * bulk bar, and jump between the stops it contains.
+ * @component
+ * @param {DayInspectorProps} props
+ * @param {DatasetSnapshot} props.dataset - The current dataset
+ * @param {ItineraryDay} props.day - The day being inspected
+ * @param {(indexes: number[]) => void} props.onPickSteps - Hands steps to the bulk bar
+ * @param {(index: number) => void} props.onSelectStep - Selects one step
+ * @param {(indexes: number[], days: number) => void} props.onShiftSteps - Moves steps in time
+ * @param {TripJson} props.trip - The trip being edited
+ * @returns {ReactNode} The day fields
+ */
+function DayInspector({
+  dataset,
+  day,
+  onPickSteps,
+  onSelectStep,
+  onShiftSteps,
+  trip,
+}: DayInspectorProps): ReactNode {
+  const { t } = useLanguage(["editor"]);
+  const stops = day.indexes.flatMap((index) => {
+    const step = trip.steps[index];
+    return step?.type === "stop" ? [{ index, step }] : [];
+  });
+  return (
+    <>
+      {stops.length === 0 ? (
+        <p className="editor-panel__hint">{t("inspector.dayEmpty")}</p>
+      ) : (
+        <ol className="inspector__day-stops">
+          {stops.map(({ index, step }) => (
+            <li key={index}>
+              <button
+                className="inspector__day-stop"
+                onClick={() => onSelectStep(index)}
+                type="button"
+              >
+                <span className="inspector__day-stop-name">
+                  {cityName(dataset, step.cityId)}
+                </span>
+                <span className="inspector__day-stop-kind">
+                  {t(step.isLayover ? "trip.layover" : "trip.stay")}
+                </span>
+              </button>
+            </li>
+          ))}
+        </ol>
+      )}
+      <div className="inspector__actions">
+        <button
+          className="editor-button"
+          disabled={day.date === null}
+          onClick={() => onShiftSteps(day.indexes, -1)}
+          type="button"
+        >
+          <CalendarArrowUp aria-hidden="true" />
+          {t("inspector.shiftDayEarlier")}
+        </button>
+        <button
+          className="editor-button"
+          disabled={day.date === null}
+          onClick={() => onShiftSteps(day.indexes, 1)}
+          type="button"
+        >
+          <CalendarArrowDown aria-hidden="true" />
+          {t("inspector.shiftDayLater")}
+        </button>
+      </div>
+      <button
+        className="editor-button"
+        onClick={() => onPickSteps(day.indexes)}
+        type="button"
+      >
+        <ListChecks aria-hidden="true" />
+        {t("inspector.selectDaySteps")}
+      </button>
+    </>
+  );
+}
+
+/**
+ * Props for DayInspector.
+ * @property {DatasetSnapshot} dataset - The current dataset
+ * @property {ItineraryDay} day - The day being inspected
+ * @property {(indexes: number[]) => void} onPickSteps - Hands steps to the bulk bar
+ * @property {(index: number) => void} onSelectStep - Selects one step
+ * @property {(indexes: number[], days: number) => void} onShiftSteps - Moves steps in time
+ * @property {TripJson} trip - The trip being edited
+ */
+interface DayInspectorProps {
+  dataset: DatasetSnapshot;
+  day: ItineraryDay;
+  onPickSteps: (indexes: number[]) => void;
+  onSelectStep: (index: number) => void;
+  onShiftSteps: (indexes: number[], days: number) => void;
+  trip: TripJson;
+}
+
+/**
  * StopInspector component
- * One stay's fields, with the rendering-only gallery controls kept behind a
- * disclosure so the common case stays four fields long.
+ * One stay's fields. What the author changes on most stays — the city, the
+ * dates, the photos — comes first; the two ways of continuing the itinerary
+ * sit together as a pair of actions; and everything structural or
+ * rendering-only stays behind a disclosure so the common case stays short.
  * @component
  * @param {StopInspectorProps} props
  * @param {DatasetSnapshot} props.dataset - The current dataset
@@ -278,21 +411,23 @@ function StopInspector({
   const city = dataset.cities.find(({ value }) => value.id === step.cityId);
   return (
     <>
-      <Combobox
-        label={t("stepFields.city")}
-        onChange={(cityId) => onChange({ ...step, cityId })}
-        options={cityOptions(dataset)}
-        value={step.cityId}
-      />
-      {city ? (
-        <Link
-          className="editor-button inspector__city-button"
-          to={`/places/cities/${city.value.id}`}
-        >
-          <FilePenLine aria-hidden="true" />
-          {t("inspector.openCity")}
-        </Link>
-      ) : null}
+      <div className="inspector__city">
+        <Combobox
+          label={t("stepFields.city")}
+          onChange={(cityId) => onChange({ ...step, cityId })}
+          options={cityOptions(dataset)}
+          value={step.cityId}
+        />
+        {city ? (
+          <Link
+            className="editor-inline-link inspector__city-link"
+            to={`/places/cities/${city.value.id}`}
+          >
+            <FilePenLine aria-hidden="true" />
+            {t("inspector.openCity")}
+          </Link>
+        ) : null}
+      </div>
       <div className="inspector__row">
         <DatePicker
           label={t("stepFields.arrival")}
@@ -342,23 +477,20 @@ function StopInspector({
         onChange={(isLayover) => onChange({ ...step, isLayover })}
         value={step.isLayover}
       />
-      <button className="editor-button" onClick={onAddDayTrip} type="button">
-        <Route aria-hidden="true" />
-        {t("inspector.addDayTrip")}
-      </button>
-      <button className="editor-button" onClick={onAddNextStop} type="button">
-        <Route aria-hidden="true" />
-        {t("inspector.addNextStop")}
-      </button>
-      {hasPreviousStop ? (
+      <div className="inspector__actions">
         <button
-          className="editor-button"
-          onClick={onMergeWithPrevious}
+          className="editor-button editor-button--primary"
+          onClick={onAddNextStop}
           type="button"
         >
-          {t("inspector.mergeWithPrevious")}
+          <MapPinPlus aria-hidden="true" />
+          {t("inspector.addNextStop")}
         </button>
-      ) : null}
+        <button className="editor-button" onClick={onAddDayTrip} type="button">
+          <Route aria-hidden="true" />
+          {t("inspector.addDayTrip")}
+        </button>
+      </div>
       <button
         aria-expanded={isExpanded}
         className="editor-button inspector__disclosure"
@@ -375,39 +507,50 @@ function StopInspector({
         />
       </button>
       {isExpanded ? (
-        <div className="inspector__row">
-          <NumberField
-            hint={t("inspector.rowConstraintsHint")}
-            label={t("inspector.minPhotos")}
-            min={0}
-            onChange={(minPhotos) =>
-              onChange({
-                ...step,
-                rowConstraints: { ...step.rowConstraints, minPhotos },
-              })
-            }
-            value={step.rowConstraints?.minPhotos}
-          />
-          <NumberField
-            label={t("inspector.maxPhotos")}
-            min={0}
-            onChange={(maxPhotos) =>
-              onChange({
-                ...step,
-                rowConstraints: { ...step.rowConstraints, maxPhotos },
-              })
-            }
-            value={step.rowConstraints?.maxPhotos}
-          />
-          <NumberField
-            label={t("inspector.targetRowHeight")}
-            min={0}
-            onChange={(targetRowHeight) =>
-              onChange({ ...step, targetRowHeight })
-            }
-            value={step.targetRowHeight}
-          />
-        </div>
+        <>
+          {hasPreviousStop ? (
+            <button
+              className="editor-button"
+              onClick={onMergeWithPrevious}
+              type="button"
+            >
+              {t("inspector.mergeWithPrevious")}
+            </button>
+          ) : null}
+          <div className="inspector__row">
+            <NumberField
+              hint={t("inspector.rowConstraintsHint")}
+              label={t("inspector.minPhotos")}
+              min={0}
+              onChange={(minPhotos) =>
+                onChange({
+                  ...step,
+                  rowConstraints: { ...step.rowConstraints, minPhotos },
+                })
+              }
+              value={step.rowConstraints?.minPhotos}
+            />
+            <NumberField
+              label={t("inspector.maxPhotos")}
+              min={0}
+              onChange={(maxPhotos) =>
+                onChange({
+                  ...step,
+                  rowConstraints: { ...step.rowConstraints, maxPhotos },
+                })
+              }
+              value={step.rowConstraints?.maxPhotos}
+            />
+            <NumberField
+              label={t("inspector.targetRowHeight")}
+              min={0}
+              onChange={(targetRowHeight) =>
+                onChange({ ...step, targetRowHeight })
+              }
+              value={step.targetRowHeight}
+            />
+          </div>
+        </>
       ) : null}
     </>
   );
@@ -460,16 +603,6 @@ function LegInspector({
   const suggestions = suggestForLeg(step, coordinates);
   return (
     <>
-      <dl className="inspector__facts">
-        <div className="inspector__fact">
-          <dt>{t("stepFields.from")}</dt>
-          <dd>{names.get(step.fromId) ?? step.fromId}</dd>
-        </div>
-        <div className="inspector__fact">
-          <dt>{t("stepFields.to")}</dt>
-          <dd>{names.get(step.toId) ?? step.toId}</dd>
-        </div>
-      </dl>
       <p className="editor-panel__hint">{t("inspector.endpointsHint")}</p>
       <ModeSelector
         onChange={(mode) => onChange({ ...step, mode })}
@@ -487,16 +620,6 @@ function LegInspector({
           value={step.eDate}
         />
       </div>
-      <CheckboxField
-        label={t("stepFields.roundTrip")}
-        onChange={(roundTrip) => onChange({ ...step, roundTrip })}
-        value={step.roundTrip}
-      />
-      <p className="editor-panel__hint">
-        {t("inspector.roundTripHint", {
-          city: names.get(step.fromId) ?? step.fromId,
-        })}
-      </p>
       <div className="inspector__row">
         <NumberField
           label={t("stepFields.distanceKm")}
@@ -532,6 +655,16 @@ function LegInspector({
           value={formatDuration(suggestions.durationMinutes)}
         />
       ) : null}
+      <CheckboxField
+        label={t("stepFields.roundTrip")}
+        onChange={(roundTrip) => onChange({ ...step, roundTrip })}
+        value={step.roundTrip}
+      />
+      <p className="editor-panel__hint">
+        {t("inspector.roundTripHint", {
+          city: names.get(step.fromId) ?? step.fromId,
+        })}
+      </p>
       <MultiCombobox
         label={t("stepFields.viaCities")}
         onChange={(viaIds) =>
@@ -610,59 +743,122 @@ interface LegInspectorProps {
  * Inspector component
  * The detail pane. It renders whatever the workspace has selected and nothing
  * else, which is how the editor avoids the single long settings form the
- * previous trip screen had become.
+ * previous trip screen had become. Its header names the subject rather than
+ * only its kind, so the pane still answers "which stay is this" once the rail
+ * has scrolled the selected row out of view.
  * @component
  * @param {InspectorProps} props
  * @param {DatasetSnapshot} props.dataset - The current dataset
- * @param {(next: TripJson, isMergeable?: boolean) => void} props.onChange - Edit callback
- * @param {(index: number, step: TripJson["steps"][number]) => void} props.onChangeStep - Step update callback
+ * @param {ItineraryDay[]} props.days - The itinerary grouped into days
  * @param {(index: number) => void} props.onAddDayTrip - Opens an excursion from the selected stay
  * @param {(index: number) => void} props.onAddNextStop - Opens a destination after the selected stay
+ * @param {(next: TripJson, isMergeable?: boolean) => void} props.onChange - Edit callback
+ * @param {(index: number, step: TripJson["steps"][number]) => void} props.onChangeStep - Step update callback
+ * @param {() => void} props.onClose - Dismisses the pane where it overlays the map
  * @param {(index: number) => void} props.onMergeWithPrevious - Folds a stay into the one before
+ * @param {(indexes: number[]) => void} props.onPickSteps - Hands steps to the bulk bar
+ * @param {(selection: Selection) => void} props.onSelect - Selection callback
+ * @param {(indexes: number[], days: number) => void} props.onShiftSteps - Moves steps in time
  * @param {Selection} props.selection - What every pane is pointed at
  * @param {TripJson} props.trip - The trip being edited
  * @returns {ReactNode} The inspector pane
  */
 export function Inspector({
   dataset,
-  onChange,
-  onChangeStep,
+  days,
   onAddDayTrip,
   onAddNextStop,
+  onChange,
+  onChangeStep,
+  onClose,
   onMergeWithPrevious,
+  onPickSteps,
+  onSelect,
+  onShiftSteps,
   selection,
   trip,
 }: InspectorProps): ReactNode {
-  const { t } = useLanguage(["editor"]);
-  const step =
-    selection.kind === "step" ? trip.steps[selection.index] : undefined;
+  const { currLanguage, t } = useLanguage(["editor"]);
+  const stepIndex = selection.kind === "step" ? selection.index : -1;
+  const step = selection.kind === "step" ? trip.steps[stepIndex] : undefined;
+  const day =
+    selection.kind === "day"
+      ? days.find((entry) => entry.date === selection.date)
+      : undefined;
+
+  /**
+   * Names the kind of thing on screen, which is what the pane used to show as
+   * its only heading.
+   * @returns {string} The kicker above the title
+   */
+  function kicker(): string {
+    if (step)
+      return t(step.type === "stop" ? "inspector.stop" : "inspector.leg");
+    if (day)
+      return day.date
+        ? t("inspector.day", { number: dayNumber(days, day) })
+        : t("inspector.dayUnscheduled");
+    return t("inspector.trip");
+  }
+
+  /**
+   * Names the specific subject on screen, so the pane is readable without the
+   * rail beside it.
+   * @returns {string} The pane title
+   */
+  function title(): string {
+    if (step?.type === "stop") return cityName(dataset, step.cityId);
+    if (step)
+      return `${cityName(dataset, step.fromId)} ${step.roundTrip ? "↔" : "→"} ${cityName(dataset, step.toId)}`;
+    if (day)
+      return formatDayLabel(day.date, currLanguage) || t("rail.unscheduled");
+    return trip.title || trip.id;
+  }
   return (
     <aside aria-label={t("inspector.title")} className="inspector">
-      <h2 className="inspector__heading">
-        {step
-          ? t(step.type === "stop" ? "inspector.stop" : "inspector.leg")
-          : t("inspector.trip")}
-      </h2>
-      {selection.kind === "step" && step ? (
+      <header className="inspector__header">
+        <div className="inspector__identity">
+          <p className="inspector__kicker">{kicker()}</p>
+          <h2 className="inspector__title">{title()}</h2>
+        </div>
+        <button
+          aria-label={t("workspace.closeDetails")}
+          className="inspector__close"
+          onClick={onClose}
+          type="button"
+        >
+          <ChevronDown aria-hidden="true" />
+        </button>
+      </header>
+      {step ? (
         step.type === "stop" ? (
           <StopInspector
             dataset={dataset}
             hasPreviousStop={trip.steps
-              .slice(0, selection.index)
+              .slice(0, stepIndex)
               .some((candidate) => candidate.type === "stop")}
-            onAddDayTrip={() => onAddDayTrip(selection.index)}
-            onAddNextStop={() => onAddNextStop(selection.index)}
-            onChange={(next) => onChangeStep(selection.index, next)}
-            onMergeWithPrevious={() => onMergeWithPrevious(selection.index)}
+            onAddDayTrip={() => onAddDayTrip(stepIndex)}
+            onAddNextStop={() => onAddNextStop(stepIndex)}
+            onChange={(next) => onChangeStep(stepIndex, next)}
+            onMergeWithPrevious={() => onMergeWithPrevious(stepIndex)}
             step={step}
           />
         ) : (
           <LegInspector
             dataset={dataset}
-            onChange={(next) => onChangeStep(selection.index, next)}
+            onChange={(next) => onChangeStep(stepIndex, next)}
             step={step}
           />
         )
+      ) : day ? (
+        <DayInspector
+          dataset={dataset}
+          day={day}
+          onPickSteps={onPickSteps}
+          onSelectStep={(index) => onSelect({ index, kind: "step" })}
+          onShiftSteps={onShiftSteps}
+          trip={trip}
+        />
       ) : (
         <TripInspector dataset={dataset} onChange={onChange} trip={trip} />
       )}
@@ -673,21 +869,31 @@ export function Inspector({
 /**
  * Props for Inspector.
  * @property {DatasetSnapshot} dataset - The current dataset
- * @property {(next: TripJson, isMergeable?: boolean) => void} onChange - Edit callback
- * @property {(index: number, step: TripJson["steps"][number]) => void} onChangeStep - Step update callback
+ * @property {ItineraryDay[]} days - The itinerary grouped into days
  * @property {(index: number) => void} onAddDayTrip - Opens an excursion from the selected stay
  * @property {(index: number) => void} onAddNextStop - Opens a destination after the selected stay
+ * @property {(next: TripJson, isMergeable?: boolean) => void} onChange - Edit callback
+ * @property {(index: number, step: TripJson["steps"][number]) => void} onChangeStep - Step update callback
+ * @property {() => void} onClose - Dismisses the pane where it overlays the map
  * @property {(index: number) => void} onMergeWithPrevious - Folds a stay into the one before
+ * @property {(indexes: number[]) => void} onPickSteps - Hands steps to the bulk bar
+ * @property {(selection: Selection) => void} onSelect - Selection callback
+ * @property {(indexes: number[], days: number) => void} onShiftSteps - Moves steps in time
  * @property {Selection} selection - What every pane is pointed at
  * @property {TripJson} trip - The trip being edited
  */
 interface InspectorProps {
   dataset: DatasetSnapshot;
-  onChange: (next: TripJson, isMergeable?: boolean) => void;
-  onChangeStep: (index: number, step: TripJson["steps"][number]) => void;
+  days: ItineraryDay[];
   onAddDayTrip: (index: number) => void;
   onAddNextStop: (index: number) => void;
+  onChange: (next: TripJson, isMergeable?: boolean) => void;
+  onChangeStep: (index: number, step: TripJson["steps"][number]) => void;
+  onClose: () => void;
   onMergeWithPrevious: (index: number) => void;
+  onPickSteps: (indexes: number[]) => void;
+  onSelect: (selection: Selection) => void;
+  onShiftSteps: (indexes: number[], days: number) => void;
   selection: Selection;
   trip: TripJson;
 }

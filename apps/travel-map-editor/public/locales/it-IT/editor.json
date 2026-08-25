@@ -278,7 +278,9 @@
     "recoveryFound": "Trovate modifiche non salvate del {{at}} in questo browser.",
     "restore": "Ripristina",
     "discard": "Scarta",
-    "summary": "{{steps}} passi, {{cities}} citta'"
+    "summary": "{{days}} giorni · {{cities}} città · {{steps}} passi",
+    "closeDetails": "Chiudi i dettagli",
+    "history": "Cronologia modifiche"
   },
   "rail": {
     "emptyTitle": "Itinerario ancora vuoto",
@@ -291,7 +293,12 @@
     "warningCount_one": "{{count}} avviso",
     "warningCount_other": "{{count}} avvisi",
     "dragHandle": "Riordina il passo {{position}}",
-    "dragInstructions": "Premi Spazio per sollevare questo passo, usa i tasti freccia per spostarlo, quindi premi di nuovo Spazio per rilasciarlo."
+    "dragInstructions": "Premi Spazio per sollevare questo passo, usa i tasti freccia per spostarlo, quindi premi di nuovo Spazio per rilasciarlo.",
+    "nights_one": "{{count}} notte",
+    "nights_other": "{{count}} notti",
+    "dayStops_one": "{{count}} tappa",
+    "dayStops_other": "{{count}} tappe",
+    "append": "Aggiungi la prossima tappa"
   },
   "inspector": {
     "title": "Dettagli",
@@ -313,9 +320,15 @@
     "mapFocusAuto": "Adattata al viaggio",
     "clearMapFocus": "Rimuovi inquadratura",
     "mergeWithPrevious": "Unisci al soggiorno precedente",
-    "addDayTrip": "Aggiungi una gita da questo soggiorno",
+    "addDayTrip": "Aggiungi una gita",
     "addNextStop": "Aggiungi tappa successiva",
-    "roundTripHint": "La gita torna a {{city}}, quindi anche la tratta successiva parte da lì. Non aggiungere una tratta di ritorno separata."
+    "roundTripHint": "La gita torna a {{city}}, quindi anche la tratta successiva parte da lì. Non aggiungere una tratta di ritorno separata.",
+    "day": "Giorno {{number}}",
+    "dayUnscheduled": "Passi senza data",
+    "selectDaySteps": "Seleziona questi passi",
+    "shiftDayEarlier": "Sposta un giorno prima",
+    "shiftDayLater": "Sposta un giorno dopo",
+    "dayEmpty": "Ancora niente in questo giorno."
   },
   "photoImport": {
     "title": "Importa manifest fotografico",
@@ -347,7 +360,10 @@
   "map": {
     "fitToTrip": "Inquadra il viaggio",
     "useThisView": "Usa questa vista",
-    "selectStop": "Seleziona la tappa {{position}}, {{city}}"
+    "selectStop": "Seleziona la tappa {{position}}, {{city}}",
+    "pinPlace": "Aggiungi sulla mappa",
+    "pinPlaceHint": "Clicca un punto qualsiasi della mappa per aggiungere un luogo.",
+    "fitToDay": "Inquadra il giorno"
   },
   "tray": {
     "title": "Validazione e modifiche",

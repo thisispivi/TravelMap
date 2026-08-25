@@ -17,10 +17,28 @@ const TRANSPORT_COLORS: Partial<Record<TransportMode, string>> = {
   walk: variables.transportWalk,
 };
 
+/* Only the modes whose drawn line is an abstraction rather than a real path are
+   dashed, so a solid line can be trusted to mean "this route was travelled". */
 const DASHES: Partial<Record<TransportMode, [number, number]>> = {
   plane: [2, 2.5],
   ferry: [1.5, 2],
 };
+
+const ROUTE_LINE_WIDTH = 2.5;
+const ROUTE_CASING_WIDTH = 5;
+
+/* MapLibre measures dashes in multiples of the line width, so the casing needs
+   its own values to cover the same ground as the thinner line above it. */
+const CASING_DASHES: Partial<Record<TransportMode, [number, number]>> =
+  Object.fromEntries(
+    Object.entries(DASHES).map(([mode, [dash, gap]]) => [
+      mode,
+      [
+        (dash * ROUTE_LINE_WIDTH) / ROUTE_CASING_WIDTH,
+        (gap * ROUTE_LINE_WIDTH) / ROUTE_CASING_WIDTH,
+      ],
+    ]),
+  );
 
 /**
  * Properties accepted by the selected-trip route overlay.
@@ -67,6 +85,24 @@ export function RouteOverlay({ isDarkTheme }: RouteOverlayProps): ReactNode {
     <>
       {Array.from(byMode, ([mode, data]) => (
         <Source data={data} id={`route-${mode}`} key={mode} type="geojson">
+          {/* A casing under the coloured line keeps every mode legible against
+              both the land tone and the ocean it crosses. It repeats the dash
+              pattern so a dashed mode still reads as dashed. */}
+          <Layer
+            id={`route-casing-${mode}`}
+            layout={{ "line-cap": "round", "line-join": "round" }}
+            paint={{
+              "line-blur": 0.5,
+              "line-color": isDarkTheme
+                ? "rgba(0, 0, 0, 0.55)"
+                : "rgba(255, 255, 255, 0.75)",
+              ...(DASHES[mode]
+                ? { "line-dasharray": CASING_DASHES[mode] }
+                : {}),
+              "line-width": ROUTE_CASING_WIDTH,
+            }}
+            type="line"
+          />
           <Layer
             id={`route-layer-${mode}`}
             layout={{ "line-cap": "round", "line-join": "round" }}
@@ -74,9 +110,9 @@ export function RouteOverlay({ isDarkTheme }: RouteOverlayProps): ReactNode {
               "line-color":
                 TRANSPORT_COLORS[mode] ??
                 (isDarkTheme ? "rgba(255,255,255,0.7)" : "#1a73e8"),
-              "line-dasharray": DASHES[mode] ?? [2, 1.5],
-              "line-opacity": 0.88,
-              "line-width": 2.25,
+              ...(DASHES[mode] ? { "line-dasharray": DASHES[mode] } : {}),
+              "line-opacity": 0.95,
+              "line-width": ROUTE_LINE_WIDTH,
             }}
             type="line"
           />
