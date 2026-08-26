@@ -1,52 +1,29 @@
-import { useLocation as useLocationRouter } from "react-router";
-
-import { AppRouteContextValue } from "@/shared/context/AppRoute.context";
+import { useLocation } from "react-router";
 
 /**
- * Derives structured route state from the current URL pathname.
- * @returns {AppRouteContextValue} Flags and extracted segments for the active route
+ * Where the reader is in the record, read from the URL rather than from route
+ * elements. The shell needs this because the photographs a stay produced are
+ * shown on the plate, above the route that names them — so the shell has to
+ * classify the path itself instead of receiving it through an outlet.
+ * @property {string | null} tripId - The journey being read, when there is one
+ * @property {number | null} spanIndex - The stay whose photographs are open
  */
-export function useAppLocation(): AppRouteContextValue {
-  const location = useLocationRouter();
-  const pathname = location.pathname;
-  return (() => {
-    const isGallery = pathname.includes("gallery");
-    const isLightbox = pathname.split("/").length === 5;
-    const isTimeline = pathname.startsWith("/timeline");
-    const isStats = pathname.startsWith("/stats");
-    const isTripDetail = pathname.startsWith("/trip/");
-    const isPlaces = pathname.startsWith("/places");
-    const isTrips = pathname === "/trips" || isTripDetail;
-    const tripDetailMatch = pathname.match(/^\/trip\/(.+)$/);
-    const tripDetailId = tripDetailMatch ? tripDetailMatch[1] : null;
-    const placesFilterMatch = pathname.match(
-      /^\/places\/(lived|visited|future)$/,
-    );
-    const placesFilter = placesFilterMatch
-      ? (placesFilterMatch[1] as "lived" | "visited" | "future")
-      : isPlaces
-        ? "visited"
-        : null;
-    const activeTab = isTimeline
-      ? "timeline"
-      : isStats
-        ? "stats"
-        : isPlaces
-          ? "places"
-          : isTrips
-            ? "trips"
-            : null;
-    return {
-      isTrips,
-      isPlaces,
-      isTripDetail,
-      isTimeline,
-      isStats,
-      isGallery,
-      isLightbox,
-      activeTab,
-      tripDetailId,
-      placesFilter,
-    };
-  })();
+export interface AppLocation {
+  tripId: string | null;
+  spanIndex: number | null;
+}
+
+/**
+ * Classifies the current pathname into the record's reading position.
+ * @returns {AppLocation} The journey and stay the URL points at
+ */
+export function useAppLocation(): AppLocation {
+  const { pathname } = useLocation();
+  const match = pathname.match(/^\/journey\/([^/]+)(?:\/(\d+))?\/?$/);
+  if (!match) return { tripId: null, spanIndex: null };
+
+  return {
+    tripId: decodeURIComponent(match[1]),
+    spanIndex: match[2] === undefined ? null : Number(match[2]),
+  };
 }

@@ -1,0 +1,18 @@
+.measure {
+  display: flex;
+  height: 0.5rem;
+  overflow: hidden;
+
+  &__span {
+    flex: 0 0 auto;
+    height: 100%;
+  }
+
+  /* Motion is nine per cent of the elapsed time but nearly half the events, so
+     a passage is lifted off the ground it cuts through rather than sitting
+     flush in it. */
+  &__span--passage {
+    height: 150%;
+    align-self: center;
+  }
+}

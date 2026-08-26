@@ -4,7 +4,6 @@ import {
   CityJson,
   Country,
   CountryJson,
-  Ferry,
   Image,
   Trip,
   TripJson,
@@ -13,6 +12,7 @@ import { partition, unique } from "remeda";
 
 /**
  * Serializable site settings consumed by the public app.
+ * @property {{ name: string; domain?: string; description?: string; author?: string; keywords?: string[] }} [site] - Identity of the site the dataset describes
  * @property {string | null} [homeCityId] - Optional home city id
  * @property {string[]} [livedCityIds] - Former-home city ids
  * @property {string[]} [futureCityIds] - Planned city ids
@@ -22,6 +22,13 @@ import { partition, unique } from "remeda";
  * @property {Record<string, { name: string; logo?: string }>} [companies] - Transport company metadata
  */
 interface SiteConfig {
+  site?: {
+    name: string;
+    domain?: string;
+    description?: string;
+    author?: string;
+    keywords?: string[];
+  };
   homeCityId?: string | null;
   livedCityIds?: string[];
   futureCityIds?: string[];
@@ -94,7 +101,6 @@ const [plannedTrips, takenTrips] = partition(world.trips, (trip) =>
 export const visitedTrips: Trip[] = takenTrips;
 export const futureTrips: Trip[] = plannedTrips;
 export const livedCities: City[] = world.livedCities;
-export const homeCity: City | null = world.homeCity;
 
 /**
  * Collects the cities a trip actually stays in. Layovers are excluded because
@@ -127,8 +133,4 @@ export const futureCities: City[] = unique([
 export const visitedCountries: Country[] = unique(
   visitedCities.map((city) => city.country),
 ).sort((first, second) => first.id.localeCompare(second.id));
-export const takenFlights = visitedTrips.flatMap((trip) => trip.getFlights());
-export const takenFerries: Ferry[] = visitedTrips.flatMap((trip) =>
-  trip.getFerries().flatMap((ferry) => (ferry.company ? [ferry] : [])),
-);
 export const siteConfig = worldConfig;

@@ -1,5 +1,18 @@
 {
   "$schema": "https://unpkg.com/knip@latest/schema.json",
-  "project": ["src/**/*.{ts,tsx}", "!src/data/**"],
+  "project": ["src/**/*.{ts,tsx}"],
+  "entry": [
+    "src/main.tsx",
+    "src/features/map/lib/geo.ts",
+    "src/features/map/lib/mapTheme.ts",
+    "src/i18n/locale.ts",
+    "src/shared/components/Checkbox/Checkbox.tsx",
+    "src/shared/components/CountryFlag/CountryFlag.tsx",
+    "src/shared/components/TransportModeIcon/TransportModeIcon.tsx",
+    "src/shared/hooks/useLanguage.ts",
+    "src/shared/hooks/useThemeDetector.ts",
+    "src/shared/lib/classNames.ts",
+    "src/shared/lib/keyboard.ts"
+  ],
   "ignoreDependencies": ["eslint-config-prettier", "lint-staged"]
 }

@@ -19,11 +19,22 @@ assistants cannot drift apart.
 - `scripts/uploader/` contains the typed Python media uploader.
 - `logos/` contains source and exported brand assets.
 
+## The editor boundary
+
+`apps/travel-map-editor/` aliases `@app/*` to `apps/travel-map/src/*` and
+imports thirteen modules from the public app, including `styles/_global.scss`,
+`styles/_typography.scss`, and `styles/_scrollbar.scss`. Those three
+stylesheets are the editor's baseline and must not be restyled — the public
+app's own base is `styles/_record.scss`. Before deleting, renaming, or
+un-exporting anything under `apps/travel-map/src`, run
+`grep -r "@app/" apps/travel-map-editor/src`. `knip` cannot see those
+consumers; `apps/travel-map/knip.json` lists them as entry points.
+
 ## Required verification
 
 For application changes, run `pnpm check` from the repository root (it runs
 typecheck/lint across the workspace plus `travel-map`'s format/knip/
-react:doctor checks). Also run `pnpm build` when behavior, dependencies,
+react:doctor checks, plus the Node-based tests). Also run `pnpm build` when behavior, dependencies,
 configuration, routing, or production output can be affected.
 
 For uploader changes, run

@@ -1,0 +1,86 @@
+@use "../../../../styles/variables" as v;
+@use "../../../../styles/mixins" as m;
+
+.journey {
+  padding-block-end: v.$space6;
+
+  &__head {
+    padding: v.$space4;
+  }
+
+  &__back {
+    @include m.label;
+    display: inline-block;
+    margin-block-end: v.$space3;
+    text-decoration: none;
+
+    &::before {
+      content: "↑ ";
+    }
+
+    &:focus-visible {
+      @include m.focus-mark;
+    }
+  }
+
+  &__title {
+    font-size: v.$display;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+  }
+
+  &__dates {
+    @include m.figure;
+    font-size: v.$small;
+    margin-block: v.$space1 v.$space3;
+  }
+
+  &__readings {
+    display: flex;
+    flex-wrap: wrap;
+    gap: v.$space4;
+    margin-block-start: v.$space3;
+  }
+
+  &__reading {
+    dt {
+      @include m.label;
+    }
+
+    dd {
+      @include m.figure;
+      font-size: v.$lead;
+      margin-block-start: v.$space1;
+    }
+  }
+
+  &__spans {
+    list-style: none;
+  }
+
+  &--missing {
+    padding: v.$space5 v.$space4;
+  }
+}
+
+.record--light .journey {
+  &__back {
+    color: v.$markOnLight;
+  }
+
+  &__dates,
+  &__reading dt {
+    color: v.$lightInkMuted;
+  }
+}
+
+.record--dark .journey {
+  &__back {
+    color: v.$markOnDark;
+  }
+
+  &__dates,
+  &__reading dt {
+    color: v.$darkInkMuted;
+  }
+}

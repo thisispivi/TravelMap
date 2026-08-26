@@ -1,0 +1,196 @@
+@use "../../../../styles/variables" as v;
+@use "../../../../styles/mixins" as m;
+
+.span {
+  display: grid;
+  grid-template-columns: v.$space4 1fr;
+  align-items: stretch;
+  padding-inline-end: v.$space4;
+
+  &__gutter {
+    display: flex;
+    justify-content: center;
+    padding-block: v.$space2;
+  }
+
+  /* The tick is the row's honest reading. The row around it takes a floor so it
+     stays reachable; the tick never does. */
+  &__tick {
+    width: 0.25rem;
+    min-height: 1px;
+  }
+
+  &__body {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: v.$space1 v.$space2;
+    align-content: flex-start;
+    padding-block: v.$space3;
+    min-width: 0;
+  }
+
+  &__line {
+    display: flex;
+    flex-basis: 100%;
+    align-items: baseline;
+    gap: v.$space2;
+    min-width: 0;
+  }
+
+  &__place {
+    font-size: v.$lead;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: inherit;
+    text-decoration: none;
+    border-block-end: 1px solid transparent;
+    @include m.transition(border-color);
+
+    &:hover {
+      border-block-end-color: currentcolor;
+    }
+
+    &:focus-visible {
+      @include m.focus-mark;
+    }
+  }
+
+  &__mode {
+    @include m.label;
+    display: inline-flex;
+    align-items: center;
+    gap: v.$space1;
+  }
+
+  &__icon {
+    width: 0.875rem;
+    height: 0.875rem;
+    fill: currentcolor;
+  }
+
+  &__route {
+    font-size: v.$small;
+  }
+
+  &__reading {
+    @include m.figure;
+    font-size: v.$micro;
+    margin-inline-start: auto;
+    white-space: nowrap;
+    flex: 0 0 auto;
+  }
+
+  &__separator {
+    padding: 0 0.4em;
+  }
+
+  &__note {
+    @include m.label;
+  }
+
+  &__carrier {
+    display: inline-flex;
+    align-items: center;
+    gap: v.$space1;
+    font-size: v.$micro;
+    flex-basis: 100%;
+  }
+
+  &__logo {
+    height: 0.75rem;
+    width: auto;
+  }
+
+  /* The sheet fills whatever height the stay earned, and is clipped rather
+     than scrolled: what does not fit is a reason to open the stay, not a
+     second scrolling surface inside the column. */
+  &__photos {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 100%;
+    min-height: 0;
+    gap: v.$space1;
+    margin-block-start: v.$space1;
+    text-decoration: none;
+    color: inherit;
+
+    &:focus-visible {
+      @include m.focus-mark;
+    }
+  }
+
+  &__sheet {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(3rem, 1fr));
+    gap: 2px;
+    flex: 1 1 auto;
+    align-content: start;
+    min-height: 3rem;
+    overflow: hidden;
+  }
+
+  &__thumb {
+    width: 100%;
+    height: 3rem;
+    object-fit: cover;
+    @include m.transition(filter);
+  }
+
+  &__count {
+    @include m.figure;
+    font-size: v.$micro;
+    flex: 0 0 auto;
+  }
+
+  &__photos:hover &__thumb {
+    filter: brightness(1.08);
+  }
+
+  /* More than half of every stop in the record is somewhere passed through, so
+     a layover has to recede or it drowns the places actually visited. */
+  &--layover &__place {
+    font-size: v.$small;
+    font-weight: 500;
+  }
+}
+
+.record--light .span {
+  border-block-start: 1px solid v.$lightRule;
+
+  &__route,
+  &__reading,
+  &__carrier,
+  &__count {
+    color: v.$lightInkMuted;
+  }
+
+  &__mode,
+  &__note {
+    color: v.$lightInkFaint;
+  }
+
+  &--layover &__place {
+    color: v.$lightInkMuted;
+  }
+}
+
+.record--dark .span {
+  border-block-start: 1px solid v.$darkRule;
+
+  &__route,
+  &__reading,
+  &__carrier,
+  &__count {
+    color: v.$darkInkMuted;
+  }
+
+  &__mode,
+  &__note {
+    color: v.$darkInkFaint;
+  }
+
+  &--layover &__place {
+    color: v.$darkInkMuted;
+  }
+}

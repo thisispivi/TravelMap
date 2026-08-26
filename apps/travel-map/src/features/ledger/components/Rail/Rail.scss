@@ -1,0 +1,67 @@
+@use "../../../../styles/variables" as v;
+@use "../../../../styles/mixins" as m;
+
+.rail {
+  grid-area: rail;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: v.$space2 v.$space1;
+  overflow: hidden;
+
+  &__journey {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-basis: 0;
+    min-height: 3px;
+    @include m.transition(box-shadow, transform);
+
+    &:focus-visible {
+      @include m.focus-mark;
+      outline-offset: 1px;
+    }
+  }
+
+  &__span {
+    flex-basis: 0;
+    min-height: 1px;
+  }
+
+  /* The rail carries no readable text at its own size, so each journey's name
+     is kept for assistive technology and revealed on hover as a plain label. */
+  &__label {
+    @include m.visually-hidden;
+  }
+
+  &__journey--here {
+    box-shadow: 0 0 0 2px v.$mark;
+  }
+
+  &__journey:hover {
+    transform: scaleX(1.35);
+  }
+
+  /* Pointers get a hairline rail; thumbs get a wider one, because a four-day
+     journey is only a few pixels of a fifteen-year record. */
+  @media (max-width: v.$breakpointStacked) {
+    padding-inline: v.$space1;
+    gap: 3px;
+  }
+}
+
+.record--light .rail {
+  background-color: v.$lightGroundSunk;
+  border-inline-end: 1px solid v.$lightRule;
+}
+
+.record--dark .rail {
+  background-color: v.$darkGroundSunk;
+  border-inline-end: 1px solid v.$darkRule;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rail__journey:hover {
+    transform: none;
+  }
+}

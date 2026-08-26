@@ -1,0 +1,125 @@
+@use "variables" as v;
+@use "mixins" as m;
+
+/* The record's own base. `_global.scss`, `_typography.scss` and
+   `_scrollbar.scss` stay as they were because the editor imports them from
+   this app; nothing here may be moved into those files. */
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+  font-family: "Urbanist", system-ui, sans-serif;
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: v.$darkGround;
+}
+
+body,
+#root {
+  height: 100%;
+  overflow: hidden;
+}
+
+.body--dark {
+  background-color: v.$darkGround;
+  color-scheme: dark;
+}
+
+.body--light {
+  background-color: v.$lightGround;
+  color-scheme: light;
+}
+
+.app-loading {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: v.$darkGround;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin: 0;
+}
+
+h1 {
+  font-size: v.$display;
+}
+
+h2 {
+  font-size: v.$lead;
+}
+
+h3 {
+  font-size: v.$body;
+  letter-spacing: -0.01em;
+}
+
+p {
+  font-size: v.$body;
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* Every number in the record is a reading, so it is always set in mono. */
+.figure {
+  @include m.figure;
+}
+
+/* The rail is the record's own scroll indicator, so the native bar stays
+   unobtrusive without disappearing for anyone navigating by pointer. */
+.record ::-webkit-scrollbar {
+  width: 0.375rem;
+  height: 0.375rem;
+}
+
+.record ::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.record ::-webkit-scrollbar-thumb {
+  border-radius: 0.25rem;
+  background: v.$lightRuleStrong;
+}
+
+.record--dark ::-webkit-scrollbar-thumb {
+  background: v.$darkRuleStrong;
+}
+
+/* The measure a reader clicked is the same measure that heads the journey they
+   land on, so it moves between the two rather than being redrawn. That is the
+   only thing on screen that animates across a change of scale: everything else
+   is a different reading and should simply replace what was there. */
+::view-transition-old(reading-measure),
+::view-transition-new(reading-measure) {
+  animation: none;
+  mix-blend-mode: normal;
+  height: 100%;
+}
+
+::view-transition-group(reading-measure) {
+  animation-duration: 320ms;
+  animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}

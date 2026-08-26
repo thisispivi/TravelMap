@@ -1,28 +1,16 @@
 import "./Lightbox.scss";
 import "react-image-gallery/styles/image-gallery.css";
 
-import { City } from "@travelmap/core";
-import { ReactNode, useEffect, useRef, useState } from "react";
-import ImageGallery, {
-  ImageGalleryProps,
-  ImageGalleryRef,
-} from "react-image-gallery";
-import { useLoaderData, useLocation, useNavigate } from "react-router";
+import { Image } from "@travelmap/core";
+import { ReactNode, useEffect, useRef } from "react";
+import ImageGallery, { ImageGalleryProps } from "react-image-gallery";
 
-import ChevronIcon from "@/assets/icons/Chevron.svg?react";
-import FullscreenEnterIcon from "@/assets/icons/FullscreenEnter.svg?react";
-import FullscreenExitIcon from "@/assets/icons/FullscreenExit.svg?react";
-import GalleryIcon from "@/assets/icons/Gallery.svg?react";
-import { visitedTrips } from "@/data/world";
-import { Button } from "@/shared/components/Button/Button";
+import CloseIcon from "@/assets/icons/Close.svg?react";
 import { useLanguage } from "@/shared/hooks/useLanguage";
-import { classNames } from "@/shared/lib/classNames";
-import { parameters } from "@/shared/lib/parameters";
-import { getTravelByCityIndex } from "@/shared/lib/travelQueries";
-const HIDE_NAV_AFTER_MS = 2000;
 
 /**
- * Represents a lightbox item.
+ * One slide handed to the underlying gallery, carrying the extra fields the
+ * dataset attaches to a photograph.
  */
 type LightboxItem = ImageGalleryProps["items"][number] & {
   youtube?: boolean;
@@ -30,237 +18,107 @@ type LightboxItem = ImageGalleryProps["items"][number] & {
 };
 
 /**
- * Data resolved by the lightbox route loader.
- * @property {City} city - The city whose media is displayed
- * @property {number} travelIdx - The selected travel index
- * @property {number} photoIdx - The selected media index
+ * Properties accepted by the lightbox.
+ * @property {Image[]} photos - The stay's photographs
+ * @property {number} startIndex - The photograph to open on
+ * @property {() => void} onClose - Dismisses the lightbox
  */
-export interface LightboxProps {
-  city: City;
-  travelIdx: number;
-  photoIdx: number;
+interface LightboxProps {
+  photos: Image[];
+  startIndex: number;
+  onClose: () => void;
 }
 
 /**
- * Normalizes an absolute or configured YouTube embed source.
- * @param {string} original - The media's stored URL or video identifier
- * @returns {string} The complete YouTube embed URL
+ * Builds a complete embed URL for a video, accepting either a full URL or the
+ * bare identifier the dataset usually stores.
+ * @param {string} original - The stored URL or video identifier
+ * @returns {string} The embed URL
  */
-function getYoutubeEmbedSrc(original: string): string {
-  const normalizedOriginal = original.replace(/^https:\//, "https://");
-  if (/^https?:\/\//.test(normalizedOriginal)) return normalizedOriginal;
+function toEmbedSrc(original: string): string {
+  const normalized = original.replace(/^https:\//, "https://");
+  if (/^https?:\/\//.test(normalized)) return normalized;
 
-  return `${import.meta.env.VITE_YOUTUBE_PATH ?? "https://www.youtube.com/embed/"}${normalizedOriginal}`;
+  return `${import.meta.env.VITE_YOUTUBE_PATH ?? "https://www.youtube.com/embed/"}${normalized}`;
+}
+
+/**
+ * Renders a video embed for video slides and a plain image for the rest.
+ * @param {LightboxItem} item - The slide to render
+ * @returns {ReactNode} The rendered slide
+ */
+function renderSlide(item: LightboxItem): ReactNode {
+  return item.youtube ? (
+    <iframe
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowFullScreen
+      className="lightbox__video"
+      src={toEmbedSrc(item.original)}
+      title={item.alt ?? ""}
+    />
+  ) : (
+    <img alt={item.alt ?? ""} className="lightbox__image" src={item.original} />
+  );
 }
 
 /**
  * Lightbox component
- * Full-screen photo and video viewer. Wraps `react-image-gallery` with custom
- * navigation buttons, a fullscreen toggle, and an auto-hiding top bar.
+ * One photograph at full size, over the sheet that listed it. It is deliberately
+ * plain: the record does the talking, and a photograph shown large needs
+ * nothing around it but a way out.
  * @component
+ * @param {LightboxProps} props - The lightbox props
+ * @param {Image[]} props.photos - The stay's photographs
+ * @param {number} props.startIndex - The photograph to open on
+ * @param {() => void} props.onClose - Dismisses the lightbox
  * @returns {ReactNode} The lightbox overlay
  */
-export function Lightbox(): ReactNode {
-  const { t } = useLanguage(["home"]);
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { city, travelIdx, photoIdx } = useLoaderData() as LightboxProps;
-  const photos =
-    getTravelByCityIndex(city, travelIdx, visitedTrips)?.photos ?? [];
-  const [isNavVisible, setIsNavVisible] = useState(true);
-  const [isFullscreen, setIsFullscreen] = useState(false);
-  const hideNavTimeoutRef = useRef<number | undefined>(undefined);
-  const galleryRef = useRef<ImageGalleryRef>(null);
+export function Lightbox({
+  photos,
+  startIndex,
+  onClose,
+}: LightboxProps): ReactNode {
+  const { t } = useLanguage(["record"]);
+  const dialogRef = useRef<HTMLDialogElement>(null);
 
-  /**
-   * Restarts the timer that hides the lightbox navigation.
-   * @returns {void}
-   */
-  const scheduleHideNav = (): void => {
-    if (hideNavTimeoutRef.current !== undefined) {
-      window.clearTimeout(hideNavTimeoutRef.current);
-    }
-    hideNavTimeoutRef.current = window.setTimeout(() => {
-      setIsNavVisible(false);
-    }, HIDE_NAV_AFTER_MS);
-  };
-  const scheduleHideNavRef = useRef(scheduleHideNav);
-
+  /* Opening it as a modal rather than rendering an overlay is what gives the
+     viewer focus trapping, Escape, inertness of the page behind it and the
+     backdrop — all of which would otherwise have to be rebuilt by hand. */
   useEffect(() => {
-    scheduleHideNavRef.current = scheduleHideNav;
-  });
-
-  /**
-   * Reveals the lightbox navigation and restarts its hide timer.
-   * @returns {void}
-   */
-  const revealNav = (): void => {
-    setIsNavVisible(true);
-    scheduleHideNavRef.current();
-  };
-  useEffect(() => {
-    const timeoutId = window.setTimeout(() => {
-      setIsNavVisible(false);
-    }, HIDE_NAV_AFTER_MS);
-    hideNavTimeoutRef.current = timeoutId;
-    return () => {
-      window.clearTimeout(timeoutId);
-    };
+    dialogRef.current?.showModal();
   }, []);
 
-  /**
-   * Renders either a sandboxed video embed or a responsive image slide.
-   * @param {LightboxItem} item - The lightbox item to render
-   * @returns {ReactNode} The rendered media slide
-   */
-  const handleRenderItem = (item: LightboxItem): ReactNode => {
-    if (item.youtube) {
-      return (
-        <iframe
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowFullScreen
-          className="image-gallery-video"
-          sandbox="allow-scripts allow-same-origin allow-presentation"
-          src={parameters.isShowPhotos ? getYoutubeEmbedSrc(item.original) : ""}
-          title={t("lightbox.youtubeVideo")}
-        />
-      );
-    } else {
-      return (
-        <img
-          alt={item.alt ?? ""}
-          className="image-gallery-image"
-          src={
-            parameters.isShowPhotos
-              ? `${import.meta.env.VITE_CDN_PATH}${item.original}`
-              : ""
-          }
-        />
-      );
-    }
-  };
+  const items: LightboxItem[] = photos.map((photo) => ({
+    original: photo.original,
+    thumbnail: photo.thumbnail,
+    alt: photo.alt ?? "",
+    youtube: photo.youtube,
+  }));
 
-  /**
-   * Stops media on the previous slide and navigates to a new media index.
-   * @param {number | undefined} newIndex - The destination media index
-   * @returns {void}
-   */
-  const handleChange = (newIndex: number | undefined): void => {
-    if (photoIdx !== undefined) {
-      const element = document.querySelector(
-        `[aria-label="Go to Slide ${photoIdx + 1}"]`,
-      );
-      if (element) {
-        const child = element.children[0];
-        if (child) {
-          if (child.tagName === "VIDEO") (child as HTMLVideoElement).pause();
-          if (child.tagName === "IFRAME") {
-            const iframeSrc = (child as HTMLIFrameElement).src;
-            (child as HTMLIFrameElement).src = iframeSrc;
-          }
-        }
-      }
-      navigate(`../${newIndex}`, { state: location.state });
-    }
-  };
-
-  /**
-   * Synchronizes router state after the gallery changes slides.
-   * @param {number} idx - The active media index
-   * @returns {void}
-   */
-  const handleSlide = (idx: number): void => {
-    handleChange(idx);
-  };
-
-  /**
-   * Navigates to an in-range slide and reveals the navigation controls.
-   * @param {number} idx - The destination media index
-   * @returns {void}
-   */
-  const handleNavigateSlide = (idx: number): void => {
-    if (idx < 0 || idx >= photos.length) return;
-    revealNav();
-    handleChange(idx);
-  };
-
-  /**
-   * Toggles the underlying image gallery's fullscreen mode.
-   * @returns {void}
-   */
-  const handleToggleFullscreen = (): void => {
-    if (galleryRef.current) {
-      if (isFullscreen) {
-        galleryRef.current.exitFullScreen();
-      } else {
-        galleryRef.current.fullScreen();
-      }
-    }
-  };
   return (
-    <div
-      className={classNames(
-        "lightbox",
-        !isNavVisible && "lightbox--nav-hidden",
-        isFullscreen && "lightbox--fullscreen",
-      )}
-      onMouseMove={revealNav}
-      onTouchStart={revealNav}
+    <dialog
+      aria-label={t("record:photographsOpen")}
+      className="lightbox"
+      onClose={onClose}
+      ref={dialogRef}
     >
-      <div className="lightbox__top-bar">
-        <Button
-          className="lightbox__back-button"
-          onClick={() => navigate(`..`, { state: location.state })}
-        >
-          <GalleryIcon />
-          <p>{t("gallery")}</p>
-        </Button>
-        <span className="lightbox__spacer" />
-        <span className="lightbox__index">
-          <span className="lightbox__index--current">{photoIdx + 1}</span> /{" "}
-          {photos.length}
-        </span>
-        <Button
-          ariaLabel={t("lightbox.fullscreen")}
-          className="lightbox__fullscreen-button"
-          onClick={handleToggleFullscreen}
-        >
-          {isFullscreen ? <FullscreenExitIcon /> : <FullscreenEnterIcon />}
-        </Button>
-      </div>
+      <button
+        aria-label={t("record:close")}
+        className="lightbox__close"
+        onClick={onClose}
+        type="button"
+      >
+        <CloseIcon className="lightbox__icon" />
+      </button>
       <ImageGallery
-        infinite={false}
-        items={photos}
-        lazyLoad={true}
-        onScreenChange={(fs) => setIsFullscreen(fs)}
-        onSlide={handleSlide}
-        ref={galleryRef}
-        renderItem={handleRenderItem}
+        items={items}
+        renderItem={renderSlide}
         showFullscreenButton={false}
-        showIndex={false}
-        showNav={false}
+        showIndex
         showPlayButton={false}
         showThumbnails={false}
-        startIndex={photoIdx}
+        startIndex={startIndex}
       />
-      <Button
-        ariaLabel={t("lightbox.previousSlide")}
-        className={`lightbox__nav-button image-gallery-left-nav ${photoIdx === 0 ? "lightbox__nav-button--disabled" : ""}`}
-        hoverScale={1}
-        onClick={() => handleNavigateSlide(photoIdx - 1)}
-        tapScale={1}
-      >
-        <ChevronIcon className="chevron" />
-      </Button>
-      <Button
-        ariaLabel={t("lightbox.nextSlide")}
-        className={`lightbox__nav-button image-gallery-right-nav ${photoIdx >= photos.length - 1 ? "lightbox__nav-button--disabled" : ""}`}
-        hoverScale={1}
-        onClick={() => handleNavigateSlide(photoIdx + 1)}
-        tapScale={1}
-      >
-        <ChevronIcon className="chevron" />
-      </Button>
-    </div>
+    </dialog>
   );
 }

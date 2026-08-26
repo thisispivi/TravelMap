@@ -489,7 +489,7 @@ export default [
             },
             {
               regex:
-                "^(?:\\.\\./)+(?:gallery|map|navigation|places|stats|timeline|trips)/",
+                "^(?:\\.\\./)+(?:gallery|ledger|map)/",
               message:
                 "Features cannot import another feature's private modules.",
             },

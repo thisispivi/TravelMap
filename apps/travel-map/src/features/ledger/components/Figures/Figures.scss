@@ -1,0 +1,103 @@
+@use "../../../../styles/variables" as v;
+@use "../../../../styles/mixins" as m;
+
+.figures {
+  grid-area: figures;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: v.$space4;
+  padding-inline: v.$space3;
+  overflow: hidden;
+
+  &__readings {
+    display: flex;
+    align-items: baseline;
+    gap: v.$space4;
+    min-width: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  &__reading {
+    display: flex;
+    align-items: baseline;
+    gap: v.$space2;
+    white-space: nowrap;
+  }
+
+  &__label {
+    @include m.label;
+  }
+
+  /* Tabular figures keep the band from reflowing as the totals count up while
+     the record is scrolled. */
+  &__value {
+    @include m.figure;
+    font-size: v.$small;
+    font-weight: 500;
+  }
+
+  &__controls {
+    display: flex;
+    gap: v.$space1;
+  }
+
+  &__control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2rem;
+    height: 2rem;
+    padding: 0 v.$space2;
+    font-size: v.$micro;
+    font-weight: 600;
+    background: none;
+    border: 1px solid transparent;
+    color: inherit;
+    cursor: pointer;
+    @include m.transition(border-color, background-color);
+
+    &:focus-visible {
+      @include m.focus-mark;
+    }
+  }
+
+  &__icon {
+    width: 1rem;
+    height: 1rem;
+    fill: currentcolor;
+  }
+
+  @media (max-width: v.$breakpointStacked) {
+    &__reading:nth-child(n + 4) {
+      display: none;
+    }
+  }
+}
+
+.record--light .figures {
+  border-block-start: 1px solid v.$lightRule;
+  background-color: v.$lightGroundSunk;
+
+  &__label {
+    color: v.$lightInkFaint;
+  }
+
+  &__control:hover {
+    border-color: v.$lightRuleStrong;
+  }
+}
+
+.record--dark .figures {
+  border-block-start: 1px solid v.$darkRule;
+  background-color: v.$darkGroundSunk;
+
+  &__label {
+    color: v.$darkInkFaint;
+  }
+
+  &__control:hover {
+    border-color: v.$darkRuleStrong;
+  }
+}

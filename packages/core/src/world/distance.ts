@@ -1,4 +1,4 @@
-import { City } from "../classes/City";
+import type { City } from "../classes/City";
 
 const EARTH_RADIUS_KM = 6371;
 

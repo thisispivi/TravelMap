@@ -2,12 +2,10 @@ import "./FallbackPage.scss";
 
 import { ReactNode, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { isRouteErrorResponse, useNavigate, useRouteError } from "react-router";
+import { isRouteErrorResponse, Link, useRouteError } from "react-router";
 
-import { Button } from "@/shared/components/Button/Button";
-import { useResponsive } from "@/shared/hooks/useResponsive";
 import { useThemeDetector } from "@/shared/hooks/useThemeDetector";
-import { mobileAndTabletCheck } from "@/shared/lib/responsive";
+import { classNames } from "@/shared/lib/classNames";
 import { getWithExpiry, setWithExpiry } from "@/shared/lib/storage";
 
 const CHUNK_LOAD_FAILURE_PATTERN =
@@ -15,19 +13,18 @@ const CHUNK_LOAD_FAILURE_PATTERN =
 
 /**
  * FallbackPage component
- * Renders route and application errors and retries stale dynamic chunks once.
+ * What the reader sees when the record cannot be opened. A stale chunk after a
+ * deploy is the common cause and is recoverable, so that case reloads once
+ * before showing anything; everything else is reported plainly with a way back
+ * to the record.
  * @component
- * @returns {ReactNode} The route error page
+ * @returns {ReactNode} The error page
  */
 export function FallbackPage(): ReactNode {
   const routerError = useRouteError();
   const { t } = useTranslation(["error"]);
-  const navigate = useNavigate();
   const { isDarkTheme } = useThemeDetector();
-  const responsive = useResponsive();
-
   const isHttpError = isRouteErrorResponse(routerError);
-
   const rawError =
     !isHttpError &&
     routerError != null &&
@@ -35,68 +32,45 @@ export function FallbackPage(): ReactNode {
     "error" in routerError
       ? (routerError as { error: unknown }).error
       : routerError;
-
   const error = rawError instanceof Error ? rawError : null;
 
+  /* A chunk that fails to load usually means the reader is holding an old
+     build's index, so the page reloads itself once and only reports a failure
+     if the fresh build fails too. */
   useEffect(() => {
-    if (
-      isHttpError ||
-      !error ||
-      !CHUNK_LOAD_FAILURE_PATTERN.test(error.message)
-    )
-      return;
-    if (!getWithExpiry("chunk_failed")) {
-      setWithExpiry("chunk_failed", "true", 10000);
-      window.location.reload();
-    }
+    if (isHttpError || !error) return;
+    if (!CHUNK_LOAD_FAILURE_PATTERN.test(error.message)) return;
+    if (getWithExpiry("chunk_failed")) return;
+    setWithExpiry("chunk_failed", "true", 10000);
+    window.location.reload();
   }, [error, isHttpError]);
 
-  const themeModifierClass = isDarkTheme
-    ? "fallback-page--dark"
-    : "fallback-page--light";
-  const showStack =
-    error?.stack && !mobileAndTabletCheck() && responsive.window.width > 980;
-
-  if (isHttpError) {
-    const is404 = routerError.status === 404;
-    return (
-      <div className={`fallback-page ${themeModifierClass}`}>
-        <div className="fallback-page__content">
-          <span className="fallback-page__code">{routerError.status}</span>
-          <h1 className="fallback-page__title">
-            {is404 ? t("notFound.title") : t("details.title")}
-          </h1>
-          <p className="fallback-page__subtitle">
-            {is404 ? t("notFound.subtitle") : routerError.statusText}
-          </p>
-          <Button
-            className="fallback-page__button"
-            onClick={() => navigate("/")}
-          >
-            {t("goToHome")}
-          </Button>
-        </div>
-      </div>
-    );
-  }
-
-  const errorMessage =
-    error?.message ??
-    (typeof rawError === "string" ? rawError : t("details.subtitle"));
+  const code = isHttpError ? String(routerError.status) : null;
+  const title =
+    isHttpError && routerError.status === 404
+      ? t("notFound.title")
+      : t("details.title");
+  const detail = isHttpError
+    ? routerError.statusText
+    : (error?.message ??
+      (typeof rawError === "string" ? rawError : t("details.subtitle")));
 
   return (
-    <div className={`fallback-page ${themeModifierClass}`}>
-      <div className="fallback-page__content">
-        <h1 className="fallback-page__title">{t("details.title")}</h1>
-        <p className="fallback-page__subtitle">{t("details.subtitle")}</p>
-        <p className="fallback-page__message">{errorMessage}</p>
-        {showStack ? (
-          <pre className="fallback-page__stack">{error!.stack}</pre>
-        ) : null}
-        <Button className="fallback-page__button" onClick={() => navigate("/")}>
-          {t("goToHome")}
-        </Button>
-      </div>
+    <div
+      className={classNames(
+        "fallback-page",
+        isDarkTheme ? "fallback-page--dark" : "fallback-page--light",
+      )}
+    >
+      {code ? <p className="fallback-page__code figure">{code}</p> : null}
+      <h1 className="fallback-page__title">{title}</h1>
+      <p className="fallback-page__detail">{detail}</p>
+      {error?.stack ? (
+        <pre className="fallback-page__stack">{error.stack}</pre>
+      ) : null}
+      <Link className="fallback-page__back" to="/">
+        {t("goToHome")}
+      </Link>
     </div>
   );
 }

@@ -1,127 +1,92 @@
 @use "../../styles/variables" as v;
-
-@mixin fallback-page-theme(
-  $background-color,
-  $surface-color,
-  $content-color,
-  $shadow,
-  $alternate-text-color
-) {
-  background-color: $background-color;
-
-  .fallback-page__content {
-    background-color: $surface-color;
-    box-shadow: $shadow;
-    color: $content-color;
-  }
-
-  .fallback-page__code {
-    color: $content-color;
-  }
-
-  .fallback-page__message,
-  .fallback-page__stack {
-    background-color: $background-color;
-    color: $alternate-text-color;
-  }
-}
+@use "../../styles/mixins" as m;
 
 .fallback-page {
-  align-items: center;
   display: flex;
-  inset: 0;
-  justify-content: center;
-  padding: 1.5rem;
-  position: fixed;
-
-  &--light {
-    @include fallback-page-theme(
-      v.$lightBackground,
-      v.$lightLeftBar,
-      v.$lightButtonContent,
-      v.$glassShadowLight,
-      v.$lightAltText
-    );
-  }
-
-  &--dark {
-    @include fallback-page-theme(
-      v.$darkBackground,
-      v.$darkLeftBar,
-      v.$darkButtonContent,
-      v.$glassShadowDark,
-      v.$darkAltText
-    );
-  }
-
-  &__content {
-    align-items: center;
-    border-radius: v.$floatingCardRadiusLg;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    max-width: 36rem;
-    padding: 2rem 2.5rem;
-    text-align: center;
-    width: 100%;
-  }
+  flex-direction: column;
+  align-items: flex-start;
+  gap: v.$space3;
+  height: 100%;
+  padding: v.$space6 v.$space5;
+  overflow-y: auto;
 
   &__code {
-    font-size: 5rem;
-    font-weight: 800;
-    letter-spacing: -0.04em;
+    @include m.figure;
+    font-size: v.$displayLg;
     line-height: 1;
-    margin-bottom: 0.25rem;
-    opacity: 0.15;
   }
 
   &__title {
-    font-size: v.$headingLg;
+    font-size: v.$display;
     font-weight: 700;
-    margin-bottom: 0.25rem;
+    letter-spacing: -0.03em;
   }
 
-  &__subtitle {
-    font-size: v.$bodySm;
-    margin-bottom: 0.75rem;
-    opacity: 0.6;
+  &__detail {
+    font-size: v.$body;
+    max-width: 48ch;
   }
 
-  &__message {
-    border-radius: 0.5rem;
-    font-family: monospace;
-    font-size: v.$bodySm;
-    margin-bottom: 0.5rem;
-    padding: 0.75rem 1rem;
-    text-align: left;
-    width: 100%;
-    word-break: break-word;
-  }
-
+  /* The stack is for whoever is debugging a fork, not for the reader, so it is
+     kept out of the way on the screens least able to spare the room. */
   &__stack {
-    border-radius: 0.5rem;
-    font-family: monospace;
-    font-size: 0.7rem;
-    margin-bottom: 0.5rem;
-    max-height: 12rem;
-    overflow-y: auto;
-    padding: 0.75rem 1rem;
-    text-align: left;
-    white-space: pre-wrap;
-    width: 100%;
-    word-break: break-all;
+    @include m.figure;
+    font-size: v.$micro;
+    line-height: 1.5;
+    max-width: 100%;
+    overflow-x: auto;
+    padding: v.$space3;
+
+    @media (max-width: v.$breakpointStacked) {
+      display: none;
+    }
   }
 
-  &__button {
-    border-radius: 0.5rem;
-    height: 2.5rem;
-    margin-top: 1rem;
-    padding: 0 1.5rem;
-    width: 100%;
+  &__back {
+    @include m.label;
+    text-decoration: none;
+    border-block-end: 1px solid currentcolor;
 
-    p {
-      font-size: v.$bodySm;
-      font-weight: 600;
+    &:focus-visible {
+      @include m.focus-mark;
+    }
+  }
+
+  &--light {
+    background-color: v.$lightGround;
+    color: v.$lightInk;
+
+    .fallback-page__code,
+    .fallback-page__detail {
+      color: v.$lightInkMuted;
+    }
+
+    .fallback-page__stack {
+      background-color: v.$lightGroundSunk;
+      color: v.$lightInkMuted;
+    }
+
+    .fallback-page__back {
+      color: v.$markOnLight;
+    }
+  }
+
+  &--dark {
+    background-color: v.$darkGround;
+    color: v.$darkInk;
+
+    .fallback-page__code,
+    .fallback-page__detail {
+      color: v.$darkInkMuted;
+    }
+
+    .fallback-page__stack {
+      background-color: v.$darkGroundSunk;
+      color: v.$darkInkMuted;
+    }
+
+    .fallback-page__back {
+      color: v.$markOnDark;
     }
   }
 }

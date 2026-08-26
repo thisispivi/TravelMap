@@ -1,56 +1,22 @@
 @use "variables" as v;
 
 :export {
-  leftBarWidth: v.$leftBarWidth;
+  modePlane: v.$modePlane;
+  modeFerry: v.$modeFerry;
+  modeTrain: v.$modeTrain;
+  modeCar: v.$modeCar;
+  modeBus: v.$modeBus;
+  modeTaxi: v.$modeTaxi;
+  modeWalk: v.$modeWalk;
 
-  lightLeftBar: v.$lightLeftBar;
-  lightLeftBarOpacity: v.$lightLeftBarOpacity;
-  lightInfoTab: v.$lightInfoTab;
-  lightButton: v.$lightButton;
-  lightButtonHover: v.$lightButtonHover;
-  lightButtonContent: v.$lightButtonContent;
-  lightAltText: v.$lightAltText;
+  mark: v.$mark;
+  markOnDark: v.$markOnDark;
 
-  darkLeftBar: v.$darkLeftBar;
-  darkLeftBarOpacity: v.$darkLeftBarOpacity;
-  darkInfoTab: v.$darkInfoTab;
-  darkButton: v.$darkButton;
-  darkButtonHover: v.$darkButtonHover;
-  darkButtonContent: v.$darkButtonContent;
-  darkAltText: v.$darkAltText;
+  lightGround: v.$lightGround;
+  lightInk: v.$lightInk;
+  lightRule: v.$lightRule;
 
-  futureButton: v.$futureButton;
-  futureButtonHover: v.$futureButtonHover;
-  futureButtonContent: v.$futureButtonContent;
-
-  visitedButton: v.$visitedButton;
-  visitedButtonHover: v.$visitedButtonHover;
-  visitedButtonContent: v.$visitedButtonContent;
-
-  languageButton: v.$languageButton;
-  languageButtonHover: v.$languageButtonHover;
-  languageButtonContent: v.$languageButtonContent;
-
-  filterButton: v.$filterButton;
-  filterButtonHover: v.$filterButtonHover;
-  filterButtonContent: v.$filterButtonContent;
-
-  statsButton: v.$statsButton;
-  statsButtonHover: v.$statsButtonHover;
-  statsButtonContent: v.$statsButtonContent;
-
-  continentsAfrica: v.$continentsAfrica;
-  continentsAsia: v.$continentsAsia;
-  continentsEurope: v.$continentsEurope;
-  continentsNorthAmerica: v.$continentsNorthAmerica;
-  continentsOceania: v.$continentsOceania;
-  continentsSouthAmerica: v.$continentsSouthAmerica;
-
-  transportPlane: v.$transportPlane;
-  transportFerry: v.$transportFerry;
-  transportTrain: v.$transportTrain;
-  transportBus: v.$transportBus;
-  transportCar: v.$transportCar;
-  transportTaxi: v.$transportTaxi;
-  transportWalk: v.$transportWalk;
+  darkGround: v.$darkGround;
+  darkInk: v.$darkInk;
+  darkRule: v.$darkRule;
 }

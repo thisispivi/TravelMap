@@ -1,6 +1,6 @@
 import type { TransportMode } from "../classes/Trip";
 import type { TripJson, TripStopJson, TripTransportJson } from "../schema";
-import { getCoordinatesDistance } from "./distance";
+import { getCoordinatesDistance } from "./distance.ts";
 
 /**
  * A map camera position in the authored scale the dataset stores.

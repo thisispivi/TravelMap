@@ -1,0 +1,62 @@
+@use "../../../../styles/variables" as v;
+@use "../../../../styles/mixins" as m;
+
+.ledger {
+  padding-block-end: v.$space6;
+
+  &__head {
+    padding: v.$space5 v.$space4 v.$space4;
+  }
+
+  &__name {
+    font-size: v.$display;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+  }
+
+  /* The record states what it is in one sentence made of its own figures, so
+     the opening screen carries the record's terms rather than a greeting. */
+  &__thesis {
+    margin-block-start: v.$space2;
+    font-size: v.$small;
+    line-height: 1.5;
+    max-width: 34ch;
+  }
+
+  &__journeys {
+    list-style: none;
+  }
+
+  &__year {
+    @include m.figure;
+    @include m.label;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    padding: v.$space3 v.$space4 v.$space2;
+  }
+}
+
+.record--light .ledger {
+  &__thesis {
+    color: v.$lightInkMuted;
+  }
+
+  &__year {
+    color: v.$lightInkFaint;
+    background-color: v.$lightGround;
+    border-block-end: 1px solid v.$lightRule;
+  }
+}
+
+.record--dark .ledger {
+  &__thesis {
+    color: v.$darkInkMuted;
+  }
+
+  &__year {
+    color: v.$darkInkFaint;
+    background-color: v.$darkGround;
+    border-block-end: 1px solid v.$darkRule;
+  }
+}

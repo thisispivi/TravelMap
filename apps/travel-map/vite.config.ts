@@ -240,19 +240,12 @@ export default defineConfig({
           )
             return "react-core";
           if (n.includes("react-router")) return "router";
-          if (n.includes("framer-motion")) return "framer";
           if (
             n.includes("i18next") ||
             n.includes("react-i18next") ||
             n.includes("i18next-http-backend")
           )
             return "i18n";
-          if (
-            n.includes("react-tooltip") ||
-            n.includes("react-transition-group") ||
-            n.includes("mobile-device-detect")
-          )
-            return "ui";
           if (n.includes("remeda")) return "utils";
 
           return "vendor";

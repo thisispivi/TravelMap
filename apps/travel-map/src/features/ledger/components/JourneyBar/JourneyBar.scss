@@ -1,0 +1,89 @@
+@use "../../../../styles/variables" as v;
+@use "../../../../styles/mixins" as m;
+
+.journey-bar {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: v.$space1 v.$space3;
+  padding: v.$space3 v.$space4;
+  text-decoration: none;
+  color: inherit;
+  @include m.transition(background-color);
+
+  &__title {
+    font-size: v.$body;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  &__reading {
+    @include m.figure;
+    font-size: v.$micro;
+    align-self: center;
+    white-space: nowrap;
+  }
+
+  &__separator {
+    padding: 0 0.4em;
+  }
+
+  &__places {
+    grid-column: 1 / -1;
+    font-size: v.$micro;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+
+  &__planned {
+    @include m.label;
+    margin-inline-start: v.$space2;
+  }
+
+  .measure {
+    grid-column: 1 / -1;
+    margin: v.$space1 0;
+  }
+
+  &:focus-visible {
+    @include m.focus-mark;
+    outline-offset: -2px;
+  }
+
+  /* A journey that has not happened yet has an itinerary but no evidence, so
+     it is drawn hollow rather than tinted a different colour. */
+  &--planned .measure__span {
+    opacity: 0.42;
+  }
+}
+
+.record--light .journey-bar {
+  &__reading,
+  &__places {
+    color: v.$lightInkMuted;
+  }
+
+  &__planned {
+    color: v.$markOnLight;
+  }
+
+  &:hover {
+    background-color: v.$lightGroundSunk;
+  }
+}
+
+.record--dark .journey-bar {
+  &__reading,
+  &__places {
+    color: v.$darkInkMuted;
+  }
+
+  &__planned {
+    color: v.$markOnDark;
+  }
+
+  &:hover {
+    background-color: v.$darkGroundSunk;
+  }
+}

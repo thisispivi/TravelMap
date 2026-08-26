@@ -1,0 +1,104 @@
+@use "../../../../styles/variables" as v;
+@use "../../../../styles/mixins" as m;
+
+.place {
+  padding-block-end: v.$space6;
+
+  &__head {
+    padding: v.$space4;
+  }
+
+  &__back {
+    @include m.label;
+    display: inline-block;
+    margin-block-end: v.$space3;
+    text-decoration: none;
+
+    &::before {
+      content: "↑ ";
+    }
+
+    &:focus-visible {
+      @include m.focus-mark;
+    }
+  }
+
+  &__name {
+    font-size: v.$display;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+  }
+
+  &__country {
+    font-size: v.$small;
+    margin-block-start: v.$space1;
+  }
+
+  &__separator {
+    padding: 0 0.5em;
+  }
+
+  &__readings {
+    display: flex;
+    flex-wrap: wrap;
+    gap: v.$space4;
+    margin-block-start: v.$space4;
+  }
+
+  &__reading {
+    dt {
+      @include m.label;
+    }
+
+    dd {
+      @include m.figure;
+      font-size: v.$lead;
+      margin-block-start: v.$space1;
+    }
+  }
+
+  &__section {
+    @include m.label;
+    padding: v.$space3 v.$space4 v.$space2;
+  }
+
+  &__journeys {
+    list-style: none;
+  }
+
+  &--missing {
+    padding: v.$space5 v.$space4;
+  }
+}
+
+.record--light .place {
+  &__back {
+    color: v.$markOnLight;
+  }
+
+  &__country,
+  &__reading dt,
+  &__section {
+    color: v.$lightInkMuted;
+  }
+
+  &__section {
+    border-block-end: 1px solid v.$lightRule;
+  }
+}
+
+.record--dark .place {
+  &__back {
+    color: v.$markOnDark;
+  }
+
+  &__country,
+  &__reading dt,
+  &__section {
+    color: v.$darkInkMuted;
+  }
+
+  &__section {
+    border-block-end: 1px solid v.$darkRule;
+  }
+}

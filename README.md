@@ -11,11 +11,13 @@
 # [Travel Map](https://map.pivi.dev/)
 
 A self-hosted travel archive and publishing application built with React,
-TypeScript, and MapLibre. Travel Map combines an interactive public website with
-a local visual editor for creating trips, managing places, attaching photos,
-validating data, and preparing a static site for the web.
+TypeScript, and MapLibre. The public site reads a journey as what it actually
+was — a continuous run of elapsed time, drawn to scale, in which every hour is
+accounted for as either motion or a stay. It ships with a local visual editor
+for creating trips, managing places, attaching photos, validating data, and
+preparing a static site for the web.
 
-![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB) ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) ![pnpm](https://img.shields.io/badge/pnpm-%23F69220.svg?style=for-the-badge&logo=pnpm&logoColor=white) ![Node.js](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white) ![React Router](https://img.shields.io/badge/react_router-CA4245.svg?style=for-the-badge&logo=react-router&logoColor=white) ![MapLibre](https://img.shields.io/badge/maplibre-396CB2.svg?style=for-the-badge&logo=maplibre&logoColor=white) ![i18next](https://img.shields.io/badge/i18next-26A69A.svg?style=for-the-badge&logo=i18next&logoColor=white) ![Framer Motion](https://img.shields.io/badge/framer_motion-0055FF.svg?style=for-the-badge&logo=framer&logoColor=white) ![ApexCharts](https://img.shields.io/badge/apexcharts-008FFB.svg?style=for-the-badge&logoColor=white) ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white) ![Python](https://img.shields.io/badge/python-3670A0.svg?style=for-the-badge&logo=python&logoColor=ffdd54) ![ESLint](https://img.shields.io/badge/eslint-4B3263.svg?style=for-the-badge&logo=eslint&logoColor=white) ![Prettier](https://img.shields.io/badge/prettier-F7B93E.svg?style=for-the-badge&logo=prettier&logoColor=black) ![Sass](https://img.shields.io/badge/sass-CC6699.svg?style=for-the-badge&logo=sass&logoColor=white) ![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white) ![Docker](https://img.shields.io/badge/docker-2496ED.svg?style=for-the-badge&logo=docker&logoColor=white) ![Nginx](https://img.shields.io/badge/nginx-009639.svg?style=for-the-badge&logo=nginx&logoColor=white) ![GitHub Pages](https://img.shields.io/badge/github_pages-222222.svg?style=for-the-badge&logo=github&logoColor=white)
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB) ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) ![pnpm](https://img.shields.io/badge/pnpm-%23F69220.svg?style=for-the-badge&logo=pnpm&logoColor=white) ![Node.js](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white) ![React Router](https://img.shields.io/badge/react_router-CA4245.svg?style=for-the-badge&logo=react-router&logoColor=white) ![MapLibre](https://img.shields.io/badge/maplibre-396CB2.svg?style=for-the-badge&logo=maplibre&logoColor=white) ![i18next](https://img.shields.io/badge/i18next-26A69A.svg?style=for-the-badge&logo=i18next&logoColor=white) ![Framer Motion](https://img.shields.io/badge/framer_motion-0055FF.svg?style=for-the-badge&logo=framer&logoColor=white) ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white) ![Python](https://img.shields.io/badge/python-3670A0.svg?style=for-the-badge&logo=python&logoColor=ffdd54) ![ESLint](https://img.shields.io/badge/eslint-4B3263.svg?style=for-the-badge&logo=eslint&logoColor=white) ![Prettier](https://img.shields.io/badge/prettier-F7B93E.svg?style=for-the-badge&logo=prettier&logoColor=black) ![Sass](https://img.shields.io/badge/sass-CC6699.svg?style=for-the-badge&logo=sass&logoColor=white) ![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white) ![Docker](https://img.shields.io/badge/docker-2496ED.svg?style=for-the-badge&logo=docker&logoColor=white) ![Nginx](https://img.shields.io/badge/nginx-009639.svg?style=for-the-badge&logo=nginx&logoColor=white) ![GitHub Pages](https://img.shields.io/badge/github_pages-222222.svg?style=for-the-badge&logo=github&logoColor=white)
 
 The [live demo](https://map.pivi.dev/) shows one completed map. A fresh clone
 starts empty and is ready for your own trips, places, and media. Read the
@@ -23,8 +25,8 @@ starts empty and is ready for your own trips, places, and media. Read the
 
 ## Tech Stack
 
-- **Public app**: React 19, React Router, MapLibre GL, React Map GL, ApexCharts,
-  React Image Gallery, and React Photo Album.
+- **Public app**: React 19, React Router, MapLibre GL, React Map GL, React Image
+  Gallery, and React Photo Album.
 - **Editor**: React 19, DnD Kit, Downshift, Fuse.js, Framer Motion, MapLibre GL,
   and continuous dataset validation.
 - **Shared model**: TypeScript domain classes, schemas, parsing, and validation
@@ -46,15 +48,24 @@ starts empty and is ready for your own trips, places, and media. Read the
 
 ### A public travel site
 
-- An interactive world map with visited, lived-in, future, and home cities.
-- Trip routes, transport legs, city tooltips, and detailed itineraries.
-- Browsable trips and places, grouped into useful views.
-- Photo galleries and a full-screen lightbox.
-- A chronological timeline and travel statistics for distance, transport,
-  countries, continents, currencies, time zones, companies, UNESCO sites, and
-  media.
-- Responsive mobile and desktop layouts, light and dark themes, and English and
-  Italian interfaces.
+- **The record**: every journey in one column, each drawn to the same time
+  scale, so the length of a row is the length of the trip and the column's
+  ragged edge is the shape of a travel history.
+- **A measure rail**: the whole archive as one continuous mark, always present,
+  showing where you are reading and acting as an index into it.
+- **Journeys read at hour scale**: each stay and each transport leg as a row
+  whose tick is as long as the time it took, with mode, carrier, duration and
+  distance. Durations the dataset cannot state are marked as estimates.
+- **Stays as contact sheets**: a long stay earns a large sheet of its
+  photographs, opening into a full-screen viewer.
+- **Places**: any city put back together from every journey that touched it —
+  how long was spent there, how much of that was only passing through, and what
+  was photographed.
+- **Running figures**: distance, hours in motion, countries and photographs, true
+  as of the point being read rather than as one detached total.
+- A map plate that locates whatever is being read, sized by time spent.
+- Responsive layouts that reorganise rather than stack, light and dark grounds,
+  and English and Italian interfaces.
 
 ### A local content editor
 

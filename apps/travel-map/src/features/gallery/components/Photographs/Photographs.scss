@@ -1,0 +1,77 @@
+@use "../../../../styles/variables" as v;
+@use "../../../../styles/mixins" as m;
+
+/* The sheet covers the plate rather than the column, so the reader keeps the
+   journey they were reading in view while looking at what it produced. */
+.photographs {
+  grid-area: plate;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  &__head {
+    display: flex;
+    align-items: baseline;
+    gap: v.$space3;
+    padding: v.$space3 v.$space4;
+    flex: 0 0 auto;
+  }
+
+  &__place {
+    font-size: v.$lead;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  &__count {
+    @include m.figure;
+    font-size: v.$micro;
+  }
+
+  &__close {
+    @include m.label;
+    margin-inline-start: auto;
+    padding: v.$space1 v.$space2;
+    background: none;
+    border: 1px solid transparent;
+    color: inherit;
+    cursor: pointer;
+    @include m.transition(border-color);
+
+    &:focus-visible {
+      @include m.focus-mark;
+    }
+  }
+
+  &__album {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    padding: 0 v.$space4 v.$space4;
+  }
+}
+
+.record--light .photographs {
+  background-color: v.$lightGround;
+
+  &__count {
+    color: v.$lightInkMuted;
+  }
+
+  &__close:hover {
+    border-color: v.$lightRuleStrong;
+  }
+}
+
+.record--dark .photographs {
+  background-color: v.$darkGround;
+
+  &__count {
+    color: v.$darkInkMuted;
+  }
+
+  &__close:hover {
+    border-color: v.$darkRuleStrong;
+  }
+}

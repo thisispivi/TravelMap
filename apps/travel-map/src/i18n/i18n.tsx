@@ -10,8 +10,8 @@ i18next
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    ns: ["home", "error"],
-    defaultNS: "home",
+    ns: ["record", "error"],
+    defaultNS: "record",
     debug: false,
     fallbackLng: DEFAULT_LOCALE,
     supportedLngs: [...SUPPORTED_LOCALES],

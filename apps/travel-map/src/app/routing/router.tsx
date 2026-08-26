@@ -1,61 +1,32 @@
-import { lazy } from "react";
 import { createHashRouter, Navigate } from "react-router";
 
-import { MapShell } from "../shell/MapShell";
+import { Journey } from "@/features/ledger/components/Journey/Journey";
+import { Ledger } from "@/features/ledger/components/Ledger/Ledger";
+import { Place } from "@/features/ledger/components/Place/Place";
+
+import { Record } from "../shell/Record";
 import { FallbackPage } from "./FallbackPage";
 
-const TimelinePage = lazy(() =>
-  import("@/features/timeline/components/TimelinePage/TimelinePage").then(
-    (module) => ({ default: module.TimelinePage }),
-  ),
-);
-const StatsPage = lazy(() =>
-  import("@/features/stats/components/StatsPage/StatsPage").then((module) => ({
-    default: module.StatsPage,
-  })),
-);
-
-/** Hash router for the persistent map shell and its route-owned panels. */
+/*
+ * The record is one column read at two scales, so the routes carry position
+ * rather than pages. A stay's photographs get a path because they are worth
+ * linking to, but no element: they are drawn on the plate by the shell, which
+ * sits above this route and reads the pathname directly.
+ */
 export const router = createHashRouter([
   {
     path: "/",
-    element: <MapShell />,
+    element: <Record />,
     errorElement: <FallbackPage />,
     children: [
-      { index: true, element: null },
-      { path: "trips", element: null },
-      { path: "trip/:tripId", element: null },
-      { path: "places", element: null },
-      { path: "places/:filter", element: null },
-      { path: "timeline", element: <TimelinePage /> },
-      { path: "stats", element: <StatsPage /> },
+      { index: true, element: <Ledger /> },
       {
-        path: "gallery/:cityName/:travelIdx",
-        lazy: async () => {
-          const [{ Gallery: Component }, { galleryLoader: loader }] =
-            await Promise.all([
-              import("@/features/gallery/components/Gallery/Gallery"),
-              import("@/features/gallery/loaders/Gallery.loader"),
-            ]);
-
-          return { Component, loader };
-        },
-        children: [
-          {
-            path: ":photoIdx",
-            lazy: async () => {
-              const [{ Lightbox: Component }, { lightboxLoader: loader }] =
-                await Promise.all([
-                  import("@/features/gallery/components/Lightbox/Lightbox"),
-                  import("@/features/gallery/loaders/Lightbox.loader"),
-                ]);
-
-              return { Component, loader };
-            },
-          },
-        ],
+        path: "journey/:tripId",
+        element: <Journey />,
+        children: [{ path: ":spanIndex", element: null }],
       },
-      { path: "*", element: <Navigate replace to="/trips" /> },
+      { path: "place/:cityId", element: <Place /> },
+      { path: "*", element: <Navigate replace to="/" /> },
     ],
   },
 ]);

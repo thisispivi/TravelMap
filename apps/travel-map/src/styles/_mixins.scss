@@ -1,165 +1,53 @@
+@use "sass:list";
 @use "variables" as v;
 
-@mixin transition(
-  $property,
-  $duration: 0.2s,
-  $timing: cubic-bezier(0.4, 0, 0.2, 1)
-) {
-  $tt: cubic-bezier(0.4, 0, 0.2, 1);
-  $td: 0.4s;
-  transition:
-    #{$property} #{$duration} #{$timing},
-    background #{$td} #{$tt},
-    background-color #{$td} #{$tt},
-    border-color #{$td} #{$tt},
-    color #{$td} #{$tt},
-    fill #{$td} #{$tt},
-    outline-color #{$td} #{$tt},
-    stroke #{$td} #{$tt},
-    box-shadow #{$td} #{$tt};
-  -webkit-transition:
-    #{$property} #{$duration} #{$timing},
-    background #{$td} #{$tt},
-    background-color #{$td} #{$tt},
-    border-color #{$td} #{$tt},
-    color #{$td} #{$tt},
-    fill #{$td} #{$tt},
-    outline-color #{$td} #{$tt},
-    stroke #{$td} #{$tt},
-    box-shadow #{$td} #{$tt};
-  -moz-transition:
-    #{$property} #{$duration} #{$timing},
-    background #{$td} #{$tt},
-    background-color #{$td} #{$tt},
-    border-color #{$td} #{$tt},
-    color #{$td} #{$tt},
-    fill #{$td} #{$tt},
-    outline-color #{$td} #{$tt},
-    stroke #{$td} #{$tt},
-    box-shadow #{$td} #{$tt};
-  -o-transition:
-    #{$property} #{$duration} #{$timing},
-    background #{$td} #{$tt},
-    background-color #{$td} #{$tt},
-    border-color #{$td} #{$tt},
-    color #{$td} #{$tt},
-    fill #{$td} #{$tt},
-    outline-color #{$td} #{$tt},
-    stroke #{$td} #{$tt},
-    box-shadow #{$td} #{$tt};
-  -ms-transition:
-    #{$property} #{$duration} #{$timing},
-    background #{$td} #{$tt},
-    background-color #{$td} #{$tt},
-    border-color #{$td} #{$tt},
-    color #{$td} #{$tt},
-    fill #{$td} #{$tt},
-    outline-color #{$td} #{$tt},
-    stroke #{$td} #{$tt},
-    box-shadow #{$td} #{$tt};
-}
+/* Applies a transition to a comma-separated property list, and drops it for
+   readers who asked for reduced motion. Every animated rule in the app goes
+   through here so the carve-out cannot be forgotten per file. */
+@mixin transition($properties...) {
+  $list: ();
+  @each $property in $properties {
+    $list: list.append($list, #{$property} v.$motionState v.$easing, comma);
+  }
+  transition: $list;
 
-@mixin focus-ring() {
-  outline: none;
-  box-shadow: 0 0 0 0.1875rem rgba(v.$accentPrimary, 0.5);
-}
-
-@mixin glassmorphism-dark() {
-  background: v.$glassBgDark;
-  -webkit-backdrop-filter: blur(v.$glassBlur);
-  backdrop-filter: blur(v.$glassBlur);
-  border: 0.0625rem solid v.$glassBorderDark;
-  box-shadow: v.$glassShadowDark;
-}
-
-@mixin glassmorphism-light() {
-  background: v.$glassBgLight;
-  -webkit-backdrop-filter: blur(v.$glassBlur);
-  backdrop-filter: blur(v.$glassBlur);
-  border: 0.0625rem solid v.$glassBorderLight;
-  box-shadow: v.$glassShadowLight;
-}
-
-@mixin smooth-shadow($intensity: 1) {
-  box-shadow:
-    0 #{0.0625rem * $intensity} #{0.125rem * $intensity}
-      rgba(0, 0, 0, 0.04 * $intensity),
-    0 #{0.125rem * $intensity} #{0.25rem * $intensity}
-      rgba(0, 0, 0, 0.04 * $intensity),
-    0 #{0.25rem * $intensity} #{0.5rem * $intensity}
-      rgba(0, 0, 0, 0.06 * $intensity);
-}
-
-@mixin city-card-background($opacity) {
-  .city-card__background {
-    background: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, $opacity),
-      rgba(0, 0, 0, 0.1)
-    );
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
   }
 }
 
-@mixin set-button-colors($button, $buttonContent, $buttonHover) {
-  background-color: $button;
-  color: $buttonContent;
-  &:hover {
-    background-color: $buttonHover;
-  }
-  svg {
-    path,
-    line,
-    circle {
-      @include transition(all, 0.3s);
-    }
-    fill: $buttonContent;
-    .visited-1 {
-      stroke: $buttonContent;
-    }
-    .future-0 {
-      stroke: $buttonContent;
-    }
-    .language-0 {
-      fill: $buttonContent;
-    }
-  }
-  .filter__icon {
-    path,
-    circle {
-      fill: $buttonContent;
-      stroke: none;
-    }
-  }
-  .chevron path {
-    fill: none;
-    stroke: $buttonContent;
-  }
-  #gallery-1,
-  #fullscreen-enter path,
-  #fullscreen-exit path {
-    fill: $buttonContent;
-  }
+/* Sets a number as a reading: tabular mono, so figures in a column line up and
+   a changing odometer does not reflow. */
+@mixin figure {
+  font-family: "DM Mono", ui-monospace, "SF Mono", monospace;
+  font-feature-settings: "tnum" 1;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
 }
 
-@mixin floating-card-dark() {
-  @include glassmorphism-dark();
-  border-radius: v.$floatingCardRadiusLg;
-  padding: v.$floatingCardPadding;
+/* Sets a label: small, spaced, uppercase. The record's only secondary voice. */
+@mixin label {
+  font-size: v.$micro;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
-@mixin floating-card-light() {
-  @include glassmorphism-light();
-  border-radius: v.$floatingCardRadiusLg;
-  padding: v.$floatingCardPadding;
+/* Replaces the removed outline with a visible mark. Used everywhere the app
+   suppresses a default focus ring. */
+@mixin focus-mark($color: v.$mark) {
+  outline: 2px solid $color;
+  outline-offset: 2px;
 }
 
-@mixin full-panel-dark() {
-  @include glassmorphism-dark();
-  border-radius: v.$floatingCardRadiusLg;
-}
-
-@mixin full-panel-light() {
-  @include glassmorphism-light();
-  border: 0.0625rem solid rgba(0, 0, 0, 0.06);
-  border-radius: v.$floatingCardRadiusLg;
+/* Hides content visually while leaving it in the accessibility tree. */
+@mixin visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
 }

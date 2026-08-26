@@ -1,58 +1,36 @@
 @use "../../../styles/variables" as v;
-@use "../../../styles/mixins" as m;
 
-@mixin loader($color) {
-  $size: 1.8rem;
-  $border: 0.25rem;
-
-  margin: auto;
-  width: $size;
-  height: $size;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background:
-    radial-gradient(farthest-side, $color 94%, #0000) top/$border $border
-      no-repeat,
-    conic-gradient(#0000 30%, $color);
-  -webkit-mask: radial-gradient(
-    farthest-side,
-    #0000 calc(100% - $border),
-    #000 0
-  );
-  mask: radial-gradient(farthest-side, #0000 calc(100% - $border), #000 0);
-  animation: spinLoader 0.8s infinite cubic-bezier(0.4, 0, 0.2, 1);
-}
-
+/* The record loads as a measure filling, which is the same mark the record is
+   drawn from, rather than a spinner borrowed from somewhere else. */
 .loader {
-  @include loader(#ea4335);
-}
+  width: 6rem;
+  height: 0.25rem;
+  overflow: hidden;
+  background-color: v.$darkRule;
 
-div[class*="visited"] {
-  .loader {
-    @include loader(v.$visitedButtonContent);
+  &::after {
+    content: "";
+    display: block;
+    width: 40%;
+    height: 100%;
+    background-color: v.$mark;
+    animation: loaderSweep 1.1s infinite cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 
-div[class*="lived"] {
-  .loader {
-    @include loader(v.$livedButtonContent);
+@keyframes loaderSweep {
+  from {
+    transform: translateX(-100%);
   }
-}
 
-div[class*="future"] {
-  .loader {
-    @include loader(v.$futureButtonContent);
-  }
-}
-
-@keyframes spinLoader {
-  100% {
-    transform: rotate(1turn);
+  to {
+    transform: translateX(250%);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .loader {
+  .loader::after {
     animation: none;
+    width: 100%;
   }
 }

@@ -29,22 +29,22 @@ const GLYPHS_URL = "/glyphs/{fontstack}/{range}.pbf";
 
 export const MAP_THEMES: Record<"dark" | "light", MapTheme> = {
   dark: {
-    ocean: "#18191a",
-    land: "#242526",
-    border: "rgba(255, 255, 255, 0.14)",
-    countryLabel: "#8a8d91",
-    countryLabelHalo: "#18191a",
-    cityLabel: "#e4e6eb",
-    cityLabelHalo: "rgba(24, 25, 26, 0.94)",
+    ocean: "#101113",
+    land: "#1c1e22",
+    border: "rgba(255, 255, 255, 0.09)",
+    countryLabel: "#656b73",
+    countryLabelHalo: "#101113",
+    cityLabel: "#eceded",
+    cityLabelHalo: "rgba(16, 17, 19, 0.94)",
   },
   light: {
-    ocean: "#eef1f5",
-    land: "#dfe3ea",
-    border: "rgba(60, 70, 90, 0.16)",
-    countryLabel: "#676b7d",
-    countryLabelHalo: "#e7e8ec",
-    cityLabel: "#1a1a2e",
-    cityLabelHalo: "rgba(240, 242, 245, 0.96)",
+    ocean: "#f1efeb",
+    land: "#e3ded4",
+    border: "rgba(22, 23, 26, 0.1)",
+    countryLabel: "#93979f",
+    countryLabelHalo: "#f1efeb",
+    cityLabel: "#16171a",
+    cityLabelHalo: "rgba(250, 249, 247, 0.94)",
   },
 };
 
@@ -136,3 +136,13 @@ export function createMapStyle(theme: MapTheme): StyleSpecification {
     ],
   };
 }
+
+/*
+ * The style is built once per theme and shared. react-map-gl reacts to the
+ * identity of the `mapStyle` prop, so handing it a fresh object on any render
+ * makes it re-diff a style that has not finished loading, and it never settles.
+ */
+export const MAP_STYLES: Record<"dark" | "light", StyleSpecification> = {
+  dark: createMapStyle(MAP_THEMES.dark),
+  light: createMapStyle(MAP_THEMES.light),
+};

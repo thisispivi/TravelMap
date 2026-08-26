@@ -1,0 +1,20 @@
+@use "../../../../styles/variables" as v;
+
+.plate {
+  grid-area: plate;
+  position: relative;
+  overflow: hidden;
+
+  .maplibregl-ctrl-bottom-left,
+  .maplibregl-ctrl-bottom-right {
+    display: none;
+  }
+}
+
+.record--light .plate {
+  background-color: v.$lightGroundSunk;
+}
+
+.record--dark .plate {
+  background-color: v.$darkGroundSunk;
+}

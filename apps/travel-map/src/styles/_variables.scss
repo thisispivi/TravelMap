@@ -1,121 +1,72 @@
-$leftBarWidth: 3.5rem;
-$mobileNavHeight: calc(3.2rem + env(safe-area-inset-bottom, 0rem));
+/* Layout */
+$railWidth: 1.125rem;
+$railWidthTouch: 1.75rem;
+$ledgerWidth: clamp(21rem, 34vw, 34rem);
+$figuresHeight: 3.25rem;
+$breakpointStacked: 60rem;
 
-/* Dark theme */
+/* Ground and ink. The record is printed, not layered: flat grounds, hairline
+   rules, and no elevation anywhere. */
+$lightGround: #faf9f7;
+$lightGroundSunk: #f1efeb;
+$lightInk: #16171a;
+$lightInkMuted: #62666e;
+$lightInkFaint: #93979f;
+$lightRule: #ded9d1;
+$lightRuleStrong: #bdb7ac;
+
+$darkGround: #101113;
+$darkGroundSunk: #17191c;
+$darkInk: #eceded;
+$darkInkMuted: #9aa0a8;
+$darkInkFaint: #656b73;
+$darkRule: #26292e;
+$darkRuleStrong: #3a3f46;
+
+/* One accent, taken from the logo mark. It marks the reading position and
+   nothing else, so it never competes with the mode colours. */
+$mark: #ea4335;
+$markOnLight: #c4291c;
+$markOnDark: #ff6a5c;
+
+/* Transport modes. These are the record's marks: motion is 9% of the elapsed
+   time but 46% of the events, so modes stay saturated while stays are drawn
+   from muted country colour. Hue and lightness both vary so the modes stay
+   separable at a one-pixel width. */
+$modePlane: #4a7fd4;
+$modeFerry: #1c9c8b;
+$modeTrain: #c9782e;
+$modeCar: #9a6ab8;
+$modeBus: #5f9e4a;
+$modeTaxi: #d9a520;
+$modeWalk: #7d8590;
+
+/* Type scale, closed. Extend by reusing, never by adding a step. */
+$micro: 0.6875rem;
+$small: 0.8125rem;
+$body: 0.9375rem;
+$lead: 1.125rem;
+$display: 1.75rem;
+$displayLg: 2.75rem;
+
+/* Space scale, closed. */
+$space1: 0.25rem;
+$space2: 0.5rem;
+$space3: 0.75rem;
+$space4: 1.25rem;
+$space5: 2rem;
+$space6: 3.25rem;
+
+/* Motion */
+$motionState: 120ms;
+$motionSurface: 260ms;
+$easing: cubic-bezier(0.2, 0, 0, 1);
+
+/* Consumed only by `_global.scss`, `_typography.scss` and `_scrollbar.scss`,
+   which the editor imports from this app. They are the editor's baseline and
+   are deliberately not part of the record's palette — do not use them in the
+   public app. */
 $darkBackground: #18191a;
 $darkLeftBar: #242526;
-$darkLeftBarOpacity: rgba(36, 37, 38, 0.72);
-$darkLeftBarOpacityLighter: rgba(36, 37, 38, 0.5);
-$darkInfoTab: #2c2d2e;
-$darkButton: rgba(255, 255, 255, 0.1);
-$darkButtonHover: rgba(255, 255, 255, 0.16);
-$darkButtonContent: #e4e6eb;
-$darkAltText: #b0b3b8;
-$darkAltTextDarker: #8a8d91;
-$darkDisabledText: #65676b;
-
-/* Light theme */
 $lightBackground: #f0f2f5;
 $lightLeftBar: #ffffff;
-$lightLeftBarOpacity: rgba(255, 255, 255, 0.72);
-$lightLeftBarOpacityLighter: rgba(255, 255, 255, 0.5);
-$lightInfoTab: rgba(245, 245, 250, 0.85);
-$lightButton: rgba(0, 0, 0, 0.06);
-$lightButtonHover: rgba(0, 0, 0, 0.1);
-$lightButtonContent: #1a1a2e;
-$lightAltText: #52566a;
-$lightAltTextDarker: #363948;
-$lightDisabledText: #b0b3b8;
-
-/* Glassmorphism tokens */
-$glassBgDark: rgba(36, 37, 38, 0.65);
-$glassBgLight: rgba(255, 255, 255, 0.55);
-$glassBorderDark: rgba(255, 255, 255, 0.1);
-$glassBorderLight: rgba(255, 255, 255, 0.45);
-$glassBlur: 1.25rem;
-$glassShadowDark: 0 0.5rem 2rem rgba(0, 0, 0, 0.4);
-$glassShadowLight: 0 0.5rem 2rem rgba(0, 0, 0, 0.08);
-
-/* Category buttons */
-$futureButton: #bbdefb;
-$futureButtonHover: #90caf9;
-$futureButtonContent: #0d47a1;
-
-$visitedButton: #ffcdd2;
-$visitedButtonHover: #ef9a9a;
-$visitedButtonContent: #d50000;
-
-$livedButton: #fff9c4;
-$livedButtonHover: #fff59d;
-$livedButtonContent: #fbc02d;
-
-$languageButton: #ffecb3;
-$languageButtonHover: #ffe082;
-$languageButtonContent: #f57f17;
-
-$filterButton: #f8bbd0;
-$filterButtonHover: #f48fb1;
-$filterButtonContent: #c2185b;
-
-$statsButton: #e1bee7;
-$statsButtonHover: #ce93d8;
-$statsButtonContent: #8e24aa;
-
-/* Continent colors */
-$continentsAfrica: #f3c75d;
-$continentsAsia: #f38caf;
-$continentsEurope: #eb6559;
-$continentsNorthAmerica: #74c5eb;
-$continentsOceania: #fc8d59;
-$continentsSouthAmerica: #8ac38b;
-$continentsAntarctica: #9fb8cd;
-
-/* Floating overlay tokens */
-$floatingCardRadius: 1rem;
-$floatingCardRadiusLg: 1.25rem;
-$floatingCardPadding: 1.25rem;
-$floatingCardGap: 0.75rem;
-$floatingCardMaxWidth: 25rem;
-
-/* Photo card tokens */
-$photoCardRadius: 1rem;
-$photoCardShadowDark: 0 0.25rem 1rem rgba(0, 0, 0, 0.3);
-$photoCardShadowLight: 0 0.25rem 1rem rgba(0, 0, 0, 0.08);
-
-/* Typography scale */
-$headingXl: 2rem;
-$headingLg: 1.5rem;
-$headingMd: 1.125rem;
-$bodyLg: 1rem;
-$bodySm: 0.875rem;
-$caption: 0.75rem;
-
-/* Floating nav tokens */
-$floatingNavHeight: 3.5rem;
-$floatingNavMobileHeight: calc(3.5rem + env(safe-area-inset-bottom, 0rem));
-$floatingNavZIndex: 3;
-$mobileFloatingMargin: 0.625rem;
-
-/* Brand colors */
-$accentPrimary: #1877f2;
-$accentPrimaryHover: #166fe5;
-$accentSoftDark: rgba(45, 136, 255, 0.2);
-$accentSoftLight: rgba(24, 119, 242, 0.12);
-/* $accentPrimary reads at 3.7:1 on $darkBackground, so dark surfaces lighten
-   the brand blue and pair it with a dark ink instead of white. */
-$accentOnDark: #6cb0ff;
-$accentOnDarkHover: #8cc3ff;
-$accentInkOnDark: #0b1c33;
-
-/* Route overlay */
-$routeLineColorDark: rgba(255, 255, 255, 0.6);
-$routeLineColorLight: #1a73e8;
-$routeLineWidth: 0.125rem;
-$routeDotSize: 0.375rem;
-$transportPlane: #a855f7;
-$transportFerry: #0ea5e9;
-$transportTrain: #f59e0b;
-$transportBus: #22c55e;
-$transportCar: #ef4444;
-$transportTaxi: #eab308;
-$transportWalk: #14b8a6;

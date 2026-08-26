@@ -1,0 +1,50 @@
+@use "../../styles/variables" as v;
+
+.record {
+  display: grid;
+  grid-template-areas:
+    "rail ledger plate"
+    "figures figures figures";
+  grid-template-columns: v.$railWidth v.$ledgerWidth 1fr;
+  grid-template-rows: 1fr v.$figuresHeight;
+  height: 100%;
+  overflow: hidden;
+
+  &--light {
+    background-color: v.$lightGround;
+    color: v.$lightInk;
+  }
+
+  &--dark {
+    background-color: v.$darkGround;
+    color: v.$darkInk;
+  }
+
+  &__ledger {
+    grid-area: ledger;
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
+  }
+
+  &--light &__ledger {
+    border-inline-end: 1px solid v.$lightRule;
+  }
+
+  &--dark &__ledger {
+    border-inline-end: 1px solid v.$darkRule;
+  }
+
+  /* Stacked: the plate becomes a band the record is read beneath, and the rail
+     keeps its full height because scrubbing a long record by thumb is the one
+     interaction touch does better than a pointer. */
+  @media (max-width: v.$breakpointStacked) {
+    grid-template-areas:
+      "rail plate"
+      "rail ledger"
+      "figures figures";
+    grid-template-columns: v.$railWidthTouch 1fr;
+    grid-template-rows: 34vh 1fr v.$figuresHeight;
+  }
+}
