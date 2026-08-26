@@ -8,7 +8,7 @@ import FerryIcon from "@/assets/icons/Ferry.svg?react";
 import { CountryFlag } from "@/shared/components/CountryFlag/CountryFlag";
 import { useLanguage } from "@/shared/hooks/useLanguage";
 import { classNames } from "@/shared/lib/classNames";
-import { formatMileage } from "@/shared/lib/format";
+import { formatDistance } from "@/shared/lib/format";
 
 /**
  * Properties accepted by the TransportRow component.
@@ -55,7 +55,7 @@ export function TransportRow({
         </h2>
       </div>
       <b className="transport-row__distance">
-        {formatMileage(transport.distanceInKm, currLanguage)} km
+        {formatDistance(transport.distanceInKm, currLanguage)}
       </b>
     </div>
   );

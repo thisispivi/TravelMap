@@ -42,6 +42,31 @@
     filter: drop-shadow(0 0 0.125rem v.$pin) drop-shadow(0 0 0.25rem v.$pin);
   }
 
+  /* Every thread on the plate converges here, so the origin is marked with a
+     ring rather than a pin: it is the point the record is measured from, not
+     another place that was visited. */
+  &--home {
+    --marker-core: #{v.$pin};
+    width: 0.75rem;
+    height: 0.75rem;
+    cursor: default;
+
+    svg {
+      border-radius: 50%;
+      background: v.$pin;
+      box-shadow: 0 0 0 0.1875rem rgba(229, 64, 45, 0.28);
+    }
+
+    path,
+    circle {
+      display: none;
+    }
+
+    &:hover {
+      transform: none;
+    }
+  }
+
   /* A former home was lived in rather than passed through, so its pin is
      larger and solid instead of carrying the open core of a visit. */
   &--lived {
@@ -74,14 +99,14 @@
   }
 }
 
-.map-shell--dark {
+.spread--dark {
   .map-city-marker--future,
   .map-city-marker--layover {
     --marker-fill: #{v.$darkInkMuted};
   }
 }
 
-.map-shell--light {
+.spread--light {
   .map-city-marker--future,
   .map-city-marker--layover {
     --marker-fill: #{v.$lightInkMuted};

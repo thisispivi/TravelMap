@@ -1,7 +1,7 @@
 @use "../../../../styles/variables" as v;
 
-.trip-detail {
-  .trip-detail__row--connector {
+.trip-route {
+  .trip-route__row--connector {
     display: grid;
     grid-template-columns: var(--tl-rail-width) 1fr;
     column-gap: var(--tl-gap);
@@ -22,7 +22,7 @@
     }
   }
 
-  .trip-detail__connector-icon {
+  .trip-route__connector-icon {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -52,21 +52,21 @@
     }
   }
 
-  .trip-detail__connector-icon-svg {
+  .trip-route__connector-icon-svg {
     width: 1rem;
     height: 1rem;
     display: block;
     flex-shrink: 0;
   }
 
-  .trip-detail__connector-leg {
+  .trip-route__connector-leg {
     display: flex;
     flex-direction: column;
     gap: 0.0625rem;
     min-width: 0;
   }
 
-  .trip-detail__connector-route {
+  .trip-route__connector-route {
     display: flex;
     align-items: center;
     gap: v.$space1;
@@ -76,31 +76,31 @@
     min-width: 0;
   }
 
-  .trip-detail__connector-from,
-  .trip-detail__connector-to {
+  .trip-route__connector-from,
+  .trip-route__connector-to {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
-  .trip-detail__connector-arrow {
+  .trip-route__connector-arrow {
     flex-shrink: 0;
     line-height: 1;
   }
 
-  .trip-detail__connector-flag {
+  .trip-route__connector-flag {
     width: 0.875rem;
     height: 0.875rem;
     flex-shrink: 0;
   }
 
-  .trip-detail__connector-roundtrip {
+  .trip-route__connector-roundtrip {
     flex-shrink: 0;
     font-size: v.$micro;
     line-height: 1;
   }
 
-  .trip-detail__connector-sub {
+  .trip-route__connector-sub {
     display: flex;
     align-items: center;
     gap: v.$space1;
@@ -108,69 +108,69 @@
     line-height: 1.4;
   }
 
-  .trip-detail__connector-via {
+  .trip-route__connector-via {
     font-weight: 400;
     font-style: italic;
   }
 
-  .trip-detail__connector-company {
+  .trip-route__connector-company {
     font-weight: 500;
   }
 
-  .trip-detail__connector-meta {
+  .trip-route__connector-meta {
     font-weight: 400;
   }
 }
 
-.map-shell--dark {
-  .trip-detail {
-    .trip-detail__row--connector::before {
+.spread--dark {
+  .trip-route {
+    .trip-route__row--connector::before {
       background: v.$darkRule;
     }
 
-    .trip-detail__connector-from,
-    .trip-detail__connector-to,
-    .trip-detail__connector-arrow {
+    .trip-route__connector-from,
+    .trip-route__connector-to,
+    .trip-route__connector-arrow {
       color: v.$darkInkMuted;
     }
 
-    .trip-detail__connector-via {
+    .trip-route__connector-via {
       color: v.$darkInkFaint;
     }
 
-    .trip-detail__connector-company {
+    .trip-route__connector-company {
       color: v.$darkInkMuted;
     }
 
-    .trip-detail__connector-meta,
-    .trip-detail__connector-roundtrip {
+    .trip-route__connector-meta,
+    .trip-route__connector-roundtrip {
       color: v.$darkInkFaint;
     }
   }
 }
 
-.map-shell--light {
-  .trip-detail {
-    .trip-detail__row--connector::before {
+.spread--light {
+  .trip-route {
+    .trip-route__row--connector::before {
       background: v.$lightRule;
     }
 
-    .trip-detail__connector-from,
-    .trip-detail__connector-to,
-    .trip-detail__connector-arrow {
+    .trip-route__connector-from,
+    .trip-route__connector-to,
+    .trip-route__connector-arrow {
       color: v.$lightInkMuted;
     }
 
-    .trip-detail__connector-via {
+    .trip-route__connector-via {
       color: v.$lightInkMuted;
     }
 
-    .trip-detail__connector-company {
+    .trip-route__connector-company {
       color: v.$lightInkMuted;
     }
 
-    .trip-detail__connector-meta,
-    .trip-detail__connector-roundtrip {
+    .trip-route__connector-meta,
+    .trip-route__connector-roundtrip {
       color: v.$lightInkFaint;
     }
   }

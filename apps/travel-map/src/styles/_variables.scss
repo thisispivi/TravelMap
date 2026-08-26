@@ -1,10 +1,17 @@
-/* Layout */
-$floatingNavHeight: 3.5rem;
-$floatingNavMobileHeight: calc(3.5rem + env(safe-area-inset-bottom, 0rem));
-$floatingNavZIndex: 3;
-$mobileFloatingMargin: 0.625rem;
-$panelWidth: 25rem;
-$panelPadding: 1.25rem;
+/* Layout. The interface is one bound spread: a fixed reading margin against a
+   full-bleed plate. Both run to the viewport edge, separated by a single seam,
+   so nothing floats and nothing needs measuring. */
+$marginWidth: 27rem;
+$marginPad: 1.5rem;
+$mastheadHeight: 3.5rem;
+$plateBandHeight: 38dvh;
+$seam: 0.0625rem;
+$breakpointBound: 62rem;
+
+/* Typeface. Urbanist carries the interface and the map labels alike, since the
+   map's glyph atlas is generated from it. DM Mono carries every reading taken
+   from the record: bearings, distances, dates, flight numbers. */
+$mono: "DM Mono", ui-monospace, "SF Mono", "Cascadia Mono", monospace;
 
 /* Spacing scale. Every gap, pad and inset in authored UI comes from here. */
 $space1: 0.25rem;
@@ -76,14 +83,16 @@ $darkObjectShadow: 0 0.125rem 0.75rem rgba(0, 0, 0, 0.4);
    the current thing: active tab, active year, selected marker, current stop. */
 $pin: #e5402d;
 $pinHover: #cf3626;
-/* $pin reads 3.9:1 against $lightGround, below the 4.5:1 needed for text, so
-   text-sized uses take these per-theme variants and fills keep $pin itself. */
+/* $pin reads 3.9:1 against $lightGround and 4.1:1 under white, below the 4.5:1
+   needed for text either way. Text-sized uses take the per-theme variants, and
+   a filled control carrying a white label takes $pinHover or darker. $pin
+   itself is for marks and fills that carry no text. */
 $pinOnLight: #bf3120;
 $pinOnDark: #ff8672;
 $pinFaint: rgba(229, 64, 45, 0.16);
 
-/* Chrome glass. Reserved for surfaces that genuinely sit over the moving map
-   (the nav and the map tooltip); panels are opaque sheets instead. */
+/* Chrome glass. Reserved for the few controls that genuinely sit over the
+   moving plate: the map tooltip and the plate's own controls. */
 $glassBlur: 1.25rem;
 $glassLight: rgba(252, 252, 251, 0.72);
 $glassDark: rgba(30, 34, 31, 0.72);

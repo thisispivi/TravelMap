@@ -11,7 +11,7 @@ import { CountryFlag } from "@/shared/components/CountryFlag/CountryFlag";
 import { useMapInteraction } from "@/shared/context/MapInteraction.context";
 import { useLanguage } from "@/shared/hooks/useLanguage";
 import { classNames } from "@/shared/lib/classNames";
-import { formatMileage } from "@/shared/lib/format";
+import { formatDistance } from "@/shared/lib/format";
 import { getPhotoTravelIndex } from "@/shared/lib/travelQueries";
 
 import { formatTripDetailDuration } from "../../lib/tripDetailTimeline";
@@ -99,7 +99,7 @@ export function TimelineDayTripCard({
   return (
     <m.div
       animate={{ opacity: 1, x: 0 }}
-      className="trip-detail__row trip-detail__row--day-trip"
+      className="trip-route__row trip-route__row--day-trip"
       initial={{ opacity: 0, x: -8 }}
       style={
         {
@@ -113,16 +113,16 @@ export function TimelineDayTripCard({
         ease: [0.35, 0, 0.25, 1],
       }}
     >
-      <div className="trip-detail__track">
-        <div className="trip-detail__day-trip-dot" />
+      <div className="trip-route__track">
+        <div className="trip-route__day-trip-dot" />
       </div>
 
       <button
         aria-disabled={!isClickable}
         className={classNames(
-          "trip-detail__day-trip-card",
-          isClickable && "trip-detail__day-trip-card--clickable",
-          isNested && "trip-detail__day-trip-card--nested",
+          "trip-route__day-trip-card",
+          isClickable && "trip-route__day-trip-card--clickable",
+          isNested && "trip-route__day-trip-card--nested",
         )}
         onClick={isClickable ? openGallery : undefined}
         onMouseEnter={() => setHoveredCity(city)}
@@ -130,34 +130,34 @@ export function TimelineDayTripCard({
         tabIndex={isClickable ? 0 : -1}
         type="button"
       >
-        <div className="trip-detail__day-trip-thumb">
+        <div className="trip-route__day-trip-thumb">
           {thumbSrc ? (
             <img
               alt={cityLabel}
-              className="trip-detail__day-trip-thumb-img"
+              className="trip-route__day-trip-thumb-img"
               src={thumbSrc}
             />
           ) : (
-            <div className="trip-detail__day-trip-thumb-empty" />
+            <div className="trip-route__day-trip-thumb-empty" />
           )}
         </div>
 
-        <div className="trip-detail__day-trip-body">
-          <div className="trip-detail__day-trip-header">
-            <span className="trip-detail__day-trip-name">{cityLabel}</span>
+        <div className="trip-route__day-trip-body">
+          <div className="trip-route__day-trip-header">
+            <span className="trip-route__day-trip-name">{cityLabel}</span>
             <CountryFlag
-              className="trip-detail__day-trip-flag"
+              className="trip-route__day-trip-flag"
               countryId={city.country.id}
             />
           </div>
-          <span className="trip-detail__day-trip-meta">
-            <span className="trip-detail__day-trip-date">{dateRange}</span>
+          <span className="trip-route__day-trip-meta">
+            <span className="trip-route__day-trip-date">{dateRange}</span>
             {inboundTransport &&
             (inboundTransport.distanceKm > 0 ||
               inboundTransport.durationMinutes > 0) ? (
-              <span className="trip-detail__day-trip-transport">
+              <span className="trip-route__day-trip-transport">
                 {inboundTransport.distanceKm > 0
-                  ? ` · ${formatMileage(inboundTransport.distanceKm, lang)} km`
+                  ? ` · ${formatDistance(inboundTransport.distanceKm, lang)}`
                   : null}
                 {inboundTransport.durationMinutes > 0
                   ? ` · ${formatTripDetailDuration(inboundTransport.durationMinutes)}`

@@ -17,6 +17,7 @@ export * from "./typings/Marker";
 export * from "./validation/issues";
 export * from "./validation/validateDataset";
 export * from "./validation/validateTrip";
+export * from "./world/bearing";
 export * from "./world/buildWorld";
 export * from "./world/date";
 export * from "./world/derive";

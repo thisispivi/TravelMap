@@ -1,0 +1,225 @@
+@use "../../../../styles/variables" as v;
+@use "../../../../styles/mixins" as m;
+
+.filter-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 11;
+  background: transparent;
+}
+
+.filter {
+  position: relative;
+  z-index: 13;
+
+  .filter__button {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+
+  .filter__options {
+    position: absolute;
+    right: 0;
+    top: 2.75rem;
+    z-index: 13;
+    width: 15rem;
+    flex-shrink: 0;
+    padding: v.$space1;
+    transform-origin: top right;
+  }
+
+  .filter__options__list {
+    display: flex;
+    flex-direction: column;
+    max-height: 16rem;
+    overflow-y: auto;
+    flex-shrink: 0;
+  }
+
+  .filter__option {
+    display: flex;
+    align-items: center;
+    gap: v.$space2;
+    flex-shrink: 0;
+    padding: v.$space2 v.$space3;
+    border: none;
+    border-radius: v.$radiusControl;
+    background: none;
+    cursor: pointer;
+    @include m.transition(background-color color);
+
+    h4 {
+      font-size: v.$bodySm;
+      font-weight: 500;
+    }
+
+    svg {
+      width: 1.125rem;
+      height: 1.125rem;
+      flex-shrink: 0;
+    }
+
+    &:focus-visible {
+      @include m.focus-ring();
+    }
+  }
+
+  .filter__select-all {
+    margin-bottom: v.$space1;
+    padding-bottom: v.$space2;
+    border-radius: 0;
+    border-bottom-width: 0.0625rem;
+    border-bottom-style: solid;
+
+    &:hover {
+      background: transparent;
+    }
+  }
+
+  .filter__select-all-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.125rem;
+    height: 1.125rem;
+    flex-shrink: 0;
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .filter__select-all-text {
+    font-size: v.$caption;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+}
+
+.spread--light {
+  .filter__options {
+    background: v.$lightSheetRaised;
+    border: 0.0625rem solid v.$lightRule;
+    border-radius: v.$radiusSurface;
+    box-shadow: v.$lightSheetShadow;
+  }
+
+  .filter__option {
+    color: v.$lightInkFaint;
+
+    @include m.hover() {
+      background: v.$lightFill;
+      color: v.$lightInk;
+    }
+
+    &--selected {
+      color: v.$lightInk;
+
+      h4 {
+        font-weight: 700;
+      }
+
+      svg {
+        color: v.$pinOnLight;
+      }
+    }
+  }
+
+  .filter__select-all {
+    border-bottom-color: v.$lightRule;
+    color: v.$lightInk;
+  }
+}
+
+.spread--dark {
+  .filter__options {
+    background: v.$darkSheetRaised;
+    border: 0.0625rem solid v.$darkRule;
+    border-radius: v.$radiusSurface;
+    box-shadow: v.$darkSheetShadow;
+  }
+
+  .filter__option {
+    color: v.$darkInkFaint;
+
+    @include m.hover() {
+      background: v.$darkFill;
+      color: v.$darkInk;
+    }
+
+    &--selected {
+      color: v.$darkInk;
+
+      h4 {
+        font-weight: 700;
+      }
+
+      svg {
+        color: v.$pinOnDark;
+      }
+    }
+  }
+
+  .filter__select-all {
+    border-bottom-color: v.$darkRule;
+    color: v.$darkInk;
+  }
+}
+
+.filter-transition-enter {
+  opacity: 0;
+  transform: translateY(-0.5rem) scale(0.97);
+}
+
+.filter-transition-enter-active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition:
+    opacity v.$motionState ease,
+    transform v.$motionSurface v.$motionEase;
+}
+
+.filter-transition-exit {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.filter-transition-exit-active {
+  opacity: 0;
+  transform: translateY(-0.5rem) scale(0.97);
+  transition:
+    opacity v.$motionState ease,
+    transform v.$motionState ease;
+}
+
+.filter-backdrop-transition-enter {
+  opacity: 0;
+}
+
+.filter-backdrop-transition-enter-active {
+  opacity: 1;
+  transition: opacity v.$motionState ease;
+}
+
+.filter-backdrop-transition-exit {
+  opacity: 1;
+}
+
+.filter-backdrop-transition-exit-active {
+  opacity: 0;
+  transition: opacity v.$motionState ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .filter-transition-enter-active,
+  .filter-transition-exit-active {
+    transition-duration: 1ms;
+  }
+}
+
+@media (max-width: 28.75rem) {
+  .filter .filter__options {
+    width: 13rem;
+  }
+}

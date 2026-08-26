@@ -24,7 +24,7 @@
   }
 }
 
-.map-shell--light .close-button {
+.spread--light .close-button {
   color: v.$lightInkMuted;
 
   @include m.hover() {
@@ -33,7 +33,7 @@
   }
 }
 
-.map-shell--dark .close-button {
+.spread--dark .close-button {
   color: v.$darkInkMuted;
 
   @include m.hover() {

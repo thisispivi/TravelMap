@@ -1,32 +1,42 @@
 import { createContext, use } from "react";
 
-/** The four top-level tabs of the floating navigation. */
-export type NavTabId = "trips" | "places" | "timeline" | "stats";
+/** The three places the reader can be: the arrival, the record, its figures. */
+export type SectionId = "atlas" | "record" | "figures";
+
+/** How the journeys in the record are ordered. */
+export type JourneyOrder = "when" | "where" | "far";
+
+/** Which set of places the record is showing. */
+export type PlacesFilter = "visited" | "lived" | "future";
 
 /**
  * Route state exposed to feature modules by the application shell.
- * @property {boolean} isTrips - Whether the trips route is active
- * @property {boolean} isPlaces - Whether the places route is active
- * @property {boolean} isTripDetail - Whether a trip detail route is active
- * @property {boolean} isTimeline - Whether the timeline route is active
- * @property {boolean} isStats - Whether the statistics route is active
+ * @property {SectionId | null} section - The active top-level section
+ * @property {boolean} isAtlas - Whether the arrival route is active
+ * @property {boolean} isJourneys - Whether the record is listing journeys
+ * @property {boolean} isPlaces - Whether the record is listing places
+ * @property {boolean} isTrip - Whether a single journey is open
+ * @property {boolean} isFigures - Whether the figures route is active
  * @property {boolean} isGallery - Whether a gallery route is active
  * @property {boolean} isLightbox - Whether a lightbox route is active
- * @property {NavTabId | null} activeTab - The active navigation tab
- * @property {string | null} tripDetailId - The selected trip identifier
- * @property {"lived" | "visited" | "future" | null} placesFilter - The active places filter
+ * @property {boolean} isTakeover - Whether the active route claims the whole spread
+ * @property {JourneyOrder} journeyOrder - The active journey ordering
+ * @property {PlacesFilter} placesFilter - The active places filter
+ * @property {string | null} tripId - The open journey identifier
  */
 export interface AppRouteContextValue {
-  isTrips: boolean;
+  section: SectionId | null;
+  isAtlas: boolean;
+  isJourneys: boolean;
   isPlaces: boolean;
-  isTripDetail: boolean;
-  isTimeline: boolean;
-  isStats: boolean;
+  isTrip: boolean;
+  isFigures: boolean;
   isGallery: boolean;
   isLightbox: boolean;
-  activeTab: NavTabId | null;
-  tripDetailId: string | null;
-  placesFilter: "lived" | "visited" | "future" | null;
+  isTakeover: boolean;
+  journeyOrder: JourneyOrder;
+  placesFilter: PlacesFilter;
+  tripId: string | null;
 }
 
 /** Route-state context populated by the application shell. */

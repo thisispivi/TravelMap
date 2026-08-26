@@ -4,6 +4,7 @@ import { FerryCompany } from "../typings/FerryCompany";
 import { FlightCompany } from "../typings/FlightCompany";
 import { Image } from "../typings/Image";
 import { localize } from "../typings/Localized";
+import { getCitiesDistance } from "../world/distance";
 import { City } from "./City";
 import { Country } from "./Country";
 import { Ferry } from "./Ferry";
@@ -372,6 +373,29 @@ export class Trip {
           ] as [number, number],
         ]);
     });
+  }
+
+  /**
+   * Finds the destination that lies furthest from a reference city, ignoring
+   * layovers. A trip is summarised on the record by how far out it reached, so
+   * an airport passed through on the way must not stand in for where it went.
+   * @param {City} reference - The city distances are measured from
+   * @returns {City | null} The furthest stayed-in city, or null when there is none
+   */
+  getFurthestDestinationFrom(reference: City): City | null {
+    let furthest: City | null = null;
+    let furthestDistance = -1;
+
+    for (const destination of this.destinations) {
+      if (destination.isLayover) continue;
+      const distance = getCitiesDistance(reference, destination.city);
+      if (distance > furthestDistance) {
+        furthestDistance = distance;
+        furthest = destination.city;
+      }
+    }
+
+    return furthest;
   }
 
   /**

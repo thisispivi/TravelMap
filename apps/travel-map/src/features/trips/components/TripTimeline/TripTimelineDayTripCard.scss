@@ -1,16 +1,16 @@
 @use "../../../../styles/mixins" as m;
 @use "../../../../styles/variables" as v;
 
-.trip-detail {
-  .trip-detail__row--day-trip {
+.trip-route {
+  .trip-route__row--day-trip {
     padding-bottom: 0.875rem;
 
-    .trip-detail__track {
+    .trip-route__track {
       justify-content: center;
     }
   }
 
-  .trip-detail__day-trip-dot {
+  .trip-route__day-trip-dot {
     width: 0.75rem;
     height: 0.75rem;
     border-radius: 50%;
@@ -25,13 +25,13 @@
       border-color 0.12s ease;
   }
 
-  .trip-detail__row--day-trip:has(.trip-detail__day-trip-card:hover)
-    .trip-detail__day-trip-dot {
+  .trip-route__row--day-trip:has(.trip-route__day-trip-card:hover)
+    .trip-route__day-trip-dot {
     border-color: var(--dot-color);
     transform: scale(1.35);
   }
 
-  .trip-detail__day-trip-card {
+  .trip-route__day-trip-card {
     flex: 1;
     display: flex;
     align-items: center;
@@ -63,7 +63,7 @@
     }
   }
 
-  .trip-detail__day-trip-thumb {
+  .trip-route__day-trip-thumb {
     width: 2.75rem;
     height: 2.75rem;
     border-radius: v.$radiusControl;
@@ -71,20 +71,20 @@
     flex-shrink: 0;
   }
 
-  .trip-detail__day-trip-thumb-img {
+  .trip-route__day-trip-thumb-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
   }
 
-  .trip-detail__day-trip-thumb-empty {
+  .trip-route__day-trip-thumb-empty {
     width: 100%;
     height: 100%;
     border-radius: v.$radiusControl;
   }
 
-  .trip-detail__day-trip-body {
+  .trip-route__day-trip-body {
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -92,13 +92,13 @@
     min-width: 0;
   }
 
-  .trip-detail__day-trip-header {
+  .trip-route__day-trip-header {
     display: flex;
     align-items: center;
     gap: 0.3125rem;
   }
 
-  .trip-detail__day-trip-name {
+  .trip-route__day-trip-name {
     font-size: v.$bodySm;
     font-weight: 600;
     letter-spacing: -0.01em;
@@ -107,13 +107,13 @@
     text-overflow: ellipsis;
   }
 
-  .trip-detail__day-trip-flag {
+  .trip-route__day-trip-flag {
     width: 0.9375rem;
     height: 0.9375rem;
     flex-shrink: 0;
   }
 
-  .trip-detail__day-trip-meta {
+  .trip-route__day-trip-meta {
     font-size: v.$caption;
     font-weight: 400;
     white-space: nowrap;
@@ -121,17 +121,17 @@
     text-overflow: ellipsis;
   }
 
-  .trip-detail__day-trip-date {
+  .trip-route__day-trip-date {
     text-transform: capitalize;
   }
 
-  .trip-detail__day-trip-transport {
+  .trip-route__day-trip-transport {
   }
 }
 
-.map-shell--dark {
-  .trip-detail {
-    .trip-detail__day-trip-card {
+.spread--dark {
+  .trip-route {
+    .trip-route__day-trip-card {
       background: v.$darkFill;
       box-shadow: 0 0.125rem 0.5rem v.$lightRule;
 
@@ -140,23 +140,23 @@
       }
     }
 
-    .trip-detail__day-trip-thumb-empty {
+    .trip-route__day-trip-thumb-empty {
       background: v.$darkFill;
     }
 
-    .trip-detail__day-trip-name {
+    .trip-route__day-trip-name {
       color: v.$darkInk;
     }
 
-    .trip-detail__day-trip-meta {
+    .trip-route__day-trip-meta {
       color: v.$darkInkMuted;
     }
   }
 }
 
-.map-shell--light {
-  .trip-detail {
-    .trip-detail__day-trip-card {
+.spread--light {
+  .trip-route {
+    .trip-route__day-trip-card {
       background: rgba(0, 0, 0, 0.055);
       box-shadow: 0 0.0625rem 0.25rem v.$lightFill;
 
@@ -165,15 +165,15 @@
       }
     }
 
-    .trip-detail__day-trip-thumb-empty {
+    .trip-route__day-trip-thumb-empty {
       background: v.$lightFill;
     }
 
-    .trip-detail__day-trip-name {
+    .trip-route__day-trip-name {
       color: v.$lightInk;
     }
 
-    .trip-detail__day-trip-meta {
+    .trip-route__day-trip-meta {
       color: v.$lightInkMuted;
     }
   }

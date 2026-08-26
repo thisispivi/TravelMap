@@ -135,21 +135,14 @@
     }
   },
   "nav": {
-    "trips": "Trips",
-    "places": "Places",
-    "timeline": "Timeline",
-    "stats": "Stats"
-  },
-  "timeline": {
-    "title": "Timeline",
-    "empty": "No timeline data yet.",
-    "city_one": "{{count}} city",
-    "city_other": "{{count}} cities"
+    "atlas": "Rose",
+    "record": "Record",
+    "figures": "Figures"
   },
   "tripDetail": {
     "route": "Route",
-    "days": "days",
-    "day": "day",
+    "days": "Days",
+    "day": "Day",
     "via": "via",
     "night": "night",
     "nights": "nights",
@@ -165,12 +158,44 @@
     "drives": "drives",
     "taxi": "taxi",
     "taxis": "taxis",
-    "timeZone": "time zone",
-    "timeZones": "time zones",
+    "timeZone": "Time zone",
+    "timeZones": "Time zones",
     "dayTrip": "Day trip",
-    "viewMap": "View map",
-    "backToTrip": "Back to trip",
     "stops": "Stops",
-    "distance": "km"
+    "travelled": "Travelled"
+  },
+  "spread": {
+    "foldMargin": "Fold the column away",
+    "showMargin": "Show the column"
+  },
+  "atlas": {
+    "fallbackName": "Travel Map",
+    "empty": "Nothing recorded yet.",
+    "roseTitle": "Every journey plotted by bearing and distance from {{place}}",
+    "origin": "Every reading measured from here",
+    "latest": "Latest",
+    "openRecord": "Open the record",
+    "statement": " journeys out of {{place}} and back"
+  },
+  "record": {
+    "journeys": "Journeys",
+    "places": "Places",
+    "when": "By date",
+    "where": "By direction",
+    "far": "By distance"
+  },
+  "journey": {
+    "unknown": "That journey is not in the record.",
+    "outbound": "Out from {{origin}}, furthest at {{furthest}}"
+  },
+  "figures": {
+    "comparison": "{{earth}}× around the Earth, {{moon}}× the distance to the Moon.",
+    "bounds": {
+      "title": "Bounds",
+      "north": "Northernmost",
+      "east": "Easternmost",
+      "south": "Southernmost",
+      "west": "Westernmost"
+    }
   }
 }

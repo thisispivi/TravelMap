@@ -1,34 +1,50 @@
 import { lazy } from "react";
 import { createHashRouter, Navigate } from "react-router";
 
-import { MapShell } from "../shell/MapShell";
+import { Spread } from "../shell/Spread";
 import { FallbackPage } from "./FallbackPage";
 
-const TimelinePage = lazy(() =>
-  import("@/features/timeline/components/TimelinePage/TimelinePage").then(
-    (module) => ({ default: module.TimelinePage }),
-  ),
-);
-const StatsPage = lazy(() =>
-  import("@/features/stats/components/StatsPage/StatsPage").then((module) => ({
-    default: module.StatsPage,
+const Arrival = lazy(() =>
+  import("@/features/atlas/components/Arrival/Arrival").then((module) => ({
+    default: module.Arrival,
   })),
 );
+const RecordIndex = lazy(() =>
+  import("@/features/record/components/RecordIndex/RecordIndex").then(
+    (module) => ({ default: module.RecordIndex }),
+  ),
+);
+const JourneyView = lazy(() =>
+  import("@/features/trips/components/JourneyView/JourneyView").then(
+    (module) => ({ default: module.JourneyView }),
+  ),
+);
+const FiguresPage = lazy(() =>
+  import("@/features/stats/components/FiguresPage/FiguresPage").then(
+    (module) => ({ default: module.FiguresPage }),
+  ),
+);
 
-/** Hash router for the persistent map shell and its route-owned panels. */
+/**
+ * Hash router for the persistent spread. Every route renders into the reading
+ * margin; the plate beside it is chosen by the classified route rather than by
+ * a page component, which is what keeps the map and the rose continuous.
+ */
 export const router = createHashRouter([
   {
     path: "/",
-    element: <MapShell />,
+    element: <Spread />,
     errorElement: <FallbackPage />,
     children: [
-      { index: true, element: null },
-      { path: "trips", element: null },
-      { path: "trip/:tripId", element: null },
-      { path: "places", element: null },
-      { path: "places/:filter", element: null },
-      { path: "timeline", element: <TimelinePage /> },
-      { path: "stats", element: <StatsPage /> },
+      { index: true, element: <Arrival /> },
+      { path: "trips", element: <RecordIndex /> },
+      { path: "trips/:order", element: <RecordIndex /> },
+      { path: "places", element: <RecordIndex /> },
+      { path: "places/:filter", element: <RecordIndex /> },
+      { path: "trip/:tripId", element: <JourneyView /> },
+      { path: "figures", element: <FiguresPage /> },
+      { path: "timeline", element: <Navigate replace to="/trips" /> },
+      { path: "stats", element: <Navigate replace to="/figures" /> },
       {
         path: "gallery/:cityName/:travelIdx",
         lazy: async () => {
@@ -55,7 +71,7 @@ export const router = createHashRouter([
           },
         ],
       },
-      { path: "*", element: <Navigate replace to="/trips" /> },
+      { path: "*", element: <Navigate replace to="/" /> },
     ],
   },
 ]);

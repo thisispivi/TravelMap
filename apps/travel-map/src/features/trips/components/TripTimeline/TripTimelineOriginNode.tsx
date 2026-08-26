@@ -37,7 +37,7 @@ export function TimelineOriginNode({
   return (
     <m.div
       animate={{ opacity: 1, x: 0 }}
-      className="trip-detail__row trip-detail__row--origin"
+      className="trip-route__row trip-route__row--origin"
       initial={{ opacity: 0, x: -8 }}
       style={{ "--dot-color": city.country.borderColor } as CSSProperties}
       transition={{
@@ -46,13 +46,13 @@ export function TimelineOriginNode({
         ease: [0.35, 0, 0.25, 1],
       }}
     >
-      <div className="trip-detail__track">
-        <div className="trip-detail__origin-dot" />
+      <div className="trip-route__track">
+        <div className="trip-route__origin-dot" />
       </div>
-      <div className="trip-detail__origin-label">
-        <span className="trip-detail__origin-name">{cityLabel}</span>
+      <div className="trip-route__origin-label">
+        <span className="trip-route__origin-name">{cityLabel}</span>
         <CountryFlag
-          className="trip-detail__origin-flag"
+          className="trip-route__origin-flag"
           countryId={city.country.id}
         />
       </div>

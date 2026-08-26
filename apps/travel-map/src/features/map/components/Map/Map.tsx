@@ -10,14 +10,12 @@ import { Button } from "@/shared/components/Button/Button";
 import { Loading } from "@/shared/components/Loading/Loading";
 import { useAppRoute } from "@/shared/context/AppRoute.context";
 import { useMapInteraction } from "@/shared/context/MapInteraction.context";
-import { usePanel } from "@/shared/context/Panel.context";
 import { useLanguage } from "@/shared/hooks/useLanguage";
-import { ResponsiveType } from "@/shared/hooks/useResponsive";
 
 import {
   CAMERA_DURATION_MS,
-  getCameraOffset,
   getCameraPadding,
+  getRecordBounds,
   getTripBounds,
   MAPLIBRE_MAX_ZOOM,
   MAPLIBRE_MIN_ZOOM,
@@ -29,6 +27,7 @@ import { createMapStyle, MAP_THEMES } from "../../lib/mapTheme";
 import { getTripLayoverCities } from "../../lib/mapTripCities";
 import { MapTooltip } from "../MapTooltip/MapTooltip";
 import { RouteOverlay } from "../RouteOverlay/RouteOverlay";
+import { ThreadOverlay } from "../ThreadOverlay/ThreadOverlay";
 import { MapLayers } from "./MapLayers";
 import { MapMarkers } from "./MapMarkers";
 
@@ -37,15 +36,14 @@ const MAP_TILE_SIZE_PX = 512;
 const MIN_ZOOM_EPSILON = 0.01;
 const TOOLTIP_OFFSET_PX = 14;
 const ZOOM_CONTROL_DURATION_MS = 300;
+const RECORD_MAX_ZOOM = 4.2;
 
 /**
  * Properties accepted by the interactive map.
  * @property {boolean} isDarkTheme - Whether the dark theme is active
- * @property {ResponsiveType} responsive - The current responsive viewport state
  */
 interface MapProps {
   isDarkTheme: boolean;
-  responsive: ResponsiveType;
 }
 
 /**
@@ -55,15 +53,13 @@ interface MapProps {
  * @component
  * @param {MapProps} props - The map props
  * @param {boolean} props.isDarkTheme - Whether the dark theme is active
- * @param {ResponsiveType} props.responsive - The current responsive viewport state
  * @returns {ReactNode} The interactive travel map
  */
-export function Map({ isDarkTheme, responsive }: MapProps): ReactNode {
+export function Map({ isDarkTheme }: MapProps): ReactNode {
   const { t } = useLanguage(["home"]);
   const { hoveredCity, setHoveredCity, mapPosition, selectedTrip } =
     useMapInteraction();
-  const { isPanelOpen } = usePanel();
-  const { isTripDetail } = useAppRoute();
+  const { isTrip } = useAppRoute();
   const mapRef = useRef<MapRef>(null);
   const hoverLeaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isFramingWorld = useRef(false);
@@ -82,17 +78,35 @@ export function Map({ isDarkTheme, responsive }: MapProps): ReactNode {
     map.flyTo({
       center: mapPosition.center,
       zoom: toMapLibreZoom(mapPosition.zoom),
-      offset: getCameraOffset(responsive.window.width, isPanelOpen),
       duration: CAMERA_DURATION_MS,
       essential: true,
     });
-  }, [isLoaded, isPanelOpen, mapPosition, responsive.window.width]);
+  }, [isLoaded, mapPosition]);
 
   useEffect(() => {
     const map = mapRef.current;
-    if (!map || !isLoaded || !isTripDetail || !selectedTrip) return;
+    if (!map || !isLoaded) return;
 
-    const padding = getCameraPadding(responsive.window.width, isPanelOpen);
+    const padding = getCameraPadding();
+
+    /* Stepping back out of a journey reframes the whole record, so the camera
+       never strands the reader over wherever the last journey ended. */
+    if (!isTrip || !selectedTrip) {
+      const recordBounds = getRecordBounds([
+        ...visitedCities,
+        ...futureCities,
+        ...livedCities,
+      ]);
+      if (recordBounds) {
+        map.fitBounds(recordBounds, {
+          duration: CAMERA_DURATION_MS,
+          essential: true,
+          maxZoom: RECORD_MAX_ZOOM,
+          padding,
+        });
+      }
+      return;
+    }
 
     if (selectedTrip.mapFocus) {
       map.flyTo({
@@ -100,7 +114,6 @@ export function Map({ isDarkTheme, responsive }: MapProps): ReactNode {
         zoom: toMapLibreZoom(selectedTrip.mapFocus.zoom),
         duration: CAMERA_DURATION_MS,
         essential: true,
-        offset: getCameraOffset(responsive.window.width, isPanelOpen),
       });
       return;
     }
@@ -114,13 +127,7 @@ export function Map({ isDarkTheme, responsive }: MapProps): ReactNode {
       maxZoom: SINGLE_DESTINATION_ZOOM,
       padding,
     });
-  }, [
-    isLoaded,
-    isPanelOpen,
-    isTripDetail,
-    responsive.window.width,
-    selectedTrip,
-  ]);
+  }, [isLoaded, isTrip, selectedTrip]);
 
   /**
    * Clears both the pinned and transient tooltip selection.
@@ -193,7 +200,6 @@ export function Map({ isDarkTheme, responsive }: MapProps): ReactNode {
       center: WORLD_CENTER,
       duration: ZOOM_CONTROL_DURATION_MS,
       essential: true,
-      offset: getCameraOffset(responsive.window.width, isPanelOpen),
       zoom,
     });
   };
@@ -244,7 +250,7 @@ export function Map({ isDarkTheme, responsive }: MapProps): ReactNode {
   };
 
   const layoverCities =
-    isTripDetail && selectedTrip
+    isTrip && selectedTrip
       ? getTripLayoverCities(selectedTrip, [
           ...visitedCities,
           ...futureCities,
@@ -281,6 +287,7 @@ export function Map({ isDarkTheme, responsive }: MapProps): ReactNode {
         touchPitch={false}
       >
         <MapLayers theme={theme} />
+        <ThreadOverlay isDarkTheme={isDarkTheme} />
         <RouteOverlay isDarkTheme={isDarkTheme} />
 
         {isLoaded ? (

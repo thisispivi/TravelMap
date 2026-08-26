@@ -1,0 +1,270 @@
+@use "../../../../styles/variables" as v;
+@use "../../../../styles/mixins" as m;
+
+.arrival {
+  display: flex;
+  flex-direction: column;
+  gap: v.$space5;
+  padding: v.$space6 v.$marginPad v.$space5;
+
+  &--empty {
+    gap: v.$space4;
+  }
+
+  &__head {
+    display: flex;
+    flex-direction: column;
+    gap: v.$space3;
+  }
+
+  &__name {
+    font-size: v.$micro;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  /* The one sentence the record amounts to, set as the display type. The count
+     stays in the mono face because it is a reading like every other number
+     here, and setting it in the sentence keeps the sentence true. */
+  &__statement {
+    font-size: v.$displayMd;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1.08;
+    text-wrap: balance;
+  }
+
+  &__count {
+    font-weight: 400;
+    letter-spacing: -0.05em;
+  }
+
+  &__span {
+    font-size: v.$caption;
+    letter-spacing: 0.02em;
+  }
+
+  /* Totals are read across, not stacked, so the column shows the size of the
+     record in one line instead of three. */
+  &__figures {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: v.$space4 v.$space3;
+    padding-top: v.$space4;
+  }
+
+  &__figure {
+    display: flex;
+    flex-direction: column;
+    gap: v.$space1;
+    min-width: 0;
+  }
+
+  &__figure-label {
+    font-size: v.$micro;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  &__figure-value {
+    font-size: v.$headingMd;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+  }
+
+  &__furthest {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: v.$space2;
+    padding-top: v.$space4;
+  }
+
+  &__furthest-label {
+    font-size: v.$micro;
+    font-weight: 600;
+  }
+
+  &__furthest-city {
+    font-size: v.$bodySm;
+    font-weight: 700;
+  }
+
+  &__recent {
+    display: flex;
+    flex-direction: column;
+    gap: v.$space3;
+    padding-top: v.$space4;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+  }
+
+  &__entry {
+    display: flex;
+    align-items: baseline;
+    gap: v.$space3;
+    padding-block: v.$space2;
+    text-decoration: none;
+    @include m.transition(color background-color);
+
+    &:focus-visible {
+      @include m.focus-ring();
+    }
+  }
+
+  &__entry-year {
+    flex-shrink: 0;
+    font-size: v.$caption;
+    font-weight: 400;
+  }
+
+  &__entry-title {
+    font-size: v.$bodySm;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  &__open {
+    align-self: flex-start;
+    padding: v.$space2 v.$space4;
+    border-radius: v.$radiusPill;
+    font-size: v.$bodySm;
+    font-weight: 600;
+    text-decoration: none;
+    @include m.transition(background-color color);
+
+    &:focus-visible {
+      @include m.focus-ring();
+    }
+  }
+}
+
+.spread--dark .arrival {
+  .arrival__figure-label,
+  .arrival__furthest-label,
+  .arrival__span {
+    color: v.$darkInkMuted;
+  }
+
+  .arrival__name {
+    color: v.$darkInkFaint;
+  }
+
+  .arrival__count {
+    color: v.$pinOnDark;
+  }
+
+  .arrival__figures {
+    @include m.rule-tick(v.$darkRule);
+  }
+
+  .arrival__furthest {
+    border-top: v.$seam solid v.$darkRule;
+  }
+
+  .arrival__furthest-reading {
+    color: v.$pinOnDark;
+  }
+
+  .arrival__recent {
+    border-top: v.$seam solid v.$darkRule;
+  }
+
+  .arrival__entry {
+    color: v.$darkInkMuted;
+
+    &--focused,
+    &:hover {
+      color: v.$darkInk;
+    }
+
+    &--focused .arrival__entry-year {
+      color: v.$pinOnDark;
+    }
+  }
+
+  /* White on $pin is 4.1:1, under the floor for a label this size, so the
+     filled button takes the darker step and darkens further on hover. */
+  .arrival__open {
+    background: v.$pinHover;
+    color: #ffffff;
+
+    @include m.hover() {
+      background: v.$pinOnLight;
+    }
+  }
+}
+
+.spread--light .arrival {
+  .arrival__figure-label,
+  .arrival__furthest-label,
+  .arrival__span {
+    color: v.$lightInkMuted;
+  }
+
+  .arrival__name {
+    color: v.$lightInkFaint;
+  }
+
+  .arrival__count {
+    color: v.$pinOnLight;
+  }
+
+  .arrival__figures {
+    @include m.rule-tick(v.$lightRule);
+  }
+
+  .arrival__furthest {
+    border-top: v.$seam solid v.$lightRule;
+  }
+
+  .arrival__furthest-reading {
+    color: v.$pinOnLight;
+  }
+
+  .arrival__recent {
+    border-top: v.$seam solid v.$lightRule;
+  }
+
+  .arrival__entry {
+    color: v.$lightInkMuted;
+
+    &--focused,
+    &:hover {
+      color: v.$lightInk;
+    }
+
+    &--focused .arrival__entry-year {
+      color: v.$pinOnLight;
+    }
+  }
+
+  /* White on $pin is 4.1:1, under the floor for a label this size, so the
+     filled button takes the darker step and darkens further on hover. */
+  .arrival__open {
+    background: v.$pinHover;
+    color: #ffffff;
+
+    @include m.hover() {
+      background: v.$pinOnLight;
+    }
+  }
+}
+
+@media screen and (max-width: v.$breakpointBound) {
+  .arrival {
+    padding: v.$space5 v.$space4 v.$space6;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arrival__entry,
+  .arrival__open {
+    transition: none;
+  }
+}

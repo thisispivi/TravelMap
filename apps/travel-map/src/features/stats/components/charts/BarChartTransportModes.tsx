@@ -5,7 +5,7 @@ import { ReactNode } from "react";
 
 import { TransportModeIcon } from "@/shared/components/TransportModeIcon/TransportModeIcon";
 import { useLanguage } from "@/shared/hooks/useLanguage";
-import { formatMileage } from "@/shared/lib/format";
+import { formatDistance } from "@/shared/lib/format";
 import variables from "@/styles/_variables.module.scss";
 
 import { chartPalette } from "../../lib/chartPalette";
@@ -72,14 +72,14 @@ export function BarChartTransportModes({
             </div>
             {metric === "km" ? (
               <span className="transport-bar-chart__count transport-bar-chart__count--km">
-                {formatMileage(km, currLanguage)} km
+                {formatDistance(km, currLanguage)}
               </span>
             ) : (
               <>
                 <span className="transport-bar-chart__count">{count}</span>
                 {km > 0 ? (
                   <span className="transport-bar-chart__km">
-                    {formatMileage(km, currLanguage)} km
+                    {formatDistance(km, currLanguage)}
                   </span>
                 ) : null}
               </>

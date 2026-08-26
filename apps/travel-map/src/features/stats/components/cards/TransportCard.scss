@@ -1,0 +1,43 @@
+@use "../../../../styles/variables" as v;
+
+.stats-transport {
+  .stats-transport__inner {
+    display: flex;
+    flex-direction: row;
+    flex: 1 1 auto;
+    min-height: 0;
+    justify-content: center;
+  }
+
+  .stats-transport__chart {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: v.$space4;
+
+    h2 {
+      font-size: v.$headingMd;
+      font-weight: 700;
+      margin-bottom: v.$space3;
+      align-self: flex-start;
+    }
+  }
+}
+
+@media screen and (max-width: 40rem) {
+  .stats-transport {
+    .stats-transport__inner {
+      flex-direction: column;
+    }
+
+    .stats-transport__chart {
+      flex: 0 0 auto;
+      align-items: center;
+
+      h2 {
+        align-self: center;
+      }
+    }
+  }
+}

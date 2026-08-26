@@ -1,52 +1,57 @@
 import { useLocation as useLocationRouter } from "react-router";
 
-import { AppRouteContextValue } from "@/shared/context/AppRoute.context";
+import {
+  AppRouteContextValue,
+  JourneyOrder,
+  PlacesFilter,
+} from "@/shared/context/AppRoute.context";
+
+const JOURNEY_ORDERS: JourneyOrder[] = ["when", "where", "far"];
+const PLACES_FILTERS: PlacesFilter[] = ["visited", "lived", "future"];
 
 /**
- * Derives structured route state from the current URL pathname.
+ * Derives structured route state from the current URL pathname. The spread is
+ * persistent, so the pathname is classified here rather than read through route
+ * params by whichever surface happens to need it.
  * @returns {AppRouteContextValue} Flags and extracted segments for the active route
  */
 export function useAppLocation(): AppRouteContextValue {
-  const location = useLocationRouter();
-  const pathname = location.pathname;
-  return (() => {
-    const isGallery = pathname.includes("gallery");
-    const isLightbox = pathname.split("/").length === 5;
-    const isTimeline = pathname.startsWith("/timeline");
-    const isStats = pathname.startsWith("/stats");
-    const isTripDetail = pathname.startsWith("/trip/");
-    const isPlaces = pathname.startsWith("/places");
-    const isTrips = pathname === "/trips" || isTripDetail;
-    const tripDetailMatch = pathname.match(/^\/trip\/(.+)$/);
-    const tripDetailId = tripDetailMatch ? tripDetailMatch[1] : null;
-    const placesFilterMatch = pathname.match(
-      /^\/places\/(lived|visited|future)$/,
-    );
-    const placesFilter = placesFilterMatch
-      ? (placesFilterMatch[1] as "lived" | "visited" | "future")
-      : isPlaces
-        ? "visited"
-        : null;
-    const activeTab = isTimeline
-      ? "timeline"
-      : isStats
-        ? "stats"
-        : isPlaces
-          ? "places"
-          : isTrips
-            ? "trips"
-            : null;
-    return {
-      isTrips,
-      isPlaces,
-      isTripDetail,
-      isTimeline,
-      isStats,
-      isGallery,
-      isLightbox,
-      activeTab,
-      tripDetailId,
-      placesFilter,
-    };
-  })();
+  const { pathname } = useLocationRouter();
+  const segments = pathname.split("/").filter(Boolean);
+  const isGallery = segments[0] === "gallery";
+  const isLightbox = isGallery && segments.length === 4;
+  const isFigures = segments[0] === "figures";
+  const isTrip = segments[0] === "trip";
+  const isPlaces = segments[0] === "places";
+  const isJourneys = segments[0] === "trips";
+  const isAtlas = segments.length === 0;
+  const orderSegment = segments[1] as JourneyOrder | undefined;
+  const filterSegment = segments[1] as PlacesFilter | undefined;
+
+  return {
+    section: isAtlas
+      ? "atlas"
+      : isFigures
+        ? "figures"
+        : isJourneys || isPlaces || isTrip
+          ? "record"
+          : null,
+    isAtlas,
+    isJourneys,
+    isPlaces,
+    isTrip,
+    isFigures,
+    isGallery,
+    isLightbox,
+    isTakeover: isFigures || isGallery,
+    journeyOrder:
+      orderSegment && JOURNEY_ORDERS.includes(orderSegment)
+        ? orderSegment
+        : "when",
+    placesFilter:
+      filterSegment && PLACES_FILTERS.includes(filterSegment)
+        ? filterSegment
+        : "visited",
+    tripId: isTrip ? (segments[1] ?? null) : null,
+  };
 }

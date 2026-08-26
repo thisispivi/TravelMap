@@ -150,3 +150,76 @@ export function splitGeometryAtAntimeridian(geometry: Geometry): Geometry {
     ),
   };
 }
+
+/**
+ * Interpolates the great-circle path between two coordinates. A straight line
+ * between two points in Mercator is not the path anything travels, and over a
+ * hemisphere the difference is the whole point of the drawing, so threads on
+ * the plate are sampled along the true arc.
+ * @param {[number, number]} start - The departure longitude and latitude
+ * @param {[number, number]} end - The arrival longitude and latitude
+ * @param {number} [steps=64] - How many segments to sample the arc with
+ * @returns {[number, number][]} The sampled arc, unwrapped across the antimeridian
+ */
+export function greatCircle(
+  start: [number, number],
+  end: [number, number],
+  steps: number = 64,
+): [number, number][] {
+  /**
+   * Converts an angle to radians.
+   * @param {number} degrees - The angle in degrees
+   * @returns {number} The angle in radians
+   */
+  const toRadians = (degrees: number): number => (degrees * Math.PI) / 180;
+
+  /**
+   * Converts an angle back to degrees.
+   * @param {number} radians - The angle in radians
+   * @returns {number} The angle in degrees
+   */
+  const toDegrees = (radians: number): number => (radians * 180) / Math.PI;
+  const [startLongitude, startLatitude] = start;
+  const [endLongitude, endLatitude] = end;
+  const lat1 = toRadians(startLatitude);
+  const lon1 = toRadians(startLongitude);
+  const lat2 = toRadians(endLatitude);
+  const lon2 = toRadians(endLongitude);
+  const delta =
+    2 *
+    Math.asin(
+      Math.sqrt(
+        Math.sin((lat2 - lat1) / 2) ** 2 +
+          Math.cos(lat1) * Math.cos(lat2) * Math.sin((lon2 - lon1) / 2) ** 2,
+      ),
+    );
+
+  if (delta === 0) return [start, end];
+
+  const points: [number, number][] = [];
+  for (let step = 0; step <= steps; step += 1) {
+    const fraction = step / steps;
+    const a = Math.sin((1 - fraction) * delta) / Math.sin(delta);
+    const b = Math.sin(fraction * delta) / Math.sin(delta);
+    const x =
+      a * Math.cos(lat1) * Math.cos(lon1) + b * Math.cos(lat2) * Math.cos(lon2);
+    const y =
+      a * Math.cos(lat1) * Math.sin(lon1) + b * Math.cos(lat2) * Math.sin(lon2);
+    const z = a * Math.sin(lat1) + b * Math.sin(lat2);
+    const longitude = toDegrees(Math.atan2(y, x));
+    const latitude = toDegrees(Math.atan2(z, Math.sqrt(x * x + y * y)));
+    const previous = points[points.length - 1];
+    /* The map draws a single world copy, so an arc that would wrap is kept
+       continuous rather than snapping back across the whole viewport. */
+    const unwrapped =
+      previous === undefined
+        ? longitude
+        : longitude - previous[0] > 180
+          ? longitude - 360
+          : longitude - previous[0] < -180
+            ? longitude + 360
+            : longitude;
+    points.push([unwrapped, latitude]);
+  }
+  return points;
+}

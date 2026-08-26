@@ -45,13 +45,13 @@ $continents-colors: (
   @include continent-row("SOUTH_AMERICA");
 }
 
-.map-shell--light {
+.spread--light {
   .continent-row {
     color: v.$lightInkMuted;
   }
 }
 
-.map-shell--dark {
+.spread--dark {
   .continent-row {
     color: v.$darkInkMuted;
   }

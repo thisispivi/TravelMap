@@ -7,6 +7,8 @@ import { useAppRoute } from "@/shared/context/AppRoute.context";
 import { useMapInteraction } from "@/shared/context/MapInteraction.context";
 import variables from "@/styles/_variables.module.scss";
 
+import { greatCircle } from "../../lib/geo";
+
 const TRANSPORT_COLORS: Partial<Record<TransportMode, string>> = {
   ferry: variables.transportFerry,
   plane: variables.transportPlane,
@@ -40,8 +42,8 @@ interface RouteOverlayProps {
  */
 export function RouteOverlay({ isDarkTheme }: RouteOverlayProps): ReactNode {
   const { selectedTrip } = useMapInteraction();
-  const { isTripDetail } = useAppRoute();
-  if (!selectedTrip || !isTripDetail) return null;
+  const { isTrip } = useAppRoute();
+  if (!selectedTrip || !isTrip) return null;
 
   const byMode = new Map<TransportMode, FeatureCollection<LineString>>();
   for (const step of selectedTrip.getRouteSegments()) {
@@ -56,7 +58,10 @@ export function RouteOverlay({ isDarkTheme }: RouteOverlayProps): ReactNode {
         properties: {},
         geometry: {
           type: "LineString",
-          coordinates: [city.coordinates, cities[index + 1].coordinates],
+          coordinates: greatCircle(
+            city.coordinates,
+            cities[index + 1].coordinates,
+          ),
         },
       });
     }

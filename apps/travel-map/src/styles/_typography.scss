@@ -1,10 +1,13 @@
 @use "variables" as v;
 
-/* Figures are the content on the statistics and route surfaces, so they line
-   up in columns by default rather than per-component. */
+/* Every number in the record is a reading taken from it: a bearing, a
+   distance, a date, a flight number. They are set in the mono face so a column
+   of them aligns and so they read as measurements rather than as prose. */
 .figure {
+  font-family: v.$mono;
   font-variant-numeric: tabular-nums;
   font-feature-settings: "tnum" 1;
+  letter-spacing: -0.01em;
 }
 
 h1 {
@@ -42,4 +45,15 @@ p {
   letter-spacing: 0.14em;
   line-height: 1;
   text-transform: uppercase;
+}
+
+/* A reading printed beside what it describes: the bearing on a journey row,
+   the distance under a figure. Mono, quiet, never larger than the thing it
+   annotates. */
+.reading {
+  font-family: v.$mono;
+  font-size: v.$micro;
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+  letter-spacing: 0.02em;
 }

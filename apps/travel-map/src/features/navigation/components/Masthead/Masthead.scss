@@ -1,0 +1,153 @@
+@use "../../../../styles/variables" as v;
+@use "../../../../styles/mixins" as m;
+
+.masthead {
+  display: flex;
+  align-items: center;
+  gap: v.$space4;
+  height: v.$mastheadHeight;
+  padding-inline: v.$marginPad;
+
+  &__mark {
+    display: grid;
+    place-items: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    flex-shrink: 0;
+    border-radius: v.$radiusControl;
+    @include m.transition(opacity transform);
+
+    &:focus-visible {
+      @include m.focus-ring();
+    }
+
+    @include m.hover() {
+      transform: scale(1.06);
+    }
+  }
+
+  &__mark-icon {
+    width: 100%;
+    height: auto;
+  }
+
+  &__entries {
+    display: flex;
+    align-items: center;
+    gap: v.$space4;
+    margin-right: auto;
+  }
+
+  /* The active entry is marked with the accent and a short rule beneath it,
+     the same device the record uses for the journey it is pointing at. */
+  &__entry {
+    position: relative;
+    padding-block: v.$space2;
+    font-size: v.$bodySm;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+    @include m.transition(color);
+
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: v.$space1;
+      width: 100%;
+      height: 0.0625rem;
+      background: v.$pin;
+      transform: scaleX(0);
+      transform-origin: left center;
+      @include m.transition(transform);
+    }
+
+    &--active::after {
+      transform: scaleX(1);
+    }
+  }
+
+  &__tools {
+    display: flex;
+    align-items: center;
+    gap: v.$space1;
+    flex-shrink: 0;
+  }
+}
+
+.spread--dark .masthead {
+  border-bottom: v.$seam solid v.$darkRule;
+
+  .masthead__entry {
+    color: v.$darkInkMuted;
+
+    &--active {
+      color: v.$darkInk;
+    }
+
+    @include m.hover() {
+      color: v.$darkInk;
+    }
+
+    &:focus-visible {
+      @include m.focus-ring();
+    }
+  }
+}
+
+.spread--light .masthead {
+  border-bottom: v.$seam solid v.$lightRule;
+
+  .masthead__entry {
+    color: v.$lightInkMuted;
+
+    &--active {
+      color: v.$lightInk;
+    }
+
+    @include m.hover() {
+      color: v.$lightInk;
+    }
+
+    &:focus-visible {
+      @include m.focus-ring();
+    }
+  }
+}
+
+/* Stacked, the margin sits below the plate, so the masthead lifts out of the
+   column and floats over the plate to stay reachable without scrolling. */
+@media screen and (max-width: v.$breakpointBound) {
+  .masthead {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 5;
+    width: 100%;
+    padding-inline: v.$space4;
+    padding-top: env(safe-area-inset-top, 0rem);
+    height: calc(v.$mastheadHeight + env(safe-area-inset-top, 0rem));
+  }
+
+  .spread--dark .masthead {
+    @include m.chrome-dark();
+    border-width: 0 0 v.$seam 0;
+  }
+
+  .spread--light .masthead {
+    @include m.chrome-light();
+    border-width: 0 0 v.$seam 0;
+  }
+
+  .spread--covered .masthead {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .masthead__mark,
+  .masthead__entry,
+  .masthead__entry::after {
+    transition: none;
+  }
+}

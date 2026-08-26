@@ -6,7 +6,7 @@ import { Fragment, ReactNode } from "react";
 import { CountryFlag } from "@/shared/components/CountryFlag/CountryFlag";
 import { TransportModeIcon } from "@/shared/components/TransportModeIcon/TransportModeIcon";
 import { useLanguage } from "@/shared/hooks/useLanguage";
-import { formatMileage } from "@/shared/lib/format";
+import { formatDistance } from "@/shared/lib/format";
 
 import {
   formatTripDetailDuration,
@@ -45,7 +45,7 @@ export function TimelineTransportConnector({
   return (
     <m.div
       animate={{ opacity: 1, x: 0 }}
-      className="trip-detail__row trip-detail__row--connector"
+      className="trip-route__row trip-route__row--connector"
       initial={{ opacity: 0, x: -8 }}
       transition={{
         delay: animDelay,
@@ -68,7 +68,7 @@ export function TimelineTransportConnector({
         ].join("-");
         const metaParts: string[] = [];
         if (leg.distanceKm > 0)
-          metaParts.push(`${formatMileage(leg.distanceKm, lang)} km`);
+          metaParts.push(formatDistance(leg.distanceKm, lang));
         if (leg.durationMinutes > 0)
           metaParts.push(`~${formatTripDetailDuration(leg.durationMinutes)}`);
 
@@ -90,48 +90,48 @@ export function TimelineTransportConnector({
         if (viaText)
           subParts.push({
             key: "via",
-            cls: "trip-detail__connector-via",
+            cls: "trip-route__connector-via",
             text: viaText,
           });
         if (leg.company)
           subParts.push({
             key: "co",
-            cls: "trip-detail__connector-company",
+            cls: "trip-route__connector-company",
             text: leg.company,
           });
         if (metaParts.length > 0)
           subParts.push({
             key: "meta",
-            cls: "trip-detail__connector-meta",
+            cls: "trip-route__connector-meta",
             text: metaParts.join(" · "),
           });
 
         return (
           <Fragment key={legKey}>
             <span
-              className={`trip-detail__connector-icon trip-detail__connector-icon--${leg.mode}`}
+              className={`trip-route__connector-icon trip-route__connector-icon--${leg.mode}`}
             >
               <TransportModeIcon
-                className="trip-detail__connector-icon-svg"
+                className="trip-route__connector-icon-svg"
                 mode={leg.mode}
               />
             </span>
 
-            <div className="trip-detail__connector-leg">
-              <div className="trip-detail__connector-route">
-                <span className="trip-detail__connector-from">{fromStr}</span>
-                <span className="trip-detail__connector-arrow">→</span>
-                <span className="trip-detail__connector-to">{toStr}</span>
+            <div className="trip-route__connector-leg">
+              <div className="trip-route__connector-route">
+                <span className="trip-route__connector-from">{fromStr}</span>
+                <span className="trip-route__connector-arrow">→</span>
+                <span className="trip-route__connector-to">{toStr}</span>
                 <CountryFlag
-                  className="trip-detail__connector-flag"
+                  className="trip-route__connector-flag"
                   countryId={leg.to.country.id}
                 />
                 {leg.isRoundTrip ? (
-                  <span className="trip-detail__connector-roundtrip">↔</span>
+                  <span className="trip-route__connector-roundtrip">↔</span>
                 ) : null}
               </div>
               {subParts.length > 0 ? (
-                <div className="trip-detail__connector-sub">
+                <div className="trip-route__connector-sub">
                   {subParts.map((p, i) => (
                     <span className={p.cls} key={p.key}>
                       {i > 0 ? `· ${p.text}` : p.text}

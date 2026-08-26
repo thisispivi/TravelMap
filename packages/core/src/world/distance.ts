@@ -1,4 +1,6 @@
 import { City } from "../classes/City";
+import { Ferry } from "../classes/Ferry";
+import { Flight } from "../classes/Flight";
 
 const EARTH_RADIUS_KM = 6371;
 
@@ -44,5 +46,20 @@ export function getCitiesDistance(start: City, end: City): number {
   return getCoordinatesDistance(
     [startPoint.lon, startPoint.lat],
     [endPoint.lon, endPoint.lat],
+  );
+}
+
+/**
+ * Sums the distance of every leg actually travelled. Flights and ferries are
+ * the only legs the dataset records a distance for, so this is the total the
+ * record can honestly claim rather than an estimate over every mode.
+ * @param {Flight[]} flights - The flights taken
+ * @param {Ferry[]} ferries - The ferries taken
+ * @returns {number} The total distance in kilometres
+ */
+export function getTotalDistance(flights: Flight[], ferries: Ferry[]): number {
+  return [...flights, ...ferries].reduce(
+    (total, leg) => total + leg.distanceInKm,
+    0,
   );
 }

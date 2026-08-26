@@ -1,0 +1,178 @@
+@use "../../../../styles/variables" as v;
+@use "../../../../styles/mixins" as m;
+
+.journey-row {
+  list-style: none;
+
+  &__link {
+    display: grid;
+    grid-template-columns: 1.25rem minmax(0, 1fr) auto;
+    align-items: center;
+    gap: v.$space3;
+    padding: v.$space3 0;
+    text-decoration: none;
+    @include m.transition(background-color color);
+
+    &:focus-visible {
+      @include m.focus-ring();
+    }
+  }
+
+  /* The stroke is the row's only ornament and it is not ornament: its angle is
+     the journey's bearing, so the column reads as a compass field. */
+  &__bearing {
+    position: relative;
+    display: block;
+    width: 1.25rem;
+    height: 1.25rem;
+
+    &::before {
+      @include m.bearing-tick(currentColor);
+      top: 50%;
+      left: 0.0625rem;
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: calc(50% - 0.09375rem);
+      left: 0;
+      width: 0.1875rem;
+      height: 0.1875rem;
+      border-radius: 50%;
+      background: currentColor;
+    }
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1875rem;
+    min-width: 0;
+  }
+
+  &__title {
+    font-size: v.$bodySm;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    gap: v.$space2;
+    font-size: v.$caption;
+  }
+
+  &__flags {
+    display: flex;
+    align-items: center;
+    gap: 0.125rem;
+    flex-shrink: 0;
+  }
+
+  &__flag {
+    width: 0.875rem;
+    height: auto;
+    border-radius: 0.125rem;
+  }
+
+  &__reading {
+    font-size: v.$caption;
+    font-weight: 400;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__degrees {
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+
+  &__plate {
+    display: block;
+    width: 2.5rem;
+    height: 2.5rem;
+    flex-shrink: 0;
+    overflow: hidden;
+    border-radius: v.$radiusControl;
+  }
+
+  &__plate-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    @include m.transition(transform, v.$motionSurface);
+  }
+}
+
+.spread--dark .journey-row {
+  .journey-row__link {
+    color: v.$darkInkMuted;
+  }
+
+  .journey-row__title {
+    color: v.$darkInk;
+  }
+
+  .journey-row__bearing {
+    color: v.$darkRuleStrong;
+  }
+
+  .journey-row__degrees {
+    color: v.$darkInkFaint;
+  }
+
+  .journey-row__link--focused,
+  .journey-row__link:hover {
+    .journey-row__bearing,
+    .journey-row__degrees {
+      color: v.$pinOnDark;
+    }
+
+    .journey-row__plate-img {
+      transform: scale(1.06);
+    }
+  }
+}
+
+.spread--light .journey-row {
+  .journey-row__link {
+    color: v.$lightInkMuted;
+  }
+
+  .journey-row__title {
+    color: v.$lightInk;
+  }
+
+  .journey-row__bearing {
+    color: v.$lightRuleStrong;
+  }
+
+  .journey-row__degrees {
+    color: v.$lightInkFaint;
+  }
+
+  .journey-row__link--focused,
+  .journey-row__link:hover {
+    .journey-row__bearing,
+    .journey-row__degrees {
+      color: v.$pinOnLight;
+    }
+
+    .journey-row__plate-img {
+      transform: scale(1.06);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .journey-row__link,
+  .journey-row__plate-img {
+    transition: none;
+  }
+}

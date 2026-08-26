@@ -13,6 +13,7 @@ import { partition, unique } from "remeda";
 
 /**
  * Serializable site settings consumed by the public app.
+ * @property {{ name: string; description?: string; author?: string }} [site] - Site identity
  * @property {string | null} [homeCityId] - Optional home city id
  * @property {string[]} [livedCityIds] - Former-home city ids
  * @property {string[]} [futureCityIds] - Planned city ids
@@ -22,6 +23,7 @@ import { partition, unique } from "remeda";
  * @property {Record<string, { name: string; logo?: string }>} [companies] - Transport company metadata
  */
 interface SiteConfig {
+  site?: { name: string; description?: string; author?: string };
   homeCityId?: string | null;
   livedCityIds?: string[];
   futureCityIds?: string[];

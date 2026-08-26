@@ -36,20 +36,32 @@
   box-shadow: v.$lightSheetShadow;
 }
 
-/* Sheet: an opaque panel laid on the map. Opaque so content inside it never
-   has to fight map imagery for legibility, which glass-on-glass always did. */
+/* Sheet: an opaque surface that takes over the viewport, such as the gallery.
+   Opaque so content inside it never has to fight plate imagery for legibility. */
 @mixin sheet-dark() {
   background: v.$darkSheet;
-  border: 0.0625rem solid v.$darkRule;
-  box-shadow: v.$darkSheetShadow;
-  border-radius: v.$radiusSurface;
+  color: v.$darkInk;
 }
 
 @mixin sheet-light() {
   background: v.$lightSheet;
-  border: 0.0625rem solid v.$lightRule;
-  box-shadow: v.$lightSheetShadow;
-  border-radius: v.$radiusSurface;
+  color: v.$lightInk;
+}
+
+/* Margin: the reading column of the spread. It is bound to the viewport edge
+   rather than floated over the plate, so it carries a seam on the plate side
+   and no radius, shadow or inset of its own. Nothing here needs measuring: the
+   column is a grid track, and its content simply scrolls. */
+@mixin margin-dark() {
+  background: v.$darkSheet;
+  color: v.$darkInk;
+  border-right: v.$seam solid v.$darkRule;
+}
+
+@mixin margin-light() {
+  background: v.$lightSheet;
+  color: v.$lightInk;
+  border-right: v.$seam solid v.$lightRule;
 }
 
 /* Graticule: a hairline carrying a short tick at its start, echoing the map
@@ -68,6 +80,19 @@
     height: 0.0625rem;
     background: $tick;
   }
+}
+
+/* A bearing tick: the short angled stroke that stands at the head of a journey
+   row and points the way that journey set off. The angle is real data, passed
+   in as --bearing, which is why this is a mixin rather than a static rule. */
+@mixin bearing-tick($color) {
+  content: "";
+  position: absolute;
+  width: 1.25rem;
+  height: 0.0625rem;
+  background: $color;
+  transform-origin: left center;
+  transform: rotate(calc(var(--bearing, 90) * 1deg - 90deg));
 }
 
 /* Touch devices emulate :hover on tap and leave it stuck afterwards, so

@@ -2,6 +2,7 @@ import { City } from "@travelmap/core";
 import { ReactNode } from "react";
 
 import { futureCities, livedCities, visitedCities } from "@/data/world";
+import { resolveOrigin } from "@/shared/lib/bearings";
 
 import { Marker, MarkerVariant } from "../Marker/Marker";
 
@@ -55,11 +56,13 @@ export function MapMarkers({
   onHoverCity,
   onSelectCity,
 }: MapMarkersProps): ReactNode {
+  const origin = resolveOrigin();
   const groups: [City[], MarkerVariant][] = [
     [visitedCities, "visited"],
     [futureCities, "future"],
     [livedCities, "lived"],
     [layoverCities, "layover"],
+    [origin ? [origin] : [], "home"],
   ];
 
   return (

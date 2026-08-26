@@ -39,3 +39,29 @@ export function formatMileage(
 ): string {
   return getMileageFormatter(language, digits).format(mileage);
 }
+
+/**
+ * Formats a distance as whole kilometres. Every distance in the record is a
+ * great-circle reading accurate to a few kilometres at best, so fractions of
+ * one would claim a precision the data does not have.
+ * @param {number} km - The distance in kilometres
+ * @param {string} language - The language
+ * @returns {string} The formatted distance with its unit
+ */
+export function formatDistance(km: number, language: string): string {
+  return `${formatMileage(Math.round(km), language, 0)} km`;
+}
+
+/**
+ * Formats a coordinate pair the way it is written on a chart, latitude first
+ * with its hemisphere letter. One decimal place is roughly a ten-kilometre
+ * square, which is as precise as a city coordinate meaningfully is.
+ * @param {[number, number]} coordinates - The longitude and latitude
+ * @returns {string} The formatted coordinates
+ */
+export function formatCoordinates(coordinates: [number, number]): string {
+  const [longitude, latitude] = coordinates;
+  const latitudeText = `${Math.abs(latitude).toFixed(1)}° ${latitude >= 0 ? "N" : "S"}`;
+  const longitudeText = `${Math.abs(longitude).toFixed(1)}° ${longitude >= 0 ? "E" : "W"}`;
+  return `${latitudeText}  ${longitudeText}`;
+}

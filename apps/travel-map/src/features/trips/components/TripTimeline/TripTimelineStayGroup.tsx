@@ -12,7 +12,7 @@ import { TransportModeIcon } from "@/shared/components/TransportModeIcon/Transpo
 import { useMapInteraction } from "@/shared/context/MapInteraction.context";
 import { useLanguage } from "@/shared/hooks/useLanguage";
 import { classNames } from "@/shared/lib/classNames";
-import { formatMileage } from "@/shared/lib/format";
+import { formatDistance } from "@/shared/lib/format";
 import { getPhotoTravelIndex } from "@/shared/lib/travelQueries";
 
 import {
@@ -233,7 +233,7 @@ export function TimelineStayGroup({
               <span className="stay-group__exc-transport-roundtrip">↔</span>
             ) : null}
             {tp.distanceKm > 0 ? (
-              <span>{formatMileage(tp.distanceKm, lang)} km</span>
+              <span>{formatDistance(tp.distanceKm, lang)}</span>
             ) : null}
             {tp.durationMinutes > 0 ? (
               <span>~{formatTripDetailDuration(tp.durationMinutes)}</span>
@@ -313,7 +313,7 @@ export function TimelineStayGroup({
   return (
     <m.div
       animate={{ opacity: 1, x: 0 }}
-      className="trip-detail__row trip-detail__row--stay-group"
+      className="trip-route__row trip-route__row--stay-group"
       initial={{ opacity: 0, x: -8 }}
       style={
         {
@@ -327,16 +327,16 @@ export function TimelineStayGroup({
         ease: [0.35, 0, 0.25, 1],
       }}
     >
-      <div className="trip-detail__track">
-        <div className="trip-detail__stay-dot" />
+      <div className="trip-route__track">
+        <div className="trip-route__stay-dot" />
       </div>
 
       <div className="stay-group__content">
         <button
           aria-disabled={!hasPhotos}
           className={classNames(
-            "trip-detail__stay-card",
-            hasPhotos && "trip-detail__stay-card--clickable",
+            "trip-route__stay-card",
+            hasPhotos && "trip-route__stay-card--clickable",
           )}
           onClick={hasPhotos ? openGallery : undefined}
           onMouseEnter={() => setHoveredCity(city)}
@@ -344,32 +344,32 @@ export function TimelineStayGroup({
           tabIndex={hasPhotos ? 0 : -1}
           type="button"
         >
-          <div className="trip-detail__stay-thumb">
+          <div className="trip-route__stay-thumb">
             {thumbSrc ? (
               <img
                 alt={cityLabel}
-                className="trip-detail__stay-thumb-img"
+                className="trip-route__stay-thumb-img"
                 src={thumbSrc}
               />
             ) : (
-              <div className="trip-detail__stay-thumb-empty" />
+              <div className="trip-route__stay-thumb-empty" />
             )}
           </div>
-          <div className="trip-detail__stay-body">
-            <div className="trip-detail__stay-header">
-              <span className="trip-detail__stay-name">{cityLabel}</span>
+          <div className="trip-route__stay-body">
+            <div className="trip-route__stay-header">
+              <span className="trip-route__stay-name">{cityLabel}</span>
               <CountryFlag
-                className="trip-detail__stay-flag"
+                className="trip-route__stay-flag"
                 countryId={city.country.id}
               />
             </div>
-            <span className="trip-detail__stay-meta">
-              <span className="trip-detail__stay-date">{dateRange}</span>
+            <span className="trip-route__stay-meta">
+              <span className="trip-route__stay-date">{dateRange}</span>
             </span>
           </div>
 
           {nights > 0 ? (
-            <div className="trip-detail__stay-nights">
+            <div className="trip-route__stay-nights">
               {nights} {nightsLabel}
             </div>
           ) : null}
@@ -390,7 +390,7 @@ export function TimelineStayGroup({
                           mode={rt.mode}
                         />
                         {rt.distanceKm > 0 ? (
-                          <span>{formatMileage(rt.distanceKm, lang)} km</span>
+                          <span>{formatDistance(rt.distanceKm, lang)}</span>
                         ) : null}
                         {rt.durationMinutes > 0 ? (
                           <span>

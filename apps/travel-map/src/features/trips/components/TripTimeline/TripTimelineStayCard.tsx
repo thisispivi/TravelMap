@@ -89,7 +89,7 @@ export function TimelineStayCard({
   return (
     <m.div
       animate={{ opacity: 1, x: 0 }}
-      className="trip-detail__row trip-detail__row--stay"
+      className="trip-route__row trip-route__row--stay"
       initial={{ opacity: 0, x: -8 }}
       style={
         {
@@ -103,15 +103,15 @@ export function TimelineStayCard({
         ease: [0.35, 0, 0.25, 1],
       }}
     >
-      <div className="trip-detail__track">
-        <div className="trip-detail__stay-dot" />
+      <div className="trip-route__track">
+        <div className="trip-route__stay-dot" />
       </div>
 
       <button
         aria-disabled={!hasPhotos}
         className={classNames(
-          "trip-detail__stay-card",
-          hasPhotos && "trip-detail__stay-card--clickable",
+          "trip-route__stay-card",
+          hasPhotos && "trip-route__stay-card--clickable",
         )}
         onClick={hasPhotos ? openGallery : undefined}
         onMouseEnter={() => setHoveredCity(city)}
@@ -119,34 +119,34 @@ export function TimelineStayCard({
         tabIndex={hasPhotos ? 0 : -1}
         type="button"
       >
-        <div className="trip-detail__stay-thumb">
+        <div className="trip-route__stay-thumb">
           {thumbSrc ? (
             <img
               alt={cityLabel}
-              className="trip-detail__stay-thumb-img"
+              className="trip-route__stay-thumb-img"
               src={thumbSrc}
             />
           ) : (
-            <div className="trip-detail__stay-thumb-empty" />
+            <div className="trip-route__stay-thumb-empty" />
           )}
         </div>
 
-        <div className="trip-detail__stay-body">
-          <div className="trip-detail__stay-header">
-            <span className="trip-detail__stay-name">{cityLabel}</span>
+        <div className="trip-route__stay-body">
+          <div className="trip-route__stay-header">
+            <span className="trip-route__stay-name">{cityLabel}</span>
             <CountryFlag
-              className="trip-detail__stay-flag"
+              className="trip-route__stay-flag"
               countryId={city.country.id}
             />
           </div>
-          <span className="trip-detail__stay-meta">
-            <span className="trip-detail__stay-date">{dateRange}</span>
+          <span className="trip-route__stay-meta">
+            <span className="trip-route__stay-date">{dateRange}</span>
           </span>
         </div>
 
         {/* Nights pill — right side of card */}
         {nights > 0 ? (
-          <div className="trip-detail__stay-nights">
+          <div className="trip-route__stay-nights">
             {nights} {nightsLabel}
           </div>
         ) : null}

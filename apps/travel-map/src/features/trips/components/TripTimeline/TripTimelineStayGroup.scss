@@ -3,19 +3,19 @@
 
 $exc-gap: 0.25rem;
 
-.trip-detail {
-  .trip-detail__row--stay-group {
+.trip-route {
+  .trip-route__row--stay-group {
     align-items: flex-start;
     padding-bottom: 0.875rem;
 
-    .trip-detail__track {
+    .trip-route__track {
       justify-content: flex-start;
       padding-top: 2.3125rem;
     }
   }
 
-  .trip-detail__row--stay-group:has(.trip-detail__stay-card:hover)
-    .trip-detail__stay-dot {
+  .trip-route__row--stay-group:has(.trip-route__stay-card:hover)
+    .trip-route__stay-dot {
     background: var(--dot-color);
     border-color: var(--dot-color);
     transform: scale(1.25);
@@ -229,8 +229,8 @@ $exc-gap: 0.25rem;
   }
 }
 
-.map-shell--dark {
-  .trip-detail {
+.spread--dark {
+  .trip-route {
     .stay-group__chain {
       background: v.$darkFill;
     }
@@ -274,8 +274,8 @@ $exc-gap: 0.25rem;
   }
 }
 
-.map-shell--light {
-  .trip-detail {
+.spread--light {
+  .trip-route {
     .stay-group__chain {
       background: v.$lightFill;
     }

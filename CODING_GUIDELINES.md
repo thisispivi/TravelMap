@@ -77,13 +77,15 @@ keep their generator's or upstream format — these rules don't apply to them.
 `apps/travel-map` is organized by **feature ownership** with explicit
 dependency direction:
 
-- `app` owns route composition, the persistent map shell, and global hosts.
-- `features` owns the UI and logic for gallery, map, navigation, places,
-  stats, timeline, and trips.
+- `app` owns route composition, the persistent spread, and global hosts.
+- `features` owns the UI and logic for atlas, gallery, map, navigation,
+  record, stats, and trips.
 - `shared` owns technical primitives and narrow cross-feature contracts.
 - Dependencies flow `app → features → shared`; `shared` never imports `app`
   or `features`, and one feature never imports another feature's internals.
-- The shell provides `MapInteractionContext` and `PanelContext` from
+  This is enforced by `no-restricted-imports`, so a feature that needs another
+  feature's component owns it or the component moves to `shared`.
+- The shell provides `MapInteractionContext` and `MarginContext` from
   `shared/context`. Features consume their hooks instead of importing app
   composition modules.
 - **Domain model lives outside the app**, in the `@travelmap/core` workspace
@@ -91,18 +93,17 @@ dependency direction:
   `Ferry`, `Flight`, `Color`), typings, a `schema/` module describing the raw
   JSON shapes, and `world/buildWorld.ts`, which is the single place that turns
   raw JSON into a linked object graph (see §9).
-- **Routing is a persistent shell, not per-route pages.**
-  `app/routing/router.tsx` defines a `createHashRouter` tree where most routes resolve to
-  `element: null` (`/trips`, `/trip/:tripId`, `/places`, `/places/:filter`) —
-  `MapShell` stays mounted for all of them and reads the matched path via
-  `app/routing/useAppLocation.ts` (a pathname classifier, not `useParams`) to
-  decide which panel to show over the map. Only genuinely separate views
-  (`Timeline`, `Stats`, `Gallery`, `Lightbox`) get a real routed `element`,
-  and those are lazy-loaded. **When adding a new panel that lives inside the
-  map shell, follow this pattern**: add the path with `element: null`, then
-  extend `useAppLocation.ts` and `MapShell` — don't give it its own
-  routed page component. When adding a genuinely standalone view, follow the
-  `Timeline`/`Stats` pattern (own lazy-loaded route element).
+- **Routing is a persistent spread, not per-route pages.**
+  `app/shell/Spread.tsx` is mounted for every route and lays out two tracks: a
+  reading margin bound to the leading edge and a full-bleed plate beside it.
+  Every route in `app/routing/router.tsx` renders a lazy element into the
+  margin through the shell's `Outlet`; what the plate shows is decided by the
+  classified route, not by a page component, which is what keeps the map and
+  the rose continuous across navigation. `app/routing/useAppLocation.ts` is
+  that classifier (a pathname reader, not `useParams`), and its result is
+  published as `AppRouteContext`. **When adding a route, give it a lazy
+  element and extend `useAppLocation.ts`** — do not add a second shell, and do
+  not let a route mount its own copy of the map.
 - **No client-server API.** There is no backend. All content is static JSON
   under `/data`, bundled at build time via `import.meta.glob` (see §9). `swr`
   is a dependency but is not currently used for remote data fetching in the
@@ -119,8 +120,13 @@ and imports always target concrete modules without barrels.
 
 ```
 apps/travel-map/src/
-  app/           Routing, persistent shell, and app-global hosts
+  app/           Routing, the persistent spread, and app-global hosts
   features/      User capabilities with owned components, loaders, and logic
+                 atlas   the arrival: the compass rose and its reading column
+                 record  the index, read as journeys or as places
+                 trips   one journey: its route timeline and derivations
+                 stats   the figures the record adds up to
+                 map, gallery, navigation
   shared/        Cross-feature components, contexts, hooks, and technical logic
   data/          world.ts loads JSON and calls buildWorld() exactly once
   i18n/          Translation setup and formatting functions
@@ -160,7 +166,7 @@ anywhere in the app today — keep it that way; import from the concrete file.
 | ------------------------------- | ---------------------------------------- | ----------------------------------- |
 | Primary component file & folder | `PascalCase`, folder = file name         | `Marker/Marker.tsx`                 |
 | Component stylesheet            | Same base name, `.scss`                  | `Marker/Marker.scss`                |
-| Component companion module      | `<Owner>.<lowercase-role>.ts`/`.tsx`     | `MapShell.context.ts`               |
+| Component companion module      | `<Owner>.<lowercase-role>.ts`/`.tsx`     | `Spread.state.ts`                   |
 | Hook file                       | `camelCase`, grouped by owner            | `shared/hooks/useResponsive.ts`     |
 | Domain-named library file       | `camelCase`, names the domain            | `features/trips/lib/trips.ts`       |
 | Domain class file (core)        | `PascalCase`, matches export             | `packages/core/src/classes/Trip.ts` |
@@ -173,12 +179,12 @@ anywhere in the app today — keep it that way; import from the concrete file.
 - `camelCase` for anything that exports functions/values (hooks, utils).
 - **Use dot-qualified filenames for modules owned by a primary component or
   concept.** Keep the owner name first and add one lowercase responsibility:
-  `MapShell.context.ts`, `MapShell.layout.tsx`, `MapShell.state.ts`,
-  `Gallery.loader.ts`, and `Trip.test.ts`. This keeps companion files adjacent
-  in directory listings and makes ownership visible without another folder.
-  The primary component remains `MapShell.tsx`, not `MapShell.component.tsx`.
-  A role suffix describes the whole module; do not stack roles such as
-  `MapShell.context.types.ts` or use vague roles such as `.helpers.ts`.
+  `Spread.state.ts`, `Gallery.loader.ts`, and `Trip.test.ts`. This keeps
+  companion files adjacent in directory listings and makes ownership visible
+  without another folder. The primary component remains `Spread.tsx`, not
+  `Spread.component.tsx`. A role suffix describes the whole module; do not
+  stack roles such as `Spread.state.types.ts` or use vague roles such as
+  `.helpers.ts`.
 - A standalone module that is not subordinate to an owner keeps its normal
   domain name (`trips.ts`, `useResponsive.ts`). Do not add a dot suffix merely
   to imitate the pattern.
@@ -193,7 +199,7 @@ anywhere in the app today — keep it that way; import from the concrete file.
   what's actually used (knip, the dead-code checker in `pnpm check`, works
   better against direct imports too).
 - Folders are singular when they represent one concept (`Marker/`) and plural
-  when they group a concern (`hooks/`, `atoms/`).
+  when they group a concern (`hooks/`, `components/`).
 
 ---
 
@@ -232,14 +238,15 @@ export function Marker({
   `prop = undefined`.
 - **Sub-components local to one organism** MUST live in the same file. Prefer
   putting them above the component that uses them (matches
-  `organisms/Map/MapLayers.tsx`, where `MapLabels` precedes `MapLayers`), but
-  a sub-component below the main one (as in
-  `organisms/TimelineTrack/TimelineTrack.tsx`) is a style nit, not a
-  correctness issue — fix it if you're already editing that file. Sub-
+  `features/map/components/Map/MapLayers.tsx`, where `MapLabels` precedes
+  `MapLayers`), but a sub-component below the main one (as in
+  `features/trips/components/TripTimeline/TripTimeline.tsx`) is a style nit,
+  not a correctness issue — fix it if you're already editing that file. Sub-
   components that are reused by more than one organism get their own file
-  (this is why `MapMarkers` and the tooltip now live in their own files,
-  `organisms/Map/MapMarkers.tsx` and `organisms/Tooltip/TooltipMap.tsx`,
-  instead of inside `Map.tsx`). Never define a component inside another
+  (this is why `MapMarkers` and the tooltip live in their own files,
+  `features/map/components/Map/MapMarkers.tsx` and
+  `features/map/components/MapTooltip/MapTooltip.tsx`, instead of inside
+  `Map.tsx`). Never define a component inside another
   component's render body — `react/no-unstable-nested-components` forbids it.
 - **Event handlers wired directly to a JSX/DOM event prop** (`onClick=
 {handleClick}`) MUST be named `handleX`. **Action functions** that
@@ -270,10 +277,8 @@ export function Marker({
 - **Icon-only actionable elements**: if it behaves like a button, make it a
   real `<button type="button">` wrapping the icon — that gets you focusability,
   keyboard activation, and a default accessible role for free, which is less
-  code than reimplementing them. `atoms/Buttons/CloseButton.tsx`,
-  `FloatingNav`'s logo, and `Gallery`'s play-icon overlay currently attach a
-  bare `onClick` to an SVG with no role, no `tabIndex`, and no keyboard
-  handler — none of them are reachable by keyboard. Fix by wrapping in
+  code than reimplementing them. Never attach a bare `onClick` to an SVG with
+  no role, no `tabIndex`, and no keyboard handler. Fix by wrapping in
   `<button>`, not by adding `role`/`tabIndex`/`onKeyDown` by hand. Reserve the
   `role="button"` + `tabIndex={0}` + `isActivationKey` pattern (§13) for
   elements that have a real reason not to be a `<button>` — e.g. `Marker` and
@@ -325,8 +330,8 @@ vs. rendering, or "used elsewhere" vs. "used here"), not by line count alone.
   ```
 
 - **The "latest ref" effect is an accepted idiom, not a lint dodge.** Several
-  components (`TripBrowser`, `PlacesBrowser`, `StatsGrid`, `Gallery`,
-  `TripDetail`) use a dependency-array-free
+  components (`Gallery`, and any surface that has to react to a resize it
+  cannot make a dependency) use a dependency-array-free
   `useEffect(() => { xRef.current = x; })` purely to keep a ref pointing at
   the latest value for a resize/measure callback that can't itself be an
   effect dependency. This is intentional — recognize it, don't "fix" it by
@@ -384,9 +389,11 @@ Choose the narrowest scope that works, in this order:
    just to skip one level of prop passing.
 3. **Context** — for state genuinely shared across a subtree with no single
    feature owner. `MapInteractionContext` coordinates map viewport, hover,
-   and selected trip; `PanelContext` owns route-panel visibility. Both are
-   defined under `shared/context`, provided once by `MapShell`, and consumed
-   through `useMapInteraction` or `usePanel`. Context hooks MUST throw a clear
+   the selected journey and the journey the reader is pointing at;
+   `MarginContext` owns whether the reading column is expanded;
+   `AppRouteContext` publishes the classified route. All are defined under
+   `shared/context`, provided once by `Spread`, and consumed through
+   `useMapInteraction`, `useMargin` or `useAppRoute`. Context hooks MUST throw a clear
    error outside their provider; consumers never import a raw context or use
    non-null assertions. Split a new contract by actual consumer set rather
    than adding unrelated fields to either existing value.
@@ -635,11 +642,11 @@ Vertical whitespace communicates structure and MUST be deterministic:
   and one-off controls:
 
   - One owning component or cohesive feature block per component stylesheet by
-    default. A `MapShell` stylesheet uses `.map-shell`; a `FallbackPage`
+    default. A `Spread` stylesheet uses `.spread`; a `FallbackPage`
     stylesheet uses `.fallback-page`.
   - Generic classes such as `.centered`, `.active`, `.dark`, `.loading`, or
     `.container` are forbidden in authored UI. Name the ownership explicitly,
-    such as `.map-shell__loading` or `.trip-card--active`.
+    such as `.spread__pending` or `.journey-row__link--focused`.
   - A modifier never replaces its base class in JSX. Render
     `class="trip-card trip-card--selected"`, not only
     `class="trip-card--selected"`.
@@ -685,21 +692,15 @@ Vertical whitespace communicates structure and MUST be deterministic:
   its own `transition-delay`.
 
 - **Theming is class-scoped**, not media-query-based: style under
-  `.map-shell--dark` and `.map-shell--light` modifiers, always provide both.
+  `.spread--dark` and `.spread--light` modifiers, always provide both.
 
   ```scss
-  .map-shell {
-    &--dark {
-      .map__canvas {
-        background: v.$darkGround;
-      }
-    }
+  .spread--dark .map-container {
+    background: v.$darkGround;
+  }
 
-    &--light {
-      .map__canvas {
-        background: v.$lightGround;
-      }
-    }
+  .spread--light .map-container {
+    background: v.$lightGround;
   }
   ```
 
@@ -729,14 +730,26 @@ Vertical whitespace communicates structure and MUST be deterministic:
   through `$displayLg`; motion is `$motionState` for interaction feedback and
   `$motionSurface` for a surface entering or leaving. Reaching for a value
   between two steps means the composition wants rethinking, not a new token.
-- **Three surface tiers, and only one of them blurs.** `chrome-dark/light` is
-  for surfaces that genuinely float over the moving map (the navigation, the
-  map tooltip); `sheet-dark/light` is the opaque panel laid on the map;
-  content inside a sheet gets no surface of its own. Glass inside glass is
-  what this rule exists to prevent.
+- **Three surface tiers, and only one of them blurs.** `margin-*` is the
+  reading column, bound to the viewport edge with a single seam and no radius
+  or shadow of its own; `sheet-*` is a surface that takes over the whole spread
+  (the gallery); `chrome-*` is reserved for the few controls that genuinely
+  float over the moving plate (the map tooltip, the masthead once it lifts out
+  of the column on the stacked layout). Content inside a surface gets no
+  surface of its own. Glass inside glass is what this rule exists to prevent.
 - **`rule-tick()` is the recurring separator.** A hairline with a short
   pin-colored tick at its start marks a section, the way the route rail marks
   a stop. Prefer it over wrapping content in another container.
+- **`bearing-tick()` is the recurring mark.** A short stroke rotated to a
+  journey's real bearing, driven by a `--bearing` custom property. It is the
+  one ornament in the interface that is also data, which is the only reason it
+  is allowed to repeat down a whole column. Never rotate it to an arbitrary
+  angle for visual interest.
+- **Corner radius is a closed decision.** The margin, the plate and the
+  gallery are square. Photographic plates and small surfaces take
+  `$radiusControl` or `$radiusSurface`. Only genuinely pill-shaped controls
+  take `$radiusPill`. A reading is never given a chip: transport counts,
+  bearings and distances sit on the ground they are printed on.
 - **One accent.** `$pin` comes from the logo mark and marks the current thing:
   the active tab, the active filter, the selected marker, the current stop. It
   is not a decorative color, and a second accent hue does not get introduced
@@ -773,16 +786,14 @@ Not optional. The existing markers show the baseline:
   panels like `FilterByCountry`): give the overlay `role="dialog"`/
   `aria-modal="true"` when it takes over the screen, support `Escape` to
   close (`FilterByCountry` already does), and return focus to the trigger
-  element on close. The map tooltip (`Map.tsx`/`TooltipMap.tsx`) currently has
-  no `Escape` handling — add it when next touching that file.
+  element on close. The map tooltip closes on `Escape` from `Map.tsx`; keep any
+  new overlay doing the same.
 - **Image alt text**: use the photo's actual `alt` data when present
-  (`Gallery.tsx` does this — `photo.alt ?? ""`); don't hardcode `alt=""`
-  unconditionally the way `Lightbox.tsx` currently does — that silently
-  discards real alt text the data provides.
-- Don't leave a folder like `atoms/BottomSheet/` half-built with an unused
-  mixin (`bottom-sheet()` in `_mixins.scss`) and no component — either finish
-  it or delete it; dead a11y-relevant scaffolding is worse than no
-  scaffolding because it looks implemented.
+  (`Gallery.tsx` and `Lightbox.tsx` both do this — `photo.alt ?? ""`); never
+  hardcode `alt=""` where the data provides real alt text.
+- Don't leave a11y-relevant scaffolding half-built: a mixin with no component,
+  or a `role` with no keyboard handler. Either finish it or delete it, because
+  dead scaffolding is worse than none — it looks implemented.
 
 ---
 
@@ -955,8 +966,7 @@ Spacing rules (enforced by `eslint-plugin-jsdoc` and this repo's custom
 **A JSDoc block MUST describe what the thing actually does, not restate its
 name with a period.** Lint checks structure, not content — it will happily
 pass `/** Schedules . @returns {void} */` or `/** Check overflow. @returns
-{void} */` (both exist in the current codebase, in `TripBrowser.tsx` and
-`Gallery.tsx`). Treat a JSDoc block a reader couldn't use to understand the
+{void} */`. Treat a JSDoc block a reader couldn't use to understand the
 function without also reading its body as incomplete, the same as a missing
 one — this directly contradicts §2's "say why, not what," and passing lint
 doesn't mean the comment did its job.
@@ -1040,11 +1050,6 @@ already in the file; none of them justify a standalone rewrite pass (see
 - **Business/algorithmic logic inside a rendering file.**
   Feature components should not absorb calculations that belong in their
   feature `lib/`, `shared/lib/`, or a domain-class method (§6).
-- **Duplicated imperative measurement logic.** `TripBrowser.tsx` and
-  `PlacesBrowser.tsx` each hand-roll a near-identical
-  ResizeObserver+`requestAnimationFrame` panel-height measurement. This is a
-  concrete case for a shared hook (e.g. `useMeasuredHeight`) — a real,
-  observed duplication, not a speculative one.
 - **Misplaced imports.** `packages/core/src/classes/Trip.ts` has two `import`
   statements after the class body (valid JS via hoisting, but violates
   `simple-import-sort/imports` and this doc's import-ordering rule) — move
@@ -1052,16 +1057,21 @@ already in the file; none of them justify a standalone rewrite pass (see
 - **A container component that only adds a class.** `Card`, `Box`, `Container`
   and `Row` were exactly this and are gone; do not reintroduce a wrapper whose
   whole body is `<div className={...}>{children}</div>` (§6).
+- **Measuring a panel in JavaScript to lay it out.** `TripBrowser` and
+  `PlacesBrowser` each hand-rolled a ResizeObserver and a
+  `requestAnimationFrame` pass to compute their own height, because they were
+  floating sheets that had to fit their content. The margin is a grid track, so
+  that whole class of code is gone: if a new surface wants to measure itself to
+  decide how tall it is, the layout is wrong, not the measurement.
 - **A second visual language alongside the token scales.** A raw hex, a fourth
   radius, an off-scale font size, or a bespoke blur in a component stylesheet
   (§12).
-- **Inconsistent `alt` text handling.** `Lightbox.tsx` hardcodes `alt=""`
-  where `Gallery.tsx` correctly uses the data's `alt` (§13).
-- **Placeholder JSDoc that satisfies lint but says nothing.**
-  `TripBrowser.tsx`, `TripDetail.tsx`, `Gallery.tsx` each have at least one
+- **Placeholder JSDoc that satisfies lint but says nothing.** A block a reader
+  could not use without also reading the body is as incomplete as a missing one
   (§17).
 - **A kitchen-sink context.** Do not recombine the narrow
-  `MapInteractionContext` and `PanelContext` contracts into one shell context.
+  `MapInteractionContext`, `MarginContext` and `AppRouteContext` contracts
+  into one shell context.
 - **Stale documentation paths.** `CLAUDE.md`, `AGENTS.md`, and
   `.github/copilot-instructions.md` referred to a `travel-map/` directory that
   no longer exists (the real path is `apps/travel-map/`) and didn't mention
@@ -1164,21 +1174,15 @@ behavior change):
 
 - Move the two misplaced imports in `packages/core/src/classes/Trip.ts` to
   the top of the file.
-- Rewrite the placeholder JSDoc blocks in `TripBrowser.tsx`, `TripDetail.tsx`,
-  and `Gallery.tsx` to actually describe what those functions do.
-- Fix `Lightbox.tsx`'s hardcoded `alt=""` to use the photo's real `alt` data,
-  matching `Gallery.tsx`.
 
 **Medium-size refactors** (worth a dedicated, reviewable PR each):
 
 - Keep trip-detail timeline calculations in
   `features/trips/lib/tripDetailTimeline.ts`, leaving `TripTimeline.tsx` as
   rendering only.
-- Move `TripDetail.tsx`'s `computeTripStats` into a method on `Trip`
-  (`packages/core`), and have the component call it instead of re-deriving
-  the numbers locally.
-- Factor `TripBrowser.tsx`'s and `PlacesBrowser.tsx`'s duplicated
-  ResizeObserver+rAF measurement into one shared hook.
+- Move `tripDetailTimeline.ts`'s `computeTripStats` onto `Trip`
+  (`packages/core`), the way `getFurthestDestinationFrom` already is, and have
+  `JourneyView` call it instead of deriving the numbers beside the render.
 - Give `TripTimelineStayGroup.tsx` the same treatment `TripTimeline.tsx` got:
   it is still one 400-line component holding several distinct row layouts.
 

@@ -1,4 +1,4 @@
-import { Continent } from "@travelmap/core";
+import { Continent, getTotalDistance } from "@travelmap/core";
 
 import {
   takenFerries,
@@ -17,11 +17,7 @@ import { getCityTravels } from "@/shared/lib/travelQueries";
 import { getTotalMediaTaken } from "./cities";
 import { getContinentsByCities, getContinentStats } from "./continents";
 import { getCurrencyCountries } from "./countries";
-import {
-  getFurthestAndNearestCity,
-  getMinAndMaxTransport,
-  getTotalMileage,
-} from "./distance";
+import { getFurthestAndNearestCity, getMinAndMaxTransport } from "./distance";
 import {
   getCountryVisitStats,
   getFerryCompanyStats,
@@ -59,7 +55,7 @@ function computeStats() {
   const ferryData = getMinAndMaxTransport(takenFerries);
   const minFerry = ferryData?.min;
   const maxFerry = ferryData?.max;
-  const totalMileage = getTotalMileage(takenFlights, takenFerries);
+  const totalMileage = getTotalDistance(takenFlights, takenFerries);
   const totalMileageAroundEarth = (
     Number(totalMileage) / EARTH_CIRCUMFERENCE
   ).toFixed(2);

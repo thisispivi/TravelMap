@@ -1,11 +1,12 @@
 @use "../../../../styles/variables" as v;
 @use "../../../../styles/mixins" as m;
 
+/* The map fills its plate track rather than the viewport: nothing overlaps it
+   any more, so it has no reason to be measured against the window. */
 .map-container {
-  position: relative;
+  position: absolute;
+  inset: 0;
   z-index: 0;
-  width: 100vw;
-  height: 100vh;
   overflow: hidden;
 
   .maplibregl-map {
@@ -36,7 +37,7 @@
   .map-zoom-controls {
     position: absolute;
     right: v.$space4;
-    bottom: v.$space6;
+    bottom: v.$space4;
     z-index: 3;
     display: flex;
     flex-direction: column;
@@ -62,7 +63,7 @@
   }
 }
 
-.map-shell--dark .map-container {
+.spread--dark .map-container {
   background: v.$darkGround;
 
   .map-container__loading {
@@ -79,7 +80,7 @@
   }
 }
 
-.map-shell--light .map-container {
+.spread--light .map-container {
   background: v.$lightGround;
 
   .map-container__loading {
@@ -96,7 +97,9 @@
   }
 }
 
-@media screen and (max-width: 42.5rem) {
+/* On the stacked layout the plate is a band the reader looks at rather than
+   drives, so the zoom controls make way for the record beneath it. */
+@media screen and (max-width: v.$breakpointBound) {
   .map-container .map-zoom-controls {
     display: none;
   }

@@ -75,7 +75,7 @@
   font-weight: 700;
 }
 
-.map-shell--dark,
+.spread--dark,
 body.body--dark {
   .language-selector__panel {
     @include m.chrome-dark();
@@ -96,7 +96,7 @@ body.body--dark {
   }
 }
 
-.map-shell--light,
+.spread--light,
 body.body--light {
   .language-selector__panel {
     @include m.chrome-light();

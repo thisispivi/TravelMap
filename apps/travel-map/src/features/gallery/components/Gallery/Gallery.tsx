@@ -18,6 +18,7 @@ import { CloseButton } from "@/shared/components/CloseButton/CloseButton";
 import { CountryFlag } from "@/shared/components/CountryFlag/CountryFlag";
 import { useAppRoute } from "@/shared/context/AppRoute.context";
 import { useLanguage } from "@/shared/hooks/useLanguage";
+import { formatCoordinates } from "@/shared/lib/format";
 import { parameters } from "@/shared/lib/parameters";
 import {
   getCityPhotoTravels,
@@ -112,11 +113,16 @@ export function Gallery(): ReactNode {
   return (
     <div className="gallery">
       <div className="gallery__header">
-        <h2>{city.getLocalizedName(currLanguage)}</h2>
         <CountryFlag
           className="gallery__header__flag"
           countryId={city.country.id}
         />
+        <div className="gallery__header__place">
+          <h2>{city.getLocalizedName(currLanguage)}</h2>
+          <p className="gallery__header__coordinates figure">
+            {formatCoordinates(city.coordinates)}
+          </p>
+        </div>
         <TravelSelector
           cityName={city.name}
           navigationState={navigationState}
@@ -149,16 +155,9 @@ export function Gallery(): ReactNode {
                     className={`${props.className ?? ""}`}
                   />
                   {photo.youtube ? (
-                    <button
-                      aria-label={t("playVideo")}
-                      className="gallery__content__image__play"
-                      onClick={() =>
-                        navigate(`./${photo.index}`, { state: navigationState })
-                      }
-                      type="button"
-                    >
+                    <span aria-hidden className="gallery__content__image__play">
                       <PlayIcon />
-                    </button>
+                    </span>
                   ) : null}
                 </div>
               ),

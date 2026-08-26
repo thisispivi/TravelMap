@@ -39,7 +39,7 @@ export function TripTimeline({
 }: TripTimelineProps): ReactNode {
   const segments = buildDisplaySegments(items);
   return (
-    <div className="trip-detail__timeline">
+    <div className="trip-route">
       {segments.map((seg, idx) => {
         const animDelay = 0.08 + idx * 0.03;
         if (seg.type === "origin" || seg.type === "return") {

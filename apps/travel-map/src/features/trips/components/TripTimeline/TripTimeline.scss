@@ -1,23 +1,22 @@
 @use "../../../../styles/variables" as v;
 
 /* The route rail. Every row hangs off one continuous hairline with a node on
-   it, which is the same graticule device the panels use, turned vertical. */
-.trip-detail {
+   it, which is the same graticule device the record uses, turned vertical. The
+   block belongs to the timeline that draws it, so it stays styled wherever it
+   is rendered rather than depending on whichever surface encloses it. */
+.trip-route {
   --tl-rail-width: 1.75rem;
   --tl-gap: #{v.$space2};
+  display: flex;
+  flex-direction: column;
 
-  .trip-detail__timeline {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .trip-detail__row {
+  .trip-route__row {
     display: flex;
     align-items: flex-start;
     gap: var(--tl-gap);
   }
 
-  .trip-detail__track {
+  .trip-route__track {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -38,29 +37,29 @@
     }
   }
 
-  .trip-detail__row:first-child .trip-detail__track::before {
+  .trip-route__row:first-child .trip-route__track::before {
     top: 50%;
   }
 
-  .trip-detail__row:last-child .trip-detail__track::before {
+  .trip-route__row:last-child .trip-route__track::before {
     bottom: 50%;
   }
 }
 
-.map-shell--dark .trip-detail {
+.spread--dark .trip-route {
   --dot-default-bg: #{v.$darkFill};
   --dot-default-border: #{v.$darkRuleStrong};
 
-  .trip-detail__track::before {
+  .trip-route__track::before {
     background: v.$darkRule;
   }
 }
 
-.map-shell--light .trip-detail {
+.spread--light .trip-route {
   --dot-default-bg: #{v.$lightFill};
   --dot-default-border: #{v.$lightRuleStrong};
 
-  .trip-detail__track::before {
+  .trip-route__track::before {
     background: v.$lightRule;
   }
 }

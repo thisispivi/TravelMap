@@ -1,0 +1,88 @@
+@use "../../styles/variables" as v;
+@use "../../styles/mixins" as m;
+
+/* The handle is anchored to the plate's own leading edge, which is the seam
+   wherever the two surfaces happen to meet. That keeps it correct at every
+   width and when the margin it controls is folded away to nothing, without
+   restating the column's width anywhere. */
+.margin-handle {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 1.125rem;
+  height: 3.5rem;
+  padding: 0;
+  border: none;
+  border-radius: 0 v.$radiusControl v.$radiusControl 0;
+  cursor: pointer;
+  transform: translateY(-50%);
+  @include m.transition(background-color color);
+
+  &:focus-visible {
+    @include m.focus-ring();
+  }
+
+  &__chevron {
+    width: 0.625rem;
+    height: auto;
+    transform: rotate(90deg);
+    @include m.transition(transform);
+  }
+
+  &--folded &__chevron {
+    transform: rotate(-90deg);
+  }
+}
+
+.spread--dark .margin-handle {
+  background: v.$darkSheetRaised;
+  border: v.$seam solid v.$darkRule;
+  border-left: none;
+  color: v.$darkInkMuted;
+
+  @include m.hover() {
+    color: v.$darkInk;
+  }
+}
+
+.spread--light .margin-handle {
+  background: v.$lightSheetRaised;
+  border: v.$seam solid v.$lightRule;
+  border-left: none;
+  color: v.$lightInkMuted;
+
+  @include m.hover() {
+    color: v.$lightInk;
+  }
+}
+
+/* Stacked, the seam runs along the bottom of the plate instead of its side. */
+@media screen and (max-width: v.$breakpointBound) {
+  .margin-handle {
+    top: auto;
+    bottom: 0;
+    left: 50%;
+    width: 3.5rem;
+    height: 1.125rem;
+    border-radius: v.$radiusControl v.$radiusControl 0 0;
+    transform: translateX(-50%);
+  }
+
+  .margin-handle__chevron {
+    transform: rotate(180deg);
+  }
+
+  .margin-handle--folded .margin-handle__chevron {
+    transform: rotate(0deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .margin-handle,
+  .margin-handle__chevron {
+    transition: none;
+  }
+}

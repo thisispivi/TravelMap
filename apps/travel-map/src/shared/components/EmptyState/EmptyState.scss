@@ -14,12 +14,12 @@
   align-self: start;
 }
 
-.map-shell--dark .empty-state {
+.spread--dark .empty-state {
   @include m.rule-tick(v.$darkRule);
   color: v.$darkInkMuted;
 }
 
-.map-shell--light .empty-state {
+.spread--light .empty-state {
   @include m.rule-tick(v.$lightRule);
   color: v.$lightInkMuted;
 }

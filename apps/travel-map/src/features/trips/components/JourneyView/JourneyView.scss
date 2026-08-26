@@ -1,0 +1,277 @@
+@use "../../../../styles/variables" as v;
+@use "../../../../styles/mixins" as m;
+
+.journey {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: v.$space6;
+
+  &--empty {
+    padding: v.$space5 v.$marginPad;
+  }
+
+  &__back {
+    display: inline-flex;
+    align-self: flex-start;
+    align-items: center;
+    gap: v.$space1;
+    padding: v.$space4 v.$marginPad v.$space3;
+    font-size: v.$caption;
+    font-weight: 600;
+    text-decoration: none;
+    @include m.transition(color);
+
+    &:focus-visible {
+      @include m.focus-ring();
+    }
+  }
+
+  &__back-chevron {
+    width: 0.75rem;
+    height: auto;
+    transform: rotate(90deg);
+  }
+
+  &__head {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* The plate runs to both edges of the column: it is the journey's own image,
+     not a thumbnail set inside a card. */
+  &__plate {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+  }
+
+  &__plate-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__identity {
+    display: flex;
+    flex-direction: column;
+    gap: v.$space2;
+    padding: v.$space4 v.$marginPad v.$space3;
+  }
+
+  &__flags {
+    display: flex;
+    align-items: center;
+    gap: v.$space1;
+  }
+
+  &__flag {
+    width: 1.125rem;
+    height: auto;
+    border-radius: 0.125rem;
+  }
+
+  &__title {
+    font-size: v.$displaySm;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  &__dates {
+    font-size: v.$caption;
+    font-weight: 400;
+  }
+
+  /* The one line that ties this journey back to the rose: which way out, and
+     how far. The tick carries the same angle the index row did. */
+  &__reckoning {
+    display: grid;
+    grid-template-columns: 1.25rem minmax(0, 1fr);
+    align-items: center;
+    gap: v.$space3;
+    margin-inline: v.$marginPad;
+    padding-block: v.$space3;
+  }
+
+  &__reckoning-tick {
+    position: relative;
+    width: 1.25rem;
+    height: 1.25rem;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0.0625rem;
+      height: 0.625rem;
+      background: v.$pin;
+      transform-origin: bottom center;
+      transform: translate(-50%, -100%);
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: calc(50% - 0.09375rem);
+      left: calc(50% - 0.09375rem);
+      width: 0.1875rem;
+      height: 0.1875rem;
+      border-radius: 50%;
+      background: v.$pin;
+    }
+  }
+
+  &__reckoning-text {
+    font-size: v.$caption;
+    line-height: 1.4;
+  }
+
+  &__reckoning-reading {
+    grid-column: 2;
+    font-size: v.$caption;
+  }
+
+  &__figures {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(4.5rem, 1fr));
+    gap: v.$space3;
+    margin-inline: v.$marginPad;
+    padding-block: v.$space4;
+  }
+
+  &__figure {
+    display: flex;
+    flex-direction: column;
+    gap: v.$space1;
+    min-width: 0;
+  }
+
+  &__figure-label {
+    font-size: v.$micro;
+    font-weight: 600;
+  }
+
+  &__figure-value {
+    font-size: v.$headingMd;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+  }
+
+  &__modes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: v.$space4;
+    margin-inline: v.$marginPad;
+    padding-bottom: v.$space4;
+    list-style: none;
+  }
+
+  &__mode {
+    display: flex;
+    align-items: center;
+    gap: v.$space1;
+    font-size: v.$caption;
+  }
+
+  &__mode-icon {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+
+  &__route {
+    display: flex;
+    flex-direction: column;
+    gap: v.$space3;
+    margin-inline: v.$marginPad;
+    padding-top: v.$space4;
+  }
+}
+
+.spread--dark .journey {
+  .journey__back,
+  .journey__dates,
+  .journey__figure-label,
+  .journey__reckoning-text,
+  .journey__route-label {
+    color: v.$darkInkMuted;
+  }
+
+  .journey__back {
+    @include m.hover() {
+      color: v.$darkInk;
+    }
+  }
+
+  .journey__reckoning {
+    @include m.rule-tick(v.$darkRule);
+  }
+
+  .journey__reckoning-reading {
+    color: v.$pinOnDark;
+  }
+
+  .journey__figures,
+  .journey__route {
+    border-top: v.$seam solid v.$darkRule;
+  }
+
+  .journey__mode {
+    color: v.$darkInkMuted;
+  }
+}
+
+.spread--light .journey {
+  .journey__back,
+  .journey__dates,
+  .journey__figure-label,
+  .journey__reckoning-text,
+  .journey__route-label {
+    color: v.$lightInkMuted;
+  }
+
+  .journey__back {
+    @include m.hover() {
+      color: v.$lightInk;
+    }
+  }
+
+  .journey__reckoning {
+    @include m.rule-tick(v.$lightRule);
+  }
+
+  .journey__reckoning-reading {
+    color: v.$pinOnLight;
+  }
+
+  .journey__figures,
+  .journey__route {
+    border-top: v.$seam solid v.$lightRule;
+  }
+
+  .journey__mode {
+    color: v.$lightInkMuted;
+  }
+}
+
+@media screen and (max-width: v.$breakpointBound) {
+  .journey {
+    &__back,
+    &__identity {
+      padding-inline: v.$space4;
+    }
+
+    &__reckoning,
+    &__figures,
+    &__modes,
+    &__route {
+      margin-inline: v.$space4;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .journey__back {
+    transition: none;
+  }
+}

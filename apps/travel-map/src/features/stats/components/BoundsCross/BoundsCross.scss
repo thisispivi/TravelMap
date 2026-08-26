@@ -1,0 +1,128 @@
+@use "../../../../styles/variables" as v;
+
+/* Each bound is placed where it points: north at the top, west on the left.
+   The arrangement is the information, so it survives down to one column only
+   by falling back to reading order, never by rearranging the directions. */
+.bounds-cross {
+  position: relative;
+  display: grid;
+  grid-template-areas:
+    ". north ."
+    "west . east"
+    ". south .";
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  justify-items: center;
+  gap: v.$space5 v.$space4;
+  padding: v.$space5 0;
+
+  &__bound {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.125rem;
+    text-align: center;
+
+    &--north {
+      grid-area: north;
+    }
+
+    &--east {
+      grid-area: east;
+    }
+
+    &--south {
+      grid-area: south;
+    }
+
+    &--west {
+      grid-area: west;
+    }
+  }
+
+  &__direction {
+    font-size: v.$micro;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  &__city {
+    font-size: v.$headingMd;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  &__degrees {
+    font-size: v.$caption;
+  }
+
+  /* The crosshair marks the centre the four bounds are measured around. */
+  &__axis {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 1.5rem;
+    height: 1.5rem;
+    transform: translate(-50%, -50%);
+
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      background: v.$pin;
+    }
+
+    &::before {
+      top: 50%;
+      left: 0;
+      width: 100%;
+      height: 0.0625rem;
+    }
+
+    &::after {
+      top: 0;
+      left: 50%;
+      width: 0.0625rem;
+      height: 100%;
+    }
+  }
+}
+
+.spread--dark .bounds-cross {
+  .bounds-cross__direction,
+  .bounds-cross__degrees {
+    color: v.$darkInkFaint;
+  }
+
+  .bounds-cross__city {
+    color: v.$darkInk;
+  }
+}
+
+.spread--light .bounds-cross {
+  .bounds-cross__direction,
+  .bounds-cross__degrees {
+    color: v.$lightInkFaint;
+  }
+
+  .bounds-cross__city {
+    color: v.$lightInk;
+  }
+}
+
+@media screen and (max-width: 30rem) {
+  .bounds-cross {
+    grid-template-areas:
+      "north"
+      "east"
+      "south"
+      "west";
+    grid-template-columns: 1fr;
+    gap: v.$space4;
+
+    &__axis {
+      display: none;
+    }
+  }
+}

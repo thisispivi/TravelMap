@@ -1,15 +1,15 @@
 @use "../../../../styles/variables" as v;
 
-.trip-detail {
-  .trip-detail__row--origin {
+.trip-route {
+  .trip-route__row--origin {
     padding: v.$space1 0;
 
-    .trip-detail__track {
+    .trip-route__track {
       justify-content: center;
     }
   }
 
-  .trip-detail__origin-dot {
+  .trip-route__origin-dot {
     width: 0.625rem;
     height: 0.625rem;
     border-radius: 50%;
@@ -20,37 +20,37 @@
     flex-shrink: 0;
   }
 
-  .trip-detail__origin-label {
+  .trip-route__origin-label {
     display: flex;
     align-items: center;
     gap: 0.375rem;
     padding: 0.1875rem 0;
   }
 
-  .trip-detail__origin-name {
+  .trip-route__origin-name {
     font-size: v.$bodySm;
     font-weight: 500;
     white-space: nowrap;
   }
 
-  .trip-detail__origin-flag {
+  .trip-route__origin-flag {
     width: 0.9375rem;
     height: 0.9375rem;
     flex-shrink: 0;
   }
 }
 
-.map-shell--dark {
-  .trip-detail {
-    .trip-detail__origin-name {
+.spread--dark {
+  .trip-route {
+    .trip-route__origin-name {
       color: v.$darkInkMuted;
     }
   }
 }
 
-.map-shell--light {
-  .trip-detail {
-    .trip-detail__origin-name {
+.spread--light {
+  .trip-route {
+    .trip-route__origin-name {
       color: v.$lightInkMuted;
     }
   }

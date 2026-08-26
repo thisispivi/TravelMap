@@ -135,21 +135,14 @@
     }
   },
   "nav": {
-    "trips": "Viaggi",
-    "places": "Luoghi",
-    "timeline": "Cronologia",
-    "stats": "Statistiche"
-  },
-  "timeline": {
-    "title": "Cronologia",
-    "empty": "Nessun dato di cronologia ancora.",
-    "city_one": "{{count}} città",
-    "city_other": "{{count}} città"
+    "atlas": "Rosa",
+    "record": "Archivio",
+    "figures": "Numeri"
   },
   "tripDetail": {
     "route": "Percorso",
-    "days": "giorni",
-    "day": "giorno",
+    "days": "Giorni",
+    "day": "Giorno",
     "via": "via",
     "night": "notte",
     "nights": "notti",
@@ -165,12 +158,44 @@
     "drives": "tratti in auto",
     "taxi": "taxi",
     "taxis": "taxi",
-    "timeZone": "fuso orario",
-    "timeZones": "fusi orari",
+    "timeZone": "Fuso orario",
+    "timeZones": "Fusi orari",
     "dayTrip": "Gita",
-    "viewMap": "Vedi mappa",
-    "backToTrip": "Torna al viaggio",
     "stops": "Tappe",
-    "distance": "km"
+    "travelled": "Percorsi"
+  },
+  "spread": {
+    "foldMargin": "Richiudi la colonna",
+    "showMargin": "Mostra la colonna"
+  },
+  "atlas": {
+    "fallbackName": "Travel Map",
+    "empty": "Ancora nulla nell'archivio.",
+    "roseTitle": "Ogni viaggio tracciato per direzione e distanza da {{place}}",
+    "origin": "Ogni misura parte da qui",
+    "latest": "Ultimi",
+    "openRecord": "Apri l'archivio",
+    "statement": " viaggi da {{place}} e ritorno"
+  },
+  "record": {
+    "journeys": "Viaggi",
+    "places": "Luoghi",
+    "when": "Per data",
+    "where": "Per direzione",
+    "far": "Per distanza"
+  },
+  "journey": {
+    "unknown": "Questo viaggio non è nell'archivio.",
+    "outbound": "Da {{origin}}, punto più lontano {{furthest}}"
+  },
+  "figures": {
+    "comparison": "{{earth}}× intorno alla Terra, {{moon}}× la distanza dalla Luna.",
+    "bounds": {
+      "title": "Estremi",
+      "north": "Più a nord",
+      "east": "Più a est",
+      "south": "Più a sud",
+      "west": "Più a ovest"
+    }
   }
 }

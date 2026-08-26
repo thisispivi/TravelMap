@@ -2,7 +2,7 @@ import { City, Trip } from "@travelmap/core";
 import { createContext, use } from "react";
 
 /**
- * Geographic viewport shared between panels and the map.
+ * Geographic viewport shared between the margin and the plate.
  * @property {[number, number]} center - Longitude and latitude
  * @property {number} zoom - Application-level zoom
  */
@@ -19,6 +19,8 @@ export interface MapPosition {
  * @property {(position: MapPosition) => void} setMapPosition - Updates the requested viewport
  * @property {Trip | null} selectedTrip - The trip coordinated with the active route
  * @property {(trip: Trip | null) => void} setSelectedTrip - Updates the selected trip
+ * @property {Trip | null} focusedTrip - The journey the reader is pointing at in the record
+ * @property {(trip: Trip | null) => void} setFocusedTrip - Updates the pointed-at journey
  */
 export interface MapInteractionContextValue {
   hoveredCity: City | null;
@@ -27,9 +29,11 @@ export interface MapInteractionContextValue {
   setMapPosition: (position: MapPosition) => void;
   selectedTrip: Trip | null;
   setSelectedTrip: (trip: Trip | null) => void;
+  focusedTrip: Trip | null;
+  setFocusedTrip: (trip: Trip | null) => void;
 }
 
-/** Cross-feature map interaction context provided by the map shell. */
+/** Cross-feature map interaction context provided by the application shell. */
 export const MapInteractionContext =
   createContext<MapInteractionContextValue | null>(null);
 

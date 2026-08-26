@@ -9,57 +9,39 @@ export const MAPLIBRE_MAX_ZOOM = 12;
 export const SINGLE_DESTINATION_ZOOM = 6.5;
 export const WORLD_CENTER: [number, number] = [0, 0];
 
-const SIDE_PANEL_BREAKPOINT_PX = 680;
-const SIDE_PANEL_CLEARANCE_PX = 432;
-const NAV_CLEARANCE_PX = 88;
-const ZOOM_CONTROLS_CLEARANCE_PX = 64;
-const MAP_EDGE_PADDING_PX = 24;
+const MAP_EDGE_PADDING_PX = 32;
 const HOME_COUNTRY_ID = parameters.homeCity?.country.id ?? null;
 
 /**
- * Calculates camera padding around the desktop side panel or mobile overlay.
- * @param {number} viewportWidth - The current map canvas width in pixels
- * @param {boolean} isPanelOpen - Whether a content panel is visible
+ * Even padding for camera transitions. The plate is its own layout track now,
+ * so nothing overlaps the map and the camera no longer has to be nudged clear
+ * of a floating panel.
  * @returns {PaddingOptions} The padding for MapLibre camera transitions
  */
-export function getCameraPadding(
-  viewportWidth: number,
-  isPanelOpen: boolean,
-): PaddingOptions {
-  const hasSidePanel = viewportWidth >= SIDE_PANEL_BREAKPOINT_PX && isPanelOpen;
-
-  if (!hasSidePanel) {
-    return {
-      top: MAP_EDGE_PADDING_PX,
-      right: MAP_EDGE_PADDING_PX,
-      bottom: MAP_EDGE_PADDING_PX,
-      left: MAP_EDGE_PADDING_PX,
-    };
-  }
-
+export function getCameraPadding(): PaddingOptions {
   return {
-    top: NAV_CLEARANCE_PX,
+    top: MAP_EDGE_PADDING_PX,
     right: MAP_EDGE_PADDING_PX,
-    bottom: ZOOM_CONTROLS_CLEARANCE_PX,
-    left: SIDE_PANEL_CLEARANCE_PX,
+    bottom: MAP_EDGE_PADDING_PX,
+    left: MAP_EDGE_PADDING_PX,
   };
 }
 
 /**
- * Calculates a temporary camera offset that keeps a target clear of the panel
- * without retaining asymmetric padding on later user-controlled camera moves.
- * @param {number} viewportWidth - The current map canvas width in pixels
- * @param {boolean} isPanelOpen - Whether a content panel is visible
- * @returns {[number, number]} The horizontal and vertical target offset
+ * Finds bounds around every place in the record, so returning from a single
+ * journey reframes the whole thing rather than leaving the camera wherever that
+ * journey happened to end.
+ * @param {City[]} cities - Every place the record knows about
+ * @returns {LngLatBounds | null} Bounds around them, if there are any
  */
-export function getCameraOffset(
-  viewportWidth: number,
-  isPanelOpen: boolean,
-): [number, number] {
-  const padding = getCameraPadding(viewportWidth, isPanelOpen);
-  const { bottom = 0, left = 0, right = 0, top = 0 } = padding;
+export function getRecordBounds(cities: City[]): LngLatBounds | null {
+  const first = cities[0];
+  if (!first) return null;
 
-  return [(left - right) / 2, (top - bottom) / 2];
+  return cities.reduce(
+    (bounds, city) => bounds.extend(city.coordinates),
+    new LngLatBounds(first.coordinates, first.coordinates),
+  );
 }
 
 /**

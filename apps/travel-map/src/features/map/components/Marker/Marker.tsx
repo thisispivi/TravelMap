@@ -10,7 +10,7 @@ import { isActivationKey } from "@/shared/lib/keyboard";
 /**
  * The visual state used to render a map marker.
  */
-export type MarkerVariant = "visited" | "future" | "lived" | "layover";
+export type MarkerVariant = "visited" | "future" | "lived" | "layover" | "home";
 
 /**
  * Properties accepted by the Marker component.
@@ -51,7 +51,7 @@ export function Marker({
 
   return (
     <MapLibreMarker
-      anchor="bottom"
+      anchor={variant === "home" ? "center" : "bottom"}
       latitude={city.coordinates[1]}
       longitude={city.coordinates[0]}
       onClick={(event) => {

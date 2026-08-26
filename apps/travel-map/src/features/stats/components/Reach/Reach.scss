@@ -1,0 +1,115 @@
+@use "../../../../styles/variables" as v;
+
+.reach {
+  display: flex;
+  flex-direction: column;
+  gap: v.$space2;
+
+  &__label {
+    font-size: v.$bodySm;
+    font-weight: 600;
+  }
+
+  &__total {
+    display: flex;
+    align-items: baseline;
+    gap: v.$space2;
+    font-size: v.$displayLg;
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  &__unit {
+    font-size: v.$displaySm;
+    font-weight: 300;
+  }
+
+  &__comparison {
+    font-size: v.$bodySm;
+    max-width: 40ch;
+  }
+
+  &__edges {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    gap: v.$space4;
+    padding-top: v.$space4;
+  }
+
+  &__edge {
+    display: flex;
+    flex-direction: column;
+    gap: v.$space1;
+    min-width: 0;
+  }
+
+  &__edge-label {
+    font-size: v.$micro;
+    font-weight: 600;
+  }
+
+  &__edge-value {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  &__edge-city {
+    font-size: v.$headingMd;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  &__edge-reading {
+    font-size: v.$caption;
+  }
+}
+
+.spread--dark .reach {
+  .reach__label,
+  .reach__edge-label {
+    color: v.$darkInkFaint;
+  }
+
+  .reach__comparison {
+    color: v.$darkInkMuted;
+  }
+
+  .reach__unit {
+    color: v.$darkInkMuted;
+  }
+
+  .reach__edge-reading {
+    color: v.$pinOnDark;
+  }
+}
+
+.spread--light .reach {
+  .reach__label,
+  .reach__edge-label {
+    color: v.$lightInkFaint;
+  }
+
+  .reach__comparison {
+    color: v.$lightInkMuted;
+  }
+
+  .reach__unit {
+    color: v.$lightInkMuted;
+  }
+
+  .reach__edge-reading {
+    color: v.$pinOnLight;
+  }
+}
+
+@media screen and (max-width: 34rem) {
+  .reach__total {
+    font-size: v.$displayMd;
+  }
+
+  .reach__unit {
+    font-size: v.$headingLg;
+  }
+}

@@ -1,0 +1,182 @@
+@use "../../../../styles/variables" as v;
+@use "../../../../styles/mixins" as m;
+
+.record {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: v.$space6;
+
+  &__head {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: v.$space3;
+    padding: v.$space5 v.$marginPad v.$space3;
+  }
+
+  /* The two readings of the record are its title. Switching between them is
+     switching what the page is called, which is why they are set at heading
+     size instead of being a second control stacked on the one below. */
+  &__mode {
+    display: flex;
+    align-items: baseline;
+    gap: v.$space3;
+    font-size: v.$displaySm;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+
+  &__mode-option {
+    padding: 0;
+    border: none;
+    background: none;
+    font: inherit;
+    cursor: pointer;
+    @include m.transition(color opacity);
+
+    &:focus-visible {
+      @include m.focus-ring();
+    }
+  }
+
+  &__lens {
+    position: sticky;
+    top: 4.25rem;
+    z-index: 2;
+    padding: 0 v.$marginPad v.$space3;
+  }
+
+  &__groups {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* The heading hangs in the gutter beside its run of journeys rather than
+     sitting above it, so the year or sector reads as a label on the column
+     instead of as another row in the list. */
+  &__group {
+    display: grid;
+    grid-template-columns: 3.25rem minmax(0, 1fr);
+    align-items: start;
+    padding: v.$space4 v.$marginPad;
+  }
+
+  &__group-label {
+    position: sticky;
+    top: 7.5rem;
+    font-size: v.$caption;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    padding-top: v.$space3;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    grid-column: 2;
+    list-style: none;
+  }
+
+  &__plates {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+    grid-auto-rows: 8.5rem;
+    gap: v.$space3;
+    padding: v.$space2 v.$marginPad 0;
+  }
+}
+
+.spread--dark .record {
+  .record__mode-option {
+    color: v.$darkInkFaint;
+
+    &--active {
+      color: v.$darkInk;
+    }
+
+    @include m.hover() {
+      color: v.$darkInkMuted;
+    }
+  }
+
+  .record__head,
+  .record__lens {
+    background: v.$darkSheet;
+  }
+
+  .record__group {
+    border-top: v.$seam solid v.$darkRule;
+  }
+
+  .record__group-label {
+    color: v.$darkInkFaint;
+  }
+}
+
+.spread--light .record {
+  .record__mode-option {
+    color: v.$lightInkFaint;
+
+    &--active {
+      color: v.$lightInk;
+    }
+
+    @include m.hover() {
+      color: v.$lightInkMuted;
+    }
+  }
+
+  .record__head,
+  .record__lens {
+    background: v.$lightSheet;
+  }
+
+  .record__group {
+    border-top: v.$seam solid v.$lightRule;
+  }
+
+  .record__group-label {
+    color: v.$lightInkFaint;
+  }
+}
+
+/* The record has one group with no heading when journeys are ordered by reach,
+   so the gutter closes up rather than leaving an empty column. */
+.record__group:only-child:not(:has(.record__group-label)) {
+  grid-template-columns: minmax(0, 1fr);
+
+  .record__list {
+    grid-column: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .record__mode-option {
+    transition: none;
+  }
+}
+
+@media screen and (max-width: v.$breakpointBound) {
+  .record {
+    &__head {
+      padding-inline: v.$space4;
+    }
+
+    &__lens {
+      padding-inline: v.$space4;
+    }
+
+    &__group {
+      grid-template-columns: 2.75rem minmax(0, 1fr);
+      padding-inline: v.$space4;
+    }
+
+    &__plates {
+      padding-inline: v.$space4;
+    }
+  }
+}

@@ -223,7 +223,7 @@
   }
 }
 
-.map-shell--light {
+.spread--light {
   .lightbox:not(.lightbox--fullscreen) {
     @include m.sheet-light();
   }
@@ -234,7 +234,7 @@
   }
 }
 
-.map-shell--dark {
+.spread--dark {
   .lightbox:not(.lightbox--fullscreen) {
     @include m.sheet-dark();
   }

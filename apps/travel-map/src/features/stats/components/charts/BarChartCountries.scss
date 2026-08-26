@@ -56,7 +56,7 @@
   }
 }
 
-.map-shell--light {
+.spread--light {
   .countries-bar-chart {
     &__bar-track {
       background: v.$lightFill;
@@ -70,7 +70,7 @@
   }
 }
 
-.map-shell--dark {
+.spread--dark {
   .countries-bar-chart {
     &__bar-track {
       background: v.$darkFill;

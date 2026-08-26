@@ -1,0 +1,268 @@
+@use "../../../../styles/variables" as v;
+@use "../../../../styles/mixins" as m;
+
+.compass-rose {
+  position: relative;
+  display: grid;
+  place-items: center;
+  height: 100%;
+  width: 100%;
+  padding: v.$space6;
+
+  &--empty {
+    padding: v.$space4;
+  }
+
+  &__plot {
+    aspect-ratio: 1;
+    width: min(100%, 44rem);
+    max-height: 100%;
+    overflow: visible;
+  }
+
+  /* Hairlines must stay hairlines whatever the plot is scaled to, so every
+     stroke below opts out of the viewBox transform. */
+  &__ring,
+  &__axis,
+  &__thread-line {
+    fill: none;
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+  }
+
+  &__thread {
+    animation: compass-rose-reach 620ms v.$motionEase backwards;
+  }
+
+  &__thread-line {
+    stroke-dasharray: 1;
+  }
+
+  &__thread--planned &__thread-line {
+    stroke-dasharray: 0.03 0.02;
+  }
+
+  &__thread--active &__thread-line {
+    stroke: v.$pin;
+    stroke-width: 1.5;
+  }
+
+  &__thread--active &__thread-dot {
+    fill: v.$pin;
+  }
+
+  &__thread-target {
+    fill: transparent;
+    cursor: pointer;
+  }
+
+  &__mark {
+    fill: v.$pin;
+  }
+
+  &__cardinal {
+    font-size: 3.2px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+  }
+
+  &__ring-label {
+    font-size: 2.6px;
+  }
+
+  &__origin {
+    position: absolute;
+    left: v.$space5;
+    bottom: v.$space5;
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    pointer-events: none;
+  }
+
+  &__origin-name {
+    font-size: v.$bodySm;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  &__origin-note {
+    font-size: v.$micro;
+    font-weight: 500;
+  }
+
+  /* The readout keeps its line whether or not a thread is being pointed at, so
+     the plot never shifts under the pointer as labels appear. */
+  &__readout {
+    position: absolute;
+    right: v.$space5;
+    bottom: v.$space5;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.125rem;
+    min-height: 2.25rem;
+    opacity: 0;
+    pointer-events: none;
+    @include m.transition(opacity);
+
+    &--live {
+      opacity: 1;
+    }
+  }
+
+  &__readout-title {
+    font-size: v.$bodySm;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  &__readout-figures {
+    display: flex;
+    align-items: center;
+    font-size: v.$caption;
+  }
+
+  &__readout-gap {
+    width: v.$space3;
+  }
+}
+
+.spread--dark .compass-rose {
+  .compass-rose__ring {
+    stroke: v.$darkRule;
+  }
+
+  .compass-rose__axis {
+    stroke: v.$darkRule;
+    stroke-dasharray: 0.6 1.6;
+  }
+
+  .compass-rose__thread-line {
+    stroke: v.$darkRuleStrong;
+  }
+
+  .compass-rose__thread-dot {
+    fill: v.$darkInkMuted;
+  }
+
+  .compass-rose__thread--planned .compass-rose__thread-dot {
+    fill: none;
+    stroke: v.$darkInkFaint;
+    stroke-width: 0.4;
+  }
+
+  .compass-rose__cardinal,
+  .compass-rose__origin-note {
+    fill: v.$darkInkFaint;
+    color: v.$darkInkFaint;
+  }
+
+  .compass-rose__ring-label {
+    fill: v.$darkInkFaint;
+  }
+
+  .compass-rose__origin-name,
+  .compass-rose__readout-title {
+    color: v.$darkInk;
+  }
+
+  .compass-rose__readout-figures {
+    color: v.$pinOnDark;
+  }
+}
+
+.spread--light .compass-rose {
+  .compass-rose__ring {
+    stroke: v.$lightRule;
+  }
+
+  .compass-rose__axis {
+    stroke: v.$lightRule;
+    stroke-dasharray: 0.6 1.6;
+  }
+
+  .compass-rose__thread-line {
+    stroke: v.$lightRuleStrong;
+  }
+
+  .compass-rose__thread-dot {
+    fill: v.$lightInkMuted;
+  }
+
+  .compass-rose__thread--planned .compass-rose__thread-dot {
+    fill: none;
+    stroke: v.$lightInkFaint;
+    stroke-width: 0.4;
+  }
+
+  .compass-rose__cardinal,
+  .compass-rose__origin-note {
+    fill: v.$lightInkFaint;
+    color: v.$lightInkFaint;
+  }
+
+  .compass-rose__ring-label {
+    fill: v.$lightInkFaint;
+  }
+
+  .compass-rose__origin-name,
+  .compass-rose__readout-title {
+    color: v.$lightInk;
+  }
+
+  .compass-rose__readout-figures {
+    color: v.$pinOnLight;
+  }
+}
+
+/* Threads reach outward once, in the order they were plotted, so the record
+   arrives as an accumulation rather than as a finished diagram. */
+@keyframes compass-rose-reach {
+  from {
+    stroke-dashoffset: 1;
+    opacity: 0;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+@media screen and (max-width: v.$breakpointBound) {
+  .compass-rose {
+    padding: v.$space5 v.$space4 v.$space4;
+
+    &__origin,
+    &__readout {
+      left: v.$space4;
+      right: auto;
+      bottom: v.$space2;
+    }
+
+    &__readout {
+      left: auto;
+      right: v.$space4;
+      align-items: flex-end;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .compass-rose__thread {
+    animation: none;
+  }
+
+  .compass-rose__thread-line {
+    stroke-dasharray: none;
+  }
+
+  .compass-rose__thread--planned .compass-rose__thread-line {
+    stroke-dasharray: 0.03 0.02;
+  }
+
+  .compass-rose__readout {
+    transition: none;
+  }
+}

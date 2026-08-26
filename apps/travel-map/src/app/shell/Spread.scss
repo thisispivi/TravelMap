@@ -1,0 +1,173 @@
+@use "../../styles/variables" as v;
+@use "../../styles/mixins" as m;
+
+.spread {
+  display: grid;
+  grid-template-columns: v.$marginWidth 1fr;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  transition: grid-template-columns v.$motionSurface v.$motionEase;
+
+  &--wide {
+    grid-template-columns: min(46rem, 52vw) 1fr;
+  }
+
+  &--margin-closed {
+    grid-template-columns: 0 1fr;
+  }
+
+  &--dark {
+    background: v.$darkGround;
+
+    .spread__margin {
+      @include m.margin-dark();
+    }
+
+    .spread__cover {
+      background: v.$darkGround;
+    }
+  }
+
+  &--light {
+    background: v.$lightGround;
+
+    .spread__margin {
+      @include m.margin-light();
+    }
+
+    .spread__cover {
+      background: v.$lightGround;
+    }
+  }
+
+  &__margin {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  &__reading {
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  &__plate {
+    position: relative;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  /* The rose lies over the map on the arrival and lifts away when the record
+     opens: same data, one projection resolving into the other. */
+  &__rose {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(1.03);
+    transition:
+      opacity v.$motionSurface v.$motionEase,
+      transform v.$motionSurface v.$motionEase,
+      visibility 0s linear v.$motionSurface;
+
+    &--shown {
+      opacity: 1;
+      visibility: visible;
+      transform: scale(1);
+      transition-delay: 0s;
+    }
+  }
+
+  &--dark &__rose {
+    background: v.$darkGround;
+  }
+
+  &--light &__rose {
+    background: v.$lightGround;
+  }
+
+  &__pending {
+    display: grid;
+    height: 100%;
+    place-items: center;
+  }
+
+  &__cover {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media screen and (max-width: v.$breakpointBound) {
+    grid-template-columns: 1fr;
+    grid-template-rows: v.$plateBandHeight minmax(0, 1fr);
+    transition: grid-template-rows v.$motionSurface v.$motionEase;
+
+    &--atlas {
+      grid-template-rows: 52dvh minmax(0, 1fr);
+    }
+
+    &--wide {
+      grid-template-columns: 1fr;
+    }
+
+    &--margin-closed {
+      grid-template-columns: 1fr;
+      grid-template-rows: 100dvh 0;
+    }
+
+    &__plate {
+      grid-row: 1;
+    }
+
+    &__margin {
+      grid-row: 2;
+      border-right: none;
+    }
+
+    &--dark &__margin {
+      border-top: v.$seam solid v.$darkRule;
+    }
+
+    &--light &__margin {
+      border-top: v.$seam solid v.$lightRule;
+    }
+  }
+}
+
+/* Each surface in the margin rises a few pixels as it arrives, which is what
+   tells the reader the column changed rather than the page. Short enough to
+   stay invisible once the interface is familiar. */
+.spread__reading > * {
+  animation: spread-arrive 180ms v.$motionEase backwards;
+}
+
+@keyframes spread-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(0.375rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spread,
+  .spread__rose {
+    transition: none;
+  }
+
+  .spread__reading > * {
+    animation: none;
+  }
+}
