@@ -1,5 +1,6 @@
 @use "../../../../styles/variables" as v;
 @use "../../../../styles/mixins" as m;
+@use "../../../../styles/scrollbar" as s;
 
 .stats-grid {
   display: none;
@@ -7,192 +8,173 @@
   height: 100%;
   min-height: 0;
 
-  &.stats-grid--visible {
+  &--visible {
     display: flex;
   }
 
-  .stats-grid__header {
+  &__header {
     flex-shrink: 0;
-    text-align: center;
-    padding: 1.25rem 1rem 1rem;
-
-    h1 {
-      font-size: v.$headingLg;
-      font-weight: 800;
-      letter-spacing: 0;
-    }
+    padding: v.$space5 v.$space5 v.$space4;
   }
 }
 
-.stats-bento {
+.stats-sheet {
+  display: flex;
+  flex-direction: column;
   flex: 1 1 auto;
+  gap: v.$space6;
   min-height: 0;
+  padding: 0 v.$space5 v.$space6;
   overflow-y: auto;
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  grid-auto-rows: max-content;
-  grid-auto-flow: dense;
-  gap: 0.75rem;
-  padding: 0.25rem 1rem 1.25rem;
-  align-items: start;
 
-  &.stats-bento--scrollable {
-    margin-right: 0.25rem;
-    padding-right: 0.75rem;
+  &--scrollable {
+    margin-right: v.$space1;
+    padding-right: v.$space3;
   }
 }
 
-.bento-card {
+/* Every measure hangs off a labelled graticule rule. The label names the
+   section on the rule itself, which is the same device the trip route and the
+   panels use, so the statistics read as part of the same document. */
+.stats-section {
+  display: flex;
+  flex-direction: column;
+  gap: v.$space5;
+
+  &__label {
+    padding-top: v.$space3;
+  }
+
+  &__figures {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+    gap: v.$space5 v.$space4;
+  }
+
+  &__panels {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    grid-auto-rows: max-content;
+    gap: v.$space4;
+    align-items: start;
+  }
+}
+
+.stats-panel {
   grid-column: span 12;
   min-width: 0;
+
+  &--half {
+    grid-column: span 6;
+    align-self: stretch;
+  }
+
+  &--full {
+    grid-column: span 12;
+    align-self: stretch;
+  }
 }
 
-.bento-card--large {
-  grid-column: span 7;
-  align-self: stretch;
-  min-height: max-content;
-}
-
-.bento-card--medium {
-  grid-column: span 5;
-  align-self: stretch;
-  min-height: max-content;
-}
-
-.bento-card--half {
-  grid-column: span 6;
-  align-self: stretch;
-  min-height: max-content;
-}
-
-.bento-card--full {
-  grid-column: span 12;
-  align-self: stretch;
-  min-height: max-content;
-}
-
-.bento-detail {
+/* A titled block of rows. It is separated by a rule rather than boxed, so the
+   sheet has one surface and the structure comes from spacing and hairlines. */
+.stats-block {
   display: flex;
   flex-direction: column;
   min-width: 0;
-  padding: 0;
-  overflow: hidden;
+  border-top-width: 0.0625rem;
+  border-top-style: solid;
 
-  .bento-detail__top {
-    padding: 1rem;
+  &__top {
     flex: 1 0 auto;
+    padding: v.$space3 0 v.$space4;
 
     h2 {
-      font-size: 1.25rem;
+      margin-bottom: v.$space3;
+      font-size: v.$headingMd;
       font-weight: 700;
-      margin-bottom: 0.75rem;
-    }
-
-    .bento-detail__subtitle {
-      font-size: v.$caption;
-      opacity: 0.65;
-      margin-bottom: 0.5rem;
-      margin-top: -0.25rem;
     }
   }
 
-  &.bento-detail__top--no-mb {
-    h2 {
-      margin-bottom: 0;
-    }
+  &--tight &__top h2 {
+    margin-bottom: 0;
   }
 
-  .bento-detail__rows {
+  &__subtitle {
+    margin-top: -(v.$space2);
+    margin-bottom: v.$space3;
+    font-size: v.$caption;
+  }
+
+  &__rows {
     border-top-width: 0.0625rem;
     border-top-style: solid;
+  }
 
-    &.bento-detail__rows--split {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+  &__row {
+    padding: v.$space3 0;
+    border-bottom-width: 0.0625rem;
+    border-bottom-style: solid;
+
+    &:last-child {
+      border-bottom: none;
     }
+  }
 
-    .bento-detail__row {
-      padding: 0.6rem 1rem;
-      border-bottom-width: 0.0625rem;
-      border-bottom-style: solid;
-
-      &:last-child {
-        border-bottom: none;
-      }
-
-      .bento-detail__row-label {
-        font-size: v.$caption;
-        opacity: 0.65;
-        margin-bottom: 0.35rem;
-        font-weight: 500;
-      }
-    }
+  &__row-label {
+    margin-bottom: v.$space1;
+    font-size: v.$micro;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
   }
 }
 
-.bento-panel--stack {
-  grid-column: span 6;
-  align-self: stretch;
+.stats-days-year .stats-block__top {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  min-width: 0;
-
-  > *:first-child {
-    flex: 0 0 auto;
-  }
-
-  > *:last-child {
-    flex: 1 1 0;
-    min-height: 0;
-    overflow: hidden;
-  }
-}
-
-.bento-days-year {
-  .bento-detail__top {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    min-height: 16rem;
-  }
-}
-
-.bento-continents-chart {
-  .bento-detail__top {
-    padding-bottom: 0.5rem;
-  }
-}
-
-.bento-cities-per-country {
-  min-height: 25.6rem !important;
+  height: 100%;
+  min-height: 16rem;
 }
 
 .map-shell--dark {
-  --not-visited-color: #3a3a4a;
+  --not-visited-color: #{v.$darkSheetRaised};
 
-  .stats-grid {
-    .stats-grid__header h1 {
-      color: #ffffff;
-    }
+  .stats-grid__header h1 {
+    color: v.$darkInk;
   }
 
-  .bento-detail {
+  .stats-sheet {
+    @include s.setScrollbar(
+      transparent,
+      v.$darkRule,
+      v.$darkRuleStrong,
+      v.$darkInkFaint
+    );
+  }
+
+  .stats-section__label {
+    @include m.rule-tick(v.$darkRuleStrong);
+    color: v.$darkInkMuted;
+  }
+
+  .stats-block {
+    border-top-color: v.$darkRule;
+
     h2 {
-      color: v.$darkButtonContent;
+      color: v.$darkInk;
     }
 
-    .bento-detail__rows {
-      border-top-color: rgba(255, 255, 255, 0.06);
-
-      .bento-detail__row {
-        border-bottom-color: rgba(255, 255, 255, 0.06);
-      }
+    .stats-block__rows {
+      border-top-color: v.$darkRule;
     }
 
-    .bento-detail__row-label,
-    .bento-detail__subtitle {
-      color: v.$darkAltText;
+    .stats-block__row {
+      border-bottom-color: v.$darkRule;
+    }
+
+    .stats-block__row-label,
+    .stats-block__subtitle {
+      color: v.$darkInkFaint;
     }
 
     .city-row,
@@ -200,44 +182,58 @@
     .timezone-row,
     .currency-row,
     .continent-row {
-      color: v.$darkButtonContent;
+      color: v.$darkInk;
 
       b,
       p,
       .city-row__distance,
       .transport-row__distance,
       .timezone-row__distance {
-        color: v.$darkButtonContent;
+        color: v.$darkInk;
       }
     }
   }
 }
 
 .map-shell--light {
-  --not-visited-color: #dadada;
+  --not-visited-color: #{v.$lightLand};
 
-  .stats-grid {
-    .stats-grid__header h1 {
-      color: v.$lightButtonContent;
-    }
+  .stats-grid__header h1 {
+    color: v.$lightInk;
   }
 
-  .bento-detail {
+  .stats-sheet {
+    @include s.setScrollbar(
+      transparent,
+      v.$lightRule,
+      v.$lightRuleStrong,
+      v.$lightInkFaint
+    );
+  }
+
+  .stats-section__label {
+    @include m.rule-tick(v.$lightRuleStrong);
+    color: v.$lightInkMuted;
+  }
+
+  .stats-block {
+    border-top-color: v.$lightRule;
+
     h2 {
-      color: v.$lightButtonContent;
+      color: v.$lightInk;
     }
 
-    .bento-detail__rows {
-      border-top-color: rgba(0, 0, 0, 0.06);
-
-      .bento-detail__row {
-        border-bottom-color: rgba(0, 0, 0, 0.06);
-      }
+    .stats-block__rows {
+      border-top-color: v.$lightRule;
     }
 
-    .bento-detail__row-label,
-    .bento-detail__subtitle {
-      color: v.$lightAltText;
+    .stats-block__row {
+      border-bottom-color: v.$lightRule;
+    }
+
+    .stats-block__row-label,
+    .stats-block__subtitle {
+      color: v.$lightInkFaint;
     }
 
     .city-row,
@@ -245,85 +241,59 @@
     .timezone-row,
     .currency-row,
     .continent-row {
-      color: v.$lightButtonContent;
+      color: v.$lightInk;
 
       b,
       p,
       .city-row__distance,
       .transport-row__distance,
       .timezone-row__distance {
-        color: v.$lightButtonContent;
+        color: v.$lightInk;
       }
     }
   }
 }
 
 @media screen and (max-width: 52rem) {
-  .stats-bento {
+  .stats-section__panels {
     grid-template-columns: repeat(8, minmax(0, 1fr));
-    gap: 0.625rem;
   }
 
-  .bento-card--large {
-    grid-column: span 5;
-  }
-
-  .bento-card--medium {
-    grid-column: span 3;
-  }
-
-  .bento-card--half,
-  .bento-panel--stack {
+  .stats-panel--half {
     grid-column: span 4;
   }
 
-  .bento-card--full {
+  .stats-panel--full {
     grid-column: span 8;
   }
-
-  .bento-stat--hide-compact {
-    display: none;
-  }
 }
 
-@media screen and (max-width: 40rem) {
-  .stats-bento {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 0.5rem;
-  }
+@media screen and (max-width: 42.5rem) {
+  .stats-grid__header {
+    padding: v.$space4 v.$space4 v.$space3;
 
-  .bento-card--large,
-  .bento-card--medium,
-  .bento-card--half,
-  .bento-card--full,
-  .bento-panel--stack {
-    grid-column: span 4;
-  }
-}
-
-@media screen and (max-width: 26rem) {
-  .stats-bento {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    padding: 0.25rem 0.75rem 1rem;
-    gap: 0.5rem;
-
-    &.stats-bento--scrollable {
-      margin-right: 0;
-      padding-right: 0.75rem;
+    h1 {
+      font-size: v.$displaySm;
     }
   }
 
-  .bento-card--large,
-  .bento-card--medium,
-  .bento-card--half,
-  .bento-card--full,
-  .bento-panel--stack {
-    grid-column: span 2;
+  .stats-sheet {
+    gap: v.$space5;
+    padding: 0 v.$space4 v.$space5;
   }
 
-  .bento-detail {
-    .bento-detail__rows.bento-detail__rows--split {
-      grid-template-columns: minmax(0, 1fr);
-    }
+  .stats-section {
+    gap: v.$space4;
+  }
+
+  .stats-section__figures {
+    grid-template-columns: repeat(auto-fit, minmax(6.5rem, 1fr));
+    gap: v.$space4 v.$space3;
+  }
+
+  .stats-panel,
+  .stats-panel--half,
+  .stats-panel--full {
+    grid-column: span 8;
   }
 }

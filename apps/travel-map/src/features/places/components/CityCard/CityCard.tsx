@@ -1,12 +1,10 @@
 import "./CityCard.scss";
 
-import { City, Travel } from "@travelmap/core";
+import { City } from "@travelmap/core";
 import { MouseEvent, ReactNode, useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 
-import CalendarIcon from "@/assets/icons/Calendar.svg?react";
 import PositionIcon from "@/assets/icons/Position.svg?react";
-import { formatDateRangeShort } from "@/i18n/functions/date";
 import { CountryFlag } from "@/shared/components/CountryFlag/CountryFlag";
 import { Loading } from "@/shared/components/Loading/Loading";
 import { useLanguage } from "@/shared/hooks/useLanguage";
@@ -16,62 +14,49 @@ import { parameters } from "@/shared/lib/parameters";
 
 import { useCachedImageSource } from "../../lib/useImageCache";
 
+/* The grid shows one plate per place, so it always opens on the first travel
+   with photos; the gallery's own selector moves between later visits. */
+const FIRST_TRAVEL_INDEX = 0;
+
 /**
  * Properties accepted by the CityCard component.
- * @property {string} [className] - The class name
- * @property {City} city - The city
- * @property {Travel} [travel] - The travel
- * @property {number} [travelIdx] - The travel idx
- * @property {boolean} [isClickable] - Whether the card opens a gallery
- * @property {(city: City | null) => void} setHoveredCity - The set hovered city
- * @property {(position: { center: [number, number]; zoom: number }) => void} [setMapPosition] - The set map position
- * @property {boolean} [isHidden] - Whether the card is visually hidden
- * @property {boolean} [showDates] - The show dates
+ * @property {City} city - The city to display
+ * @property {boolean} [isClickable] - Whether the card opens the city's gallery
+ * @property {boolean} [isReturned] - Whether the place was stayed in more than once
+ * @property {(city: City | null) => void} setHoveredCity - Highlights the city's map marker
+ * @property {(position: { center: [number, number]; zoom: number }) => void} [setMapPosition] - Centers the map on the city
  */
 interface CityCardProps {
-  className?: string;
   city: City;
-  travel?: Travel;
-  travelIdx?: number;
   isClickable?: boolean;
+  isReturned?: boolean;
   setHoveredCity: (city: City | null) => void;
   setMapPosition?: (position: {
     center: [number, number];
     zoom: number;
   }) => void;
-  isHidden?: boolean;
-  showDates?: boolean;
 }
 
 /**
  * CityCard component
- * A photo card representing a single city visit. Lazily loads the background
- * image via an IntersectionObserver and caches it using the service worker.
- * Highlights the corresponding map marker on hover and, when clickable,
- * navigates to the photo gallery for that travel.
+ * A photo plate representing one place. Lazily loads its background through an
+ * IntersectionObserver and caches it with the service worker, highlights the
+ * matching map marker on hover, and opens the place's gallery when clickable.
  * @component
- * @param {CityCardProps} props
- * @param {string} [props.className=""] - Additional class names
+ * @param {CityCardProps} props - The city card props
  * @param {City} props.city - The city to display
- * @param {Travel} [props.travel] - The specific travel entry to show dates for
- * @param {number} [props.travelIdx=0] - Visit index used for the background image
  * @param {boolean} [props.isClickable=false] - Whether clicking opens the gallery
+ * @param {boolean} [props.isReturned=false] - Whether to give the place a wider plate
  * @param {(city: City | null) => void} props.setHoveredCity - Highlights the city on the map
  * @param {(position: { center: [number, number]; zoom: number }) => void} [props.setMapPosition] - Centers the map on the city
- * @param {boolean} [props.isHidden=false] - Hides the card (CSS only, keeps it in the DOM)
- * @param {boolean} [props.showDates=true] - Whether to show the travel date range
  * @returns {ReactNode} The city card
  */
 export function CityCard({
-  className = "",
   city,
-  travel,
-  travelIdx = 0,
   isClickable = false,
+  isReturned = false,
   setHoveredCity,
   setMapPosition,
-  isHidden = false,
-  showDates = true,
 }: CityCardProps): ReactNode {
   const lang = useLanguage([]).currLanguage;
   const navigate = useNavigate();
@@ -82,7 +67,8 @@ export function CityCard({
   const [shouldLoadImage, setShouldLoadImage] = useState(
     () => typeof window !== "undefined" && !("IntersectionObserver" in window),
   );
-  const backgroundSource = city.getBackgroundImgSourceByIndex(travelIdx);
+  const backgroundSource =
+    city.getBackgroundImgSourceByIndex(FIRST_TRAVEL_INDEX);
   const cachedBackgroundSource = useCachedImageSource(
     backgroundSource,
     shouldLoadImage,
@@ -140,7 +126,7 @@ export function CityCard({
    * @returns {void}
    */
   const openGallery = () => {
-    navigate(`/gallery/${city.name}/${travelIdx}`, {
+    navigate(`/gallery/${city.name}/${FIRST_TRAVEL_INDEX}`, {
       state: { fromPath: `${location.pathname}${location.search}` },
     });
   };
@@ -148,8 +134,8 @@ export function CityCard({
     <div
       className={classNames(
         "city-card",
-        isClickable ? "city-card--clickable" : "city-card--not-clickable",
-        isHidden ? "city-card--hidden" : "city-card--visible",
+        isClickable && "city-card--clickable",
+        isReturned && "city-card--returned",
       )}
       ref={cardRef}
       {...(isClickable
@@ -163,28 +149,19 @@ export function CityCard({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <div
-        className={classNames(
-          "city-card__top",
-          className,
-          city.name,
-          `${city.name}-${travelIdx}`,
+      <div className="city-card__background">
+        {cachedBackgroundSource ? (
+          <img
+            alt={cityName}
+            className="city-card__background-img"
+            src={cachedBackgroundSource}
+          />
+        ) : (
+          <div className="city-card__loading">
+            <Loading />
+          </div>
         )}
-      >
-        <div className="city-card__background">
-          <div className="city-card__background-overlay" />
-          {cachedBackgroundSource ? (
-            <img
-              alt={cityName}
-              className="city-card__background-img"
-              src={cachedBackgroundSource}
-            />
-          ) : (
-            <div className="centered">
-              <Loading />
-            </div>
-          )}
-        </div>
+        <div className="city-card__background-overlay" />
       </div>
 
       <div className="city-card__content">
@@ -206,24 +183,10 @@ export function CityCard({
           </button>
         ) : null}
 
-        <div className="city-card__title">
-          <h2>{cityName}</h2>
-        </div>
-        {showDates && travel?.sDate ? (
-          <div className="travel-card__info">
-            <CalendarIcon className="travel-card__icon" />
-            <p>
-              {formatDateRangeShort({
-                sDateInput: travel.sDate,
-                eDateInput: travel.eDate,
-                locale: lang,
-                includeWeekday: true,
-                showYear: false,
-              })}
-            </p>
-          </div>
-        ) : null}
+        <h2 className="city-card__name">{cityName}</h2>
       </div>
+
+      <span aria-hidden className="city-card__edge" />
     </div>
   );
 }

@@ -1,32 +1,45 @@
+@use "variables" as v;
+
+/* Figures are the content on the statistics and route surfaces, so they line
+   up in columns by default rather than per-component. */
+.figure {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
 h1 {
-  font-size: 2rem;
+  font-size: v.$displayMd;
   font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+
+h2 {
+  font-size: v.$headingLg;
+  font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1.2;
 }
 
-h2 {
-  font-size: 1.5rem;
+h3 {
+  font-size: v.$headingMd;
   font-weight: 700;
   letter-spacing: -0.01em;
   line-height: 1.3;
 }
 
-h3 {
-  font-size: 1.125rem;
-  font-weight: 600;
-  line-height: 1.4;
-}
-
 p {
-  font-size: 1rem;
+  font-size: v.$bodyLg;
   font-weight: 400;
-  line-height: 1.6;
+  line-height: 1.55;
 }
 
-.caption {
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.02em;
+/* The section label that sits on a graticule rule. Small, wide-tracked and
+   always paired with the rule, never used on its own as decoration. */
+.eyebrow {
+  font-size: v.$micro;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  line-height: 1;
   text-transform: uppercase;
 }

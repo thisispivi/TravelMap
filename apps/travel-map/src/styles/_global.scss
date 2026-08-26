@@ -1,32 +1,21 @@
 @use "variables" as v;
-@use "mixins" as m;
 
-* {
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Urbanist", Arial, Helvetica, sans-serif;
-  font-optical-sizing: auto;
-  font-weight: normal;
-  font-style: normal;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  transition:
-    background 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    fill 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    outline-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    stroke 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 html {
   height: 100%;
   width: 100%;
-  background-color: v.$darkBackground;
+  background-color: v.$darkGround;
+  font-family: "Urbanist", "Segoe UI", Arial, sans-serif;
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body,
@@ -34,19 +23,24 @@ body,
   height: inherit;
   width: inherit;
   overflow: hidden;
-  @include m.transition(background-color, 0.4s);
-}
-.body--dark {
-  background-color: v.$darkBackground;
-}
-.body--light {
-  background-color: v.$lightBackground;
 }
 
-.tooltip {
-  border-radius: 0.75rem !important;
-  box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.15);
-  z-index: 30 !important;
+.body--dark {
+  background-color: v.$darkGround;
+  color: v.$darkInk;
+}
+
+.body--light {
+  background-color: v.$lightGround;
+  color: v.$lightInk;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
 }
 
 .app-loading {
@@ -55,21 +49,28 @@ body,
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: v.$darkBackground;
+  background-color: v.$darkGround;
+}
+
+/* react-tooltip owns these class names, so they are scoped under the shell
+   rather than renamed. */
+.react-tooltip.tooltip {
+  border-radius: v.$radiusControl !important;
+  font-size: v.$caption;
+  font-weight: 500;
+  padding: 0.375rem 0.625rem !important;
+  z-index: 30 !important;
 }
 
 .map-shell {
-  &--light {
-    .react-tooltip {
-      background-color: v.$lightLeftBar;
-      color: v.$darkLeftBar;
-    }
+  &--light .react-tooltip {
+    background-color: v.$lightInk;
+    color: v.$lightSheet;
   }
 
-  &--dark {
-    .react-tooltip {
-      background-color: v.$darkLeftBar;
-      color: v.$lightLeftBar;
-    }
+  &--dark .react-tooltip {
+    background-color: v.$darkSheetRaised;
+    border: 0.0625rem solid v.$darkRule;
+    color: v.$darkInk;
   }
 }

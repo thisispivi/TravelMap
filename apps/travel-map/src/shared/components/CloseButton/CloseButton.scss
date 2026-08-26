@@ -5,16 +5,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 1.5rem;
-  height: 1.5rem;
-  padding: 0.15rem;
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0.3125rem;
   border: none;
+  border-radius: v.$radiusPill;
   background: none;
-  border-radius: 50%;
   cursor: pointer;
-  appearance: none;
-  font: inherit;
-  color: inherit;
+  @include m.transition(background-color color);
 
   svg {
     width: 100%;
@@ -26,30 +24,20 @@
   }
 }
 
-.map-shell--light {
-  .close-button {
-    path {
-      fill: v.$lightAltTextDarker;
-    }
-    &:hover {
-      background: rgba(0, 0, 0, 0.06);
-      path {
-        fill: #080808;
-      }
-    }
+.map-shell--light .close-button {
+  color: v.$lightInkMuted;
+
+  @include m.hover() {
+    background: v.$lightFill;
+    color: v.$lightInk;
   }
 }
 
-.map-shell--dark {
-  .close-button {
-    path {
-      fill: v.$darkAltText;
-    }
-    &:hover {
-      background: rgba(255, 255, 255, 0.08);
-      path {
-        fill: #e0e0e0;
-      }
-    }
+.map-shell--dark .close-button {
+  color: v.$darkInkMuted;
+
+  @include m.hover() {
+    background: v.$darkFill;
+    color: v.$darkInk;
   }
 }

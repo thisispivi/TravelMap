@@ -33,7 +33,7 @@ $exc-gap: 0.25rem;
     flex-direction: column;
     gap: $exc-gap;
     margin-top: 0.3125rem;
-    margin-left: 1rem;
+    margin-left: v.$space4;
     padding-left: 0.875rem;
     position: relative;
 
@@ -45,7 +45,7 @@ $exc-gap: 0.25rem;
       top: -0.3rem;
       bottom: var(--stay-group-branch-bottom, 1.5rem);
       width: 0.0625rem;
-      background: var(--dot-color-faint, rgba(255, 255, 255, 0.12));
+      background: var(--dot-color-faint, var(--dot-default-bg));
     }
 
     &:has(> .stay-group__chain:only-child)::before {
@@ -61,8 +61,8 @@ $exc-gap: 0.25rem;
     display: flex;
     flex-direction: column;
     gap: $exc-gap;
-    padding: 0.5rem;
-    border-radius: 0.5rem 0.75rem 0.75rem 0.5rem;
+    padding: v.$space2;
+    border-radius: v.$radiusControl;
     position: relative;
 
     &::before {
@@ -73,7 +73,7 @@ $exc-gap: 0.25rem;
       transform: translateY(-50%);
       width: 0.9rem;
       height: 0.0625rem;
-      background: var(--dot-color-faint, rgba(255, 255, 255, 0.12));
+      background: var(--dot-color-faint, var(--dot-default-bg));
     }
   }
 
@@ -84,10 +84,10 @@ $exc-gap: 0.25rem;
   .stay-group__chain-return {
     display: flex;
     align-items: center;
-    gap: 0.25rem;
+    gap: v.$space1;
     font-size: v.$caption;
     font-weight: 400;
-    padding-left: 0.25rem;
+    padding-left: v.$space1;
     letter-spacing: -0.01em;
   }
 
@@ -100,10 +100,10 @@ $exc-gap: 0.25rem;
   .stay-group__exc-transport-header {
     display: flex;
     align-items: center;
-    gap: 0.25rem;
+    gap: v.$space1;
     font-size: v.$caption;
     font-weight: 400;
-    padding-left: 0.25rem;
+    padding-left: v.$space1;
     letter-spacing: -0.01em;
   }
 
@@ -114,7 +114,7 @@ $exc-gap: 0.25rem;
   }
 
   .stay-group__exc-transport-roundtrip {
-    font-size: 0.625rem;
+    font-size: v.$micro;
     flex-shrink: 0;
     line-height: 1;
   }
@@ -122,11 +122,11 @@ $exc-gap: 0.25rem;
   .stay-group__exc-card {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: v.$space2;
     width: 100%;
-    padding: 0.375rem 0.5rem;
+    padding: 0.375rem v.$space2;
     border: 0;
-    border-radius: 0.75rem;
+    border-radius: v.$radiusControl;
     appearance: none;
     background: transparent;
     color: inherit;
@@ -145,7 +145,7 @@ $exc-gap: 0.25rem;
       transform: translateY(-50%);
       width: 0.9rem;
       height: 0.0625rem;
-      background: var(--dot-color-faint, rgba(255, 255, 255, 0.12));
+      background: var(--dot-color-faint, var(--dot-default-bg));
     }
 
     &--clickable {
@@ -162,7 +162,7 @@ $exc-gap: 0.25rem;
     font-size: v.$caption;
     font-weight: 500;
     padding: 0.125rem 0.375rem;
-    border-radius: 0.375rem;
+    border-radius: v.$radiusControl;
     white-space: nowrap;
     letter-spacing: -0.01em;
     margin-left: auto;
@@ -194,13 +194,13 @@ $exc-gap: 0.25rem;
     min-width: 0;
     display: flex;
     flex-direction: column;
-    gap: 0.1rem;
+    gap: v.$space1;
   }
 
   .stay-group__exc-header {
     display: flex;
     align-items: center;
-    gap: 0.25rem;
+    gap: v.$space1;
   }
 
   .stay-group__exc-name {
@@ -232,44 +232,44 @@ $exc-gap: 0.25rem;
 .map-shell--dark {
   .trip-detail {
     .stay-group__chain {
-      background: rgba(255, 255, 255, 0.04);
+      background: v.$darkFill;
     }
 
     .stay-group__chain-return {
-      color: v.$darkAltTextDarker;
+      color: v.$darkInkFaint;
     }
 
     .stay-group__exc-card {
-      background: rgba(255, 255, 255, 0.03);
+      background: v.$darkFill;
 
       &--clickable:hover {
-        background: rgba(255, 255, 255, 0.08);
+        background: v.$darkFill;
       }
     }
 
     .stay-group__exc-thumb-empty {
-      background: rgba(255, 255, 255, 0.1);
+      background: v.$darkRule;
     }
 
     .stay-group__exc-name {
-      color: v.$darkAltText;
+      color: v.$darkInkMuted;
     }
 
     .stay-group__exc-meta {
-      color: v.$darkAltTextDarker;
+      color: v.$darkInkFaint;
     }
 
     .stay-group__exc-transport-header {
-      color: v.$darkAltTextDarker;
+      color: v.$darkInkFaint;
     }
 
     .stay-group__exc-transport-icon {
-      color: v.$darkAltTextDarker;
+      color: v.$darkInkFaint;
     }
 
     .stay-group__exc-badge {
-      background: rgba(255, 255, 255, 0.07);
-      color: v.$darkAltText;
+      background: v.$darkFill;
+      color: v.$darkInkMuted;
     }
   }
 }
@@ -277,44 +277,44 @@ $exc-gap: 0.25rem;
 .map-shell--light {
   .trip-detail {
     .stay-group__chain {
-      background: rgba(0, 0, 0, 0.04);
+      background: v.$lightFill;
     }
 
     .stay-group__chain-return {
-      color: v.$lightAltTextDarker;
+      color: v.$lightInkMuted;
     }
 
     .stay-group__exc-card {
-      background: rgba(0, 0, 0, 0.05);
+      background: v.$lightFill;
 
       &--clickable:hover {
-        background: rgba(0, 0, 0, 0.09);
+        background: v.$lightFill;
       }
     }
 
     .stay-group__exc-thumb-empty {
-      background: rgba(0, 0, 0, 0.08);
+      background: v.$lightFill;
     }
 
     .stay-group__exc-name {
-      color: v.$lightAltText;
+      color: v.$lightInkMuted;
     }
 
     .stay-group__exc-meta {
-      color: v.$lightAltTextDarker;
+      color: v.$lightInkMuted;
     }
 
     .stay-group__exc-transport-header {
-      color: v.$lightAltTextDarker;
+      color: v.$lightInkMuted;
     }
 
     .stay-group__exc-transport-icon {
-      color: v.$lightAltTextDarker;
+      color: v.$lightInkMuted;
     }
 
     .stay-group__exc-badge {
-      background: rgba(0, 0, 0, 0.07);
-      color: v.$lightAltText;
+      background: v.$lightFill;
+      color: v.$lightInkMuted;
     }
   }
 }

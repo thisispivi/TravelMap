@@ -1,10 +1,8 @@
-@use "../../../../styles/mixins" as m;
 @use "../../../../styles/variables" as v;
 
 .flights-donut-chart {
   .apexcharts-legend-text {
     font-size: 1rem !important;
-    @include m.transition(all, 0.3s, ease-in-out);
   }
   .apexcharts-datalabels {
     text {
@@ -19,8 +17,7 @@
   }
   .apexcharts-datalabels-group {
     text {
-      fill: v.$darkButtonContent !important;
-      @include m.transition(all, 0.3s, ease-in-out);
+      fill: v.$darkInk !important;
     }
   }
   .apexcharts-tooltip {
@@ -40,11 +37,11 @@
 .map-shell--light {
   .flights-donut-chart {
     .apexcharts-legend-text {
-      color: v.$lightButtonContent !important;
+      color: v.$lightInk !important;
     }
     .apexcharts-datalabels-group {
       text {
-        fill: v.$lightButtonContent !important;
+        fill: v.$lightInk !important;
       }
     }
   }
@@ -53,11 +50,11 @@
 .map-shell--dark {
   .flights-donut-chart {
     .apexcharts-legend-text {
-      color: v.$darkButtonContent !important;
+      color: v.$darkInk !important;
     }
     .apexcharts-datalabels-group {
       text {
-        fill: v.$darkButtonContent !important;
+        fill: v.$darkInk !important;
       }
     }
   }

@@ -6,7 +6,6 @@ import { ReactNode } from "react";
 import AirplaneIcon from "@/assets/icons/Airplane.svg?react";
 import FerryIcon from "@/assets/icons/Ferry.svg?react";
 import { CountryFlag } from "@/shared/components/CountryFlag/CountryFlag";
-import { Row } from "@/shared/components/Row/Row";
 import { useLanguage } from "@/shared/hooks/useLanguage";
 import { classNames } from "@/shared/lib/classNames";
 import { formatMileage } from "@/shared/lib/format";
@@ -38,7 +37,7 @@ export function TransportRow({
   const isFerry = transport instanceof Ferry;
   const TransportIcon = isFerry ? FerryIcon : AirplaneIcon;
   return (
-    <Row className={classNames("transport-row", className, "row--wrap")}>
+    <div className={classNames("transport-row", className)}>
       <div className="transport-row__cities">
         <h2 className="transport-row__cities__city">
           <CountryFlag countryId={transport.sCity.country.id} />
@@ -58,6 +57,6 @@ export function TransportRow({
       <b className="transport-row__distance">
         {formatMileage(transport.distanceInKm, currLanguage)} km
       </b>
-    </Row>
+    </div>
   );
 }

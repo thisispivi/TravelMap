@@ -1,37 +1,31 @@
 @use "../../../../../styles/variables" as v;
 
-.bento-detail:has(.bento-currency) {
-  .bento-detail__top {
-    flex: 0 0 auto;
-    padding-bottom: 0;
-  }
+.stats-block:has(.stats-currency) .stats-block__top {
+  flex: 0 0 auto;
+  padding-bottom: 0;
 }
 
-.bento-currency {
+/* Currencies are a plain wrapped list. Each one boxed in its own outlined pill
+   turned a short list into a wall of borders. */
+.stats-currency {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
-  align-content: space-evenly;
-  align-items: center;
   flex: 1 1 auto;
+  align-content: flex-start;
+  gap: v.$space2 v.$space5;
   min-height: 0;
-  padding: 0.5rem 0.75rem 1rem;
-  gap: 0.5rem;
+  padding-bottom: v.$space4;
 
   .currency-row {
     display: inline-flex;
     align-items: center;
-    gap: 0.35rem;
-    padding: 0.3rem 0.65rem;
-    border-radius: 2rem;
-    border-width: 0.0625rem;
-    border-style: solid;
-    font-size: v.$bodySm;
+    gap: v.$space2;
     width: auto;
+    font-size: v.$bodySm;
 
     .currency-row__flag {
-      width: 1.1rem;
-      height: 1.1rem;
+      width: 1.0625rem;
+      height: 1.0625rem;
       margin-right: 0;
     }
 
@@ -40,27 +34,24 @@
     }
 
     .currency-row__symbol {
-      font-size: v.$bodySm;
-      font-weight: 700;
       margin-left: 0;
+      font-weight: 700;
     }
   }
 }
 
-.map-shell--dark {
-  .bento-currency {
-    .currency-row {
-      border-color: rgba(255, 255, 255, 0.12);
-      color: v.$darkButtonContent;
-    }
+.map-shell--dark .stats-currency .currency-row {
+  color: v.$darkInkMuted;
+
+  .currency-row__symbol {
+    color: v.$darkInk;
   }
 }
 
-.map-shell--light {
-  .bento-currency {
-    .currency-row {
-      border-color: rgba(0, 0, 0, 0.1);
-      color: v.$lightButtonContent;
-    }
+.map-shell--light .stats-currency .currency-row {
+  color: v.$lightInkMuted;
+
+  .currency-row__symbol {
+    color: v.$lightInk;
   }
 }

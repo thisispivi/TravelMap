@@ -3,7 +3,6 @@ import "./RowContinent.scss";
 import { Continent } from "@travelmap/core";
 import { ReactNode } from "react";
 
-import { Row } from "@/shared/components/Row/Row";
 import { useLanguage } from "@/shared/hooks/useLanguage";
 import { classNames } from "@/shared/lib/classNames";
 
@@ -32,7 +31,7 @@ export function ContinentRow({
 }: ContinentRowProps): ReactNode {
   const { t } = useLanguage(["home"]);
   return (
-    <Row className={classNames("continent-row", `continent-row--${continent}`)}>
+    <div className={classNames("continent-row", `continent-row--${continent}`)}>
       <div
         className={classNames(
           "continent-row__circle",
@@ -40,6 +39,6 @@ export function ContinentRow({
         )}
       />
       <div className="continent-row__name">{t(`continents.${continent}`)}</div>
-    </Row>
+    </div>
   );
 }

@@ -1,7 +1,7 @@
 import "./TimelineTrack.scss";
 
-import { domAnimation, LazyMotion, m, useInView } from "framer-motion";
-import { ReactNode, useRef } from "react";
+import { domAnimation, LazyMotion, m, useReducedMotion } from "framer-motion";
+import { ReactNode } from "react";
 import { useNavigate } from "react-router";
 
 import CalendarIcon from "@/assets/icons/Calendar.svg?react";
@@ -11,211 +11,135 @@ import { CountryFlag } from "@/shared/components/CountryFlag/CountryFlag";
 import { EmptyState } from "@/shared/components/EmptyState/EmptyState";
 import { useLanguage } from "@/shared/hooks/useLanguage";
 
-/**
- * Represents a trip item.
- * @property {(typeof visitedTrips)[0]} trip - The trip
- * @property {"left" | "right"} side - The side
- */
-type TripItem = {
-  trip: (typeof visitedTrips)[0];
-  side: "left" | "right";
-};
+import { groupTripsByStartYear, YearGroup } from "../../lib/timelineYears";
 
 /**
- * Represents a year group.
- * @property {number} year - The year
- * @property {TripItem[]} trips - The trips
+ * Properties accepted by the TimelineEntry component.
+ * @property {YearGroup["trips"][number]} trip - The trip the row describes
  */
-type YearGroup = {
-  year: number;
-  trips: TripItem[];
-};
+interface TimelineEntryProps {
+  trip: YearGroup["trips"][number];
+}
 
 /**
- * Represents a timeline card item props.
+ * TimelineEntry component
+ * One trip on the chronological rail: a plate, the trip title, and the dates
+ * and stay count that place it. Rendered as a button so the whole row is
+ * reachable by keyboard, and revealed as it scrolls into view.
+ * @component
+ * @param {TimelineEntryProps} props - The timeline entry props
+ * @param {YearGroup["trips"][number]} props.trip - The trip the row describes
+ * @returns {ReactNode} The timeline row
  */
-type TimelineCardItemProps = TripItem;
+function TimelineEntry({ trip }: TimelineEntryProps): ReactNode {
+  const navigate = useNavigate();
+  const { t, currLanguage: lang } = useLanguage(["home"]);
+  const prefersReducedMotion = useReducedMotion();
+  const tripTitle = trip.getLocalizedTitle(lang);
+  const countries = trip.getCountriesVisited();
+  const cityCount = new Set(
+    trip.destinations.flatMap((destination) =>
+      destination.isLayover ? [] : [destination.city.name],
+    ),
+  ).size;
+
+  return (
+    <m.li
+      className="timeline-entry"
+      initial={prefersReducedMotion ? false : { opacity: 0, y: 16 }}
+      transition={{ duration: 0.32, ease: [0.32, 0.72, 0, 1] }}
+      viewport={{ amount: 0.35, once: true }}
+      whileInView={{ opacity: 1, y: 0 }}
+    >
+      <button
+        className="timeline-entry__button"
+        onClick={() => navigate(`/trip/${trip.id}`)}
+        type="button"
+      >
+        <span aria-hidden className="timeline-entry__node" />
+
+        {trip.backgroundImgSource ? (
+          <span className="timeline-entry__plate">
+            <img
+              alt=""
+              className="timeline-entry__image"
+              src={trip.backgroundImgSource}
+            />
+          </span>
+        ) : null}
+
+        <span className="timeline-entry__body">
+          <span className="timeline-entry__heading">
+            <span className="timeline-entry__title">{tripTitle}</span>
+            <span className="timeline-entry__flags">
+              {countries.map((country) => (
+                <CountryFlag
+                  className="timeline-entry__flag"
+                  countryId={country.id}
+                  key={country.id}
+                />
+              ))}
+            </span>
+          </span>
+
+          <span className="timeline-entry__meta">
+            <span className="timeline-entry__date">
+              <CalendarIcon className="timeline-entry__date-icon" />
+              <span className="figure">
+                {formatDateRangeShort({
+                  sDateInput: trip.sDate,
+                  eDateInput: trip.eDate,
+                  locale: lang,
+                  includeWeekday: false,
+                  showYear: true,
+                })}
+              </span>
+            </span>
+            <span className="timeline-entry__cities">
+              {t("timeline.city", { count: cityCount })}
+            </span>
+          </span>
+        </span>
+      </button>
+    </m.li>
+  );
+}
 
 /**
  * TimelineTrack component
- * Renders a vertical timeline of all visited trips, grouped by year and sorted
- * chronologically descending. Individual trip cards alternate left / right for a
- * zigzag layout, each animating in from the side as they enter the viewport.
+ * The chronological index of every trip taken, newest first, hung off a single
+ * rail with a sticky marker for each year. One left-anchored column rather than
+ * an alternating layout, so the reading order matches the order of travel and
+ * the desktop and mobile compositions are the same.
  * @component
  * @returns {ReactNode} The timeline track
  */
 export function TimelineTrack(): ReactNode {
   const { t } = useLanguage(["home"]);
-  const yearGroups = (() => {
-    const sorted = visitedTrips.toSorted(
-      (a, b) => b.sDate.getTime() - a.sDate.getTime(),
+  const yearGroups = groupTripsByStartYear(visitedTrips);
+
+  if (yearGroups.length === 0) {
+    return (
+      <div className="timeline-track">
+        <EmptyState message={t("timeline.empty")} />
+      </div>
     );
-    const yearMap = new Map<number, TripItem[]>();
-    for (const trip of sorted) {
-      const year = trip.sDate.getFullYear();
-      if (!yearMap.has(year)) yearMap.set(year, []);
-      yearMap.get(year)!.push({ trip, side: "left" });
-    }
-    let index = 0;
-    const groups: YearGroup[] = [];
-    for (const [year, trips] of yearMap) {
-      const sortedTrips = trips.toSorted(
-        (a, b) => b.trip.sDate.getTime() - a.trip.sDate.getTime(),
-      );
-      const nextTrips = sortedTrips.map((item, itemIndex) => ({
-        ...item,
-        side: ((index + itemIndex) % 2 === 0 ? "left" : "right") as
-          "left" | "right",
-      }));
-      index += sortedTrips.length;
-      groups.push({
-        year,
-        trips: nextTrips,
-      });
-    }
-    return groups;
-  })() as YearGroup[];
+  }
+
   return (
     <LazyMotion features={domAnimation}>
       <div className="timeline-track">
-        {yearGroups.length > 0 ? (
-          <>
-            <div className="timeline-track__line" />
-            {yearGroups.map(({ year, trips }) => (
-              <TimelineYearGroup key={year} trips={trips} year={year} />
-            ))}
-          </>
-        ) : (
-          <EmptyState message={t("timeline.empty")} />
-        )}
-      </div>
-    </LazyMotion>
-  );
-}
-
-/**
- * TimelineYearGroup component
- * Renders the year divider and all trip cards for a single year group. The
- * divider fades in when the group scrolls into view.
- * @component
- * @param {YearGroup} props
- * @param {number} props.year - The calendar year for this group
- * @param {TripItem[]} props.trips - Trips belonging to this year
- * @returns {ReactNode} The year section
- */
-function TimelineYearGroup({ year, trips }: YearGroup): ReactNode {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { amount: 0.2 });
-  return (
-    <div className="timeline-year-group" ref={ref}>
-      <m.div
-        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -10 }}
-        className="timeline-track__year-divider"
-        initial={{ opacity: 0, y: -10 }}
-        transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
-      >
-        <span>{year}</span>
-      </m.div>
-      {trips.map(({ trip, side }) => (
-        <TimelineCardItem key={trip.id} side={side} trip={trip} />
-      ))}
-    </div>
-  );
-}
-
-/**
- * TimelineCardItem component
- * A single trip card on the timeline. Slides in from the left or right when it
- * enters the viewport and navigates to the trip detail on click.
- * @component
- * @param {TimelineCardItemProps} props - The timeline card props
- * @param {TripItem["trip"]} props.trip - The trip data to display
- * @param {"left" | "right"} props.side - Which side of the timeline axis the card appears on
- * @returns {ReactNode} The trip card
- */
-function TimelineCardItem({ trip, side }: TimelineCardItemProps): ReactNode {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, {
-    amount: 0.25,
-    once: true,
-  });
-  const navigate = useNavigate();
-  const { t, currLanguage: lang } = useLanguage(["home"]);
-  const tripTitle = trip.getLocalizedTitle(lang);
-  const countries = trip.getCountriesVisited();
-  const hiddenState = {
-    opacity: 0,
-    x: side === "left" ? -64 : 64,
-    y: 18,
-    scale: 0.96,
-    filter: "blur(0.375rem)",
-  };
-  const visibleState = {
-    opacity: 1,
-    x: 0,
-    y: 0,
-    scale: 1,
-    filter: "blur(0rem)",
-  };
-  return (
-    <m.div
-      animate={isInView ? visibleState : hiddenState}
-      className={`timeline-card timeline-card--${side}`}
-      initial={hiddenState}
-      onClick={() => navigate(`/trip/${trip.id}`)}
-      ref={ref}
-      transition={{
-        type: "spring",
-        stiffness: 150,
-        damping: 24,
-        mass: 0.8,
-      }}
-    >
-      {trip.backgroundImgSource ? (
-        <div className="timeline-card__image-container">
-          <img
-            alt={tripTitle}
-            className="timeline-card__image"
-            src={trip.backgroundImgSource}
-          />
-          <div className="timeline-card__image-overlay" />
-        </div>
-      ) : null}
-      <div className="timeline-card__flags">
-        {countries.map((c) => (
-          <CountryFlag
-            className="timeline-card__flag"
-            countryId={c.id}
-            key={c.id}
-          />
+        {yearGroups.map(({ year, trips }) => (
+          <section className="timeline-year" key={year}>
+            <h2 className="timeline-year__marker figure">{year}</h2>
+            <ul className="timeline-year__entries">
+              {trips.map((trip) => (
+                <TimelineEntry key={trip.id} trip={trip} />
+              ))}
+            </ul>
+          </section>
         ))}
       </div>
-      <div className="timeline-card__body">
-        <h3 className="timeline-card__title">{tripTitle}</h3>
-        <div className="timeline-card__meta">
-          <div className="timeline-card__date">
-            <CalendarIcon className="timeline-card__date-icon" />
-            <p>
-              {formatDateRangeShort({
-                sDateInput: trip.sDate,
-                eDateInput: trip.eDate,
-                locale: lang,
-                includeWeekday: false,
-                showYear: true,
-              })}
-            </p>
-          </div>
-          <p className="timeline-card__cities-count">
-            {t("timeline.city", {
-              count: new Set(
-                trip.destinations.flatMap((d) =>
-                  d.isLayover ? [] : [d.city.name],
-                ),
-              ).size,
-            })}
-          </p>
-        </div>
-      </div>
-    </m.div>
+    </LazyMotion>
   );
 }

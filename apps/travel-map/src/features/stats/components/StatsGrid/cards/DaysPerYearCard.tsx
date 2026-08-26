@@ -3,7 +3,6 @@ import { ReactNode } from "react";
 
 import { useLanguage } from "@/shared/hooks/useLanguage";
 
-import { Card } from "../../Card/Card";
 import { BarChartYears } from "../../charts/BarChartYears";
 
 /**
@@ -20,17 +19,17 @@ export type DaysPerYearCardProps = {
  * @component
  * @param {DaysPerYearCardProps} props
  * @param {Trip[]} props.trips - Trips used to calculate days abroad
- * @returns {ReactNode} The days-per-year bento card
+ * @returns {ReactNode} The days-per-year panel
  */
 export function DaysPerYearCard({ trips }: DaysPerYearCardProps): ReactNode {
   const { t } = useLanguage(["home"]);
 
   return (
-    <Card className="bento-card bento-card--half bento-detail bento-days-year card--box-shadow">
-      <div className="bento-detail__top">
+    <section className="stats-panel stats-panel--full stats-block stats-days-year">
+      <div className="stats-block__top">
         <h2>{t("stats.daysPerYear")}</h2>
         <BarChartYears trips={trips} />
       </div>
-    </Card>
+    </section>
   );
 }

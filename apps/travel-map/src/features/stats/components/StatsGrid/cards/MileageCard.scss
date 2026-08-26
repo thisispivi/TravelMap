@@ -1,103 +1,108 @@
 @use "../../../../../styles/variables" as v;
 
-.bento-mileage__total {
+.stats-mileage__total {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  margin-bottom: 0.75rem;
+  flex-direction: column-reverse;
+  align-items: flex-start;
+  gap: 0.1875rem;
+  margin-bottom: v.$space5;
 
   p {
     font-size: v.$caption;
-    opacity: 0.65;
-    margin-bottom: 0.2rem;
+    font-weight: 600;
   }
 
   b {
-    font-size: 1.3rem;
+    font-size: v.$displayLg;
     font-weight: 800;
+    letter-spacing: -0.05em;
+    line-height: 1;
   }
 }
 
-.bento-mileage__planets {
+/* The Earth and Moon marks are the one illustrative moment on the sheet: they
+   are what makes an abstract distance mean something. */
+.stats-mileage__planets {
   display: flex;
-  justify-content: space-evenly;
-  gap: 0.5rem;
   flex-wrap: wrap;
+  gap: v.$space5;
+  padding-bottom: v.$space4;
 }
 
-.bento-mileage__planet {
+.stats-mileage__planet {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 0.25rem;
-  min-width: 5rem;
+  gap: v.$space3;
+  min-width: 0;
 
-  .bento-mileage__planet-icon {
-    width: 4.5rem;
-    height: 4.5rem;
+  .stats-mileage__planet-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    min-width: 0;
+  }
+
+  .stats-mileage__planet-icon {
+    width: 2.75rem;
+    height: 2.75rem;
+    flex-shrink: 0;
     border-radius: 50%;
   }
 
   b {
-    font-size: 1rem;
+    font-size: v.$displaySm;
     font-weight: 800;
-    padding: 0.15rem 0.5rem;
-    border-radius: 1rem;
-    border-width: 0.0625rem;
-    border-style: solid;
+    letter-spacing: -0.04em;
+    line-height: 1;
   }
 
   p {
     font-size: v.$caption;
-    text-align: center;
-    opacity: 0.65;
+    font-weight: 600;
     line-height: 1.2;
   }
 }
 
 .map-shell--dark {
-  .bento-mileage__total {
+  .stats-mileage__total {
     p {
-      color: v.$darkAltText;
+      color: v.$darkInkFaint;
     }
 
     b {
-      color: v.$darkButtonContent;
+      color: v.$darkInk;
     }
   }
 
-  .bento-mileage__planet {
+  .stats-mileage__planet {
     b {
-      border-color: rgba(255, 255, 255, 0.15);
-      color: v.$darkButtonContent;
+      color: v.$darkInk;
     }
 
     p {
-      color: v.$darkAltText;
+      color: v.$darkInkMuted;
     }
   }
 }
 
 .map-shell--light {
-  .bento-mileage__total {
+  .stats-mileage__total {
     p {
-      color: v.$lightAltText;
+      color: v.$lightInkFaint;
     }
 
     b {
-      color: v.$lightButtonContent;
+      color: v.$lightInk;
     }
   }
 
-  .bento-mileage__planet {
+  .stats-mileage__planet {
     b {
-      border-color: rgba(0, 0, 0, 0.12);
-      color: v.$lightButtonContent;
+      color: v.$lightInk;
     }
 
     p {
-      color: v.$lightAltText;
+      color: v.$lightInkMuted;
     }
   }
 }

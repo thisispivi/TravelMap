@@ -5,7 +5,6 @@ import { ReactNode } from "react";
 
 import { useLanguage } from "@/shared/hooks/useLanguage";
 
-import { Card } from "../../Card/Card";
 import { PopulationBarChart } from "../../charts/BarChartPopulation";
 
 /**
@@ -23,20 +22,20 @@ export type PopulationCardProps = {
  * @component
  * @param {PopulationCardProps} props
  * @param {City[]} props.cities - Cities used to calculate the population ranking
- * @returns {ReactNode} The population bento card
+ * @returns {ReactNode} The population panel
  */
 export function PopulationCard({ cities }: PopulationCardProps): ReactNode {
   const { t } = useLanguage(["home"]);
 
   return (
-    <Card className="bento-card bento-card--half bento-detail bento-population card--box-shadow">
-      <div className="bento-population__inner">
-        <div className="bento-population__left">
+    <section className="stats-panel stats-panel--half stats-block stats-population">
+      <div className="stats-population__inner">
+        <div className="stats-population__left">
           <h2>{t("stats.population")}</h2>
-          <p className="bento-detail__subtitle">{t("stats.populationTop10")}</p>
+          <p className="stats-block__subtitle">{t("stats.populationTop10")}</p>
           <PopulationBarChart data={cities} />
         </div>
       </div>
-    </Card>
+    </section>
   );
 }

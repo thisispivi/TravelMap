@@ -5,11 +5,11 @@ import { ReactNode } from "react";
 
 import { useLanguage } from "@/shared/hooks/useLanguage";
 
+import { chartPalette } from "../../lib/chartPalette";
+
 /**
  * Properties accepted by the ContinentsBarChart component.
  * @property {{ continent: Continent; cities: number; countries: number }[]} data - The data
- * @property {string[]} [barColors] - The bar colors
- * @property {boolean} [isDarkTheme] - Whether the dark theme is active
  */
 interface ContinentsBarChartProps {
   data: {
@@ -17,8 +17,6 @@ interface ContinentsBarChartProps {
     cities: number;
     countries: number;
   }[];
-  barColors?: string[];
-  isDarkTheme?: boolean;
 }
 
 /**
@@ -72,14 +70,10 @@ function BarRow({ value, maxVal, color, label }: BarRowProps): ReactNode {
  * @component
  * @param {ContinentsBarChartProps} props - The continent chart props
  * @param {ContinentsBarChartProps["data"]} props.data - Continent statistics
- * @param {string[]} [props.barColors] - Bar palette; defaults to the chart palette
- * @param {boolean} [props.isDarkTheme=false] - Whether to use the dark theme
  * @returns {ReactNode} The continent bar chart
  */
 export function ContinentsBarChart({
   data,
-  barColors = ["#107895", "#79a14e"],
-  isDarkTheme = false,
 }: ContinentsBarChartProps): ReactNode {
   const { t } = useLanguage(["home"]);
   const filtered = data.filter((c) => c.cities > 0 || c.countries > 0);
@@ -96,21 +90,19 @@ export function ContinentsBarChart({
   const continentLabel = (continent: Continent): string =>
     t(`continents.${continent.replace(/\s+/g, "_").toUpperCase()}`);
   return (
-    <div
-      className={`continents-bar-chart ${isDarkTheme ? "continents-bar-chart--dark" : "continents-bar-chart--light"}`}
-    >
+    <div className="continents-bar-chart">
       <div className="continents-bar-chart__legend">
         <span className="continents-bar-chart__legend-item">
           <span
             className="continents-bar-chart__legend-dot"
-            style={{ background: barColors[0] }}
+            style={{ background: chartPalette.secondary }}
           />
           {t("stats.countriesPerContinent")}
         </span>
         <span className="continents-bar-chart__legend-item">
           <span
             className="continents-bar-chart__legend-dot"
-            style={{ background: barColors[1] }}
+            style={{ background: chartPalette.primary }}
           />
           {t("stats.citiesPerContinent")}
         </span>
@@ -123,13 +115,13 @@ export function ContinentsBarChart({
             </span>
             <div className="continents-bar-chart__bars">
               <BarRow
-                color={barColors[0]}
+                color={chartPalette.secondary}
                 label={t("stats.countriesPerContinent")}
                 maxVal={maxVal}
                 value={d.countries}
               />
               <BarRow
-                color={barColors[1]}
+                color={chartPalette.primary}
                 label={t("stats.citiesPerContinent")}
                 maxVal={maxVal}
                 value={d.cities}

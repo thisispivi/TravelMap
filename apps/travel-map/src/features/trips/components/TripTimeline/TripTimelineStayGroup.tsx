@@ -369,7 +369,7 @@ export function TimelineStayGroup({
           </div>
 
           {nights > 0 ? (
-            <div className="trip-detail__stay-nights-pill">
+            <div className="trip-detail__stay-nights">
               {nights} {nightsLabel}
             </div>
           ) : null}

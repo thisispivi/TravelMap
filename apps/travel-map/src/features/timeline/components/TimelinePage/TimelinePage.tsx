@@ -8,8 +8,8 @@ import { TimelineTrack } from "../TimelineTrack/TimelineTrack";
 
 /**
  * TimelinePage component
- * Full-page wrapper for the chronological trip timeline. Renders a scrollable
- * container with a header and the `TimelineTrack` component.
+ * The routed view for the chronological trip index. Owns the scrolling sheet
+ * and its heading; the ordering and the rail itself belong to TimelineTrack.
  * @component
  * @returns {ReactNode} The timeline page
  */
@@ -19,9 +19,7 @@ export function TimelinePage(): ReactNode {
   return (
     <section className="timeline-page">
       <div className="timeline-page__scroll">
-        <div className="timeline-page__header">
-          <h1>{t("timeline.title")}</h1>
-        </div>
+        <h1 className="timeline-page__title">{t("timeline.title")}</h1>
         <TimelineTrack />
       </div>
     </section>

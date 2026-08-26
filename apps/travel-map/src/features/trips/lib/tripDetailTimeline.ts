@@ -924,6 +924,7 @@ function addCityOffsetsForStop(
 /**
  * Transport and stay totals derived from a trip timeline.
  * @property {number} nights - The total number of overnight stays
+ * @property {number} stops - The number of cities stayed in
  * @property {number} flights - The number of flight legs
  * @property {number} flightKm - The total flight distance in kilometres
  * @property {number} flightMinutes - The total time spent flying
@@ -949,6 +950,7 @@ function addCityOffsetsForStop(
  */
 export interface TripStats {
   nights: number;
+  stops: number;
   flights: number;
   flightKm: number;
   flightMinutes: number;
@@ -980,6 +982,7 @@ export interface TripStats {
  */
 export function computeTripStats(items: TripDetailTimelineItem[]): TripStats {
   let nights = 0;
+  let stops = 0;
   let flights = 0,
     flightKm = 0,
     flightMinutes = 0;
@@ -1005,6 +1008,7 @@ export function computeTripStats(items: TripDetailTimelineItem[]): TripStats {
   for (const item of items) {
     if (item.kind === "base-stop") {
       nights += item.nights;
+      stops += 1;
       addCityOffsetsForStop(
         timezoneOffsets,
         item.city,
@@ -1052,6 +1056,7 @@ export function computeTripStats(items: TripDetailTimelineItem[]): TripStats {
   }
   return {
     nights,
+    stops,
     flights,
     flightKm,
     flightMinutes,
@@ -1075,4 +1080,56 @@ export function computeTripStats(items: TripDetailTimelineItem[]): TripStats {
     walkMinutes,
     timezoneCount: timezoneOffsets.size,
   };
+}
+
+/**
+ * One transport mode used on a trip, with how many legs it covered and how far
+ * they went.
+ * @property {TransportMode} mode - The transport mode
+ * @property {number} count - How many legs used the mode
+ * @property {number} km - The distance the mode covered, in kilometres
+ */
+export interface TripModeSummary {
+  mode: TransportMode;
+  count: number;
+  km: number;
+}
+
+/**
+ * Projects the per-mode fields of a trip's statistics into a list the trip
+ * detail panel can render as the map route's legend, dropping modes the trip
+ * never used.
+ * @param {TripStats} stats - The trip's aggregate statistics
+ * @returns {TripModeSummary[]} The modes the trip used, most legs first
+ */
+export function summarizeTripModes(stats: TripStats): TripModeSummary[] {
+  const byMode: TripModeSummary[] = [
+    { mode: "plane", count: stats.flights, km: stats.flightKm },
+    { mode: "ferry", count: stats.ferries, km: stats.ferryKm },
+    { mode: "train", count: stats.trains, km: stats.trainKm },
+    { mode: "bus", count: stats.buses, km: stats.busKm },
+    { mode: "car", count: stats.cars, km: stats.carKm },
+    { mode: "taxi", count: stats.taxis, km: stats.taxiKm },
+    { mode: "walk", count: stats.walks, km: stats.walkKm },
+  ];
+  return byMode
+    .filter((entry) => entry.count > 0)
+    .sort((first, second) => second.count - first.count);
+}
+
+/**
+ * Sums the distance a trip covered across every transport mode.
+ * @param {TripStats} stats - The trip's aggregate statistics
+ * @returns {number} The total distance in kilometres
+ */
+export function totalTripDistanceKm(stats: TripStats): number {
+  return Math.round(
+    stats.flightKm +
+      stats.ferryKm +
+      stats.trainKm +
+      stats.busKm +
+      stats.carKm +
+      stats.taxiKm +
+      stats.walkKm,
+  );
 }

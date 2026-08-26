@@ -2,7 +2,7 @@
 
 .trip-detail {
   .trip-detail__row--origin {
-    padding: 0.25rem 0;
+    padding: v.$space1 0;
 
     .trip-detail__track {
       justify-content: center;
@@ -43,7 +43,7 @@
 .map-shell--dark {
   .trip-detail {
     .trip-detail__origin-name {
-      color: v.$darkAltText;
+      color: v.$darkInkMuted;
     }
   }
 }
@@ -51,7 +51,7 @@
 .map-shell--light {
   .trip-detail {
     .trip-detail__origin-name {
-      color: v.$lightAltText;
+      color: v.$lightInkMuted;
     }
   }
 }

@@ -616,11 +616,11 @@ Vertical whitespace communicates structure and MUST be deterministic:
 
   ```scss
   .map-city-marker {
-    --marker-color: #d50000;
-    width: 1.25rem;
+    --marker-fill: #{v.$pin};
+    width: 0.964rem;
 
     &--future {
-      --marker-color: #1565c0;
+      --marker-core: transparent;
     }
 
     &--hovered,
@@ -675,9 +675,14 @@ Vertical whitespace communicates structure and MUST be deterministic:
   @use "../../../styles/variables" as v;
   @use "../../../styles/mixins" as m;
 
-  color: v.$darkButtonContent;
-  @include m.transition(background-color, 0.2s);
+  color: v.$darkInk;
+  @include m.transition(background-color color);
   ```
+
+  `transition()` takes a space-separated property list and normalises it to the
+  comma-separated form `transition-property` actually requires. It sets only
+  `transition-property`/`-duration`/`-timing-function`, so a rule can still add
+  its own `transition-delay`.
 
 - **Theming is class-scoped**, not media-query-based: style under
   `.map-shell--dark` and `.map-shell--light` modifiers, always provide both.
@@ -686,21 +691,20 @@ Vertical whitespace communicates structure and MUST be deterministic:
   .map-shell {
     &--dark {
       .map__canvas {
-        background: v.$darkBackground;
+        background: v.$darkGround;
       }
     }
 
     &--light {
       .map__canvas {
-        background: v.$lightBackground;
+        background: v.$lightGround;
       }
     }
   }
   ```
 
 - **Respect `prefers-reduced-motion`** on every file that defines a
-  transition or animation, not just the three that currently do
-  (`TripCard.scss`, `TooltipMap.scss`, `Marker.scss`):
+  transition or animation:
 
   ```scss
   @media (prefers-reduced-motion: reduce) {
@@ -710,28 +714,37 @@ Vertical whitespace communicates structure and MUST be deterministic:
   }
   ```
 
-  Treat this as a checklist item (§19), not an opt-in — most `.scss` files
-  with a `transition`/`animation` property don't have the carve-out yet.
+  Treat this as a checklist item (§19), not an opt-in.
 
-- **Design tokens live in `_variables.scss`.** Before hardcoding a color,
-  check whether an existing token already is that value — `Marker.scss`'s
-  `--marker-color: #8a8ea4` duplicates `$darkAltTextDarker` by coincidence
-  instead of referencing it, which is exactly what this rule exists to
-  prevent. Values JavaScript needs (route/transport colors) are duplicated in
-  `_variables.module.scss` and imported as a module:
-  `import variables from "@/styles/_variables.module.scss"`.
-- **Reuse the glass/blur mixins** (`glassmorphism-dark/light`,
-  `floating-card-dark/light`, `full-panel-dark/light` in `_mixins.scss`)
-  instead of hand-rolling a blur radius per file — about half the files that
-  need this effect already use the mixins; the other half
-  (`MapShell.scss`, `TripDetailHero.scss`, `TooltipMap.scss`, `Map.scss`,
-  `Card.scss`, `TimelineTrack.scss`, `CityCard.scss`) each picked their own
-  radius by hand. Converge new work on the mixins.
+- **Design tokens live in `_variables.scss`, and authored UI uses only them.**
+  A raw color, spacing value, radius, font size, or duration in a component
+  stylesheet is a defect unless it is a genuine one-off dimension (an icon
+  size, a hairline, a breakpoint). Values JavaScript needs (map, route and
+  transport colors) are re-exported through `_variables.module.scss` and
+  imported as a module:
+  `import variables from "@/styles/_variables.module.scss"` — never restated as
+  a second literal on the TypeScript side.
+- **The scales are closed sets.** Spacing is `$space1`–`$space6`; radius is
+  `$radiusControl` / `$radiusSurface` / `$radiusPill`; type runs `$micro`
+  through `$displayLg`; motion is `$motionState` for interaction feedback and
+  `$motionSurface` for a surface entering or leaving. Reaching for a value
+  between two steps means the composition wants rethinking, not a new token.
+- **Three surface tiers, and only one of them blurs.** `chrome-dark/light` is
+  for surfaces that genuinely float over the moving map (the navigation, the
+  map tooltip); `sheet-dark/light` is the opaque panel laid on the map;
+  content inside a sheet gets no surface of its own. Glass inside glass is
+  what this rule exists to prevent.
+- **`rule-tick()` is the recurring separator.** A hairline with a short
+  pin-colored tick at its start marks a section, the way the route rail marks
+  a stop. Prefer it over wrapping content in another container.
+- **One accent.** `$pin` comes from the logo mark and marks the current thing:
+  the active tab, the active filter, the selected marker, the current stop. It
+  is not a decorative color, and a second accent hue does not get introduced
+  for variety. `$pinOnLight` / `$pinOnDark` exist because `$pin` itself only
+  clears the contrast floor for fills, not for text.
 - `outline: none` MUST always be paired with a visible focus replacement
-  (scale, ring, z-lift) in the same rule or file. `TripCard.scss`,
-  `FilterByCountry.scss`, and `FloatingNav.scss` currently remove the outline
-  with nothing standing in for it — that's a bug against this rule, not a
-  style choice to preserve.
+  (scale, ring, z-lift) in the same rule or file. `focus-ring()` is the default
+  replacement.
 
 ---
 
@@ -1036,12 +1049,12 @@ already in the file; none of them justify a standalone rewrite pass (see
   statements after the class body (valid JS via hoisting, but violates
   `simple-import-sort/imports` and this doc's import-ordering rule) — move
   them to the top on next touch.
-- **Bare-SVG click targets with no keyboard/role support.**
-  `CloseButton`, `FloatingNav`'s logo, `Gallery`'s play-icon overlay (§6, §13).
-- **`outline: none` with no visible-focus replacement.** `TripCard.scss`,
-  `FilterByCountry.scss`, `FloatingNav.scss` (§12).
-- **Hardcoded colors that duplicate an existing token by coincidence.**
-  `Marker.scss`'s `#8a8ea4` (§12).
+- **A container component that only adds a class.** `Card`, `Box`, `Container`
+  and `Row` were exactly this and are gone; do not reintroduce a wrapper whose
+  whole body is `<div className={...}>{children}</div>` (§6).
+- **A second visual language alongside the token scales.** A raw hex, a fourth
+  radius, an off-scale font size, or a bespoke blur in a component stylesheet
+  (§12).
 - **Inconsistent `alt` text handling.** `Lightbox.tsx` hardcodes `alt=""`
   where `Gallery.tsx` correctly uses the data's `alt` (§13).
 - **Placeholder JSDoc that satisfies lint but says nothing.**
@@ -1119,6 +1132,16 @@ The public app's feature-based migration is defined by
 dependency boundaries; the remaining items below are independent follow-up
 work, not reasons to weaken feature ownership.
 
+**Completed in the visual system revision**: the token layer was rebuilt
+around closed spacing, radius, type and motion scales with a single accent
+(§12); `Card`, `Box`, `Container` and `Row` were deleted as containers that
+added a class and nothing else; `outline: none` without a replacement, the
+bare-SVG click targets, and the duplicated marker hex are all gone; the
+document-wide `* { transition: … }` rule was removed, and the `transition()`
+mixin now emits a valid comma-separated property list instead of silently
+falling back to `all`. `prefers-reduced-motion` carve-outs cover every file
+that animates.
+
 **Immediate documentation corrections** (do these first, they're pure
 accuracy fixes with no code risk):
 
@@ -1145,13 +1168,6 @@ behavior change):
   and `Gallery.tsx` to actually describe what those functions do.
 - Fix `Lightbox.tsx`'s hardcoded `alt=""` to use the photo's real `alt` data,
   matching `Gallery.tsx`.
-- Add the missing visible-focus replacement everywhere `outline: none` is
-  used without one (`TripCard.scss`, `FilterByCountry.scss`,
-  `FloatingNav.scss`).
-- Reference `$darkAltTextDarker` from `Marker.scss` instead of repeating its
-  hex value.
-- Wrap `CloseButton`, `FloatingNav`'s logo, and `Gallery`'s play-icon overlay
-  in real `<button type="button">` elements.
 
 **Medium-size refactors** (worth a dedicated, reviewable PR each):
 
@@ -1163,10 +1179,8 @@ behavior change):
   the numbers locally.
 - Factor `TripBrowser.tsx`'s and `PlacesBrowser.tsx`'s duplicated
   ResizeObserver+rAF measurement into one shared hook.
-- Consolidate the seven files hand-rolling glass/blur values onto the
-  existing `glassmorphism-*`/`floating-card-*`/`full-panel-*` mixins.
-- Add `prefers-reduced-motion` carve-outs to the `.scss` files that define
-  transitions/animations but don't have one yet.
+- Give `TripTimelineStayGroup.tsx` the same treatment `TripTimeline.tsx` got:
+  it is still one 400-line component holding several distinct row layouts.
 
 **Larger, sequenced changes** (real investment, do only when there's a
 concrete trigger, not preemptively):

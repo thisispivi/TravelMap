@@ -35,11 +35,11 @@
     flex: 1;
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: v.$space3;
     width: 100%;
-    padding: 0.625rem 0.75rem;
+    padding: v.$space2 v.$space3;
     border: 0;
-    border-radius: 0.875rem;
+    border-radius: v.$radiusControl;
     appearance: none;
     background: transparent;
     color: inherit;
@@ -51,7 +51,7 @@
     @include m.transition(background-color, 0.15s);
 
     &--nested {
-      margin-left: 1rem;
+      margin-left: v.$space4;
     }
 
     &--clickable {
@@ -66,7 +66,7 @@
   .trip-detail__day-trip-thumb {
     width: 2.75rem;
     height: 2.75rem;
-    border-radius: 0.5625rem;
+    border-radius: v.$radiusControl;
     overflow: hidden;
     flex-shrink: 0;
   }
@@ -81,7 +81,7 @@
   .trip-detail__day-trip-thumb-empty {
     width: 100%;
     height: 100%;
-    border-radius: 0.5625rem;
+    border-radius: v.$radiusControl;
   }
 
   .trip-detail__day-trip-body {
@@ -132,24 +132,24 @@
 .map-shell--dark {
   .trip-detail {
     .trip-detail__day-trip-card {
-      background: rgba(255, 255, 255, 0.03);
-      box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.1);
+      background: v.$darkFill;
+      box-shadow: 0 0.125rem 0.5rem v.$lightRule;
 
       &--clickable:hover {
-        background: rgba(255, 255, 255, 0.07);
+        background: v.$darkFill;
       }
     }
 
     .trip-detail__day-trip-thumb-empty {
-      background: rgba(255, 255, 255, 0.05);
+      background: v.$darkFill;
     }
 
     .trip-detail__day-trip-name {
-      color: v.$darkButtonContent;
+      color: v.$darkInk;
     }
 
     .trip-detail__day-trip-meta {
-      color: v.$darkAltText;
+      color: v.$darkInkMuted;
     }
   }
 }
@@ -158,23 +158,23 @@
   .trip-detail {
     .trip-detail__day-trip-card {
       background: rgba(0, 0, 0, 0.055);
-      box-shadow: 0 0.0625rem 0.25rem rgba(0, 0, 0, 0.06);
+      box-shadow: 0 0.0625rem 0.25rem v.$lightFill;
 
       &--clickable:hover {
-        background: rgba(0, 0, 0, 0.09);
+        background: v.$lightFill;
       }
     }
 
     .trip-detail__day-trip-thumb-empty {
-      background: rgba(0, 0, 0, 0.07);
+      background: v.$lightFill;
     }
 
     .trip-detail__day-trip-name {
-      color: v.$lightButtonContent;
+      color: v.$lightInk;
     }
 
     .trip-detail__day-trip-meta {
-      color: v.$lightAltText;
+      color: v.$lightInkMuted;
     }
   }
 }

@@ -4,31 +4,27 @@
 
 .places-browser {
   position: fixed;
-  top: calc(v.$floatingNavHeight + 2rem);
-  left: 1rem;
-  width: v.$floatingCardMaxWidth;
-  max-height: calc(100vh - v.$floatingNavHeight - 3rem);
+  top: calc(v.$floatingNavHeight + v.$space5);
+  left: v.$space4;
   z-index: 2;
   display: flex;
   flex-direction: column;
+  width: v.$panelWidth;
+  max-height: calc(100vh - v.$floatingNavHeight - v.$space6);
+  padding: v.$panelPadding v.$panelPadding 0;
   overflow: visible;
   transform-origin: left top;
 
-  .places-browser__header {
+  &__header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     min-height: 2.25rem;
-    padding-bottom: 0.75rem;
     flex-shrink: 0;
-
-    h2 {
-      font-size: v.$headingLg;
-      line-height: 2.25rem;
-    }
+    padding-bottom: v.$space3;
   }
 
-  .places-browser__header-action {
+  &__header-action {
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -37,59 +33,48 @@
     flex-shrink: 0;
   }
 
-  .places-browser__filter {
-    margin-bottom: 1rem;
+  &__filter {
     flex-shrink: 0;
-    overflow-x: auto;
-    scrollbar-width: none;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
   }
 
-  .places-browser__grid {
+  &__grid {
     position: relative;
-    overflow-y: hidden;
-    overflow-x: clip;
     flex: 1;
     min-height: 0;
-    padding: 0.25rem 0.25rem 0.25rem;
-    margin: 0 -0.25rem;
-    scrollbar-gutter: auto;
+    margin: 0 (-(v.$space1));
+    padding: v.$space4 v.$space1 0;
+    overflow-x: clip;
+    overflow-y: hidden;
 
-    &.places-browser__grid--scrollable {
+    &--scrollable {
       overflow-y: auto;
     }
   }
 
-  .places-browser__grid-stage {
+  &__grid-stage {
     display: grid;
     width: 100%;
     min-height: 100%;
   }
 
-  .places-browser__grid-page {
+  /* Two columns is the panel's natural measure. A place returned to spans both
+     of them, so the grid gains rhythm from the data rather than from a
+     decorative layout rule. */
+  &__grid-page {
     display: grid;
     width: 100%;
     grid-area: 1 / 1;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr));
-    grid-auto-rows: 11rem;
-    gap: 0.625rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: 10.5rem;
+    /* A wide plate landing in the right-hand column would otherwise leave the
+       left one empty; dense packing pulls the next single plate up into it. */
+    grid-auto-flow: dense;
+    gap: v.$space2;
     align-content: start;
+    padding-bottom: v.$panelPadding;
 
-    &.places-browser__grid-page--single {
-      grid-template-columns: minmax(
-        min(100%, 9rem),
-        calc((100% - 0.625rem) / 2)
-      );
-    }
-
-    &.places-browser__grid-page--empty {
-      display: flex;
-      min-height: 7.5rem;
-      align-items: center;
-      justify-content: center;
+    &--empty {
+      display: block;
     }
   }
 }
@@ -103,76 +88,54 @@ body.filter-open .places-browser .filter {
   pointer-events: auto;
 }
 
-.map-shell--dark {
-  .places-browser {
-    @include m.floating-card-dark();
+.map-shell--dark .places-browser {
+  @include m.sheet-dark();
 
-    .places-browser__header h2 {
-      color: #ffffff;
-    }
+  .places-browser__header h2 {
+    color: v.$darkInk;
+  }
 
-    .places-browser__grid {
-      @include s.setScrollbar(
-        transparent,
-        rgba(255, 255, 255, 0.12),
-        rgba(255, 255, 255, 0.2),
-        rgba(255, 255, 255, 0.3)
-      );
-    }
+  .places-browser__grid {
+    @include s.setScrollbar(
+      transparent,
+      v.$darkRule,
+      v.$darkRuleStrong,
+      v.$darkInkFaint
+    );
   }
 }
 
-.map-shell--light {
-  .places-browser {
-    @include m.floating-card-light();
-    border: 0.0625rem solid rgba(0, 0, 0, 0.06);
+.map-shell--light .places-browser {
+  @include m.sheet-light();
 
-    .places-browser__header h2 {
-      color: v.$lightButtonContent;
-    }
+  .places-browser__header h2 {
+    color: v.$lightInk;
+  }
 
-    .places-browser__grid {
-      @include s.setScrollbar(
-        transparent,
-        rgba(0, 0, 0, 0.15),
-        rgba(0, 0, 0, 0.25),
-        rgba(0, 0, 0, 0.35)
-      );
-    }
+  .places-browser__grid {
+    @include s.setScrollbar(
+      transparent,
+      v.$lightRule,
+      v.$lightRuleStrong,
+      v.$lightInkFaint
+    );
   }
 }
 
 @media screen and (max-width: 42.5rem) {
   .places-browser {
     top: auto;
+    right: v.$mobileFloatingMargin;
     bottom: calc(
       v.$floatingNavHeight + v.$mobileFloatingMargin * 2 +
         env(safe-area-inset-bottom, 0rem)
     );
     left: v.$mobileFloatingMargin;
-    right: v.$mobileFloatingMargin;
     width: auto;
-    max-height: 75vh;
-    border-radius: 1.5rem;
-    padding: v.$floatingCardPadding;
-
-    .places-browser__header h2 {
-      font-size: v.$headingMd;
-    }
-
-    .places-browser__grid {
-      scrollbar-gutter: auto;
-    }
+    max-height: 78vh;
 
     .places-browser__grid-page {
-      grid-template-columns: repeat(auto-fit, minmax(min(100%, 7.75rem), 1fr));
-
-      &.places-browser__grid-page--single {
-        grid-template-columns: minmax(
-          min(100%, 7.75rem),
-          calc((100% - 0.625rem) / 2)
-        );
-      }
+      grid-auto-rows: 9rem;
     }
   }
 }

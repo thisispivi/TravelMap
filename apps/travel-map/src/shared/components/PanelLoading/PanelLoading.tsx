@@ -3,24 +3,25 @@ import "./PanelLoading.scss";
 import { domAnimation, LazyMotion, m } from "framer-motion";
 import { ReactNode, useEffect } from "react";
 
-import { Loading } from "@/shared/components/Loading/Loading";
-
 import { setPanelLoadingVisible } from "./PanelLoading.state";
 
 /**
- * Represents a panel loading variant.
+ * Which panel geometry the fallback occupies while a route chunk loads.
  */
 type PanelLoadingVariant = "side" | "bottom";
 
 const sidePanelMotion = {
-  animate: { scale: 1, x: 0 },
-  initial: { scale: 0.98, x: "-120%" },
-  transition: { duration: 0.22, ease: [0.35, 0, 0.25, 1] },
+  animate: { x: 0 },
+  initial: { x: "-120%" },
+  transition: { duration: 0.24, ease: [0.32, 0.72, 0, 1] },
 } as const;
+
+const SIDE_PLACEHOLDER_COUNT = 3;
+const BOTTOM_PLACEHOLDER_COUNT = 6;
 
 /**
  * Properties accepted by the PanelLoading component.
- * @property {PanelLoadingVariant} variant - The variant
+ * @property {PanelLoadingVariant} variant - Which panel geometry to occupy
  */
 interface PanelLoadingProps {
   variant: PanelLoadingVariant;
@@ -28,14 +29,15 @@ interface PanelLoadingProps {
 
 /**
  * PanelLoading component
- * Suspense fallback for a panel whose page chunk is still loading: the glass
- * surface of the panel with a spinner in the middle of it. The side variant
- * slides in on its own, the bottom one is already inside the animated bottom
- * panel and only fills it.
+ * Suspense fallback for a panel whose route chunk is still loading. Instead of
+ * a spinner it lays out placeholders in the shape the panel is about to take,
+ * so the surface does not resize once the real content arrives. The side
+ * variant slides in on its own; the bottom one already sits inside the
+ * animated bottom panel and only fills it.
  * @component
- * @param {PanelLoadingProps} props
+ * @param {PanelLoadingProps} props - The panel loading props
  * @param {PanelLoadingVariant} props.variant - Which panel geometry to occupy
- * @returns {ReactNode} The loading panel
+ * @returns {ReactNode} The loading placeholder
  */
 export function PanelLoading({ variant }: PanelLoadingProps): ReactNode {
   useEffect(() => {
@@ -45,12 +47,21 @@ export function PanelLoading({ variant }: PanelLoadingProps): ReactNode {
     };
   }, []);
 
-  if (variant === "bottom") {
-    return (
-      <div className="panel-loading panel-loading--bottom">
-        <Loading />
+  const count =
+    variant === "bottom" ? BOTTOM_PLACEHOLDER_COUNT : SIDE_PLACEHOLDER_COUNT;
+  const body = (
+    <>
+      <span className="panel-loading__title" />
+      <div className="panel-loading__blocks">
+        {Array.from({ length: count }, (_, index) => (
+          <span className="panel-loading__block" key={index} />
+        ))}
       </div>
-    );
+    </>
+  );
+
+  if (variant === "bottom") {
+    return <div className="panel-loading panel-loading--bottom">{body}</div>;
   }
 
   return (
@@ -61,7 +72,7 @@ export function PanelLoading({ variant }: PanelLoadingProps): ReactNode {
         initial={sidePanelMotion.initial}
         transition={sidePanelMotion.transition}
       >
-        <Loading />
+        {body}
       </m.div>
     </LazyMotion>
   );

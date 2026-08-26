@@ -31,23 +31,23 @@
     z-index: 10;
     display: flex;
     align-items: center;
-    padding: 0.75rem 1rem;
-    gap: 0.75rem;
-    @include m.transition(opacity, 0.3s, ease-in-out);
+    padding: v.$space3 v.$space4;
+    gap: v.$space3;
+    @include m.transition(opacity);
 
     .lightbox__back-button {
-      border-radius: 5rem;
+      border-radius: v.$radiusPill;
       height: 2.5rem;
       width: auto;
-      padding: 0 1rem;
+      padding: 0 v.$space4;
       flex-shrink: 0;
       svg {
         width: 1.2rem;
         height: 1.2rem;
-        margin-right: 0.5rem;
+        margin-right: v.$space2;
       }
       p {
-        font-size: 0.9rem;
+        font-size: v.$bodySm;
         font-weight: 700;
         white-space: nowrap;
       }
@@ -61,12 +61,12 @@
       height: 2.5rem;
       min-width: 5rem;
       line-height: 2.5rem;
-      padding: 0 1rem;
-      border-radius: 5rem;
+      padding: 0 v.$space4;
+      border-radius: v.$radiusPill;
       text-align: center;
-      font-size: 0.9rem;
+      font-size: v.$bodySm;
       flex-shrink: 0;
-      @include m.transition(all, 0.3s, ease-in-out);
+      @include m.transition(opacity transform background-color color);
 
       .lightbox__index--current {
         font-weight: 700;
@@ -77,7 +77,7 @@
       width: 2.5rem;
       height: 2.5rem;
       flex-shrink: 0;
-      @include m.transition(all, 0.3s, ease-in-out);
+      @include m.transition(opacity transform background-color color);
     }
   }
 
@@ -90,7 +90,7 @@
     padding: 0;
     filter: none;
     transform: translateY(-50%);
-    @include m.transition(all, 0.3s, ease-in-out);
+    @include m.transition(opacity transform background-color color);
 
     &.lightbox__nav-button--disabled {
       display: none;
@@ -98,10 +98,10 @@
 
     &.image-gallery-left-nav {
       left: 0;
-      margin-left: 0.35rem;
+      margin-left: v.$space1;
 
       .chevron {
-        @include m.transition(transform, 0.3s, ease-in-out);
+        @include m.transition(transform);
       }
 
       &:hover .chevron {
@@ -115,11 +115,11 @@
 
     &.image-gallery-right-nav {
       right: 0;
-      margin-right: 0.35rem;
+      margin-right: v.$space1;
 
       .chevron {
         transform: rotate(180deg);
-        @include m.transition(transform, 0.3s, ease-in-out);
+        @include m.transition(transform);
       }
 
       &:hover .chevron {
@@ -157,13 +157,13 @@
             width: 100%;
             height: 100%;
             img {
-              padding: 0.1rem;
+              padding: v.$space1;
               height: calc(100% - 4rem);
               width: 100%;
               object-fit: contain;
             }
             iframe {
-              padding: 0.1rem;
+              padding: v.$space1;
               height: calc(100% - 4rem);
               width: calc(100% - 6rem);
               object-fit: contain;
@@ -186,18 +186,18 @@
 @media screen and (max-width: 42.5rem) {
   .lightbox {
     .lightbox__top-bar {
-      padding: 0.5rem 0.75rem;
+      padding: v.$space2 v.$space3;
 
       .lightbox__back-button {
         height: 2.2rem;
-        padding: 0 0.75rem;
+        padding: 0 v.$space3;
         svg {
           width: 1rem;
           height: 1rem;
-          margin-right: 0.35rem;
+          margin-right: v.$space1;
         }
         p {
-          font-size: 0.8rem;
+          font-size: v.$caption;
         }
       }
 
@@ -205,8 +205,8 @@
         height: 2.2rem;
         line-height: 2.2rem;
         min-width: 4rem;
-        padding: 0 0.75rem;
-        font-size: 0.8rem;
+        padding: 0 v.$space3;
+        font-size: v.$caption;
       }
 
       .lightbox__fullscreen-button {
@@ -225,23 +225,23 @@
 
 .map-shell--light {
   .lightbox:not(.lightbox--fullscreen) {
-    @include m.full-panel-light();
+    @include m.sheet-light();
   }
 
   .lightbox__index {
-    background-color: v.$lightButton;
-    color: v.$lightButtonContent;
+    @include m.chrome-light();
+    color: v.$lightInk;
   }
 }
 
 .map-shell--dark {
   .lightbox:not(.lightbox--fullscreen) {
-    @include m.full-panel-dark();
+    @include m.sheet-dark();
   }
 
   .lightbox__index {
-    background-color: v.$darkButton;
-    color: v.$darkButtonContent;
+    @include m.chrome-dark();
+    color: v.$darkInk;
   }
 }
 

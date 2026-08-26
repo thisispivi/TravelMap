@@ -4,7 +4,6 @@
 .map-shell {
   height: inherit;
   width: inherit;
-  @include m.transition(background-color, 0.4s);
 
   &--mobile,
   &--tablet {
@@ -14,99 +13,134 @@
   }
 
   &--dark {
-    background-color: v.$darkBackground;
+    background-color: v.$darkGround;
 
     .map-shell__back-to-trip {
-      @include m.glassmorphism-dark();
-      color: v.$darkButtonContent;
-    }
-
-    .map-shell__back-to-trip-chevron path {
-      stroke: v.$darkButtonContent;
+      @include m.chrome-dark();
+      color: v.$darkInk;
     }
   }
 
   &--light {
-    background-color: v.$lightBackground;
+    background-color: v.$lightGround;
 
     .map-shell__back-to-trip {
-      @include m.glassmorphism-light();
-      color: v.$lightButtonContent;
-    }
-
-    .map-shell__back-to-trip-chevron path {
-      stroke: v.$lightButtonContent;
+      @include m.chrome-light();
+      color: v.$lightInk;
     }
   }
 
   &__layout {
-    height: inherit;
     position: relative;
+    height: inherit;
     width: inherit;
   }
 
   &__back-to-trip {
-    align-items: center;
-    border: none;
-    border-radius: 62rem;
+    position: fixed;
+    right: v.$space4;
     bottom: 8.5rem;
-    cursor: pointer;
+    z-index: 3;
     display: flex;
+    align-items: center;
+    gap: v.$space1;
+    padding: v.$space2 v.$space3 v.$space2 v.$space2;
+    border: none;
+    border-radius: v.$radiusPill;
     font-size: v.$bodySm;
     font-weight: 600;
-    gap: 0.375rem;
-    padding: 0.5rem 1rem 0.5rem 0.75rem;
-    position: fixed;
-    right: 1rem;
     white-space: nowrap;
-    z-index: 3;
+    cursor: pointer;
+
+    &:focus-visible {
+      @include m.focus-ring();
+    }
   }
 
   &__back-to-trip-chevron {
-    fill: transparent;
     flex-shrink: 0;
+    width: auto;
     height: 1rem;
     transform: rotate(-90deg);
-    width: auto;
   }
 
   &__bottom-panel {
-    height: calc(100vh - v.$floatingNavHeight - 2rem);
-    left: 50%;
-    max-height: calc(100vh - v.$floatingNavHeight - 2rem);
     position: fixed;
-    top: calc(v.$floatingNavHeight + 1.5rem);
-    transform-origin: center top;
-    width: min(calc(100% - 1rem), 56rem);
+    top: calc(v.$floatingNavHeight + v.$space5);
+    left: 50%;
     z-index: 2;
+    width: min(calc(100% - v.$space4), 60rem);
+    height: calc(100vh - v.$floatingNavHeight - v.$space6);
+    max-height: calc(100vh - v.$floatingNavHeight - v.$space6);
+    transform-origin: center top;
   }
 
   &__loading {
-    align-items: center;
     display: flex;
-    height: 100%;
+    align-items: center;
     justify-content: center;
+    height: 100%;
     width: 100%;
   }
 
   @media screen and (max-width: 42.5rem) {
     &__back-to-trip {
+      right: v.$mobileFloatingMargin;
       bottom: calc(
         v.$floatingNavMobileHeight + v.$mobileFloatingMargin * 2 +
           env(safe-area-inset-bottom, 0rem)
       );
-      right: v.$mobileFloatingMargin;
     }
 
     &__bottom-panel {
+      top: auto;
       bottom: calc(
         v.$floatingNavHeight + v.$mobileFloatingMargin * 2 +
           env(safe-area-inset-bottom, 0rem)
       );
-      height: 75vh;
-      max-height: 75vh;
-      top: auto;
       width: calc(100% - v.$mobileFloatingMargin * 2);
+      height: 78vh;
+      max-height: 78vh;
     }
+  }
+}
+
+/* The gallery takes over the whole viewport instead of docking beside the map,
+   so it slides in as its own sheet rather than living inside a panel. */
+.map-shell__gallery {
+  position: absolute;
+  inset: v.$space2;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateX(calc(100% + 1rem));
+  transition:
+    transform v.$motionSurface v.$motionEase,
+    opacity v.$motionSurface v.$motionEase,
+    visibility 0s linear v.$motionSurface;
+
+  &--visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateX(0);
+    transition-delay: 0s;
+  }
+}
+
+.map-shell--dark .map-shell__gallery {
+  @include m.sheet-dark();
+}
+
+.map-shell--light .map-shell__gallery {
+  @include m.sheet-light();
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .map-shell__gallery {
+    transition-duration: 1ms;
   }
 }

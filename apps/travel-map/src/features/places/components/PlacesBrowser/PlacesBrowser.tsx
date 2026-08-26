@@ -6,7 +6,12 @@ import { ReactNode, useEffect, useReducer, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 
 import FilterIcon from "@/assets/icons/Filter.svg?react";
-import { futureCities, livedCities, visitedCities } from "@/data/world";
+import {
+  futureCities,
+  livedCities,
+  visitedCities,
+  visitedTrips,
+} from "@/data/world";
 import { EmptyState } from "@/shared/components/EmptyState/EmptyState";
 import { isPanelLoadingVisible } from "@/shared/components/PanelLoading/PanelLoading.state";
 import { SegmentedControl } from "@/shared/components/SegmentedControl/SegmentedControl";
@@ -16,8 +21,12 @@ import { useLanguage } from "@/shared/hooks/useLanguage";
 import { useResizeMeasurement } from "@/shared/hooks/useResizeMeasurement";
 import { classNames } from "@/shared/lib/classNames";
 
+import { countCityVisits } from "../../lib/cityVisits";
 import { CityCard } from "../CityCard/CityCard";
 import { FilterByCountry } from "../FilterByCountry/FilterByCountry";
+
+/* A place stayed in more than once earns the wider plate. */
+const RETURNED_VISIT_THRESHOLD = 2;
 
 /**
  * Represents a places filter.
@@ -238,6 +247,7 @@ export function PlacesBrowser(): ReactNode {
     const ids = new Set(active.map((c) => c.id));
     return allCities.filter((c) => ids.has(c.country.id));
   })();
+  const plates = countCityVisits(cities, visitedTrips);
   useEffect(() => {
     const frame = window.requestAnimationFrame(() =>
       measurePanelHeightRef.current(),
@@ -348,7 +358,6 @@ export function PlacesBrowser(): ReactNode {
                 animate="center"
                 className={classNames(
                   "places-browser__grid-page",
-                  cities.length === 1 && "places-browser__grid-page--single",
                   cities.length === 0 && "places-browser__grid-page--empty",
                 )}
                 custom={state.transitionDirection}
@@ -362,11 +371,12 @@ export function PlacesBrowser(): ReactNode {
                 }}
                 variants={gridPageVariants}
               >
-                {cities.length > 0 ? (
-                  cities.map((city) => (
+                {plates.length > 0 ? (
+                  plates.map(({ city, visits }) => (
                     <CityCard
                       city={city}
                       isClickable
+                      isReturned={visits >= RETURNED_VISIT_THRESHOLD}
                       key={city.name}
                       setHoveredCity={setHoveredCity}
                       setMapPosition={setMapPosition}

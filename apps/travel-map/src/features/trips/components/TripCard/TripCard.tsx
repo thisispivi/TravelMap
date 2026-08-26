@@ -7,7 +7,6 @@ import { ReactNode } from "react";
 import CalendarIcon from "@/assets/icons/Calendar.svg?react";
 import { formatDateRangeShort } from "@/i18n/functions/date";
 import { CountryFlag } from "@/shared/components/CountryFlag/CountryFlag";
-import { Row } from "@/shared/components/Row/Row";
 import { useLanguage } from "@/shared/hooks/useLanguage";
 
 /**
@@ -61,16 +60,16 @@ export function TripCard({
           type="button"
         >
           <div aria-hidden className="trip-card__image-container">
-            <div className="trip-card__image-overlay" />
             <img
               alt={tripTitle}
               className="trip-card__image"
               src={trip.backgroundImgSource}
             />
+            <div className="trip-card__image-overlay" />
           </div>
 
           <div className="trip-card__info">
-            <Row className="trip-card__flags">
+            <div className="trip-card__flags">
               {countries.map((country) => (
                 <CountryFlag
                   className="trip-card__flag"
@@ -78,11 +77,9 @@ export function TripCard({
                   key={country.id}
                 />
               ))}
-            </Row>
-
-            <div className="trip-card__header-row">
-              <h2 className="trip-card__title">{tripTitle}</h2>
             </div>
+
+            <h2 className="trip-card__title">{tripTitle}</h2>
 
             {trip.sDate ? (
               <div className="trip-card__date">
@@ -99,6 +96,8 @@ export function TripCard({
               </div>
             ) : null}
           </div>
+
+          <span aria-hidden className="trip-card__edge" />
         </button>
       </m.article>
     </LazyMotion>

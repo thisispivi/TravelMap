@@ -5,20 +5,20 @@ import { ReactNode } from "react";
 
 import { TransportModeIcon } from "@/shared/components/TransportModeIcon/TransportModeIcon";
 import { useLanguage } from "@/shared/hooks/useLanguage";
-import { classNames } from "@/shared/lib/classNames";
 import { formatMileage } from "@/shared/lib/format";
+import variables from "@/styles/_variables.module.scss";
 
+import { chartPalette } from "../../lib/chartPalette";
 import { TransportModeStat } from "../../lib/transport";
 const transportModeColors: Record<string, string> = {
-  plane: "#a855f7",
-  ferry: "#0ea5e9",
-  train: "#f59e0b",
-  bus: "#22c55e",
-  car: "#ef4444",
-  taxi: "#eab308",
-  walk: "#14b8a6",
+  plane: variables.transportPlane,
+  ferry: variables.transportFerry,
+  train: variables.transportTrain,
+  bus: variables.transportBus,
+  car: variables.transportCar,
+  taxi: variables.transportTaxi,
+  walk: variables.transportWalk,
 };
-const FILL_MODES = new Set(["taxi"]);
 
 /**
  * Properties accepted by the BarChartTransportModes component.
@@ -53,18 +53,14 @@ export function BarChartTransportModes({
   return (
     <div className="transport-bar-chart">
       {visibleData.map(({ mode, count, km }) => {
-        const color = transportModeColors[mode] ?? "#888";
+        const color = transportModeColors[mode] ?? chartPalette.secondary;
         const value = metric === "km" ? km : count;
         const pct = (value / maxValue) * 100;
-        const isFill = FILL_MODES.has(mode);
         return (
           <div className="transport-bar-chart__row" key={mode}>
             <div className="transport-bar-chart__icon-wrap" style={{ color }}>
               <TransportModeIcon
-                className={classNames(
-                  "transport-bar-chart__icon",
-                  isFill && "transport-bar-chart__icon--fill",
-                )}
+                className="transport-bar-chart__icon"
                 mode={mode as TransportMode}
               />
             </div>

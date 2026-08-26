@@ -6,7 +6,6 @@ import { ReactNode } from "react";
 import ChevronRightIcon from "@/assets/icons/ChevronRight.svg?react";
 import { visitedTrips } from "@/data/world";
 import { CountryFlag } from "@/shared/components/CountryFlag/CountryFlag";
-import { Row } from "@/shared/components/Row/Row";
 import { useLanguage } from "@/shared/hooks/useLanguage";
 import { classNames } from "@/shared/lib/classNames";
 import { formatDeltaVsCityForDateSpan } from "@/shared/lib/timezoneOffset";
@@ -53,7 +52,7 @@ export function TimezoneRow({
   const endDate = eDate ?? firstTravel?.eDate ?? startDate;
 
   return (
-    <Row className={classNames("timezone-row", className, "row--wrap")}>
+    <div className={classNames("timezone-row", className)}>
       <div className="timezone-row__cities">
         <h2 className="timezone-row__cities__city">
           <CountryFlag countryId={sCity.country.id} />
@@ -74,6 +73,6 @@ export function TimezoneRow({
           endDate,
         )}
       </b>
-    </Row>
+    </div>
   );
 }

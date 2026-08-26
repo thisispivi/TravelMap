@@ -1,0 +1,59 @@
+@use "../../../../styles/variables" as v;
+
+.stats-figure {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1875rem;
+  min-width: 0;
+
+  &__value {
+    display: flex;
+    align-items: baseline;
+    gap: v.$space1;
+    flex-wrap: wrap;
+    font-size: v.$displayMd;
+    font-weight: 800;
+    letter-spacing: -0.045em;
+    line-height: 1;
+  }
+
+  &__suffix {
+    font-size: v.$bodySm;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  &__label {
+    font-size: v.$caption;
+    font-weight: 600;
+    line-height: 1.25;
+  }
+}
+
+.map-shell--dark .stats-figure {
+  .stats-figure__value {
+    color: v.$darkInk;
+  }
+
+  .stats-figure__label,
+  .stats-figure__suffix {
+    color: v.$darkInkMuted;
+  }
+}
+
+.map-shell--light .stats-figure {
+  .stats-figure__value {
+    color: v.$lightInk;
+  }
+
+  .stats-figure__label,
+  .stats-figure__suffix {
+    color: v.$lightInkMuted;
+  }
+}
+
+@media screen and (max-width: 42.5rem) {
+  .stats-figure__value {
+    font-size: v.$displaySm;
+  }
+}

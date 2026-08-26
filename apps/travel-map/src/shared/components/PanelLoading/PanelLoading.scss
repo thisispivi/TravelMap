@@ -3,44 +3,97 @@
 
 .panel-loading {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: v.$floatingCardRadiusLg;
+  flex-direction: column;
+  gap: v.$space4;
+  padding: v.$panelPadding;
+  overflow: hidden;
 
-  &--bottom {
-    width: 100%;
-    height: 100%;
+  &__title {
+    width: 8rem;
+    height: 1.375rem;
+    border-radius: v.$radiusControl;
+  }
+
+  &__blocks {
+    display: grid;
+    gap: v.$space3;
+  }
+
+  &__block {
+    border-radius: v.$radiusSurface;
   }
 
   &--side {
     position: fixed;
-    top: calc(v.$floatingNavHeight + 2rem);
-    left: 1rem;
-    width: v.$floatingCardMaxWidth;
-    height: 14rem;
+    top: calc(v.$floatingNavHeight + v.$space5);
+    left: v.$space4;
     z-index: 2;
+    width: v.$panelWidth;
     transform-origin: left top;
+
+    .panel-loading__block {
+      height: 12.75rem;
+    }
+  }
+
+  &--bottom {
+    width: 100%;
+    height: 100%;
+
+    .panel-loading__blocks {
+      grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+    }
+
+    .panel-loading__block {
+      height: 6rem;
+    }
+  }
+}
+
+/* One shared pulse rather than a travelling shimmer: the placeholder should
+   read as "not here yet", not draw the eye while the real content lands. */
+@keyframes panel-loading-pulse {
+  50% {
+    opacity: 0.45;
   }
 }
 
 .map-shell--dark .panel-loading {
-  @include m.full-panel-dark();
+  @include m.sheet-dark();
+
+  .panel-loading__title,
+  .panel-loading__block {
+    background: v.$darkFill;
+    animation: panel-loading-pulse 1.4s ease-in-out infinite;
+  }
 }
 
 .map-shell--light .panel-loading {
-  @include m.full-panel-light();
+  @include m.sheet-light();
+
+  .panel-loading__title,
+  .panel-loading__block {
+    background: v.$lightFill;
+    animation: panel-loading-pulse 1.4s ease-in-out infinite;
+  }
 }
 
 @media screen and (max-width: 42.5rem) {
   .panel-loading--side {
     top: auto;
+    right: v.$mobileFloatingMargin;
     bottom: calc(
       v.$floatingNavHeight + v.$mobileFloatingMargin * 2 +
         env(safe-area-inset-bottom, 0rem)
     );
     left: v.$mobileFloatingMargin;
-    right: v.$mobileFloatingMargin;
     width: auto;
-    border-radius: 1.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel-loading__title,
+  .panel-loading__block {
+    animation: none;
   }
 }

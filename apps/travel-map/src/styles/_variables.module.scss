@@ -1,50 +1,22 @@
 @use "variables" as v;
 
+/* Only the tokens the map layers and the transport charts read at runtime.
+   Everything else stays SCSS-side so the two sources cannot drift. */
 :export {
-  leftBarWidth: v.$leftBarWidth;
+  darkGround: v.$darkGround;
+  darkLand: v.$darkLand;
+  darkInk: v.$darkInk;
+  darkInkFaint: v.$darkInkFaint;
+  darkRule: v.$darkRule;
 
-  lightLeftBar: v.$lightLeftBar;
-  lightLeftBarOpacity: v.$lightLeftBarOpacity;
-  lightInfoTab: v.$lightInfoTab;
-  lightButton: v.$lightButton;
-  lightButtonHover: v.$lightButtonHover;
-  lightButtonContent: v.$lightButtonContent;
-  lightAltText: v.$lightAltText;
+  lightGround: v.$lightGround;
+  lightLand: v.$lightLand;
+  lightInk: v.$lightInk;
+  lightInkFaint: v.$lightInkFaint;
+  lightRule: v.$lightRule;
 
-  darkLeftBar: v.$darkLeftBar;
-  darkLeftBarOpacity: v.$darkLeftBarOpacity;
-  darkInfoTab: v.$darkInfoTab;
-  darkButton: v.$darkButton;
-  darkButtonHover: v.$darkButtonHover;
-  darkButtonContent: v.$darkButtonContent;
-  darkAltText: v.$darkAltText;
-
-  futureButton: v.$futureButton;
-  futureButtonHover: v.$futureButtonHover;
-  futureButtonContent: v.$futureButtonContent;
-
-  visitedButton: v.$visitedButton;
-  visitedButtonHover: v.$visitedButtonHover;
-  visitedButtonContent: v.$visitedButtonContent;
-
-  languageButton: v.$languageButton;
-  languageButtonHover: v.$languageButtonHover;
-  languageButtonContent: v.$languageButtonContent;
-
-  filterButton: v.$filterButton;
-  filterButtonHover: v.$filterButtonHover;
-  filterButtonContent: v.$filterButtonContent;
-
-  statsButton: v.$statsButton;
-  statsButtonHover: v.$statsButtonHover;
-  statsButtonContent: v.$statsButtonContent;
-
-  continentsAfrica: v.$continentsAfrica;
-  continentsAsia: v.$continentsAsia;
-  continentsEurope: v.$continentsEurope;
-  continentsNorthAmerica: v.$continentsNorthAmerica;
-  continentsOceania: v.$continentsOceania;
-  continentsSouthAmerica: v.$continentsSouthAmerica;
+  pin: v.$pin;
+  pinSoft: v.$pinFaint;
 
   transportPlane: v.$transportPlane;
   transportFerry: v.$transportFerry;

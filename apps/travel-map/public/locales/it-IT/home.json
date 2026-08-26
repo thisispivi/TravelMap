@@ -73,7 +73,8 @@
     "transportModes": "Modi di trasporto",
     "flightCompanies": "Compagnie aeree",
     "ferryCompanies": "Compagnie di traghetti",
-    "citiesPerCountry": "Città per Paese"
+    "citiesPerCountry": "Città per Paese",
+    "time": "Tempo"
   },
   "deselectAll": "Deseleziona tutto",
   "filterTooltip": "Filtra le città sulla mappa in base al paese selezionato.",
@@ -168,6 +169,8 @@
     "timeZones": "fusi orari",
     "dayTrip": "Gita",
     "viewMap": "Vedi mappa",
-    "backToTrip": "Torna al viaggio"
+    "backToTrip": "Torna al viaggio",
+    "stops": "Tappe",
+    "distance": "km"
   }
 }

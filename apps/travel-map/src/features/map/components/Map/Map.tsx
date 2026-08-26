@@ -255,7 +255,7 @@ export function Map({ isDarkTheme, responsive }: MapProps): ReactNode {
   return (
     <div className="map-container">
       {!isLoaded ? (
-        <div className="loading">
+        <div className="map-container__loading">
           <Loading />
         </div>
       ) : null}

@@ -1,79 +1,84 @@
 @use "../../../styles/variables" as v;
 @use "../../../styles/mixins" as m;
 
+/* Segments sit on a shared baseline rule and the selection is marked by the
+   pin tick, matching the navigation. No enclosing track, so the control reads
+   as part of the panel rather than as another inset surface. */
 .segmented-control {
   display: flex;
-  gap: 0.25rem;
-  padding: 0.25rem;
-  border-radius: 0.75rem;
   width: 100%;
   overflow-x: auto;
   scrollbar-width: none;
+  border-bottom-width: 0.0625rem;
+  border-bottom-style: solid;
 
   &::-webkit-scrollbar {
     display: none;
   }
 
-  .segmented-control__option {
+  &__option {
     position: relative;
-    padding: 0.5rem 1rem;
+    flex-shrink: 0;
+    padding: v.$space2 v.$space3 v.$space3;
     border: none;
     background: transparent;
     cursor: pointer;
-    border-radius: 0.5rem;
-    flex-shrink: 0;
-    @include m.transition(color, 0.2s);
+    @include m.transition(color);
 
-    .segmented-control__indicator {
-      position: absolute;
-      inset: 0;
-      border-radius: 0.5rem;
-      z-index: 0;
+    &:focus-visible {
+      @include m.focus-ring();
+      border-radius: v.$radiusControl;
+    }
+  }
+
+  &__indicator {
+    position: absolute;
+    right: v.$space3;
+    bottom: -0.0625rem;
+    left: v.$space3;
+    height: 0.125rem;
+    border-radius: v.$radiusPill;
+    background: v.$pin;
+  }
+
+  &__label {
+    position: relative;
+    z-index: 1;
+    font-size: v.$bodySm;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+  }
+}
+
+.map-shell--dark .segmented-control {
+  border-bottom-color: v.$darkRule;
+
+  .segmented-control__option {
+    color: v.$darkInkFaint;
+
+    @include m.hover() {
+      color: v.$darkInkMuted;
     }
 
-    .segmented-control__label {
-      position: relative;
-      z-index: 1;
-      font-size: v.$bodySm;
-      font-weight: 600;
-      white-space: nowrap;
+    &--active {
+      color: v.$darkInk;
     }
   }
 }
 
-.map-shell--dark {
-  .segmented-control {
-    background: rgba(255, 255, 255, 0.06);
+.map-shell--light .segmented-control {
+  border-bottom-color: v.$lightRule;
 
-    .segmented-control__option {
-      color: v.$darkAltTextDarker;
+  .segmented-control__option {
+    color: v.$lightInkFaint;
 
-      &--active {
-        color: #ffffff;
-      }
-
-      .segmented-control__indicator {
-        background: rgba(255, 255, 255, 0.12);
-      }
+    @include m.hover() {
+      color: v.$lightInkMuted;
     }
-  }
-}
 
-.map-shell--light {
-  .segmented-control {
-    background: rgba(0, 0, 0, 0.04);
-
-    .segmented-control__option {
-      color: v.$lightAltText;
-
-      &--active {
-        color: v.$lightButtonContent;
-      }
-
-      .segmented-control__indicator {
-        background: #ffffff;
-        @include m.smooth-shadow(1);
-      }
+    &--active {
+      color: v.$lightInk;
     }
   }
 }

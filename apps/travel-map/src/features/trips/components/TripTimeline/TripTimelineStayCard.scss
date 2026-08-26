@@ -29,8 +29,7 @@
   .trip-detail__row--stay:has(.trip-detail__stay-card:hover)
     .trip-detail__stay-dot {
     transform: scale(1.2);
-    box-shadow: 0 0 0 0.1875rem
-      var(--dot-color-faint, rgba(255, 255, 255, 0.15));
+    box-shadow: 0 0 0 0.1875rem var(--dot-color-faint, var(--dot-default-bg));
   }
 
   .trip-detail__stay-card {
@@ -39,9 +38,9 @@
     align-items: center;
     gap: 0.875rem;
     width: 100%;
-    padding: 0.875rem 1rem;
+    padding: 0.875rem v.$space4;
     border: 0;
-    border-radius: 1.125rem;
+    border-radius: v.$radiusControl;
     appearance: none;
     background: transparent;
     color: inherit;
@@ -64,7 +63,7 @@
   .trip-detail__stay-thumb {
     width: 3.75rem;
     height: 3.75rem;
-    border-radius: 0.75rem;
+    border-radius: v.$radiusControl;
     overflow: hidden;
     flex-shrink: 0;
   }
@@ -79,7 +78,7 @@
   .trip-detail__stay-thumb-empty {
     width: 100%;
     height: 100%;
-    border-radius: 0.75rem;
+    border-radius: v.$radiusControl;
   }
 
   .trip-detail__stay-body {
@@ -123,12 +122,10 @@
     text-transform: capitalize;
   }
 
-  .trip-detail__stay-nights-pill {
+  .trip-detail__stay-nights {
     flex-shrink: 0;
-    margin-left: auto;
     align-self: center;
-    padding: 0.25rem 0.625rem;
-    border-radius: 62.4375rem;
+    margin-left: auto;
     font-size: v.$caption;
     font-weight: 600;
     letter-spacing: -0.01em;
@@ -139,29 +136,25 @@
 .map-shell--dark {
   .trip-detail {
     .trip-detail__stay-card {
-      background: rgba(255, 255, 255, 0.06);
-      box-shadow: 0 0.125rem 0.75rem rgba(0, 0, 0, 0.2);
-
       &--clickable:hover {
-        background: rgba(255, 255, 255, 0.1);
+        background: v.$darkFill;
       }
     }
 
     .trip-detail__stay-thumb-empty {
-      background: rgba(255, 255, 255, 0.08);
+      background: v.$darkFill;
     }
 
     .trip-detail__stay-name {
-      color: v.$darkButtonContent;
+      color: v.$darkInk;
     }
 
     .trip-detail__stay-meta {
-      color: v.$darkAltText;
+      color: v.$darkInkMuted;
     }
 
-    .trip-detail__stay-nights-pill {
-      background: rgba(255, 255, 255, 0.1);
-      color: v.$darkAltText;
+    .trip-detail__stay-nights {
+      color: v.$darkInkFaint;
     }
   }
 }
@@ -169,29 +162,25 @@
 .map-shell--light {
   .trip-detail {
     .trip-detail__stay-card {
-      background: rgba(0, 0, 0, 0.08);
-      box-shadow: 0 0.0625rem 0.375rem rgba(0, 0, 0, 0.08);
-
       &--clickable:hover {
-        background: rgba(0, 0, 0, 0.12);
+        background: v.$lightFill;
       }
     }
 
     .trip-detail__stay-thumb-empty {
-      background: rgba(0, 0, 0, 0.07);
+      background: v.$lightFill;
     }
 
     .trip-detail__stay-name {
-      color: v.$lightButtonContent;
+      color: v.$lightInk;
     }
 
     .trip-detail__stay-meta {
-      color: v.$lightAltText;
+      color: v.$lightInkMuted;
     }
 
-    .trip-detail__stay-nights-pill {
-      background: rgba(0, 0, 0, 0.07);
-      color: v.$lightAltText;
+    .trip-detail__stay-nights {
+      color: v.$lightInkFaint;
     }
   }
 }

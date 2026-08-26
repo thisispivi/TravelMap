@@ -1,4 +1,3 @@
-@use "../../../../styles/variables" as v;
 @use "../../../../styles/mixins" as m;
 
 .stats-page {
@@ -7,7 +6,6 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
-  border-radius: v.$floatingCardRadiusLg;
 
   .stats-grid {
     flex: 1 1 auto;
@@ -15,26 +13,10 @@
   }
 }
 
-.map-shell--dark {
-  .stats-page {
-    @include m.full-panel-dark();
-  }
+.map-shell--dark .stats-page {
+  @include m.sheet-dark();
 }
 
-.map-shell--light {
-  .stats-page {
-    @include m.full-panel-light();
-  }
-}
-
-@media screen and (max-width: 42.5rem) {
-  .stats-page {
-    .stats-grid__header {
-      padding: 1rem;
-
-      h1 {
-        font-size: v.$headingMd;
-      }
-    }
-  }
+.map-shell--light .stats-page {
+  @include m.sheet-light();
 }

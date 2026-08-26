@@ -6,7 +6,6 @@ import { ReactNode } from "react";
 import { useLanguage } from "@/shared/hooks/useLanguage";
 import { parameters } from "@/shared/lib/parameters";
 
-import { Card } from "../../Card/Card";
 import { TransportsDonutChart } from "../../charts/DonutChartTransports";
 import { TimezoneRow } from "../../rows/RowTimezone";
 import { TransportRow } from "../../rows/RowTransport";
@@ -47,7 +46,7 @@ export type TransportCardProps = {
  * @param {Ferry} [props.minFerry] - The shortest recorded ferry crossing
  * @param {City} [props.cityBiggestTimezoneJump] - City with the largest timezone jump
  * @param {{ sDate?: Date; eDate?: Date }} [props.cityBiggestTimezoneJumpTravel] - Dates for the largest timezone jump
- * @returns {ReactNode} The transport bento card
+ * @returns {ReactNode} The transport panel
  */
 export function TransportCard({
   takenFlights,
@@ -62,26 +61,26 @@ export function TransportCard({
   const { t } = useLanguage(["home"]);
 
   return (
-    <Card className="bento-card bento-card--full bento-detail bento-transport card--box-shadow">
-      <div className="bento-transport__inner">
-        <div className="bento-transport__chart">
+    <section className="stats-panel stats-panel--full stats-block stats-transport">
+      <div className="stats-transport__inner">
+        <div className="stats-transport__chart">
           <h2>{t("stats.transport")}</h2>
           <TransportsDonutChart
             takenFerries={takenFerries}
             takenFlights={takenFlights}
           />
         </div>
-        <div className="bento-transport__rows bento-detail__rows">
+        <div className="stats-transport__rows stats-block__rows">
           {maxFlight && minFlight ? (
             <>
-              <div className="bento-detail__row">
-                <p className="bento-detail__row-label">
+              <div className="stats-block__row">
+                <p className="stats-block__row-label">
                   {t("stats.longestFlight")}
                 </p>
                 <TransportRow transport={maxFlight} />
               </div>
-              <div className="bento-detail__row">
-                <p className="bento-detail__row-label">
+              <div className="stats-block__row">
+                <p className="stats-block__row-label">
                   {t("stats.shortestFlight")}
                 </p>
                 <TransportRow transport={minFlight} />
@@ -90,14 +89,14 @@ export function TransportCard({
           ) : null}
           {maxFerry && minFerry ? (
             <>
-              <div className="bento-detail__row">
-                <p className="bento-detail__row-label">
+              <div className="stats-block__row">
+                <p className="stats-block__row-label">
                   {t("stats.longestFerry")}
                 </p>
                 <TransportRow transport={maxFerry} />
               </div>
-              <div className="bento-detail__row">
-                <p className="bento-detail__row-label">
+              <div className="stats-block__row">
+                <p className="stats-block__row-label">
                   {t("stats.shortestFerry")}
                 </p>
                 <TransportRow transport={minFerry} />
@@ -105,8 +104,8 @@ export function TransportCard({
             </>
           ) : null}
           {cityBiggestTimezoneJump ? (
-            <div className="bento-detail__row">
-              <p className="bento-detail__row-label">
+            <div className="stats-block__row">
+              <p className="stats-block__row-label">
                 {t("stats.biggestTimezoneJump")}
               </p>
               <TimezoneRow
@@ -119,6 +118,6 @@ export function TransportCard({
           ) : null}
         </div>
       </div>
-    </Card>
+    </section>
   );
 }

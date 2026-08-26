@@ -6,7 +6,6 @@ import { ReactNode } from "react";
 import ContinentsIcon from "@/assets/icons/Continents.svg?react";
 import { useLanguage } from "@/shared/hooks/useLanguage";
 
-import { Card } from "../../Card/Card";
 import { ContinentRow } from "../../rows/RowContinent";
 
 /**
@@ -31,7 +30,7 @@ export type CoverageCardProps = {
  * @param {Continent[]} props.visitedContinents - Continents the user has visited
  * @param {Continent[]} props.allContinents - All available continents
  * @param {number} props.totalContinents - Total number of available continents
- * @returns {ReactNode} The coverage bento card
+ * @returns {ReactNode} The coverage panel
  */
 export function CoverageCard({
   visitedContinents,
@@ -42,7 +41,7 @@ export function CoverageCard({
   const visitedSet = new Set(visitedContinents);
 
   const mapClassName = [
-    "bento-continents__map",
+    "stats-continents__map",
     visitedSet.has(Continent.AFRICA) ? "" : "africa--not-visited",
     visitedSet.has(Continent.ASIA) ? "" : "asia--not-visited",
     visitedSet.has(Continent.EUROPE) ? "" : "europe--not-visited",
@@ -54,17 +53,17 @@ export function CoverageCard({
     .trim();
 
   return (
-    <Card className="bento-card bento-card--medium bento-detail bento-continents card--box-shadow">
-      <div className="bento-continents__body">
-        <div className="bento-continents__header">
+    <section className="stats-panel stats-panel--half stats-block stats-continents">
+      <div className="stats-continents__body">
+        <div className="stats-continents__header">
           <h2>{t("stats.coverage")}</h2>
-          <div className="bento-continents__score">
+          <div className="stats-continents__score">
             <b>{visitedContinents.length}</b>
             <span>/ {totalContinents}</span>
           </div>
         </div>
         <ContinentsIcon className={mapClassName} />
-        <div className="bento-continents__badges">
+        <div className="stats-continents__badges">
           {allContinents.map((continent) => (
             <ContinentRow
               continent={continent}
@@ -74,6 +73,6 @@ export function CoverageCard({
           ))}
         </div>
       </div>
-    </Card>
+    </section>
   );
 }

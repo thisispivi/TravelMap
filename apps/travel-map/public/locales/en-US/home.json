@@ -73,7 +73,8 @@
     "transportModes": "Transport Modes",
     "flightCompanies": "Airlines",
     "ferryCompanies": "Ferry Lines",
-    "citiesPerCountry": "Cities per Country"
+    "citiesPerCountry": "Cities per Country",
+    "time": "Time"
   },
   "deselectAll": "Deselect all",
   "filterTooltip": "Filter city cards on the map by country selection.",
@@ -168,6 +169,8 @@
     "timeZones": "time zones",
     "dayTrip": "Day trip",
     "viewMap": "View map",
-    "backToTrip": "Back to trip"
+    "backToTrip": "Back to trip",
+    "stops": "Stops",
+    "distance": "km"
   }
 }

@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 
 import MoonFilledIcon from "@/assets/icons/MoonFilled.svg?react";
 import SunFilledIcon from "@/assets/icons/SunFilled.svg?react";
+import { Button } from "@/shared/components/Button/Button";
 import { classNames } from "@/shared/lib/classNames";
 
 /**
@@ -38,7 +39,8 @@ const iconVariants = {
 
 /**
  * DarkModeButton component
- * Animated theme toggle button.
+ * Theme toggle. Wraps the shared button so it matches every other icon action
+ * in the navigation, and adds the rotate-and-fade swap between the two icons.
  * @component
  * @param {DarkModeButtonProps} props - The dark mode button props
  * @param {boolean} props.isDarkTheme - Whether the dark mode is currently active
@@ -54,29 +56,27 @@ export function DarkModeButton({
   const { t } = useTranslation("home");
 
   return (
-    <LazyMotion features={domAnimation}>
-      <m.button
-        aria-label={t("theme")}
-        className={classNames("dark-mode-button", className)}
-        data-tooltip-content={t("theme")}
-        data-tooltip-id="base-tooltip"
-        onClick={handleDarkModeSwitch}
-        type="button"
-        whileHover={{ scale: 1.08 }}
-        whileTap={{ scale: 0.95 }}
-      >
+    <Button
+      ariaLabel={t("theme")}
+      className={classNames("dark-mode-button", className)}
+      onClick={handleDarkModeSwitch}
+      tooltipContent={t("theme")}
+      tooltipId="base-tooltip"
+    >
+      <LazyMotion features={domAnimation}>
         <AnimatePresence initial={false} mode="wait">
-          <m.div
+          <m.span
             animate="animate"
+            className="dark-mode-button__icon"
             exit="exit"
             initial="initial"
             key={isDarkTheme ? "moon" : "sun"}
             variants={iconVariants}
           >
             {isDarkTheme ? <MoonFilledIcon /> : <SunFilledIcon />}
-          </m.div>
+          </m.span>
         </AnimatePresence>
-      </m.button>
-    </LazyMotion>
+      </LazyMotion>
+    </Button>
   );
 }

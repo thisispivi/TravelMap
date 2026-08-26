@@ -7,6 +7,8 @@ import { lazy, ReactNode } from "react";
 
 import { useLanguage } from "@/shared/hooks/useLanguage";
 import variables from "@/styles/_variables.module.scss";
+
+import { chartPalette } from "../../lib/chartPalette";
 const ReactApexChart = lazy(() => import("react-apexcharts"));
 
 /**
@@ -150,11 +152,14 @@ export function TransportsDonutChart({
         fontSize: "1em",
         fontFamily: "inherit",
         fontWeight: 700,
-        colors: [variables.darkButtonContent],
+        colors: [variables.darkInk],
       },
       enabledOnSeries,
     },
-    colors: ["#107895", "#c02e1d", "#79a14e", "#bb8e23"],
+    /* The flight slices share the map's plane colour as a ramp and the ferry
+       slice keeps the ferry colour, so the chart reads as the same vocabulary
+       the route overlay draws with. */
+    colors: [...chartPalette.flightRamp, variables.transportFerry],
   };
   return (
     <div className="flights-donut-chart">

@@ -1,180 +1,173 @@
 @use "../../../../styles/mixins" as m;
 @use "../../../../styles/variables" as v;
+@use "../../../../styles/scrollbar" as s;
 
 .gallery {
-  width: 100%;
-  height: 100%;
-  padding: 1.25rem;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  padding: v.$panelPadding;
   border-radius: inherit;
+  overflow: hidden;
 
-  .gallery__header {
+  &__header {
+    position: relative;
     display: flex;
     align-items: center;
-    flex-wrap: wrap;
     flex-shrink: 0;
-    position: relative;
-    padding-bottom: 0.75rem;
-    padding-right: 3rem;
-    row-gap: 0.5rem;
+    flex-wrap: wrap;
+    gap: v.$space3;
+    padding-bottom: v.$space3;
+    padding-right: v.$space6;
 
     h2 {
-      font-size: 1.4rem;
-      @include m.transition(all, 0.3s, ease-in-out);
+      font-size: v.$displaySm;
+      font-weight: 800;
+      letter-spacing: -0.03em;
     }
 
     .gallery__header__flag {
-      width: 1.6rem;
-      height: 1.6rem;
-      margin-left: 0.5rem;
+      width: 1.5rem;
+      height: 1.5rem;
       margin-right: auto;
     }
 
     .close-button {
       position: absolute;
+      top: 0;
       right: 0;
-      top: 0.2rem;
-      path {
-        @include m.transition(all, 0.3s, ease-in-out);
-      }
-    }
-
-    .travel-selector {
-      margin-right: 0;
-    }
-
-    svg {
-      flex-shrink: 0;
-      @include m.transition(all, 0.3s, ease-in-out);
     }
   }
 
-  .gallery__content {
+  &__content {
+    position: relative;
     flex: 1;
     min-height: 0;
-    margin-top: 0.5rem;
-    padding-right: 0.5rem;
-    position: relative;
     overflow: hidden;
 
-    .gallery__content__photo-album {
+    &__photo-album {
       position: absolute;
       inset: 0;
-      overflow-y: auto;
       overflow-x: hidden;
+      overflow-y: auto;
 
-      &.gallery__content__photo-album--overflow {
-        padding-right: 0.5rem;
+      &--overflow {
+        padding-right: v.$space2;
       }
     }
 
-    .gallery__content__image {
+    &__image {
       position: relative;
 
+      /* Square corners: the album is a sheet of photographs, and rounding two
+         hundred tiles turns it into a grid of cards instead. */
       img {
+        display: block;
         max-width: 100%;
         height: auto;
-        display: block;
       }
+    }
 
-      .gallery__content__image__play {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        height: 3rem;
-        width: 3rem;
-        z-index: 2;
-        opacity: 0.7;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: none;
-        background: none;
-        padding: 0;
-        cursor: pointer;
-        appearance: none;
+    /* Video thumbnails carry the play control themselves; a scrim behind it
+       keeps the glyph legible whatever the frame underneath happens to be. */
+    &__image__play {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 3rem;
+      height: 3rem;
+      padding: 0;
+      border: none;
+      border-radius: v.$radiusPill;
+      background: rgba(10, 12, 11, 0.4);
+      -webkit-backdrop-filter: blur(0.375rem);
+      backdrop-filter: blur(0.375rem);
+      color: #ffffff;
+      cursor: pointer;
+      transform: translate(-50%, -50%);
+      @include m.transition(background-color transform);
 
-        svg {
-          width: 100%;
-          height: 100%;
-        }
-
-        &:focus-visible {
-          @include m.focus-ring();
-        }
-      }
-      .gallery__content__image__gradient {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        width: auto;
+      svg {
+        width: 45%;
         height: 45%;
-        aspect-ratio: 1/1;
-        border: none;
-        background: radial-gradient(
-          circle at center in hsl shorter hue,
-          rgba(0, 0, 0, 60%),
-          rgba(0, 0, 0, 40%),
-          rgba(0, 0, 0, 0),
-          rgba(0, 0, 0, 0)
-        );
+      }
+
+      @include m.hover() {
+        background: rgba(10, 12, 11, 0.68);
+        transform: translate(-50%, -50%) scale(1.06);
+      }
+
+      &:focus-visible {
+        @include m.focus-ring();
       }
     }
 
     .lightbox {
       position: absolute;
+      z-index: 3;
       width: 100%;
       height: 100%;
-      z-index: 3;
+      border-radius: v.$radiusSurface;
       overflow: hidden;
-      border-radius: v.$floatingCardRadius;
-      @include m.transition(all, 0.3s, ease-in-out);
-
-      .image-gallery-image {
-        @include m.transition(all, 0.3s, ease-in-out);
-      }
     }
+  }
+}
+
+.map-shell--light .gallery {
+  .gallery__header h2 {
+    color: v.$lightInk;
+  }
+
+  .gallery__content__photo-album {
+    @include s.setScrollbar(
+      transparent,
+      v.$lightRule,
+      v.$lightRuleStrong,
+      v.$lightInkFaint
+    );
+  }
+}
+
+.map-shell--dark .gallery {
+  .gallery__header h2 {
+    color: v.$darkInk;
+  }
+
+  .gallery__content__photo-album {
+    @include s.setScrollbar(
+      transparent,
+      v.$darkRule,
+      v.$darkRuleStrong,
+      v.$darkInkFaint
+    );
   }
 }
 
 @media screen and (max-width: 42.5rem) {
   .gallery {
+    padding: v.$space4;
+
     .gallery__header {
-      padding-right: 1rem;
-    }
+      padding-right: 2.25rem;
 
-    .gallery__content {
-      .gallery__content__photo-album--overflow {
-        padding-right: 0 !important;
-      }
-    }
-  }
-
-  .close-button {
-    margin-left: 0.25rem !important;
-  }
-}
-
-.map-shell--light {
-  .gallery {
-    .gallery__header {
       h2 {
-        color: v.$lightButtonContent;
+        font-size: v.$headingLg;
       }
+    }
+
+    .gallery__content__photo-album--overflow {
+      padding-right: 0;
     }
   }
 }
 
-.map-shell--dark {
-  .gallery {
-    .gallery__header {
-      h2 {
-        color: v.$darkButtonContent;
-      }
-    }
+@media (prefers-reduced-motion: reduce) {
+  .gallery .gallery__content__image__play {
+    transition-duration: 1ms;
   }
 }

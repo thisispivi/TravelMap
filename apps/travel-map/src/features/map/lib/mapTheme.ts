@@ -1,5 +1,7 @@
 import type { StyleSpecification } from "maplibre-gl";
 
+import variables from "@/styles/_variables.module.scss";
+
 /**
  * Colors shared by every layer in one map theme.
  * @property {string} ocean - The ocean fill color
@@ -27,24 +29,27 @@ type RgbColor = [number, number, number];
 
 const GLYPHS_URL = "/glyphs/{fontstack}/{range}.pbf";
 
+/* The map ocean is the application ground and the land is its tint, so the
+   panels laid over the map read as sheets on the same material rather than as
+   chrome above an unrelated background. */
 export const MAP_THEMES: Record<"dark" | "light", MapTheme> = {
   dark: {
-    ocean: "#18191a",
-    land: "#242526",
-    border: "rgba(255, 255, 255, 0.14)",
-    countryLabel: "#8a8d91",
-    countryLabelHalo: "#18191a",
-    cityLabel: "#e4e6eb",
-    cityLabelHalo: "rgba(24, 25, 26, 0.94)",
+    ocean: variables.darkGround,
+    land: variables.darkLand,
+    border: variables.darkRule,
+    countryLabel: variables.darkInkFaint,
+    countryLabelHalo: variables.darkGround,
+    cityLabel: variables.darkInk,
+    cityLabelHalo: variables.darkGround,
   },
   light: {
-    ocean: "#eef1f5",
-    land: "#dfe3ea",
-    border: "rgba(60, 70, 90, 0.16)",
-    countryLabel: "#676b7d",
-    countryLabelHalo: "#e7e8ec",
-    cityLabel: "#1a1a2e",
-    cityLabelHalo: "rgba(240, 242, 245, 0.96)",
+    ocean: variables.lightGround,
+    land: variables.lightLand,
+    border: variables.lightRule,
+    countryLabel: variables.lightInkFaint,
+    countryLabelHalo: variables.lightGround,
+    cityLabel: variables.lightInk,
+    cityLabelHalo: variables.lightGround,
   },
 };
 

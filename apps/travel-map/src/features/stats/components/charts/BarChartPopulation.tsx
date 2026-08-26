@@ -5,19 +5,17 @@ import { lazy, ReactNode } from "react";
 import { filter, pipe, sortBy } from "remeda";
 
 import { useLanguage } from "@/shared/hooks/useLanguage";
+
+import { chartPalette } from "../../lib/chartPalette";
 const ReactApexChart = lazy(() => import("react-apexcharts"));
 
 /**
  * Properties accepted by the PopulationsBarChart component.
- * @property {City[]} data - The data
- * @property {string[]} [barColors] - The bar colors
- * @property {boolean} [isDarkTheme] - Whether the dark theme is active
- * @property {number} [numToShow] - The num to show
+ * @property {City[]} data - The cities to rank
+ * @property {number} [numToShow] - How many cities to show
  */
 interface PopulationsBarChartProps {
   data: City[];
-  barColors?: string[];
-  isDarkTheme?: boolean;
   numToShow?: number;
 }
 
@@ -27,26 +25,11 @@ interface PopulationsBarChartProps {
  * @component
  * @param {PopulationsBarChartProps} props - The props of the component
  * @param {City[]} props.data - Cities to display (population must be set).
- * @param {string[]} [props.barColors] - Colors used for the distributed bars.
- * @param {boolean} [props.isDarkTheme=false] - Current theme.
  * @param {number} [props.numToShow=10] - How many cities to show.
  * @returns {ReactNode} The population bar chart.
  */
 export function PopulationBarChart({
   data,
-  barColors = [
-    "#FF5733",
-    "#33FF57",
-    "#3357FF",
-    "#FF33A1",
-    "#FF8C33",
-    "#8C33FF",
-    "#33FFF5",
-    "#F5FF33",
-    "#FF3333",
-    "#33FF8C",
-  ],
-  isDarkTheme = false,
   numToShow = 10,
 }: PopulationsBarChartProps): ReactNode {
   const { currLanguage } = useLanguage(["home"]);
@@ -87,7 +70,7 @@ export function PopulationBarChart({
         },
       },
       stroke: { width: 0 },
-      colors: barColors,
+      colors: [chartPalette.primary],
       dataLabels: {
         enabled: true,
         textAnchor: "start",
@@ -135,7 +118,7 @@ export function PopulationBarChart({
     <div className="populations-bar-chart">
       <ReactApexChart
         height={420}
-        key={`${currLanguage}-${isDarkTheme ? "dark" : "light"}`}
+        key={currLanguage}
         options={options}
         series={series}
         type="bar"

@@ -62,7 +62,7 @@ export function FallbackPage(): ReactNode {
     return (
       <div className={`fallback-page ${themeModifierClass}`}>
         <div className="fallback-page__content">
-          <span className="fallback-page__code">{routerError.status}</span>
+          <p className="fallback-page__label eyebrow">{routerError.status}</p>
           <h1 className="fallback-page__title">
             {is404 ? t("notFound.title") : t("details.title")}
           </h1>

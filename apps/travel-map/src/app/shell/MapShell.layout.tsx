@@ -4,12 +4,12 @@ import { lazy, ReactNode, Suspense } from "react";
 import { useAppLocation } from "@/app/routing/useAppLocation";
 import ChevronIcon from "@/assets/icons/Chevron.svg?react";
 import { FloatingNav } from "@/features/navigation/components/FloatingNav/FloatingNav";
-import { Container } from "@/shared/components/Container/Container";
 import { Loading } from "@/shared/components/Loading/Loading";
 import { PanelLoading } from "@/shared/components/PanelLoading/PanelLoading";
 import { usePanel } from "@/shared/context/Panel.context";
 import { useLanguage } from "@/shared/hooks/useLanguage";
 import { ResponsiveType } from "@/shared/hooks/useResponsive";
+import { classNames } from "@/shared/lib/classNames";
 
 const Map = lazy(() =>
   import("@/features/map/components/Map/Map").then((module) => ({
@@ -52,6 +52,13 @@ const TripDetail = lazy(() =>
   ),
 );
 
+const bottomPanelMotion = {
+  animate: { x: "-50%", y: 0 },
+  exit: { x: "-50%", y: "100vh" },
+  initial: { x: "-50%", y: "100vh" },
+  transition: { duration: 0.24, ease: [0.32, 0.72, 0, 1] },
+} as const;
+
 /**
  * MapShellLayout component
  * Root layout for the persistent map shell. Composes the FloatingNav, the
@@ -76,13 +83,6 @@ export function MapShellLayout({
     useAppLocation();
   const { isPanelOpen, setIsPanelOpen } = usePanel();
   const { t } = useLanguage(["home"]);
-
-  const bottomPanelMotion = {
-    animate: { scale: 1, x: "-50%", y: 0 },
-    exit: { scale: 0.98, x: "-50%", y: "100vh" },
-    initial: { scale: 0.98, x: "-50%", y: "100vh" },
-    transition: { duration: 0.22, ease: [0.35, 0, 0.25, 1] },
-  } as const;
 
   return (
     <div className="map-shell__layout">
@@ -142,7 +142,12 @@ export function MapShellLayout({
         </AnimatePresence>
       </LazyMotion>
 
-      <Container isVisible={isGallery}>
+      <div
+        className={classNames(
+          "map-shell__gallery",
+          isGallery && "map-shell__gallery--visible",
+        )}
+      >
         {isGallery ? (
           <Suspense
             fallback={
@@ -154,7 +159,7 @@ export function MapShellLayout({
             {children}
           </Suspense>
         ) : null}
-      </Container>
+      </div>
 
       <Suspense
         fallback={

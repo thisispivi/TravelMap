@@ -1,127 +1,124 @@
 @use "../../styles/variables" as v;
+@use "../../styles/mixins" as m;
 
-@mixin fallback-page-theme(
-  $background-color,
-  $surface-color,
-  $content-color,
-  $shadow,
-  $alternate-text-color
-) {
-  background-color: $background-color;
+@mixin fallback-page-theme($ground, $sheet, $ink, $inkMuted, $rule, $shadow) {
+  background-color: $ground;
 
   .fallback-page__content {
-    background-color: $surface-color;
+    background-color: $sheet;
+    border: 0.0625rem solid $rule;
     box-shadow: $shadow;
-    color: $content-color;
+    color: $ink;
   }
 
-  .fallback-page__code {
-    color: $content-color;
+  .fallback-page__label {
+    color: $inkMuted;
+  }
+
+  .fallback-page__subtitle {
+    color: $inkMuted;
   }
 
   .fallback-page__message,
   .fallback-page__stack {
-    background-color: $background-color;
-    color: $alternate-text-color;
+    background-color: $ground;
+    color: $inkMuted;
   }
 }
 
 .fallback-page {
-  align-items: center;
-  display: flex;
-  inset: 0;
-  justify-content: center;
-  padding: 1.5rem;
   position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: v.$space5;
 
   &--light {
     @include fallback-page-theme(
-      v.$lightBackground,
-      v.$lightLeftBar,
-      v.$lightButtonContent,
-      v.$glassShadowLight,
-      v.$lightAltText
+      v.$lightGround,
+      v.$lightSheet,
+      v.$lightInk,
+      v.$lightInkMuted,
+      v.$lightRule,
+      v.$lightSheetShadow
     );
   }
 
   &--dark {
     @include fallback-page-theme(
-      v.$darkBackground,
-      v.$darkLeftBar,
-      v.$darkButtonContent,
-      v.$glassShadowDark,
-      v.$darkAltText
+      v.$darkGround,
+      v.$darkSheet,
+      v.$darkInk,
+      v.$darkInkMuted,
+      v.$darkRule,
+      v.$darkSheetShadow
     );
   }
 
   &__content {
-    align-items: center;
-    border-radius: v.$floatingCardRadiusLg;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-    max-width: 36rem;
-    padding: 2rem 2.5rem;
-    text-align: center;
+    align-items: flex-start;
     width: 100%;
+    max-width: 36rem;
+    gap: v.$space2;
+    padding: v.$space6;
+    border-radius: v.$radiusSurface;
   }
 
-  &__code {
-    font-size: 5rem;
-    font-weight: 800;
-    letter-spacing: -0.04em;
-    line-height: 1;
-    margin-bottom: 0.25rem;
-    opacity: 0.15;
+  /* The status code names the failure on the graticule rule, the same way every
+     other section in the application is labelled. */
+  &__label {
+    align-self: stretch;
+    padding-top: v.$space3;
   }
 
   &__title {
-    font-size: v.$headingLg;
-    font-weight: 700;
-    margin-bottom: 0.25rem;
+    font-size: v.$displayMd;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
   }
 
   &__subtitle {
     font-size: v.$bodySm;
-    margin-bottom: 0.75rem;
-    opacity: 0.6;
   }
 
-  &__message {
-    border-radius: 0.5rem;
-    font-family: monospace;
-    font-size: v.$bodySm;
-    margin-bottom: 0.5rem;
-    padding: 0.75rem 1rem;
-    text-align: left;
+  &__message,
+  &__stack {
     width: 100%;
+    padding: v.$space3 v.$space4;
+    border-radius: v.$radiusControl;
+    font-family: ui-monospace, "SFMono-Regular", "Menlo", monospace;
+    font-size: v.$caption;
+    text-align: left;
     word-break: break-word;
   }
 
   &__stack {
-    border-radius: 0.5rem;
-    font-family: monospace;
-    font-size: 0.7rem;
-    margin-bottom: 0.5rem;
     max-height: 12rem;
     overflow-y: auto;
-    padding: 0.75rem 1rem;
-    text-align: left;
     white-space: pre-wrap;
-    width: 100%;
-    word-break: break-all;
   }
 
   &__button {
-    border-radius: 0.5rem;
     height: 2.5rem;
-    margin-top: 1rem;
-    padding: 0 1.5rem;
-    width: 100%;
+    margin-top: v.$space3;
+    padding: 0 v.$space5;
+    border-radius: v.$radiusPill;
 
     p {
       font-size: v.$bodySm;
       font-weight: 600;
     }
   }
+}
+
+.fallback-page--light .fallback-page__label {
+  @include m.rule-tick(v.$lightRule);
+}
+
+.fallback-page--dark .fallback-page__label {
+  @include m.rule-tick(v.$darkRule);
 }

@@ -9,6 +9,7 @@ import { keys } from "remeda";
 import { visitedTrips } from "@/data/world";
 import { EmptyState } from "@/shared/components/EmptyState/EmptyState";
 import { isPanelLoadingVisible } from "@/shared/components/PanelLoading/PanelLoading.state";
+import { SegmentedControl } from "@/shared/components/SegmentedControl/SegmentedControl";
 import { useMapInteraction } from "@/shared/context/MapInteraction.context";
 import { useLanguage } from "@/shared/hooks/useLanguage";
 import { useResizeMeasurement } from "@/shared/hooks/useResizeMeasurement";
@@ -49,6 +50,12 @@ export function TripBrowser(): ReactNode {
   const panelRef = useRef<HTMLDivElement>(null);
   const activeYearIndex = Math.max(years.indexOf(String(activeYear)), 0);
   const selectedTrips = groups[activeYear] ?? [];
+  /* The oldest bucket collects everything at or before the cutoff year, so its
+     label carries the range marker rather than a bare year. */
+  const yearOptions = years.map((year, index) => ({
+    value: year,
+    label: index === years.length - 1 ? `≤ ${year}` : year,
+  }));
 
   /**
    * Measures the panel and active page to keep the animated stage stable.
@@ -61,7 +68,7 @@ export function TripBrowser(): ReactNode {
     const maxHeight = parseFloat(style.maxHeight);
     const header = panel.querySelector<HTMLElement>(".trip-browser__header");
     const yearSelector = panel.querySelector<HTMLElement>(
-      ".trip-browser__year-selector",
+      ".trip-browser__years",
     );
     const list = panel.querySelector<HTMLElement>(".trip-browser__list");
     const page = panel.querySelector<HTMLElement>(
@@ -169,22 +176,13 @@ export function TripBrowser(): ReactNode {
         </div>
 
         {years.length > 0 ? (
-          <div className="trip-browser__year-selector">
-            {years.map((year, i) => (
-              <button
-                className={classNames(
-                  "trip-browser__year-btn",
-                  activeYear === parseInt(year, 10) &&
-                    "trip-browser__year-btn--active",
-                )}
-                key={year}
-                onClick={() => selectYear(year)}
-                type="button"
-              >
-                {i === years.length - 1 ? `≤ ${year}` : year}
-              </button>
-            ))}
-          </div>
+          <SegmentedControl
+            className="trip-browser__years"
+            layoutId="trip-years"
+            onSelect={selectYear}
+            options={yearOptions}
+            selected={String(activeYear)}
+          />
         ) : null}
 
         <div

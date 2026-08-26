@@ -1,58 +1,41 @@
 @use "../../../styles/variables" as v;
-@use "../../../styles/mixins" as m;
 
-@mixin loader($color) {
-  $size: 1.8rem;
-  $border: 0.25rem;
-
+/* A single arc in the pin colour. It inherits `color`, so a caller placing it
+   on an image or inside a tinted surface overrides one property rather than
+   adding a variant class. */
+.loader {
+  --loader-size: 1.5rem;
+  --loader-weight: 0.1875rem;
+  width: var(--loader-size);
+  height: var(--loader-size);
   margin: auto;
-  width: $size;
-  height: $size;
-  aspect-ratio: 1;
   border-radius: 50%;
+  color: v.$pin;
   background:
-    radial-gradient(farthest-side, $color 94%, #0000) top/$border $border
-      no-repeat,
-    conic-gradient(#0000 30%, $color);
+    radial-gradient(farthest-side, currentColor 94%, transparent) top /
+      var(--loader-weight) var(--loader-weight) no-repeat,
+    conic-gradient(transparent 25%, currentColor);
   -webkit-mask: radial-gradient(
     farthest-side,
-    #0000 calc(100% - $border),
+    transparent calc(100% - var(--loader-weight)),
     #000 0
   );
-  mask: radial-gradient(farthest-side, #0000 calc(100% - $border), #000 0);
-  animation: spinLoader 0.8s infinite cubic-bezier(0.4, 0, 0.2, 1);
+  mask: radial-gradient(
+    farthest-side,
+    transparent calc(100% - var(--loader-weight)),
+    #000 0
+  );
+  animation: loader-spin 0.7s infinite linear;
 }
 
-.loader {
-  @include loader(#ea4335);
-}
-
-div[class*="visited"] {
-  .loader {
-    @include loader(v.$visitedButtonContent);
-  }
-}
-
-div[class*="lived"] {
-  .loader {
-    @include loader(v.$livedButtonContent);
-  }
-}
-
-div[class*="future"] {
-  .loader {
-    @include loader(v.$futureButtonContent);
-  }
-}
-
-@keyframes spinLoader {
-  100% {
+@keyframes loader-spin {
+  to {
     transform: rotate(1turn);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .loader {
-    animation: none;
+    animation-duration: 2.4s;
   }
 }

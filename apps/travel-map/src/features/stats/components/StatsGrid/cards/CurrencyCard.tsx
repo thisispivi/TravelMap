@@ -5,7 +5,6 @@ import { ReactNode } from "react";
 
 import { useLanguage } from "@/shared/hooks/useLanguage";
 
-import { Card } from "../../Card/Card";
 import { CurrencyRow } from "../../rows/RowCurrency";
 
 /**
@@ -23,21 +22,21 @@ export type CurrencyCardProps = {
  * @component
  * @param {CurrencyCardProps} props
  * @param {Country[]} props.countries - Representative countries for currencies encountered while traveling
- * @returns {ReactNode} The currency bento card
+ * @returns {ReactNode} The currency panel
  */
 export function CurrencyCard({ countries }: CurrencyCardProps): ReactNode {
   const { t } = useLanguage(["home"]);
 
   return (
-    <Card className="bento-card bento-card--half bento-detail card--box-shadow">
-      <div className="bento-detail__top">
+    <section className="stats-panel stats-panel--full stats-block">
+      <div className="stats-block__top">
         <h2>{t("stats.currency")}</h2>
       </div>
-      <div className="bento-currency">
+      <div className="stats-currency">
         {countries.map((country) => (
           <CurrencyRow country={country} key={country.currency} />
         ))}
       </div>
-    </Card>
+    </section>
   );
 }

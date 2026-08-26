@@ -1,165 +1,81 @@
+@use "sass:list";
 @use "variables" as v;
 
+/* `transition-property` takes a comma-separated list, so call sites can pass a
+   plain space-separated one and the separator is normalised here. */
 @mixin transition(
-  $property,
-  $duration: 0.2s,
-  $timing: cubic-bezier(0.4, 0, 0.2, 1)
+  $properties,
+  $duration: v.$motionState,
+  $easing: v.$motionEase
 ) {
-  $tt: cubic-bezier(0.4, 0, 0.2, 1);
-  $td: 0.4s;
-  transition:
-    #{$property} #{$duration} #{$timing},
-    background #{$td} #{$tt},
-    background-color #{$td} #{$tt},
-    border-color #{$td} #{$tt},
-    color #{$td} #{$tt},
-    fill #{$td} #{$tt},
-    outline-color #{$td} #{$tt},
-    stroke #{$td} #{$tt},
-    box-shadow #{$td} #{$tt};
-  -webkit-transition:
-    #{$property} #{$duration} #{$timing},
-    background #{$td} #{$tt},
-    background-color #{$td} #{$tt},
-    border-color #{$td} #{$tt},
-    color #{$td} #{$tt},
-    fill #{$td} #{$tt},
-    outline-color #{$td} #{$tt},
-    stroke #{$td} #{$tt},
-    box-shadow #{$td} #{$tt};
-  -moz-transition:
-    #{$property} #{$duration} #{$timing},
-    background #{$td} #{$tt},
-    background-color #{$td} #{$tt},
-    border-color #{$td} #{$tt},
-    color #{$td} #{$tt},
-    fill #{$td} #{$tt},
-    outline-color #{$td} #{$tt},
-    stroke #{$td} #{$tt},
-    box-shadow #{$td} #{$tt};
-  -o-transition:
-    #{$property} #{$duration} #{$timing},
-    background #{$td} #{$tt},
-    background-color #{$td} #{$tt},
-    border-color #{$td} #{$tt},
-    color #{$td} #{$tt},
-    fill #{$td} #{$tt},
-    outline-color #{$td} #{$tt},
-    stroke #{$td} #{$tt},
-    box-shadow #{$td} #{$tt};
-  -ms-transition:
-    #{$property} #{$duration} #{$timing},
-    background #{$td} #{$tt},
-    background-color #{$td} #{$tt},
-    border-color #{$td} #{$tt},
-    color #{$td} #{$tt},
-    fill #{$td} #{$tt},
-    outline-color #{$td} #{$tt},
-    stroke #{$td} #{$tt},
-    box-shadow #{$td} #{$tt};
+  transition-property: list.join((), $properties, $separator: comma);
+  transition-duration: $duration;
+  transition-timing-function: $easing;
 }
 
 @mixin focus-ring() {
-  outline: none;
-  box-shadow: 0 0 0 0.1875rem rgba(v.$accentPrimary, 0.5);
+  outline: 0.125rem solid v.$pin;
+  outline-offset: 0.125rem;
 }
 
-@mixin glassmorphism-dark() {
-  background: v.$glassBgDark;
-  -webkit-backdrop-filter: blur(v.$glassBlur);
-  backdrop-filter: blur(v.$glassBlur);
-  border: 0.0625rem solid v.$glassBorderDark;
-  box-shadow: v.$glassShadowDark;
+/* Chrome: the nav and the map tooltip are the only surfaces that genuinely
+   float over the moving map, so they are the only ones that earn a blur. */
+@mixin chrome-dark() {
+  background: v.$glassDark;
+  -webkit-backdrop-filter: blur(v.$glassBlur) saturate(140%);
+  backdrop-filter: blur(v.$glassBlur) saturate(140%);
+  border: 0.0625rem solid v.$darkRule;
+  box-shadow: v.$darkSheetShadow;
 }
 
-@mixin glassmorphism-light() {
-  background: v.$glassBgLight;
-  -webkit-backdrop-filter: blur(v.$glassBlur);
-  backdrop-filter: blur(v.$glassBlur);
-  border: 0.0625rem solid v.$glassBorderLight;
-  box-shadow: v.$glassShadowLight;
+@mixin chrome-light() {
+  background: v.$glassLight;
+  -webkit-backdrop-filter: blur(v.$glassBlur) saturate(140%);
+  backdrop-filter: blur(v.$glassBlur) saturate(140%);
+  border: 0.0625rem solid v.$lightRule;
+  box-shadow: v.$lightSheetShadow;
 }
 
-@mixin smooth-shadow($intensity: 1) {
-  box-shadow:
-    0 #{0.0625rem * $intensity} #{0.125rem * $intensity}
-      rgba(0, 0, 0, 0.04 * $intensity),
-    0 #{0.125rem * $intensity} #{0.25rem * $intensity}
-      rgba(0, 0, 0, 0.04 * $intensity),
-    0 #{0.25rem * $intensity} #{0.5rem * $intensity}
-      rgba(0, 0, 0, 0.06 * $intensity);
+/* Sheet: an opaque panel laid on the map. Opaque so content inside it never
+   has to fight map imagery for legibility, which glass-on-glass always did. */
+@mixin sheet-dark() {
+  background: v.$darkSheet;
+  border: 0.0625rem solid v.$darkRule;
+  box-shadow: v.$darkSheetShadow;
+  border-radius: v.$radiusSurface;
 }
 
-@mixin city-card-background($opacity) {
-  .city-card__background {
-    background: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, $opacity),
-      rgba(0, 0, 0, 0.1)
-    );
+@mixin sheet-light() {
+  background: v.$lightSheet;
+  border: 0.0625rem solid v.$lightRule;
+  box-shadow: v.$lightSheetShadow;
+  border-radius: v.$radiusSurface;
+}
+
+/* Graticule: a hairline carrying a short tick at its start, echoing the map
+   grid and the route rail. The recurring device that separates content in
+   place of a container. */
+@mixin rule-tick($color, $tick: v.$pin) {
+  position: relative;
+  border-top: 0.0625rem solid $color;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: -0.0625rem;
+    left: 0;
+    width: 1.25rem;
+    height: 0.0625rem;
+    background: $tick;
   }
 }
 
-@mixin set-button-colors($button, $buttonContent, $buttonHover) {
-  background-color: $button;
-  color: $buttonContent;
-  &:hover {
-    background-color: $buttonHover;
-  }
-  svg {
-    path,
-    line,
-    circle {
-      @include transition(all, 0.3s);
-    }
-    fill: $buttonContent;
-    .visited-1 {
-      stroke: $buttonContent;
-    }
-    .future-0 {
-      stroke: $buttonContent;
-    }
-    .language-0 {
-      fill: $buttonContent;
-    }
-  }
-  .filter__icon {
-    path,
-    circle {
-      fill: $buttonContent;
-      stroke: none;
+/* Touch devices emulate :hover on tap and leave it stuck afterwards, so
+   anything that reveals or moves on hover is gated behind a real pointer. */
+@mixin hover() {
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      @content;
     }
   }
-  .chevron path {
-    fill: none;
-    stroke: $buttonContent;
-  }
-  #gallery-1,
-  #fullscreen-enter path,
-  #fullscreen-exit path {
-    fill: $buttonContent;
-  }
-}
-
-@mixin floating-card-dark() {
-  @include glassmorphism-dark();
-  border-radius: v.$floatingCardRadiusLg;
-  padding: v.$floatingCardPadding;
-}
-
-@mixin floating-card-light() {
-  @include glassmorphism-light();
-  border-radius: v.$floatingCardRadiusLg;
-  padding: v.$floatingCardPadding;
-}
-
-@mixin full-panel-dark() {
-  @include glassmorphism-dark();
-  border-radius: v.$floatingCardRadiusLg;
-}
-
-@mixin full-panel-light() {
-  @include glassmorphism-light();
-  border: 0.0625rem solid rgba(0, 0, 0, 0.06);
-  border-radius: v.$floatingCardRadiusLg;
 }

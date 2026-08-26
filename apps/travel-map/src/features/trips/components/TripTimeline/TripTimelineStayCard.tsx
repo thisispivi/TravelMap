@@ -146,7 +146,7 @@ export function TimelineStayCard({
 
         {/* Nights pill — right side of card */}
         {nights > 0 ? (
-          <div className="trip-detail__stay-nights-pill">
+          <div className="trip-detail__stay-nights">
             {nights} {nightsLabel}
           </div>
         ) : null}

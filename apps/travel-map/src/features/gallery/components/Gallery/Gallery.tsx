@@ -149,24 +149,16 @@ export function Gallery(): ReactNode {
                     className={`${props.className ?? ""}`}
                   />
                   {photo.youtube ? (
-                    <>
-                      <button
-                        aria-label={t("playVideo")}
-                        className="gallery__content__image__play"
-                        onClick={() =>
-                          navigate(`./${photo.index}`, {
-                            state: navigationState,
-                          })
-                        }
-                        type="button"
-                      >
-                        <PlayIcon />
-                      </button>
-                      <span
-                        aria-hidden="true"
-                        className="gallery__content__image__gradient"
-                      />
-                    </>
+                    <button
+                      aria-label={t("playVideo")}
+                      className="gallery__content__image__play"
+                      onClick={() =>
+                        navigate(`./${photo.index}`, { state: navigationState })
+                      }
+                      type="button"
+                    >
+                      <PlayIcon />
+                    </button>
                   ) : null}
                 </div>
               ),

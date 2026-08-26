@@ -1,12 +1,10 @@
-@use "../../../../styles/mixins" as m;
 @use "../../../../styles/variables" as v;
 
 .populations-bar-chart {
-  font-size: 1rem;
+  font-size: v.$bodyLg;
   .apexcharts-legend-text {
     font-size: 1em !important;
     font-weight: 300 !important;
-    @include m.transition(all, 0.3s, ease-in-out);
   }
   .apexcharts-data-labels {
     text {
@@ -20,13 +18,11 @@
   .apexcharts-datalabels {
     text {
       transform: translateY(0.5em);
-      @include m.transition(all, 0.3s, ease-in-out);
     }
   }
   .apexcharts-datalabels-group {
     text {
-      fill: v.$darkButtonContent !important;
-      @include m.transition(all, 0.3s, ease-in-out);
+      fill: v.$darkInk !important;
     }
   }
   .apexcharts-tooltip {
@@ -37,12 +33,10 @@
   }
   .apexcharts-yaxis {
     line {
-      @include m.transition(all, 0.3s, ease-in-out);
     }
     tspan {
       font-size: 1em;
       font-weight: 300;
-      @include m.transition(all, 0.3s, ease-in-out);
     }
   }
 }
@@ -60,20 +54,20 @@
   .populations-bar-chart {
     .apexcharts-legend-text,
     .apexcharts-text.apexcharts-yaxis-label {
-      color: v.$lightButtonContent !important;
+      color: v.$lightInk !important;
     }
     .apexcharts-datalabels-group,
     .apexcharts-data-labels {
       text {
-        fill: v.$lightButtonContent !important;
+        fill: v.$lightInk !important;
       }
     }
     .apexcharts-yaxis {
       line {
-        stroke: v.$lightInfoTab;
+        stroke: v.$lightSheetRaised;
       }
       tspan {
-        fill: v.$lightButtonContent;
+        fill: v.$lightInk;
       }
     }
   }
@@ -83,20 +77,20 @@
   .populations-bar-chart {
     .apexcharts-legend-text,
     .apexcharts-text.apexcharts-yaxis-label {
-      color: v.$darkButtonContent !important;
+      color: v.$darkInk !important;
     }
     .apexcharts-datalabels-group,
     .apexcharts-data-labels {
       text {
-        fill: v.$darkButtonContent !important;
+        fill: v.$darkInk !important;
       }
     }
     .apexcharts-yaxis {
       line {
-        stroke: v.$darkInfoTab;
+        stroke: v.$darkSheetRaised;
       }
       tspan {
-        fill: v.$darkButtonContent;
+        fill: v.$darkInk;
       }
     }
   }

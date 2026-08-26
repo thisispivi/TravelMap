@@ -9,7 +9,6 @@ import { useLanguage } from "@/shared/hooks/useLanguage";
 import { formatMileage } from "@/shared/lib/format";
 import { parameters } from "@/shared/lib/parameters";
 
-import { Card } from "../../Card/Card";
 import { CityRow } from "../../rows/RowCity";
 
 /**
@@ -39,7 +38,7 @@ export type MileageCardProps = {
  * @param {string} props.totalMileageToMoon - Earth-to-Moon comparison
  * @param {City} props.furthestCity - The furthest visited city from home
  * @param {City} props.nearestCity - The nearest visited city from home
- * @returns {ReactNode} The mileage bento card
+ * @returns {ReactNode} The mileage panel
  */
 export function MileageCard({
   totalMileage,
@@ -51,42 +50,48 @@ export function MileageCard({
   const { t, currLanguage } = useLanguage(["home"]);
 
   return (
-    <Card className="bento-card bento-card--large bento-detail card--box-shadow">
-      <div className="bento-detail__top">
+    <section className="stats-panel stats-panel--full stats-block">
+      <div className="stats-block__top">
         <h2>{t("stats.mileage")}</h2>
-        <div className="bento-mileage__total">
+        <div className="stats-mileage__total">
           <p>{t("stats.totalMileage")}</p>
-          <b>{formatMileage(totalMileage, currLanguage)} km</b>
+          <b className="figure">
+            {formatMileage(totalMileage, currLanguage)} km
+          </b>
         </div>
-        <div className="bento-mileage__planets">
-          <div className="bento-mileage__planet">
-            <EarthFlatIcon className="bento-mileage__planet-icon" />
-            <b>{totalMileageAroundEarth}×</b>
-            <p>{t("stats.aroundEarth")}</p>
+        <div className="stats-mileage__planets">
+          <div className="stats-mileage__planet">
+            <EarthFlatIcon className="stats-mileage__planet-icon" />
+            <div className="stats-mileage__planet-text">
+              <b className="figure">{totalMileageAroundEarth}×</b>
+              <p>{t("stats.aroundEarth")}</p>
+            </div>
           </div>
-          <div className="bento-mileage__planet">
-            <MoonFlatIcon className="bento-mileage__planet-icon" />
-            <b>{totalMileageToMoon}×</b>
-            <p>{t("stats.toMoon")}</p>
+          <div className="stats-mileage__planet">
+            <MoonFlatIcon className="stats-mileage__planet-icon" />
+            <div className="stats-mileage__planet-text">
+              <b className="figure">{totalMileageToMoon}×</b>
+              <p>{t("stats.toMoon")}</p>
+            </div>
           </div>
         </div>
       </div>
-      <div className="bento-detail__rows">
-        <div className="bento-detail__row">
-          <p className="bento-detail__row-label">{t("stats.furthestCity")}</p>
+      <div className="stats-block__rows">
+        <div className="stats-block__row">
+          <p className="stats-block__row-label">{t("stats.furthestCity")}</p>
           <CityRow
             eCity={furthestCity}
             sCity={parameters.homeCity ?? undefined}
           />
         </div>
-        <div className="bento-detail__row">
-          <p className="bento-detail__row-label">{t("stats.nearestCity")}</p>
+        <div className="stats-block__row">
+          <p className="stats-block__row-label">{t("stats.nearestCity")}</p>
           <CityRow
             eCity={nearestCity}
             sCity={parameters.homeCity ?? undefined}
           />
         </div>
       </div>
-    </Card>
+    </section>
   );
 }

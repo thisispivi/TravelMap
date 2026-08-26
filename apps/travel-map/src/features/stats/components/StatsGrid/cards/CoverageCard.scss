@@ -1,5 +1,4 @@
 @use "../../../../../styles/variables" as v;
-@use "../../../../../styles/mixins" as m;
 
 @mixin not-visited($continent, $id) {
   &.#{$continent}--not-visited {
@@ -11,35 +10,35 @@
   }
 }
 
-.bento-continents {
-  .bento-continents__body {
+.stats-continents {
+  .stats-continents__body {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
-    padding: 1rem;
+    gap: v.$space3;
+    padding: v.$space4;
   }
 
-  .bento-continents__header {
+  .stats-continents__header {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 0.75rem;
+    gap: v.$space3;
 
     h2 {
-      font-size: 1.25rem;
+      font-size: v.$headingMd;
       font-weight: 700;
-      margin-bottom: 0.75rem;
+      margin-bottom: v.$space3;
     }
   }
 
-  .bento-continents__score {
+  .stats-continents__score {
     display: flex;
     align-items: baseline;
-    gap: 0.2rem;
+    gap: v.$space1;
     flex-shrink: 0;
 
     b {
-      font-size: 1.4rem;
+      font-size: v.$headingMd;
       font-weight: 800;
       line-height: 1;
     }
@@ -50,7 +49,7 @@
     }
   }
 
-  .bento-continents__map {
+  .stats-continents__map {
     width: 100%;
     height: auto;
     display: block;
@@ -64,33 +63,33 @@
     @include not-visited("south-america", "SouthAmerica");
   }
 
-  .bento-continents__badges {
+  .stats-continents__badges {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.35rem;
+    gap: v.$space1;
   }
 }
 
 .map-shell--dark {
-  .bento-continents__score {
+  .stats-continents__score {
     b {
-      color: v.$darkButtonContent;
+      color: v.$darkInk;
     }
 
     span {
-      color: v.$darkAltText;
+      color: v.$darkInkMuted;
     }
   }
 }
 
 .map-shell--light {
-  .bento-continents__score {
+  .stats-continents__score {
     b {
-      color: v.$lightButtonContent;
+      color: v.$lightInk;
     }
 
     span {
-      color: v.$lightAltText;
+      color: v.$lightInkMuted;
     }
   }
 }

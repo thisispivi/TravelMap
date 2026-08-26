@@ -4,7 +4,6 @@ import { Country } from "@travelmap/core";
 import { ReactNode } from "react";
 
 import { CountryFlag } from "@/shared/components/CountryFlag/CountryFlag";
-import { Row } from "@/shared/components/Row/Row";
 import { useLanguage } from "@/shared/hooks/useLanguage";
 
 import { getCurrencyDisplay } from "../../lib/countries";
@@ -35,13 +34,13 @@ export function CurrencyRow({
   const currency = getCurrencyDisplay(country, t);
 
   return (
-    <Row className={`currency-row ${className}`}>
+    <div className={`currency-row ${className}`}>
       <CountryFlag
         className="currency-row__flag"
         countryId={currency.countryId}
       />
       <p className="currency-row__name">{currency.name}</p>
       <b className="currency-row__symbol">{currency.symbol}</b>
-    </Row>
+    </div>
   );
 }

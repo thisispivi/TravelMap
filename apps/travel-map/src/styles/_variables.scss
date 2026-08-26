@@ -1,65 +1,92 @@
-$leftBarWidth: 3.5rem;
-$mobileNavHeight: calc(3.2rem + env(safe-area-inset-bottom, 0rem));
+/* Layout */
+$floatingNavHeight: 3.5rem;
+$floatingNavMobileHeight: calc(3.5rem + env(safe-area-inset-bottom, 0rem));
+$floatingNavZIndex: 3;
+$mobileFloatingMargin: 0.625rem;
+$panelWidth: 25rem;
+$panelPadding: 1.25rem;
+
+/* Spacing scale. Every gap, pad and inset in authored UI comes from here. */
+$space1: 0.25rem;
+$space2: 0.5rem;
+$space3: 0.75rem;
+$space4: 1rem;
+$space5: 1.5rem;
+$space6: 2.5rem;
+
+/* Radius scale. Three values: controls, surfaces, and genuinely pill-shaped
+   things. A fourth value in authored UI is a bug, not a decision. */
+$radiusControl: 0.5rem;
+$radiusSurface: 1rem;
+$radiusPill: 62.5rem;
+
+/* Type scale. The display tier exists so figures and place names can carry
+   hierarchy instead of borders. */
+$displayLg: 3rem;
+$displayMd: 2rem;
+$displaySm: 1.5rem;
+$headingLg: 1.375rem;
+$headingMd: 1.0625rem;
+$bodyLg: 1rem;
+$bodySm: 0.875rem;
+$caption: 0.75rem;
+$micro: 0.6875rem;
+
+/* Motion. Two durations: one for interaction state, one for a surface
+   entering or leaving. Anything slower reads as lag rather than polish. */
+$motionState: 120ms;
+$motionSurface: 240ms;
+$motionEase: cubic-bezier(0.32, 0.72, 0, 1);
+
+/* Light theme. The app ground and the map ocean are the same value on
+   purpose: panels read as sheets laid on the map rather than as separate
+   chrome floating above an unrelated background. */
+$lightGround: #eef0ee;
+$lightLand: #dfe3df;
+$lightSheet: #fcfcfb;
+$lightSheetRaised: #ffffff;
+$lightInk: #16191a;
+$lightInkMuted: #565d5c;
+/* The quietest ink step still carries body-sized labels, so it is set at the
+   contrast floor for small text rather than as far back as it could go. */
+$lightInkFaint: #656c6a;
+$lightRule: rgba(22, 25, 26, 0.1);
+$lightRuleStrong: rgba(22, 25, 26, 0.22);
+$lightFill: rgba(22, 25, 26, 0.05);
+$lightFillHover: rgba(22, 25, 26, 0.09);
+$lightSheetShadow: 0 0.75rem 2.5rem rgba(22, 25, 26, 0.14);
+$lightObjectShadow: 0 0.125rem 0.75rem rgba(22, 25, 26, 0.12);
 
 /* Dark theme */
-$darkBackground: #18191a;
-$darkLeftBar: #242526;
-$darkLeftBarOpacity: rgba(36, 37, 38, 0.72);
-$darkLeftBarOpacityLighter: rgba(36, 37, 38, 0.5);
-$darkInfoTab: #2c2d2e;
-$darkButton: rgba(255, 255, 255, 0.1);
-$darkButtonHover: rgba(255, 255, 255, 0.16);
-$darkButtonContent: #e4e6eb;
-$darkAltText: #b0b3b8;
-$darkAltTextDarker: #8a8d91;
-$darkDisabledText: #65676b;
+$darkGround: #141715;
+$darkLand: #1b1f1d;
+$darkSheet: #1e221f;
+$darkSheetRaised: #252a27;
+$darkInk: #e9ece9;
+$darkInkMuted: #9aa29e;
+$darkInkFaint: #868d89;
+$darkRule: rgba(233, 236, 233, 0.1);
+$darkRuleStrong: rgba(233, 236, 233, 0.22);
+$darkFill: rgba(233, 236, 233, 0.06);
+$darkFillHover: rgba(233, 236, 233, 0.11);
+$darkSheetShadow: 0 0.75rem 2.5rem rgba(0, 0, 0, 0.5);
+$darkObjectShadow: 0 0.125rem 0.75rem rgba(0, 0, 0, 0.4);
 
-/* Light theme */
-$lightBackground: #f0f2f5;
-$lightLeftBar: #ffffff;
-$lightLeftBarOpacity: rgba(255, 255, 255, 0.72);
-$lightLeftBarOpacityLighter: rgba(255, 255, 255, 0.5);
-$lightInfoTab: rgba(245, 245, 250, 0.85);
-$lightButton: rgba(0, 0, 0, 0.06);
-$lightButtonHover: rgba(0, 0, 0, 0.1);
-$lightButtonContent: #1a1a2e;
-$lightAltText: #52566a;
-$lightAltTextDarker: #363948;
-$lightDisabledText: #b0b3b8;
+/* The pin from the logo mark is the only accent in the application. It marks
+   the current thing: active tab, active year, selected marker, current stop. */
+$pin: #e5402d;
+$pinHover: #cf3626;
+/* $pin reads 3.9:1 against $lightGround, below the 4.5:1 needed for text, so
+   text-sized uses take these per-theme variants and fills keep $pin itself. */
+$pinOnLight: #bf3120;
+$pinOnDark: #ff8672;
+$pinFaint: rgba(229, 64, 45, 0.16);
 
-/* Glassmorphism tokens */
-$glassBgDark: rgba(36, 37, 38, 0.65);
-$glassBgLight: rgba(255, 255, 255, 0.55);
-$glassBorderDark: rgba(255, 255, 255, 0.1);
-$glassBorderLight: rgba(255, 255, 255, 0.45);
+/* Chrome glass. Reserved for surfaces that genuinely sit over the moving map
+   (the nav and the map tooltip); panels are opaque sheets instead. */
 $glassBlur: 1.25rem;
-$glassShadowDark: 0 0.5rem 2rem rgba(0, 0, 0, 0.4);
-$glassShadowLight: 0 0.5rem 2rem rgba(0, 0, 0, 0.08);
-
-/* Category buttons */
-$futureButton: #bbdefb;
-$futureButtonHover: #90caf9;
-$futureButtonContent: #0d47a1;
-
-$visitedButton: #ffcdd2;
-$visitedButtonHover: #ef9a9a;
-$visitedButtonContent: #d50000;
-
-$livedButton: #fff9c4;
-$livedButtonHover: #fff59d;
-$livedButtonContent: #fbc02d;
-
-$languageButton: #ffecb3;
-$languageButtonHover: #ffe082;
-$languageButtonContent: #f57f17;
-
-$filterButton: #f8bbd0;
-$filterButtonHover: #f48fb1;
-$filterButtonContent: #c2185b;
-
-$statsButton: #e1bee7;
-$statsButtonHover: #ce93d8;
-$statsButtonContent: #8e24aa;
+$glassLight: rgba(252, 252, 251, 0.72);
+$glassDark: rgba(30, 34, 31, 0.72);
 
 /* Continent colors */
 $continentsAfrica: #f3c75d;
@@ -70,48 +97,8 @@ $continentsOceania: #fc8d59;
 $continentsSouthAmerica: #8ac38b;
 $continentsAntarctica: #9fb8cd;
 
-/* Floating overlay tokens */
-$floatingCardRadius: 1rem;
-$floatingCardRadiusLg: 1.25rem;
-$floatingCardPadding: 1.25rem;
-$floatingCardGap: 0.75rem;
-$floatingCardMaxWidth: 25rem;
-
-/* Photo card tokens */
-$photoCardRadius: 1rem;
-$photoCardShadowDark: 0 0.25rem 1rem rgba(0, 0, 0, 0.3);
-$photoCardShadowLight: 0 0.25rem 1rem rgba(0, 0, 0, 0.08);
-
-/* Typography scale */
-$headingXl: 2rem;
-$headingLg: 1.5rem;
-$headingMd: 1.125rem;
-$bodyLg: 1rem;
-$bodySm: 0.875rem;
-$caption: 0.75rem;
-
-/* Floating nav tokens */
-$floatingNavHeight: 3.5rem;
-$floatingNavMobileHeight: calc(3.5rem + env(safe-area-inset-bottom, 0rem));
-$floatingNavZIndex: 3;
-$mobileFloatingMargin: 0.625rem;
-
-/* Brand colors */
-$accentPrimary: #1877f2;
-$accentPrimaryHover: #166fe5;
-$accentSoftDark: rgba(45, 136, 255, 0.2);
-$accentSoftLight: rgba(24, 119, 242, 0.12);
-/* $accentPrimary reads at 3.7:1 on $darkBackground, so dark surfaces lighten
-   the brand blue and pair it with a dark ink instead of white. */
-$accentOnDark: #6cb0ff;
-$accentOnDarkHover: #8cc3ff;
-$accentInkOnDark: #0b1c33;
-
-/* Route overlay */
-$routeLineColorDark: rgba(255, 255, 255, 0.6);
-$routeLineColorLight: #1a73e8;
-$routeLineWidth: 0.125rem;
-$routeDotSize: 0.375rem;
+/* Transport modes. Shared with the map route overlay and the transport charts
+   through _variables.module.scss, so they stay a named vocabulary. */
 $transportPlane: #a855f7;
 $transportFerry: #0ea5e9;
 $transportTrain: #f59e0b;

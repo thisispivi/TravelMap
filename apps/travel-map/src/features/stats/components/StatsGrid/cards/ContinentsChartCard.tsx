@@ -3,7 +3,6 @@ import { ReactNode } from "react";
 
 import { useLanguage } from "@/shared/hooks/useLanguage";
 
-import { Card } from "../../Card/Card";
 import { ContinentsBarChart } from "../../charts/BarChartContinents";
 
 /**
@@ -21,7 +20,7 @@ export type ContinentsChartCardProps = {
  * @component
  * @param {ContinentsChartCardProps} props
  * @param {{ continent: Continent; countries: number; cities: number }[]} props.data - Per-continent visit counts
- * @returns {ReactNode} The continents chart bento card
+ * @returns {ReactNode} The continents chart panel
  */
 export function ContinentsChartCard({
   data,
@@ -29,11 +28,11 @@ export function ContinentsChartCard({
   const { t } = useLanguage(["home"]);
 
   return (
-    <Card className="bento-card bento-card--half bento-detail bento-continents-chart card--box-shadow">
-      <div className="bento-detail__top">
+    <section className="stats-panel stats-panel--half stats-block stats-continents-chart">
+      <div className="stats-block__top">
         <h2>{t("stats.coverage")}</h2>
         <ContinentsBarChart data={data} />
       </div>
-    </Card>
+    </section>
   );
 }

@@ -4,16 +4,9 @@ import { domAnimation, LazyMotion, m } from "framer-motion";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 
-import AirplaneIcon from "@/assets/icons/Airplane.svg?react";
-import BusIcon from "@/assets/icons/Bus.svg?react";
-import CalendarIcon from "@/assets/icons/Calendar.svg?react";
-import CarIcon from "@/assets/icons/Car.svg?react";
-import FerryIcon from "@/assets/icons/Ferry.svg?react";
-import TaxiIcon from "@/assets/icons/Taxi.svg?react";
-import TimezoneIcon from "@/assets/icons/Timezone.svg?react";
-import TrainIcon from "@/assets/icons/Train.svg?react";
 import { futureTrips, visitedTrips } from "@/data/world";
 import { isPanelLoadingVisible } from "@/shared/components/PanelLoading/PanelLoading.state";
+import { TransportModeIcon } from "@/shared/components/TransportModeIcon/TransportModeIcon";
 import { useAppRoute } from "@/shared/context/AppRoute.context";
 import { useMapInteraction } from "@/shared/context/MapInteraction.context";
 import { usePanel } from "@/shared/context/Panel.context";
@@ -24,7 +17,8 @@ import { formatMileage } from "@/shared/lib/format";
 import {
   buildTripDetailTimelineItems,
   computeTripStats,
-  formatTripDetailDuration,
+  summarizeTripModes,
+  totalTripDistanceKm,
 } from "../../lib/tripDetailTimeline";
 import { TripDetailHero } from "../TripDetailHero/TripDetailHero";
 import { TripTimeline } from "../TripTimeline/TripTimeline";
@@ -103,6 +97,29 @@ export function TripDetail(): ReactNode {
     ? trip.sDate.getFullYear() !== trip.eDate.getFullYear()
     : false;
   const stats = computeTripStats(timelineItems);
+  const distanceKm = totalTripDistanceKm(stats);
+  const days = trip?.getDurationInDays() ?? 0;
+  /* Only figures the trip actually has: a walking city break should not show a
+     zero-kilometre column next to its real numbers. */
+  const figures = [
+    days > 0 && {
+      label: days === 1 ? t("tripDetail.day") : t("tripDetail.days"),
+      value: days,
+    },
+    stats.stops > 0 && {
+      label: t("tripDetail.stops"),
+      value: stats.stops,
+    },
+    distanceKm > 0 && {
+      label: t("tripDetail.distance"),
+      value: formatMileage(distanceKm, lang),
+    },
+    stats.timezoneCount > 1 && {
+      label: t("tripDetail.timeZones"),
+      value: stats.timezoneCount,
+    },
+  ].filter((figure) => figure !== false);
+  const modes = summarizeTripModes(stats);
   if (!trip) return null;
   const countries = trip.getCountriesVisited();
   return (
@@ -126,110 +143,35 @@ export function TripDetail(): ReactNode {
           trip={trip}
         />
 
-        <div className="trip-detail__stats">
-          {trip.getDurationInDays() > 0 ? (
-            <span className="trip-detail__stat-pill">
-              <CalendarIcon className="trip-detail__stat-pill-icon" />
-              {trip.getDurationInDays()}{" "}
-              {trip.getDurationInDays() === 1
-                ? t("tripDetail.day")
-                : t("tripDetail.days")}
-            </span>
-          ) : null}
-          {stats.flights > 0 ? (
-            <span className="trip-detail__stat-pill trip-detail__stat-pill--plane">
-              <AirplaneIcon className="trip-detail__stat-pill-icon" />
-              {stats.flights}{" "}
-              {stats.flights === 1
-                ? t("tripDetail.flight")
-                : t("tripDetail.flights")}
-              {stats.flightKm > 0
-                ? ` · ${formatMileage(stats.flightKm, lang)} km`
-                : ""}
-              {stats.flightMinutes > 0
-                ? ` · ~${formatTripDetailDuration(stats.flightMinutes)}`
-                : ""}
-            </span>
-          ) : null}
-          {stats.ferries > 0 ? (
-            <span className="trip-detail__stat-pill trip-detail__stat-pill--ferry">
-              <FerryIcon className="trip-detail__stat-pill-icon" />
-              {stats.ferries}{" "}
-              {stats.ferries === 1
-                ? t("tripDetail.ferry")
-                : t("tripDetail.ferries")}
-              {stats.ferryKm > 0
-                ? ` · ${formatMileage(stats.ferryKm, lang)} km`
-                : ""}
-              {stats.ferryMinutes > 0
-                ? ` · ~${formatTripDetailDuration(stats.ferryMinutes)}`
-                : ""}
-            </span>
-          ) : null}
-          {stats.trains > 0 ? (
-            <span className="trip-detail__stat-pill trip-detail__stat-pill--train">
-              <TrainIcon className="trip-detail__stat-pill-icon" />
-              {stats.trains}{" "}
-              {stats.trains === 1
-                ? t("tripDetail.train")
-                : t("tripDetail.trains")}
-              {stats.trainKm > 0
-                ? ` · ${formatMileage(stats.trainKm, lang)} km`
-                : ""}
-              {stats.trainMinutes > 0
-                ? ` · ~${formatTripDetailDuration(stats.trainMinutes)}`
-                : ""}
-            </span>
-          ) : null}
-          {stats.buses > 0 ? (
-            <span className="trip-detail__stat-pill trip-detail__stat-pill--bus">
-              <BusIcon className="trip-detail__stat-pill-icon" />
-              {stats.buses}{" "}
-              {stats.buses === 1 ? t("tripDetail.bus") : t("tripDetail.buses")}
-              {stats.busKm > 0
-                ? ` · ${formatMileage(stats.busKm, lang)} km`
-                : ""}
-              {stats.busMinutes > 0
-                ? ` · ~${formatTripDetailDuration(stats.busMinutes)}`
-                : ""}
-            </span>
-          ) : null}
-          {stats.cars > 0 ? (
-            <span className="trip-detail__stat-pill trip-detail__stat-pill--car">
-              <CarIcon className="trip-detail__stat-pill-icon" />
-              {stats.cars}{" "}
-              {stats.cars === 1
-                ? t("tripDetail.drive")
-                : t("tripDetail.drives")}
-              {stats.carKm > 0
-                ? ` · ${formatMileage(stats.carKm, lang)} km`
-                : ""}
-              {stats.carMinutes > 0
-                ? ` · ~${formatTripDetailDuration(stats.carMinutes)}`
-                : ""}
-            </span>
-          ) : null}
-          {stats.taxis > 0 ? (
-            <span className="trip-detail__stat-pill trip-detail__stat-pill--taxi">
-              <TaxiIcon className="trip-detail__stat-pill-icon" />
-              {stats.taxis}{" "}
-              {stats.taxis === 1 ? t("tripDetail.taxi") : t("tripDetail.taxis")}
-              {stats.taxiKm > 0
-                ? ` · ${formatMileage(stats.taxiKm, lang)} km`
-                : ""}
-              {stats.taxiMinutes > 0
-                ? ` · ~${formatTripDetailDuration(stats.taxiMinutes)}`
-                : ""}
-            </span>
-          ) : null}
-          {stats.timezoneCount > 1 ? (
-            <span className="trip-detail__stat-pill">
-              <TimezoneIcon className="trip-detail__stat-pill-icon" />
-              {stats.timezoneCount}{" "}
-              {stats.timezoneCount === 1
-                ? t("tripDetail.timeZone")
-                : t("tripDetail.timeZones")}
-            </span>
+        <div className="trip-detail__summary">
+          <dl className="trip-detail__figures">
+            {figures.map((figure) => (
+              <div className="trip-detail__figure" key={figure.label}>
+                <dt className="trip-detail__figure-label eyebrow">
+                  {figure.label}
+                </dt>
+                <dd className="trip-detail__figure-value figure">
+                  {figure.value}
+                </dd>
+              </div>
+            ))}
+          </dl>
+
+          {modes.length > 0 ? (
+            <ul className="trip-detail__modes">
+              {modes.map((entry) => (
+                <li
+                  className={`trip-detail__mode trip-detail__mode--${entry.mode}`}
+                  key={entry.mode}
+                >
+                  <TransportModeIcon
+                    className="trip-detail__mode-icon"
+                    mode={entry.mode}
+                  />
+                  <span className="figure">{entry.count}</span>
+                </li>
+              ))}
+            </ul>
           ) : null}
         </div>
 
@@ -240,7 +182,9 @@ export function TripDetail(): ReactNode {
           )}
           ref={bodyRef}
         >
-          <p className="trip-detail__route-label">{t("tripDetail.route")}</p>
+          <p className="trip-detail__route-label eyebrow">
+            {t("tripDetail.route")}
+          </p>
           <TripTimeline items={timelineItems} showYear={showYear} />
         </div>
       </m.div>

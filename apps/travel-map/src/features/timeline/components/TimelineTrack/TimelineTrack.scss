@@ -1,293 +1,281 @@
 @use "../../../../styles/variables" as v;
 @use "../../../../styles/mixins" as m;
 
+/* A single left rail carries the whole history: the year marker sits on it and
+   every trip hangs off it, so the page reads straight down in the order the
+   trips happened and mobile needs no separate composition. */
 .timeline-track {
-  position: relative;
   max-width: 52rem;
   margin: 0 auto;
-  padding: 0 0.25rem 2rem;
+  padding-bottom: v.$space6;
+}
 
-  .timeline-track__line {
+.timeline-year {
+  position: relative;
+  padding-left: var(--timeline-rail);
+
+  &::before {
+    content: "";
     position: absolute;
-    left: 50%;
     top: 0;
     bottom: 0;
+    left: calc(var(--timeline-rail) - #{v.$space5});
     width: 0.0625rem;
-    transform: translateX(-50%);
   }
 
-  .timeline-track__year-divider {
-    display: flex;
-    justify-content: center;
+  /* The marker occupies the rail gutter only, so a year sticking to the top of
+     the scroller never runs across the rows it labels. */
+  &__marker {
     position: sticky;
-    top: 0.25rem;
-    z-index: 3;
-    margin: 2.5rem 0 1.25rem;
-    pointer-events: none;
-
-    span {
-      padding: 0.375rem 1.25rem;
-      border-radius: 62.4375rem;
-      font-size: v.$bodySm;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-    }
-  }
-}
-
-.timeline-year-group {
-  &:first-child .timeline-track__year-divider {
-    margin-top: 0.5rem;
-  }
-}
-
-.timeline-card {
-  position: relative;
-  width: calc(50% - 3rem);
-  border-radius: v.$floatingCardRadius;
-  overflow: hidden;
-  cursor: pointer;
-  margin-bottom: 1.75rem;
-  will-change: opacity, transform;
-  @include m.transition(box-shadow, 0.3s);
-
-  &--left {
-    margin-right: auto;
-  }
-
-  &--right {
-    margin-left: auto;
-  }
-
-  .timeline-card__image-container {
-    height: 9rem;
-    overflow: hidden;
-    position: relative;
-
-    .timeline-card__image {
-      width: 100%;
-      height: calc(100% + 0.125rem);
-      margin-top: -0.0625rem;
-      object-fit: cover;
-      display: block;
-      @include m.transition(transform, 0.4s, cubic-bezier(0.4, 0, 0.2, 1));
-    }
-
-    .timeline-card__image-overlay {
-      position: absolute;
-      inset: -0.0625rem 0 0;
-      background: linear-gradient(
-        180deg,
-        rgba(0, 0, 0, 0.04) 0%,
-        transparent 30%,
-        rgba(0, 0, 0, 0.3) 100%
-      );
-    }
-  }
-
-  &:hover .timeline-card__image {
-    transform: scale(1.04);
-  }
-
-  &:hover {
-    box-shadow:
-      0 0.375rem 1.25rem rgba(0, 0, 0, 0.14),
-      0 0.75rem 2.25rem rgba(0, 0, 0, 0.1);
-  }
-
-  .timeline-card__body {
-    padding: 0.875rem 1rem 0.95rem;
-  }
-
-  .timeline-card__flags {
-    position: absolute;
-    top: 0.75rem;
-    right: 0.75rem;
+    top: 0;
     z-index: 2;
     display: flex;
-    gap: 0.25rem;
+    align-items: center;
+    width: var(--timeline-rail);
+    height: 2.5rem;
+    margin-left: calc(0rem - var(--timeline-rail));
+    font-size: v.$headingLg;
+    font-weight: 800;
+    letter-spacing: -0.03em;
   }
 
-  .timeline-card__flag {
-    width: 1.25rem;
-    height: 1.25rem;
-    filter: drop-shadow(0 0.125rem 0.25rem rgba(0, 0, 0, 0.24));
+  &__entries {
+    list-style: none;
   }
+}
 
-  .timeline-card__title {
-    font-size: v.$headingMd;
-    font-weight: 600;
-    margin-bottom: 0.4rem;
-    padding-right: 2rem;
-  }
-
-  .timeline-card__meta {
+.timeline-entry {
+  &__button {
+    position: relative;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem;
-  }
+    gap: v.$space4;
+    width: 100%;
+    padding: v.$space4 v.$space3 v.$space4 0;
+    border: none;
+    border-top-width: 0.0625rem;
+    border-top-style: solid;
+    border-radius: 0;
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+    @include m.transition(background-color);
 
-  .timeline-card__date {
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-    min-width: 0;
-
-    .timeline-card__date-icon {
-      height: 0.75rem;
-      width: auto;
-    }
-
-    p {
-      font-size: v.$caption;
-      font-weight: 500;
-      text-transform: capitalize;
-      min-width: 0;
+    &:focus-visible {
+      @include m.focus-ring();
+      border-radius: v.$radiusControl;
     }
   }
 
-  .timeline-card__cities-count {
-    font-size: v.$caption;
-    font-weight: 500;
-    opacity: 0.6;
+  /* The node marks where this trip meets the rail, and turns pin-red on hover
+     to say which row the pointer is on. */
+  &__node {
+    position: absolute;
+    top: -0.28125rem;
+    left: calc(#{v.$space5} * -1 - 0.21875rem);
+    width: 0.4375rem;
+    height: 0.4375rem;
+    border-radius: 50%;
+    @include m.transition(background-color transform);
+  }
+
+  &__button:hover &__node,
+  &__button:focus-visible &__node {
+    transform: scale(1.6);
+    background: v.$pin;
+  }
+
+  &__plate {
+    position: relative;
+    display: block;
+    width: 7.5rem;
+    aspect-ratio: 3 / 2;
     flex-shrink: 0;
-    text-align: right;
+    border-radius: v.$radiusControl;
+    overflow: hidden;
+  }
+
+  &__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    @include m.transition(transform, 400ms);
+  }
+
+  &__button:hover &__image {
+    transform: scale(1.05);
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: v.$space2;
+    min-width: 0;
+    flex: 1;
+  }
+
+  &__heading {
+    display: flex;
+    align-items: baseline;
+    gap: v.$space2;
+    min-width: 0;
+  }
+
+  &__title {
+    min-width: 0;
+    overflow: hidden;
+    font-size: v.$headingLg;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__flags {
+    display: flex;
+    gap: 0.1875rem;
+    flex-shrink: 0;
+    align-self: center;
+  }
+
+  &__flag {
+    width: 1.0625rem;
+    height: 1.0625rem;
+  }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    gap: v.$space3;
+    font-size: v.$bodySm;
+  }
+
+  &__date {
+    display: flex;
+    align-items: center;
+    gap: v.$space1;
+    min-width: 0;
+    text-transform: capitalize;
+  }
+
+  &__date-icon {
+    width: auto;
+    height: 0.8125rem;
+    flex-shrink: 0;
+  }
+
+  &__cities {
+    flex-shrink: 0;
   }
 }
 
 .map-shell--dark {
-  .timeline-track__line {
-    background: rgba(255, 255, 255, 0.08);
+  .timeline-year::before {
+    background: v.$darkRule;
   }
 
-  .timeline-track__year-divider {
-    --year-line-color: rgba(255, 255, 255, 0.08);
+  .timeline-year__marker {
+    color: v.$darkInkFaint;
+  }
 
-    span {
-      background: rgba(255, 255, 255, 0.06);
-      color: v.$darkButtonContent;
-      border: 0.0625rem solid rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(0.5rem);
+  .timeline-entry__button {
+    border-top-color: v.$darkRule;
+    color: v.$darkInk;
+
+    @include m.hover() {
+      background: v.$darkFill;
     }
   }
 
-  .timeline-card {
-    @include m.glassmorphism-dark();
-    box-shadow:
-      0 0.0625rem 0.125rem rgba(0, 0, 0, 0.3),
-      0 0.0625rem 0.25rem rgba(0, 0, 0, 0.22);
+  .timeline-entry__node {
+    background: v.$darkRuleStrong;
+  }
 
-    .timeline-card__title {
-      color: #ffffff;
-    }
+  .timeline-entry__plate {
+    background: v.$darkFill;
+  }
 
-    .timeline-card__date {
-      color: v.$darkAltText;
+  .timeline-entry__meta {
+    color: v.$darkInkMuted;
+  }
 
-      .timeline-card__date-icon .calendar-0,
-      .timeline-card__date-icon .calendar-1 {
-        stroke: v.$darkAltText;
-      }
-    }
-
-    .timeline-card__cities-count {
-      color: v.$darkAltTextDarker;
-    }
+  .timeline-entry__cities {
+    color: v.$darkInkFaint;
   }
 }
 
 .map-shell--light {
-  .timeline-track__line {
-    background: rgba(0, 0, 0, 0.1);
+  .timeline-year::before {
+    background: v.$lightRule;
   }
 
-  .timeline-track__year-divider {
-    --year-line-color: rgba(0, 0, 0, 0.06);
+  .timeline-year__marker {
+    color: v.$lightInkFaint;
+  }
 
-    span {
-      background: rgba(255, 255, 255, 0.7);
-      color: v.$lightButtonContent;
-      border: 0.0625rem solid rgba(0, 0, 0, 0.07);
-      backdrop-filter: blur(0.5rem);
-      @include m.smooth-shadow(1);
+  .timeline-entry__button {
+    border-top-color: v.$lightRule;
+    color: v.$lightInk;
+
+    @include m.hover() {
+      background: v.$lightFill;
     }
   }
 
-  .timeline-card {
-    @include m.glassmorphism-light();
-    border: 0.0625rem solid rgba(0, 0, 0, 0.06);
-    box-shadow:
-      0 0.0625rem 0.125rem rgba(0, 0, 0, 0.1),
-      0 0.0625rem 0.25rem rgba(0, 0, 0, 0.07);
+  .timeline-entry__node {
+    background: v.$lightRuleStrong;
+  }
 
-    .timeline-card__title {
-      color: v.$lightButtonContent;
-    }
+  .timeline-entry__plate {
+    background: v.$lightFill;
+  }
 
-    .timeline-card__date {
-      color: v.$lightAltText;
+  .timeline-entry__meta {
+    color: v.$lightInkMuted;
+  }
 
-      .timeline-card__date-icon .calendar-0,
-      .timeline-card__date-icon .calendar-1 {
-        stroke: v.$lightAltText;
-      }
-    }
-
-    .timeline-card__cities-count {
-      color: v.$lightAltTextDarker;
-    }
+  .timeline-entry__cities {
+    color: v.$lightInkFaint;
   }
 }
 
 @media screen and (max-width: 42.5rem) {
-  .timeline-track {
-    padding: 0 1rem 2rem 1rem;
-
-    .timeline-track__line {
-      display: none;
-    }
-
-    .timeline-track__year-divider {
-      align-items: center;
-      gap: 0.75rem;
-      justify-content: center;
-      margin: 2.5rem 0 1.25rem;
-
-      &::before,
-      &::after {
-        content: "";
-        flex: 1;
-        height: 0.0625rem;
-        background: var(--year-line-color, rgba(255, 255, 255, 0.08));
-      }
-
-      span {
-        flex-shrink: 0;
-      }
-    }
+  .timeline-year::before {
+    left: calc(var(--timeline-rail) - #{v.$space3});
   }
 
-  .timeline-card {
-    width: 100%;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    margin-bottom: 0.875rem;
+  .timeline-year__marker {
+    font-size: v.$headingMd;
+  }
 
-    &--left,
-    &--right {
-      margin-left: 0;
-      margin-right: 0;
-    }
+  .timeline-entry__node {
+    left: calc(#{v.$space3} * -1 - 0.21875rem);
+  }
 
-    .timeline-card__image-container {
-      height: 7rem;
-    }
+  .timeline-entry__button {
+    gap: v.$space3;
+    padding-right: 0;
+  }
+
+  .timeline-entry__plate {
+    width: 4.5rem;
+  }
+
+  .timeline-entry__title {
+    font-size: v.$headingMd;
+  }
+
+  .timeline-entry__meta {
+    font-size: v.$caption;
+    gap: v.$space2;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .timeline-card__image {
-    transition: none;
+  .timeline-entry__image,
+  .timeline-entry__node {
+    transition-duration: 1ms;
   }
 }

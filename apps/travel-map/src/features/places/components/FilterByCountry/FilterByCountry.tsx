@@ -10,7 +10,6 @@ import { Checkbox } from "@/shared/components/Checkbox/Checkbox";
 import { CountryFlag } from "@/shared/components/CountryFlag/CountryFlag";
 import { useLanguage } from "@/shared/hooks/useLanguage";
 import { classNames } from "@/shared/lib/classNames";
-import { mobileAndTabletCheck } from "@/shared/lib/responsive";
 
 /**
  * Properties accepted by the FilterByCountry component.
@@ -27,19 +26,6 @@ interface FilterByCountryProps {
   buttonIcon?: ReactNode;
   className?: string;
 }
-
-/**
- * Builds the class list for a country option.
- * @param {unknown} isSelected - Whether the country is selected
- * @returns {string} The option's BEM class list
- */
-const getOptionClassName = (isSelected = false): string => {
-  return classNames(
-    "filter__option",
-    isSelected && "filter__option--selected",
-    mobileAndTabletCheck() && "filter__option--mobile",
-  );
-};
 
 /**
  * FilterByCountry component
@@ -155,20 +141,23 @@ export function FilterByCountry({
           <div className="filter__options" ref={nodeRef}>
             <div className="filter__options__list" id="info-tab">
               <button
-                className={`${getOptionClassName()} filter__option--select-all`}
+                className="filter__option filter__select-all"
                 onClick={handleSelectAllToggle}
                 type="button"
               >
-                <div className="filter__option--select-all__icon">
+                <div className="filter__select-all-icon">
                   <Checkbox isChecked={allSelected} />
                 </div>
-                <h4 className="filter__option--select-all__text">
+                <h4 className="filter__select-all-text">
                   {allSelected ? t("deselectAll") : t("selectAll")}
                 </h4>
               </button>
               {options.map((option) => (
                 <button
-                  className={getOptionClassName(selectedSet.has(option))}
+                  className={classNames(
+                    "filter__option",
+                    selectedSet.has(option) && "filter__option--selected",
+                  )}
                   key={option.id}
                   onClick={() => handleCountryToggle(option)}
                   type="button"

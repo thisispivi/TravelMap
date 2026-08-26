@@ -3,98 +3,105 @@
 
 .floating-nav {
   position: fixed;
-  top: 1rem;
+  top: v.$space4;
   left: 50%;
-  transform: translateX(-50%);
   z-index: v.$floatingNavZIndex;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.375rem 0.5rem;
-  border-radius: 62.4375rem;
-  @include m.transition(all, 0.3s);
+  height: v.$floatingNavHeight;
+  padding: 0 v.$space2 0 v.$space3;
+  gap: v.$space2;
+  border-radius: v.$radiusPill;
+  transform: translateX(-50%);
+  @include m.transition(transform opacity, v.$motionSurface);
 
-  &.floating-nav--hidden {
+  &--hidden {
     transform: translateX(-50%) translateY(-150%);
     pointer-events: none;
   }
 
-  .floating-nav__logo {
+  &__logo {
     display: flex;
-    align-items: center;
-    padding: 0 0.5rem;
-    height: 100%;
-
-    .floating-nav__logo-button {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 2rem;
-      height: 2rem;
-      padding: 0;
-      border: none;
-      background: none;
-      cursor: pointer;
-      appearance: none;
-
-      &:focus-visible {
-        @include m.focus-ring();
-      }
-    }
-
-    .floating-nav__logo-icon {
-      width: 100%;
-      height: 100%;
-      display: block;
-    }
-  }
-
-  .floating-nav__tabs {
-    display: flex;
-    gap: 0.125rem;
     align-items: center;
   }
 
-  .floating-nav__tab {
-    position: relative;
-    padding: 0.5rem 1rem;
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    border-radius: 62.4375rem;
+  &__logo-button {
     display: flex;
     align-items: center;
     justify-content: center;
-    @include m.transition(color, 0.2s);
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
 
-    .floating-nav__tab-indicator {
-      position: absolute;
-      inset: 0;
-      border-radius: 62.4375rem;
-      z-index: 0;
-    }
-
-    .floating-nav__tab-label {
-      position: relative;
-      z-index: 1;
-      font-size: v.$bodySm;
-      font-weight: 600;
-      white-space: nowrap;
+    &:focus-visible {
+      @include m.focus-ring();
     }
   }
 
-  .floating-nav__actions {
+  &__logo-icon {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__tabs {
+    display: flex;
+    align-items: stretch;
+    align-self: stretch;
+  }
+
+  &__tab {
+    position: relative;
     display: flex;
     align-items: center;
-    gap: 0.375rem;
-    padding-left: 0.25rem;
+    justify-content: center;
+    padding: 0 v.$space3;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    @include m.transition(color);
 
-    .dark-mode-button,
-    .button {
-      width: 2.25rem;
-      height: 2.25rem;
+    &:focus-visible {
+      @include m.focus-ring();
+      border-radius: v.$radiusControl;
     }
+  }
 
+  &__tab-label {
+    font-size: v.$bodySm;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+  }
+
+  /* The active tab is marked by the same tick that opens every graticule rule
+     in the app, rather than by a filled pill. It slides between tabs so the
+     movement itself reports which view is current. */
+  &__tab-indicator {
+    position: absolute;
+    bottom: 0.6875rem;
+    left: 50%;
+    width: 1.25rem;
+    height: 0.125rem;
+    margin-left: -0.625rem;
+    border-radius: v.$radiusPill;
+    background: v.$pin;
+  }
+
+  &__tab--panel-closed &__tab-indicator {
+    background: transparent;
+    box-shadow: inset 0 0 0 0.0625rem v.$pin;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: v.$space1;
+
+    .button,
     .language-selector__activator {
       width: 2.25rem;
       height: 2.25rem;
@@ -102,49 +109,34 @@
   }
 }
 
-.map-shell--dark {
-  .floating-nav {
-    @include m.glassmorphism-dark();
-    border-radius: 62.4375rem;
+.map-shell--dark .floating-nav {
+  @include m.chrome-dark();
 
-    .floating-nav__tab {
-      color: v.$darkAltTextDarker;
+  .floating-nav__tab {
+    color: v.$darkInkFaint;
 
-      &--active {
-        color: #ffffff;
-      }
+    @include m.hover() {
+      color: v.$darkInkMuted;
+    }
 
-      &--panel-closed {
-        opacity: 0.6;
-      }
-
-      .floating-nav__tab-indicator {
-        background: rgba(255, 255, 255, 0.1);
-      }
+    &--active {
+      color: v.$darkInk;
     }
   }
 }
 
-.map-shell--light {
-  .floating-nav {
-    @include m.glassmorphism-light();
-    border-radius: 62.4375rem;
-    border: 0.0625rem solid rgba(0, 0, 0, 0.06);
+.map-shell--light .floating-nav {
+  @include m.chrome-light();
 
-    .floating-nav__tab {
-      color: v.$lightAltText;
+  .floating-nav__tab {
+    color: v.$lightInkFaint;
 
-      &--active {
-        color: v.$lightButtonContent;
-      }
+    @include m.hover() {
+      color: v.$lightInkMuted;
+    }
 
-      &--panel-closed {
-        opacity: 0.6;
-      }
-
-      .floating-nav__tab-indicator {
-        background: rgba(0, 0, 0, 0.06);
-      }
+    &--active {
+      color: v.$lightInk;
     }
   }
 }
@@ -152,47 +144,46 @@
 @media screen and (max-width: 42.5rem) {
   .floating-nav {
     top: auto;
+    right: v.$mobileFloatingMargin;
     bottom: calc(v.$mobileFloatingMargin + env(safe-area-inset-bottom, 0rem));
     left: v.$mobileFloatingMargin;
-    right: v.$mobileFloatingMargin;
+    padding: 0 v.$space2;
+    border-radius: v.$radiusSurface;
     transform: none;
-    padding: 0.5rem 0.75rem;
-    justify-content: space-evenly;
-    border-radius: 1.25rem;
 
-    &.floating-nav--hidden {
+    &--hidden {
       transform: translateY(
         calc(100% + v.$mobileFloatingMargin + env(safe-area-inset-bottom, 0rem))
       );
     }
 
-    .floating-nav__logo {
+    &__logo {
       display: none;
     }
 
-    .floating-nav__tabs {
+    &__tabs {
       flex: 1;
-      justify-content: space-evenly;
     }
 
-    .floating-nav__tab {
-      padding: 0.5rem 0.75rem;
-
-      .floating-nav__tab-label {
-        font-size: v.$caption;
-      }
+    &__tab {
+      flex: 1;
+      padding: 0 v.$space1;
     }
 
-    .floating-nav__actions {
-      gap: 0.25rem;
-      padding-left: 0;
-
-      .dark-mode-button,
-      .button,
-      .language-selector__activator {
-        width: 2rem;
-        height: 2rem;
-      }
+    &__tab-label {
+      font-size: v.$caption;
     }
+
+    &__actions .button,
+    &__actions .language-selector__activator {
+      width: 2rem;
+      height: 2rem;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .floating-nav {
+    transition-duration: 1ms;
   }
 }
