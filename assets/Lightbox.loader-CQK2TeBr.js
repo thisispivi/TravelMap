@@ -1,0 +1,1 @@
+import{u as e}from"./index-Cs1oNtBx.js";function t(t){let{cityName:n,travelIdx:r,photoIdx:i}=t.params,a=e.find(e=>e.name===n);return!a||!r||!i?null:{city:a,travelIdx:parseInt(r,10),photoIdx:parseInt(i,10)}}export{t as lightboxLoader};
