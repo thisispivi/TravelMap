@@ -10,13 +10,16 @@ blockExoticSubdeps: true
 minimumReleaseAge: 10080
 minimumReleaseAgeExclude:
   - brace-expansion@5.0.9
-  - fast-uri@3.1.5
   - react-router@8.3.0
   - js-yaml@4.3.1
   - nanoid@3.3.17 || 3.3.18
 
 onlyBuiltDependencies:
   - "@parcel/watcher"
+
+peerDependencyRules:
+  allowedVersions:
+    "eslint-plugin-react>eslint": "10"
 
 packages:
   - "apps/*"
@@ -30,5 +33,8 @@ trustPolicyExclude:
 overrides:
   # Legacy consumers do not all request the patched security releases yet.
   brace-expansion: 5.0.9
-  fast-uri: 3.1.5
-  postcss: 8.5.25
+  browserslist: 4.28.8
+  fast-uri: 3.1.6
+  postcss: 8.5.26
+  # Keep the last trusted-publisher release until newer fastq releases regain provenance.
+  fastq: 1.20.1

@@ -183,7 +183,10 @@ const DEFAULT_SITE: SiteDetails = {
   author: "",
   keywords: [],
 };
-const siteConfigPath = resolve(__dirname, "../../data/site.config.json");
+const siteConfigPath = resolve(
+  import.meta.dirname,
+  "../../data/site.config.json",
+);
 const configuredSite = existsSync(siteConfigPath)
   ? (JSON.parse(readFileSync(siteConfigPath, "utf8")).site as
       Partial<SiteDetails> | undefined)
@@ -197,13 +200,13 @@ export default defineConfig({
     svgr(),
     qrcode(),
     siteBranding(site),
-    mediaServer(resolve(__dirname, "../../media")),
+    mediaServer(resolve(import.meta.dirname, "../../media")),
   ],
   base: "/",
   server: { watch: { usePolling: true }, host: true },
   css: { postcss: { plugins: [autoprefixer({})] } },
   resolve: {
-    alias: [{ find: "@", replacement: resolve(__dirname, "./src") }],
+    alias: [{ find: "@", replacement: resolve(import.meta.dirname, "./src") }],
   },
   build: {
     target: "esnext",

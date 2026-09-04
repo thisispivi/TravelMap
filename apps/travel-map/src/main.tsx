@@ -3,6 +3,7 @@ import "./styles/_typography.scss";
 import "./styles/_mixins.scss";
 import "./styles/_scrollbar.scss";
 import "./i18n/i18n";
+import "./features/map/lib/mapRuntime";
 
 import { StrictMode, Suspense } from "react";
 import { createRoot } from "react-dom/client";

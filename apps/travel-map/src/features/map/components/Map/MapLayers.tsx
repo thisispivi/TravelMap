@@ -143,7 +143,7 @@ export function MapLayers({ theme }: MapLayersProps): ReactNode {
         "match",
         ["get", "name"],
         ...visitedCountries.flatMap((country) => [
-          country.id,
+          country.name,
           toOpaqueFill(country.fillColor, theme.land),
         ]),
         theme.land,

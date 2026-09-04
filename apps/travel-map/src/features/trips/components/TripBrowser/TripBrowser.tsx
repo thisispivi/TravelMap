@@ -6,7 +6,7 @@ import { ReactNode, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { keys } from "remeda";
 
-import { visitedTrips } from "@/data/world";
+import { futureTrips, visitedTrips } from "@/data/world";
 import { EmptyState } from "@/shared/components/EmptyState/EmptyState";
 import { isPanelLoadingVisible } from "@/shared/components/PanelLoading/PanelLoading.state";
 import { useMapInteraction } from "@/shared/context/MapInteraction.context";
@@ -18,10 +18,34 @@ import { constants } from "@/shared/lib/parameters";
 import { groupTripsByYear } from "../../lib/trips";
 import { TripCard } from "../TripCard/TripCard";
 const TRIP_YEAR_TRANSITION_DURATION_MS = 280;
+const SHOW_FUTURE_TRIPS =
+  import.meta.env.DEV && import.meta.env.VITE_SHOW_FUTURE_TRIPS === "true";
+
+/**
+ * Reports whether a trip ends after the viewer's current local calendar day.
+ * @param {Trip} trip - The trip to compare
+ * @param {Date} [viewerDate=new Date()] - The viewer's local date
+ * @returns {boolean} Whether the trip ends on a later calendar day
+ */
+function endsAfterViewerDay(
+  trip: Trip,
+  viewerDate: Date = new Date(),
+): boolean {
+  const tripEndDay = new Date(trip.eDate);
+  const viewerDay = new Date(viewerDate);
+  tripEndDay.setHours(0, 0, 0, 0);
+  viewerDay.setHours(0, 0, 0, 0);
+  return tripEndDay.getTime() > viewerDay.getTime();
+}
+
+const browsableTrips = [...visitedTrips, ...futureTrips].filter(
+  (trip) => SHOW_FUTURE_TRIPS || !endsAfterViewerDay(trip),
+);
 
 /**
  * TripBrowser component
- * Displays visited trips grouped by year. The panel height is
+ * Displays trips ending today or earlier, plus later-ending trips when locally
+ * enabled, grouped by year. The panel height is
  * `min(content height, max available height)`: it shrinks to fit when trips are
  * few and fills the viewport when they overflow — with a scrollbar only in the
  * latter case.
@@ -32,7 +56,7 @@ export function TripBrowser(): ReactNode {
   const { t } = useLanguage(["home"]);
   const navigate = useNavigate();
   const { setSelectedTrip } = useMapInteraction();
-  const groups = groupTripsByYear(visitedTrips, {
+  const groups = groupTripsByYear(browsableTrips, {
     cutoffYear: constants.GROUP_BY_CITIES_CUTOFF_YEAR,
   });
   const years = keys(groups)

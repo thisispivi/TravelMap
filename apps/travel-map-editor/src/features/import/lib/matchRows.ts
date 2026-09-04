@@ -82,7 +82,7 @@ export async function matchRows(
       }
     }
 
-    let candidates: WorldCity[] = [];
+    let candidates: WorldCity[];
     try {
       candidates = await searchWorldCities(row.name, CANDIDATE_LIMIT, signal);
     } catch {
