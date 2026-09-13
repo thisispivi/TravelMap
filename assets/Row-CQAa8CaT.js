@@ -1,0 +1,1 @@
+import{s as e}from"./framer-CU7KdSdW.js";import{T as t}from"./index-Ck7ffA-c.js";var n=e();function r({className:e=``,children:r}){return(0,n.jsx)(`div`,{className:t(`row`,e),children:r})}export{r as t};
