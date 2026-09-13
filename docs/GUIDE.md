@@ -269,6 +269,10 @@ so you never name the file yourself. The review step shows you:
 
 Confirm, and the stop is linked to its photos. The gallery works immediately.
 
+A video you leave without an ID is saved and flagged for you to finish later. It
+stays out of the published gallery until it has one, so visitors never meet an
+empty player.
+
 ---
 
 ## 7. Choosing where photos are served from

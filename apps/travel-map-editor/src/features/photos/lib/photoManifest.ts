@@ -1,4 +1,5 @@
-import type { TripStopJson } from "@travelmap/core";
+import type { Image, TripStopJson } from "@travelmap/core";
+import { ImageSchema } from "@travelmap/core";
 
 import type { DatasetSnapshot } from "../../../data/store";
 
@@ -28,30 +29,12 @@ interface PhotoManifestProblem {
 }
 
 /**
- * A validated manifest entry before a missing video identifier is supplied.
- * @property {string} [alt] - Accessible media description
- * @property {number} height - Aspect-ratio height
- * @property {string} [original] - Full image path or YouTube identifier
- * @property {string} thumbnail - Thumbnail media path
- * @property {number} width - Aspect-ratio width
- * @property {boolean} [youtube] - Whether the original is a YouTube identifier
- */
-export interface PhotoManifestImage {
-  alt?: string;
-  height: number;
-  original?: string;
-  thumbnail: string;
-  width: number;
-  youtube?: boolean;
-}
-
-/**
  * Parsed media entries and every issue the import review needs to surface.
- * @property {PhotoManifestImage[]} images - Structurally valid entries
+ * @property {Image[]} images - Structurally valid entries
  * @property {PhotoManifestProblem[]} problems - Blocking errors and warnings
  */
 export interface ParsedPhotoManifest {
-  images: PhotoManifestImage[];
+  images: Image[];
   problems: PhotoManifestProblem[];
 }
 
@@ -66,15 +49,6 @@ function compactDate(value: string): string {
   const match = ISO_DATE.exec(value);
   if (!match) throw new Error(`Invalid stop date: ${value}`);
   return `${match[3]}${match[2]}${match[1].slice(2)}`;
-}
-
-/**
- * Narrows an unknown JSON value to an object that can be inspected safely.
- * @param {unknown} value - Parsed JSON value
- * @returns {value is Record<string, unknown>} Whether the value is an object
- */
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
 /**
@@ -160,34 +134,20 @@ export function parseManifest(
     };
 
   const root = normalizeMediaRoot(mediaRoot || "/Travels");
-  const images: PhotoManifestImage[] = [];
+  const images: Image[] = [];
   const problems: PhotoManifestProblem[] = [];
 
   value.forEach((entry, index) => {
-    if (
-      !isRecord(entry) ||
-      typeof entry.thumbnail !== "string" ||
-      !entry.thumbnail.trim() ||
-      typeof entry.width !== "number" ||
-      !Number.isFinite(entry.width) ||
-      entry.width <= 0 ||
-      typeof entry.height !== "number" ||
-      !Number.isFinite(entry.height) ||
-      entry.height <= 0
-    ) {
+    const parsed = ImageSchema.safeParse(entry);
+    if (!parsed.success) {
       problems.push({ code: "invalidEntry", index, severity: "error" });
       return;
     }
 
-    const image: PhotoManifestImage = {
-      height: entry.height,
-      thumbnail: entry.thumbnail,
-      width: entry.width,
-    };
-    if (typeof entry.alt === "string") image.alt = entry.alt;
-    if (typeof entry.original === "string" && entry.original.trim())
-      image.original = entry.original;
-    if (typeof entry.youtube === "boolean") image.youtube = entry.youtube;
+    /* An empty id is stored as an absent one, so a later read cannot mistake it. */
+    const image: Image = parsed.data.original
+      ? parsed.data
+      : { ...parsed.data, original: undefined };
     images.push(image);
 
     if (!image.original)

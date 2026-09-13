@@ -1,7 +1,12 @@
 import { City } from "../classes/City";
 import { Country } from "../classes/Country";
 import { Trip, TripRouteStep } from "../classes/Trip";
-import { WorldSourcesSchema } from "../schema";
+import {
+  hasSource,
+  Image,
+  PublishedImage,
+  WorldSourcesSchema,
+} from "../schema";
 import { parseLocalDate } from "./date";
 
 /**
@@ -41,6 +46,18 @@ function requireReference<T>(
 
 /* Enough detail to find the offending document without a wall of output. */
 const REPORTED_ISSUE_LIMIT = 5;
+
+/**
+ * Keeps only the gallery items a visitor could actually open. A video whose
+ * YouTube id has not been pasted in yet is valid to store — the editor lists it
+ * for the author to finish — but publishing it would render an empty embed, so
+ * it stays out of the site until it has a source.
+ * @param {Image[]} [images] - The manifest the stop names
+ * @returns {PublishedImage[]} The publishable items, in authored order
+ */
+function publishableImages(images: Image[] = []): PublishedImage[] {
+  return images.filter(hasSource);
+}
 
 /**
  * Builds one shared graph so all trip references retain object identity.
@@ -114,7 +131,7 @@ export function buildWorld(sources: unknown): World {
                   sDate: parseLocalDate(step.sDate),
                   eDate: parseLocalDate(step.eDate),
                   photos: step.photoPath
-                    ? (parsed.data.photos[step.photoPath] ?? [])
+                    ? publishableImages(parsed.data.photos[step.photoPath])
                     : undefined,
                 }
               : {

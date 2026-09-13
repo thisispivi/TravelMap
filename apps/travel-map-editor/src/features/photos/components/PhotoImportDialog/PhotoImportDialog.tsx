@@ -9,10 +9,7 @@ import { ChangeEvent, ReactNode, useEffect, useRef, useState } from "react";
 import type { DatasetSnapshot } from "../../../../data/store";
 import { applyWrites } from "../../../../data/store";
 import { snapshotBeforeChange } from "../../../backup/lib/snapshots";
-import type {
-  ParsedPhotoManifest,
-  PhotoManifestImage,
-} from "../../lib/photoManifest";
+import type { ParsedPhotoManifest } from "../../lib/photoManifest";
 import {
   manifestKeyFor,
   manifestPathForStop,
@@ -44,7 +41,7 @@ export function PhotoImportDialog({
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [text, setText] = useState("");
   const [parsed, setParsed] = useState<ParsedPhotoManifest | null>(null);
-  const [images, setImages] = useState<PhotoManifestImage[]>([]);
+  const [images, setImages] = useState<Image[]>([]);
   const [stage, setStage] = useState<Stage>("input");
   const [message, setMessage] = useState("");
 

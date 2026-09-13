@@ -1,7 +1,7 @@
 import "./CityBackgroundPicker.scss";
 
 import { useLanguage } from "@app/shared/hooks/useLanguage";
-import { Image } from "@travelmap/core";
+import { hasSource, PublishedImage } from "@travelmap/core";
 import { ReactNode } from "react";
 
 import { resolveMediaUrl } from "../../../../data/dataset";
@@ -48,12 +48,11 @@ function cityBackgroundPhotos(
   const candidates = dataset.photos.flatMap(({ path, value }) =>
     linkedPhotoKeys.has(photoKey(path)) ? value : [],
   );
-  const uniquePhotos = new Map<string, Image>();
+  const uniquePhotos = new Map<string, PublishedImage>();
 
   for (const photo of candidates) {
-    if (!photo.youtube && !uniquePhotos.has(photo.original)) {
+    if (!photo.youtube && hasSource(photo) && !uniquePhotos.has(photo.original))
       uniquePhotos.set(photo.original, photo);
-    }
   }
 
   return Array.from(uniquePhotos.values(), ({ original, thumbnail }) => ({

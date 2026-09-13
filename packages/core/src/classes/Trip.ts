@@ -1,6 +1,6 @@
 import { unique } from "remeda";
 
-import { CompanyId, Image, TransportMode } from "../schema";
+import { CompanyId, PublishedImage, TransportMode } from "../schema";
 import { localize } from "../typings/Localized";
 import { mediaUrl } from "../world/media";
 import { City } from "./City";
@@ -52,7 +52,7 @@ export interface TripEndpoint {
  * @property {City} city - The visited city
  * @property {Date} sDate - The visit start date
  * @property {Date} eDate - The visit end date
- * @property {Image[]} [photos] - The visit photos
+ * @property {PublishedImage[]} [photos] - The visit photos
  * @property {string} [imgSource] - The visit image source
  * @property {boolean} [isLayover] - Whether the visit is a layover
  * @property {{ minPhotos?: number; maxPhotos?: number }} [rowConstraints] - Gallery row constraints
@@ -62,7 +62,7 @@ export interface TripStop {
   city: City;
   sDate: Date;
   eDate: Date;
-  photos?: Image[];
+  photos?: PublishedImage[];
   imgSource?: string;
   isLayover?: boolean;
   rowConstraints?: { minPhotos?: number; maxPhotos?: number };

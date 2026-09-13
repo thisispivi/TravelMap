@@ -154,15 +154,26 @@ export const TripJsonSchema = z.strictObject({
   titleByLocale: localizedNamesSchema.optional(),
 });
 
-/** A gallery item stored in a photo manifest. */
-export const ImageSchema = z.strictObject({
-  alt: z.string().optional(),
-  height: finiteNumberSchema.positive(),
-  original: z.string().trim().min(1),
-  thumbnail: z.string().trim().min(1),
-  width: finiteNumberSchema.positive(),
-  youtube: z.boolean().optional(),
-});
+/**
+ * A gallery item stored in a photo manifest. A photo's `original` is the path to
+ * its full-size file; a video's is a YouTube id, which the uploader cannot know
+ * and leaves for the author to paste in — so a video may legitimately be waiting
+ * for one, while a photo without a path could never render.
+ */
+export const ImageSchema = z
+  .strictObject({
+    alt: z.string().optional(),
+    height: finiteNumberSchema.positive(),
+    original: z.string().optional(),
+    thumbnail: z.string().trim().min(1),
+    width: finiteNumberSchema.positive(),
+    youtube: z.boolean().optional(),
+  })
+  .refine((image) => image.youtube === true || (image.original ?? "") !== "", {
+    error:
+      "A photo needs an original path; only a video may be awaiting its id.",
+    path: ["original"],
+  });
 
 /** A configured transport operator. */
 export const CompanySchema = z.strictObject({
@@ -235,8 +246,25 @@ export type SiteConfig = z.infer<typeof SiteConfigSchema>;
 /** A configured transport operator. */
 export type Company = z.infer<typeof CompanySchema>;
 
-/** A gallery item stored in a photo manifest. */
+/** A gallery item stored in a photo manifest, which a video may not yet have a source for. */
 export type Image = z.infer<typeof ImageSchema>;
+
+/**
+ * A gallery item with a source, which is all a published gallery contains.
+ * `buildWorld` drops the rest, so anything that reaches a component can render.
+ */
+export type PublishedImage = Image & { original: string };
+
+/**
+ * Reports whether a gallery item has a source yet. A video's is a YouTube id the
+ * author pastes in after the uploader runs, so a stored manifest can hold one
+ * that is not renderable.
+ * @param {Image} image - The manifest entry to check
+ * @returns {boolean} Whether the item can be rendered
+ */
+export function hasSource(image: Image): image is PublishedImage {
+  return (image.original ?? "") !== "";
+}
 
 /** Min, max, and default map marker scales. */
 export type MarkerSizes = z.infer<typeof MarkerSizesSchema>;

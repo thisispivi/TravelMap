@@ -462,6 +462,12 @@ photos through `swr` and Cache Storage.
   never cross a boundary stay ordinary TypeScript.
 - **Never cast untrusted data.** `value as SomeType` on JSON, a response body,
   a stored value, or an environment variable is a review failure; parse it.
+- **A schema describes the states the data is really in.** A manifest entry for a
+  video has no YouTube id until the author pastes one in, so `ImageSchema` accepts
+  that and `buildWorld` keeps it out of the published gallery. Rejecting a
+  legitimate intermediate state turns an unfinished edit into a site that will not
+  load — strictness belongs on what cannot happen, not on what has not happened
+  yet.
 - **Object schemas are strict.** Authored documents use `z.strictObject` so a
   typo is reported instead of silently dropped. Reach for `z.looseObject` only
   when a document legitimately carries fields this code does not own, and say

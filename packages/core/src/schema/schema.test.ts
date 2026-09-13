@@ -5,6 +5,8 @@ import { Currency } from "../typings/Currency";
 import {
   CityJsonSchema,
   CountryJsonSchema,
+  hasSource,
+  ImageSchema,
   isTripJson,
   LocalDateSchema,
   SiteConfigSchema,
@@ -139,5 +141,44 @@ describe("isTripJson", () => {
     expect(isTripJson(trip)).toBe(true);
     expect(isTripJson(city)).toBe(false);
     expect(isTripJson(null)).toBe(false);
+  });
+});
+
+describe("photo manifest entries", () => {
+  const withoutPath = {
+    height: 2,
+    thumbnail: "/Travels/Italy/Rome/001t.webp",
+    width: 3,
+  };
+  const photo = { ...withoutPath, original: "/Travels/Italy/Rome/001c.webp" };
+
+  it("accepts a photo with its full-size path", () => {
+    expect(ImageSchema.safeParse(photo).success).toBe(true);
+  });
+
+  /*
+   * The uploader cannot know a YouTube id, so it writes the entry without one
+   * and the author pastes it in later. Refusing the intermediate state made the
+   * whole site fail to load over an unfinished video.
+   */
+  it("accepts a video still waiting for its YouTube id", () => {
+    expect(
+      ImageSchema.safeParse({ ...withoutPath, youtube: true }).success,
+    ).toBe(true);
+    expect(
+      ImageSchema.safeParse({ ...photo, original: "", youtube: true }).success,
+    ).toBe(true);
+  });
+
+  it("still refuses a photo with no path, which could never render", () => {
+    expect(ImageSchema.safeParse({ ...photo, original: "" }).success).toBe(
+      false,
+    );
+    expect(ImageSchema.safeParse(withoutPath).success).toBe(false);
+  });
+
+  it("reports which item is unrenderable", () => {
+    expect(hasSource(photo)).toBe(true);
+    expect(hasSource({ ...photo, original: "", youtube: true })).toBe(false);
   });
 });

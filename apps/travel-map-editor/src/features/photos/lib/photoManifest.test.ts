@@ -117,4 +117,39 @@ describe("parseManifest", () => {
         .problems[0]?.code,
     ).toBe("invalidEntry");
   });
+
+  it("refuses a photo with no path while keeping a video awaiting its id", () => {
+    const thumbnail = "/Travels/Italy/Monza/003t.webp";
+    expect(
+      parseManifest(
+        JSON.stringify([{ height: 2, original: "", thumbnail, width: 3 }]),
+      ).problems[0]?.code,
+    ).toBe("invalidEntry");
+
+    const video = parseManifest(
+      JSON.stringify([
+        { height: 9, original: "", thumbnail, width: 16, youtube: true },
+      ]),
+    );
+    expect(video.images).toHaveLength(1);
+    expect(video.images[0]?.original).toBeUndefined();
+    expect(video.problems[0]?.code).toBe("missingOriginal");
+    expect(video.problems[0]?.severity).toBe("warning");
+  });
+
+  it("refuses an entry carrying a field the dataset schema would reject", () => {
+    expect(
+      parseManifest(
+        JSON.stringify([
+          {
+            height: 2,
+            original: "/Travels/Italy/Monza/001c.webp",
+            thumbnail: "/Travels/Italy/Monza/001t.webp",
+            typo: true,
+            width: 3,
+          },
+        ]),
+      ).problems[0]?.code,
+    ).toBe("invalidEntry");
+  });
 });

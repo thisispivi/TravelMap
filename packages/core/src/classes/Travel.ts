@@ -1,10 +1,10 @@
-import { Image } from "../schema";
+import { PublishedImage } from "../schema";
 
 /**
  * Data used to construct one city visit.
  * @property {Date} sDate - The visit start date
  * @property {Date} eDate - The visit end date
- * @property {Image[]} [photos] - The visit media
+ * @property {PublishedImage[]} [photos] - The visit media
  * @property {boolean} [isFuture] - Whether the visit is planned
  * @property {{ minPhotos?: number; maxPhotos?: number }} [rowConstraints] - Gallery row constraints
  * @property {number} [targetRowHeight] - The preferred gallery row height
@@ -12,7 +12,7 @@ import { Image } from "../schema";
 interface TravelInterface {
   sDate: Date;
   eDate: Date;
-  photos?: Image[];
+  photos?: PublishedImage[];
   isFuture?: boolean;
   rowConstraints?: { minPhotos?: number; maxPhotos?: number };
   targetRowHeight?: number;
@@ -24,7 +24,7 @@ interface TravelInterface {
  * @param {TravelInterface} travelData - The data of the travel
  * @param {Date} travelData.sDate - The start date of the travel
  * @param {Date} travelData.eDate - The end date of the travel
- * @param {Image[]} [travelData.photos] - The photos of the travel
+ * @param {PublishedImage[]} [travelData.photos] - The photos of the travel
  * @param {boolean} [travelData.isFuture] - If the travel is in the future
  * @param {{ minPhotos?: number; maxPhotos?: number }} [travelData.rowConstraints] - The constraints of the gallery rows
  * @param {number} [travelData.rowConstraints.minPhotos] - The minimum number of photos per row
@@ -34,7 +34,7 @@ interface TravelInterface {
 export class Travel implements TravelInterface {
   sDate: Date;
   eDate: Date;
-  photos: Image[];
+  photos: PublishedImage[];
   isFuture: boolean = false;
   rowConstraints?: { minPhotos?: number; maxPhotos?: number };
   targetRowHeight?: number;

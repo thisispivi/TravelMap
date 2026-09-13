@@ -149,4 +149,34 @@ describe("buildWorld", () => {
     expect(() => buildWorld(null)).toThrow(/Malformed dataset/);
     expect(() => buildWorld({})).toThrow(/Malformed dataset/);
   });
+
+  it("leaves a video out of the gallery until it has a YouTube id", () => {
+    const photo = {
+      height: 2,
+      original: "/Italy/Rome/001c.webp",
+      thumbnail: "/Italy/Rome/001t.webp",
+      width: 3,
+    };
+    const unfinishedVideo = {
+      height: 9,
+      original: "",
+      thumbnail: "/Italy/Rome/002t.webp",
+      width: 16,
+      youtube: true,
+    };
+    const world = buildWorld({
+      ...sources,
+      photos: { "Italy/Rome/tr_010526": [photo, unfinishedVideo] },
+      trips: [
+        {
+          ...sources.trips[0],
+          steps: [
+            { ...sources.trips[0].steps[0], photoPath: "Italy/Rome/tr_010526" },
+          ],
+        },
+      ],
+    });
+
+    expect(world.trips[0].destinations[0].photos).toEqual([photo]);
+  });
 });
