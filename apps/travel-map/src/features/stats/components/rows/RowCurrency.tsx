@@ -6,6 +6,7 @@ import { ReactNode } from "react";
 import { CountryFlag } from "@/shared/components/CountryFlag/CountryFlag";
 import { Row } from "@/shared/components/Row/Row";
 import { useLanguage } from "@/shared/hooks/useLanguage";
+import { classNames } from "@/shared/lib/classNames";
 
 import { getCurrencyDisplay } from "../../lib/countries";
 
@@ -35,7 +36,7 @@ export function CurrencyRow({
   const currency = getCurrencyDisplay(country, t);
 
   return (
-    <Row className={`currency-row ${className}`}>
+    <Row className={classNames("currency-row", className)}>
       <CountryFlag
         className="currency-row__flag"
         countryId={currency.countryId}

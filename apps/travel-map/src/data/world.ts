@@ -1,66 +1,42 @@
 import {
   buildWorld,
   City,
-  CityJson,
   Country,
-  CountryJson,
   Ferry,
-  Image,
+  SiteConfig,
+  SiteConfigSchema,
   Trip,
-  TripJson,
 } from "@travelmap/core";
 import { partition, unique } from "remeda";
 
 /**
- * Serializable site settings consumed by the public app.
- * @property {string | null} [homeCityId] - Optional home city id
- * @property {string[]} [livedCityIds] - Former-home city ids
- * @property {string[]} [futureCityIds] - Planned city ids
- * @property {{ defaultZoom: number; defaultMinZoom: number; defaultMaxZoom: number; defaultCenter: [number, number]; hoveredCityZoom: number; marker: { defaultScale: number; minScale: number; maxScale: number } }} [map] - Map configuration
- * @property {{ groupByCitiesCutoffYear: number }} [trips] - Trip display settings
- * @property {Record<string, string[]>} [unescoSites] - Authored UNESCO sites
- * @property {Record<string, { name: string; logo?: string }>} [companies] - Transport company metadata
- */
-interface SiteConfig {
-  homeCityId?: string | null;
-  livedCityIds?: string[];
-  futureCityIds?: string[];
-  map?: {
-    defaultZoom: number;
-    defaultMinZoom: number;
-    defaultMaxZoom: number;
-    defaultCenter: [number, number];
-    hoveredCityZoom: number;
-    marker: { defaultScale: number; minScale: number; maxScale: number };
-  };
-  trips?: { groupByCitiesCutoffYear: number };
-  unescoSites?: Record<string, string[]>;
-  companies?: Record<string, { name: string; logo?: string }>;
-}
-
-/**
  * Extracts eagerly bundled JSON values from Vite's module map.
- * @param {Record<string, { default: T }>} modules - Modules returned by Vite
- * @returns {T[]} Their JSON default exports
+ * @param {Record<string, { default: unknown }>} modules - Modules returned by Vite
+ * @returns {unknown[]} Their JSON default exports
  */
-function values<T>(modules: Record<string, { default: T }>): T[] {
+function values(modules: Record<string, { default: unknown }>): unknown[] {
   return Object.values(modules).map(({ default: value }) => value);
 }
 
-const countries = values<CountryJson>(
+/*
+ * `data/` is authored by hand and by the editor, so it is validated rather than
+ * trusted — but only once, by `buildWorld`, which owns the dataset contract.
+ * The globs below deliberately hand over raw JSON.
+ */
+const countries = values(
   import.meta.glob("../../../../data/cities/*/*.json", { eager: true }),
 );
-const cities = values<CityJson>(
+const cities = values(
   import.meta.glob("../../../../data/cities/*/*/*.json", { eager: true }),
 );
-const trips = values<TripJson>(
+const trips = values(
   import.meta.glob("../../../../data/trips/*.json", { eager: true }),
 );
-const config = import.meta.glob<{ default: SiteConfig }>(
+const config = import.meta.glob<{ default: unknown }>(
   "../../../../data/site.config.json",
   { eager: true },
 );
-const photoModules = import.meta.glob<{ default: Image[] }>(
+const photoModules = import.meta.glob<{ default: unknown }>(
   "../../../../data/photos/**/*.json",
   { eager: true },
 );
@@ -71,7 +47,10 @@ const photos = Object.fromEntries(
   ]),
 );
 
-const worldConfig = Object.values(config)[0]?.default;
+const rawWorldConfig = Object.values(config)[0]?.default;
+const worldConfig: SiteConfig | undefined = rawWorldConfig
+  ? SiteConfigSchema.parse(rawWorldConfig)
+  : undefined;
 const world = buildWorld({
   countries,
   cities,

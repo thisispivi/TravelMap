@@ -3,6 +3,8 @@ import "./Button.scss";
 import { domAnimation, LazyMotion, m } from "framer-motion";
 import { MouseEventHandler, ReactNode } from "react";
 
+import { classNames } from "../../lib/classNames";
+
 /**
  * Props for the shared animated button.
  * @property {string} [className] - Additional class names
@@ -62,7 +64,7 @@ export function Button({
     <LazyMotion features={domAnimation}>
       <m.button
         aria-label={ariaLabel}
-        className={`button ${className}`}
+        className={classNames("button", className)}
         data-tooltip-content={tooltipContent}
         data-tooltip-id={tooltipId}
         onClick={onClick}

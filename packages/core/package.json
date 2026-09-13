@@ -3,8 +3,11 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "knip": "knip",
     "lint": "eslint . --report-unused-disable-directives --max-warnings=0",
-    "lint:fix": "eslint . --fix --max-warnings=0"
+    "lint:fix": "eslint . --fix --max-warnings=0",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
   },
   "exports": {
     ".": "./src/index.ts",
@@ -14,6 +17,12 @@
     "./typings/Travel": "./src/typings/Travel.ts"
   },
   "dependencies": {
-    "remeda": "^2.45.0"
+    "remeda": "^2.45.0",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "knip": "^6.32.3",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.0"
   }
 }

@@ -155,7 +155,10 @@ export function FilterByCountry({
           <div className="filter__options" ref={nodeRef}>
             <div className="filter__options__list" id="info-tab">
               <button
-                className={`${getOptionClassName()} filter__option--select-all`}
+                className={classNames(
+                  getOptionClassName(),
+                  "filter__option--select-all",
+                )}
                 onClick={handleSelectAllToggle}
                 type="button"
               >

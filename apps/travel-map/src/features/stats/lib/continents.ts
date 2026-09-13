@@ -15,8 +15,8 @@ export function getContinentsByCities(cities: City[]): Continent[] {
 }
 
 /**
- * Get the continent stats.
- * @param {Continent} continent - The continent
+ * Counts how many visited countries and cities fall on one continent.
+ * @param {Continent} continent - The continent to count for
  * @param {City[]} cities - The list of cities
  * @param {Country[]} countries - The list of countries
  * @returns {{ continent: Continent; countries: number; cities: number }} The continent stats

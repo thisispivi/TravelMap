@@ -4,6 +4,7 @@ import { Continent } from "@travelmap/core";
 import { ReactNode } from "react";
 
 import { useLanguage } from "@/shared/hooks/useLanguage";
+import { classNames } from "@/shared/lib/classNames";
 
 /**
  * Properties accepted by the ContinentsBarChart component.
@@ -97,7 +98,12 @@ export function ContinentsBarChart({
     t(`continents.${continent.replace(/\s+/g, "_").toUpperCase()}`);
   return (
     <div
-      className={`continents-bar-chart ${isDarkTheme ? "continents-bar-chart--dark" : "continents-bar-chart--light"}`}
+      className={classNames(
+        "continents-bar-chart",
+        isDarkTheme
+          ? "continents-bar-chart--dark"
+          : "continents-bar-chart--light",
+      )}
     >
       <div className="continents-bar-chart__legend">
         <span className="continents-bar-chart__legend-item">

@@ -9,6 +9,7 @@ import LanguageIcon from "@/assets/icons/Language.svg?react";
 import { SUPPORTED_LOCALES } from "@/i18n/locale";
 import { Button } from "@/shared/components/Button/Button";
 import { useLanguage } from "@/shared/hooks/useLanguage";
+import { classNames } from "@/shared/lib/classNames";
 
 import { LanguageFlag } from "../LanguageFlag/LanguageFlag";
 const possibleLanguages = [...SUPPORTED_LOCALES] as const;
@@ -18,10 +19,11 @@ const LANGUAGE_LABELS: Record<string, string> = {
 };
 
 /**
- * Represents a panel pos.
- * @property {number} top - The top
- * @property {number} right - The right
- * @property {number} bottom - The bottom
+ * Where to pin the language panel, measured from the activator so the panel
+ * opens downwards or upwards depending on the room available below it.
+ * @property {number} top - Distance from the viewport top, when opening downwards
+ * @property {number} right - Distance from the viewport right edge
+ * @property {number} bottom - Distance from the viewport bottom, when opening upwards
  */
 type PanelPos =
   | {
@@ -95,11 +97,10 @@ export function LanguageSelector(): ReactNode {
         transition: { duration: 0.15, delay: i * 0.04, ease: [0.4, 0, 0.2, 1] },
       }}
       aria-label={language}
-      className={`language-selector__lang-option ${
-        currLanguage === language
-          ? "language-selector__lang-option--active"
-          : ""
-      }`}
+      className={classNames(
+        "language-selector__lang-option",
+        currLanguage === language && "language-selector__lang-option--active",
+      )}
       exit={{ opacity: 0, y: 4, transition: { duration: 0.1 } }}
       initial={{ opacity: 0, y: 4 }}
       key={language}
@@ -156,7 +157,10 @@ export function LanguageSelector(): ReactNode {
         )}
         <Button
           ariaLabel={t("language")}
-          className={`language-selector__activator ${isOpen ? "language-selector__activator--open" : ""}`}
+          className={classNames(
+            "language-selector__activator",
+            isOpen && "language-selector__activator--open",
+          )}
           onClick={handleToggle}
           tooltipContent={t("language")}
           tooltipId="base-tooltip"

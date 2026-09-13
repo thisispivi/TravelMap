@@ -1,4 +1,4 @@
-import type { TransportMode } from "../classes/Trip";
+import type { TransportMode } from "../schema";
 import type { TripJson, TripStopJson, TripTransportJson } from "../schema";
 import { getCoordinatesDistance } from "./distance";
 

@@ -1,3 +1,4 @@
+import { CompanyId } from "../schema";
 import { getCitiesDistance } from "../world/distance";
 import { City } from "./City";
 
@@ -5,7 +6,7 @@ import { City } from "./City";
  * Data used to construct a ferry journey.
  * @property {City} sCity - The departure city
  * @property {City} eCity - The arrival city
- * @property {FerryCompany} [company] - The ferry operator
+ * @property {CompanyId} [company] - The ferry operator
  * @property {Date} [sDate] - The departure date
  * @property {Date} [eDate] - The arrival date
  * @property {City[]} [via] - Intermediate ports
@@ -15,7 +16,7 @@ import { City } from "./City";
 interface FerryInterface {
   sCity: City;
   eCity: City;
-  company?: FerryCompany;
+  company?: CompanyId;
   sDate?: Date;
   eDate?: Date;
   via?: City[];
@@ -29,7 +30,7 @@ interface FerryInterface {
  * @param {FerryInterface} ferryData - The data of the ferry trip
  * @param {City} ferryData.sCity - The start city of the ferry trip
  * @param {City} ferryData.eCity - The end city of the ferry trip
- * @param {FerryCompany} [ferryData.company] - The company of the ferry trip
+ * @param {CompanyId} [ferryData.company] - The company of the ferry trip
  * @param {Date} [ferryData.sDate] - The start date of the ferry trip
  * @param {Date} [ferryData.eDate] - The end date of the ferry trip
  * @param {City[]} [ferryData.via] - Intermediate cities on the ferry route
@@ -39,7 +40,7 @@ interface FerryInterface {
 export class Ferry implements FerryInterface {
   sCity: City;
   eCity: City;
-  company?: FerryCompany;
+  company?: CompanyId;
   sDate?: Date;
   eDate?: Date;
   via: City[];
@@ -81,4 +82,3 @@ export class Ferry implements FerryInterface {
       durationMinutes ?? Math.round((this.distanceInKm / 45) * 60);
   }
 }
-import { FerryCompany } from "../typings/FerryCompany";

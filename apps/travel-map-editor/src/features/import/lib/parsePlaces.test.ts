@@ -1,4 +1,4 @@
-import assert from "node:assert/strict";
+import { describe, expect, it } from "vitest";
 
 import {
   parseCsv,
@@ -16,39 +16,53 @@ function names(input: string): string[] {
   return parseText(input).rows.map((row) => row.name);
 }
 
-assert.deepEqual(names("Rome\nFlorence\n"), ["Rome", "Florence"]);
+describe("parseText", () => {
+  it("reads one place per line", () => {
+    expect(names("Rome\nFlorence\n")).toEqual(["Rome", "Florence"]);
+  });
 
-/* Day labels, bullets, and numbering are decoration, not part of the name. */
-assert.deepEqual(names("- Day 1: Rome 2026-08-02\n2. Day 2: Florence\n"), [
-  "Rome",
-  "Florence",
-]);
+  it("treats day labels, bullets, and numbering as decoration", () => {
+    expect(names("- Day 1: Rome 2026-08-02\n2. Day 2: Florence\n")).toEqual([
+      "Rome",
+      "Florence",
+    ]);
+  });
 
-/* A transport verb reaching a place must not end up inside its name. */
-assert.deepEqual(names("2026-08-05 train to Florence"), ["Florence"]);
-assert.deepEqual(names("Then fly to New York"), ["New York"]);
+  it("keeps a transport verb out of the place name", () => {
+    expect(names("2026-08-05 train to Florence")).toEqual(["Florence"]);
+    expect(names("Then fly to New York")).toEqual(["New York"]);
+  });
 
-/* A multi-word name keeps its middle words even when they look like filler. */
-assert.deepEqual(names("Port of Spain"), ["Port of Spain"]);
+  it("keeps the middle words of a multi-word name", () => {
+    expect(names("Port of Spain")).toEqual(["Port of Spain"]);
+  });
 
-/* A qualifier after a comma is dropped; the place itself is not. */
-assert.deepEqual(names("Florence, Italy"), ["Florence"]);
+  it("drops a qualifier after a comma but keeps the place", () => {
+    expect(names("Florence, Italy")).toEqual(["Florence"]);
+  });
 
-const dated = parseText("Rome 2026-08-02");
-assert.equal(dated.rows[0]?.sDate, "2026-08-02");
-assert.equal(dated.format, "text");
+  it("reads a trailing date and a leading transport mode", () => {
+    const dated = parseText("Rome 2026-08-02");
+    expect(dated.rows[0]?.sDate).toBe("2026-08-02");
+    expect(dated.format).toBe("text");
 
-const withMode = parseText("Ferry to Olbia");
-assert.equal(withMode.rows[0]?.mode, "ferry");
-assert.equal(withMode.rows[0]?.name, "Olbia");
+    const withMode = parseText("Ferry to Olbia");
+    expect(withMode.rows[0]?.mode).toBe("ferry");
+    expect(withMode.rows[0]?.name).toBe("Olbia");
+  });
+});
 
-const csv = parseCsv("name,lat,lng\nRome,41.9,12.5\n");
-assert.equal(csv.format, "csv");
-assert.deepEqual(csv.rows[0]?.coordinates, [12.5, 41.9]);
+describe("parseCsv", () => {
+  it("reads coordinates in dataset order from named columns", () => {
+    const csv = parseCsv("name,lat,lng\nRome,41.9,12.5\n");
+    expect(csv.format).toBe("csv");
+    expect(csv.rows[0]?.coordinates).toEqual([12.5, 41.9]);
+  });
+});
 
-const geo = parseGeoJson(
-  JSON.parse(
-    JSON.stringify({
+describe("parseGeoJson", () => {
+  it("reads point features", () => {
+    const geo = parseGeoJson({
       features: [
         {
           geometry: { coordinates: [12.5, 41.9], type: "Point" },
@@ -57,33 +71,44 @@ const geo = parseGeoJson(
         },
       ],
       type: "FeatureCollection",
-    }),
-  ),
-);
-assert.equal(geo.format, "geojson");
-assert.equal(geo.rows[0]?.name, "Rome");
+    });
 
-const gpx = parseXmlPlaces(
-  '<gpx><wpt lat="41.9" lon="12.5"><name>&lt;img src=x onerror=alert(1)&gt;</name></wpt></gpx>',
-  "gpx",
-);
-assert.deepEqual(gpx.rows[0]?.coordinates, [12.5, 41.9]);
-assert.equal(gpx.rows[0]?.name, "<img src=x onerror=alert(1)>");
+    expect(geo.format).toBe("geojson");
+    expect(geo.rows[0]?.name).toBe("Rome");
+  });
+});
 
-const kml = parseXmlPlaces(
-  '<kml xmlns="http://www.opengis.net/kml/2.2"><Document><Placemark><name>Rome</name><Point><coordinates>12.5,41.9,0</coordinates></Point></Placemark></Document></kml>',
-  "kml",
-);
-assert.deepEqual(kml.rows[0]?.coordinates, [12.5, 41.9]);
-assert.equal(kml.rows[0]?.name, "Rome");
+describe("parseXmlPlaces", () => {
+  it("reads GPX waypoints without re-interpreting escaped markup", () => {
+    const gpx = parseXmlPlaces(
+      '<gpx><wpt lat="41.9" lon="12.5"><name>&lt;img src=x onerror=alert(1)&gt;</name></wpt></gpx>',
+      "gpx",
+    );
 
-const malformedXml = parseXmlPlaces("<gpx><wpt></gpx>", "gpx");
-assert.deepEqual(malformedXml.problems, [{ code: "invalidXml" }]);
+    expect(gpx.rows[0]?.coordinates).toEqual([12.5, 41.9]);
+    expect(gpx.rows[0]?.name).toBe("<img src=x onerror=alert(1)>");
+  });
 
-const xmlWithDoctype = parseXmlPlaces(
-  '<!DOCTYPE gpx [<!ENTITY place "Rome">]><gpx />',
-  "gpx",
-);
-assert.deepEqual(xmlWithDoctype.problems, [{ code: "invalidXml" }]);
+  it("reads KML placemarks", () => {
+    const kml = parseXmlPlaces(
+      '<kml xmlns="http://www.opengis.net/kml/2.2"><Document><Placemark><name>Rome</name><Point><coordinates>12.5,41.9,0</coordinates></Point></Placemark></Document></kml>',
+      "kml",
+    );
 
-console.log("parsePlaces: all assertions passed");
+    expect(kml.rows[0]?.coordinates).toEqual([12.5, 41.9]);
+    expect(kml.rows[0]?.name).toBe("Rome");
+  });
+
+  it("reports malformed XML instead of importing a partial itinerary", () => {
+    expect(parseXmlPlaces("<gpx><wpt></gpx>", "gpx").problems).toEqual([
+      { code: "invalidXml" },
+    ]);
+  });
+
+  it("refuses a document declaring entities, which could expand to a local file", () => {
+    expect(
+      parseXmlPlaces('<!DOCTYPE gpx [<!ENTITY place "Rome">]><gpx />', "gpx")
+        .problems,
+    ).toEqual([{ code: "invalidXml" }]);
+  });
+});

@@ -1,3 +1,6 @@
+import { z } from "zod";
+
+import { parseJsonResponse } from "../../../shared/lib/httpResponse";
 import {
   findWorldCountryByCode,
   WorldCountry,
@@ -23,13 +26,24 @@ export interface WorldCity {
   timeZone: string;
 }
 
-/**
- * The gazetteer response, before countries are attached.
- * @property {Omit<WorldCity, "country">[]} matches - The ranked matches
- */
-interface CityResponse {
-  matches: Omit<WorldCity, "country">[];
-}
+/** Gazetteer response before countries are attached. */
+const CityResponseSchema = z.strictObject({
+  matches: z.array(
+    z.strictObject({
+      coordinates: z.tuple([z.number().finite(), z.number().finite()]),
+      countryCode: z.string().length(2),
+      key: z.string().min(1),
+      name: z.string().min(1),
+      population: z.number().nonnegative(),
+      timeZone: z.string().min(1),
+    }),
+  ),
+});
+
+/** Timezone lookup response from the local city index. */
+const TimeZoneResponseSchema = z.strictObject({
+  timeZone: z.string().min(1),
+});
 
 /**
  * Finds world cities matching a search term.
@@ -53,7 +67,7 @@ export async function searchWorldCities(
     { signal },
   );
   if (!response.ok) throw new Error("City search failed.");
-  const { matches } = (await response.json()) as CityResponse;
+  const { matches } = await parseJsonResponse(response, CityResponseSchema);
 
   return matches.map((match) => ({
     ...match,
@@ -73,6 +87,9 @@ export async function timeZoneAt(
     `/__cities/timezone?lat=${coordinates[1]}&lon=${coordinates[0]}`,
   );
   if (!response.ok) return undefined;
-  const { timeZone } = (await response.json()) as { timeZone: string };
+  const { timeZone } = await parseJsonResponse(
+    response,
+    TimeZoneResponseSchema,
+  );
   return timeZone;
 }

@@ -7,6 +7,7 @@ import DistanceIcon from "@/assets/icons/Distance.svg?react";
 import { CountryFlag } from "@/shared/components/CountryFlag/CountryFlag";
 import { Row } from "@/shared/components/Row/Row";
 import { useLanguage } from "@/shared/hooks/useLanguage";
+import { classNames } from "@/shared/lib/classNames";
 import { formatMileage } from "@/shared/lib/format";
 
 import { getCitiesDistance } from "../../lib/distance";
@@ -42,7 +43,7 @@ export function CityRow({
   if (!sCity) return null;
   const distanceInKm = getCitiesDistance(sCity, eCity);
   return (
-    <Row className={`city-row ${className} row--wrap`}>
+    <Row className={classNames("city-row", className, "row--wrap")}>
       <div className="city-row__cities">
         <p className="city-row__cities__city">
           <CountryFlag countryId={sCity.country.id} />

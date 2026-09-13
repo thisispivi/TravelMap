@@ -1,143 +1,258 @@
-import type { TransportMode } from "../classes/Trip";
-import type { Continent } from "../typings/Continent";
-import type { Currency } from "../typings/Currency";
-import type { MarkerSizes } from "../typings/Marker";
+import { z } from "zod";
+
+import { Continent } from "../typings/Continent";
+import { Currency } from "../typings/Currency";
+
+/** A finite number used by authored coordinates, dimensions, and map settings. */
+const finiteNumberSchema = z.number().finite();
+
+/** A non-empty stable identifier used for cross-document references. */
+const idSchema = z.string().trim().min(1);
 
 /**
- * Serializable country data authored in the forkable dataset.
- * @property {string} id - The stable country reference key
- * @property {string} name - The canonical Natural Earth join name
- * @property {Record<string, string>} [nameByLocale] - Locale-specific display names
- * @property {{ h: number; s: number; l: number }} color - The country HSL color
- * @property {Continent} continent - The country continent
- * @property {Currency} currency - The country currency
- * @property {number} [minMarkerScale] - Minimum marker scale
- * @property {number} [maxMarkerScale] - Maximum marker scale
+ * A transport operator id. Operators are fork-owned: an id is resolved against
+ * `SiteConfig.companies` for its display name and logo, so a fork can name its
+ * own airlines and ferry lines without changing this package.
  */
-export interface CountryJson {
-  id: string;
-  name: string;
-  nameByLocale?: Record<string, string>;
-  color: { h: number; s: number; l: number };
-  continent: Continent;
-  currency: Currency;
-  minMarkerScale?: number;
-  maxMarkerScale?: number;
-}
+export type CompanyId = string;
+
+/** A locale-to-label mapping stored alongside a canonical name. */
+const localizedNamesSchema = z.record(
+  z.string().min(1),
+  z.string().trim().min(1),
+);
+
+/** Longitude and latitude in GeoJSON order. */
+export const CoordinatesSchema = z.tuple([
+  finiteNumberSchema.min(-180).max(180),
+  finiteNumberSchema.min(-90).max(90),
+]);
+
+/** Marker scale overrides accepted in city documents. */
+export const MarkerSizesSchema = z.strictObject({
+  defaultScale: finiteNumberSchema.positive(),
+  maxScale: finiteNumberSchema.positive(),
+  minScale: finiteNumberSchema.positive(),
+});
+
+/** Serializable country data authored in the forkable dataset. */
+export const CountryJsonSchema = z.strictObject({
+  color: z.strictObject({
+    h: finiteNumberSchema.min(0).max(360),
+    l: finiteNumberSchema.min(0).max(100),
+    s: finiteNumberSchema.min(0).max(100),
+  }),
+  continent: z.enum(Continent),
+  currency: z.enum(Currency),
+  id: idSchema,
+  maxMarkerScale: finiteNumberSchema.positive().optional(),
+  minMarkerScale: finiteNumberSchema.positive().optional(),
+  name: z.string().trim().min(1),
+  nameByLocale: localizedNamesSchema.optional(),
+});
+
+/** Serializable city data authored in the forkable dataset. */
+export const CityJsonSchema = z.strictObject({
+  backgroundImages: z.array(z.string().trim().min(1)).optional(),
+  coordinates: CoordinatesSchema,
+  countryId: idSchema,
+  customMarkerSizes: MarkerSizesSchema.optional(),
+  id: idSchema,
+  isLived: z.boolean().optional(),
+  minMarkerScale: finiteNumberSchema.positive().optional(),
+  name: z.string().trim().min(1),
+  nameByLocale: localizedNamesSchema.optional(),
+  population: finiteNumberSchema.int().nonnegative().optional(),
+  timeZone: z.string().trim().min(1),
+});
+
+/** Transport modes supported by authored itinerary legs. */
+export const TransportModeSchema = z.enum([
+  "plane",
+  "ferry",
+  "car",
+  "train",
+  "bus",
+  "taxi",
+  "walk",
+]);
+
+/** A local calendar date with an optional wall-clock time. */
+export const LocalDateSchema = z
+  .string()
+  .regex(
+    /^\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2})?$/,
+    "Expected YYYY-MM-DD or YYYY-MM-DDTHH:mm.",
+  );
+
+/** A serialized stop in a trip itinerary. */
+export const TripStopJsonSchema = z.strictObject({
+  cityId: idSchema,
+  eDate: LocalDateSchema,
+  isLayover: z.boolean().optional(),
+  photoPath: z.string().trim().min(1).optional(),
+  rowConstraints: z
+    .strictObject({
+      maxPhotos: finiteNumberSchema.int().positive().optional(),
+      minPhotos: finiteNumberSchema.int().positive().optional(),
+    })
+    .optional(),
+  sDate: LocalDateSchema,
+  targetRowHeight: finiteNumberSchema.positive().optional(),
+  type: z.literal("stop"),
+});
+
+/** A serialized transport leg in a trip itinerary. */
+export const TripTransportJsonSchema = z.strictObject({
+  distanceInKm: finiteNumberSchema.nonnegative().optional(),
+  durationMinutes: finiteNumberSchema.nonnegative().optional(),
+  eDate: LocalDateSchema.optional(),
+  ferry: z
+    .strictObject({
+      company: idSchema.optional(),
+      distanceInKm: finiteNumberSchema.nonnegative().optional(),
+      durationMinutes: finiteNumberSchema.nonnegative().optional(),
+      viaIds: z.array(idSchema).optional(),
+    })
+    .optional(),
+  flight: z
+    .strictObject({
+      class: z.string().trim().min(1).optional(),
+      company: idSchema.optional(),
+      distanceInKm: finiteNumberSchema.nonnegative().optional(),
+      durationMinutes: finiteNumberSchema.nonnegative().optional(),
+      number: z.string().trim().min(1).optional(),
+    })
+    .optional(),
+  fromId: idSchema,
+  mode: TransportModeSchema,
+  roundTrip: z.boolean().optional(),
+  sDate: LocalDateSchema.optional(),
+  toId: idSchema,
+  type: z.literal("transport"),
+  viaIds: z.array(idSchema).optional(),
+});
+
+/** A serialized trip authored in the forkable dataset. */
+export const TripJsonSchema = z.strictObject({
+  coverImage: z.string().trim().min(1).optional(),
+  eDate: LocalDateSchema,
+  id: idSchema,
+  mapFocus: z
+    .strictObject({
+      center: CoordinatesSchema,
+      zoom: finiteNumberSchema.positive(),
+    })
+    .optional(),
+  originCityId: idSchema,
+  returnCityId: idSchema,
+  sDate: LocalDateSchema,
+  steps: z.array(
+    z.discriminatedUnion("type", [TripStopJsonSchema, TripTransportJsonSchema]),
+  ),
+  title: z.string().trim().min(1),
+  titleByLocale: localizedNamesSchema.optional(),
+});
+
+/** A gallery item stored in a photo manifest. */
+export const ImageSchema = z.strictObject({
+  alt: z.string().optional(),
+  height: finiteNumberSchema.positive(),
+  original: z.string().trim().min(1),
+  thumbnail: z.string().trim().min(1),
+  width: finiteNumberSchema.positive(),
+  youtube: z.boolean().optional(),
+});
+
+/** A configured transport operator. */
+export const CompanySchema = z.strictObject({
+  logo: z.string().trim().min(1).optional(),
+  name: z.string().trim().min(1),
+});
+
+/** Fork-owned site, map, media, and classification settings. */
+export const SiteConfigSchema = z.strictObject({
+  companies: z.record(z.string().min(1), CompanySchema).optional(),
+  futureCityIds: z.array(idSchema).optional(),
+  homeCityId: idSchema.nullable().optional(),
+  livedCityIds: z.array(idSchema).optional(),
+  locales: z.array(z.string().trim().min(1)).optional(),
+  map: z
+    .strictObject({
+      defaultCenter: CoordinatesSchema,
+      defaultMaxZoom: finiteNumberSchema.positive(),
+      defaultMinZoom: finiteNumberSchema.nonnegative(),
+      defaultZoom: finiteNumberSchema.nonnegative(),
+      hoveredCityZoom: finiteNumberSchema.positive(),
+      marker: MarkerSizesSchema,
+    })
+    .optional(),
+  media: z.strictObject({ root: z.string().trim().min(1) }).optional(),
+  site: z
+    .strictObject({
+      author: z.string().optional(),
+      description: z.string().optional(),
+      domain: z.string().optional(),
+      keywords: z.array(z.string()).optional(),
+      name: z.string().trim().min(1).optional(),
+    })
+    .optional(),
+  trips: z
+    .strictObject({ groupByCitiesCutoffYear: finiteNumberSchema.int() })
+    .optional(),
+  unescoSites: z.record(z.string().min(1), z.array(z.string())).optional(),
+});
+
+/** Raw authored data accepted by the world graph builder. */
+export const WorldSourcesSchema = z.strictObject({
+  cities: z.array(CityJsonSchema),
+  countries: z.array(CountryJsonSchema),
+  futureCityIds: z.array(idSchema).optional(),
+  homeCityId: idSchema.nullable().optional(),
+  livedCityIds: z.array(idSchema).optional(),
+  photos: z.record(z.string(), z.array(ImageSchema)),
+  trips: z.array(TripJsonSchema),
+});
+
+/** Serializable country data authored in the forkable dataset. */
+export type CountryJson = z.infer<typeof CountryJsonSchema>;
+
+/** Serializable city data authored in the forkable dataset. */
+export type CityJson = z.infer<typeof CityJsonSchema>;
+
+/** A serialized stop in a trip itinerary. */
+export type TripStopJson = z.infer<typeof TripStopJsonSchema>;
+
+/** A serialized transport leg in a trip itinerary. */
+export type TripTransportJson = z.infer<typeof TripTransportJsonSchema>;
+
+/** A serialized trip authored in the forkable dataset. */
+export type TripJson = z.infer<typeof TripJsonSchema>;
+
+/** Fork-owned site, map, media, and classification settings. */
+export type SiteConfig = z.infer<typeof SiteConfigSchema>;
+
+/** A configured transport operator. */
+export type Company = z.infer<typeof CompanySchema>;
+
+/** A gallery item stored in a photo manifest. */
+export type Image = z.infer<typeof ImageSchema>;
+
+/** Min, max, and default map marker scales. */
+export type MarkerSizes = z.infer<typeof MarkerSizesSchema>;
+
+/** Transport modes supported by authored itinerary legs. */
+export type TransportMode = z.infer<typeof TransportModeSchema>;
+
+/** Raw authored data accepted by the world graph builder. */
+export type WorldSources = z.input<typeof WorldSourcesSchema>;
 
 /**
- * Serializable city data authored in the forkable dataset.
- * @property {string} id - The stable city reference key and gallery URL segment
- * @property {string} name - The canonical city display name
- * @property {Record<string, string>} [nameByLocale] - Locale-specific display names
- * @property {string} countryId - The owning country reference key
- * @property {[number, number]} coordinates - Longitude and latitude
- * @property {string} timeZone - The IANA timezone
- * @property {number} [population] - Population when known
- * @property {string[]} [backgroundImages] - CDN-relative background image paths
- * @property {boolean} [isLived] - Whether the city is a former home
- * @property {number} [minMarkerScale] - Minimum marker scale
- * @property {MarkerSizes} [customMarkerSizes] - Custom marker dimensions
+ * Narrows a pasted or imported JSON value to the authored trip shape, for the
+ * editor's import flow where several document kinds arrive on the same path.
+ * @param {unknown} value - Untrusted JSON value
+ * @returns {boolean} Whether the value matches the trip contract
  */
-export interface CityJson {
-  id: string;
-  name: string;
-  nameByLocale?: Record<string, string>;
-  countryId: string;
-  coordinates: [number, number];
-  timeZone: string;
-  population?: number;
-  backgroundImages?: string[];
-  isLived?: boolean;
-  minMarkerScale?: number;
-  customMarkerSizes?: MarkerSizes;
-}
-
-/**
- * A serialized stop in a trip itinerary.
- * @property {"stop"} type - The step discriminator
- * @property {string} cityId - The referenced city
- * @property {string} sDate - The local start date
- * @property {string} eDate - The local end date
- * @property {string} [photoPath] - The photo manifest key
- * @property {boolean} [isLayover] - Whether the stop is a layover
- * @property {{ minPhotos?: number; maxPhotos?: number }} [rowConstraints] - Gallery row constraints
- * @property {number} [targetRowHeight] - Gallery target row height
- */
-export interface TripStopJson {
-  type: "stop";
-  cityId: string;
-  sDate: string;
-  eDate: string;
-  photoPath?: string;
-  isLayover?: boolean;
-  rowConstraints?: { minPhotos?: number; maxPhotos?: number };
-  targetRowHeight?: number;
-}
-
-/**
- * A serialized transport leg in a trip itinerary.
- * @property {"transport"} type - The step discriminator
- * @property {TransportMode} mode - The transport mode
- * @property {string} fromId - The departure city
- * @property {string} toId - The arrival city
- * @property {string} [sDate] - The local departure date
- * @property {string} [eDate] - The local arrival date
- * @property {number} [distanceInKm] - Distance in kilometers
- * @property {number} [durationMinutes] - Duration in minutes
- * @property {string[]} [viaIds] - Intermediate cities
- * @property {boolean} [roundTrip] - Whether this is a return leg
- * @property {{ company?: string; number?: string; class?: string; durationMinutes?: number; distanceInKm?: number }} [flight] - Flight details
- * @property {{ company?: string; durationMinutes?: number; distanceInKm?: number; viaIds?: string[] }} [ferry] - Ferry details
- */
-export interface TripTransportJson {
-  type: "transport";
-  mode: TransportMode;
-  fromId: string;
-  toId: string;
-  sDate?: string;
-  eDate?: string;
-  distanceInKm?: number;
-  durationMinutes?: number;
-  viaIds?: string[];
-  roundTrip?: boolean;
-  flight?: {
-    company?: string;
-    number?: string;
-    class?: string;
-    durationMinutes?: number;
-    distanceInKm?: number;
-  };
-  ferry?: {
-    company?: string;
-    durationMinutes?: number;
-    distanceInKm?: number;
-    viaIds?: string[];
-  };
-}
-
-/**
- * A serialized trip authored in the forkable dataset.
- * @property {string} id - The stable trip identifier
- * @property {string} title - The canonical title
- * @property {Record<string, string>} [titleByLocale] - Locale-specific titles
- * @property {string} sDate - The local trip start date
- * @property {string} eDate - The local trip end date
- * @property {string} originCityId - The origin city
- * @property {string} returnCityId - The return city
- * @property {string} [coverImage] - CDN-relative cover image
- * @property {{ center: [number, number]; zoom: number }} [mapFocus] - Authored map viewport
- * @property {(TripStopJson | TripTransportJson)[]} steps - Ordered itinerary steps
- */
-export interface TripJson {
-  id: string;
-  title: string;
-  titleByLocale?: Record<string, string>;
-  sDate: string;
-  eDate: string;
-  originCityId: string;
-  returnCityId: string;
-  coverImage?: string;
-  mapFocus?: { center: [number, number]; zoom: number };
-  steps: (TripStopJson | TripTransportJson)[];
+export function isTripJson(value: unknown): value is TripJson {
+  return TripJsonSchema.safeParse(value).success;
 }

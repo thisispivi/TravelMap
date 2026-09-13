@@ -20,7 +20,7 @@ export type Step = TripJson["steps"][number];
  * @param {TripJson} trip - The trip to realign
  * @returns {TripJson} A copy with consistent legs
  */
-export function realignLegs(trip: TripJson): TripJson {
+function realignLegs(trip: TripJson): TripJson {
   return {
     ...trip,
     steps: trip.steps.map((step, index) =>
@@ -34,7 +34,7 @@ export function realignLegs(trip: TripJson): TripJson {
  * @param {TripJson} trip - The trip to adjust
  * @returns {TripJson} A copy whose range covers its stops
  */
-export function coverStopDates(trip: TripJson): TripJson {
+function coverStopDates(trip: TripJson): TripJson {
   const derived = deriveTripDateRange(trip.steps);
   if (!derived.sDate || !derived.eDate) return trip;
   return {
@@ -53,7 +53,7 @@ export function coverStopDates(trip: TripJson): TripJson {
  * @param {TripJson} trip - The trip to adjust
  * @returns {TripJson} A copy whose endpoints match its first and last stop
  */
-export function deriveEndpoints(trip: TripJson): TripJson {
+function deriveEndpoints(trip: TripJson): TripJson {
   const stops = trip.steps.filter(
     (step): step is TripStopJson => step.type === "stop",
   );
@@ -72,7 +72,7 @@ export function deriveEndpoints(trip: TripJson): TripJson {
  * @param {TripJson} trip - The trip to normalise
  * @returns {TripJson} A consistent copy
  */
-export function normalizeTrip(trip: TripJson): TripJson {
+function normalizeTrip(trip: TripJson): TripJson {
   return deriveEndpoints(coverStopDates(realignLegs(trip)));
 }
 
@@ -253,27 +253,6 @@ export function addStopAfter(
 }
 
 /**
- * Adds a leg on its own, for the rare itinerary that needs one between stays
- * the author has not recorded yet.
- * @param {TripJson} trip - The trip to extend
- * @param {number} index - Position to insert at
- * @returns {TripJson} A copy carrying the new leg
- */
-export function addLeg(trip: TripJson, index: number): TripJson {
-  const anchor = lastStop(trip.steps)?.cityId ?? trip.originCityId;
-  const leg: TripTransportJson = {
-    type: "transport",
-    fromId: anchor,
-    mode: "train",
-    toId: anchor,
-  };
-  return realignLegs({
-    ...trip,
-    steps: trip.steps.toSpliced(index, 0, leg),
-  });
-}
-
-/**
  * Replaces one step and realigns derived endpoints. This matters when a stay's
  * city or a leg's round-trip status changes where the following leg begins.
  * @param {TripJson} trip - The trip to edit
@@ -374,21 +353,6 @@ export function sortByDate(trip: TripJson): TripJson {
   return normalizeTrip({
     ...trip,
     steps: interleaveStopsAndLegs(stops, legs),
-  });
-}
-
-/**
- * Duplicates a step directly after the original.
- * @param {TripJson} trip - The trip to edit
- * @param {number} index - Position of the step to duplicate
- * @returns {TripJson} A copy carrying the duplicate
- */
-export function duplicateStep(trip: TripJson, index: number): TripJson {
-  const step = trip.steps[index];
-  if (!step) return trip;
-  return normalizeTrip({
-    ...trip,
-    steps: trip.steps.toSpliced(index + 1, 0, { ...step }),
   });
 }
 

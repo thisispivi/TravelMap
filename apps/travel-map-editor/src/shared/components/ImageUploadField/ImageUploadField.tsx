@@ -4,19 +4,19 @@ import { useLanguage } from "@app/shared/hooks/useLanguage";
 import { classNames } from "@app/shared/lib/classNames";
 import { Image, UploadCloud, X } from "lucide-react";
 import { DragEvent, ReactNode, useId, useState } from "react";
+import { z } from "zod";
 
+import { parseJsonResponse } from "../../lib/httpResponse";
 import { useToast } from "../Toast/Toast";
 
 const ASSET_WRITE_ENDPOINT = "/__assets/write";
 const MAX_PREVIEW_EDGE = 512;
 
-/**
- * The asset writer's response to a successful upload.
- * @property {string} path - The public path the logo is now served from
- */
-interface UploadResponse {
-  path: string;
-}
+/* The asset writer answers with the stored path, or with a reason it refused. */
+const UploadResponseSchema = z.union([
+  z.strictObject({ path: z.string().min(1) }),
+  z.strictObject({ error: z.string().min(1) }),
+]);
 
 /**
  * Reads a file's contents as a bare base64 string, without the
@@ -117,11 +117,9 @@ export function ImageUploadField({
         }),
         method: "POST",
       });
-      const body = (await response.json()) as UploadResponse & {
-        error?: string;
-      };
-      if (!response.ok)
-        throw new Error(body.error ?? t("imageUploadField.uploadFailed"));
+      const body = await parseJsonResponse(response, UploadResponseSchema);
+      if (!("path" in body))
+        throw new Error(body.error || t("imageUploadField.uploadFailed"));
       onUpload(body.path);
       setPreviewOverride(preview);
       showToast(t("toast.logoUploaded"));

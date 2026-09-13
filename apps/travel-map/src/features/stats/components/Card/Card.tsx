@@ -2,6 +2,8 @@ import "./Card.scss";
 
 import { ReactNode } from "react";
 
+import { classNames } from "@/shared/lib/classNames";
+
 /**
  * Properties accepted by the Card component.
  * @property {string} [className] - The class name
@@ -22,5 +24,5 @@ interface CardProps {
  * @returns {ReactNode} The card
  */
 export function Card({ className = "", children }: CardProps): ReactNode {
-  return <div className={`card ${className}`}>{children}</div>;
+  return <div className={classNames("card", className)}>{children}</div>;
 }

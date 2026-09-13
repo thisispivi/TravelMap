@@ -21,10 +21,11 @@ assistants cannot drift apart.
 
 ## Required verification
 
-For application changes, run `pnpm check` from the repository root (it runs
-typecheck/lint across the workspace plus `travel-map`'s format/knip/
-react:doctor checks). Also run `pnpm build` when behavior, dependencies,
-configuration, routing, or production output can be affected.
+For application changes, run `pnpm check` from the repository root. It runs
+typecheck, lint, formatting, tests, and dead-code analysis across every
+workspace project, plus `travel-map`'s React Doctor scan. Also run `pnpm build`
+when behavior, dependencies, configuration, routing, or production output can be
+affected.
 
 For uploader changes, run
 `python -m compileall -q scripts/uploader` from the repository root. Never use

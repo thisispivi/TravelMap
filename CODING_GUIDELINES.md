@@ -35,14 +35,16 @@ packages/
 data/                  Trip/city/country JSON + photos consumed by both apps
 scripts/uploader/      Typed Python media uploader
 logos/                 Source and exported brand assets
+docker/                Nginx image and Compose configuration for the built site
+docs/                  The user-facing guide
 ```
 
-Sections 6–15 (React, hooks, state, styling, accessibility, performance) apply
-wherever React/TypeScript is authored — today that's `apps/travel-map` and
-`packages/core`. `apps/travel-map-editor` uses the same stack and the same
-rules apply there, but it has not been part of this revision's audit; treat
-its patterns as unverified until it gets the same pass. The universal
-principles (§2, §17, §18) apply everywhere, including `scripts/uploader`.
+Sections 6–16 (React, hooks, state, data boundaries, styling, accessibility,
+performance, testing) apply wherever React or TypeScript is authored: both apps
+and `packages/core`. The universal principles (§2, §17, §18) apply everywhere,
+including `scripts/uploader`. Where `apps/travel-map-editor` differs is recorded
+in §20's known gaps rather than left to guesswork — its feature boundaries are
+not yet enforced, so read them as a naming convention.
 
 Generated media, generated gallery JSON, third-party assets, and lockfiles
 keep their generator's or upstream format — these rules don't apply to them.
@@ -83,31 +85,35 @@ dependency direction:
 - `shared` owns technical primitives and narrow cross-feature contracts.
 - Dependencies flow `app → features → shared`; `shared` never imports `app`
   or `features`, and one feature never imports another feature's internals.
-- The shell provides `MapInteractionContext` and `PanelContext` from
-  `shared/context`. Features consume their hooks instead of importing app
-  composition modules.
+- The shell provides `MapInteractionContext`, `PanelContext`, and
+  `AppRouteContext` from `shared/context`. Features consume their hooks instead
+  of importing app composition modules. Lint enforces this direction; see §20.
+- `data` owns everything derived from the dataset itself: `world.ts` builds the
+  graph, `logos.ts` resolves bundled logo files, and `companies.ts` joins an
+  operator id to the name and logo the site configuration gives it. A feature
+  reads `data`; `data` reads only static JSON and `@travelmap/core`.
 - **Domain model lives outside the app**, in the `@travelmap/core` workspace
   package (`packages/core`) — classes (`Trip`, `City`, `Country`, `Travel`,
-  `Ferry`, `Flight`, `Color`), typings, a `schema/` module describing the raw
-  JSON shapes, and `world/buildWorld.ts`, which is the single place that turns
-  raw JSON into a linked object graph (see §9).
+  `Ferry`, `Flight`, `Color`), typings, a `schema/` module holding the Zod
+  contracts for the authored JSON, and `world/buildWorld.ts`, the single place
+  that validates raw JSON and turns it into a linked object graph (see §9).
 - **Routing is a persistent shell, not per-route pages.**
-  `app/routing/router.tsx` defines a `createHashRouter` tree where most routes resolve to
-  `element: null` (`/trips`, `/trip/:tripId`, `/places`, `/places/:filter`) —
-  `MapShell` stays mounted for all of them and reads the matched path via
-  `app/routing/useAppLocation.ts` (a pathname classifier, not `useParams`) to
-  decide which panel to show over the map. Only genuinely separate views
-  (`Timeline`, `Stats`, `Gallery`, `Lightbox`) get a real routed `element`,
-  and those are lazy-loaded. **When adding a new panel that lives inside the
-  map shell, follow this pattern**: add the path with `element: null`, then
-  extend `useAppLocation.ts` and `MapShell` — don't give it its own
-  routed page component. When adding a genuinely standalone view, follow the
+  `app/routing/router.tsx` defines a `createHashRouter` tree where most routes
+  resolve to `element: null` (`/trips`, `/trip/:tripId`, `/places`,
+  `/places/:filter`) — `MapShell` stays mounted for all of them and reads the
+  matched path through `app/routing/useAppLocation.ts` (a pathname classifier,
+  not `useParams`) to decide which panel to show over the map. Only genuinely
+  separate views (`Timeline`, `Stats`, `Gallery`, `Lightbox`) get a real routed
+  `element`, and those are lazy-loaded. **When adding a new panel that lives
+  inside the map shell, follow this pattern**: add the path with
+  `element: null`, then extend `useAppLocation.ts` and `MapShell` — don't give it
+  its own routed page component. When adding a genuinely standalone view, follow the
   `Timeline`/`Stats` pattern (own lazy-loaded route element).
 - **No client-server API.** There is no backend. All content is static JSON
-  under `/data`, bundled at build time via `import.meta.glob` (see §9). `swr`
-  is a dependency but is not currently used for remote data fetching in the
-  audited code — if you introduce actual network requests, `swr` is the
-  established choice; don't add a second data-fetching library.
+  under `data/`, bundled at build time via `import.meta.glob` (see §9). The only
+  runtime requests are photo loads, which go through `swr` and Cache Storage in
+  `features/places/lib/useImageCache.ts`. If you add application-level
+  fetching, use `swr`; do not add a second data-fetching library.
 
 The feature boundary is architectural, not a reason to add abstraction.
 Features use only the `components`, `lib`, and `loaders` subfolders they need,
@@ -129,9 +135,12 @@ apps/travel-map/src/
 
 packages/core/src/
   classes/       Trip, City, Country, Travel, Ferry, Flight, Color
-  typings/       Continent, Currency, FerryCompany, FlightCompany, Image, …
-  schema/        Raw JSON shape typings
-  world/         buildWorld.ts (the graph builder), date.ts
+  typings/       Continent, Currency, Localized, Travel
+  schema/        Zod contracts for the authored JSON, and the types inferred
+                 from them
+  validation/    Dataset and trip checks the editor reports to the author
+  world/         buildWorld.ts (the graph builder), date.ts, distance.ts,
+                 derive.ts, media.ts
 ```
 
 One component per folder, co-located with its `.scss`:
@@ -160,11 +169,11 @@ anywhere in the app today — keep it that way; import from the concrete file.
 | ------------------------------- | ---------------------------------------- | ----------------------------------- |
 | Primary component file & folder | `PascalCase`, folder = file name         | `Marker/Marker.tsx`                 |
 | Component stylesheet            | Same base name, `.scss`                  | `Marker/Marker.scss`                |
-| Component companion module      | `<Owner>.<lowercase-role>.ts`/`.tsx`     | `MapShell.context.ts`               |
+| Component companion module      | `<Owner>.<lowercase-role>.ts`/`.tsx`     | `MapShell.state.ts`                 |
 | Hook file                       | `camelCase`, grouped by owner            | `shared/hooks/useResponsive.ts`     |
 | Domain-named library file       | `camelCase`, names the domain            | `features/trips/lib/trips.ts`       |
 | Domain class file (core)        | `PascalCase`, matches export             | `packages/core/src/classes/Trip.ts` |
-| Type/typings file (core)        | `PascalCase` for a single concept        | `typings/FlightCompany.ts`          |
+| Type/typings file (core)        | `PascalCase` for a single concept        | `typings/Continent.ts`              |
 | Test file (see §16)             | Colocated, `<Owner>.test.ts`/`.test.tsx` | `Trip.test.ts` next to `Trip.ts`    |
 | SVG asset                       | `PascalCase.svg`, imported as component  | `Calendar.svg` → `?react`           |
 
@@ -173,12 +182,12 @@ anywhere in the app today — keep it that way; import from the concrete file.
 - `camelCase` for anything that exports functions/values (hooks, utils).
 - **Use dot-qualified filenames for modules owned by a primary component or
   concept.** Keep the owner name first and add one lowercase responsibility:
-  `MapShell.context.ts`, `MapShell.layout.tsx`, `MapShell.state.ts`,
+  `MapShell.layout.tsx`, `MapShell.state.ts`, `Panel.context.ts`,
   `Gallery.loader.ts`, and `Trip.test.ts`. This keeps companion files adjacent
   in directory listings and makes ownership visible without another folder.
   The primary component remains `MapShell.tsx`, not `MapShell.component.tsx`.
   A role suffix describes the whole module; do not stack roles such as
-  `MapShell.context.types.ts` or use vague roles such as `.helpers.ts`.
+  `Panel.context.types.ts` or use vague roles such as `.helpers.ts`.
 - A standalone module that is not subordinate to an owner keeps its normal
   domain name (`trips.ts`, `useResponsive.ts`). Do not add a dot suffix merely
   to imitate the pattern.
@@ -193,7 +202,7 @@ anywhere in the app today — keep it that way; import from the concrete file.
   what's actually used (knip, the dead-code checker in `pnpm check`, works
   better against direct imports too).
 - Folders are singular when they represent one concept (`Marker/`) and plural
-  when they group a concern (`hooks/`, `atoms/`).
+  when they group a concern (`hooks/`, `components/`, `lib/`).
 
 ---
 
@@ -230,17 +239,17 @@ export function Marker({
   meaningful fallback (`variant = "visited"`). When omission itself is the
   intended value, destructure without a default; never write
   `prop = undefined`.
-- **Sub-components local to one organism** MUST live in the same file. Prefer
-  putting them above the component that uses them (matches
-  `organisms/Map/MapLayers.tsx`, where `MapLabels` precedes `MapLayers`), but
-  a sub-component below the main one (as in
-  `organisms/TimelineTrack/TimelineTrack.tsx`) is a style nit, not a
-  correctness issue — fix it if you're already editing that file. Sub-
-  components that are reused by more than one organism get their own file
-  (this is why `MapMarkers` and the tooltip now live in their own files,
-  `organisms/Map/MapMarkers.tsx` and `organisms/Tooltip/TooltipMap.tsx`,
-  instead of inside `Map.tsx`). Never define a component inside another
-  component's render body — `react/no-unstable-nested-components` forbids it.
+- **Sub-components used by exactly one component** MUST live in that
+  component's file. Prefer putting them above their consumer (as `MapLabels`
+  precedes `MapLayers` in `features/map/components/Map/MapLayers.tsx`, and
+  `CompanyRows` precedes `CompaniesCard`); one placed below is a style nit, not
+  a correctness issue — fix it if you are already editing that file. A
+  sub-component a second component needs gets its own file, which is why
+  `MapMarkers` and the map tooltip live in
+  `features/map/components/Map/MapMarkers.tsx` and
+  `features/map/components/Tooltip/TooltipMap.tsx` rather than inside
+  `Map.tsx`. Never define a component inside another component's render body —
+  `react/no-unstable-nested-components` forbids it.
 - **Event handlers wired directly to a JSX/DOM event prop** (`onClick=
 {handleClick}`) MUST be named `handleX`. **Action functions** that
   encapsulate a piece of business logic and are called from one or more
@@ -257,11 +266,12 @@ export function Marker({
   {showDates && travel?.sDate ? <DateRow … /> : null}
   ```
 
-- **Conditional class names** go through the `classNames` util, not a
-  template literal, for **any** conditional class — including a single
-  condition. `Home.tsx` building a three-way class string by hand is the
-  counter-example to fix, not a precedent to extend; `SegmentedControl.tsx`'s
-  single-condition `classNames()` call is the pattern to follow everywhere.
+- **Conditional class names** go through the `classNames` util
+  (`shared/lib/classNames.ts`), not a template literal, for **any** conditional
+  class — including a single condition, and including a `className` prop merged
+  into a base class. A template literal is only correct where the class _name_
+  itself is computed and no condition is involved, as in
+  `` `timeline-card--${side}` ``.
 - **List rendering** uses a stable, domain-derived key (a city name, trip id)
   — never the array index. The codebase already does this consistently;
   don't regress it.
@@ -270,26 +280,24 @@ export function Marker({
 - **Icon-only actionable elements**: if it behaves like a button, make it a
   real `<button type="button">` wrapping the icon — that gets you focusability,
   keyboard activation, and a default accessible role for free, which is less
-  code than reimplementing them. `atoms/Buttons/CloseButton.tsx`,
-  `FloatingNav`'s logo, and `Gallery`'s play-icon overlay currently attach a
-  bare `onClick` to an SVG with no role, no `tabIndex`, and no keyboard
-  handler — none of them are reachable by keyboard. Fix by wrapping in
-  `<button>`, not by adding `role`/`tabIndex`/`onKeyDown` by hand. Reserve the
-  `role="button"` + `tabIndex={0}` + `isActivationKey` pattern (§13) for
-  elements that have a real reason not to be a `<button>` — e.g. `Marker` and
-  `CityCard`, which are non-rectangular map/photo surfaces with their own
-  layout and hover semantics.
+  code than reimplementing them. `CloseButton`, `FloatingNav`'s logo, and
+  `Gallery`'s play overlay are the reference: a real button with an
+  `aria-label` and an `aria-hidden` icon inside. Reserve the `role="button"` +
+  `tabIndex={0}` + `isActivationKey` pattern (§13) for elements with a real
+  reason not to be a `<button>` — `Marker` and `CityCard`, which are
+  non-rectangular map and photo surfaces with their own layout and hover
+  semantics.
 
 ### When to split a component, when to leave it together
 
 Split when a file mixes concerns that don't need to be adjacent to work: pure
 data transformation, imperative DOM measurement, and JSX rendering are three
-different jobs. Trip-detail timeline transformations belong in
+different jobs. Trip-detail timeline transformations live in
 `features/trips/lib/tripDetailTimeline.ts`, next to the component that renders
-the result, not inside it. `features/trips/components/TripDetail/TripDetail.tsx`'s
-`computeTripStats` is the same
-problem in a different shape: it re-derives statistics that should be a
-method on `Trip` in `packages/core`, not a one-off function in a component.
+the result rather than inside it; `TripTimeline.tsx` only renders. Presentation
+data that comes from the dataset — an operator's name and logo, for instance —
+belongs in `data/`, where `resolveCompany` owns it, so no component keeps its
+own table of names that a fork cannot change.
 
 Don't split for its own sake: a 150-line component that's 150 lines of JSX
 because it renders a genuinely complex layout doesn't need to be carved into
@@ -306,10 +314,10 @@ vs. rendering, or "used elsewhere" vs. "used here"), not by line count alone.
   `UseLocationReturn`, `ResponsiveType`), and it keeps call sites
   self-documenting (`const { isHovered, setHovered } = useX()` beats
   `const [a, b] = useX()`).
-- **One responsibility per hook.** `hooks/location/location.ts` (classifies
-  the current route into ~10 flags/strings from one pathname) is at the edge
-  of this — it's one job ("what does this URL mean") with a wide surface, not
-  ten jobs, so it's acceptable as-is, but don't add unrelated concerns to it.
+- **One responsibility per hook.** `app/routing/useAppLocation.ts` (classifies
+  the current pathname into the flags and ids the shell needs) is at the edge of
+  this — it is one job, "what does this URL mean", with a wide surface rather
+  than ten jobs, so it stands as it is; do not add unrelated concerns to it.
 - **Effects** have explicit dependency arrays and a cleanup return whenever
   they subscribe to anything. Grab the ref into a local first so the cleanup
   closes over a stable value:
@@ -324,13 +332,14 @@ vs. rendering, or "used elsewhere" vs. "used here"), not by line count alone.
   }, [shouldLoadImage]);
   ```
 
-- **The "latest ref" effect is an accepted idiom, not a lint dodge.** Several
-  components (`TripBrowser`, `PlacesBrowser`, `StatsGrid`, `Gallery`,
-  `TripDetail`) use a dependency-array-free
-  `useEffect(() => { xRef.current = x; })` purely to keep a ref pointing at
-  the latest value for a resize/measure callback that can't itself be an
-  effect dependency. This is intentional — recognize it, don't "fix" it by
-  adding a dependency array that would break it.
+- **The "latest ref" effect is an accepted idiom, not a lint dodge.** A
+  dependency-array-free `useEffect(() => { xRef.current = x; })` keeps a ref
+  pointing at the latest closure for a callback that cannot itself be an effect
+  dependency — `useResizeMeasurement` and `MapTooltip` do this. It is
+  intentional: recognise it rather than "fixing" it with a dependency array that
+  would break it. Panel height measurement in particular is already factored
+  into `shared/hooks/useResizeMeasurement.ts`; use that hook rather than
+  hand-rolling another `ResizeObserver` plus `requestAnimationFrame` pair.
 - **Don't use an effect to store what you can compute during render.** If a
   value can be derived from props/state/context synchronously, compute it
   inline (or in a `useMemo` per the rule below) instead of `useState` +
@@ -365,10 +374,10 @@ vs. rendering, or "used elsewhere" vs. "used here"), not by line count alone.
 - **Refs** (`useRef`) are for imperative handles (`mapRef`) and mutable
   non-render state (`hoverLeaveTimer`, `isTooltipInteracting`) — not as a
   substitute for state that should trigger a re-render.
-- **Data-fetching/mutation hooks**: none exist in the audited code today (see
-  §9) — there's no backend to fetch from. If you add one, give it the same
-  shape as the rest: `useX` returning `{ data, error, isLoading }`-style
-  named fields, and see §9 for where the fetching itself should live.
+- **Data-fetching hooks**: `useCachedImageSource` is the only one, because there
+  is no backend (§9). A new one takes the same shape as every other hook here —
+  `useX` returning named fields — and the fetching itself lives in the owning
+  `lib/`, not in the component.
 
 ---
 
@@ -383,13 +392,15 @@ Choose the narrowest scope that works, in this order:
    to their nearest common parent and pass it down. Don't reach for Context
    just to skip one level of prop passing.
 3. **Context** — for state genuinely shared across a subtree with no single
-   feature owner. `MapInteractionContext` coordinates map viewport, hover,
-   and selected trip; `PanelContext` owns route-panel visibility. Both are
-   defined under `shared/context`, provided once by `MapShell`, and consumed
-   through `useMapInteraction` or `usePanel`. Context hooks MUST throw a clear
-   error outside their provider; consumers never import a raw context or use
-   non-null assertions. Split a new contract by actual consumer set rather
-   than adding unrelated fields to either existing value.
+   feature owner. There are three, each a narrow contract:
+   `MapInteractionContext` coordinates map viewport, hover, and selected trip;
+   `PanelContext` owns route-panel visibility; `AppRouteContext` publishes what
+   the current route means so features need not re-classify the pathname. All
+   three live under `shared/context`, are provided once by `MapShell`, and are
+   consumed through their hook. Context hooks MUST throw a clear error outside
+   their provider; consumers never import a raw context or use a non-null
+   assertion. Split a new contract by its actual consumer set rather than
+   adding unrelated fields to an existing one.
 
 4. **URL state** — for anything that should survive a refresh or be
    shareable: which trip/gallery/photo is open. The app already does this
@@ -409,57 +420,72 @@ of something already available from props/context/a domain object's method.
 
 ---
 
-## 9. Data fetching and API boundaries
+## 9. Data boundaries and runtime validation
 
-There is no backend and no runtime network fetching in the audited code
-(`apps/travel-map`, `packages/core`) — confirm this is still true before
-copying "there's no data layer" as an assumption into new work.
+There is no backend and no application API. Every piece of content is static
+JSON under `data/`, compiled into the bundle at build time. The only runtime
+network traffic is image loading: `features/places/lib/useImageCache.ts` fetches
+photos through `swr` and Cache Storage.
 
-**How data actually flows today:**
+**How data flows:**
 
-1. Raw JSON under `/data` (countries, cities, trips, site config, photos) is
-   bundled at build time in `apps/travel-map/src/data/index.ts` via
+1. `apps/travel-map/src/data/world.ts` collects the raw JSON with
    `import.meta.glob(..., { eager: true })` — no `fetch`, no loading state,
-   because the data is part of the build, not a runtime request.
-2. `packages/core/src/schema/index.ts` types the raw shapes (`CountryJson`,
-   `CityJson`, `TripJson`, …) — TypeScript-only, no runtime validation.
-3. `packages/core/src/world/buildWorld.ts` is the **single centralized
-   transformation point**: it resolves id references between countries,
-   cities, and trips (throwing via `requireReference()` if a reference
-   doesn't resolve) and instantiates the domain classes (`Country`, `City`,
-   `Trip`).
-4. `apps/travel-map/src/data/world.ts` calls `buildWorld()` once and exports
-   the results (`visitedTrips`, `visitedCities`, `visitedCountries`,
-   `takenFlights`, `takenFerries`) as module-level constants that hooks and
-   components import directly.
+   because the data is part of the build.
+2. `packages/core/src/schema/index.ts` owns the Zod contracts for every
+   authored shape (`CountryJsonSchema`, `CityJsonSchema`, `TripJsonSchema`,
+   `ImageSchema`, `SiteConfigSchema`, `WorldSourcesSchema`) and the TypeScript
+   types are inferred from them.
+3. `packages/core/src/world/buildWorld.ts` is the dataset's **single trust
+   boundary**. It takes `unknown`, parses the whole source object with
+   `WorldSourcesSchema`, then links id references (throwing through
+   `requireReference()` when one does not resolve) and constructs the domain
+   classes.
+4. `world.ts` calls `buildWorld()` once and exports the results
+   (`visitedTrips`, `visitedCities`, `visitedCountries`, `takenFlights`,
+   `takenFerries`, `siteConfig`) as module-level constants.
 
-**Rules:**
+### Validation policy
+
+- **Validate at trust boundaries, once.** The boundaries are: `buildWorld()`
+  for the dataset, the editor's `vite/` middleware for request bodies,
+  `shared/lib/httpResponse.ts` for responses the editor reads back,
+  `shared/lib/storage.ts` for `localStorage`, `shared/lib/env.ts` for
+  build-time environment values, and `vite.config.ts` for the site-branding
+  block it reads off disk. Data that has passed one of those is trusted
+  downstream; do not re-parse it.
+- **Zod is the validation library.** Do not hand-roll `typeof` chains for a
+  shape a schema can describe, and do not add a second validation library.
+- **The schema owns the type.** Where a Zod schema is the authoritative runtime
+  contract, infer the TypeScript type from it (`z.infer`) instead of declaring a
+  parallel `interface` that can drift. Purely internal compile-time types that
+  never cross a boundary stay ordinary TypeScript.
+- **Never cast untrusted data.** `value as SomeType` on JSON, a response body,
+  a stored value, or an environment variable is a review failure; parse it.
+- **Object schemas are strict.** Authored documents use `z.strictObject` so a
+  typo is reported instead of silently dropped. Reach for `z.looseObject` only
+  when a document legitimately carries fields this code does not own, and say
+  why.
+- **Validation is not authorization.** A payload passing its schema says
+  nothing about whether the operation is allowed. The editor's write endpoints
+  validate the body _and_ separately confirm the request is loopback-local and
+  that the resolved path stays inside `data/`.
+- **Do not wrap trusted internals in schemas.** A domain object built by
+  `buildWorld` needs no further parsing, and adding one hides where the real
+  boundary is.
+
+### Rules
 
 - MUST keep transformation of raw JSON into domain objects inside
-  `packages/core` (`buildWorld.ts` and the classes it builds). Don't add a
-  second, component-local parser for data that `buildWorld` already produces
-  — that's how duplicated/ad-hoc data transformation creeps in.
-- MUST NOT fetch or transform data inside a component body. If a component
-  needs a derived slice of the world data, that's a method on the relevant
-  domain class, the owning feature's `lib/`, or `shared/lib/`, not inline JSX.
-- **Runtime validation is a real, currently-open gap, not a hypothetical
-  one.** `requireReference()` catches broken id links, but nothing validates
-  that a JSON file has the shape `CountryJson`/`CityJson`/`TripJson` claim —
-  a malformed file fails wherever it's first used, not at the boundary. This
-  matters more than it would in a typical internal app because `data/` is
-  meant to be edited by the companion editor app and, per the project's
-  fork-friendly design, by other people forking the template — trusting
-  hand-authored JSON to always match the TypeScript shape is optimistic.
-  SHOULD add a lightweight runtime check (e.g. a small hand-written
-  validator, or `zod` if the checks get complex enough to want a schema
-  language) at the `buildWorld()` boundary before this data source becomes
-  less trusted than it is today. This is a `packages/core` change, not
-  something to bolt onto individual components.
-- If real network fetching is introduced later: `swr` is already a
-  dependency of `apps/travel-map` — use it rather than adding a second
-  fetching library or hand-rolling `useEffect` + `fetch`. Loading/error/empty
-  states follow the same components used for the static-data case today
-  (`EmptyState`, `Loading`) — don't invent new ones per feature.
+  `packages/core`. Do not add a second, component-local parser for data
+  `buildWorld` already produces.
+- MUST NOT fetch or transform data inside a component body. A derived slice of
+  the world belongs on a domain class, in the owning feature's `lib/`, in
+  `shared/lib/`, or in `data/` when it joins dataset documents together.
+- If application-level network fetching is introduced, use `swr` — it is
+  already a dependency and already used for images. Loading, empty, and error
+  states use the existing `EmptyState` and `Loading` components rather than a
+  new set per feature.
 
 ---
 
@@ -469,14 +495,17 @@ copying "there's no data layer" as an assumption into new work.
   **`type`** for unions and aliases.
 
   ```ts
-  export type TransportMode =
-    "ferry" | "plane" | "car" | "train" | "bus" | "taxi" | "walk";
+  /** A transport operator id, resolved against the site configuration. */
+  export type CompanyId = string;
 
   interface FlightLeg {
-    company?: FlightCompany;
+    company?: CompanyId;
     number?: string; /* … */
   }
   ```
+
+  When the shape also crosses a runtime boundary, the Zod schema is the
+  declaration and the type is inferred from it (§9) rather than written twice.
 
 - **Coordinates are `[number, number]` tuples** (`[lng, lat]`), everywhere.
 - **Prefer `as const`** for literal config tables so tuples stay narrow:
@@ -500,11 +529,14 @@ copying "there's no data layer" as an assumption into new work.
   value exists. Shared context hooks enforce their provider invariant by
   throwing, so feature consumers do not assert context values. Don't use `!`
   to silence a case that could actually be null; narrow it instead.
-- **Enums vs. union types**: this codebase uses `enum` for closed,
-  JSDoc-documented domain vocabularies (`TransportMode`) and plain string
-  unions for everything else. Prefer a union type unless you specifically
-  want the enum's namespacing and the extra JSDoc-per-value ceremony is
-  earning its keep.
+- **Enums vs. union types**: `enum` is used for closed, JSDoc-documented
+  vocabularies the dataset cannot extend (`Continent`, `Currency`,
+  `TravelType`). Everything a fork can extend is a plain string or a union
+  inferred from its schema — transport operators in particular are a
+  `CompanyId` (a validated non-empty string resolved against
+  `SiteConfig.companies`), not an enum, because a fork must be able to record
+  an airline this repository has never heard of. Prefer a union unless the
+  enum's namespacing is genuinely earning the extra ceremony.
 - **Discriminated unions and exhaustiveness**: when branching over a closed
   set of variants (transport modes, panel types), use a `switch` and let
   TypeScript flag missing cases; don't fall back to `if`/`else if` chains that
@@ -539,7 +571,7 @@ The groups are, in order: side-effect imports, external/workspace packages,
 blank lines and import paths make them self-evident.
 
 - **Named exports only, everywhere.** Zero default exports for components,
-  hooks, utils, or classes in the audited code — keep it that way. (`lazy()`
+  hooks, utils, or classes — keep it that way. (`lazy()`
   aliases in `main.tsx` and route files are the one place a default export is
   consumed, because `React.lazy`/router `lazy` loaders require it structurally
   — that's importing a boundary, not a precedent for authoring new default
@@ -567,7 +599,7 @@ blank lines and import paths make them self-evident.
 
 - **No barrel files** (§5). Each module's public surface is just its named
   exports, imported directly.
-- **No circular dependencies were found** in the audited code — keep the
+- **There are no circular dependencies** — keep the
   dependency direction intentional so that stays true: `packages/core` never
   imports from either app; `shared` never imports `app` or `features`; and a
   feature never imports another feature's internals.
@@ -698,40 +730,34 @@ Vertical whitespace communicates structure and MUST be deterministic:
   }
   ```
 
-- **Respect `prefers-reduced-motion`** on every file that defines a
-  transition or animation, not just the three that currently do
-  (`TripCard.scss`, `TooltipMap.scss`, `Marker.scss`):
+- **`prefers-reduced-motion` is honoured globally.** `styles/_global.scss`
+  gives every element a transition, so the carve-out lives beside it and
+  neutralises animation and transition durations for the whole app — the editor
+  included, since it imports the same file. Do not add a per-component
+  `@media (prefers-reduced-motion: reduce)` block: a local carve-out would have
+  to be repeated in every stylesheet and would silently miss the next one. Add a
+  local block only to suppress something the global rule cannot reach, such as a
+  JS-driven animation, and say so in a comment.
 
-  ```scss
-  @media (prefers-reduced-motion: reduce) {
-    .map-city-marker {
-      transition: none;
-    }
-  }
-  ```
-
-  Treat this as a checklist item (§19), not an opt-in — most `.scss` files
-  with a `transition`/`animation` property don't have the carve-out yet.
-
-- **Design tokens live in `_variables.scss`.** Before hardcoding a color,
-  check whether an existing token already is that value — `Marker.scss`'s
-  `--marker-color: #8a8ea4` duplicates `$darkAltTextDarker` by coincidence
-  instead of referencing it, which is exactly what this rule exists to
-  prevent. Values JavaScript needs (route/transport colors) are duplicated in
+- **Design tokens live in `_variables.scss`.** Before hardcoding a colour,
+  check whether an existing token already is that value; a hex that happens to
+  equal a token is a duplicate that will drift when the token changes. Values
+  JavaScript needs (route and transport colours) are mirrored in
   `_variables.module.scss` and imported as a module:
   `import variables from "@/styles/_variables.module.scss"`.
 - **Reuse the glass/blur mixins** (`glassmorphism-dark/light`,
   `floating-card-dark/light`, `full-panel-dark/light` in `_mixins.scss`)
-  instead of hand-rolling a blur radius per file — about half the files that
-  need this effect already use the mixins; the other half
-  (`MapShell.scss`, `TripDetailHero.scss`, `TooltipMap.scss`, `Map.scss`,
-  `Card.scss`, `TimelineTrack.scss`, `CityCard.scss`) each picked their own
-  radius by hand. Converge new work on the mixins.
+  instead of hand-rolling a `backdrop-filter` per file. Twelve stylesheets use
+  the mixins; `Map.scss`, `MapTooltip.scss`, `CityCard.scss`, `Card.scss`,
+  `TimelineTrack.scss`, `TripDetail.scss`, and `TripDetailHero.scss` still pick
+  their own radius by hand. Converge new work on the mixins and convert one of
+  those files when you are already editing it.
 - `outline: none` MUST always be paired with a visible focus replacement
-  (scale, ring, z-lift) in the same rule or file. `TripCard.scss`,
-  `FilterByCountry.scss`, and `FloatingNav.scss` currently remove the outline
-  with nothing standing in for it — that's a bug against this rule, not a
-  style choice to preserve.
+  (scale, ring, z-lift) in the same rule or file — `m.focus-ring()` is the
+  usual answer. The one remaining exception is
+  `charts/BarChartPopulation.scss`, which clears the outline ApexCharts puts on
+  its own non-interactive SVG root; if you add such a rule, scope it to the
+  third-party element and say why.
 
 ---
 
@@ -757,45 +783,44 @@ Not optional. The existing markers show the baseline:
 - Focus states are styled (`&:focus-visible`) with a replacement whenever
   `outline: none` is used (§12).
 - **Overlays and dialogs** (`Lightbox`, `Gallery`, the map tooltip, dropdown
-  panels like `FilterByCountry`): give the overlay `role="dialog"`/
-  `aria-modal="true"` when it takes over the screen, support `Escape` to
-  close (`FilterByCountry` already does), and return focus to the trigger
-  element on close. The map tooltip (`Map.tsx`/`TooltipMap.tsx`) currently has
-  no `Escape` handling — add it when next touching that file.
-- **Image alt text**: use the photo's actual `alt` data when present
-  (`Gallery.tsx` does this — `photo.alt ?? ""`); don't hardcode `alt=""`
-  unconditionally the way `Lightbox.tsx` currently does — that silently
-  discards real alt text the data provides.
-- Don't leave a folder like `atoms/BottomSheet/` half-built with an unused
-  mixin (`bottom-sheet()` in `_mixins.scss`) and no component — either finish
-  it or delete it; dead a11y-relevant scaffolding is worse than no
-  scaffolding because it looks implemented.
+  panels like `FilterByCountry`): give the overlay `role="dialog"` and
+  `aria-modal="true"` when it takes over the screen, support `Escape` to close
+  (`FilterByCountry` and the pinned map tooltip in `Map.tsx` both do), and
+  return focus to the trigger element on close.
+- **Image alt text** comes from the data: `photo.alt ?? ""`, never a hardcoded
+  `alt=""` that discards what the dataset provides. A decorative image — an
+  operator logo beside its own name, say — is the opposite case and takes
+  `alt=""` plus `aria-hidden="true"`.
+- Don't leave half-built accessibility scaffolding behind. An unused mixin or an
+  empty component folder reads as implemented when it is not, which is worse
+  than nothing there — finish it or delete it.
 
 ---
 
 ## 14. Error handling
 
-- **Expected errors** (a referenced id that doesn't exist in `/data`, a route
-  that doesn't match) fail loudly at build/parse time via
-  `requireReference()` in `buildWorld.ts` and the router's `errorElement`
-  (`Fallback`, wired in `main.tsx`) — keep failing loudly here. This is
-  build-time data, not user input; there's no case where silently ignoring a
-  bad reference is the right behavior.
+- **Expected errors** fail loudly where they originate. A malformed document or
+  an unresolved id throws out of `buildWorld()` — `WorldSourcesSchema` names the
+  field, `requireReference()` names the referencing document — and a route that
+  does not match reaches `FallbackPage`, wired as the router's `errorElement` in
+  `app/routing/router.tsx`. This is authored data, not user input: there is no
+  case where quietly ignoring a bad reference is right.
 - **Unexpected runtime errors** in the render tree should be caught by an
-  error boundary at a sensible level (today, the router's `errorElement`
-  covers routing-time failures; there's no component-level error boundary
-  audited). If you add UI that can throw during render from unpredictable
-  data, wrap it in a boundary rather than letting the whole app white-screen.
+  error boundary at a sensible level. The router's `errorElement` covers
+  routing-time failures; there is no component-level boundary. If you add UI that
+  can throw during render from unpredictable data, wrap it in a boundary rather
+  than letting the whole app white-screen.
 - **Never swallow a caught error silently.** If you catch something, either
   handle it meaningfully or don't catch it — an empty `catch {}` block is not
   acceptable.
 - **User-facing messages** stay non-technical; use `EmptyState` (§6, §18) for
   "nothing to show" and a translated string for anything the user needs to
   read, not a raw error message or stack trace.
-- Once real network fetching exists (§9), failed requests get the same
-  `EmptyState`/error-state treatment as empty data, with a retry action if the
-  underlying `swr` hook makes that trivial — don't build a bespoke
-  retry system per feature.
+- **A failed image load falls back rather than failing the view**:
+  `useImageCache` records the source as un-cacheable and hands back the original
+  URL. Any future request follows the same shape — the existing
+  `EmptyState`/`Loading` components, plus `swr`'s retry if it is free — rather
+  than a bespoke retry system per feature.
 
 ---
 
@@ -815,13 +840,13 @@ Not optional. The existing markers show the baseline:
   justified today (rebuild only when `theme` changes, not every render) — see
   §7. Keep marker/label rendering keyed on stable ids so MapLibre doesn't
   churn DOM nodes.
-- **Images**: `CityCard` already lazy-loads background images via an
-  `IntersectionObserver` and caches them through the service worker — follow
-  that pattern for new image-heavy components rather than eagerly loading
-  everything.
-- **Bundle size**: `knip` (configured in `apps/travel-map/knip.json`, run via
-  `pnpm check`) flags unused exports/files — treat its findings as real
-  cleanup, not noise to silence. `vite.config.ts` does manual chunking by
+- **Images**: `CityCard` lazy-loads its background through an
+  `IntersectionObserver` and `useCachedImageSource`, which keeps decoded blobs in
+  Cache Storage and reuses one object URL per photo. Follow that pattern for new
+  image-heavy components rather than loading everything eagerly.
+- **Bundle size**: `knip` (one config per project, all run by `pnpm check`)
+  flags unused files, exports, types, and dependencies — treat its findings as
+  real cleanup, not noise to silence. `vite.config.ts` does manual chunking by
   dependency group; don't fight it by importing a heavy dependency somewhere
   that pulls it into the main chunk unnecessarily.
 - **Evidence over instinct**: if you're proposing a performance change,
@@ -833,46 +858,38 @@ Not optional. The existing markers show the baseline:
 
 ## 16. Testing
 
-**Current state, stated plainly**: there is no test runner, no test
-dependency, and no automated test in `apps/travel-map` or `packages/core`.
-The single test file in the whole repository is
-`apps/travel-map-editor/src/core/geo.test.ts`, run with
-`node --experimental-strip-types` and no assertion library — not a pattern to
-extend. `pnpm check` does not run any tests today.
+**Vitest, everywhere, colocated.** All three workspace projects run `vitest run`
+through `pnpm test`, which `pnpm check` includes. Test files are discovered by
+glob, so a new `*.test.ts` runs without touching any script.
 
-This is a real gap, not a stylistic choice — `packages/core`'s domain
-classes (`Trip`'s date/route derivation, `buildWorld`'s reference resolution)
-are pure logic with no DOM dependency and are exactly the kind of code that's
-cheap to test and expensive to get subtly wrong.
-
-**When test infrastructure is added, do it minimally:**
-
-- Vitest is the natural choice — this is already a Vite project, Vitest
-  shares its config/transform pipeline, and it needs no separate bundler
-  setup. Add `@testing-library/react` only once component tests are actually
-  being written, not upfront.
-- **Colocate tests** next to the file they test, matching the existing
-  colocation convention for styles: `Trip.ts` → `Trip.test.ts`, not a
-  separate `tests/`/`__tests__/` tree.
-- **Priority order**, highest value first: `packages/core` domain classes and
-  `buildWorld` (pure, high-consequence, zero DOM) → feature/shared `lib/`
-  pure functions (`collapseTransportChains`,
-  `buildDisplaySegments` once extracted per §6) → component behavior tests
-  for organisms with real interaction logic (`FilterByCountry`, `Gallery`)
-  → skip pure-presentational atoms unless they have real conditional logic.
-- **Test behavior, not implementation.** Assert on what a domain method
-  returns or what a component renders/does in response to interaction, not
-  on internal state shape or which private helper got called.
-- **Mock at the real boundary.** Once `swr`/network fetching exists, mock the
-  fetch layer, not the component using the hook.
-- Accessibility assertions (e.g. `getByRole`) are a natural fit for
-  `@testing-library/react` component tests and directly verify the §13 rules
-  — prefer them over a separate a11y-testing tool until a concrete gap shows
-  up that `getByRole` can't catch.
-- A regression that was hard to catch by inspection (a broken reference in
-  `buildWorld`, a timezone-math edge case) is a good candidate for a test
-  even before broader test coverage exists — a targeted regression test is
-  more valuable than waiting for "proper" coverage.
+- **Colocate** the test next to what it tests, matching the stylesheet
+  convention: `Trip.ts` → `Trip.test.ts`, never a separate `tests/` or
+  `__tests__/` tree.
+- **Name the behaviour, not the function.** `it("rejects a date that does not
+exist instead of rolling it over")` earns its place; `it("works")` does not.
+  A `describe` names the unit, an `it` names one guarantee.
+- **Priority order**, highest value first: `packages/core` schemas, `buildWorld`,
+  and date maths (pure, high-consequence, no DOM) → the editor's parsers and
+  path derivation, where malformed input is the normal case → feature and shared
+  `lib/` pure functions → component behaviour for components with real
+  interaction logic. Skip presentational components with no conditional logic.
+- **Test behaviour, not implementation.** Assert on what a function returns or
+  what a component renders and does, never on internal state shape or which
+  private helper ran.
+- **Schemas get their accept and reject cases**, not one test per constraint:
+  the shapes real data takes, the malformed shapes a hand edit produces,
+  boundary values, and anything security-relevant. `schema.test.ts` is the
+  reference.
+- **Prefer a stub over an environment.** The `localStorage` test installs a
+  three-method in-memory stand-in rather than pulling in jsdom; reach for
+  `@testing-library/react` only when component tests actually arrive, and then
+  assert through `getByRole` so the §13 rules are covered at the same time.
+- **Mock at the real boundary** — the fetch layer, not the component that uses
+  the hook wrapping it.
+- **A bug fix lands with a regression test** whenever the bug was hard to catch
+  by inspection: an unresolved reference in `buildWorld`, a timezone edge case, a
+  schema that accepted something it should not.
+- No `.only`, no skipped suites, no test without an assertion.
 
 ---
 
@@ -1019,56 +1036,55 @@ for prose line comments.
 
 ## 18. Patterns to avoid
 
-These are documented failure modes found in this codebase during this
-review, each with where it lives — fix them opportunistically when you're
-already in the file; none of them justify a standalone rewrite pass (see
-§20).
+Failure modes this codebase has actually produced. Fix one opportunistically
+when you are already in the file; none justifies a standalone rewrite pass.
 
-- **Business/algorithmic logic inside a rendering file.**
-  Feature components should not absorb calculations that belong in their
-  feature `lib/`, `shared/lib/`, or a domain-class method (§6).
-- **Duplicated imperative measurement logic.** `TripBrowser.tsx` and
-  `PlacesBrowser.tsx` each hand-roll a near-identical
-  ResizeObserver+`requestAnimationFrame` panel-height measurement. This is a
-  concrete case for a shared hook (e.g. `useMeasuredHeight`) — a real,
-  observed duplication, not a speculative one.
-- **Misplaced imports.** `packages/core/src/classes/Trip.ts` has two `import`
-  statements after the class body (valid JS via hoisting, but violates
-  `simple-import-sort/imports` and this doc's import-ordering rule) — move
-  them to the top on next touch.
-- **Bare-SVG click targets with no keyboard/role support.**
-  `CloseButton`, `FloatingNav`'s logo, `Gallery`'s play-icon overlay (§6, §13).
-- **`outline: none` with no visible-focus replacement.** `TripCard.scss`,
-  `FilterByCountry.scss`, `FloatingNav.scss` (§12).
-- **Hardcoded colors that duplicate an existing token by coincidence.**
-  `Marker.scss`'s `#8a8ea4` (§12).
-- **Inconsistent `alt` text handling.** `Lightbox.tsx` hardcodes `alt=""`
-  where `Gallery.tsx` correctly uses the data's `alt` (§13).
-- **Placeholder JSDoc that satisfies lint but says nothing.**
-  `TripBrowser.tsx`, `TripDetail.tsx`, `Gallery.tsx` each have at least one
-  (§17).
-- **A kitchen-sink context.** Do not recombine the narrow
-  `MapInteractionContext` and `PanelContext` contracts into one shell context.
-- **Stale documentation paths.** `CLAUDE.md`, `AGENTS.md`, and
-  `.github/copilot-instructions.md` referred to a `travel-map/` directory that
-  no longer exists (the real path is `apps/travel-map/`) and didn't mention
-  `apps/travel-map-editor` or `packages/core` at all — fixed alongside this
-  document; if you find a doc still saying `travel-map/`, that doc is stale,
-  not the code.
+- **A second copy of a domain fact.** Operator display names once lived both in
+  `site.config.json` and in a hardcoded `Record` inside the trip timeline, so a
+  fork's own airline rendered correctly in statistics and as a blank in trip
+  details. Transport modes were listed in `packages/core` and again in the
+  editor. A vocabulary the dataset owns has exactly one home; derive from it
+  (`TransportModeSchema.options`) rather than retyping it.
+- **A TypeScript type written twice: once as an `interface`, once as a Zod
+  schema.** They drift. Infer the type from the schema (§9).
+- **Casting external data into a narrower type.** `step.flight.company as
+FlightCompany` looked like typing and was actually an unchecked assertion over
+  authored JSON. Validate in the schema, or widen the type to what the data
+  really is.
+- **Validating the same value twice.** The app used to parse every document with
+  its schema and then hand the results to `buildWorld`, which parsed them all
+  again. One boundary, one parse (§9).
+- **A helper re-declared per call site.** `sendJson` existed four times across
+  the editor's Vite middleware. Second occurrence of an identical helper is the
+  signal to move it — `vite/http.ts` is where those live.
+- **Business or algorithmic logic inside a rendering file.** Calculations belong
+  in the owning `lib/`, in `shared/lib/`, in `data/`, or on a domain class (§6).
+- **Line comments.** `documentation/no-line-comments` and `no-inline-comments`
+  reject them; rationale is an own-line block comment (§17).
+- **Placeholder JSDoc that satisfies lint and says nothing.** "Represents a nav
+  tab." above `type NavTab` is not documentation. Lint checks structure, you
+  check content.
+- **Per-file copies of a global concern.** A `prefers-reduced-motion` carve-out
+  in thirty stylesheets is thirty places to forget; it lives once in
+  `_global.scss` (§12).
+- **A kitchen-sink context.** Do not recombine `MapInteractionContext`,
+  `PanelContext`, and `AppRouteContext` into one shell context.
+- **Exporting something only its own module uses.** `knip` runs in `pnpm check`
+  for all three projects and will catch it; treat its findings as work, not
+  noise.
 
-**Patterns explicitly checked for and NOT found** — worth stating so they
-don't get "fixed" against a problem that doesn't exist: no default-export
-inconsistency, no index-as-key list rendering, no circular dependencies, no
-`any`, no `dangerouslySetInnerHTML`, no components defined inside another
-component's render body, no generic `utils.ts`/`helpers.ts` grab-bag files,
-no barrel-file sprawl (there are none at all).
+**Checked for and not present** — so nobody "fixes" a problem that does not
+exist: no default-export inconsistency, no index-as-key list rendering, no
+circular dependencies, no `any`, no `dangerouslySetInnerHTML`, no component
+defined inside another component's render body, no generic
+`utils.ts`/`helpers.ts` grab-bag, and no barrel files anywhere.
 
 ---
 
 ## 19. Pull-request checklist
 
-Before opening or approving a PR touching `apps/travel-map` or
-`packages/core`:
+Before opening or approving a PR. `pnpm check` covers the mechanical half
+(§20); these are the things it cannot see.
 
 - [ ] **Placement**: new files live where §4/§5 say they should (component
       folder co-located with its `.scss`; pure logic in the owning `lib/`,
@@ -1090,99 +1106,99 @@ Before opening or approving a PR touching `apps/travel-map` or
       narrow contract rather than growing an unrelated context.
 - [ ] **Effects**: every subscribing effect has a dependency array and a
       cleanup; no effect added just to sync derivable state (§7).
-- [ ] **Types**: no new `any`; casts and non-null assertions are justified;
-      new object shapes are `interface`s with full `@property` JSDoc.
-- [ ] **Data boundary**: new data transformation lives in `packages/core`,
-      not duplicated in a component (§9).
+- [ ] **Types**: no new `any`; every cast and non-null assertion carries a
+      reason; new object shapes are `interface`s with full `@property` JSDoc.
+- [ ] **Data boundary**: new untrusted input is parsed with a Zod schema at its
+      boundary and not re-parsed downstream; the TypeScript type is inferred from
+      the schema rather than declared beside it; no `as` on external data;
+      dataset transformation stays in `packages/core` or `data/` (§9).
 - [ ] **Loading/empty/error states**: any new list/panel that can be empty
       uses `EmptyState`; failures don't get swallowed silently (§14).
 - [ ] **Accessibility**: new interactive elements are a real `<button>` where
       possible, or `role="button"`+`tabIndex`+`isActivationKey` where not; new
       icon-only controls have `aria-label`; `outline: none` never appears
       without a visible replacement (§13).
-- [ ] **Tests**: if you touched `packages/core` domain logic and test
-      infrastructure exists at review time, it has a test; if it doesn't
-      exist yet, this PR isn't blocked on adding it single-handedly (§16).
+- [ ] **Tests**: new or changed domain logic, parsing, and schemas have
+      behaviour-named tests; a fixed bug that inspection would have missed has a
+      regression test; no `.only` or skipped suite (§16).
+- [ ] **Duplication**: no domain fact, vocabulary, or helper now exists in two
+      places (§18).
 - [ ] **Documentation**: every new named function/component/type/class has a
       real (non-placeholder) JSDoc (§17); simple aliases use mandatory one-line
       JSDoc; stale comments in touched files are removed; no human-authored
       `//` or trailing comment remains.
-- [ ] `pnpm check` passes from the repository root (or `apps/travel-map`) —
-      see §20 for what that covers.
+- [ ] `pnpm check` and, for anything touching behaviour, configuration,
+      routing, or output, `pnpm build` pass from the repository root — see §20
+      for what each covers.
 
 ---
 
-## 20. Migration notes
+## 20. Automated enforcement, and what is left by hand
 
-The public app's feature-based migration is defined by
-`FEATURE_BASED_REFACTOR_MIGRATION_GUIDE.md`. New work must preserve its final
-dependency boundaries; the remaining items below are independent follow-up
-work, not reasons to weaken feature ownership.
+Prefer a check over a paragraph. This is what currently runs, so you know what
+review still has to catch.
 
-**Immediate documentation corrections** (do these first, they're pure
-accuracy fixes with no code risk):
+`pnpm check` from the repository root runs, across all three projects:
 
-- Fixed in this revision: `CLAUDE.md`, `AGENTS.md`, and
-  `.github/copilot-instructions.md` referenced a `travel-map/` directory that
-  no longer exists; the real path is `apps/travel-map/`, and none of them
-  mentioned `apps/travel-map-editor` or `packages/core`. All three now point
-  at the real layout and at running `pnpm check`/`pnpm build` from the
-  repository root (the root `package.json` already defines these as
-  workspace-aware scripts — `pnpm -r typecheck`, `pnpm -r lint`, plus
-  `travel-map`-specific `format:check`/`knip`/`react:doctor`).
-- This document's own `core/` references were updated to `packages/core` /
-  `@travelmap/core`; the old `import { City, Travel } from "@/core"` example
-  was wrong post-restructure — the real import is
-  `from "@travelmap/core"` (a workspace package, sorted as an external, not
-  aliased).
+| Check        | Command             | Enforces                                                       |
+| ------------ | ------------------- | -------------------------------------------------------------- |
+| Types        | `pnpm typecheck`    | `strict`, no unused locals or parameters, no fallthrough cases |
+| Lint         | `pnpm lint`         | The rules below, at zero warnings                              |
+| Formatting   | `pnpm format:check` | Prettier                                                       |
+| Tests        | `pnpm test`         | Vitest in core, both apps (§16)                                |
+| Dead code    | `pnpm knip`         | Unused files, exports, types, and dependencies                 |
+| React health | `react:doctor`      | Hook, accessibility, and bundle diagnostics                    |
 
-**Low-risk cleanup** (safe to do opportunistically, one file at a time, no
-behavior change):
+`pnpm build` additionally verifies production output. `.husky/pre-commit` runs
+lint-staged over changed files, falling back to a repository-wide lint and
+format check once a change is too wide to fit on one command line; `.husky/pre-push` runs the full suite plus
+`python -m compileall -q scripts/uploader`; `.github/workflows/ci.yml` repeats
+all of it and adds `pnpm audit`.
 
-- Move the two misplaced imports in `packages/core/src/classes/Trip.ts` to
-  the top of the file.
-- Rewrite the placeholder JSDoc blocks in `TripBrowser.tsx`, `TripDetail.tsx`,
-  and `Gallery.tsx` to actually describe what those functions do.
-- Fix `Lightbox.tsx`'s hardcoded `alt=""` to use the photo's real `alt` data,
-  matching `Gallery.tsx`.
-- Add the missing visible-focus replacement everywhere `outline: none` is
-  used without one (`TripCard.scss`, `FilterByCountry.scss`,
-  `FloatingNav.scss`).
-- Reference `$darkAltTextDarker` from `Marker.scss` instead of repeating its
-  hex value.
-- Wrap `CloseButton`, `FloatingNav`'s logo, and `Gallery`'s play-icon overlay
-  in real `<button type="button">` elements.
+**Rules from this document that lint now enforces:**
 
-**Medium-size refactors** (worth a dedicated, reviewable PR each):
+- JSDoc presence, structure, spacing, `@param`/`@property`/`@returns`
+  completeness, and the component-block format (`jsdoc/*`, `documentation/*`).
+- No line comments and no comment sharing a line with code
+  (`documentation/no-line-comments`, `no-inline-comments`).
+- Ternary-only conditional rendering (`react/jsx-no-leaked-render`), alphabetical
+  JSX props, `type` on every button, no component defined inside a render body.
+- Import ordering and grouping (`simple-import-sort`).
+- Dependency direction: `shared` may not import `app` or `features`, a feature
+  may not import another feature's internals, `data/` may depend only on static
+  data and core, `packages/core` may not import either app, and the editor's
+  `shared` may not import its features (`no-restricted-imports`).
+- No `dangerouslySetInnerHTML`, no unsanitised DOM writes (`react/no-danger`,
+  `nounsanitized/*`).
 
-- Keep trip-detail timeline calculations in
-  `features/trips/lib/tripDetailTimeline.ts`, leaving `TripTimeline.tsx` as
-  rendering only.
-- Move `TripDetail.tsx`'s `computeTripStats` into a method on `Trip`
-  (`packages/core`), and have the component call it instead of re-deriving
-  the numbers locally.
-- Factor `TripBrowser.tsx`'s and `PlacesBrowser.tsx`'s duplicated
-  ResizeObserver+rAF measurement into one shared hook.
-- Consolidate the seven files hand-rolling glass/blur values onto the
-  existing `glassmorphism-*`/`floating-card-*`/`full-panel-*` mixins.
-- Add `prefers-reduced-motion` carve-outs to the `.scss` files that define
-  transitions/animations but don't have one yet.
+**Deliberately off, with reasons:** `react-doctor`'s
+`react-router-no-empty-leaf-route` — the persistent map shell resolves most
+routes to `element: null` on purpose (§3); `prefer-tag-over-role`,
+`no-barrel-import`, `iframe-missing-sandbox`, and
+`react-compiler-no-manual-memoization`, which predate this revision.
 
-**Larger, sequenced changes** (real investment, do only when there's a
-concrete trigger, not preemptively):
+**Still on review, not on a tool:** whether a JSDoc block says anything useful,
+BEM naming, vertical-spacing judgement inside a function, whether an abstraction
+earns its keep, and whether a Zod schema is at the right boundary rather than
+merely present.
 
-- Introduce Vitest + colocated tests, starting with `packages/core` (§16).
-  Trigger: before the next non-trivial change to `Trip`/`buildWorld`, or
-  after the next regression that a test would have caught.
-- Add a lightweight runtime shape check at the `buildWorld()` boundary (§9).
-  Trigger: before `data/` starts accepting content from people other than
-  the current maintainer, or after the first real malformed-JSON incident.
-- Keep map interaction and panel visibility in their existing narrow shared
-  contexts; add another contract only for a concrete cross-feature consumer
-  set (§8).
-- Run this same audit pass against `apps/travel-map-editor`, which shares the
-  stack but wasn't in scope for this revision.
+### Known gaps
 
-The feature-folder migration is complete when the definition of done in the
-migration guide passes. Do not reintroduce the legacy `components`, `hooks`,
-or `utils` roots.
+Real work, listed so nobody rediscovers it as a surprise. None is urgent.
+
+- `apps/travel-map-editor` has 29 cross-feature imports, so the feature-boundary
+  rule that guards the public app is not applied there. Enforcing it means
+  moving shared itinerary and place logic somewhere both features may depend on;
+  until then, treat the editor's feature folders as a naming convention rather
+  than a boundary.
+- Seven stylesheets hand-roll `backdrop-filter` instead of using the glass
+  mixins (§12).
+- `TripTimelineStayGroup.tsx` is large enough that `react-doctor` flags it; the
+  seam is between day-trip grouping and rendering.
+- `useImageCache` keeps one object URL per photo for the life of the page. That
+  is intentional — the cache exists so a re-mounted card reuses the decoded blob
+  — but it is bounded by gallery size rather than by anything adaptive.
+- The uploader (`scripts/uploader/`) has no tests and is verified only by
+  `python -m compileall`.
+
+Do not reintroduce the legacy `components`, `hooks`, or `utils` roots.

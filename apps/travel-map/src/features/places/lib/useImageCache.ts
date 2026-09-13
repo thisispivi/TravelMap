@@ -2,6 +2,12 @@ import useSWR from "swr";
 
 const IMAGE_CACHE_NAME = "travel-map-images-v1";
 
+/*
+ * Object URLs are kept for the life of the page rather than revoked: the point
+ * of the cache is that re-mounting a card reuses the same decoded blob, and a
+ * revoked URL cannot be reused. One URL per distinct photo bounds this to the
+ * size of the dataset's gallery.
+ */
 const objectUrlCache = new Map<string, string>();
 const pendingLoads = new Map<string, Promise<string>>();
 const fallbackSources = new Set<string>();

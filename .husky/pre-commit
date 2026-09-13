@@ -1,6 +1,13 @@
 #!/usr/bin/env sh
-cd "$(dirname "$0")/.."
+# lint-staged hands every staged path to one command line, and both it and the
+# tools it drives fail with "the command line is too long" once a change is wide
+# enough — on Windows that is a few dozen files. Past that, checking the whole
+# repository is the reliable option, and a sweeping change wants it anyway.
+staged=$(git diff --cached --name-only --diff-filter=ACMR | wc -l)
 
-pnpm --filter travel-map typecheck
-pnpm --dir apps/travel-map exec lint-staged
-pnpm --filter travel-map lint
+if [ "$staged" -gt 40 ]; then
+  pnpm lint
+  pnpm format:check
+else
+  pnpm exec lint-staged
+fi

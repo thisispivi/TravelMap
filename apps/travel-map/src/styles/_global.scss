@@ -23,6 +23,23 @@
     stroke 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/*
+ * Honoured once, globally, because the `*` rule above gives every element a
+ * transition: a per-stylesheet carve-out would have to be repeated in every
+ * component file and would silently miss the next one. 0.01ms rather than 0 so
+ * transitionend still fires for anything listening for it.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 html {
   height: 100%;
   width: 100%;

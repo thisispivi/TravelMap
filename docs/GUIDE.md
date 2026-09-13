@@ -23,12 +23,13 @@ how it is built.
 
 ## 1. First-time setup
 
-You need **Node 22.22+**, **pnpm 11.8+**, and — only if you want to process
+You need **Node 22.22+**, **pnpm 11.18+**, and — only if you want to process
 photos — **Python 3.11+** and **ffmpeg** (ffmpeg is needed for video thumbnails
 only).
 
 ```bash
 pnpm install
+cp apps/travel-map/env/.env.example apps/travel-map/env/.env
 ```
 
 That is the whole setup for the website and the editor. Photo processing has its

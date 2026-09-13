@@ -76,6 +76,50 @@ const documentationSpacing = {
         };
       },
     },
+    "no-line-comments": {
+      meta: {
+        type: "suggestion",
+        docs: {
+          description:
+            "Forbid human-authored line comments, which the repository writes as own-line block comments.",
+        },
+        messages: {
+          lineComment:
+            "Write rationale as an own-line block comment, not a // comment.",
+        },
+        schema: [],
+      },
+
+      /**
+       * Creates visitors that reject prose written as line comments.
+       * @param {import("eslint").Rule.RuleContext} context - The ESLint rule context
+       * @returns {import("eslint").Rule.RuleListener} The rule listeners
+       */
+      create(context) {
+        const sourceCode = context.sourceCode;
+        /*
+         * Syntax that only exists as a line comment: TypeScript and ESLint
+         * directives, triple-slash references, and Prettier's ignore marker.
+         */
+        const directive =
+          /^\s*(?:@ts-(?:expect-error|ignore|nocheck)|eslint-(?:disable|enable)|eslint\s|globals?\s|prettier-ignore|\/\s*<reference)/;
+
+        return {
+          /**
+           * Checks every line comment once the complete program is available.
+           * @returns {void}
+           */
+          "Program:exit"() {
+            for (const comment of sourceCode.getAllComments()) {
+              if (comment.type !== "Line" || directive.test(comment.value))
+                continue;
+
+              context.report({ loc: comment.loc, messageId: "lineComment" });
+            }
+          },
+        };
+      },
+    },
     "require-named-function-jsdoc": {
       meta: {
         type: "suggestion",
@@ -417,7 +461,10 @@ export default [
         },
       ],
       "jsdoc/valid-types": "error",
+      "no-inline-comments": "error",
+
       "documentation/blank-line-before-jsdoc": "error",
+      "documentation/no-line-comments": "error",
       "documentation/require-declaration-properties": "error",
       "documentation/require-named-function-jsdoc": "error",
 
@@ -516,6 +563,53 @@ export default [
           ],
         },
       ],
+    },
+  },
+  {
+    files: ["packages/core/src/**/*.ts"],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: ["@/*", "@app/*", "**/apps/**"],
+              message:
+                "The shared domain package cannot depend on either application.",
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
+    files: [
+      "apps/travel-map-editor/src/shared/**/*.ts",
+      "apps/travel-map-editor/src/shared/**/*.tsx",
+    ],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              regex: "^(?:\\.\\./)+features/",
+              message:
+                "Editor shared modules cannot depend on feature internals.",
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
+    files: ["**/*.test.ts", "**/*.test.tsx"],
+    rules: {
+      /*
+       * A test's name states the behaviour it pins down; repeating that as a
+       * JSDoc block above every case adds nothing a reader can use.
+       */
+      "jsdoc/require-jsdoc": "off",
     },
   },
 ];

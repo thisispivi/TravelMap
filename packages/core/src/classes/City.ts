@@ -1,5 +1,6 @@
+import { MarkerSizes } from "../schema";
 import { localize } from "../typings/Localized";
-import { MarkerSizes } from "../typings/Marker";
+import { mediaUrl } from "../world/media";
 import { Country } from "./Country";
 
 /**
@@ -96,7 +97,9 @@ export class City implements CityInterface {
    */
   getBackgroundImgSourceByIndex(index: number): string | null {
     if (this.backgroundImgSources.length === 0) return null;
-    return `${import.meta.env.VITE_CDN_PATH}${this.backgroundImgSources[index % this.backgroundImgSources.length]}`;
+    return mediaUrl(
+      this.backgroundImgSources[index % this.backgroundImgSources.length],
+    );
   }
 
   /**

@@ -11,7 +11,7 @@ import { TextField } from "../Fields/Fields";
  * @property {string} name - Canonical name
  * @property {Record<string, string>} [nameByLocale] - Locale-specific names
  */
-export interface LocalizedValue {
+interface LocalizedValue {
   name: string;
   nameByLocale?: Record<string, string>;
 }

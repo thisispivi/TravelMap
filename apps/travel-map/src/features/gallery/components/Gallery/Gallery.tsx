@@ -1,7 +1,7 @@
 import "./Gallery.scss";
 import "react-photo-album/rows.css";
 
-import { City } from "@travelmap/core";
+import { City, mediaUrl } from "@travelmap/core";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { RowsPhotoAlbum } from "react-photo-album";
 import {
@@ -18,6 +18,7 @@ import { CloseButton } from "@/shared/components/CloseButton/CloseButton";
 import { CountryFlag } from "@/shared/components/CountryFlag/CountryFlag";
 import { useAppRoute } from "@/shared/context/AppRoute.context";
 import { useLanguage } from "@/shared/hooks/useLanguage";
+import { classNames } from "@/shared/lib/classNames";
 import { parameters } from "@/shared/lib/parameters";
 import {
   getCityPhotoTravels,
@@ -65,9 +66,7 @@ export function Gallery(): ReactNode {
   const navigationState = fromPath ? { fromPath } : undefined;
   const travel = getTravelByCityIndex(city, travelIdx, visitedTrips);
   const photos = (travel?.photos ?? []).map((p, i) => ({
-    src: parameters.isShowPhotos
-      ? `${import.meta.env.VITE_CDN_PATH}${p.thumbnail}`
-      : "",
+    src: parameters.isShowPhotos ? mediaUrl(p.thumbnail) : "",
     width: p.width,
     height: p.height,
     alt: p.alt ?? "",
@@ -130,7 +129,10 @@ export function Gallery(): ReactNode {
       </div>
       <div className="gallery__content">
         <div
-          className={`gallery__content__photo-album ${hasOverflow ? "gallery__content__photo-album--overflow" : ""}`}
+          className={classNames(
+            "gallery__content__photo-album",
+            hasOverflow && "gallery__content__photo-album--overflow",
+          )}
           id="gallery"
           ref={contentRef}
           style={{ visibility: isLightbox ? "hidden" : "visible" }}
@@ -146,7 +148,7 @@ export function Gallery(): ReactNode {
                   <img
                     {...props}
                     alt={photo.alt ?? ""}
-                    className={`${props.className ?? ""}`}
+                    className={props.className}
                   />
                   {photo.youtube ? (
                     <>

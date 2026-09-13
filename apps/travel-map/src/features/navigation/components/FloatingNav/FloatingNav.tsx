@@ -43,9 +43,9 @@ const itemVariants = {
 } as const;
 
 /**
- * Represents a nav tab.
- * @property {NavTabId} id - The id
- * @property {string} path - The path
+ * One entry in the floating navigation, pairing a tab with the route it opens.
+ * @property {NavTabId} id - The tab this entry represents
+ * @property {string} path - The route the tab navigates to
  */
 type NavTab = {
   id: NavTabId;

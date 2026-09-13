@@ -6,35 +6,59 @@ import {
   rmdir,
   writeFile,
 } from "node:fs/promises";
-import type { IncomingMessage, ServerResponse } from "node:http";
-import { dirname, resolve, sep } from "node:path";
+import { dirname, isAbsolute, relative, resolve, sep } from "node:path";
 
 import type { Plugin, ViteDevServer } from "vite";
+import { z } from "zod";
+
+import {
+  assertLocalRequest,
+  errorBody,
+  readJsonBody,
+  sendJson,
+} from "./http.ts";
+
+/** Payload accepted by the local JSON writer endpoints. */
+const WritePayloadSchema = z.strictObject({
+  base: z.unknown().optional(),
+  path: z.string().trim().min(1).max(512),
+  value: z.unknown().optional(),
+});
 
 /**
- * Payload accepted by the local JSON writer endpoints.
- * @property {string} path - Dataset-relative JSON path
- * @property {unknown} [value] - Serializable JSON value to write
- * @property {unknown} [base] - What the editor believes is currently on disk
+ * Reports whether a URL is an HTTPS Google Maps destination. Redirects are
+ * checked before each request so a short link cannot pivot into an internal
+ * service or arbitrary third-party host.
+ * @param {URL} url - Redirect target to inspect
+ * @returns {boolean} Whether the editor may request the URL
  */
-interface WritePayload {
-  path: string;
-  value?: unknown;
-  base?: unknown;
+function isGoogleMapsUrl(url: URL): boolean {
+  return (
+    url.protocol === "https:" &&
+    (url.hostname === "goo.gl" ||
+      url.hostname === "maps.app.goo.gl" ||
+      url.hostname === "google.com" ||
+      url.hostname.endsWith(".google.com"))
+  );
 }
 
-/** Google hostnames accepted by the short-link resolver. */
-const GOOGLE_MAP_HOSTS = new Set(["goo.gl", "maps.app.goo.gl"]);
-
 /**
- * Reads a JSON request body without adding a server dependency to the editor.
- * @param {IncomingMessage} request - Incoming HTTP request
- * @returns {Promise<WritePayload>} Parsed local editor payload
+ * Resolves a Google Maps short link while re-validating every redirect target.
+ * @param {URL} initialUrl - Validated short link
+ * @returns {Promise<string>} Final Google Maps URL
  */
-async function readPayload(request: IncomingMessage): Promise<WritePayload> {
-  const chunks: Uint8Array[] = [];
-  for await (const chunk of request) chunks.push(chunk as Uint8Array);
-  return JSON.parse(Buffer.concat(chunks).toString()) as WritePayload;
+async function resolveGoogleMapsUrl(initialUrl: URL): Promise<string> {
+  let current = initialUrl;
+  for (let redirectCount = 0; redirectCount < 5; redirectCount += 1) {
+    if (!isGoogleMapsUrl(current))
+      throw new Error("Only Google Maps share links can be resolved.");
+
+    const response = await fetch(current, { redirect: "manual" });
+    const location = response.headers.get("location");
+    if (!location) return response.url;
+    current = new URL(location, current);
+  }
+  throw new Error("Google Maps link redirected too many times.");
 }
 
 /**
@@ -45,9 +69,11 @@ async function readPayload(request: IncomingMessage): Promise<WritePayload> {
  */
 function resolveDataPath(dataRoot: string, relativePath: string): string {
   const path = resolve(dataRoot, relativePath);
+  const pathFromRoot = relative(dataRoot, path);
   if (
     !relativePath.endsWith(".json") ||
-    !path.startsWith(`${dataRoot}${sep}`)
+    pathFromRoot.startsWith("..") ||
+    isAbsolute(pathFromRoot)
   ) {
     throw new Error("Only JSON files inside data/ can be changed.");
   }
@@ -103,22 +129,6 @@ async function isUnchanged(path: string, base: unknown): Promise<boolean> {
 }
 
 /**
- * Sends a concise JSON response from the localhost-only editor middleware.
- * @param {ServerResponse} response - HTTP response
- * @param {number} status - HTTP status code
- * @param {object} body - JSON response body
- * @returns {void}
- */
-function sendJson(
-  response: ServerResponse,
-  status: number,
-  body: object,
-): void {
-  response.writeHead(status, { "Content-Type": "application/json" });
-  response.end(JSON.stringify(body));
-}
-
-/**
  * Provides local-only endpoints for writing the fork's JSON dataset.
  * @param {string} dataRoot - Absolute path of the repository data directory
  * @returns {Plugin} Serve-only Vite plugin
@@ -142,22 +152,28 @@ export function dataWriter(dataRoot: string): Plugin {
 
       server.middlewares.use("/__data", async (request, response) => {
         try {
+          assertLocalRequest(request);
           if (
             request.method === "GET" &&
             request.url?.startsWith("/resolve-map-link")
           ) {
             const requestUrl = new URL(request.url, "http://localhost");
             const target = new URL(requestUrl.searchParams.get("url") ?? "");
-            if (!GOOGLE_MAP_HOSTS.has(target.hostname))
+            if (
+              target.hostname !== "goo.gl" &&
+              target.hostname !== "maps.app.goo.gl"
+            )
               throw new Error("Only Google Maps share links can be resolved.");
-            const resolved = await fetch(target, { redirect: "follow" });
-            sendJson(response, 200, { url: resolved.url });
+            const resolvedUrl = await resolveGoogleMapsUrl(target);
+            sendJson(response, 200, { url: resolvedUrl });
             return;
           }
           if (request.method !== "POST") return;
-          const payload = await readPayload(request);
+          const payload = await readJsonBody(request, WritePayloadSchema);
           const path = resolveDataPath(dataRoot, payload.path);
           if (request.url === "/write") {
+            if (payload.value === undefined)
+              throw new Error("A write request must include a value.");
             if (
               payload.base !== undefined &&
               !(await isUnchanged(path, payload.base))
@@ -184,9 +200,7 @@ export function dataWriter(dataRoot: string): Plugin {
           }
           sendJson(response, 404, { error: "Unknown local data endpoint." });
         } catch (error) {
-          sendJson(response, 400, {
-            error: error instanceof Error ? error.message : "Invalid request.",
-          });
+          sendJson(response, 400, errorBody(error, "Invalid request."));
         }
       });
     },

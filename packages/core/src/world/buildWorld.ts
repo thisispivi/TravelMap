@@ -1,32 +1,8 @@
 import { City } from "../classes/City";
 import { Country } from "../classes/Country";
 import { Trip, TripRouteStep } from "../classes/Trip";
-import { CityJson, CountryJson, TripJson } from "../schema";
-import { checkDatasetShape } from "../schema/parse";
-import { FerryCompany } from "../typings/FerryCompany";
-import { FlightCompany } from "../typings/FlightCompany";
-import { Image } from "../typings/Image";
+import { WorldSourcesSchema } from "../schema";
 import { parseLocalDate } from "./date";
-
-/**
- * Raw JSON modules supplied by an app-owned import.meta.glob call.
- * @property {CountryJson[]} countries - Countries in the dataset
- * @property {CityJson[]} cities - Cities in the dataset
- * @property {TripJson[]} trips - Trips in the dataset
- * @property {Record<string, Image[]>} photos - Photo manifests keyed by photoPath
- * @property {string | null} [homeCityId] - Optional home city reference
- * @property {string[]} [livedCityIds] - Former-home city references
- * @property {string[]} [futureCityIds] - Planned city references
- */
-export interface WorldSources {
-  countries: CountryJson[];
-  cities: CityJson[];
-  trips: TripJson[];
-  photos: Record<string, Image[]>;
-  homeCityId?: string | null;
-  livedCityIds?: string[];
-  futureCityIds?: string[];
-}
 
 /**
  * Resolved domain data shared by the public app and local editor.
@@ -63,35 +39,36 @@ function requireReference<T>(
   return value;
 }
 
+/* Enough detail to find the offending document without a wall of output. */
+const REPORTED_ISSUE_LIMIT = 5;
+
 /**
  * Builds one shared graph so all trip references retain object identity.
- * @param {WorldSources} sources - JSON modules loaded by an app
+ * This is the dataset's single trust boundary: callers hand over the raw JSON
+ * their bundler loaded and it is validated here, so `sources` is deliberately
+ * `unknown` rather than a shape the caller could assert its way into.
+ * @param {unknown} sources - Raw JSON modules loaded by an app
  * @returns {World} The resolved world
  */
-export function buildWorld(sources: WorldSources): World {
-  /*
-   * Shape is checked before anything is linked, so a hand-edited or imported
-   * file fails at the boundary naming the offending field rather than much
-   * later, wherever the missing value happens to be read.
-   */
-  const shapeIssues = checkDatasetShape(
-    sources.countries,
-    sources.cities,
-    sources.trips,
-  );
-  if (shapeIssues.length > 0)
+export function buildWorld(sources: unknown): World {
+  const parsed = WorldSourcesSchema.safeParse(sources);
+  if (!parsed.success) {
+    const { issues } = parsed.error;
+    const reported = issues
+      .slice(0, REPORTED_ISSUE_LIMIT)
+      .map((issue) => `${issue.path.join(".") || "document"}: ${issue.message}`)
+      .join("; ");
+    const hidden = issues.length - REPORTED_ISSUE_LIMIT;
     throw new Error(
-      `Malformed dataset: ${shapeIssues
-        .slice(0, 5)
-        .map((issue) => issue.message)
-        .join(" ")}`,
+      `Malformed dataset: ${reported}${hidden > 0 ? ` (and ${hidden} more)` : ""}`,
     );
+  }
 
   const countriesById = new Map(
-    sources.countries.map((data) => [data.id, new Country(data)]),
+    parsed.data.countries.map((data) => [data.id, new Country(data)]),
   );
   const citiesById = new Map(
-    sources.cities.map((data) => [
+    parsed.data.cities.map((data) => [
       data.id,
       new City({
         ...data,
@@ -104,7 +81,7 @@ export function buildWorld(sources: WorldSources): World {
       }),
     ]),
   );
-  const trips = sources.trips
+  const trips = parsed.data.trips
     .map(
       (data) =>
         new Trip({
@@ -137,7 +114,7 @@ export function buildWorld(sources: WorldSources): World {
                   sDate: parseLocalDate(step.sDate),
                   eDate: parseLocalDate(step.eDate),
                   photos: step.photoPath
-                    ? (sources.photos[step.photoPath] ?? [])
+                    ? (parsed.data.photos[step.photoPath] ?? [])
                     : undefined,
                 }
               : {
@@ -157,17 +134,10 @@ export function buildWorld(sources: WorldSources): World {
                   ),
                   sDate: step.sDate ? parseLocalDate(step.sDate) : undefined,
                   eDate: step.eDate ? parseLocalDate(step.eDate) : undefined,
-                  flight: step.flight
-                    ? {
-                        ...step.flight,
-                        company: step.flight.company as
-                          FlightCompany | undefined,
-                      }
-                    : undefined,
+                  flight: step.flight,
                   ferry: step.ferry
                     ? {
                         ...step.ferry,
-                        company: step.ferry.company as FerryCompany | undefined,
                         via: step.ferry.viaIds?.map((id) =>
                           requireReference(citiesById, id, `trip ${data.id}`),
                         ),
@@ -193,7 +163,7 @@ export function buildWorld(sources: WorldSources): World {
     new Map(
       [
         ...Array.from(citiesById.values()).filter((city) => city.isLived),
-        ...resolveCities(sources.livedCityIds),
+        ...resolveCities(parsed.data.livedCityIds),
       ].map((city) => [city.id, city]),
     ).values(),
   );
@@ -203,9 +173,9 @@ export function buildWorld(sources: WorldSources): World {
     citiesById,
     trips,
     livedCities,
-    futureCities: resolveCities(sources.futureCityIds),
-    homeCity: sources.homeCityId
-      ? requireReference(citiesById, sources.homeCityId, "config")
+    futureCities: resolveCities(parsed.data.futureCityIds),
+    homeCity: parsed.data.homeCityId
+      ? requireReference(citiesById, parsed.data.homeCityId, "config")
       : null,
   };
 }

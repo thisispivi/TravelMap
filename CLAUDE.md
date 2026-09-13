@@ -20,9 +20,9 @@ Repository areas:
 
 Verification:
 
-- From the repository root, run `pnpm check` for application changes (it runs
-  typecheck/lint across the workspace plus `travel-map`'s format/knip/
-  react:doctor checks).
+- From the repository root, run `pnpm check` for application changes. It runs
+  typecheck, lint, formatting, tests, and dead-code analysis across every
+  workspace project, plus `travel-map`'s React Doctor scan.
 - Also run `pnpm build` for behavior, dependency, configuration, routing, or
   production-output changes.
 - From the repository root, run

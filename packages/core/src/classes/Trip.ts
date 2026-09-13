@@ -1,9 +1,8 @@
 import { unique } from "remeda";
 
-import { FerryCompany } from "../typings/FerryCompany";
-import { FlightCompany } from "../typings/FlightCompany";
-import { Image } from "../typings/Image";
+import { CompanyId, Image, TransportMode } from "../schema";
 import { localize } from "../typings/Localized";
+import { mediaUrl } from "../world/media";
 import { City } from "./City";
 import { Country } from "./Country";
 import { Ferry } from "./Ferry";
@@ -11,40 +10,30 @@ import { Flight } from "./Flight";
 import { Travel } from "./Travel";
 
 /**
- * All supported transport modes for route steps.
- */
-export type TransportMode =
-  "ferry" | "plane" | "car" | "train" | "bus" | "taxi" | "walk";
-
-/**
  * Data represented by the flight leg interface.
- * @property {FlightCompany} [company] - The company
- * @property {string} [number] - The number
- * @property {string} [class] - The class
- * @property {string} [departure] - The departure
- * @property {string} [arrival] - The arrival
+ * @property {CompanyId} [company] - The airline id
+ * @property {string} [number] - The flight number
+ * @property {string} [class] - The cabin class
  * @property {number} [durationMinutes] - The duration minutes
  * @property {number} [distanceInKm] - The distance in km
  */
 interface FlightLeg {
-  company?: FlightCompany;
+  company?: CompanyId;
   number?: string;
   class?: string;
-  departure?: string;
-  arrival?: string;
   durationMinutes?: number;
   distanceInKm?: number;
 }
 
 /**
  * Data represented by the ferry leg interface.
- * @property {FerryCompany} [company] - The company
+ * @property {CompanyId} [company] - The ferry operator id
  * @property {number} [durationMinutes] - The duration minutes
  * @property {number} [distanceInKm] - The distance in km
  * @property {City[]} [via] - The via
  */
 interface FerryLeg {
-  company?: FerryCompany;
+  company?: CompanyId;
   durationMinutes?: number;
   distanceInKm?: number;
   via?: City[];
@@ -215,9 +204,9 @@ export class Trip {
       destination.isLayover ? [] : [destination.city.id],
     );
     this.backgroundImgSource = data.coverImage
-      ? `${import.meta.env.VITE_CDN_PATH}${data.coverImage}`
+      ? mediaUrl(data.coverImage)
       : data.backgroundImgSourceKey
-        ? `${import.meta.env.VITE_CDN_PATH}/Trips/${data.backgroundImgSourceKey}`
+        ? mediaUrl(`/Trips/${data.backgroundImgSourceKey}`)
         : this.destinations[0]?.city.getBackgroundImgSourceByIndex(0) ||
           undefined;
   }

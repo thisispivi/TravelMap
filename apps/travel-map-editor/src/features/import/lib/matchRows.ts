@@ -8,7 +8,7 @@ import { cityCoordinates } from "../../places/lib/placeOptions";
 import { ParsedRow } from "./parseInput";
 
 /** What the editor proposes to do with one imported row. */
-export type RowDisposition = "reuse" | "create" | "ambiguous" | "unmatched";
+type RowDisposition = "reuse" | "create" | "ambiguous" | "unmatched";
 
 /**
  * One imported row after it has been matched against the dataset and the

@@ -1,15 +1,15 @@
 import {
   City,
+  CompanyId,
   Ferry,
-  FerryCompany,
   Flight,
-  FlightCompany,
   TransportMode,
   Trip,
   TripStop,
   TripTransportStep,
 } from "@travelmap/core";
 
+import { resolveCompany } from "@/data/companies";
 import { getCityOffsetMinutesOnDate } from "@/shared/lib/timezoneOffset";
 
 /**
@@ -50,33 +50,25 @@ type TripDetailDayTripItem = {
 
 /**
  * Represents a trip detail flight info.
- * @property {FlightCompany} company - The company
+ * @property {CompanyId} company - The airline id
  * @property {number} distanceKm - The distance km
  * @property {number} durationMinutes - The duration minutes
- * @property {string} [number] - The number
- * @property {string} [class] - The class
- * @property {string} [departure] - The departure
- * @property {string} [arrival] - The arrival
  */
 type TripDetailFlightInfo = {
-  company: FlightCompany;
+  company: CompanyId;
   distanceKm: number;
   durationMinutes: number;
-  number?: string;
-  class?: string;
-  departure?: string;
-  arrival?: string;
 };
 
 /**
  * Represents a trip detail ferry info.
- * @property {FerryCompany} [company] - The company
+ * @property {CompanyId} [company] - The ferry operator id
  * @property {number} distanceKm - The distance km
  * @property {number} durationMinutes - The duration minutes
  * @property {City[]} via - The via
  */
 type TripDetailFerryInfo = {
-  company?: FerryCompany;
+  company?: CompanyId;
   distanceKm: number;
   durationMinutes: number;
   via: City[];
@@ -141,29 +133,6 @@ export type TripDetailTimelineItem =
   | TripDetailDayTripItem;
 
 /**
- * Display names for flight companies shown in trip details.
- */
-const TRIP_DETAIL_FLIGHT_COMPANY_NAMES: Record<FlightCompany, string> = {
-  [FlightCompany.RYANAIR]: "Ryanair",
-  [FlightCompany.ALL_NIPPON_AIRWAYS]: "ANA",
-  [FlightCompany.ITA_AIRWAYS]: "ITA Airways",
-  [FlightCompany.EASYJET]: "easyJet",
-  [FlightCompany.WIZZ_AIR]: "Wizz Air",
-  [FlightCompany.CHINA_EASTERN_AIRLINES]: "China Eastern",
-  [FlightCompany.JETSTAR]: "Jetstar",
-  [FlightCompany.VIRGIN_AUSTRALIA]: "Virgin Australia",
-  [FlightCompany.AEROITALIA]: "Aeroitalia",
-};
-
-/**
- * Display names for ferry companies shown in trip details.
- */
-const TRIP_DETAIL_FERRY_COMPANY_NAMES: Record<FerryCompany, string> = {
-  [FerryCompany.TIRRENIA]: "Tirrenia",
-  [FerryCompany.CORSICA_FERRIES]: "Corsica Ferries",
-};
-
-/**
  * Formats a duration in minutes to a human-readable string (e.g. `"2h 30m"` or `"3h"`).
  * @param {number} minutes - The duration in minutes
  * @returns {string} The compact duration label
@@ -175,14 +144,12 @@ export function formatTripDetailDuration(minutes: number): string {
 }
 
 /**
- * Normalizes optional flight and route-step data for the trip timeline.
+ * Normalizes optional flight data for the trip timeline.
  * @param {Flight} [flight] - The flight domain object
- * @param {TripTransportStep} [step] - The corresponding transport step
- * @returns {TripDetailFlightInfo | undefined} Flight details when a company is available
+ * @returns {TripDetailFlightInfo | undefined} Flight details when an airline is recorded
  */
 function resolveTripDetailFlightInfo(
   flight?: Flight,
-  step?: TripTransportStep,
 ): TripDetailFlightInfo | undefined {
   if (!flight?.company) return undefined;
 
@@ -190,10 +157,6 @@ function resolveTripDetailFlightInfo(
     company: flight.company,
     distanceKm: Math.round(flight.distanceInKm),
     durationMinutes: flight.durationMinutes,
-    number: flight.number,
-    class: flight.class,
-    departure: step?.flight?.departure,
-    arrival: step?.flight?.arrival,
   };
 }
 
@@ -290,7 +253,7 @@ export function buildTripDetailTimelineItems(
         isRoundTrip: step.roundTrip,
         flightInfo:
           step.mode === "plane"
-            ? resolveTripDetailFlightInfo(flight, step)
+            ? resolveTripDetailFlightInfo(flight)
             : undefined,
         ferryInfo:
           step.mode === "ferry" ? resolveTripDetailFerryInfo(ferry) : undefined,
@@ -626,11 +589,8 @@ function collapseTransportChains(
           leg.carInfo ??
           leg.taxiInfo ??
           leg.walkInfo;
-        const company = leg.flightInfo
-          ? TRIP_DETAIL_FLIGHT_COMPANY_NAMES[leg.flightInfo.company]
-          : leg.ferryInfo?.company
-            ? TRIP_DETAIL_FERRY_COMPANY_NAMES[leg.ferryInfo.company]
-            : undefined;
+        const operator = leg.flightInfo?.company ?? leg.ferryInfo?.company;
+        const company = operator ? resolveCompany(operator).name : undefined;
         legs.push({
           mode: leg.mode,
           from: leg.from,

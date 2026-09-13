@@ -4,16 +4,6 @@ import { Checkbox } from "@app/shared/components/Checkbox/Checkbox";
 import { ReactNode } from "react";
 
 /**
- * A selectable option shared by every dropdown in the editor.
- * @property {string} label - Display text
- * @property {string} value - Underlying identifier
- */
-export interface Option {
-  label: string;
-  value: string;
-}
-
-/**
  * FieldShell component
  * Wraps a control with its label and optional hint so every field lines up.
  * @component

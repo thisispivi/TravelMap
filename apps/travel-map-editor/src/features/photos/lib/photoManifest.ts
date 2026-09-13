@@ -3,7 +3,7 @@ import type { TripStopJson } from "@travelmap/core";
 import type { DatasetSnapshot } from "../../../data/store";
 
 /** A problem found while reading a photo manifest. */
-export type PhotoManifestProblemCode =
+type PhotoManifestProblemCode =
   | "invalidJson"
   | "notArray"
   | "invalidEntry"
@@ -11,7 +11,7 @@ export type PhotoManifestProblemCode =
   | "unexpectedRoot";
 
 /** Whether a manifest problem blocks the import or only needs review. */
-export type PhotoManifestProblemSeverity = "error" | "warning";
+type PhotoManifestProblemSeverity = "error" | "warning";
 
 /**
  * One validation result tied to an optional manifest entry or media path.
@@ -20,7 +20,7 @@ export type PhotoManifestProblemSeverity = "error" | "warning";
  * @property {string} [path] - Path that does not use the configured root
  * @property {PhotoManifestProblemSeverity} severity - Whether import is blocked
  */
-export interface PhotoManifestProblem {
+interface PhotoManifestProblem {
   code: PhotoManifestProblemCode;
   index?: number;
   path?: string;

@@ -1,4 +1,4 @@
-import assert from "node:assert/strict";
+import { describe, expect, it } from "vitest";
 
 import { meaningfulTerms, searchItems } from "./search.ts";
 
@@ -18,47 +18,57 @@ function terms(city: (typeof cities)[number]): string[] {
   return [city.name, city.country];
 }
 
-assert.deepEqual(searchItems(cities, "", terms), cities);
-assert.deepEqual(searchItems(cities, "   ", terms), cities);
-
-assert.equal(searchItems(cities, "Rome", terms)[0]?.name, "Rome");
-assert.equal(searchItems(cities, "rme", terms)[0]?.name, "Rome");
-assert.equal(searchItems(cities, "Japan", terms)[0]?.name, "Kyoto");
-
-/* Stop words must not stop a natural phrase from finding its row. */
-assert.equal(searchItems(cities, "the city of Rome", terms)[0]?.name, "Rome");
-/*
- * "il" appears only in the Italian list and "the" only in the English one, so
- * this fails the moment either list stops being applied. Asserting through
- * searchItems would not catch it: neither word fuzzy-matches the sample rows.
+/**
+ * Names the cities a query matches, in result order.
+ * @param {string} query - The search query
+ * @returns {string[]} The matched city names
  */
-assert.deepEqual(meaningfulTerms("il the Japan"), ["Japan"]);
-assert.deepEqual(meaningfulTerms("the city of Rome"), ["city", "Rome"]);
-assert.deepEqual(meaningfulTerms("  "), []);
+function matches(query: string): string[] {
+  return searchItems(cities, query, terms).map(({ name }) => name);
+}
 
-/* Only stop words: the raw words are kept so the search still means something. */
-assert.deepEqual(meaningfulTerms("the"), ["the"]);
+describe("searchItems", () => {
+  it("returns everything for an empty query", () => {
+    expect(searchItems(cities, "", terms)).toEqual(cities);
+    expect(searchItems(cities, "   ", terms)).toEqual(cities);
+  });
 
-/* A query made only of stop words falls back to the raw words. */
-assert.equal(searchItems(cities, "the", terms).length, 0);
+  it("matches on any searchable field, including typos", () => {
+    expect(matches("Rome")[0]).toBe("Rome");
+    expect(matches("rme")[0]).toBe("Rome");
+    expect(matches("Japan")[0]).toBe("Kyoto");
+  });
 
-/*
- * Terms are intersected: "Italy" alone matches both Italian cities, so adding
- * "Rome" has to narrow the result rather than widen it. This is the case that
- * made every trip match "a trip to Japan" when terms were merged instead.
- */
-assert.deepEqual(
-  searchItems(cities, "Italy", terms)
-    .map(({ name }) => name)
-    .toSorted(),
-  ["Monza", "Rome"],
-);
-assert.deepEqual(
-  searchItems(cities, "Italy Rome", terms).map(({ name }) => name),
-  ["Rome"],
-);
+  it("lets a natural phrase through its stop words", () => {
+    expect(matches("the city of Rome")[0]).toBe("Rome");
+  });
 
-assert.equal(searchItems(cities, "zzzzzz", terms).length, 0);
-assert.equal(searchItems(cities, "Rome zzzzzz", terms)[0]?.name, "Rome");
+  it("intersects terms so extra words narrow the result", () => {
+    expect(matches("Italy").toSorted()).toEqual(["Monza", "Rome"]);
+    expect(matches("Italy Rome")).toEqual(["Rome"]);
+  });
 
-console.log("search: all assertions passed");
+  it("returns nothing for a query no row can match", () => {
+    expect(matches("zzzzzz")).toHaveLength(0);
+    expect(matches("the")).toHaveLength(0);
+    expect(matches("Rome zzzzzz")[0]).toBe("Rome");
+  });
+});
+
+describe("meaningfulTerms", () => {
+  /*
+   * "il" appears only in the Italian stop-word list and "the" only in the
+   * English one, so this fails the moment either list stops being applied.
+   * Asserting through searchItems would not catch it: neither word
+   * fuzzy-matches the sample rows.
+   */
+  it("drops stop words from every configured language", () => {
+    expect(meaningfulTerms("il the Japan")).toEqual(["Japan"]);
+    expect(meaningfulTerms("the city of Rome")).toEqual(["city", "Rome"]);
+    expect(meaningfulTerms("  ")).toEqual([]);
+  });
+
+  it("keeps the raw words when a query is nothing but stop words", () => {
+    expect(meaningfulTerms("the")).toEqual(["the"]);
+  });
+});

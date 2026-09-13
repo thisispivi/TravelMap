@@ -142,4 +142,5 @@ and room reserved for the mobile navigation.
 
 From the repository root, run `pnpm check` after editor changes. Run
 `pnpm build` whenever shared tokens, public assets, dependencies,
-configuration, or production output may be affected.
+configuration, or production output may be affected. `pnpm check` runs the editor's Vitest suite — parsing, photo
+manifests, search, and image URLs — alongside the shared core tests.

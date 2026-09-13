@@ -4,6 +4,8 @@ import { ReactNode } from "react";
 
 import CloseIcon from "@/assets/icons/Close.svg?react";
 
+import { classNames } from "../../lib/classNames";
+
 /**
  * Properties accepted by the CloseButton component.
  * @property {() => void} onClick - The on click
@@ -35,7 +37,7 @@ export function CloseButton({
   return (
     <button
       aria-label={ariaLabel}
-      className={`close-button ${className}`}
+      className={classNames("close-button", className)}
       onClick={onClick}
       type="button"
     >

@@ -10,7 +10,7 @@ declare module "all-the-cities" {
    * @property {string} name - The city name
    * @property {number} population - Inhabitants
    */
-  interface City {
+  export interface City {
     adminCode: string;
     altName: string;
     cityId: number;

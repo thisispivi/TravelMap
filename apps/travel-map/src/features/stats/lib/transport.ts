@@ -1,10 +1,9 @@
 import {
   City,
+  CompanyId,
   Country,
   Ferry,
-  FerryCompany,
   Flight,
-  FlightCompany,
   TransportMode,
   Trip,
 } from "@travelmap/core";
@@ -47,12 +46,12 @@ export interface TransportModeStat {
 }
 
 /**
- * Aggregated usage statistics for a transport company.
- * @property {T} company - The transport company
+ * Aggregated usage statistics for a transport operator.
+ * @property {CompanyId} company - The operator id, named by the site configuration
  * @property {number} count - The number of recorded journeys
  */
-export interface CompanyStat<T> {
-  company: T;
+export interface CompanyStat {
+  company: CompanyId;
   count: number;
 }
 
@@ -88,12 +87,12 @@ export function getTransportModeStats(
 
   const allStats: TransportModeStat[] = [
     {
-      mode: "plane" as TransportMode,
+      mode: "plane",
       count: flights.length,
       km: flights.reduce((acc, f) => acc + (f.distanceInKm ?? 0), 0),
     },
     {
-      mode: "ferry" as TransportMode,
+      mode: "ferry",
       count: ferries.length,
       km: ferries.reduce((acc, f) => acc + (f.distanceInKm ?? 0), 0),
     },
@@ -104,39 +103,18 @@ export function getTransportModeStats(
 }
 
 /**
- * Rank flight companies by number of flight legs taken.
- * @param {Flight[]} flights - All taken flights
- * @returns {CompanyStat<FlightCompany>[]} Stats per company sorted by count descending
+ * Rank transport operators by how many of the given journeys they carried.
+ * Journeys with no recorded operator are skipped rather than grouped under a
+ * blank name.
+ * @param {(Flight | Ferry)[]} journeys - Taken flights or ferry crossings
+ * @returns {CompanyStat[]} Stats per operator sorted by count descending
  */
-export function getFlightCompanyStats(
-  flights: Flight[],
-): CompanyStat<FlightCompany>[] {
-  const map = new Map<FlightCompany, number>();
-  for (const flight of flights) {
-    if (flight.company) {
-      map.set(flight.company, (map.get(flight.company) ?? 0) + 1);
-    }
+export function getCompanyStats(journeys: (Flight | Ferry)[]): CompanyStat[] {
+  const counts = new Map<CompanyId, number>();
+  for (const { company } of journeys) {
+    if (company) counts.set(company, (counts.get(company) ?? 0) + 1);
   }
-  return [...map.entries()]
+  return [...counts.entries()]
     .map(([company, count]) => ({ company, count }))
-    .sort((a, b) => b.count - a.count);
-}
-
-/**
- * Rank ferry companies by number of ferry crossings taken.
- * @param {Ferry[]} ferries - All taken ferries
- * @returns {CompanyStat<FerryCompany>[]} Stats per company sorted by count descending
- */
-export function getFerryCompanyStats(
-  ferries: Ferry[],
-): CompanyStat<FerryCompany>[] {
-  const map = new Map<FerryCompany, number>();
-  for (const ferry of ferries) {
-    if (ferry.company) {
-      map.set(ferry.company, (map.get(ferry.company) ?? 0) + 1);
-    }
-  }
-  return [...map.entries()]
-    .map(([company, count]) => ({ company, count }))
-    .sort((a, b) => b.count - a.count);
+    .sort((first, second) => second.count - first.count);
 }

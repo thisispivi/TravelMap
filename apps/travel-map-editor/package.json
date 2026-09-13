@@ -4,9 +4,12 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "build": "tsc && vite build",
     "dev": "vite",
+    "knip": "knip",
     "lint": "eslint . --report-unused-disable-directives --max-warnings=0",
-    "test": "node --experimental-strip-types src/features/places/lib/googleMaps.test.ts && node --experimental-strip-types src/features/import/lib/parsePlaces.test.ts && node --experimental-strip-types src/features/photos/lib/photoManifest.test.ts && node --experimental-strip-types src/features/library/lib/search.test.ts && node --experimental-strip-types src/data/imageUrl.test.ts",
+    "lint:fix": "eslint . --fix --max-warnings=0",
+    "test": "vitest run",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -32,7 +35,8 @@
     "stopword": "^3.1.5",
     "topojson-client": "^3.1.0",
     "tz-lookup": "^6.1.25",
-    "world-countries": "^5.1.0"
+    "world-countries": "^5.1.0",
+    "zod": "^4.1.12"
   },
   "devDependencies": {
     "@types/geojson": "^7946.0.16",
@@ -42,9 +46,11 @@
     "@types/topojson-specification": "^1.0.5",
     "@vitejs/plugin-react": "^6.1.1",
     "autoprefixer": "^10.5.4",
+    "knip": "^6.32.3",
     "sass": "^1.103.1",
     "typescript": "^6.0.3",
     "vite": "^8.2.2",
-    "vite-plugin-svgr": "^5.2.0"
+    "vite-plugin-svgr": "^5.2.0",
+    "vitest": "^4.1.0"
   }
 }

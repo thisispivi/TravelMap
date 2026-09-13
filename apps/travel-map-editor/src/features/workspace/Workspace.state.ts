@@ -1,6 +1,7 @@
-import { Issue, TripJson, validateTrip } from "@travelmap/core";
+import { Issue, TripJson, TripJsonSchema, validateTrip } from "@travelmap/core";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router";
+import { z } from "zod";
 
 import { photoKeys } from "../../data/dataset";
 import { DataFile, saveDocument } from "../../data/store";
@@ -14,15 +15,14 @@ export type Selection =
   | { kind: "step"; index: number }
   | { kind: "day"; date: string | null };
 
-/**
- * A draft found in local storage that is newer than the file on disk.
- * @property {string} savedAt - When the draft was captured
- * @property {TripJson} value - The recovered trip
- */
-export interface RecoveredDraft {
-  savedAt: string;
-  value: TripJson;
-}
+/** A draft found in local storage that is newer than the file on disk. */
+const RecoveredDraftSchema = z.strictObject({
+  savedAt: z.iso.datetime(),
+  value: TripJsonSchema,
+});
+
+/** A draft found in local storage that is newer than the file on disk. */
+type RecoveredDraft = z.infer<typeof RecoveredDraftSchema>;
 
 /**
  * Everything one trip workspace needs, as one contract.
@@ -63,15 +63,26 @@ const RECOVERY_PREFIX = "travelmap-editor:draft:";
  * @returns {RecoveredDraft | null} The draft, when it differs from disk
  */
 function readRecovered(path: string, onDisk: TripJson): RecoveredDraft | null {
+  const raw = localStorage.getItem(`${RECOVERY_PREFIX}${path}`);
+  if (!raw) return null;
+
+  const draft = RecoveredDraftSchema.safeParse(safeJsonParse(raw));
+  /* A corrupt or outdated draft must never stop the editor from opening. */
+  if (!draft.success) return null;
+  if (JSON.stringify(draft.data.value) === JSON.stringify(onDisk)) return null;
+  return draft.data;
+}
+
+/**
+ * Parses stored JSON without throwing, so an unreadable draft reads as absent.
+ * @param {string} raw - The stored text
+ * @returns {unknown} The parsed value, or undefined when the text is not JSON
+ */
+function safeJsonParse(raw: string): unknown {
   try {
-    const raw = localStorage.getItem(`${RECOVERY_PREFIX}${path}`);
-    if (!raw) return null;
-    const draft = JSON.parse(raw) as RecoveredDraft;
-    if (JSON.stringify(draft.value) === JSON.stringify(onDisk)) return null;
-    return draft;
+    return JSON.parse(raw);
   } catch {
-    /* A corrupt snapshot must never stop the editor from opening. */
-    return null;
+    return undefined;
   }
 }
 
@@ -95,7 +106,7 @@ function encodeSelection(selection: Selection): string {
 function decodeSelection(value: string | null): Selection {
   if (!value) return { kind: "trip" };
   const [kind, rest = ""] = value.split(":");
-  if (kind === "step" && rest !== "")
+  if (kind === "step" && /^\d+$/.test(rest))
     return { index: Number(rest), kind: "step" };
   if (kind === "day") return { date: rest || null, kind: "day" };
   return { kind: "trip" };

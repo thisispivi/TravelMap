@@ -1,63 +1,60 @@
-import assert from "node:assert/strict";
+import { describe, expect, it } from "vitest";
 
 import { parseGoogleMapsUrl } from "./googleMaps.ts";
 
-/**
- * Checks every Google Maps link shape the editor accepts, and the ones it must
- * reject rather than guess at.
- * @returns {void}
- */
-function run(): void {
-  const place = parseGoogleMapsUrl(
-    "https://www.google.com/maps/place/Colosseum/@41.8902102,12.4900422,17z/data=!3m1!4b1!4m6!3m5!1s0x0:0x0!8m2!3d41.8902102!4d12.4922309",
-  );
-  assert.deepEqual(place?.coordinates, [12.4922309, 41.8902102]);
-  assert.equal(place?.name, "Colosseum");
+describe("parseGoogleMapsUrl", () => {
+  it("reads the pinned place from a full maps URL", () => {
+    const place = parseGoogleMapsUrl(
+      "https://www.google.com/maps/place/Colosseum/@41.8902102,12.4900422,17z/data=!3m1!4b1!4m6!3m5!1s0x0:0x0!8m2!3d41.8902102!4d12.4922309",
+    );
 
-  // The viewport centre is the fallback when there is no place pin.
-  assert.deepEqual(
-    parseGoogleMapsUrl("https://www.google.com/maps/@41.9028,12.4964,15z")
-      ?.coordinates,
-    [12.4964, 41.9028],
-  );
+    expect(place?.coordinates).toEqual([12.4922309, 41.8902102]);
+    expect(place?.name).toBe("Colosseum");
+  });
 
-  assert.deepEqual(
-    parseGoogleMapsUrl("https://maps.google.com/?q=41.9028,12.4964")
-      ?.coordinates,
-    [12.4964, 41.9028],
-  );
+  it("falls back to the viewport centre when there is no place pin", () => {
+    expect(
+      parseGoogleMapsUrl("https://www.google.com/maps/@41.9028,12.4964,15z")
+        ?.coordinates,
+    ).toEqual([12.4964, 41.9028]);
+  });
 
-  assert.deepEqual(
-    parseGoogleMapsUrl(
-      "https://www.google.com/maps/search/?api=1&query=-33.8688,151.2093",
-    )?.coordinates,
-    [151.2093, -33.8688],
-  );
+  it("reads coordinates from query-style links", () => {
+    expect(
+      parseGoogleMapsUrl("https://maps.google.com/?q=41.9028,12.4964")
+        ?.coordinates,
+    ).toEqual([12.4964, 41.9028]);
+    expect(
+      parseGoogleMapsUrl(
+        "https://www.google.com/maps/search/?api=1&query=-33.8688,151.2093",
+      )?.coordinates,
+    ).toEqual([151.2093, -33.8688]);
+  });
 
-  // A bare pair copied out of the coordinates readout.
-  assert.deepEqual(
-    parseGoogleMapsUrl(" -33.8688 , 151.2093 ")?.coordinates,
-    [151.2093, -33.8688],
-  );
+  it("accepts a bare pair copied out of the coordinates readout", () => {
+    expect(parseGoogleMapsUrl(" -33.8688 , 151.2093 ")?.coordinates).toEqual([
+      151.2093, -33.8688,
+    ]);
+  });
 
-  // Percent-encoded names round-trip.
-  assert.equal(
-    parseGoogleMapsUrl(
-      "https://www.google.com/maps/place/Reykjav%C3%ADk/@64.1466,-21.9426,12z",
-    )?.name,
-    "Reykjavík",
-  );
+  it("decodes percent-encoded place names", () => {
+    expect(
+      parseGoogleMapsUrl(
+        "https://www.google.com/maps/place/Reykjav%C3%ADk/@64.1466,-21.9426,12z",
+      )?.name,
+    ).toBe("Reykjavík");
+  });
 
-  // Out-of-range values are rejected instead of silently stored.
-  assert.equal(parseGoogleMapsUrl("999.0, 12.0"), undefined);
-  assert.equal(parseGoogleMapsUrl("41.9, 999.0"), undefined);
+  it("rejects out-of-range values instead of storing them", () => {
+    expect(parseGoogleMapsUrl("999.0, 12.0")).toBeUndefined();
+    expect(parseGoogleMapsUrl("41.9, 999.0")).toBeUndefined();
+  });
 
-  // A short link carries no coordinates, so it must not resolve to a guess.
-  assert.equal(parseGoogleMapsUrl("https://maps.app.goo.gl/abc123"), undefined);
-  assert.equal(parseGoogleMapsUrl(""), undefined);
-  assert.equal(parseGoogleMapsUrl("not a link"), undefined);
-
-  console.log("geo: all assertions passed");
-}
-
-run();
+  it("refuses to guess when a link carries no coordinates", () => {
+    expect(
+      parseGoogleMapsUrl("https://maps.app.goo.gl/abc123"),
+    ).toBeUndefined();
+    expect(parseGoogleMapsUrl("")).toBeUndefined();
+    expect(parseGoogleMapsUrl("not a link")).toBeUndefined();
+  });
+});

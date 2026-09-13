@@ -1,6 +1,7 @@
-import type { ServerResponse } from "node:http";
-
+import type { City as GazetteerCity } from "all-the-cities";
 import type { Plugin, ViteDevServer } from "vite";
+
+import { assertLocalRequest, errorBody, sendJson } from "./http.ts";
 
 /**
  * One gazetteer match returned to the editor.
@@ -20,46 +21,31 @@ interface CityMatch {
   timeZone: string;
 }
 
-/**
- * The gazetteer entry shape, declared locally because the package ships no
- * types.
- * @property {number} cityId - The GeoNames identifier
- * @property {string} country - The alpha-2 country code
- * @property {{ coordinates: [number, number] }} loc - The point geometry
- * @property {string} name - The city name
- * @property {number} population - Inhabitants
+/*
+ * Hamlets make matches worse rather than better, and it is the recognisable
+ * places an author is looking for.
  */
-interface GazetteerCity {
-  cityId: number;
-  country: string;
-  loc: { coordinates: [number, number] };
-  name: string;
-  population: number;
-}
-
-// Hamlets make matches worse rather than better, and it is the recognisable
-// places an author is looking for.
 const MINIMUM_POPULATION = 5_000;
 const DEFAULT_LIMIT = 30;
 
 let gazetteer: GazetteerCity[] | undefined;
-let lookupTimeZone: ((lat: number, lon: number) => string) | undefined;
+let lookupTimeZone:
+  ((latitude: number, longitude: number) => string) | undefined;
 
 /**
- * Loads the gazetteer once. Both packages are CommonJS and read data files
- * from disk, so they only work here on the Node side of the dev server — which
- * also keeps several megabytes out of the browser.
+ * Loads and filters the gazetteer on first lookup. Both packages are CommonJS
+ * and read several megabytes from disk, so they stay on the Node side of the dev
+ * server and out of its startup path until an author actually searches.
  * @returns {Promise<GazetteerCity[]>} Every city above the population floor
  */
 async function loadGazetteer(): Promise<GazetteerCity[]> {
   if (gazetteer) return gazetteer;
-  const [citiesModule, tzModule] = await Promise.all([
+  const [{ default: cities }, { default: tzLookup }] = await Promise.all([
     import("all-the-cities"),
     import("tz-lookup"),
   ]);
-  lookupTimeZone = (tzModule.default ?? tzModule) as typeof lookupTimeZone;
-  const all = (citiesModule.default ?? citiesModule) as GazetteerCity[];
-  gazetteer = all.filter((city) => city.population >= MINIMUM_POPULATION);
+  lookupTimeZone = tzLookup;
+  gazetteer = cities.filter((city) => city.population >= MINIMUM_POPULATION);
   return gazetteer;
 }
 
@@ -69,7 +55,10 @@ async function loadGazetteer(): Promise<GazetteerCity[]> {
  * @returns {string} The folded text
  */
 function fold(value: string): string {
-  return value.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+  return value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
 }
 
 /**
@@ -92,7 +81,7 @@ function rank(
     const name = fold(city.name);
     const at = name.indexOf(needle);
     if (at === -1) continue;
-    // Exact, then prefix, then anywhere.
+    /* Exact match first, then a prefix match, then a match anywhere. */
     const score = name === needle ? 0 : at === 0 ? 1 : 2;
     scored.push({ city, score });
   }
@@ -116,22 +105,6 @@ function rank(
 }
 
 /**
- * Sends a concise JSON response from the localhost-only editor middleware.
- * @param {ServerResponse} response - HTTP response
- * @param {number} status - HTTP status code
- * @param {object} body - JSON response body
- * @returns {void}
- */
-function sendJson(
-  response: ServerResponse,
-  status: number,
-  body: object,
-): void {
-  response.writeHead(status, { "Content-Type": "application/json" });
-  response.end(JSON.stringify(body));
-}
-
-/**
  * Serves world city lookups from the development server.
  * @returns {Plugin} Serve-only Vite plugin
  */
@@ -148,6 +121,7 @@ export function cityIndex(): Plugin {
     configureServer(server: ViteDevServer): void {
       server.middlewares.use("/__cities", async (request, response) => {
         try {
+          assertLocalRequest(request);
           const url = new URL(request.url ?? "", "http://localhost");
           const cities = await loadGazetteer();
 
@@ -172,10 +146,7 @@ export function cityIndex(): Plugin {
           const limit = Number(url.searchParams.get("limit")) || DEFAULT_LIMIT;
           sendJson(response, 200, { matches: rank(cities, term, limit) });
         } catch (error) {
-          sendJson(response, 500, {
-            error:
-              error instanceof Error ? error.message : "City lookup failed.",
-          });
+          sendJson(response, 500, errorBody(error, "City lookup failed."));
         }
       });
     },

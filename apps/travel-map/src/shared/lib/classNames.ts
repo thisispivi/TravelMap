@@ -1,6 +1,4 @@
-/**
- * Represents a class name value.
- */
+/** A class name, or a falsy value standing in for a class that does not apply. */
 type ClassNameValue = string | false | null | undefined;
 
 /**

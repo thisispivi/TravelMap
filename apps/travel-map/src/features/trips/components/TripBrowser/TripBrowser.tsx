@@ -13,13 +13,13 @@ import { useMapInteraction } from "@/shared/context/MapInteraction.context";
 import { useLanguage } from "@/shared/hooks/useLanguage";
 import { useResizeMeasurement } from "@/shared/hooks/useResizeMeasurement";
 import { classNames } from "@/shared/lib/classNames";
+import { env } from "@/shared/lib/env";
 import { constants } from "@/shared/lib/parameters";
 
 import { groupTripsByYear } from "../../lib/trips";
 import { TripCard } from "../TripCard/TripCard";
 const TRIP_YEAR_TRANSITION_DURATION_MS = 280;
-const SHOW_FUTURE_TRIPS =
-  import.meta.env.DEV && import.meta.env.VITE_SHOW_FUTURE_TRIPS === "true";
+const SHOW_FUTURE_TRIPS = env.DEV && env.VITE_SHOW_FUTURE_TRIPS;
 
 /**
  * Reports whether a trip ends after the viewer's current local calendar day.
@@ -91,9 +91,11 @@ export function TripBrowser(): ReactNode {
     const page = panel.querySelector<HTMLElement>(
       `.trip-browser__trips[data-trip-year="${activeYear}"]`,
     );
-    // No page exists at all once there are no years to show — the empty-state
-    // message takes its place, and still needs to be counted so the panel
-    // doesn't collapse to header height and clip it.
+    /*
+     * No page exists at all once there are no years to show — the empty-state
+     * message takes its place, and still needs to be counted so the panel
+     * doesn't collapse to header height and clip it.
+     */
     const emptyState = list?.querySelector<HTMLElement>(".empty-state");
     const listStyle = list ? window.getComputedStyle(list) : null;
     const pageStyle = page ? window.getComputedStyle(page) : null;

@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+pnpm check
+pnpm build
+python -m compileall -q scripts/uploader

@@ -5,7 +5,7 @@
 const ID_PATTERN = /^[A-Za-z0-9][A-Za-z0-9_-]*$/;
 
 /** The validation rule an authored identifier failed. */
-export type IdProblemCode = "required" | "invalid" | "taken";
+type IdProblemCode = "required" | "invalid" | "taken";
 
 /**
  * A translatable identifier validation result.

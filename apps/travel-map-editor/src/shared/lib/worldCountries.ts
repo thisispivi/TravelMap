@@ -160,7 +160,7 @@ function buildCatalogue(): WorldCountry[] {
   );
 }
 
-export const worldCatalogue = buildCatalogue();
+const worldCatalogue = buildCatalogue();
 
 const catalogueById = new Map(
   worldCatalogue.map((country) => [country.id, country]),

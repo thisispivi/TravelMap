@@ -3,8 +3,13 @@ import "./PlaceImport.scss";
 import PositionIcon from "@app/assets/icons/Position.svg?react";
 import { useLanguage } from "@app/shared/hooks/useLanguage";
 import { ReactNode, useState } from "react";
+import { z } from "zod";
 
+import { parseJsonResponse } from "../../../../shared/lib/httpResponse";
 import { ParsedPlace, parseGoogleMapsUrl } from "../../lib/googleMaps";
+
+/** Response returned by the local Google Maps redirect resolver. */
+const ResolvedMapLinkSchema = z.strictObject({ url: z.url() });
 
 /**
  * PlaceImport component
@@ -35,7 +40,7 @@ export function PlaceImport({ onImport }: PlaceImportProps): ReactNode {
           `/__data/resolve-map-link?url=${encodeURIComponent(link)}`,
         );
         if (response.ok) {
-          const body = (await response.json()) as { url: string };
+          const body = await parseJsonResponse(response, ResolvedMapLinkSchema);
           place = parseGoogleMapsUrl(body.url);
         }
       } catch {

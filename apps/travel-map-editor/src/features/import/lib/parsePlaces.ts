@@ -2,7 +2,7 @@ import type { TransportMode, TripJson } from "@travelmap/core";
 import { XMLParser, XMLValidator } from "fast-xml-parser";
 
 /** The input formats the editor can read without a network round trip. */
-export type ImportFormat =
+type ImportFormat =
   | "trip-json"
   | "bundle"
   | "csv"
@@ -13,7 +13,7 @@ export type ImportFormat =
   | "unknown";
 
 /** A parser problem that the UI can translate without parsing prose. */
-export type ImportProblemCode =
+type ImportProblemCode =
   | "csvMissingName"
   | "geoJsonNotPoint"
   | "invalidJson"
@@ -26,7 +26,7 @@ export type ImportProblemCode =
  * @property {ImportProblemCode} code - Translation key suffix
  * @property {number} [position] - One-based row or feature position
  */
-export interface ImportProblem {
+interface ImportProblem {
   code: ImportProblemCode;
   position?: number;
 }

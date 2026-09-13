@@ -12,9 +12,9 @@ import { EmptyState } from "@/shared/components/EmptyState/EmptyState";
 import { useLanguage } from "@/shared/hooks/useLanguage";
 
 /**
- * Represents a trip item.
- * @property {(typeof visitedTrips)[0]} trip - The trip
- * @property {"left" | "right"} side - The side
+ * A trip placed on the timeline, with the side of the spine it renders on.
+ * @property {(typeof visitedTrips)[0]} trip - The trip to render
+ * @property {"left" | "right"} side - Which side of the spine the card sits on
  */
 type TripItem = {
   trip: (typeof visitedTrips)[0];
@@ -22,9 +22,9 @@ type TripItem = {
 };
 
 /**
- * Represents a year group.
- * @property {number} year - The year
- * @property {TripItem[]} trips - The trips
+ * The trips of one calendar year, in the order the timeline shows them.
+ * @property {number} year - The year the group heads
+ * @property {TripItem[]} trips - The year's trips, already assigned a side
  */
 type YearGroup = {
   year: number;

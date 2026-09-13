@@ -28,7 +28,7 @@ const SWATCHES: ColorData[] = [
  * @param {ColorData} color - The HSL colour
  * @returns {string} The hexadecimal colour
  */
-export function hslToHex(color: ColorData): string {
+function hslToHex(color: ColorData): string {
   const lightness = color.l / 100;
   const chroma = (color.s / 100) * Math.min(lightness, 1 - lightness);
 
@@ -53,7 +53,7 @@ export function hslToHex(color: ColorData): string {
  * @param {string} hex - The hexadecimal colour
  * @returns {ColorData} The HSL colour
  */
-export function hexToHsl(hex: string): ColorData {
+function hexToHsl(hex: string): ColorData {
   const value = Number.parseInt(hex.slice(1), 16);
   const red = ((value >> 16) & 255) / 255;
   const green = ((value >> 8) & 255) / 255;

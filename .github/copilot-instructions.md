@@ -12,9 +12,12 @@ Keep shared rules in `CODING_GUIDELINES.md`, not in this adapter.
 - The typed Python media uploader is in `scripts/uploader/`.
 - Prefer the least code that works, comments that explain why, native platform
   features, explicit types, and accessible UI.
+- Validate untrusted input with Zod at its boundary and infer the TypeScript
+  type from the schema; never cast external data with `as`.
 - Never use real credentials or upload media while verifying uploader changes.
-- For app changes, run `pnpm check` from the repository root; run `pnpm build`
-  when production behavior or output can be affected.
+- For app changes, run `pnpm check` from the repository root — typecheck, lint,
+  formatting, tests, and dead-code analysis across the workspace. Run
+  `pnpm build` when production behavior or output can be affected.
 - For uploader changes, run
   `python -m compileall -q scripts/uploader` from the repository root.
 - Inspect every changed file and resolve all guideline violations introduced or

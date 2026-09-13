@@ -20,6 +20,7 @@ import {
 } from "@/shared/context/Panel.context";
 import { useResponsive } from "@/shared/hooks/useResponsive";
 import { useThemeDetector } from "@/shared/hooks/useThemeDetector";
+import { classNames } from "@/shared/lib/classNames";
 
 import { useAppLocation } from "../routing/useAppLocation";
 import { MapShellLayout } from "./MapShell.layout";
@@ -83,9 +84,19 @@ export function MapShell(): ReactNode {
       dispatchMapShellAction({ type: "isPanelOpen", value }),
   };
 
+  const deviceModifier = isMobile
+    ? "map-shell--mobile"
+    : isTablet
+      ? "map-shell--tablet"
+      : "map-shell--desktop";
+
   return (
     <div
-      className={`map-shell ${isDarkTheme ? "map-shell--dark" : "map-shell--light"} ${isMobile ? "map-shell--mobile" : isTablet ? "map-shell--tablet" : "map-shell--desktop"}`}
+      className={classNames(
+        "map-shell",
+        isDarkTheme ? "map-shell--dark" : "map-shell--light",
+        deviceModifier,
+      )}
     >
       <AppRouteContext.Provider value={appRoute}>
         <MapInteractionContext.Provider value={mapInteractionContextValue}>

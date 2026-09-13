@@ -53,15 +53,3 @@ export function cityCoordinates(
     dataset.cities.map(({ value }) => [value.id, value.coordinates] as const),
   );
 }
-
-/**
- * Names cities by id for summaries, degrading to the raw id when a city has
- * been deleted out from under a trip that still references it.
- * @param {DatasetSnapshot} dataset - The current dataset
- * @returns {Map<string, string>} Display names keyed by city id
- */
-export function cityNames(dataset: DatasetSnapshot): Map<string, string> {
-  return new Map(
-    dataset.cities.map(({ value }) => [value.id, value.name] as const),
-  );
-}

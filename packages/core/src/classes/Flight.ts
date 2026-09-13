@@ -1,3 +1,4 @@
+import { CompanyId } from "../schema";
 import { getTravelTypeByStartAndEndCity, TravelType } from "../typings/Travel";
 import { getCitiesDistance } from "../world/distance";
 import { City } from "./City";
@@ -6,7 +7,7 @@ import { City } from "./City";
  * Data used to construct a flight.
  * @property {City} sCity - The departure city
  * @property {City} eCity - The arrival city
- * @property {FlightCompany} [company] - The airline
+ * @property {CompanyId} [company] - The airline
  * @property {Date} [sDate] - The departure date
  * @property {Date} [eDate] - The arrival date
  * @property {number} [distanceInKm] - The authored distance in kilometers
@@ -17,7 +18,7 @@ import { City } from "./City";
 interface FlightInterface {
   sCity: City;
   eCity: City;
-  company?: FlightCompany;
+  company?: CompanyId;
   sDate?: Date;
   eDate?: Date;
   distanceInKm?: number;
@@ -32,7 +33,7 @@ interface FlightInterface {
  * @param {FlightInterface} flightData - The data of the flight
  * @param {City} flightData.sCity - The start city of the flight
  * @param {City} flightData.eCity - The end city of the flight
- * @param {FlightCompany} [flightData.company] - The company of the flight
+ * @param {CompanyId} [flightData.company] - The company of the flight
  * @param {Date} [flightData.sDate] - The start date of the flight
  * @param {Date} [flightData.eDate] - The end date of the flight
  * @param {number} [flightData.distanceInKm] - The distance of the flight in kilometers
@@ -45,7 +46,7 @@ export class Flight implements FlightInterface {
   eCity: City;
   travelType: TravelType;
   distanceInKm: number = 0;
-  company?: FlightCompany;
+  company?: CompanyId;
   sDate?: Date;
   eDate?: Date;
   durationMinutes: number;
@@ -82,4 +83,3 @@ export class Flight implements FlightInterface {
     this.class = flightClass;
   }
 }
-import { FlightCompany } from "../typings/FlightCompany";

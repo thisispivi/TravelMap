@@ -1,21 +1,13 @@
+import { applyWrites, DatasetSnapshot, getDataset } from "../../../data/store";
 import {
-  applyWrites,
-  DatasetSnapshot,
-  DocumentWrite,
-  getDataset,
-} from "../../../data/store";
-
-/**
- * A complete copy of every authored JSON document.
- * @property {string} createdAt - ISO timestamp the snapshot was taken
- * @property {string} reason - Why it was taken, shown when restoring
- * @property {DocumentWrite[]} documents - Every document, path and value
- */
-export interface SnapshotBundle {
-  createdAt: string;
-  reason: string;
-  documents: DocumentWrite[];
-}
+  parseJsonResponse,
+  readResponseError,
+} from "../../../shared/lib/httpResponse";
+import {
+  SnapshotBundle,
+  SnapshotBundleSchema,
+  SnapshotListSchema,
+} from "./snapshot";
 
 /**
  * Collects every authored document into one portable bundle.
@@ -74,8 +66,7 @@ export async function takeSnapshot(reason: string): Promise<string> {
       method: "POST",
     },
   );
-  if (!response.ok)
-    throw new Error(((await response.json()) as { error: string }).error);
+  if (!response.ok) throw new Error(await readResponseError(response));
   return name;
 }
 
@@ -100,7 +91,7 @@ export async function snapshotBeforeChange(reason: string): Promise<void> {
 export async function listSnapshots(): Promise<string[]> {
   const response = await fetch("/__snapshots");
   if (!response.ok) return [];
-  return ((await response.json()) as { snapshots: string[] }).snapshots;
+  return (await parseJsonResponse(response, SnapshotListSchema)).snapshots;
 }
 
 /**
@@ -110,9 +101,8 @@ export async function listSnapshots(): Promise<string[]> {
  */
 export async function readSnapshot(name: string): Promise<SnapshotBundle> {
   const response = await fetch(`/__snapshots?name=${encodeURIComponent(name)}`);
-  if (!response.ok)
-    throw new Error(((await response.json()) as { error: string }).error);
-  return (await response.json()) as SnapshotBundle;
+  if (!response.ok) throw new Error(await readResponseError(response));
+  return parseJsonResponse(response, SnapshotBundleSchema);
 }
 
 /**

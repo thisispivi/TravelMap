@@ -3,10 +3,18 @@
   "private": true,
   "packageManager": "pnpm@11.21.0",
   "scripts": {
-    "build": "pnpm --filter travel-map build",
-    "check": "pnpm -r typecheck && pnpm -r lint && pnpm --filter travel-map format:check && pnpm --filter travel-map knip && pnpm --filter travel-map react:doctor",
+    "build": "pnpm -r --if-present build",
+    "check": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm test && pnpm knip && pnpm --filter travel-map react:doctor",
     "dev": "pnpm -r --parallel --filter travel-map --filter travel-map-editor dev",
-    "editor": "pnpm --filter travel-map-editor dev"
+    "editor": "pnpm --filter travel-map-editor dev",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check",
+    "knip": "pnpm -r --if-present knip",
+    "lint": "pnpm -r --if-present lint",
+    "lint:fix": "pnpm -r --if-present lint:fix",
+    "prepare": "husky",
+    "test": "pnpm -r --if-present test",
+    "typecheck": "pnpm -r --if-present typecheck"
   },
   "devDependencies": {
     "@eslint/compat": "^2.1.0",
@@ -21,6 +29,9 @@
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-simple-import-sort": "^14.0.0",
-    "globals": "^17.11.0"
+    "globals": "^17.11.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.4.1",
+    "prettier": "3.9.6"
   }
 }

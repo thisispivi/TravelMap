@@ -16,7 +16,7 @@ export type SaveState = "idle" | "pending" | "saving" | "saved" | "failed";
  * @property {Date | null} savedAt - When the last successful write completed
  * @property {SaveState} state - Where the document stands
  */
-export interface SaveStatus {
+interface SaveStatus {
   error: string | null;
   retry: () => void;
   savedAt: Date | null;

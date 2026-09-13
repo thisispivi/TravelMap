@@ -9,6 +9,7 @@ import { formatDateRangeShort } from "@/i18n/functions/date";
 import { CountryFlag } from "@/shared/components/CountryFlag/CountryFlag";
 import { Row } from "@/shared/components/Row/Row";
 import { useLanguage } from "@/shared/hooks/useLanguage";
+import { classNames } from "@/shared/lib/classNames";
 
 /**
  * Properties accepted by the TripCard component.
@@ -46,7 +47,7 @@ export function TripCard({
   return (
     <LazyMotion features={domAnimation}>
       <m.article
-        className={`trip-card ${className}`}
+        className={classNames("trip-card", className)}
         layout
         transition={
           prefersReducedMotion

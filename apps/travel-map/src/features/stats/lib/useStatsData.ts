@@ -23,9 +23,8 @@ import {
   getTotalMileage,
 } from "./distance";
 import {
+  getCompanyStats,
   getCountryVisitStats,
-  getFerryCompanyStats,
-  getFlightCompanyStats,
   getTransportModeStats,
 } from "./transport";
 
@@ -104,8 +103,8 @@ function computeStats() {
     takenFlights,
     takenFerries,
   );
-  const flightCompanyStats = getFlightCompanyStats(takenFlights);
-  const ferryCompanyStats = getFerryCompanyStats(takenFerries);
+  const flightCompanyStats = getCompanyStats(takenFlights);
+  const ferryCompanyStats = getCompanyStats(takenFerries);
   const countryVisitStats = getCountryVisitStats(visitedCities);
   const kmByModeStats = [...transportModeStats]
     .filter((s) => s.km > 0)

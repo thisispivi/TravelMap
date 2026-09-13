@@ -12,7 +12,7 @@ import {
 } from "react";
 
 /** The visual and semantic tone of a toast. */
-export type ToastTone = "success" | "error" | "info";
+type ToastTone = "success" | "error" | "info";
 
 /**
  * A short-lived action message.

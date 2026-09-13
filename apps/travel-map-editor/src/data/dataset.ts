@@ -1,19 +1,9 @@
-import { Continent, Currency } from "@travelmap/core";
+import { mediaUrl, TransportModeSchema } from "@travelmap/core";
 
 import { isSafeImageUrl } from "./imageUrl";
 import { DatasetSnapshot, getDataset } from "./store";
 
-export const continents = Object.values(Continent);
-export const currencies = Object.values(Currency);
-export const transportModes = [
-  "plane",
-  "ferry",
-  "car",
-  "train",
-  "bus",
-  "taxi",
-  "walk",
-] as const;
+export const transportModes = TransportModeSchema.options;
 
 /**
  * Lists the gallery manifest keys a trip stop can reference, which are the
@@ -33,14 +23,6 @@ export function photoKeys(dataset: DatasetSnapshot): string[] {
  */
 export function locales(): string[] {
   return getDataset().config.value.locales ?? [];
-}
-
-/**
- * Lists company identifiers offered in transport steps.
- * @returns {string[]} Sorted company identifiers
- */
-export function companyIds(): string[] {
-  return Object.keys(getDataset().config.value.companies ?? {}).sort();
 }
 
 /*
@@ -84,5 +66,5 @@ export function resolveMediaUrl(path?: string): string | undefined {
   if (!path) return undefined;
   if (!isSafeImageUrl(path)) return undefined;
   if (/^(?:https?:)?\/\//.test(path) || path.startsWith("data:")) return path;
-  return `${import.meta.env.VITE_CDN_PATH ?? ""}${path}`;
+  return mediaUrl(path);
 }

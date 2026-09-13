@@ -1,7 +1,7 @@
 import "./Lightbox.scss";
 import "react-image-gallery/styles/image-gallery.css";
 
-import { City } from "@travelmap/core";
+import { City, mediaUrl } from "@travelmap/core";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import ImageGallery, {
   ImageGalleryProps,
@@ -17,6 +17,7 @@ import { visitedTrips } from "@/data/world";
 import { Button } from "@/shared/components/Button/Button";
 import { useLanguage } from "@/shared/hooks/useLanguage";
 import { classNames } from "@/shared/lib/classNames";
+import { env } from "@/shared/lib/env";
 import { parameters } from "@/shared/lib/parameters";
 import { getTravelByCityIndex } from "@/shared/lib/travelQueries";
 const HIDE_NAV_AFTER_MS = 2000;
@@ -50,7 +51,7 @@ function getYoutubeEmbedSrc(original: string): string {
   const normalizedOriginal = original.replace(/^https:\//, "https://");
   if (/^https?:\/\//.test(normalizedOriginal)) return normalizedOriginal;
 
-  return `${import.meta.env.VITE_YOUTUBE_PATH ?? "https://www.youtube.com/embed/"}${normalizedOriginal}`;
+  return `${env.VITE_YOUTUBE_PATH}${normalizedOriginal}`;
 }
 
 /**
@@ -130,11 +131,7 @@ export function Lightbox(): ReactNode {
         <img
           alt={item.alt ?? ""}
           className="image-gallery-image"
-          src={
-            parameters.isShowPhotos
-              ? `${import.meta.env.VITE_CDN_PATH}${item.original}`
-              : ""
-          }
+          src={parameters.isShowPhotos ? mediaUrl(item.original) : ""}
         />
       );
     }
@@ -245,7 +242,10 @@ export function Lightbox(): ReactNode {
       />
       <Button
         ariaLabel={t("lightbox.previousSlide")}
-        className={`lightbox__nav-button image-gallery-left-nav ${photoIdx === 0 ? "lightbox__nav-button--disabled" : ""}`}
+        className={classNames(
+          "lightbox__nav-button image-gallery-left-nav",
+          photoIdx === 0 && "lightbox__nav-button--disabled",
+        )}
         hoverScale={1}
         onClick={() => handleNavigateSlide(photoIdx - 1)}
         tapScale={1}
@@ -254,7 +254,10 @@ export function Lightbox(): ReactNode {
       </Button>
       <Button
         ariaLabel={t("lightbox.nextSlide")}
-        className={`lightbox__nav-button image-gallery-right-nav ${photoIdx >= photos.length - 1 ? "lightbox__nav-button--disabled" : ""}`}
+        className={classNames(
+          "lightbox__nav-button image-gallery-right-nav",
+          photoIdx >= photos.length - 1 && "lightbox__nav-button--disabled",
+        )}
         hoverScale={1}
         onClick={() => handleNavigateSlide(photoIdx + 1)}
         tapScale={1}

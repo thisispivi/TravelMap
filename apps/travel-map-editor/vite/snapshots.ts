@@ -1,41 +1,18 @@
 import { mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
-import type { ServerResponse } from "node:http";
 import { join, resolve, sep } from "node:path";
 
 import type { Plugin, ViteDevServer } from "vite";
 
-/**
- * A complete copy of every authored JSON document, kept outside `data/`.
- * `data/` is gitignored, so this is the only thing standing between an
- * authoring mistake and content that cannot be recovered from anywhere.
- * @property {string} createdAt - ISO timestamp the snapshot was taken
- * @property {string} reason - Why it was taken, shown when restoring
- * @property {{ path: string; value: unknown }[]} documents - Every document
- */
-interface SnapshotBundle {
-  createdAt: string;
-  reason: string;
-  documents: { path: string; value: unknown }[];
-}
+import { SnapshotBundleSchema } from "../src/features/backup/lib/snapshot.ts";
+import {
+  assertLocalRequest,
+  errorBody,
+  readJsonBody,
+  sendJson,
+} from "./http.ts";
 
 /* Enough history to undo a bad session without filling the disk. */
 const SNAPSHOT_LIMIT = 30;
-
-/**
- * Sends a concise JSON response from the localhost-only editor middleware.
- * @param {ServerResponse} response - HTTP response
- * @param {number} status - HTTP status code
- * @param {object} body - JSON response body
- * @returns {void}
- */
-function sendJson(
-  response: ServerResponse,
-  status: number,
-  body: object,
-): void {
-  response.writeHead(status, { "Content-Type": "application/json" });
-  response.end(JSON.stringify(body));
-}
 
 /**
  * Rejects a snapshot name that could escape the snapshot directory.
@@ -78,6 +55,7 @@ export function snapshots(snapshotRoot: string): Plugin {
     configureServer(server: ViteDevServer): void {
       server.middlewares.use("/__snapshots", async (request, response) => {
         try {
+          assertLocalRequest(request);
           await mkdir(snapshotRoot, { recursive: true });
           const url = new URL(request.url ?? "/", "http://localhost");
           const name = url.searchParams.get("name") ?? "";
@@ -104,16 +82,18 @@ export function snapshots(snapshotRoot: string): Plugin {
             sendJson(
               response,
               200,
-              JSON.parse(await readFile(path, "utf8")) as SnapshotBundle,
+              SnapshotBundleSchema.parse(
+                JSON.parse(await readFile(path, "utf8")),
+              ),
             );
             return;
           }
           if (request.method === "POST") {
-            const chunks: Uint8Array[] = [];
-            for await (const chunk of request) chunks.push(chunk as Uint8Array);
-            const bundle = JSON.parse(
-              Buffer.concat(chunks).toString(),
-            ) as SnapshotBundle;
+            const bundle = await readJsonBody(
+              request,
+              SnapshotBundleSchema,
+              15_000_000,
+            );
             await writeFile(path, `${JSON.stringify(bundle, null, 2)}\n`);
             await prune(snapshotRoot);
             sendJson(response, 200, { name, ok: true });
@@ -121,12 +101,7 @@ export function snapshots(snapshotRoot: string): Plugin {
           }
           sendJson(response, 404, { error: "Unknown snapshot endpoint." });
         } catch (error) {
-          sendJson(response, 500, {
-            error:
-              error instanceof Error
-                ? error.message
-                : "Snapshot request failed.",
-          });
+          sendJson(response, 500, errorBody(error, "Snapshot request failed."));
         }
       });
     },

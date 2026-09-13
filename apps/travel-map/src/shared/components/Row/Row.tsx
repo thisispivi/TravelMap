@@ -2,6 +2,8 @@ import "./Row.scss";
 
 import { ReactNode } from "react";
 
+import { classNames } from "../../lib/classNames";
+
 /**
  * Properties accepted by the Row component.
  * @property {string} [className] - The class name
@@ -22,5 +24,5 @@ interface RowProps {
  * @returns {ReactNode} The row container
  */
 export function Row({ className = "", children }: RowProps): ReactNode {
-  return <div className={`row ${className}`}>{children}</div>;
+  return <div className={classNames("row", className)}>{children}</div>;
 }

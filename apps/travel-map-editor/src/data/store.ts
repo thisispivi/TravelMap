@@ -1,5 +1,16 @@
-import { CityJson, CountryJson, Image, TripJson } from "@travelmap/core";
+import {
+  CityJson,
+  CityJsonSchema,
+  CountryJson,
+  CountryJsonSchema,
+  Image,
+  ImageSchema,
+  SiteConfigSchema,
+  TripJson,
+  TripJsonSchema,
+} from "@travelmap/core";
 
+import { readResponseError } from "../shared/lib/httpResponse";
 import { DEFAULT_CONFIG, SiteConfig } from "./siteConfig";
 
 /**
@@ -55,14 +66,18 @@ const CONFIG_PATH = "site.config.json";
 
 /**
  * Converts Vite's eager JSON modules into stable, editable data files.
- * @param {Record<string, { default: T }>} modules - Eager JSON modules
+ * @param {Record<string, { default: unknown }>} modules - Eager JSON modules
+ * @param {(value: unknown) => T} parse - Boundary parser for each document
  * @returns {DataFile<T>[]} Files sorted by dataset path
  */
-function files<T>(modules: Record<string, { default: T }>): DataFile<T>[] {
+function files<T>(
+  modules: Record<string, { default: unknown }>,
+  parse: (value: unknown) => T,
+): DataFile<T>[] {
   return Object.entries(modules)
     .map(([path, { default: value }]) => ({
       path: path.replace(DATA_PREFIX, ""),
-      value,
+      value: parse(value),
     }))
     .sort((first, second) => first.path.localeCompare(second.path));
 }
@@ -73,23 +88,28 @@ function files<T>(modules: Record<string, { default: T }>): DataFile<T>[] {
  * deleted document appear without reloading the document the way the previous
  * editor had to.
  */
-const seededConfig = files<SiteConfig>(
+const seededConfig = files(
   import.meta.glob("../../../../data/site.config.json", { eager: true }),
+  (value) => SiteConfigSchema.parse(value),
 )[0];
 
 let snapshot: DatasetSnapshot = {
-  cities: files<CityJson>(
+  cities: files(
     import.meta.glob("../../../../data/cities/*/*/*.json", { eager: true }),
+    (value) => CityJsonSchema.parse(value),
   ),
   config: seededConfig ?? { path: CONFIG_PATH, value: DEFAULT_CONFIG },
-  countries: files<CountryJson>(
+  countries: files(
     import.meta.glob("../../../../data/cities/*/*.json", { eager: true }),
+    (value) => CountryJsonSchema.parse(value),
   ),
-  photos: files<Image[]>(
+  photos: files(
     import.meta.glob("../../../../data/photos/**/*.json", { eager: true }),
+    (value) => ImageSchema.array().parse(value),
   ),
-  trips: files<TripJson>(
+  trips: files(
     import.meta.glob("../../../../data/trips/*.json", { eager: true }),
+    (value) => TripJsonSchema.parse(value),
   ),
 };
 
@@ -216,10 +236,19 @@ export function getSessionChanges(): DocumentChange[] {
  * @param {string} path - Dataset-relative JSON path
  * @returns {unknown} The stored value, or undefined when absent
  */
-export function readDocument(path: string): unknown {
-  if (path === CONFIG_PATH) return snapshot.config.value;
-  const collection = snapshot[collectionFor(path)] as DataFile<unknown>[];
-  return collection.find((file) => file.path === path)?.value;
+function readDocument(path: string): unknown {
+  switch (collectionFor(path)) {
+    case "config":
+      return snapshot.config.value;
+    case "cities":
+      return snapshot.cities.find((file) => file.path === path)?.value;
+    case "countries":
+      return snapshot.countries.find((file) => file.path === path)?.value;
+    case "photos":
+      return snapshot.photos.find((file) => file.path === path)?.value;
+    case "trips":
+      return snapshot.trips.find((file) => file.path === path)?.value;
+  }
 }
 
 /**
@@ -230,18 +259,41 @@ export function readDocument(path: string): unknown {
  */
 function putDocument(path: string, value: unknown): void {
   const collection = collectionFor(path);
-  if (collection === "config") {
-    publish({ ...snapshot, config: { path, value: value as SiteConfig } });
-    return;
+  switch (collection) {
+    case "config":
+      publish({
+        ...snapshot,
+        config: { path, value: SiteConfigSchema.parse(value) },
+      });
+      return;
+    case "cities":
+      publish({
+        ...snapshot,
+        cities: upsert(snapshot.cities, path, CityJsonSchema.parse(value)),
+      });
+      return;
+    case "countries":
+      publish({
+        ...snapshot,
+        countries: upsert(
+          snapshot.countries,
+          path,
+          CountryJsonSchema.parse(value),
+        ),
+      });
+      return;
+    case "photos":
+      publish({
+        ...snapshot,
+        photos: upsert(snapshot.photos, path, ImageSchema.array().parse(value)),
+      });
+      return;
+    case "trips":
+      publish({
+        ...snapshot,
+        trips: upsert(snapshot.trips, path, TripJsonSchema.parse(value)),
+      });
   }
-  publish({
-    ...snapshot,
-    [collection]: upsert(
-      snapshot[collection] as DataFile<unknown>[],
-      path,
-      value,
-    ),
-  });
 }
 
 /**
@@ -251,13 +303,33 @@ function putDocument(path: string, value: unknown): void {
  */
 function dropDocument(path: string): void {
   const collection = collectionFor(path);
-  if (collection === "config") return;
-  publish({
-    ...snapshot,
-    [collection]: (snapshot[collection] as DataFile<unknown>[]).filter(
-      (file) => file.path !== path,
-    ),
-  });
+  switch (collection) {
+    case "config":
+      return;
+    case "cities":
+      publish({
+        ...snapshot,
+        cities: snapshot.cities.filter((file) => file.path !== path),
+      });
+      return;
+    case "countries":
+      publish({
+        ...snapshot,
+        countries: snapshot.countries.filter((file) => file.path !== path),
+      });
+      return;
+    case "photos":
+      publish({
+        ...snapshot,
+        photos: snapshot.photos.filter((file) => file.path !== path),
+      });
+      return;
+    case "trips":
+      publish({
+        ...snapshot,
+        trips: snapshot.trips.filter((file) => file.path !== path),
+      });
+  }
 }
 
 /**
@@ -272,8 +344,7 @@ async function callWriter(endpoint: string, body: object): Promise<void> {
     headers: { "Content-Type": "application/json" },
     method: "POST",
   });
-  if (!response.ok)
-    throw new Error(((await response.json()) as { error: string }).error);
+  if (!response.ok) throw new Error(await readResponseError(response));
 }
 
 /**

@@ -7,6 +7,7 @@ import autoprefixer from "autoprefixer";
 import { defineConfig, Plugin } from "vite";
 import { qrcode } from "vite-plugin-qrcode";
 import svgr from "vite-plugin-svgr";
+import { z } from "zod";
 
 /**
  * Metadata used in generated browser and deployment assets.
@@ -23,6 +24,20 @@ interface SiteDetails {
   author: string;
   keywords: string[];
 }
+
+/** Build-time subset of site configuration used for generated metadata. */
+const SiteDetailsSchema = z.strictObject({
+  author: z.string().optional(),
+  description: z.string().optional(),
+  domain: z.string().optional(),
+  keywords: z.array(z.string()).optional(),
+  name: z.string().trim().min(1).optional(),
+});
+
+/** The site field within the larger authored configuration document. */
+const BrandingConfigSchema = z.looseObject({
+  site: SiteDetailsSchema.optional(),
+});
 
 const MEDIA_TYPES: Record<string, string> = {
   ".jpg": "image/jpeg",
@@ -188,8 +203,8 @@ const siteConfigPath = resolve(
   "../../data/site.config.json",
 );
 const configuredSite = existsSync(siteConfigPath)
-  ? (JSON.parse(readFileSync(siteConfigPath, "utf8")).site as
-      Partial<SiteDetails> | undefined)
+  ? BrandingConfigSchema.parse(JSON.parse(readFileSync(siteConfigPath, "utf8")))
+      .site
   : undefined;
 const site: SiteDetails = { ...DEFAULT_SITE, ...configuredSite };
 

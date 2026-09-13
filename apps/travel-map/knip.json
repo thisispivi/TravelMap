@@ -1,5 +1,4 @@
 {
   "$schema": "https://unpkg.com/knip@latest/schema.json",
-  "project": ["src/**/*.{ts,tsx}", "!src/data/**"],
-  "ignoreDependencies": ["eslint-config-prettier", "lint-staged"]
+  "project": ["src/**/*.{ts,tsx,scss,sass}"]
 }

@@ -10,24 +10,22 @@
     "pnpm": ">=11.18.0"
   },
   "scripts": {
-    "dev": "vite --host",
     "build": "tsc && vite build",
-    "check": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm knip && pnpm react:doctor",
-    "lint": "eslint . --report-unused-disable-directives --max-warnings=0",
-    "lint:fix": "eslint . --fix --max-warnings=0",
-    "typecheck": "tsc --noEmit",
-    "preview": "vite preview",
-    "prepare": "cd ../.. & husky",
-    "format": "prettier . ../../packages ../../apps/travel-map-editor ../../docs ../../data/site.config.json ../../README.md ../../AGENTS.md ../../CLAUDE.md ../../CODING_GUIDELINES.md ../../.github/copilot-instructions.md --write",
-    "format:check": "prettier . ../../packages ../../apps/travel-map-editor ../../docs ../../data/site.config.json ../../README.md ../../AGENTS.md ../../CLAUDE.md ../../CODING_GUIDELINES.md ../../.github/copilot-instructions.md --check",
-    "predeploygh": "pnpm run build",
+    "check": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm test && pnpm knip && pnpm react:doctor",
     "deploygh": "gh-pages -d dist --nojekyll",
-    "update:packages": "ncu -u --peer --reject prettier,eslint,@eslint/js,typescript",
+    "dev": "vite --host",
+    "doctor": "react-doctor",
     "knip": "knip",
     "knip:fix": "knip --fix",
-    "security:audit": "pnpm audit --audit-level=low",
+    "lint": "eslint . --report-unused-disable-directives --max-warnings=0",
+    "lint:fix": "eslint . --fix --max-warnings=0",
+    "predeploygh": "pnpm run build",
+    "preview": "vite preview",
     "react:doctor": "react-doctor . --verbose",
-    "doctor": "react-doctor"
+    "security:audit": "pnpm audit --audit-level=low",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "update:packages": "ncu -u --peer --reject prettier,eslint,@eslint/js,typescript"
   },
   "dependencies": {
     "@travelmap/core": "workspace:*",
@@ -50,7 +48,8 @@
     "react-transition-group": "^4.4.5",
     "remeda": "^2.45.0",
     "swr": "^2.5.1",
-    "topojson-client": "^3.1.0"
+    "topojson-client": "^3.1.0",
+    "zod": "^4.1.12"
   },
   "devDependencies": {
     "@babel/core": "^8.0.1",
@@ -66,24 +65,17 @@
     "autoprefixer": "^10.5.4",
     "babel-plugin-react-compiler": "^1.0.0",
     "eslint": "^10.9.1",
-    "eslint-config-prettier": "^10.1.8",
     "gh-pages": "^6.3.0",
-    "husky": "^9.1.7",
     "knip": "^6.32.3",
-    "lint-staged": "^17.4.1",
     "npm-check-updates": "^23.1.0",
     "postcss": "8.5.26",
-    "prettier": "3.9.6",
     "react-doctor": "^0.9.12",
     "sass": "^1.103.1",
     "typescript": "^6.0.3",
     "vite": "^8.2.2",
     "vite-plugin-qrcode": "^0.4.1",
-    "vite-plugin-svgr": "^5.2.0"
-  },
-  "lint-staged": {
-    "*.{js,mjs,cjs,ts,tsx}": "eslint --fix --max-warnings=0",
-    "*.{js,mjs,cjs,ts,tsx,css,scss,md,html,json,yaml,yml}": "prettier --write"
+    "vite-plugin-svgr": "^5.2.0",
+    "vitest": "^4.1.0"
   },
   "browserslist": {
     "production": [

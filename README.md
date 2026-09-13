@@ -39,8 +39,8 @@ starts empty and is ready for your own trips, places, and media. Read the
   output, and optional BunnyCDN uploads.
 - **Build system**: Vite, TypeScript, pnpm workspaces, and Node.js 22.
 - **Hosting**: Static files, GitHub Pages, or Docker with Nginx.
-- **Quality**: ESLint, Prettier, Knip, React Doctor, and repository-level type
-  checking.
+- **Quality**: ESLint, Prettier, Vitest, Knip, React Doctor, and
+  repository-level type checking.
 
 ## What Travel Map includes
 
@@ -97,6 +97,7 @@ You need [Node.js](https://nodejs.org/) 22.22 or newer and
 git clone https://github.com/thisispivi/TravelMap.git
 cd TravelMap
 pnpm install
+cp apps/travel-map/env/.env.example apps/travel-map/env/.env
 pnpm dev
 ```
 
@@ -113,6 +114,41 @@ trip. Changes autosave into `data/` and appear in the public app after a reload.
 For the complete first-run walkthrough, read the
 [Travel Map user guide](./docs/GUIDE.md).
 
+## Development checks
+
+Run the repository-wide quality gate before pushing:
+
+```bash
+pnpm check
+pnpm build
+python -m compileall -q scripts/uploader
+pnpm --filter travel-map security:audit
+```
+
+`pnpm check` runs type checking, linting, formatting, unit tests, and dead-code
+analysis across every workspace project, plus React Doctor on the public app.
+Git hooks run staged-file checks before commits and the full suite before
+pushes; CI repeats the same checks.
+
+### Runtime validation
+
+Authored JSON is untrusted. `@travelmap/core` owns the Zod schemas for
+countries, cities, trips, photo manifests, and site configuration, and
+`buildWorld()` is the one place the dataset is parsed — a malformed document
+fails the build with the field named, rather than surfacing as a blank panel.
+The other validated boundaries are the editor's local write endpoints, the
+responses the editor reads back, `localStorage`, and build-time environment
+variables.
+
+Parse new external data at its entry point, infer the TypeScript type from the
+owning schema instead of declaring it twice, and keep authorization separate
+from shape validation. Values that never leave the application do not need
+another layer.
+
+[CODING_GUIDELINES.md](./CODING_GUIDELINES.md) is the canonical standard for
+anything else — architecture, naming, state, styling, accessibility, testing,
+and what the tooling enforces for you.
+
 ## Deployment
 
 ### Static hosting
@@ -127,9 +163,10 @@ The deployable output is written to `apps/travel-map/dist/`. Upload that folder
 to any static hosting service. Travel Map uses hash-based routing, so it does
 not require server-side route handling.
 
-Photos are hosted separately from the application bundle. Set `VITE_CDN_PATH`
-in `apps/travel-map/env/.env` to the URL or path that serves your media before
-building. See [Choosing where photos are served from](./docs/GUIDE.md#7-choosing-where-photos-are-served-from)
+Photos are hosted separately from the application bundle. Copy
+`apps/travel-map/env/.env.example` to `apps/travel-map/env/.env`, then set
+`VITE_CDN_PATH` to the URL or path that serves your media before building. See
+[Choosing where photos are served from](./docs/GUIDE.md#7-choosing-where-photos-are-served-from)
 for local and CDN examples.
 
 ### GitHub Pages
@@ -183,6 +220,7 @@ files themselves.
 | [Dataset reference](./data/README.md)              | The portable files created by the editor and how they are organized                       |
 | [Uploader reference](./scripts/uploader/README.md) | Image processing, video thumbnails, and BunnyCDN configuration                            |
 | [Editor notes](./apps/travel-map-editor/README.md) | Editor architecture and behavior for contributors                                         |
+| [Coding guidelines](./CODING_GUIDELINES.md)        | The canonical coding standard, and what `pnpm check` enforces automatically               |
 
 ## Project Structure
 

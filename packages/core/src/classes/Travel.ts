@@ -1,4 +1,4 @@
-import { Image } from "../typings/Image";
+import { Image } from "../schema";
 
 /**
  * Data used to construct one city visit.
