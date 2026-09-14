@@ -39,6 +39,40 @@ const BrandingConfigSchema = z.looseObject({
   site: SiteDetailsSchema.optional(),
 });
 
+/*
+ * Dependencies grouped by runtime concern, so a chunk's contents change only when
+ * that concern's dependencies do and the rest stay cached.
+ *
+ * List only what the first page load actually needs. Assigning a chunk to a
+ * lazily imported dependency makes that chunk a static import, and everything
+ * sharing it then loads eagerly too — a catch-all `return "vendor"` used to put
+ * apexcharts in the same chunk as zod, which preloaded ~250 kB of charting on
+ * every visit for a statistics page most visitors never open. Anything absent
+ * here is left to automatic splitting, which keeps a dynamic import async.
+ */
+const CHUNKS_BY_PACKAGE: Record<string, string> = {
+  "react-image-gallery": "gallery",
+  "react-photo-album": "gallery",
+  "maplibre-gl": "map",
+  "react-map-gl": "map",
+  "topojson-client": "map",
+  react: "react-core",
+  "react-dom": "react-core",
+  scheduler: "react-core",
+  "react-router": "router",
+  "framer-motion": "framer",
+  i18next: "i18n",
+  "i18next-browser-languagedetector": "i18n",
+  "i18next-http-backend": "i18n",
+  "react-i18next": "i18n",
+  "mobile-device-detect": "ui",
+  "react-tooltip": "ui",
+  "react-transition-group": "ui",
+  remeda: "utils",
+  swr: "vendor",
+  zod: "vendor",
+};
+
 const MEDIA_TYPES: Record<string, string> = {
   ".jpg": "image/jpeg",
   ".jpeg": "image/jpeg",
@@ -235,45 +269,23 @@ export default defineConfig({
          * @returns {string | undefined} The manual chunk name when the module is grouped
          */
         manualChunks(id) {
-          const n = id.replace(/\\/g, "/");
+          const path = id.replace(/\\/g, "/");
+          const marker = "node_modules/";
+          const at = path.lastIndexOf(marker);
+          if (at === -1) return;
 
-          if (!n.includes("node_modules")) return;
+          /*
+           * Read the package name from the last node_modules segment rather than
+           * testing the whole id for substrings: pnpm nests a dependency's own
+           * copies under its parent, so react-apexcharts/node_modules/react/...
+           * has to read as `react` and not match an earlier rule by accident.
+           */
+          const segments = path.slice(at + marker.length).split("/");
+          const name = segments[0]?.startsWith("@")
+            ? `${segments[0]}/${segments[1]}`
+            : (segments[0] ?? "");
 
-          if (
-            n.includes("react-photo-album") ||
-            n.includes("react-image-gallery")
-          )
-            return "gallery";
-          if (
-            n.includes("react-map-gl") ||
-            n.includes("maplibre-gl") ||
-            n.includes("topojson")
-          )
-            return "map";
-
-          if (
-            n.includes("/react/") ||
-            n.includes("/react-dom/") ||
-            n.includes("/scheduler/")
-          )
-            return "react-core";
-          if (n.includes("react-router")) return "router";
-          if (n.includes("framer-motion")) return "framer";
-          if (
-            n.includes("i18next") ||
-            n.includes("react-i18next") ||
-            n.includes("i18next-http-backend")
-          )
-            return "i18n";
-          if (
-            n.includes("react-tooltip") ||
-            n.includes("react-transition-group") ||
-            n.includes("mobile-device-detect")
-          )
-            return "ui";
-          if (n.includes("remeda")) return "utils";
-
-          return "vendor";
+          return CHUNKS_BY_PACKAGE[name];
         },
       },
     },

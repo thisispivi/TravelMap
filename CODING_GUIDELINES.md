@@ -1199,6 +1199,24 @@ Real work, listed so nobody rediscovers it as a surprise. None is urgent.
   than a boundary.
 - Seven stylesheets hand-roll `backdrop-filter` instead of using the glass
   mixins (§12).
+- **Two large pieces of data are bundled as JavaScript rather than fetched.** A
+  fresh load of `/#/trips` transfers ~927 kB of JS and parses ~4 MB. The two
+  biggest items are `assets/json/countries-50m.json` (1.5 MB of country borders,
+  238 kB gzipped, statically imported by `features/map/lib/mapData.ts`) and the
+  photo manifests (75 files, 8,589 entries, ~1.3 MB, most of the entry chunk,
+  eagerly globbed by `data/world.ts`). Both are inert data paying JavaScript
+  parse cost on first paint, and both invalidate the chunk they sit in whenever
+  content changes.
+
+  Neither is a chunking problem — moving them means making their reads
+  asynchronous. For the manifests the seam is already visible: `Gallery` and
+  `Lightbox` need one manifest and are lazily routed, while `MapTooltip`,
+  `shared/lib/travelQueries.ts`, and `features/stats/lib/cities.ts` need only a
+  count or emptiness, which a stop's `photoPath` almost answers on its own — only
+  the `totalMediaTaken` statistic genuinely needs totals, and that page is lazy
+  too. Lowering the border resolution to 110m is a smaller lever but trades
+  coastline detail, so it is a design decision rather than a cleanup.
+
 - `TripTimelineStayGroup.tsx` is large enough that `react-doctor` flags it; the
   seam is between day-trip grouping and rendering.
 - `useImageCache` keeps one object URL per photo for the life of the page. That
