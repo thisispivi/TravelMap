@@ -1,7 +1,7 @@
-import { TripJson } from "@travelmap/core";
+import { daysBetween, TripJson } from "@travelmap/core";
 
 import { DatasetSnapshot, DocumentWrite } from "../../../data/store";
-import { addStop } from "../../itinerary/lib/itinerary";
+import { importPlace } from "../../itinerary/lib/itinerary";
 import { searchWorldCities, WorldCity } from "../../places/lib/gazetteer";
 import { findNearbyCity, planPlace } from "../../places/lib/placeCreate";
 import { cityCoordinates } from "../../places/lib/placeOptions";
@@ -180,7 +180,12 @@ export function planImport(
       skipped += 1;
       continue;
     }
-    next = addStop(next, cityId, coordinates, matched.row.sDate);
+    const { eDate, mode, sDate } = matched.row;
+    next = importPlace(next, cityId, coordinates, {
+      checkIn: sDate?.slice(0, 10),
+      mode,
+      nights: sDate && eDate ? daysBetween(sDate, eDate) : 0,
+    });
   }
   return { created, reused, skipped, trip: next, writes };
 }

@@ -1,13 +1,15 @@
-import { mkdir, writeFile } from "node:fs/promises";
 import { extname, isAbsolute, relative, resolve } from "node:path";
 
 import type { Plugin, ViteDevServer } from "vite";
 import { z } from "zod";
 
+import { validateSvg } from "./assets.ts";
+import { resolveOwnedPath, writeAtomically } from "./files.ts";
 import {
   assertLocalRequest,
   errorBody,
   readJsonBody,
+  RequestError,
   sendJson,
 } from "./http.ts";
 
@@ -40,7 +42,7 @@ function resolveLogoPath(logosRoot: string, filename: string): string {
     pathFromRoot.startsWith("..") ||
     isAbsolute(pathFromRoot)
   ) {
-    throw new Error("Only a bare .svg or .png filename can be written.");
+    throw new RequestError("Only a bare .svg or .png filename can be written.");
   }
   return path;
 }
@@ -59,20 +61,11 @@ function validateAssetContent(filename: string, content: Buffer): void {
       content.length < pngSignature.length ||
       !content.subarray(0, 8).equals(pngSignature)
     )
-      throw new Error("The uploaded file is not a valid PNG.");
+      throw new RequestError("The uploaded file is not a valid PNG.");
     return;
   }
 
-  const svg = content.toString("utf8");
-  if (
-    !/<svg\b/i.test(svg) ||
-    /<!DOCTYPE|<!ENTITY/i.test(svg) ||
-    /<(?:script|foreignObject|iframe|object|embed)\b/i.test(svg) ||
-    /\son[a-z]+\s*=/i.test(svg) ||
-    /(?:href|src)\s*=\s*["']\s*(?:https?:|javascript:|data:)/i.test(svg) ||
-    /(?:@import|url\()\s*["']?\s*(?:https?:|data:)/i.test(svg)
-  )
-    throw new Error("The uploaded SVG contains unsupported active content.");
+  validateSvg(content.toString("utf8"));
 }
 
 /**
@@ -101,7 +94,10 @@ export function assetWriter(logosRoot: string): Plugin {
       server.watcher.add(logosRoot);
 
       server.middlewares.use("/__assets/write", async (request, response) => {
-        if (request.method !== "POST") return;
+        if (request.method !== "POST") {
+          sendJson(response, 405, { error: "Use POST to upload a logo." });
+          return;
+        }
         try {
           assertLocalRequest(request);
           const payload = await readJsonBody(
@@ -109,11 +105,11 @@ export function assetWriter(logosRoot: string): Plugin {
             WritePayloadSchema,
             6_100_000,
           );
-          const path = resolveLogoPath(logosRoot, payload.filename);
+          resolveLogoPath(logosRoot, payload.filename);
+          const path = await resolveOwnedPath(logosRoot, payload.filename);
           const content = Buffer.from(payload.base64, "base64");
           validateAssetContent(payload.filename, content);
-          await mkdir(logosRoot, { recursive: true });
-          await writeFile(path, content);
+          await writeAtomically(path, content);
           sendJson(response, 200, { path: `/logos/${payload.filename}` });
         } catch (error) {
           sendJson(response, 400, errorBody(error, "Invalid request."));

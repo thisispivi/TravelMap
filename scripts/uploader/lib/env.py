@@ -72,4 +72,13 @@ def get_env(root_path: PathLike, logger: Optional[Logger] = None) -> dict[str, s
         if k not in loaded and k in os.environ:
             loaded[k] = os.environ[k]
 
-    return loaded
+    for prefix in ("THUMBNAIL", "COMPRESSED"):
+        keys = [f"{prefix}_{suffix}" for suffix in ("MIN_SIZE", "MAX_SIZE", "RESOLUTION")]
+        try:
+            minimum, maximum, resolution = (int(loaded[key]) for key in keys)
+        except (KeyError, ValueError):
+            raise ValueError(f"{prefix} size and resolution settings must be integers.") from None
+        if minimum < 0 or maximum <= 0 or resolution <= 0 or minimum > maximum:
+            raise ValueError(f"{prefix} size and resolution settings are out of range.")
+
+    return {key: value for key, value in loaded.items() if key in expected_keys}

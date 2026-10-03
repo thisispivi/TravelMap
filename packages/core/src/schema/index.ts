@@ -1,7 +1,7 @@
 import { z } from "zod";
 
-import { Continent } from "../typings/Continent";
-import { Currency } from "../typings/Currency";
+import { Continent } from "../typings/Continent.ts";
+import { Currency } from "../typings/Currency.ts";
 
 /** A finite number used by authored coordinates, dimensions, and map settings. */
 const finiteNumberSchema = z.number().finite();
@@ -83,30 +83,31 @@ export const LocalDateSchema = z
   .regex(
     /^\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2})?$/,
     "Expected YYYY-MM-DD or YYYY-MM-DDTHH:mm.",
+  )
+  .pipe(
+    z.union([z.iso.date(), z.iso.datetime({ local: true, precision: -1 })]),
   );
 
-/** A serialized stop in a trip itinerary. */
-export const TripStopJsonSchema = z.strictObject({
-  cityId: idSchema,
-  eDate: LocalDateSchema,
-  isLayover: z.boolean().optional(),
-  photoPath: z.string().trim().min(1).optional(),
-  rowConstraints: z
-    .strictObject({
-      maxPhotos: finiteNumberSchema.int().positive().optional(),
-      minPhotos: finiteNumberSchema.int().positive().optional(),
-    })
-    .optional(),
-  sDate: LocalDateSchema,
-  targetRowHeight: finiteNumberSchema.positive().optional(),
-  type: z.literal("stop"),
+/** A calendar day, read in the city where it happens. */
+export const CalendarDateSchema = z.iso.date();
+
+/** Gallery row overrides for a visit's photos. */
+const RowConstraintsSchema = z.strictObject({
+  maxPhotos: finiteNumberSchema.int().positive().optional(),
+  minPhotos: finiteNumberSchema.int().positive().optional(),
 });
 
-/** A serialized transport leg in a trip itinerary. */
-export const TripTransportJsonSchema = z.strictObject({
+/**
+ * One ride from wherever the traveller stands to `toId`. A leg never names its
+ * departure city: it starts where the previous leg ended, at its stay, or at the
+ * trip's origin, so a chain of legs can never disagree with itself. `depart` is
+ * the wall clock in the departure city and `arrive` in the arrival city.
+ */
+export const TripLegJsonSchema = z.strictObject({
+  arrive: LocalDateSchema.optional(),
+  depart: LocalDateSchema.optional(),
   distanceInKm: finiteNumberSchema.nonnegative().optional(),
   durationMinutes: finiteNumberSchema.nonnegative().optional(),
-  eDate: LocalDateSchema.optional(),
   ferry: z
     .strictObject({
       company: idSchema.optional(),
@@ -124,13 +125,48 @@ export const TripTransportJsonSchema = z.strictObject({
       number: z.string().trim().min(1).optional(),
     })
     .optional(),
-  fromId: idSchema,
   mode: TransportModeSchema,
-  roundTrip: z.boolean().optional(),
-  sDate: LocalDateSchema.optional(),
+  photoPath: z.string().trim().min(1).optional(),
+  rowConstraints: RowConstraintsSchema.optional(),
+  targetRowHeight: finiteNumberSchema.positive().optional(),
   toId: idSchema,
-  type: z.literal("transport"),
   viaIds: z.array(idSchema).optional(),
+  visited: z.literal(true).optional(),
+});
+
+/** A non-empty chain of legs. */
+const LegsSchema = z.array(TripLegJsonSchema).min(1);
+
+/** A day trip that leaves a stay and comes back to it on the same date. */
+export const TripOutingJsonSchema = z.strictObject({
+  date: CalendarDateSchema,
+  legs: LegsSchema,
+});
+
+/**
+ * A place the traveller slept. Nights are `checkOut - checkIn`, so a stay is
+ * the one thing that answers "where did I sleep on the 24th".
+ */
+export const TripStayJsonSchema = z
+  .strictObject({
+    checkIn: CalendarDateSchema,
+    checkOut: CalendarDateSchema,
+    cityId: idSchema,
+    outings: z.array(TripOutingJsonSchema).optional(),
+    photoPath: z.string().trim().min(1).optional(),
+    rowConstraints: RowConstraintsSchema.optional(),
+    targetRowHeight: finiteNumberSchema.positive().optional(),
+    type: z.literal("stay"),
+  })
+  .refine((stay) => stay.checkOut >= stay.checkIn, {
+    error: "A stay cannot check out before it checks in.",
+    path: ["checkOut"],
+  });
+
+/** Getting from one stay to the next, possibly through changes and stopovers. */
+export const TripMoveJsonSchema = z.strictObject({
+  legs: LegsSchema,
+  type: z.literal("move"),
 });
 
 /** A serialized trip authored in the forkable dataset. */
@@ -145,10 +181,9 @@ export const TripJsonSchema = z.strictObject({
     })
     .optional(),
   originCityId: idSchema,
-  returnCityId: idSchema,
   sDate: LocalDateSchema,
   steps: z.array(
-    z.discriminatedUnion("type", [TripStopJsonSchema, TripTransportJsonSchema]),
+    z.discriminatedUnion("type", [TripStayJsonSchema, TripMoveJsonSchema]),
   ),
   title: z.string().trim().min(1),
   titleByLocale: localizedNamesSchema.optional(),
@@ -231,11 +266,20 @@ export type CountryJson = z.infer<typeof CountryJsonSchema>;
 /** Serializable city data authored in the forkable dataset. */
 export type CityJson = z.infer<typeof CityJsonSchema>;
 
-/** A serialized stop in a trip itinerary. */
-export type TripStopJson = z.infer<typeof TripStopJsonSchema>;
+/** One ride inside a move or a day trip. */
+export type TripLegJson = z.infer<typeof TripLegJsonSchema>;
 
-/** A serialized transport leg in a trip itinerary. */
-export type TripTransportJson = z.infer<typeof TripTransportJsonSchema>;
+/** A day trip from a stay. */
+export type TripOutingJson = z.infer<typeof TripOutingJsonSchema>;
+
+/** A place the traveller slept. */
+export type TripStayJson = z.infer<typeof TripStayJsonSchema>;
+
+/** Getting from one stay to the next. */
+export type TripMoveJson = z.infer<typeof TripMoveJsonSchema>;
+
+/** One element of a trip's itinerary. */
+export type TripStepJson = TripJson["steps"][number];
 
 /** A serialized trip authored in the forkable dataset. */
 export type TripJson = z.infer<typeof TripJsonSchema>;

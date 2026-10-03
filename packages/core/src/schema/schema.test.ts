@@ -32,15 +32,24 @@ const city = {
 const trip = {
   eDate: "2026-05-03",
   id: "rome-2026",
-  originCityId: "rome",
-  returnCityId: "rome",
+  originCityId: "milan",
   sDate: "2026-05-01",
   steps: [
+    { legs: [{ mode: "train", toId: "rome" }], type: "move" },
     {
+      checkIn: "2026-05-01",
+      checkOut: "2026-05-03",
       cityId: "rome",
-      eDate: "2026-05-03",
-      sDate: "2026-05-01",
-      type: "stop",
+      outings: [
+        {
+          date: "2026-05-02",
+          legs: [
+            { mode: "bus", photoPath: "Italy/Tivoli/tr", toId: "tivoli" },
+            { mode: "bus", toId: "rome" },
+          ],
+        },
+      ],
+      type: "stay",
     },
   ],
   title: "Rome",
@@ -66,9 +75,7 @@ describe("authored data schemas", () => {
     expect(
       TripJsonSchema.safeParse({
         ...trip,
-        steps: [
-          { fromId: "rome", mode: "teleport", toId: "rome", type: "transport" },
-        ],
+        steps: [{ legs: [{ mode: "teleport", toId: "rome" }], type: "move" }],
       }).success,
     ).toBe(false);
   });
@@ -95,24 +102,112 @@ describe("authored dates", () => {
       "01-05-2026",
       "2026-05-01T14:30:00",
       "2026-05-01 14:30",
+      "2026-02-29",
+      "2026-04-31",
+      "2026-05-01T24:00",
+      "2026-05-01T12:60",
+      "2026-05-01T12:30Z",
     ])
       expect(LocalDateSchema.safeParse(value).success).toBe(false);
   });
 });
 
+it("accepts leap days and local times independently of the viewer's timezone", () => {
+  expect(LocalDateSchema.safeParse("2024-02-29").success).toBe(true);
+  expect(LocalDateSchema.safeParse("2026-03-29T02:30").success).toBe(true);
+});
+
+describe("authored stays and moves", () => {
+  it("rejects a stay that checks out before it checks in", () => {
+    expect(
+      TripJsonSchema.safeParse({
+        ...trip,
+        steps: [
+          {
+            checkIn: "2026-05-03",
+            checkOut: "2026-05-01",
+            cityId: "rome",
+            type: "stay",
+          },
+        ],
+      }).success,
+    ).toBe(false);
+  });
+
+  it("accepts a night spent on board, arriving the day after departing", () => {
+    expect(
+      TripJsonSchema.safeParse({
+        ...trip,
+        steps: [
+          {
+            legs: [
+              {
+                arrive: "2026-05-02T07:10",
+                depart: "2026-05-01T21:30",
+                mode: "train",
+                toId: "rome",
+              },
+            ],
+            type: "move",
+          },
+        ],
+      }).success,
+    ).toBe(true);
+  });
+
+  it("rejects a move or a day trip with no legs", () => {
+    expect(
+      TripJsonSchema.safeParse({
+        ...trip,
+        steps: [{ legs: [], type: "move" }],
+      }).success,
+    ).toBe(false);
+    expect(
+      TripJsonSchema.safeParse({
+        ...trip,
+        steps: [
+          {
+            checkIn: "2026-05-01",
+            checkOut: "2026-05-03",
+            cityId: "rome",
+            outings: [{ date: "2026-05-02", legs: [] }],
+            type: "stay",
+          },
+        ],
+      }).success,
+    ).toBe(false);
+  });
+
+  it("rejects the legacy flat stop format", () => {
+    expect(
+      TripJsonSchema.safeParse({
+        ...trip,
+        steps: [
+          {
+            cityId: "rome",
+            eDate: "2026-05-03",
+            sDate: "2026-05-01",
+            type: "stop",
+          },
+        ],
+      }).success,
+    ).toBe(false);
+  });
+});
+
 describe("authored transport legs", () => {
-  const leg = {
-    fromId: "rome",
-    mode: "plane",
-    toId: "tokyo",
-    type: "transport",
-  };
+  const leg = { mode: "plane", toId: "tokyo" };
 
   it("accepts any operator id, so a fork can name its own airlines", () => {
     expect(
       TripJsonSchema.safeParse({
         ...trip,
-        steps: [{ ...leg, flight: { company: "some-regional-carrier" } }],
+        steps: [
+          {
+            legs: [{ ...leg, flight: { company: "some-regional-carrier" } }],
+            type: "move",
+          },
+        ],
       }).success,
     ).toBe(true);
   });
@@ -121,7 +216,9 @@ describe("authored transport legs", () => {
     expect(
       TripJsonSchema.safeParse({
         ...trip,
-        steps: [{ ...leg, flight: { company: "  " } }],
+        steps: [
+          { legs: [{ ...leg, flight: { company: "  " } }], type: "move" },
+        ],
       }).success,
     ).toBe(false);
   });
@@ -130,7 +227,9 @@ describe("authored transport legs", () => {
     expect(
       TripJsonSchema.safeParse({
         ...trip,
-        steps: [{ ...leg, flight: { departure: "09:15" } }],
+        steps: [
+          { legs: [{ ...leg, flight: { departure: "09:15" } }], type: "move" },
+        ],
       }).success,
     ).toBe(false);
   });

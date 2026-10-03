@@ -6,6 +6,7 @@ export * from "./classes/Flight";
 export * from "./classes/Travel";
 export * from "./classes/Trip";
 export * from "./schema";
+export * from "./schema/document";
 export * from "./typings/Continent";
 export * from "./typings/Currency";
 export * from "./typings/Localized";

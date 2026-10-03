@@ -7,37 +7,8 @@ import autoprefixer from "autoprefixer";
 import { defineConfig, Plugin } from "vite";
 import { qrcode } from "vite-plugin-qrcode";
 import svgr from "vite-plugin-svgr";
-import { z } from "zod";
 
-/**
- * Metadata used in generated browser and deployment assets.
- * @property {string} name - Public site name
- * @property {string} domain - Optional custom domain
- * @property {string} description - Search description
- * @property {string} author - Site author
- * @property {string[]} keywords - Search keywords
- */
-interface SiteDetails {
-  name: string;
-  domain: string;
-  description: string;
-  author: string;
-  keywords: string[];
-}
-
-/** Build-time subset of site configuration used for generated metadata. */
-const SiteDetailsSchema = z.strictObject({
-  author: z.string().optional(),
-  description: z.string().optional(),
-  domain: z.string().optional(),
-  keywords: z.array(z.string()).optional(),
-  name: z.string().trim().min(1).optional(),
-});
-
-/** The site field within the larger authored configuration document. */
-const BrandingConfigSchema = z.looseObject({
-  site: SiteDetailsSchema.optional(),
-});
+import { siteBranding } from "./vite/siteBranding.ts";
 
 /*
  * Dependencies grouped by runtime concern, so a chunk's contents change only when
@@ -143,104 +114,13 @@ function mediaServer(mediaRoot: string): Plugin {
   };
 }
 
-/**
- * Emits site metadata from the forkable dataset instead of static app files.
- * @param {SiteDetails} site - Site metadata loaded from the dataset
- * @returns {Plugin} Vite HTML and bundle asset plugin
- */
-function siteBranding(site: SiteDetails): Plugin {
-  const manifest = JSON.stringify({
-    icons: [
-      {
-        sizes: "192x192",
-        src: "/android-chrome-192x192.png",
-        type: "image/png",
-      },
-      {
-        sizes: "512x512",
-        src: "/android-chrome-512x512.png",
-        type: "image/png",
-      },
-    ],
-    name: site.name,
-    short_name: site.name,
-    start_url: "/",
-  });
-
-  return {
-    name: "site-branding",
-
-    /**
-     * Replaces metadata placeholders in the Vite HTML entry point.
-     * @param {string} html - HTML source to transform
-     * @returns {string} Branded HTML source
-     */
-    transformIndexHtml(html: string): string {
-      return html
-        .replaceAll("%SITE_NAME%", site.name)
-        .replaceAll("%SITE_DESCRIPTION%", site.description)
-        .replaceAll("%SITE_AUTHOR%", site.author)
-        .replaceAll("%SITE_KEYWORDS%", site.keywords.join(", "));
-    },
-
-    /**
-     * Serves the generated manifest during development. Without this middleware
-     * Vite's history fallback returns index.html for the manifest request.
-     * @param {import("vite").ViteDevServer} server - The active Vite server
-     * @returns {void}
-     */
-    configureServer(server): void {
-      server.middlewares.use((request, response, next) => {
-        if (request.url !== "/site.webmanifest") {
-          next();
-          return;
-        }
-        response.setHeader("Content-Type", "application/manifest+json");
-        response.end(manifest);
-      });
-    },
-
-    /**
-     * Adds generated domain and manifest assets to the production bundle.
-     * @returns {void}
-     */
-    generateBundle(): void {
-      if (site.domain) {
-        this.emitFile({
-          fileName: "CNAME",
-          source: site.domain,
-          type: "asset",
-        });
-      }
-      this.emitFile({
-        fileName: "site.webmanifest",
-        source: manifest,
-        type: "asset",
-      });
-    },
-  };
-}
-
-/*
- * A fork starts with an empty data/, so the build must not require
- * site.config.json or a fully populated site block to exist yet.
- */
-const DEFAULT_SITE: SiteDetails = {
-  name: "Travel Map",
-  domain: "",
-  description: "A personal map of travels.",
-  author: "",
-  keywords: [],
-};
 const siteConfigPath = resolve(
   import.meta.dirname,
   "../../data/site.config.json",
 );
-const configuredSite = existsSync(siteConfigPath)
-  ? BrandingConfigSchema.parse(JSON.parse(readFileSync(siteConfigPath, "utf8")))
-      .site
-  : undefined;
-const site: SiteDetails = { ...DEFAULT_SITE, ...configuredSite };
+const siteConfig: unknown = existsSync(siteConfigPath)
+  ? JSON.parse(readFileSync(siteConfigPath, "utf8"))
+  : {};
 
 export default defineConfig({
   plugins: [
@@ -248,7 +128,7 @@ export default defineConfig({
     babel({ presets: [reactCompilerPreset()] }),
     svgr(),
     qrcode(),
-    siteBranding(site),
+    siteBranding(siteConfig),
     mediaServer(resolve(import.meta.dirname, "../../media")),
   ],
   base: "/",

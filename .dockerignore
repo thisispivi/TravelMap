@@ -10,3 +10,7 @@ media
 data-copy
 apps/travel-map-copy
 .data-snapshots
+**/.env
+**/.env.*
+!**/.env.example
+coverage

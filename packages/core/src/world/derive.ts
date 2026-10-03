@@ -1,5 +1,5 @@
-import type { TransportMode } from "../schema";
-import type { TripJson, TripStopJson, TripTransportJson } from "../schema";
+import type { TransportMode, TripJson, TripLegJson } from "../schema";
+import { zonedDurationMinutes } from "./date";
 import { getCoordinatesDistance } from "./distance";
 
 /**
@@ -141,26 +141,24 @@ export function impliedSpeedKmh(
 }
 
 /**
- * Finds the dates a trip's stops actually cover, so the trip's own range can be
- * kept honest without the author maintaining it by hand.
+ * Finds the dates a trip's itinerary actually covers, so the trip's own range
+ * can be kept honest without the author maintaining it by hand.
  * @param {TripJson["steps"]} steps - Ordered itinerary steps
- * @returns {DerivedDateRange} The earliest start and latest end among stops
+ * @returns {DerivedDateRange} The earliest and latest authored date
  */
 export function deriveTripDateRange(
   steps: TripJson["steps"],
 ): DerivedDateRange {
-  const starts = steps
-    .filter((step): step is TripStopJson => step.type === "stop")
-    .map((step) => step.sDate)
-    .filter(Boolean)
-    .toSorted();
-  const ends = steps
-    .filter((step): step is TripStopJson => step.type === "stop")
-    .map((step) => step.eDate)
-    .filter(Boolean)
+  const dates = steps
+    .flatMap((step) =>
+      step.type === "stay"
+        ? [step.checkIn, step.checkOut]
+        : step.legs.flatMap((leg) => [leg.depart, leg.arrive]),
+    )
+    .flatMap((date) => (date ? [date.slice(0, 10)] : []))
     .toSorted();
 
-  return { eDate: ends.at(-1), sDate: starts.at(0) };
+  return { eDate: dates.at(-1), sDate: dates.at(0) };
 }
 
 /**
@@ -195,103 +193,153 @@ export function fitViewport(coordinates: [number, number][]): MapFocus | null {
   };
 }
 
-/**
- * Finds the stop immediately before a step, which is where a leg departs from.
- * @param {TripJson["steps"]} steps - Ordered itinerary steps
- * @param {number} index - Position of the step being examined
- * @returns {TripStopJson | undefined} The preceding stop, when there is one
+/*
+ * Roads and rails wind; a straight line under-reads them by roughly this much.
+ * ponytail: one flat factor, swap for per-mode factors if stats look off.
  */
-export function stopBefore(
-  steps: TripJson["steps"],
-  index: number,
-): TripStopJson | undefined {
-  for (let position = index - 1; position >= 0; position -= 1) {
-    const step = steps[position];
-    if (step?.type === "stop") return step;
-  }
-  return undefined;
+const SURFACE_DETOUR_FACTOR = 1.25;
+
+/**
+ * A derived measurement, flagged when it was estimated rather than authored so
+ * a reader can be told it is approximate.
+ * @property {number} value - The measurement
+ * @property {boolean} estimated - Whether it was derived rather than authored
+ */
+export interface Measured {
+  value: number;
+  estimated: boolean;
 }
 
 /**
- * Finds the stop immediately after a step, which is where a leg arrives.
- * @param {TripJson["steps"]} steps - Ordered itinerary steps
- * @param {number} index - Position of the step being examined
- * @returns {TripStopJson | undefined} The following stop, when there is one
+ * The one place a leg's distance is decided: the authored value, else the
+ * flight or ferry detail, else the great-circle path through every via city,
+ * stretched for surface modes.
+ * @param {TripLegJson} leg - The authored leg
+ * @param {[number, number][]} path - Coordinates from departure through vias to arrival
+ * @returns {Measured} Kilometres travelled
  */
-export function stopAfter(
-  steps: TripJson["steps"],
-  index: number,
-): TripStopJson | undefined {
-  for (let position = index + 1; position < steps.length; position += 1) {
-    const step = steps[position];
-    if (step?.type === "stop") return step;
-  }
-  return undefined;
+export function resolveLegDistance(
+  leg: Pick<TripLegJson, "distanceInKm" | "ferry" | "flight" | "mode">,
+  path: [number, number][],
+): Measured {
+  const authored =
+    leg.flight?.distanceInKm ?? leg.ferry?.distanceInKm ?? leg.distanceInKm;
+  if (authored !== undefined) return { estimated: false, value: authored };
+
+  const straight = path
+    .slice(1)
+    .reduce(
+      (sum, point, index) => sum + getCoordinatesDistance(path[index]!, point),
+      0,
+    );
+  const factor =
+    leg.mode === "plane" || leg.mode === "ferry" ? 1 : SURFACE_DETOUR_FACTOR;
+  return { estimated: true, value: Math.round(straight * factor) };
 }
 
 /**
- * Resolves where the traveller stands when a step begins. This is the preceding
- * stop's city in the ordinary case, but a day trip recorded as a round-trip leg
- * brings them back to where that leg departed from, so the stop it leads to is
- * not where the next leg starts.
- * @param {TripJson["steps"]} steps - Ordered itinerary steps
- * @param {number} index - Position of the step being examined
- * @returns {string | undefined} The city id they are in, when it is known
+ * The one place a leg's duration is decided: the authored value, else the
+ * difference between its local departure and arrival clocks, else an estimate
+ * from mode and distance.
+ * @param {TripLegJson} leg - The authored leg
+ * @param {number} distanceKm - The leg's resolved distance
+ * @param {string} departZone - IANA zone of the departure city
+ * @param {string} arriveZone - IANA zone of the arrival city
+ * @returns {Measured} Minutes travelled
  */
-export function locationBefore(
-  steps: TripJson["steps"],
-  index: number,
-): string | undefined {
-  for (let position = index - 1; position >= 0; position -= 1) {
-    const step = steps[position];
-    if (step?.type !== "stop") continue;
-    const arrival = steps[position - 1];
-    return arrival?.type === "transport" && arrival.roundTrip
-      ? arrival.fromId
-      : step.cityId;
-  }
-  return undefined;
-}
+export function resolveLegDuration(
+  leg: Pick<
+    TripLegJson,
+    "arrive" | "depart" | "durationMinutes" | "ferry" | "flight" | "mode"
+  >,
+  distanceKm: number,
+  departZone: string,
+  arriveZone: string,
+): Measured {
+  const authored =
+    leg.flight?.durationMinutes ??
+    leg.ferry?.durationMinutes ??
+    leg.durationMinutes;
+  if (authored !== undefined) return { estimated: false, value: authored };
 
-/**
- * Reports whether a leg's endpoints still agree with its neighbouring stops.
- * @param {TripJson["steps"]} steps - Ordered itinerary steps
- * @param {number} index - Position of the leg
- * @returns {boolean} Whether both endpoints match the surrounding stops
- */
-export function isLegConsistent(
-  steps: TripJson["steps"],
-  index: number,
-): boolean {
-  const step = steps[index];
-  if (step?.type !== "transport") return true;
-  const before = locationBefore(steps, index);
-  const after = stopAfter(steps, index);
+  const timed =
+    leg.depart && leg.arrive
+      ? zonedDurationMinutes(leg.depart, departZone, leg.arrive, arriveZone)
+      : undefined;
+  if (timed !== undefined && timed > 0)
+    return { estimated: false, value: timed };
 
-  return (
-    (!before || before === step.fromId) &&
-    (!after || after.cityId === step.toId)
-  );
-}
-
-/**
- * Rebuilds the endpoints of a leg from the stops around it.
- * Nothing else is touched, deliberately: every remaining field on a leg was
- * typed by the author, and distance is only ever stored once they accept it,
- * so realigning after a reorder can never destroy authored work.
- * @param {TripTransportJson} leg - The leg to realign
- * @param {TripJson["steps"]} steps - Ordered itinerary steps
- * @param {number} index - Position of the leg
- * @returns {TripTransportJson} The realigned leg
- */
-export function realignLeg(
-  leg: TripTransportJson,
-  steps: TripJson["steps"],
-  index: number,
-): TripTransportJson {
   return {
-    ...leg,
-    fromId: locationBefore(steps, index) ?? leg.fromId,
-    toId: stopAfter(steps, index)?.cityId ?? leg.toId,
+    estimated: true,
+    value: estimateDurationMinutes(leg.mode, distanceKm),
   };
+}
+
+/**
+ * Where one authored leg sits in a trip and where it departs from.
+ * @property {TripLegJson} leg - The authored leg
+ * @property {string} fromId - The city it departs from
+ * @property {number} index - Position of its step
+ * @property {number} [outing] - Position of its day trip within a stay
+ * @property {number} legIndex - Position within its chain
+ */
+export interface LocatedLeg {
+  leg: TripLegJson;
+  fromId: string;
+  index: number;
+  outing?: number;
+  legIndex: number;
+}
+
+/**
+ * Walks every authored leg in travel order, working out where each departs
+ * from: the previous leg's arrival, its stay, or the trip's origin.
+ * @param {TripJson} trip - The authored trip
+ * @returns {LocatedLeg[]} Every leg with its departure city and position
+ */
+export function walkTripLegs(trip: TripJson): LocatedLeg[] {
+  let here = trip.originCityId;
+  return trip.steps.flatMap((step, index) => {
+    if (step.type === "stay") {
+      here = step.cityId;
+      return (step.outings ?? []).flatMap((outing, outingIndex) => {
+        let from = step.cityId;
+        return outing.legs.map((leg, legIndex) => {
+          const located = {
+            fromId: from,
+            index,
+            leg,
+            legIndex,
+            outing: outingIndex,
+          };
+          from = leg.toId;
+          return located;
+        });
+      });
+    }
+    return step.legs.map((leg, legIndex) => {
+      const located = { fromId: here, index, leg, legIndex };
+      here = leg.toId;
+      return located;
+    });
+  });
+}
+
+/**
+ * Lists the places a trip actually went — stays, places seen on day trips, and
+ * places marked visited along a journey — in travel order, without stopovers.
+ * @param {TripJson} trip - The authored trip
+ * @returns {string[]} City ids, possibly repeated
+ */
+export function tripPlaceIds(trip: TripJson): string[] {
+  return trip.steps.flatMap((step) =>
+    step.type === "stay"
+      ? [
+          step.cityId,
+          ...(step.outings ?? []).flatMap((outing) =>
+            outing.legs.slice(0, -1).map((leg) => leg.toId),
+          ),
+        ]
+      : step.legs.flatMap((leg) => (leg.visited ? [leg.toId] : [])),
+  );
 }

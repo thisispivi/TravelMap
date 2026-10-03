@@ -2,3 +2,4 @@
 pnpm check
 pnpm build
 python -m compileall -q scripts/uploader
+python -m unittest discover -s scripts/uploader -p 'test_*.py'

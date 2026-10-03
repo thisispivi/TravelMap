@@ -81,7 +81,7 @@ export function getTripBounds(trip: Trip): LngLatBounds | null {
   const cities = new Map<string, City>();
 
   for (const destination of trip.destinations) {
-    if (!destination.isLayover) {
+    if (destination.kind !== "stopover") {
       cities.set(destination.city.name, destination.city);
     }
   }

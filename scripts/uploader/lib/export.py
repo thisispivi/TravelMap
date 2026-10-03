@@ -1,9 +1,12 @@
 """JSON export utilities for the uploader."""
 
 import json
+import os
 from pathlib import Path
+from tempfile import NamedTemporaryFile
 from typing import Any, Iterable, Union
 
+from lib.config import confined_path, validate_path_segment
 
 PathLike = Union[str, Path]
 
@@ -20,7 +23,16 @@ def export_json(images: Iterable[Any], path: PathLike, filename: str) -> Path:
     Returns:
         The path to the written JSON file.
     """
-    output_path = Path(path) / f"{filename}.json"
-    with output_path.open("w", encoding="utf-8") as outfile:
-        json.dump(list(images), outfile, indent=4, ensure_ascii=False)
+    validate_path_segment(filename)
+    output_path = confined_path(Path(path), f"{filename}.json")
+    content = json.dumps(list(images), indent=4, ensure_ascii=False, allow_nan=False)
+    temporary: Path | None = None
+    try:
+        with NamedTemporaryFile(mode="w", encoding="utf-8", dir=path, delete=False) as outfile:
+            temporary = Path(outfile.name)
+            outfile.write(content)
+        os.replace(temporary, output_path)
+    finally:
+        if temporary is not None:
+            temporary.unlink(missing_ok=True)
     return output_path

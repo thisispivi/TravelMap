@@ -22,7 +22,7 @@ from lib.export import export_json
 from lib.image import TravelImage
 from lib.logging import get_custom_logger
 from lib.sort import sort_images_by_index_in_filename
-from lib.utils import setup_paths
+from lib.paths import setup_paths
 from lib.video import TravelVideo, is_video
 
 
@@ -69,7 +69,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         logger = get_custom_logger()
         logger.info("Starting setup for city images processing")
 
-        argv = argv or sys.argv
+        argv = sys.argv if argv is None else argv
         args: dict[str, Any] = dict(get_args(argv, logger))
         city = args["city"]
 
@@ -100,7 +100,13 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                 f"City folder not found: {city_folder_path}. Expected photos/<city>/"
             )
 
-        files = sorted(os.listdir(city_folder_path))
+        files = sorted(name for name in os.listdir(city_folder_path)
+                       if os.path.isfile(os.path.join(city_folder_path, name)))
+        stems = [Path(name).stem.casefold() for name in files]
+        if len(stems) != len(set(stems)):
+            raise ValueError("Input files share a basename and would overwrite each other's media.")
+        if not files:
+            raise ValueError("The city folder contains no media files.")
         images_info: list[Mapping[str, Any]] = []
 
         for idx, filename in enumerate(files, start=1):
@@ -117,8 +123,9 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                 results_city_folder_path=results_city_folder_path,
                 logger=logger,
             )
-            if info:
-                images_info.append(info)
+            if info is None:
+                raise RuntimeError(f"Could not process {filename}; the existing manifest was preserved.")
+            images_info.append(info)
 
         sorted_images = sort_images_by_index_in_filename(images_info)
         export_json(sorted_images, str(root_path), city)

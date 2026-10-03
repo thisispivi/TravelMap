@@ -5,6 +5,7 @@ import {
   Ferry,
   Flight,
   TransportMode,
+  TransportModeSchema,
   Trip,
 } from "@travelmap/core";
 
@@ -37,12 +38,14 @@ export function getCountryVisitStats(cities: City[]): CountryVisitStat[] {
  * Aggregated usage statistics for a transport mode.
  * @property {TransportMode} mode - The transport mode
  * @property {number} count - The number of recorded journeys
- * @property {number} km - The recorded distance in kilometers
+ * @property {number} km - The distance in kilometers
+ * @property {number} minutes - The time spent travelling this way
  */
 export interface TransportModeStat {
   mode: TransportMode;
   count: number;
   km: number;
+  minutes: number;
 }
 
 /**
@@ -56,50 +59,32 @@ export interface CompanyStat {
 }
 
 /**
- * Aggregate count and km for each transport mode across all trips, excluding walk.
- * Uses pre-computed Flight/Ferry objects for plane and ferry (which include haversine distances),
- * and raw trip steps for ground transport modes.
+ * Adds up rides, distance, and time for every transport mode across trips,
+ * from the totals each trip already resolved — so a flight with no airline or
+ * a walk counts here exactly as it does on the trip's own page.
  * @param {Trip[]} trips - All trips
- * @param {Flight[]} flights - Pre-computed flight objects
- * @param {Ferry[]} ferries - Pre-computed ferry objects
- * @returns {TransportModeStat[]} Stats per mode sorted by count descending, zero-count modes omitted
+ * @returns {TransportModeStat[]} Stats per mode sorted by count descending, unused modes omitted
  */
-export function getTransportModeStats(
-  trips: Trip[],
-  flights: Flight[],
-  ferries: Ferry[],
-): TransportModeStat[] {
-  const groundModes: TransportMode[] = ["train", "bus", "car", "taxi"];
-
-  const groundStats = groundModes.map((mode) => {
-    const steps = trips.flatMap((trip) =>
-      trip.steps.flatMap((step) =>
-        step.type === "transport" && step.mode === mode ? [step] : [],
-      ),
-    );
-    const count = steps.length;
-    const km = steps.reduce(
-      (total, step) => total + (step.distanceInKm ?? 0),
-      0,
-    );
-    return { mode, count, km };
-  });
-
-  const allStats: TransportModeStat[] = [
-    {
-      mode: "plane",
-      count: flights.length,
-      km: flights.reduce((acc, f) => acc + (f.distanceInKm ?? 0), 0),
-    },
-    {
-      mode: "ferry",
-      count: ferries.length,
-      km: ferries.reduce((acc, f) => acc + (f.distanceInKm ?? 0), 0),
-    },
-    ...groundStats,
-  ];
-
-  return allStats.filter((s) => s.count > 0).sort((a, b) => b.count - a.count);
+export function getTransportModeStats(trips: Trip[]): TransportModeStat[] {
+  const stats = new Map<TransportMode, TransportModeStat>(
+    TransportModeSchema.options.map((mode) => [
+      mode,
+      { count: 0, km: 0, minutes: 0, mode },
+    ]),
+  );
+  for (const trip of trips) {
+    const totals = trip.getModeTotals();
+    for (const [mode, stat] of stats) {
+      const total = totals[mode];
+      if (!total) continue;
+      stat.count += total.count;
+      stat.km += total.km;
+      stat.minutes += total.minutes;
+    }
+  }
+  return [...stats.values()]
+    .filter((stat) => stat.count > 0)
+    .sort((first, second) => second.count - first.count);
 }
 
 /**

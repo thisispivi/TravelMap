@@ -45,6 +45,7 @@ function validPoint(
  * @param {DatasetSnapshot} props.dataset - The current dataset
  * @param {() => void} props.onClose - Dismisses the dialog
  * @param {(cityId: string) => void} props.onPlace - Called with the city to add
+ * @param {string} [props.title] - What the place is for, such as "Travel to…"
  * @returns {ReactNode} The place dialog
  */
 export function AddPlaceDialog({
@@ -52,6 +53,7 @@ export function AddPlaceDialog({
   dataset,
   onClose,
   onPlace,
+  title,
 }: AddPlaceDialogProps): ReactNode {
   const { t } = useLanguage(["editor"]);
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -121,13 +123,13 @@ export function AddPlaceDialog({
   }
   return (
     <dialog
-      aria-label={t("addPlace.title")}
+      aria-label={title ?? t("addPlace.title")}
       className="add-place"
       onCancel={onClose}
       onClose={onClose}
       ref={dialogRef}
     >
-      <h2 className="add-place__title">{t("addPlace.title")}</h2>
+      <h2 className="add-place__title">{title ?? t("addPlace.title")}</h2>
       {dataset.cities.length > 0 ? (
         <Combobox
           hint={t("addPlace.existingHint")}
@@ -259,10 +261,12 @@ export function AddPlaceDialog({
  * @property {DatasetSnapshot} dataset - The current dataset
  * @property {() => void} onClose - Dismisses the dialog
  * @property {(cityId: string) => void} onPlace - Called with the city to add
+ * @property {string} [title] - What the place is for
  */
 interface AddPlaceDialogProps {
   coordinates?: [number, number];
   dataset: DatasetSnapshot;
   onClose: () => void;
   onPlace: (cityId: string) => void;
+  title?: string;
 }

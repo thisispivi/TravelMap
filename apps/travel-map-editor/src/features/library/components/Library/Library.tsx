@@ -162,7 +162,7 @@ function TripCard({ cities, file, issues }: TripCardProps): ReactNode {
         : t("library.readyBadge");
   const imageUrl = resolveMediaUrl(tripThumbnail(value, cities));
   const countryIds = tripCountryIds(value, cities);
-  const stops = value.steps.filter((step) => step.type === "stop").length;
+  const stops = value.steps.filter((step) => step.type === "stay").length;
 
   return (
     <Link className="trip-library-card" to={`/trip/${value.id}`}>

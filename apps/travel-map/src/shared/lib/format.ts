@@ -39,3 +39,16 @@ export function formatMileage(
 ): string {
   return getMileageFormatter(language, digits).format(mileage);
 }
+
+/**
+ * Formats minutes as a compact duration such as `2h 30m` or `45m`.
+ * @param {number} minutes - The duration in minutes
+ * @returns {string} The compact label
+ */
+export function formatDuration(minutes: number): string {
+  const rounded = Math.round(minutes);
+  const hours = Math.floor(rounded / 60);
+  const rest = rounded % 60;
+  if (hours === 0) return `${rest}m`;
+  return rest === 0 ? `${hours}h` : `${hours}h ${rest}m`;
+}

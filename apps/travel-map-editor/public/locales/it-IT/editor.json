@@ -31,7 +31,6 @@
   },
   "editorForm": {
     "deleteError": "Non è stato possibile eliminare il file.",
-    "confirmDelete": "Confermi l'eliminazione",
     "cancel": "Annulla",
     "delete": "Elimina"
   },
@@ -185,8 +184,11 @@
     "tripIdHint": "Nome del file e URL della pagina del viaggio. Derivato dal titolo.",
     "tripTitlePlaceholder": "Viaggio a Roma",
     "titleRequired": "Il titolo è obbligatorio.",
-    "endBeforeStart": "La data di fine è precedente alla data di inizio.",
-    "create": "Crea"
+    "create": "Crea",
+    "origin": "Da dove sei partito?",
+    "startDate": "Partenza il",
+    "originMissing": "Non è nella lista? Aggiungi il posto",
+    "originRequired": "Scegli da dove è partito il viaggio."
   },
   "configScreen": {
     "kind": "Impostazioni",
@@ -229,8 +231,8 @@
     "newTrip": "Nuovo viaggio",
     "welcome": "Ancora nessun viaggio",
     "welcomeHint": "Il viaggio e' l'unica cosa che crei qui. Le citta' e i paesi necessari vengono scritti per te mentre aggiungi luoghi.",
-    "stopCount_one": "{{count}} tappa",
-    "stopCount_other": "{{count}} tappe",
+    "stopCount_one": "{{count}} posto in cui dormire",
+    "stopCount_other": "{{count}} posti in cui dormire",
     "readyBadge": "Pronto",
     "warningBadge_one": "{{count}} avviso",
     "warningBadge_other": "{{count}} avvisi",
@@ -278,44 +280,7 @@
     "recoveryFound": "Trovate modifiche non salvate del {{at}} in questo browser.",
     "restore": "Ripristina",
     "discard": "Scarta",
-    "summary": "{{steps}} passi, {{cities}} citta'"
-  },
-  "rail": {
-    "emptyTitle": "Itinerario ancora vuoto",
-    "emptyHint": "Aggiungi il primo luogo. Il file della citta', il suo paese e la tratta che ci arriva vengono scritti per te.",
-    "addStop": "Aggiungi luogo",
-    "dayNumber": "Giorno {{number}}",
-    "unscheduled": "Senza data",
-    "blockingCount_one": "{{count}} problema",
-    "blockingCount_other": "{{count}} problemi",
-    "warningCount_one": "{{count}} avviso",
-    "warningCount_other": "{{count}} avvisi",
-    "dragHandle": "Riordina il passo {{position}}",
-    "dragInstructions": "Premi Spazio per sollevare questo passo, usa i tasti freccia per spostarlo, quindi premi di nuovo Spazio per rilasciarlo."
-  },
-  "inspector": {
-    "title": "Dettagli",
-    "trip": "Viaggio",
-    "stop": "Soggiorno",
-    "leg": "Tratta",
-    "openCity": "Apri il file della citta'",
-    "more": "Altre opzioni",
-    "photoManifestHint": "Seleziona il JSON generato in data/photos per collegarlo a questo soggiorno.",
-    "minPhotos": "Foto minime per riga",
-    "maxPhotos": "Foto massime per riga",
-    "targetRowHeight": "Altezza riga desiderata",
-    "rowConstraintsHint": "Indicazioni di layout usate dal sito pubblico.",
-    "useSuggestion": "Usa",
-    "greatCircle": "in linea d'aria",
-    "forThisMode": "per questo mezzo",
-    "endpointsHint": "Gli estremi seguono i soggiorni prima e dopo questa tratta.",
-    "mapFocus": "Inquadratura mappa",
-    "mapFocusAuto": "Adattata al viaggio",
-    "clearMapFocus": "Rimuovi inquadratura",
-    "mergeWithPrevious": "Unisci al soggiorno precedente",
-    "addDayTrip": "Aggiungi una gita da questo soggiorno",
-    "addNextStop": "Aggiungi tappa successiva",
-    "roundTripHint": "La gita torna a {{city}}, quindi anche la tratta successiva parte da lì. Non aggiungere una tratta di ritorno separata."
+    "summary": "{{places}} posti, {{nights}} notti"
   },
   "photoImport": {
     "title": "Importa manifest fotografico",
@@ -423,14 +388,6 @@
     "restore": "Ripristina",
     "confirmRestore": "Sovrascrivi con questa"
   },
-  "bulk": {
-    "selected_one": "{{count}} passo selezionato",
-    "selected_other": "{{count}} passi selezionati",
-    "setMode": "Mezzo",
-    "shift": "Sposta",
-    "delete": "Elimina",
-    "clear": "Deseleziona"
-  },
   "palette": {
     "title": "Comandi",
     "placeholder": "Cerca comandi, viaggi e luoghi",
@@ -474,18 +431,22 @@
   },
   "issueFix": {
     "trip": {
-      "originMismatch": "Usa la prima tappa come partenza",
-      "returnMismatch": "Usa l'ultima tappa come ritorno",
-      "rangeLooserThanStops": "Allinea le date del viaggio alle tappe"
+      "startsWithStay": "Fai partire il viaggio da {{city}}",
+      "rangeMismatch": "Allinea le date del viaggio all'itinerario"
     },
-    "stop": {
-      "missingGallery": "Rimuovi il riferimento alla galleria",
-      "beforeTripStart": "Inizia il viaggio il {{sDate}}",
-      "afterTripEnd": "Termina il viaggio il {{eDate}}"
+    "move": {
+      "consecutive": "Uniscili in un solo spostamento"
+    },
+    "stay": {
+      "missingGallery": "Rimuovi il riferimento",
+      "notReached": "Fai finire lo spostamento a {{city}}"
+    },
+    "outing": {
+      "notBack": "Aggiungi il ritorno a {{city}}"
     },
     "leg": {
+      "missingGallery": "Rimuovi il riferimento",
       "identicalEndpoints": "Rimuovi la tratta",
-      "endpointMismatch": "Ricollega le tappe circostanti",
       "flightOnNonFlight": "Rimuovi i dettagli del volo",
       "ferryOnNonFerry": "Rimuovi i dettagli del traghetto"
     }
@@ -493,43 +454,25 @@
   "issues": {
     "trip": {
       "titleRequired": "Il viaggio ha bisogno di un titolo.",
-      "invalidStart": "L'inizio del viaggio non e' una data.",
-      "invalidEnd": "La fine del viaggio non e' una data.",
+      "invalidStart": "L'inizio del viaggio non è una data.",
+      "invalidEnd": "La fine del viaggio non è una data.",
       "endBeforeStart": "Il viaggio finisce prima di iniziare.",
-      "unknownOrigin": "La citta' di partenza \"{{cityId}}\" non esiste.",
-      "unknownReturn": "La citta' di ritorno \"{{cityId}}\" non esiste.",
-      "invalidMapFocus": "Lo zoom dell'inquadratura non e' un numero.",
-      "coverImagePath": "I percorsi delle immagini di copertina partono da una barra.",
+      "unknownOrigin": "La città di partenza \"{{cityId}}\" non esiste.",
+      "invalidMapFocus": "Lo zoom della mappa non è un numero.",
+      "coverImagePath": "I percorsi della copertina sono relativi alla CDN e iniziano con una barra.",
       "noSteps": "Il viaggio non ha ancora un itinerario.",
-      "originMismatch": "Il viaggio inizia altrove rispetto alla partenza registrata ({{origin}}).",
-      "returnMismatch": "Il viaggio finisce altrove rispetto al ritorno registrato ({{return}}).",
-      "noDatedStops": "Il viaggio ha tratte ma nessun soggiorno, quindi non ha date proprie.",
-      "rangeLooserThanStops": "Le tappe coprono solo dal {{sDate}} al {{eDate}}."
-    },
-    "stop": {
-      "unknownCity": "La tappa {{position}} usa la citta' sconosciuta \"{{cityId}}\".",
-      "invalidArrival": "{{city}} non ha una data di arrivo valida.",
-      "invalidDeparture": "{{city}} non ha una data di partenza valida.",
-      "endBeforeStart": "Da {{city}} si parte prima di arrivarci.",
-      "missingGallery": "{{city}} usa la galleria mancante \"{{photoPath}}\".",
-      "duplicateConsecutive": "{{city}} e' registrata due volte di fila.",
-      "beforeTripStart": "{{city}} inizia prima del viaggio.",
-      "afterTripEnd": "{{city}} finisce dopo il viaggio."
+      "startsWithStay": "Il viaggio parte da {{origin}} ma la prima cosa registrata è un soggiorno a {{city}}.",
+      "rangeMismatch": "L'itinerario copre dal {{sDate}} al {{eDate}}."
     },
     "leg": {
-      "unknownCity": "Il passo {{position}} ha una citta' di {{field}} sconosciuta \"{{cityId}}\".",
-      "unknownVia": "Il passo {{position}} passa per la citta' sconosciuta \"{{cityId}}\".",
-      "invalidDeparture": "La partenza da {{from}} non e' una data.",
-      "invalidArrival": "L'arrivo a {{to}} non e' una data.",
-      "arrivalBeforeDeparture": "La tratta verso {{to}} arriva prima di partire.",
+      "unknownCity": "Una tratta va alla città sconosciuta \"{{cityId}}\".",
+      "unknownVia": "Una tratta passa per la città sconosciuta \"{{cityId}}\".",
+      "missingGallery": "{{city}} punta alla galleria mancante \"{{photoPath}}\".",
       "identicalEndpoints": "Questa tratta in {{mode}} parte e arriva a {{city}}.",
-      "endpointMismatch": "Questa tratta non collega {{from}} a {{to}}.",
-      "flightOnNonFlight": "Ci sono dettagli di volo su una tratta in {{mode}}.",
-      "ferryOnNonFerry": "Ci sono dettagli di traghetto su una tratta in {{mode}}.",
-      "impossibleSpeed": "Da {{from}} a {{to}} in {{minutes}} minuti e' piu' veloce di qualsiasi di questi mezzi."
-    },
-    "itinerary": {
-      "missingLeg": "Non c'e' nessun trasporto registrato tra {{from}} e {{to}}."
+      "arrivalBeforeDeparture": "La tratta per {{to}} arriva prima di partire.",
+      "flightOnNonFlight": "Dettagli del volo registrati su una tratta in {{mode}}.",
+      "ferryOnNonFerry": "Dettagli del traghetto registrati su una tratta in {{mode}}.",
+      "impossibleSpeed": "Da {{from}} a {{to}} in {{minutes}} minuti è più veloce di qualsiasi mezzo."
     },
     "city": {
       "unknownCountry": "La citta' \"{{id}}\" appartiene al paese sconosciuto \"{{countryId}}\".",
@@ -548,6 +491,142 @@
     },
     "config": {
       "unknownCity": "Il campo {{field}} della configurazione usa la citta' sconosciuta \"{{id}}\"."
+    },
+    "move": {
+      "consecutive": "Due spostamenti si susseguono senza un soggiorno in mezzo."
+    },
+    "stay": {
+      "unknownCity": "Il soggiorno {{position}} fa riferimento alla città sconosciuta \"{{cityId}}\".",
+      "endBeforeStart": "Lasci {{city}} prima di arrivarci.",
+      "missingGallery": "{{city}} punta alla galleria mancante \"{{photoPath}}\".",
+      "notReached": "Lo spostamento prima di {{city}} finisce a {{arrivedAt}}.",
+      "noMoveBetween": "Non è registrato come sei andato da {{from}} a {{to}}.",
+      "overlap": "{{city}} inizia prima che tu lasciassi {{previous}}."
+    },
+    "outing": {
+      "outsideStay": "La gita del {{date}} è fuori dal soggiorno a {{city}}.",
+      "notBack": "La gita del {{date}} non torna mai a {{city}}."
+    }
+  },
+  "story": {
+    "tripDetails": "Nome, copertina e data di fine",
+    "endHint": "Calcolata dall'itinerario; cambiala solo se l'ultimo spostamento non ha date.",
+    "startedIn": "Da dove è partito il viaggio?",
+    "startedOn": "Partenza il",
+    "travel": "Spostamento",
+    "removeJourney": "Rimuovi questo spostamento",
+    "addStopOnTheWay": "Aggiungi un cambio o un posto visto lungo la strada",
+    "whatNext": "Sei a {{city}}. Cosa è successo dopo?",
+    "backHome": "Di nuovo a casa a {{city}}. Viaggio completo — oppure continua.",
+    "howManyNights": "Notti",
+    "sleepHere": "Ho dormito a {{city}}",
+    "travelTo": "Viaggia da {{city}} verso…",
+    "travelOn": "Continua da {{city}} verso…",
+    "returnHome": "Torna a casa",
+    "sleptIn": "Dormito a {{city}}",
+    "dayIn": "Una giornata a {{city}}",
+    "noNights": "Nessuna notte",
+    "night": "Notte {{from}}",
+    "nights": "Notti {{from}}–{{to}}",
+    "removeStay": "Rimuovi il soggiorno a {{city}}",
+    "checkIn": "Arrivato il",
+    "leftOn": "Partito il {{date}}",
+    "photos": "Foto",
+    "dayTrip": "Gita",
+    "dayTripDate": "Data",
+    "removeDayTrip": "Rimuovi questa gita",
+    "addPlaceToDayTrip": "Aggiungi un altro posto alla gita",
+    "addDayTrip": "Aggiungi una gita da {{city}}",
+    "how": "Come hai viaggiato?",
+    "goingTo": "Destinazione",
+    "departs": "Partenza",
+    "arrives": "Arrivo",
+    "localTime": "Ora locale a {{zone}}",
+    "estimatedHint": "Vuoto — il sito mostrerà circa {{value}}.",
+    "visited": "visitato",
+    "visitedLabel": "Mi sono fermato a visitare questo posto",
+    "backTo": "Ritorno a {{city}}",
+    "about": "circa",
+    "removeRide": "Rimuovi questa tratta",
+    "placeFor": {
+      "travel": "Dove sei andato?",
+      "dayTrip": "Dove è andata la gita?",
+      "addToChain": "Aggiungi un posto"
+    },
+    "clearMapFocus": "Dimentica la vista mappa salvata"
+  },
+  "upload": {
+    "open": "Carica foto",
+    "title": "Carica foto e video",
+    "where": "Dove vanno salvati?",
+    "local": "Questo computer (cartella media)",
+    "bunny": "Bunny CDN",
+    "bunnyMissing": "Bunny CDN (aggiungi la chiave in env/.env)",
+    "drop": "Trascina qui foto e video, o clicca per sceglierli",
+    "hint": "Le foto diventano un WEBP grande e una miniatura. I video ricevono una miniatura; aggiungi poi l'id YouTube con Importa.",
+    "hintNoVideo": "Le foto diventano un WEBP grande e una miniatura. Installa ffmpeg per caricare anche i video.",
+    "progress": "Avanzamento caricamento di {{name}}",
+    "status": {
+      "waiting": "In attesa…",
+      "uploading": "Caricamento {{percent}}%",
+      "processing": "Ridimensionamento…",
+      "done": "Fatto",
+      "failed": "Non riuscito"
+    },
+    "videoDone": "Fatto — aggiungi l'id YouTube con Importa",
+    "retry": "Riprova",
+    "summary": "{{done}} di {{total}} completati",
+    "saved_one": "{{count}} file aggiunto alla galleria.",
+    "saved_other": "{{count}} file aggiunti alla galleria.",
+    "saveFailed": "I file sono stati caricati ma la galleria non è stata salvata.",
+    "configFailed": "Impossibile raggiungere il servizio di caricamento dell'editor.",
+    "close": "Chiudi"
+  },
+  "confirm": {
+    "deleteTrip": {
+      "title": "Eliminare “{{trip}}”?",
+      "message": "Il file del viaggio viene rimosso da data/. Prima viene salvato un backup, ripristinabile dalle Impostazioni.",
+      "action": "Elimina viaggio"
+    },
+    "deleteDocument": {
+      "title": "Eliminare {{name}}?",
+      "message": "Il file viene rimosso da data/. I viaggi che lo usano mostreranno un problema di validazione.",
+      "action": "Elimina"
+    },
+    "restore": {
+      "title": "Ripristinare {{name}}?",
+      "message": "Tutti i file in data/ vengono sostituiti con questo backup. Le modifiche successive vanno perse se non fai prima un backup.",
+      "action": "Ripristina"
+    },
+    "removeStay": {
+      "title": "Rimuovere il soggiorno a {{city}}?",
+      "message": "Il soggiorno e le sue gite vengono rimossi. Annulla li riporta indietro.",
+      "action": "Rimuovi soggiorno"
+    },
+    "removeDayTrip": {
+      "title": "Rimuovere la gita del {{date}}?",
+      "message": "Tutti i posti e le tratte vengono rimossi. Annulla li riporta indietro.",
+      "action": "Rimuovi gita"
+    },
+    "removeJourney": {
+      "title": "Rimuovere questo spostamento?",
+      "message": "Tutte le tratte vengono rimosse. Annulla le riporta indietro.",
+      "action": "Rimuovi spostamento"
+    },
+    "removeRide": {
+      "title": "Rimuovere {{from}} → {{to}}?",
+      "message": "La tratta viene rimossa dal viaggio. Annulla la riporta indietro.",
+      "action": "Rimuovi tratta"
+    },
+    "removeLocale": {
+      "title": "Rimuovere {{locale}}?",
+      "message": "Il sito smette di offrire questa lingua. Le traduzioni già scritte restano nei file.",
+      "action": "Rimuovi lingua"
+    },
+    "removeCompany": {
+      "title": "Rimuovere {{name}}?",
+      "message": "I viaggi che usano questo operatore mostreranno il suo id invece di nome e logo.",
+      "action": "Rimuovi compagnia"
     }
   }
 }

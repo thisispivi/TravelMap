@@ -90,7 +90,7 @@ export async function snapshotBeforeChange(reason: string): Promise<void> {
  */
 export async function listSnapshots(): Promise<string[]> {
   const response = await fetch("/__snapshots");
-  if (!response.ok) return [];
+  if (!response.ok) throw new Error(await readResponseError(response));
   return (await parseJsonResponse(response, SnapshotListSchema)).snapshots;
 }
 

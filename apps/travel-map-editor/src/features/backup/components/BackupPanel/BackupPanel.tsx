@@ -4,6 +4,7 @@ import { useLanguage } from "@app/shared/hooks/useLanguage";
 import { Download, RotateCcw, ShieldPlus } from "lucide-react";
 import { ReactNode, useEffect, useState } from "react";
 
+import { useConfirm } from "../../../../shared/components/ConfirmDialog/ConfirmDialog";
 import { useToast } from "../../../../shared/components/Toast/Toast";
 import { useDataset } from "../../../../shared/hooks/useDataset";
 import {
@@ -42,17 +43,21 @@ export function BackupPanel(): ReactNode {
   const dataset = useDataset();
   const [names, setNames] = useState<string[]>([]);
   const [message, setMessage] = useState("");
-  const [pendingRestore, setPendingRestore] = useState<string | null>(null);
+  const { confirm, confirmDialog } = useConfirm();
 
   useEffect(() => {
     let isActive = true;
-    void listSnapshots().then((stored) => {
-      if (isActive) setNames(stored);
-    });
+    void listSnapshots()
+      .then((stored) => {
+        if (isActive) setNames(stored);
+      })
+      .catch(() => {
+        if (isActive) setMessage(t("backup.failed"));
+      });
     return () => {
       isActive = false;
     };
-  }, []);
+  }, [t]);
 
   /**
    * Writes a snapshot the author asked for and refreshes the list.
@@ -73,14 +78,13 @@ export function BackupPanel(): ReactNode {
   }
 
   /**
-   * Restores a snapshot once the author has confirmed which one.
+   * Restores a snapshot once the author has confirmed it in the modal.
+   * @param {string} name - The snapshot file name
    * @returns {Promise<void>} Completion after every write
    */
-  async function handleRestore(): Promise<void> {
-    if (!pendingRestore) return;
+  async function handleRestore(name: string): Promise<void> {
     try {
-      await restoreSnapshot(await readSnapshot(pendingRestore));
-      setPendingRestore(null);
+      await restoreSnapshot(await readSnapshot(name));
       setNames(await listSnapshots());
       setMessage(t("backup.restored"));
       showToast(t("backup.restored"));
@@ -93,6 +97,7 @@ export function BackupPanel(): ReactNode {
   }
   return (
     <section className="editor-panel backup-panel">
+      {confirmDialog}
       <h2 className="editor-panel__legend">{t("backup.title")}</h2>
       <p className="editor-panel__hint">{t("backup.hint")}</p>
       <div className="backup-panel__actions">
@@ -123,34 +128,24 @@ export function BackupPanel(): ReactNode {
               <span className="backup-panel__name">
                 {describeSnapshot(name)}
               </span>
-              {pendingRestore === name ? (
-                <>
-                  <button
-                    className="editor-button editor-button--danger"
-                    onClick={handleRestore}
-                    type="button"
-                  >
-                    <RotateCcw aria-hidden="true" />
-                    {t("backup.confirmRestore")}
-                  </button>
-                  <button
-                    className="editor-button"
-                    onClick={() => setPendingRestore(null)}
-                    type="button"
-                  >
-                    {t("editorForm.cancel")}
-                  </button>
-                </>
-              ) : (
-                <button
-                  className="editor-button"
-                  onClick={() => setPendingRestore(name)}
-                  type="button"
-                >
-                  <RotateCcw aria-hidden="true" />
-                  {t("backup.restore")}
-                </button>
-              )}
+              <button
+                className="editor-button"
+                onClick={() =>
+                  confirm({
+                    confirmLabel: t("backup.confirmRestore"),
+                    isDanger: true,
+                    message: t("confirm.restore.message"),
+                    onConfirm: () => handleRestore(name),
+                    title: t("confirm.restore.title", {
+                      name: describeSnapshot(name),
+                    }),
+                  })
+                }
+                type="button"
+              >
+                <RotateCcw aria-hidden="true" />
+                {t("backup.restore")}
+              </button>
             </li>
           ))}
         </ul>

@@ -6,6 +6,7 @@ import { ReactNode, useState } from "react";
 import { Link } from "react-router";
 
 import { useAutosave } from "../../hooks/useAutosave";
+import { useConfirm } from "../ConfirmDialog/ConfirmDialog";
 import { useToast } from "../Toast/Toast";
 
 /**
@@ -48,7 +49,7 @@ export function DocumentScreen({
 }: DocumentScreenProps): ReactNode {
   const { t } = useLanguage(["editor"]);
   const { showToast } = useToast();
-  const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
+  const { confirm, confirmDialog } = useConfirm();
   const [message, setMessage] = useState("");
   useAutosave(value, onSave, isDirty, {
     onSaved: () => showToast(savedMessage ?? t("toast.documentSaved")),
@@ -64,7 +65,6 @@ export function DocumentScreen({
       await onDelete();
       showToast(deletedMessage ?? t("toast.documentDeleted"));
     } catch (error) {
-      setIsConfirmingDelete(false);
       const errorMessage =
         error instanceof Error ? error.message : t("editorForm.deleteError");
       setMessage(errorMessage);
@@ -96,37 +96,26 @@ export function DocumentScreen({
         </div>
         <div className="document-screen__actions">
           {onDelete ? (
-            isConfirmingDelete ? (
-              <>
-                <button
-                  className="editor-button editor-button--danger"
-                  onClick={handleDelete}
-                  type="button"
-                >
-                  <Trash2 aria-hidden="true" />
-                  {t("editorForm.confirmDelete")}
-                </button>
-                <button
-                  className="editor-button"
-                  onClick={() => setIsConfirmingDelete(false)}
-                  type="button"
-                >
-                  {t("editorForm.cancel")}
-                </button>
-              </>
-            ) : (
-              <button
-                className="editor-button"
-                onClick={() => setIsConfirmingDelete(true)}
-                type="button"
-              >
-                <Trash2 aria-hidden="true" />
-                {t("editorForm.delete")}
-              </button>
-            )
+            <button
+              className="editor-button"
+              onClick={() =>
+                confirm({
+                  confirmLabel: t("confirm.deleteDocument.action"),
+                  isDanger: true,
+                  message: t("confirm.deleteDocument.message"),
+                  onConfirm: handleDelete,
+                  title: t("confirm.deleteDocument.title", { name: title }),
+                })
+              }
+              type="button"
+            >
+              <Trash2 aria-hidden="true" />
+              {t("editorForm.delete")}
+            </button>
           ) : null}
         </div>
       </header>
+      {confirmDialog}
       {problems.length > 0 ? (
         <ul className="editor-notice editor-notice--warning">
           {problems.map((problem) => (

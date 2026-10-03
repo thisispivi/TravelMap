@@ -18,10 +18,11 @@ function addAuxiliaryCity(
 }
 
 /**
- * Collects every layover, origin, return, and via city without a regular marker.
- * @param {Trip} trip - The trip whose auxiliary cities should be collected
+ * Collects every city the trip only passed through — its origin, airports,
+ * changes, and the ports a ferry called at — that has no regular marker.
+ * @param {Trip} trip - The trip whose pass-through cities should be collected
  * @param {City[]} existingCities - Cities already represented on the map
- * @returns {City[]} The auxiliary cities that still need markers
+ * @returns {City[]} The cities that still need markers
  */
 export function getTripLayoverCities(
   trip: Trip,
@@ -30,25 +31,12 @@ export function getTripLayoverCities(
   const knownCityNames = new Set(existingCities.map((city) => city.name));
   const auxiliaryCities = new Map<string, City>();
 
-  for (const destination of trip.destinations) {
-    if (destination.isLayover) {
-      addAuxiliaryCity(destination.city, knownCityNames, auxiliaryCities);
-    }
-  }
-
-  for (const step of trip.steps) {
-    if (step.type !== "transport") continue;
-
-    addAuxiliaryCity(step.from, knownCityNames, auxiliaryCities);
-    addAuxiliaryCity(step.to, knownCityNames, auxiliaryCities);
-
-    for (const via of step.via ?? step.ferry?.via ?? []) {
-      addAuxiliaryCity(via, knownCityNames, auxiliaryCities);
-    }
-  }
-
-  addAuxiliaryCity(trip.origin?.city, knownCityNames, auxiliaryCities);
-  addAuxiliaryCity(trip.returnTo?.city, knownCityNames, auxiliaryCities);
+  for (const city of [
+    ...trip.getPassThroughCities(),
+    ...trip.getLegs().flatMap((leg) => [leg.from, leg.to]),
+    trip.returnTo,
+  ])
+    addAuxiliaryCity(city, knownCityNames, auxiliaryCities);
 
   return Array.from(auxiliaryCities.values());
 }

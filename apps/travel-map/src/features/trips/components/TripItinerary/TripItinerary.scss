@@ -1,0 +1,497 @@
+@use "../../../../styles/mixins" as m;
+@use "../../../../styles/variables" as v;
+
+.trip-itinerary {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  &__block {
+    position: relative;
+    padding: 0 0 1.25rem 1.75rem;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0.5rem;
+      border-left: 0.125rem solid var(--rail-color);
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0.3125rem;
+      left: 0.25rem;
+      width: 0.625rem;
+      height: 0.625rem;
+      border-radius: 50%;
+      background: var(--rail-color);
+    }
+
+    &:last-child::before {
+      display: none;
+    }
+
+    &--move {
+      &::before {
+        border-left-style: dashed;
+      }
+
+      &::after {
+        display: none;
+      }
+    }
+
+    &--stay::after {
+      display: none;
+    }
+  }
+
+  &__endpoint {
+    display: block;
+    font-size: 1.0625rem;
+    font-weight: 700;
+    line-height: 1.25rem;
+  }
+
+  &__label {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--muted-color);
+  }
+
+  &__overnight {
+    padding: 0.125rem 0.5rem;
+    border-radius: 62rem;
+    background: var(--accent-soft);
+    color: var(--accent-color);
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  &__legs {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin: 0.5rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__leg,
+  &__hop {
+    &--plane {
+      --mode-color: #{v.$transportPlane};
+    }
+
+    &--ferry {
+      --mode-color: #{v.$transportFerry};
+    }
+
+    &--train {
+      --mode-color: #{v.$transportTrain};
+    }
+
+    &--bus {
+      --mode-color: #{v.$transportBus};
+    }
+
+    &--car {
+      --mode-color: #{v.$transportCar};
+    }
+
+    &--taxi {
+      --mode-color: #{v.$transportTaxi};
+    }
+
+    &--walk {
+      --mode-color: #{v.$transportWalk};
+    }
+  }
+
+  &__leg {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    min-height: 2.25rem;
+  }
+
+  &__leg-icon,
+  &__hop-icon {
+    width: 1.875rem;
+    height: 1.875rem;
+    flex-shrink: 0;
+    padding: 0.4rem;
+    border-radius: 50%;
+    background: var(--mode-tint);
+    color: var(--mode-color);
+  }
+
+  &__leg-icon {
+    --mode-tint: color-mix(in srgb, var(--mode-color) 18%, transparent);
+  }
+
+  &__leg-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  &__leg-route {
+    font-size: 0.9375rem;
+    font-weight: 600;
+  }
+
+  &__leg-details {
+    font-size: v.$bodySm;
+    color: var(--muted-color);
+  }
+
+  &__photo {
+    flex-shrink: 0;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    border-radius: 0.625rem;
+    background: var(--surface-color);
+    cursor: pointer;
+    outline: none;
+    @include m.transition(transform, 0.15s);
+
+    &:hover {
+      transform: scale(1.06);
+    }
+
+    &:focus-visible {
+      @include m.focus-ring();
+    }
+  }
+
+  &__photo-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /*
+   * The stay's dot hangs off the card row rather than the block, so it sits on
+   * the card's vertical centre whatever height the card ends up.
+   */
+  &__stay-row {
+    position: relative;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: -1.625rem;
+      z-index: 1;
+      width: 0.875rem;
+      height: 0.875rem;
+      border-radius: 50%;
+      background: var(--stay-color, var(--rail-color));
+      transform: translateY(-50%);
+    }
+  }
+
+  &__stay {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    gap: 0.75rem;
+    width: 100%;
+    min-height: 5rem;
+    padding: 1rem;
+    overflow: hidden;
+    border: 0;
+    border-left: 0.25rem solid var(--stay-color, var(--rail-color));
+    border-radius: 1rem;
+    background: var(--surface-color);
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    outline: none;
+
+    &--with-image {
+      --pill-color: rgba(0, 0, 0, 0.55);
+      min-height: 9.5rem;
+      border-left: 0;
+      color: #ffffff;
+
+      &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to top,
+          rgba(0, 0, 0, 0.8) 0%,
+          rgba(0, 0, 0, 0.3) 55%,
+          rgba(0, 0, 0, 0) 100%
+        );
+      }
+    }
+
+    &--clickable {
+      cursor: pointer;
+      @include m.transition(transform, 0.15s);
+
+      &:hover {
+        transform: translateY(-0.125rem);
+      }
+    }
+
+    &:focus-visible {
+      @include m.focus-ring();
+    }
+  }
+
+  &__stay-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__stay-text {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-width: 0;
+  }
+
+  &__stay-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.375rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  &__flag {
+    width: 1.125rem;
+    height: 1.125rem;
+    flex-shrink: 0;
+  }
+
+  &__pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+  }
+
+  &__pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.3rem 0.65rem;
+    border-radius: 62rem;
+    background: var(--pill-color);
+    font-size: v.$bodySm;
+    font-weight: 600;
+    -webkit-backdrop-filter: blur(0.375rem);
+    backdrop-filter: blur(0.375rem);
+  }
+
+  &__pill-icon {
+    width: 0.9375rem;
+    height: 0.9375rem;
+    flex-shrink: 0;
+  }
+
+  &__outing {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 0.875rem;
+    padding: 0.875rem;
+    border-radius: 1rem;
+    background: var(--surface-color);
+  }
+
+  &__outing-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  &__outing-route {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+
+  &__outing-total {
+    font-size: v.$bodySm;
+    color: var(--muted-color);
+  }
+
+  &__outing-steps {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0.9375rem;
+      bottom: 0.625rem;
+      left: 0.875rem;
+      border-left: 0.125rem dotted var(--rail-color);
+    }
+  }
+
+  &__hop {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+  }
+
+  &__hop-icon {
+    /* Opaque so the dotted route line passes behind the icon, not through it. */
+    --mode-tint: color-mix(in srgb, var(--mode-color) 22%, var(--panel-color));
+  }
+
+  &__hop-text {
+    font-size: v.$bodySm;
+    color: var(--muted-color);
+  }
+
+  &__place-item {
+    margin-left: 2.5rem;
+    list-style: none;
+  }
+
+  &__place {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 0.5rem;
+    border: 0;
+    border-radius: 0.875rem;
+    background: var(--card-color);
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    outline: none;
+
+    &--clickable {
+      cursor: pointer;
+      @include m.transition(background-color, 0.15s);
+
+      &:hover {
+        background: var(--card-hover-color);
+      }
+    }
+
+    &:focus-visible {
+      @include m.focus-ring();
+    }
+  }
+
+  &__place-image {
+    width: 3.25rem;
+    height: 3.25rem;
+    flex-shrink: 0;
+    border-radius: 0.625rem;
+    object-fit: cover;
+
+    &--empty {
+      display: grid;
+      place-items: center;
+      background: var(--surface-color);
+      color: var(--muted-color);
+
+      svg {
+        width: 1.25rem;
+        height: 1.25rem;
+        fill: currentColor;
+      }
+    }
+  }
+
+  &__place-text {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 0.125rem;
+    min-width: 0;
+  }
+
+  &__place-name {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  &__place-meta {
+    font-size: v.$bodySm;
+    color: var(--muted-color);
+  }
+
+  &__place-chevron {
+    width: 1.125rem;
+    height: 1.125rem;
+    flex-shrink: 0;
+    color: var(--muted-color);
+  }
+
+  &__outing-end {
+    margin-left: 2.5rem;
+    font-size: v.$bodySm;
+    font-weight: 600;
+    color: var(--muted-color);
+  }
+}
+
+.map-shell--dark .trip-itinerary {
+  --rail-color: rgba(255, 255, 255, 0.22);
+  --panel-color: #{v.$darkBackground};
+  --surface-color: rgba(255, 255, 255, 0.06);
+  --card-color: rgba(255, 255, 255, 0.07);
+  --card-hover-color: rgba(255, 255, 255, 0.13);
+  --pill-color: rgba(255, 255, 255, 0.1);
+  --muted-color: #{v.$darkAltText};
+  --accent-color: #{v.$accentOnDark};
+  --accent-soft: #{v.$accentSoftDark};
+  color: v.$darkButtonContent;
+}
+
+.map-shell--light .trip-itinerary {
+  --rail-color: rgba(0, 0, 0, 0.18);
+  --panel-color: #{v.$lightBackground};
+  --surface-color: rgba(0, 0, 0, 0.04);
+  --card-color: #ffffff;
+  --card-hover-color: rgba(255, 255, 255, 0.65);
+  --pill-color: rgba(0, 0, 0, 0.06);
+  --muted-color: #{v.$lightAltText};
+  --accent-color: #{v.$accentPrimary};
+  --accent-soft: #{v.$accentSoftLight};
+  color: v.$lightButtonContent;
+}

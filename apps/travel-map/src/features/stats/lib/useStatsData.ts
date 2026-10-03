@@ -98,11 +98,7 @@ function computeStats() {
       ? new Date().getFullYear() -
         Math.min(...visitedTrips.map((t) => t.sDate.getFullYear()))
       : 0;
-  const transportModeStats = getTransportModeStats(
-    visitedTrips,
-    takenFlights,
-    takenFerries,
-  );
+  const transportModeStats = getTransportModeStats(visitedTrips);
   const flightCompanyStats = getCompanyStats(takenFlights);
   const ferryCompanyStats = getCompanyStats(takenFerries);
   const countryVisitStats = getCountryVisitStats(visitedCities);

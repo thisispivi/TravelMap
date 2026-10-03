@@ -1,271 +1,281 @@
 import {
+  addDays,
+  deriveLegDistance,
   deriveTripDateRange,
   guessTransportMode,
-  locationBefore,
-  realignLeg,
+  TransportMode,
   TripJson,
-  TripStopJson,
-  TripTransportJson,
+  TripLegJson,
+  TripStayJson,
+  TripStepJson,
 } from "@travelmap/core";
 
-import { derivedDistanceKm } from "../../routes/lib/legDerivation";
-
-/** One element of a trip's ordered itinerary, either a stay or a leg. */
-export type Step = TripJson["steps"][number];
-
 /**
- * Rebuilds every leg's endpoints from the stops surrounding it. Called after
- * any structural change so the itinerary can never drift into the state the
- * previous editor shipped, where a leg claimed to run from a city to itself.
- * @param {TripJson} trip - The trip to realign
- * @returns {TripJson} A copy with consistent legs
+ * Where one leg lives: a move's chain, or a day trip's chain inside a stay.
+ * @property {number} index - Position of the step
+ * @property {number} [outing] - Position of the day trip, when the leg is in one
+ * @property {number} leg - Position within the chain
  */
-function realignLegs(trip: TripJson): TripJson {
-  return {
-    ...trip,
-    steps: trip.steps.map((step, index) =>
-      step.type === "transport" ? realignLeg(step, trip.steps, index) : step,
-    ),
-  };
+export interface LegAddress {
+  index: number;
+  outing?: number;
+  leg: number;
 }
 
 /**
- * Widens the trip's own dates to cover every stop it contains.
+ * Widens the trip's own dates to cover its itinerary, so the author never
+ * maintains them by hand. Only widens: an undated overnight flight home can
+ * end a trip a day after anything the itinerary records.
  * @param {TripJson} trip - The trip to adjust
- * @returns {TripJson} A copy whose range covers its stops
+ * @returns {TripJson} A copy whose range covers its itinerary
  */
-function coverStopDates(trip: TripJson): TripJson {
-  const derived = deriveTripDateRange(trip.steps);
-  if (!derived.sDate || !derived.eDate) return trip;
+function syncTripDates(trip: TripJson): TripJson {
+  const { eDate, sDate } = deriveTripDateRange(trip.steps);
   return {
     ...trip,
-    eDate:
-      trip.eDate && trip.eDate > derived.eDate ? trip.eDate : derived.eDate,
-    sDate:
-      trip.sDate && trip.sDate < derived.sDate ? trip.sDate : derived.sDate,
+    eDate: eDate && eDate > trip.eDate ? eDate : trip.eDate,
+    sDate: sDate && sDate < trip.sDate ? sDate : trip.sDate,
   };
 }
 
 /**
- * Keeps the stored origin and return in step with the itinerary's own ends.
- * Both fields stay in the JSON because the public app reads them, but the
- * author never has to maintain them by hand.
- * @param {TripJson} trip - The trip to adjust
- * @returns {TripJson} A copy whose endpoints match its first and last stop
+ * Finds where the traveller stands at the end of the itinerary.
+ * @param {TripJson} trip - The trip
+ * @returns {string} The city id
  */
-function deriveEndpoints(trip: TripJson): TripJson {
-  const stops = trip.steps.filter(
-    (step): step is TripStopJson => step.type === "stop",
-  );
-  const first = stops.at(0);
-  const last = stops.at(-1);
-  if (!first || !last) return trip;
+export function currentCityId(trip: TripJson): string {
+  const last = trip.steps.at(-1);
+  if (!last) return trip.originCityId;
+  return last.type === "stay" ? last.cityId : last.legs.at(-1)!.toId;
+}
+
+/**
+ * Finds the latest date the itinerary has reached, used to prefill the next
+ * stay so the author types as little as possible.
+ * @param {TripJson} trip - The trip
+ * @returns {string} A YYYY-MM-DD date
+ */
+function currentDate(trip: TripJson): string {
+  return (deriveTripDateRange(trip.steps).eDate ?? trip.sDate).slice(0, 10);
+}
+
+/**
+ * Builds a leg towards a city with a mode guessed from the distance, which the
+ * author can change; nothing else is filled in because nothing else is known.
+ * @param {string} fromId - Where the leg departs
+ * @param {string} toId - Where it arrives
+ * @param {Map<string, [number, number]>} coordinates - City coordinates by id
+ * @returns {TripLegJson} The new leg
+ */
+function newLeg(
+  fromId: string,
+  toId: string,
+  coordinates: Map<string, [number, number]>,
+): TripLegJson {
+  const from = coordinates.get(fromId);
+  const to = coordinates.get(toId);
   return {
-    ...trip,
-    originCityId: first.cityId,
-    returnCityId: last.cityId,
+    mode:
+      from && to ? guessTransportMode(deriveLegDistance(from, to)) : "train",
+    toId,
   };
 }
 
 /**
- * Applies every structural derivation in the order they depend on each other.
- * @param {TripJson} trip - The trip to normalise
- * @returns {TripJson} A consistent copy
+ * Travels on to a city: extends the current journey when the trip ends in one,
+ * otherwise starts a new journey from the last stay or the origin.
+ * @param {TripJson} trip - The trip
+ * @param {string} toId - The destination
+ * @param {Map<string, [number, number]>} coordinates - City coordinates by id
+ * @returns {TripJson} The extended trip
  */
-function normalizeTrip(trip: TripJson): TripJson {
-  return deriveEndpoints(coverStopDates(realignLegs(trip)));
+export function travelTo(
+  trip: TripJson,
+  toId: string,
+  coordinates: Map<string, [number, number]>,
+): TripJson {
+  const leg = newLeg(currentCityId(trip), toId, coordinates);
+  const last = trip.steps.at(-1);
+  const steps: TripStepJson[] =
+    last?.type === "move"
+      ? [...trip.steps.slice(0, -1), { ...last, legs: [...last.legs, leg] }]
+      : [...trip.steps, { legs: [leg], type: "move" }];
+  return syncTripDates({ ...trip, steps });
 }
 
 /**
- * Finds the last stop in an itinerary, which is where a new leg departs from.
- * @param {Step[]} steps - Ordered itinerary steps
- * @returns {TripStopJson | undefined} The final stay, when there is one
+ * Sleeps where the traveller now is, for a number of nights starting on the
+ * latest date the itinerary has reached unless a date is given.
+ * @param {TripJson} trip - The trip
+ * @param {number} nights - Nights to stay
+ * @param {string} [checkIn] - The first night, when known
+ * @returns {TripJson} The extended trip
  */
-function lastStop(steps: Step[]): TripStopJson | undefined {
-  return steps.findLast((step): step is TripStopJson => step.type === "stop");
+export function stayHere(
+  trip: TripJson,
+  nights: number,
+  checkIn: string = currentDate(trip),
+): TripJson {
+  const stay: TripStayJson = {
+    checkIn,
+    checkOut: addDays(checkIn, Math.max(0, nights)),
+    cityId: currentCityId(trip),
+    type: "stay",
+  };
+  return syncTripDates({ ...trip, steps: [...trip.steps, stay] });
 }
 
 /**
- * Adds a stay, and the leg that reaches it.
- * The leg is materialised rather than asked for: two consecutive stays always
- * imply a journey, and making the author create it separately is what produced
- * legs pointing at their own origin in the previous editor.
- * @param {TripJson} trip - The trip to extend
- * @param {string} cityId - The city being visited
- * @param {Map<string, [number, number]>} coordinatesById - City coordinates
- * @param {string} [sDate] - Arrival date, defaulting to the previous departure
- * @returns {TripJson} A copy carrying the new stop and its leg
+ * What an imported row says about a place besides which city it is.
+ * @property {TransportMode} [mode] - How the traveller got there
+ * @property {string} [checkIn] - The day they arrived
+ * @property {number} nights - Nights slept there, zero for a passing visit
  */
-export function addStop(
+interface ImportedVisit {
+  mode?: TransportMode;
+  checkIn?: string;
+  nights: number;
+}
+
+/**
+ * Appends one imported place: travel there, then either sleep there or record
+ * it as a place seen on the way, which is all a list of places can say.
+ * @param {TripJson} trip - The trip
+ * @param {string} cityId - The place
+ * @param {Map<string, [number, number]>} coordinates - City coordinates by id
+ * @param {ImportedVisit} visit - What the row said about the visit
+ * @returns {TripJson} The extended trip
+ */
+export function importPlace(
   trip: TripJson,
   cityId: string,
-  coordinatesById: Map<string, [number, number]>,
-  sDate?: string,
+  coordinates: Map<string, [number, number]>,
+  visit: ImportedVisit,
 ): TripJson {
-  const previous = lastStop(trip.steps);
-  const departureCityId = locationBefore(trip.steps, trip.steps.length);
-  const arrival = sDate ?? previous?.eDate ?? trip.sDate;
-  const stop: TripStopJson = {
-    type: "stop",
-    cityId,
-    eDate: arrival,
-    sDate: arrival,
-  };
-  const steps: Step[] = [...trip.steps];
+  const moved = travelTo(trip, cityId, coordinates);
+  const move = moved.steps.at(-1);
+  if (move?.type !== "move") return moved;
+  const leg = move.legs.at(-1)!;
+  const arrived = replaceStep(moved, moved.steps.length - 1, {
+    ...move,
+    legs: [
+      ...move.legs.slice(0, -1),
+      {
+        ...leg,
+        ...(visit.mode ? { mode: visit.mode } : {}),
+        ...(visit.nights > 0 ? {} : { visited: true }),
+        ...(visit.checkIn && visit.nights === 0
+          ? { arrive: visit.checkIn }
+          : {}),
+      },
+    ],
+  });
+  return visit.nights > 0
+    ? stayHere(arrived, visit.nights, visit.checkIn)
+    : arrived;
+}
 
-  if (departureCityId && departureCityId !== cityId) {
-    const distance = derivedDistanceKm(
-      departureCityId,
-      cityId,
-      coordinatesById,
+/**
+ * Adds a day trip to a stay: there and back on one date, with the date
+ * defaulting to the first full day of the stay.
+ * @param {TripJson} trip - The trip
+ * @param {number} index - Position of the stay
+ * @param {string} toId - The place visited
+ * @param {Map<string, [number, number]>} coordinates - City coordinates by id
+ * @returns {TripJson} The trip with the day trip added
+ */
+export function addOuting(
+  trip: TripJson,
+  index: number,
+  toId: string,
+  coordinates: Map<string, [number, number]>,
+): TripJson {
+  return mapStay(trip, index, (stay) => {
+    const there = newLeg(stay.cityId, toId, coordinates);
+    const date =
+      stay.checkOut > stay.checkIn ? addDays(stay.checkIn, 1) : stay.checkIn;
+    return {
+      ...stay,
+      outings: [
+        ...(stay.outings ?? []),
+        {
+          date: date > stay.checkOut ? stay.checkOut : date,
+          legs: [there, { mode: there.mode, toId: stay.cityId }],
+        },
+      ],
+    };
+  });
+}
+
+/**
+ * Adds another place to a chain. In a day trip it goes before the ride back,
+ * so the chain still ends at the stay.
+ * @param {TripJson} trip - The trip
+ * @param {Omit<LegAddress, "leg">} at - The chain
+ * @param {string} toId - The place
+ * @param {Map<string, [number, number]>} coordinates - City coordinates by id
+ * @returns {TripJson} The trip with the place added
+ */
+export function addPlaceTo(
+  trip: TripJson,
+  at: Omit<LegAddress, "leg">,
+  toId: string,
+  coordinates: Map<string, [number, number]>,
+): TripJson {
+  const step = trip.steps[at.index];
+  if (!step) return trip;
+  if (step.type === "move" || at.outing === undefined) {
+    if (step.type !== "move") return trip;
+    const fromId = step.legs.at(-1)!.toId;
+    return syncTripDates(
+      replaceStep(trip, at.index, {
+        ...step,
+        legs: [...step.legs, newLeg(fromId, toId, coordinates)],
+      }),
     );
-    steps.push({
-      type: "transport",
-      fromId: departureCityId,
-      mode: guessTransportMode(distance ?? 0),
-      toId: cityId,
-    });
   }
-  steps.push(stop);
 
-  return normalizeTrip({ ...trip, steps });
+  return mapStay(trip, at.index, (stay) => ({
+    ...stay,
+    outings: stay.outings?.map((outing, position) => {
+      if (position !== at.outing) return outing;
+      const last = outing.legs.at(-1);
+      const returns = last?.toId === stay.cityId;
+      const kept = returns ? outing.legs.slice(0, -1) : outing.legs;
+      const fromId = kept.at(-1)?.toId ?? stay.cityId;
+      const leg = newLeg(fromId, toId, coordinates);
+      return { ...outing, legs: [...kept, leg, ...(returns ? [last!] : [])] };
+    }),
+  }));
 }
 
 /**
- * Inserts a self-contained excursion after its base stay without consuming or
- * rewriting the onward leg that already follows that stay. The outbound leg's
- * round-trip flag makes the traveller's logical location return to the base.
- * @param {TripJson} trip - The trip to edit
- * @param {number} baseIndex - Position of the stay the excursion returns to
- * @param {string} cityId - The excursion destination
- * @param {Map<string, [number, number]>} coordinatesById - City coordinates
- * @returns {TripJson} A copy carrying the round-trip leg and destination stop
+ * Ends the trip back at its origin: a new journey after a stay, or one more
+ * leg on the journey the trip ends in.
+ * @param {TripJson} trip - The trip
+ * @param {Map<string, [number, number]>} coordinates - City coordinates by id
+ * @returns {TripJson} The completed trip
  */
-export function addDayTrip(
+export function returnHome(
   trip: TripJson,
-  baseIndex: number,
-  cityId: string,
-  coordinatesById: Map<string, [number, number]>,
+  coordinates: Map<string, [number, number]>,
 ): TripJson {
-  const base = trip.steps[baseIndex];
-  if (base?.type !== "stop" || base.cityId === cityId) return trip;
-
-  const date = base.eDate || base.sDate || trip.sDate;
-  const distance = derivedDistanceKm(base.cityId, cityId, coordinatesById);
-  const leg: TripTransportJson = {
-    type: "transport",
-    eDate: date,
-    fromId: base.cityId,
-    mode: guessTransportMode(distance ?? 0),
-    roundTrip: true,
-    sDate: date,
-    toId: cityId,
-  };
-  const stop: TripStopJson = {
-    type: "stop",
-    cityId,
-    eDate: date,
-    sDate: date,
-  };
-
-  return normalizeTrip({
-    ...trip,
-    steps: trip.steps.toSpliced(baseIndex + 1, 0, leg, stop),
-  });
+  return travelTo(trip, trip.originCityId, coordinates);
 }
 
 /**
- * Inserts a destination after a stay. Extending a compact single-destination
- * day trip expands it into an explicit loop with a return leg and layover at
- * the base, which lets further destinations be inserted before that return.
- * @param {TripJson} trip - The trip to edit
- * @param {number} stopIndex - Position of the stay to continue from
- * @param {string} cityId - The next destination
- * @param {Map<string, [number, number]>} coordinatesById - City coordinates
- * @returns {TripJson} A copy carrying the inserted destination and route legs
- */
-export function addStopAfter(
-  trip: TripJson,
-  stopIndex: number,
-  cityId: string,
-  coordinatesById: Map<string, [number, number]>,
-): TripJson {
-  const current = trip.steps[stopIndex];
-  if (current?.type !== "stop" || current.cityId === cityId) return trip;
-
-  const date = current.eDate || current.sDate || trip.sDate;
-  const distance = derivedDistanceKm(current.cityId, cityId, coordinatesById);
-  const outgoing: TripTransportJson = {
-    type: "transport",
-    eDate: date,
-    fromId: current.cityId,
-    mode: guessTransportMode(distance ?? 0),
-    sDate: date,
-    toId: cityId,
-  };
-  const destination: TripStopJson = {
-    type: "stop",
-    cityId,
-    eDate: date,
-    sDate: date,
-  };
-  const inbound = trip.steps[stopIndex - 1];
-  if (inbound?.type !== "transport" || !inbound.roundTrip)
-    return normalizeTrip({
-      ...trip,
-      steps: trip.steps.toSpliced(stopIndex + 1, 0, outgoing, destination),
-    });
-
-  const baseCityId = inbound.fromId;
-  const returnDistance = derivedDistanceKm(cityId, baseCityId, coordinatesById);
-  const returnLeg: TripTransportJson = {
-    type: "transport",
-    eDate: date,
-    fromId: cityId,
-    mode: guessTransportMode(returnDistance ?? 0),
-    sDate: date,
-    toId: baseCityId,
-  };
-  const returnStop: TripStopJson = {
-    type: "stop",
-    cityId: baseCityId,
-    eDate: date,
-    isLayover: true,
-    sDate: date,
-  };
-  const steps = trip.steps.map((step, index) =>
-    index === stopIndex - 1 && step.type === "transport"
-      ? { ...step, roundTrip: undefined }
-      : step,
-  );
-
-  return normalizeTrip({
-    ...trip,
-    steps: steps.toSpliced(
-      stopIndex + 1,
-      0,
-      outgoing,
-      destination,
-      returnLeg,
-      returnStop,
-    ),
-  });
-}
-
-/**
- * Replaces one step and realigns derived endpoints. This matters when a stay's
- * city or a leg's round-trip status changes where the following leg begins.
- * @param {TripJson} trip - The trip to edit
+ * Replaces one step.
+ * @param {TripJson} trip - The trip
  * @param {number} index - Position of the step
- * @param {Step} step - The replacement step
- * @returns {TripJson} A copy carrying the replacement
+ * @param {TripStepJson} step - The replacement
+ * @returns {TripJson} The changed trip
  */
 export function replaceStep(
   trip: TripJson,
   index: number,
-  step: Step,
+  step: TripStepJson,
 ): TripJson {
-  return realignLegs({
+  return syncTripDates({
     ...trip,
     steps: trip.steps.map((existing, position) =>
       position === index ? step : existing,
@@ -274,206 +284,148 @@ export function replaceStep(
 }
 
 /**
- * Removes a step and re-derives everything that depended on its position.
- * @param {TripJson} trip - The trip to edit
+ * Changes a stay through a function, leaving any other step alone.
+ * @param {TripJson} trip - The trip
+ * @param {number} index - Position of the stay
+ * @param {(stay: TripStayJson) => TripStayJson} change - The change
+ * @returns {TripJson} The changed trip
+ */
+function mapStay(
+  trip: TripJson,
+  index: number,
+  change: (stay: TripStayJson) => TripStayJson,
+): TripJson {
+  const step = trip.steps[index];
+  return step?.type === "stay" ? replaceStep(trip, index, change(step)) : trip;
+}
+
+/**
+ * Replaces one leg wherever it lives.
+ * @param {TripJson} trip - The trip
+ * @param {LegAddress} at - Where the leg is
+ * @param {TripLegJson} leg - The replacement
+ * @returns {TripJson} The changed trip
+ */
+export function updateLeg(
+  trip: TripJson,
+  at: LegAddress,
+  leg: TripLegJson,
+): TripJson {
+  return editChain(trip, at, (legs) =>
+    legs.map((existing, position) => (position === at.leg ? leg : existing)),
+  );
+}
+
+/**
+ * Removes one leg. A journey or day trip left with no legs goes with it, since
+ * neither can exist empty.
+ * @param {TripJson} trip - The trip
+ * @param {LegAddress} at - Where the leg is
+ * @returns {TripJson} The changed trip
+ */
+export function removeLeg(trip: TripJson, at: LegAddress): TripJson {
+  return editChain(trip, at, (legs) =>
+    legs.filter((_unused, position) => position !== at.leg),
+  );
+}
+
+/**
+ * Applies a change to one chain of legs and drops the chain's container when
+ * the change empties it.
+ * @param {TripJson} trip - The trip
+ * @param {Omit<LegAddress, "leg">} at - The chain
+ * @param {(legs: TripLegJson[]) => TripLegJson[]} change - The change
+ * @returns {TripJson} The changed trip
+ */
+function editChain(
+  trip: TripJson,
+  at: Omit<LegAddress, "leg">,
+  change: (legs: TripLegJson[]) => TripLegJson[],
+): TripJson {
+  const step = trip.steps[at.index];
+  if (!step) return trip;
+  if (step.type === "move") {
+    const legs = change(step.legs);
+    return legs.length > 0
+      ? replaceStep(trip, at.index, { ...step, legs })
+      : removeStep(trip, at.index);
+  }
+
+  return mapStay(trip, at.index, (stay) => ({
+    ...stay,
+    outings: stay.outings?.flatMap((outing, position) => {
+      if (position !== at.outing) return [outing];
+      const legs = change(outing.legs);
+      return legs.length > 0 ? [{ ...outing, legs }] : [];
+    }),
+  }));
+}
+
+/**
+ * Removes a whole step.
+ * @param {TripJson} trip - The trip
  * @param {number} index - Position of the step
- * @returns {TripJson} A copy without that step
+ * @returns {TripJson} The changed trip
  */
 export function removeStep(trip: TripJson, index: number): TripJson {
-  return normalizeTrip({
+  return syncTripDates({
     ...trip,
     steps: trip.steps.filter((_unused, position) => position !== index),
   });
 }
 
 /**
- * Interleaves stays with the available legs, retaining surplus legs at the
- * end so an imperfect imported itinerary never loses authored data.
- * @param {TripStopJson[]} stops - Stays in their intended order
- * @param {TripTransportJson[]} legs - Legs to place between them
- * @returns {Step[]} The normalized itinerary order
+ * Lists every chain's departure city for one step, so a leg editor can say
+ * "from" without storing it.
+ * @param {TripJson} trip - The trip
+ * @param {Omit<LegAddress, "leg">} at - The chain
+ * @returns {string[]} Departure city ids, one per leg
  */
-function interleaveStopsAndLegs(
-  stops: TripStopJson[],
-  legs: TripTransportJson[],
-): Step[] {
-  const interleaved = stops.flatMap((stop, index) => {
-    if (index === 0) return [stop];
-    const leg = legs[index - 1];
-    return leg ? [leg, stop] : [stop];
-  });
-  return [...interleaved, ...legs.slice(Math.max(0, stops.length - 1))];
-}
-
-/**
- * Moves a stay to another stay's position, then rebuilds and realigns the legs
- * between them. Transport details remain attached to their route position.
- * @param {TripJson} trip - The trip to edit
- * @param {number} from - Current step position of the stay
- * @param {number} to - Destination step position of another stay
- * @returns {TripJson} A copy with the stay moved
- */
-export function moveStop(trip: TripJson, from: number, to: number): TripJson {
-  const source = trip.steps[from];
-  const target = trip.steps[to];
-  if (source?.type !== "stop" || target?.type !== "stop" || from === to)
-    return trip;
-  const stops = trip.steps.filter(
-    (step): step is TripStopJson => step.type === "stop",
-  );
-  const legs = trip.steps.filter(
-    (step): step is TripTransportJson => step.type === "transport",
-  );
-  const fromStop = stops.indexOf(source);
-  const toStop = stops.indexOf(target);
-  const reorderedStops = stops
-    .toSpliced(fromStop, 1)
-    .toSpliced(toStop, 0, source);
-
-  return normalizeTrip({
-    ...trip,
-    steps: interleaveStopsAndLegs(reorderedStops, legs),
-  });
-}
-
-/**
- * Reorders the itinerary by the dates the author gave its stays, for the case
- * where places were added in the order they were remembered rather than the
- * order they were visited. Undated stops keep their relative position.
- * @param {TripJson} trip - The trip to reorder
- * @returns {TripJson} A copy sorted by stop date
- */
-export function sortByDate(trip: TripJson): TripJson {
-  const stops = trip.steps
-    .filter((step): step is TripStopJson => step.type === "stop")
-    .toSorted((first, second) => first.sDate.localeCompare(second.sDate));
-  const legs = trip.steps.filter(
-    (step): step is TripTransportJson => step.type === "transport",
-  );
-  return normalizeTrip({
-    ...trip,
-    steps: interleaveStopsAndLegs(stops, legs),
-  });
-}
-
-/**
- * Shifts a date by whole days without letting a timezone offset move it.
- * @param {string} value - The authored date
- * @param {number} days - Days to add, negative to subtract
- * @returns {string} The shifted date, unchanged when unparseable
- */
-function shiftDate(value: string, days: number): string {
-  const [datePart, timePart] = value.split("T");
-  const parsed = new Date(`${datePart}T00:00:00`);
-  if (Number.isNaN(parsed.getTime())) return value;
-  parsed.setDate(parsed.getDate() + days);
-  const shifted = [
-    parsed.getFullYear(),
-    parsed.getMonth() + 1,
-    parsed.getDate(),
-  ]
-    .map((part) => String(part).padStart(2, "0"))
-    .join("-");
-  return timePart ? `${shifted}T${timePart}` : shifted;
-}
-
-/**
- * Moves several steps in time at once, for the trip recorded a week off.
- * @param {TripJson} trip - The trip to edit
- * @param {number[]} indexes - Steps to shift
- * @param {number} days - Days to add, negative to subtract
- * @returns {TripJson} A copy with those steps shifted
- */
-export function shiftStepDates(
+export function chainOrigins(
   trip: TripJson,
-  indexes: number[],
-  days: number,
-): TripJson {
-  return normalizeTrip({
-    ...trip,
-    steps: trip.steps.map((step, index) => {
-      if (!indexes.includes(index)) return step;
-      if (step.type === "stop")
-        return {
-          ...step,
-          eDate: shiftDate(step.eDate, days),
-          sDate: shiftDate(step.sDate, days),
-        };
-      return {
-        ...step,
-        eDate: step.eDate ? shiftDate(step.eDate, days) : step.eDate,
-        sDate: step.sDate ? shiftDate(step.sDate, days) : step.sDate,
-      };
-    }),
-  });
-}
-
-/**
- * Sets one transport mode across several legs at once.
- * @param {TripJson} trip - The trip to edit
- * @param {number[]} indexes - Steps to change, non-legs are ignored
- * @param {TripTransportJson["mode"]} mode - The mode to apply
- * @returns {TripJson} A copy with those legs changed
- */
-export function setLegMode(
-  trip: TripJson,
-  indexes: number[],
-  mode: TripTransportJson["mode"],
-): TripJson {
-  return {
-    ...trip,
-    steps: trip.steps.map((step, index) =>
-      indexes.includes(index) && step.type === "transport"
-        ? { ...step, mode }
-        : step,
-    ),
-  };
-}
-
-/**
- * Removes several steps at once, as one undoable edit.
- * @param {TripJson} trip - The trip to edit
- * @param {number[]} indexes - Steps to remove
- * @returns {TripJson} A copy without those steps
- */
-export function removeSteps(trip: TripJson, indexes: number[]): TripJson {
-  return normalizeTrip({
-    ...trip,
-    steps: trip.steps.filter((_step, index) => !indexes.includes(index)),
-  });
-}
-
-/**
- * Merges a stop into the one before it, keeping the wider date range and
- * dropping the leg that used to sit between them.
- * @param {TripJson} trip - The trip to edit
- * @param {number} index - The later of the two stops
- * @returns {TripJson} A copy with the pair merged
- */
-export function mergeWithPreviousStop(trip: TripJson, index: number): TripJson {
-  const step = trip.steps[index];
-  if (step?.type !== "stop") return trip;
-  const previousIndex = trip.steps.findLastIndex(
-    (candidate, position) => position < index && candidate.type === "stop",
+  at: Omit<LegAddress, "leg">,
+): string[] {
+  const step = trip.steps[at.index];
+  if (!step) return [];
+  const legs =
+    step.type === "move"
+      ? step.legs
+      : (step.outings?.[at.outing ?? -1]?.legs ?? []);
+  const start =
+    step.type === "stay"
+      ? step.cityId
+      : currentCityId({ ...trip, steps: trip.steps.slice(0, at.index) });
+  return legs.map((_leg, position) =>
+    position === 0 ? start : legs[position - 1]!.toId,
   );
-  const previous = trip.steps[previousIndex];
-  if (!previous || previous.type !== "stop") return trip;
+}
 
-  const merged: TripStopJson = {
-    ...previous,
-    eDate: step.eDate > previous.eDate ? step.eDate : previous.eDate,
-    photoPath: previous.photoPath ?? step.photoPath,
-    sDate: step.sDate < previous.sDate ? step.sDate : previous.sDate,
-  };
-  return normalizeTrip({
-    ...trip,
-    steps: trip.steps
-      .map((candidate, position) =>
-        position === previousIndex ? merged : candidate,
-      )
-      .filter((_candidate, position) => {
-        if (position === index) return false;
-        return !(position > previousIndex && position < index);
-      }),
-  });
+/** Why the editor is asking the author to pick a place. */
+export type PlaceRequest =
+  | { kind: "travel" }
+  | { kind: "dayTrip"; index: number }
+  | { kind: "addToChain"; index: number; outing?: number };
+
+/**
+ * Applies the place the author picked to whatever asked for it.
+ * @param {TripJson} trip - The trip
+ * @param {PlaceRequest} request - What the place is for
+ * @param {string} cityId - The picked place
+ * @param {Map<string, [number, number]>} coordinates - City coordinates by id
+ * @returns {TripJson} The changed trip
+ */
+export function applyPlace(
+  trip: TripJson,
+  request: PlaceRequest,
+  cityId: string,
+  coordinates: Map<string, [number, number]>,
+): TripJson {
+  switch (request.kind) {
+    case "travel":
+      return travelTo(trip, cityId, coordinates);
+    case "dayTrip":
+      return addOuting(trip, request.index, cityId, coordinates);
+    case "addToChain":
+      return addPlaceTo(trip, request, cityId, coordinates);
+  }
 }

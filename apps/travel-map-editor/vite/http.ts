@@ -1,9 +1,12 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
 
-import type { ZodType } from "zod";
+import { ZodError, type ZodType } from "zod";
 
 const DEFAULT_BODY_LIMIT = 1_000_000;
 const LOCAL_HOSTS = new Set(["localhost", "127.0.0.1", "[::1]"]);
+
+/** An expected request failure whose message is safe to show to the author. */
+export class RequestError extends Error {}
 
 /**
  * Confirms that a mutating editor request came through the loopback-bound Vite
@@ -14,11 +17,17 @@ const LOCAL_HOSTS = new Set(["localhost", "127.0.0.1", "[::1]"]);
 export function assertLocalRequest(request: IncomingMessage): void {
   const host = request.headers.host ?? "";
   const hostname = host.replace(/:\d+$/, "");
-  if (!LOCAL_HOSTS.has(hostname)) throw new Error("Local requests only.");
+  const address = request.socket.remoteAddress;
+  if (
+    !LOCAL_HOSTS.has(hostname) ||
+    !address ||
+    !["127.0.0.1", "::1", "::ffff:127.0.0.1"].includes(address)
+  )
+    throw new RequestError("Local requests only.");
 
   const origin = request.headers.origin;
-  if (origin && new URL(origin).host !== host)
-    throw new Error("Cross-origin editor requests are not allowed.");
+  if (origin && origin !== `http://${host}`)
+    throw new RequestError("Cross-origin editor requests are not allowed.");
 }
 
 /**
@@ -33,19 +42,27 @@ export async function readJsonBody<T>(
   schema: ZodType<T>,
   limit = DEFAULT_BODY_LIMIT,
 ): Promise<T> {
-  if (!request.headers["content-type"]?.startsWith("application/json"))
-    throw new Error("Expected an application/json request.");
+  if (
+    request.headers["content-type"]?.split(";")[0].trim().toLowerCase() !==
+    "application/json"
+  )
+    throw new RequestError("Expected an application/json request.");
 
   const chunks: Buffer[] = [];
   let size = 0;
   for await (const chunk of request) {
     const buffer = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk);
     size += buffer.byteLength;
-    if (size > limit) throw new Error("Request body is too large.");
+    if (size > limit) throw new RequestError("Request body is too large.");
     chunks.push(buffer);
   }
 
-  const value: unknown = JSON.parse(Buffer.concat(chunks).toString("utf8"));
+  let value: unknown;
+  try {
+    value = JSON.parse(Buffer.concat(chunks).toString("utf8"));
+  } catch {
+    throw new RequestError("The request body is not valid JSON.");
+  }
   return schema.parse(value);
 }
 
@@ -73,5 +90,11 @@ export function sendJson(
  * @returns {{ error: string }} The JSON error body
  */
 export function errorBody(error: unknown, fallback: string): { error: string } {
-  return { error: error instanceof Error ? error.message : fallback };
+  if (error instanceof RequestError) return { error: error.message };
+  if (error instanceof ZodError)
+    return {
+      error:
+        "The submitted data is invalid. Check the document fields and try again.",
+    };
+  return { error: fallback };
 }

@@ -10,6 +10,7 @@ import {
   toAuthoredZoom,
   toMapLibreZoom,
   TripJson,
+  walkTripLegs,
 } from "@travelmap/core";
 import type { FeatureCollection, Geometry } from "geojson";
 import { Focus, ScanLine } from "lucide-react";
@@ -31,9 +32,9 @@ const FIT_PADDING_PX = 64;
 
 /**
  * EditorMap component
- * The geography half of the workspace. Stops are numbered markers and legs are
- * lines between them, so an itinerary that doubles back or leaves a gap is
- * visible here even when the rail reads plausibly. Selecting anything selects
+ * The geography half of the workspace. Places slept in are numbered markers,
+ * journeys are solid lines and day trips dashed, so an itinerary that doubles
+ * back or leaves a gap is visible here even when the story reads plausibly. Selecting anything selects
  * it in every other pane too.
  * @component
  * @param {EditorMapProps} props
@@ -61,23 +62,22 @@ export function EditorMap({
   const mapStyle = useMemo(() => createMapStyle(theme), [theme]);
 
   const stops = trip.steps.flatMap((step, index) => {
-    if (step.type !== "stop") return [];
+    if (step.type !== "stay") return [];
     const city = cityById.get(step.cityId);
     return city ? [{ city, index }] : [];
   });
   const routes: FeatureCollection<Geometry> = {
-    features: trip.steps.flatMap((step, index) => {
-      if (step.type !== "transport") return [];
-      const from = cityById.get(step.fromId);
-      const to = cityById.get(step.toId);
-      if (!from || !to || step.fromId === step.toId) return [];
+    features: walkTripLegs(trip).flatMap(({ fromId, index, leg, outing }) => {
+      const from = cityById.get(fromId);
+      const to = cityById.get(leg.toId);
+      if (!from || !to || fromId === leg.toId) return [];
       return [
         {
           geometry: {
             coordinates: [from.coordinates, to.coordinates],
             type: "LineString" as const,
           },
-          properties: { index, mode: step.mode },
+          properties: { index, isOuting: outing !== undefined },
           type: "Feature" as const,
         },
       ];
@@ -153,11 +153,18 @@ export function EditorMap({
         <WorldLayers theme={theme} />
         <Source data={routes} id="routes" type="geojson">
           <Layer
+            filter={["!", ["get", "isOuting"]]}
             id="route-line"
+            paint={{ "line-color": theme.border, "line-width": 2.5 }}
+            type="line"
+          />
+          <Layer
+            filter={["get", "isOuting"]}
+            id="route-outing-line"
             paint={{
               "line-color": theme.border,
               "line-dasharray": [2, 1.5],
-              "line-width": 2,
+              "line-width": 1.75,
             }}
             type="line"
           />

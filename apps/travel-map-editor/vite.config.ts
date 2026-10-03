@@ -8,6 +8,7 @@ import svgr from "vite-plugin-svgr";
 import { assetWriter } from "./vite/assetWriter.ts";
 import { cityIndex } from "./vite/cityIndex.ts";
 import { dataWriter } from "./vite/dataWriter.ts";
+import { mediaUploader } from "./vite/mediaUploader.ts";
 import { snapshots } from "./vite/snapshots.ts";
 
 /*
@@ -24,6 +25,10 @@ export default defineConfig({
     dataWriter(resolve(import.meta.dirname, "../../data")),
     assetWriter(resolve(import.meta.dirname, "../../data/logos")),
     cityIndex(),
+    mediaUploader(
+      resolve(import.meta.dirname, "../.."),
+      resolve(import.meta.dirname, "../../data"),
+    ),
     snapshots(resolve(import.meta.dirname, "../../.data-snapshots")),
   ],
   resolve: {

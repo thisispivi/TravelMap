@@ -31,7 +31,6 @@
   },
   "editorForm": {
     "deleteError": "Could not delete the file.",
-    "confirmDelete": "Confirm delete",
     "cancel": "Cancel",
     "delete": "Delete"
   },
@@ -185,8 +184,11 @@
     "tripIdHint": "File name and trip page URL. Derived from the title.",
     "tripTitlePlaceholder": "Rome trip",
     "titleRequired": "A title is required.",
-    "endBeforeStart": "The end date is before the start date.",
-    "create": "Create"
+    "create": "Create",
+    "origin": "Where did you start from?",
+    "startDate": "Leaving on",
+    "originMissing": "Not in the list? Add the place",
+    "originRequired": "Pick where the trip started."
   },
   "configScreen": {
     "kind": "Settings",
@@ -229,8 +231,8 @@
     "newTrip": "New trip",
     "welcome": "No trips yet",
     "welcomeHint": "A trip is the only thing you create here. The cities and countries it needs are written for you as you add places.",
-    "stopCount_one": "{{count}} stop",
-    "stopCount_other": "{{count}} stops",
+    "stopCount_one": "{{count}} place slept",
+    "stopCount_other": "{{count}} places slept",
     "readyBadge": "Ready",
     "warningBadge_one": "{{count}} warning",
     "warningBadge_other": "{{count}} warnings",
@@ -278,44 +280,7 @@
     "recoveryFound": "Unsaved changes from {{at}} were found in this browser.",
     "restore": "Restore",
     "discard": "Discard",
-    "summary": "{{steps}} steps, {{cities}} cities"
-  },
-  "rail": {
-    "emptyTitle": "Nothing in this itinerary yet",
-    "emptyHint": "Add the first place you went. The city file, its country, and the leg that reaches it are written for you.",
-    "addStop": "Add place",
-    "dayNumber": "Day {{number}}",
-    "unscheduled": "Unscheduled",
-    "blockingCount_one": "{{count}} problem",
-    "blockingCount_other": "{{count}} problems",
-    "warningCount_one": "{{count}} warning",
-    "warningCount_other": "{{count}} warnings",
-    "dragHandle": "Reorder step {{position}}",
-    "dragInstructions": "Press Space to pick up this step, use the arrow keys to move it, then press Space again to drop it."
-  },
-  "inspector": {
-    "title": "Details",
-    "trip": "Trip",
-    "stop": "Stay",
-    "leg": "Leg",
-    "openCity": "Open city file",
-    "more": "More options",
-    "photoManifestHint": "Select the generated JSON below data/photos to link it to this stay.",
-    "minPhotos": "Minimum photos per row",
-    "maxPhotos": "Maximum photos per row",
-    "targetRowHeight": "Target row height",
-    "rowConstraintsHint": "Gallery layout hints used by the public site.",
-    "useSuggestion": "Use",
-    "greatCircle": "great-circle",
-    "forThisMode": "for this mode",
-    "endpointsHint": "Endpoints follow the stays on either side of this leg.",
-    "mapFocus": "Map focus",
-    "mapFocusAuto": "Fitted to the trip",
-    "clearMapFocus": "Clear map focus",
-    "mergeWithPrevious": "Merge into the previous stay",
-    "addDayTrip": "Add day trip from this stay",
-    "addNextStop": "Add next stop",
-    "roundTripHint": "The excursion returns to {{city}}, so the next leg also starts there. Do not add a separate return leg."
+    "summary": "{{places}} places, {{nights}} nights"
   },
   "photoImport": {
     "title": "Import photo manifest",
@@ -423,14 +388,6 @@
     "restore": "Restore",
     "confirmRestore": "Overwrite with this"
   },
-  "bulk": {
-    "selected_one": "{{count}} step selected",
-    "selected_other": "{{count}} steps selected",
-    "setMode": "Mode",
-    "shift": "Move",
-    "delete": "Delete",
-    "clear": "Clear"
-  },
   "palette": {
     "title": "Commands",
     "placeholder": "Search commands, trips, and places",
@@ -474,18 +431,22 @@
   },
   "issueFix": {
     "trip": {
-      "originMismatch": "Use the first stop as the origin",
-      "returnMismatch": "Use the last stop as the return",
-      "rangeLooserThanStops": "Match the trip dates to its stops"
+      "startsWithStay": "Start the trip in {{city}}",
+      "rangeMismatch": "Match the trip dates to its itinerary"
     },
-    "stop": {
-      "missingGallery": "Remove the gallery reference",
-      "beforeTripStart": "Start the trip on {{sDate}}",
-      "afterTripEnd": "End the trip on {{eDate}}"
+    "move": {
+      "consecutive": "Join them into one journey"
+    },
+    "stay": {
+      "missingGallery": "Remove the reference",
+      "notReached": "End that journey in {{city}}"
+    },
+    "outing": {
+      "notBack": "Add the ride back to {{city}}"
     },
     "leg": {
-      "identicalEndpoints": "Remove the leg",
-      "endpointMismatch": "Reconnect to the surrounding stops",
+      "missingGallery": "Remove the reference",
+      "identicalEndpoints": "Remove the ride",
       "flightOnNonFlight": "Remove the flight details",
       "ferryOnNonFerry": "Remove the ferry details"
     }
@@ -496,40 +457,22 @@
       "invalidStart": "The trip start is not a date.",
       "invalidEnd": "The trip end is not a date.",
       "endBeforeStart": "The trip ends before it starts.",
-      "unknownOrigin": "The origin city \"{{cityId}}\" does not exist.",
-      "unknownReturn": "The return city \"{{cityId}}\" does not exist.",
+      "unknownOrigin": "The starting city \"{{cityId}}\" does not exist.",
       "invalidMapFocus": "The map focus zoom is not a number.",
       "coverImagePath": "Cover image paths are relative to the CDN and start with a slash.",
       "noSteps": "The trip has no itinerary yet.",
-      "originMismatch": "The trip starts somewhere other than its recorded origin ({{origin}}).",
-      "returnMismatch": "The trip ends somewhere other than its recorded return ({{return}}).",
-      "noDatedStops": "The trip has legs but no stays, so it has no dates of its own.",
-      "rangeLooserThanStops": "The stops only cover {{sDate}} to {{eDate}}."
-    },
-    "stop": {
-      "unknownCity": "Stop {{position}} references the unknown city \"{{cityId}}\".",
-      "invalidArrival": "{{city}} has no valid arrival date.",
-      "invalidDeparture": "{{city}} has no valid departure date.",
-      "endBeforeStart": "{{city}} departs before it is reached.",
-      "missingGallery": "{{city}} references the missing gallery \"{{photoPath}}\".",
-      "duplicateConsecutive": "{{city}} is recorded twice in a row.",
-      "beforeTripStart": "{{city}} starts before the trip does.",
-      "afterTripEnd": "{{city}} ends after the trip does."
+      "startsWithStay": "The trip starts in {{origin}} but the first thing recorded is a stay in {{city}}.",
+      "rangeMismatch": "The itinerary covers {{sDate}} to {{eDate}}."
     },
     "leg": {
-      "unknownCity": "Step {{position}} has an unknown {{field}} city \"{{cityId}}\".",
-      "unknownVia": "Step {{position}} passes through the unknown city \"{{cityId}}\".",
-      "invalidDeparture": "The {{from}} departure is not a date.",
-      "invalidArrival": "The {{to}} arrival is not a date.",
-      "arrivalBeforeDeparture": "The leg to {{to}} arrives before it departs.",
-      "identicalEndpoints": "This {{mode}} leg starts and ends in {{city}}.",
-      "endpointMismatch": "This leg does not connect {{from}} to {{to}}.",
-      "flightOnNonFlight": "Flight details are recorded on a {{mode}} leg.",
-      "ferryOnNonFerry": "Ferry details are recorded on a {{mode}} leg.",
+      "unknownCity": "A ride goes to the unknown city \"{{cityId}}\".",
+      "unknownVia": "A ride passes through the unknown city \"{{cityId}}\".",
+      "missingGallery": "{{city}} points at the missing gallery \"{{photoPath}}\".",
+      "identicalEndpoints": "This {{mode}} ride starts and ends in {{city}}.",
+      "arrivalBeforeDeparture": "The ride to {{to}} arrives before it leaves.",
+      "flightOnNonFlight": "Flight details are recorded on a {{mode}} ride.",
+      "ferryOnNonFerry": "Ferry details are recorded on a {{mode}} ride.",
       "impossibleSpeed": "{{from}} to {{to}} in {{minutes}} minutes is faster than any of these modes travel."
-    },
-    "itinerary": {
-      "missingLeg": "No transport is recorded between {{from}} and {{to}}."
     },
     "city": {
       "unknownCountry": "City \"{{id}}\" belongs to the unknown country \"{{countryId}}\".",
@@ -548,6 +491,142 @@
     },
     "config": {
       "unknownCity": "The site configuration's {{field}} references the unknown city \"{{id}}\"."
+    },
+    "move": {
+      "consecutive": "Two journeys follow each other with no stay between them."
+    },
+    "stay": {
+      "unknownCity": "Stay {{position}} references the unknown city \"{{cityId}}\".",
+      "endBeforeStart": "You leave {{city}} before you arrive.",
+      "missingGallery": "{{city}} points at the missing gallery \"{{photoPath}}\".",
+      "notReached": "The journey before {{city}} ends in {{arrivedAt}}.",
+      "noMoveBetween": "Nothing records how you got from {{from}} to {{to}}.",
+      "overlap": "{{city}} starts before you left {{previous}}."
+    },
+    "outing": {
+      "outsideStay": "The day trip on {{date}} is outside your stay in {{city}}.",
+      "notBack": "The day trip on {{date}} never comes back to {{city}}."
+    }
+  },
+  "story": {
+    "tripDetails": "Trip name, cover and end date",
+    "endHint": "Worked out from the itinerary; change it only if the last journey is undated.",
+    "startedIn": "Where did the trip start?",
+    "startedOn": "Leaving on",
+    "travel": "Travel",
+    "removeJourney": "Remove this journey",
+    "addStopOnTheWay": "Add a change or a place seen on the way",
+    "whatNext": "You are in {{city}}. What happened next?",
+    "backHome": "Back home in {{city}}. Trip complete — or keep going.",
+    "howManyNights": "Nights",
+    "sleepHere": "I slept in {{city}}",
+    "travelTo": "Travel from {{city}} to…",
+    "travelOn": "Keep travelling from {{city}} to…",
+    "returnHome": "Go back home",
+    "sleptIn": "Slept in {{city}}",
+    "dayIn": "A day in {{city}}",
+    "noNights": "No overnight stay",
+    "night": "Night {{from}}",
+    "nights": "Nights {{from}}–{{to}}",
+    "removeStay": "Remove the stay in {{city}}",
+    "checkIn": "Arrived on",
+    "leftOn": "Left on {{date}}",
+    "photos": "Photos",
+    "dayTrip": "Day trip",
+    "dayTripDate": "Date",
+    "removeDayTrip": "Remove this day trip",
+    "addPlaceToDayTrip": "Add another place to this day trip",
+    "addDayTrip": "Add a day trip from {{city}}",
+    "how": "How did you travel?",
+    "goingTo": "Going to",
+    "departs": "Departed",
+    "arrives": "Arrived",
+    "localTime": "Local time in {{zone}}",
+    "estimatedHint": "Empty — the site will show about {{value}}.",
+    "visited": "visited",
+    "visitedLabel": "I stopped and looked around here",
+    "backTo": "Back to {{city}}",
+    "about": "about",
+    "removeRide": "Remove this ride",
+    "placeFor": {
+      "travel": "Where did you go?",
+      "dayTrip": "Where did the day trip go?",
+      "addToChain": "Add a place"
+    },
+    "clearMapFocus": "Forget the saved map view"
+  },
+  "upload": {
+    "open": "Upload photos",
+    "title": "Upload photos and videos",
+    "where": "Where should they go?",
+    "local": "This computer (media folder)",
+    "bunny": "Bunny CDN",
+    "bunnyMissing": "Bunny CDN (add its key to env/.env)",
+    "drop": "Drop photos and videos here, or click to choose",
+    "hint": "Photos become a full-size and a thumbnail WEBP. Videos get a thumbnail; add their YouTube id afterwards with Import.",
+    "hintNoVideo": "Photos become a full-size and a thumbnail WEBP. Install ffmpeg to upload videos too.",
+    "progress": "Upload progress for {{name}}",
+    "status": {
+      "waiting": "Waiting…",
+      "uploading": "Uploading {{percent}}%",
+      "processing": "Resizing…",
+      "done": "Done",
+      "failed": "Failed"
+    },
+    "videoDone": "Done — add its YouTube id with Import",
+    "retry": "Retry",
+    "summary": "{{done}} of {{total}} done",
+    "saved_one": "{{count}} file added to the gallery.",
+    "saved_other": "{{count}} files added to the gallery.",
+    "saveFailed": "The files uploaded but the gallery could not be saved.",
+    "configFailed": "Could not reach the editor's upload service.",
+    "close": "Close"
+  },
+  "confirm": {
+    "deleteTrip": {
+      "title": "Delete “{{trip}}”?",
+      "message": "The trip file is removed from data/. A backup snapshot is taken first, so you can restore it from Settings.",
+      "action": "Delete trip"
+    },
+    "deleteDocument": {
+      "title": "Delete {{name}}?",
+      "message": "The file is removed from data/. Trips that still use it will show a validation problem.",
+      "action": "Delete"
+    },
+    "restore": {
+      "title": "Restore {{name}}?",
+      "message": "Every file in data/ is replaced with this snapshot. Changes made since then are lost unless you take a snapshot first.",
+      "action": "Restore"
+    },
+    "removeStay": {
+      "title": "Remove the stay in {{city}}?",
+      "message": "The stay and its day trips are removed from this trip. Undo brings them back.",
+      "action": "Remove stay"
+    },
+    "removeDayTrip": {
+      "title": "Remove the day trip on {{date}}?",
+      "message": "All its places and rides are removed. Undo brings them back.",
+      "action": "Remove day trip"
+    },
+    "removeJourney": {
+      "title": "Remove this journey?",
+      "message": "Every ride in it is removed. Undo brings them back.",
+      "action": "Remove journey"
+    },
+    "removeRide": {
+      "title": "Remove {{from}} → {{to}}?",
+      "message": "The ride is removed from this trip. Undo brings it back.",
+      "action": "Remove ride"
+    },
+    "removeLocale": {
+      "title": "Remove {{locale}}?",
+      "message": "The site stops offering this language. Translations already typed stay in the files.",
+      "action": "Remove language"
+    },
+    "removeCompany": {
+      "title": "Remove {{name}}?",
+      "message": "Trips that use this operator will show its id instead of its name and logo.",
+      "action": "Remove company"
     }
   }
 }

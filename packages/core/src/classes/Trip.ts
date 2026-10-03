@@ -2,6 +2,8 @@ import { unique } from "remeda";
 
 import { CompanyId, PublishedImage, TransportMode } from "../schema";
 import { localize } from "../typings/Localized";
+import { daysBetween, formatLocalDate, parseLocalDate } from "../world/date";
+import { Measured } from "../world/derive";
 import { mediaUrl } from "../world/media";
 import { City } from "./City";
 import { Country } from "./Country";
@@ -10,165 +12,198 @@ import { Flight } from "./Flight";
 import { Travel } from "./Travel";
 
 /**
- * Data represented by the flight leg interface.
+ * Airline details recorded on a plane leg.
  * @property {CompanyId} [company] - The airline id
  * @property {string} [number] - The flight number
  * @property {string} [class] - The cabin class
- * @property {number} [durationMinutes] - The duration minutes
- * @property {number} [distanceInKm] - The distance in km
  */
-interface FlightLeg {
+interface FlightDetails {
   company?: CompanyId;
   number?: string;
   class?: string;
-  durationMinutes?: number;
-  distanceInKm?: number;
 }
 
 /**
- * Data represented by the ferry leg interface.
- * @property {CompanyId} [company] - The ferry operator id
- * @property {number} [durationMinutes] - The duration minutes
- * @property {number} [distanceInKm] - The distance in km
- * @property {City[]} [via] - The via
+ * Gallery layout overrides for a visit's photos.
+ * @property {number} [minPhotos] - Fewest photos per gallery row
+ * @property {number} [maxPhotos] - Most photos per gallery row
  */
-interface FerryLeg {
-  company?: CompanyId;
-  durationMinutes?: number;
-  distanceInKm?: number;
-  via?: City[];
+interface RowConstraints {
+  minPhotos?: number;
+  maxPhotos?: number;
 }
 
 /**
- * Origin or return city of a trip (e.g. home city).
- * @property {City} city - The endpoint city
+ * One resolved ride. `depart` and `arrive` keep the authored wall-clock strings
+ * because each is local to a different city; reading them as one `Date` would
+ * silently apply the browser's zone to both.
+ * @property {"move" | "outing"} context - Whether it relocates or is part of a day trip
+ * @property {TransportMode} mode - How the traveller moved
+ * @property {City} from - Where the ride started
+ * @property {City} to - Where the ride ended
+ * @property {City[]} via - Cities passed through without stopping
+ * @property {string} [depart] - Departure, local to `from`
+ * @property {string} [arrive] - Arrival, local to `to`
+ * @property {string} date - The calendar day the ride arrived, best known
+ * @property {Date} arrivedAt - When `to` was reached, the identity its gallery is found by
+ * @property {Measured} distance - Kilometres, flagged when estimated
+ * @property {Measured} duration - Minutes, flagged when estimated
+ * @property {boolean} visited - Whether `to` was a place seen rather than passed through
+ * @property {PublishedImage[]} [photos] - Photos taken at `to`
+ * @property {RowConstraints} [rowConstraints] - Gallery row overrides
+ * @property {number} [targetRowHeight] - Gallery row height override
+ * @property {FlightDetails} [flight] - Airline details
+ * @property {CompanyId} [ferryCompany] - The ferry operator
  */
-export interface TripEndpoint {
-  city: City;
-}
-
-/**
- * A city visit within a trip, with date range, optional photos and layover flag.
- * @property {City} city - The visited city
- * @property {Date} sDate - The visit start date
- * @property {Date} eDate - The visit end date
- * @property {PublishedImage[]} [photos] - The visit photos
- * @property {string} [imgSource] - The visit image source
- * @property {boolean} [isLayover] - Whether the visit is a layover
- * @property {{ minPhotos?: number; maxPhotos?: number }} [rowConstraints] - Gallery row constraints
- * @property {number} [targetRowHeight] - Gallery target row height
- */
-export interface TripStop {
-  city: City;
-  sDate: Date;
-  eDate: Date;
-  photos?: PublishedImage[];
-  imgSource?: string;
-  isLayover?: boolean;
-  rowConstraints?: { minPhotos?: number; maxPhotos?: number };
-  targetRowHeight?: number;
-}
-
-/**
- * A transport step (flight, ferry, drive, etc.) between two cities in a trip.
- * @property {"transport"} type - The route step discriminator
- * @property {TransportMode} mode - The transport mode
- * @property {City} from - The origin city
- * @property {City} to - The destination city
- * @property {Date} [sDate] - The departure date
- * @property {Date} [eDate] - The arrival date
- * @property {number} [distanceInKm] - The distance in kilometers
- * @property {number} [durationMinutes] - The duration in minutes
- * @property {City[]} [via] - Intermediate cities
- * @property {FlightLeg} [flight] - Flight-specific metadata
- * @property {FerryLeg} [ferry] - Ferry-specific metadata
- * @property {boolean} [roundTrip] - Whether the step is a round trip
- */
-export interface TripTransportStep {
-  type: "transport";
+export interface TripLeg {
+  context: "move" | "outing";
   mode: TransportMode;
   from: City;
   to: City;
-  sDate?: Date;
-  eDate?: Date;
-  distanceInKm?: number;
-  durationMinutes?: number;
-  via?: City[];
-  flight?: FlightLeg;
-  ferry?: FerryLeg;
-  roundTrip?: boolean;
+  via: City[];
+  depart?: string;
+  arrive?: string;
+  date: string;
+  arrivedAt: Date;
+  distance: Measured;
+  duration: Measured;
+  visited: boolean;
+  photos?: PublishedImage[];
+  rowConstraints?: RowConstraints;
+  targetRowHeight?: number;
+  flight?: FlightDetails;
+  ferryCompany?: CompanyId;
 }
 
 /**
- * A stop step (city visit) within a trip's route steps array.
- * @property {"stop"} type - The route step discriminator
+ * A day trip: leaves a stay, sees one or more places, and returns.
+ * @property {string} date - The calendar day of the outing
+ * @property {TripLeg[]} legs - Rides in order, the last one back to the stay
  */
-export interface TripStopStep extends TripStop {
-  type: "stop";
+export interface TripOuting {
+  date: string;
+  legs: TripLeg[];
 }
 
 /**
- * Union of a stop step and a transport step — one element in a trip's route.
+ * A place the traveller slept.
+ * @property {"stay"} type - The step discriminator
+ * @property {City} city - Where they slept
+ * @property {string} checkIn - The first night's date
+ * @property {string} checkOut - The morning they left
+ * @property {number} nights - Nights slept here
+ * @property {PublishedImage[]} [photos] - Photos of the stay
+ * @property {RowConstraints} [rowConstraints] - Gallery row overrides
+ * @property {number} [targetRowHeight] - Gallery row height override
+ * @property {TripOuting[]} outings - Day trips taken from here
  */
-export type TripRouteStep = TripStopStep | TripTransportStep;
+export interface TripStay {
+  type: "stay";
+  city: City;
+  checkIn: string;
+  checkOut: string;
+  nights: number;
+  photos?: PublishedImage[];
+  rowConstraints?: RowConstraints;
+  targetRowHeight?: number;
+  outings: TripOuting[];
+}
 
 /**
- * A resolved city visit derived from route steps, enriched with visit index and arrival mode.
- * @property {number} travelIdx - The city's travel index
- * @property {TransportMode} [arrivalTransport] - The transport mode used to arrive
+ * Getting from one stay (or the trip's origin) to the next.
+ * @property {"move"} type - The step discriminator
+ * @property {City} from - Where the move started
+ * @property {City} to - Where it ended
+ * @property {TripLeg[]} legs - Rides in order
  */
-export interface TripDestination extends TripStop {
+export interface TripMove {
+  type: "move";
+  from: City;
+  to: City;
+  legs: TripLeg[];
+}
+
+/** One element of a resolved itinerary. */
+export type TripStep = TripStay | TripMove;
+
+/** Whether a destination was slept in, seen, or only passed through. */
+export type DestinationKind = "stay" | "visit" | "stopover";
+
+/**
+ * Every place the trip touched, in order, in the shape galleries and city
+ * statistics read.
+ * @property {City} city - The place
+ * @property {DestinationKind} kind - Slept in, seen, or passed through
+ * @property {Date} sDate - Arrival
+ * @property {Date} eDate - Departure
+ * @property {PublishedImage[]} [photos] - Photos taken there
+ * @property {RowConstraints} [rowConstraints] - Gallery row overrides
+ * @property {number} [targetRowHeight] - Gallery row height override
+ * @property {number} travelIdx - How many earlier destinations in this trip were the same city
+ * @property {TransportMode} [arrivalTransport] - How the traveller arrived
+ */
+export interface TripDestination {
+  city: City;
+  kind: DestinationKind;
+  sDate: Date;
+  eDate: Date;
+  photos?: PublishedImage[];
+  rowConstraints?: RowConstraints;
+  targetRowHeight?: number;
   travelIdx: number;
   arrivalTransport?: TransportMode;
 }
 
 /**
- * Data represented by the trip data interface.
+ * Totals for one transport mode.
+ * @property {number} count - Rides taken
+ * @property {number} km - Kilometres covered
+ * @property {number} minutes - Minutes spent
+ */
+export interface ModeTotal {
+  count: number;
+  km: number;
+  minutes: number;
+}
+
+/**
+ * Data used to construct a trip.
  * @property {string} id - The id
  * @property {string} [title] - The canonical trip title
  * @property {Record<string, string>} [titleByLocale] - Locale-specific trip titles
- * @property {string} [description] - The description
  * @property {Date} sDate - The trip start date
  * @property {Date} eDate - The trip end date
- * @property {TripRouteStep[]} steps - The steps
- * @property {string} [backgroundImgSourceKey] - The background img source key
+ * @property {City} origin - Where the trip started
+ * @property {TripStep[]} steps - The resolved itinerary
  * @property {string} [coverImage] - A CDN-relative cover image path
- * @property {TripEndpoint} origin - The origin
- * @property {TripEndpoint} returnTo - The return to
  * @property {{ center: [number, number]; zoom: number }} [mapFocus] - The map focus
  */
 interface TripData {
   id: string;
   title?: string;
   titleByLocale?: Record<string, string>;
-  description?: string;
   sDate: Date;
   eDate: Date;
-  steps: TripRouteStep[];
-  backgroundImgSourceKey?: string;
+  origin: City;
+  steps: TripStep[];
   coverImage?: string;
-  origin: TripEndpoint;
-  returnTo: TripEndpoint;
   mapFocus?: { center: [number, number]; zoom: number };
 }
 
 /**
- * Represents a single travel trip — its origin, itinerary steps, date range,
- * and derived destination list. Provides helpers to extract flights, ferries,
- * visited countries, and map route coordinates.
+ * A journey as an alternation of stays and moves, with day trips hanging off
+ * the stays. Everything a reader asks — where they slept, how they moved, how
+ * far — is answered from that structure rather than guessed from dates.
  * @class
  * @param {TripData} data - The trip data
  * @param {string} data.id - The trip identifier
  * @param {string} [data.title] - The canonical trip title
  * @param {Record<string, string>} [data.titleByLocale] - Locale-specific trip titles
- * @param {string} [data.description] - The optional trip description
  * @param {Date} data.sDate - The trip start date
  * @param {Date} data.eDate - The trip end date
- * @param {TripRouteStep[]} data.steps - The ordered route steps
- * @param {string} [data.backgroundImgSourceKey] - The background image key
+ * @param {City} data.origin - Where the trip started
+ * @param {TripStep[]} data.steps - The resolved itinerary
  * @param {string} [data.coverImage] - The CDN-relative cover image path
- * @param {TripEndpoint} data.origin - The trip origin
- * @param {TripEndpoint} data.returnTo - The trip return endpoint
  * @param {{ center: [number, number]; zoom: number }} [data.mapFocus] - The authored map viewport
  */
 export class Trip {
@@ -177,12 +212,14 @@ export class Trip {
   titleByLocale?: Record<string, string>;
   sDate: Date;
   eDate: Date;
-  steps: TripRouteStep[];
+  origin: City;
+  returnTo: City;
+  steps: TripStep[];
+  stays: TripStay[];
+  moves: TripMove[];
   destinations: TripDestination[];
   route: City["id"][];
   backgroundImgSource?: string;
-  origin: TripEndpoint;
-  returnTo: TripEndpoint;
   mapFocus?: { center: [number, number]; zoom: number };
 
   /**
@@ -195,20 +232,19 @@ export class Trip {
     this.titleByLocale = data.titleByLocale;
     this.sDate = data.sDate;
     this.eDate = data.eDate;
-    this.steps = data.steps;
     this.origin = data.origin;
-    this.returnTo = data.returnTo;
+    this.steps = data.steps;
     this.mapFocus = data.mapFocus;
+    this.stays = data.steps.filter((step) => step.type === "stay");
+    this.moves = data.steps.filter((step) => step.type === "move");
+    this.returnTo = this.getLegs().at(-1)?.to ?? data.origin;
     this.destinations = this.getDestinationsFromSteps();
     this.route = this.destinations.flatMap((destination) =>
-      destination.isLayover ? [] : [destination.city.id],
+      destination.kind === "stopover" ? [] : [destination.city.id],
     );
     this.backgroundImgSource = data.coverImage
       ? mediaUrl(data.coverImage)
-      : data.backgroundImgSourceKey
-        ? mediaUrl(`/Trips/${data.backgroundImgSourceKey}`)
-        : this.destinations[0]?.city.getBackgroundImgSourceByIndex(0) ||
-          undefined;
+      : this.stays[0]?.city.getBackgroundImgSourceByIndex(0) || undefined;
   }
 
   /**
@@ -236,6 +272,15 @@ export class Trip {
   }
 
   /**
+   * Counts the nights slept in a stay. A night spent on a plane or train is not
+   * one of them, and neither is a layover.
+   * @returns {number} Nights slept in a bed somewhere
+   */
+  getNights(): number {
+    return this.stays.reduce((sum, stay) => sum + stay.nights, 0);
+  }
+
+  /**
    * Resolves the trip title for a locale.
    * @param {string} locale - The active locale
    * @returns {string} The localized or canonical trip title
@@ -248,20 +293,64 @@ export class Trip {
   }
 
   /**
+   * Lists every ride in travel order: each move's legs, and each stay's day
+   * trips right after the stay they leave from.
+   * @returns {TripLeg[]} The trip's legs
+   */
+  getLegs(): TripLeg[] {
+    return this.steps.flatMap((step) =>
+      step.type === "move"
+        ? step.legs
+        : step.outings.flatMap((outing) => outing.legs),
+    );
+  }
+
+  /**
+   * Adds up rides, distance, and time for every mode used.
+   * @returns {Partial<Record<TransportMode, ModeTotal>>} Totals keyed by mode
+   */
+  getModeTotals(): Partial<Record<TransportMode, ModeTotal>> {
+    const totals: Partial<Record<TransportMode, ModeTotal>> = {};
+    for (const leg of this.getLegs()) {
+      const total = (totals[leg.mode] ??= { count: 0, km: 0, minutes: 0 });
+      total.count += 1;
+      total.km += leg.distance.value;
+      total.minutes += leg.duration.value;
+    }
+    return totals;
+  }
+
+  /**
+   * Lists the cities touched only in passing: airports, changes, and the
+   * cities a ferry or bus called at, so the map can mark them quietly.
+   * @returns {City[]} Unique pass-through cities
+   */
+  getPassThroughCities(): City[] {
+    const seen = new Set(this.route);
+    return unique([
+      this.origin,
+      ...this.destinations.flatMap((destination) =>
+        destination.kind === "stopover" ? [destination.city] : [],
+      ),
+      ...this.getLegs().flatMap((leg) => leg.via),
+    ]).filter((city) => !seen.has(city.id));
+  }
+
+  /**
    * Returns the unique countries visited outside layover stops.
    * @returns {Country[]} The countries visited during the trip
    */
   getCountriesVisited(): Country[] {
     return unique(
       this.destinations.flatMap((destination) =>
-        destination.isLayover ? [] : [destination.city.country],
+        destination.kind === "stopover" ? [] : [destination.city.country],
       ),
     );
   }
 
   /**
-   * Builds travel records for every stay in a specific city.
-   * @param {City} city - The city whose stays should be returned
+   * Builds travel records for every visit to a specific city.
+   * @param {City} city - The city whose visits should be returned
    * @returns {Travel[]} The city's travel records
    */
   getCityTravels(city: City): Travel[] {
@@ -282,24 +371,23 @@ export class Trip {
   }
 
   /**
-   * Builds flight records from the trip's plane transport steps.
+   * Builds flight records from the trip's plane legs.
    * @returns {Flight[]} The flights taken during the trip
    */
   getFlights(): Flight[] {
-    return this.steps.flatMap((step) =>
-      step.type === "transport" && step.mode === "plane"
+    return this.getLegs().flatMap((leg) =>
+      leg.mode === "plane"
         ? [
             new Flight({
-              sCity: step.from,
-              eCity: step.to,
-              company: step.flight?.company,
-              sDate: step.sDate,
-              eDate: step.eDate,
-              distanceInKm: step.flight?.distanceInKm ?? step.distanceInKm,
-              durationMinutes:
-                step.flight?.durationMinutes ?? step.durationMinutes,
-              number: step.flight?.number,
-              class: step.flight?.class,
+              sCity: leg.from,
+              eCity: leg.to,
+              company: leg.flight?.company,
+              sDate: leg.depart ? parseLocalDate(leg.depart) : undefined,
+              eDate: leg.arrive ? parseLocalDate(leg.arrive) : undefined,
+              distanceInKm: leg.distance.value,
+              durationMinutes: leg.duration.value,
+              number: leg.flight?.number,
+              class: leg.flight?.class,
             }),
           ]
         : [],
@@ -307,23 +395,22 @@ export class Trip {
   }
 
   /**
-   * Builds ferry records from the trip's ferry transport steps.
+   * Builds ferry records from the trip's ferry legs.
    * @returns {Ferry[]} The ferries taken during the trip
    */
   getFerries(): Ferry[] {
-    return this.steps.flatMap((step) =>
-      step.type === "transport" && step.mode === "ferry"
+    return this.getLegs().flatMap((leg) =>
+      leg.mode === "ferry"
         ? [
             new Ferry({
-              sCity: step.from,
-              eCity: step.to,
-              company: step.ferry?.company,
-              sDate: step.sDate,
-              eDate: step.eDate,
-              via: step.ferry?.via ?? step.via,
-              distanceInKm: step.ferry?.distanceInKm ?? step.distanceInKm,
-              durationMinutes:
-                step.ferry?.durationMinutes ?? step.durationMinutes,
+              sCity: leg.from,
+              eCity: leg.to,
+              company: leg.ferryCompany,
+              sDate: leg.depart ? parseLocalDate(leg.depart) : undefined,
+              eDate: leg.arrive ? parseLocalDate(leg.arrive) : undefined,
+              via: leg.via,
+              distanceInKm: leg.distance.value,
+              durationMinutes: leg.duration.value,
             }),
           ]
         : [],
@@ -331,26 +418,12 @@ export class Trip {
   }
 
   /**
-   * Returns the transport steps that connect trip destinations.
-   * @returns {TripTransportStep[]} The trip's transport segments
-   */
-  getRouteSegments(): TripTransportStep[] {
-    return this.steps.filter(
-      (step): step is TripTransportStep => step.type === "transport",
-    );
-  }
-
-  /**
-   * Flattens transport steps into origin-destination coordinate pairs.
+   * Flattens legs into origin-destination coordinate pairs.
    * @returns {[number, number][]} Coordinates consumed in pairs by the route overlay
    */
   getRouteLines(): [number, number][] {
-    return this.getRouteSegments().flatMap((step) => {
-      const cities = [
-        step.from,
-        ...(step.via ?? step.ferry?.via ?? []),
-        step.to,
-      ];
+    return this.getLegs().flatMap((leg) => {
+      const cities = [leg.from, ...leg.via, leg.to];
       return cities
         .slice(0, -1)
         .flatMap((city, index) => [
@@ -364,28 +437,98 @@ export class Trip {
   }
 
   /**
-   * Derives destination records and arrival modes from ordered trip steps.
-   * @returns {TripDestination[]} The normalized trip destinations
+   * Lists every place in travel order: the origin, each stay, each place seen
+   * on a day trip or along a move, and every stopover in between.
+   * @returns {TripDestination[]} The trip's destinations
    */
   private getDestinationsFromSteps(): TripDestination[] {
     const cityIndexes = new Map<string, number>();
-    let arrivalTransport: TransportMode | undefined;
+    const startDay = parseLocalDate(formatLocalDate(this.sDate).slice(0, 10));
 
-    return this.steps.flatMap((step) => {
-      if (step.type === "transport") {
-        arrivalTransport = step.mode;
-        return [];
+    /**
+     * Numbers a city's repeat visits within this trip.
+     * @param {Omit<TripDestination, "travelIdx">} destination - The place without its index
+     * @returns {TripDestination} The place with its index
+     */
+    const indexed = (
+      destination: Omit<TripDestination, "travelIdx">,
+    ): TripDestination => {
+      const travelIdx = cityIndexes.get(destination.city.id) ?? 0;
+      cityIndexes.set(destination.city.id, travelIdx + 1);
+      return { ...destination, travelIdx };
+    };
+
+    /**
+     * Turns a leg's arrival into the place it reached.
+     * @param {TripLeg} leg - The leg
+     * @param {DestinationKind} kind - What the arrival was
+     * @returns {TripDestination} The place
+     */
+    const arrivalOf = (
+      leg: TripLeg,
+      kind: DestinationKind,
+    ): TripDestination => {
+      return indexed({
+        city: leg.to,
+        kind,
+        sDate: leg.arrivedAt,
+        eDate: leg.arrivedAt,
+        photos: leg.photos,
+        rowConstraints: leg.rowConstraints,
+        targetRowHeight: leg.targetRowHeight,
+        arrivalTransport: leg.mode,
+      });
+    };
+
+    const destinations: TripDestination[] = [
+      indexed({
+        city: this.origin,
+        kind: "stopover",
+        sDate: startDay,
+        eDate: startDay,
+      }),
+    ];
+
+    this.steps.forEach((step, index) => {
+      const previous = this.steps[index - 1];
+      if (step.type === "stay") {
+        destinations.push(
+          indexed({
+            city: step.city,
+            kind: "stay",
+            sDate: parseLocalDate(step.checkIn),
+            eDate: parseLocalDate(step.checkOut),
+            photos: step.photos,
+            rowConstraints: step.rowConstraints,
+            targetRowHeight: step.targetRowHeight,
+            arrivalTransport:
+              previous?.type === "move"
+                ? previous.legs.at(-1)?.mode
+                : undefined,
+          }),
+        );
+        for (const outing of step.outings)
+          for (const leg of outing.legs.slice(0, -1))
+            destinations.push(arrivalOf(leg, "visit"));
+        return;
       }
 
-      const travelIdx = cityIndexes.get(step.city.id) ?? 0;
-      cityIndexes.set(step.city.id, travelIdx + 1);
-      const destination: TripDestination = {
-        ...step,
-        travelIdx,
-        arrivalTransport,
-      };
-      arrivalTransport = undefined;
-      return [destination];
+      const endsAtStay = this.steps[index + 1]?.type === "stay";
+      const passedThrough = endsAtStay ? step.legs.slice(0, -1) : step.legs;
+      for (const leg of passedThrough)
+        destinations.push(arrivalOf(leg, leg.visited ? "visit" : "stopover"));
     });
+
+    return destinations;
   }
+}
+
+/**
+ * Counts the nights between two calendar dates.
+ * @param {string} checkIn - The first night
+ * @param {string} checkOut - The morning of departure
+ * @returns {number} Nights, never negative
+ */
+export function countNights(checkIn: string, checkOut: string): number {
+  return Math.max(0, daysBetween(checkIn, checkOut));
 }

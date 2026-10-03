@@ -136,58 +136,34 @@ enter a CDN-relative full-size image path there instead.
 ## 5. Creating a trip
 
 1. On the editor home page, click **New trip**.
-2. Give it a title and a start and end date.
-3. Add your stops and how you travelled between them, in order.
+2. Give it a title, say **where you started from**, and the day you left.
+3. Answer one question until the trip is done: **What happened next?**
 
-A trip is a sequence of **stops** (somewhere you were) and **transports** (how
-you got between them).
+A trip is told the way you remember it:
 
-### Layovers matter
+| Piece        | What it means                                               | Example                                    |
+| ------------ | ----------------------------------------------------------- | ------------------------------------------ |
+| **Travel**   | Getting somewhere — one or more rides                       | Cagliari → Bergamo → Bucharest (2 flights) |
+| **Stay**     | Where you **slept**, and for how many nights                | Slept in Bucharest · Nights 1–4            |
+| **Day trip** | Out and back to your stay on one day — any number of places | Bucharest → Sinaia → Brașov → Bran → back  |
 
-Mark a stop as a **layover** when you only passed through — a connecting airport,
-a station change, a night near the airport before an early flight.
+After each step the editor offers only what makes sense next:
 
-Layover stops are deliberately excluded from everything that counts as having
-_been_ somewhere: they never appear in Visited places, and they never count
-toward your city, country or statistics totals. The same is true of the city a
-trip starts and ends from. Only real stays count.
+- After travelling: **I slept in …** (type the nights), **Keep travelling**, or
+  **Go back home**.
+- After a stay: **Travel from … to …** or **Go back home**.
+- Inside a stay: **Add a day trip**, then **Add another place to this day trip**.
+  The ride back to your stay is added for you.
 
-Mark them anyway — they make the route on the map correct, and they remove a
-whole category of validation warning (see
-[section 10](#10-fixing-validation-problems)).
+A connecting airport or a station change is just another ride in a journey —
+it is shown as a change, never as somewhere you visited. If you actually got
+out and looked around a place on the way, open that ride and tick **I stopped
+and looked around here**.
 
-### Day trips
-
-Use a day trip when you visit another place but return to the same base before
-continuing the main journey. You do not need to add the base city twice or
-create a separate return leg:
-
-1. Select the base stay in the itinerary, such as Rome.
-2. In **Details**, click **Add day trip from this stay** and choose the
-   excursion destination, such as Tivoli.
-3. Select the new destination and set its arrival and departure to the day of
-   the excursion.
-4. Select the new double-arrow leg and fill in its mode, dates, distance, and
-   duration.
-
-The editor marks that leg as returning to the base. The itinerary therefore
-reads `Rome ↔ Tivoli`, and the next onward leg still starts in Rome. For an
-existing excursion, select its outbound leg and enable **Returns to departure
-(day trip)** to get the same structure.
-
-For a day trip with several destinations, create the first destination as
-above, select that destination, and click **Add next stop**. The editor expands
-the compact round trip into an explicit loop with a final layover at the base.
-Keep selecting the newest destination and using **Add next stop** until the
-loop is complete. For example, the Romania excursion becomes:
-
-```text
-Bucharest → Sinaia → Brașov → Bran → Bucharest (layover)
-```
-
-Edit each generated leg's mode, dates, distance, and duration. The final base
-layover closes the excursion; do not mark any individual leg as a round trip in
-this expanded form.
+Click any ride to fill in its details: how you travelled, departure and arrival
+**in local time** (the editor shows which time zone), distance, duration,
+airline and flight number. Leave distance or duration empty and the site shows
+an estimate marked "about".
 
 ### Future trips
 
@@ -203,8 +179,32 @@ and reverses itself once the date passes.
 
 ## 6. Adding photos
 
-Photos are handled in two steps: **process them**, then **attach them to a
-stay**.
+### The quick way — upload from the editor
+
+1. Open the trip and find the stay (or the place on a day trip) the photos
+   belong to.
+2. Click **Upload photos**.
+3. Choose **This computer** or **Bunny CDN**, then drop the photos and videos
+   in. Each file shows its own progress bar.
+
+The editor resizes every photo into a full-size and a thumbnail WEBP, stores
+them, and adds them to that visit's gallery. Videos need
+[ffmpeg](https://ffmpeg.org/) installed; they get a thumbnail, and you add the
+YouTube id afterwards with **Import…**.
+
+To upload to Bunny CDN, put these in `apps/travel-map/env/.env` (they are read
+by the editor's server only and never reach a browser):
+
+```bash
+CDN_STORAGE_ZONE_NAME="your-zone"
+CDN_STORAGE_ZONE_REGION=""
+CDN_STORAGE_ZONE_API_KEY="your-storage-api-key"
+CDN_BASE_STORAGE_PATH="Travels"
+```
+
+### The script way — the Python uploader
+
+Still works, in two steps: **process them**, then **attach them to a stay**.
 
 ### One-time uploader setup
 
@@ -341,17 +341,15 @@ where one exists.
 
 There are three levels:
 
-| Level          | Meaning                                                                     |
-| -------------- | --------------------------------------------------------------------------- |
-| **Blocking**   | Genuinely wrong — for example a stop that ends before it starts. Fix these. |
-| **Warning**    | Worth fixing, but the site still works.                                     |
-| **Suggestion** | Cosmetic or informational.                                                  |
+| Level          | Meaning                                                                        |
+| -------------- | ------------------------------------------------------------------------------ |
+| **Blocking**   | Genuinely wrong — for example a ride that arrives before it leaves. Fix these. |
+| **Warning**    | Worth fixing, but the site still works.                                        |
+| **Suggestion** | Cosmetic or informational.                                                     |
 
-The most common warning by far is **"This leg does not connect X to Y"**. It
-means a transport leg starts or ends somewhere that is not the stop next to it —
-almost always because the journey passes through a hub with no stop recorded
-there. Add a **layover** stop for the hub and the warning disappears, the route
-draws correctly, and nothing is added to your visited totals.
+The most common warning is **"The journey before X ends in Y"**: the last ride
+of a journey does not arrive where the next stay is. Use the one-click fix, or
+open the ride and change where it was going.
 
 ---
 

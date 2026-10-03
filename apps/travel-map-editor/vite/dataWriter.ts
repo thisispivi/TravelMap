@@ -1,27 +1,27 @@
-import {
-  mkdir,
-  readdir,
-  readFile,
-  rm,
-  rmdir,
-  writeFile,
-} from "node:fs/promises";
-import { dirname, isAbsolute, relative, resolve, sep } from "node:path";
+import { readdir, readFile, rm, rmdir } from "node:fs/promises";
+import { dirname, sep } from "node:path";
+import { isDeepStrictEqual } from "node:util";
 
 import type { Plugin, ViteDevServer } from "vite";
 import { z } from "zod";
 
 import {
+  DatasetDocumentSchema,
+  DatasetPathSchema,
+} from "../../../packages/core/src/schema/document.ts";
+import { resolveOwnedPath, writeAtomically } from "./files.ts";
+import {
   assertLocalRequest,
   errorBody,
   readJsonBody,
+  RequestError,
   sendJson,
 } from "./http.ts";
 
 /** Payload accepted by the local JSON writer endpoints. */
 const WritePayloadSchema = z.strictObject({
   base: z.unknown().optional(),
-  path: z.string().trim().min(1).max(512),
+  path: DatasetPathSchema,
   value: z.unknown().optional(),
 });
 
@@ -35,6 +35,9 @@ const WritePayloadSchema = z.strictObject({
 function isGoogleMapsUrl(url: URL): boolean {
   return (
     url.protocol === "https:" &&
+    !url.username &&
+    !url.password &&
+    !url.port &&
     (url.hostname === "goo.gl" ||
       url.hostname === "maps.app.goo.gl" ||
       url.hostname === "google.com" ||
@@ -51,33 +54,18 @@ async function resolveGoogleMapsUrl(initialUrl: URL): Promise<string> {
   let current = initialUrl;
   for (let redirectCount = 0; redirectCount < 5; redirectCount += 1) {
     if (!isGoogleMapsUrl(current))
-      throw new Error("Only Google Maps share links can be resolved.");
+      throw new RequestError("Only Google Maps share links can be resolved.");
 
-    const response = await fetch(current, { redirect: "manual" });
+    const response = await fetch(current, {
+      redirect: "manual",
+      signal: AbortSignal.timeout(10_000),
+    });
     const location = response.headers.get("location");
+    await response.body?.cancel();
     if (!location) return response.url;
     current = new URL(location, current);
   }
-  throw new Error("Google Maps link redirected too many times.");
-}
-
-/**
- * Returns a dataset file only when it remains inside the configured data root.
- * @param {string} dataRoot - Absolute data directory
- * @param {string} relativePath - User-supplied dataset-relative path
- * @returns {string} Validated absolute JSON file path
- */
-function resolveDataPath(dataRoot: string, relativePath: string): string {
-  const path = resolve(dataRoot, relativePath);
-  const pathFromRoot = relative(dataRoot, path);
-  if (
-    !relativePath.endsWith(".json") ||
-    pathFromRoot.startsWith("..") ||
-    isAbsolute(pathFromRoot)
-  ) {
-    throw new Error("Only JSON files inside data/ can be changed.");
-  }
-  return path;
+  throw new RequestError("Google Maps link redirected too many times.");
 }
 
 /**
@@ -117,12 +105,13 @@ async function isUnchanged(path: string, base: unknown): Promise<boolean> {
   let existing: string;
   try {
     existing = await readFile(path, "utf8");
-  } catch {
-    /* A file that does not exist yet cannot have been changed under us. */
-    return true;
+  } catch (error) {
+    if (error instanceof Error && "code" in error && error.code === "ENOENT")
+      return base === null;
+    throw error;
   }
   try {
-    return JSON.stringify(JSON.parse(existing)) === JSON.stringify(base);
+    return isDeepStrictEqual(JSON.parse(existing), base);
   } catch {
     return false;
   }
@@ -134,6 +123,8 @@ async function isUnchanged(path: string, base: unknown): Promise<boolean> {
  * @returns {Plugin} Serve-only Vite plugin
  */
 export function dataWriter(dataRoot: string): Plugin {
+  /* Serialize the conflict check and write across tabs; a rejected write cannot block the queue. */
+  let pending = Promise.resolve();
   return {
     name: "data-writer",
     apply: "serve",
@@ -163,42 +154,54 @@ export function dataWriter(dataRoot: string): Plugin {
               target.hostname !== "goo.gl" &&
               target.hostname !== "maps.app.goo.gl"
             )
-              throw new Error("Only Google Maps share links can be resolved.");
+              throw new RequestError(
+                "Only Google Maps share links can be resolved.",
+              );
             const resolvedUrl = await resolveGoogleMapsUrl(target);
             sendJson(response, 200, { url: resolvedUrl });
             return;
           }
-          if (request.method !== "POST") return;
+          if (request.method !== "POST") {
+            sendJson(response, 405, { error: "Use POST for dataset changes." });
+            return;
+          }
           const payload = await readJsonBody(request, WritePayloadSchema);
-          const path = resolveDataPath(dataRoot, payload.path);
-          if (request.url === "/write") {
-            if (payload.value === undefined)
-              throw new Error("A write request must include a value.");
+          const operation = pending.then(async () => {
+            const path = await resolveOwnedPath(dataRoot, payload.path);
             if (
               payload.base !== undefined &&
               !(await isUnchanged(path, payload.base))
             ) {
               sendJson(response, 409, {
                 error:
-                  "This file changed on disk since the editor read it. Reload the editor to pick up the change before saving.",
+                  "This file changed on disk since the editor read it. Reload before saving or deleting it.",
               });
               return;
             }
-            await mkdir(dirname(path), { recursive: true });
-            await writeFile(
-              path,
-              `${JSON.stringify(payload.value, null, 2)}\n`,
-            );
-            sendJson(response, 200, { ok: true });
-            return;
-          }
-          if (request.url === "/delete") {
-            await rm(path);
-            await pruneEmptyDirectories(dataRoot, dirname(path));
-            sendJson(response, 200, { ok: true });
-            return;
-          }
-          sendJson(response, 404, { error: "Unknown local data endpoint." });
+            if (request.url === "/write") {
+              if (payload.value === undefined)
+                throw new RequestError("A write request must include a value.");
+              const document = DatasetDocumentSchema.parse({
+                path: payload.path,
+                value: payload.value,
+              });
+              await writeAtomically(
+                path,
+                `${JSON.stringify(document.value, null, 2)}\n`,
+              );
+              sendJson(response, 200, { ok: true });
+              return;
+            }
+            if (request.url === "/delete") {
+              await rm(path);
+              await pruneEmptyDirectories(dataRoot, dirname(path));
+              sendJson(response, 200, { ok: true });
+              return;
+            }
+            sendJson(response, 404, { error: "Unknown local data endpoint." });
+          });
+          pending = operation.catch(() => undefined);
+          await operation;
         } catch (error) {
           sendJson(response, 400, errorBody(error, "Invalid request."));
         }

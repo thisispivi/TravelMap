@@ -12,17 +12,15 @@ import shutil
 import subprocess
 from datetime import datetime
 from logging import Logger
+from math import gcd
 from typing import Any, Mapping, Optional, TypedDict
 
 from PIL import Image, ImageOps
 
-from BunnyCDN.Storage import Storage
 from lib.image import TravelImage
-from lib.utils import (
-    build_base_storage_path,
+from lib.storage import upload_file
+from lib.paths import (
     build_cdn_city_path,
-    get_logger,
-    get_max_common_divisor,
 )
 
 
@@ -64,7 +62,7 @@ class TravelVideo:
     @staticmethod
     def _get_logger(logger: Optional[Logger]) -> Logger:
         """Return the provided logger, or a module-scoped default logger."""
-        return get_logger(logger, __name__)
+        return logger or logging.getLogger(__name__)
 
     def _get_cdn_full_path(self, filename: str) -> str:
         """Build a public CDN path for a derived filename inside the city folder."""
@@ -231,7 +229,7 @@ class TravelVideo:
             with Image.open(frame_path) as img:
                 img = ImageOps.exif_transpose(img)
                 width, height = img.size
-                max_common_divisor = get_max_common_divisor(width, height)
+                max_common_divisor = gcd(width, height)
 
                 size_kb = TravelImage._compress_image(
                     image=img.copy(),
@@ -269,29 +267,9 @@ class TravelVideo:
         """Upload the generated thumbnail WEBP (`*t.webp`) to BunnyCDN Storage."""
         logger = self._get_logger(logger)
 
-        try:
-            storage = Storage(
-                api_key=self.args["CDN_STORAGE_ZONE_API_KEY"],
-                storage_zone=self.args["CDN_STORAGE_ZONE_NAME"],
-                storage_zone_region=self.args["CDN_STORAGE_ZONE_REGION"],
-            )
-
-            base_filename = os.path.splitext(self.filename)[0]
-            base_storage_path = build_base_storage_path(self.args)
-
-            storage.PutFile(
-                file_name=f"{base_filename}t.webp",
-                local_upload_file_path=self.results_city_folder_path,
-                storage_path=f"{base_storage_path}{base_filename}t.webp",
-            )
-
-            logger.info(
-                "Uploaded video thumbnail for %s to BunnyCDN Storage.", self.filename
-            )
-        except Exception as e:
-            logger.error(
-                "Error uploading video thumbnail %s to BunnyCDN: %s", self.filename, e
-            )
+        base_filename = os.path.splitext(self.filename)[0]
+        upload_file(self.args, self.results_city_folder_path, f"{base_filename}t.webp")
+        logger.info("Uploaded video thumbnail for %s to BunnyCDN Storage.", self.filename)
 
     def copy_to_media(self, logger: Optional[Logger] = None) -> None:
         """Copy the generated video thumbnail into local media."""
@@ -319,7 +297,7 @@ class TravelVideo:
         try:
             os.remove(frame_path)
         except OSError:
-            pass
+            logger.warning("Could not remove the temporary video frame.")
 
         if info is None:
             return None

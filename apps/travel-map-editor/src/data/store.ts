@@ -126,7 +126,7 @@ const baselines = new Map<string, unknown>(
     ...snapshot.countries,
     ...snapshot.trips,
     ...snapshot.photos,
-    snapshot.config,
+    ...(seededConfig ? [seededConfig] : []),
   ].map(({ path, value }) => [path, value] as const),
 );
 const changeLog = new Map<string, DocumentChange["change"]>();
@@ -356,10 +356,8 @@ export interface WriteOptions {
 }
 
 /**
- * Persists one document and reflects it in the dataset immediately.
- * The in-memory update happens first so the editor stays responsive; a failed
- * write raises rather than reverting, because silently discarding what the
- * author just typed is worse than showing a retry.
+ * Publishes a document only after disk acknowledges it. The screen owns its
+ * draft; publishing earlier would mark a failed save clean and erase recovery.
  * @param {string} path - Dataset-relative JSON path
  * @param {unknown} value - Serializable JSON value
  * @param {WriteOptions} [options] - How to treat what is already on disk
@@ -370,10 +368,10 @@ export async function saveDocument(
   value: unknown,
   options: WriteOptions = {},
 ): Promise<void> {
-  const base = options.isOverwrite ? undefined : baselines.get(path);
+  const base = options.isOverwrite ? undefined : (baselines.get(path) ?? null);
   const isNew = readDocument(path) === undefined;
-  putDocument(path, value);
   await callWriter("write", { base, path, value });
+  putDocument(path, value);
   baselines.set(path, value);
   logChange(path, isNew ? "created" : "updated");
 }
@@ -384,8 +382,8 @@ export async function saveDocument(
  * @returns {Promise<void>} Completion once the delete is acknowledged
  */
 export async function deleteDocument(path: string): Promise<void> {
+  await callWriter("delete", { base: baselines.get(path) ?? null, path });
   dropDocument(path);
-  await callWriter("delete", { path });
   baselines.delete(path);
   logChange(path, "deleted");
 }
@@ -408,9 +406,9 @@ export async function moveDocument(
 }
 
 /**
- * Persists several documents as one unit, restoring every prior body when any
- * of them fails. An import that half-succeeded is worse than one that did not
- * run, because the author cannot tell which half landed.
+ * Persists a batch and attempts to restore completed writes after a failure.
+ * Rollback uses conflict checks too, so it cannot erase another tab's changes.
+ * A failed rollback is reported alongside the original failure.
  * @param {DocumentWrite[]} writes - Documents to persist, in order
  * @param {WriteOptions} [options] - How to treat what is already on disk
  * @returns {Promise<void>} Completion once every write is acknowledged
@@ -431,11 +429,22 @@ export async function applyWrites(
       done.push(path);
     }
   } catch (error) {
+    const failures: unknown[] = [error];
     for (const path of done.toReversed()) {
       const restored = previous.find((entry) => entry.path === path);
-      if (restored?.value === undefined) await deleteDocument(path);
-      else await saveDocument(path, restored.value, { isOverwrite: true });
+      try {
+        if (restored?.value === undefined) await deleteDocument(path);
+        else await saveDocument(path, restored.value);
+      } catch (rollbackError) {
+        failures.push(rollbackError);
+      }
     }
+    if (failures.length > 1)
+      throw new AggregateError(
+        failures,
+        "The operation failed and some files could not be restored. Reload and check the dataset before retrying.",
+        { cause: error },
+      );
     throw error;
   }
 }

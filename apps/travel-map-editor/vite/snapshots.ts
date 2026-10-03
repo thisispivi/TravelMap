@@ -1,9 +1,10 @@
-import { mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
-import { join, resolve, sep } from "node:path";
+import { mkdir, readdir, readFile, rm } from "node:fs/promises";
+import { join } from "node:path";
 
 import type { Plugin, ViteDevServer } from "vite";
 
 import { SnapshotBundleSchema } from "../src/features/backup/lib/snapshot.ts";
+import { resolveOwnedPath, writeAtomically } from "./files.ts";
 import {
   assertLocalRequest,
   errorBody,
@@ -73,11 +74,7 @@ export function snapshots(snapshotRoot: string): Plugin {
             return;
           }
 
-          const path = resolve(snapshotRoot, name);
-          if (!path.startsWith(`${snapshotRoot}${sep}`)) {
-            sendJson(response, 400, { error: "Invalid snapshot name." });
-            return;
-          }
+          const path = await resolveOwnedPath(snapshotRoot, name);
           if (request.method === "GET") {
             sendJson(
               response,
@@ -94,7 +91,7 @@ export function snapshots(snapshotRoot: string): Plugin {
               SnapshotBundleSchema,
               15_000_000,
             );
-            await writeFile(path, `${JSON.stringify(bundle, null, 2)}\n`);
+            await writeAtomically(path, `${JSON.stringify(bundle, null, 2)}\n`);
             await prune(snapshotRoot);
             sendJson(response, 200, { name, ok: true });
             return;

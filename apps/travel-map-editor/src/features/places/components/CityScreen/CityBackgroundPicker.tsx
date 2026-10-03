@@ -1,7 +1,7 @@
 import "./CityBackgroundPicker.scss";
 
 import { useLanguage } from "@app/shared/hooks/useLanguage";
-import { hasSource, PublishedImage } from "@travelmap/core";
+import { hasSource, PublishedImage, walkTripLegs } from "@travelmap/core";
 import { ReactNode } from "react";
 
 import { resolveMediaUrl } from "../../../../data/dataset";
@@ -27,7 +27,7 @@ function photoKey(path: string): string {
 }
 
 /**
- * Lists unique, non-video photos attached to stays in one city.
+ * Lists unique, non-video photos attached to visits to one city.
  * @param {DatasetSnapshot} dataset - Current editor dataset
  * @param {string} cityId - City whose galleries should be searched
  * @returns {BackgroundPhoto[]} Candidate full-size and thumbnail paths
@@ -37,13 +37,16 @@ function cityBackgroundPhotos(
   cityId: string,
 ): BackgroundPhoto[] {
   const linkedPhotoKeys = new Set(
-    dataset.trips.flatMap(({ value: trip }) =>
-      trip.steps.flatMap((step) =>
-        step.type === "stop" && step.cityId === cityId && step.photoPath
+    dataset.trips.flatMap(({ value: trip }) => [
+      ...trip.steps.flatMap((step) =>
+        step.type === "stay" && step.cityId === cityId && step.photoPath
           ? [step.photoPath]
           : [],
       ),
-    ),
+      ...walkTripLegs(trip).flatMap(({ leg }) =>
+        leg.toId === cityId && leg.photoPath ? [leg.photoPath] : [],
+      ),
+    ]),
   );
   const candidates = dataset.photos.flatMap(({ path, value }) =>
     linkedPhotoKeys.has(photoKey(path)) ? value : [],

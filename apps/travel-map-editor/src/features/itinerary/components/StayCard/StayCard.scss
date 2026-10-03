@@ -1,0 +1,102 @@
+@use "variables" as v;
+
+.stay-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  padding: 1rem 1.125rem 1.125rem;
+  border-radius: 1.125rem;
+  border-left: 0.3rem solid var(--editor-accent);
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  &__icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    flex-shrink: 0;
+    color: var(--editor-accent);
+  }
+
+  &__heading {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+
+  &__nights {
+    margin: 0.125rem 0 0;
+    font-size: v.$bodySm;
+    font-weight: 600;
+    opacity: 0.75;
+  }
+
+  &__remove {
+    flex-shrink: 0;
+  }
+
+  &__fields {
+    display: grid;
+    grid-template-columns: 2fr 1.5fr 1fr;
+    gap: 0.75rem;
+
+    @media (max-width: 40rem) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__outing {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-left: 0.75rem;
+    padding: 0.75rem 0 0.25rem 0.875rem;
+    border-left: 0.125rem dashed var(--editor-accent);
+  }
+
+  &__outing-header {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.625rem;
+  }
+
+  &__outing-icon {
+    width: 1.125rem;
+    height: 1.125rem;
+    margin-bottom: 0.6rem;
+  }
+
+  &__outing-title {
+    margin-bottom: 0.55rem;
+    font-weight: 700;
+  }
+
+  &__legs {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__add {
+    align-self: flex-start;
+  }
+}
+
+.editor--dark .stay-card {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.editor--light .stay-card {
+  background: #ffffff;
+  box-shadow: 0 0.0625rem 0.25rem rgba(0, 0, 0, 0.08);
+}

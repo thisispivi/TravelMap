@@ -1,6 +1,7 @@
 import type { CityJson, CountryJson, TripJson } from "../schema";
 import { Continent } from "../typings/Continent";
 import { Currency } from "../typings/Currency";
+import { walkTripLegs } from "../world/derive";
 import type { Issue, IssueSeverity } from "./issues";
 import { validateTrip } from "./validateTrip";
 
@@ -179,13 +180,17 @@ export function validateDataset(sources: DatasetSources): Issue[] {
     issues.push(...validateTrip(value, { cities, photoKeys }, path));
 
   const usedCityIds = new Set(
-    sources.trips.flatMap(({ value }) =>
-      value.steps.flatMap((step) =>
-        step.type === "stop"
-          ? [step.cityId]
-          : [step.fromId, step.toId, ...(step.viaIds ?? [])],
+    sources.trips.flatMap(({ value }) => [
+      value.originCityId,
+      ...value.steps.flatMap((step) =>
+        step.type === "stay" ? [step.cityId] : [],
       ),
-    ),
+      ...walkTripLegs(value).flatMap(({ leg }) => [
+        leg.toId,
+        ...(leg.viaIds ?? []),
+        ...(leg.ferry?.viaIds ?? []),
+      ]),
+    ]),
   );
   const configuredCityIds = new Set([
     ...(sources.livedCityIds ?? []),

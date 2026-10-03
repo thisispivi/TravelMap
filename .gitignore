@@ -25,8 +25,18 @@ apps/travel-map-copy
 /.data-snapshots/
 
 # Test and tool caches are reproducible local state.
-/coverage/
-/.vite/
+coverage/
+.vite/
+*.tsbuildinfo
+*.log
+.DS_Store
+Thumbs.db
+.env
+.env.*
+!.env.example
+!/scripts/uploader/env/example.env
+/scripts/uploader/photos/
+/scripts/uploader/*.json
 
 # Python virtual environments and bytecode caches.
 .venv/

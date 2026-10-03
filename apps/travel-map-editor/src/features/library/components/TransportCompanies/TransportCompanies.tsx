@@ -9,10 +9,12 @@ import { resolveLogoUrl } from "../../../../data/dataset";
 import { idError } from "../../../../data/paths";
 import { Company, SiteConfig } from "../../../../data/siteConfig";
 import { DataFile, saveDocument } from "../../../../data/store";
+import { useConfirm } from "../../../../shared/components/ConfirmDialog/ConfirmDialog";
 import { TextField } from "../../../../shared/components/Fields/Fields";
 import { ImageUploadField } from "../../../../shared/components/ImageUploadField/ImageUploadField";
 import { useToast } from "../../../../shared/components/Toast/Toast";
 import { useAutosave } from "../../../../shared/hooks/useAutosave";
+import { isSameJson } from "../../../../shared/lib/jsonEquality";
 
 /**
  * TransportCompanies component
@@ -28,11 +30,11 @@ export function TransportCompanies({
   file,
 }: TransportCompaniesProps): ReactNode {
   const { t } = useLanguage(["editor"]);
+  const { confirm, confirmDialog } = useConfirm();
   const { showToast } = useToast();
   const [companies, setCompanies] = useState(file.value.companies ?? {});
   const [newCompanyId, setNewCompanyId] = useState("");
-  const isDirty =
-    JSON.stringify(companies) !== JSON.stringify(file.value.companies ?? {});
+  const isDirty = !isSameJson(companies, file.value.companies ?? {});
   useAutosave(
     companies,
     () => saveDocument(file.path, { ...file.value, companies }),
@@ -82,6 +84,7 @@ export function TransportCompanies({
 
   return (
     <main className="editor__screen transport-companies">
+      {confirmDialog}
       <header className="editor__header">
         <div>
           <nav aria-label={t("nav.breadcrumb")} className="editor__breadcrumb">
@@ -136,7 +139,17 @@ export function TransportCompanies({
                   <button
                     aria-label={t("companyEditor.removeCompany", { id })}
                     className="editor-button editor-button--danger"
-                    onClick={() => removeCompany(id)}
+                    onClick={() =>
+                      confirm({
+                        confirmLabel: t("confirm.removeCompany.action"),
+                        isDanger: true,
+                        message: t("confirm.removeCompany.message"),
+                        onConfirm: () => removeCompany(id),
+                        title: t("confirm.removeCompany.title", {
+                          name: company.name || id,
+                        }),
+                      })
+                    }
                     type="button"
                   >
                     <Trash2 aria-hidden="true" />

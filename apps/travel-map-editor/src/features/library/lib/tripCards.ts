@@ -1,4 +1,4 @@
-import { CityJson, TripJson } from "@travelmap/core";
+import { CityJson, TripJson, tripPlaceIds } from "@travelmap/core";
 
 import { DataFile } from "../../../data/store";
 
@@ -37,7 +37,7 @@ export function groupTripsByYear(trips: DataFile<TripJson>[]): TripYearGroup[] {
 
 /**
  * Returns the countries visited by one trip in itinerary order, ignoring
- * layovers and duplicates.
+ * stopovers and duplicates.
  * @param {TripJson} trip - Trip document
  * @param {Map<string, CityJson>} cities - Cities indexed by identifier
  * @returns {string[]} Country identifiers
@@ -48,9 +48,8 @@ export function tripCountryIds(
 ): string[] {
   return Array.from(
     new Set(
-      trip.steps.flatMap((step) => {
-        if (step.type !== "stop" || step.isLayover) return [];
-        const countryId = cities.get(step.cityId)?.countryId;
+      tripPlaceIds(trip).flatMap((cityId) => {
+        const countryId = cities.get(cityId)?.countryId;
         return countryId ? [countryId] : [];
       }),
     ),
@@ -69,9 +68,7 @@ export function tripSearchTerms(
   trip: TripJson,
   cities: Map<string, CityJson>,
 ): string[] {
-  const stopCities = trip.steps.flatMap((step) =>
-    step.type === "stop" ? [cities.get(step.cityId)] : [],
-  );
+  const stopCities = tripPlaceIds(trip).map((cityId) => cities.get(cityId));
   return [
     trip.id,
     trip.title,
@@ -92,10 +89,6 @@ export function tripThumbnail(
   cities: Map<string, CityJson>,
 ): string | undefined {
   if (trip.coverImage) return trip.coverImage;
-  const firstStop = trip.steps.find(
-    (step) => step.type === "stop" && !step.isLayover,
-  );
-  return firstStop?.type === "stop"
-    ? cities.get(firstStop.cityId)?.backgroundImages?.[0]
-    : undefined;
+  const [firstPlace] = tripPlaceIds(trip);
+  return firstPlace ? cities.get(firstPlace)?.backgroundImages?.[0] : undefined;
 }

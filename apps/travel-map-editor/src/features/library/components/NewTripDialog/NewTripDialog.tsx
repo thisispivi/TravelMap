@@ -2,15 +2,18 @@ import "./NewTripDialog.scss";
 
 import { useLanguage } from "@app/shared/hooks/useLanguage";
 import { formatLocalDate, TripJson } from "@travelmap/core";
-import { Plus, X } from "lucide-react";
+import { MapPinPlus, Plus, X } from "lucide-react";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 
 import { idError, toId, tripPath } from "../../../../data/paths";
 import { DatasetSnapshot, saveDocument } from "../../../../data/store";
+import { Combobox } from "../../../../shared/components/Combobox/Combobox";
 import { DatePicker } from "../../../../shared/components/DatePicker/DatePicker";
 import { TextField } from "../../../../shared/components/Fields/Fields";
 import { useToast } from "../../../../shared/components/Toast/Toast";
+import { AddPlaceDialog } from "../../../places/components/AddPlaceDialog/AddPlaceDialog";
+import { cityOptions } from "../../../places/lib/placeOptions";
 
 /**
  * NewTripDialog component
@@ -38,7 +41,10 @@ export function NewTripDialog({
   const [title, setTitle] = useState("");
   const [customId, setCustomId] = useState("");
   const [sDate, setSDate] = useState(today);
-  const [eDate, setEDate] = useState(today);
+  const [originCityId, setOriginCityId] = useState(
+    dataset.config.value.homeCityId ?? dataset.cities[0]?.value.id ?? "",
+  );
+  const [isAddingPlace, setIsAddingPlace] = useState(false);
   const [message, setMessage] = useState("");
 
   useEffect(() => {
@@ -53,17 +59,15 @@ export function NewTripDialog({
   const idProblem = idError(id, taken);
   const problems = [
     ...(title.trim() ? [] : [t("createScreen.titleRequired")]),
-    ...(sDate && eDate && eDate < sDate
-      ? [t("createScreen.endBeforeStart")]
-      : []),
+    ...(originCityId ? [] : [t("createScreen.originRequired")]),
     ...(idProblem
       ? [t(`idProblem.${idProblem.code}`, { id: idProblem.id })]
       : []),
   ];
 
   /**
-   * Writes the trip and opens its workspace. The trip starts with no stops and
-   * no origin city, which the itinerary fills in as soon as one is added.
+   * Writes the trip and opens its workspace, where the itinerary is built one
+   * "travel to" or "stay here" at a time starting from the origin.
    * @returns {Promise<void>} Completion after the write
    */
   async function handleCreate(): Promise<void> {
@@ -72,9 +76,8 @@ export function NewTripDialog({
       id,
       title: title.trim(),
       sDate,
-      eDate,
-      originCityId: dataset.cities[0]?.value.id ?? "",
-      returnCityId: dataset.cities[0]?.value.id ?? "",
+      eDate: sDate,
+      originCityId,
       steps: [],
     };
     try {
@@ -105,19 +108,35 @@ export function NewTripDialog({
         value={title}
       />
       <div className="new-trip__row">
+        <Combobox
+          label={t("createScreen.origin")}
+          onChange={setOriginCityId}
+          options={cityOptions(dataset)}
+          value={originCityId}
+        />
         <DatePicker
-          label={t("trip.start")}
+          label={t("createScreen.startDate")}
           onChange={(next) => setSDate(next ?? today)}
           value={sDate}
           withTime={false}
         />
-        <DatePicker
-          label={t("trip.end")}
-          onChange={(next) => setEDate(next ?? today)}
-          value={eDate}
-          withTime={false}
-        />
       </div>
+      <button
+        className="editor-button new-trip__add-place"
+        onClick={() => setIsAddingPlace(true)}
+        type="button"
+      >
+        <MapPinPlus aria-hidden="true" />
+        {t("createScreen.originMissing")}
+      </button>
+      {isAddingPlace ? (
+        <AddPlaceDialog
+          dataset={dataset}
+          onClose={() => setIsAddingPlace(false)}
+          onPlace={setOriginCityId}
+          title={t("createScreen.origin")}
+        />
+      ) : null}
       <TextField
         hint={t("createScreen.tripIdHint")}
         label={t("createScreen.id")}

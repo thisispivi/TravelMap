@@ -1,5 +1,10 @@
-import type { TransportMode, TripJson } from "@travelmap/core";
+import {
+  CoordinatesSchema,
+  type TransportMode,
+  type TripJson,
+} from "@travelmap/core";
 import { XMLParser, XMLValidator } from "fast-xml-parser";
+import { z } from "zod";
 
 /** The input formats the editor can read without a network round trip. */
 type ImportFormat =
@@ -113,7 +118,7 @@ function parseDate(line: string): string | undefined {
  */
 function parseMode(line: string): TransportMode | undefined {
   for (const word of line.toLowerCase().split(/[^a-z]+/))
-    if (word in MODE_WORDS) return MODE_WORDS[word];
+    if (Object.hasOwn(MODE_WORDS, word)) return MODE_WORDS[word];
   return undefined;
 }
 
@@ -172,7 +177,8 @@ function cleanName(line: string): string {
 
   while (words.length > 0) {
     const first = words[0]!.toLowerCase().replace(/[^a-z]/g, "");
-    if (!first || first in MODE_WORDS || FILLER_WORDS.has(first)) words.shift();
+    if (!first || Object.hasOwn(MODE_WORDS, first) || FILLER_WORDS.has(first))
+      words.shift();
     else break;
   }
   while (words.length > 0) {
@@ -180,7 +186,8 @@ function cleanName(line: string): string {
       .at(-1)!
       .toLowerCase()
       .replace(/[^a-z]/g, "");
-    if (!last || last in MODE_WORDS || FILLER_WORDS.has(last)) words.pop();
+    if (!last || Object.hasOwn(MODE_WORDS, last) || FILLER_WORDS.has(last))
+      words.pop();
     else break;
   }
   return words.join(" ").trim();
@@ -257,14 +264,9 @@ export function parseCsv(input: string): ParsedInput {
       problems.push({ code: "csvMissingName", position: index + 2 });
       return;
     }
-    const latitude = latitudeAt >= 0 ? Number(cells[latitudeAt]) : Number.NaN;
-    const longitude =
-      longitudeAt >= 0 ? Number(cells[longitudeAt]) : Number.NaN;
+    const coordinates = parseCoordinates(cells[longitudeAt], cells[latitudeAt]);
     rows.push({
-      coordinates:
-        Number.isFinite(latitude) && Number.isFinite(longitude)
-          ? [longitude, latitude]
-          : undefined,
+      coordinates,
       eDate: endAt >= 0 ? cells[endAt] || undefined : undefined,
       line: index + 2,
       mode: modeAt >= 0 ? parseMode(cells[modeAt] ?? "") : undefined,
@@ -283,37 +285,66 @@ export function parseCsv(input: string): ParsedInput {
  * @returns {ParsedInput} What could be read from it
  */
 export function parseGeoJson(value: unknown): ParsedInput {
-  const collection = value as {
-    features?: {
-      geometry?: { type?: string; coordinates?: unknown };
-      properties?: Record<string, unknown>;
-    }[];
-  };
+  const collection = z
+    .looseObject({ features: z.array(z.unknown()) })
+    .safeParse(value);
+  if (!collection.success)
+    return {
+      format: "geojson",
+      problems: [{ code: "unsupportedJson" }],
+      rows: [],
+    };
   const problems: ImportProblem[] = [];
   const rows: ParsedRow[] = [];
 
-  (collection.features ?? []).forEach((feature, index) => {
-    const coordinates = feature.geometry?.coordinates;
-    if (
-      feature.geometry?.type !== "Point" ||
-      !Array.isArray(coordinates) ||
-      coordinates.length < 2
-    ) {
+  collection.data.features.forEach((value, index) => {
+    const feature = PointFeatureSchema.safeParse(value);
+    if (!feature.success) {
       problems.push({ code: "geoJsonNotPoint", position: index + 1 });
       return;
     }
+    const [longitude, latitude] = feature.data.geometry.coordinates;
     const name =
-      (feature.properties?.name as string | undefined) ??
-      (feature.properties?.title as string | undefined) ??
+      feature.data.properties?.name ??
+      feature.data.properties?.title ??
       `#${index + 1}`;
     rows.push({
-      coordinates: [Number(coordinates[0]), Number(coordinates[1])],
+      coordinates: [longitude, latitude],
       line: index + 1,
       name,
       text: name,
     });
   });
   return { format: "geojson", problems, rows };
+}
+
+/* GeoJSON permits extra properties and an optional altitude after longitude/latitude. */
+const PointFeatureSchema = z.looseObject({
+  geometry: z.looseObject({
+    type: z.literal("Point"),
+    coordinates: CoordinatesSchema.rest(z.number()),
+  }),
+  properties: z
+    .looseObject({ name: z.string().optional(), title: z.string().optional() })
+    .nullish(),
+});
+const TextCoordinatesSchema = z
+  .tuple([z.string().trim().min(1), z.string().trim().min(1)])
+  .transform(([longitude, latitude]) => [Number(longitude), Number(latitude)])
+  .pipe(CoordinatesSchema);
+
+/**
+ * Validates textual coordinates without turning an empty field into zero.
+ * @param {unknown} longitude - CSV cell or XML attribute
+ * @param {unknown} latitude - CSV cell or XML attribute
+ * @returns {[number, number] | undefined} Valid coordinates, if both fields are present
+ */
+function parseCoordinates(
+  longitude: unknown,
+  latitude: unknown,
+): [number, number] | undefined {
+  const parsed = TextCoordinatesSchema.safeParse([longitude, latitude]);
+  return parsed.success ? parsed.data : undefined;
 }
 
 /* DTD entities can expand imported input far beyond the source file's size. */
@@ -402,12 +433,11 @@ export function parseXmlPlaces(
   if (format === "gpx") {
     xmlValues(document, "wpt").forEach((node, index) => {
       if (!isXmlRecord(node)) return;
-      const latitude = Number(node.lat);
-      const longitude = Number(node.lon);
-      if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) return;
+      const coordinates = parseCoordinates(node.lon, node.lat);
+      if (!coordinates) return;
       const name = xmlText(node, "name");
       rows.push({
-        coordinates: [longitude, latitude],
+        coordinates,
         line: index + 1,
         name: name || `#${index + 1}`,
         text: name || `#${index + 1}`,
@@ -420,11 +450,12 @@ export function parseXmlPlaces(
     const point = xmlValues(node, "Point")[0];
     const raw = xmlText(point, "coordinates");
     if (!raw) return;
-    const [longitude, latitude] = raw.split(",").map(Number);
-    if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) return;
+    const [longitude, latitude] = raw.split(",");
+    const coordinates = parseCoordinates(longitude, latitude);
+    if (!coordinates) return;
     const name = xmlText(node, "name");
     rows.push({
-      coordinates: [longitude!, latitude!],
+      coordinates,
       line: index + 1,
       name: name || `#${index + 1}`,
       text: name || `#${index + 1}`,

@@ -610,6 +610,15 @@ export default [
        * JSDoc block above every case adds nothing a reader can use.
        */
       "jsdoc/require-jsdoc": "off",
+      "no-restricted-syntax": [
+        "error",
+        {
+          selector:
+            "MemberExpression[object.name=/^(it|test|describe)$/][property.name=/^(only|skip)$/]",
+          message:
+            "Commit runnable tests; focused and skipped suites hide regressions.",
+        },
+      ],
     },
   },
 ];

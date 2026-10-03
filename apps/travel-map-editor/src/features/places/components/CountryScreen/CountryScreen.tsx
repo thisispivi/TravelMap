@@ -12,6 +12,7 @@ import { ColorField } from "../../../../shared/components/ColorField/ColorField"
 import { DocumentScreen } from "../../../../shared/components/DocumentScreen/DocumentScreen";
 import { NumberField } from "../../../../shared/components/Fields/Fields";
 import { useDataset } from "../../../../shared/hooks/useDataset";
+import { isSameJson } from "../../../../shared/lib/jsonEquality";
 import {
   findWorldCountry,
   translationsForLocales,
@@ -33,7 +34,7 @@ export function CountryScreen({ file }: CountryScreenProps): ReactNode {
   const dataset = useDataset();
   const navigate = useNavigate();
   const [value, setValue] = useState(file.value);
-  const isDirty = JSON.stringify(value) !== JSON.stringify(file.value);
+  const isDirty = !isSameJson(value, file.value);
   const world = findWorldCountry(file.value.id);
   const dependents = dataset.cities.filter(
     (city) => city.value.countryId === file.value.id,

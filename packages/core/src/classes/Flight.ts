@@ -1,6 +1,5 @@
 import { CompanyId } from "../schema";
 import { getTravelTypeByStartAndEndCity, TravelType } from "../typings/Travel";
-import { getCitiesDistance } from "../world/distance";
 import { City } from "./City";
 
 /**
@@ -10,8 +9,8 @@ import { City } from "./City";
  * @property {CompanyId} [company] - The airline
  * @property {Date} [sDate] - The departure date
  * @property {Date} [eDate] - The arrival date
- * @property {number} [distanceInKm] - The authored distance in kilometers
- * @property {number} [durationMinutes] - The authored duration in minutes
+ * @property {number} distanceInKm - The resolved distance in kilometers
+ * @property {number} durationMinutes - The resolved duration in minutes
  * @property {string} [number] - The flight number
  * @property {string} [class] - The cabin class
  */
@@ -21,8 +20,8 @@ interface FlightInterface {
   company?: CompanyId;
   sDate?: Date;
   eDate?: Date;
-  distanceInKm?: number;
-  durationMinutes?: number;
+  distanceInKm: number;
+  durationMinutes: number;
   number?: string;
   class?: string;
 }
@@ -36,8 +35,8 @@ interface FlightInterface {
  * @param {CompanyId} [flightData.company] - The company of the flight
  * @param {Date} [flightData.sDate] - The start date of the flight
  * @param {Date} [flightData.eDate] - The end date of the flight
- * @param {number} [flightData.distanceInKm] - The distance of the flight in kilometers
- * @param {number} [flightData.durationMinutes] - The flight duration in minutes
+ * @param {number} flightData.distanceInKm - The distance of the flight in kilometers
+ * @param {number} flightData.durationMinutes - The flight duration in minutes
  * @param {string} [flightData.number] - The flight number
  * @param {string} [flightData.class] - The travel class
  */
@@ -45,7 +44,7 @@ export class Flight implements FlightInterface {
   sCity: City;
   eCity: City;
   travelType: TravelType;
-  distanceInKm: number = 0;
+  distanceInKm: number;
   company?: CompanyId;
   sDate?: Date;
   eDate?: Date;
@@ -54,7 +53,8 @@ export class Flight implements FlightInterface {
   class?: string;
 
   /**
-   * Creates a flight and derives its travel type, distance, and duration.
+   * Creates a flight and derives its travel type. Distance and duration arrive
+   * already resolved by `resolveLegDistance`/`resolveLegDuration`.
    * @param {FlightInterface} flightData - The flight data
    */
   constructor(flightData: FlightInterface) {
@@ -73,12 +73,11 @@ export class Flight implements FlightInterface {
     this.sCity = sCity;
     this.eCity = eCity;
     this.travelType = getTravelTypeByStartAndEndCity(sCity, eCity);
-    this.distanceInKm = distanceInKm ?? getCitiesDistance(sCity, eCity);
+    this.distanceInKm = distanceInKm;
     this.company = company;
     this.sDate = sDate;
     this.eDate = eDate;
-    this.durationMinutes =
-      durationMinutes ?? Math.round((this.distanceInKm / 900) * 60);
+    this.durationMinutes = durationMinutes;
     this.number = number;
     this.class = flightClass;
   }

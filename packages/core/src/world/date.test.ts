@@ -1,6 +1,12 @@
 import { describe, expect, it } from "vitest";
 
-import { formatLocalDate, parseLocalDate } from "./date";
+import {
+  addDays,
+  daysBetween,
+  formatLocalDate,
+  parseLocalDate,
+  zonedDurationMinutes,
+} from "./date";
 
 describe("parseLocalDate", () => {
   it("reads a date as local wall-clock time, not UTC midnight", () => {
@@ -41,5 +47,62 @@ describe("formatLocalDate", () => {
     expect(formatLocalDate(parseLocalDate("2026-05-01T00:00"))).toBe(
       "2026-05-01",
     );
+  });
+});
+
+describe("zonedDurationMinutes", () => {
+  it("measures a flight across time zones from two local clocks", () => {
+    expect(
+      zonedDurationMinutes(
+        "2024-08-25T21:00",
+        "Asia/Tokyo",
+        "2024-08-26T05:45",
+        "Europe/Rome",
+      ),
+    ).toBe(15 * 60 + 45);
+  });
+
+  it("counts the hour lost when clocks spring forward", () => {
+    expect(
+      zonedDurationMinutes(
+        "2026-03-29T01:00",
+        "Europe/Rome",
+        "2026-03-29T04:00",
+        "Europe/Rome",
+      ),
+    ).toBe(120);
+  });
+
+  it("counts the hour repeated when clocks fall back", () => {
+    expect(
+      zonedDurationMinutes(
+        "2026-10-25T00:00",
+        "Europe/Rome",
+        "2026-10-25T04:00",
+        "Europe/Rome",
+      ),
+    ).toBe(300);
+  });
+
+  it("refuses to invent a duration from dates without times", () => {
+    expect(
+      zonedDurationMinutes("2026-03-29", "Europe/Rome", "2026-03-30", "UTC"),
+    ).toBeUndefined();
+  });
+});
+
+describe("daysBetween", () => {
+  it("counts nights across a month boundary", () => {
+    expect(daysBetween("2025-12-28", "2026-01-02")).toBe(5);
+  });
+
+  it("ignores the time part of either date", () => {
+    expect(daysBetween("2025-12-28T17:00", "2025-12-29T09:00")).toBe(1);
+  });
+});
+
+describe("addDays", () => {
+  it("rolls over a leap day", () => {
+    expect(addDays("2028-02-28", 1)).toBe("2028-02-29");
   });
 });

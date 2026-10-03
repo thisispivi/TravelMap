@@ -2,7 +2,7 @@ import "./PhotoImportDialog.scss";
 
 import { useLanguage } from "@app/shared/hooks/useLanguage";
 import { classNames } from "@app/shared/lib/classNames";
-import type { Image, TripStopJson } from "@travelmap/core";
+import type { Image } from "@travelmap/core";
 import { Check, FileUp, X } from "lucide-react";
 import { ChangeEvent, ReactNode, useEffect, useRef, useState } from "react";
 
@@ -12,8 +12,9 @@ import { snapshotBeforeChange } from "../../../backup/lib/snapshots";
 import type { ParsedPhotoManifest } from "../../lib/photoManifest";
 import {
   manifestKeyFor,
-  manifestPathForStop,
+  manifestPathForVisit,
   parseManifest,
+  PhotoVisit,
 } from "../../lib/photoManifest";
 
 /** Which stage of the photo import the author is reviewing. */
@@ -27,15 +28,15 @@ type Stage = "input" | "review" | "done";
  * @param {PhotoImportDialogProps} props
  * @param {DatasetSnapshot} props.dataset - Current editor dataset
  * @param {() => void} props.onClose - Dismisses the dialog
- * @param {(step: TripStopJson) => void} props.onChange - Updates the stop reference
- * @param {TripStopJson} props.step - Stop receiving the imported manifest
+ * @param {(photoPath: string) => void} props.onLink - Points the visit at the written manifest
+ * @param {PhotoVisit} props.visit - Visit receiving the imported manifest
  * @returns {ReactNode} The photo import dialog
  */
 export function PhotoImportDialog({
   dataset,
-  onChange,
   onClose,
-  step,
+  onLink,
+  visit,
 }: PhotoImportDialogProps): ReactNode {
   const { t } = useLanguage(["editor"]);
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -49,7 +50,7 @@ export function PhotoImportDialog({
     dialogRef.current?.showModal();
   }, []);
 
-  const path = manifestPathForStop(dataset, step);
+  const path = manifestPathForVisit(dataset, visit);
   const existing = dataset.photos.find((file) => file.path === path);
   const hasErrors =
     parsed?.problems.some(({ severity }) => severity === "error") ?? false;
@@ -132,7 +133,7 @@ export function PhotoImportDialog({
     try {
       await snapshotBeforeChange("before photo manifest import");
       await applyWrites([{ path, value: complete }]);
-      onChange({ ...step, photoPath: manifestKeyFor(path) });
+      onLink(manifestKeyFor(path));
       setStage("done");
     } catch (error) {
       setMessage(
@@ -294,12 +295,12 @@ export function PhotoImportDialog({
  * Props for PhotoImportDialog.
  * @property {DatasetSnapshot} dataset - Current editor dataset
  * @property {() => void} onClose - Dismisses the dialog
- * @property {(step: TripStopJson) => void} onChange - Updates the stop reference
- * @property {TripStopJson} step - Stop receiving the imported manifest
+ * @property {(photoPath: string) => void} onLink - Points the visit at the written manifest
+ * @property {PhotoVisit} visit - Visit receiving the imported manifest
  */
 interface PhotoImportDialogProps {
   dataset: DatasetSnapshot;
   onClose: () => void;
-  onChange: (step: TripStopJson) => void;
-  step: TripStopJson;
+  onLink: (photoPath: string) => void;
+  visit: PhotoVisit;
 }

@@ -1,0 +1,116 @@
+@use "variables" as v;
+
+.trip-story {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem 1rem 3rem;
+
+  &__details {
+    border-radius: 0.875rem;
+  }
+
+  &__details-summary {
+    padding: 0.75rem 1rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  &__details-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 0 1rem 1rem;
+  }
+
+  &__start {
+    display: grid;
+    grid-template-columns: auto 2fr 1fr;
+    align-items: end;
+    gap: 0.75rem;
+  }
+
+  &__move {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+    margin-left: 1rem;
+    padding: 0.25rem 0 0.25rem 1rem;
+    border-left: 0.125rem solid currentColor;
+    border-left-color: rgba(127, 127, 127, 0.4);
+  }
+
+  &__move-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__move-icon {
+    width: 1.125rem;
+    height: 1.125rem;
+    flex-shrink: 0;
+    opacity: 0.7;
+  }
+
+  &__move-title {
+    flex: 1;
+    font-size: v.$bodySm;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    opacity: 0.75;
+  }
+
+  &__legs {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__add {
+    align-self: flex-start;
+  }
+
+  &__next {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+    padding: 1.125rem;
+    border: 0.125rem dashed var(--editor-accent);
+    border-radius: 1.125rem;
+  }
+
+  &__next-title {
+    margin: 0;
+    font-size: 1.125rem;
+  }
+
+  &__next-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 0.75rem;
+  }
+
+  &__stay-here {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.5rem;
+
+    .editor-field {
+      width: 7rem;
+    }
+  }
+}
+
+.editor--dark .trip-story__details {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.editor--light .trip-story__details {
+  background: #ffffff;
+  box-shadow: 0 0.0625rem 0.25rem rgba(0, 0, 0, 0.08);
+}

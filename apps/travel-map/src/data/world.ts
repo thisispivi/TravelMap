@@ -87,7 +87,7 @@ function stayedInCities(trips: Trip[]): City[] {
   return unique(
     trips.flatMap((trip) =>
       trip.destinations.flatMap((destination) =>
-        destination.isLayover ? [] : [destination.city],
+        destination.kind === "stopover" ? [] : [destination.city],
       ),
     ),
   );

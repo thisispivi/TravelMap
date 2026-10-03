@@ -1,5 +1,5 @@
 import { useLanguage } from "@app/shared/hooks/useLanguage";
-import { CityJson } from "@travelmap/core";
+import { CityJson, walkTripLegs } from "@travelmap/core";
 import { ReactNode, useState } from "react";
 import { useNavigate } from "react-router";
 
@@ -14,6 +14,7 @@ import {
 } from "../../../../shared/components/Fields/Fields";
 import { LocalizedNames } from "../../../../shared/components/LocalizedNames/LocalizedNames";
 import { useDataset } from "../../../../shared/hooks/useDataset";
+import { isSameJson } from "../../../../shared/lib/jsonEquality";
 import { findWorldCountry } from "../../../../shared/lib/worldCountries";
 import { snapshotBeforeChange } from "../../../backup/lib/snapshots";
 import { CoordinatePicker } from "../../../map/components/CoordinatePicker/CoordinatePicker";
@@ -36,15 +37,20 @@ export function CityScreen({ file, isDarkTheme }: CityScreenProps): ReactNode {
   const dataset = useDataset();
   const navigate = useNavigate();
   const [value, setValue] = useState(file.value);
-  const isDirty = JSON.stringify(value) !== JSON.stringify(file.value);
-  const dependents = dataset.trips.filter(({ value: trip }) =>
-    trip.steps.some((step) =>
-      step.type === "stop"
-        ? step.cityId === file.value.id
-        : step.fromId === file.value.id ||
-          step.toId === file.value.id ||
-          (step.viaIds ?? []).includes(file.value.id),
-    ),
+  const isDirty = !isSameJson(value, file.value);
+  const dependents = dataset.trips.filter(
+    ({ value: trip }) =>
+      trip.originCityId === file.value.id ||
+      trip.steps.some(
+        (step) => step.type === "stay" && step.cityId === file.value.id,
+      ) ||
+      walkTripLegs(trip).some(
+        ({ leg }) =>
+          leg.toId === file.value.id ||
+          [...(leg.viaIds ?? []), ...(leg.ferry?.viaIds ?? [])].includes(
+            file.value.id,
+          ),
+      ),
   );
   const problems = [
     ...(value.name.trim() ? [] : [t("cityScreen.nameRequired")]),

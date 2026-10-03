@@ -2,9 +2,9 @@ import { describe, expect, it } from "vitest";
 
 import type { DatasetSnapshot } from "../../../data/store.ts";
 import {
-  canImportForStop,
+  canImportForVisit,
   manifestKeyFor,
-  manifestPathForStop,
+  manifestPathForVisit,
   parseManifest,
 } from "./photoManifest.ts";
 
@@ -31,31 +31,30 @@ const monzaStay = {
   cityId: "Monza",
   eDate: "2026-11-09",
   sDate: "2026-11-05",
-  type: "stop",
-} as const;
+};
 
 describe("manifest paths", () => {
   it("names a manifest after the stay's country, city, and dates", () => {
-    const path = manifestPathForStop(dataset, monzaStay);
+    const path = manifestPathForVisit(dataset, monzaStay);
     expect(path).toBe("photos/Italy/Monza/tr_051126_091126.json");
     expect(manifestKeyFor(path)).toBe("Italy/Monza/tr_051126_091126");
   });
 });
 
-describe("canImportForStop", () => {
+describe("canImportForVisit", () => {
   it("allows an import for a resolvable stay", () => {
-    expect(canImportForStop(dataset, monzaStay)).toBe(true);
+    expect(canImportForVisit(dataset, monzaStay)).toBe(true);
   });
 
   it("refuses a stay whose city is not in the dataset", () => {
-    expect(canImportForStop(dataset, { ...monzaStay, cityId: "Ghost" })).toBe(
+    expect(canImportForVisit(dataset, { ...monzaStay, cityId: "Ghost" })).toBe(
       false,
     );
   });
 
   it("refuses a malformed date rather than deriving a wrong path", () => {
     expect(
-      canImportForStop(dataset, { ...monzaStay, sDate: "2026-11-5" }),
+      canImportForVisit(dataset, { ...monzaStay, sDate: "2026-11-5" }),
     ).toBe(false);
   });
 });

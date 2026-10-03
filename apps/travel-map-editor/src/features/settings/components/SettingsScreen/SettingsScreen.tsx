@@ -10,6 +10,7 @@ import {
   Combobox,
   MultiCombobox,
 } from "../../../../shared/components/Combobox/Combobox";
+import { useConfirm } from "../../../../shared/components/ConfirmDialog/ConfirmDialog";
 import { DocumentScreen } from "../../../../shared/components/DocumentScreen/DocumentScreen";
 import {
   NumberField,
@@ -17,6 +18,7 @@ import {
   TextField,
 } from "../../../../shared/components/Fields/Fields";
 import { useDataset } from "../../../../shared/hooks/useDataset";
+import { isSameJson } from "../../../../shared/lib/jsonEquality";
 import { findWorldCountry } from "../../../../shared/lib/worldCountries";
 import { BackupPanel } from "../../../backup/components/BackupPanel/BackupPanel";
 
@@ -49,10 +51,11 @@ const SITE_FIELDS = [
  */
 export function SettingsScreen({ file }: SettingsScreenProps): ReactNode {
   const { t } = useLanguage(["editor"]);
+  const { confirm, confirmDialog } = useConfirm();
   const [value, setValue] = useState(file.value);
   const [newLocale, setNewLocale] = useState("");
   const dataset = useDataset();
-  const isDirty = JSON.stringify(value) !== JSON.stringify(file.value);
+  const isDirty = !isSameJson(value, file.value);
   const site = value.site ?? {};
   const map = resolveMapSettings(value.map);
   const locales = value.locales ?? [];
@@ -126,6 +129,7 @@ export function SettingsScreen({ file }: SettingsScreenProps): ReactNode {
       </section>
       <section className="editor-panel">
         <h2 className="editor-panel__legend">{t("configScreen.locales")}</h2>
+        {confirmDialog}
         <p className="editor-panel__hint">{t("configScreen.localesHint")}</p>
         {locales.length > 0 ? (
           <ul className="settings-screen__tags">
@@ -136,9 +140,16 @@ export function SettingsScreen({ file }: SettingsScreenProps): ReactNode {
                   aria-label={t("configScreen.removeLocale", { locale })}
                   className="settings-screen__tag-remove"
                   onClick={() =>
-                    setValue({
-                      ...value,
-                      locales: locales.filter((entry) => entry !== locale),
+                    confirm({
+                      confirmLabel: t("confirm.removeLocale.action"),
+                      isDanger: true,
+                      message: t("confirm.removeLocale.message"),
+                      onConfirm: () =>
+                        setValue({
+                          ...value,
+                          locales: locales.filter((entry) => entry !== locale),
+                        }),
+                      title: t("confirm.removeLocale.title", { locale }),
                     })
                   }
                   type="button"

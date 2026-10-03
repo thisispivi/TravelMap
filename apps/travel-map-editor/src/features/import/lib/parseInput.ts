@@ -1,4 +1,4 @@
-import { isTripJson } from "@travelmap/core";
+import { TripJsonSchema } from "@travelmap/core";
 
 import {
   parseCsv,
@@ -31,19 +31,21 @@ export function parseImport(input: string): ParsedInput {
         rows: [],
       };
     }
-    if (isTripJson(value))
-      return { format: "trip-json", problems: [], rows: [], trip: value };
+    const trip = TripJsonSchema.safeParse(value);
+    if (trip.success)
+      return { format: "trip-json", problems: [], rows: [], trip: trip.data };
     if (
       typeof value === "object" &&
       value !== null &&
       "documents" in value &&
-      Array.isArray((value as { documents: unknown }).documents)
+      Array.isArray(value.documents)
     )
       return { format: "bundle", problems: [], rows: [] };
     if (
       typeof value === "object" &&
       value !== null &&
-      (value as { type?: string }).type === "FeatureCollection"
+      "type" in value &&
+      value.type === "FeatureCollection"
     )
       return parseGeoJson(value);
     return {

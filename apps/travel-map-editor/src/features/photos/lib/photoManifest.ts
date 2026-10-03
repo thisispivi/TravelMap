@@ -1,4 +1,4 @@
-import type { Image, TripStopJson } from "@travelmap/core";
+import type { Image } from "@travelmap/core";
 import { ImageSchema } from "@travelmap/core";
 
 import type { DatasetSnapshot } from "../../../data/store";
@@ -38,6 +38,19 @@ export interface ParsedPhotoManifest {
   problems: PhotoManifestProblem[];
 }
 
+/**
+ * A visit that photos can be attached to: a stay, or a place seen on a day
+ * trip or along a journey, for which both dates are the same day.
+ * @property {string} cityId - The place
+ * @property {string} sDate - The first day
+ * @property {string} eDate - The last day
+ */
+export interface PhotoVisit {
+  cityId: string;
+  sDate: string;
+  eDate: string;
+}
+
 const ISO_DATE = /^(\d{4})-(\d{2})-(\d{2})/;
 
 /**
@@ -65,16 +78,16 @@ function normalizeMediaRoot(mediaRoot: string): string {
 }
 
 /**
- * Reports whether a stop resolves to a manifest path. The import entry point
- * calls this so a stop left pointing at a deleted city disables the action
+ * Reports whether a visit resolves to a manifest path. The import entry point
+ * calls this so a visit left pointing at a deleted city disables the action
  * instead of throwing while the dialog renders.
  * @param {DatasetSnapshot} dataset - Current editor dataset
- * @param {TripStopJson} step - Stop whose city and dates define the path
- * @returns {boolean} Whether the stop can receive an imported manifest
+ * @param {PhotoVisit} step - Visit whose city and dates define the path
+ * @returns {boolean} Whether the visit can receive an imported manifest
  */
-export function canImportForStop(
+export function canImportForVisit(
   dataset: DatasetSnapshot,
-  step: TripStopJson,
+  step: PhotoVisit,
 ): boolean {
   return (
     dataset.cities.some(({ value }) => value.id === step.cityId) &&
@@ -84,14 +97,14 @@ export function canImportForStop(
 }
 
 /**
- * Resolves the canonical photo document path from a stop and its city record.
+ * Resolves the canonical photo document path from a visit and its city record.
  * @param {DatasetSnapshot} dataset - Current editor dataset
- * @param {TripStopJson} step - Stop whose city and dates define the path
+ * @param {PhotoVisit} step - Visit whose city and dates define the path
  * @returns {string} Dataset-relative photo manifest path
  */
-export function manifestPathForStop(
+export function manifestPathForVisit(
   dataset: DatasetSnapshot,
-  step: TripStopJson,
+  step: PhotoVisit,
 ): string {
   const city = dataset.cities.find(({ value }) => value.id === step.cityId);
   if (!city) throw new Error(`Unknown city: ${step.cityId}`);
@@ -99,7 +112,7 @@ export function manifestPathForStop(
 }
 
 /**
- * Converts a dataset photo path into the reference stored on a trip stop.
+ * Converts a dataset photo path into the reference stored on a stay or leg.
  * @param {string} path - Dataset-relative photo manifest path
  * @returns {string} Photo path without the collection prefix and extension
  */

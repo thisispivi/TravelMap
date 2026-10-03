@@ -1,13 +1,13 @@
 import "./Workspace.scss";
 
 import { useLanguage } from "@app/shared/hooks/useLanguage";
-import { classNames } from "@app/shared/lib/classNames";
-import { Issue, TransportMode, TripJson } from "@travelmap/core";
-import { ArrowLeft, FileInput, Redo2, Trash2, Undo2, X } from "lucide-react";
+import { daysBetween, Issue, TripJson, tripPlaceIds } from "@travelmap/core";
+import { ArrowLeft, FileInput, Redo2, Trash2, Undo2 } from "lucide-react";
 import { ReactNode, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
 
 import { DataFile, deleteDocument } from "../../../../data/store";
+import { useConfirm } from "../../../../shared/components/ConfirmDialog/ConfirmDialog";
 import { useToast } from "../../../../shared/components/Toast/Toast";
 import {
   useDataset,
@@ -16,19 +16,11 @@ import {
 import { registerCommands } from "../../../../shared/lib/commands";
 import { snapshotBeforeChange } from "../../../backup/lib/snapshots";
 import { ImportDialog } from "../../../import/components/ImportDialog/ImportDialog";
-import { ItineraryRail } from "../../../itinerary/components/ItineraryRail/ItineraryRail";
+import { TripStory } from "../../../itinerary/components/TripStory/TripStory";
 import {
-  addDayTrip,
-  addStop,
-  addStopAfter,
-  mergeWithPreviousStop,
-  moveStop,
-  removeStep,
-  removeSteps,
-  replaceStep,
-  setLegMode,
-  shiftStepDates,
-  sortByDate,
+  applyPlace,
+  PlaceRequest,
+  returnHome,
 } from "../../../itinerary/lib/itinerary";
 import { EditorMap } from "../../../map/components/EditorMap/EditorMap";
 import { AddPlaceDialog } from "../../../places/components/AddPlaceDialog/AddPlaceDialog";
@@ -38,14 +30,12 @@ import {
   ValidationTray,
 } from "../../../validation/components/ValidationTray/ValidationTray";
 import { useTripWorkspace } from "../../Workspace.state";
-import { BulkBar } from "../BulkBar/BulkBar";
-import { Inspector } from "../Inspector/Inspector";
 
 /**
  * Workspace component
- * The whole editing surface for one trip: the itinerary rail, the map, and the
- * inspector, all rendering from one draft. It autosaves edits and adds places
- * without leaving the current trip.
+ * The whole editing surface for one trip: the trip story on the left and the
+ * map on the right, both rendering from one draft. It autosaves edits and adds
+ * places without leaving the current trip.
  * @component
  * @param {WorkspaceProps} props
  * @param {DataFile<TripJson>} props.file - The trip document being edited
@@ -63,14 +53,9 @@ export function Workspace({ file, isDarkTheme }: WorkspaceProps): ReactNode {
   );
   const [tray, setTray] = useState<TrayTab>("closed");
   const [placePoint, setPlacePoint] = useState<[number, number] | undefined>();
-  const [dayTripBaseIndex, setDayTripBaseIndex] = useState<
-    number | undefined
-  >();
-  const [afterStopIndex, setAfterStopIndex] = useState<number | undefined>();
-  const [isAddingPlace, setIsAddingPlace] = useState(false);
+  const [placeRequest, setPlaceRequest] = useState<PlaceRequest | null>(null);
   const [isImporting, setIsImporting] = useState(false);
-  const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
-  const [picked, setPicked] = useState<number[]>([]);
+  const { confirm, confirmDialog } = useConfirm();
 
   const { redoEdit, trip, undoEdit, update } = workspace;
   const cityById = new Map(
@@ -78,49 +63,18 @@ export function Workspace({ file, isDarkTheme }: WorkspaceProps): ReactNode {
   );
 
   /**
-   * Opens the place dialog, optionally at a point clicked on the map.
+   * Asks the author for a place, optionally starting from a point clicked on
+   * the map, and remembers what the place is for.
+   * @param {PlaceRequest} request - What the place is for
    * @param {[number, number]} [coordinates] - Longitude and latitude
    * @returns {void}
    */
-  function openPlaceDialog(coordinates?: [number, number]): void {
-    setAfterStopIndex(undefined);
-    setDayTripBaseIndex(undefined);
+  function requestPlace(
+    request: PlaceRequest,
+    coordinates?: [number, number],
+  ): void {
     setPlacePoint(coordinates);
-    setIsAddingPlace(true);
-  }
-
-  /**
-   * Opens place selection for an excursion inserted after the chosen base stay.
-   * @param {number} baseIndex - Position of the stay the excursion returns to
-   * @returns {void}
-   */
-  function openDayTripDialog(baseIndex: number): void {
-    setAfterStopIndex(undefined);
-    setDayTripBaseIndex(baseIndex);
-    setPlacePoint(undefined);
-    setIsAddingPlace(true);
-  }
-
-  /**
-   * Opens place selection for a destination inserted after the chosen stay.
-   * @param {number} stopIndex - Position of the stay to continue from
-   * @returns {void}
-   */
-  function openNextStopDialog(stopIndex: number): void {
-    setAfterStopIndex(stopIndex);
-    setDayTripBaseIndex(undefined);
-    setPlacePoint(undefined);
-    setIsAddingPlace(true);
-  }
-
-  /**
-   * Dismisses place selection and clears the insertion mode it was opened for.
-   * @returns {void}
-   */
-  function closePlaceDialog(): void {
-    setIsAddingPlace(false);
-    setAfterStopIndex(undefined);
-    setDayTripBaseIndex(undefined);
+    setPlaceRequest(request);
   }
 
   /**
@@ -135,7 +89,6 @@ export function Workspace({ file, isDarkTheme }: WorkspaceProps): ReactNode {
       showToast(t("toast.tripDeleted"));
       await navigate("/");
     } catch {
-      setIsConfirmingDelete(false);
       showToast(t("editorForm.deleteError"), "error");
     }
   }
@@ -151,14 +104,10 @@ export function Workspace({ file, isDarkTheme }: WorkspaceProps): ReactNode {
       const isTyping =
         event.target instanceof HTMLElement &&
         ["INPUT", "TEXTAREA", "SELECT"].includes(event.target.tagName);
-      if (event.key === "Escape") {
-        setPicked([]);
-        return;
-      }
       if (!(event.ctrlKey || event.metaKey)) {
         if (event.key.toLowerCase() === "n" && !isTyping) {
           event.preventDefault();
-          openPlaceDialog();
+          requestPlace({ kind: "travel" });
         }
         return;
       }
@@ -177,18 +126,13 @@ export function Workspace({ file, isDarkTheme }: WorkspaceProps): ReactNode {
       registerCommands("workspace", [
         {
           id: "add-place",
-          label: t("rail.addStop"),
-          run: () => openPlaceDialog(),
+          label: t("story.travelTo", { city: "" }),
+          run: () => requestPlace({ kind: "travel" }),
         },
         {
           id: "import",
           label: t("import.title"),
           run: () => setIsImporting(true),
-        },
-        {
-          id: "sort-by-date",
-          label: t("palette.sortByDate"),
-          run: () => update(sortByDate(trip)),
         },
         { id: "undo", label: t("workspace.undo"), run: undoEdit },
         { id: "redo", label: t("workspace.redo"), run: redoEdit },
@@ -202,21 +146,13 @@ export function Workspace({ file, isDarkTheme }: WorkspaceProps): ReactNode {
   );
 
   /**
-   * Adds a stay for a city, materialising the leg that reaches it.
-   * @param {string} cityId - The city to visit
+   * Applies the picked place to whatever asked for it.
+   * @param {string} cityId - The picked city
    * @returns {void}
    */
   function handlePlace(cityId: string): void {
-    const coordinates = cityCoordinates(dataset);
-    if (dayTripBaseIndex !== undefined) {
-      update(addDayTrip(trip, dayTripBaseIndex, cityId, coordinates));
-      return;
-    }
-    if (afterStopIndex !== undefined) {
-      update(addStopAfter(trip, afterStopIndex, cityId, coordinates));
-      return;
-    }
-    update(addStop(trip, cityId, coordinates));
+    if (!placeRequest) return;
+    update(applyPlace(trip, placeRequest, cityId, cityCoordinates(dataset)));
   }
 
   /**
@@ -228,29 +164,6 @@ export function Workspace({ file, isDarkTheme }: WorkspaceProps): ReactNode {
     update(fix.apply(trip));
   }
 
-  /**
-   * Adds or removes one step from the bulk selection.
-   * @param {number} index - Step position
-   * @returns {void}
-   */
-  function handleTogglePicked(index: number): void {
-    setPicked((current) =>
-      current.includes(index)
-        ? current.filter((entry) => entry !== index)
-        : [...current, index],
-    );
-  }
-
-  /**
-   * Applies a bulk edit and clears the selection, since the positions it named
-   * no longer mean the same thing afterwards.
-   * @param {TripJson} next - The edited trip
-   * @returns {void}
-   */
-  function applyBulk(next: TripJson): void {
-    update(next);
-    setPicked([]);
-  }
   return (
     <div className="workspace">
       <header className="workspace__header">
@@ -262,12 +175,14 @@ export function Workspace({ file, isDarkTheme }: WorkspaceProps): ReactNode {
           <h1 className="workspace__title">{trip.title || trip.id}</h1>
           <p className="workspace__summary">
             {t("workspace.summary", {
-              cities: new Set(
-                trip.steps.flatMap((step) =>
-                  step.type === "stop" ? [step.cityId] : [],
-                ),
-              ).size,
-              steps: trip.steps.length,
+              nights: trip.steps.reduce(
+                (sum, step) =>
+                  step.type === "stay"
+                    ? sum + daysBetween(step.checkIn, step.checkOut)
+                    : sum,
+                0,
+              ),
+              places: new Set(tripPlaceIds(trip)).size,
             })}
           </p>
         </div>
@@ -298,35 +213,24 @@ export function Workspace({ file, isDarkTheme }: WorkspaceProps): ReactNode {
             <Redo2 aria-hidden="true" />
             {t("workspace.redo")}
           </button>
-          {isConfirmingDelete ? (
-            <>
-              <button
-                className="editor-button editor-button--danger"
-                onClick={handleDeleteTrip}
-                type="button"
-              >
-                <Trash2 aria-hidden="true" />
-                {t("editorForm.confirmDelete")}
-              </button>
-              <button
-                className="editor-button"
-                onClick={() => setIsConfirmingDelete(false)}
-                type="button"
-              >
-                <X aria-hidden="true" />
-                {t("editorForm.cancel")}
-              </button>
-            </>
-          ) : (
-            <button
-              className="editor-button"
-              onClick={() => setIsConfirmingDelete(true)}
-              type="button"
-            >
-              <Trash2 aria-hidden="true" />
-              {t("editorForm.delete")}
-            </button>
-          )}
+          <button
+            className="editor-button"
+            onClick={() =>
+              confirm({
+                confirmLabel: t("confirm.deleteTrip.action"),
+                isDanger: true,
+                message: t("confirm.deleteTrip.message"),
+                onConfirm: handleDeleteTrip,
+                title: t("confirm.deleteTrip.title", {
+                  trip: trip.title || trip.id,
+                }),
+              })
+            }
+            type="button"
+          >
+            <Trash2 aria-hidden="true" />
+            {t("editorForm.delete")}
+          </button>
         </div>
       </header>
       {workspace.recovered ? (
@@ -352,28 +256,16 @@ export function Workspace({ file, isDarkTheme }: WorkspaceProps): ReactNode {
           </button>
         </div>
       ) : null}
-      {picked.length > 0 ? (
-        <BulkBar
-          count={picked.length}
-          onClear={() => setPicked([])}
-          onDelete={() => applyBulk(removeSteps(trip, picked))}
-          onSetMode={(mode: TransportMode) =>
-            applyBulk(setLegMode(trip, picked, mode))
-          }
-          onShift={(days) => applyBulk(shiftStepDates(trip, picked, days))}
-        />
-      ) : null}
       <div className="workspace__panes">
-        <div className="workspace__rail">
-          <ItineraryRail
-            cityById={cityById}
-            issues={workspace.issues}
-            onAddStop={() => openPlaceDialog()}
-            onRemove={(index) => update(removeStep(trip, index))}
-            onReorder={(from, to) => update(moveStop(trip, from, to))}
+        <div className="workspace__story">
+          <TripStory
+            dataset={dataset}
+            onChange={update}
+            onRequestPlace={requestPlace}
+            onReturnHome={() =>
+              update(returnHome(trip, cityCoordinates(dataset)))
+            }
             onSelect={workspace.select}
-            onTogglePicked={handleTogglePicked}
-            picked={picked}
             selection={workspace.selection}
             trip={trip}
           />
@@ -382,31 +274,11 @@ export function Workspace({ file, isDarkTheme }: WorkspaceProps): ReactNode {
           <EditorMap
             cityById={cityById}
             isDarkTheme={isDarkTheme}
-            onAddHere={(coordinates) => openPlaceDialog(coordinates)}
+            onAddHere={(coordinates) =>
+              requestPlace({ kind: "travel" }, coordinates)
+            }
             onCaptureView={(mapFocus) => update({ ...trip, mapFocus })}
             onSelect={workspace.select}
-            selection={workspace.selection}
-            trip={trip}
-          />
-        </div>
-        <div
-          className={classNames(
-            "workspace__inspector",
-            workspace.selection.kind === "step" &&
-              "workspace__inspector--active",
-          )}
-        >
-          <Inspector
-            dataset={dataset}
-            onAddDayTrip={openDayTripDialog}
-            onAddNextStop={openNextStopDialog}
-            onChange={update}
-            onChangeStep={(index, step) =>
-              update(replaceStep(trip, index, step))
-            }
-            onMergeWithPrevious={(index) =>
-              update(mergeWithPreviousStop(trip, index))
-            }
             selection={workspace.selection}
             trip={trip}
           />
@@ -421,12 +293,14 @@ export function Workspace({ file, isDarkTheme }: WorkspaceProps): ReactNode {
         tab={tray}
         trip={trip}
       />
-      {isAddingPlace ? (
+      {confirmDialog}
+      {placeRequest ? (
         <AddPlaceDialog
           coordinates={placePoint}
           dataset={dataset}
-          onClose={closePlaceDialog}
+          onClose={() => setPlaceRequest(null)}
           onPlace={handlePlace}
+          title={t(`story.placeFor.${placeRequest.kind}`)}
         />
       ) : null}
       {isImporting ? (

@@ -6,7 +6,7 @@ import { ReactNode } from "react";
 import { TransportModeIcon } from "@/shared/components/TransportModeIcon/TransportModeIcon";
 import { useLanguage } from "@/shared/hooks/useLanguage";
 import { classNames } from "@/shared/lib/classNames";
-import { formatMileage } from "@/shared/lib/format";
+import { formatDuration, formatMileage } from "@/shared/lib/format";
 
 import { TransportModeStat } from "../../lib/transport";
 const transportModeColors: Record<string, string> = {
@@ -52,7 +52,7 @@ export function BarChartTransportModes({
   })();
   return (
     <div className="transport-bar-chart">
-      {visibleData.map(({ mode, count, km }) => {
+      {visibleData.map(({ mode, count, km, minutes }) => {
         const color = transportModeColors[mode] ?? "#888";
         const value = metric === "km" ? km : count;
         const pct = (value / maxValue) * 100;
@@ -83,7 +83,8 @@ export function BarChartTransportModes({
                 <span className="transport-bar-chart__count">{count}</span>
                 {km > 0 ? (
                   <span className="transport-bar-chart__km">
-                    {formatMileage(km, currLanguage)} km
+                    {formatMileage(km, currLanguage, 0)} km ·{" "}
+                    {formatDuration(minutes)}
                   </span>
                 ) : null}
               </>

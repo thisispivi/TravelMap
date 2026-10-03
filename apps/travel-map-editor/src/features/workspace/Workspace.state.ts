@@ -7,13 +7,16 @@ import { photoKeys } from "../../data/dataset";
 import { DataFile, saveDocument } from "../../data/store";
 import { useAutosave } from "../../shared/hooks/useAutosave";
 import { useDataset } from "../../shared/hooks/useDataset";
+import { isSameJson } from "../../shared/lib/jsonEquality";
 import { commit, createHistory, redo, undo } from "../history/lib/history";
 
-/** What the rail, the map, and the inspector are all currently pointed at. */
+/**
+ * What the story and the map are pointed at: the trip itself, or one step,
+ * optionally narrowed to a day trip and a leg inside it.
+ */
 export type Selection =
   | { kind: "trip" }
-  | { kind: "step"; index: number }
-  | { kind: "day"; date: string | null };
+  | { kind: "step"; index: number; outing?: number; leg?: number };
 
 /** A draft found in local storage that is newer than the file on disk. */
 const RecoveredDraftSchema = z.strictObject({
@@ -69,7 +72,7 @@ function readRecovered(path: string, onDisk: TripJson): RecoveredDraft | null {
   const draft = RecoveredDraftSchema.safeParse(safeJsonParse(raw));
   /* A corrupt or outdated draft must never stop the editor from opening. */
   if (!draft.success) return null;
-  if (JSON.stringify(draft.data.value) === JSON.stringify(onDisk)) return null;
+  if (isSameJson(draft.data.value, onDisk)) return null;
   return draft.data;
 }
 
@@ -93,9 +96,8 @@ function safeJsonParse(raw: string): unknown {
  * @returns {string} The query value
  */
 function encodeSelection(selection: Selection): string {
-  if (selection.kind === "step") return `step:${selection.index}`;
-  if (selection.kind === "day") return `day:${selection.date ?? ""}`;
-  return "trip";
+  if (selection.kind === "trip") return "trip";
+  return `step:${[selection.index, selection.outing ?? "", selection.leg ?? ""].join(":")}`;
 }
 
 /**
@@ -104,12 +106,15 @@ function encodeSelection(selection: Selection): string {
  * @returns {Selection} The decoded selection, defaulting to the trip
  */
 function decodeSelection(value: string | null): Selection {
-  if (!value) return { kind: "trip" };
-  const [kind, rest = ""] = value.split(":");
-  if (kind === "step" && /^\d+$/.test(rest))
-    return { index: Number(rest), kind: "step" };
-  if (kind === "day") return { date: rest || null, kind: "day" };
-  return { kind: "trip" };
+  const match = /^step:(\d+)(?::(\d*))?(?::(\d*))?$/.exec(value ?? "");
+  if (!match) return { kind: "trip" };
+  const [, index, outing, leg] = match;
+  return {
+    index: Number(index),
+    kind: "step",
+    ...(outing ? { outing: Number(outing) } : {}),
+    ...(leg ? { leg: Number(leg) } : {}),
+  };
 }
 
 /**
@@ -133,7 +138,7 @@ export function useTripWorkspace(
   );
 
   const trip = history.present;
-  const isDirty = JSON.stringify(trip) !== JSON.stringify(file.value);
+  const isDirty = !isSameJson(trip, file.value);
   const selection = decodeSelection(searchParams.get("sel"));
 
   useAutosave(

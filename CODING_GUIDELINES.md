@@ -194,7 +194,7 @@ anywhere in the app today — keep it that way; import from the concrete file.
 - Never name a file `utils.ts`, `helpers.ts`, `types.ts`, or `constants.ts` —
   every current utility file is named for the domain concept it covers
   (`trips.ts`, `countries.ts`, `continent.ts`, `timezone.ts`,
-  `tripDetailTimeline.ts`); keep that precedent. If you're about to create a
+  `tripItinerary.ts`); keep that precedent. If you're about to create a
   generic-named file, that's a signal the logic hasn't found its real home
   yet — find the domain name first.
 - No barrel (`index.ts`) files. This repo's convention is direct imports from
@@ -292,9 +292,9 @@ export function Marker({
 
 Split when a file mixes concerns that don't need to be adjacent to work: pure
 data transformation, imperative DOM measurement, and JSX rendering are three
-different jobs. Trip-detail timeline transformations live in
-`features/trips/lib/tripDetailTimeline.ts`, next to the component that renders
-the result rather than inside it; `TripTimeline.tsx` only renders. Presentation
+different jobs. The trip page's layout — which blocks, which night numbers —
+lives in `features/trips/lib/tripItinerary.ts`, next to the component that
+renders the result rather than inside it; `TripItinerary.tsx` only renders. Presentation
 data that comes from the dataset — an operator's name and logo, for instance —
 belongs in `data/`, where `resolveCompany` owns it, so no component keeps its
 own table of names that a fork cannot change.
@@ -1217,8 +1217,6 @@ Real work, listed so nobody rediscovers it as a surprise. None is urgent.
   too. Lowering the border resolution to 110m is a smaller lever but trades
   coastline detail, so it is a design decision rather than a cleanup.
 
-- `TripTimelineStayGroup.tsx` is large enough that `react-doctor` flags it; the
-  seam is between day-trip grouping and rendering.
 - `useImageCache` keeps one object URL per photo for the life of the page. That
   is intentional — the cache exists so a re-mounted card reuses the decoded blob
   — but it is bounded by gallery size rather than by anything adaptive.

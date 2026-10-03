@@ -1,20 +1,19 @@
 import type {
   CityJson,
   TripJson,
-  TripStopJson,
-  TripTransportJson,
+  TripLegJson,
+  TripStayJson,
+  TripStepJson,
 } from "../schema";
-import { parseLocalDate } from "../world/date";
+import { parseLocalDate, zonedDurationMinutes } from "../world/date";
 import {
   deriveLegDistance,
   deriveTripDateRange,
   impliedSpeedKmh,
-  isLegConsistent,
-  locationBefore,
-  stopAfter,
-  stopBefore,
+  LocatedLeg,
+  walkTripLegs,
 } from "../world/derive";
-import type { Issue, IssueFix, IssueSeverity } from "./issues";
+import type { Issue, IssueFix, IssueSeverity, IssueSubject } from "./issues";
 
 /**
  * Everything a trip needs resolving against to be checked.
@@ -45,47 +44,61 @@ function isParsableDate(value?: string): boolean {
 }
 
 /**
- * Names a city for a message, degrading to the raw id when the reference is
- * the very thing that is broken.
- * @param {TripValidationContext} context - Resolution context
- * @param {string} id - The referenced city id
- * @returns {string} A human-readable label
- */
-function cityLabel(context: TripValidationContext, id: string): string {
-  return context.cities.get(id)?.name ?? (id || "—");
-}
-
-/**
  * Replaces one step without mutating the trip it belongs to.
  * @param {TripJson} trip - The trip to copy
  * @param {number} index - Position of the step to replace
- * @param {TripJson["steps"][number]} step - The replacement step
+ * @param {(step: TripStepJson) => TripStepJson} change - Builds the replacement
  * @returns {TripJson} A copy carrying the replacement
  */
 function withStep(
   trip: TripJson,
   index: number,
-  step: TripJson["steps"][number],
+  change: (step: TripStepJson) => TripStepJson,
 ): TripJson {
   return {
     ...trip,
-    steps: trip.steps.map((existing, position) =>
-      position === index ? step : existing,
+    steps: trip.steps.map((step, position) =>
+      position === index ? change(step) : step,
     ),
   };
 }
 
 /**
- * Removes one step without mutating the trip it belongs to.
+ * Replaces one leg wherever it lives — in a move or in a stay's day trip.
  * @param {TripJson} trip - The trip to copy
- * @param {number} index - Position of the step to remove
- * @returns {TripJson} A copy without that step
+ * @param {LocatedLeg} at - Where the leg is
+ * @param {(leg: TripLegJson) => TripLegJson | null} change - The replacement, or null to remove it
+ * @returns {TripJson} A copy carrying the change
  */
-function withoutStep(trip: TripJson, index: number): TripJson {
-  return {
-    ...trip,
-    steps: trip.steps.filter((_unused, position) => position !== index),
-  };
+function withLeg(
+  trip: TripJson,
+  at: Pick<LocatedLeg, "index" | "legIndex" | "outing">,
+  change: (leg: TripLegJson) => TripLegJson | null,
+): TripJson {
+  /**
+   * Applies the change to one chain.
+   * @param {TripLegJson[]} legs - The chain
+   * @returns {TripLegJson[]} The changed chain
+   */
+  const apply = (legs: TripLegJson[]): TripLegJson[] =>
+    legs.flatMap((leg, position) => {
+      if (position !== at.legIndex) return [leg];
+      const next = change(leg);
+      return next ? [next] : [];
+    });
+
+  return withStep(trip, at.index, (step) =>
+    step.type === "move"
+      ? { ...step, legs: apply(step.legs) }
+      : {
+          ...step,
+          outings: step.outings?.map((outing, position) =>
+            position === at.outing
+              ? { ...outing, legs: apply(outing.legs) }
+              : outing,
+          ),
+        },
+  );
 }
 
 /**
@@ -106,11 +119,20 @@ export function validateTrip(
   const issues: Issue[] = [];
 
   /**
+   * Names a city for a message, degrading to the raw id when the reference is
+   * the very thing that is broken.
+   * @param {string} id - The referenced city id
+   * @returns {string} A human-readable label
+   */
+  const label = (id: string): string =>
+    context.cities.get(id)?.name ?? (id || "—");
+
+  /**
    * Records one problem against this trip.
    * @param {string} code - Stable issue identifier
    * @param {IssueSeverity} severity - How badly it affects the site
    * @param {string} message - Untranslated fallback description
-   * @param {number} [index] - Step position, when the issue is about a step
+   * @param {Omit<Extract<IssueSubject, { kind: "step" }>, "kind" | "tripId">} [at] - The step, day trip, and leg it is about
    * @param {Record<string, string | number>} [params] - Translation parameters
    * @param {IssueFix} [fix] - An available repair
    * @returns {void}
@@ -119,7 +141,7 @@ export function validateTrip(
     code: string,
     severity: IssueSeverity,
     message: string,
-    index?: number,
+    at?: Omit<Extract<IssueSubject, { kind: "step" }>, "kind" | "tripId">,
     params?: Record<string, string | number>,
     fix?: IssueFix,
   ): void {
@@ -130,10 +152,9 @@ export function validateTrip(
       params,
       path,
       severity,
-      subject:
-        index === undefined
-          ? { kind: "trip", tripId: trip.id }
-          : { index, kind: "step", tripId: trip.id },
+      subject: at
+        ? { ...at, kind: "step", tripId: trip.id }
+        : { kind: "trip", tripId: trip.id },
     });
   }
 
@@ -157,17 +178,9 @@ export function validateTrip(
     report(
       "trip.unknownOrigin",
       "blocking",
-      `The origin city "${trip.originCityId}" does not exist.`,
+      `The starting city "${trip.originCityId}" does not exist.`,
       undefined,
       { cityId: trip.originCityId },
-    );
-  if (!context.cities.has(trip.returnCityId))
-    report(
-      "trip.unknownReturn",
-      "blocking",
-      `The return city "${trip.returnCityId}" does not exist.`,
-      undefined,
-      { cityId: trip.returnCityId },
     );
   if (trip.mapFocus && !Number.isFinite(trip.mapFocus.zoom))
     report(
@@ -184,337 +197,333 @@ export function validateTrip(
   if (trip.steps.length === 0)
     report("trip.noSteps", "warning", "The trip has no itinerary yet.");
 
-  const stopIndexes = trip.steps.flatMap((step, index) =>
-    step.type === "stop" ? [index] : [],
-  );
-  const firstStop = trip.steps[stopIndexes[0] ?? -1];
-  const lastStop = trip.steps[stopIndexes.at(-1) ?? -1];
-
+  let here = trip.originCityId;
+  let previousStay: TripStayJson | undefined;
   trip.steps.forEach((step, index) => {
-    if (step.type === "stop") {
-      validateStop(step, index);
+    const previous = trip.steps[index - 1];
+    if (step.type === "move") {
+      if (previous?.type === "move")
+        report(
+          "move.consecutive",
+          "suggestion",
+          "Two journeys follow each other with no stay between them.",
+          { index },
+          undefined,
+          {
+            apply: (current) => ({
+              ...current,
+              steps: current.steps.flatMap((candidate, position) => {
+                if (position === index) return [];
+                if (position !== index - 1 || candidate.type !== "move")
+                  return [candidate];
+                return [
+                  { ...candidate, legs: [...candidate.legs, ...step.legs] },
+                ];
+              }),
+            }),
+            label: "Join them into one journey",
+          },
+        );
+      here = step.legs.at(-1)?.toId ?? here;
       return;
     }
-    validateLeg(step, index);
+
+    validateStay(step, index, here);
+    if (previous?.type === "stay")
+      report(
+        "stay.noMoveBetween",
+        "warning",
+        `Nothing records how you got from ${label(previous.cityId)} to ${label(step.cityId)}.`,
+        { index },
+        { from: label(previous.cityId), to: label(step.cityId) },
+      );
+    if (previousStay && step.checkIn < previousStay.checkOut)
+      report(
+        "stay.overlap",
+        "warning",
+        `${label(step.cityId)} starts before you left ${label(previousStay.cityId)}.`,
+        { index },
+        { city: label(step.cityId), previous: label(previousStay.cityId) },
+      );
+    previousStay = step;
+    here = step.cityId;
   });
 
   /**
-   * Checks one stay.
-   * @param {TripStopJson} step - The stop to check
-   * @param {number} index - Position of the stop
+   * Checks one stay and the day trips taken from it.
+   * @param {TripStayJson} stay - The stay to check
+   * @param {number} index - Position of the stay
+   * @param {string} arrivedAt - Where the previous move left the traveller
    * @returns {void}
    */
-  function validateStop(step: TripStopJson, index: number): void {
-    const label = cityLabel(context, step.cityId);
-    if (!context.cities.has(step.cityId))
+  function validateStay(
+    stay: TripStayJson,
+    index: number,
+    arrivedAt: string,
+  ): void {
+    const city = label(stay.cityId);
+    if (!context.cities.has(stay.cityId))
       report(
-        "stop.unknownCity",
+        "stay.unknownCity",
         "blocking",
-        `Stop ${index + 1} references the unknown city "${step.cityId}".`,
-        index,
-        { cityId: step.cityId, position: index + 1 },
+        `Stay ${index + 1} references the unknown city "${stay.cityId}".`,
+        { index },
+        { cityId: stay.cityId, position: index + 1 },
       );
-    if (!isParsableDate(step.sDate))
+    if (stay.checkOut < stay.checkIn)
       report(
-        "stop.invalidArrival",
+        "stay.endBeforeStart",
         "blocking",
-        `${label} has no valid arrival date.`,
-        index,
-        { city: label },
+        `You leave ${city} before you arrive.`,
+        { index },
+        { city },
       );
-    if (!isParsableDate(step.eDate))
+    if (stay.photoPath && !context.photoKeys.has(stay.photoPath))
       report(
-        "stop.invalidDeparture",
-        "blocking",
-        `${label} has no valid departure date.`,
-        index,
-        { city: label },
-      );
-    if (
-      isParsableDate(step.sDate) &&
-      isParsableDate(step.eDate) &&
-      step.eDate < step.sDate
-    )
-      report(
-        "stop.endBeforeStart",
-        "blocking",
-        `${label} departs before it is reached.`,
-        index,
-        { city: label },
-      );
-    if (step.photoPath && !context.photoKeys.has(step.photoPath))
-      report(
-        "stop.missingGallery",
+        "stay.missingGallery",
         "warning",
-        `${label} references the missing gallery "${step.photoPath}".`,
-        index,
-        { city: label, photoPath: step.photoPath },
+        `${city} points at the missing gallery "${stay.photoPath}".`,
+        { index },
+        { city, photoPath: stay.photoPath },
         {
           apply: (current) =>
-            withStep(current, index, { ...step, photoPath: undefined }),
+            withStep(current, index, (step) => ({
+              ...step,
+              photoPath: undefined,
+            })),
           label: "Remove the reference",
         },
       );
-
-    const previous = stopBefore(trip.steps, index);
-    /*
-     * Compared against where the traveller actually stands, not the previous
-     * stop: a day trip returns them to their base, so coming back to that city
-     * later is a second visit rather than the same one recorded twice.
-     */
-    if (locationBefore(trip.steps, index) === step.cityId)
+    if (arrivedAt !== stay.cityId && context.cities.has(stay.cityId)) {
+      const previous = trip.steps[index - 1];
       report(
-        "stop.duplicateConsecutive",
+        "stay.notReached",
         "warning",
-        `${label} is recorded twice in a row.`,
-        index,
-        { city: label },
+        `The journey before ${city} ends in ${label(arrivedAt)}.`,
+        { index },
+        { arrivedAt: label(arrivedAt), city },
+        previous?.type === "move"
+          ? {
+              apply: (current) =>
+                withStep(current, index - 1, (step) =>
+                  step.type === "move"
+                    ? {
+                        ...step,
+                        legs: step.legs.map((leg, position) =>
+                          position === step.legs.length - 1
+                            ? { ...leg, toId: stay.cityId }
+                            : leg,
+                        ),
+                      }
+                    : step,
+                ),
+              label: `End that journey in ${city}`,
+            }
+          : undefined,
       );
-    if (
-      isParsableDate(step.sDate) &&
-      isParsableDate(trip.sDate) &&
-      step.sDate < trip.sDate
-    )
-      report(
-        "stop.beforeTripStart",
-        "warning",
-        `${label} starts before the trip does.`,
-        index,
-        { city: label, sDate: step.sDate },
-        {
-          apply: (current) => ({ ...current, sDate: step.sDate }),
-          label: `Start the trip on ${step.sDate}`,
-        },
-      );
-    if (
-      isParsableDate(step.eDate) &&
-      isParsableDate(trip.eDate) &&
-      step.eDate > trip.eDate
-    )
-      report(
-        "stop.afterTripEnd",
-        "warning",
-        `${label} ends after the trip does.`,
-        index,
-        { city: label, eDate: step.eDate },
-        {
-          apply: (current) => ({ ...current, eDate: step.eDate }),
-          label: `End the trip on ${step.eDate}`,
-        },
-      );
-    if (previous && previous.cityId !== step.cityId) {
-      const between = trip.steps
-        .slice(trip.steps.indexOf(previous) + 1, index)
-        .some((candidate) => candidate.type === "transport");
-      if (!between)
-        report(
-          "itinerary.missingLeg",
-          "suggestion",
-          `No transport is recorded between ${cityLabel(context, previous.cityId)} and ${label}.`,
-          index,
-          { from: cityLabel(context, previous.cityId), to: label },
-        );
     }
+
+    (stay.outings ?? []).forEach((outing, outingIndex) => {
+      if (outing.date < stay.checkIn || outing.date > stay.checkOut)
+        report(
+          "outing.outsideStay",
+          "warning",
+          `The day trip on ${outing.date} is outside your stay in ${city}.`,
+          { index, outing: outingIndex },
+          { city, date: outing.date },
+        );
+      const last = outing.legs.at(-1);
+      if (last && last.toId !== stay.cityId)
+        report(
+          "outing.notBack",
+          "warning",
+          `The day trip on ${outing.date} never comes back to ${city}.`,
+          { index, outing: outingIndex },
+          { city, date: outing.date },
+          {
+            apply: (current) =>
+              withStep(current, index, (step) =>
+                step.type === "stay"
+                  ? {
+                      ...step,
+                      outings: step.outings?.map((candidate, position) =>
+                        position === outingIndex
+                          ? {
+                              ...candidate,
+                              legs: [
+                                ...candidate.legs,
+                                { mode: last.mode, toId: stay.cityId },
+                              ],
+                            }
+                          : candidate,
+                      ),
+                    }
+                  : step,
+              ),
+            label: `Add the ride back to ${city}`,
+          },
+        );
+    });
   }
 
+  for (const located of walkTripLegs(trip)) validateLeg(located);
+
   /**
-   * Checks one leg between two stops.
-   * @param {TripTransportJson} step - The leg to check
-   * @param {number} index - Position of the leg
+   * Checks one ride.
+   * @param {LocatedLeg} located - The leg and where it departs from
    * @returns {void}
    */
-  function validateLeg(step: TripTransportJson, index: number): void {
-    const from = cityLabel(context, step.fromId);
-    const to = cityLabel(context, step.toId);
-    for (const [id, field] of [
-      [step.fromId, "departure"],
-      [step.toId, "arrival"],
-    ] as const)
-      if (!context.cities.has(id))
-        report(
-          "leg.unknownCity",
-          "blocking",
-          `Step ${index + 1} has an unknown ${field} city "${id}".`,
-          index,
-          { cityId: id, field, position: index + 1 },
-        );
-    for (const id of step.viaIds ?? [])
+  function validateLeg(located: LocatedLeg): void {
+    const { fromId, index, leg, legIndex, outing } = located;
+    const at = { index, leg: legIndex, outing };
+    const from = label(fromId);
+    const to = label(leg.toId);
+    if (!context.cities.has(leg.toId))
+      report(
+        "leg.unknownCity",
+        "blocking",
+        `A ride goes to the unknown city "${leg.toId}".`,
+        at,
+        { cityId: leg.toId },
+      );
+    for (const id of [...(leg.viaIds ?? []), ...(leg.ferry?.viaIds ?? [])])
       if (!context.cities.has(id))
         report(
           "leg.unknownVia",
           "blocking",
-          `Step ${index + 1} passes through the unknown city "${id}".`,
-          index,
-          { cityId: id, position: index + 1 },
+          `A ride passes through the unknown city "${id}".`,
+          at,
+          { cityId: id },
         );
-    if (step.sDate !== undefined && !isParsableDate(step.sDate))
+    if (leg.photoPath && !context.photoKeys.has(leg.photoPath))
       report(
-        "leg.invalidDeparture",
-        "blocking",
-        `The ${from} departure is not a date.`,
-        index,
-        { from },
+        "leg.missingGallery",
+        "warning",
+        `${to} points at the missing gallery "${leg.photoPath}".`,
+        at,
+        { city: to, photoPath: leg.photoPath },
+        {
+          apply: (current) =>
+            withLeg(current, located, (candidate) => ({
+              ...candidate,
+              photoPath: undefined,
+            })),
+          label: "Remove the reference",
+        },
       );
-    if (step.eDate !== undefined && !isParsableDate(step.eDate))
+    if (fromId === leg.toId)
       report(
-        "leg.invalidArrival",
-        "blocking",
-        `The ${to} arrival is not a date.`,
-        index,
-        { to },
+        "leg.identicalEndpoints",
+        "warning",
+        `This ${leg.mode} ride starts and ends in ${from}.`,
+        at,
+        { city: from, mode: leg.mode },
+        {
+          apply: (current) => withLeg(current, located, () => null),
+          label: "Remove the ride",
+        },
       );
+
+    const fromCity = context.cities.get(fromId);
+    const toCity = context.cities.get(leg.toId);
+    const timed =
+      fromCity && toCity && leg.depart && leg.arrive
+        ? zonedDurationMinutes(
+            leg.depart,
+            fromCity.timeZone,
+            leg.arrive,
+            toCity.timeZone,
+          )
+        : undefined;
     if (
-      isParsableDate(step.sDate) &&
-      isParsableDate(step.eDate) &&
-      step.eDate! < step.sDate!
+      (timed !== undefined && timed < 0) ||
+      (leg.depart &&
+        leg.arrive &&
+        leg.arrive.slice(0, 10) < leg.depart.slice(0, 10))
     )
       report(
         "leg.arrivalBeforeDeparture",
         "blocking",
-        `The leg to ${to} arrives before it departs.`,
-        index,
+        `The ride to ${to} arrives before it leaves.`,
+        at,
         { to },
       );
-    if (step.fromId && step.fromId === step.toId)
-      report(
-        "leg.identicalEndpoints",
-        "warning",
-        `This ${step.mode} leg starts and ends in ${from}.`,
-        index,
-        { city: from, mode: step.mode },
-        {
-          apply: (current) => withoutStep(current, index),
-          label: "Remove the leg",
-        },
-      );
-    if (!isLegConsistent(trip.steps, index)) {
-      const expectedFrom = locationBefore(trip.steps, index) ?? step.fromId;
-      const expectedTo = stopAfter(trip.steps, index)?.cityId ?? step.toId;
-      report(
-        "leg.endpointMismatch",
-        "warning",
-        `This leg does not connect ${cityLabel(context, expectedFrom)} to ${cityLabel(context, expectedTo)}.`,
-        index,
-        {
-          from: cityLabel(context, expectedFrom),
-          to: cityLabel(context, expectedTo),
-        },
-        {
-          apply: (current) =>
-            withStep(current, index, {
-              ...step,
-              fromId: expectedFrom,
-              toId: expectedTo,
-            }),
-          label: "Reconnect to the surrounding stops",
-        },
-      );
-    }
-    if (step.flight && step.mode !== "plane")
+    if (leg.flight && leg.mode !== "plane")
       report(
         "leg.flightOnNonFlight",
         "warning",
-        `Flight details are recorded on a ${step.mode} leg.`,
-        index,
-        { mode: step.mode },
+        `Flight details are recorded on a ${leg.mode} ride.`,
+        at,
+        { mode: leg.mode },
         {
           apply: (current) =>
-            withStep(current, index, { ...step, flight: undefined }),
+            withLeg(current, located, (candidate) => ({
+              ...candidate,
+              flight: undefined,
+            })),
           label: "Remove the flight details",
         },
       );
-    if (step.ferry && step.mode !== "ferry")
+    if (leg.ferry && leg.mode !== "ferry")
       report(
         "leg.ferryOnNonFerry",
         "warning",
-        `Ferry details are recorded on a ${step.mode} leg.`,
-        index,
-        { mode: step.mode },
+        `Ferry details are recorded on a ${leg.mode} ride.`,
+        at,
+        { mode: leg.mode },
         {
           apply: (current) =>
-            withStep(current, index, { ...step, ferry: undefined }),
+            withLeg(current, located, (candidate) => ({
+              ...candidate,
+              ferry: undefined,
+            })),
           label: "Remove the ferry details",
         },
       );
 
-    const fromCity = context.cities.get(step.fromId);
-    const toCity = context.cities.get(step.toId);
-    if (fromCity && toCity && step.durationMinutes) {
+    const minutes = leg.durationMinutes ?? timed;
+    if (fromCity && toCity && minutes) {
       const distance =
-        step.distanceInKm ??
+        leg.distanceInKm ??
         deriveLegDistance(fromCity.coordinates, toCity.coordinates);
-      if (
-        impliedSpeedKmh(distance, step.durationMinutes) > IMPOSSIBLE_SPEED_KMH
-      )
+      if (impliedSpeedKmh(distance, minutes) > IMPOSSIBLE_SPEED_KMH)
         report(
           "leg.impossibleSpeed",
           "warning",
-          `${from} to ${to} in ${step.durationMinutes} minutes is faster than any of these modes travel.`,
-          index,
-          { from, minutes: step.durationMinutes, to },
+          `${from} to ${to} in ${minutes} minutes is faster than any of these modes travel.`,
+          at,
+          { from, minutes, to },
         );
     }
   }
 
-  if (
-    firstStop?.type === "stop" &&
-    context.cities.has(trip.originCityId) &&
-    firstStop.cityId !== trip.originCityId
-  )
+  const first = trip.steps[0];
+  if (first?.type === "stay" && first.cityId !== trip.originCityId)
     report(
-      "trip.originMismatch",
+      "trip.startsWithStay",
       "suggestion",
-      `The trip starts in ${cityLabel(context, firstStop.cityId)} but its origin is ${cityLabel(context, trip.originCityId)}.`,
-      undefined,
-      { origin: cityLabel(context, trip.originCityId) },
+      `The trip starts in ${label(trip.originCityId)} but the first thing recorded is a stay in ${label(first.cityId)}.`,
+      { index: 0 },
+      { city: label(first.cityId), origin: label(trip.originCityId) },
       {
-        apply: (current) => ({
-          ...current,
-          originCityId: firstStop.cityId,
-        }),
-        label: "Use the first stop as the origin",
-      },
-    );
-  if (
-    lastStop?.type === "stop" &&
-    context.cities.has(trip.returnCityId) &&
-    lastStop.cityId !== trip.returnCityId
-  )
-    report(
-      "trip.returnMismatch",
-      "suggestion",
-      `The trip ends in ${cityLabel(context, lastStop.cityId)} but its return is ${cityLabel(context, trip.returnCityId)}.`,
-      undefined,
-      { return: cityLabel(context, trip.returnCityId) },
-      {
-        apply: (current) => ({
-          ...current,
-          returnCityId: lastStop.cityId,
-        }),
-        label: "Use the last stop as the return",
+        apply: (current) => ({ ...current, originCityId: first.cityId }),
+        label: `Start the trip in ${label(first.cityId)}`,
       },
     );
 
   const derived = deriveTripDateRange(trip.steps);
-  if (stopIndexes.length === 0 && trip.steps.length > 0)
-    report(
-      "trip.noDatedStops",
-      "suggestion",
-      "The trip has legs but no stays, so it has no dates of its own.",
-    );
   if (
     derived.sDate &&
     derived.eDate &&
     isParsableDate(trip.sDate) &&
     isParsableDate(trip.eDate) &&
-    (derived.sDate !== trip.sDate || derived.eDate !== trip.eDate) &&
-    derived.sDate >= trip.sDate &&
-    derived.eDate <= trip.eDate
+    (derived.sDate !== trip.sDate.slice(0, 10) ||
+      derived.eDate !== trip.eDate.slice(0, 10))
   )
     report(
-      "trip.rangeLooserThanStops",
+      "trip.rangeMismatch",
       "suggestion",
-      `The stops only cover ${derived.sDate} to ${derived.eDate}.`,
+      `The itinerary covers ${derived.sDate} to ${derived.eDate}.`,
       undefined,
       { eDate: derived.eDate, sDate: derived.sDate },
       {
@@ -523,7 +532,7 @@ export function validateTrip(
           eDate: derived.eDate!,
           sDate: derived.sDate!,
         }),
-        label: "Match the trip dates to its stops",
+        label: "Match the trip dates to its itinerary",
       },
     );
 

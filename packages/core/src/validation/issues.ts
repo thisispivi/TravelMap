@@ -10,7 +10,13 @@ export type IssueSeverity = "blocking" | "warning" | "suggestion";
  */
 export type IssueSubject =
   | { kind: "trip"; tripId: string }
-  | { kind: "step"; tripId: string; index: number }
+  | {
+      kind: "step";
+      tripId: string;
+      index: number;
+      outing?: number;
+      leg?: number;
+    }
   | { kind: "city"; cityId: string }
   | { kind: "country"; countryId: string }
   | { kind: "config" };
@@ -91,7 +97,9 @@ export function isSameSubject(
     case "step":
       return (
         first.tripId === (second as typeof first).tripId &&
-        first.index === (second as typeof first).index
+        first.index === (second as typeof first).index &&
+        first.outing === (second as typeof first).outing &&
+        first.leg === (second as typeof first).leg
       );
     case "city":
       return first.cityId === (second as typeof first).cityId;

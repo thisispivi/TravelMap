@@ -1,0 +1,14 @@
+.photos-field {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+
+  > :first-child {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  &__action {
+    flex: 0 0 auto;
+  }
+}

@@ -53,6 +53,13 @@ describe("parseText", () => {
 });
 
 describe("parseCsv", () => {
+  it("does not turn blank or out-of-range coordinates into a map location", () => {
+    const csv = parseCsv("name,lat,lng\nRome,,\nInvalid,91,200\n");
+    expect(csv.rows.map((row) => row.coordinates)).toEqual([
+      undefined,
+      undefined,
+    ]);
+  });
   it("reads coordinates in dataset order from named columns", () => {
     const csv = parseCsv("name,lat,lng\nRome,41.9,12.5\n");
     expect(csv.format).toBe("csv");
@@ -61,6 +68,33 @@ describe("parseCsv", () => {
 });
 
 describe("parseGeoJson", () => {
+  it("reports malformed collections instead of throwing", () => {
+    for (const value of [null, [], { features: {} }]) {
+      expect(parseGeoJson(value).rows).toEqual([]);
+      expect(parseGeoJson(value).problems).toHaveLength(1);
+    }
+  });
+
+  it("rejects null features, invalid labels, and out-of-range points while preserving valid rows", () => {
+    const result = parseGeoJson({
+      features: [
+        null,
+        { geometry: { type: "Point", coordinates: [200, 0] } },
+        {
+          geometry: { type: "Point", coordinates: [0, 0] },
+          properties: { name: {} },
+        },
+        {
+          geometry: { type: "Point", coordinates: [12.5, 41.9, 20] },
+          properties: { name: "Rome" },
+        },
+      ],
+    });
+    expect(result.problems).toHaveLength(3);
+    expect(result.rows).toEqual([
+      { name: "Rome", text: "Rome", coordinates: [12.5, 41.9], line: 4 },
+    ]);
+  });
   it("reads point features", () => {
     const geo = parseGeoJson({
       features: [
@@ -79,6 +113,20 @@ describe("parseGeoJson", () => {
 });
 
 describe("parseXmlPlaces", () => {
+  it("ignores blank and out-of-range waypoint coordinates", () => {
+    expect(
+      parseXmlPlaces(
+        '<gpx><wpt lat="" lon=""/><wpt lat="91" lon="12"/></gpx>',
+        "gpx",
+      ).rows,
+    ).toEqual([]);
+    expect(
+      parseXmlPlaces(
+        "<kml><Placemark><Point><coordinates>,</coordinates></Point></Placemark></kml>",
+        "kml",
+      ).rows,
+    ).toEqual([]);
+  });
   it("reads GPX waypoints without re-interpreting escaped markup", () => {
     const gpx = parseXmlPlaces(
       '<gpx><wpt lat="41.9" lon="12.5"><name>&lt;img src=x onerror=alert(1)&gt;</name></wpt></gpx>',

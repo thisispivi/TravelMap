@@ -1,8 +1,6 @@
 """Repository media configuration used by the uploader."""
 
 import json
-import os
-import tempfile
 from pathlib import Path
 from typing import Any, Mapping
 
@@ -20,9 +18,31 @@ def _normalized_media_root(value: object) -> str:
     if not isinstance(value, str) or not value.strip():
         return DEFAULT_MEDIA_ROOT
     parts = [part for part in value.replace("\\", "/").split("/") if part]
-    if not parts or any(part in (".", "..") for part in parts):
-        return DEFAULT_MEDIA_ROOT
+    for part in parts:
+        validate_path_segment(part)
+    if not parts:
+        raise ValueError("Media root must contain a folder name.")
     return f"/{'/'.join(parts)}"
+
+
+def validate_path_segment(value: str) -> str:
+    """Reject path syntax that escapes a folder or aliases a Windows file."""
+    reserved = {"CON", "PRN", "AUX", "NUL", *(f"COM{i}" for i in range(1, 10)), *(f"LPT{i}" for i in range(1, 10))}
+    if (not value or value in (".", "..") or value.endswith((".", " "))
+            or any(character in value for character in '/\\:<>"|?*')
+            or any(ord(character) < 32 for character in value)
+            or value.split(".")[0].upper() in reserved):
+        raise ValueError("City, country, and media folders must be plain folder names.")
+    return value
+
+
+def confined_path(root: Path, *parts: str) -> Path:
+    """Resolve a destination without following a link outside its owned root."""
+    target = root.joinpath(*parts).resolve()
+    if not target.is_relative_to(root.resolve()):
+        raise ValueError("The media path escapes its configured folder.")
+    return target
+
 
 
 def read_media_root(root_path: str | Path) -> str:
@@ -30,7 +50,7 @@ def read_media_root(root_path: str | Path) -> str:
     config_path = _repo_root(root_path) / "data" / "site.config.json"
     try:
         config: object = json.loads(config_path.read_text(encoding="utf-8"))
-    except (FileNotFoundError, json.JSONDecodeError, OSError):
+    except FileNotFoundError:
         return DEFAULT_MEDIA_ROOT
     if not isinstance(config, Mapping):
         return DEFAULT_MEDIA_ROOT
@@ -43,35 +63,7 @@ def read_media_root(root_path: str | Path) -> str:
 def build_media_dir(root_path: str | Path, args: Mapping[str, Any]) -> str:
     """Build the absolute local media directory for one country and city."""
     media_root = _normalized_media_root(args.get("media_root"))
-    return str(
-        _repo_root(root_path)
-        / "media"
-        / media_root.removeprefix("/")
-        / str(args["country"])
-        / str(args["city"])
-    )
+    country = validate_path_segment(str(args["country"]))
+    city = validate_path_segment(str(args["city"]))
+    return str(confined_path(_repo_root(root_path) / "media", media_root.removeprefix("/"), country, city))
 
-
-if __name__ == "__main__":
-    with tempfile.TemporaryDirectory() as directory:
-        repo = Path(directory)
-        uploader = repo / "scripts" / "uploader"
-        data = repo / "data"
-        uploader.mkdir(parents=True)
-        assert read_media_root(uploader) == DEFAULT_MEDIA_ROOT
-        data.mkdir()
-        (data / "site.config.json").write_text(
-            json.dumps({"media": {"root": "/Archive/Travels/"}}),
-            encoding="utf-8",
-        )
-        assert read_media_root(uploader) == "/Archive/Travels"
-        assert build_media_dir(
-            uploader,
-            {
-                "city": "Monza",
-                "country": "Italy",
-                "media_root": "/Archive/Travels",
-            },
-        ) == os.path.join(
-            str(repo), "media", "Archive", "Travels", "Italy", "Monza"
-        )

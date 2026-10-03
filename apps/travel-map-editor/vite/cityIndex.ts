@@ -1,5 +1,6 @@
 import type { City as GazetteerCity } from "all-the-cities";
 import type { Plugin, ViteDevServer } from "vite";
+import { z } from "zod";
 
 import { assertLocalRequest, errorBody, sendJson } from "./http.ts";
 
@@ -27,6 +28,27 @@ interface CityMatch {
  */
 const MINIMUM_POPULATION = 5_000;
 const DEFAULT_LIMIT = 30;
+
+const CoordinateQuerySchema = z.strictObject({
+  lat: z
+    .string()
+    .trim()
+    .min(1)
+    .pipe(z.coerce.number<string>().min(-90).max(90)),
+  lon: z
+    .string()
+    .trim()
+    .min(1)
+    .pipe(z.coerce.number<string>().min(-180).max(180)),
+});
+const SearchQuerySchema = z.object({
+  q: z.string().trim().max(200).default(""),
+  limit: z
+    .string()
+    .regex(/^\d+$/)
+    .pipe(z.coerce.number<string>().int().min(1).max(100))
+    .optional(),
+});
 
 let gazetteer: GazetteerCity[] | undefined;
 let lookupTimeZone:
@@ -122,28 +144,45 @@ export function cityIndex(): Plugin {
       server.middlewares.use("/__cities", async (request, response) => {
         try {
           assertLocalRequest(request);
+          if (request.method !== "GET") {
+            sendJson(response, 405, { error: "Use GET for city lookups." });
+            return;
+          }
           const url = new URL(request.url ?? "", "http://localhost");
-          const cities = await loadGazetteer();
 
           if (url.pathname === "/timezone") {
-            const latitude = Number(url.searchParams.get("lat"));
-            const longitude = Number(url.searchParams.get("lon"));
-            if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) {
+            const coordinates = CoordinateQuerySchema.safeParse(
+              Object.fromEntries(url.searchParams),
+            );
+            if (!coordinates.success) {
               sendJson(response, 400, { error: "Invalid coordinates." });
               return;
             }
+            await loadGazetteer();
             sendJson(response, 200, {
-              timeZone: lookupTimeZone?.(latitude, longitude) ?? "UTC",
+              timeZone:
+                lookupTimeZone?.(coordinates.data.lat, coordinates.data.lon) ??
+                "UTC",
             });
             return;
           }
 
-          const term = (url.searchParams.get("q") ?? "").trim();
+          const query = SearchQuerySchema.safeParse(
+            Object.fromEntries(url.searchParams),
+          );
+          if (!query.success) {
+            sendJson(response, 400, {
+              error: "Invalid city search parameters.",
+            });
+            return;
+          }
+          const term = query.data.q;
           if (term.length < 2) {
             sendJson(response, 200, { matches: [] });
             return;
           }
-          const limit = Number(url.searchParams.get("limit")) || DEFAULT_LIMIT;
+          const cities = await loadGazetteer();
+          const limit = query.data.limit ?? DEFAULT_LIMIT;
           sendJson(response, 200, { matches: rank(cities, term, limit) });
         } catch (error) {
           sendJson(response, 500, errorBody(error, "City lookup failed."));

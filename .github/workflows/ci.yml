@@ -22,5 +22,12 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm check
       - run: pnpm build
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: scripts/uploader/requirements.txt
+      - run: python -m pip install -r scripts/uploader/requirements.txt
       - run: python -m compileall -q scripts/uploader
+      - run: python -m unittest discover -s scripts/uploader -p 'test_*.py'
       - run: pnpm --filter travel-map security:audit

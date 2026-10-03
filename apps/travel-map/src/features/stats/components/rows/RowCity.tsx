@@ -1,6 +1,6 @@
 import "./RowCity.scss";
 
-import { City } from "@travelmap/core";
+import { City, getCitiesDistance } from "@travelmap/core";
 import { ReactNode } from "react";
 
 import DistanceIcon from "@/assets/icons/Distance.svg?react";
@@ -9,8 +9,6 @@ import { Row } from "@/shared/components/Row/Row";
 import { useLanguage } from "@/shared/hooks/useLanguage";
 import { classNames } from "@/shared/lib/classNames";
 import { formatMileage } from "@/shared/lib/format";
-
-import { getCitiesDistance } from "../../lib/distance";
 
 /**
  * Properties accepted by the CityRow component.

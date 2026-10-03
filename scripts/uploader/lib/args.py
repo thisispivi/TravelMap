@@ -4,6 +4,8 @@ import getopt
 from logging import Logger
 from typing import Any, Sequence
 
+from lib.config import validate_path_segment
+
 
 def get_args(argumentList: Sequence[str], logger: Logger) -> dict[str, Any]:
     """
@@ -37,7 +39,10 @@ def get_args(argumentList: Sequence[str], logger: Logger) -> dict[str, Any]:
     long_options = ["help", "local", "city=", "country="]
 
     try:
-        arguments, _ = getopt.getopt(argument_list, options, long_options)
+        arguments, remainder = getopt.getopt(argument_list, options, long_options)
+
+        if remainder:
+            raise ValueError("Unexpected positional arguments.")
 
         for currentArgument, _currentValue in arguments:
             if currentArgument in ("-h", "--help"):
@@ -68,6 +73,9 @@ def get_args(argumentList: Sequence[str], logger: Logger) -> dict[str, Any]:
             raise ValueError(
                 "Country argument missing. Use -C or --country to specify the country name."
             )
+
+        validate_path_segment(data["city"])
+        validate_path_segment(data["country"])
 
         logger.info(
             "Generating JSON for city: %s, country: %s", data["city"], data["country"]

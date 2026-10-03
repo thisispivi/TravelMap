@@ -42,6 +42,7 @@ export function useAutosave<T>(
   const saveRef = useRef(save);
   const onSavedRef = useRef(options.onSaved);
   const isWritingRef = useRef(false);
+  const isQueuedRef = useRef(false);
 
   /* The latest-value refs a timer callback cannot take as dependencies. */
   useEffect(() => {
@@ -51,11 +52,17 @@ export function useAutosave<T>(
   });
 
   const persist = useCallback(async (): Promise<void> => {
-    if (isWritingRef.current) return;
+    if (isWritingRef.current) {
+      isQueuedRef.current = true;
+      return;
+    }
     isWritingRef.current = true;
     setWriteState("saving");
     try {
-      await saveRef.current(valueRef.current);
+      do {
+        isQueuedRef.current = false;
+        await saveRef.current(valueRef.current);
+      } while (isQueuedRef.current);
       setError(null);
       setSavedAt(new Date());
       setWriteState("saved");

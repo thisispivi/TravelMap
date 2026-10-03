@@ -1,13 +1,16 @@
 import { City } from "../classes/City";
 import { Country } from "../classes/Country";
-import { Trip, TripRouteStep } from "../classes/Trip";
+import { countNights, Trip, TripLeg, TripStep } from "../classes/Trip";
 import {
   hasSource,
   Image,
   PublishedImage,
+  TripJson,
+  TripLegJson,
   WorldSourcesSchema,
 } from "../schema";
 import { parseLocalDate } from "./date";
+import { resolveLegDistance, resolveLegDuration } from "./derive";
 
 /**
  * Resolved domain data shared by the public app and local editor.
@@ -81,6 +84,14 @@ export function buildWorld(sources: unknown): World {
     );
   }
 
+  for (const kind of ["countries", "cities", "trips"] as const) {
+    const seen = new Set<string>();
+    for (const { id } of parsed.data[kind]) {
+      if (seen.has(id)) throw new Error(`Duplicate id "${id}" in ${kind}.`);
+      seen.add(id);
+    }
+  }
+
   const countriesById = new Map(
     parsed.data.countries.map((data) => [data.id, new Country(data)]),
   );
@@ -99,70 +110,10 @@ export function buildWorld(sources: unknown): World {
     ]),
   );
   const trips = parsed.data.trips
-    .map(
-      (data) =>
-        new Trip({
-          ...data,
-          sDate: parseLocalDate(data.sDate),
-          eDate: parseLocalDate(data.eDate),
-          origin: {
-            city: requireReference(
-              citiesById,
-              data.originCityId,
-              `trip ${data.id}`,
-            ),
-          },
-          returnTo: {
-            city: requireReference(
-              citiesById,
-              data.returnCityId,
-              `trip ${data.id}`,
-            ),
-          },
-          steps: data.steps.map((step): TripRouteStep =>
-            step.type === "stop"
-              ? {
-                  ...step,
-                  city: requireReference(
-                    citiesById,
-                    step.cityId,
-                    `trip ${data.id}`,
-                  ),
-                  sDate: parseLocalDate(step.sDate),
-                  eDate: parseLocalDate(step.eDate),
-                  photos: step.photoPath
-                    ? publishableImages(parsed.data.photos[step.photoPath])
-                    : undefined,
-                }
-              : {
-                  ...step,
-                  from: requireReference(
-                    citiesById,
-                    step.fromId,
-                    `trip ${data.id}`,
-                  ),
-                  to: requireReference(
-                    citiesById,
-                    step.toId,
-                    `trip ${data.id}`,
-                  ),
-                  via: step.viaIds?.map((id) =>
-                    requireReference(citiesById, id, `trip ${data.id}`),
-                  ),
-                  sDate: step.sDate ? parseLocalDate(step.sDate) : undefined,
-                  eDate: step.eDate ? parseLocalDate(step.eDate) : undefined,
-                  flight: step.flight,
-                  ferry: step.ferry
-                    ? {
-                        ...step.ferry,
-                        via: step.ferry.viaIds?.map((id) =>
-                          requireReference(citiesById, id, `trip ${data.id}`),
-                        ),
-                      }
-                    : undefined,
-                },
-          ),
-        }),
+    .map((data) =>
+      resolveTrip(data, citiesById, (path) =>
+        path ? publishableImages(parsed.data.photos[path]) : undefined,
+      ),
     )
     .sort(
       (a, b) =>
@@ -195,4 +146,150 @@ export function buildWorld(sources: unknown): World {
       ? requireReference(citiesById, parsed.data.homeCityId, "config")
       : null,
   };
+}
+
+/**
+ * Resolves one authored leg against the city registry, deciding its distance
+ * and duration once so every consumer reads the same numbers.
+ * @param {TripLegJson} leg - The authored leg
+ * @param {City} from - Where the traveller stood when it began
+ * @param {"move" | "outing"} context - What the leg belongs to
+ * @param {string} date - The calendar day it happened, best known
+ * @param {(id: string) => City} city - Resolves a city id or throws
+ * @param {(path?: string) => PublishedImage[] | undefined} photos - Resolves a gallery
+ * @returns {TripLeg} The resolved leg
+ */
+function resolveLeg(
+  leg: TripLegJson,
+  from: City,
+  context: "move" | "outing",
+  date: string,
+  city: (id: string) => City,
+  photos: (path?: string) => PublishedImage[] | undefined,
+): TripLeg {
+  const to = city(leg.toId);
+  const via = (leg.viaIds ?? leg.ferry?.viaIds ?? []).map(city);
+  const distance = resolveLegDistance(
+    leg,
+    [from, ...via, to].map((stop) => stop.coordinates),
+  );
+  const day = (leg.arrive ?? leg.depart ?? date).slice(0, 10);
+  return {
+    arrive: leg.arrive,
+    arrivedAt: parseLocalDate(leg.arrive ?? day),
+    context,
+    date: day,
+    depart: leg.depart,
+    distance,
+    duration: resolveLegDuration(
+      leg,
+      distance.value,
+      from.timeZone,
+      to.timeZone,
+    ),
+    ferryCompany: leg.ferry?.company,
+    flight: leg.flight,
+    from,
+    mode: leg.mode,
+    photos: photos(leg.photoPath),
+    rowConstraints: leg.rowConstraints,
+    targetRowHeight: leg.targetRowHeight,
+    to,
+    via,
+    visited: context === "outing" || leg.visited === true,
+  };
+}
+
+/**
+ * Walks a trip's itinerary, tracking where the traveller stands and the latest
+ * known date, so every leg learns its departure city and day from the chain.
+ * @param {TripJson} data - The authored trip
+ * @param {Map<string, City>} citiesById - The city registry
+ * @param {(path?: string) => PublishedImage[] | undefined} photos - Resolves a gallery
+ * @returns {Trip} The resolved trip
+ */
+function resolveTrip(
+  data: TripJson,
+  citiesById: Map<string, City>,
+  photos: (path?: string) => PublishedImage[] | undefined,
+): Trip {
+  /**
+   * Resolves a city id against the registry, naming this trip on failure.
+   * @param {string} id - The referenced city id
+   * @returns {City} The resolved city
+   */
+  const city = (id: string): City =>
+    requireReference(citiesById, id, `trip ${data.id}`);
+  const origin = city(data.originCityId);
+  let here = origin;
+  let day = data.sDate.slice(0, 10);
+
+  /**
+   * Resolves a chain of legs from where the traveller currently stands.
+   * @param {TripLegJson[]} legs - The authored chain
+   * @param {"move" | "outing"} context - What the chain belongs to
+   * @param {City} start - Where the chain begins
+   * @param {string} [outingDate] - A day trip's date, which every leg shares
+   * @returns {TripLeg[]} The resolved chain
+   */
+  const chain = (
+    legs: TripLegJson[],
+    context: "move" | "outing",
+    start: City,
+    outingDate?: string,
+  ): TripLeg[] => {
+    let from = start;
+    return legs.map((leg) => {
+      const resolved = resolveLeg(
+        leg,
+        from,
+        context,
+        outingDate ?? day,
+        city,
+        photos,
+      );
+      from = resolved.to;
+      if (context === "move") day = resolved.date;
+      return resolved;
+    });
+  };
+
+  const steps = data.steps.map((step): TripStep => {
+    if (step.type === "move") {
+      const from = here;
+      const legs = chain(step.legs, "move", from);
+      here = legs.at(-1)!.to;
+      return { from, legs, to: here, type: "move" };
+    }
+
+    const stayCity = city(step.cityId);
+    here = stayCity;
+    day = step.checkOut;
+    return {
+      checkIn: step.checkIn,
+      checkOut: step.checkOut,
+      city: stayCity,
+      nights: countNights(step.checkIn, step.checkOut),
+      outings: (step.outings ?? []).map((outing) => ({
+        date: outing.date,
+        legs: chain(outing.legs, "outing", stayCity, outing.date),
+      })),
+      photos: photos(step.photoPath),
+      rowConstraints: step.rowConstraints,
+      targetRowHeight: step.targetRowHeight,
+      type: "stay",
+    };
+  });
+
+  return new Trip({
+    coverImage: data.coverImage,
+    eDate: parseLocalDate(data.eDate),
+    id: data.id,
+    mapFocus: data.mapFocus,
+    origin,
+    sDate: parseLocalDate(data.sDate),
+    steps,
+    title: data.title,
+    titleByLocale: data.titleByLocale,
+  });
 }
