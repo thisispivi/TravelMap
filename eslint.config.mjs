@@ -584,6 +584,26 @@ export default [
   },
   {
     files: [
+      "apps/travel-map-editor/src/**/*.ts",
+      "apps/travel-map-editor/src/**/*.tsx",
+    ],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: ["@/*"],
+              message:
+                "In the editor, @/ resolves into the public app. Use @app/ for app modules and relative paths for editor modules.",
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
+    files: [
       "apps/travel-map-editor/src/shared/**/*.ts",
       "apps/travel-map-editor/src/shared/**/*.tsx",
     ],
@@ -592,6 +612,11 @@ export default [
         "error",
         {
           patterns: [
+            {
+              group: ["@/*"],
+              message:
+                "In the editor, @/ resolves into the public app. Use @app/ for app modules and relative paths for editor modules.",
+            },
             {
               regex: "^(?:\\.\\./)+features/",
               message:

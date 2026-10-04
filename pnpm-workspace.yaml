@@ -22,7 +22,6 @@ peerDependencyRules:
 
 packages:
   - "apps/*"
-  - "!apps/travel-map-copy"
   - "packages/*"
 
 trustPolicy: no-downgrade
@@ -37,3 +36,11 @@ overrides:
   postcss: 8.5.26
   # Keep the last trusted-publisher release until newer fastq releases regain provenance.
   fastq: 1.20.1
+
+auditConfig:
+  ignoreGhsas:
+    # braces stack exhaustion on deeply nested glob patterns. Reached only
+    # through dev tooling (gh-pages, react-doctor) that expands patterns this
+    # repository writes itself, and no fixed release exists yet (3.0.3 is the
+    # latest). Drop this entry once braces publishes the patched version.
+    - GHSA-vfj7-8cjw-p6xm

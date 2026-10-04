@@ -7,8 +7,6 @@ scripts/uploader/venv
 scripts/uploader/photos
 scripts/uploader/results
 media
-data-copy
-apps/travel-map-copy
 .data-snapshots
 **/.env
 **/.env.*

@@ -1,16 +1,15 @@
-apps/travel-map/public/Turin/
-scripts/json-generator/photos/
+# Local assistant tooling and launch settings.
 .github/skills/
 .agents
 .claude/launch.json
 .claude/settings.local.json
 apps/travel-map/.claude/launch.json
-apps/travel-map/env/.env
+apps/travel-map/.claude/settings.local.json
+
+# Dependencies and build output.
 node_modules/
 dist/
 test-results/
-data-copy
-apps/travel-map-copy
 
 # Personal travel data. The repo ships with an empty data/ so a fork starts
 # from scratch; the editor (apps/travel-map-editor) creates this as you add
@@ -31,11 +30,14 @@ coverage/
 *.log
 .DS_Store
 Thumbs.db
+.idea/
+.vscode/
 .env
 .env.*
 !.env.example
 !/scripts/uploader/env/example.env
-/scripts/uploader/photos/
+/scripts/uploader/photos/*
+!/scripts/uploader/photos/.gitignore
 /scripts/uploader/*.json
 
 # Python virtual environments and bytecode caches.

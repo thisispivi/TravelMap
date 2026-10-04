@@ -1,5 +1,21 @@
 #!/usr/bin/env sh
 pnpm check
 pnpm build
-python -m compileall -q scripts/uploader
-python -m unittest discover -s scripts/uploader -p 'test_*.py'
+
+# The uploader's dependencies live in its own virtual environment, which the
+# guide creates as scripts/uploader/venv. Use it when present so the tests can
+# import Pillow; CI installs the requirements globally and falls through.
+python=python
+for candidate in \
+  scripts/uploader/venv/Scripts/python.exe \
+  scripts/uploader/venv/bin/python \
+  scripts/uploader/.venv/Scripts/python.exe \
+  scripts/uploader/.venv/bin/python; do
+  if [ -x "$candidate" ]; then
+    python=$candidate
+    break
+  fi
+done
+
+"$python" -m compileall -q scripts/uploader
+"$python" -m unittest discover -s scripts/uploader -p 'test_*.py'
