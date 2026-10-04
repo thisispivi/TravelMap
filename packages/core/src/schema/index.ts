@@ -22,6 +22,29 @@ const localizedNamesSchema = z.record(
   z.string().trim().min(1),
 );
 
+/**
+ * Reports whether the runtime recognises an IANA time zone. `Intl` throws a
+ * bare RangeError on an unknown name, which would otherwise surface far from
+ * the city that carries it.
+ * @param {string} timeZone - Candidate zone name
+ * @returns {boolean} Whether `Intl` can format dates in that zone
+ */
+function isKnownTimeZone(timeZone: string): boolean {
+  try {
+    new Intl.DateTimeFormat("en", { timeZone });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/** An IANA time zone the date maths can actually use. */
+const TimeZoneSchema = z
+  .string()
+  .trim()
+  .min(1)
+  .refine(isKnownTimeZone, "Expected an IANA time zone such as Europe/Rome.");
+
 /** Longitude and latitude in GeoJSON order. */
 export const CoordinatesSchema = z.tuple([
   finiteNumberSchema.min(-180).max(180),
@@ -63,7 +86,7 @@ export const CityJsonSchema = z.strictObject({
   name: z.string().trim().min(1),
   nameByLocale: localizedNamesSchema.optional(),
   population: finiteNumberSchema.int().nonnegative().optional(),
-  timeZone: z.string().trim().min(1),
+  timeZone: TimeZoneSchema,
 });
 
 /** Transport modes supported by authored itinerary legs. */

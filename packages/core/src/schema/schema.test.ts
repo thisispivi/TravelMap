@@ -68,6 +68,16 @@ describe("authored data schemas", () => {
     );
   });
 
+  it("rejects a time zone the date maths cannot use", () => {
+    expect(
+      CityJsonSchema.safeParse({ ...city, timeZone: "Europe/Atlantis" })
+        .success,
+    ).toBe(false);
+    expect(
+      CityJsonSchema.safeParse({ ...city, timeZone: "Asia/Kathmandu" }).success,
+    ).toBe(true);
+  });
+
   it("rejects out-of-range coordinates and unsupported transport modes", () => {
     expect(
       CityJsonSchema.safeParse({ ...city, coordinates: [181, 41.9] }).success,
