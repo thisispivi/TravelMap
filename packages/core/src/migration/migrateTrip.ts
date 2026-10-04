@@ -74,12 +74,14 @@ export function isLegacyTrip(value: unknown): boolean {
 }
 
 /**
- * Counts the nights a legacy stop spans.
+ * Reports whether a legacy stop was somewhere the traveller stayed. A layover
+ * is never a stay, even across a night: an overnight connection in Milan is
+ * travelling, not visiting Milan.
  * @param {LegacyStop} stop - The stop
- * @returns {number} Nights between arrival and departure
+ * @returns {boolean} Whether it becomes a stay
  */
-function nightsAt(stop: LegacyStop): number {
-  return daysBetween(stop.sDate, stop.eDate);
+function isStay(stop: LegacyStop): boolean {
+  return !stop.isLayover && daysBetween(stop.sDate, stop.eDate) > 0;
 }
 
 /**
@@ -121,13 +123,12 @@ function withStopMedia(leg: TripLegJson, stop: LegacyStop): TripLegJson {
 }
 
 /**
- * Converts one legacy trip into stays, moves and day trips.
- *
- * Stops with at least one night become stays — layover or not, because a
- * night in Milan is still a night in Milan. A run of legs that leaves a stay
- * and comes back to it without a night elsewhere becomes a day trip; anything
- * else between two stays becomes a move. Legacy round-trip legs are unrolled
- * into an outbound and a return leg first.
+ * Converts one legacy trip into stays, moves and day trips. Stops with at
+ * least one night become stays, unless they were marked as a layover: an
+ * overnight connection is part of the journey, not a visit. A run of legs that
+ * leaves a stay and comes back to it without a night elsewhere becomes a day
+ * trip; anything else between two stays becomes a move. Legacy round-trip legs
+ * are unrolled into an outbound and a return leg first.
  * @param {unknown} raw - A legacy trip document
  * @returns {MigratedTrip} The converted trip and the conversion's doubts
  */
@@ -172,15 +173,14 @@ export function migrateTrip(raw: unknown): MigratedTrip {
   }
 
   const steps: TripJson["steps"] = [];
-  let stay: TripStayJson | undefined =
-    nightsAt(first) > 0
-      ? {
-          checkIn: first.sDate.slice(0, 10),
-          checkOut: first.eDate.slice(0, 10),
-          cityId: first.cityId,
-          type: "stay",
-        }
-      : undefined;
+  let stay: TripStayJson | undefined = isStay(first)
+    ? {
+        checkIn: first.sDate.slice(0, 10),
+        checkOut: first.eDate.slice(0, 10),
+        cityId: first.cityId,
+        type: "stay",
+      }
+    : undefined;
   if (stay) steps.push(stay);
   let cursor = first.eDate.slice(0, 10);
   let buffer: { leg: LegacyLeg; stop: LegacyStop }[] = [];
@@ -208,7 +208,7 @@ export function migrateTrip(raw: unknown): MigratedTrip {
         );
         next = omit(next, ["arrive", "depart"]);
       }
-      const endsAtStay = index === buffer.length - 1 && nightsAt(stop) > 0;
+      const endsAtStay = index === buffer.length - 1 && isStay(stop);
       const arrival = stop.sDate;
       if (!endsAtStay) {
         if (!stop.isLayover) next = { ...next, visited: true };
@@ -231,7 +231,7 @@ export function migrateTrip(raw: unknown): MigratedTrip {
   for (const pair of pairs) {
     buffer.push(pair);
     const { stop } = pair;
-    if (nightsAt(stop) > 0) {
+    if (isStay(stop)) {
       flushMove();
       stay = {
         checkIn: stop.sDate.slice(0, 10),

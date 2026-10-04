@@ -134,17 +134,20 @@ describe("migrateTrip", () => {
     });
   });
 
-  it("counts a night at a layover as a stay", () => {
+  it("keeps an overnight layover part of the journey instead of a stay", () => {
     const { trip } = migrateTrip({
       ...japan,
       steps: [
         stop("Cagliari", "2026-10-23", "2026-10-23", layover),
         leg("Cagliari", "Milan", { mode: "plane" }),
         stop("Milan", "2026-10-23", "2026-10-24", layover),
+        leg("Milan", "Manchester", { mode: "plane" }),
+        stop("Manchester", "2026-10-24", "2026-10-26"),
       ],
     });
 
-    expect(trip.steps[1]).toMatchObject({ cityId: "Milan", type: "stay" });
+    expect(trip.steps.map((step) => step.type)).toEqual(["move", "stay"]);
+    expect(trip.steps[1]).toMatchObject({ cityId: "Manchester" });
   });
 
   it("drops a layover date that contradicts the stay before it, and says so", () => {
