@@ -3,10 +3,10 @@ import { Layer, Source } from "react-map-gl/maplibre";
 
 import { visitedCountries } from "@/data/world";
 
+import { countriesGeoJson } from "../../lib/countries";
 import {
   CITY_LABEL_TIERS,
   cityLabelsGeoJson,
-  countriesGeoJson,
   countryLabelsGeoJson,
 } from "../../lib/mapData";
 import { MapTheme, toOpaqueFill } from "../../lib/mapTheme";

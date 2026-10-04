@@ -6,21 +6,11 @@ import type {
   Point,
   Position,
 } from "geojson";
-import { feature } from "topojson-client";
-import type { GeometryCollection, Topology } from "topojson-specification";
 
-import countriesTopologyJson from "@/assets/json/countries-50m.json";
 import { futureCities, livedCities, visitedCities } from "@/data/world";
 
-import { ringArea, ringCentroid, splitGeometryAtAntimeridian } from "./geo";
-
-/**
- * Properties stored on a country polygon and its generated label.
- * @property {string} name - The country name
- */
-interface CountryProperties {
-  name: string;
-}
+import { countriesGeoJson, CountryProperties } from "./countries";
+import { ringArea, ringCentroid } from "./geo";
 
 /**
  * Properties stored on a generated city label.
@@ -58,33 +48,6 @@ export const CITY_LABEL_TIERS = [
   { id: "small", minPopulation: 30_000, maxPopulation: 100_000, minZoom: 5 },
   { id: "local", minPopulation: 0, maxPopulation: 30_000, minZoom: 6 },
 ] as const satisfies readonly CityLabelTier[];
-
-const countriesTopology = countriesTopologyJson as unknown as Topology<{
-  countries: GeometryCollection;
-}>;
-
-/**
- * Splits country geometries at the antimeridian before MapLibre triangulates
- * them, preventing polygons from stretching across the world.
- * @returns {FeatureCollection<Geometry, CountryProperties>} The normalized country polygons
- */
-function createCountriesGeoJson(): FeatureCollection<
-  Geometry,
-  CountryProperties
-> {
-  const rawCountries = feature(
-    countriesTopology,
-    countriesTopology.objects.countries,
-  ) as FeatureCollection<Geometry, CountryProperties>;
-
-  return {
-    ...rawCountries,
-    features: rawCountries.features.map((country) => ({
-      ...country,
-      geometry: splitGeometryAtAntimeridian(country.geometry),
-    })),
-  };
-}
 
 /**
  * Extracts the exterior rings that can anchor a country label.
@@ -139,8 +102,6 @@ function createCityLabel(city: City): Feature<Point, CityLabelProperties> {
     geometry: { type: "Point", coordinates: city.coordinates },
   };
 }
-
-export const countriesGeoJson = createCountriesGeoJson();
 
 export const countryLabelsGeoJson: FeatureCollection<Point, CountryProperties> =
   {

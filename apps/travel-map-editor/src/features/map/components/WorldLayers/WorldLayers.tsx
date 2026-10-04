@@ -1,14 +1,14 @@
+import { countriesGeoJson } from "@app/features/map/lib/countries";
 import { MapTheme } from "@app/features/map/lib/mapTheme";
 import { ReactNode } from "react";
 import { Layer, Source } from "react-map-gl/maplibre";
-
-import { countriesGeoJson } from "../../lib/worldPolygons";
 
 /**
  * WorldLayers component
  * The land and border layers every editor map sits on, kept identical to the
  * public map's so a trip looks the same while it is being authored as it does
- * once published.
+ * once published. Labels are left out: they need the public app's SDF glyphs,
+ * which the editor does not serve.
  * @component
  * @param {WorldLayersProps} props
  * @param {MapTheme} props.theme - The active map theme
