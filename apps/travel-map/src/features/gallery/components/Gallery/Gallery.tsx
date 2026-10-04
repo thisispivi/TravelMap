@@ -1,7 +1,7 @@
 import "./Gallery.scss";
 import "react-photo-album/rows.css";
 
-import { City, mediaUrl } from "@travelmap/core";
+import { mediaUrl } from "@travelmap/core";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { RowsPhotoAlbum } from "react-photo-album";
 import {
@@ -9,7 +9,6 @@ import {
   useLoaderData,
   useLocation as useRouterLocation,
   useNavigate,
-  useSearchParams,
 } from "react-router";
 
 import PlayIcon from "@/assets/icons/Play.svg?react";
@@ -19,31 +18,12 @@ import { CountryFlag } from "@/shared/components/CountryFlag/CountryFlag";
 import { useAppRoute } from "@/shared/context/AppRoute.context";
 import { useLanguage } from "@/shared/hooks/useLanguage";
 import { classNames } from "@/shared/lib/classNames";
+import { readNavigationState } from "@/shared/lib/navigationState";
 import { parameters } from "@/shared/lib/parameters";
-import {
-  getCityPhotoTravels,
-  getTravelByCityIndex,
-} from "@/shared/lib/travelQueries";
+import { getCityPhotoTravels } from "@/shared/lib/travelQueries";
 
+import type { galleryLoader } from "../../loaders/Gallery.loader";
 import { TravelSelector } from "../TravelSelector/TravelSelector";
-
-/**
- * Data resolved by the gallery route loader.
- * @property {City} city - The city whose gallery is displayed
- * @property {number} travelIdx - The selected travel index
- */
-export interface GalleryProps {
-  city: City;
-  travelIdx: number;
-}
-
-/**
- * Data passed via the location state when navigating to the gallery route.
- * @property {string} [fromPath] - The path from which the user navigated to the gallery route
- */
-type GalleryLocationState = {
-  fromPath?: string;
-};
 
 /**
  * Gallery component
@@ -57,15 +37,11 @@ export function Gallery(): ReactNode {
   const { currLanguage, t } = useLanguage(["home"]);
   const navigate = useNavigate();
   const routerLocation = useRouterLocation();
-  const { city, travelIdx } = useLoaderData() as GalleryProps;
-  const [searchParams] = useSearchParams();
-  const from = searchParams.get("from");
+  const { city, travel, travelIdx } = useLoaderData<typeof galleryLoader>();
   const { isLightbox } = useAppRoute();
-  const fromPath = (routerLocation.state as GalleryLocationState | null)
-    ?.fromPath;
+  const { fromPath } = readNavigationState(routerLocation.state);
   const navigationState = fromPath ? { fromPath } : undefined;
-  const travel = getTravelByCityIndex(city, travelIdx, visitedTrips);
-  const photos = (travel?.photos ?? []).map((p, i) => ({
+  const photos = travel.photos.map((p, i) => ({
     src: parameters.isShowPhotos ? mediaUrl(p.thumbnail) : "",
     width: p.width,
     height: p.height,
@@ -107,15 +83,11 @@ export function Gallery(): ReactNode {
       window.removeEventListener("resize", handleResize);
     };
   }, [travel]);
-  if (!travel) return <div className="gallery" />;
   return (
     <div className="gallery">
       <div className="gallery__header">
         <h2>{city.getLocalizedName(currLanguage)}</h2>
-        <CountryFlag
-          className="gallery__header__flag"
-          countryId={city.country.id}
-        />
+        <CountryFlag className="gallery__flag" countryId={city.country.id} />
         <TravelSelector
           cityName={city.name}
           navigationState={navigationState}
@@ -124,14 +96,14 @@ export function Gallery(): ReactNode {
         />
         <CloseButton
           ariaLabel={t("close")}
-          onClick={() => navigate(fromPath ?? (from === "map" ? "/" : "/"))}
+          onClick={() => navigate(fromPath ?? "/")}
         />
       </div>
       <div className="gallery__content">
         <div
           className={classNames(
-            "gallery__content__photo-album",
-            hasOverflow && "gallery__content__photo-album--overflow",
+            "gallery__photo-album",
+            hasOverflow && "gallery__photo-album--overflow",
           )}
           id="gallery"
           ref={contentRef}
@@ -144,30 +116,23 @@ export function Gallery(): ReactNode {
             photos={photos}
             render={{
               image: (props, { photo }) => (
-                <div className="gallery__content__image">
+                <div className="gallery__image">
                   <img
                     {...props}
-                    alt={photo.alt ?? ""}
+                    alt={photo.alt || (photo.youtube ? t("playVideo") : "")}
                     className={props.className}
                   />
+                  {/*
+                   * The photo album already wraps each thumbnail in a button
+                   * that opens it, so the play mark is decoration; a second
+                   * button inside it would be invalid nested interactive markup.
+                   */}
                   {photo.youtube ? (
                     <>
-                      <button
-                        aria-label={t("playVideo")}
-                        className="gallery__content__image__play"
-                        onClick={() =>
-                          navigate(`./${photo.index}`, {
-                            state: navigationState,
-                          })
-                        }
-                        type="button"
-                      >
+                      <span aria-hidden="true" className="gallery__play">
                         <PlayIcon />
-                      </button>
-                      <span
-                        aria-hidden="true"
-                        className="gallery__content__image__gradient"
-                      />
+                      </span>
+                      <span aria-hidden="true" className="gallery__gradient" />
                     </>
                   ) : null}
                 </div>

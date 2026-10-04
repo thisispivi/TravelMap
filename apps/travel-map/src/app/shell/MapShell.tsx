@@ -21,6 +21,7 @@ import {
 import { useResponsive } from "@/shared/hooks/useResponsive";
 import { useThemeDetector } from "@/shared/hooks/useThemeDetector";
 import { classNames } from "@/shared/lib/classNames";
+import { readNavigationState } from "@/shared/lib/navigationState";
 
 import { useAppLocation } from "../routing/useAppLocation";
 import { MapShellLayout } from "./MapShell.layout";
@@ -55,13 +56,11 @@ export function MapShell(): ReactNode {
     isInitialRouteRef.current = false;
     if (location.pathname !== "/") return;
 
-    const navigationState = location.state as {
-      mapOnly?: boolean;
-    } | null;
+    const { mapOnly } = readNavigationState(location.state);
     const navigation = performance.getEntriesByType("navigation")[0] as
       PerformanceNavigationTiming | undefined;
     const isRefresh = navigation?.type === "reload";
-    if (isInitialRoute && (isRefresh || navigationState?.mapOnly !== true)) {
+    if (isInitialRoute && (isRefresh || mapOnly !== true)) {
       navigate("/trips", { replace: true });
       return;
     }

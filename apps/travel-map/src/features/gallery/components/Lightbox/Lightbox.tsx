@@ -1,7 +1,7 @@
 import "./Lightbox.scss";
 import "react-image-gallery/styles/image-gallery.css";
 
-import { City, mediaUrl } from "@travelmap/core";
+import { mediaUrl } from "@travelmap/core";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import ImageGallery, {
   ImageGalleryProps,
@@ -13,34 +13,26 @@ import ChevronIcon from "@/assets/icons/Chevron.svg?react";
 import FullscreenEnterIcon from "@/assets/icons/FullscreenEnter.svg?react";
 import FullscreenExitIcon from "@/assets/icons/FullscreenExit.svg?react";
 import GalleryIcon from "@/assets/icons/Gallery.svg?react";
-import { visitedTrips } from "@/data/world";
 import { Button } from "@/shared/components/Button/Button";
 import { useLanguage } from "@/shared/hooks/useLanguage";
 import { classNames } from "@/shared/lib/classNames";
 import { env } from "@/shared/lib/env";
 import { parameters } from "@/shared/lib/parameters";
-import { getTravelByCityIndex } from "@/shared/lib/travelQueries";
+
+import type { lightboxLoader } from "../../loaders/Lightbox.loader";
+
 const HIDE_NAV_AFTER_MS = 2000;
 
 /**
- * Represents a lightbox item.
+ * One slide handed to react-image-gallery, carrying the extra fields the custom
+ * renderer needs to choose between an image and a YouTube embed.
+ * @property {boolean} [youtube] - Whether the slide's original is a YouTube id
+ * @property {string} [alt] - Alternative text from the dataset
  */
 type LightboxItem = ImageGalleryProps["items"][number] & {
   youtube?: boolean;
   alt?: string;
 };
-
-/**
- * Data resolved by the lightbox route loader.
- * @property {City} city - The city whose media is displayed
- * @property {number} travelIdx - The selected travel index
- * @property {number} photoIdx - The selected media index
- */
-export interface LightboxProps {
-  city: City;
-  travelIdx: number;
-  photoIdx: number;
-}
 
 /**
  * Normalizes an absolute or configured YouTube embed source.
@@ -65,9 +57,8 @@ export function Lightbox(): ReactNode {
   const { t } = useLanguage(["home"]);
   const navigate = useNavigate();
   const location = useLocation();
-  const { city, travelIdx, photoIdx } = useLoaderData() as LightboxProps;
-  const photos =
-    getTravelByCityIndex(city, travelIdx, visitedTrips)?.photos ?? [];
+  const { photoIdx, travel } = useLoaderData<typeof lightboxLoader>();
+  const photos = travel.photos;
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const hideNavTimeoutRef = useRef<number | undefined>(undefined);
@@ -138,36 +129,21 @@ export function Lightbox(): ReactNode {
   };
 
   /**
-   * Stops media on the previous slide and navigates to a new media index.
-   * @param {number | undefined} newIndex - The destination media index
+   * Stops media on the current slide and navigates to a new media index.
+   * @param {number} newIndex - The destination media index
    * @returns {void}
    */
-  const handleChange = (newIndex: number | undefined): void => {
-    if (photoIdx !== undefined) {
-      const element = document.querySelector(
-        `[aria-label="Go to Slide ${photoIdx + 1}"]`,
-      );
-      if (element) {
-        const child = element.children[0];
-        if (child) {
-          if (child.tagName === "VIDEO") (child as HTMLVideoElement).pause();
-          if (child.tagName === "IFRAME") {
-            const iframeSrc = (child as HTMLIFrameElement).src;
-            (child as HTMLIFrameElement).src = iframeSrc;
-          }
-        }
-      }
-      navigate(`../${newIndex}`, { state: location.state });
+  const goToSlide = (newIndex: number): void => {
+    const media = document.querySelector(
+      `[aria-label="Go to Slide ${photoIdx + 1}"]`,
+    )?.children[0];
+    if (media instanceof HTMLVideoElement) media.pause();
+    if (media instanceof HTMLIFrameElement) {
+      /* Reloading the embed is the only way to stop a YouTube player from outside it. */
+      const { src } = media;
+      media.src = src;
     }
-  };
-
-  /**
-   * Synchronizes router state after the gallery changes slides.
-   * @param {number} idx - The active media index
-   * @returns {void}
-   */
-  const handleSlide = (idx: number): void => {
-    handleChange(idx);
+    navigate(`../${newIndex}`, { state: location.state });
   };
 
   /**
@@ -178,7 +154,7 @@ export function Lightbox(): ReactNode {
   const handleNavigateSlide = (idx: number): void => {
     if (idx < 0 || idx >= photos.length) return;
     revealNav();
-    handleChange(idx);
+    goToSlide(idx);
   };
 
   /**
@@ -230,7 +206,7 @@ export function Lightbox(): ReactNode {
         items={photos}
         lazyLoad={true}
         onScreenChange={(fs) => setIsFullscreen(fs)}
-        onSlide={handleSlide}
+        onSlide={goToSlide}
         ref={galleryRef}
         renderItem={handleRenderItem}
         showFullscreenButton={false}

@@ -25,7 +25,7 @@
       @include m.transition(all, 0.3s, ease-in-out);
     }
 
-    .gallery__header__flag {
+    .gallery__flag {
       width: 1.6rem;
       height: 1.6rem;
       margin-left: 0.5rem;
@@ -59,18 +59,18 @@
     position: relative;
     overflow: hidden;
 
-    .gallery__content__photo-album {
+    .gallery__photo-album {
       position: absolute;
       inset: 0;
       overflow-y: auto;
       overflow-x: hidden;
 
-      &.gallery__content__photo-album--overflow {
+      &.gallery__photo-album--overflow {
         padding-right: 0.5rem;
       }
     }
 
-    .gallery__content__image {
+    .gallery__image {
       position: relative;
 
       img {
@@ -79,7 +79,7 @@
         display: block;
       }
 
-      .gallery__content__image__play {
+      .gallery__play {
         position: absolute;
         left: 50%;
         top: 50%;
@@ -91,22 +91,15 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        border: none;
-        background: none;
-        padding: 0;
-        cursor: pointer;
-        appearance: none;
+        pointer-events: none;
 
         svg {
           width: 100%;
           height: 100%;
         }
-
-        &:focus-visible {
-          @include m.focus-ring();
-        }
       }
-      .gallery__content__image__gradient {
+
+      .gallery__gradient {
         position: absolute;
         left: 50%;
         top: 50%;
@@ -148,7 +141,7 @@
     }
 
     .gallery__content {
-      .gallery__content__photo-album--overflow {
+      .gallery__photo-album--overflow {
         padding-right: 0 !important;
       }
     }
