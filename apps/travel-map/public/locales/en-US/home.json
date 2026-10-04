@@ -147,11 +147,6 @@
   },
   "tripDetail": {
     "route": "Route",
-    "days": "days",
-    "day": "day",
-    "via": "via",
-    "night": "night",
-    "nights": "nights",
     "mode_plane_one": "{{count}} flight",
     "mode_plane_other": "{{count}} flights",
     "mode_ferry_one": "{{count}} ferry",
@@ -166,37 +161,28 @@
     "mode_taxi_other": "{{count}} taxis",
     "mode_walk_one": "{{count}} walk",
     "mode_walk_other": "{{count}} walks",
-    "daysCount_one": "{{count}} day",
-    "daysCount_other": "{{count}} days",
     "nightsCount_one": "{{count}} night",
     "nightsCount_other": "{{count}} nights",
-    "basesCount_one": "{{count}} place slept",
-    "basesCount_other": "{{count}} places slept",
-    "timeZonesCount_one": "{{count}} time zone",
-    "timeZonesCount_other": "{{count}} time zones",
-    "totalDistance": "{{km}} km travelled",
-    "startedIn": "Started in {{city}}",
-    "backIn": "Back in {{city}}",
-    "travel": "Travel",
-    "nightOnBoard": "Night {{night}} on board",
     "dayTrip": "Day trip",
-    "backTo": "Back to {{city}}",
-    "approx": "about",
     "openPhotos": "Photos of {{city}}",
     "viewMap": "View map",
     "backToTrip": "Back to trip",
-    "modeName": {
-      "plane": "Plane",
-      "ferry": "Ferry",
-      "train": "Train",
-      "bus": "Bus",
-      "car": "Car",
-      "taxi": "Taxi",
-      "walk": "Walk"
+    "chapter": {
+      "there": "Getting there",
+      "onward": "Moving on",
+      "home": "Going home"
     },
-    "seePhotos": "See photos",
-    "arrivedAt": "Arrived at {{time}}",
-    "visited": "Visited",
-    "noNight": "No overnight"
+    "nightInTransitAt": "Night in transit at {{city}}",
+    "visitedOnTheWay": "Visited on the way",
+    "photosOfStay": "Photos from the stay",
+    "inCity": "In {{city}}",
+    "unit": {
+      "day_one": "day",
+      "day_other": "days",
+      "night_one": "night",
+      "night_other": "nights",
+      "timeZone_one": "time zone",
+      "timeZone_other": "time zones"
+    }
   }
 }

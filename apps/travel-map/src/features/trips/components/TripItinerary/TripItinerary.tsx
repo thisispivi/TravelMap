@@ -7,13 +7,10 @@ import {
   PublishedImage,
   Trip,
   TripLeg,
-  TripOuting,
-  TripStay,
 } from "@travelmap/core";
-import { CSSProperties, Fragment, ReactNode } from "react";
+import { CSSProperties, ReactNode } from "react";
 import { useLocation, useNavigate } from "react-router";
 
-import CalendarIcon from "@/assets/icons/Calendar.svg?react";
 import ChevronRightIcon from "@/assets/icons/ChevronRight.svg?react";
 import MoonIcon from "@/assets/icons/Moon.svg?react";
 import PositionIcon from "@/assets/icons/Position.svg?react";
@@ -24,35 +21,21 @@ import { CountryFlag } from "@/shared/components/CountryFlag/CountryFlag";
 import { TransportModeIcon } from "@/shared/components/TransportModeIcon/TransportModeIcon";
 import { useMapInteraction } from "@/shared/context/MapInteraction.context";
 import { useLanguage } from "@/shared/hooks/useLanguage";
-import { classNames } from "@/shared/lib/classNames";
 import { formatDuration, formatMileage } from "@/shared/lib/format";
 import { getPhotoTravelIndex } from "@/shared/lib/travelQueries";
 
 import {
-  blockKey,
-  buildItinerary,
-  ItineraryBlock,
+  buildChapters,
+  Chapter,
+  chapterKey,
+  ChapterRow,
+  StayDay,
   timeOf,
 } from "../../lib/tripItinerary";
 
 /**
- * Formats one calendar day with its weekday, such as `Fri 27 Mar`.
- * @param {string} date - A YYYY-MM-DD date
- * @param {string} locale - The active locale
- * @returns {string} The localized label
- */
-function formatDay(date: string, locale: string): string {
-  return formatDateRangeShort({
-    includeWeekday: true,
-    locale,
-    sDateInput: parseLocalDate(date.slice(0, 10)),
-    showYear: false,
-  });
-}
-
-/**
  * Upper-cases a label's first letter, since some locales write weekday names in
- * lower case and a pill reads better starting with a capital.
+ * lower case.
  * @param {string} text - The label
  * @returns {string} The label with a capital first letter
  */
@@ -61,13 +44,26 @@ function capitalize(text: string): string {
 }
 
 /**
- * Finds the gallery a visit's photos open in, or -1 when it has none.
- * @param {City} city - The place
- * @param {Date} arrivedAt - The visit's start, its gallery identity
- * @returns {number} The city's gallery index
+ * Formats a day or a range of days with weekdays, such as `Fri 27 Mar` or
+ * `Sat 28 – Sun 29 Mar`.
+ * @param {string} from - The first YYYY-MM-DD date, any time part ignored
+ * @param {string} to - The last YYYY-MM-DD date, any time part ignored
+ * @param {string} locale - The active locale
+ * @returns {string} The localized label
  */
-function galleryIndex(city: City, arrivedAt: Date): number {
-  return getPhotoTravelIndex(city, arrivedAt, visitedTrips);
+function formatDays(from: string, to: string, locale: string): string {
+  return capitalize(
+    formatDateRangeShort({
+      eDateInput:
+        to.slice(0, 10) === from.slice(0, 10)
+          ? undefined
+          : parseLocalDate(to.slice(0, 10)),
+      includeWeekday: true,
+      locale,
+      sDateInput: parseLocalDate(from.slice(0, 10)),
+      showYear: false,
+    }),
+  );
 }
 
 /**
@@ -94,177 +90,142 @@ function useOpenGallery(): (city: City, index: number) => void {
 }
 
 /**
- * Properties accepted by the LegRow component.
+ * Lists what is worth knowing about a ride beyond its clock times: how long,
+ * how far, and — where it identifies the ride — the operator and flight. A
+ * `~` marks a value worked out rather than recorded.
+ * @param {TripLeg} leg - The ride
+ * @param {string} lang - The active locale
+ * @returns {string[]} The facts, in reading order
+ */
+function rideFacts(leg: TripLeg, lang: string): string[] {
+  const operator = leg.flight?.company ?? leg.ferryCompany;
+  return [
+    `${leg.duration.estimated ? "~" : ""}${formatDuration(leg.duration.value)}`,
+    `${leg.distance.estimated ? "~" : ""}${formatMileage(leg.distance.value, lang, 0)} km`,
+    [operator ? resolveCompany(operator).name : null, leg.flight?.number]
+      .filter(Boolean)
+      .join(" ") || null,
+  ].filter((fact): fact is string => Boolean(fact));
+}
+
+/**
+ * Properties accepted by the RideRow component.
  * @property {TripLeg} leg - The ride
  */
-interface LegRowProps {
+interface RideRowProps {
   leg: TripLeg;
 }
 
 /**
- * LegRow component
- * One ride: how, from where to where, when, how long and how far. Values that
- * were estimated rather than recorded say so, and a place with photos offers
- * them directly.
+ * RideRow component
+ * One ride: mode, from → to, the clock times on the right, and how long, how
+ * far, and with whom underneath.
  * @component
- * @param {LegRowProps} props - The row props
+ * @param {RideRowProps} props - The row props
  * @param {TripLeg} props.leg - The ride
  * @returns {ReactNode} The ride row
  */
-function LegRow({ leg }: LegRowProps): ReactNode {
-  const { t, currLanguage: lang } = useLanguage(["home"]);
-  const openGallery = useOpenGallery();
-  const { setHoveredCity } = useMapInteraction();
-  const from = leg.from.getLocalizedName(lang);
-  const to = leg.to.getLocalizedName(lang);
+function RideRow({ leg }: RideRowProps): ReactNode {
+  const { currLanguage: lang } = useLanguage(["home"]);
   const departs = timeOf(leg.depart);
   const arrives = timeOf(leg.arrive);
-  const approx = `${t("tripDetail.approx")} `;
-  const photos = leg.photos?.length ? galleryIndex(leg.to, leg.arrivedAt) : -1;
-  const operator = leg.flight?.company ?? leg.ferryCompany;
-  const details = [
-    departs && departs === arrives
-      ? departs
-      : departs || arrives
-        ? `${departs ?? "?"} → ${arrives ?? "?"}`
-        : null,
-    `${leg.duration.estimated ? approx : ""}${formatDuration(leg.duration.value)}`,
-    `${leg.distance.estimated ? approx : ""}${formatMileage(leg.distance.value, lang, 0)} km`,
-    [operator ? resolveCompany(operator).name : null, leg.flight?.number]
-      .filter(Boolean)
-      .join(" "),
-  ].filter(Boolean);
+  const times =
+    departs && arrives && departs !== arrives
+      ? `${departs}–${arrives}`
+      : (departs ?? arrives);
 
   return (
     <li
-      className={`trip-itinerary__leg trip-itinerary__leg--${leg.mode}`}
-      onMouseEnter={() => setHoveredCity(leg.to)}
-      onMouseLeave={() => setHoveredCity(null)}
+      className={`trip-chapter__row trip-chapter__ride trip-chapter__ride--${leg.mode}`}
     >
-      <TransportModeIcon className="trip-itinerary__leg-icon" mode={leg.mode} />
-      <div className="trip-itinerary__leg-body">
-        <span className="trip-itinerary__leg-route">{`${from} → ${to}`}</span>
-        <span className="trip-itinerary__leg-details">
-          {details.join(" · ")}
-          {leg.via.length > 0
-            ? ` · ${t("tripDetail.via")} ${leg.via
-                .map((city) => city.getLocalizedName(lang))
-                .join(", ")}`
-            : ""}
+      <TransportModeIcon className="trip-chapter__ride-icon" mode={leg.mode} />
+      <span className="trip-chapter__row-body">
+        <span className="trip-chapter__row-line">
+          <span className="trip-chapter__ride-route">
+            {leg.from.getLocalizedName(lang)} → {leg.to.getLocalizedName(lang)}
+          </span>
+          {times ? (
+            <span className="trip-chapter__ride-time">{times}</span>
+          ) : null}
         </span>
-      </div>
-      {photos >= 0 ? (
-        <button
-          aria-label={t("tripDetail.openPhotos", { city: to })}
-          className="trip-itinerary__photo"
-          onClick={() => openGallery(leg.to, photos)}
-          type="button"
-        >
-          <img
-            alt=""
-            className="trip-itinerary__photo-image"
-            loading="lazy"
-            src={firstPhoto(leg.photos)}
-          />
-        </button>
-      ) : null}
-    </li>
-  );
-}
-
-/**
- * Properties accepted by the RideHop component.
- * @property {TripLeg} leg - The ride between two places of a day trip
- */
-interface RideHopProps {
-  leg: TripLeg;
-}
-
-/**
- * RideHop component
- * The thin link between two places of a day trip: how the traveller got from
- * one to the next and how long it took, kept quieter than the places so the
- * eye reads the places first and the rides second.
- * @component
- * @param {RideHopProps} props - The hop props
- * @param {TripLeg} props.leg - The ride
- * @returns {ReactNode} The ride connector
- */
-function RideHop({ leg }: RideHopProps): ReactNode {
-  const { t, currLanguage: lang } = useLanguage(["home"]);
-  const approx = `${t("tripDetail.approx")} `;
-  return (
-    <li className={`trip-itinerary__hop trip-itinerary__hop--${leg.mode}`}>
-      <TransportModeIcon className="trip-itinerary__hop-icon" mode={leg.mode} />
-      <span className="trip-itinerary__hop-text">
-        {t(`tripDetail.modeName.${leg.mode}`)} ·{" "}
-        {leg.duration.estimated ? approx : ""}
-        {formatDuration(leg.duration.value)} ·{" "}
-        {leg.distance.estimated ? approx : ""}
-        {formatMileage(leg.distance.value, lang, 0)} km
+        <span className="trip-chapter__row-detail">
+          {rideFacts(leg, lang).join(" · ")}
+        </span>
       </span>
     </li>
   );
 }
 
 /**
- * Properties accepted by the PlaceCard component.
- * @property {TripLeg} leg - The ride that arrived at the place
+ * Properties accepted by the PlaceRow component.
+ * @property {City} city - The place
+ * @property {PublishedImage[]} [photos] - Photos taken there on this visit
+ * @property {Date} visitStart - The visit's start, its gallery identity
+ * @property {string} [detail] - A short line about the visit
  */
-interface PlaceCardProps {
-  leg: TripLeg;
+interface PlaceRowProps {
+  city: City;
+  photos?: PublishedImage[];
+  visitStart: Date;
+  detail?: string;
 }
 
 /**
- * PlaceCard component
- * One place seen on a day trip. With photos the whole card is the way into
- * its gallery, its own picture on the left; without, it is a plain label.
+ * PlaceRow component
+ * A place with its own picture. With photos, the whole row opens the gallery;
+ * without, it still marks the place in the route.
  * @component
- * @param {PlaceCardProps} props - The card props
- * @param {TripLeg} props.leg - The ride that arrived at the place
- * @returns {ReactNode} The place card
+ * @param {PlaceRowProps} props - The row props
+ * @param {City} props.city - The place
+ * @param {PublishedImage[]} [props.photos] - Photos taken there on this visit
+ * @param {Date} props.visitStart - The visit's start, its gallery identity
+ * @param {string} [props.detail] - A short line about the visit
+ * @returns {ReactNode} The place row
  */
-function PlaceCard({ leg }: PlaceCardProps): ReactNode {
+function PlaceRow({
+  city,
+  photos,
+  visitStart,
+  detail,
+}: PlaceRowProps): ReactNode {
   const { t, currLanguage: lang } = useLanguage(["home"]);
   const openGallery = useOpenGallery();
   const { setHoveredCity } = useMapInteraction();
-  const city = leg.to.getLocalizedName(lang);
-  const photos = leg.photos?.length ? galleryIndex(leg.to, leg.arrivedAt) : -1;
-  const arrived = timeOf(leg.arrive);
+  const name = city.getLocalizedName(lang);
+  const gallery = photos?.length
+    ? getPhotoTravelIndex(city, visitStart, visitedTrips)
+    : -1;
+  const image = firstPhoto(photos);
   const content = (
     <>
-      {photos >= 0 ? (
+      {image ? (
         <img
           alt=""
-          className="trip-itinerary__place-image"
+          className="trip-chapter__place-image"
           loading="lazy"
-          src={firstPhoto(leg.photos)}
+          src={image}
         />
       ) : (
-        <span className="trip-itinerary__place-image trip-itinerary__place-image--empty">
+        <span className="trip-chapter__place-image trip-chapter__place-image--empty">
           <PositionIcon aria-hidden="true" />
         </span>
       )}
-      <span className="trip-itinerary__place-text">
-        <span className="trip-itinerary__place-name">
-          {city}
+      <span className="trip-chapter__row-body">
+        <span className="trip-chapter__place-name">
+          {name}
           <CountryFlag
-            className="trip-itinerary__flag"
-            countryId={leg.to.country.id}
+            className="trip-chapter__flag"
+            countryId={city.country.id}
           />
         </span>
-        <span className="trip-itinerary__place-meta">
-          {photos >= 0
-            ? t("tripDetail.seePhotos")
-            : arrived
-              ? t("tripDetail.arrivedAt", { time: arrived })
-              : t("tripDetail.visited")}
-        </span>
+        {detail ? (
+          <span className="trip-chapter__row-detail">{detail}</span>
+        ) : null}
       </span>
-      {photos >= 0 ? (
+      {gallery >= 0 ? (
         <ChevronRightIcon
           aria-hidden="true"
-          className="trip-itinerary__place-chevron"
+          className="trip-chapter__chevron"
         />
       ) : null}
     </>
@@ -272,264 +233,216 @@ function PlaceCard({ leg }: PlaceCardProps): ReactNode {
 
   return (
     <li
-      className="trip-itinerary__place-item"
-      onMouseEnter={() => setHoveredCity(leg.to)}
+      className="trip-chapter__row"
+      onMouseEnter={() => setHoveredCity(city)}
       onMouseLeave={() => setHoveredCity(null)}
     >
-      {photos >= 0 ? (
+      {gallery >= 0 ? (
         <button
-          aria-label={t("tripDetail.openPhotos", { city })}
-          className="trip-itinerary__place trip-itinerary__place--clickable"
-          onClick={() => openGallery(leg.to, photos)}
+          aria-label={t("tripDetail.openPhotos", { city: name })}
+          className="trip-chapter__place trip-chapter__place--clickable"
+          onClick={() => openGallery(city, gallery)}
           type="button"
         >
           {content}
         </button>
       ) : (
-        <div className="trip-itinerary__place">{content}</div>
+        <div className="trip-chapter__place">{content}</div>
       )}
     </li>
   );
 }
 
 /**
- * Properties accepted by the OutingView component.
- * @property {TripOuting} outing - The day trip
- * @property {City} base - The stay it leaves from and returns to
+ * Properties accepted by the Rows component.
+ * @property {ChapterRow[]} rows - The rows to render
+ * @property {boolean} isDayTrip - Whether the rows are a day trip, whose places need no caption
  */
-interface OutingViewProps {
-  outing: TripOuting;
-  base: City;
+interface RowsProps {
+  rows: ChapterRow[];
+  isDayTrip: boolean;
 }
 
 /**
- * OutingView component
- * A day trip told as a route: a one-line summary of where it went, then each
- * place as a card with the ride that reached it in between, ending back at
- * the stay, so a loop through three towns reads in the order it happened.
+ * Rows component
+ * Renders a chain of rides, places, and nights in transit in order.
  * @component
- * @param {OutingViewProps} props - The view props
- * @param {TripOuting} props.outing - The day trip
- * @param {City} props.base - The stay it leaves from and returns to
- * @returns {ReactNode} The day trip
+ * @param {RowsProps} props - The rows props
+ * @param {ChapterRow[]} props.rows - The rows to render
+ * @param {boolean} props.isDayTrip - Whether the rows are a day trip, whose places need no caption
+ * @returns {ReactNode} The list of rows
  */
-function OutingView({ outing, base }: OutingViewProps): ReactNode {
+function Rows({ rows, isDayTrip }: RowsProps): ReactNode {
   const { t, currLanguage: lang } = useLanguage(["home"]);
-  const km = outing.legs.reduce((sum, leg) => sum + leg.distance.value, 0);
-  const minutes = outing.legs.reduce((sum, leg) => sum + leg.duration.value, 0);
-  const places = outing.legs.slice(0, -1);
-  const last = outing.legs.at(-1);
-
   return (
-    <div className="trip-itinerary__outing">
-      <div className="trip-itinerary__outing-header">
-        <span className="trip-itinerary__label">
-          {t("tripDetail.dayTrip")} · {formatDay(outing.date, lang)}
-        </span>
-        <span className="trip-itinerary__outing-route">
-          {[base, ...places.map((leg) => leg.to), base]
-            .map((city) => city.getLocalizedName(lang))
-            .join(" → ")}
-        </span>
-        <span className="trip-itinerary__outing-total">
-          {formatMileage(km, lang, 0)} km · {formatDuration(minutes)}
-        </span>
-      </div>
-      <ol className="trip-itinerary__outing-steps">
-        {places.map((leg) => (
-          <Fragment key={`${leg.from.id}-${leg.to.id}`}>
-            <RideHop leg={leg} />
-            <PlaceCard leg={leg} />
-          </Fragment>
-        ))}
-        {last ? <RideHop leg={last} /> : null}
-        <li className="trip-itinerary__outing-end">
-          {t("tripDetail.backTo", { city: base.getLocalizedName(lang) })}
-        </li>
-      </ol>
-    </div>
+    <ul className="trip-chapter__rows">
+      {rows.map((row) => {
+        switch (row.kind) {
+          case "ride":
+            return (
+              <RideRow
+                key={`ride-${row.leg.from.id}-${row.leg.to.id}`}
+                leg={row.leg}
+              />
+            );
+          case "place":
+            return (
+              <PlaceRow
+                city={row.leg.to}
+                detail={isDayTrip ? undefined : t("tripDetail.visitedOnTheWay")}
+                key={`place-${row.leg.to.id}-${row.leg.from.id}`}
+                photos={row.leg.photos}
+                visitStart={row.leg.arrivedAt}
+              />
+            );
+          case "transit":
+            return (
+              <li
+                className="trip-chapter__row trip-chapter__transit"
+                key={`night-${row.city.id}`}
+              >
+                <MoonIcon
+                  aria-hidden="true"
+                  className="trip-chapter__transit-icon"
+                />
+                {t("tripDetail.nightInTransitAt", {
+                  city: row.city.getLocalizedName(lang),
+                })}
+              </li>
+            );
+        }
+      })}
+    </ul>
   );
 }
 
 /**
- * Properties accepted by the StayBlock component.
- * @property {TripStay} stay - Where the traveller slept
+ * Properties accepted by the StayDays component.
+ * @property {StayDay[]} days - The stay's days
+ * @property {City} city - Where the stay was
  */
-interface StayBlockProps {
-  stay: TripStay;
+interface StayDaysProps {
+  days: StayDay[];
+  city: City;
 }
 
 /**
- * StayBlock component
- * A place the traveller slept: the city over its photo, with its nights and
- * dates as pills, and the day trips taken from it underneath so "based in
- * Kyoto, went to Osaka for the day" reads as exactly that.
+ * StayDays component
+ * The days of a stay under their dates: day trips with every ride and place,
+ * and the remaining days spent in the city folded into one line.
  * @component
- * @param {StayBlockProps} props - The block props
- * @param {TripStay} props.stay - Where the traveller slept
- * @returns {ReactNode} The stay block
+ * @param {StayDaysProps} props - The days props
+ * @param {StayDay[]} props.days - The stay's days
+ * @param {City} props.city - Where the stay was
+ * @returns {ReactNode} The days
  */
-function StayBlock({ stay }: StayBlockProps): ReactNode {
+function StayDays({ days, city }: StayDaysProps): ReactNode {
   const { t, currLanguage: lang } = useLanguage(["home"]);
-  const openGallery = useOpenGallery();
-  const { setHoveredCity } = useMapInteraction();
-  const city = stay.city.getLocalizedName(lang);
-  const photos = stay.photos?.length
-    ? galleryIndex(stay.city, parseLocalDate(stay.checkIn))
-    : -1;
-  const image =
-    (photos >= 0 ? stay.city.getBackgroundImgSourceByIndex(photos) : "") ||
-    firstPhoto(stay.photos);
-  const header = (
-    <>
-      {image ? (
-        <img
-          alt=""
-          className="trip-itinerary__stay-image"
-          loading="lazy"
-          src={image}
-        />
-      ) : null}
-      <span className="trip-itinerary__stay-text">
-        <span className="trip-itinerary__stay-title">
-          {city}
-          <CountryFlag
-            className="trip-itinerary__flag"
-            countryId={stay.city.country.id}
-          />
-        </span>
-        <span className="trip-itinerary__pills">
-          <span className="trip-itinerary__pill">
-            <MoonIcon
-              aria-hidden="true"
-              className="trip-itinerary__pill-icon"
-            />
-            {stay.nights > 0
-              ? t("tripDetail.nightsCount", { count: stay.nights })
-              : t("tripDetail.noNight")}
-          </span>
-          <span className="trip-itinerary__pill">
-            <CalendarIcon
-              aria-hidden="true"
-              className="trip-itinerary__pill-icon"
-            />
-            {capitalize(
-              formatDateRangeShort({
-                eDateInput:
-                  stay.nights > 0 ? parseLocalDate(stay.checkOut) : undefined,
-                includeWeekday: true,
-                locale: lang,
-                sDateInput: parseLocalDate(stay.checkIn),
-                showYear: false,
-              }),
-            )}
-          </span>
-        </span>
-      </span>
-    </>
+  return days.map((day) =>
+    day.kind === "outing" ? (
+      <div
+        className="trip-chapter__day"
+        key={`outing-${day.date}-${day.rows.length}`}
+      >
+        <p className="trip-chapter__day-title">
+          {formatDays(day.date, day.date, lang)} · {t("tripDetail.dayTrip")}
+        </p>
+        <Rows isDayTrip rows={day.rows} />
+      </div>
+    ) : (
+      <p
+        className="trip-chapter__day-title trip-chapter__day-title--free"
+        key={`free-${day.from}`}
+      >
+        {formatDays(day.from, day.to, lang)} ·{" "}
+        {t("tripDetail.inCity", { city: city.getLocalizedName(lang) })}
+      </p>
+    ),
   );
-  const stayClass = classNames(
-    "trip-itinerary__stay",
-    image && "trip-itinerary__stay--with-image",
-    photos >= 0 && "trip-itinerary__stay--clickable",
-  );
+}
+
+/**
+ * Properties accepted by the ChapterView component.
+ * @property {Chapter} chapter - The chapter
+ * @property {number} number - Its position in the trip, from one
+ */
+interface ChapterViewProps {
+  chapter: Chapter;
+  number: number;
+}
+
+/**
+ * ChapterView component
+ * One numbered chapter: a heading that says what it is and when, then every
+ * ride, place, and day in it — nothing folded away.
+ * @component
+ * @param {ChapterViewProps} props - The chapter props
+ * @param {Chapter} props.chapter - The chapter
+ * @param {number} props.number - Its position in the trip, from one
+ * @returns {ReactNode} The chapter
+ */
+function ChapterView({ chapter, number }: ChapterViewProps): ReactNode {
+  const { t, currLanguage: lang } = useLanguage(["home"]);
+  const isStay = chapter.kind === "stay";
+  const eyebrow = isStay
+    ? t("tripDetail.nightsCount", { count: chapter.stay.nights })
+    : t(`tripDetail.chapter.${chapter.role}`);
+  const title = isStay
+    ? chapter.stay.city.getLocalizedName(lang)
+    : `${chapter.from.getLocalizedName(lang)} → ${chapter.to.getLocalizedName(lang)}`;
+  const dates = isStay
+    ? formatDays(chapter.stay.checkIn, chapter.stay.checkOut, lang)
+    : formatDays(chapter.startDate, chapter.endDate, lang);
 
   return (
     <li
-      className="trip-itinerary__block trip-itinerary__block--stay"
-      style={{ "--stay-color": stay.city.country.borderColor } as CSSProperties}
+      className={`trip-chapter trip-chapter--${chapter.kind}`}
+      style={
+        isStay
+          ? ({
+              "--chapter-color": chapter.stay.city.country.borderColor,
+            } as CSSProperties)
+          : undefined
+      }
     >
-      <div className="trip-itinerary__stay-row">
-        {photos >= 0 ? (
-          <button
-            aria-label={t("tripDetail.openPhotos", { city })}
-            className={stayClass}
-            onClick={() => openGallery(stay.city, photos)}
-            onMouseEnter={() => setHoveredCity(stay.city)}
-            onMouseLeave={() => setHoveredCity(null)}
-            type="button"
-          >
-            {header}
-          </button>
-        ) : (
-          <div
-            className={stayClass}
-            onMouseEnter={() => setHoveredCity(stay.city)}
-            onMouseLeave={() => setHoveredCity(null)}
-          >
-            {header}
-          </div>
-        )}
-      </div>
-      {stay.outings.map((outing) => (
-        <OutingView
-          base={stay.city}
-          key={`${outing.date}-${outing.legs.map((leg) => leg.to.id).join("-")}`}
-          outing={outing}
-        />
-      ))}
-    </li>
-  );
-}
-
-/**
- * Properties accepted by the BlockView component.
- * @property {ItineraryBlock} block - The block to render
- */
-interface BlockViewProps {
-  block: ItineraryBlock;
-}
-
-/**
- * BlockView component
- * Renders one itinerary block: an endpoint, a journey, or a stay.
- * @component
- * @param {BlockViewProps} props - The block props
- * @param {ItineraryBlock} props.block - The block to render
- * @returns {ReactNode} The block
- */
-function BlockView({ block }: BlockViewProps): ReactNode {
-  const { t, currLanguage: lang } = useLanguage(["home"]);
-
-  switch (block.kind) {
-    case "start":
-    case "end":
-      return (
-        <li className="trip-itinerary__block trip-itinerary__block--endpoint">
-          <span className="trip-itinerary__endpoint">
-            {t(
-              block.kind === "start"
-                ? "tripDetail.startedIn"
-                : "tripDetail.backIn",
-              { city: block.city.getLocalizedName(lang) },
-            )}
+      <header className="trip-chapter__header">
+        <span className="trip-chapter__number">{number}</span>
+        <span className="trip-chapter__heading">
+          <span className="trip-chapter__eyebrow">
+            {eyebrow} · {dates}
           </span>
-          <span className="trip-itinerary__label">
-            {formatDay(block.date, lang)}
-          </span>
-        </li>
-      );
-    case "stay":
-      return <StayBlock stay={block.stay} />;
-    case "move":
-      return (
-        <li className="trip-itinerary__block trip-itinerary__block--move">
-          <span className="trip-itinerary__label">
-            {t("tripDetail.travel")} · {formatDay(block.departDate, lang)}
-            {block.nightOnBoard ? (
-              <span className="trip-itinerary__overnight">
-                {t("tripDetail.nightOnBoard", { night: block.nightOnBoard })}
-              </span>
+          <span className="trip-chapter__title">
+            {title}
+            {isStay ? (
+              <CountryFlag
+                className="trip-chapter__flag"
+                countryId={chapter.stay.city.country.id}
+              />
             ) : null}
           </span>
-          <ol className="trip-itinerary__legs">
-            {block.move.legs.map((leg) => (
-              <LegRow key={`${leg.from.id}-${leg.to.id}`} leg={leg} />
-            ))}
-          </ol>
-        </li>
-      );
-  }
+        </span>
+      </header>
+      <div className="trip-chapter__body">
+        {isStay ? (
+          <>
+            {chapter.stay.photos?.length ? (
+              <ul className="trip-chapter__rows">
+                <PlaceRow
+                  city={chapter.stay.city}
+                  detail={t("tripDetail.photosOfStay")}
+                  photos={chapter.stay.photos}
+                  visitStart={parseLocalDate(chapter.stay.checkIn)}
+                />
+              </ul>
+            ) : null}
+            <StayDays city={chapter.stay.city} days={chapter.days} />
+          </>
+        ) : (
+          <Rows isDayTrip={false} rows={chapter.rows} />
+        )}
+      </div>
+    </li>
+  );
 }
 
 /**
@@ -542,8 +455,9 @@ interface TripItineraryProps {
 
 /**
  * TripItinerary component
- * The trip read top to bottom: where it started, every journey with its rides,
- * every place slept with its nights and day trips, and where it ended.
+ * The trip as numbered chapters — getting there, each place slept in with its
+ * days, moving on, going home — with every ride, place, and night shown in
+ * order, so the whole route reads top to bottom without opening anything.
  * @component
  * @param {TripItineraryProps} props - The itinerary props
  * @param {Trip} props.trip - The trip to lay out
@@ -552,8 +466,12 @@ interface TripItineraryProps {
 export function TripItinerary({ trip }: TripItineraryProps): ReactNode {
   return (
     <ol className="trip-itinerary">
-      {buildItinerary(trip).map((block) => (
-        <BlockView block={block} key={blockKey(block)} />
+      {buildChapters(trip).map((chapter, index) => (
+        <ChapterView
+          chapter={chapter}
+          key={chapterKey(chapter)}
+          number={index + 1}
+        />
       ))}
     </ol>
   );

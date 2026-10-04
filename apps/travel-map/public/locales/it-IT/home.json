@@ -147,11 +147,6 @@
   },
   "tripDetail": {
     "route": "Percorso",
-    "days": "giorni",
-    "day": "giorno",
-    "via": "via",
-    "night": "notte",
-    "nights": "notti",
     "mode_plane_one": "{{count}} volo",
     "mode_plane_other": "{{count}} voli",
     "mode_ferry_one": "{{count}} traghetto",
@@ -166,37 +161,28 @@
     "mode_taxi_other": "{{count}} taxi",
     "mode_walk_one": "{{count}} camminata",
     "mode_walk_other": "{{count}} camminate",
-    "daysCount_one": "{{count}} giorno",
-    "daysCount_other": "{{count}} giorni",
     "nightsCount_one": "{{count}} notte",
     "nightsCount_other": "{{count}} notti",
-    "basesCount_one": "{{count}} posto in cui dormire",
-    "basesCount_other": "{{count}} posti in cui dormire",
-    "timeZonesCount_one": "{{count}} fuso orario",
-    "timeZonesCount_other": "{{count}} fusi orari",
-    "totalDistance": "{{km}} km percorsi",
-    "startedIn": "Partenza da {{city}}",
-    "backIn": "Ritorno a {{city}}",
-    "travel": "Spostamento",
-    "nightOnBoard": "Notte {{night}} in viaggio",
     "dayTrip": "Gita",
-    "backTo": "Ritorno a {{city}}",
-    "approx": "circa",
     "openPhotos": "Foto di {{city}}",
     "viewMap": "Vedi mappa",
     "backToTrip": "Torna al viaggio",
-    "modeName": {
-      "plane": "Aereo",
-      "ferry": "Traghetto",
-      "train": "Treno",
-      "bus": "Bus",
-      "car": "Auto",
-      "taxi": "Taxi",
-      "walk": "A piedi"
+    "chapter": {
+      "there": "Andata",
+      "onward": "Spostamento",
+      "home": "Ritorno"
     },
-    "seePhotos": "Vedi le foto",
-    "arrivedAt": "Arrivo alle {{time}}",
-    "visited": "Visitato",
-    "noNight": "Senza pernottamento"
+    "nightInTransitAt": "Notte in viaggio a {{city}}",
+    "visitedOnTheWay": "Visitato lungo la strada",
+    "photosOfStay": "Foto del soggiorno",
+    "inCity": "A {{city}}",
+    "unit": {
+      "day_one": "giorno",
+      "day_other": "giorni",
+      "night_one": "notte",
+      "night_other": "notti",
+      "timeZone_one": "fuso orario",
+      "timeZone_other": "fusi orari"
+    }
   }
 }

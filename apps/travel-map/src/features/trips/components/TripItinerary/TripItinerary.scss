@@ -7,89 +7,146 @@
   margin: 0;
   padding: 0;
   list-style: none;
+}
 
-  &__block {
-    position: relative;
-    padding: 0 0 1.25rem 1.75rem;
+/*
+ * A chapter is a numbered step of the trip. The number sits in a column on
+ * the left and a thin line joins it to the next one, so the eye can follow the
+ * trip's order while reading each chapter's rows at full width.
+ */
+.trip-chapter {
+  --chapter-color: var(--rail-color);
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.75rem minmax(0, 1fr);
+  column-gap: 0.75rem;
+  padding-bottom: 1.5rem;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 1.75rem;
+    bottom: 0;
+    left: 0.875rem;
+    border-left: 0.125rem solid var(--rail-color);
+  }
+
+  &:last-child {
+    padding-bottom: 0;
 
     &::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0.5rem;
-      border-left: 0.125rem solid var(--rail-color);
-    }
-
-    &::after {
-      content: "";
-      position: absolute;
-      top: 0.3125rem;
-      left: 0.25rem;
-      width: 0.625rem;
-      height: 0.625rem;
-      border-radius: 50%;
-      background: var(--rail-color);
-    }
-
-    &:last-child::before {
-      display: none;
-    }
-
-    &--move {
-      &::before {
-        border-left-style: dashed;
-      }
-
-      &::after {
-        display: none;
-      }
-    }
-
-    &--stay::after {
       display: none;
     }
   }
 
-  &__endpoint {
-    display: block;
-    font-size: 1.0625rem;
-    font-weight: 700;
-    line-height: 1.25rem;
+  &--journey::before {
+    border-left-style: dashed;
   }
 
-  &__label {
+  &__header {
+    display: contents;
+  }
+
+  &__number {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    background: var(--chapter-color);
+    color: var(--number-ink);
+    font-size: v.$bodySm;
+    font-weight: 800;
+  }
+
+  &--journey &__number {
+    background: var(--surface-strong);
+    color: inherit;
+  }
+
+  &__heading {
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.5rem;
+    flex-direction: column;
+    gap: 0.125rem;
+    min-width: 0;
+    padding-top: 0.0625rem;
+  }
+
+  &__eyebrow {
     font-size: 0.8125rem;
     font-weight: 700;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
     color: var(--muted-color);
   }
 
-  &__overnight {
-    padding: 0.125rem 0.5rem;
-    border-radius: 62rem;
-    background: var(--accent-soft);
-    color: var(--accent-color);
-    letter-spacing: 0;
-    text-transform: none;
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.1875rem;
+    font-weight: 800;
+    line-height: 1.25;
   }
 
-  &__legs {
+  &--journey &__title {
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  &__flag {
+    width: 1.0625rem;
+    height: 1.0625rem;
+    flex-shrink: 0;
+  }
+
+  &__body {
+    grid-column: 2;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-    margin: 0.5rem 0 0;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+  }
+
+  &__rows {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    margin: 0;
     padding: 0;
     list-style: none;
   }
 
-  &__leg,
-  &__hop {
+  &__row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-width: 0;
+  }
+
+  &__row-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 0.0625rem;
+    min-width: 0;
+  }
+
+  &__row-line {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  &__row-detail {
+    font-size: v.$bodySm;
+    color: var(--muted-color);
+  }
+
+  &__ride {
     &--plane {
       --mode-color: #{v.$transportPlane};
     }
@@ -119,278 +176,50 @@
     }
   }
 
-  &__leg {
-    display: flex;
-    align-items: center;
-    gap: 0.625rem;
-    min-height: 2.25rem;
-  }
-
-  &__leg-icon,
-  &__hop-icon {
-    width: 1.875rem;
-    height: 1.875rem;
+  &__ride-icon {
+    width: 2rem;
+    height: 2rem;
     flex-shrink: 0;
-    padding: 0.4rem;
+    padding: 0.4375rem;
     border-radius: 50%;
-    background: var(--mode-tint);
+    background: color-mix(in srgb, var(--mode-color) 20%, transparent);
     color: var(--mode-color);
   }
 
-  &__leg-icon {
-    --mode-tint: color-mix(in srgb, var(--mode-color) 18%, transparent);
-  }
-
-  &__leg-body {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    min-width: 0;
-  }
-
-  &__leg-route {
+  &__ride-route {
     font-size: 0.9375rem;
     font-weight: 600;
   }
 
-  &__leg-details {
-    font-size: v.$bodySm;
-    color: var(--muted-color);
-  }
-
-  &__photo {
+  &__ride-time {
     flex-shrink: 0;
-    width: 2.75rem;
-    height: 2.75rem;
-    padding: 0;
-    overflow: hidden;
-    border: 0;
-    border-radius: 0.625rem;
-    background: var(--surface-color);
-    cursor: pointer;
-    outline: none;
-    @include m.transition(transform, 0.15s);
-
-    &:hover {
-      transform: scale(1.06);
-    }
-
-    &:focus-visible {
-      @include m.focus-ring();
-    }
-  }
-
-  &__photo-image {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  /*
-   * The stay's dot hangs off the card row rather than the block, so it sits on
-   * the card's vertical centre whatever height the card ends up.
-   */
-  &__stay-row {
-    position: relative;
-
-    &::before {
-      content: "";
-      position: absolute;
-      top: 50%;
-      left: -1.625rem;
-      z-index: 1;
-      width: 0.875rem;
-      height: 0.875rem;
-      border-radius: 50%;
-      background: var(--stay-color, var(--rail-color));
-      transform: translateY(-50%);
-    }
-  }
-
-  &__stay {
-    position: relative;
-    display: flex;
-    align-items: flex-end;
-    gap: 0.75rem;
-    width: 100%;
-    min-height: 5rem;
-    padding: 1rem;
-    overflow: hidden;
-    border: 0;
-    border-left: 0.25rem solid var(--stay-color, var(--rail-color));
-    border-radius: 1rem;
-    background: var(--surface-color);
-    color: inherit;
-    font: inherit;
-    text-align: left;
-    outline: none;
-
-    &--with-image {
-      --pill-color: rgba(0, 0, 0, 0.55);
-      min-height: 9.5rem;
-      border-left: 0;
-      color: #ffffff;
-
-      &::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(
-          to top,
-          rgba(0, 0, 0, 0.8) 0%,
-          rgba(0, 0, 0, 0.3) 55%,
-          rgba(0, 0, 0, 0) 100%
-        );
-      }
-    }
-
-    &--clickable {
-      cursor: pointer;
-      @include m.transition(transform, 0.15s);
-
-      &:hover {
-        transform: translateY(-0.125rem);
-      }
-    }
-
-    &:focus-visible {
-      @include m.focus-ring();
-    }
-  }
-
-  &__stay-image {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  &__stay-text {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    gap: 0.5rem;
-    min-width: 0;
-  }
-
-  &__stay-title {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 1.375rem;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-  }
-
-  &__flag {
-    width: 1.125rem;
-    height: 1.125rem;
-    flex-shrink: 0;
-  }
-
-  &__pills {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.375rem;
-  }
-
-  &__pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.375rem;
-    padding: 0.3rem 0.65rem;
-    border-radius: 62rem;
-    background: var(--pill-color);
-    font-size: v.$bodySm;
-    font-weight: 600;
-    -webkit-backdrop-filter: blur(0.375rem);
-    backdrop-filter: blur(0.375rem);
-  }
-
-  &__pill-icon {
-    width: 0.9375rem;
-    height: 0.9375rem;
-    flex-shrink: 0;
-  }
-
-  &__outing {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    margin-top: 0.875rem;
-    padding: 0.875rem;
-    border-radius: 1rem;
-    background: var(--surface-color);
-  }
-
-  &__outing-header {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-  }
-
-  &__outing-route {
     font-size: 0.9375rem;
     font-weight: 700;
-    line-height: 1.35;
+    font-variant-numeric: tabular-nums;
   }
 
-  &__outing-total {
+  &__transit {
+    gap: 0.75rem;
+    padding-left: 0.5rem;
     font-size: v.$bodySm;
-    color: var(--muted-color);
+    font-weight: 600;
+    color: var(--accent-color);
   }
 
-  &__outing-steps {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 0.375rem;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-
-    &::before {
-      content: "";
-      position: absolute;
-      top: 0.9375rem;
-      bottom: 0.625rem;
-      left: 0.875rem;
-      border-left: 0.125rem dotted var(--rail-color);
-    }
-  }
-
-  &__hop {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 0.625rem;
-  }
-
-  &__hop-icon {
-    /* Opaque so the dotted route line passes behind the icon, not through it. */
-    --mode-tint: color-mix(in srgb, var(--mode-color) 22%, var(--panel-color));
-  }
-
-  &__hop-text {
-    font-size: v.$bodySm;
-    color: var(--muted-color);
-  }
-
-  &__place-item {
-    margin-left: 2.5rem;
-    list-style: none;
+  &__transit-icon {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+    margin-right: 0.25rem;
   }
 
   &__place {
     display: flex;
+    flex: 1;
     align-items: center;
     gap: 0.75rem;
-    width: 100%;
-    padding: 0.5rem;
+    min-width: 0;
+    padding: 0.375rem 0.625rem 0.375rem 0.375rem;
     border: 0;
     border-radius: 0.875rem;
     background: var(--card-color);
@@ -414,8 +243,8 @@
   }
 
   &__place-image {
-    width: 3.25rem;
-    height: 3.25rem;
+    width: 3.5rem;
+    height: 3.5rem;
     flex-shrink: 0;
     border-radius: 0.625rem;
     object-fit: cover;
@@ -423,7 +252,7 @@
     &--empty {
       display: grid;
       place-items: center;
-      background: var(--surface-color);
+      background: var(--surface-strong);
       color: var(--muted-color);
 
       svg {
@@ -434,14 +263,6 @@
     }
   }
 
-  &__place-text {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    gap: 0.125rem;
-    min-width: 0;
-  }
-
   &__place-name {
     display: flex;
     align-items: center;
@@ -450,48 +271,56 @@
     font-weight: 700;
   }
 
-  &__place-meta {
-    font-size: v.$bodySm;
-    color: var(--muted-color);
-  }
-
-  &__place-chevron {
+  &__chevron {
     width: 1.125rem;
     height: 1.125rem;
     flex-shrink: 0;
     color: var(--muted-color);
   }
 
-  &__outing-end {
-    margin-left: 2.5rem;
-    font-size: v.$bodySm;
-    font-weight: 600;
+  &__day {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    padding: 0.75rem;
+    border-radius: 0.875rem;
+    background: var(--surface-color);
+  }
+
+  &__day-title {
+    margin: 0;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
     color: var(--muted-color);
+
+    &--free {
+      padding: 0 0.25rem;
+    }
   }
 }
 
 .map-shell--dark .trip-itinerary {
-  --rail-color: rgba(255, 255, 255, 0.22);
-  --panel-color: #{v.$darkBackground};
-  --surface-color: rgba(255, 255, 255, 0.06);
+  --rail-color: rgba(255, 255, 255, 0.2);
+  --surface-color: rgba(255, 255, 255, 0.05);
+  --surface-strong: rgba(255, 255, 255, 0.12);
   --card-color: rgba(255, 255, 255, 0.07);
   --card-hover-color: rgba(255, 255, 255, 0.13);
-  --pill-color: rgba(255, 255, 255, 0.1);
   --muted-color: #{v.$darkAltText};
   --accent-color: #{v.$accentOnDark};
-  --accent-soft: #{v.$accentSoftDark};
+  --number-ink: #{v.$darkBackground};
   color: v.$darkButtonContent;
 }
 
 .map-shell--light .trip-itinerary {
-  --rail-color: rgba(0, 0, 0, 0.18);
-  --panel-color: #{v.$lightBackground};
-  --surface-color: rgba(0, 0, 0, 0.04);
+  --rail-color: rgba(0, 0, 0, 0.16);
+  --surface-color: rgba(0, 0, 0, 0.035);
+  --surface-strong: rgba(0, 0, 0, 0.08);
   --card-color: #ffffff;
   --card-hover-color: rgba(255, 255, 255, 0.65);
-  --pill-color: rgba(0, 0, 0, 0.06);
   --muted-color: #{v.$lightAltText};
   --accent-color: #{v.$accentPrimary};
-  --accent-soft: #{v.$accentSoftLight};
+  --number-ink: #ffffff;
   color: v.$lightButtonContent;
 }

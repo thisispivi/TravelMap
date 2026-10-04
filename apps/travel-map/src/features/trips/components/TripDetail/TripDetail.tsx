@@ -4,6 +4,7 @@ import { domAnimation, LazyMotion, m } from "framer-motion";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 
+import ChevronIcon from "@/assets/icons/Chevron.svg?react";
 import { futureTrips, visitedTrips } from "@/data/world";
 import { isPanelLoadingVisible } from "@/shared/components/PanelLoading/PanelLoading.state";
 import { useAppRoute } from "@/shared/context/AppRoute.context";
@@ -14,7 +15,6 @@ import { classNames } from "@/shared/lib/classNames";
 
 import { TripDetailHero } from "../TripDetailHero/TripDetailHero";
 import { TripItinerary } from "../TripItinerary/TripItinerary";
-import { TripStatsStrip } from "../TripStatsStrip/TripStatsStrip";
 
 /**
  * TripDetail component
@@ -97,17 +97,17 @@ export function TripDetail(): ReactNode {
         layout="position"
         transition={{ duration: 0.22, ease: [0.35, 0, 0.25, 1] }}
       >
-        <TripDetailHero
-          countries={countries}
-          onBack={() => {
+        <button
+          className="trip-detail__back"
+          onClick={() => {
             setSelectedTrip(null);
             navigate("/trips");
           }}
-          onViewMap={() => setIsPanelOpen(false)}
-          trip={trip}
-        />
-
-        <TripStatsStrip trip={trip} />
+          type="button"
+        >
+          <ChevronIcon className="trip-detail__back-chevron" />
+          <span>{t("visited.title")}</span>
+        </button>
 
         <div
           className={classNames(
@@ -116,6 +116,11 @@ export function TripDetail(): ReactNode {
           )}
           ref={bodyRef}
         >
+          <TripDetailHero
+            countries={countries}
+            onViewMap={() => setIsPanelOpen(false)}
+            trip={trip}
+          />
           <p className="trip-detail__route-label">{t("tripDetail.route")}</p>
           <TripItinerary trip={trip} />
         </div>
