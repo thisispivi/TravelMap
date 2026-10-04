@@ -11,12 +11,9 @@
   },
   "scripts": {
     "build": "tsc && vite build",
-    "check": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm test && pnpm knip && pnpm react:doctor",
     "deploygh": "gh-pages -d dist --nojekyll",
-    "dev": "vite --host",
-    "doctor": "react-doctor",
+    "dev": "vite",
     "knip": "knip",
-    "knip:fix": "knip --fix",
     "lint": "eslint . --report-unused-disable-directives --max-warnings=0",
     "lint:fix": "eslint . --fix --max-warnings=0",
     "predeploygh": "pnpm run build",
