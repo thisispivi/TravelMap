@@ -1,6 +1,5 @@
 import "./BarChartTransportModes.scss";
 
-import { TransportMode } from "@travelmap/core";
 import { ReactNode } from "react";
 
 import { TransportModeIcon } from "@/shared/components/TransportModeIcon/TransportModeIcon";
@@ -65,7 +64,7 @@ export function BarChartTransportModes({
                   "transport-bar-chart__icon",
                   isFill && "transport-bar-chart__icon--fill",
                 )}
-                mode={mode as TransportMode}
+                mode={mode}
               />
             </div>
             <div className="transport-bar-chart__bar-track">

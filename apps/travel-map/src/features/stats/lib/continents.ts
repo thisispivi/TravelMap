@@ -11,7 +11,7 @@ export function getContinentsByCities(cities: City[]): Continent[] {
     cities,
     map((city) => city.country.continent),
     unique(),
-  ) as Continent[];
+  );
 }
 
 /**

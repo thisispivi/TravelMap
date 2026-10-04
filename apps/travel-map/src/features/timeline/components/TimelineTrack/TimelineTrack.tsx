@@ -11,30 +11,10 @@ import { CountryFlag } from "@/shared/components/CountryFlag/CountryFlag";
 import { EmptyState } from "@/shared/components/EmptyState/EmptyState";
 import { useLanguage } from "@/shared/hooks/useLanguage";
 
-/**
- * A trip placed on the timeline, with the side of the spine it renders on.
- * @property {(typeof visitedTrips)[0]} trip - The trip to render
- * @property {"left" | "right"} side - Which side of the spine the card sits on
- */
-type TripItem = {
-  trip: (typeof visitedTrips)[0];
-  side: "left" | "right";
-};
+import { groupTripsByYear, TimelineEntry, YearGroup } from "../../lib/timeline";
 
-/**
- * The trips of one calendar year, in the order the timeline shows them.
- * @property {number} year - The year the group heads
- * @property {TripItem[]} trips - The year's trips, already assigned a side
- */
-type YearGroup = {
-  year: number;
-  trips: TripItem[];
-};
-
-/**
- * Represents a timeline card item props.
- */
-type TimelineCardItemProps = TripItem;
+/** A timeline card takes exactly the entry it renders. */
+type TimelineCardItemProps = TimelineEntry;
 
 /**
  * TimelineTrack component
@@ -46,35 +26,8 @@ type TimelineCardItemProps = TripItem;
  */
 export function TimelineTrack(): ReactNode {
   const { t } = useLanguage(["home"]);
-  const yearGroups = (() => {
-    const sorted = visitedTrips.toSorted(
-      (a, b) => b.sDate.getTime() - a.sDate.getTime(),
-    );
-    const yearMap = new Map<number, TripItem[]>();
-    for (const trip of sorted) {
-      const year = trip.sDate.getFullYear();
-      if (!yearMap.has(year)) yearMap.set(year, []);
-      yearMap.get(year)!.push({ trip, side: "left" });
-    }
-    let index = 0;
-    const groups: YearGroup[] = [];
-    for (const [year, trips] of yearMap) {
-      const sortedTrips = trips.toSorted(
-        (a, b) => b.trip.sDate.getTime() - a.trip.sDate.getTime(),
-      );
-      const nextTrips = sortedTrips.map((item, itemIndex) => ({
-        ...item,
-        side: ((index + itemIndex) % 2 === 0 ? "left" : "right") as
-          "left" | "right",
-      }));
-      index += sortedTrips.length;
-      groups.push({
-        year,
-        trips: nextTrips,
-      });
-    }
-    return groups;
-  })() as YearGroup[];
+  const yearGroups = groupTripsByYear(visitedTrips);
+
   return (
     <LazyMotion features={domAnimation}>
       <div className="timeline-track">
@@ -100,7 +53,7 @@ export function TimelineTrack(): ReactNode {
  * @component
  * @param {YearGroup} props
  * @param {number} props.year - The calendar year for this group
- * @param {TripItem[]} props.trips - Trips belonging to this year
+ * @param {TimelineEntry[]} props.trips - Trips belonging to this year
  * @returns {ReactNode} The year section
  */
 function TimelineYearGroup({ year, trips }: YearGroup): ReactNode {
@@ -129,7 +82,7 @@ function TimelineYearGroup({ year, trips }: YearGroup): ReactNode {
  * enters the viewport and navigates to the trip detail on click.
  * @component
  * @param {TimelineCardItemProps} props - The timeline card props
- * @param {TripItem["trip"]} props.trip - The trip data to display
+ * @param {TimelineEntry["trip"]} props.trip - The trip data to display
  * @param {"left" | "right"} props.side - Which side of the timeline axis the card appears on
  * @returns {ReactNode} The trip card
  */
