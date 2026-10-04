@@ -42,7 +42,9 @@ by a breadcrumb (`Home › City`) instead of an uppercase eyebrow.
 ## Shared visual system
 
 The editor resolves `@app/*` to `apps/travel-map/src/*` and places the public
-app's styles on Sass's load path. Both apps therefore use the same theme
+app's styles on Sass's load path. `@/*` points at the same folder, but only so
+the app modules the editor imports can resolve their own `@/` imports; lint
+rejects `@/` in editor code, where it would silently reach into the public app. Both apps therefore use the same theme
 tokens, typography, mixins, icons, logo, and theme preference rather than
 keeping a second editor palette.
 

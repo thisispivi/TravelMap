@@ -25,8 +25,9 @@ Verification:
   workspace project, plus `travel-map`'s React Doctor scan.
 - Also run `pnpm build` for behavior, dependency, configuration, routing, or
   production-output changes.
-- From the repository root, run
-  `python -m compileall -q scripts/uploader` for uploader changes.
+- For uploader changes, run `python -m compileall -q scripts/uploader` and
+  `python -m unittest discover -s scripts/uploader -p "test_*.py"` from the
+  repository root, using the uploader's virtual environment.
 - Do not use real credentials or upload media as part of verification.
 
 Inspect every changed file before finishing and resolve every coding-guideline

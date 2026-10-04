@@ -18,7 +18,8 @@ Keep shared rules in `CODING_GUIDELINES.md`, not in this adapter.
 - For app changes, run `pnpm check` from the repository root — typecheck, lint,
   formatting, tests, and dead-code analysis across the workspace. Run
   `pnpm build` when production behavior or output can be affected.
-- For uploader changes, run
-  `python -m compileall -q scripts/uploader` from the repository root.
+- For uploader changes, run `python -m compileall -q scripts/uploader` and
+  `python -m unittest discover -s scripts/uploader -p "test_*.py"` from the
+  repository root, using the uploader's virtual environment.
 - Inspect every changed file and resolve all guideline violations introduced or
   exposed by the change.

@@ -25,8 +25,8 @@ starts empty and is ready for your own trips, places, and media. Read the
 
 - **Public app**: React 19, React Router, MapLibre GL, React Map GL, ApexCharts,
   React Image Gallery, and React Photo Album.
-- **Editor**: React 19, DnD Kit, Downshift, Fuse.js, Framer Motion, MapLibre GL,
-  and continuous dataset validation.
+- **Editor**: React 19, Downshift, Fuse.js, Framer Motion, MapLibre GL, sharp
+  for photo encoding, and continuous dataset validation.
 - **Shared model**: TypeScript domain classes, schemas, parsing, and validation
   in the `@travelmap/core` workspace package.
 - **Data**: Portable JSON documents for settings, countries, cities, trips,
@@ -35,7 +35,8 @@ starts empty and is ready for your own trips, places, and media. Read the
   light/dark themes.
 - **Internationalization**: i18next and react-i18next with English and Italian
   interfaces and support for additional authored locales.
-- **Media tools**: Python, Pillow, optional ffmpeg video thumbnails, local media
+- **Media tools**: the editor's built-in uploader (sharp), or the standalone
+  Python uploader (Pillow); optional ffmpeg video thumbnails, local media
   output, and optional BunnyCDN uploads.
 - **Build system**: Vite, TypeScript, pnpm workspaces, and Node.js 22.
 - **Hosting**: Static files, GitHub Pages, or Docker with Nginx.
@@ -72,8 +73,9 @@ media you choose to host.
 
 ### A media workflow
 
-The optional Python uploader prepares photos and video thumbnails for the web.
-Media can be served from the included local `media/` directory or from a CDN
+The editor's **Upload photos** button encodes photos and video thumbnails for
+the web and adds them to the trip's gallery. The standalone Python uploader in
+`scripts/uploader/` does the same from the command line. Media can be served from the included local `media/` directory or from a CDN
 such as BunnyCDN. See [Adding photos](./docs/GUIDE.md#6-adding-photos) for the
 complete workflow.
 
@@ -121,8 +123,15 @@ Run the repository-wide quality gate before pushing:
 ```bash
 pnpm check
 pnpm build
-python -m compileall -q scripts/uploader
 pnpm --filter travel-map security:audit
+```
+
+For uploader changes, from `scripts/uploader/` with its virtual environment
+active:
+
+```bash
+python -m compileall -q .
+python -m unittest discover -p "test_*.py"
 ```
 
 `pnpm check` runs type checking, linting, formatting, unit tests, and dead-code
@@ -136,9 +145,10 @@ Authored JSON is untrusted. `@travelmap/core` owns the Zod schemas for
 countries, cities, trips, photo manifests, and site configuration, and
 `buildWorld()` is the one place the dataset is parsed — a malformed document
 fails the build with the field named, rather than surfacing as a blank panel.
-The other validated boundaries are the editor's local write endpoints, the
-responses the editor reads back, `localStorage`, and build-time environment
-variables.
+The other validated boundaries are route parameters and router history state,
+the editor's local endpoints (request bodies, query strings, and its upload
+settings in `.env`), the responses the editor reads back, `localStorage`, and
+build-time environment variables.
 
 Parse new external data at its entry point, infer the TypeScript type from the
 owning schema instead of declaring it twice, and keep authorization separate

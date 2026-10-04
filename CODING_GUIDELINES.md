@@ -280,9 +280,11 @@ export function Marker({
 - **Icon-only actionable elements**: if it behaves like a button, make it a
   real `<button type="button">` wrapping the icon — that gets you focusability,
   keyboard activation, and a default accessible role for free, which is less
-  code than reimplementing them. `CloseButton`, `FloatingNav`'s logo, and
-  `Gallery`'s play overlay are the reference: a real button with an
-  `aria-label` and an `aria-hidden` icon inside. Reserve the `role="button"` +
+  code than reimplementing them. `CloseButton` and `FloatingNav`'s logo are
+  the reference: a real button with an `aria-label` and an `aria-hidden` icon
+  inside. Never nest one interactive element in another: a library that
+  already wraps an item in a button (react-photo-album does) gets decoration
+  inside it, as `Gallery`'s play mark is. Reserve the `role="button"` +
   `tabIndex={0}` + `isActivationKey` pattern (§13) for elements with a real
   reason not to be a `<button>` — `Marker` and `CityCard`, which are
   non-rectangular map and photo surfaces with their own layout and hover
@@ -404,8 +406,8 @@ Choose the narrowest scope that works, in this order:
 
 4. **URL state** — for anything that should survive a refresh or be
    shareable: which trip/gallery/photo is open. The app already does this
-   (route params for trip/gallery/photo ids, `useSearchParams` for
-   `Gallery`'s `from` param). Prefer this over Context for "what's currently
+   (route params for trip/gallery/photo ids, history state for the path a
+   gallery returns to). Prefer this over Context for "what's currently
    open" state that has a natural URL representation.
 5. **Server state** — not applicable today (no backend). If it becomes
    applicable, don't store server data in `useState`/Context by hand; see §9.
@@ -448,12 +450,21 @@ photos through `swr` and Cache Storage.
 ### Validation policy
 
 - **Validate at trust boundaries, once.** The boundaries are: `buildWorld()`
-  for the dataset, the editor's `vite/` middleware for request bodies,
-  `shared/lib/httpResponse.ts` for responses the editor reads back,
-  `shared/lib/storage.ts` for `localStorage`, `shared/lib/env.ts` for
-  build-time environment values, and `vite.config.ts` for the site-branding
-  block it reads off disk. Data that has passed one of those is trusted
-  downstream; do not re-parse it.
+  for the dataset; route loaders for URL params (`Gallery.loader.ts` answers a
+  bad one with a 404); `shared/lib/navigationState.ts` for router history
+  state; the editor's `vite/` middleware for request bodies, query strings,
+  and its upload settings in `.env`; `shared/lib/httpResponse.ts` for
+  responses the editor reads back; `shared/lib/storage.ts` for `localStorage`;
+  `shared/lib/env.ts` for build-time environment values; and `vite.config.ts`
+  for the site-branding block it reads off disk. Data that has passed one of
+  those is trusted downstream; do not re-parse it.
+- **Configuration fails at startup.** An environment value that is set but
+  malformed stops the build or dev server with the variable named. Falling
+  back to a default hides the typo until it has done damage.
+- **Failures have one response shape.** Editor middleware reports every error
+  through `sendError` in `vite/http.ts`: a `RequestError` or schema failure is
+  the author's to fix and keeps a readable message with a 4xx status; anything
+  else is logged on the dev server and answered with a generic 500.
 - **Zod is the validation library.** Do not hand-roll `typeof` chains for a
   shape a schema can describe, and do not add a second validation library.
 - **The schema owns the type.** Where a Zod schema is the authoritative runtime
@@ -1157,9 +1168,12 @@ review still has to catch.
 
 `pnpm build` additionally verifies production output. `.husky/pre-commit` runs
 lint-staged over changed files, falling back to a repository-wide lint and
-format check once a change is too wide to fit on one command line; `.husky/pre-push` runs the full suite plus
-`python -m compileall -q scripts/uploader`; `.github/workflows/ci.yml` repeats
-all of it and adds `pnpm audit`.
+format check once a change is too wide to fit on one command line;
+`.husky/pre-push` runs the full suite, `pnpm build`, and the uploader's
+`compileall` and unit tests (through its virtual environment when one exists);
+`.github/workflows/ci.yml` repeats all of it and adds `pnpm audit`. An audit
+exception lives in `pnpm-workspace.yaml` under `auditConfig.ignoreGhsas`, with
+the reason and the condition for removing it.
 
 **Rules from this document that lint now enforces:**
 
@@ -1220,7 +1234,7 @@ Real work, listed so nobody rediscovers it as a surprise. None is urgent.
 - `useImageCache` keeps one object URL per photo for the life of the page. That
   is intentional — the cache exists so a re-mounted card reuses the decoded blob
   — but it is bounded by gallery size rather than by anything adaptive.
-- The uploader (`scripts/uploader/`) has no tests and is verified only by
-  `python -m compileall`.
+- The uploader's tests (`scripts/uploader/test_uploader.py`) stub BunnyCDN and
+  ffmpeg, so a real upload is still verified by hand.
 
 Do not reintroduce the legacy `components`, `hooks`, or `utils` roots.
