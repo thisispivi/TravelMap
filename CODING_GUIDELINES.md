@@ -588,11 +588,9 @@ The groups are, in order: side-effect imports, external/workspace packages,
 blank lines and import paths make them self-evident.
 
 - **Named exports only, everywhere.** Zero default exports for components,
-  hooks, utils, or classes — keep it that way. (`lazy()`
-  aliases in `main.tsx` and route files are the one place a default export is
-  consumed, because `React.lazy`/router `lazy` loaders require it structurally
-  — that's importing a boundary, not a precedent for authoring new default
-  exports.)
+  hooks, utils, or classes. Route `lazy` loaders in `app/routing/router.tsx`
+  pick the named export they need (`const { StatsPage: Component } = await
+import(...)`), so nothing requires one.
 - **`@travelmap/core`** is the domain package — import from it like any other
   external dependency (`import { City, Travel } from "@travelmap/core"`), not
   via a `@/` alias; it's a separate workspace package, not part of the app's
@@ -851,7 +849,7 @@ Not optional. The existing markers show the baseline:
   ahead of an actual list that's slow to render.
 - **Lazy loading / code splitting**: already used correctly for route-level
   views (`TimelinePage`, `StatsPage`, `Gallery`, `Lightbox` are all
-  `lazy`-loaded in `main.tsx`). Extend this pattern to any new heavyweight,
+  `lazy` routes in `app/routing/router.tsx`). Extend this pattern to any new heavyweight,
   not-always-visible view rather than bundling it into the main chunk.
 - **Map rendering**: MapLibre style objects are the one place `useMemo` is
   justified today (rebuild only when `theme` changes, not every render) — see
