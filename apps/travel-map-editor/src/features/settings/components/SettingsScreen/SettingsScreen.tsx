@@ -1,10 +1,11 @@
 import "./SettingsScreen.scss";
 
 import { useLanguage } from "@app/shared/hooks/useLanguage";
+import { SiteConfig } from "@travelmap/core";
 import { Plus, Trash2 } from "lucide-react";
 import { ReactNode, useState } from "react";
 
-import { resolveMapSettings, SiteConfig } from "../../../../data/siteConfig";
+import { resolveMapSettings } from "../../../../data/siteConfig";
 import { DataFile, saveDocument } from "../../../../data/store";
 import {
   Combobox,

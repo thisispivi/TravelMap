@@ -9,12 +9,13 @@ import {
   resolveLegDistance,
   resolveLegDuration,
   TransportMode,
+  TransportModeSchema,
   TripLegJson,
 } from "@travelmap/core";
 import { ChevronDown, Trash2 } from "lucide-react";
 import { ReactNode } from "react";
 
-import { resolveLogoUrl, transportModes } from "../../../../data/dataset";
+import { resolveLogoUrl } from "../../../../data/dataset";
 import { DatasetSnapshot } from "../../../../data/store";
 import {
   Combobox,
@@ -75,7 +76,7 @@ function ModeSelector({ onChange, value }: ModeSelectorProps): ReactNode {
     <fieldset className="leg-editor__modes">
       <legend className="editor-field__label">{t("story.how")}</legend>
       <div className="leg-editor__mode-options">
-        {transportModes.map((mode) => (
+        {TransportModeSchema.options.map((mode) => (
           <label
             className={classNames(
               "leg-editor__mode",

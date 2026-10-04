@@ -3,6 +3,8 @@ import { Continent, Currency } from "@travelmap/core";
 import type { GeometryCollection, Topology } from "topojson-specification";
 import worldCountries from "world-countries";
 
+import { toId } from "../../data/paths";
+
 /*
  * Country ids match Natural Earth polygon names. Display metadata instead
  * comes from world-countries, joined through the topology's numeric ISO code.
@@ -54,22 +56,6 @@ export interface WorldCountry {
 }
 
 /**
- * Converts a country name into the flag pack's file naming.
- * @param {string} name - A country name
- * @returns {string} The candidate file base name
- */
-function toFlagName(name: string): string {
-  return name
-    .normalize("NFD")
-    .replace(/[̀-ͯ]/g, "")
-    .replace(/[^a-zA-Z0-9]+/g, " ")
-    .split(" ")
-    .filter(Boolean)
-    .map((word) => word[0]!.toUpperCase() + word.slice(1))
-    .join("");
-}
-
-/**
  * Finds a flag for a country, trying the naming variants the pack uses. The
  * pack abbreviates saints and drops articles, and is missing a few countries
  * outright, so an unresolved flag is expected rather than an error.
@@ -78,7 +64,7 @@ function toFlagName(name: string): string {
  */
 function resolveFlag(names: string[]): string | undefined {
   for (const name of names) {
-    const base = toFlagName(name);
+    const base = toId(name);
     const candidates = [
       base,
       base.replace(/^Saint/, "St"),
