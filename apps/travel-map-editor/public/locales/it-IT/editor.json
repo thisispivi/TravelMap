@@ -513,7 +513,6 @@
     "endHint": "Calcolata dall'itinerario; cambiala solo se l'ultimo spostamento non ha date.",
     "startedIn": "Da dove è partito il viaggio?",
     "startedOn": "Partenza il",
-    "travel": "Spostamento",
     "removeJourney": "Rimuovi questo spostamento",
     "addStopOnTheWay": "Aggiungi un cambio o un posto visto lungo la strada",
     "whatNext": "Sei a {{city}}. Cosa è successo dopo?",
@@ -523,11 +522,6 @@
     "travelTo": "Viaggia da {{city}} verso…",
     "travelOn": "Continua da {{city}} verso…",
     "returnHome": "Torna a casa",
-    "sleptIn": "Dormito a {{city}}",
-    "dayIn": "Una giornata a {{city}}",
-    "noNights": "Nessuna notte",
-    "night": "Notte {{from}}",
-    "nights": "Notti {{from}}–{{to}}",
     "removeStay": "Rimuovi il soggiorno a {{city}}",
     "checkIn": "Arrivato il",
     "leftOn": "Partito il {{date}}",
@@ -545,15 +539,20 @@
     "estimatedHint": "Vuoto — il sito mostrerà circa {{value}}.",
     "visited": "visitato",
     "visitedLabel": "Mi sono fermato a visitare questo posto",
-    "backTo": "Ritorno a {{city}}",
-    "about": "circa",
     "removeRide": "Rimuovi questa tratta",
     "placeFor": {
       "travel": "Dove sei andato?",
       "dayTrip": "Dove è andata la gita?",
       "addToChain": "Aggiungi un posto"
     },
-    "clearMapFocus": "Dimentica la vista mappa salvata"
+    "clearMapFocus": "Dimentica la vista mappa salvata",
+    "chapter": {
+      "there": "Andata",
+      "onward": "Spostamento",
+      "home": "Ritorno"
+    },
+    "nightsCount_one": "{{count}} notte",
+    "nightsCount_other": "{{count}} notti"
   },
   "upload": {
     "open": "Carica foto",

@@ -1,5 +1,6 @@
 import "./StayCard.scss";
 
+import { CountryFlag } from "@app/shared/components/CountryFlag/CountryFlag";
 import { useLanguage } from "@app/shared/hooks/useLanguage";
 import {
   addDays,
@@ -7,7 +8,7 @@ import {
   TripLegJson,
   TripStayJson,
 } from "@travelmap/core";
-import { BedDouble, MapPinPlus, Route, Trash2, X } from "lucide-react";
+import { MapPinPlus, Route, Trash2, X } from "lucide-react";
 import { ReactNode } from "react";
 
 import { DatasetSnapshot } from "../../../../data/store";
@@ -15,15 +16,18 @@ import { Combobox } from "../../../../shared/components/Combobox/Combobox";
 import { useConfirm } from "../../../../shared/components/ConfirmDialog/ConfirmDialog";
 import { DatePicker } from "../../../../shared/components/DatePicker/DatePicker";
 import { NumberField } from "../../../../shared/components/Fields/Fields";
+import { findWorldCountry } from "../../../../shared/lib/worldCountries";
 import { PhotosField } from "../../../photos/components/PhotosField/PhotosField";
 import { cityOptions } from "../../../places/lib/placeOptions";
+import { formatStoryDays } from "../../lib/storyDates";
 import { LegEditor } from "../LegEditor/LegEditor";
+import { StoryChapter } from "../StoryChapter/StoryChapter";
 
 /**
  * Properties accepted by the StayCard component.
  * @property {DatasetSnapshot} dataset - The current dataset
  * @property {TripStayJson} stay - Where the traveller slept
- * @property {number} firstNight - The trip night the stay starts on
+ * @property {number} number - The chapter number shown in its badge
  * @property {{ outing: number; leg: number } | undefined} openLeg - The day-trip ride whose form is open
  * @property {(stay: TripStayJson) => void} onChange - Edit callback
  * @property {() => void} onRemove - Removes the stay
@@ -34,7 +38,7 @@ import { LegEditor } from "../LegEditor/LegEditor";
 interface StayCardProps {
   dataset: DatasetSnapshot;
   stay: TripStayJson;
-  firstNight: number;
+  number: number;
   openLeg: { outing: number; leg: number } | undefined;
   onChange: (stay: TripStayJson) => void;
   onRemove: () => void;
@@ -53,7 +57,7 @@ interface StayCardProps {
  * @param {StayCardProps} props - The card props
  * @param {DatasetSnapshot} props.dataset - The current dataset
  * @param {TripStayJson} props.stay - Where the traveller slept
- * @param {number} props.firstNight - The trip night the stay starts on
+ * @param {number} props.number - The chapter number shown in its badge
  * @param {{ outing: number; leg: number } | undefined} props.openLeg - The day-trip ride whose form is open
  * @param {(stay: TripStayJson) => void} props.onChange - Edit callback
  * @param {() => void} props.onRemove - Removes the stay
@@ -65,7 +69,7 @@ interface StayCardProps {
 export function StayCard({
   dataset,
   stay,
-  firstNight,
+  number,
   openLeg,
   onChange,
   onRemove,
@@ -73,11 +77,15 @@ export function StayCard({
   onAddPlace,
   onOpenLeg,
 }: StayCardProps): ReactNode {
-  const { t } = useLanguage(["editor"]);
+  const { t, currLanguage: lang } = useLanguage(["editor"]);
   const nights = daysBetween(stay.checkIn, stay.checkOut);
-  const city =
-    dataset.cities.find(({ value }) => value.id === stay.cityId)?.value.name ??
-    stay.cityId;
+  const cityJson = dataset.cities.find(
+    ({ value }) => value.id === stay.cityId,
+  )?.value;
+  const city = cityJson?.name ?? stay.cityId;
+  const color = dataset.countries.find(
+    ({ value }) => value.id === cityJson?.countryId,
+  )?.value.color;
   const outings = stay.outings ?? [];
   const { confirm, confirmDialog } = useConfirm();
 
@@ -98,27 +106,8 @@ export function StayCard({
     });
 
   return (
-    <section className="stay-card">
-      {confirmDialog}
-      <header className="stay-card__header">
-        <BedDouble aria-hidden="true" className="stay-card__icon" />
-        <div className="stay-card__heading">
-          <h3 className="stay-card__title">
-            {nights > 0
-              ? t("story.sleptIn", { city })
-              : t("story.dayIn", { city })}
-          </h3>
-          <p className="stay-card__nights">
-            {nights === 0
-              ? t("story.noNights")
-              : nights === 1
-                ? t("story.night", { from: firstNight })
-                : t("story.nights", {
-                    from: firstNight,
-                    to: firstNight + nights - 1,
-                  })}
-          </p>
-        </div>
+    <StoryChapter
+      action={
         <button
           aria-label={t("story.removeStay", { city })}
           className="editor-button stay-card__remove"
@@ -135,8 +124,25 @@ export function StayCard({
         >
           <Trash2 aria-hidden="true" />
         </button>
-      </header>
-
+      }
+      color={color ? `hsl(${color.h} ${color.s}% ${color.l}%)` : undefined}
+      eyebrow={`${t("story.nightsCount", { count: nights })} · ${formatStoryDays(stay.checkIn, stay.checkOut, lang)}`}
+      kind="stay"
+      number={number}
+      title={
+        <>
+          {city}
+          {cityJson ? (
+            <CountryFlag
+              className="stay-card__flag"
+              countryId={cityJson.countryId}
+              src={findWorldCountry(cityJson.countryId)?.flagUrl}
+            />
+          ) : null}
+        </>
+      }
+    >
+      {confirmDialog}
       <div className="stay-card__fields">
         <Combobox
           label={t("stepFields.city")}
@@ -185,8 +191,8 @@ export function StayCard({
           key={`${outing.date}-${outingIndex}`}
         >
           <div className="stay-card__outing-header">
-            <Route aria-hidden="true" className="stay-card__outing-icon" />
             <span className="stay-card__outing-title">
+              {formatStoryDays(outing.date, outing.date, lang)} ·{" "}
               {t("story.dayTrip")}
             </span>
             <DatePicker
@@ -289,6 +295,6 @@ export function StayCard({
         <Route aria-hidden="true" />
         {t("story.addDayTrip", { city })}
       </button>
-    </section>
+    </StoryChapter>
   );
 }

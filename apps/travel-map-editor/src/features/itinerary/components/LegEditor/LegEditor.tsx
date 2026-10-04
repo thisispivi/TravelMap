@@ -177,15 +177,28 @@ export function LegEditor({
     distance && from && to
       ? resolveLegDuration(leg, distance.value, from.timeZone, to.timeZone)
       : undefined;
-  const about = `${t("story.about")} `;
-  const summary = [
-    leg.depart?.includes("T") ? leg.depart.slice(11) : null,
+  const operator = leg.flight?.company ?? leg.ferry?.company;
+  const departs = leg.depart?.split("T")[1];
+  const arrives = leg.arrive?.split("T")[1];
+  const times =
+    departs && arrives && departs !== arrives
+      ? `${departs}–${arrives}`
+      : (departs ?? arrives);
+  const facts = [
     duration
-      ? `${duration.estimated ? about : ""}${formatDuration(duration.value)}`
+      ? `${duration.estimated ? "~" : ""}${formatDuration(duration.value)}`
       : null,
     distance
-      ? `${distance.estimated ? about : ""}${Math.round(distance.value)} km`
+      ? `${distance.estimated ? "~" : ""}${Math.round(distance.value)} km`
       : null,
+    [
+      operator
+        ? (dataset.config.value.companies?.[operator]?.name ?? operator)
+        : null,
+      leg.flight?.number,
+    ]
+      .filter(Boolean)
+      .join(" ") || null,
   ].filter(Boolean);
 
   return (
@@ -203,15 +216,18 @@ export function LegEditor({
         type="button"
       >
         <TransportModeIcon className="leg-editor__icon" mode={leg.mode} />
-        <span className="leg-editor__route">
-          {isReturn
-            ? t("story.backTo", { city: to?.name ?? leg.toId })
-            : `${from?.name ?? fromId} → ${to?.name ?? leg.toId}`}
-          {leg.visited || (isDayTrip && !isReturn) ? (
-            <span className="leg-editor__badge">{t("story.visited")}</span>
-          ) : null}
+        <span className="leg-editor__body">
+          <span className="leg-editor__line">
+            <span className="leg-editor__route">
+              {from?.name ?? fromId} → {to?.name ?? leg.toId}
+              {leg.visited || (isDayTrip && !isReturn) ? (
+                <span className="leg-editor__badge">{t("story.visited")}</span>
+              ) : null}
+            </span>
+            {times ? <span className="leg-editor__time">{times}</span> : null}
+          </span>
+          <span className="leg-editor__meta">{facts.join(" · ")}</span>
         </span>
-        <span className="leg-editor__meta">{summary.join(" · ")}</span>
         <ChevronDown aria-hidden="true" className="leg-editor__chevron" />
       </button>
       {confirmDialog}

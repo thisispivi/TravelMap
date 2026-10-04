@@ -513,7 +513,6 @@
     "endHint": "Worked out from the itinerary; change it only if the last journey is undated.",
     "startedIn": "Where did the trip start?",
     "startedOn": "Leaving on",
-    "travel": "Travel",
     "removeJourney": "Remove this journey",
     "addStopOnTheWay": "Add a change or a place seen on the way",
     "whatNext": "You are in {{city}}. What happened next?",
@@ -523,11 +522,6 @@
     "travelTo": "Travel from {{city}} to…",
     "travelOn": "Keep travelling from {{city}} to…",
     "returnHome": "Go back home",
-    "sleptIn": "Slept in {{city}}",
-    "dayIn": "A day in {{city}}",
-    "noNights": "No overnight stay",
-    "night": "Night {{from}}",
-    "nights": "Nights {{from}}–{{to}}",
     "removeStay": "Remove the stay in {{city}}",
     "checkIn": "Arrived on",
     "leftOn": "Left on {{date}}",
@@ -545,15 +539,20 @@
     "estimatedHint": "Empty — the site will show about {{value}}.",
     "visited": "visited",
     "visitedLabel": "I stopped and looked around here",
-    "backTo": "Back to {{city}}",
-    "about": "about",
     "removeRide": "Remove this ride",
     "placeFor": {
       "travel": "Where did you go?",
       "dayTrip": "Where did the day trip go?",
       "addToChain": "Add a place"
     },
-    "clearMapFocus": "Forget the saved map view"
+    "clearMapFocus": "Forget the saved map view",
+    "chapter": {
+      "there": "Getting there",
+      "onward": "Moving on",
+      "home": "Going home"
+    },
+    "nightsCount_one": "{{count}} night",
+    "nightsCount_other": "{{count}} nights"
   },
   "upload": {
     "open": "Upload photos",

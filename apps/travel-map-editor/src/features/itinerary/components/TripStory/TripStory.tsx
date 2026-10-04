@@ -1,7 +1,7 @@
 import "./TripStory.scss";
 
 import { useLanguage } from "@app/shared/hooks/useLanguage";
-import { daysBetween, TripJson, TripMoveJson } from "@travelmap/core";
+import { TripJson, TripMoveJson } from "@travelmap/core";
 import {
   BedDouble,
   Flag,
@@ -33,8 +33,10 @@ import {
   stayHere,
   updateLeg,
 } from "../../lib/itinerary";
+import { formatStoryDays } from "../../lib/storyDates";
 import { LegEditor } from "../LegEditor/LegEditor";
 import { StayCard } from "../StayCard/StayCard";
+import { StoryChapter } from "../StoryChapter/StoryChapter";
 
 /**
  * Properties accepted by the TripDetails component.
@@ -112,6 +114,7 @@ function TripDetails({ trip, onChange }: TripDetailsProps): ReactNode {
  * @property {DatasetSnapshot} dataset - The current dataset
  * @property {TripJson} trip - The trip being edited
  * @property {number} index - Position of the journey
+ * @property {number} number - The chapter number shown in its badge
  * @property {TripMoveJson} move - The journey
  * @property {number | undefined} openLeg - The ride whose form is open
  * @property {(leg: number | null) => void} onOpenLeg - Opens or closes a ride's form
@@ -122,6 +125,7 @@ interface MoveCardProps {
   dataset: DatasetSnapshot;
   trip: TripJson;
   index: number;
+  number: number;
   move: TripMoveJson;
   openLeg: number | undefined;
   onOpenLeg: (leg: number | null) => void;
@@ -138,6 +142,7 @@ interface MoveCardProps {
  * @param {DatasetSnapshot} props.dataset - The current dataset
  * @param {TripJson} props.trip - The trip being edited
  * @param {number} props.index - Position of the journey
+ * @param {number} props.number - The chapter number shown in its badge
  * @param {TripMoveJson} props.move - The journey
  * @param {number | undefined} props.openLeg - The ride whose form is open
  * @param {(leg: number | null) => void} props.onOpenLeg - Opens or closes a ride's form
@@ -149,26 +154,38 @@ function MoveCard({
   dataset,
   trip,
   index,
+  number,
   move,
   openLeg,
   onOpenLeg,
   onChange,
   onAddStop,
 }: MoveCardProps): ReactNode {
-  const { t } = useLanguage(["editor"]);
+  const { t, currLanguage: lang } = useLanguage(["editor"]);
   const origins = chainOrigins(trip, { index });
   const { confirm, confirmDialog } = useConfirm();
   const previous = trip.steps[index - 1];
+  const next = trip.steps[index + 1];
   const date =
     move.legs[0]?.depart?.slice(0, 10) ??
     (previous?.type === "stay" ? previous.checkOut : trip.sDate.slice(0, 10));
+  const endDate =
+    move.legs.at(-1)?.arrive?.slice(0, 10) ??
+    (next?.type === "stay" ? next.checkIn : date);
+  const role =
+    index === 0 ? "there" : index === trip.steps.length - 1 ? "home" : "onward";
+
+  /**
+   * Names a city for the chapter title, falling back to its id.
+   * @param {string} id - The city id
+   * @returns {string} The display name
+   */
+  const cityName = (id: string): string =>
+    dataset.cities.find(({ value }) => value.id === id)?.value.name ?? id;
 
   return (
-    <section className="trip-story__move">
-      {confirmDialog}
-      <header className="trip-story__move-header">
-        <Navigation aria-hidden="true" className="trip-story__move-icon" />
-        <span className="trip-story__move-title">{t("story.travel")}</span>
+    <StoryChapter
+      action={
         <button
           aria-label={t("story.removeJourney")}
           className="editor-button trip-story__remove"
@@ -185,7 +202,13 @@ function MoveCard({
         >
           <Trash2 aria-hidden="true" />
         </button>
-      </header>
+      }
+      eyebrow={`${t(`story.chapter.${role}`)} · ${formatStoryDays(date, endDate, lang)}`}
+      kind="journey"
+      number={number}
+      title={`${cityName(origins[0] ?? trip.originCityId)} → ${cityName(move.legs.at(-1)?.toId ?? "")}`}
+    >
+      {confirmDialog}
       <ol className="trip-story__legs">
         {move.legs.map((leg, legIndex) => (
           <LegEditor
@@ -213,7 +236,7 @@ function MoveCard({
         <MapPinPlus aria-hidden="true" />
         {t("story.addStopOnTheWay")}
       </button>
-    </section>
+    </StoryChapter>
   );
 }
 
@@ -392,7 +415,7 @@ export function TripStory({
       <TripDetails onChange={onChange} trip={trip} />
 
       <section className="trip-story__start">
-        <Flag aria-hidden="true" className="trip-story__move-icon" />
+        <Flag aria-hidden="true" className="trip-story__start-icon" />
         <Combobox
           label={t("story.startedIn")}
           onChange={(originCityId) => onChange({ ...trip, originCityId })}
@@ -409,46 +432,49 @@ export function TripStory({
         />
       </section>
 
-      {trip.steps.map((step, index) =>
-        step.type === "stay" ? (
-          <StayCard
-            dataset={dataset}
-            firstNight={daysBetween(trip.sDate, step.checkIn) + 1}
-            key={`stay-${step.cityId}-${step.checkIn}-${index}`}
-            onAddDayTrip={() => onRequestPlace({ index, kind: "dayTrip" })}
-            onAddPlace={(outing) =>
-              onRequestPlace({ index, kind: "addToChain", outing })
-            }
-            onChange={(next) => onChange(replaceStep(trip, index, next))}
-            onOpenLeg={(outing, leg) => openLeg(index, outing, leg)}
-            onRemove={() => onChange(removeStep(trip, index))}
-            openLeg={
-              selected?.index === index &&
-              selected.outing !== undefined &&
-              selected.leg !== undefined
-                ? { leg: selected.leg, outing: selected.outing }
-                : undefined
-            }
-            stay={step}
-          />
-        ) : (
-          <MoveCard
-            dataset={dataset}
-            index={index}
-            key={`move-${step.legs[0]?.toId}-${index}`}
-            move={step}
-            onAddStop={() => onRequestPlace({ index, kind: "addToChain" })}
-            onChange={onChange}
-            onOpenLeg={(leg) => openLeg(index, undefined, leg)}
-            openLeg={
-              selected?.index === index && selected.outing === undefined
-                ? selected.leg
-                : undefined
-            }
-            trip={trip}
-          />
-        ),
-      )}
+      <ol className="trip-story__chapters">
+        {trip.steps.map((step, index) =>
+          step.type === "stay" ? (
+            <StayCard
+              dataset={dataset}
+              key={`stay-${step.cityId}-${step.checkIn}-${index}`}
+              number={index + 1}
+              onAddDayTrip={() => onRequestPlace({ index, kind: "dayTrip" })}
+              onAddPlace={(outing) =>
+                onRequestPlace({ index, kind: "addToChain", outing })
+              }
+              onChange={(next) => onChange(replaceStep(trip, index, next))}
+              onOpenLeg={(outing, leg) => openLeg(index, outing, leg)}
+              onRemove={() => onChange(removeStep(trip, index))}
+              openLeg={
+                selected?.index === index &&
+                selected.outing !== undefined &&
+                selected.leg !== undefined
+                  ? { leg: selected.leg, outing: selected.outing }
+                  : undefined
+              }
+              stay={step}
+            />
+          ) : (
+            <MoveCard
+              dataset={dataset}
+              index={index}
+              key={`move-${step.legs[0]?.toId}-${index}`}
+              move={step}
+              number={index + 1}
+              onAddStop={() => onRequestPlace({ index, kind: "addToChain" })}
+              onChange={onChange}
+              onOpenLeg={(leg) => openLeg(index, undefined, leg)}
+              openLeg={
+                selected?.index === index && selected.outing === undefined
+                  ? selected.leg
+                  : undefined
+              }
+              trip={trip}
+            />
+          ),
+        )}
+      </ol>
 
       <NextStep
         dataset={dataset}
