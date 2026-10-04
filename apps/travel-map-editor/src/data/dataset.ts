@@ -1,9 +1,7 @@
-import { mediaUrl, TransportModeSchema } from "@travelmap/core";
+import { mediaUrl } from "@travelmap/core";
 
 import { isSafeImageUrl } from "./imageUrl";
 import { DatasetSnapshot, getDataset } from "./store";
-
-export const transportModes = TransportModeSchema.options;
 
 /**
  * Lists the gallery manifest keys a trip stop can reference, which are the

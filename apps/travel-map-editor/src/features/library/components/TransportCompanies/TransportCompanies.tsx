@@ -1,13 +1,13 @@
 import "./TransportCompanies.scss";
 
 import { useLanguage } from "@app/shared/hooks/useLanguage";
+import { Company, SiteConfig } from "@travelmap/core";
 import { Building2, ChevronRight, Plus, Trash2 } from "lucide-react";
 import { ReactNode, useState } from "react";
 import { Link } from "react-router";
 
 import { resolveLogoUrl } from "../../../../data/dataset";
 import { idError } from "../../../../data/paths";
-import { Company, SiteConfig } from "../../../../data/siteConfig";
 import { DataFile, saveDocument } from "../../../../data/store";
 import { useConfirm } from "../../../../shared/components/ConfirmDialog/ConfirmDialog";
 import { TextField } from "../../../../shared/components/Fields/Fields";

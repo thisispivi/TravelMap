@@ -1,7 +1,5 @@
 import type { SiteConfig } from "@travelmap/core";
 
-export type { Company, SiteConfig } from "@travelmap/core";
-
 /** Complete map defaults used when an older config omits the map section. */
 const DEFAULT_MAP_SETTINGS: NonNullable<SiteConfig["map"]> = {
   defaultCenter: [0, 20],

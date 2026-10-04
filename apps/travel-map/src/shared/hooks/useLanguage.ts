@@ -26,7 +26,8 @@ export function useLanguage(namespaces: string[]): LanguageData {
   const currLanguage = normalizeLocale(i18n.resolvedLanguage ?? i18n.language);
 
   /**
-   * Change language.
+   * Switches the interface language, normalising a browser tag such as `it` to
+   * a supported locale first.
    * @param {string} lang - The lang
    * @returns {void}
    */

@@ -369,7 +369,9 @@ export function validateTrip(
   for (const located of walkTripLegs(trip)) validateLeg(located);
 
   /**
-   * Checks one ride.
+   * Reports what is wrong with one leg: unknown or identical endpoints, a
+   * missing gallery, transport details that contradict its mode, an arrival
+   * before its departure, or a speed no vehicle reaches.
    * @param {LocatedLeg} located - The leg and where it departs from
    * @returns {void}
    */

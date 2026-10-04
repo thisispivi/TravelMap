@@ -1,8 +1,6 @@
 import type { Geometry, Position } from "geojson";
 
-/**
- * Represents a linear ring.
- */
+/** A closed GeoJSON ring whose last position repeats its first. */
 type LinearRing = Position[];
 
 /**

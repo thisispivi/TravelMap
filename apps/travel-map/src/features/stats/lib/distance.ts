@@ -32,7 +32,7 @@ export function getFurthestAndNearestCity(
 }
 
 /**
- * Represents a transport with distance.
+ * Anything with a length, such as a flight or a ferry crossing.
  * @property {number} distanceInKm - The distance in km
  */
 type TransportWithDistance = { distanceInKm: number };

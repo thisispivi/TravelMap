@@ -3,7 +3,7 @@ import "./Library.scss";
 import { CountryFlag } from "@app/shared/components/CountryFlag/CountryFlag";
 import { useLanguage } from "@app/shared/hooks/useLanguage";
 import { classNames } from "@app/shared/lib/classNames";
-import { CityJson, Issue, TripJson } from "@travelmap/core";
+import { CityJson, Company, Issue, TripJson } from "@travelmap/core";
 import {
   ArrowUpRight,
   Building2,
@@ -24,7 +24,6 @@ import { ReactNode, SyntheticEvent, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router";
 
 import { resolveLogoUrl, resolveMediaUrl } from "../../../../data/dataset";
-import { Company } from "../../../../data/siteConfig";
 import { DataFile, DatasetSnapshot } from "../../../../data/store";
 import { datasetIssues, useDataset } from "../../../../shared/hooks/useDataset";
 import { findWorldCountry } from "../../../../shared/lib/worldCountries";

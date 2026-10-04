@@ -5,13 +5,14 @@ import {
   CountryJsonSchema,
   Image,
   ImageSchema,
+  SiteConfig,
   SiteConfigSchema,
   TripJson,
   TripJsonSchema,
 } from "@travelmap/core";
 
 import { readResponseError } from "../shared/lib/httpResponse";
-import { DEFAULT_CONFIG, SiteConfig } from "./siteConfig";
+import { DEFAULT_CONFIG } from "./siteConfig";
 
 /**
  * A dataset file loaded by Vite and saved through the localhost middleware.
