@@ -2,7 +2,7 @@ import type { City as GazetteerCity } from "all-the-cities";
 import type { Plugin, ViteDevServer } from "vite";
 import { z } from "zod";
 
-import { assertLocalRequest, errorBody, sendJson } from "./http.ts";
+import { assertLocalRequest, sendError, sendJson } from "./http.ts";
 
 /**
  * One gazetteer match returned to the editor.
@@ -185,7 +185,7 @@ export function cityIndex(): Plugin {
           const limit = query.data.limit ?? DEFAULT_LIMIT;
           sendJson(response, 200, { matches: rank(cities, term, limit) });
         } catch (error) {
-          sendJson(response, 500, errorBody(error, "City lookup failed."));
+          sendError(response, error, "City lookup failed.");
         }
       });
     },

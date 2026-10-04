@@ -11,6 +11,7 @@ import {
   bunnyUrl,
   encodeWithinSize,
   mediaUploader,
+  readSettings,
   reduceRatio,
   safeStem,
 } from "./mediaUploader.ts";
@@ -27,6 +28,54 @@ describe("safeStem", () => {
     expect(safeStem("IMG_2041.HEIC")).toBe("IMG_2041");
     expect(safeStem("../../Château d'If.jpg")).toBe("Chateau-d-If");
     expect(safeStem(".jpg")).toBe("photo");
+  });
+});
+
+describe("readSettings", () => {
+  it("uses the documented defaults for blank values and leaves Bunny off without a key", () => {
+    const settings = readSettings({
+      CDN_STORAGE_ZONE_API_KEY: "",
+      CDN_STORAGE_ZONE_NAME: "zone",
+      THUMBNAIL_MAX_SIZE: "",
+    });
+    expect(settings.bunny).toBeNull();
+    expect(settings.thumbnail).toEqual({
+      maxKb: 250,
+      minKb: 70,
+      resolution: 900,
+    });
+  });
+
+  it("enables Bunny once a zone and key are both set and trims the base path", () => {
+    expect(
+      readSettings({
+        CDN_BASE_STORAGE_PATH: "/Travels/",
+        CDN_STORAGE_ZONE_API_KEY: "secret",
+        CDN_STORAGE_ZONE_NAME: "zone",
+      }).bunny,
+    ).toEqual({ basePath: "Travels", key: "secret", region: "", zone: "zone" });
+  });
+
+  it("refuses a typo instead of silently encoding at the default size", () => {
+    expect(() => readSettings({ COMPRESSED_MAX_SIZE: "15OO" })).toThrow(
+      /COMPRESSED_MAX_SIZE/,
+    );
+    expect(() => readSettings({ CDN_STORAGE_ZONE_NAME: "my zone" })).toThrow(
+      /CDN_STORAGE_ZONE_NAME/,
+    );
+  });
+
+  it("never echoes the Bunny key in its error", () => {
+    expect(() =>
+      readSettings({
+        CDN_STORAGE_ZONE_API_KEY: "secret-key",
+        CDN_STORAGE_ZONE_REGION: "bad region",
+      }),
+    ).toThrow(
+      expect.objectContaining({
+        message: expect.not.stringContaining("secret-key"),
+      }),
+    );
   });
 });
 

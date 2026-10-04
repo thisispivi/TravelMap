@@ -5,8 +5,23 @@ import { ZodError, type ZodType } from "zod";
 const DEFAULT_BODY_LIMIT = 1_000_000;
 const LOCAL_HOSTS = new Set(["localhost", "127.0.0.1", "[::1]"]);
 
-/** An expected request failure whose message is safe to show to the author. */
-export class RequestError extends Error {}
+/**
+ * An expected request failure whose message is safe to show to the author.
+ * @property {number} status - The HTTP status the failure is reported with
+ */
+export class RequestError extends Error {
+  /**
+   * Creates a failure that is the request's fault rather than the server's.
+   * @param {string} message - Author-facing explanation
+   * @param {number} [status=400] - HTTP status to respond with
+   */
+  constructor(
+    message: string,
+    readonly status = 400,
+  ) {
+    super(message);
+  }
+}
 
 /**
  * Confirms that a mutating editor request came through the loopback-bound Vite
@@ -23,11 +38,14 @@ export function assertLocalRequest(request: IncomingMessage): void {
     !address ||
     !["127.0.0.1", "::1", "::ffff:127.0.0.1"].includes(address)
   )
-    throw new RequestError("Local requests only.");
+    throw new RequestError("Local requests only.", 403);
 
   const origin = request.headers.origin;
   if (origin && origin !== `http://${host}`)
-    throw new RequestError("Cross-origin editor requests are not allowed.");
+    throw new RequestError(
+      "Cross-origin editor requests are not allowed.",
+      403,
+    );
 }
 
 /**
@@ -83,18 +101,31 @@ export function sendJson(
 }
 
 /**
- * Turns a thrown value into the message shape the editor's fetch helpers read,
- * without letting an unexpected internal error text reach the browser.
+ * Reports a failed request in the shape the editor's fetch helpers read. An
+ * expected failure keeps its own message; anything else is the server's fault,
+ * so the browser gets only the fallback text and the real error goes to the
+ * dev-server terminal, where the author can actually act on it.
+ * @param {ServerResponse} response - HTTP response
  * @param {unknown} error - The thrown value
- * @param {string} fallback - Message used when the value is not an Error
- * @returns {{ error: string }} The JSON error body
+ * @param {string} fallback - Message shown for an unexpected failure
+ * @returns {void}
  */
-export function errorBody(error: unknown, fallback: string): { error: string } {
-  if (error instanceof RequestError) return { error: error.message };
-  if (error instanceof ZodError)
-    return {
+export function sendError(
+  response: ServerResponse,
+  error: unknown,
+  fallback: string,
+): void {
+  if (error instanceof RequestError) {
+    sendJson(response, error.status, { error: error.message });
+    return;
+  }
+  if (error instanceof ZodError) {
+    sendJson(response, 400, {
       error:
         "The submitted data is invalid. Check the document fields and try again.",
-    };
-  return { error: fallback };
+    });
+    return;
+  }
+  console.error(error);
+  sendJson(response, 500, { error: fallback });
 }

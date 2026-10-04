@@ -1,3 +1,4 @@
+import { existsSync } from "node:fs";
 import { mkdir, readdir, readFile, rm } from "node:fs/promises";
 import { join } from "node:path";
 
@@ -7,8 +8,9 @@ import { SnapshotBundleSchema } from "../src/features/backup/lib/snapshot.ts";
 import { resolveOwnedPath, writeAtomically } from "./files.ts";
 import {
   assertLocalRequest,
-  errorBody,
   readJsonBody,
+  RequestError,
+  sendError,
   sendJson,
 } from "./http.ts";
 
@@ -76,6 +78,8 @@ export function snapshots(snapshotRoot: string): Plugin {
 
           const path = await resolveOwnedPath(snapshotRoot, name);
           if (request.method === "GET") {
+            if (!existsSync(path))
+              throw new RequestError("That snapshot no longer exists.", 404);
             sendJson(
               response,
               200,
@@ -98,7 +102,7 @@ export function snapshots(snapshotRoot: string): Plugin {
           }
           sendJson(response, 404, { error: "Unknown snapshot endpoint." });
         } catch (error) {
-          sendJson(response, 500, errorBody(error, "Snapshot request failed."));
+          sendError(response, error, "Snapshot request failed.");
         }
       });
     },

@@ -132,7 +132,7 @@ describe("local editor endpoints", () => {
       },
       body: "{}",
     });
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(403);
     expect((await fetch(`${origin}/__data/write`)).status).toBe(405);
     expect((await fetch(`${origin}/__assets/write`)).status).toBe(405);
   });
@@ -187,7 +187,7 @@ describe("local editor endpoints", () => {
           documents: [document, document],
         })
       ).status,
-    ).toBe(500);
+    ).toBe(400);
     expect(
       (
         await post("/__snapshots?name=bad.json", {
@@ -195,6 +195,16 @@ describe("local editor endpoints", () => {
           documents: [{ path: "../outside.json", value: {} }],
         })
       ).status,
-    ).toBe(500);
+    ).toBe(400);
+  });
+
+  it("answers a missing snapshot or a garbled map link as a client error", async () => {
+    expect((await fetch(`${origin}/__snapshots?name=gone.json`)).status).toBe(
+      404,
+    );
+    expect(
+      (await fetch(`${origin}/__data/resolve-map-link?url=not%20a%20url`))
+        .status,
+    ).toBe(400);
   });
 });

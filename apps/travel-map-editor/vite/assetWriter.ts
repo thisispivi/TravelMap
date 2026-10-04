@@ -7,9 +7,9 @@ import { validateSvg } from "./assets.ts";
 import { resolveOwnedPath, writeAtomically } from "./files.ts";
 import {
   assertLocalRequest,
-  errorBody,
   readJsonBody,
   RequestError,
+  sendError,
   sendJson,
 } from "./http.ts";
 
@@ -112,7 +112,7 @@ export function assetWriter(logosRoot: string): Plugin {
           await writeAtomically(path, content);
           sendJson(response, 200, { path: `/logos/${payload.filename}` });
         } catch (error) {
-          sendJson(response, 400, errorBody(error, "Invalid request."));
+          sendError(response, error, "The logo could not be saved.");
         }
       });
     },

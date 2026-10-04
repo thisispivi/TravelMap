@@ -1,6 +1,11 @@
 import { Image, ImageSchema } from "@travelmap/core";
 import { z } from "zod";
 
+import {
+  ErrorResponseSchema,
+  parseJsonResponse,
+} from "../../../shared/lib/httpResponse";
+
 /** How far one file has got. */
 type UploadStatus = "waiting" | "uploading" | "processing" | "done" | "failed";
 
@@ -44,8 +49,6 @@ const MediaConfigSchema = z.strictObject({
 /** What the editor's server can do with media. */
 export type MediaConfig = z.infer<typeof MediaConfigSchema>;
 
-const ErrorSchema = z.looseObject({ error: z.string() });
-
 /* Three keeps a home connection busy without starving the encoder. */
 export const UPLOAD_CONCURRENCY = 3;
 
@@ -87,7 +90,7 @@ export function uploadFile(
           reject(new Error("The editor sent back an invalid gallery entry."));
         return;
       }
-      const error = ErrorSchema.safeParse(body);
+      const error = ErrorResponseSchema.safeParse(body);
       reject(
         new Error(
           error.success
@@ -134,6 +137,5 @@ export function nextManifest(
  * @returns {Promise<MediaConfig>} Whether Bunny and ffmpeg are available, and the media root
  */
 export async function fetchMediaConfig(): Promise<MediaConfig> {
-  const response = await fetch("/__media/config");
-  return MediaConfigSchema.parse(await response.json());
+  return parseJsonResponse(await fetch("/__media/config"), MediaConfigSchema);
 }

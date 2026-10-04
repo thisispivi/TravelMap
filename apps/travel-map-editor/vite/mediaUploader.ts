@@ -1,6 +1,6 @@
 import { execFile } from "node:child_process";
 import { randomUUID } from "node:crypto";
-import { createWriteStream } from "node:fs";
+import { createWriteStream, existsSync } from "node:fs";
 import { readFile, rm, stat } from "node:fs/promises";
 import type { IncomingMessage } from "node:http";
 import { tmpdir } from "node:os";
@@ -17,8 +17,8 @@ import { z } from "zod";
 import { resolveOwnedPath, writeAtomically } from "./files.ts";
 import {
   assertLocalRequest,
-  errorBody,
   RequestError,
+  sendError,
   sendJson,
 } from "./http.ts";
 
@@ -40,44 +40,82 @@ const VIDEO_EXTENSIONS = new Set([".mp4", ".mov", ".avi", ".mkv", ".flv"]);
 const DEFAULT_MEDIA_ROOT = "/Travels";
 
 /**
- * A size window and resolution for one encoded variant, in the same units the
- * Python uploader's `example.env` used so an existing configuration carries over.
- * @property {number} minKb - Smallest acceptable file size in kilobytes
- * @property {number} maxKb - Largest acceptable file size in kilobytes
- * @property {number} resolution - Longest edge in pixels
+ * Treats an empty `.env` value as unset, which is how `example.env` leaves the
+ * settings an author has not filled in yet.
+ * @param {unknown} value - Raw environment value
+ * @returns {unknown} The value, or undefined when it is an empty string
  */
-export interface VariantSettings {
-  minKb: number;
-  maxKb: number;
-  resolution: number;
+function blankAsUnset(value: unknown): unknown {
+  return value === "" ? undefined : value;
 }
 
 /**
- * Where an upload is going and how its variants are encoded.
- * @property {VariantSettings} compressed - The full-size gallery image
- * @property {VariantSettings} thumbnail - The small preview
- * @property {BunnySettings | null} bunny - Bunny Storage credentials, when configured
+ * Reads one whole-number encoding setting, in the same units the Python
+ * uploader's `example.env` used so an existing configuration carries over.
+ * @param {number} fallback - Value used when the variable is blank or absent
+ * @returns {z.ZodType<number>} Schema for the setting
  */
-interface UploadSettings {
-  compressed: VariantSettings;
-  thumbnail: VariantSettings;
-  bunny: BunnySettings | null;
+function encodingSetting(fallback: number): z.ZodType<number> {
+  return z.preprocess(
+    blankAsUnset,
+    z.coerce.number().int().positive().default(fallback),
+  );
 }
 
+/* Bunny zone and region names become part of the storage host and path. */
+const BunnyNameSchema = z
+  .string()
+  .regex(/^[a-zA-Z0-9-]*$/, "Use only letters, digits, and dashes.")
+  .default("");
+
 /**
- * Bunny Storage credentials. Read on the server only and never sent to the
- * browser, which is why none of them carries Vite's `VITE_` prefix.
- * @property {string} zone - Storage zone name
- * @property {string} region - Storage region, empty for the default
- * @property {string} key - Storage zone API key
- * @property {string} basePath - Folder inside the zone that mirrors the media root
+ * The editor's upload environment. Bunny credentials carry no `VITE_` prefix,
+ * so Vite never exposes them to the browser; they are read here, on the server,
+ * and nowhere else. Bunny is enabled only when both a zone and a key are set.
  */
-interface BunnySettings {
-  zone: string;
-  region: string;
-  key: string;
-  basePath: string;
-}
+const UploadEnvSchema = z
+  .object({
+    CDN_BASE_STORAGE_PATH: z.string().default(""),
+    CDN_STORAGE_ZONE_API_KEY: z.string().default(""),
+    CDN_STORAGE_ZONE_NAME: BunnyNameSchema,
+    CDN_STORAGE_ZONE_REGION: BunnyNameSchema,
+    COMPRESSED_MAX_SIZE: encodingSetting(1500),
+    COMPRESSED_MIN_SIZE: encodingSetting(750),
+    COMPRESSED_RESOLUTION: encodingSetting(2000),
+    THUMBNAIL_MAX_SIZE: encodingSetting(250),
+    THUMBNAIL_MIN_SIZE: encodingSetting(70),
+    THUMBNAIL_RESOLUTION: encodingSetting(900),
+  })
+  .transform((env) => ({
+    bunny:
+      env.CDN_STORAGE_ZONE_NAME && env.CDN_STORAGE_ZONE_API_KEY
+        ? {
+            basePath: env.CDN_BASE_STORAGE_PATH.replace(/^\/+|\/+$/g, ""),
+            key: env.CDN_STORAGE_ZONE_API_KEY,
+            region: env.CDN_STORAGE_ZONE_REGION,
+            zone: env.CDN_STORAGE_ZONE_NAME,
+          }
+        : null,
+    compressed: {
+      maxKb: env.COMPRESSED_MAX_SIZE,
+      minKb: env.COMPRESSED_MIN_SIZE,
+      resolution: env.COMPRESSED_RESOLUTION,
+    },
+    thumbnail: {
+      maxKb: env.THUMBNAIL_MAX_SIZE,
+      minKb: env.THUMBNAIL_MIN_SIZE,
+      resolution: env.THUMBNAIL_RESOLUTION,
+    },
+  }));
+
+/** Where an upload is going and how its variants are encoded. */
+type UploadSettings = z.output<typeof UploadEnvSchema>;
+
+/** A size window in kilobytes and a longest edge in pixels for one variant. */
+export type VariantSettings = UploadSettings["compressed"];
+
+/** Bunny Storage credentials, present only when Bunny is configured. */
+type BunnySettings = NonNullable<UploadSettings["bunny"]>;
 
 /** A folder or file name segment: no separators, no dot-only names. */
 const SegmentSchema = z
@@ -169,49 +207,23 @@ export async function encodeWithinSize(
 }
 
 /**
- * Reads the encoding and Bunny settings from the editor's env directory.
+ * Reads the encoding and Bunny settings, refusing to start on a value that is
+ * set but malformed. Falling back to a default instead would quietly encode a
+ * whole gallery at the wrong size, or upload locally while the author believes
+ * Bunny is on.
  * @param {Record<string, string>} env - Loaded environment values
  * @returns {UploadSettings} The resolved settings
  */
-function readSettings(env: Record<string, string>): UploadSettings {
-  /**
-   * Reads one positive integer setting.
-   * @param {string} key - The variable name
-   * @param {number} fallback - Value used when it is unset
-   * @returns {number} The setting
-   */
-  const number = (key: string, fallback: number): number => {
-    const value = Number(env[key] ?? fallback);
-    return Number.isFinite(value) && value >= 0 ? value : fallback;
-  };
-  const zone = env.CDN_STORAGE_ZONE_NAME ?? "";
-  const region = env.CDN_STORAGE_ZONE_REGION ?? "";
-  const key = env.CDN_STORAGE_ZONE_API_KEY ?? "";
-  const isBunnyValid =
-    /^[a-zA-Z0-9-]+$/.test(zone) &&
-    key !== "" &&
-    /^[a-zA-Z0-9-]*$/.test(region);
+export function readSettings(env: Record<string, string>): UploadSettings {
+  const result = UploadEnvSchema.safeParse(env);
+  if (result.success) return result.data;
 
-  return {
-    bunny: isBunnyValid
-      ? {
-          basePath: (env.CDN_BASE_STORAGE_PATH ?? "").replace(/^\/+|\/+$/g, ""),
-          key,
-          region,
-          zone,
-        }
-      : null,
-    compressed: {
-      maxKb: number("COMPRESSED_MAX_SIZE", 1500),
-      minKb: number("COMPRESSED_MIN_SIZE", 750),
-      resolution: number("COMPRESSED_RESOLUTION", 2000),
-    },
-    thumbnail: {
-      maxKb: number("THUMBNAIL_MAX_SIZE", 250),
-      minKb: number("THUMBNAIL_MIN_SIZE", 70),
-      resolution: number("THUMBNAIL_RESOLUTION", 900),
-    },
-  };
+  const problems = result.error.issues
+    .map((issue) => `${issue.path.join(".")}: ${issue.message}`)
+    .join("; ");
+  throw new Error(
+    `Invalid upload settings in apps/travel-map/env/.env — ${problems}`,
+  );
 }
 
 /**
@@ -368,18 +380,17 @@ export function mediaUploader(repoRoot: string, dataRoot: string): Plugin {
    * @returns {Promise<string>} A root such as `/Travels`
    */
   async function mediaRoot(): Promise<string> {
-    try {
-      const config = SiteMediaSchema.parse(
-        JSON.parse(await readFile(join(dataRoot, "site.config.json"), "utf8")),
-      );
-      const parts = (config.media?.root ?? DEFAULT_MEDIA_ROOT)
-        .split(/[\\/]/)
-        .filter((part) => part && part !== "." && part !== "..");
-      return parts.length ? `/${parts.join("/")}` : DEFAULT_MEDIA_ROOT;
-    } catch {
-      /* A dataset without a site configuration yet uses the documented default. */
-      return DEFAULT_MEDIA_ROOT;
-    }
+    const path = join(dataRoot, "site.config.json");
+    /* A dataset without a site configuration yet uses the documented default. */
+    if (!existsSync(path)) return DEFAULT_MEDIA_ROOT;
+
+    const config = SiteMediaSchema.parse(
+      JSON.parse(await readFile(path, "utf8")),
+    );
+    const parts = (config.media?.root ?? DEFAULT_MEDIA_ROOT)
+      .split(/[\\/]/)
+      .filter((part) => part && part !== "." && part !== "..");
+    return parts.length ? `/${parts.join("/")}` : DEFAULT_MEDIA_ROOT;
   }
 
   return {
@@ -417,7 +428,7 @@ export function mediaUploader(repoRoot: string, dataRoot: string): Plugin {
             mediaRoot: await mediaRoot(),
           });
         } catch (error) {
-          sendJson(response, 400, errorBody(error, "Invalid request."));
+          sendError(response, error, "Media settings could not be read.");
         }
       });
 
@@ -492,11 +503,7 @@ export function mediaUploader(repoRoot: string, dataRoot: string): Plugin {
               };
           sendJson(response, 200, image);
         } catch (error) {
-          sendJson(
-            response,
-            400,
-            errorBody(error, "The file could not be processed."),
-          );
+          sendError(response, error, "The file could not be processed.");
         } finally {
           if (file) await rm(file, { force: true });
         }

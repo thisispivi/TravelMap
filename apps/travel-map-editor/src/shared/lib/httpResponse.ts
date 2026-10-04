@@ -1,7 +1,8 @@
 import type { ZodType } from "zod";
 import { z } from "zod";
 
-const ErrorResponseSchema = z.looseObject({ error: z.string() });
+/** The `{ error }` body every editor endpoint answers a failure with. */
+export const ErrorResponseSchema = z.looseObject({ error: z.string() });
 
 /**
  * Parses an HTTP JSON response through its owning runtime contract.

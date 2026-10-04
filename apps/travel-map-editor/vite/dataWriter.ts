@@ -12,9 +12,9 @@ import {
 import { resolveOwnedPath, writeAtomically } from "./files.ts";
 import {
   assertLocalRequest,
-  errorBody,
   readJsonBody,
   RequestError,
+  sendError,
   sendJson,
 } from "./http.ts";
 
@@ -149,10 +149,11 @@ export function dataWriter(dataRoot: string): Plugin {
             request.url?.startsWith("/resolve-map-link")
           ) {
             const requestUrl = new URL(request.url, "http://localhost");
-            const target = new URL(requestUrl.searchParams.get("url") ?? "");
+            const target = URL.parse(requestUrl.searchParams.get("url") ?? "");
             if (
-              target.hostname !== "goo.gl" &&
-              target.hostname !== "maps.app.goo.gl"
+              !target ||
+              (target.hostname !== "goo.gl" &&
+                target.hostname !== "maps.app.goo.gl")
             )
               throw new RequestError(
                 "Only Google Maps share links can be resolved.",
@@ -203,7 +204,7 @@ export function dataWriter(dataRoot: string): Plugin {
           pending = operation.catch(() => undefined);
           await operation;
         } catch (error) {
-          sendJson(response, 400, errorBody(error, "Invalid request."));
+          sendError(response, error, "The dataset could not be updated.");
         }
       });
     },
