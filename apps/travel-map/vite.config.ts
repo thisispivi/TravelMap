@@ -38,7 +38,6 @@ const CHUNKS_BY_PACKAGE: Record<string, string> = {
   "react-i18next": "i18n",
   "mobile-device-detect": "ui",
   "react-tooltip": "ui",
-  "react-transition-group": "ui",
   remeda: "utils",
   swr: "vendor",
   zod: "vendor",

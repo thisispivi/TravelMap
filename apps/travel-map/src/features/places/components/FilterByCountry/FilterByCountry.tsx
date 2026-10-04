@@ -1,9 +1,9 @@
 import "./FilterByCountry.scss";
 
 import { Country } from "@travelmap/core";
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { AnimatePresence, m } from "framer-motion";
+import { ReactNode, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { CSSTransition } from "react-transition-group";
 
 import { Button } from "@/shared/components/Button/Button";
 import { Checkbox } from "@/shared/components/Checkbox/Checkbox";
@@ -11,6 +11,11 @@ import { CountryFlag } from "@/shared/components/CountryFlag/CountryFlag";
 import { useLanguage } from "@/shared/hooks/useLanguage";
 import { classNames } from "@/shared/lib/classNames";
 import { mobileAndTabletCheck } from "@/shared/lib/responsive";
+
+/* Opening eases out over 180ms; closing is quicker so dismissal feels immediate. */
+const ENTER = { duration: 0.18, ease: [0.2, 0.8, 0.2, 1] } as const;
+const EXIT = { duration: 0.14, ease: "easeOut" } as const;
+const HIDDEN_OPTIONS = { opacity: 0, scale: 0.96, y: "-0.625rem" };
 
 /**
  * Properties accepted by the FilterByCountry component.
@@ -63,8 +68,6 @@ export function FilterByCountry({
 }: FilterByCountryProps): ReactNode {
   const { t, currLanguage } = useLanguage(["home"]);
   const [isOpen, setIsOpen] = useState(false);
-  const nodeRef = useRef<HTMLDivElement>(null);
-  const backdropRef = useRef<HTMLDivElement>(null);
   const selectedSet = new Set(selected);
 
   useEffect(() => {
@@ -115,20 +118,18 @@ export function FilterByCountry({
   return (
     <>
       {createPortal(
-        <CSSTransition
-          classNames="filter-backdrop-transition"
-          in={isOpen}
-          nodeRef={backdropRef}
-          timeout={200}
-          unmountOnExit
-        >
-          <div
-            className="filter-backdrop"
-            onClick={() => setIsOpen(false)}
-            ref={backdropRef}
-            role="presentation"
-          />
-        </CSSTransition>,
+        <AnimatePresence>
+          {isOpen ? (
+            <m.div
+              animate={{ opacity: 1, transition: ENTER }}
+              className="filter-backdrop"
+              exit={{ opacity: 0, transition: EXIT }}
+              initial={{ opacity: 0 }}
+              onClick={() => setIsOpen(false)}
+              role="presentation"
+            />
+          ) : null}
+        </AnimatePresence>,
         document.body,
       )}
       <div className="filter">
@@ -145,44 +146,45 @@ export function FilterByCountry({
         >
           {buttonIcon}
         </Button>
-        <CSSTransition
-          classNames="filter-transition"
-          in={isOpen}
-          nodeRef={nodeRef}
-          timeout={200}
-          unmountOnExit
-        >
-          <div className="filter__options" ref={nodeRef}>
-            <div className="filter__options__list" id="info-tab">
-              <button
-                className={classNames(
-                  getOptionClassName(),
-                  "filter__option--select-all",
-                )}
-                onClick={handleSelectAllToggle}
-                type="button"
-              >
-                <div className="filter__option--select-all__icon">
-                  <Checkbox isChecked={allSelected} />
-                </div>
-                <h4 className="filter__option--select-all__text">
-                  {allSelected ? t("deselectAll") : t("selectAll")}
-                </h4>
-              </button>
-              {options.map((option) => (
+        <AnimatePresence>
+          {isOpen ? (
+            <m.div
+              animate={{ opacity: 1, scale: 1, transition: ENTER, y: 0 }}
+              className="filter__options"
+              exit={{ ...HIDDEN_OPTIONS, transition: EXIT }}
+              initial={HIDDEN_OPTIONS}
+            >
+              <div className="filter__options__list" id="info-tab">
                 <button
-                  className={getOptionClassName(selectedSet.has(option))}
-                  key={option.id}
-                  onClick={() => handleCountryToggle(option)}
+                  className={classNames(
+                    getOptionClassName(),
+                    "filter__option--select-all",
+                  )}
+                  onClick={handleSelectAllToggle}
                   type="button"
                 >
-                  <CountryFlag countryId={option.id} />
-                  <h4>{option.getLocalizedName(currLanguage)}</h4>
+                  <div className="filter__option--select-all__icon">
+                    <Checkbox isChecked={allSelected} />
+                  </div>
+                  <h4 className="filter__option--select-all__text">
+                    {allSelected ? t("deselectAll") : t("selectAll")}
+                  </h4>
                 </button>
-              ))}
-            </div>
-          </div>
-        </CSSTransition>
+                {options.map((option) => (
+                  <button
+                    className={getOptionClassName(selectedSet.has(option))}
+                    key={option.id}
+                    onClick={() => handleCountryToggle(option)}
+                    type="button"
+                  >
+                    <CountryFlag countryId={option.id} />
+                    <h4>{option.getLocalizedName(currLanguage)}</h4>
+                  </button>
+                ))}
+              </div>
+            </m.div>
+          ) : null}
+        </AnimatePresence>
       </div>
     </>
   );
