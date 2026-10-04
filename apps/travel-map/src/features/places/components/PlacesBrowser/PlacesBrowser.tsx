@@ -19,13 +19,11 @@ import { classNames } from "@/shared/lib/classNames";
 import { CityCard } from "../CityCard/CityCard";
 import { FilterByCountry } from "../FilterByCountry/FilterByCountry";
 
-/**
- * Represents a places filter.
- */
+/** Which category of cities the places panel lists. */
 type PlacesFilter = "visited" | "lived" | "future";
 
 /**
- * Represents a places state.
+ * The places panel's tab, country filter, and measured layout.
  * @property {PlacesFilter} filter - The filter
  * @property {Country[] | null} selectedCountries - The selected countries
  * @property {number} transitionDirection - The transition direction
@@ -41,7 +39,8 @@ type PlacesState = {
 };
 
 /**
- * Represents a places action.
+ * A transition of the places panel: switching tab, filtering by country, or
+ * recording a fresh layout measurement.
  * @property {"selectFilter"} type - The type
  * @property {PlacesFilter} filter - The filter
  * @property {number} direction - The direction
@@ -124,7 +123,8 @@ export function PlacesBrowser(): ReactNode {
   const routeUpdateTimeoutRef = useRef<number | null>(null);
 
   /**
-   * Measure panel height.
+   * Sizes the panel to the active grid page, capped by its CSS max-height, and
+   * records whether the grid then needs to scroll.
    * @returns {void}
    */
   const measurePanelHeight = () => {

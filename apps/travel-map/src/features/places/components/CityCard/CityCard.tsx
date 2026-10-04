@@ -136,7 +136,8 @@ export function CityCard({
   };
 
   /**
-   * Opens gallery.
+   * Opens this visit's gallery, remembering the current view so closing the
+   * gallery returns here.
    * @returns {void}
    */
   const openGallery = () => {

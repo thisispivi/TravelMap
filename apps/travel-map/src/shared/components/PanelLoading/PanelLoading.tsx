@@ -7,9 +7,7 @@ import { Loading } from "@/shared/components/Loading/Loading";
 
 import { setPanelLoadingVisible } from "./PanelLoading.state";
 
-/**
- * Represents a panel loading variant.
- */
+/** Which panel geometry a loading placeholder occupies. */
 type PanelLoadingVariant = "side" | "bottom";
 
 const sidePanelMotion = {

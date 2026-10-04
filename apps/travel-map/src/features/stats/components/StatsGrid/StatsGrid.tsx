@@ -70,7 +70,8 @@ export function StatsGrid({
   const hasData = visitedTrips.length > 0 || visitedCities.length > 0;
 
   /**
-   * Updates scrollable state.
+   * Records whether the bento grid overflows; the 1px slack absorbs sub-pixel
+   * rounding that would otherwise flag a grid that fits exactly.
    * @returns {void}
    */
   const updateScrollableState = () => {

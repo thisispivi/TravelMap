@@ -264,7 +264,8 @@ export function returnHome(
 }
 
 /**
- * Replaces one step.
+ * Replaces one step and re-derives the trip's start and end dates from the
+ * result, since a changed stay can move either.
  * @param {TripJson} trip - The trip
  * @param {number} index - Position of the step
  * @param {TripStepJson} step - The replacement

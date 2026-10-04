@@ -144,7 +144,7 @@ export function TripBrowser(): ReactNode {
   });
 
   /**
-   * Select year.
+   * Switches the browser to another year tab, ignoring a click on the active one.
    * @param {string} year - The year
    * @returns {void}
    */
@@ -166,7 +166,7 @@ export function TripBrowser(): ReactNode {
   }, [activeYear, selectedTrips.length]);
 
   /**
-   * Opens trip.
+   * Marks a trip as selected for the map and opens its detail panel.
    * @param {Trip} trip - The trip
    * @returns {void}
    */
