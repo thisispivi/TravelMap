@@ -1,0 +1,5 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Git hooks run under sh, which reads a CRLF line ending as part of the command.
+.husky/* text eol=lf

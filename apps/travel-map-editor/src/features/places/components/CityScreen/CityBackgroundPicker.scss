@@ -1,0 +1,86 @@
+@use "variables" as v;
+
+.city-background-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  &__heading {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+
+    h3 {
+      font-size: v.$bodyLg;
+      font-weight: 600;
+    }
+
+    p {
+      margin: 0;
+      font-size: v.$bodySm;
+      line-height: 1.5;
+    }
+  }
+
+  &__grid {
+    display: grid;
+    max-height: 24rem;
+    grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
+    gap: 0.65rem;
+    padding: 0.15rem;
+    overflow-y: auto;
+  }
+
+  &__option {
+    position: relative;
+    min-width: 0;
+    padding: 0;
+    border: 0.125rem solid transparent;
+    border-radius: 0.75rem;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: transparent;
+    cursor: pointer;
+
+    &[aria-pressed="true"] {
+      border-color: var(--editor-accent);
+      box-shadow: 0 0 0 0.125rem var(--editor-accent-soft);
+    }
+
+    &:focus-visible {
+      outline: 0.125rem solid var(--editor-accent);
+      outline-offset: 0.15rem;
+    }
+  }
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__badge {
+    position: absolute;
+    right: 0.4rem;
+    bottom: 0.4rem;
+    max-width: calc(100% - 0.8rem);
+    padding: 0.3rem 0.5rem;
+    border-radius: 62.4375rem;
+    background: var(--editor-accent);
+    color: var(--editor-accent-ink);
+    font-size: v.$caption;
+    font-weight: 700;
+    line-height: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.editor--dark .city-background-picker__heading p {
+  color: v.$darkAltText;
+}
+
+.editor--light .city-background-picker__heading p {
+  color: v.$lightAltText;
+}

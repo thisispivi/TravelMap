@@ -1,0 +1,41 @@
+@use "variables" as v;
+
+.backup-panel {
+  &__actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__entry {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.3rem 0.4rem;
+    border-radius: 0.4rem;
+  }
+
+  &__name {
+    flex: 1;
+    font-family: ui-monospace, "SFMono-Regular", monospace;
+    font-size: v.$caption;
+  }
+}
+
+.editor--dark .backup-panel__entry:hover {
+  background: v.$darkButton;
+}
+
+.editor--light .backup-panel__entry:hover {
+  background: v.$lightButton;
+}

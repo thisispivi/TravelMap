@@ -1,0 +1,11 @@
+/** A class name, or a falsy value standing in for a class that does not apply. */
+type ClassNameValue = string | false | null | undefined;
+
+/**
+ * Joins conditional CSS class names while dropping empty values.
+ * @param {ClassNameValue[]} values - Class names or falsy values to ignore
+ * @returns {string} The normalized class name string
+ */
+export function classNames(...values: ClassNameValue[]): string {
+  return values.filter(Boolean).join(" ");
+}

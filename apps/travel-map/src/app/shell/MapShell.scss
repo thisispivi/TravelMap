@@ -1,0 +1,112 @@
+@use "../../styles/variables" as v;
+@use "../../styles/mixins" as m;
+
+.map-shell {
+  height: inherit;
+  width: inherit;
+  @include m.transition(background-color, 0.4s);
+
+  &--mobile,
+  &--tablet {
+    *::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  &--dark {
+    background-color: v.$darkBackground;
+
+    .map-shell__back-to-trip {
+      @include m.glassmorphism-dark();
+      color: v.$darkButtonContent;
+    }
+
+    .map-shell__back-to-trip-chevron path {
+      stroke: v.$darkButtonContent;
+    }
+  }
+
+  &--light {
+    background-color: v.$lightBackground;
+
+    .map-shell__back-to-trip {
+      @include m.glassmorphism-light();
+      color: v.$lightButtonContent;
+    }
+
+    .map-shell__back-to-trip-chevron path {
+      stroke: v.$lightButtonContent;
+    }
+  }
+
+  &__layout {
+    height: inherit;
+    position: relative;
+    width: inherit;
+  }
+
+  &__back-to-trip {
+    align-items: center;
+    border: none;
+    border-radius: 62rem;
+    bottom: 8.5rem;
+    cursor: pointer;
+    display: flex;
+    font-size: v.$bodySm;
+    font-weight: 600;
+    gap: 0.375rem;
+    padding: 0.5rem 1rem 0.5rem 0.75rem;
+    position: fixed;
+    right: 1rem;
+    white-space: nowrap;
+    z-index: 3;
+  }
+
+  &__back-to-trip-chevron {
+    fill: transparent;
+    flex-shrink: 0;
+    height: 1rem;
+    transform: rotate(-90deg);
+    width: auto;
+  }
+
+  &__bottom-panel {
+    height: calc(100vh - v.$floatingNavHeight - 2rem);
+    left: 50%;
+    max-height: calc(100vh - v.$floatingNavHeight - 2rem);
+    position: fixed;
+    top: calc(v.$floatingNavHeight + 1.5rem);
+    transform-origin: center top;
+    width: min(calc(100% - 1rem), 56rem);
+    z-index: 2;
+  }
+
+  &__loading {
+    align-items: center;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    width: 100%;
+  }
+
+  @media screen and (max-width: 42.5rem) {
+    &__back-to-trip {
+      bottom: calc(
+        v.$floatingNavMobileHeight + v.$mobileFloatingMargin * 2 +
+          env(safe-area-inset-bottom, 0rem)
+      );
+      right: v.$mobileFloatingMargin;
+    }
+
+    &__bottom-panel {
+      bottom: calc(
+        v.$floatingNavHeight + v.$mobileFloatingMargin * 2 +
+          env(safe-area-inset-bottom, 0rem)
+      );
+      height: 75vh;
+      max-height: 75vh;
+      top: auto;
+      width: calc(100% - v.$mobileFloatingMargin * 2);
+    }
+  }
+}

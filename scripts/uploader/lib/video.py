@@ -1,0 +1,309 @@
+"""Video helpers for TravelMap uploads.
+
+This module extracts a first-frame thumbnail from a video file, encodes it to WEBP
+using the same size constraints as image thumbnails, uploads it to BunnyCDN, and
+returns metadata used in the exported JSON.
+"""
+
+import json
+import logging
+import os
+import shutil
+import subprocess
+from datetime import datetime
+from logging import Logger
+from math import gcd
+from typing import Any, Mapping, Optional, TypedDict
+
+from PIL import Image, ImageOps
+
+from lib.image import TravelImage
+from lib.storage import upload_file
+from lib.paths import (
+    build_cdn_city_path,
+)
+
+
+def is_video(filename: str) -> bool:
+    """Return True if `filename` looks like a supported video file."""
+    return filename.lower().endswith((".mp4", ".mov", ".avi", ".mkv", ".flv"))
+
+
+class VideoInfo(TypedDict):
+    """Metadata produced by `TravelVideo.run()` for downstream JSON usage."""
+
+    alt: str
+    width: int
+    height: int
+    thumbnail: str
+    youtube: bool
+
+
+class TravelVideo:
+    """Process a video file into a thumbnail and upload it.
+
+    The thumbnail is extracted from the first frame and encoded to WEBP under the
+    configured size/resolution constraints.
+    """
+
+    def __init__(
+        self,
+        filename: str,
+        args: Mapping[str, Any],
+        city_folder_path: str,
+        results_city_folder_path: str,
+    ):
+        """Create a video processor for a file in `city_folder_path`."""
+        self.filename = filename
+        self.args = args
+        self.city_folder_path = city_folder_path
+        self.results_city_folder_path = results_city_folder_path
+
+    @staticmethod
+    def _get_logger(logger: Optional[Logger]) -> Logger:
+        """Return the provided logger, or a module-scoped default logger."""
+        return logger or logging.getLogger(__name__)
+
+    def _get_cdn_full_path(self, filename: str) -> str:
+        """Build a public CDN path for a derived filename inside the city folder."""
+        return build_cdn_city_path(self.args, filename)
+
+    def extract_first_frame(self, logger: Optional[Logger] = None) -> Optional[str]:
+        """Extract the first frame using ffmpeg and return the image path."""
+        logger = self._get_logger(logger)
+
+        video_path = os.path.join(self.city_folder_path, self.filename)
+        if not os.path.exists(video_path):
+            logger.error("Video file not found: %s", video_path)
+            return None
+
+        os.makedirs(self.results_city_folder_path, exist_ok=True)
+
+        base_filename = os.path.splitext(self.filename)[0]
+        output_filename = f"{base_filename}.jpg"
+        output_path = os.path.join(self.results_city_folder_path, output_filename)
+
+        ffmpeg_path = shutil.which("ffmpeg")
+        if not ffmpeg_path:
+            logger.error(
+                "Unable to extract first frame: ffmpeg not found on PATH. Install ffmpeg and ensure it's on PATH. Video: %s",
+                video_path,
+            )
+            return None
+
+        cmd = [ffmpeg_path, "-y", "-i", video_path, "-frames:v", "1", output_path]
+
+        try:
+            subprocess.run(
+                cmd, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
+            )
+            logger.info("First frame extracted and saved as: %s", output_path)
+            return output_path
+        except FileNotFoundError as e:
+            logger.error(
+                "ffmpeg executable could not be started (%s). Ensure ffmpeg is installed and on PATH.",
+                e,
+            )
+            return None
+        except subprocess.CalledProcessError:
+            logger.error(
+                "Error extracting first frame from video (ffmpeg failed): %s",
+                video_path,
+            )
+            return None
+
+    def _probe_creation_time(
+        self, video_path: str, logger: Optional[Logger] = None
+    ) -> Optional[str]:
+        """
+        Best-effort extraction of the media creation time (when the video was taken)
+        from embedded metadata via ffprobe. Returns a raw timestamp string.
+        """
+        logger = self._get_logger(logger)
+
+        ffprobe_path = shutil.which("ffprobe")
+        if not ffprobe_path:
+            return None
+
+        cmd = [
+            ffprobe_path,
+            "-v",
+            "error",
+            "-print_format",
+            "json",
+            "-show_entries",
+            "format_tags=creation_time:stream_tags=creation_time",
+            video_path,
+        ]
+
+        try:
+            p = subprocess.run(
+                cmd,
+                check=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+            )
+            data = json.loads(p.stdout or "{}")
+
+            fmt_ct = ((data.get("format") or {}).get("tags") or {}).get("creation_time")
+            if fmt_ct:
+                return fmt_ct
+
+            for s in data.get("streams") or []:
+                st_ct = ((s or {}).get("tags") or {}).get("creation_time")
+                if st_ct:
+                    return st_ct
+
+            return None
+        except Exception as e:
+            logger.warning(
+                "Unable to read video metadata (creation_time) for %s: %s",
+                video_path,
+                e,
+            )
+            return None
+
+    def _parse_creation_time_to_ddmmyyyy(self, raw: str) -> Optional[str]:
+        """Convert an embedded creation timestamp to the exported date format."""
+        raw = (raw or "").strip()
+        if not raw:
+            return None
+
+        candidates = [raw, raw.replace("Z", "+00:00")]
+
+        for c in candidates:
+            try:
+                dt = datetime.fromisoformat(c)
+                return dt.strftime("%d/%m/%Y")
+            except ValueError:
+                pass
+
+        for fmt in ("%Y-%m-%d %H:%M:%S", "%Y-%m-%dT%H:%M:%S"):
+            try:
+                dt = datetime.strptime(raw, fmt)
+                return dt.strftime("%d/%m/%Y")
+            except ValueError:
+                pass
+
+        return None
+
+    def _get_video_creation_date_str(
+        self, logger: Optional[Logger] = None
+    ) -> Optional[str]:
+        """Return the embedded video date, falling back to filesystem metadata."""
+        logger = self._get_logger(logger)
+        video_path = os.path.join(self.city_folder_path, self.filename)
+
+        raw_ct = self._probe_creation_time(video_path, logger)
+        parsed = self._parse_creation_time_to_ddmmyyyy(raw_ct) if raw_ct else None
+        if parsed:
+            return parsed
+
+        try:
+            st = os.stat(video_path)
+            ts = (
+                getattr(st, "st_birthtime", None)
+                or getattr(st, "st_ctime", None)
+                or st.st_mtime
+            )
+            return datetime.fromtimestamp(ts).strftime("%d/%m/%Y")
+        except Exception as e:
+            logger.warning(
+                "Unable to determine any video date for %s: %s", video_path, e
+            )
+            return None
+
+    def _create_thumbnail_from_frame(
+        self, frame_path: str, logger: Optional[Logger] = None
+    ) -> Optional[VideoInfo]:
+        """Compress an extracted frame and return its exported video metadata."""
+        logger = self._get_logger(logger)
+
+        base_filename = os.path.splitext(self.filename)[0]
+        thumbnail_output_path = os.path.join(
+            self.results_city_folder_path, f"{base_filename}t.webp"
+        )
+
+        try:
+            with Image.open(frame_path) as img:
+                img = ImageOps.exif_transpose(img)
+                width, height = img.size
+                max_common_divisor = gcd(width, height)
+
+                size_kb = TravelImage._compress_image(
+                    image=img.copy(),
+                    max_size_kb=int(self.args["THUMBNAIL_MAX_SIZE"]),
+                    min_size_kb=int(self.args["THUMBNAIL_MIN_SIZE"]),
+                    max_resolution=(
+                        int(self.args["THUMBNAIL_RESOLUTION"]),
+                        int(self.args["THUMBNAIL_RESOLUTION"]),
+                    ),
+                    output_path=thumbnail_output_path,
+                    logger=logger,
+                )
+                if size_kb is None:
+                    return None
+
+                date_str = self._get_video_creation_date_str(logger)
+                alt = (
+                    f"{self.args['city']} - ({date_str})"
+                    if date_str
+                    else f"{self.args['city']} - "
+                )
+
+                return {
+                    "alt": alt,
+                    "width": int(width / max_common_divisor),
+                    "height": int(height / max_common_divisor),
+                    "thumbnail": self._get_cdn_full_path(f"{base_filename}t.webp"),
+                    "youtube": True,
+                }
+        except Exception as e:
+            logger.error("Error creating video thumbnail for %s: %s", self.filename, e)
+            return None
+
+    def upload_to_bunny_cdn(self, logger: Optional[Logger] = None) -> None:
+        """Upload the generated thumbnail WEBP (`*t.webp`) to BunnyCDN Storage."""
+        logger = self._get_logger(logger)
+
+        base_filename = os.path.splitext(self.filename)[0]
+        upload_file(self.args, self.results_city_folder_path, f"{base_filename}t.webp")
+        logger.info("Uploaded video thumbnail for %s to BunnyCDN Storage.", self.filename)
+
+    def copy_to_media(self, logger: Optional[Logger] = None) -> None:
+        """Copy the generated video thumbnail into local media."""
+        logger = self._get_logger(logger)
+        media_dir = str(self.args["media_dir"])
+        base_filename = os.path.splitext(self.filename)[0]
+        filename = f"{base_filename}t.webp"
+        os.makedirs(media_dir, exist_ok=True)
+        shutil.copy2(
+            os.path.join(self.results_city_folder_path, filename),
+            os.path.join(media_dir, filename),
+        )
+        logger.info("Copied video thumbnail for %s to local media.", self.filename)
+
+    def run(self, logger: Optional[Logger] = None) -> Optional[VideoInfo]:
+        """Run the full video pipeline and return the JSON-ready metadata."""
+        logger = self._get_logger(logger)
+
+        frame_path = self.extract_first_frame(logger)
+        if not frame_path:
+            return None
+
+        info = self._create_thumbnail_from_frame(frame_path, logger)
+
+        try:
+            os.remove(frame_path)
+        except OSError:
+            logger.warning("Could not remove the temporary video frame.")
+
+        if info is None:
+            return None
+
+        if self.args.get("local"):
+            self.copy_to_media(logger)
+        else:
+            self.upload_to_bunny_cdn(logger)
+        return info

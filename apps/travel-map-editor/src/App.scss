@@ -1,0 +1,325 @@
+@use "variables" as v;
+@use "mixins" as m;
+
+/* The public app owns the viewport; the editor must remain scrollable. */
+body,
+#root {
+  height: auto;
+  min-height: 100%;
+  overflow: auto;
+}
+
+/*
+ * The accent is declared on the document and switched by the theme class the
+ * shell puts on `body`, rather than on `.editor`, so menus and pickers
+ * portalled out of the shell still inherit it — and so the light values apply
+ * on the first paint, before the shell has classed the body at all.
+ */
+:root {
+  --editor-accent: #{v.$accentPrimary};
+  --editor-accent-strong: #{v.$accentPrimaryHover};
+  --editor-accent-soft: #{v.$accentSoftLight};
+  --editor-accent-ink: #ffffff;
+}
+
+.body--dark {
+  --editor-accent: #{v.$accentOnDark};
+  --editor-accent-strong: #{v.$accentOnDarkHover};
+  --editor-accent-soft: #{v.$accentSoftDark};
+  --editor-accent-ink: #{v.$accentInkOnDark};
+}
+
+/*
+ * The shell owns the scrolling, and is a flex column of a definite height, so
+ * a full-height screen such as the workspace can claim exactly the space the
+ * navigation leaves instead of subtracting the bar's height by hand.
+ */
+.editor {
+  position: relative;
+  display: flex;
+  height: 100dvh;
+  flex-direction: column;
+  overflow: auto;
+
+  &--dark {
+    background-color: v.$darkBackground;
+    color: v.$darkButtonContent;
+  }
+  &--light {
+    background-color: v.$lightBackground;
+    color: v.$lightButtonContent;
+  }
+
+  &__screen {
+    display: flex;
+    flex-direction: column;
+    gap: v.$floatingCardGap;
+    width: min(80rem, 100%);
+    margin: 0 auto;
+    padding: 1.5rem 1rem 5rem;
+  }
+
+  &__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  &__breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin-bottom: 0.35rem;
+    font-size: v.$bodySm;
+
+    svg {
+      width: 0.85rem;
+      height: 0.85rem;
+      opacity: 0.5;
+    }
+  }
+
+  &__breadcrumb-link {
+    border-radius: 0.35rem;
+    color: var(--editor-accent);
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    &:focus-visible {
+      outline: 0.125rem solid var(--editor-accent);
+      outline-offset: 0.15rem;
+    }
+  }
+
+  &__path {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: ui-monospace, "SFMono-Regular", monospace;
+    font-size: v.$caption;
+  }
+
+  &__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 3rem 0;
+  }
+
+  &--dark &__breadcrumb,
+  &--dark &__path {
+    color: v.$darkAltTextDarker;
+  }
+  &--light &__breadcrumb,
+  &--light &__path {
+    color: v.$lightAltTextDarker;
+  }
+}
+
+.editor-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: v.$floatingCardPadding;
+  border-radius: v.$floatingCardRadiusLg;
+
+  &__legend {
+    font-size: v.$headingMd;
+    font-weight: 600;
+  }
+
+  &__hint {
+    margin: 0;
+    font-size: v.$bodySm;
+    line-height: 1.5;
+  }
+
+  &__row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+    align-items: start;
+    gap: 1rem;
+  }
+}
+
+.editor--dark .editor-panel {
+  @include m.full-panel-dark();
+  padding: v.$floatingCardPadding;
+}
+.editor--light .editor-panel {
+  @include m.full-panel-light();
+  padding: v.$floatingCardPadding;
+}
+.editor--dark .editor-panel__hint {
+  color: v.$darkAltText;
+}
+.editor--light .editor-panel__hint {
+  color: v.$lightAltText;
+}
+
+.editor-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.55rem 1rem;
+  border: 0.0625rem solid transparent;
+  border-radius: 62.4375rem;
+  font-size: v.$bodySm;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  @include m.transition(transform, 0.2s);
+
+  &:hover:not(:disabled) {
+    transform: scale(1.03);
+  }
+  &:active:not(:disabled) {
+    transform: scale(0.97);
+  }
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    transform: none;
+  }
+  &:focus-visible {
+    outline: 0.125rem solid var(--editor-accent);
+    outline-offset: 0.15rem;
+  }
+
+  svg {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+    stroke-width: 2.25;
+  }
+
+  &--primary {
+    background-color: var(--editor-accent);
+    color: var(--editor-accent-ink);
+
+    &:hover:not(:disabled) {
+      background-color: var(--editor-accent-strong);
+    }
+  }
+
+  &--danger {
+    background-color: v.$visitedButton;
+    color: v.$visitedButtonContent;
+
+    &:hover:not(:disabled) {
+      background-color: v.$visitedButtonHover;
+    }
+  }
+}
+
+.editor-inline-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 0.35rem;
+  color: inherit;
+  font-weight: 600;
+  text-decoration: none;
+
+  &:focus-visible {
+    outline: 0.125rem solid var(--editor-accent);
+    outline-offset: 0.1rem;
+  }
+
+  svg {
+    width: 0.8rem;
+    height: 0.8rem;
+  }
+}
+
+.editor--dark .editor-inline-link {
+  background: v.$darkButton;
+
+  &:hover {
+    background: v.$darkButtonHover;
+  }
+}
+
+.editor--light .editor-inline-link {
+  background: v.$lightButton;
+
+  &:hover {
+    background: v.$lightButtonHover;
+  }
+}
+
+.editor--dark
+  .editor-button:not(.editor-button--primary):not(.editor-button--danger) {
+  background-color: v.$darkButton;
+  color: v.$darkButtonContent;
+
+  &:hover:not(:disabled) {
+    background-color: v.$darkButtonHover;
+  }
+}
+.editor--light
+  .editor-button:not(.editor-button--primary):not(.editor-button--danger) {
+  background-color: v.$lightButton;
+  color: v.$lightButtonContent;
+
+  &:hover:not(:disabled) {
+    background-color: v.$lightButtonHover;
+  }
+}
+
+.editor-notice {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0.85rem 1rem;
+  border-radius: v.$floatingCardRadius;
+  list-style: none;
+  font-size: v.$bodySm;
+
+  &__item {
+    line-height: 1.5;
+  }
+
+  &--error {
+    background-color: v.$visitedButton;
+    color: v.$visitedButtonContent;
+  }
+
+  &--warning {
+    background-color: v.$livedButton;
+    color: #8a6100;
+  }
+
+  &--success {
+    background-color: v.$futureButton;
+    color: v.$futureButtonContent;
+  }
+}
+
+@media (max-width: 58rem) {
+  .editor__screen {
+    padding-bottom: 7rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .editor-button {
+    transition: none;
+
+    &:hover:not(:disabled),
+    &:active:not(:disabled) {
+      transform: none;
+    }
+  }
+}

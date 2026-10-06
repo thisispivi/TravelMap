@@ -1,0 +1,61 @@
+@use "variables" as v;
+
+.stay-card {
+  &__remove {
+    flex-shrink: 0;
+  }
+
+  &__flag {
+    width: 1.125rem;
+    height: 1.125rem;
+    flex-shrink: 0;
+  }
+
+  &__fields {
+    display: grid;
+    grid-template-columns: 2fr 1.5fr 1fr;
+    gap: 0.75rem;
+
+    @media (max-width: 40rem) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* A day trip is a tinted box, as the day boxes are on the public page. */
+  &__outing {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    padding: 0.875rem;
+    border-radius: 0.875rem;
+    background: var(--story-surface);
+  }
+
+  &__outing-header {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.625rem;
+  }
+
+  &__outing-title {
+    flex: 1;
+    margin-bottom: 0.55rem;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--story-muted);
+  }
+
+  &__legs {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__add {
+    align-self: flex-start;
+  }
+}

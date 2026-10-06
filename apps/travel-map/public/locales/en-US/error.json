@@ -1,0 +1,11 @@
+{
+  "details": {
+    "title": "Whoops!",
+    "subtitle": "Something went wrong."
+  },
+  "notFound": {
+    "title": "Page Not Found",
+    "subtitle": "The page you're looking for doesn't exist."
+  },
+  "goToHome": "Go to Home"
+}

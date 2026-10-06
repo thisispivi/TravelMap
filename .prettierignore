@@ -1,0 +1,20 @@
+node_modules/
+dist/
+pnpm-lock.yaml
+
+# Authored content and generated media keep whatever shape their tools produce.
+.data-snapshots/
+data/
+media/
+apps/travel-map/public/
+apps/travel-map-editor/public/
+scripts/uploader/photos/
+
+# Editor-integration hook scripts follow their host tool's conventions.
+apps/travel-map/.claude/
+apps/travel-map/.cursor/
+
+# Python virtual environments and caches are local, reproducible state.
+.venv/
+**/venv/
+**/__pycache__/

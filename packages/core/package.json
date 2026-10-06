@@ -1,0 +1,29 @@
+{
+  "name": "@travelmap/core",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "knip": "knip",
+    "lint": "eslint . --report-unused-disable-directives --max-warnings=0",
+    "lint:fix": "eslint . --fix --max-warnings=0",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./classes/Ferry": "./src/classes/Ferry.ts",
+    "./classes/Flight": "./src/classes/Flight.ts",
+    "./classes/City": "./src/classes/City.ts",
+    "./typings/Travel": "./src/typings/Travel.ts"
+  },
+  "dependencies": {
+    "remeda": "^2.45.0",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@types/node": "^26.4.0",
+    "knip": "^6.32.3",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.0"
+  }
+}

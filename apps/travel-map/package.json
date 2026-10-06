@@ -1,0 +1,88 @@
+{
+  "name": "travel-map",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "homepage": "https://map.pivi.dev",
+  "packageManager": "pnpm@11.21.0",
+  "engines": {
+    "node": ">=22.22.0",
+    "pnpm": ">=11.18.0"
+  },
+  "scripts": {
+    "build": "tsc && vite build",
+    "deploygh": "gh-pages -d dist --nojekyll",
+    "dev": "vite",
+    "knip": "knip",
+    "lint": "eslint . --report-unused-disable-directives --max-warnings=0",
+    "lint:fix": "eslint . --fix --max-warnings=0",
+    "predeploygh": "pnpm run build",
+    "preview": "vite preview",
+    "react:doctor": "react-doctor . --verbose",
+    "security:audit": "pnpm audit --audit-level=low",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "update:packages": "ncu -u --peer --reject prettier,eslint,@eslint/js,typescript"
+  },
+  "dependencies": {
+    "@travelmap/core": "workspace:*",
+    "apexcharts": "^7.0.0",
+    "framer-motion": "^13.1.1",
+    "i18next": "^26.4.0",
+    "i18next-browser-languagedetector": "^8.2.1",
+    "i18next-http-backend": "^4.0.1",
+    "maplibre-gl": "6.6.0",
+    "mobile-device-detect": "^0.4.3",
+    "react": "^19.2.8",
+    "react-apexcharts": "^2.1.1",
+    "react-dom": "^19.2.8",
+    "react-i18next": "^17.0.12",
+    "react-image-gallery": "^2.1.2",
+    "react-map-gl": "^8.1.2",
+    "react-photo-album": "^3.6.1",
+    "react-router": "^8.3.0",
+    "react-tooltip": "^6.0.8",
+    "remeda": "^2.45.0",
+    "swr": "^2.5.1",
+    "topojson-client": "^3.1.0",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@babel/core": "^8.0.1",
+    "@rolldown/plugin-babel": "^0.2.3",
+    "@types/geojson": "^7946.0.16",
+    "@types/node": "^26.4.0",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.5",
+    "@types/topojson-client": "^3.1.5",
+    "@types/topojson-specification": "^1.0.5",
+    "@vitejs/plugin-react": "^6.1.1",
+    "autoprefixer": "^10.5.4",
+    "babel-plugin-react-compiler": "^1.0.0",
+    "eslint": "^10.9.1",
+    "gh-pages": "^6.3.0",
+    "knip": "^6.32.3",
+    "npm-check-updates": "^23.1.0",
+    "postcss": "8.5.26",
+    "react-doctor": "^0.9.12",
+    "sass": "^1.103.1",
+    "typescript": "^6.0.3",
+    "vite": "^8.2.2",
+    "vite-plugin-qrcode": "^0.4.1",
+    "vite-plugin-svgr": "^5.2.0",
+    "vitest": "^4.1.0"
+  },
+  "browserslist": {
+    "production": [
+      ">0.01%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      ">0.01%",
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

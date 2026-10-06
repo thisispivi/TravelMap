@@ -1,0 +1,91 @@
+"""Command-line argument parsing for the uploader."""
+
+import getopt
+from logging import Logger
+from typing import Any, Sequence
+
+from lib.config import validate_path_segment
+
+
+def get_args(argumentList: Sequence[str], logger: Logger) -> dict[str, Any]:
+    """
+    Parse command-line arguments.
+
+    Args:
+        argumentList: Full argv sequence (including program name).
+        logger (Logger): The logger instance.
+
+    Returns:
+        A dict containing required keys: `city`, `country`, and `local`.
+
+    Raises:
+        ValueError: If required args are missing.
+        getopt.GetoptError: If invalid options are provided.
+        SystemExit: If `-h/--help` is requested.
+    """
+
+    usage = (
+        "Usage: python main.py -c <city> -C <country> [--local]\n"
+        "\n"
+        "Options:\n"
+        "  -c, --city       City folder name under photos/\n"
+        "  -C, --country    Country slug used for CDN paths\n"
+        "  -l, --local      Copy media locally instead of uploading to Bunny\n"
+        "  -h, --help       Show this help and exit\n"
+    )
+
+    argument_list = list(argumentList)[1:]
+    options = "hlc:C:"
+    long_options = ["help", "local", "city=", "country="]
+
+    try:
+        arguments, remainder = getopt.getopt(argument_list, options, long_options)
+
+        if remainder:
+            raise ValueError("Unexpected positional arguments.")
+
+        for currentArgument, _currentValue in arguments:
+            if currentArgument in ("-h", "--help"):
+                print(usage)
+                raise SystemExit(0)
+
+        if not arguments:
+            raise ValueError(
+                "No arguments provided. Please provide the city name with -c/--city and country with -C/--country."
+            )
+
+        data: dict[str, Any] = {"local": False}
+
+        for currentArgument, currentValue in arguments:
+            if currentArgument in ("-c", "--city"):
+                data["city"] = currentValue
+            elif currentArgument in ("-C", "--country"):
+                data["country"] = currentValue
+            elif currentArgument in ("-l", "--local"):
+                data["local"] = True
+
+        if "city" not in data:
+            raise ValueError(
+                "City argument missing. Use -c or --city to specify the city name."
+            )
+
+        if "country" not in data:
+            raise ValueError(
+                "Country argument missing. Use -C or --country to specify the country name."
+            )
+
+        validate_path_segment(data["city"])
+        validate_path_segment(data["country"])
+
+        logger.info(
+            "Generating JSON for city: %s, country: %s", data["city"], data["country"]
+        )
+
+        return data
+
+    except getopt.GetoptError as err:
+        logger.error("Argument parsing error: %s", err)
+        raise
+    except Exception as e:
+        logger.error("Error: %s", e)
+        raise

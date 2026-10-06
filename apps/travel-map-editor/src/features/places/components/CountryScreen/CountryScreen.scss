@@ -1,0 +1,48 @@
+@use "variables" as v;
+
+.country-screen {
+  &__facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+    gap: 0.75rem;
+    margin: 0;
+  }
+
+  &__fact {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+
+    dt {
+      font-size: v.$caption;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    dd {
+      margin: 0;
+      font-size: v.$bodySm;
+      font-weight: 600;
+      text-transform: capitalize;
+    }
+    code {
+      font-family: ui-monospace, "SFMono-Regular", monospace;
+      font-size: v.$caption;
+      font-weight: 400;
+      text-transform: none;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+}
+
+.editor--dark .country-screen__fact dt {
+  color: v.$darkAltTextDarker;
+}
+.editor--light .country-screen__fact dt {
+  color: v.$lightAltTextDarker;
+}

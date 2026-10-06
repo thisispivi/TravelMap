@@ -1,0 +1,52 @@
+{
+  "name": "travel-map-editor",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "tsc && vite build",
+    "dev": "vite",
+    "knip": "knip",
+    "lint": "eslint . --report-unused-disable-directives --max-warnings=0",
+    "lint:fix": "eslint . --fix --max-warnings=0",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@travelmap/core": "workspace:*",
+    "all-the-cities": "^3.1.0",
+    "downshift": "^9.4.0",
+    "fast-xml-parser": "5.11.1",
+    "framer-motion": "^13.1.1",
+    "fuse.js": "^7.5.0",
+    "i18next": "^26.4.0",
+    "i18next-browser-languagedetector": "^8.2.1",
+    "i18next-http-backend": "^4.0.1",
+    "lucide-react": "^1.35.0",
+    "maplibre-gl": "^6.6.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-i18next": "^17.0.12",
+    "react-map-gl": "^8.1.2",
+    "react-router": "^8.3.0",
+    "stopword": "^3.1.5",
+    "tz-lookup": "^6.1.25",
+    "world-countries": "^5.1.0",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@types/geojson": "^7946.0.16",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.5",
+    "@types/topojson-specification": "^1.0.5",
+    "@vitejs/plugin-react": "^6.1.1",
+    "autoprefixer": "^10.5.4",
+    "knip": "^6.32.3",
+    "sass": "^1.103.1",
+    "sharp": "^0.35.4",
+    "typescript": "^6.0.3",
+    "vite": "^8.2.2",
+    "vite-plugin-svgr": "^5.2.0",
+    "vitest": "^4.1.0"
+  }
+}

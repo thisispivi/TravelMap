@@ -1,0 +1,37 @@
+{
+  "name": "travel-map-workspace",
+  "private": true,
+  "packageManager": "pnpm@11.21.0",
+  "scripts": {
+    "build": "pnpm -r --if-present build",
+    "check": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm test && pnpm knip && pnpm --filter travel-map react:doctor",
+    "dev": "pnpm -r --parallel --filter travel-map --filter travel-map-editor dev",
+    "editor": "pnpm --filter travel-map-editor dev",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check",
+    "knip": "pnpm -r --if-present knip",
+    "lint": "pnpm -r --if-present lint",
+    "lint:fix": "pnpm -r --if-present lint:fix",
+    "prepare": "husky",
+    "test": "pnpm -r --if-present test",
+    "typecheck": "pnpm -r --if-present typecheck"
+  },
+  "devDependencies": {
+    "@eslint/compat": "^2.1.0",
+    "@eslint/eslintrc": "^3.3.6",
+    "@eslint/js": "^10.0.1",
+    "@typescript-eslint/eslint-plugin": "^8.68.0",
+    "@typescript-eslint/parser": "^8.68.0",
+    "eslint": "^10.9.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-jsdoc": "^64.2.1",
+    "eslint-plugin-no-unsanitized": "^4.1.5",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-simple-import-sort": "^14.0.0",
+    "globals": "^17.11.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.4.1",
+    "prettier": "3.9.6"
+  }
+}

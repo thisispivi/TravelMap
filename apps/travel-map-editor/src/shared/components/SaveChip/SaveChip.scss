@@ -1,0 +1,55 @@
+@use "variables" as v;
+
+.save-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 62.4375rem;
+  font-size: v.$caption;
+  white-space: nowrap;
+
+  svg {
+    width: 0.85rem;
+    height: 0.85rem;
+  }
+
+  &__label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  &__spinner {
+    animation: save-chip-spin 0.8s linear infinite;
+  }
+
+  &--saved {
+    color: v.$transportBus;
+  }
+
+  &--failed {
+    background: v.$visitedButton;
+    color: v.$visitedButtonContent;
+  }
+}
+
+@keyframes save-chip-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.editor--dark .save-chip:not(.save-chip--failed) {
+  background: v.$darkButton;
+}
+
+.editor--light .save-chip:not(.save-chip--failed) {
+  background: v.$lightButton;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .save-chip__spinner {
+    animation: none;
+  }
+}

@@ -1,0 +1,111 @@
+@use "variables" as v;
+
+.trip-story {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1rem 1.25rem 3rem;
+
+  &__details {
+    border-radius: 0.875rem;
+    background: var(--story-surface);
+  }
+
+  &__details-summary {
+    padding: 0.75rem 1rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  &__details-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 0 1rem 1rem;
+  }
+
+  &__start {
+    display: grid;
+    grid-template-columns: 2rem 2fr 1fr;
+    align-items: end;
+    gap: 0.75rem 0.875rem;
+  }
+
+  &__start-icon {
+    width: 2rem;
+    height: 2rem;
+    padding: 0.4375rem;
+    border-radius: 50%;
+    background: var(--story-surface-strong);
+  }
+
+  &__chapters {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__legs {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__remove {
+    flex-shrink: 0;
+  }
+
+  &__add {
+    align-self: flex-start;
+  }
+
+  &__next {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+    margin-left: 2.875rem;
+    padding: 1.125rem;
+    border: 0.125rem dashed var(--editor-accent);
+    border-radius: 1.125rem;
+  }
+
+  &__next-title {
+    margin: 0;
+    font-size: 1.125rem;
+  }
+
+  &__next-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 0.75rem;
+  }
+
+  &__stay-here {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.5rem;
+
+    .editor-field {
+      width: 7rem;
+    }
+  }
+}
+
+/* Colours shared by the story, its chapters, and their rows. */
+.editor--dark .trip-story {
+  --story-rail: rgba(255, 255, 255, 0.2);
+  --story-surface: rgba(255, 255, 255, 0.05);
+  --story-surface-strong: rgba(255, 255, 255, 0.12);
+  --story-muted: #{v.$darkAltText};
+}
+
+.editor--light .trip-story {
+  --story-rail: rgba(0, 0, 0, 0.16);
+  --story-surface: rgba(0, 0, 0, 0.035);
+  --story-surface-strong: rgba(0, 0, 0, 0.08);
+  --story-muted: #{v.$lightAltText};
+}
