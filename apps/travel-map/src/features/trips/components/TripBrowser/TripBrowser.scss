@@ -99,7 +99,7 @@
     @include m.floating-card-dark();
 
     .trip-browser__header h2 {
-      color: #ffffff;
+      color: v.$darkButtonContent;
     }
 
     .trip-browser__year-btn {

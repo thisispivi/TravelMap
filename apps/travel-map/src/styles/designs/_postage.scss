@@ -1,0 +1,93 @@
+:root[data-design="postage"] {
+  /* Vermilion is deepened to carry white text; the navy album lights its
+     accent in peach with a dark ink on top. */
+  --font-body: "Inter Tight", "Urbanist", Arial, sans-serif;
+  --font-display: "Abril Fatface", Georgia, serif;
+  --radius-xs: 0.125rem;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.25rem;
+  --radius-lg: 0.375rem;
+  --radius-pill: 62.4375rem;
+  --dark-background: #1b2647;
+  --dark-left-bar: #22305a;
+  --dark-left-bar-opacity: rgba(34, 48, 90, 0.96);
+  --dark-left-bar-opacity-lighter: rgba(34, 48, 90, 0.6);
+  --dark-info-tab: #2a3a69;
+  --dark-button: rgba(244, 239, 230, 0.08);
+  --dark-button-hover: rgba(244, 239, 230, 0.15);
+  --dark-button-content: #f4efe6;
+  --dark-alt-text: #c3c9dd;
+  --dark-alt-text-darker: #98a1bf;
+  --dark-disabled-text: #5c6a91;
+  --glass-bg-dark: rgba(34, 48, 90, 0.96);
+  --glass-border-dark: rgba(244, 239, 230, 0.18);
+  --glass-shadow-dark: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.35);
+  --photo-card-shadow-dark: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.35);
+  --route-line-color-dark: #f2c9a0;
+  --light-background: #f1ebe0;
+  --light-left-bar: #fffdf8;
+  --light-left-bar-opacity: rgba(255, 253, 248, 0.96);
+  --light-left-bar-opacity-lighter: rgba(255, 253, 248, 0.6);
+  --light-info-tab: #f7f2e8;
+  --light-button: rgba(43, 58, 103, 0.08);
+  --light-button-hover: rgba(43, 58, 103, 0.15);
+  --light-button-content: #2b3a67;
+  --light-alt-text: #5c6a91;
+  --light-alt-text-darker: #3b4a78;
+  --light-disabled-text: #b8bccb;
+  --glass-bg-light: rgba(255, 253, 248, 0.96);
+  --glass-border-light: rgba(43, 58, 103, 0.2);
+  --glass-shadow-light: 0 0.5rem 1.5rem rgba(43, 58, 103, 0.12);
+  --photo-card-shadow-light: 0 0.5rem 1.5rem rgba(43, 58, 103, 0.12);
+  --route-line-color-light: #2b3a67;
+  --glass-blur: 0rem;
+  --accent-primary: #c4432a;
+  --accent-primary-hover: #c4432a;
+  --accent-soft-dark: rgba(242, 201, 160, 0.2);
+  --accent-soft-light: rgba(196, 67, 42, 0.12);
+  --accent-on-dark: #f2c9a0;
+  --accent-on-dark-hover: #f2c9a0;
+  --accent-ink-on-dark: #2b1a10;
+  --loader-color: var(--accent-primary);
+  --visited-button: rgba(196, 67, 42, 0.16);
+  --visited-button-hover: rgba(196, 67, 42, 0.28);
+  --visited-button-content: #c4432a;
+  --future-button: rgba(46, 125, 107, 0.16);
+  --future-button-hover: rgba(46, 125, 107, 0.28);
+  --future-button-content: #2e7d6b;
+  --lived-button: rgba(168, 116, 26, 0.16);
+  --lived-button-hover: rgba(168, 116, 26, 0.28);
+  --lived-button-content: #a8741a;
+  --marker-visited: #d94f30;
+  --marker-visited-hover: #e8735a;
+  --marker-future: #2e7d6b;
+  --marker-future-hover: #3fa08a;
+  --marker-lived: #e8a33d;
+  --marker-lived-hover: #f0bb66;
+  --panel-texture-dark: repeating-radial-gradient(
+    circle at 100% 0,
+    transparent 0 1rem,
+    rgba(244, 239, 230, 0.05) 1rem 1.0625rem
+  );
+  --panel-texture-light: repeating-radial-gradient(
+    circle at 100% 0,
+    transparent 0 1rem,
+    rgba(43, 58, 103, 0.05) 1rem 1.0625rem
+  );
+  --h1-weight: 400;
+  --h2-weight: 400;
+  --h3-weight: 400;
+  --h1-tracking: 0.01em;
+  --h2-tracking: 0.01em;
+  --marker-filter: drop-shadow(0 0.0625rem 0.125rem rgba(43, 58, 103, 0.4));
+  --trip-card-hover-transform: rotate(-1.5deg) translateY(-0.125rem);
+  --trip-card-title-size: 1.6rem;
+  --trip-card-border-light: 0.5rem solid #ffffff;
+  --trip-card-shadow-light: 0 0.125rem 0.375rem rgba(43, 58, 103, 0.25);
+  --trip-card-border-dark: 0.5rem solid #f4efe6;
+  --trip-card-shadow-dark: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.4);
+  --nav-indicator-dark: rgba(242, 201, 160, 0.2);
+  --nav-indicator-light: rgba(196, 67, 42, 0.12);
+  --nav-active-dark: #f2c9a0;
+  --nav-active-light: #c4432a;
+}

@@ -1,0 +1,109 @@
+:root[data-design="phosphor"] {
+  /* Phosphor green is a light colour, so on light surfaces the accent is a
+     deep printout green; the dark screen glows with black ink on top. */
+  --font-body: "IBM Plex Mono", "Courier New", monospace;
+  --font-display: "VT323", "Courier New", monospace;
+  --radius-xs: 0;
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+  --radius-pill: 0;
+  --dark-background: #020a05;
+  --dark-left-bar: #04140a;
+  --dark-left-bar-opacity: rgba(4, 20, 10, 0.96);
+  --dark-left-bar-opacity-lighter: rgba(4, 20, 10, 0.6);
+  --dark-info-tab: #06200f;
+  --dark-button: rgba(57, 255, 136, 0.08);
+  --dark-button-hover: rgba(57, 255, 136, 0.15);
+  --dark-button-content: #39ff88;
+  --dark-alt-text: #22b864;
+  --dark-alt-text-darker: #178a4a;
+  --dark-disabled-text: #0f5c31;
+  --glass-bg-dark: rgba(4, 20, 10, 0.96);
+  --glass-border-dark: #1d7a45;
+  --glass-shadow-dark: 0 0 1.25rem rgba(57, 255, 136, 0.15);
+  --photo-card-shadow-dark: 0 0 1.25rem rgba(57, 255, 136, 0.15);
+  --route-line-color-dark: #39ff88;
+  --light-background: #e6f0e7;
+  --light-left-bar: #f6fbf6;
+  --light-left-bar-opacity: rgba(246, 251, 246, 0.96);
+  --light-left-bar-opacity-lighter: rgba(246, 251, 246, 0.6);
+  --light-info-tab: #ecf5ed;
+  --light-button: rgba(11, 61, 31, 0.08);
+  --light-button-hover: rgba(11, 61, 31, 0.15);
+  --light-button-content: #0b3d1f;
+  --light-alt-text: #2f6b45;
+  --light-alt-text-darker: #1c4f30;
+  --light-disabled-text: #9db8a5;
+  --glass-bg-light: rgba(246, 251, 246, 0.96);
+  --glass-border-light: #0b7a3b;
+  --glass-shadow-light: none;
+  --photo-card-shadow-light: none;
+  --route-line-color-light: #0b7a3b;
+  --glass-blur: 0rem;
+  --accent-primary: #0b7a3b;
+  --accent-primary-hover: #0b7a3b;
+  --accent-soft-dark: rgba(57, 255, 136, 0.2);
+  --accent-soft-light: rgba(11, 122, 59, 0.12);
+  --accent-on-dark: #39ff88;
+  --accent-on-dark-hover: #39ff88;
+  --accent-ink-on-dark: #021a0b;
+  --loader-color: var(--accent-primary);
+  --visited-button: rgba(11, 122, 59, 0.16);
+  --visited-button-hover: rgba(11, 122, 59, 0.28);
+  --visited-button-content: #0b7a3b;
+  --future-button: rgba(11, 106, 122, 0.16);
+  --future-button-hover: rgba(11, 106, 122, 0.28);
+  --future-button-content: #0b6a7a;
+  --lived-button: rgba(122, 106, 11, 0.16);
+  --lived-button-hover: rgba(122, 106, 11, 0.28);
+  --lived-button-content: #7a6a0b;
+  --marker-visited: #39ff88;
+  --marker-visited-hover: #8dffb9;
+  --marker-future: #7df9ff;
+  --marker-future-hover: #b0fbff;
+  --marker-lived: #f9f871;
+  --marker-lived-hover: #fbfaa8;
+  --panel-texture-dark: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.3) 0 0.0625rem,
+    transparent 0.0625rem 0.1875rem
+  );
+  --panel-texture-light: repeating-linear-gradient(
+    0deg,
+    rgba(11, 61, 31, 0.04) 0 0.0625rem,
+    transparent 0.0625rem 0.1875rem
+  );
+  --full-panel-border-light: var(--glass-border-light);
+  --heading-transform: uppercase;
+  --h1-weight: 400;
+  --h2-weight: 400;
+  --h3-weight: 400;
+  --h1-tracking: 0.04em;
+  --h2-tracking: 0.04em;
+  --h3-tracking: 0.04em;
+  --marker-filter: drop-shadow(0 0 0.25rem rgba(57, 255, 136, 0.8));
+  --trip-card-image-ground: #39ff88;
+  --trip-card-image-filter: grayscale(1) contrast(1.3) brightness(0.9);
+  --trip-card-image-blend: multiply;
+  --trip-card-title-size: 2rem;
+  --trip-card-border-dark: 0.0625rem solid #1d7a45;
+  --trip-card-shadow-dark: 0 0 1rem rgba(57, 255, 136, 0.2);
+  --trip-card-border-light: 0.0625rem solid #0b7a3b;
+  --trip-card-shadow-light: none;
+  --nav-label-font: var(--font-display);
+  --nav-label-size: 1.15rem;
+  --nav-label-weight: 400;
+  --nav-label-tracking: 0.06em;
+  --nav-label-transform: uppercase;
+  --nav-indicator-dark: rgba(57, 255, 136, 0.15);
+  --nav-indicator-border-dark: 0.0625rem solid #39ff88;
+  --nav-indicator-light: rgba(11, 122, 59, 0.1);
+  --nav-indicator-border-light: 0.0625rem solid #0b7a3b;
+  --nav-active-dark: #39ff88;
+  --nav-active-light: #0b3d1f;
+  --panel-title-size: 2rem;
+  --focus-outline: 0.125rem solid currentColor;
+  --focus-offset: 0.125rem;
+  --focus-shadow: none;
+}

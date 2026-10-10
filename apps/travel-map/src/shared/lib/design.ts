@@ -10,6 +10,16 @@ export const DesignSchema = z.enum([
   "risograph",
   "softness",
   "neo-brutalism",
+  "departures",
+  "contour",
+  "phosphor",
+  "postage",
+  "blueprint",
+  "art-deco",
+  "field-notebook",
+  "frutiger-aero",
+  "bauhaus",
+  "metro-map",
 ]);
 
 /** One of the visual designs the app can be rendered in. */

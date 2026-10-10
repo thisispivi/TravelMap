@@ -1,0 +1,102 @@
+:root[data-design="bauhaus"] {
+  /* Bauhaus blue carries white text on light paper; the dark sheet lights its
+     accent in yellow with black ink on top. */
+  --font-body: "Jost", "Urbanist", Arial, sans-serif;
+  --font-display: "Jost", "Urbanist", Arial, sans-serif;
+  --radius-xs: 0;
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+  --radius-pill: 62.4375rem;
+  --dark-background: #121212;
+  --dark-left-bar: #1b1b1b;
+  --dark-left-bar-opacity: rgba(27, 27, 27, 0.96);
+  --dark-left-bar-opacity-lighter: rgba(27, 27, 27, 0.6);
+  --dark-info-tab: #242424;
+  --dark-button: rgba(241, 235, 221, 0.08);
+  --dark-button-hover: rgba(241, 235, 221, 0.15);
+  --dark-button-content: #f1ebdd;
+  --dark-alt-text: #bdb6a6;
+  --dark-alt-text-darker: #958f81;
+  --dark-disabled-text: #57534b;
+  --glass-bg-dark: rgba(27, 27, 27, 0.96);
+  --glass-border-dark: #f1ebdd;
+  --glass-shadow-dark: none;
+  --photo-card-shadow-dark: none;
+  --route-line-color-dark: #f4c20d;
+  --light-background: #e8e1d0;
+  --light-left-bar: #f8f4ea;
+  --light-left-bar-opacity: rgba(248, 244, 234, 0.96);
+  --light-left-bar-opacity-lighter: rgba(248, 244, 234, 0.6);
+  --light-info-tab: #f1ebdd;
+  --light-button: rgba(17, 17, 17, 0.08);
+  --light-button-hover: rgba(17, 17, 17, 0.15);
+  --light-button-content: #111111;
+  --light-alt-text: #444444;
+  --light-alt-text-darker: #222222;
+  --light-disabled-text: #b5ad9c;
+  --glass-bg-light: rgba(248, 244, 234, 0.96);
+  --glass-border-light: #111111;
+  --glass-shadow-light: none;
+  --photo-card-shadow-light: none;
+  --route-line-color-light: #111111;
+  --glass-blur: 0rem;
+  --accent-primary: #1f4fa3;
+  --accent-primary-hover: #1f4fa3;
+  --accent-soft-dark: rgba(244, 194, 13, 0.2);
+  --accent-soft-light: rgba(31, 79, 163, 0.12);
+  --accent-on-dark: #f4c20d;
+  --accent-on-dark-hover: #f4c20d;
+  --accent-ink-on-dark: #111111;
+  --loader-color: var(--accent-primary);
+  --visited-button: rgba(230, 59, 46, 0.16);
+  --visited-button-hover: rgba(230, 59, 46, 0.28);
+  --visited-button-content: #e63b2e;
+  --future-button: rgba(31, 79, 163, 0.16);
+  --future-button-hover: rgba(31, 79, 163, 0.28);
+  --future-button-content: #1f4fa3;
+  --lived-button: rgba(160, 122, 0, 0.16);
+  --lived-button-hover: rgba(160, 122, 0, 0.28);
+  --lived-button-content: #a07a00;
+  --marker-visited: #e63b2e;
+  --marker-visited-hover: #ff5a4d;
+  --marker-future: #1f4fa3;
+  --marker-future-hover: #3a6cc4;
+  --marker-lived: #f4c20d;
+  --marker-lived-hover: #ffd63f;
+  --panel-texture-dark: radial-gradient(
+    circle at 100% 0,
+    #e63b2e 0 3rem,
+    transparent 3.05rem
+  );
+  --panel-texture-light: radial-gradient(
+    circle at 100% 0,
+    #e63b2e 0 3rem,
+    transparent 3.05rem
+  );
+  --panel-border-width: 0.125rem;
+  --full-panel-border-light: var(--glass-border-light);
+  --heading-transform: lowercase;
+  --h1-weight: 700;
+  --h2-weight: 700;
+  --h3-weight: 700;
+  --h1-tracking: -0.02em;
+  --h2-tracking: -0.02em;
+  --marker-filter: none;
+  --trip-card-hover-transform: none;
+  --trip-card-title-size: 1.6rem;
+  --trip-card-border-light: 0.125rem solid #111111;
+  --trip-card-shadow-light: none;
+  --trip-card-border-dark: 0.125rem solid #f1ebdd;
+  --trip-card-shadow-dark: none;
+  --nav-label-transform: lowercase;
+  --nav-label-weight: 700;
+  --nav-indicator-dark: #f4c20d;
+  --nav-indicator-light: #e63b2e;
+  --nav-active-dark: #111111;
+  --nav-active-light: #ffffff;
+  --panel-title-size: 2rem;
+  --focus-outline: 0.1875rem solid #1f4fa3;
+  --focus-offset: 0.125rem;
+  --focus-shadow: none;
+}

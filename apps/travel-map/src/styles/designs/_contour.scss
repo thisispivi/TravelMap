@@ -1,0 +1,97 @@
+:root[data-design="contour"] {
+  /* Signal orange is deepened to carry white text; dark surfaces use the
+     bright orange with black ink on top. */
+  --font-body: "Inter Tight", "Urbanist", Arial, sans-serif;
+  --font-display: "Inter Tight", "Urbanist", Arial, sans-serif;
+  --radius-xs: 0;
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+  --radius-pill: 0;
+  --dark-background: #0f0f0f;
+  --dark-left-bar: #141414;
+  --dark-left-bar-opacity: rgba(20, 20, 20, 0.96);
+  --dark-left-bar-opacity-lighter: rgba(20, 20, 20, 0.6);
+  --dark-info-tab: #1c1c1c;
+  --dark-button: rgba(245, 245, 245, 0.08);
+  --dark-button-hover: rgba(245, 245, 245, 0.15);
+  --dark-button-content: #f5f5f5;
+  --dark-alt-text: #b0b0b0;
+  --dark-alt-text-darker: #8a8a8a;
+  --dark-disabled-text: #555555;
+  --glass-bg-dark: rgba(20, 20, 20, 0.96);
+  --glass-border-dark: rgba(245, 245, 245, 0.85);
+  --glass-shadow-dark: none;
+  --photo-card-shadow-dark: none;
+  --route-line-color-dark: #ff6a1a;
+  --light-background: #ffffff;
+  --light-left-bar: #ffffff;
+  --light-left-bar-opacity: rgba(255, 255, 255, 0.96);
+  --light-left-bar-opacity-lighter: rgba(255, 255, 255, 0.6);
+  --light-info-tab: #f5f5f5;
+  --light-button: rgba(17, 17, 17, 0.08);
+  --light-button-hover: rgba(17, 17, 17, 0.15);
+  --light-button-content: #111111;
+  --light-alt-text: #555555;
+  --light-alt-text-darker: #222222;
+  --light-disabled-text: #b3b3b3;
+  --glass-bg-light: rgba(255, 255, 255, 0.96);
+  --glass-border-light: #111111;
+  --glass-shadow-light: none;
+  --photo-card-shadow-light: none;
+  --route-line-color-light: #ff4f00;
+  --glass-blur: 0rem;
+  --accent-primary: #d93d00;
+  --accent-primary-hover: #d93d00;
+  --accent-soft-dark: rgba(255, 106, 26, 0.2);
+  --accent-soft-light: rgba(217, 61, 0, 0.12);
+  --accent-on-dark: #ff6a1a;
+  --accent-on-dark-hover: #ff6a1a;
+  --accent-ink-on-dark: #111111;
+  --loader-color: var(--accent-primary);
+  --visited-button: rgba(217, 61, 0, 0.16);
+  --visited-button-hover: rgba(217, 61, 0, 0.28);
+  --visited-button-content: #d93d00;
+  --future-button: rgba(31, 79, 163, 0.16);
+  --future-button-hover: rgba(31, 79, 163, 0.28);
+  --future-button-content: #1f4fa3;
+  --lived-button: rgba(154, 107, 0, 0.16);
+  --lived-button-hover: rgba(154, 107, 0, 0.28);
+  --lived-button-content: #9a6b00;
+  --marker-visited: #ff4f00;
+  --marker-visited-hover: #ff7a3d;
+  --marker-future: #111111;
+  --marker-future-hover: #444444;
+  --marker-lived: #9a6b00;
+  --marker-lived-hover: #c28a00;
+  --panel-texture-dark: repeating-radial-gradient(
+    circle at 120% -20%,
+    transparent 0 1.2rem,
+    rgba(255, 255, 255, 0.06) 1.2rem 1.25rem
+  );
+  --panel-texture-light: repeating-radial-gradient(
+    circle at 120% -20%,
+    transparent 0 1.2rem,
+    rgba(0, 0, 0, 0.07) 1.2rem 1.25rem
+  );
+  --full-panel-border-light: var(--glass-border-light);
+  --h1-tracking: -0.04em;
+  --h2-tracking: -0.03em;
+  --h1-weight: 800;
+  --h2-weight: 800;
+  --marker-filter: none;
+  --trip-card-hover-transform: none;
+  --trip-card-title-weight: 800;
+  --trip-card-border-light: 0.0625rem solid #111111;
+  --trip-card-shadow-light: none;
+  --trip-card-border-dark: 0.0625rem solid rgba(245, 245, 245, 0.85);
+  --trip-card-shadow-dark: none;
+  --nav-indicator-dark: #f5f5f5;
+  --nav-indicator-light: #111111;
+  --nav-active-dark: #111111;
+  --nav-active-light: #ffffff;
+  --panel-title-size: 2rem;
+  --focus-outline: 0.125rem solid var(--accent-primary);
+  --focus-offset: 0.125rem;
+  --focus-shadow: none;
+}

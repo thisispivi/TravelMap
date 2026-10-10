@@ -191,6 +191,16 @@
     "passport": "Passport",
     "risograph": "Risograph",
     "softness": "Softness",
-    "neo-brutalism": "Neo-brutalism"
+    "neo-brutalism": "Neo-brutalism",
+    "departures": "Departures",
+    "contour": "Contour",
+    "phosphor": "Phosphor",
+    "postage": "Postage",
+    "blueprint": "Blueprint",
+    "art-deco": "Art Deco",
+    "field-notebook": "Field notebook",
+    "frutiger-aero": "Frutiger Aero",
+    "bauhaus": "Bauhaus",
+    "metro-map": "Metro map"
   }
 }

@@ -108,7 +108,7 @@ body.filter-open .places-browser .filter {
     @include m.floating-card-dark();
 
     .places-browser__header h2 {
-      color: #ffffff;
+      color: v.$darkButtonContent;
     }
 
     .places-browser__grid {

@@ -1,0 +1,106 @@
+:root[data-design="art-deco"] {
+  /* Deep teal carries white text on the cream poster; the night poster
+     lights its accent in gold with teal ink on top. */
+  --font-body: "Josefin Sans", "Urbanist", Arial, sans-serif;
+  --font-display: "Limelight", Georgia, serif;
+  --radius-xs: 0;
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+  --radius-pill: 0;
+  --dark-background: #0a2a30;
+  --dark-left-bar: #0e3b43;
+  --dark-left-bar-opacity: rgba(14, 59, 67, 0.96);
+  --dark-left-bar-opacity-lighter: rgba(14, 59, 67, 0.6);
+  --dark-info-tab: #134a53;
+  --dark-button: rgba(243, 227, 181, 0.08);
+  --dark-button-hover: rgba(243, 227, 181, 0.15);
+  --dark-button-content: #f3e3b5;
+  --dark-alt-text: #c9b98a;
+  --dark-alt-text-darker: #a3966c;
+  --dark-disabled-text: #5b6f63;
+  --glass-bg-dark: rgba(14, 59, 67, 0.96);
+  --glass-border-dark: #d4af37;
+  --glass-shadow-dark:
+    inset 0 0 0 0.25rem var(--glass-bg-dark), inset 0 0 0 0.3125rem #d4af37,
+    0 0.5rem 1.5rem rgba(0, 0, 0, 0.4);
+  --photo-card-shadow-dark: none;
+  --route-line-color-dark: #f3e3b5;
+  --light-background: #efe4ca;
+  --light-left-bar: #fbf5e6;
+  --light-left-bar-opacity: rgba(251, 245, 230, 0.96);
+  --light-left-bar-opacity-lighter: rgba(251, 245, 230, 0.6);
+  --light-info-tab: #f5ecd6;
+  --light-button: rgba(14, 59, 67, 0.08);
+  --light-button-hover: rgba(14, 59, 67, 0.15);
+  --light-button-content: #0e3b43;
+  --light-alt-text: #3c6a70;
+  --light-alt-text-darker: #23525a;
+  --light-disabled-text: #bfb595;
+  --glass-bg-light: rgba(251, 245, 230, 0.96);
+  --glass-border-light: #b8952a;
+  --glass-shadow-light:
+    inset 0 0 0 0.25rem var(--glass-bg-light), inset 0 0 0 0.3125rem #b8952a,
+    0 0.5rem 1.5rem rgba(14, 59, 67, 0.12);
+  --photo-card-shadow-light: none;
+  --route-line-color-light: #0e3b43;
+  --glass-blur: 0rem;
+  --accent-primary: #0e3b43;
+  --accent-primary-hover: #0e3b43;
+  --accent-soft-dark: rgba(212, 175, 55, 0.2);
+  --accent-soft-light: rgba(14, 59, 67, 0.12);
+  --accent-on-dark: #d4af37;
+  --accent-on-dark-hover: #d4af37;
+  --accent-ink-on-dark: #0a2a30;
+  --loader-color: var(--accent-primary);
+  --visited-button: rgba(168, 50, 31, 0.16);
+  --visited-button-hover: rgba(168, 50, 31, 0.28);
+  --visited-button-content: #a8321f;
+  --future-button: rgba(14, 59, 67, 0.16);
+  --future-button-hover: rgba(14, 59, 67, 0.28);
+  --future-button-content: #0e3b43;
+  --lived-button: rgba(138, 109, 18, 0.16);
+  --lived-button-hover: rgba(138, 109, 18, 0.28);
+  --lived-button-content: #8a6d12;
+  --marker-visited: #e8a33d;
+  --marker-visited-hover: #f0bb66;
+  --marker-future: #4fb3a9;
+  --marker-future-hover: #74c9c0;
+  --marker-lived: #d4af37;
+  --marker-lived-hover: #e2c463;
+  --panel-texture-dark: repeating-conic-gradient(
+    from -90deg at 50% 115%,
+    rgba(212, 175, 55, 0.07) 0 2deg,
+    transparent 2deg 9deg
+  );
+  --panel-texture-light: repeating-conic-gradient(
+    from -90deg at 50% 115%,
+    rgba(184, 149, 42, 0.09) 0 2deg,
+    transparent 2deg 9deg
+  );
+  --panel-border-width: 0.125rem;
+  --full-panel-border-light: var(--glass-border-light);
+  --heading-transform: uppercase;
+  --h1-weight: 400;
+  --h2-weight: 400;
+  --h3-weight: 400;
+  --h1-tracking: 0.08em;
+  --h2-tracking: 0.08em;
+  --h3-tracking: 0.08em;
+  --marker-filter: drop-shadow(0 0.0625rem 0 #0a2a30);
+  --trip-card-border-light: 0.125rem solid #b8952a;
+  --trip-card-shadow-light: 0 0.5rem 1.25rem rgba(14, 59, 67, 0.18);
+  --trip-card-border-dark: 0.125rem solid #d4af37;
+  --trip-card-shadow-dark: 0 0.5rem 1.25rem rgba(0, 0, 0, 0.4);
+  --trip-card-overlay-strong: rgba(10, 42, 48, 0.75);
+  --trip-card-overlay-soft: rgba(10, 42, 48, 0.2);
+  --nav-label-weight: 600;
+  --nav-label-tracking: 0.14em;
+  --nav-label-transform: uppercase;
+  --nav-indicator-dark: transparent;
+  --nav-indicator-border-dark: 0.0625rem solid #d4af37;
+  --nav-indicator-light: transparent;
+  --nav-indicator-border-light: 0.0625rem solid #b8952a;
+  --nav-active-dark: #d4af37;
+  --nav-active-light: #0e3b43;
+}

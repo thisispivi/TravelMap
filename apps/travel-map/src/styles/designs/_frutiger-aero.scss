@@ -1,0 +1,100 @@
+:root[data-design="frutiger-aero"] {
+  /* Aqua blue carries white text on the bright sky; the night sky lights a
+     paler aqua with dark ink on top. */
+  --font-body: "Nunito", "Urbanist", Arial, sans-serif;
+  --font-display: "Nunito", "Urbanist", Arial, sans-serif;
+  --radius-xs: 0.75rem;
+  --radius-sm: 1rem;
+  --radius-md: 1.5rem;
+  --radius-lg: 2rem;
+  --radius-pill: 62.4375rem;
+  --dark-background: #062033;
+  --dark-left-bar: #0b3150;
+  --dark-left-bar-opacity: rgba(11, 49, 80, 0.6);
+  --dark-left-bar-opacity-lighter: rgba(11, 49, 80, 0.6);
+  --dark-info-tab: #0f3d63;
+  --dark-button: rgba(230, 247, 255, 0.08);
+  --dark-button-hover: rgba(230, 247, 255, 0.15);
+  --dark-button-content: #e6f7ff;
+  --dark-alt-text: #9fd0ef;
+  --dark-alt-text-darker: #78b3d6;
+  --dark-disabled-text: #3d6f8f;
+  --glass-bg-dark: rgba(11, 49, 80, 0.6);
+  --glass-border-dark: rgba(255, 255, 255, 0.25);
+  --glass-shadow-dark: 0 0.75rem 2rem rgba(0, 0, 0, 0.4);
+  --photo-card-shadow-dark: 0 0.75rem 2rem rgba(0, 0, 0, 0.4);
+  --route-line-color-dark: #5fd3ff;
+  --light-background: #dff4ff;
+  --light-left-bar: #ffffff;
+  --light-left-bar-opacity: rgba(255, 255, 255, 0.55);
+  --light-left-bar-opacity-lighter: rgba(255, 255, 255, 0.6);
+  --light-info-tab: #eefaff;
+  --light-button: rgba(11, 79, 124, 0.08);
+  --light-button-hover: rgba(11, 79, 124, 0.15);
+  --light-button-content: #0b4f7c;
+  --light-alt-text: #3d7aa3;
+  --light-alt-text-darker: #225f8a;
+  --light-disabled-text: #a6c9de;
+  --glass-bg-light: rgba(255, 255, 255, 0.55);
+  --glass-border-light: rgba(255, 255, 255, 0.9);
+  --glass-shadow-light: 0 0.75rem 2rem rgba(10, 132, 255, 0.2);
+  --photo-card-shadow-light: 0 0.75rem 2rem rgba(10, 132, 255, 0.2);
+  --route-line-color-light: #0a84ff;
+  --glass-blur: 1.5rem;
+  --accent-primary: #0a74d9;
+  --accent-primary-hover: #0a74d9;
+  --accent-soft-dark: rgba(95, 211, 255, 0.2);
+  --accent-soft-light: rgba(10, 116, 217, 0.12);
+  --accent-on-dark: #5fd3ff;
+  --accent-on-dark-hover: #5fd3ff;
+  --accent-ink-on-dark: #032033;
+  --loader-color: var(--accent-primary);
+  --visited-button: rgba(10, 116, 217, 0.16);
+  --visited-button-hover: rgba(10, 116, 217, 0.28);
+  --visited-button-content: #0a74d9;
+  --future-button: rgba(46, 158, 79, 0.16);
+  --future-button-hover: rgba(46, 158, 79, 0.28);
+  --future-button-content: #2e9e4f;
+  --lived-button: rgba(194, 120, 10, 0.16);
+  --lived-button-hover: rgba(194, 120, 10, 0.28);
+  --lived-button-content: #c2780a;
+  --marker-visited: #0a84ff;
+  --marker-visited-hover: #4aa8ff;
+  --marker-future: #5ac85a;
+  --marker-future-hover: #7fd77a;
+  --marker-lived: #ffb347;
+  --marker-lived-hover: #ffc773;
+  --panel-texture-dark: linear-gradient(
+    rgba(255, 255, 255, 0.12),
+    rgba(255, 255, 255, 0) 40%
+  );
+  --panel-texture-light: linear-gradient(
+    rgba(255, 255, 255, 0.75),
+    rgba(255, 255, 255, 0) 45%
+  );
+  --full-panel-border-light: var(--glass-border-light);
+  --h1-weight: 800;
+  --h2-weight: 800;
+  --h3-weight: 800;
+  --h1-tracking: -0.01em;
+  --h2-tracking: 0;
+  --marker-filter: drop-shadow(0 0.125rem 0.25rem rgba(10, 132, 255, 0.5));
+  --trip-card-border-light: 0.125rem solid rgba(255, 255, 255, 0.9);
+  --trip-card-shadow-light: 0 0.75rem 1.5rem rgba(10, 132, 255, 0.25);
+  --trip-card-border-dark: 0.125rem solid rgba(255, 255, 255, 0.25);
+  --trip-card-shadow-dark: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.4);
+  --trip-card-overlay-strong: rgba(4, 40, 70, 0.6);
+  --trip-card-overlay-soft: rgba(4, 40, 70, 0.12);
+  --nav-label-weight: 800;
+  --nav-indicator-dark: linear-gradient(#5fd3ff, #0a84ff);
+  --nav-indicator-light: linear-gradient(#5fc3ff, #0a84ff);
+  --nav-indicator-border-dark: 0.0625rem solid rgba(255, 255, 255, 0.6);
+  --nav-indicator-border-light: 0.0625rem solid #ffffff;
+  --nav-indicator-shadow-dark: 0 0.25rem 0.75rem rgba(95, 211, 255, 0.45);
+  --nav-indicator-shadow-light: 0 0.25rem 0.75rem rgba(10, 132, 255, 0.4);
+  --nav-active-dark: #ffffff;
+  --nav-active-light: #ffffff;
+  --button-hover-shadow-light: 0 0 0.75rem rgba(10, 132, 255, 0.45);
+  --button-hover-shadow-dark: 0 0 0.75rem rgba(95, 211, 255, 0.6);
+  --focus-shadow: 0 0 0 0.25rem rgba(10, 132, 255, 0.4);
+}
