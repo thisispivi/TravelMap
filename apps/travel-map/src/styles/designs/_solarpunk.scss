@@ -1,0 +1,95 @@
+:root[data-design="solarpunk"] {
+  /* Leaf green carries white text in daylight; the night garden lights its
+     accent in solar gold with a dark ink on top. */
+  --font-body: "Figtree", "Urbanist", Arial, sans-serif;
+  --font-display: "Young Serif", Georgia, serif;
+  --radius-xs: 0.5rem;
+  --radius-sm: 0.75rem;
+  --radius-md: 1.25rem;
+  --radius-lg: 1.75rem;
+  --radius-pill: 62.4375rem;
+  --dark-background: #0f1f17;
+  --dark-left-bar: #16291f;
+  --dark-left-bar-opacity: rgba(22, 41, 31, 0.96);
+  --dark-left-bar-opacity-lighter: rgba(22, 41, 31, 0.6);
+  --dark-info-tab: #1c3327;
+  --dark-button: rgba(234, 245, 228, 0.08);
+  --dark-button-hover: rgba(234, 245, 228, 0.15);
+  --dark-button-content: #eaf5e4;
+  --dark-alt-text: #a9c9a8;
+  --dark-alt-text-darker: #83a882;
+  --dark-disabled-text: #4b6a50;
+  --glass-bg-dark: rgba(22, 41, 31, 0.96);
+  --glass-border-dark: rgba(255, 201, 60, 0.25);
+  --glass-shadow-dark: 0 1rem 2rem -0.5rem rgba(0, 0, 0, 0.5);
+  --photo-card-shadow-dark: 0 1rem 2rem -0.5rem rgba(0, 0, 0, 0.5);
+  --route-line-color-dark: #ffc93c;
+  --light-background: #f7ecd2;
+  --light-left-bar: #fffaf0;
+  --light-left-bar-opacity: rgba(255, 250, 240, 0.96);
+  --light-left-bar-opacity-lighter: rgba(255, 250, 240, 0.6);
+  --light-info-tab: #f6eed9;
+  --light-button: rgba(36, 64, 44, 0.08);
+  --light-button-hover: rgba(36, 64, 44, 0.15);
+  --light-button-content: #24402c;
+  --light-alt-text: #557a5c;
+  --light-alt-text-darker: #3a5c42;
+  --light-disabled-text: #c3c7a8;
+  --glass-bg-light: rgba(255, 250, 240, 0.96);
+  --glass-border-light: rgba(47, 122, 59, 0.25);
+  --glass-shadow-light: 0 1rem 2rem -0.5rem rgba(214, 160, 40, 0.3);
+  --photo-card-shadow-light: 0 1rem 2rem -0.5rem rgba(214, 160, 40, 0.3);
+  --route-line-color-light: #2f7a3b;
+  --glass-blur: 0rem;
+  --accent-primary: #2f7a3b;
+  --accent-primary-hover: #2f7a3b;
+  --accent-soft-dark: rgba(255, 201, 60, 0.2);
+  --accent-soft-light: rgba(47, 122, 59, 0.12);
+  --accent-on-dark: #ffc93c;
+  --accent-on-dark-hover: #ffc93c;
+  --accent-ink-on-dark: #1f1500;
+  --loader-color: var(--accent-primary);
+  --visited-button: rgba(194, 86, 26, 0.16);
+  --visited-button-hover: rgba(194, 86, 26, 0.28);
+  --visited-button-content: #c2561a;
+  --future-button: rgba(47, 122, 59, 0.16);
+  --future-button-hover: rgba(47, 122, 59, 0.28);
+  --future-button-content: #2f7a3b;
+  --lived-button: rgba(154, 116, 0, 0.16);
+  --lived-button-hover: rgba(154, 116, 0, 0.28);
+  --lived-button-content: #9a7400;
+  --marker-visited: #e8762c;
+  --marker-visited-hover: #f2935a;
+  --marker-future: #2f7a3b;
+  --marker-future-hover: #46a055;
+  --marker-lived: #ffc93c;
+  --marker-lived-hover: #ffd970;
+  --panel-texture-dark: radial-gradient(
+    circle at 100% 0,
+    rgba(255, 201, 60, 0.14),
+    transparent 55%
+  );
+  --panel-texture-light: radial-gradient(
+    circle at 100% 0,
+    rgba(255, 200, 60, 0.3),
+    transparent 55%
+  );
+  --full-panel-border-light: var(--glass-border-light);
+  --h1-weight: 400;
+  --h2-weight: 400;
+  --h3-weight: 400;
+  --h1-tracking: -0.01em;
+  --h2-tracking: 0;
+  --marker-filter: drop-shadow(0 0.1875rem 0.25rem rgba(47, 122, 59, 0.35));
+  --trip-card-image-filter: saturate(1.15) brightness(1.03);
+  --trip-card-title-size: 1.5rem;
+  --trip-card-border-light: 0.0625rem solid rgba(47, 122, 59, 0.25);
+  --trip-card-shadow-light: 0 1rem 2rem -0.75rem rgba(214, 160, 40, 0.45);
+  --trip-card-overlay-strong: rgba(20, 50, 30, 0.6);
+  --trip-card-overlay-soft: rgba(20, 50, 30, 0.12);
+  --nav-indicator-dark: rgba(255, 201, 60, 0.18);
+  --nav-indicator-light: rgba(255, 201, 60, 0.45);
+  --nav-active-dark: #ffc93c;
+  --nav-active-light: #24402c;
+  --focus-shadow: 0 0 0 0.25rem rgba(255, 201, 60, 0.55);
+}

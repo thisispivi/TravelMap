@@ -1,0 +1,109 @@
+:root[data-design="newsprint"] {
+  /* Newspaper black carries white text on newsprint; the night edition
+     inverts to paper white with a black ink on top. */
+  --font-body: "Source Serif 4", Georgia, serif;
+  --font-display: "Playfair Display", Georgia, serif;
+  --radius-xs: 0;
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+  --radius-pill: 0;
+  --dark-background: #141311;
+  --dark-left-bar: #1c1b18;
+  --dark-left-bar-opacity: rgba(28, 27, 24, 0.96);
+  --dark-left-bar-opacity-lighter: rgba(28, 27, 24, 0.6);
+  --dark-info-tab: #24221e;
+  --dark-button: rgba(236, 232, 223, 0.08);
+  --dark-button-hover: rgba(236, 232, 223, 0.15);
+  --dark-button-content: #ece8df;
+  --dark-alt-text: #a9a397;
+  --dark-alt-text-darker: #858075;
+  --dark-disabled-text: #4f4b44;
+  --glass-bg-dark: rgba(28, 27, 24, 0.96);
+  --glass-border-dark: rgba(236, 232, 223, 0.6);
+  --glass-shadow-dark:
+    inset 0 0.25rem 0 var(--glass-bg-dark), inset 0 0.375rem 0 #ece8df;
+  --photo-card-shadow-dark: none;
+  --route-line-color-dark: #ece8df;
+  --light-background: #e4e0d6;
+  --light-left-bar: #f5f2ea;
+  --light-left-bar-opacity: rgba(245, 242, 234, 0.96);
+  --light-left-bar-opacity-lighter: rgba(245, 242, 234, 0.6);
+  --light-info-tab: #ede9df;
+  --light-button: rgba(17, 17, 17, 0.08);
+  --light-button-hover: rgba(17, 17, 17, 0.15);
+  --light-button-content: #111111;
+  --light-alt-text: #4a4a4a;
+  --light-alt-text-darker: #222222;
+  --light-disabled-text: #b5b0a4;
+  --glass-bg-light: rgba(245, 242, 234, 0.96);
+  --glass-border-light: #111111;
+  --glass-shadow-light:
+    inset 0 0.25rem 0 var(--glass-bg-light), inset 0 0.375rem 0 #111111;
+  --photo-card-shadow-light: none;
+  --route-line-color-light: #111111;
+  --glass-blur: 0rem;
+  --accent-primary: #111111;
+  --accent-primary-hover: #111111;
+  --accent-soft-dark: rgba(236, 232, 223, 0.2);
+  --accent-soft-light: rgba(17, 17, 17, 0.12);
+  --accent-on-dark: #ece8df;
+  --accent-on-dark-hover: #ece8df;
+  --accent-ink-on-dark: #141311;
+  --loader-color: var(--accent-primary);
+  --visited-button: rgba(179, 0, 27, 0.16);
+  --visited-button-hover: rgba(179, 0, 27, 0.28);
+  --visited-button-content: #b3001b;
+  --future-button: rgba(17, 17, 17, 0.16);
+  --future-button-hover: rgba(17, 17, 17, 0.28);
+  --future-button-content: #111111;
+  --lived-button: rgba(107, 90, 0, 0.16);
+  --lived-button-hover: rgba(107, 90, 0, 0.28);
+  --lived-button-content: #6b5a00;
+  --marker-visited: #b3001b;
+  --marker-visited-hover: #d6213b;
+  --marker-future: #111111;
+  --marker-future-hover: #444444;
+  --marker-lived: #6b6b6b;
+  --marker-lived-hover: #8a8a8a;
+  --panel-texture-dark: repeating-linear-gradient(
+    90deg,
+    transparent 0 calc(33.33% - 0.0625rem),
+    rgba(236, 232, 223, 0.08) calc(33.33% - 0.0625rem) 33.33%
+  );
+  --panel-texture-light: repeating-linear-gradient(
+    90deg,
+    transparent 0 calc(33.33% - 0.0625rem),
+    rgba(17, 17, 17, 0.08) calc(33.33% - 0.0625rem) 33.33%
+  );
+  --full-panel-border-light: var(--glass-border-light);
+  --h1-weight: 900;
+  --h2-weight: 800;
+  --h3-weight: 700;
+  --h1-tracking: -0.01em;
+  --h2-tracking: -0.01em;
+  --caption-tracking: 0.12em;
+  --marker-filter: none;
+  --trip-card-hover-transform: none;
+  --trip-card-image-filter: grayscale(1) contrast(1.25);
+  --trip-card-title-size: 1.6rem;
+  --trip-card-title-weight: 900;
+  --trip-card-border-light: 0.0625rem solid #111111;
+  --trip-card-shadow-light: none;
+  --trip-card-border-dark: 0.0625rem solid rgba(236, 232, 223, 0.6);
+  --trip-card-shadow-dark: none;
+  --nav-label-size: 0.75rem;
+  --nav-label-weight: 600;
+  --nav-label-tracking: 0.12em;
+  --nav-label-transform: uppercase;
+  --nav-indicator-dark: transparent;
+  --nav-indicator-border-dark: 0.0625rem solid #ece8df;
+  --nav-indicator-light: transparent;
+  --nav-indicator-border-light: 0.0625rem solid #111111;
+  --nav-active-dark: #ece8df;
+  --nav-active-light: #111111;
+  --panel-title-size: 2.25rem;
+  --focus-outline: 0.125rem solid currentColor;
+  --focus-offset: 0.125rem;
+  --focus-shadow: none;
+}

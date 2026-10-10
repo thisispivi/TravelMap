@@ -1,0 +1,110 @@
+:root[data-design="dark-academia"] {
+  /* Oxblood carries white text on parchment; the dark library lights its
+     accent in brass with a dark ink on top. */
+  --font-body: "EB Garamond", Georgia, serif;
+  --font-display: "Cormorant Garamond", Georgia, serif;
+  --radius-xs: 0.125rem;
+  --radius-sm: 0.125rem;
+  --radius-md: 0.25rem;
+  --radius-lg: 0.25rem;
+  --radius-pill: 0.25rem;
+  --dark-background: #16110d;
+  --dark-left-bar: #221a14;
+  --dark-left-bar-opacity: rgba(34, 26, 20, 0.96);
+  --dark-left-bar-opacity-lighter: rgba(34, 26, 20, 0.6);
+  --dark-info-tab: #2c221a;
+  --dark-button: rgba(234, 223, 200, 0.08);
+  --dark-button-hover: rgba(234, 223, 200, 0.15);
+  --dark-button-content: #eadfc8;
+  --dark-alt-text: #b8a88c;
+  --dark-alt-text-darker: #948670;
+  --dark-disabled-text: #5e5244;
+  --glass-bg-dark: rgba(34, 26, 20, 0.96);
+  --glass-border-dark: rgba(201, 162, 91, 0.4);
+  --glass-shadow-dark:
+    inset 0 0 0 0.3125rem var(--glass-bg-dark),
+    inset 0 0 0 0.375rem rgba(201, 162, 91, 0.45),
+    0 0.75rem 2rem rgba(0, 0, 0, 0.5);
+  --photo-card-shadow-dark: 0 0.75rem 2rem rgba(0, 0, 0, 0.5);
+  --route-line-color-dark: #c9a25b;
+  --light-background: #e3d6b9;
+  --light-left-bar: #f4ecd8;
+  --light-left-bar-opacity: rgba(244, 236, 216, 0.96);
+  --light-left-bar-opacity-lighter: rgba(244, 236, 216, 0.6);
+  --light-info-tab: #eee3c9;
+  --light-button: rgba(43, 29, 20, 0.08);
+  --light-button-hover: rgba(43, 29, 20, 0.15);
+  --light-button-content: #2b1d14;
+  --light-alt-text: #6b5544;
+  --light-alt-text-darker: #4a382b;
+  --light-disabled-text: #bfae8f;
+  --glass-bg-light: rgba(244, 236, 216, 0.96);
+  --glass-border-light: #8a6f4e;
+  --glass-shadow-light:
+    inset 0 0 0 0.3125rem var(--glass-bg-light),
+    inset 0 0 0 0.375rem rgba(110, 26, 26, 0.35),
+    0 0.5rem 1.5rem rgba(43, 29, 20, 0.15);
+  --photo-card-shadow-light: 0 0.5rem 1.5rem rgba(43, 29, 20, 0.15);
+  --route-line-color-light: #6e1a1a;
+  --glass-blur: 0rem;
+  --accent-primary: #6e1a1a;
+  --accent-primary-hover: #6e1a1a;
+  --accent-soft-dark: rgba(201, 162, 91, 0.2);
+  --accent-soft-light: rgba(110, 26, 26, 0.12);
+  --accent-on-dark: #c9a25b;
+  --accent-on-dark-hover: #c9a25b;
+  --accent-ink-on-dark: #1a120b;
+  --loader-color: var(--accent-primary);
+  --visited-button: rgba(110, 26, 26, 0.16);
+  --visited-button-hover: rgba(110, 26, 26, 0.28);
+  --visited-button-content: #6e1a1a;
+  --future-button: rgba(47, 79, 58, 0.16);
+  --future-button-hover: rgba(47, 79, 58, 0.28);
+  --future-button-content: #2f4f3a;
+  --lived-button: rgba(138, 106, 30, 0.16);
+  --lived-button-hover: rgba(138, 106, 30, 0.28);
+  --lived-button-content: #8a6a1e;
+  --marker-visited: #8b1e1e;
+  --marker-visited-hover: #a83232;
+  --marker-future: #2f4f3a;
+  --marker-future-hover: #456b52;
+  --marker-lived: #b08d3e;
+  --marker-lived-hover: #c9a25b;
+  --panel-texture-dark: repeating-linear-gradient(
+    0deg,
+    transparent 0 1.6rem,
+    rgba(201, 162, 91, 0.05) 1.6rem 1.65rem
+  );
+  --panel-texture-light: repeating-linear-gradient(
+    0deg,
+    transparent 0 1.6rem,
+    rgba(110, 26, 26, 0.06) 1.6rem 1.65rem
+  );
+  --full-panel-border-light: var(--glass-border-light);
+  --h1-weight: 700;
+  --h2-weight: 700;
+  --h3-weight: 600;
+  --h1-tracking: 0.01em;
+  --h2-tracking: 0.01em;
+  --h3-tracking: 0.02em;
+  --caption-tracking: 0.16em;
+  --marker-filter: drop-shadow(0 0.0625rem 0.125rem rgba(0, 0, 0, 0.45));
+  --trip-card-image-filter: sepia(0.45) saturate(0.8);
+  --trip-card-title-size: 1.75rem;
+  --trip-card-title-style: italic;
+  --trip-card-border-light: 0.0625rem solid #8a6f4e;
+  --trip-card-border-dark: 0.0625rem solid rgba(201, 162, 91, 0.5);
+  --trip-card-overlay-strong: rgba(30, 18, 10, 0.72);
+  --trip-card-overlay-soft: rgba(30, 18, 10, 0.2);
+  --nav-label-font: var(--font-display);
+  --nav-label-size: 1.05rem;
+  --nav-label-weight: 600;
+  --nav-label-tracking: 0.04em;
+  --nav-indicator-dark: transparent;
+  --nav-indicator-border-dark: 0.0625rem solid #c9a25b;
+  --nav-indicator-light: transparent;
+  --nav-indicator-border-light: 0.0625rem solid #6e1a1a;
+  --nav-active-dark: #c9a25b;
+  --nav-active-light: #6e1a1a;
+  --panel-title-size: 2rem;
+}

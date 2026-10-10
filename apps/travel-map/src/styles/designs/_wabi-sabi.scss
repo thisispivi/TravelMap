@@ -1,0 +1,112 @@
+:root[data-design="wabi-sabi"] {
+  /* Hanko vermilion carries white text on washi; the sumi ground uses a
+     softer vermilion with a dark ink on top. */
+  --font-body: "Zen Kaku Gothic New", "Urbanist", Arial, sans-serif;
+  --font-display: "Shippori Mincho", Georgia, serif;
+  --radius-xs: 0.125rem;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-pill: 62.4375rem;
+  --dark-background: #1b1a18;
+  --dark-left-bar: #24221f;
+  --dark-left-bar-opacity: rgba(36, 34, 31, 0.96);
+  --dark-left-bar-opacity-lighter: rgba(36, 34, 31, 0.6);
+  --dark-info-tab: #2c2a26;
+  --dark-button: rgba(233, 226, 212, 0.08);
+  --dark-button-hover: rgba(233, 226, 212, 0.15);
+  --dark-button-content: #e9e2d4;
+  --dark-alt-text: #ada597;
+  --dark-alt-text-darker: #8a8276;
+  --dark-disabled-text: #57524a;
+  --glass-bg-dark: rgba(36, 34, 31, 0.96);
+  --glass-border-dark: rgba(233, 226, 212, 0.12);
+  --glass-shadow-dark: 0 0.75rem 2rem rgba(0, 0, 0, 0.35);
+  --photo-card-shadow-dark: 0 0.75rem 2rem rgba(0, 0, 0, 0.35);
+  --route-line-color-dark: #e9e2d4;
+  --light-background: #e6dfd1;
+  --light-left-bar: #f6f1e7;
+  --light-left-bar-opacity: rgba(246, 241, 231, 0.96);
+  --light-left-bar-opacity-lighter: rgba(246, 241, 231, 0.6);
+  --light-info-tab: #efe8dc;
+  --light-button: rgba(43, 39, 36, 0.08);
+  --light-button-hover: rgba(43, 39, 36, 0.15);
+  --light-button-content: #2b2724;
+  --light-alt-text: #6e655c;
+  --light-alt-text-darker: #4a443e;
+  --light-disabled-text: #c2b9aa;
+  --glass-bg-light: rgba(246, 241, 231, 0.96);
+  --glass-border-light: rgba(43, 39, 36, 0.16);
+  --glass-shadow-light: 0 0.5rem 1.5rem rgba(60, 50, 40, 0.08);
+  --photo-card-shadow-light: 0 0.5rem 1.5rem rgba(60, 50, 40, 0.08);
+  --route-line-color-light: #2b2724;
+  --glass-blur: 0rem;
+  --accent-primary: #b5432f;
+  --accent-primary-hover: #b5432f;
+  --accent-soft-dark: rgba(217, 105, 79, 0.2);
+  --accent-soft-light: rgba(181, 67, 47, 0.12);
+  --accent-on-dark: #d9694f;
+  --accent-on-dark-hover: #d9694f;
+  --accent-ink-on-dark: #2a0d06;
+  --loader-color: var(--accent-primary);
+  --visited-button: rgba(181, 67, 47, 0.16);
+  --visited-button-hover: rgba(181, 67, 47, 0.28);
+  --visited-button-content: #b5432f;
+  --future-button: rgba(74, 107, 124, 0.16);
+  --future-button-hover: rgba(74, 107, 124, 0.28);
+  --future-button-content: #4a6b7c;
+  --lived-button: rgba(138, 109, 46, 0.16);
+  --lived-button-hover: rgba(138, 109, 46, 0.28);
+  --lived-button-content: #8a6d2e;
+  --marker-visited: #b5432f;
+  --marker-visited-hover: #cf5c47;
+  --marker-future: #4a6b7c;
+  --marker-future-hover: #5f8597;
+  --marker-lived: #b08d3e;
+  --marker-lived-hover: #c9a65a;
+  --panel-texture-dark:
+    repeating-linear-gradient(
+      115deg,
+      rgba(233, 226, 212, 0.025) 0 0.0625rem,
+      transparent 0.0625rem 0.5rem
+    ),
+    repeating-linear-gradient(
+      25deg,
+      rgba(233, 226, 212, 0.02) 0 0.0625rem,
+      transparent 0.0625rem 0.75rem
+    );
+  --panel-texture-light:
+    repeating-linear-gradient(
+      115deg,
+      rgba(120, 100, 80, 0.035) 0 0.0625rem,
+      transparent 0.0625rem 0.5rem
+    ),
+    repeating-linear-gradient(
+      25deg,
+      rgba(120, 100, 80, 0.03) 0 0.0625rem,
+      transparent 0.0625rem 0.75rem
+    );
+  --full-panel-border-light: var(--glass-border-light);
+  --h1-weight: 500;
+  --h2-weight: 500;
+  --h3-weight: 500;
+  --h1-tracking: 0.04em;
+  --h2-tracking: 0.04em;
+  --h3-tracking: 0.04em;
+  --marker-filter: none;
+  --trip-card-hover-transform: none;
+  --trip-card-image-filter: saturate(0.6) sepia(0.15);
+  --trip-card-title-weight: 500;
+  --trip-card-border-light: 0.0625rem solid rgba(43, 39, 36, 0.16);
+  --trip-card-shadow-light: none;
+  --trip-card-border-dark: 0.0625rem solid rgba(233, 226, 212, 0.12);
+  --trip-card-shadow-dark: none;
+  --trip-card-overlay-strong: rgba(27, 26, 24, 0.7);
+  --trip-card-overlay-soft: rgba(27, 26, 24, 0.12);
+  --nav-label-weight: 500;
+  --nav-label-tracking: 0.08em;
+  --nav-indicator-dark: transparent;
+  --nav-indicator-light: transparent;
+  --nav-active-dark: #d9694f;
+  --nav-active-light: #b5432f;
+}

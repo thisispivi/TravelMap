@@ -20,6 +20,16 @@ export const DesignSchema = z.enum([
   "frutiger-aero",
   "bauhaus",
   "metro-map",
+  "dark-academia",
+  "solarpunk",
+  "vaporwave",
+  "wabi-sabi",
+  "retro-os",
+  "darkroom",
+  "nautical-chart",
+  "memphis",
+  "claymorphism",
+  "newsprint",
 ]);
 
 /** One of the visual designs the app can be rendered in. */

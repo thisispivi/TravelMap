@@ -1,0 +1,110 @@
+:root[data-design="claymorphism"] {
+  /* Violet carries white text on the lilac clay; the dark clay uses a paler
+     violet with a dark ink on top. */
+  --font-body: "Quicksand", "Urbanist", Arial, sans-serif;
+  --font-display: "Baloo 2", "Arial Rounded MT Bold", sans-serif;
+  --radius-xs: 0.75rem;
+  --radius-sm: 1.25rem;
+  --radius-md: 1.75rem;
+  --radius-lg: 2.5rem;
+  --radius-pill: 62.4375rem;
+  --dark-background: #1d1838;
+  --dark-left-bar: #2a2350;
+  --dark-left-bar-opacity: rgba(42, 35, 80, 1);
+  --dark-left-bar-opacity-lighter: rgba(42, 35, 80, 0.6);
+  --dark-info-tab: #332b5e;
+  --dark-button: rgba(239, 234, 255, 0.08);
+  --dark-button-hover: rgba(239, 234, 255, 0.15);
+  --dark-button-content: #efeaff;
+  --dark-alt-text: #b7addf;
+  --dark-alt-text-darker: #958ac2;
+  --dark-disabled-text: #5a5185;
+  --glass-bg-dark: rgba(42, 35, 80, 1);
+  --glass-border-dark: rgba(255, 255, 255, 0);
+  --glass-shadow-dark:
+    0.75rem 0.75rem 1.5rem rgba(0, 0, 0, 0.4),
+    inset -0.375rem -0.375rem 0.75rem rgba(0, 0, 0, 0.25),
+    inset 0.375rem 0.375rem 0.75rem rgba(255, 255, 255, 0.08);
+  --photo-card-shadow-dark:
+    0.75rem 0.75rem 1.5rem rgba(0, 0, 0, 0.4),
+    inset -0.375rem -0.375rem 0.75rem rgba(0, 0, 0, 0.25),
+    inset 0.375rem 0.375rem 0.75rem rgba(255, 255, 255, 0.08);
+  --route-line-color-dark: #a996ff;
+  --light-background: #e6e0ff;
+  --light-left-bar: #f5f2ff;
+  --light-left-bar-opacity: rgba(245, 242, 255, 1);
+  --light-left-bar-opacity-lighter: rgba(245, 242, 255, 0.6);
+  --light-info-tab: #ede8ff;
+  --light-button: rgba(58, 47, 107, 0.08);
+  --light-button-hover: rgba(58, 47, 107, 0.15);
+  --light-button-content: #3a2f6b;
+  --light-alt-text: #6d64a0;
+  --light-alt-text-darker: #4f4585;
+  --light-disabled-text: #c2bbe3;
+  --glass-bg-light: rgba(245, 242, 255, 1);
+  --glass-border-light: rgba(255, 255, 255, 0);
+  --glass-shadow-light:
+    0.75rem 0.75rem 1.5rem rgba(106, 76, 255, 0.18),
+    inset -0.375rem -0.375rem 0.75rem rgba(106, 76, 255, 0.12),
+    inset 0.375rem 0.375rem 0.75rem rgba(255, 255, 255, 0.9);
+  --photo-card-shadow-light:
+    0.75rem 0.75rem 1.5rem rgba(106, 76, 255, 0.18),
+    inset -0.375rem -0.375rem 0.75rem rgba(106, 76, 255, 0.12),
+    inset 0.375rem 0.375rem 0.75rem rgba(255, 255, 255, 0.9);
+  --route-line-color-light: #6a4cff;
+  --glass-blur: 0rem;
+  --accent-primary: #6a4cff;
+  --accent-primary-hover: #6a4cff;
+  --accent-soft-dark: rgba(169, 150, 255, 0.2);
+  --accent-soft-light: rgba(106, 76, 255, 0.12);
+  --accent-on-dark: #a996ff;
+  --accent-on-dark-hover: #a996ff;
+  --accent-ink-on-dark: #1a1240;
+  --loader-color: var(--accent-primary);
+  --visited-button: rgba(212, 61, 120, 0.16);
+  --visited-button-hover: rgba(212, 61, 120, 0.28);
+  --visited-button-content: #d43d78;
+  --future-button: rgba(106, 76, 255, 0.16);
+  --future-button-hover: rgba(106, 76, 255, 0.28);
+  --future-button-content: #6a4cff;
+  --lived-button: rgba(163, 114, 10, 0.16);
+  --lived-button-hover: rgba(163, 114, 10, 0.28);
+  --lived-button-content: #a3720a;
+  --marker-visited: #ff7aa8;
+  --marker-visited-hover: #ff9bbe;
+  --marker-future: #6a4cff;
+  --marker-future-hover: #8a72ff;
+  --marker-lived: #ffc861;
+  --marker-lived-hover: #ffd78a;
+  --full-panel-border-light: var(--glass-border-light);
+  --h1-weight: 800;
+  --h2-weight: 700;
+  --h3-weight: 700;
+  --h1-tracking: -0.01em;
+  --h2-tracking: 0;
+  --marker-filter: drop-shadow(0 0.25rem 0.25rem rgba(106, 76, 255, 0.35));
+  --trip-card-hover-transform: translateY(-0.25rem) scale(1.01);
+  --trip-card-title-size: 1.5rem;
+  --trip-card-border-light: 0.375rem solid #f5f2ff;
+  --trip-card-shadow-light: 0.5rem 0.5rem 1.25rem rgba(106, 76, 255, 0.25);
+  --trip-card-border-dark: 0.375rem solid #2a2350;
+  --trip-card-shadow-dark: 0.5rem 0.5rem 1.25rem rgba(0, 0, 0, 0.45);
+  --nav-label-weight: 700;
+  --nav-indicator-dark: #3a3170;
+  --nav-indicator-light: #ffffff;
+  --nav-indicator-shadow-dark:
+    0.25rem 0.25rem 0.5rem rgba(0, 0, 0, 0.4),
+    inset -0.125rem -0.125rem 0.25rem rgba(0, 0, 0, 0.25);
+  --nav-indicator-shadow-light:
+    0.25rem 0.25rem 0.5rem rgba(106, 76, 255, 0.25),
+    inset -0.125rem -0.125rem 0.25rem rgba(106, 76, 255, 0.15);
+  --nav-active-dark: #efeaff;
+  --nav-active-light: #6a4cff;
+  --button-border-light: 0.0625rem solid transparent;
+  --button-hover-shadow-light:
+    0.25rem 0.25rem 0.5rem rgba(106, 76, 255, 0.25),
+    inset -0.125rem -0.125rem 0.25rem rgba(106, 76, 255, 0.15);
+  --button-border-dark: 0.0625rem solid transparent;
+  --button-hover-shadow-dark: 0.25rem 0.25rem 0.5rem rgba(0, 0, 0, 0.4);
+  --focus-shadow: 0 0 0 0.25rem rgba(106, 76, 255, 0.35);
+}

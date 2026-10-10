@@ -1,0 +1,99 @@
+:root[data-design="memphis"] {
+  /* Violet carries white text on the pastel ground; the black ground lights
+     its accent in yellow with black ink on top. */
+  --font-body: "Rubik", "Urbanist", Arial, sans-serif;
+  --font-display: "Bungee", "Arial Black", sans-serif;
+  --radius-xs: 0.25rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-pill: 62.4375rem;
+  --dark-background: #1b1b1b;
+  --dark-left-bar: #242424;
+  --dark-left-bar-opacity: rgba(36, 36, 36, 0.96);
+  --dark-left-bar-opacity-lighter: rgba(36, 36, 36, 0.6);
+  --dark-info-tab: #2e2e2e;
+  --dark-button: rgba(255, 246, 233, 0.08);
+  --dark-button-hover: rgba(255, 246, 233, 0.15);
+  --dark-button-content: #fff6e9;
+  --dark-alt-text: #cfc5b6;
+  --dark-alt-text-darker: #a89f92;
+  --dark-disabled-text: #58534c;
+  --glass-bg-dark: rgba(36, 36, 36, 0.96);
+  --glass-border-dark: #fff6e9;
+  --glass-shadow-dark: 0.375rem 0.375rem 0 #ff6f91;
+  --photo-card-shadow-dark: 0.375rem 0.375rem 0 #ff6f91;
+  --route-line-color-dark: #ffd23f;
+  --light-background: #fff0dc;
+  --light-left-bar: #ffffff;
+  --light-left-bar-opacity: rgba(255, 255, 255, 0.96);
+  --light-left-bar-opacity-lighter: rgba(255, 255, 255, 0.6);
+  --light-info-tab: #fff8ee;
+  --light-button: rgba(27, 27, 27, 0.08);
+  --light-button-hover: rgba(27, 27, 27, 0.15);
+  --light-button-content: #1b1b1b;
+  --light-alt-text: #555555;
+  --light-alt-text-darker: #2a2a2a;
+  --light-disabled-text: #c4b9a8;
+  --glass-bg-light: rgba(255, 255, 255, 0.96);
+  --glass-border-light: #1b1b1b;
+  --glass-shadow-light: 0.375rem 0.375rem 0 #00c2a8;
+  --photo-card-shadow-light: 0.375rem 0.375rem 0 #00c2a8;
+  --route-line-color-light: #1b1b1b;
+  --glass-blur: 0rem;
+  --accent-primary: #6b45ff;
+  --accent-primary-hover: #6b45ff;
+  --accent-soft-dark: rgba(255, 210, 63, 0.2);
+  --accent-soft-light: rgba(107, 69, 255, 0.12);
+  --accent-on-dark: #ffd23f;
+  --accent-on-dark-hover: #ffd23f;
+  --accent-ink-on-dark: #1b1b1b;
+  --loader-color: var(--accent-primary);
+  --visited-button: rgba(224, 51, 92, 0.16);
+  --visited-button-hover: rgba(224, 51, 92, 0.28);
+  --visited-button-content: #e0335c;
+  --future-button: rgba(107, 69, 255, 0.16);
+  --future-button-hover: rgba(107, 69, 255, 0.28);
+  --future-button-content: #6b45ff;
+  --lived-button: rgba(160, 122, 0, 0.16);
+  --lived-button-hover: rgba(160, 122, 0, 0.28);
+  --lived-button-content: #a07a00;
+  --marker-visited: #ff6f91;
+  --marker-visited-hover: #ff94ad;
+  --marker-future: #7b5cff;
+  --marker-future-hover: #9a82ff;
+  --marker-lived: #ffd23f;
+  --marker-lived-hover: #ffe070;
+  --panel-texture-dark:
+    radial-gradient(circle, #ffd23f 0 0.15rem, transparent 0.16rem) 0 0 / 2.5rem
+      2.5rem,
+    radial-gradient(circle, #00c2a8 0 0.15rem, transparent 0.16rem) 1.25rem
+      1.25rem / 2.5rem 2.5rem;
+  --panel-texture-light:
+    radial-gradient(circle, #ffd23f 0 0.15rem, transparent 0.16rem) 0 0 / 2.5rem
+      2.5rem,
+    radial-gradient(circle, #ff6f91 0 0.15rem, transparent 0.16rem) 1.25rem
+      1.25rem / 2.5rem 2.5rem;
+  --panel-border-width: 0.125rem;
+  --full-panel-border-light: var(--glass-border-light);
+  --h1-weight: 400;
+  --h2-weight: 400;
+  --h3-weight: 400;
+  --h1-tracking: 0.02em;
+  --h2-tracking: 0.02em;
+  --marker-filter: drop-shadow(0.125rem 0.125rem 0 #1b1b1b);
+  --trip-card-hover-transform: rotate(-1deg) translateY(-0.125rem);
+  --trip-card-title-size: 1.3rem;
+  --trip-card-title-weight: 400;
+  --trip-card-border-light: 0.125rem solid #1b1b1b;
+  --trip-card-shadow-light: 0.375rem 0.375rem 0 #ff6f91;
+  --trip-card-border-dark: 0.125rem solid #fff6e9;
+  --trip-card-shadow-dark: 0.375rem 0.375rem 0 #00c2a8;
+  --nav-label-weight: 700;
+  --nav-indicator-dark: #ff6f91;
+  --nav-indicator-light: #ffd23f;
+  --nav-indicator-border-light: 0.125rem solid #1b1b1b;
+  --nav-indicator-turn: -2deg;
+  --nav-active-dark: #1b1b1b;
+  --nav-active-light: #1b1b1b;
+}

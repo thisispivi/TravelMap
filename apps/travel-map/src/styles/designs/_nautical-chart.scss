@@ -1,0 +1,100 @@
+:root[data-design="nautical-chart"] {
+  /* Chart navy carries white text on buff paper; the night chart lights its
+     accent in brass with a dark ink on top. */
+  --font-body: "Libre Franklin", "Urbanist", Arial, sans-serif;
+  --font-display: "IM Fell English SC", Georgia, serif;
+  --radius-xs: 0.125rem;
+  --radius-sm: 0.125rem;
+  --radius-md: 0.25rem;
+  --radius-lg: 0.25rem;
+  --radius-pill: 62.4375rem;
+  --dark-background: #0b1a26;
+  --dark-left-bar: #102434;
+  --dark-left-bar-opacity: rgba(16, 36, 52, 0.96);
+  --dark-left-bar-opacity-lighter: rgba(16, 36, 52, 0.6);
+  --dark-info-tab: #163047;
+  --dark-button: rgba(233, 225, 204, 0.08);
+  --dark-button-hover: rgba(233, 225, 204, 0.15);
+  --dark-button-content: #e9e1cc;
+  --dark-alt-text: #a8b8c4;
+  --dark-alt-text-darker: #8296a6;
+  --dark-disabled-text: #46596a;
+  --glass-bg-dark: rgba(16, 36, 52, 0.96);
+  --glass-border-dark: rgba(233, 225, 204, 0.25);
+  --glass-shadow-dark: 0 0.75rem 2rem rgba(0, 0, 0, 0.45);
+  --photo-card-shadow-dark: 0 0.75rem 2rem rgba(0, 0, 0, 0.45);
+  --route-line-color-dark: #e0b252;
+  --light-background: #e2d8bf;
+  --light-left-bar: #f6f0e1;
+  --light-left-bar-opacity: rgba(246, 240, 225, 0.96);
+  --light-left-bar-opacity-lighter: rgba(246, 240, 225, 0.6);
+  --light-info-tab: #efe7d4;
+  --light-button: rgba(29, 59, 83, 0.08);
+  --light-button-hover: rgba(29, 59, 83, 0.15);
+  --light-button-content: #1d3b53;
+  --light-alt-text: #4f6b82;
+  --light-alt-text-darker: #2e4d66;
+  --light-disabled-text: #bfb8a3;
+  --glass-bg-light: rgba(246, 240, 225, 0.96);
+  --glass-border-light: rgba(29, 59, 83, 0.35);
+  --glass-shadow-light: 0 0.5rem 1.5rem rgba(29, 59, 83, 0.12);
+  --photo-card-shadow-light: 0 0.5rem 1.5rem rgba(29, 59, 83, 0.12);
+  --route-line-color-light: #1d3b53;
+  --glass-blur: 0rem;
+  --accent-primary: #1d3b53;
+  --accent-primary-hover: #1d3b53;
+  --accent-soft-dark: rgba(224, 178, 82, 0.2);
+  --accent-soft-light: rgba(29, 59, 83, 0.12);
+  --accent-on-dark: #e0b252;
+  --accent-on-dark-hover: #e0b252;
+  --accent-ink-on-dark: #1a1204;
+  --loader-color: var(--accent-primary);
+  --visited-button: rgba(200, 16, 46, 0.16);
+  --visited-button-hover: rgba(200, 16, 46, 0.28);
+  --visited-button-content: #c8102e;
+  --future-button: rgba(0, 61, 165, 0.16);
+  --future-button-hover: rgba(0, 61, 165, 0.28);
+  --future-button-content: #003da5;
+  --lived-button: rgba(138, 109, 0, 0.16);
+  --lived-button-hover: rgba(138, 109, 0, 0.28);
+  --lived-button-content: #8a6d00;
+  --marker-visited: #c8102e;
+  --marker-visited-hover: #e03550;
+  --marker-future: #003da5;
+  --marker-future-hover: #2d5fc4;
+  --marker-lived: #ffcd00;
+  --marker-lived-hover: #ffdb4d;
+  --panel-texture-dark: repeating-conic-gradient(
+    from 0deg at 85% 15%,
+    rgba(233, 225, 204, 0.07) 0 0.25deg,
+    transparent 0.25deg 22.5deg
+  );
+  --panel-texture-light: repeating-conic-gradient(
+    from 0deg at 85% 15%,
+    rgba(29, 59, 83, 0.1) 0 0.25deg,
+    transparent 0.25deg 22.5deg
+  );
+  --full-panel-border-light: var(--glass-border-light);
+  --h1-weight: 400;
+  --h2-weight: 400;
+  --h3-weight: 400;
+  --h1-tracking: 0.04em;
+  --h2-tracking: 0.04em;
+  --h3-tracking: 0.04em;
+  --marker-filter: drop-shadow(0 0.0625rem 0 rgba(0, 0, 0, 0.5));
+  --trip-card-image-filter: saturate(0.75) sepia(0.2);
+  --trip-card-title-size: 1.6rem;
+  --trip-card-title-weight: 400;
+  --trip-card-border-light: 0.0625rem solid #1d3b53;
+  --trip-card-shadow-light: 0.25rem 0.25rem 0 rgba(29, 59, 83, 0.15);
+  --trip-card-border-dark: 0.0625rem solid rgba(233, 225, 204, 0.4);
+  --trip-card-shadow-dark: none;
+  --nav-label-font: var(--font-display);
+  --nav-label-size: 1rem;
+  --nav-label-weight: 400;
+  --nav-label-tracking: 0.06em;
+  --nav-indicator-dark: rgba(224, 178, 82, 0.2);
+  --nav-indicator-light: rgba(29, 59, 83, 0.12);
+  --nav-active-dark: #e0b252;
+  --nav-active-light: #1d3b53;
+}

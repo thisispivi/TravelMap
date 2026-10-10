@@ -1,0 +1,109 @@
+:root[data-design="retro-os"] {
+  /* Title-bar navy carries white text on the grey chrome; the dark desktop
+     lights a paler blue with a dark ink on top. */
+  --font-body: Tahoma, Verdana, "Segoe UI", sans-serif;
+  --font-display: "Silkscreen", "Courier New", monospace;
+  --radius-xs: 0;
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+  --radius-pill: 0;
+  --dark-background: #001818;
+  --dark-left-bar: #2e2e2e;
+  --dark-left-bar-opacity: rgba(46, 46, 46, 1);
+  --dark-left-bar-opacity-lighter: rgba(46, 46, 46, 0.6);
+  --dark-info-tab: #383838;
+  --dark-button: rgba(240, 240, 240, 0.08);
+  --dark-button-hover: rgba(240, 240, 240, 0.15);
+  --dark-button-content: #f0f0f0;
+  --dark-alt-text: #c0c0c0;
+  --dark-alt-text-darker: #9a9a9a;
+  --dark-disabled-text: #5a5a5a;
+  --glass-bg-dark: rgba(46, 46, 46, 1);
+  --glass-border-dark: #000000;
+  --glass-shadow-dark:
+    inset -0.0625rem -0.0625rem #000000, inset 0.0625rem 0.0625rem #6a6a6a,
+    inset -0.125rem -0.125rem #1a1a1a, inset 0.125rem 0.125rem #4a4a4a;
+  --photo-card-shadow-dark:
+    inset -0.0625rem -0.0625rem #000000, inset 0.0625rem 0.0625rem #6a6a6a,
+    inset -0.125rem -0.125rem #1a1a1a, inset 0.125rem 0.125rem #4a4a4a;
+  --route-line-color-dark: #5aa9ff;
+  --light-background: #008080;
+  --light-left-bar: #c0c0c0;
+  --light-left-bar-opacity: rgba(192, 192, 192, 1);
+  --light-left-bar-opacity-lighter: rgba(192, 192, 192, 0.6);
+  --light-info-tab: #c0c0c0;
+  --light-button: rgba(0, 0, 0, 0.08);
+  --light-button-hover: rgba(0, 0, 0, 0.15);
+  --light-button-content: #000000;
+  --light-alt-text: #3a3a3a;
+  --light-alt-text-darker: #000000;
+  --light-disabled-text: #808080;
+  --glass-bg-light: rgba(192, 192, 192, 1);
+  --glass-border-light: #000000;
+  --glass-shadow-light:
+    inset -0.0625rem -0.0625rem #0a0a0a, inset 0.0625rem 0.0625rem #ffffff,
+    inset -0.125rem -0.125rem #808080, inset 0.125rem 0.125rem #dfdfdf;
+  --photo-card-shadow-light:
+    inset -0.0625rem -0.0625rem #0a0a0a, inset 0.0625rem 0.0625rem #ffffff,
+    inset -0.125rem -0.125rem #808080, inset 0.125rem 0.125rem #dfdfdf;
+  --route-line-color-light: #000080;
+  --glass-blur: 0rem;
+  --accent-primary: #000080;
+  --accent-primary-hover: #000080;
+  --accent-soft-dark: rgba(90, 169, 255, 0.2);
+  --accent-soft-light: rgba(0, 0, 128, 0.12);
+  --accent-on-dark: #5aa9ff;
+  --accent-on-dark-hover: #5aa9ff;
+  --accent-ink-on-dark: #001a33;
+  --loader-color: var(--accent-primary);
+  --visited-button: rgba(160, 0, 0, 0.16);
+  --visited-button-hover: rgba(160, 0, 0, 0.28);
+  --visited-button-content: #a00000;
+  --future-button: rgba(0, 0, 128, 0.16);
+  --future-button-hover: rgba(0, 0, 128, 0.28);
+  --future-button-content: #000080;
+  --lived-button: rgba(128, 96, 0, 0.16);
+  --lived-button-hover: rgba(128, 96, 0, 0.28);
+  --lived-button-content: #806000;
+  --marker-visited: #ff0000;
+  --marker-visited-hover: #ff4040;
+  --marker-future: #0000ff;
+  --marker-future-hover: #4040ff;
+  --marker-lived: #ffff00;
+  --marker-lived-hover: #ffff80;
+  --panel-texture-dark: linear-gradient(90deg, #000080, #1084d0) 0 0 / 100%
+    0.5rem no-repeat;
+  --panel-texture-light: linear-gradient(90deg, #000080, #1084d0) 0 0 / 100%
+    0.5rem no-repeat;
+  --panel-border-width: 0;
+  --h1-weight: 400;
+  --h2-weight: 400;
+  --h3-weight: 400;
+  --h1-tracking: 0;
+  --h2-tracking: 0;
+  --marker-filter: drop-shadow(0.0625rem 0.0625rem 0 #000000);
+  --trip-card-hover-transform: none;
+  --trip-card-title-size: 1.15rem;
+  --trip-card-title-weight: 400;
+  --trip-card-border-light: 0.125rem inset #dfdfdf;
+  --trip-card-shadow-light: none;
+  --trip-card-border-dark: 0.125rem inset #4a4a4a;
+  --trip-card-shadow-dark: none;
+  --nav-label-font: var(--font-display);
+  --nav-label-size: 0.75rem;
+  --nav-label-weight: 400;
+  --nav-indicator-dark: #383838;
+  --nav-indicator-border-dark: 0.125rem inset #4a4a4a;
+  --nav-indicator-light: #c0c0c0;
+  --nav-indicator-border-light: 0.125rem inset #dfdfdf;
+  --nav-active-dark: #f0f0f0;
+  --nav-active-light: #000000;
+  --button-border-light: 0.125rem outset #dfdfdf;
+  --button-hover-shadow-light: none;
+  --button-border-dark: 0.125rem outset #5a5a5a;
+  --button-hover-shadow-dark: none;
+  --focus-outline: 0.0625rem dotted currentColor;
+  --focus-offset: -0.25rem;
+  --focus-shadow: none;
+}
