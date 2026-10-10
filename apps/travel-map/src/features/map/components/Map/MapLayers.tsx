@@ -144,11 +144,11 @@ export function MapLayers({ theme }: MapLayersProps): ReactNode {
         ["get", "name"],
         ...visitedCountries.flatMap((country) => [
           country.name,
-          toOpaqueFill(country.fillColor, theme.land),
+          toOpaqueFill(country.fillColor, theme.land, theme.countryStrength),
         ]),
         theme.land,
       ] as never,
-    [theme.land],
+    [theme.land, theme.countryStrength],
   );
 
   return (

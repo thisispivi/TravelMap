@@ -9,6 +9,8 @@ import type { StyleSpecification } from "maplibre-gl";
  * @property {string} countryLabelHalo - The country label halo color
  * @property {string} cityLabel - The city label color
  * @property {string} cityLabelHalo - The city label halo color
+ * @property {number} countryStrength - How much of a visited country's own
+ * colour shows through the land tone, from 0 (none) to 1 (as authored)
  */
 export interface MapTheme {
   ocean: string;
@@ -18,6 +20,7 @@ export interface MapTheme {
   countryLabelHalo: string;
   cityLabel: string;
   cityLabelHalo: string;
+  countryStrength: number;
 }
 
 /**
@@ -36,6 +39,7 @@ export const MAP_THEMES: Record<"dark" | "light", MapTheme> = {
     countryLabelHalo: "#18191a",
     cityLabel: "#e4e6eb",
     cityLabelHalo: "rgba(24, 25, 26, 0.94)",
+    countryStrength: 1,
   },
   light: {
     ocean: "#eef1f5",
@@ -45,6 +49,7 @@ export const MAP_THEMES: Record<"dark" | "light", MapTheme> = {
     countryLabelHalo: "#e7e8ec",
     cityLabel: "#1a1a2e",
     cityLabelHalo: "rgba(240, 242, 245, 0.96)",
+    countryStrength: 1,
   },
 };
 
@@ -101,9 +106,15 @@ function hslToRgb(
  * GeoJSON fills prevent internal tile seams from appearing as hairlines.
  * @param {string} hsla - A country fill color such as `hsla(210, 60%, 50%, 0.6)`
  * @param {string} baseHex - The hexadecimal land color beneath the fill
+ * @param {number} strength - Scales the fill's own opacity, so a theme can
+ * mute the dataset's colours without editing them
  * @returns {string} The composited opaque RGB color
  */
-export function toOpaqueFill(hsla: string, baseHex: string): string {
+export function toOpaqueFill(
+  hsla: string,
+  baseHex: string,
+  strength: number,
+): string {
   const [hue, saturation, lightness, opacity = 1] = hsla
     .replace(/hsla?\(|\)|%/g, "")
     .split(",")
@@ -111,7 +122,10 @@ export function toOpaqueFill(hsla: string, baseHex: string): string {
   const foreground = hslToRgb(hue, saturation, lightness);
   const background = hexToRgb(baseHex);
   const [red, green, blue] = foreground.map((channel, index) =>
-    Math.round(channel * opacity + background[index] * (1 - opacity)),
+    Math.round(
+      channel * opacity * strength +
+        background[index] * (1 - opacity * strength),
+    ),
   );
 
   return `rgb(${red}, ${green}, ${blue})`;
