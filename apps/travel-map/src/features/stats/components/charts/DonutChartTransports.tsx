@@ -87,7 +87,7 @@ export function TransportsDonutChart({
       enabled: false,
       style: {
         fontSize: "1em",
-        fontFamily: "Urbanist, Arial, Helvetica, sans-serif",
+        fontFamily: "inherit",
       },
       cssClass: "apexcharts-tooltip",
     },

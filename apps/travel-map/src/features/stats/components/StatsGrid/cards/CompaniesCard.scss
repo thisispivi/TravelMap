@@ -9,7 +9,7 @@
     width: 1.75rem;
     height: 1.75rem;
     flex-shrink: 0;
-    border-radius: 0.35rem;
+    border-radius: v.$radiusSm;
     overflow: hidden;
   }
 
@@ -39,7 +39,7 @@
 .map-shell--dark {
   .bento-company-row {
     &__logo {
-      border-radius: 0.3rem;
+      border-radius: v.$radiusSm;
     }
 
     &__name {
@@ -55,7 +55,7 @@
 .map-shell--light {
   .bento-company-row {
     &__logo {
-      border-radius: 0.3rem;
+      border-radius: v.$radiusSm;
     }
 
     &__name {

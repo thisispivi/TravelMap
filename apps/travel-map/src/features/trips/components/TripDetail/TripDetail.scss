@@ -95,7 +95,7 @@
     right: v.$mobileFloatingMargin;
     width: auto;
     max-height: 75vh;
-    border-radius: 1.5rem;
+    border-radius: v.$radiusLg;
 
     .trip-detail__body,
     .trip-detail__body--scrollable {

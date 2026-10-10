@@ -8,7 +8,7 @@
 
   .maplibregl-popup-content {
     min-width: 15rem;
-    border-radius: 0.875rem !important;
+    border-radius: v.$radiusMd !important;
     padding: 0 !important;
     overflow: hidden;
     -webkit-backdrop-filter: blur(1.5rem);
@@ -57,7 +57,7 @@
     font-size: v.$caption;
     font-weight: 500;
     padding: 0.25rem 0.5625rem;
-    border-radius: 62rem;
+    border-radius: v.$radiusPill;
     white-space: nowrap;
   }
 
@@ -72,7 +72,7 @@
 
     .map-tooltip__footer__button {
       padding-inline: 0.75rem;
-      border-radius: 0.5rem;
+      border-radius: v.$radiusSm;
       border-color: transparent;
       box-shadow: none;
       height: 2rem;

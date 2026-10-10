@@ -1,3 +1,11 @@
+@use "variables" as v;
+
+h1,
+h2,
+h3 {
+  font-family: v.$fontDisplay;
+}
+
 h1 {
   font-size: 2rem;
   font-weight: 800;

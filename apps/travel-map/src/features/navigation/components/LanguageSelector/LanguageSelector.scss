@@ -15,7 +15,7 @@
   flex-direction: column;
   gap: 0.25rem;
   padding: 0.4rem;
-  border-radius: 0.85rem;
+  border-radius: v.$radiusMd;
   z-index: 100;
   min-width: 10rem;
 }
@@ -25,7 +25,7 @@
   align-items: center;
   gap: 0.6rem;
   padding: 0.45rem 0.7rem;
-  border-radius: 0.6rem;
+  border-radius: v.$radiusSm;
   border: none;
   background: transparent;
   cursor: pointer;
@@ -138,7 +138,7 @@ body.body--light {
   .language-selector {
     .language-selector__activator {
       padding: 0.3rem;
-      border-radius: 62.4375rem;
+      border-radius: v.$radiusPill;
       display: flex;
       align-items: center;
       justify-content: center;

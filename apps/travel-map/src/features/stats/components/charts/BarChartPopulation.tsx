@@ -96,7 +96,7 @@ export function PopulationBarChart({
         },
         style: {
           fontSize: "0.9em",
-          fontFamily: "Urbanist, Arial, Helvetica, sans-serif",
+          fontFamily: "inherit",
         },
         offsetY: 0,
         offsetX: 6,
@@ -113,7 +113,7 @@ export function PopulationBarChart({
         labels: {
           style: {
             fontSize: "0.9em",
-            fontFamily: "Urbanist, Arial, Helvetica, sans-serif",
+            fontFamily: "inherit",
             fontWeight: 700,
           },
           offsetY: 3,

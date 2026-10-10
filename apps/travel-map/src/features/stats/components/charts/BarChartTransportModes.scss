@@ -43,14 +43,14 @@
   &__bar-track {
     flex: 1;
     height: 0.5rem;
-    border-radius: 1rem;
+    border-radius: v.$radiusMd;
     overflow: hidden;
     min-width: 0;
   }
 
   &__bar-fill {
     height: 100%;
-    border-radius: 1rem;
+    border-radius: v.$radiusMd;
     min-width: 0.25rem;
     transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   }

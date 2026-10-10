@@ -69,14 +69,14 @@
   &__bar-track {
     flex: 1;
     height: 0.8rem;
-    border-radius: 0.5rem;
+    border-radius: v.$radiusSm;
     overflow: visible;
     position: relative;
   }
 
   &__bar-fill {
     height: 100%;
-    border-radius: 0.5rem;
+    border-radius: v.$radiusSm;
     min-width: 0;
     transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
   }

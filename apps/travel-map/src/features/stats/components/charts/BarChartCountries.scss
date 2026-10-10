@@ -17,7 +17,7 @@
     width: 1.3rem;
     height: 1.3rem;
     flex-shrink: 0;
-    border-radius: 0.2rem;
+    border-radius: v.$radiusXs;
     overflow: hidden;
   }
 
@@ -34,14 +34,14 @@
   &__bar-track {
     flex: 1;
     height: 0.5rem;
-    border-radius: 1rem;
+    border-radius: v.$radiusMd;
     overflow: hidden;
     min-width: 0;
   }
 
   &__bar-fill {
     height: 100%;
-    border-radius: 1rem;
+    border-radius: v.$radiusMd;
     min-width: 0.25rem;
     background: #3b82f6;
     transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);

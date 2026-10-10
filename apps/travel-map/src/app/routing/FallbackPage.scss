@@ -88,7 +88,7 @@
   }
 
   &__message {
-    border-radius: 0.5rem;
+    border-radius: v.$radiusSm;
     font-family: monospace;
     font-size: v.$bodySm;
     margin-bottom: 0.5rem;
@@ -99,7 +99,7 @@
   }
 
   &__stack {
-    border-radius: 0.5rem;
+    border-radius: v.$radiusSm;
     font-family: monospace;
     font-size: 0.7rem;
     margin-bottom: 0.5rem;
@@ -113,7 +113,7 @@
   }
 
   &__button {
-    border-radius: 0.5rem;
+    border-radius: v.$radiusSm;
     height: 2.5rem;
     margin-top: 1rem;
     padding: 0 1.5rem;

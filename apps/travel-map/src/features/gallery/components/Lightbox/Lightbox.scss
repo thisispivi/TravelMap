@@ -36,7 +36,7 @@
     @include m.transition(opacity, 0.3s, ease-in-out);
 
     .lightbox__back-button {
-      border-radius: 5rem;
+      border-radius: v.$radiusPill;
       height: 2.5rem;
       width: auto;
       padding: 0 1rem;
@@ -62,7 +62,7 @@
       min-width: 5rem;
       line-height: 2.5rem;
       padding: 0 1rem;
-      border-radius: 5rem;
+      border-radius: v.$radiusPill;
       text-align: center;
       font-size: 0.9rem;
       flex-shrink: 0;

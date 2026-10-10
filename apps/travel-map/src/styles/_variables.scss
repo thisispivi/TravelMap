@@ -1,6 +1,17 @@
 $leftBarWidth: 3.5rem;
 $mobileNavHeight: calc(3.2rem + env(safe-area-inset-bottom, 0rem));
 
+/* Type families */
+$fontBody: "Urbanist", Arial, Helvetica, sans-serif;
+$fontDisplay: $fontBody;
+
+/* Corner scale */
+$radiusXs: 0.25rem;
+$radiusSm: 0.5rem;
+$radiusMd: 1rem;
+$radiusLg: 1.5rem;
+$radiusPill: 62.4375rem;
+
 /* Dark theme */
 $darkBackground: #18191a;
 $darkLeftBar: #242526;
@@ -71,14 +82,14 @@ $continentsSouthAmerica: #8ac38b;
 $continentsAntarctica: #9fb8cd;
 
 /* Floating overlay tokens */
-$floatingCardRadius: 1rem;
-$floatingCardRadiusLg: 1.25rem;
+$floatingCardRadius: $radiusMd;
+$floatingCardRadiusLg: $radiusLg;
 $floatingCardPadding: 1.25rem;
 $floatingCardGap: 0.75rem;
 $floatingCardMaxWidth: 25rem;
 
 /* Photo card tokens */
-$photoCardRadius: 1rem;
+$photoCardRadius: $radiusMd;
 $photoCardShadowDark: 0 0.25rem 1rem rgba(0, 0, 0, 0.3);
 $photoCardShadowLight: 0 0.25rem 1rem rgba(0, 0, 0, 0.08);
 
