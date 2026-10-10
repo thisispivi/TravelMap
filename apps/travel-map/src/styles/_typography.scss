@@ -4,25 +4,28 @@ h1,
 h2,
 h3 {
   font-family: v.$fontDisplay;
+  font-variation-settings: var(--heading-variation);
+  text-transform: var(--heading-transform);
 }
 
 h1 {
   font-size: 2rem;
-  font-weight: 800;
-  letter-spacing: -0.02em;
+  font-weight: var(--h1-weight);
+  letter-spacing: var(--h1-tracking);
   line-height: 1.2;
 }
 
 h2 {
   font-size: 1.5rem;
-  font-weight: 700;
-  letter-spacing: -0.01em;
+  font-weight: var(--h2-weight);
+  letter-spacing: var(--h2-tracking);
   line-height: 1.3;
 }
 
 h3 {
   font-size: 1.125rem;
-  font-weight: 600;
+  font-weight: var(--h3-weight);
+  letter-spacing: var(--h3-tracking);
   line-height: 1.4;
 }
 
@@ -35,6 +38,7 @@ p {
 .caption {
   font-size: 0.75rem;
   font-weight: 500;
-  letter-spacing: 0.02em;
+  font-family: var(--caption-font);
+  letter-spacing: var(--caption-tracking);
   text-transform: uppercase;
 }

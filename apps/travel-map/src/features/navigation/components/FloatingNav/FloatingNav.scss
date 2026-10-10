@@ -77,8 +77,11 @@
     .floating-nav__tab-label {
       position: relative;
       z-index: 1;
-      font-size: v.$bodySm;
-      font-weight: 600;
+      font-family: var(--nav-label-font);
+      font-size: var(--nav-label-size);
+      font-weight: var(--nav-label-weight);
+      letter-spacing: var(--nav-label-tracking);
+      text-transform: var(--nav-label-transform);
       white-space: nowrap;
     }
   }
@@ -111,7 +114,7 @@
       color: v.$darkAltTextDarker;
 
       &--active {
-        color: #ffffff;
+        color: var(--nav-active-dark);
       }
 
       &--panel-closed {
@@ -119,7 +122,10 @@
       }
 
       .floating-nav__tab-indicator {
-        background: rgba(255, 255, 255, 0.1);
+        background: var(--nav-indicator-dark);
+        border: var(--nav-indicator-border-dark);
+        box-shadow: var(--nav-indicator-shadow-dark);
+        transform: rotate(var(--nav-indicator-turn));
       }
     }
   }
@@ -129,13 +135,13 @@
   .floating-nav {
     @include m.glassmorphism-light();
     border-radius: v.$radiusPill;
-    border: 0.0625rem solid rgba(0, 0, 0, 0.06);
+    border-color: var(--full-panel-border-light);
 
     .floating-nav__tab {
       color: v.$lightAltText;
 
       &--active {
-        color: v.$lightButtonContent;
+        color: var(--nav-active-light);
       }
 
       &--panel-closed {
@@ -143,7 +149,10 @@
       }
 
       .floating-nav__tab-indicator {
-        background: rgba(0, 0, 0, 0.06);
+        background: var(--nav-indicator-light);
+        border: var(--nav-indicator-border-light);
+        box-shadow: var(--nav-indicator-shadow-light);
+        transform: rotate(var(--nav-indicator-turn));
       }
     }
   }

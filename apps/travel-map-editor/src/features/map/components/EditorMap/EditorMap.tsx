@@ -58,7 +58,7 @@ export function EditorMap({
 }: EditorMapProps): ReactNode {
   const { t } = useLanguage(["editor"]);
   const mapRef = useRef<MapRef>(null);
-  const theme = MAP_THEMES[isDarkTheme ? "dark" : "light"];
+  const theme = MAP_THEMES.classic[isDarkTheme ? "dark" : "light"];
   const mapStyle = useMemo(() => createMapStyle(theme), [theme]);
 
   const stops = trip.steps.flatMap((step, index) => {

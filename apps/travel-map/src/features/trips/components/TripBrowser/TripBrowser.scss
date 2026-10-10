@@ -21,7 +21,8 @@
     flex-shrink: 0;
 
     h2 {
-      font-size: v.$headingLg;
+      font-size: var(--panel-title-size);
+      text-shadow: var(--panel-title-shadow);
     }
   }
 
@@ -136,7 +137,7 @@
 .map-shell--light {
   .trip-browser {
     @include m.floating-card-light();
-    border: 0.0625rem solid rgba(0, 0, 0, 0.06);
+    border-color: var(--full-panel-border-light);
 
     .trip-browser__header h2 {
       color: v.$lightButtonContent;

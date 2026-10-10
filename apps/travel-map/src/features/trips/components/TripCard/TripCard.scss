@@ -13,7 +13,7 @@
   @include m.transition(all, 0.3s, cubic-bezier(0.4, 0, 0.2, 1));
 
   &:hover {
-    transform: translateY(-0.125rem);
+    transform: var(--trip-card-hover-transform);
     box-shadow:
       0 0.1875rem 0.625rem rgba(0, 0, 0, 0.12),
       0 0.375rem 1rem rgba(0, 0, 0, 0.08);
@@ -50,6 +50,7 @@
     position: absolute;
     inset: -0.0625rem;
     overflow: hidden;
+    background: var(--trip-card-image-ground);
 
     .trip-card__image {
       width: 100%;
@@ -58,6 +59,8 @@
       position: absolute;
       inset: 0;
       z-index: 0;
+      filter: var(--trip-card-image-filter);
+      mix-blend-mode: var(--trip-card-image-blend);
       @include m.transition(transform, 0.35s, ease-out);
     }
 
@@ -71,6 +74,8 @@
 
   .trip-card__header:hover .trip-card__image {
     transform: scale(1.04);
+    filter: none;
+    mix-blend-mode: normal;
   }
 
   .trip-card__info {
@@ -106,7 +111,11 @@
   }
 
   .trip-card__title {
-    font-size: 1.4rem;
+    font-size: var(--trip-card-title-size);
+    font-style: var(--trip-card-title-style);
+    font-weight: var(--trip-card-title-weight);
+    letter-spacing: var(--trip-card-title-tracking);
+    text-transform: var(--trip-card-title-transform);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -156,14 +165,14 @@
 
 .map-shell--light {
   .trip-card {
-    border: 0.0625rem solid transparent;
-    box-shadow: 0 0.5rem 1.875rem rgba(0, 0, 0, 0.08);
+    border: var(--trip-card-border-light);
+    box-shadow: var(--trip-card-shadow-light);
 
     .trip-card__image-overlay {
       background: linear-gradient(
         to top,
-        rgba(0, 0, 0, 0.6) 0%,
-        rgba(0, 0, 0, 0.18) 45%,
+        var(--trip-card-overlay-strong) 0%,
+        var(--trip-card-overlay-soft) 45%,
         rgba(0, 0, 0, 0) 100%
       );
     }
@@ -191,7 +200,8 @@
 
 .map-shell--dark {
   .trip-card {
-    border: 0.0625rem solid rgba(255, 255, 255, 0.06);
+    border: var(--trip-card-border-dark);
+    box-shadow: var(--trip-card-shadow-dark);
 
     .trip-card__image-overlay {
       background: linear-gradient(

@@ -67,7 +67,7 @@
   .trip-detail {
     @include m.floating-card-light();
     padding: 0;
-    border: 0.0625rem solid rgba(0, 0, 0, 0.06);
+    border-color: var(--full-panel-border-light);
 
     .trip-detail__route-label {
       color: v.$lightAltTextDarker;

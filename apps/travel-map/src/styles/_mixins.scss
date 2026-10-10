@@ -60,23 +60,24 @@
 }
 
 @mixin focus-ring() {
-  outline: none;
-  box-shadow: 0 0 0 0.1875rem rgba(v.$accentPrimary, 0.5);
+  outline: var(--focus-outline);
+  outline-offset: var(--focus-offset);
+  box-shadow: var(--focus-shadow);
 }
 
 @mixin glassmorphism-dark() {
-  background: v.$glassBgDark;
+  background: var(--panel-texture-dark), v.$glassBgDark;
   -webkit-backdrop-filter: blur(v.$glassBlur);
   backdrop-filter: blur(v.$glassBlur);
-  border: 0.0625rem solid v.$glassBorderDark;
+  border: var(--panel-border-width) solid v.$glassBorderDark;
   box-shadow: v.$glassShadowDark;
 }
 
 @mixin glassmorphism-light() {
-  background: v.$glassBgLight;
+  background: var(--panel-texture-light), v.$glassBgLight;
   -webkit-backdrop-filter: blur(v.$glassBlur);
   backdrop-filter: blur(v.$glassBlur);
-  border: 0.0625rem solid v.$glassBorderLight;
+  border: var(--panel-border-width) solid v.$glassBorderLight;
   box-shadow: v.$glassShadowLight;
 }
 
@@ -160,6 +161,6 @@
 
 @mixin full-panel-light() {
   @include glassmorphism-light();
-  border: 0.0625rem solid rgba(0, 0, 0, 0.06);
+  border-color: var(--full-panel-border-light);
   border-radius: v.$floatingCardRadiusLg;
 }

@@ -24,7 +24,7 @@
 }
 
 .loader {
-  @include loader(#ea4335);
+  @include loader(var(--loader-color));
 }
 
 div[class*="visited"] {

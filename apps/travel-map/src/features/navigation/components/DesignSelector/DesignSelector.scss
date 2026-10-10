@@ -1,0 +1,49 @@
+@use "../../../../styles/variables" as v;
+@use "../../../../styles/mixins" as m;
+
+.design-selector {
+  border-radius: v.$radiusPill;
+  cursor: pointer;
+  font-family: v.$fontBody;
+  font-size: v.$caption;
+  font-weight: 600;
+  height: 2.25rem;
+  padding: 0 0.75rem;
+  @include m.transition(background-color, 0.2s);
+
+  &:focus-visible {
+    @include m.focus-ring();
+  }
+}
+
+.map-shell--dark {
+  .design-selector {
+    background: v.$darkButton;
+    border: var(--button-border-dark);
+    color: v.$darkButtonContent;
+
+    &:hover {
+      background: v.$darkButtonHover;
+    }
+
+    option {
+      background: v.$darkLeftBar;
+    }
+  }
+}
+
+.map-shell--light {
+  .design-selector {
+    background: v.$lightButton;
+    border: var(--button-border-light);
+    color: v.$lightButtonContent;
+
+    &:hover {
+      background: v.$lightButtonHover;
+    }
+
+    option {
+      background: v.$lightLeftBar;
+    }
+  }
+}

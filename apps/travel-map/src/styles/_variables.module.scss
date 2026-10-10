@@ -16,7 +16,8 @@
   darkInfoTab: v.$darkInfoTab;
   darkButton: v.$darkButton;
   darkButtonHover: v.$darkButtonHover;
-  darkButtonContent: v.$darkButtonContent;
+  /* ApexCharts writes this into an SVG attribute, which cannot resolve var(). */
+  darkButtonContent: #e4e6eb;
   darkAltText: v.$darkAltText;
 
   futureButton: v.$futureButton;

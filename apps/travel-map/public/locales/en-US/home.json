@@ -184,5 +184,13 @@
       "timeZone_one": "time zone",
       "timeZone_other": "time zones"
     }
+  },
+  "design": {
+    "label": "Design",
+    "classic": "Classic",
+    "passport": "Passport",
+    "risograph": "Risograph",
+    "softness": "Softness",
+    "neo-brutalism": "Neo-brutalism"
   }
 }

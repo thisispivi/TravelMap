@@ -13,9 +13,13 @@ import { RouterProvider } from "react-router";
 import { router } from "./app/routing/router";
 import { BaseTooltip } from "./app/tooltip/BaseTooltip";
 import { Loading } from "./shared/components/Loading/Loading";
+import { applyDesign, readStoredDesign } from "./shared/lib/design";
 import { mobileAndTabletCheck } from "./shared/lib/responsive";
 
 const isMobileOrTablet = mobileAndTabletCheck();
+
+/* Applied before the first render so a remembered design never flashes classic. */
+applyDesign(readStoredDesign());
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

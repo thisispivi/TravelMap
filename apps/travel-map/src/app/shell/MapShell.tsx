@@ -18,6 +18,7 @@ import {
   PanelContext,
   PanelContextValue,
 } from "@/shared/context/Panel.context";
+import { useDesign } from "@/shared/hooks/useDesign";
 import { useResponsive } from "@/shared/hooks/useResponsive";
 import { useThemeDetector } from "@/shared/hooks/useThemeDetector";
 import { classNames } from "@/shared/lib/classNames";
@@ -50,6 +51,7 @@ export function MapShell(): ReactNode {
     initialMapShellState,
   );
   const { isDarkTheme, handleDarkModeSwitch } = useThemeDetector();
+  const { design, setDesign } = useDesign();
 
   useEffect(() => {
     const isInitialRoute = isInitialRouteRef.current;
@@ -101,8 +103,10 @@ export function MapShell(): ReactNode {
         <MapInteractionContext.Provider value={mapInteractionContextValue}>
           <PanelContext.Provider value={panelContextValue}>
             <MapShellLayout
+              design={design}
               handleDarkModeSwitch={handleDarkModeSwitch}
               isDarkTheme={isDarkTheme}
+              onChangeDesign={setDesign}
               responsive={responsive}
             >
               <Outlet />

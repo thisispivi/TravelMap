@@ -27,7 +27,7 @@ export function CoordinatePicker({
   onChange,
   value,
 }: CoordinatePickerProps): ReactNode {
-  const theme = MAP_THEMES[isDarkTheme ? "dark" : "light"];
+  const theme = MAP_THEMES.classic[isDarkTheme ? "dark" : "light"];
   const mapStyle = useMemo(() => createMapStyle(theme), [theme]);
   const [longitude, latitude] = value;
   return (

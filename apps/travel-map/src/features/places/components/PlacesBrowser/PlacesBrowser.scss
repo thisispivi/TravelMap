@@ -125,7 +125,7 @@ body.filter-open .places-browser .filter {
 .map-shell--light {
   .places-browser {
     @include m.floating-card-light();
-    border: 0.0625rem solid rgba(0, 0, 0, 0.06);
+    border-color: var(--full-panel-border-light);
 
     .places-browser__header h2 {
       color: v.$lightButtonContent;

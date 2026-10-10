@@ -36,11 +36,11 @@
   .button {
     background: rgba(0, 0, 0, 0.05);
     color: v.$lightButtonContent;
-    border: 0.0625rem solid rgba(0, 0, 0, 0.07);
+    border: var(--button-border-light);
 
     &:hover {
       background: rgba(0, 0, 0, 0.09);
-      box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.08);
+      box-shadow: var(--button-hover-shadow-light);
     }
 
     @include m.set-button-colors(
@@ -56,11 +56,11 @@
   .button {
     background: rgba(255, 255, 255, 0.07);
     color: v.$darkButtonContent;
-    border: 0.0625rem solid rgba(255, 255, 255, 0.08);
+    border: var(--button-border-dark);
 
     &:hover {
       background: rgba(255, 255, 255, 0.12);
-      box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.25);
+      box-shadow: var(--button-hover-shadow-dark);
     }
 
     @include m.set-button-colors(

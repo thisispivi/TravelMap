@@ -10,6 +10,7 @@ import { PanelLoading } from "@/shared/components/PanelLoading/PanelLoading";
 import { usePanel } from "@/shared/context/Panel.context";
 import { useLanguage } from "@/shared/hooks/useLanguage";
 import { ResponsiveType } from "@/shared/hooks/useResponsive";
+import { Design } from "@/shared/lib/design";
 
 const Map = lazy(() =>
   import("@/features/map/components/Map/Map").then((module) => ({
@@ -20,14 +21,18 @@ const Map = lazy(() =>
 /**
  * Properties accepted by the map shell layout.
  * @property {ReactNode} children - The active routed panel
+ * @property {Design} design - The active visual design
  * @property {() => void} handleDarkModeSwitch - Toggles the application theme
  * @property {boolean} isDarkTheme - Whether the dark theme is active
+ * @property {(design: Design) => void} onChangeDesign - Switches the visual design
  * @property {ResponsiveType} responsive - The current responsive viewport state
  */
 interface MapShellLayoutProps {
   children: ReactNode;
+  design: Design;
   handleDarkModeSwitch: () => void;
   isDarkTheme: boolean;
+  onChangeDesign: (design: Design) => void;
   responsive: ResponsiveType;
 }
 const TripBrowser = lazy(() =>
@@ -61,15 +66,19 @@ const TripDetail = lazy(() =>
  * @component
  * @param {MapShellLayoutProps} props - The map shell layout props
  * @param {ReactNode} props.children - The active route element (lazy page)
+ * @param {Design} props.design - The active visual design
  * @param {() => void} props.handleDarkModeSwitch - Toggles the application theme
  * @param {boolean} props.isDarkTheme - Whether the dark theme is active
+ * @param {(design: Design) => void} props.onChangeDesign - Switches the visual design
  * @param {ResponsiveType} props.responsive - The current responsive viewport state
  * @returns {ReactNode} The main application layout
  */
 export function MapShellLayout({
   children,
+  design,
   handleDarkModeSwitch,
   isDarkTheme,
+  onChangeDesign,
   responsive,
 }: MapShellLayoutProps): ReactNode {
   const { isGallery, isTrips, isPlaces, isTripDetail, isStats, isTimeline } =
@@ -87,8 +96,10 @@ export function MapShellLayout({
   return (
     <div className="map-shell__layout">
       <FloatingNav
+        design={design}
         handleDarkModeSwitch={handleDarkModeSwitch}
         isDarkTheme={isDarkTheme}
+        onChangeDesign={onChangeDesign}
       />
 
       <LazyMotion features={domAnimation}>
@@ -163,7 +174,11 @@ export function MapShellLayout({
           </div>
         }
       >
-        <Map isDarkTheme={isDarkTheme} responsive={responsive} />
+        <Map
+          design={design}
+          isDarkTheme={isDarkTheme}
+          responsive={responsive}
+        />
       </Suspense>
     </div>
   );

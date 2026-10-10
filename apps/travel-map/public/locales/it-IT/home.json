@@ -184,5 +184,13 @@
       "timeZone_one": "fuso orario",
       "timeZone_other": "fusi orari"
     }
+  },
+  "design": {
+    "label": "Stile",
+    "classic": "Classico",
+    "passport": "Passaporto",
+    "risograph": "Risografia",
+    "softness": "Morbidezza",
+    "neo-brutalism": "Neobrutalismo"
   }
 }

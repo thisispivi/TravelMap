@@ -216,7 +216,7 @@
 
   .timeline-card {
     @include m.glassmorphism-light();
-    border: 0.0625rem solid rgba(0, 0, 0, 0.06);
+    border-color: var(--full-panel-border-light);
     box-shadow:
       0 0.0625rem 0.125rem rgba(0, 0, 0, 0.1),
       0 0.0625rem 0.25rem rgba(0, 0, 0, 0.07);

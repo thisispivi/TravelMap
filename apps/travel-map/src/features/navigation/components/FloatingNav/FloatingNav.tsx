@@ -9,20 +9,26 @@ import { NavTabId, useAppRoute } from "@/shared/context/AppRoute.context";
 import { usePanel } from "@/shared/context/Panel.context";
 import { useLanguage } from "@/shared/hooks/useLanguage";
 import { classNames } from "@/shared/lib/classNames";
+import { Design } from "@/shared/lib/design";
 
 import { DarkModeButton } from "../DarkModeButton/DarkModeButton";
+import { DesignSelector } from "../DesignSelector/DesignSelector";
 import { LanguageSelector } from "../LanguageSelector/LanguageSelector";
 
 /**
  * Properties accepted by the FloatingNav component.
  * @property {string} [className] - The class name
+ * @property {Design} design - The active visual design
  * @property {boolean} isDarkTheme - Whether the dark theme is active
  * @property {() => void} handleDarkModeSwitch - Toggles the active theme
+ * @property {(design: Design) => void} onChangeDesign - Switches the visual design
  */
 interface FloatingNavProps {
   className?: string;
+  design: Design;
   isDarkTheme: boolean;
   handleDarkModeSwitch: () => void;
+  onChangeDesign: (design: Design) => void;
 }
 let navHasAnimated = false;
 const PANEL_CLOSE_DELAY_MS = 220;
@@ -66,14 +72,18 @@ const NAV_TABS: NavTab[] = [
  * @component
  * @param {FloatingNavProps} props
  * @param {string} [props.className=""] - Additional class names
+ * @param {Design} props.design - The active visual design
  * @param {boolean} props.isDarkTheme - Current theme state
  * @param {() => void} props.handleDarkModeSwitch - Toggles dark and light mode
+ * @param {(design: Design) => void} props.onChangeDesign - Switches the visual design
  * @returns {ReactNode} The navigation bar
  */
 export function FloatingNav({
   className = "",
+  design,
   isDarkTheme,
   handleDarkModeSwitch,
+  onChangeDesign,
 }: FloatingNavProps): ReactNode {
   const navigate = useNavigate();
   const { activeTab, isGallery } = useAppRoute();
@@ -202,6 +212,7 @@ export function FloatingNav({
           className="floating-nav__actions"
           variants={skipAnimation ? undefined : itemVariants}
         >
+          <DesignSelector design={design} onChangeDesign={onChangeDesign} />
           <LanguageSelector />
           <DarkModeButton
             handleDarkModeSwitch={handleDarkModeSwitch}

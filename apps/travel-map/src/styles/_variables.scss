@@ -1,64 +1,70 @@
 $leftBarWidth: 3.5rem;
 $mobileNavHeight: calc(3.2rem + env(safe-area-inset-bottom, 0rem));
 
+/*
+ * Every token that a design restyles resolves to a custom property, set per
+ * design under `designs/`. Layout, type scale and data colours stay
+ * compile-time values because no design changes them.
+ */
+
 /* Type families */
-$fontBody: "Urbanist", Arial, Helvetica, sans-serif;
-$fontDisplay: $fontBody;
+$fontBody: var(--font-body);
+$fontDisplay: var(--font-display);
 
 /* Corner scale */
-$radiusXs: 0.25rem;
-$radiusSm: 0.5rem;
-$radiusMd: 1rem;
-$radiusLg: 1.5rem;
-$radiusPill: 62.4375rem;
+$radiusXs: var(--radius-xs);
+$radiusSm: var(--radius-sm);
+$radiusMd: var(--radius-md);
+$radiusLg: var(--radius-lg);
+$radiusPill: var(--radius-pill);
 
 /* Dark theme */
-$darkBackground: #18191a;
-$darkLeftBar: #242526;
-$darkLeftBarOpacity: rgba(36, 37, 38, 0.72);
-$darkLeftBarOpacityLighter: rgba(36, 37, 38, 0.5);
-$darkInfoTab: #2c2d2e;
-$darkButton: rgba(255, 255, 255, 0.1);
-$darkButtonHover: rgba(255, 255, 255, 0.16);
-$darkButtonContent: #e4e6eb;
-$darkAltText: #b0b3b8;
-$darkAltTextDarker: #8a8d91;
-$darkDisabledText: #65676b;
+$darkBackground: var(--dark-background);
+$darkLeftBar: var(--dark-left-bar);
+$darkLeftBarOpacity: var(--dark-left-bar-opacity);
+$darkLeftBarOpacityLighter: var(--dark-left-bar-opacity-lighter);
+$darkInfoTab: var(--dark-info-tab);
+$darkButton: var(--dark-button);
+$darkButtonHover: var(--dark-button-hover);
+$darkButtonContent: var(--dark-button-content);
+$darkAltText: var(--dark-alt-text);
+$darkAltTextDarker: var(--dark-alt-text-darker);
+$darkDisabledText: var(--dark-disabled-text);
 
 /* Light theme */
-$lightBackground: #f0f2f5;
-$lightLeftBar: #ffffff;
-$lightLeftBarOpacity: rgba(255, 255, 255, 0.72);
-$lightLeftBarOpacityLighter: rgba(255, 255, 255, 0.5);
-$lightInfoTab: rgba(245, 245, 250, 0.85);
-$lightButton: rgba(0, 0, 0, 0.06);
-$lightButtonHover: rgba(0, 0, 0, 0.1);
-$lightButtonContent: #1a1a2e;
-$lightAltText: #52566a;
-$lightAltTextDarker: #363948;
-$lightDisabledText: #b0b3b8;
+$lightBackground: var(--light-background);
+$lightLeftBar: var(--light-left-bar);
+$lightLeftBarOpacity: var(--light-left-bar-opacity);
+$lightLeftBarOpacityLighter: var(--light-left-bar-opacity-lighter);
+$lightInfoTab: var(--light-info-tab);
+$lightButton: var(--light-button);
+$lightButtonHover: var(--light-button-hover);
+$lightButtonContent: var(--light-button-content);
+$lightAltText: var(--light-alt-text);
+$lightAltTextDarker: var(--light-alt-text-darker);
+$lightDisabledText: var(--light-disabled-text);
 
 /* Glassmorphism tokens */
-$glassBgDark: rgba(36, 37, 38, 0.65);
-$glassBgLight: rgba(255, 255, 255, 0.55);
-$glassBorderDark: rgba(255, 255, 255, 0.1);
-$glassBorderLight: rgba(255, 255, 255, 0.45);
-$glassBlur: 1.25rem;
-$glassShadowDark: 0 0.5rem 2rem rgba(0, 0, 0, 0.4);
-$glassShadowLight: 0 0.5rem 2rem rgba(0, 0, 0, 0.08);
+$glassBgDark: var(--glass-bg-dark);
+$glassBgLight: var(--glass-bg-light);
+$glassBorderDark: var(--glass-border-dark);
+$glassBorderLight: var(--glass-border-light);
+$glassBlur: var(--glass-blur);
+$glassShadowDark: var(--glass-shadow-dark);
+$glassShadowLight: var(--glass-shadow-light);
 
 /* Category buttons */
-$futureButton: #bbdefb;
-$futureButtonHover: #90caf9;
-$futureButtonContent: #0d47a1;
+$futureButton: var(--future-button);
+$futureButtonHover: var(--future-button-hover);
+$futureButtonContent: var(--future-button-content);
 
-$visitedButton: #ffcdd2;
-$visitedButtonHover: #ef9a9a;
-$visitedButtonContent: #d50000;
+$visitedButton: var(--visited-button);
+$visitedButtonHover: var(--visited-button-hover);
+$visitedButtonContent: var(--visited-button-content);
 
-$livedButton: #fff9c4;
-$livedButtonHover: #fff59d;
-$livedButtonContent: #fbc02d;
+$livedButton: var(--lived-button);
+$livedButtonHover: var(--lived-button-hover);
+$livedButtonContent: var(--lived-button-content);
 
 $languageButton: #ffecb3;
 $languageButtonHover: #ffe082;
@@ -90,8 +96,8 @@ $floatingCardMaxWidth: 25rem;
 
 /* Photo card tokens */
 $photoCardRadius: $radiusMd;
-$photoCardShadowDark: 0 0.25rem 1rem rgba(0, 0, 0, 0.3);
-$photoCardShadowLight: 0 0.25rem 1rem rgba(0, 0, 0, 0.08);
+$photoCardShadowDark: var(--photo-card-shadow-dark);
+$photoCardShadowLight: var(--photo-card-shadow-light);
 
 /* Typography scale */
 $headingXl: 2rem;
@@ -108,20 +114,20 @@ $floatingNavZIndex: 3;
 $mobileFloatingMargin: 0.625rem;
 
 /* Brand colors */
-$accentPrimary: #1877f2;
-$accentPrimaryHover: #166fe5;
-$accentSoftDark: rgba(45, 136, 255, 0.2);
-$accentSoftLight: rgba(24, 119, 242, 0.12);
-/* $accentPrimary reads at 3.7:1 on $darkBackground, so dark surfaces lighten
-   the brand blue and pair it with a dark ink instead of white. */
-$accentOnDark: #6cb0ff;
-$accentOnDarkHover: #8cc3ff;
-$accentInkOnDark: #0b1c33;
+$accentPrimary: var(--accent-primary);
+$accentPrimaryHover: var(--accent-primary-hover);
+$accentSoftDark: var(--accent-soft-dark);
+$accentSoftLight: var(--accent-soft-light);
+/* Each design picks an accent that reads on its dark ground; see the comment
+   beside its $accentOnDark value under designs/. */
+$accentOnDark: var(--accent-on-dark);
+$accentOnDarkHover: var(--accent-on-dark-hover);
+$accentInkOnDark: var(--accent-ink-on-dark);
 
 /* Route overlay */
-$routeLineColorDark: rgba(255, 255, 255, 0.6);
-$routeLineColorLight: #1a73e8;
-$routeLineWidth: 0.125rem;
+$routeLineColorDark: var(--route-line-color-dark);
+$routeLineColorLight: var(--route-line-color-light);
+$routeLineWidth: var(--route-line-width);
 $routeDotSize: 0.375rem;
 $transportPlane: #a855f7;
 $transportFerry: #0ea5e9;

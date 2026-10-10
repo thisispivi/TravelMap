@@ -13,6 +13,7 @@ import { useMapInteraction } from "@/shared/context/MapInteraction.context";
 import { usePanel } from "@/shared/context/Panel.context";
 import { useLanguage } from "@/shared/hooks/useLanguage";
 import { ResponsiveType } from "@/shared/hooks/useResponsive";
+import { Design } from "@/shared/lib/design";
 
 import {
   CAMERA_DURATION_MS,
@@ -40,10 +41,12 @@ const ZOOM_CONTROL_DURATION_MS = 300;
 
 /**
  * Properties accepted by the interactive map.
+ * @property {Design} design - The active visual design
  * @property {boolean} isDarkTheme - Whether the dark theme is active
  * @property {ResponsiveType} responsive - The current responsive viewport state
  */
 interface MapProps {
+  design: Design;
   isDarkTheme: boolean;
   responsive: ResponsiveType;
 }
@@ -54,11 +57,12 @@ interface MapProps {
  * themed geographic layers, and selected-city tooltip.
  * @component
  * @param {MapProps} props - The map props
+ * @param {Design} props.design - The active visual design
  * @param {boolean} props.isDarkTheme - Whether the dark theme is active
  * @param {ResponsiveType} props.responsive - The current responsive viewport state
  * @returns {ReactNode} The interactive travel map
  */
-export function Map({ isDarkTheme, responsive }: MapProps): ReactNode {
+export function Map({ design, isDarkTheme, responsive }: MapProps): ReactNode {
   const { t } = useLanguage(["home"]);
   const { hoveredCity, setHoveredCity, mapPosition, selectedTrip } =
     useMapInteraction();
@@ -70,7 +74,7 @@ export function Map({ isDarkTheme, responsive }: MapProps): ReactNode {
   const pinnedCityRef = useRef<City | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  const theme = MAP_THEMES[isDarkTheme ? "dark" : "light"];
+  const theme = MAP_THEMES[design][isDarkTheme ? "dark" : "light"];
   const mapStyle = useMemo(() => createMapStyle(theme), [theme]);
   const appliedPosition = useRef(mapPosition);
 
