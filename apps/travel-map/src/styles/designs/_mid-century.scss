@@ -1,0 +1,90 @@
+:root[data-design="mid-century"] {
+  /* Teal carries white text on the cream ground; the walnut ground lights its
+     accent in mustard with a dark ink on top. */
+  --font-body: "Work Sans", "Urbanist", Arial, sans-serif;
+  --font-display: "DM Serif Display", Georgia, serif;
+  --radius-xs: 0.25rem;
+  --radius-sm: 0.75rem;
+  --radius-md: 1.25rem;
+  --radius-lg: 2rem;
+  --radius-pill: 62.4375rem;
+  --dark-background: #2a1f17;
+  --dark-left-bar: #352820;
+  --dark-left-bar-opacity: rgba(53, 40, 32, 0.96);
+  --dark-left-bar-opacity-lighter: rgba(53, 40, 32, 0.6);
+  --dark-info-tab: #403128;
+  --dark-button: rgba(245, 236, 217, 0.08);
+  --dark-button-hover: rgba(245, 236, 217, 0.15);
+  --dark-button-content: #f5ecd9;
+  --dark-alt-text: #c8b79c;
+  --dark-alt-text-darker: #a3947c;
+  --dark-disabled-text: #6a5a4a;
+  --glass-bg-dark: rgba(53, 40, 32, 0.96);
+  --glass-border-dark: rgba(245, 236, 217, 0.15);
+  --glass-shadow-dark: 0 0.75rem 1.5rem -0.5rem rgba(0, 0, 0, 0.5);
+  --photo-card-shadow-dark: 0 0.75rem 1.5rem -0.5rem rgba(0, 0, 0, 0.5);
+  --route-line-color-dark: #e1a72b;
+  --light-background: #ecdfc2;
+  --light-left-bar: #f8f1e1;
+  --light-left-bar-opacity: rgba(248, 241, 225, 0.96);
+  --light-left-bar-opacity-lighter: rgba(248, 241, 225, 0.6);
+  --light-info-tab: #f2e8d3;
+  --light-button: rgba(58, 42, 30, 0.08);
+  --light-button-hover: rgba(58, 42, 30, 0.15);
+  --light-button-content: #3a2a1e;
+  --light-alt-text: #6e5a48;
+  --light-alt-text-darker: #4e3d2f;
+  --light-disabled-text: #c4b495;
+  --glass-bg-light: rgba(248, 241, 225, 0.96);
+  --glass-border-light: rgba(58, 42, 30, 0.15);
+  --glass-shadow-light: 0 0.75rem 1.5rem -0.5rem rgba(90, 62, 43, 0.3);
+  --photo-card-shadow-light: 0 0.75rem 1.5rem -0.5rem rgba(90, 62, 43, 0.3);
+  --route-line-color-light: #cc5a2a;
+  --glass-blur: 0rem;
+  --accent-primary: #2a7f7a;
+  --accent-primary-hover: #2a7f7a;
+  --accent-soft-dark: rgba(225, 167, 43, 0.2);
+  --accent-soft-light: rgba(42, 127, 122, 0.12);
+  --accent-on-dark: #e1a72b;
+  --accent-on-dark-hover: #e1a72b;
+  --accent-ink-on-dark: #2a1f17;
+  --loader-color: var(--accent-primary);
+  --visited-button: rgba(184, 74, 30, 0.16);
+  --visited-button-hover: rgba(184, 74, 30, 0.28);
+  --visited-button-content: #b84a1e;
+  --future-button: rgba(42, 127, 122, 0.16);
+  --future-button-hover: rgba(42, 127, 122, 0.28);
+  --future-button-content: #2a7f7a;
+  --lived-button: rgba(154, 110, 0, 0.16);
+  --lived-button-hover: rgba(154, 110, 0, 0.28);
+  --lived-button-content: #9a6e00;
+  --marker-visited: #cc5a2a;
+  --marker-visited-hover: #de7a4f;
+  --marker-future: #2a7f7a;
+  --marker-future-hover: #3a9e98;
+  --marker-lived: #e1a72b;
+  --marker-lived-hover: #ebbd57;
+  --panel-texture-dark:
+    radial-gradient(circle at 92% 8%, #e1a72b 0 1.25rem, transparent 1.3rem),
+    radial-gradient(circle at 84% 4%, #cc5a2a 0 0.5rem, transparent 0.55rem);
+  --panel-texture-light:
+    radial-gradient(circle at 92% 8%, #e1a72b 0 1.25rem, transparent 1.3rem),
+    radial-gradient(circle at 84% 4%, #cc5a2a 0 0.5rem, transparent 0.55rem);
+  --full-panel-border-light: var(--glass-border-light);
+  --h1-weight: 400;
+  --h2-weight: 400;
+  --h3-weight: 400;
+  --h1-tracking: 0;
+  --h2-tracking: 0;
+  --marker-filter: drop-shadow(0 0.125rem 0.125rem rgba(58, 42, 30, 0.35));
+  --trip-card-title-size: 1.6rem;
+  --trip-card-title-weight: 400;
+  --trip-card-border-light: 0.25rem solid #f8f1e1;
+  --trip-card-shadow-light: 0 0.75rem 1.5rem -0.5rem rgba(90, 62, 43, 0.45);
+  --trip-card-border-dark: 0.25rem solid #403128;
+  --trip-card-shadow-dark: 0 0.75rem 1.5rem -0.5rem rgba(0, 0, 0, 0.6);
+  --nav-indicator-dark: #2a7f7a;
+  --nav-indicator-light: #e1a72b;
+  --nav-active-dark: #f5ecd9;
+  --nav-active-light: #3a2a1e;
+}

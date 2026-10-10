@@ -1,0 +1,116 @@
+:root[data-design="azulejo"] {
+  /* Cobalt carries white text on the glazed white; the cobalt night lights
+     its accent in tile yellow with a dark ink on top. */
+  --font-body: "Alegreya Sans", "Urbanist", Arial, sans-serif;
+  --font-display: "Alegreya", Georgia, serif;
+  --radius-xs: 0.125rem;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-pill: 62.4375rem;
+  --dark-background: #0a1a3d;
+  --dark-left-bar: #102454;
+  --dark-left-bar-opacity: rgba(16, 36, 84, 0.96);
+  --dark-left-bar-opacity-lighter: rgba(16, 36, 84, 0.6);
+  --dark-info-tab: #16306b;
+  --dark-button: rgba(243, 246, 251, 0.08);
+  --dark-button-hover: rgba(243, 246, 251, 0.15);
+  --dark-button-content: #f3f6fb;
+  --dark-alt-text: #a9bbe0;
+  --dark-alt-text-darker: #8297c4;
+  --dark-disabled-text: #45598a;
+  --glass-bg-dark: rgba(16, 36, 84, 0.96);
+  --glass-border-dark: rgba(243, 246, 251, 0.3);
+  --glass-shadow-dark: 0 0.75rem 2rem rgba(0, 0, 0, 0.4);
+  --photo-card-shadow-dark: 0 0.75rem 2rem rgba(0, 0, 0, 0.4);
+  --route-line-color-dark: #f2c14e;
+  --light-background: #ecebe4;
+  --light-left-bar: #ffffff;
+  --light-left-bar-opacity: rgba(255, 255, 255, 0.96);
+  --light-left-bar-opacity-lighter: rgba(255, 255, 255, 0.6);
+  --light-info-tab: #f7f6f1;
+  --light-button: rgba(15, 47, 107, 0.08);
+  --light-button-hover: rgba(15, 47, 107, 0.15);
+  --light-button-content: #0f2f6b;
+  --light-alt-text: #3e5a8f;
+  --light-alt-text-darker: #22417a;
+  --light-disabled-text: #b9c1d3;
+  --glass-bg-light: rgba(255, 255, 255, 0.96);
+  --glass-border-light: #1b4bb0;
+  --glass-shadow-light: 0 0.5rem 1.5rem rgba(15, 47, 107, 0.12);
+  --photo-card-shadow-light: 0 0.5rem 1.5rem rgba(15, 47, 107, 0.12);
+  --route-line-color-light: #1b4bb0;
+  --glass-blur: 0rem;
+  --accent-primary: #1b4bb0;
+  --accent-primary-hover: #1b4bb0;
+  --accent-soft-dark: rgba(242, 193, 78, 0.2);
+  --accent-soft-light: rgba(27, 75, 176, 0.12);
+  --accent-on-dark: #f2c14e;
+  --accent-on-dark-hover: #f2c14e;
+  --accent-ink-on-dark: #0a1a3d;
+  --loader-color: var(--accent-primary);
+  --visited-button: rgba(194, 74, 36, 0.16);
+  --visited-button-hover: rgba(194, 74, 36, 0.28);
+  --visited-button-content: #c24a24;
+  --future-button: rgba(27, 75, 176, 0.16);
+  --future-button-hover: rgba(27, 75, 176, 0.28);
+  --future-button-content: #1b4bb0;
+  --lived-button: rgba(138, 106, 0, 0.16);
+  --lived-button-hover: rgba(138, 106, 0, 0.28);
+  --lived-button-content: #8a6a00;
+  --marker-visited: #e0552b;
+  --marker-visited-hover: #ea7752;
+  --marker-future: #1b4bb0;
+  --marker-future-hover: #3a68cc;
+  --marker-lived: #f2c14e;
+  --marker-lived-hover: #f6d17e;
+  --panel-texture-dark:
+    radial-gradient(
+        circle,
+        transparent 0 0.45rem,
+        rgba(243, 246, 251, 0.08) 0.45rem 0.55rem,
+        transparent 0.55rem
+      )
+      0 0 / 1.5rem 1.5rem,
+    conic-gradient(
+        from 45deg,
+        rgba(243, 246, 251, 0.08) 0 25%,
+        transparent 0 50%,
+        rgba(243, 246, 251, 0.08) 0 75%,
+        transparent 0
+      )
+      0 0 / 1.5rem 1.5rem;
+  --panel-texture-light:
+    radial-gradient(
+        circle,
+        transparent 0 0.45rem,
+        rgba(27, 75, 176, 0.07) 0.45rem 0.55rem,
+        transparent 0.55rem
+      )
+      0 0 / 1.5rem 1.5rem,
+    conic-gradient(
+        from 45deg,
+        rgba(27, 75, 176, 0.07) 0 25%,
+        transparent 0 50%,
+        rgba(27, 75, 176, 0.07) 0 75%,
+        transparent 0
+      )
+      0 0 / 1.5rem 1.5rem;
+  --full-panel-border-light: var(--glass-border-light);
+  --h1-weight: 700;
+  --h2-weight: 700;
+  --h3-weight: 700;
+  --h1-tracking: 0;
+  --h2-tracking: 0;
+  --marker-filter: drop-shadow(0 0.0625rem 0.125rem rgba(10, 26, 61, 0.4));
+  --trip-card-title-size: 1.6rem;
+  --trip-card-border-light: 0.375rem solid #ffffff;
+  --trip-card-shadow-light:
+    0 0 0 0.0625rem #1b4bb0, 0 0.5rem 1rem rgba(15, 47, 107, 0.15);
+  --trip-card-border-dark: 0.375rem solid #102454;
+  --trip-card-shadow-dark: 0 0 0 0.0625rem rgba(243, 246, 251, 0.5);
+  --nav-indicator-dark: #f2c14e;
+  --nav-indicator-light: #1b4bb0;
+  --nav-active-dark: #0a1a3d;
+  --nav-active-light: #ffffff;
+}

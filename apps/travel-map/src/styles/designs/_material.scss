@@ -1,0 +1,107 @@
+:root[data-design="material"] {
+  /* The baseline primary carries white text on light surfaces; dark
+     surfaces use the tonal primary with its on-primary ink. */
+  --font-body: "Roboto", "Urbanist", Arial, sans-serif;
+  --font-display: "Roboto", "Urbanist", Arial, sans-serif;
+  --radius-xs: 0.25rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1.75rem;
+  --radius-pill: 62.4375rem;
+  --dark-background: #141218;
+  --dark-left-bar: #211f26;
+  --dark-left-bar-opacity: rgba(33, 31, 38, 1);
+  --dark-left-bar-opacity-lighter: rgba(33, 31, 38, 0.6);
+  --dark-info-tab: #2b2930;
+  --dark-button: rgba(230, 224, 233, 0.08);
+  --dark-button-hover: rgba(230, 224, 233, 0.15);
+  --dark-button-content: #e6e0e9;
+  --dark-alt-text: #cac4d0;
+  --dark-alt-text-darker: #938f99;
+  --dark-disabled-text: #49454f;
+  --glass-bg-dark: rgba(33, 31, 38, 1);
+  --glass-border-dark: rgba(0, 0, 0, 0);
+  --glass-shadow-dark:
+    0 0.0625rem 0.1875rem rgba(0, 0, 0, 0.5),
+    0 0.25rem 0.5rem 0.1875rem rgba(0, 0, 0, 0.3);
+  --photo-card-shadow-dark:
+    0 0.0625rem 0.1875rem rgba(0, 0, 0, 0.5),
+    0 0.25rem 0.5rem 0.1875rem rgba(0, 0, 0, 0.3);
+  --route-line-color-dark: #d0bcff;
+  --light-background: #fef7ff;
+  --light-left-bar: #f3edf7;
+  --light-left-bar-opacity: rgba(243, 237, 247, 1);
+  --light-left-bar-opacity-lighter: rgba(243, 237, 247, 0.6);
+  --light-info-tab: #ece6f0;
+  --light-button: rgba(29, 27, 32, 0.08);
+  --light-button-hover: rgba(29, 27, 32, 0.15);
+  --light-button-content: #1d1b20;
+  --light-alt-text: #49454f;
+  --light-alt-text-darker: #322f35;
+  --light-disabled-text: #c4c0c8;
+  --glass-bg-light: rgba(243, 237, 247, 1);
+  --glass-border-light: rgba(0, 0, 0, 0);
+  --glass-shadow-light:
+    0 0.0625rem 0.1875rem rgba(0, 0, 0, 0.3),
+    0 0.25rem 0.5rem 0.1875rem rgba(0, 0, 0, 0.15);
+  --photo-card-shadow-light:
+    0 0.0625rem 0.1875rem rgba(0, 0, 0, 0.3),
+    0 0.25rem 0.5rem 0.1875rem rgba(0, 0, 0, 0.15);
+  --route-line-color-light: #6750a4;
+  --glass-blur: 0rem;
+  --accent-primary: #6750a4;
+  --accent-primary-hover: #6750a4;
+  --accent-soft-dark: rgba(208, 188, 255, 0.2);
+  --accent-soft-light: rgba(103, 80, 164, 0.12);
+  --accent-on-dark: #d0bcff;
+  --accent-on-dark-hover: #d0bcff;
+  --accent-ink-on-dark: #381e72;
+  --loader-color: var(--accent-primary);
+  --visited-button: rgba(179, 38, 30, 0.16);
+  --visited-button-hover: rgba(179, 38, 30, 0.28);
+  --visited-button-content: #b3261e;
+  --future-button: rgba(103, 80, 164, 0.16);
+  --future-button-hover: rgba(103, 80, 164, 0.28);
+  --future-button-content: #6750a4;
+  --lived-button: rgba(125, 82, 96, 0.16);
+  --lived-button-hover: rgba(125, 82, 96, 0.28);
+  --lived-button-content: #7d5260;
+  --marker-visited: #6750a4;
+  --marker-visited-hover: #7f67be;
+  --marker-future: #006a6a;
+  --marker-future-hover: #008585;
+  --marker-lived: #7d5260;
+  --marker-lived-hover: #986977;
+  --full-panel-border-light: var(--glass-border-light);
+  --h1-weight: 400;
+  --h2-weight: 400;
+  --h3-weight: 500;
+  --h1-tracking: 0;
+  --h2-tracking: 0;
+  --h3-tracking: 0.01em;
+  --marker-filter: drop-shadow(0 0.0625rem 0.125rem rgba(0, 0, 0, 0.3));
+  --trip-card-hover-transform: none;
+  --trip-card-title-size: 1.5rem;
+  --trip-card-title-weight: 400;
+  --trip-card-border-light: 0 solid transparent;
+  --trip-card-shadow-light:
+    0 0.0625rem 0.1875rem rgba(0, 0, 0, 0.3),
+    0 0.25rem 0.5rem 0.1875rem rgba(0, 0, 0, 0.15);
+  --trip-card-border-dark: 0 solid transparent;
+  --trip-card-shadow-dark:
+    0 0.0625rem 0.1875rem rgba(0, 0, 0, 0.5),
+    0 0.25rem 0.5rem 0.1875rem rgba(0, 0, 0, 0.3);
+  --nav-label-weight: 500;
+  --nav-label-tracking: 0.01em;
+  --nav-indicator-dark: #4a4458;
+  --nav-indicator-light: #e8def8;
+  --nav-active-dark: #e8def8;
+  --nav-active-light: #1d192b;
+  --button-border-light: 0 solid transparent;
+  --button-hover-shadow-light: 0 0.0625rem 0.1875rem rgba(0, 0, 0, 0.3);
+  --button-border-dark: 0 solid transparent;
+  --button-hover-shadow-dark: 0 0.0625rem 0.1875rem rgba(0, 0, 0, 0.5);
+  --focus-outline: 0.1875rem solid var(--accent-primary);
+  --focus-offset: 0.125rem;
+  --focus-shadow: none;
+}

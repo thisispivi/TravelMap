@@ -1,0 +1,117 @@
+:root[data-design="holographic"] {
+  /* Electric violet carries white text on the pearl ground; the dark foil
+     lights a paler violet with a dark ink on top. */
+  --font-body: "Syne", "Urbanist", Arial, sans-serif;
+  --font-display: "Syne", "Urbanist", Arial, sans-serif;
+  --radius-xs: 0.75rem;
+  --radius-sm: 1rem;
+  --radius-md: 1.25rem;
+  --radius-lg: 1.75rem;
+  --radius-pill: 62.4375rem;
+  --dark-background: #0c0b14;
+  --dark-left-bar: #17152a;
+  --dark-left-bar-opacity: rgba(23, 21, 42, 0.75);
+  --dark-left-bar-opacity-lighter: rgba(23, 21, 42, 0.6);
+  --dark-info-tab: #1f1c38;
+  --dark-button: rgba(242, 240, 255, 0.08);
+  --dark-button-hover: rgba(242, 240, 255, 0.15);
+  --dark-button-content: #f2f0ff;
+  --dark-alt-text: #a9a3c9;
+  --dark-alt-text-darker: #8781a8;
+  --dark-disabled-text: #4a4566;
+  --glass-bg-dark: rgba(23, 21, 42, 0.75);
+  --glass-border-dark: rgba(201, 167, 255, 0.35);
+  --glass-shadow-dark: 0 0.75rem 2rem rgba(0, 0, 0, 0.5);
+  --photo-card-shadow-dark: 0 0.75rem 2rem rgba(0, 0, 0, 0.5);
+  --route-line-color-dark: #c9a7ff;
+  --light-background: #efedf6;
+  --light-left-bar: #ffffff;
+  --light-left-bar-opacity: rgba(255, 255, 255, 0.7);
+  --light-left-bar-opacity-lighter: rgba(255, 255, 255, 0.6);
+  --light-info-tab: #f6f4fb;
+  --light-button: rgba(28, 26, 41, 0.08);
+  --light-button-hover: rgba(28, 26, 41, 0.15);
+  --light-button-content: #1c1a29;
+  --light-alt-text: #5c5872;
+  --light-alt-text-darker: #3a3750;
+  --light-disabled-text: #bdb9cc;
+  --glass-bg-light: rgba(255, 255, 255, 0.7);
+  --glass-border-light: rgba(255, 255, 255, 0.9);
+  --glass-shadow-light: 0 0.75rem 2rem rgba(122, 60, 255, 0.15);
+  --photo-card-shadow-light: 0 0.75rem 2rem rgba(122, 60, 255, 0.15);
+  --route-line-color-light: #7a3cff;
+  --glass-blur: 1rem;
+  --accent-primary: #7a3cff;
+  --accent-primary-hover: #7a3cff;
+  --accent-soft-dark: rgba(201, 167, 255, 0.2);
+  --accent-soft-light: rgba(122, 60, 255, 0.12);
+  --accent-on-dark: #c9a7ff;
+  --accent-on-dark-hover: #c9a7ff;
+  --accent-ink-on-dark: #1a0b3a;
+  --loader-color: var(--accent-primary);
+  --visited-button: rgba(212, 18, 122, 0.16);
+  --visited-button-hover: rgba(212, 18, 122, 0.28);
+  --visited-button-content: #d4127a;
+  --future-button: rgba(122, 60, 255, 0.16);
+  --future-button-hover: rgba(122, 60, 255, 0.28);
+  --future-button-content: #7a3cff;
+  --lived-button: rgba(26, 138, 90, 0.16);
+  --lived-button-hover: rgba(26, 138, 90, 0.28);
+  --lived-button-content: #1a8a5a;
+  --marker-visited: #ff5fb8;
+  --marker-visited-hover: #ff85c9;
+  --marker-future: #4fb6ff;
+  --marker-future-hover: #7cc8ff;
+  --marker-lived: #6ff0b0;
+  --marker-lived-hover: #97f4c6;
+  --panel-texture-dark: linear-gradient(
+    120deg,
+    rgba(255, 154, 213, 0.14),
+    rgba(154, 213, 255, 0.14) 35%,
+    rgba(184, 255, 214, 0.14) 65%,
+    rgba(255, 240, 170, 0.14)
+  );
+  --panel-texture-light: linear-gradient(
+    120deg,
+    rgba(255, 154, 213, 0.35),
+    rgba(154, 213, 255, 0.35) 35%,
+    rgba(184, 255, 214, 0.35) 65%,
+    rgba(255, 240, 170, 0.35)
+  );
+  --full-panel-border-light: var(--glass-border-light);
+  --h1-weight: 800;
+  --h2-weight: 800;
+  --h3-weight: 700;
+  --h1-tracking: -0.02em;
+  --h2-tracking: -0.02em;
+  --marker-filter: drop-shadow(0 0 0.3rem rgba(255, 95, 184, 0.6));
+  --trip-card-image-filter: saturate(1.2) hue-rotate(-8deg);
+  --trip-card-title-weight: 800;
+  --trip-card-border-light: 0.125rem solid rgba(255, 255, 255, 0.9);
+  --trip-card-shadow-light:
+    0 0.75rem 1.5rem rgba(122, 60, 255, 0.25),
+    0 0 0 0.125rem rgba(154, 213, 255, 0.5);
+  --trip-card-border-dark: 0.125rem solid rgba(201, 167, 255, 0.35);
+  --trip-card-shadow-dark:
+    0 0.75rem 1.5rem rgba(0, 0, 0, 0.5), 0 0 0 0.125rem rgba(255, 154, 213, 0.3);
+  --nav-label-weight: 700;
+  --nav-indicator-dark: conic-gradient(
+    from 90deg,
+    #ff9ad5,
+    #9ad5ff,
+    #b8ffd6,
+    #fff0aa,
+    #ff9ad5
+  );
+  --nav-indicator-light: conic-gradient(
+    from 90deg,
+    #ff9ad5,
+    #9ad5ff,
+    #b8ffd6,
+    #fff0aa,
+    #ff9ad5
+  );
+  --nav-active-dark: #1c1a29;
+  --nav-active-light: #1c1a29;
+  --focus-shadow: 0 0 0 0.25rem rgba(122, 60, 255, 0.4);
+}

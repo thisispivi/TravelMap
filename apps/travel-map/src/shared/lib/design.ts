@@ -30,6 +30,16 @@ export const DesignSchema = z.enum([
   "memphis",
   "claymorphism",
   "newsprint",
+  "liquid-glass",
+  "material",
+  "social-feed",
+  "cyberpunk",
+  "ukiyo-e",
+  "mid-century",
+  "pop-art",
+  "nordic",
+  "holographic",
+  "azulejo",
 ]);
 
 /** One of the visual designs the app can be rendered in. */

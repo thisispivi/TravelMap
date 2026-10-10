@@ -1,0 +1,111 @@
+:root[data-design="liquid-glass"] {
+  /* System blue is deepened to carry white text on frosted light glass; the
+     dark glass lights a paler blue with a dark ink on top. */
+  --font-body: "Inter", "Urbanist", Arial, sans-serif;
+  --font-display: "Inter", "Urbanist", Arial, sans-serif;
+  --radius-xs: 0.75rem;
+  --radius-sm: 1.25rem;
+  --radius-md: 1.75rem;
+  --radius-lg: 2.25rem;
+  --radius-pill: 62.4375rem;
+  --dark-background: #05070d;
+  --dark-left-bar: #1c2333;
+  --dark-left-bar-opacity: rgba(28, 35, 51, 0.35);
+  --dark-left-bar-opacity-lighter: rgba(28, 35, 51, 0.6);
+  --dark-info-tab: #222a3c;
+  --dark-button: rgba(241, 245, 249, 0.08);
+  --dark-button-hover: rgba(241, 245, 249, 0.15);
+  --dark-button-content: #f1f5f9;
+  --dark-alt-text: #94a3b8;
+  --dark-alt-text-darker: #7a8aa0;
+  --dark-disabled-text: #475569;
+  --glass-bg-dark: rgba(28, 35, 51, 0.35);
+  --glass-border-dark: rgba(255, 255, 255, 0.18);
+  --glass-shadow-dark:
+    0 1rem 2.5rem rgba(0, 0, 0, 0.5),
+    inset 0 0.0625rem 0 rgba(255, 255, 255, 0.25);
+  --photo-card-shadow-dark:
+    0 1rem 2.5rem rgba(0, 0, 0, 0.5),
+    inset 0 0.0625rem 0 rgba(255, 255, 255, 0.25);
+  --route-line-color-dark: #4da3ff;
+  --light-background: #e8eef7;
+  --light-left-bar: #ffffff;
+  --light-left-bar-opacity: rgba(255, 255, 255, 0.35);
+  --light-left-bar-opacity-lighter: rgba(255, 255, 255, 0.6);
+  --light-info-tab: #f4f7fb;
+  --light-button: rgba(15, 23, 42, 0.08);
+  --light-button-hover: rgba(15, 23, 42, 0.15);
+  --light-button-content: #0f172a;
+  --light-alt-text: #475569;
+  --light-alt-text-darker: #1e293b;
+  --light-disabled-text: #a8b3c4;
+  --glass-bg-light: rgba(255, 255, 255, 0.35);
+  --glass-border-light: rgba(255, 255, 255, 0.7);
+  --glass-shadow-light:
+    0 1rem 2.5rem rgba(15, 23, 42, 0.12),
+    inset 0 0.0625rem 0 rgba(255, 255, 255, 0.9),
+    inset 0 -0.0625rem 0 rgba(255, 255, 255, 0.3);
+  --photo-card-shadow-light:
+    0 1rem 2.5rem rgba(15, 23, 42, 0.12),
+    inset 0 0.0625rem 0 rgba(255, 255, 255, 0.9),
+    inset 0 -0.0625rem 0 rgba(255, 255, 255, 0.3);
+  --route-line-color-light: #0a84ff;
+  --glass-blur: 2.5rem;
+  --accent-primary: #0066d6;
+  --accent-primary-hover: #0066d6;
+  --accent-soft-dark: rgba(77, 163, 255, 0.2);
+  --accent-soft-light: rgba(0, 102, 214, 0.12);
+  --accent-on-dark: #4da3ff;
+  --accent-on-dark-hover: #4da3ff;
+  --accent-ink-on-dark: #031021;
+  --loader-color: var(--accent-primary);
+  --visited-button: rgba(215, 0, 21, 0.16);
+  --visited-button-hover: rgba(215, 0, 21, 0.28);
+  --visited-button-content: #d70015;
+  --future-button: rgba(0, 102, 214, 0.16);
+  --future-button-hover: rgba(0, 102, 214, 0.28);
+  --future-button-content: #0066d6;
+  --lived-button: rgba(160, 90, 0, 0.16);
+  --lived-button-hover: rgba(160, 90, 0, 0.28);
+  --lived-button-content: #a05a00;
+  --marker-visited: #ff3b30;
+  --marker-visited-hover: #ff6961;
+  --marker-future: #0a84ff;
+  --marker-future-hover: #409cff;
+  --marker-lived: #ffcc00;
+  --marker-lived-hover: #ffd60a;
+  --panel-texture-dark: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.14),
+    rgba(255, 255, 255, 0) 40%,
+    rgba(255, 255, 255, 0.04) 70%,
+    rgba(255, 255, 255, 0)
+  );
+  --panel-texture-light: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.55),
+    rgba(255, 255, 255, 0) 40%,
+    rgba(255, 255, 255, 0.12) 70%,
+    rgba(255, 255, 255, 0)
+  );
+  --full-panel-border-light: var(--glass-border-light);
+  --h1-weight: 700;
+  --h2-weight: 700;
+  --h3-weight: 600;
+  --h1-tracking: -0.02em;
+  --h2-tracking: -0.015em;
+  --marker-filter: drop-shadow(0 0.125rem 0.25rem rgba(0, 0, 0, 0.3));
+  --trip-card-hover-transform: translateY(-0.125rem) scale(1.01);
+  --trip-card-border-light: 0.0625rem solid rgba(255, 255, 255, 0.7);
+  --trip-card-shadow-light: 0 1rem 2rem rgba(15, 23, 42, 0.18);
+  --trip-card-border-dark: 0.0625rem solid rgba(255, 255, 255, 0.18);
+  --trip-card-shadow-dark: 0 1rem 2rem rgba(0, 0, 0, 0.5);
+  --nav-indicator-dark: rgba(255, 255, 255, 0.16);
+  --nav-indicator-light: rgba(255, 255, 255, 0.75);
+  --nav-indicator-shadow-dark: inset 0 0.0625rem 0 rgba(255, 255, 255, 0.3);
+  --nav-indicator-shadow-light:
+    0 0.25rem 0.75rem rgba(15, 23, 42, 0.12), inset 0 0.0625rem 0 #ffffff;
+  --nav-active-dark: #ffffff;
+  --nav-active-light: #0f172a;
+  --focus-shadow: 0 0 0 0.25rem rgba(10, 132, 255, 0.4);
+}
