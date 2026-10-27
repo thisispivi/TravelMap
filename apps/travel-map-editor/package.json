@@ -21,7 +21,7 @@
     "fuse.js": "^7.5.0",
     "i18next": "^26.4.0",
     "i18next-browser-languagedetector": "^8.2.1",
-    "i18next-http-backend": "^4.0.1",
+    "i18next-http-backend": "^4.0.4",
     "lucide-react": "^1.35.0",
     "maplibre-gl": "^6.6.0",
     "react": "^19.2.8",
@@ -32,7 +32,7 @@
     "stopword": "^3.1.5",
     "tz-lookup": "^6.1.25",
     "world-countries": "^5.1.0",
-    "zod": "^4.1.12"
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@types/geojson": "^7946.0.16",
@@ -43,10 +43,10 @@
     "autoprefixer": "^10.5.4",
     "knip": "^6.32.3",
     "sass": "^1.103.1",
-    "sharp": "^0.35.4",
+    "sharp": "^0.35.5",
     "typescript": "^6.0.3",
-    "vite": "^8.2.2",
+    "vite": "^8.3.4",
     "vite-plugin-svgr": "^5.2.0",
-    "vitest": "^4.1.0"
+    "vitest": "^4.1.12"
   }
 }
