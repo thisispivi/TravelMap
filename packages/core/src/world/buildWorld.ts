@@ -92,6 +92,15 @@ export function buildWorld(sources: unknown): World {
     }
   }
 
+  /* The map colours countries by matching their name, and MapLibre rejects the whole fill layer when one name appears twice. */
+  const countryNames = new Set<string>();
+  for (const { id, name = id } of parsed.data.countries) {
+    if (countryNames.has(name)) {
+      throw new Error(`Duplicate country name "${name}" on "${id}".`);
+    }
+    countryNames.add(name);
+  }
+
   const countriesById = new Map(
     parsed.data.countries.map((data) => [data.id, new Country(data)]),
   );
