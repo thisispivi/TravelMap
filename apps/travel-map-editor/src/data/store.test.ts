@@ -3,7 +3,8 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 beforeEach(() => vi.resetModules());
 afterEach(() => vi.unstubAllGlobals());
 
-describe("dataset persistence", () => {
+/* Each test imports the store cold, which eagerly globs the whole data/ folder and outlasts the default 5 s under pnpm check's parallel runs. */
+describe("dataset persistence", { timeout: 30_000 }, () => {
   it("keeps the saved baseline and recovery dirty state when a write fails", async () => {
     const store = await import("./store");
     const before = store.getDataset();

@@ -116,6 +116,18 @@ describe("buildWorld", () => {
     },
   );
 
+  it("refuses two countries sharing a name, which would blank the map fill", () => {
+    expect(() =>
+      buildWorld({
+        ...sources,
+        countries: [
+          ...sources.countries,
+          { ...sources.countries[0]!, id: "italy-copy" },
+        ],
+      }),
+    ).toThrow(/Duplicate country name "Italy"/);
+  });
+
   it("resolves references to shared domain objects", () => {
     const world = buildWorld(sources);
     const [trip] = world.trips;
