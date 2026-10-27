@@ -1,0 +1,1 @@
+import{c as e}from"./framer-COmwNCJB.js";import{t}from"./react-core-C4dWPq3G.js";var n=t(),r=e();function i(e){let t=(0,n.c)(2),{message:i}=e,a;return t[0]===i?a=t[1]:(a=(0,r.jsx)(`p`,{className:`empty-state`,children:i}),t[0]=i,t[1]=a),a}export{i as t};
