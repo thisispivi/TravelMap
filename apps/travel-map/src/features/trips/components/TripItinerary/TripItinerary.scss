@@ -55,7 +55,9 @@
     width: 1.75rem;
     height: 1.75rem;
     border-radius: 50%;
-    background: var(--chapter-color);
+    /* A design whose map no longer paints countries numbers its stays in its
+       own accent; left unset, each stay takes its country's colour. */
+    background: var(--chapter-number-fill, var(--chapter-color));
     color: var(--number-ink);
     font-size: v.$bodySm;
     font-weight: 800;
@@ -302,6 +304,7 @@
 }
 
 .map-shell--dark .trip-itinerary {
+  --chapter-number-fill: var(--chapter-number-dark);
   --rail-color: rgba(255, 255, 255, 0.2);
   --surface-color: rgba(255, 255, 255, 0.05);
   --surface-strong: rgba(255, 255, 255, 0.12);
@@ -314,6 +317,7 @@
 }
 
 .map-shell--light .trip-itinerary {
+  --chapter-number-fill: var(--chapter-number-light);
   --rail-color: rgba(0, 0, 0, 0.16);
   --surface-color: rgba(0, 0, 0, 0.035);
   --surface-strong: rgba(0, 0, 0, 0.08);

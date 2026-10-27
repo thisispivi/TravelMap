@@ -823,25 +823,31 @@ export const MAP_THEMES: Record<Design, Record<"dark" | "light", MapTheme>> = {
     },
   },
   "boarding-pass": {
+    /*
+     * Visited countries are lit rather than coloured, as Google Maps marks an
+     * area, so the route is the only colour on the map.
+     */
     dark: {
-      ocean: "#131314",
-      land: "#1e1f20",
-      border: "rgba(255, 255, 255, 0.1)",
+      ocean: "#16202b",
+      land: "#202124",
+      border: "rgba(255, 255, 255, 0.12)",
       countryLabel: "#9aa0a6",
-      countryLabelHalo: "#131314",
+      countryLabelHalo: "#202124",
       cityLabel: "#e3e3e3",
-      cityLabelHalo: "rgba(19, 19, 20, 0.94)",
-      countryStrength: 0.3,
+      cityLabelHalo: "rgba(32, 33, 36, 0.94)",
+      countryStrength: 0.45,
+      countryInk: "hsla(220, 6%, 40%, 1)",
     },
     light: {
-      ocean: "#dbe6f3",
-      land: "#ffffff",
-      border: "rgba(0, 0, 0, 0.1)",
-      countryLabel: "#444746",
-      countryLabelHalo: "#ffffff",
+      ocean: "#b4d0f0",
+      land: "#e8eaed",
+      border: "rgba(60, 64, 67, 0.22)",
+      countryLabel: "#5f6368",
+      countryLabelHalo: "#f8f9fa",
       cityLabel: "#1f1f1f",
       cityLabelHalo: "rgba(255, 255, 255, 0.96)",
-      countryStrength: 0.5,
+      countryStrength: 1,
+      countryInk: "hsla(0, 0%, 100%, 1)",
     },
   },
 };

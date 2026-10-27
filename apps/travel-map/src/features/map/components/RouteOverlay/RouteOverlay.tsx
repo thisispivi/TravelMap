@@ -7,6 +7,8 @@ import { useAppRoute } from "@/shared/context/AppRoute.context";
 import { useMapInteraction } from "@/shared/context/MapInteraction.context";
 import variables from "@/styles/_variables.module.scss";
 
+import { MapTheme } from "../../lib/mapTheme";
+
 const TRANSPORT_COLORS: Partial<Record<TransportMode, string>> = {
   ferry: variables.transportFerry,
   plane: variables.transportPlane,
@@ -24,24 +26,32 @@ const TRANSPORT_COLORS: Partial<Record<TransportMode, string>> = {
  */
 const OUTING_DASH: [number, number] = [2, 1.5];
 
+/*
+ * A route crosses filled countries, borders, and labels; a casing in the
+ * map's halo tone keeps it readable over all of them, as road maps do.
+ */
+const CASING_WIDTH_PX = 3;
+const JOURNEY_WIDTH_PX = 3.5;
+const OUTING_WIDTH_PX = 2;
+
 /**
  * Properties accepted by the selected-trip route overlay.
- * @property {boolean} isDarkTheme - Whether the dark theme is active
+ * @property {MapTheme} theme - The active map theme
  */
 interface RouteOverlayProps {
-  isDarkTheme: boolean;
+  theme: MapTheme;
 }
 
 /**
  * RouteOverlay component
  * Draws the selected trip route as map layers grouped by transport mode, with
- * journeys solid and day trips dashed.
+ * journeys solid and day trips dashed, each cased in the map's halo tone.
  * @component
  * @param {RouteOverlayProps} props - The route overlay props
- * @param {boolean} props.isDarkTheme - Whether the dark theme is active
+ * @param {MapTheme} props.theme - The active map theme
  * @returns {ReactNode} The selected trip route overlay
  */
-export function RouteOverlay({ isDarkTheme }: RouteOverlayProps): ReactNode {
+export function RouteOverlay({ theme }: RouteOverlayProps): ReactNode {
   const { selectedTrip } = useMapInteraction();
   const { isTripDetail } = useAppRoute();
   if (!selectedTrip || !isTripDetail) return null;
@@ -80,15 +90,23 @@ export function RouteOverlay({ isDarkTheme }: RouteOverlayProps): ReactNode {
       {Array.from(byLayer, ([key, { data, isOuting, mode }]) => (
         <Source data={data} id={`route-${key}`} key={key} type="geojson">
           <Layer
+            id={`route-casing-${key}`}
+            layout={{ "line-cap": "round", "line-join": "round" }}
+            paint={{
+              "line-color": theme.cityLabelHalo,
+              "line-width":
+                (isOuting ? OUTING_WIDTH_PX : JOURNEY_WIDTH_PX) +
+                CASING_WIDTH_PX,
+            }}
+            type="line"
+          />
+          <Layer
             id={`route-layer-${key}`}
             layout={{ "line-cap": "round", "line-join": "round" }}
             paint={{
-              "line-color":
-                TRANSPORT_COLORS[mode] ??
-                (isDarkTheme ? "rgba(255,255,255,0.7)" : "#1a73e8"),
+              "line-color": TRANSPORT_COLORS[mode] ?? theme.cityLabel,
               "line-dasharray": isOuting ? OUTING_DASH : [1, 0],
-              "line-opacity": 0.88,
-              "line-width": isOuting ? 2 : 2.75,
+              "line-width": isOuting ? OUTING_WIDTH_PX : JOURNEY_WIDTH_PX,
             }}
             type="line"
           />

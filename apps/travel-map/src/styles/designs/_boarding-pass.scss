@@ -1,6 +1,8 @@
 :root[data-design="boarding-pass"] {
-  /* Pass blue carries white text on the light pass; the dark pass uses the
-     tonal blue with its dark on-primary ink. */
+  /* Like the Wallet app, the panel is the grey screen and every card on it is
+     a white pass; the dark pass inverts that onto tonal greys. Pass blue
+     carries white text on the light pass; the dark pass uses the tonal blue
+     with its dark on-primary ink. */
   --font-body: "Google Sans Flex", "Urbanist", Arial, sans-serif;
   --font-display: "Google Sans Flex", "Urbanist", Arial, sans-serif;
   --radius-xs: 0.5rem;
@@ -19,8 +21,8 @@
   --dark-alt-text: #c4c7c5;
   --dark-alt-text-darker: #9aa0a6;
   --dark-disabled-text: #5f6368;
-  --glass-bg-dark: rgba(30, 31, 32, 1);
-  --glass-border-dark: rgba(0, 0, 0, 0);
+  --glass-bg-dark: rgba(19, 19, 20, 1);
+  --glass-border-dark: rgba(255, 255, 255, 0.08);
   --glass-shadow-dark: none;
   --photo-card-shadow-dark: none;
   --route-line-color-dark: #a8c7fa;
@@ -35,9 +37,11 @@
   --light-alt-text: #444746;
   --light-alt-text-darker: #303030;
   --light-disabled-text: #c4c7c5;
-  --glass-bg-light: rgba(255, 255, 255, 1);
+  --glass-bg-light: rgba(240, 244, 249, 1);
   --glass-border-light: rgba(0, 0, 0, 0);
-  --glass-shadow-light: none;
+  --glass-shadow-light:
+    0 0.0625rem 0.1875rem rgba(60, 64, 67, 0.3),
+    0 0.25rem 0.5rem 0.1875rem rgba(60, 64, 67, 0.15);
   --photo-card-shadow-light: none;
   --route-line-color-light: #0b57d0;
   --glass-blur: 0rem;
@@ -68,8 +72,8 @@
   --full-panel-border-light: var(--glass-border-light);
   /* The route code on the pass is set in Google Sans Flex's rounded cut. */
   --heading-variation: "ROND" 100;
-  --h1-weight: 800;
-  --h2-weight: 800;
+  --h1-weight: 700;
+  --h2-weight: 700;
   --h3-weight: 500;
   --h1-tracking: -0.03em;
   --h2-tracking: -0.02em;
@@ -92,6 +96,15 @@
   --button-border-dark: 0 solid transparent;
   --button-hover-shadow-dark: none;
   --panel-title-size: 2.25rem;
+  --year-chip-idle-dark: var(--dark-alt-text);
+  --year-chip-idle-light: var(--light-alt-text);
+  --year-chip-active-dark: #004a77;
+  --year-chip-active-light: #c2e7ff;
+  --year-chip-active-ink-dark: #c2e7ff;
+  --year-chip-active-ink-light: #001d35;
+  /* The map no longer paints countries, so stays are numbered in pass blue. */
+  --chapter-number-dark: var(--accent-on-dark);
+  --chapter-number-light: var(--accent-primary);
   --focus-outline: 0.1875rem solid var(--accent-primary);
   --focus-offset: 0.125rem;
   --focus-shadow: none;

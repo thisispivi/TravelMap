@@ -40,3 +40,21 @@ export function getTripLayoverCities(
 
   return Array.from(auxiliaryCities.values());
 }
+
+/**
+ * Names every city the trip touches, so the map can quiet the pins of every
+ * other trip while this one is open.
+ * @param {Trip} trip - The open trip
+ * @returns {Set<string>} The names of the cities on the trip's route
+ */
+export function getTripCityNames(trip: Trip): Set<string> {
+  return new Set(
+    trip
+      .getLegs()
+      .flatMap((leg) => [
+        leg.from.name,
+        ...leg.via.map(({ name }) => name),
+        leg.to.name,
+      ]),
+  );
+}

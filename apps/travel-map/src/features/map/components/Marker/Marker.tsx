@@ -16,6 +16,8 @@ export type MarkerVariant = "visited" | "future" | "lived" | "layover";
  * Properties accepted by the Marker component.
  * @property {City} city - The city
  * @property {City | null} hoveredCity - The hovered city
+ * @property {boolean} isMuted - Whether the pin belongs to another trip than
+ * the open one
  * @property {(city: City | null) => void} onHoverCity - The on hover city
  * @property {(city: City) => void} onSelectCity - The on select city
  * @property {MarkerVariant} [variant] - The variant
@@ -23,6 +25,7 @@ export type MarkerVariant = "visited" | "future" | "lived" | "layover";
 interface MarkerProps {
   city: City;
   hoveredCity: City | null;
+  isMuted: boolean;
   onHoverCity: (city: City | null) => void;
   onSelectCity: (city: City) => void;
   variant?: MarkerVariant;
@@ -35,6 +38,8 @@ interface MarkerProps {
  * @param {MarkerProps} props
  * @param {City} props.city - The city the pin points at
  * @param {City | null} props.hoveredCity - The city currently hovered on the map
+ * @param {boolean} props.isMuted - Whether the pin belongs to another trip than
+ * the open one
  * @param {(city: City | null) => void} props.onHoverCity - Updates the hovered city
  * @param {(city: City) => void} props.onSelectCity - Selects the marker city
  * @param {MarkerVariant} [props.variant="visited"] - Which palette the pin uses
@@ -43,6 +48,7 @@ interface MarkerProps {
 export function Marker({
   city,
   hoveredCity,
+  isMuted,
   onHoverCity,
   onSelectCity,
   variant = "visited",
@@ -65,6 +71,7 @@ export function Marker({
           "map-city-marker",
           `map-city-marker--${variant}`,
           isHovered && "map-city-marker--hovered",
+          isMuted && "map-city-marker--muted",
         )}
         id={`${city.name}-marker`}
         onKeyDown={(event) => isActivationKey(event) && onSelectCity(city)}

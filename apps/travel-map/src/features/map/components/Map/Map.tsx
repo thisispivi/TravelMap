@@ -27,7 +27,10 @@ import {
   WORLD_CENTER,
 } from "../../lib/mapCamera";
 import { createMapStyle, MAP_THEMES } from "../../lib/mapTheme";
-import { getTripLayoverCities } from "../../lib/mapTripCities";
+import {
+  getTripCityNames,
+  getTripLayoverCities,
+} from "../../lib/mapTripCities";
 import { MapTooltip } from "../MapTooltip/MapTooltip";
 import { RouteOverlay } from "../RouteOverlay/RouteOverlay";
 import { MapLayers } from "./MapLayers";
@@ -255,6 +258,8 @@ export function Map({ design, isDarkTheme, responsive }: MapProps): ReactNode {
           ...livedCities,
         ])
       : [];
+  const tripCityNames =
+    isTripDetail && selectedTrip ? getTripCityNames(selectedTrip) : null;
 
   return (
     <div className="map-container">
@@ -285,7 +290,7 @@ export function Map({ design, isDarkTheme, responsive }: MapProps): ReactNode {
         touchPitch={false}
       >
         <MapLayers theme={theme} />
-        <RouteOverlay isDarkTheme={isDarkTheme} />
+        <RouteOverlay theme={theme} />
 
         {isLoaded ? (
           <MapMarkers
@@ -293,6 +298,7 @@ export function Map({ design, isDarkTheme, responsive }: MapProps): ReactNode {
             layoverCities={layoverCities}
             onHoverCity={handleHoverCity}
             onSelectCity={handleSelectCity}
+            tripCityNames={tripCityNames}
           />
         ) : null}
 

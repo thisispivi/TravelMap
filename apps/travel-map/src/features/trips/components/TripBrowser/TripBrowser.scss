@@ -104,7 +104,7 @@
 
     .trip-browser__year-btn {
       border: 0.0625rem solid v.$darkButton;
-      color: v.$darkDisabledText;
+      color: var(--year-chip-idle-dark);
 
       &:hover {
         background: rgba(255, 255, 255, 0.05);
@@ -112,13 +112,13 @@
       }
 
       &--active {
-        background: v.$visitedButtonContent;
-        border-color: v.$visitedButtonContent;
-        color: #ffffff;
+        background: var(--year-chip-active-dark);
+        border-color: var(--year-chip-active-dark);
+        color: var(--year-chip-active-ink-dark);
 
         &:hover {
-          background: v.$visitedButtonContent;
-          color: #ffffff;
+          background: var(--year-chip-active-dark);
+          color: var(--year-chip-active-ink-dark);
         }
       }
     }
@@ -145,7 +145,7 @@
 
     .trip-browser__year-btn {
       border: 0.0625rem solid v.$lightButton;
-      color: v.$lightDisabledText;
+      color: var(--year-chip-idle-light);
 
       &:hover {
         background: rgba(255, 255, 255, 0.6);
@@ -153,13 +153,13 @@
       }
 
       &--active {
-        background: v.$visitedButtonContent;
-        border-color: v.$visitedButtonContent;
-        color: #ffffff;
+        background: var(--year-chip-active-light);
+        border-color: var(--year-chip-active-light);
+        color: var(--year-chip-active-ink-light);
 
         &:hover {
-          background: v.$visitedButtonContent;
-          color: #ffffff;
+          background: var(--year-chip-active-light);
+          color: var(--year-chip-active-ink-light);
         }
       }
     }

@@ -125,6 +125,12 @@
   --panel-title-size: 1.5rem;
   --panel-title-shadow: none;
   --trip-detail-bg-dark: var(--glass-bg-dark);
+  --year-chip-idle-dark: var(--dark-disabled-text);
+  --year-chip-idle-light: var(--light-disabled-text);
+  --year-chip-active-dark: var(--visited-button-content);
+  --year-chip-active-light: var(--visited-button-content);
+  --year-chip-active-ink-dark: #ffffff;
+  --year-chip-active-ink-light: #ffffff;
 }
 
 /* Classic's trip detail was always lighter glass than its other panels. */

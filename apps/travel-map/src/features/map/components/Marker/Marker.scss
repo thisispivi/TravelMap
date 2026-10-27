@@ -54,6 +54,17 @@
     --marker-hover-color: #c0c0d0;
     opacity: 0.72;
   }
+
+  &--muted {
+    opacity: 0.4;
+    filter: grayscale(1);
+
+    &:hover,
+    &:focus-visible {
+      opacity: 1;
+      filter: var(--marker-filter);
+    }
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
