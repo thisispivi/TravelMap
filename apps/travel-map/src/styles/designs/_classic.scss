@@ -124,4 +124,11 @@
   --button-hover-shadow-dark: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.25);
   --panel-title-size: 1.5rem;
   --panel-title-shadow: none;
+  --trip-detail-bg-dark: var(--glass-bg-dark);
+}
+
+/* Classic's trip detail was always lighter glass than its other panels. */
+:root:not([data-design]),
+:root[data-design="classic"] {
+  --trip-detail-bg-dark: rgba(36, 37, 38, 0.45);
 }

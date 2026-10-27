@@ -822,6 +822,28 @@ export const MAP_THEMES: Record<Design, Record<"dark" | "light", MapTheme>> = {
       countryInk: "hsla(220, 73%, 40%, 0.25)",
     },
   },
+  "boarding-pass": {
+    dark: {
+      ocean: "#131314",
+      land: "#1e1f20",
+      border: "rgba(255, 255, 255, 0.1)",
+      countryLabel: "#9aa0a6",
+      countryLabelHalo: "#131314",
+      cityLabel: "#e3e3e3",
+      cityLabelHalo: "rgba(19, 19, 20, 0.94)",
+      countryStrength: 0.3,
+    },
+    light: {
+      ocean: "#dbe6f3",
+      land: "#ffffff",
+      border: "rgba(0, 0, 0, 0.1)",
+      countryLabel: "#444746",
+      countryLabelHalo: "#ffffff",
+      cityLabel: "#1f1f1f",
+      cityLabelHalo: "rgba(255, 255, 255, 0.96)",
+      countryStrength: 0.5,
+    },
+  },
 };
 
 /**

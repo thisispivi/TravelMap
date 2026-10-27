@@ -40,7 +40,7 @@
 
 .map-shell--dark {
   .trip-detail {
-    background: rgba(36, 37, 38, 0.45);
+    background: var(--panel-texture-dark), var(--trip-detail-bg-dark);
     -webkit-backdrop-filter: blur(v.$glassBlur);
     backdrop-filter: blur(v.$glassBlur);
     border: 0.0625rem solid v.$glassBorderDark;

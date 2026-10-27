@@ -40,6 +40,7 @@ export const DesignSchema = z.enum([
   "nordic",
   "holographic",
   "azulejo",
+  "boarding-pass",
 ]);
 
 /** One of the visual designs the app can be rendered in. */
