@@ -82,6 +82,7 @@ interface CountUpProps {
  */
 function CountUp({ value, locale, decimals = 0 }: CountUpProps): ReactNode {
   const ref = useRef<HTMLSpanElement>(null);
+  const hasCountedRef = useRef(false);
   const isInView = useInView(ref, { once: true });
   const digits = {
     maximumFractionDigits: decimals,
@@ -91,15 +92,36 @@ function CountUp({ value, locale, decimals = 0 }: CountUpProps): ReactNode {
   useEffect(() => {
     const node = ref.current;
     if (!node || !isInView) return;
+
+    /**
+     * Writes a number in the active locale.
+     * @param {number} latest - The number to show
+     * @returns {void}
+     */
+    const write = (latest: number): void => {
+      node.textContent = latest.toLocaleString(locale, {
+        maximumFractionDigits: decimals,
+        minimumFractionDigits: decimals,
+      });
+    };
+    /*
+     * The count runs once, on the first reveal, and only counts as done once
+     * it finishes: an effect re-run mid-count, as StrictMode's double mount
+     * does, starts it over. The animation writes to the DOM behind React's
+     * back, so a later change — a new language — is written the same way,
+     * straight to its final value.
+     */
+    if (hasCountedRef.current) {
+      write(value);
+      return;
+    }
     const controls = animate(0, value, {
       duration: 0.9,
       ease: [0.22, 1, 0.36, 1],
-      onUpdate: (latest) => {
-        node.textContent = latest.toLocaleString(locale, {
-          maximumFractionDigits: decimals,
-          minimumFractionDigits: decimals,
-        });
+      onComplete: () => {
+        hasCountedRef.current = true;
       },
+      onUpdate: write,
     });
     return () => controls.stop();
   }, [decimals, isInView, locale, value]);
@@ -361,18 +383,33 @@ function Planet({ body, delay = 0 }: PlanetProps): ReactNode {
 }
 
 /**
- * StatsPage component
- * The record in numbers as one bento grid: every figure and chart is a tile
- * on the same columns, so their edges line up, laid out unevenly on purpose —
- * the headline numbers beside the map, the distance set against the Earth and
- * the Moon, the habits stacked beside the years — and rearranged for the room
- * the page actually has.
- * @component
- * @returns {ReactNode} The statistics page
+ * Prints a ride's two ends, for a record's detail line.
+ * @param {Flight | Ferry} ride - The ride
+ * @param {string} locale - The active locale
+ * @returns {string} `From → To`
  */
-export function StatsPage(): ReactNode {
-  const { t, currLanguage } = useLanguage(["home"]);
-  const moonShare = Math.min(stats.toMoon, 1);
+function routeOf(ride: Flight | Ferry, locale: string): string {
+  return `${ride.sCity.getLocalizedName(locale)} → ${ride.eCity.getLocalizedName(locale)}`;
+}
+
+/**
+ * Prints a distance in kilometres.
+ * @param {number} km - The distance
+ * @param {string} locale - The active locale
+ * @returns {string} Such as `9,853 km`
+ */
+function kilometresIn(km: number, locale: string): string {
+  return `${formatMileage(km, locale, 0)} km`;
+}
+
+/**
+ * ContinentsTile component
+ * One tile of the statistics bento: the map of continents with a bar per continent visited, coloured to match.
+ * @component
+ * @returns {ReactNode} The tile
+ */
+function ContinentsTile(): ReactNode {
+  const { t } = useLanguage(["home"]);
   /*
    * Each continent group in the map reads its fill from one of these custom
    * properties, which `CSSProperties` has no keys for — hence the cast.
@@ -387,21 +424,261 @@ export function StatsPage(): ReactNode {
     ]),
   ) as CSSProperties;
 
-  /**
-   * Prints a ride's two ends, for a record's detail line.
-   * @param {Flight | Ferry} ride - The ride
-   * @returns {string} `From → To`
-   */
-  const route = (ride: Flight | Ferry): string =>
-    `${ride.sCity.getLocalizedName(currLanguage)} → ${ride.eCity.getLocalizedName(currLanguage)}`;
+  return (
+    <Card area="continents" title={t("stats.byContinent")}>
+      <div className="stats-tile__continents">
+        <ContinentsMap
+          aria-hidden="true"
+          className="stats-tile__continents-map"
+          style={continentFills}
+        />
+        <StatBars
+          bars={stats.continents.map(({ continent, countries, cities }) => ({
+            color: CONTINENT_COLORS[continent],
+            display: `${t("stats.countryCount", { count: countries })} · ${t("stats.cityCount", { count: cities })}`,
+            key: continent,
+            label: t(`continents.${continent}`),
+            value: countries,
+          }))}
+        />
+      </div>
+    </Card>
+  );
+}
 
-  /**
-   * Prints a distance in kilometres.
-   * @param {number} km - The distance
-   * @returns {string} Such as `9,853 km`
-   */
-  const kilometres = (km: number): string =>
-    `${formatMileage(km, currLanguage, 0)} km`;
+/**
+ * DistanceTile component
+ * One tile of the statistics bento: the total distance, set against the Earth's circumference and the way to the Moon.
+ * @component
+ * @returns {ReactNode} The tile
+ */
+function DistanceTile(): ReactNode {
+  const { t, currLanguage } = useLanguage(["home"]);
+  const moonShare = Math.min(stats.toMoon, 1);
+
+  return (
+    <Card area="distance" title={t("stats.distance")}>
+      <p className="stats-tile__distance">
+        <CountUp locale={currLanguage} value={stats.km} />
+        <span className="stats-tile__suffix">km</span>
+      </p>
+      <div className="stats-tile__journey">
+        <Planet body="earth" />
+        <span aria-hidden="true" className="stats-tile__journey-track">
+          <m.span
+            className="stats-tile__journey-fill"
+            initial={{ scaleX: 0 }}
+            style={{ width: `${moonShare * 100}%` }}
+            transition={{ ...easeOut, delay: 0.3, duration: 1.2 }}
+            viewport={{ once: true }}
+            whileInView={{ scaleX: 1 }}
+          />
+        </span>
+        <Planet body="moon" delay={0.15} />
+      </div>
+      <div className="stats-tile__journey-captions">
+        <p className="stats-tile__journey-caption">
+          <span className="stats-tile__journey-value">
+            <CountUp
+              decimals={1}
+              locale={currLanguage}
+              value={stats.aroundEarth}
+            />
+            ×
+          </span>
+          {t("stats.aroundEarth")}
+        </p>
+        <p className="stats-tile__journey-caption stats-tile__journey-caption--end">
+          {stats.toMoon < 1 ? (
+            <>
+              <span className="stats-tile__journey-value">
+                <CountUp locale={currLanguage} value={stats.toMoon * 100} />%
+              </span>
+              {t("stats.wayToMoon")}
+            </>
+          ) : (
+            <>
+              <span className="stats-tile__journey-value">
+                <CountUp
+                  decimals={2}
+                  locale={currLanguage}
+                  value={stats.toMoon}
+                />
+                ×
+              </span>
+              {t("stats.toMoon")}
+            </>
+          )}
+        </p>
+      </div>
+    </Card>
+  );
+}
+
+/**
+ * WorldTile component
+ * One tile of the statistics bento: the share of the world's countries visited, as a ring that fills to it.
+ * @component
+ * @returns {ReactNode} The tile
+ */
+function WorldTile(): ReactNode {
+  const { t, currLanguage } = useLanguage(["home"]);
+
+  return (
+    <Card area="world" title={t("stats.world")}>
+      <div className="stats-tile__world">
+        <svg
+          aria-hidden="true"
+          className="stats-tile__ring"
+          viewBox="0 0 120 120"
+        >
+          <circle className="stats-tile__ring-track" cx="60" cy="60" r="52" />
+          <m.circle
+            className="stats-tile__ring-fill"
+            cx="60"
+            cy="60"
+            initial={{ pathLength: 0 }}
+            r="52"
+            transition={{ ...easeOut, delay: 0.2, duration: 1.2 }}
+            viewport={{ once: true }}
+            whileInView={{ pathLength: stats.countryShare }}
+          />
+        </svg>
+        <p className="stats-tile__world-share">
+          <span className="stats-tile__world-value">
+            <CountUp
+              decimals={1}
+              locale={currLanguage}
+              value={stats.countryShare * 100}
+            />
+            %
+          </span>
+          <span className="stats-tile__world-label">
+            {t("stats.ofCountries", {
+              count: stats.countries,
+              total: stats.totalCountries,
+            })}
+          </span>
+        </p>
+      </div>
+    </Card>
+  );
+}
+
+/**
+ * RecordsTile component
+ * One tile of the statistics bento: the superlatives: longest and shortest flight, longest ferry, furthest place, time zones and UNESCO sites.
+ * @component
+ * @returns {ReactNode} The tile
+ */
+function RecordsTile(): ReactNode {
+  const { t, currLanguage } = useLanguage(["home"]);
+
+  return (
+    <Card area="records" title={t("stats.records")}>
+      <ul className="stats-tile__records">
+        {stats.longestFlight ? (
+          <Record
+            detail={routeOf(stats.longestFlight, currLanguage)}
+            icon={<Plane aria-hidden="true" />}
+            label={t("stats.longestFlight")}
+            value={kilometresIn(stats.longestFlight.distanceInKm, currLanguage)}
+          />
+        ) : null}
+        {stats.shortestFlight ? (
+          <Record
+            detail={routeOf(stats.shortestFlight, currLanguage)}
+            icon={<Plane aria-hidden="true" />}
+            label={t("stats.shortestFlight")}
+            value={kilometresIn(
+              stats.shortestFlight.distanceInKm,
+              currLanguage,
+            )}
+          />
+        ) : null}
+        {stats.longestFerry ? (
+          <Record
+            detail={routeOf(stats.longestFerry, currLanguage)}
+            icon={<Ship aria-hidden="true" />}
+            label={t("stats.longestFerry")}
+            value={kilometresIn(stats.longestFerry.distanceInKm, currLanguage)}
+          />
+        ) : null}
+        {stats.furthestCity ? (
+          <Record
+            icon={<MapPinned aria-hidden="true" />}
+            label={t("stats.furthestCity")}
+            value={stats.furthestCity.getLocalizedName(currLanguage)}
+          />
+        ) : null}
+        <Record
+          icon={<Clock aria-hidden="true" />}
+          label={t("stats.timezones")}
+          value={String(stats.timezones)}
+        />
+        {stats.unesco > 0 ? (
+          <Record
+            icon={<Landmark aria-hidden="true" />}
+            label={t("stats.unesco")}
+            value={String(stats.unesco)}
+          />
+        ) : null}
+      </ul>
+    </Card>
+  );
+}
+
+/**
+ * OperatorsTile component
+ * One tile of the statistics bento: the airlines and ferry lines used, most used first, with their logos.
+ * @component
+ * @returns {ReactNode} The tile
+ */
+function OperatorsTile(): ReactNode {
+  const { t } = useLanguage(["home"]);
+
+  return (
+    <Card area="operators" title={t("stats.operators")}>
+      <ul className="stats-tile__operators">
+        {stats.companies.slice(0, 12).map(({ company, count }) => {
+          const { name, logo } = resolveCompany(company);
+          return (
+            <li className="stats-tile__operator" key={company}>
+              {logo ? (
+                <img
+                  alt=""
+                  aria-hidden="true"
+                  className="stats-tile__operator-logo"
+                  src={logo}
+                />
+              ) : (
+                <span
+                  aria-hidden="true"
+                  className="stats-tile__operator-logo"
+                />
+              )}
+              <span className="stats-tile__operator-name">{name}</span>
+              <span className="stats-tile__operator-count">×{count}</span>
+            </li>
+          );
+        })}
+      </ul>
+    </Card>
+  );
+}
+
+/**
+ * StatsPage component
+ * The record in numbers as one bento grid: every figure and chart is a tile
+ * on the same columns, so their edges line up, laid out unevenly on purpose —
+ * the headline numbers beside the map, the distance set against the Earth and
+ * the Moon, the habits stacked beside the years — and rearranged for the room
+ * the page actually has.
+ * @component
+ * @returns {ReactNode} The statistics page
+ */
+export function StatsPage(): ReactNode {
+  const { t, currLanguage } = useLanguage(["home"]);
 
   if (stats.trips === 0)
     return (
@@ -494,129 +771,11 @@ export function StatsPage(): ReactNode {
             </ul>
           </Card>
 
-          <Card area="continents" title={t("stats.byContinent")}>
-            <div className="stats-tile__continents">
-              <ContinentsMap
-                aria-hidden="true"
-                className="stats-tile__continents-map"
-                style={continentFills}
-              />
-              <StatBars
-                bars={stats.continents.map(
-                  ({ continent, countries, cities }) => ({
-                    color: CONTINENT_COLORS[continent],
-                    display: `${t("stats.countryCount", { count: countries })} · ${t("stats.cityCount", { count: cities })}`,
-                    key: continent,
-                    label: t(`continents.${continent}`),
-                    value: countries,
-                  }),
-                )}
-              />
-            </div>
-          </Card>
+          <ContinentsTile />
 
-          <Card area="distance" title={t("stats.distance")}>
-            <p className="stats-tile__distance">
-              <CountUp locale={currLanguage} value={stats.km} />
-              <span className="stats-tile__suffix">km</span>
-            </p>
-            <div className="stats-tile__journey">
-              <Planet body="earth" />
-              <span aria-hidden="true" className="stats-tile__journey-track">
-                <m.span
-                  className="stats-tile__journey-fill"
-                  initial={{ scaleX: 0 }}
-                  style={{ width: `${moonShare * 100}%` }}
-                  transition={{ ...easeOut, delay: 0.3, duration: 1.2 }}
-                  viewport={{ once: true }}
-                  whileInView={{ scaleX: 1 }}
-                />
-              </span>
-              <Planet body="moon" delay={0.15} />
-            </div>
-            <div className="stats-tile__journey-captions">
-              <p className="stats-tile__journey-caption">
-                <span className="stats-tile__journey-value">
-                  <CountUp
-                    decimals={1}
-                    locale={currLanguage}
-                    value={stats.aroundEarth}
-                  />
-                  ×
-                </span>
-                {t("stats.aroundEarth")}
-              </p>
-              <p className="stats-tile__journey-caption stats-tile__journey-caption--end">
-                {stats.toMoon < 1 ? (
-                  <>
-                    <span className="stats-tile__journey-value">
-                      <CountUp
-                        locale={currLanguage}
-                        value={stats.toMoon * 100}
-                      />
-                      %
-                    </span>
-                    {t("stats.wayToMoon")}
-                  </>
-                ) : (
-                  <>
-                    <span className="stats-tile__journey-value">
-                      <CountUp
-                        decimals={2}
-                        locale={currLanguage}
-                        value={stats.toMoon}
-                      />
-                      ×
-                    </span>
-                    {t("stats.toMoon")}
-                  </>
-                )}
-              </p>
-            </div>
-          </Card>
+          <DistanceTile />
 
-          <Card area="world" title={t("stats.world")}>
-            <div className="stats-tile__world">
-              <svg
-                aria-hidden="true"
-                className="stats-tile__ring"
-                viewBox="0 0 120 120"
-              >
-                <circle
-                  className="stats-tile__ring-track"
-                  cx="60"
-                  cy="60"
-                  r="52"
-                />
-                <m.circle
-                  className="stats-tile__ring-fill"
-                  cx="60"
-                  cy="60"
-                  initial={{ pathLength: 0 }}
-                  r="52"
-                  transition={{ ...easeOut, delay: 0.2, duration: 1.2 }}
-                  viewport={{ once: true }}
-                  whileInView={{ pathLength: stats.countryShare }}
-                />
-              </svg>
-              <p className="stats-tile__world-share">
-                <span className="stats-tile__world-value">
-                  <CountUp
-                    decimals={1}
-                    locale={currLanguage}
-                    value={stats.countryShare * 100}
-                  />
-                  %
-                </span>
-                <span className="stats-tile__world-label">
-                  {t("stats.ofCountries", {
-                    count: stats.countries,
-                    total: stats.totalCountries,
-                  })}
-                </span>
-              </p>
-            </div>
-          </Card>
+          <WorldTile />
 
           <Card area="countries" title={t("stats.byCountry")}>
             <StatBars
@@ -640,7 +799,7 @@ export function StatsPage(): ReactNode {
             <StatBars
               bars={stats.modes.map(({ mode, count, km, minutes }) => ({
                 color: MODE_COLORS[mode],
-                display: `${kilometres(km)} · ${formatDuration(minutes)}`,
+                display: `${kilometresIn(km, currLanguage)} · ${formatDuration(minutes)}`,
                 key: mode,
                 label: (
                   <>
@@ -653,53 +812,7 @@ export function StatsPage(): ReactNode {
             />
           </Card>
 
-          <Card area="records" title={t("stats.records")}>
-            <ul className="stats-tile__records">
-              {stats.longestFlight ? (
-                <Record
-                  detail={route(stats.longestFlight)}
-                  icon={<Plane aria-hidden="true" />}
-                  label={t("stats.longestFlight")}
-                  value={kilometres(stats.longestFlight.distanceInKm)}
-                />
-              ) : null}
-              {stats.shortestFlight ? (
-                <Record
-                  detail={route(stats.shortestFlight)}
-                  icon={<Plane aria-hidden="true" />}
-                  label={t("stats.shortestFlight")}
-                  value={kilometres(stats.shortestFlight.distanceInKm)}
-                />
-              ) : null}
-              {stats.longestFerry ? (
-                <Record
-                  detail={route(stats.longestFerry)}
-                  icon={<Ship aria-hidden="true" />}
-                  label={t("stats.longestFerry")}
-                  value={kilometres(stats.longestFerry.distanceInKm)}
-                />
-              ) : null}
-              {stats.furthestCity ? (
-                <Record
-                  icon={<MapPinned aria-hidden="true" />}
-                  label={t("stats.furthestCity")}
-                  value={stats.furthestCity.getLocalizedName(currLanguage)}
-                />
-              ) : null}
-              <Record
-                icon={<Clock aria-hidden="true" />}
-                label={t("stats.timezones")}
-                value={String(stats.timezones)}
-              />
-              {stats.unesco > 0 ? (
-                <Record
-                  icon={<Landmark aria-hidden="true" />}
-                  label={t("stats.unesco")}
-                  value={String(stats.unesco)}
-                />
-              ) : null}
-            </ul>
-          </Card>
+          <RecordsTile />
 
           <Card area="days" title={t("stats.daysPerYear")}>
             <YearChart
@@ -719,36 +832,7 @@ export function StatsPage(): ReactNode {
             />
           </Card>
 
-          {stats.companies.length > 0 ? (
-            <Card area="operators" title={t("stats.operators")}>
-              <ul className="stats-tile__operators">
-                {stats.companies.slice(0, 12).map(({ company, count }) => {
-                  const { name, logo } = resolveCompany(company);
-                  return (
-                    <li className="stats-tile__operator" key={company}>
-                      {logo ? (
-                        <img
-                          alt=""
-                          aria-hidden="true"
-                          className="stats-tile__operator-logo"
-                          src={logo}
-                        />
-                      ) : (
-                        <span
-                          aria-hidden="true"
-                          className="stats-tile__operator-logo"
-                        />
-                      )}
-                      <span className="stats-tile__operator-name">{name}</span>
-                      <span className="stats-tile__operator-count">
-                        ×{count}
-                      </span>
-                    </li>
-                  );
-                })}
-              </ul>
-            </Card>
-          ) : null}
+          {stats.companies.length > 0 ? <OperatorsTile /> : null}
         </div>
       </div>
     </PanelFrame>

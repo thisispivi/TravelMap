@@ -1,3 +1,5 @@
+import type { PillWidths } from "@/shared/components/YearPills/YearPills";
+
 import type { TripYear } from "./trips";
 
 /**
@@ -53,4 +55,19 @@ export function bucketOf(
     (bucket) =>
       bucket.year === year || (bucket.isOrEarlier && year <= bucket.year),
   );
+}
+
+/**
+ * Counts how many pills fit side by side: every year when they all do,
+ * otherwise as many single years as leave room for the folded pill, and never
+ * fewer than two.
+ * @param {PillWidths} widths - The row's and the pills' widths
+ * @param {number} years - How many years have trips
+ * @returns {number} The number of pills to show
+ */
+export function fitSlots(widths: PillWidths, years: number): number {
+  const { available, single, folded, gap } = widths;
+  if (years * single + (years - 1) * gap <= available) return years;
+  const singles = Math.floor((available - folded) / (single + gap));
+  return Math.max(2, Math.min(years, singles + 1));
 }

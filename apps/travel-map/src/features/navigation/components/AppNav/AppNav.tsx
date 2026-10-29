@@ -102,6 +102,7 @@ function LanguageMenu({ isCompact }: LanguageMenuProps): ReactNode {
     <>
       <button
         aria-expanded={anchor !== null}
+        aria-haspopup="dialog"
         aria-label={t("language")}
         className="app-nav__tool"
         onClick={(event) =>
@@ -117,6 +118,7 @@ function LanguageMenu({ isCompact }: LanguageMenuProps): ReactNode {
       </button>
       <Popover
         anchor={anchor}
+        label={t("language")}
         onClose={() => setAnchor(null)}
         placement={isCompact ? "below" : "beside"}
         triggerRef={triggerRef}

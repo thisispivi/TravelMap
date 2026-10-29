@@ -2,6 +2,14 @@ import { RefObject, useEffect, useState } from "react";
 
 /* Scrolled this far, a header counts as scrolled past its resting state. */
 const SCROLLED_PX = 24;
+/*
+ * A header that condenses grows the body by about this much. A body with less
+ * room to scroll than this would clamp back under the threshold the moment
+ * the header shrank, and the header would flicker between its two states.
+ */
+const CONDENSE_ROOM_PX = 96;
+/* Once scrolled, the state holds until the body is back this close to its top. */
+const RESTING_PX = 4;
 /* A section counts as current once its top is this close to the scroller's. */
 const SECTION_SLACK_PX = 8;
 
@@ -43,7 +51,12 @@ export function useScrollState(
     const handleScroll = (): void => {
       cancelAnimationFrame(frame);
       frame = requestAnimationFrame(() => {
-        setIsScrolled(body.scrollTop > SCROLLED_PX);
+        const room = body.scrollHeight - body.clientHeight;
+        setIsScrolled((wasScrolled) =>
+          wasScrolled
+            ? body.scrollTop > RESTING_PX
+            : body.scrollTop > SCROLLED_PX && room > CONDENSE_ROOM_PX,
+        );
         if (!selector) return;
         const top = body.getBoundingClientRect().top + SECTION_SLACK_PX;
         const sections = [...body.querySelectorAll(selector)];

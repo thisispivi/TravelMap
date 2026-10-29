@@ -2,7 +2,7 @@ import "./TripList.scss";
 
 import { Trip } from "@travelmap/core";
 import { AnimatePresence, m, Variants } from "framer-motion";
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 
 import { formatDateRangeShort } from "@/i18n/functions/date";
@@ -16,12 +16,12 @@ import { useLanguage } from "@/shared/hooks/useLanguage";
 import { easeOut, staggerItem } from "@/shared/lib/motion";
 
 import { browsableTrips, groupByYear } from "../../lib/trips";
-import { bucketOf, bucketYears } from "../../lib/yearBuckets";
+import { bucketOf, bucketYears, fitSlots } from "../../lib/yearBuckets";
 
-/** Room one year pill needs, gap included, in rem; `≤ 2022` is the widest. */
-const SLOT_REM = 4.5;
+/** The trip list's years, newest first; the record never changes while open. */
+const TRIP_YEARS = groupByYear(browsableTrips);
 
-/** Pills shown before the header has been measured. */
+/** Pills shown before the row has been measured. */
 const DEFAULT_SLOTS = 5;
 
 /**
@@ -120,31 +120,16 @@ export function TripList(): ReactNode {
   const navigate = useNavigate();
   const { selectedTrip, setSelectedTrip } = useMapInteraction();
   const bodyRef = useRef<HTMLDivElement>(null);
-  const headerRef = useRef<HTMLElement>(null);
   const [slots, setSlots] = useState(DEFAULT_SLOTS);
   const [selection, setSelection] = useState({
     direction: 0,
     year: selectedTrip?.sDate.getFullYear(),
   });
-  const buckets = bucketYears(groupByYear(browsableTrips), slots);
+  const buckets = bucketYears(TRIP_YEARS, slots);
   const current =
     (selection.year === undefined
       ? undefined
       : bucketOf(buckets, selection.year)) ?? buckets[0];
-
-  useEffect(() => {
-    const header = headerRef.current;
-    if (!header) return;
-    const slotPx =
-      SLOT_REM *
-      parseFloat(getComputedStyle(document.documentElement).fontSize);
-    const observer = new ResizeObserver(([entry]) => {
-      if (entry)
-        setSlots(Math.max(2, Math.floor(entry.contentRect.width / slotPx)));
-    });
-    observer.observe(header);
-    return () => observer.disconnect();
-  }, []);
 
   /**
    * Shows a trip's route on the map and opens its itinerary.
@@ -163,6 +148,7 @@ export function TripList(): ReactNode {
    * @returns {void}
    */
   const selectYear = (year: number): void => {
+    if (year === current?.year) return;
     setSelection({
       direction: year < (current?.year ?? year) ? 1 : -1,
       year,
@@ -174,7 +160,7 @@ export function TripList(): ReactNode {
     <PanelFrame
       bodyRef={bodyRef}
       header={
-        <header className="trip-list__header" ref={headerRef}>
+        <header className="trip-list__header">
           <div className="trip-list__heading">
             <h2>{t("trips.title")}</h2>
             <p className="trip-list__summary">
@@ -186,6 +172,9 @@ export function TripList(): ReactNode {
               id="trips"
               label={t("trips.chooseYear")}
               onChange={selectYear}
+              onMeasure={(widths) =>
+                setSlots(fitSlots(widths, TRIP_YEARS.length))
+              }
               value={current.year}
               years={buckets.map(({ year, isOrEarlier }) => ({
                 ariaLabel: isOrEarlier

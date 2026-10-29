@@ -37,7 +37,21 @@ const GAP_PX = remToPx(variables.shellGap);
 const SIDE_PANEL_PX = remToPx(variables.sidePanelWidth);
 const SIDE_PANEL_WIDE_PX = remToPx(variables.sidePanelWidthWide);
 const WIDE_BREAKPOINT_PX = remToPx(variables.breakpointWide);
-const TAB_BAR_PX = 72;
+const TAB_BAR_BASE_PX = remToPx(variables.tabBarBase);
+
+/**
+ * Measures the tab bar as drawn: its base height plus the home-indicator
+ * inset the stylesheet adds on phones that have one.
+ * @returns {number} The tab bar's height in CSS pixels
+ */
+function tabBarPx(): number {
+  const inset = Number.parseFloat(
+    getComputedStyle(document.documentElement).getPropertyValue(
+      "--safe-area-bottom",
+    ),
+  );
+  return TAB_BAR_BASE_PX + (Number.isNaN(inset) ? 0 : inset);
+}
 
 /**
  * Calculates camera padding so whatever the camera frames lands in the part
@@ -52,14 +66,15 @@ export function getCameraPadding(
   isSideOpen: boolean,
 ): PaddingOptions {
   if (viewport.isCompact) {
-    const sheetHeight = viewport.window.height - SHEET_TOP_PX - TAB_BAR_PX;
+    const tabBar = tabBarPx();
+    const sheetHeight = viewport.window.height - SHEET_TOP_PX - tabBar;
     const covered = isSideOpen
       ? sheetHeight * (1 - SHEET_HALF_HIDDEN_SHARE)
       : SHEET_PEEK_PX;
     return {
       top: TOP_TOOLS_PX,
       right: MAP_EDGE_PADDING_PX / 2,
-      bottom: TAB_BAR_PX + covered + MAP_EDGE_PADDING_PX / 2,
+      bottom: tabBar + covered + MAP_EDGE_PADDING_PX / 2,
       left: MAP_EDGE_PADDING_PX / 2,
     };
   }

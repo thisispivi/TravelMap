@@ -13,9 +13,10 @@ type PopoverPlacement = "below" | "beside";
 /**
  * Properties accepted by the Popover component.
  * @property {DOMRect | null} anchor - The trigger's box when open, `null` when closed
- * @property {RefObject<HTMLElement | null>} triggerRef - The trigger, which keeps presses on it from closing the popover and takes focus back on Escape
+ * @property {RefObject<HTMLElement | null>} triggerRef - The trigger, which keeps presses on it from closing the popover and takes focus back on close
  * @property {() => void} onClose - Closes the popover
  * @property {PopoverPlacement} placement - Where it opens relative to the trigger
+ * @property {string} label - The accessible name of the menu
  * @property {string} [className] - The owner's block class for its content
  * @property {ReactNode} children - The content
  */
@@ -24,6 +25,7 @@ interface PopoverProps {
   triggerRef: RefObject<HTMLElement | null>;
   onClose: () => void;
   placement: PopoverPlacement;
+  label: string;
   className?: string;
   children: ReactNode;
 }
@@ -31,14 +33,38 @@ interface PopoverProps {
 /** The gap between a trigger and its popover, in pixels. */
 const GAP = 8;
 
+/** The tallest a popover grows before its list scrolls. */
+const MAX_HEIGHT = "24rem";
+
+/** Less room than this under the trigger, in pixels, and the popover opens above it. */
+const MIN_ROOM_PX = 240;
+
 /**
- * Places the popover against its trigger. `below` lines the popover's right
- * edge up with the trigger's when the trigger sits on the right half of the
- * window, so it never runs off-screen; `beside` opens to the right with the
- * bottoms aligned, as the rail's tools need.
+ * Lists the controls inside an element that Tab can reach, in order.
+ * @param {HTMLElement | null} root - The element to search
+ * @returns {HTMLElement[]} Its enabled buttons, links and fields
+ */
+function focusablesIn(root: HTMLElement | null): HTMLElement[] {
+  return root
+    ? [
+        ...root.querySelectorAll<HTMLElement>(
+          "button:not(:disabled), [href], input:not(:disabled)",
+        ),
+      ]
+    : [];
+}
+
+/**
+ * Places the popover against its trigger and caps its height at the room the
+ * window leaves, so a trigger low on a phone never pushes the list off-screen;
+ * the list scrolls instead, or opens above the trigger when below leaves only
+ * a sliver. `below` lines the popover's right edge up with the trigger's when
+ * the trigger sits on the right half of the window; `beside`
+ * opens to the right with the bottoms aligned and grows upwards, as the rail's
+ * tools need.
  * @param {DOMRect} anchor - The trigger's box
  * @param {PopoverPlacement} placement - Where to open
- * @returns {CSSProperties} The fixed position
+ * @returns {CSSProperties} The fixed position and height cap
  */
 function positionOf(
   anchor: DOMRect,
@@ -49,11 +75,26 @@ function positionOf(
       return {
         bottom: window.innerHeight - anchor.bottom,
         left: anchor.right + GAP,
+        maxHeight: `min(${MAX_HEIGHT}, ${anchor.bottom - GAP * 2}px)`,
       };
-    case "below":
+    case "below": {
+      const roomBelow = window.innerHeight - anchor.bottom - GAP * 3;
+      const roomAbove = anchor.top - GAP * 3;
+      /* Low on a phone the list would be a sliver, so it opens upwards. */
+      const vertical =
+        roomBelow < MIN_ROOM_PX && roomAbove > roomBelow
+          ? {
+              bottom: window.innerHeight - anchor.top + GAP,
+              maxHeight: `min(${MAX_HEIGHT}, ${roomAbove}px)`,
+            }
+          : {
+              maxHeight: `min(${MAX_HEIGHT}, ${roomBelow}px)`,
+              top: anchor.bottom + GAP,
+            };
       return anchor.left + anchor.width / 2 > window.innerWidth / 2
-        ? { right: window.innerWidth - anchor.right, top: anchor.bottom + GAP }
-        : { left: anchor.left, top: anchor.bottom + GAP };
+        ? { ...vertical, right: window.innerWidth - anchor.right }
+        : { ...vertical, left: anchor.left };
+    }
   }
 }
 
@@ -62,14 +103,16 @@ function positionOf(
  * A frosted menu opened from a trigger. It is portalled to the body because
  * an element with `backdrop-filter` only blurs what its nearest blurred
  * ancestor painted: inside the rail or a panel it would blur nothing but that
- * ancestor, never the map behind. Escape or a press elsewhere closes it, and
- * Escape hands focus back to the trigger.
+ * ancestor, never the map behind. Opening moves focus into it and Tab cycles
+ * through its controls; Escape or a press elsewhere closes it, and focus left
+ * inside returns to the trigger.
  * @component
  * @param {PopoverProps} props - The popover props
  * @param {DOMRect | null} props.anchor - The trigger's box when open
  * @param {RefObject<HTMLElement | null>} props.triggerRef - The trigger
  * @param {() => void} props.onClose - Closes the popover
  * @param {PopoverPlacement} props.placement - Where it opens
+ * @param {string} props.label - The accessible name of the menu
  * @param {string} [props.className] - The owner's block class
  * @param {ReactNode} props.children - The content
  * @returns {ReactNode} The popover
@@ -79,6 +122,7 @@ export function Popover({
   triggerRef,
   onClose,
   placement,
+  label,
   className,
   children,
 }: PopoverProps): ReactNode {
@@ -91,6 +135,14 @@ export function Popover({
 
   useEffect(() => {
     if (!anchor) return;
+    const popover = popoverRef.current;
+    const trigger = triggerRef.current;
+    const openWidth = window.innerWidth;
+    /*
+     * Portalled to the end of the body, the popover sits after everything else
+     * in tab order, so focus is carried into it rather than left behind.
+     */
+    focusablesIn(popover)[0]?.focus({ preventScroll: true });
 
     /**
      * Calls the latest `onClose`, so a new callback each render does not
@@ -98,6 +150,16 @@ export function Popover({
      * @returns {void}
      */
     const close = (): void => onCloseRef.current();
+
+    /**
+     * Closes the popover once the window changes width, which moves its
+     * trigger. Phones change only the height as their toolbars and keyboard
+     * slide, which leaves the trigger where it was.
+     * @returns {void}
+     */
+    const handleResize = (): void => {
+      if (window.innerWidth !== openWidth) close();
+    };
 
     /**
      * Closes the popover on a press outside both it and its trigger.
@@ -115,23 +177,42 @@ export function Popover({
     };
 
     /**
-     * Closes the popover with Escape and returns focus to its trigger.
+     * Closes the popover with Escape, and
+     * keeps Tab cycling through its controls instead of escaping to the end
+     * of the page.
      * @param {KeyboardEvent} event - The key press
      * @returns {void}
      */
     const handleKeyDown = (event: KeyboardEvent): void => {
-      if (event.key !== "Escape") return;
-      close();
-      triggerRef.current?.focus();
+      if (event.key === "Escape") {
+        close();
+        return;
+      }
+      const active = document.activeElement;
+      if (event.key !== "Tab" || !popoverRef.current?.contains(active)) return;
+      const focusables = focusablesIn(popoverRef.current);
+      const first = focusables[0];
+      const last = focusables.at(-1);
+      if (!first || !last) return;
+      if (event.shiftKey ? active === first : active === last) {
+        event.preventDefault();
+        (event.shiftKey ? last : first).focus();
+      }
     };
 
     document.addEventListener("pointerdown", handlePointerDown);
     document.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("resize", close);
+    window.addEventListener("resize", handleResize);
     return () => {
       document.removeEventListener("pointerdown", handlePointerDown);
       document.removeEventListener("keydown", handleKeyDown);
-      window.removeEventListener("resize", close);
+      window.removeEventListener("resize", handleResize);
+      /*
+       * Closing by picking an option unmounts the focused button; hand focus
+       * back to the trigger rather than letting it fall to the page. A press
+       * elsewhere has already moved focus out, so it is left there.
+       */
+      if (popover?.contains(document.activeElement)) trigger?.focus();
     };
   }, [anchor, triggerRef]);
 
@@ -140,10 +221,12 @@ export function Popover({
       {anchor ? (
         <m.div
           animate={{ opacity: 1, scale: 1, y: 0 }}
+          aria-label={label}
           className={classNames("popover", `popover--${placement}`, className)}
           exit={{ opacity: 0, scale: 0.96, y: -4 }}
           initial={{ opacity: 0, scale: 0.96, y: -4 }}
           ref={popoverRef}
+          role="dialog"
           style={positionOf(anchor, placement)}
           transition={easeOut}
         >

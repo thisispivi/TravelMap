@@ -6,7 +6,7 @@ import { ChevronDown, Images, ListFilter } from "lucide-react";
 import { ReactNode, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 
-import { placeAlbum } from "@/data/albums";
+import { placePhotoCount } from "@/data/albums";
 import {
   futureCities,
   livedCities,
@@ -67,7 +67,7 @@ function CityCard({ city, filter, onFocus }: CityCardProps): ReactNode {
   const location = useLocation();
   const { setHoveredCity } = useMapInteraction();
   const name = city.getLocalizedName(currLanguage);
-  const photoCount = filter === "visited" ? placeAlbum(city).count : 0;
+  const photoCount = filter === "visited" ? placePhotoCount(city) : 0;
   const { visits, nights } = cityVisits(city, visitedTrips);
 
   return (
@@ -166,7 +166,7 @@ function CountryFilter({
     <>
       <button
         aria-expanded={anchor !== null}
-        aria-haspopup="true"
+        aria-haspopup="dialog"
         className={classNames(
           "country-filter",
           selected.length > 0 && "country-filter--active",
@@ -194,6 +194,7 @@ function CountryFilter({
       </button>
       <Popover
         anchor={anchor}
+        label={t("places.filterCountries")}
         onClose={() => setAnchor(null)}
         placement="below"
         triggerRef={triggerRef}

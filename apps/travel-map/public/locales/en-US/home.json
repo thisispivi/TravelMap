@@ -144,7 +144,8 @@
       "future": "No places planned yet."
     },
     "countriesSelected_one": "{{count}} country",
-    "countriesSelected_other": "{{count}} countries"
+    "countriesSelected_other": "{{count}} countries",
+    "filterCountries": "Filter by country"
   },
   "gallery": {
     "title": "Gallery",

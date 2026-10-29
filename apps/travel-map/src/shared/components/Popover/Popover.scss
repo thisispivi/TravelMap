@@ -5,7 +5,6 @@
   @include m.glass();
   position: fixed;
   z-index: 40;
-  max-height: min(24rem, 70vh);
   overflow-y: auto;
   padding: v.$space1;
   border-radius: v.$radiusMd;

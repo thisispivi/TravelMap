@@ -144,7 +144,8 @@
       "future": "Ancora nessun luogo in programma."
     },
     "countriesSelected_one": "{{count}} paese",
-    "countriesSelected_other": "{{count}} paesi"
+    "countriesSelected_other": "{{count}} paesi",
+    "filterCountries": "Filtra per paese"
   },
   "gallery": {
     "title": "Galleria",

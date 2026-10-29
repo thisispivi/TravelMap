@@ -1,9 +1,10 @@
 import "./SegmentedControl.scss";
 
 import { m } from "framer-motion";
-import { ReactNode } from "react";
+import { KeyboardEvent, ReactNode } from "react";
 
 import { classNames } from "@/shared/lib/classNames";
+import { radioTarget } from "@/shared/lib/keyboard";
 import { panelSpring } from "@/shared/lib/motion";
 
 /**
@@ -35,7 +36,7 @@ interface SegmentedControlProps<T extends string> {
 /**
  * SegmentedControl component
  * A row of mutually exclusive choices whose highlight slides to the selected
- * one. Needs a `LazyMotion` ancestor, which the shell provides.
+ * one. Arrow keys move between them, as in any radio group. Needs a `LazyMotion` ancestor, which the shell provides.
  * @component
  * @param {SegmentedControlProps<T>} props - The control props
  * @param {string} props.id - Unique per control on screen
@@ -52,8 +53,33 @@ export function SegmentedControl<T extends string>({
   onChange,
   label,
 }: SegmentedControlProps<T>): ReactNode {
+  /**
+   * Moves the selection with the arrow, Home and End keys, as a radio group
+   * does, and focuses the newly selected option; only it is a tab stop.
+   * @param {KeyboardEvent<HTMLDivElement>} event - The key press
+   * @returns {void}
+   */
+  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>): void => {
+    const target = radioTarget(
+      event,
+      options.findIndex((option) => option.value === value),
+      options.length,
+    );
+    const option = target === undefined ? undefined : options[target];
+    if (target === undefined || !option) return;
+    event.preventDefault();
+    onChange(option.value);
+    const button = event.currentTarget.children[target];
+    if (button instanceof HTMLElement) button.focus();
+  };
+
   return (
-    <div aria-label={label} className="segmented-control" role="radiogroup">
+    <div
+      aria-label={label}
+      className="segmented-control"
+      onKeyDown={handleKeyDown}
+      role="radiogroup"
+    >
       {options.map((option) => {
         const isActive = option.value === value;
         return (
@@ -66,6 +92,7 @@ export function SegmentedControl<T extends string>({
             key={option.value}
             onClick={() => onChange(option.value)}
             role="radio"
+            tabIndex={isActive ? 0 : -1}
             type="button"
           >
             {isActive ? (

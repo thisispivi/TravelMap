@@ -133,6 +133,25 @@ export function findTripAlbum(tripId: string): Album | undefined {
   return tripAlbums.find(({ trip }) => trip.id === tripId)?.album;
 }
 
+/** Photos per city id across every trip, read off the trip albums once. */
+const PLACE_PHOTO_COUNTS = tripAlbums
+  .flatMap(({ album }) => album.sections)
+  .reduce(
+    (counts, { city, photos }) =>
+      counts.set(city.id, (counts.get(city.id) ?? 0) + photos.length),
+    new Map<string, number>(),
+  );
+
+/**
+ * Counts the photos taken in a city, the same total its album would hold,
+ * without building the album.
+ * @param {City} city - The city
+ * @returns {number} Its photos across every trip
+ */
+export function placePhotoCount(city: City): number {
+  return PLACE_PHOTO_COUNTS.get(city.id) ?? 0;
+}
+
 /**
  * Gathers every photo taken in a city, across all trips, oldest visit first.
  * @param {City} city - The city

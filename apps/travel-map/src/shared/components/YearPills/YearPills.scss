@@ -1,7 +1,9 @@
 @use "../../../styles/variables" as v;
 @use "../../../styles/mixins" as m;
 
+/* Positioned, so each pill's offset is measured from the row it scrolls in. */
 .year-pills {
+  position: relative;
   display: flex;
   gap: v.$space1;
   padding: 0.1875rem;

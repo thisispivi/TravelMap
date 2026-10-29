@@ -5,7 +5,7 @@ import { Clock, Coins, Images, Users } from "lucide-react";
 import { ReactNode, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router";
 
-import { placeAlbum } from "@/data/albums";
+import { placePhotoCount } from "@/data/albums";
 import { CountryFlag } from "@/shared/components/CountryFlag/CountryFlag";
 import { CoverImage } from "@/shared/components/CoverImage/CoverImage";
 import { useLanguage } from "@/shared/hooks/useLanguage";
@@ -44,7 +44,7 @@ export function MapTooltip({
   const location = useLocation();
   const { t, currLanguage } = useLanguage(["home"]);
   const onCloseRef = useRef(onClose);
-  const photoCount = placeAlbum(city).count;
+  const photoCount = placePhotoCount(city);
   const timeZone = getTimeZoneAbbreviation(city.timeZone);
 
   useEffect(() => {

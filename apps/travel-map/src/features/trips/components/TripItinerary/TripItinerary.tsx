@@ -64,22 +64,58 @@ interface LegCardProps {
 }
 
 /**
+ * LegStub component
+ * The tear-off part of a ride's pass: the mode in its colour, and the
+ * operator's logo, name and flight number when they are recorded.
+ * @component
+ * @param {LegCardProps} props - The stub props
+ * @param {TripLeg} props.leg - The ride
+ * @returns {ReactNode} The stub
+ */
+function LegStub({ leg }: LegCardProps): ReactNode {
+  const { t } = useLanguage(["home"]);
+  const operatorId = leg.flight?.company ?? leg.ferryCompany;
+  const operator = operatorId ? resolveCompany(operatorId) : undefined;
+  const number = leg.flight?.number;
+
+  return (
+    <div className="leg-card__stub">
+      <span className="leg-card__mode-name">
+        <TransportModeIcon className="leg-card__mode-icon" mode={leg.mode} />
+        {t(`mode.${leg.mode}`)}
+      </span>
+      {operator || number ? (
+        <span className="leg-card__operator">
+          {operator?.logo ? (
+            <img
+              alt=""
+              aria-hidden="true"
+              className="leg-card__logo"
+              src={operator.logo}
+            />
+          ) : null}
+          <span className="leg-card__operator-name">
+            {[operator?.name, number].filter(Boolean).join(" · ")}
+          </span>
+        </span>
+      ) : null}
+    </div>
+  );
+}
+
+/**
  * LegCard component
  * One ride drawn as a two-part pass. The upper part holds the two cities,
  * their clocks under them when they are known with `+1` when the ride lands a
- * day later, and how long and how far between them. The stub below names the
- * mode in its colour and the operator, when there is one. A `~` marks a value
- * worked out rather than recorded.
+ * day later, and how long and how far between them; `LegStub` sits below the
+ * tear. A `~` marks a value worked out rather than recorded.
  * @component
  * @param {LegCardProps} props - The card props
  * @param {TripLeg} props.leg - The ride
  * @returns {ReactNode} The leg card
  */
 function LegCard({ leg }: LegCardProps): ReactNode {
-  const { t, currLanguage } = useLanguage(["home"]);
-  const operatorId = leg.flight?.company ?? leg.ferryCompany;
-  const operator = operatorId ? resolveCompany(operatorId) : undefined;
-  const number = leg.flight?.number;
+  const { currLanguage } = useLanguage(["home"]);
   const departAt = timeOf(leg.depart);
   const arriveAt = timeOf(leg.arrive);
   const dayShift = daysLater(leg.depart ?? leg.date, leg.arrive);
@@ -124,27 +160,7 @@ function LegCard({ leg }: LegCardProps): ReactNode {
           </>
         ) : null}
       </div>
-      <div className="leg-card__stub">
-        <span className="leg-card__mode-name">
-          <TransportModeIcon className="leg-card__mode-icon" mode={leg.mode} />
-          {t(`mode.${leg.mode}`)}
-        </span>
-        {operator || number ? (
-          <span className="leg-card__operator">
-            {operator?.logo ? (
-              <img
-                alt=""
-                aria-hidden="true"
-                className="leg-card__logo"
-                src={operator.logo}
-              />
-            ) : null}
-            <span className="leg-card__operator-name">
-              {[operator?.name, number].filter(Boolean).join(" · ")}
-            </span>
-          </span>
-        ) : null}
-      </div>
+      <LegStub leg={leg} />
     </div>
   );
 }

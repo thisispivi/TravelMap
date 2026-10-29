@@ -46,7 +46,8 @@ $railWidth: 5rem;
 $sidePanelWidth: 23rem;
 $sidePanelWidthWide: 27rem;
 $shellGap: 0.75rem;
-$tabBarHeight: calc(4.5rem + env(safe-area-inset-bottom, 0rem));
+$tabBarBase: 4.5rem;
+$tabBarHeight: calc(#{$tabBarBase} + env(safe-area-inset-bottom, 0rem));
 
 /* Theme-switched semantic tokens, set in `_tokens.scss` */
 $ground: var(--c-ground);

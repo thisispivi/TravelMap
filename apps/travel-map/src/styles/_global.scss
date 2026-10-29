@@ -23,7 +23,9 @@
   }
 }
 
+/* Exposes the home-indicator inset to the map camera, which frames above the tab bar. */
 html {
+  --safe-area-bottom: env(safe-area-inset-bottom, 0px);
   height: 100%;
   width: 100%;
   -webkit-text-size-adjust: 100%;
