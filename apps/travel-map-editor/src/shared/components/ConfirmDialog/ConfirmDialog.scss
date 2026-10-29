@@ -9,8 +9,11 @@
   width: min(28rem, 92vw);
   margin: auto;
   padding: 1.25rem;
-  border: 0;
-  border-radius: v.$floatingCardRadius;
+  border: 0.0625rem solid v.$line;
+  border-radius: v.$radiusMd;
+  background: v.$card;
+  box-shadow: v.$glassShadow;
+  color: v.$ink;
 
   &::backdrop {
     background: rgb(0 0 0 / 50%);
@@ -47,18 +50,4 @@
     gap: 0.5rem;
     margin-top: 0.5rem;
   }
-}
-
-.editor--dark .confirm-dialog {
-  border: 0.0625rem solid v.$glassBorderDark;
-  background: v.$darkInfoTab;
-  box-shadow: v.$glassShadowDark;
-  color: v.$darkButtonContent;
-}
-
-.editor--light .confirm-dialog {
-  border: 0.0625rem solid rgb(0 0 0 / 6%);
-  background: v.$lightLeftBar;
-  box-shadow: v.$glassShadowLight;
-  color: v.$lightButtonContent;
 }

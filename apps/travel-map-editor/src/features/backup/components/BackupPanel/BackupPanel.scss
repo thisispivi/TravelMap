@@ -32,10 +32,6 @@
   }
 }
 
-.editor--dark .backup-panel__entry:hover {
-  background: v.$darkButton;
-}
-
-.editor--light .backup-panel__entry:hover {
-  background: v.$lightButton;
+.backup-panel__entry:hover {
+  background: v.$cardSunken;
 }

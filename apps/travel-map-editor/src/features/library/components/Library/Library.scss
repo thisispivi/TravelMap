@@ -27,8 +27,9 @@
     min-width: 0;
     flex-direction: column;
     padding: 1.15rem;
-    border-radius: v.$floatingCardRadiusLg;
+    border-radius: v.$radiusLg;
     scroll-margin-top: 5rem;
+    @include m.pass-card();
 
     &--trips {
       grid-column: 1 / -1;
@@ -71,7 +72,7 @@
 
   &__section-kicker {
     margin-bottom: 0.1rem;
-    color: var(--editor-accent);
+    color: v.$accent;
     font-size: v.$caption;
     font-weight: 750;
     letter-spacing: 0.07em;
@@ -91,8 +92,8 @@
     height: 2.75rem;
     flex: 0 0 auto;
     border-radius: 0.85rem;
-    background: var(--editor-accent-soft);
-    color: var(--editor-accent);
+    background: v.$accentSoft;
+    color: v.$accent;
 
     svg {
       width: 1.25rem;
@@ -122,8 +123,8 @@
     }
 
     &:focus-within {
-      border-color: var(--editor-accent);
-      outline: 0.125rem solid var(--editor-accent);
+      border-color: v.$accent;
+      outline: 0.125rem solid v.$accent;
       outline-offset: -0.125rem;
     }
 
@@ -201,13 +202,13 @@
     gap: 0.65rem;
     padding: 2rem;
     border: 0.0625rem dashed;
-    border-radius: v.$floatingCardRadius;
+    border-radius: v.$radiusMd;
     text-align: center;
 
     > svg {
       width: 2rem;
       height: 2rem;
-      color: var(--editor-accent);
+      color: v.$accent;
     }
 
     h3 {
@@ -235,7 +236,7 @@
     flex-direction: column;
     overflow: hidden;
     border: 0.0625rem solid;
-    border-radius: v.$floatingCardRadius;
+    border-radius: v.$radiusMd;
   }
 
   &__place-group-header {
@@ -246,7 +247,7 @@
     > svg {
       width: 1rem;
       height: 1rem;
-      color: var(--editor-accent);
+      color: v.$accent;
     }
 
     h3 {
@@ -310,7 +311,7 @@
     }
 
     &:focus-visible {
-      outline: 0.125rem solid var(--editor-accent);
+      outline: 0.125rem solid v.$accent;
       outline-offset: -0.125rem;
     }
   }
@@ -382,7 +383,7 @@
     }
 
     &:focus-visible {
-      outline: 0.125rem solid var(--editor-accent);
+      outline: 0.125rem solid v.$accent;
       outline-offset: 0.1rem;
     }
 
@@ -454,15 +455,43 @@
     justify-content: center;
     gap: 0.5rem;
     border: 0.0625rem dashed;
-    border-radius: v.$floatingCardRadius;
+    border-radius: v.$radiusMd;
     font-size: v.$bodySm;
     text-align: center;
 
     svg {
       width: 1.5rem;
       height: 1.5rem;
-      color: var(--editor-accent);
+      color: v.$accent;
     }
+  }
+
+  &__section-hint,
+  &__place-country,
+  &__company-copy code {
+    color: v.$ink2;
+  }
+
+  &__year-header span,
+  &__flag-frame,
+  &__place-group-header span,
+  &__pagination-button,
+  &__company-logo {
+    background: v.$cardSunken;
+  }
+
+  &__place-group,
+  &__place-group-header,
+  &__pagination,
+  &__search,
+  &__welcome,
+  &__companies-empty {
+    border-color: v.$line;
+  }
+
+  &__place-link:hover,
+  &__company:hover {
+    background: v.$cardSunkenHover;
   }
 }
 
@@ -472,8 +501,11 @@
   min-height: 15rem;
   flex-direction: column;
   overflow: hidden;
-  border: 0.0625rem solid;
-  border-radius: v.$floatingCardRadius;
+
+  /* A sunken tile, as rows inside the site's pass cards are, so it reads on the panel's card in both themes. */
+  border: 0.0625rem solid v.$line;
+  border-radius: v.$radiusMd;
+  background: v.$cardSunken;
   color: inherit;
   text-decoration: none;
   @include m.transition(transform, 0.2s);
@@ -483,7 +515,7 @@
   }
 
   &:focus-visible {
-    outline: 0.1875rem solid var(--editor-accent);
+    outline: 0.1875rem solid v.$accent;
     outline-offset: 0.15rem;
   }
 
@@ -494,7 +526,7 @@
     place-items: center;
     overflow: hidden;
     background:
-      linear-gradient(145deg, var(--editor-accent-soft), transparent 70%),
+      linear-gradient(145deg, v.$accentSoft, transparent 70%),
       color-mix(in srgb, v.$continentsNorthAmerica 24%, transparent);
   }
 
@@ -614,99 +646,20 @@
       color: v.$transportCar;
     }
   }
-}
-
-.editor--dark .library {
-  &__section-hint,
-  &__place-country,
-  &__company-copy code {
-    color: v.$darkAltTextDarker;
-  }
-
-  &__panel {
-    @include m.floating-card-dark;
-    padding: 1.15rem;
-  }
-
-  &__section-icon {
-    background: var(--editor-accent-soft);
-  }
-
-  &__year-header span,
-  &__flag-frame,
-  &__place-group-header span,
-  &__pagination-button,
-  &__company-logo {
-    background: v.$darkButton;
-  }
-
-  &__place-group,
-  &__place-group-header,
-  &__pagination,
-  &__search,
-  &__welcome,
-  &__companies-empty {
-    border-color: v.$glassBorderDark;
-  }
-
-  &__place-link:hover,
-  &__company:hover {
-    background: v.$darkButtonHover;
-  }
-}
-
-.editor--light .library {
-  &__section-hint,
-  &__place-country,
-  &__company-copy code {
-    color: v.$lightAltTextDarker;
-  }
-
-  &__panel {
-    @include m.floating-card-light;
-    padding: 1.15rem;
-  }
-
-  &__year-header span,
-  &__flag-frame,
-  &__place-group-header span,
-  &__pagination-button,
-  &__company-logo {
-    background: v.$lightButton;
-  }
-
-  &__place-group,
-  &__place-group-header,
-  &__pagination,
-  &__search,
-  &__welcome,
-  &__companies-empty {
-    border-color: rgb(0 0 0 / 9%);
-  }
-
-  &__place-link:hover,
-  &__company:hover {
-    background: v.$lightButtonHover;
-  }
-}
-
-.editor--dark .trip-library-card {
-  border-color: v.$glassBorderDark;
-  background: color-mix(in srgb, v.$darkInfoTab 86%, transparent);
 
   &__date,
   &__footer > span:first-child {
-    color: v.$darkAltTextDarker;
+    color: v.$ink2;
   }
-}
 
-.editor--light .trip-library-card {
-  border-color: rgb(0 0 0 / 8%);
-  background: rgb(255 255 255 / 72%);
-
-  &__date,
-  &__footer > span:first-child {
-    color: v.$lightAltTextDarker;
+  /*
+   * The global reduced-motion rule only shortens transitions, so the
+   * transform would still jump; it is dropped here instead.
+   */
+  @media (prefers-reduced-motion: reduce) {
+    &:hover {
+      transform: none;
+    }
   }
 }
 
@@ -754,15 +707,5 @@
 
   .trip-library-card {
     min-height: 13rem;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .trip-library-card {
-    transition: none;
-
-    &:hover {
-      transform: none;
-    }
   }
 }

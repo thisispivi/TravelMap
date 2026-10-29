@@ -2,7 +2,6 @@ import "./App.scss";
 
 import { useLanguage } from "@app/shared/hooks/useLanguage";
 import { useThemeDetector } from "@app/shared/hooks/useThemeDetector";
-import { classNames } from "@app/shared/lib/classNames";
 import { ReactNode } from "react";
 import { Link, Route, Routes, useParams } from "react-router";
 
@@ -149,12 +148,7 @@ function CompaniesRoute(): ReactNode {
 export function App(): ReactNode {
   const { isDarkTheme, handleDarkModeSwitch } = useThemeDetector();
   return (
-    <div
-      className={classNames(
-        "editor",
-        isDarkTheme ? "editor--dark" : "editor--light",
-      )}
-    >
+    <div className="editor">
       <EditorNav
         isDarkTheme={isDarkTheme}
         onToggleTheme={handleDarkModeSwitch}

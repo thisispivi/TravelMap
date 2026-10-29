@@ -741,8 +741,9 @@ Vertical whitespace communicates structure and MUST be deterministic:
   `.body--dark` (and `:root`, for the first paint), and `_variables.scss`
   exposes them as semantic Sass names — `v.$ink`, `v.$card`, `v.$glass`,
   `v.$accent`. A component writes each rule once and reads correctly in both
-  themes; do not add `--dark`/`--light` modifiers to app components. The
-  `$dark*`/`$light*` pairs remain only for the editor's own theme modifiers.
+  themes; do not add `--dark`/`--light` modifiers to any component. The editor
+  reads the same tokens and mixins as the site, so both apps share one look:
+  its screens are pass cards on the ground colour, and its menus are frosted.
 
   ```scss
   .stay-card {

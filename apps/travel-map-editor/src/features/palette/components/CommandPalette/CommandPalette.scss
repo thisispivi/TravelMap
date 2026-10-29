@@ -6,7 +6,9 @@
   margin-top: 12vh;
   padding: 0.6rem;
   border: 0;
-  border-radius: v.$floatingCardRadius;
+  border-radius: v.$radiusLg;
+  @include m.panel();
+  color: v.$ink;
 
   &::backdrop {
     background: rgb(0 0 0 / 45%);
@@ -21,7 +23,7 @@
     font: inherit;
 
     &:focus-visible {
-      outline: 2px solid var(--editor-accent);
+      outline: 2px solid v.$accent;
       outline-offset: 1px;
     }
   }
@@ -53,7 +55,7 @@
     cursor: pointer;
 
     &:focus-visible {
-      outline: 2px solid var(--editor-accent);
+      outline: 2px solid v.$accent;
       outline-offset: -2px;
     }
   }
@@ -66,44 +68,18 @@
   &__empty {
     padding: 0.6rem;
   }
-}
-
-.editor--dark .command-palette {
-  @include m.full-panel-dark;
-
-  color: v.$darkButtonContent;
 
   .command-palette__input {
-    background: v.$darkButton;
+    background: v.$cardSunken;
   }
 
   .command-palette__result--highlighted,
   .command-palette__result:hover {
-    background: v.$darkButton;
+    background: v.$cardSunken;
   }
 
   .command-palette__hint,
   .command-palette__empty {
-    color: v.$darkAltTextDarker;
-  }
-}
-
-.editor--light .command-palette {
-  @include m.full-panel-light;
-
-  color: v.$lightButtonContent;
-
-  .command-palette__input {
-    background: v.$lightButton;
-  }
-
-  .command-palette__result--highlighted,
-  .command-palette__result:hover {
-    background: v.$lightButton;
-  }
-
-  .command-palette__hint,
-  .command-palette__empty {
-    color: v.$lightAltTextDarker;
+    color: v.$ink2;
   }
 }

@@ -5,6 +5,10 @@
   flex-direction: column;
   gap: 1.25rem;
   padding: 1rem 1.25rem 3rem;
+  --story-rail: v.$line;
+  --story-surface: v.$cardSunken;
+  --story-surface-strong: v.$line;
+  --story-muted: #{v.$ink2};
 
   &__details {
     border-radius: 0.875rem;
@@ -68,7 +72,7 @@
     gap: 0.875rem;
     margin-left: 2.875rem;
     padding: 1.125rem;
-    border: 0.125rem dashed var(--editor-accent);
+    border: 0.125rem dashed v.$accent;
     border-radius: 1.125rem;
   }
 
@@ -96,16 +100,3 @@
 }
 
 /* Colours shared by the story, its chapters, and their rows. */
-.editor--dark .trip-story {
-  --story-rail: rgba(255, 255, 255, 0.2);
-  --story-surface: rgba(255, 255, 255, 0.05);
-  --story-surface-strong: rgba(255, 255, 255, 0.12);
-  --story-muted: #{v.$darkAltText};
-}
-
-.editor--light .trip-story {
-  --story-rail: rgba(0, 0, 0, 0.16);
-  --story-surface: rgba(0, 0, 0, 0.035);
-  --story-surface-strong: rgba(0, 0, 0, 0.08);
-  --story-muted: #{v.$lightAltText};
-}

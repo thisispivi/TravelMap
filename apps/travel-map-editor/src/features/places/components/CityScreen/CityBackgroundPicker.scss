@@ -43,12 +43,12 @@
     cursor: pointer;
 
     &[aria-pressed="true"] {
-      border-color: var(--editor-accent);
-      box-shadow: 0 0 0 0.125rem var(--editor-accent-soft);
+      border-color: v.$accent;
+      box-shadow: 0 0 0 0.125rem v.$accentSoft;
     }
 
     &:focus-visible {
-      outline: 0.125rem solid var(--editor-accent);
+      outline: 0.125rem solid v.$accent;
       outline-offset: 0.15rem;
     }
   }
@@ -66,8 +66,8 @@
     max-width: calc(100% - 0.8rem);
     padding: 0.3rem 0.5rem;
     border-radius: 62.4375rem;
-    background: var(--editor-accent);
-    color: var(--editor-accent-ink);
+    background: v.$accent;
+    color: v.$onAccent;
     font-size: v.$caption;
     font-weight: 700;
     line-height: 1;
@@ -77,10 +77,6 @@
   }
 }
 
-.editor--dark .city-background-picker__heading p {
-  color: v.$darkAltText;
-}
-
-.editor--light .city-background-picker__heading p {
-  color: v.$lightAltText;
+.city-background-picker__heading p {
+  color: v.$ink2;
 }

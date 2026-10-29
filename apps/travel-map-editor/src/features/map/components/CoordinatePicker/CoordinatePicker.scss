@@ -2,7 +2,7 @@
 
 .coordinate-picker {
   height: 22rem;
-  border-radius: v.$floatingCardRadius;
+  border-radius: v.$radiusMd;
   overflow: hidden;
 
   .maplibregl-map {
@@ -19,7 +19,7 @@
     height: 1rem;
     border: 0.125rem solid #ffffff;
     border-radius: 62.4375rem;
-    background-color: v.$visitedButtonContent;
+    background-color: v.$visitedInk;
     box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.45);
     cursor: grab;
 

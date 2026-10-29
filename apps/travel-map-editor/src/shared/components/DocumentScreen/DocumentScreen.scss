@@ -22,6 +22,6 @@
   &__body {
     display: flex;
     flex-direction: column;
-    gap: v.$floatingCardGap;
+    gap: v.$space3;
   }
 }

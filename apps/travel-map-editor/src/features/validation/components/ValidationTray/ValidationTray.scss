@@ -5,6 +5,8 @@
   flex-direction: column;
   min-height: 0;
   border-top: 0.0625rem solid;
+  border-color: v.$line;
+  background: v.$card;
 
   &__bar {
     display: flex;
@@ -23,7 +25,7 @@
     svg {
       width: 1rem;
       height: 1rem;
-      color: v.$futureButtonContent;
+      color: v.$futureInk;
     }
   }
 
@@ -41,6 +43,7 @@
     padding: 0.5rem 0.75rem 0.9rem;
     overflow-y: auto;
     border-top: 0.0625rem solid;
+    border-color: v.$line;
   }
 
   &__issues,
@@ -64,15 +67,15 @@
     font-size: v.$bodySm;
 
     &--blocking {
-      border-left-color: v.$visitedButtonContent;
+      border-left-color: v.$visitedInk;
     }
 
     &--warning {
-      border-left-color: v.$languageButtonContent;
+      border-left-color: v.$livedInk;
     }
 
     &--suggestion {
-      border-left-color: v.$futureButtonContent;
+      border-left-color: v.$futureInk;
     }
   }
 
@@ -98,7 +101,7 @@
     cursor: pointer;
 
     &:focus-visible {
-      outline: 2px solid var(--editor-accent);
+      outline: 2px solid v.$accent;
       outline-offset: 2px;
     }
   }
@@ -115,6 +118,7 @@
     min-width: 4.5rem;
     font-family: inherit;
     text-transform: uppercase;
+    color: v.$ink2;
   }
 
   &__command {
@@ -125,41 +129,10 @@
     font-size: v.$caption;
     overflow-x: auto;
   }
-}
-
-.editor--dark .validation-tray {
-  border-color: v.$glassBorderDark;
-  background: v.$darkInfoTab;
-
-  &__panel {
-    border-color: v.$glassBorderDark;
-  }
 
   &__issue:hover,
   &__command {
-    background: v.$darkButton;
-  }
-
-  &__change-kind {
-    color: v.$darkAltTextDarker;
-  }
-}
-
-.editor--light .validation-tray {
-  border-color: rgb(0 0 0 / 10%);
-  background: v.$lightLeftBar;
-
-  &__panel {
-    border-color: rgb(0 0 0 / 10%);
-  }
-
-  &__issue:hover,
-  &__command {
-    background: v.$lightButton;
-  }
-
-  &__change-kind {
-    color: v.$lightAltTextDarker;
+    background: v.$cardSunken;
   }
 }
 

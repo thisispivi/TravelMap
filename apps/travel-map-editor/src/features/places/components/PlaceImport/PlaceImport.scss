@@ -18,6 +18,7 @@
     width: 0.9rem;
     height: 0.9rem;
     pointer-events: none;
+    fill: v.$ink2;
   }
 
   &__input {
@@ -27,27 +28,10 @@
   &__preview {
     margin: 0;
     font-size: v.$caption;
+    color: v.$futureInk;
   }
 
   &__error {
     padding: 0.5rem 0.75rem;
-  }
-}
-
-.editor--dark .place-import {
-  &__icon {
-    fill: v.$darkAltTextDarker;
-  }
-  &__preview {
-    color: v.$futureButton;
-  }
-}
-
-.editor--light .place-import {
-  &__icon {
-    fill: v.$lightAltTextDarker;
-  }
-  &__preview {
-    color: v.$futureButtonContent;
   }
 }

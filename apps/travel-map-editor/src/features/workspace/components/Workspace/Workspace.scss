@@ -11,6 +11,8 @@
   min-height: 0;
   flex: 1;
   flex-direction: column;
+  background: v.$ground;
+  color: v.$ink;
 
   &__header {
     display: grid;
@@ -54,8 +56,8 @@
     align-items: center;
     gap: 0.6rem;
     padding: 0.5rem 0.9rem;
-    background: v.$languageButton;
-    color: v.$languageButtonContent;
+    background: v.$livedSoft;
+    color: v.$livedInk;
     font-size: v.$bodySm;
   }
 
@@ -75,33 +77,14 @@
   &__map {
     min-height: 0;
   }
-}
-
-.editor--dark .workspace {
-  background: v.$darkBackground;
-  color: v.$darkButtonContent;
 
   .workspace__header,
   .workspace__story {
-    border-color: v.$glassBorderDark;
+    border-color: v.$line;
   }
 
   .workspace__summary {
-    color: v.$darkAltTextDarker;
-  }
-}
-
-.editor--light .workspace {
-  background: v.$lightBackground;
-  color: v.$lightButtonContent;
-
-  .workspace__header,
-  .workspace__story {
-    border-color: rgb(0 0 0 / 10%);
-  }
-
-  .workspace__summary {
-    color: v.$lightAltTextDarker;
+    color: v.$ink2;
   }
 }
 

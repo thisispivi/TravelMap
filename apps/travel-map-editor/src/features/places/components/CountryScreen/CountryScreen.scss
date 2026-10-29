@@ -19,12 +19,14 @@
       letter-spacing: 0.04em;
       text-transform: uppercase;
     }
+
     dd {
       margin: 0;
       font-size: v.$bodySm;
       font-weight: 600;
       text-transform: capitalize;
     }
+
     code {
       font-family: ui-monospace, "SFMono-Regular", monospace;
       font-size: v.$caption;
@@ -40,9 +42,6 @@
   }
 }
 
-.editor--dark .country-screen__fact dt {
-  color: v.$darkAltTextDarker;
-}
-.editor--light .country-screen__fact dt {
-  color: v.$lightAltTextDarker;
+.country-screen__fact dt {
+  color: v.$ink2;
 }

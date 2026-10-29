@@ -19,6 +19,7 @@
   --c-card: #ffffff;
   /* Translucent, so a sunken fill reads on a card and on the frosted panel alike. */
   --c-card-sunken: rgba(0, 0, 0, 0.06);
+  --c-card-sunken-hover: rgba(0, 0, 0, 0.1);
   --c-card-hover: #f7f8fa;
   --c-card-shadow: 0 0.0625rem 0.125rem rgba(0, 0, 0, 0.1);
   --c-card-drop: drop-shadow(0 0.0625rem 0.125rem rgba(0, 0, 0, 0.12));
@@ -86,6 +87,7 @@
   --c-glass-shadow: #{v.$glassShadowDark};
   --c-card: #242526;
   --c-card-sunken: rgba(255, 255, 255, 0.09);
+  --c-card-sunken-hover: rgba(255, 255, 255, 0.15);
   --c-card-hover: #2f3031;
   --c-card-shadow: none;
   --c-card-drop: none;

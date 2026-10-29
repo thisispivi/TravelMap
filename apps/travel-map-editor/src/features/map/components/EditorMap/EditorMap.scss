@@ -14,7 +14,7 @@
     padding: 0;
     border: 2px solid rgb(255 255 255 / 85%);
     border-radius: 50%;
-    background: var(--editor-accent);
+    background: v.$accent;
     color: #fff;
     font-size: 0.75rem;
     font-weight: 600;
@@ -27,7 +27,7 @@
     }
 
     &:focus-visible {
-      outline: 2px solid var(--editor-accent);
+      outline: 2px solid v.$accent;
       outline-offset: 3px;
     }
 
@@ -43,11 +43,5 @@
     left: 0.75rem;
     display: flex;
     gap: 0.5rem;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .editor-map__marker {
-    transition: none;
   }
 }

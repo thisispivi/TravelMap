@@ -23,16 +23,19 @@
     &::-webkit-color-swatch-wrapper {
       padding: 0;
     }
+
     &::-webkit-color-swatch {
       border: 0.0625rem solid rgba(128, 128, 128, 0.35);
       border-radius: 0.6rem;
     }
+
     &::-moz-color-swatch {
       border: 0.0625rem solid rgba(128, 128, 128, 0.35);
       border-radius: 0.6rem;
     }
+
     &:focus-visible {
-      outline: 0.125rem solid var(--editor-accent);
+      outline: 0.125rem solid v.$accent;
       outline-offset: 0.15rem;
     }
   }
@@ -63,18 +66,19 @@
     &:hover {
       transform: scale(1.15);
     }
+
     &:focus-visible {
-      outline: 0.125rem solid var(--editor-accent);
+      outline: 0.125rem solid v.$accent;
       outline-offset: 0.15rem;
     }
   }
-}
 
-@media (prefers-reduced-motion: reduce) {
-  .color-field__swatch {
-    transition: none;
-
-    &:hover {
+  /*
+   * The global reduced-motion rule only shortens transitions, so the
+   * transform would still jump; it is dropped here instead.
+   */
+  @media (prefers-reduced-motion: reduce) {
+    &__swatch:hover {
       transform: none;
     }
   }

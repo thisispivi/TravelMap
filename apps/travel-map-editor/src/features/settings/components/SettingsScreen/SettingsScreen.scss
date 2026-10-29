@@ -18,6 +18,8 @@
     border-radius: 62.4375rem;
     font-family: ui-monospace, "SFMono-Regular", monospace;
     font-size: v.$caption;
+    background-color: v.$cardSunken;
+    color: v.$ink;
   }
 
   &__tag-remove {
@@ -31,6 +33,7 @@
     font-size: v.$bodySm;
     line-height: 1;
     cursor: pointer;
+    color: v.$ink2;
 
     svg {
       width: 0.7rem;
@@ -38,8 +41,13 @@
     }
 
     &:focus-visible {
-      outline: 0.125rem solid var(--editor-accent);
+      outline: 0.125rem solid v.$accent;
       outline-offset: 0.1rem;
+    }
+
+    &:hover {
+      background-color: v.$cardSunkenHover;
+      color: v.$ink;
     }
   }
 
@@ -54,36 +62,6 @@
 
     > .editor-button {
       margin-top: 1.25rem;
-    }
-  }
-}
-
-.editor--dark .settings-screen {
-  &__tag {
-    background-color: v.$darkButton;
-    color: v.$darkButtonContent;
-  }
-  &__tag-remove {
-    color: v.$darkAltText;
-
-    &:hover {
-      background-color: v.$darkButtonHover;
-      color: v.$darkButtonContent;
-    }
-  }
-}
-
-.editor--light .settings-screen {
-  &__tag {
-    background-color: v.$lightButton;
-    color: v.$lightButtonContent;
-  }
-  &__tag-remove {
-    color: v.$lightAltText;
-
-    &:hover {
-      background-color: v.$lightButtonHover;
-      color: v.$lightButtonContent;
     }
   }
 }

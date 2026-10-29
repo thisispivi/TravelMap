@@ -29,8 +29,8 @@
   }
 
   &--failed {
-    background: v.$visitedButton;
-    color: v.$visitedButtonContent;
+    background: v.$visitedSoft;
+    color: v.$visitedInk;
   }
 }
 
@@ -40,16 +40,6 @@
   }
 }
 
-.editor--dark .save-chip:not(.save-chip--failed) {
-  background: v.$darkButton;
-}
-
-.editor--light .save-chip:not(.save-chip--failed) {
-  background: v.$lightButton;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .save-chip__spinner {
-    animation: none;
-  }
+.save-chip:not(.save-chip--failed) {
+  background: v.$cardSunken;
 }

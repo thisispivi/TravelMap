@@ -10,9 +10,12 @@
   max-height: 88vh;
   margin: auto;
   padding: 1.1rem;
-  border: 0;
-  border-radius: v.$floatingCardRadius;
+  border: 0.0625rem solid v.$line;
+  border-radius: v.$radiusMd;
   overflow-y: auto;
+  background: v.$card;
+  box-shadow: v.$glassShadow;
+  color: v.$ink;
 
   &::backdrop {
     background: rgb(0 0 0 / 45%);
@@ -80,28 +83,9 @@
     padding: 0.9rem 1.1rem;
     border-top: 0.0625rem solid;
   }
-}
-
-.editor--dark .photo-import-dialog {
-  border: 0.0625rem solid v.$glassBorderDark;
-  background: v.$darkInfoTab;
-  box-shadow: v.$glassShadowDark;
-  color: v.$darkButtonContent;
 
   .photo-import-dialog__footer {
-    border-color: v.$glassBorderDark;
-    background: v.$darkInfoTab;
-  }
-}
-
-.editor--light .photo-import-dialog {
-  border: 0.0625rem solid rgb(0 0 0 / 6%);
-  background: v.$lightLeftBar;
-  box-shadow: v.$glassShadowLight;
-  color: v.$lightButtonContent;
-
-  .photo-import-dialog__footer {
-    border-color: rgb(0 0 0 / 10%);
-    background: v.$lightLeftBar;
+    border-color: v.$line;
+    background: v.$card;
   }
 }

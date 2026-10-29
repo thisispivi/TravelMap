@@ -10,26 +10,6 @@ body,
 }
 
 /*
- * The accent is declared on the document and switched by the theme class the
- * shell puts on `body`, rather than on `.editor`, so menus and pickers
- * portalled out of the shell still inherit it — and so the light values apply
- * on the first paint, before the shell has classed the body at all.
- */
-:root {
-  --editor-accent: #{v.$accentPrimary};
-  --editor-accent-strong: #{v.$accentPrimaryHover};
-  --editor-accent-soft: #{v.$accentSoftLight};
-  --editor-accent-ink: #ffffff;
-}
-
-.body--dark {
-  --editor-accent: #{v.$accentOnDark};
-  --editor-accent-strong: #{v.$accentOnDarkHover};
-  --editor-accent-soft: #{v.$accentSoftDark};
-  --editor-accent-ink: #{v.$accentInkOnDark};
-}
-
-/*
  * The shell owns the scrolling, and is a flex column of a definite height, so
  * a full-height screen such as the workspace can claim exactly the space the
  * navigation leaves instead of subtracting the bar's height by hand.
@@ -40,20 +20,13 @@ body,
   height: 100dvh;
   flex-direction: column;
   overflow: auto;
-
-  &--dark {
-    background-color: v.$darkBackground;
-    color: v.$darkButtonContent;
-  }
-  &--light {
-    background-color: v.$lightBackground;
-    color: v.$lightButtonContent;
-  }
+  background-color: v.$ground;
+  color: v.$ink;
 
   &__screen {
     display: flex;
     flex-direction: column;
-    gap: v.$floatingCardGap;
+    gap: v.$space3;
     width: min(80rem, 100%);
     margin: 0 auto;
     padding: 1.5rem 1rem 5rem;
@@ -72,6 +45,7 @@ body,
     align-items: center;
     gap: 0.3rem;
     margin-bottom: 0.35rem;
+    color: v.$ink2;
     font-size: v.$bodySm;
 
     svg {
@@ -83,7 +57,7 @@ body,
 
   &__breadcrumb-link {
     border-radius: 0.35rem;
-    color: var(--editor-accent);
+    color: v.$accent;
     font-weight: 600;
     text-decoration: none;
 
@@ -92,7 +66,7 @@ body,
     }
 
     &:focus-visible {
-      outline: 0.125rem solid var(--editor-accent);
+      outline: 0.125rem solid v.$accent;
       outline-offset: 0.15rem;
     }
   }
@@ -101,6 +75,7 @@ body,
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    color: v.$ink2;
     font-family: ui-monospace, "SFMono-Regular", monospace;
     font-size: v.$caption;
   }
@@ -112,23 +87,14 @@ body,
     gap: 0.75rem;
     padding: 3rem 0;
   }
-
-  &--dark &__breadcrumb,
-  &--dark &__path {
-    color: v.$darkAltTextDarker;
-  }
-  &--light &__breadcrumb,
-  &--light &__path {
-    color: v.$lightAltTextDarker;
-  }
 }
 
 .editor-panel {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  padding: v.$floatingCardPadding;
-  border-radius: v.$floatingCardRadiusLg;
+  padding: 1.25rem;
+  @include m.pass-card();
 
   &__legend {
     font-size: v.$headingMd;
@@ -137,6 +103,7 @@ body,
 
   &__hint {
     margin: 0;
+    color: v.$ink2;
     font-size: v.$bodySm;
     line-height: 1.5;
   }
@@ -149,21 +116,6 @@ body,
   }
 }
 
-.editor--dark .editor-panel {
-  @include m.full-panel-dark();
-  padding: v.$floatingCardPadding;
-}
-.editor--light .editor-panel {
-  @include m.full-panel-light();
-  padding: v.$floatingCardPadding;
-}
-.editor--dark .editor-panel__hint {
-  color: v.$darkAltText;
-}
-.editor--light .editor-panel__hint {
-  color: v.$lightAltText;
-}
-
 .editor-button {
   display: inline-flex;
   align-items: center;
@@ -171,7 +123,9 @@ body,
   gap: 0.4rem;
   padding: 0.55rem 1rem;
   border: 0.0625rem solid transparent;
-  border-radius: 62.4375rem;
+  border-radius: v.$radiusPill;
+  background-color: v.$cardSunken;
+  color: v.$ink;
   font-size: v.$bodySm;
   font-weight: 600;
   line-height: 1;
@@ -180,18 +134,22 @@ body,
   @include m.transition(transform, 0.2s);
 
   &:hover:not(:disabled) {
+    background-color: v.$cardSunkenHover;
     transform: scale(1.03);
   }
+
   &:active:not(:disabled) {
     transform: scale(0.97);
   }
+
   &:disabled {
     cursor: not-allowed;
     opacity: 0.5;
     transform: none;
   }
+
   &:focus-visible {
-    outline: 0.125rem solid var(--editor-accent);
+    outline: 0.125rem solid v.$accent;
     outline-offset: 0.15rem;
   }
 
@@ -203,20 +161,32 @@ body,
   }
 
   &--primary {
-    background-color: var(--editor-accent);
-    color: var(--editor-accent-ink);
+    background-color: v.$accent;
+    color: v.$onAccent;
 
     &:hover:not(:disabled) {
-      background-color: var(--editor-accent-strong);
+      background-color: v.$accentInk;
     }
   }
 
   &--danger {
-    background-color: v.$visitedButton;
-    color: v.$visitedButtonContent;
+    background-color: v.$visitedSoft;
+    color: v.$visitedInk;
 
     &:hover:not(:disabled) {
-      background-color: v.$visitedButtonHover;
+      background-color: v.$visitedSoft;
+      color: v.$accentInk;
+    }
+  }
+
+  /*
+   * The global reduced-motion rule only shortens transitions, so the
+   * transform would still jump; it is dropped here instead.
+   */
+  @media (prefers-reduced-motion: reduce) {
+    &:hover:not(:disabled),
+    &:active:not(:disabled) {
+      transform: none;
     }
   }
 }
@@ -230,9 +200,10 @@ body,
   color: inherit;
   font-weight: 600;
   text-decoration: none;
+  background: v.$cardSunken;
 
   &:focus-visible {
-    outline: 0.125rem solid var(--editor-accent);
+    outline: 0.125rem solid v.$accent;
     outline-offset: 0.1rem;
   }
 
@@ -240,40 +211,9 @@ body,
     width: 0.8rem;
     height: 0.8rem;
   }
-}
-
-.editor--dark .editor-inline-link {
-  background: v.$darkButton;
 
   &:hover {
-    background: v.$darkButtonHover;
-  }
-}
-
-.editor--light .editor-inline-link {
-  background: v.$lightButton;
-
-  &:hover {
-    background: v.$lightButtonHover;
-  }
-}
-
-.editor--dark
-  .editor-button:not(.editor-button--primary):not(.editor-button--danger) {
-  background-color: v.$darkButton;
-  color: v.$darkButtonContent;
-
-  &:hover:not(:disabled) {
-    background-color: v.$darkButtonHover;
-  }
-}
-.editor--light
-  .editor-button:not(.editor-button--primary):not(.editor-button--danger) {
-  background-color: v.$lightButton;
-  color: v.$lightButtonContent;
-
-  &:hover:not(:disabled) {
-    background-color: v.$lightButtonHover;
+    background: v.$cardSunkenHover;
   }
 }
 
@@ -283,7 +223,7 @@ body,
   gap: 0.35rem;
   margin: 0;
   padding: 0.85rem 1rem;
-  border-radius: v.$floatingCardRadius;
+  border-radius: v.$radiusMd;
   list-style: none;
   font-size: v.$bodySm;
 
@@ -292,34 +232,23 @@ body,
   }
 
   &--error {
-    background-color: v.$visitedButton;
-    color: v.$visitedButtonContent;
+    background-color: v.$visitedSoft;
+    color: v.$visitedInk;
   }
 
   &--warning {
-    background-color: v.$livedButton;
-    color: #8a6100;
+    background-color: v.$livedSoft;
+    color: v.$livedInk;
   }
 
   &--success {
-    background-color: v.$futureButton;
-    color: v.$futureButtonContent;
+    background-color: v.$futureSoft;
+    color: v.$futureInk;
   }
 }
 
 @media (max-width: 58rem) {
   .editor__screen {
     padding-bottom: 7rem;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .editor-button {
-    transition: none;
-
-    &:hover:not(:disabled),
-    &:active:not(:disabled) {
-      transform: none;
-    }
   }
 }

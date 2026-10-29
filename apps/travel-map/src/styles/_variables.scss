@@ -58,6 +58,7 @@ $glassBorder: var(--c-glass-border);
 $glassShadow: var(--c-glass-shadow);
 $card: var(--c-card);
 $cardSunken: var(--c-card-sunken);
+$cardSunkenHover: var(--c-card-sunken-hover);
 $cardHover: var(--c-card-hover);
 $cardShadow: var(--c-card-shadow);
 $cardDrop: var(--c-card-drop);
@@ -109,30 +110,7 @@ $continentsOceania: #f7a76c;
 $continentsSouthAmerica: #8fcf96;
 $continentsAntarctica: #a9bdd0;
 
-/*
- * Light and dark pairs. The editor styles its own `--dark`/`--light` modifiers
- * with these, so they carry the same palette as the semantic tokens above.
- */
-$darkBackground: #18191a;
-$darkLeftBar: #242526;
-$darkInfoTab: #3a3b3c;
-$darkButton: rgba(255, 255, 255, 0.1);
-$darkButtonHover: rgba(255, 255, 255, 0.16);
-$darkButtonContent: #e4e6eb;
-$darkAltText: #b0b3b8;
-$darkAltTextDarker: #8a8d91;
-$darkDisabledText: #65676b;
-
-$lightBackground: #f0f2f5;
-$lightLeftBar: #ffffff;
-$lightInfoTab: #f0f2f5;
-$lightButton: rgba(0, 0, 0, 0.05);
-$lightButtonHover: rgba(0, 0, 0, 0.09);
-$lightButtonContent: #050505;
-$lightAltText: #65676b;
-$lightAltTextDarker: #3e4042;
-$lightDisabledText: #bcc0c4;
-
+/* The raw values the theme tokens in `_tokens.scss` are built from. */
 $glassBgDark: rgba(36, 37, 38, 0.72);
 $glassBgLight: rgba(255, 255, 255, 0.72);
 $glassBorderDark: rgba(255, 255, 255, 0.08);
@@ -143,27 +121,8 @@ $glassShadowLight:
   0 0.5rem 1.5rem rgba(0, 0, 0, 0.1),
   0 0.125rem 0.375rem rgba(0, 0, 0, 0.06);
 
-$visitedButton: #fde6e2;
-$visitedButtonHover: #fbd2cb;
-$visitedButtonContent: #c0392b;
-$futureButton: #e1eefa;
-$futureButtonContent: #2f6aa3;
-$livedButton: #fbf0d2;
-$languageButton: #fbf0d2;
-$languageButtonContent: #8a6510;
-
 /* The logo's pin red is the accent; its green and blue are the secondaries. */
 $accentPrimary: #ea4335;
-$accentPrimaryHover: #d33426;
 $accentSoftLight: #fdecea;
 $accentSoftDark: rgba(234, 67, 53, 0.2);
 $accentOnDark: #f2665a;
-$accentOnDarkHover: #ff8a80;
-$accentInkOnDark: #ffffff;
-
-/* Floating card tokens the editor shares */
-$floatingCardRadius: $radiusMd;
-$floatingCardRadiusLg: $radiusLg;
-$floatingCardPadding: 1.25rem;
-$floatingCardGap: 0.75rem;
-$mobileFloatingMargin: 0.625rem;

@@ -10,9 +10,12 @@
   max-height: calc(100vh - 2rem);
   margin: auto;
   padding: 1.1rem;
-  border: 0;
-  border-radius: v.$floatingCardRadius;
+  border: 0.0625rem solid v.$line;
+  border-radius: v.$radiusMd;
   overflow-y: auto;
+  background: v.$card;
+  box-shadow: v.$glassShadow;
+  color: v.$ink;
 
   &::backdrop {
     background: rgb(0 0 0 / 45%);
@@ -53,38 +56,14 @@
     padding: 0.9rem 1.1rem;
     border-top: 0.0625rem solid;
   }
-}
-
-.editor--dark .add-place {
-  border: 0.0625rem solid v.$glassBorderDark;
-  background: v.$darkInfoTab;
-  box-shadow: v.$glassShadowDark;
-  color: v.$darkButtonContent;
 
   .add-place__plan,
   .add-place__manual {
-    background: v.$darkButton;
+    background: v.$cardSunken;
   }
 
   .add-place__actions {
-    border-color: v.$glassBorderDark;
-    background: v.$darkInfoTab;
-  }
-}
-
-.editor--light .add-place {
-  border: 0.0625rem solid rgb(0 0 0 / 6%);
-  background: v.$lightLeftBar;
-  box-shadow: v.$glassShadowLight;
-  color: v.$lightButtonContent;
-
-  .add-place__plan,
-  .add-place__manual {
-    background: v.$lightButton;
-  }
-
-  .add-place__actions {
-    border-color: rgb(0 0 0 / 10%);
-    background: v.$lightLeftBar;
+    border-color: v.$line;
+    background: v.$card;
   }
 }

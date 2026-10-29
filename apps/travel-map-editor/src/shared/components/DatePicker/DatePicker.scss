@@ -22,6 +22,7 @@
     width: 0.95rem;
     height: 0.95rem;
     flex-shrink: 0;
+    color: v.$ink2;
   }
 
   &__value {
@@ -37,6 +38,8 @@
     font-size: v.$caption;
     font-weight: 600;
     font-variant-numeric: tabular-nums;
+    background-color: v.$cardSunkenHover;
+    color: v.$ink;
   }
 
   &__clear {
@@ -53,10 +56,19 @@
     font-size: v.$bodyLg;
     line-height: 1;
     cursor: pointer;
+    color: v.$ink2;
 
     &:focus-visible {
-      outline: 0.125rem solid var(--editor-accent);
+      outline: 0.125rem solid v.$accent;
     }
+
+    &:hover {
+      color: v.$ink;
+    }
+  }
+
+  &__trigger--empty .date-picker__value {
+    color: v.$ink3;
   }
 }
 
@@ -68,6 +80,8 @@
   border-radius: 0.85rem;
   overflow-y: auto;
   transform-origin: top center;
+  @include m.glass();
+  color: v.$ink;
 }
 
 .date-picker__header {
@@ -97,9 +111,15 @@
   line-height: 1;
   cursor: pointer;
   @include m.transition(background-color, 0.15s);
+  color: v.$ink2;
 
   &:focus-visible {
-    outline: 0.125rem solid var(--editor-accent);
+    outline: 0.125rem solid v.$accent;
+  }
+
+  &:hover {
+    background-color: v.$cardSunken;
+    color: v.$ink;
   }
 }
 
@@ -117,6 +137,7 @@
   letter-spacing: 0.04em;
   text-align: center;
   text-transform: uppercase;
+  color: v.$ink2;
 }
 
 .date-picker__day {
@@ -131,22 +152,31 @@
   font-variant-numeric: tabular-nums;
   cursor: pointer;
   @include m.transition(background-color, 0.15s);
+  color: v.$ink2;
 
   &--outside {
     opacity: 0.35;
   }
+
   &--today {
     font-weight: 700;
-    outline: 0.0625rem solid var(--editor-accent);
+    outline: 0.0625rem solid v.$accent;
     outline-offset: -0.0625rem;
   }
+
   &--selected {
-    background-color: var(--editor-accent) !important;
-    color: var(--editor-accent-ink) !important;
+    background-color: v.$accent !important;
+    color: v.$onAccent !important;
     font-weight: 700;
   }
+
   &:focus-visible {
-    outline: 0.125rem solid var(--editor-accent);
+    outline: 0.125rem solid v.$accent;
+  }
+
+  &:hover {
+    background-color: v.$cardSunken;
+    color: v.$ink;
   }
 }
 
@@ -163,6 +193,8 @@
 .date-picker__today {
   padding: 0.35rem 0.7rem;
   font-size: v.$caption;
+  background-color: v.$cardSunken;
+  color: v.$ink;
 }
 
 .date-picker__time {
@@ -179,105 +211,9 @@
   }
 }
 
-.editor--dark .date-picker {
-  &__trigger--empty .date-picker__value {
-    color: v.$darkDisabledText;
-  }
-  &__icon {
-    color: v.$darkAltTextDarker;
-  }
-  &__time-badge {
-    background-color: v.$darkButtonHover;
-    color: v.$darkButtonContent;
-  }
-  &__clear {
-    color: v.$darkAltText;
-
-    &:hover {
-      color: v.$darkButtonContent;
-    }
-  }
-}
-.body--dark .date-picker__panel {
-  @include m.glassmorphism-dark();
-  background: v.$darkInfoTab;
-  color: v.$darkButtonContent;
-
-  .date-picker__nav,
-  .date-picker__day {
-    color: v.$darkAltText;
-
-    &:hover {
-      background-color: v.$darkButton;
-      color: v.$darkButtonContent;
-    }
-  }
-  .date-picker__weekday {
-    color: v.$darkAltTextDarker;
-  }
-  .date-picker__today {
-    background-color: v.$darkButton;
-    color: v.$darkButtonContent;
-  }
-  .date-picker__time input {
-    background-color: v.$darkButton;
-    color: v.$darkButtonContent;
-    border: 0;
-    border-radius: 0.4rem;
-  }
-}
-
-.editor--light .date-picker {
-  &__trigger--empty .date-picker__value {
-    color: v.$lightDisabledText;
-  }
-  &__icon {
-    color: v.$lightAltTextDarker;
-  }
-  &__time-badge {
-    background-color: v.$lightButtonHover;
-    color: v.$lightButtonContent;
-  }
-  &__clear {
-    color: v.$lightAltText;
-
-    &:hover {
-      color: v.$lightButtonContent;
-    }
-  }
-}
-.body--light .date-picker__panel {
-  @include m.glassmorphism-light();
-  background: #ffffff;
-  color: v.$lightButtonContent;
-
-  .date-picker__nav,
-  .date-picker__day {
-    color: v.$lightAltText;
-
-    &:hover {
-      background-color: v.$lightButton;
-      color: v.$lightButtonContent;
-    }
-  }
-  .date-picker__weekday {
-    color: v.$lightAltTextDarker;
-  }
-  .date-picker__today {
-    background-color: v.$lightButton;
-    color: v.$lightButtonContent;
-  }
-  .date-picker__time input {
-    background-color: v.$lightButton;
-    color: v.$lightButtonContent;
-    border: 0;
-    border-radius: 0.4rem;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .date-picker__nav,
-  .date-picker__day {
-    transition: none;
-  }
+.date-picker__time input {
+  background-color: v.$cardSunken;
+  color: v.$ink;
+  border: 0;
+  border-radius: 0.4rem;
 }
