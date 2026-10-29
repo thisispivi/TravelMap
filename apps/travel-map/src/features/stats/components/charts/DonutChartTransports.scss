@@ -7,7 +7,10 @@
     @include m.transition(all, 0.3s, ease-in-out);
   }
   .apexcharts-datalabels {
+    /* Styled here because ApexCharts writes its colour option into an SVG
+       attribute, which cannot resolve the active design's var(). */
     text {
+      fill: v.$darkButtonContent;
       transform: translateY(0.35rem);
       font-weight: 700;
       font-size: 1rem !important;

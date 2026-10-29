@@ -26,11 +26,8 @@ import {
   toMapLibreZoom,
   WORLD_CENTER,
 } from "../../lib/mapCamera";
-import { createMapStyle, MAP_THEMES } from "../../lib/mapTheme";
-import {
-  getTripCityNames,
-  getTripLayoverCities,
-} from "../../lib/mapTripCities";
+import { createMapStyle, readMapTheme } from "../../lib/mapTheme";
+import { getTripCityIds, getTripLayoverCities } from "../../lib/mapTripCities";
 import { MapTooltip } from "../MapTooltip/MapTooltip";
 import { RouteOverlay } from "../RouteOverlay/RouteOverlay";
 import { MapLayers } from "./MapLayers";
@@ -77,7 +74,12 @@ export function Map({ design, isDarkTheme, responsive }: MapProps): ReactNode {
   const pinnedCityRef = useRef<City | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  const theme = MAP_THEMES[design][isDarkTheme ? "dark" : "light"];
+  const theme = useMemo(
+    () => readMapTheme(isDarkTheme),
+    /* The palette is read off the document, which `design` has already restyled. */
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- design is the cache key for the document's tokens
+    [design, isDarkTheme],
+  );
   const mapStyle = useMemo(() => createMapStyle(theme), [theme]);
   const appliedPosition = useRef(mapPosition);
 
@@ -258,8 +260,8 @@ export function Map({ design, isDarkTheme, responsive }: MapProps): ReactNode {
           ...livedCities,
         ])
       : [];
-  const tripCityNames =
-    isTripDetail && selectedTrip ? getTripCityNames(selectedTrip) : null;
+  const tripCityIds =
+    isTripDetail && selectedTrip ? getTripCityIds(selectedTrip) : null;
 
   return (
     <div className="map-container">
@@ -298,7 +300,7 @@ export function Map({ design, isDarkTheme, responsive }: MapProps): ReactNode {
             layoverCities={layoverCities}
             onHoverCity={handleHoverCity}
             onSelectCity={handleSelectCity}
-            tripCityNames={tripCityNames}
+            tripCityIds={tripCityIds}
           />
         ) : null}
 

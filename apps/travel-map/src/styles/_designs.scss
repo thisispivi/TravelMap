@@ -1,4 +1,7 @@
-@use "designs/classic";
+/*
+ * Every design but classic, which _global.scss loads so the editor, sharing
+ * that file, gets the fallback tokens without the designs it never switches to.
+ */
 @use "designs/passport";
 @use "designs/risograph";
 @use "designs/softness";

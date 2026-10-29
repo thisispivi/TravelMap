@@ -6,7 +6,7 @@ import { TravelType } from "@travelmap/core/typings/Travel";
 import { lazy, ReactNode } from "react";
 
 import { useLanguage } from "@/shared/hooks/useLanguage";
-import variables from "@/styles/_variables.module.scss";
+
 const ReactApexChart = lazy(() => import("react-apexcharts"));
 
 /**
@@ -150,7 +150,6 @@ export function TransportsDonutChart({
         fontSize: "1em",
         fontFamily: "inherit",
         fontWeight: 700,
-        colors: [variables.darkButtonContent],
       },
       enabledOnSeries,
     },

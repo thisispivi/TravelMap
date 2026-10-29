@@ -115,7 +115,7 @@ function TimelineCardItem({ trip, side }: TimelineCardItemProps): ReactNode {
       animate={isInView ? visibleState : hiddenState}
       className={`timeline-card timeline-card--${side}`}
       initial={hiddenState}
-      onClick={() => navigate(`/trip/${trip.id}`)}
+      onClick={() => navigate(`/trip/${encodeURIComponent(trip.id)}`)}
       ref={ref}
       transition={{
         type: "spring",

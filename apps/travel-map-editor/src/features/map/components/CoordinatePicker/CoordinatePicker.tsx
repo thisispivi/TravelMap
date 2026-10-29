@@ -1,6 +1,6 @@
 import "./CoordinatePicker.scss";
 
-import { createMapStyle, MAP_THEMES } from "@app/features/map/lib/mapTheme";
+import { createMapStyle, readMapTheme } from "@app/features/map/lib/mapTheme";
 import { ReactNode, useMemo } from "react";
 import Map, {
   MapLayerMouseEvent,
@@ -27,7 +27,7 @@ export function CoordinatePicker({
   onChange,
   value,
 }: CoordinatePickerProps): ReactNode {
-  const theme = MAP_THEMES.classic[isDarkTheme ? "dark" : "light"];
+  const theme = useMemo(() => readMapTheme(isDarkTheme), [isDarkTheme]);
   const mapStyle = useMemo(() => createMapStyle(theme), [theme]);
   const [longitude, latitude] = value;
   return (

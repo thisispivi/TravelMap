@@ -1,6 +1,11 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import { getWithExpiry, setWithExpiry } from "./storage";
+import {
+  getWithExpiry,
+  readStoredString,
+  setWithExpiry,
+  writeStoredString,
+} from "./storage";
 
 const entries = new Map<string, string>();
 
@@ -56,5 +61,33 @@ describe("expiring storage", () => {
       expect(getWithExpiry("flag")).toBeNull();
       expect(entries.has("flag")).toBe(false);
     }
+  });
+});
+
+describe("plain string storage", () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it("treats storage the browser blocks as empty instead of throwing", () => {
+    /**
+     * Throws the way a browser does when site data is blocked.
+     * @returns {never} Never returns
+     */
+    const blocked = (): never => {
+      throw new DOMException("The operation is insecure.", "SecurityError");
+    };
+    vi.stubGlobal("localStorage", { getItem: blocked, setItem: blocked });
+
+    expect(readStoredString("design")).toBeNull();
+    expect(() => writeStoredString("design", "phosphor")).not.toThrow();
+  });
+
+  it("reads back what it wrote", () => {
+    entries.clear();
+    vi.stubGlobal("localStorage", localStorageStub);
+    writeStoredString("design", "phosphor");
+
+    expect(readStoredString("design")).toBe("phosphor");
   });
 });

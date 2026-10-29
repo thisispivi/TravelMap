@@ -35,9 +35,12 @@ export function DesignSelector({
     <select
       aria-label={t("design.label")}
       className="design-selector"
-      onChange={(event) =>
-        onChangeDesign(DesignSchema.parse(event.target.value))
-      }
+      onChange={(event) => {
+        const next = DesignSchema.options.find(
+          (option) => option === event.target.value,
+        );
+        if (next) onChangeDesign(next);
+      }}
       value={design}
     >
       {DesignSchema.options.map((option) => (

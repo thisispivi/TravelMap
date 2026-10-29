@@ -79,4 +79,20 @@
   --button-hover-shadow-light: 0.1875rem 0.1875rem 0 var(--ink);
   --button-border-dark: 0.125rem solid var(--dark-button-content);
   --button-hover-shadow-dark: 0.1875rem 0.1875rem 0 var(--ink-yellow);
+  --map-ocean-dark: #121212;
+  --map-land-dark: #262626;
+  --map-border-dark: rgba(244, 241, 234, 0.4);
+  --map-country-label-dark: #9a958a;
+  --map-country-label-halo-dark: #121212;
+  --map-city-label-dark: #f4f1ea;
+  --map-city-label-halo-dark: rgba(18, 18, 18, 0.94);
+  --map-country-strength-dark: 0.9;
+  --map-ocean-light: #a8d8ff;
+  --map-land-light: #fff4e0;
+  --map-border-light: rgba(17, 17, 17, 0.6);
+  --map-country-label-light: #4a4a4a;
+  --map-country-label-halo-light: #fff4e0;
+  --map-city-label-light: #111111;
+  --map-city-label-halo-light: rgba(255, 244, 224, 0.96);
+  --map-country-strength-light: 1;
 }

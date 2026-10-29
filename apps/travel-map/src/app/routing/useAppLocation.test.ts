@@ -9,7 +9,7 @@ describe("readTripDetailId", () => {
     );
   });
 
-  it("keeps an id that in-app navigation left unencoded", () => {
+  it("keeps an accented id typed into the address bar unencoded", () => {
     expect(readTripDetailId("/trip/cefalù-trip-2025")).toBe("cefalù-trip-2025");
   });
 

@@ -1,4 +1,5 @@
 import "./styles/_global.scss";
+import "./styles/_designs.scss";
 import "./styles/_typography.scss";
 import "./styles/_mixins.scss";
 import "./styles/_scrollbar.scss";

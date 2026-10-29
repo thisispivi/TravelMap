@@ -75,4 +75,20 @@
   --nav-active-light: var(--accent-primary);
   --nav-indicator-dark: var(--accent-soft-dark);
   --nav-indicator-light: var(--accent-soft-light);
+  --map-ocean-dark: #1a1722;
+  --map-land-dark: #262130;
+  --map-border-dark: rgba(255, 255, 255, 0.08);
+  --map-country-label-dark: #8c8296;
+  --map-country-label-halo-dark: #1a1722;
+  --map-city-label-dark: #efe8f2;
+  --map-city-label-halo-dark: rgba(26, 23, 34, 0.94);
+  --map-country-strength-dark: 0.5;
+  --map-ocean-light: #e8eef0;
+  --map-land-light: #f7f2ec;
+  --map-border-light: rgba(120, 100, 110, 0.14);
+  --map-country-label-light: #8a7f88;
+  --map-country-label-halo-light: #f7f2ec;
+  --map-city-label-light: #3d3540;
+  --map-city-label-halo-light: rgba(247, 242, 236, 0.96);
+  --map-country-strength-light: 0.55;
 }

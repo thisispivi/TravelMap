@@ -54,3 +54,31 @@ function safeJsonParse(text: string): unknown {
     return undefined;
   }
 }
+
+/**
+ * Reads a plain string entry. Touching localStorage throws when the browser
+ * blocks site data, and a remembered preference is never worth a blank page.
+ * @param {string} key - The key of the item to retrieve
+ * @returns {string | null} The stored text, or null when missing or unreadable
+ */
+export function readStoredString(key: string): string | null {
+  try {
+    return localStorage.getItem(key);
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Remembers a plain string entry when the browser allows it.
+ * @param {string} key - The key under which the value is stored
+ * @param {string} value - The value to be stored
+ * @returns {void}
+ */
+export function writeStoredString(key: string, value: string): void {
+  try {
+    localStorage.setItem(key, value);
+  } catch {
+    /* Blocked storage only costs remembering the choice on the next visit. */
+  }
+}

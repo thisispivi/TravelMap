@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { applyDesign, Design, readStoredDesign } from "@/shared/lib/design";
 
@@ -13,16 +13,23 @@ export interface UseDesignReturn {
 }
 
 /**
- * Holds the active visual design, starting from the remembered one, and keeps
- * the document and localStorage in step with it.
+ * Holds the active visual design, starting from the one `main.tsx` already
+ * applied. A switch restyles the document before the state update, so the
+ * render that follows reads the new design's tokens.
  * @returns {UseDesignReturn} The active design and its setter
  */
 export function useDesign(): UseDesignReturn {
-  const [design, setDesign] = useState(readStoredDesign);
+  const [design, setDesignState] = useState(readStoredDesign);
 
-  useEffect(() => {
-    applyDesign(design);
-  }, [design]);
+  /**
+   * Applies a design to the document, then re-renders with it.
+   * @param {Design} next - The design to switch to
+   * @returns {void}
+   */
+  const setDesign = (next: Design): void => {
+    applyDesign(next);
+    setDesignState(next);
+  };
 
   return { design, setDesign };
 }

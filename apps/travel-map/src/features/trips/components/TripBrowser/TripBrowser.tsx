@@ -172,7 +172,7 @@ export function TripBrowser(): ReactNode {
    */
   const openTrip = (trip: Trip) => {
     setSelectedTrip(trip);
-    navigate(`/trip/${trip.id}`);
+    navigate(`/trip/${encodeURIComponent(trip.id)}`);
   };
   return (
     <LazyMotion features={domAnimation}>

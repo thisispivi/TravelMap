@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+import { readStoredString, writeStoredString } from "@/shared/lib/storage";
+
 /**
  * Theme state returned by `useThemeDetector`.
  * @property {boolean} isDarkTheme - Whether the dark theme is active
@@ -16,11 +18,9 @@ export type ThemeDetector = {
  */
 export function useThemeDetector(): ThemeDetector {
   const [isDarkTheme, setIsDarkTheme] = useState(() => {
-    const storedTheme = localStorage.getItem("theme");
+    const storedTheme = readStoredString("theme");
     if (storedTheme) return storedTheme === "dark";
-    const prefers = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    localStorage.setItem("theme", prefers ? "dark" : "light");
-    return prefers;
+    return window.matchMedia("(prefers-color-scheme: dark)").matches;
   });
 
   /**
@@ -32,7 +32,7 @@ export function useThemeDetector(): ThemeDetector {
   };
 
   useEffect(() => {
-    localStorage.setItem("theme", isDarkTheme ? "dark" : "light");
+    writeStoredString("theme", isDarkTheme ? "dark" : "light");
     const body = document.querySelector("body");
     if (isDarkTheme) {
       body?.classList.add("body--dark");

@@ -57,7 +57,9 @@
 
   &--muted {
     opacity: 0.4;
-    filter: grayscale(1);
+    /* Appended so a design keeps its pin shadow; the token is therefore always
+       a filter list, never `none`, which cannot be combined. */
+    filter: var(--marker-filter) grayscale(1);
 
     &:hover,
     &:focus-visible {

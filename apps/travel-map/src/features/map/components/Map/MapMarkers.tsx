@@ -11,7 +11,7 @@ import { Marker, MarkerVariant } from "../Marker/Marker";
  * @property {City[]} layoverCities - Auxiliary cities shown as layovers
  * @property {(city: City | null) => void} onHoverCity - Updates the highlighted city
  * @property {(city: City) => void} onSelectCity - Selects a city marker
- * @property {Set<string> | null} tripCityNames - The open trip's cities, whose
+ * @property {Set<string> | null} tripCityIds - The open trip's cities, whose
  * pins stay at full strength, or null when no trip is open
  */
 interface MapMarkersProps {
@@ -19,7 +19,7 @@ interface MapMarkersProps {
   layoverCities: City[];
   onHoverCity: (city: City | null) => void;
   onSelectCity: (city: City) => void;
-  tripCityNames: Set<string> | null;
+  tripCityIds: Set<string> | null;
 }
 
 /**
@@ -50,7 +50,7 @@ function sortByCoordinates(firstCity: City, secondCity: City): number {
  * @param {City[]} props.layoverCities - Auxiliary cities shown as layovers
  * @param {(city: City | null) => void} props.onHoverCity - Updates the highlighted city
  * @param {(city: City) => void} props.onSelectCity - Selects a city marker
- * @param {Set<string> | null} props.tripCityNames - The open trip's cities, or
+ * @param {Set<string> | null} props.tripCityIds - The open trip's cities, or
  * null when no trip is open
  * @returns {ReactNode} The grouped city markers
  */
@@ -59,7 +59,7 @@ export function MapMarkers({
   layoverCities,
   onHoverCity,
   onSelectCity,
-  tripCityNames,
+  tripCityIds,
 }: MapMarkersProps): ReactNode {
   const groups: [City[], MarkerVariant][] = [
     [visitedCities, "visited"],
@@ -77,7 +77,7 @@ export function MapMarkers({
             <Marker
               city={city}
               hoveredCity={hoveredCity}
-              isMuted={tripCityNames ? !tripCityNames.has(city.name) : false}
+              isMuted={tripCityIds ? !tripCityIds.has(city.id) : false}
               key={`${variant}-${city.name}`}
               onHoverCity={onHoverCity}
               onSelectCity={onSelectCity}

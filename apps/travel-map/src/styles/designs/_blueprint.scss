@@ -91,7 +91,7 @@
   --h2-tracking: 0.06em;
   --h3-tracking: 0.06em;
   --caption-font: var(--font-display);
-  --marker-filter: none;
+  --marker-filter: opacity(1);
   --trip-card-image-ground: #0b3c8c;
   --trip-card-image-filter: grayscale(1) contrast(1.1);
   --trip-card-image-blend: screen;
@@ -112,4 +112,20 @@
   --focus-outline: 0.125rem dashed currentColor;
   --focus-offset: 0.125rem;
   --focus-shadow: none;
+  --map-ocean-dark: #0b3c8c;
+  --map-land-dark: #0e4aa8;
+  --map-border-dark: rgba(232, 240, 255, 0.55);
+  --map-country-label-dark: #a9c1ee;
+  --map-country-label-halo-dark: #0b3c8c;
+  --map-city-label-dark: #ffffff;
+  --map-city-label-halo-dark: rgba(11, 60, 140, 0.94);
+  --map-country-strength-dark: 0.2;
+  --map-ocean-light: #eef3fa;
+  --map-land-light: #ffffff;
+  --map-border-light: rgba(11, 60, 140, 0.55);
+  --map-country-label-light: #3f6fbf;
+  --map-country-label-halo-light: #ffffff;
+  --map-city-label-light: #0b3c8c;
+  --map-city-label-halo-light: rgba(255, 255, 255, 0.96);
+  --map-country-strength-light: 0.2;
 }

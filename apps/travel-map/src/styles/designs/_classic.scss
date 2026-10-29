@@ -131,6 +131,24 @@
   --year-chip-active-light: var(--visited-button-content);
   --year-chip-active-ink-dark: #ffffff;
   --year-chip-active-ink-light: #ffffff;
+  /* readMapTheme reads these: MapLibre paints on a canvas and cannot resolve
+     var(), so every design sets its whole map palette here. */
+  --map-ocean-dark: #18191a;
+  --map-land-dark: #242526;
+  --map-border-dark: rgba(255, 255, 255, 0.14);
+  --map-country-label-dark: #8a8d91;
+  --map-country-label-halo-dark: #18191a;
+  --map-city-label-dark: #e4e6eb;
+  --map-city-label-halo-dark: rgba(24, 25, 26, 0.94);
+  --map-country-strength-dark: 1;
+  --map-ocean-light: #eef1f5;
+  --map-land-light: #dfe3ea;
+  --map-border-light: rgba(60, 70, 90, 0.16);
+  --map-country-label-light: #676b7d;
+  --map-country-label-halo-light: #e7e8ec;
+  --map-city-label-light: #1a1a2e;
+  --map-city-label-halo-light: rgba(240, 242, 245, 0.96);
+  --map-country-strength-light: 1;
 }
 
 /* Classic's trip detail was always lighter glass than its other panels. */

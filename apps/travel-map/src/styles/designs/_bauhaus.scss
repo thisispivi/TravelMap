@@ -82,7 +82,7 @@
   --h3-weight: 700;
   --h1-tracking: -0.02em;
   --h2-tracking: -0.02em;
-  --marker-filter: none;
+  --marker-filter: opacity(1);
   --trip-card-hover-transform: none;
   --trip-card-title-size: 1.6rem;
   --trip-card-border-light: 0.125rem solid #111111;
@@ -99,4 +99,20 @@
   --focus-outline: 0.1875rem solid #1f4fa3;
   --focus-offset: 0.125rem;
   --focus-shadow: none;
+  --map-ocean-dark: #121212;
+  --map-land-dark: #232323;
+  --map-border-dark: rgba(241, 235, 221, 0.4);
+  --map-country-label-dark: #958f81;
+  --map-country-label-halo-dark: #121212;
+  --map-city-label-dark: #f1ebdd;
+  --map-city-label-halo-dark: rgba(18, 18, 18, 0.94);
+  --map-country-strength-dark: 0.5;
+  --map-ocean-light: #ddd5c2;
+  --map-land-light: #f8f4ea;
+  --map-border-light: rgba(17, 17, 17, 0.7);
+  --map-country-label-light: #444444;
+  --map-country-label-halo-light: #f8f4ea;
+  --map-city-label-light: #111111;
+  --map-city-label-halo-light: rgba(248, 244, 234, 0.96);
+  --map-country-strength-light: 0.55;
 }

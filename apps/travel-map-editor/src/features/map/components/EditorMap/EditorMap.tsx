@@ -1,6 +1,6 @@
 import "./EditorMap.scss";
 
-import { createMapStyle, MAP_THEMES } from "@app/features/map/lib/mapTheme";
+import { createMapStyle, readMapTheme } from "@app/features/map/lib/mapTheme";
 import { useLanguage } from "@app/shared/hooks/useLanguage";
 import { classNames } from "@app/shared/lib/classNames";
 import {
@@ -58,7 +58,7 @@ export function EditorMap({
 }: EditorMapProps): ReactNode {
   const { t } = useLanguage(["editor"]);
   const mapRef = useRef<MapRef>(null);
-  const theme = MAP_THEMES.classic[isDarkTheme ? "dark" : "light"];
+  const theme = useMemo(() => readMapTheme(isDarkTheme), [isDarkTheme]);
   const mapStyle = useMemo(() => createMapStyle(theme), [theme]);
 
   const stops = trip.steps.flatMap((step, index) => {

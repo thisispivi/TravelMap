@@ -87,4 +87,20 @@
   --button-border-light: 0 solid transparent;
   --button-border-dark: 0 solid transparent;
   --panel-title-size: 1.5rem;
+  --map-ocean-dark: #18191a;
+  --map-land-dark: #242526;
+  --map-border-dark: rgba(255, 255, 255, 0.1);
+  --map-country-label-dark: #8a8d91;
+  --map-country-label-halo-dark: #18191a;
+  --map-city-label-dark: #e4e6eb;
+  --map-city-label-halo-dark: rgba(24, 25, 26, 0.94);
+  --map-country-strength-dark: 0.5;
+  --map-ocean-light: #e4e6eb;
+  --map-land-light: #ffffff;
+  --map-border-light: rgba(0, 0, 0, 0.12);
+  --map-country-label-light: #65676b;
+  --map-country-label-halo-light: #ffffff;
+  --map-city-label-light: #050505;
+  --map-city-label-halo-light: rgba(255, 255, 255, 0.96);
+  --map-country-strength-light: 0.5;
 }
