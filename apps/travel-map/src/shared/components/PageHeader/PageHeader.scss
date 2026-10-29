@@ -1,0 +1,26 @@
+@use "../../../styles/variables" as v;
+@use "../../../styles/mixins" as m;
+
+.page-header {
+  padding: v.$space4 v.$space6 v.$space4;
+
+  @include m.compact() {
+    padding: calc(v.$space4 + env(safe-area-inset-top, 0rem)) v.$space4
+      v.$space3;
+  }
+
+  &__title {
+    font-size: v.$headingXl;
+
+    @include m.compact() {
+      font-size: v.$headingLg;
+    }
+  }
+
+  &__subtitle {
+    color: v.$ink3;
+    font-size: v.$bodySm;
+    font-weight: 600;
+    @include m.figure();
+  }
+}

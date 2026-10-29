@@ -2,71 +2,51 @@
 @use "../../../styles/mixins" as m;
 
 .button {
-  width: auto;
-  height: auto;
-  border-radius: v.$radiusPill;
-  display: flex;
+  @include m.bare-button();
+  @include m.transition(transform, v.$durationFast);
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  outline: none;
-  border: 0.0625rem solid transparent;
-  cursor: pointer;
-  will-change: transform;
-  transition:
-    background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-    color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-    border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-    box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  flex-shrink: 0;
-  position: relative;
-  overflow: hidden;
+  gap: v.$space2;
+  min-height: 2.5rem;
+  padding: 0 v.$space4;
+  border-radius: v.$radiusPill;
+  font-size: v.$bodySm;
+  font-weight: 650;
+  white-space: nowrap;
 
   svg {
-    width: 55%;
-    height: 55%;
+    width: 1.125rem;
+    height: 1.125rem;
+    flex: none;
   }
 
-  &:focus-visible {
-    @include m.focus-ring();
+  &:active {
+    transform: scale(0.96);
   }
-}
 
-.map-shell--light,
-.body--light {
-  .button {
-    background: rgba(0, 0, 0, 0.05);
-    color: v.$lightButtonContent;
-    border: var(--button-border-light);
+  &--primary {
+    background: v.$accent;
+    color: v.$onAccent;
+  }
 
-    &:hover {
-      background: rgba(0, 0, 0, 0.09);
-      box-shadow: var(--button-hover-shadow-light);
+  &--soft {
+    background: v.$accentSoft;
+    color: v.$accentInk;
+  }
+
+  &--ghost {
+    background: transparent;
+    color: v.$ink2;
+
+    @include m.hover() {
+      background: v.$cardSunken;
+      color: v.$ink;
     }
-
-    @include m.set-button-colors(
-      rgba(0, 0, 0, 0.05),
-      v.$lightButtonContent,
-      rgba(0, 0, 0, 0.09)
-    );
   }
-}
 
-.map-shell--dark,
-.body--dark {
-  .button {
-    background: rgba(255, 255, 255, 0.07);
-    color: v.$darkButtonContent;
-    border: var(--button-border-dark);
-
-    &:hover {
-      background: rgba(255, 255, 255, 0.12);
-      box-shadow: var(--button-hover-shadow-dark);
-    }
-
-    @include m.set-button-colors(
-      rgba(255, 255, 255, 0.07),
-      v.$darkButtonContent,
-      rgba(255, 255, 255, 0.12)
-    );
+  &--icon {
+    width: 2.5rem;
+    padding: 0;
   }
 }

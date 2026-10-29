@@ -177,7 +177,9 @@ export function StayCard({
       <PhotosField
         dataset={dataset}
         onChange={(photoPath) => onChange({ ...stay, photoPath })}
+        onRangeChange={(photoRange) => onChange({ ...stay, photoRange })}
         photoPath={stay.photoPath}
+        photoRange={stay.photoRange}
         visit={{
           cityId: stay.cityId,
           eDate: stay.checkOut,

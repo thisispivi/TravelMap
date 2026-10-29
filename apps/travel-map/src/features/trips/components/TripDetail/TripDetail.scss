@@ -1,150 +1,183 @@
-@use "../../../../styles/mixins" as m;
 @use "../../../../styles/variables" as v;
-@use "../../../../styles/scrollbar" as s;
+@use "../../../../styles/mixins" as m;
 
 .trip-detail {
-  position: fixed;
-  top: calc(v.$floatingNavHeight + 2rem);
-  left: 1rem;
-  width: v.$floatingCardMaxWidth;
-  max-height: calc(100vh - v.$floatingNavHeight - 3rem);
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  border-radius: v.$floatingCardRadiusLg;
-  transform-origin: left top;
+  padding: 0 v.$space2;
 
-  .trip-detail__body {
-    flex: 1;
-    overflow-y: hidden;
-    padding: 0.25rem v.$floatingCardPadding v.$floatingCardPadding;
+  &__hero {
+    position: relative;
     display: flex;
     flex-direction: column;
-
-    &--scrollable {
-      overflow-y: auto;
-      margin-right: 0.25rem;
-      padding-right: 0.75rem;
-    }
-  }
-
-  .trip-detail__route-label {
-    margin: 0 0 0.75rem;
-    font-size: v.$bodySm;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.09em;
-  }
-}
-
-.map-shell--dark {
-  .trip-detail {
-    background: var(--panel-texture-dark), var(--trip-detail-bg-dark);
-    -webkit-backdrop-filter: blur(v.$glassBlur);
-    backdrop-filter: blur(v.$glassBlur);
-    border: 0.0625rem solid v.$glassBorderDark;
-    box-shadow: v.$glassShadowDark;
-    border-radius: v.$floatingCardRadiusLg;
-    padding: 0;
-
-    .trip-detail__route-label {
-      color: v.$darkAltTextDarker;
-    }
-
-    .trip-detail__body {
-      @include s.setScrollbar(
-        transparent,
-        rgba(255, 255, 255, 0.12),
-        rgba(255, 255, 255, 0.2),
-        rgba(255, 255, 255, 0.3)
-      );
-    }
-  }
-}
-
-.map-shell--light {
-  .trip-detail {
-    @include m.floating-card-light();
-    padding: 0;
-    border-color: var(--full-panel-border-light);
-
-    .trip-detail__route-label {
-      color: v.$lightAltTextDarker;
-    }
-
-    .trip-detail__body {
-      @include s.setScrollbar(
-        transparent,
-        rgba(0, 0, 0, 0.15),
-        rgba(0, 0, 0, 0.25),
-        rgba(0, 0, 0, 0.35)
-      );
-    }
-  }
-}
-
-@media screen and (max-width: 42.5rem) {
-  .trip-detail {
-    top: auto;
-    bottom: calc(
-      v.$floatingNavHeight + v.$mobileFloatingMargin * 2 +
-        env(safe-area-inset-bottom, 0rem)
-    );
-    left: v.$mobileFloatingMargin;
-    right: v.$mobileFloatingMargin;
-    width: auto;
-    max-height: 75vh;
+    justify-content: space-between;
+    height: 13rem;
+    padding: v.$space4 v.$space4 4.75rem;
+    overflow: hidden;
     border-radius: v.$radiusLg;
+    color: #ffffff;
 
-    .trip-detail__body,
-    .trip-detail__body--scrollable {
-      overflow-y: auto;
-      margin-right: 0;
-      padding-right: v.$floatingCardPadding;
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.78),
+        rgba(0, 0, 0, 0.1) 65%,
+        rgba(0, 0, 0, 0.25)
+      );
     }
   }
-}
 
-.trip-detail {
-  .trip-detail__back {
-    display: flex;
-    flex-shrink: 0;
+  &__cover {
+    position: absolute;
+    inset: 0;
+  }
+
+  &__back {
+    @include m.bare-button();
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
     align-items: center;
-    gap: 0.375rem;
-    padding: 0.625rem v.$floatingCardPadding 0.5rem;
-    border: none;
-    background: transparent;
+    align-self: flex-start;
+    gap: v.$space1;
+    height: 2.25rem;
+    padding: 0 v.$space3 0 v.$space2;
+    border-radius: v.$radiusPill;
+    background: rgba(255, 255, 255, 0.2);
+    -webkit-backdrop-filter: blur(0.75rem);
+    backdrop-filter: blur(0.75rem);
+    color: #ffffff;
     font-size: v.$bodySm;
-    font-weight: 600;
-    cursor: pointer;
-    @include m.transition(opacity, 0.2s);
+    font-weight: 650;
 
-    &:hover {
-      opacity: 0.65;
+    @include m.hover() {
+      background: rgba(255, 255, 255, 0.32);
     }
   }
 
-  .trip-detail__back-chevron {
-    width: auto;
-    height: 1rem;
-    transform: rotate(90deg);
-    fill: transparent;
+  &__back-icon {
+    width: 1.125rem;
+    height: 1.125rem;
   }
-}
 
-.map-shell--dark .trip-detail .trip-detail__back {
-  color: v.$darkAltText;
-
-  .trip-detail__back-chevron path {
-    stroke: v.$darkAltText;
+  &__heading {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
   }
-}
 
-.map-shell--light .trip-detail .trip-detail__back {
-  color: v.$lightAltText;
+  &__dates {
+    font-size: v.$bodySm;
+    font-weight: 650;
+    opacity: 0.9;
+    @include m.figure();
+  }
 
-  .trip-detail__back-chevron path {
-    stroke: v.$lightAltText;
+  &__title {
+    font-size: v.$headingXl;
+    text-shadow: 0 0.0625rem 0.75rem rgba(0, 0, 0, 0.25);
+  }
+
+  &__flags {
+    position: absolute;
+    z-index: 1;
+    top: v.$space4;
+    right: v.$space4;
+    display: flex;
+    gap: v.$space1;
+  }
+
+  &__flag {
+    font-size: 1.75rem;
+    filter: drop-shadow(0 0.0625rem 0.25rem rgba(0, 0, 0, 0.4));
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: v.$space4;
+    padding: v.$space4 0 v.$space6;
+  }
+
+  &__pass {
+    position: relative;
+    z-index: 1;
+    /* Deep enough to hide the hero's lower corners behind the pass. */
+    margin: -4rem 0 0;
+    filter: v.$cardDrop;
+  }
+
+  /* Each figure is as wide as its number, with the slack shared between them. */
+  &__figures {
+    @include m.ticket-half(bottom);
+    display: flex;
+    justify-content: space-between;
+    gap: v.$space3;
+    padding: v.$space4 v.$space5;
+    border-radius: v.$radiusLg v.$radiusLg 0 0;
+    background: v.$card;
+  }
+
+  &__figure {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.125rem;
+  }
+
+  &__figure-label {
+    @include m.eyebrow();
+  }
+
+  &__figure-value {
+    color: v.$ink;
+    font-size: v.$headingLg;
+    font-weight: 750;
+    line-height: 1.1;
+    @include m.figure();
+  }
+
+  &__modes {
+    @include m.ticket-half(top);
+    @include m.perforation();
+    display: flex;
+    flex-wrap: wrap;
+    gap: v.$space2;
+    padding: v.$space3 v.$space4 v.$space4;
+    border-radius: 0 0 v.$radiusLg v.$radiusLg;
+    background: v.$card;
+    list-style: none;
+  }
+
+  &__mode {
+    display: inline-flex;
+    align-items: center;
+    gap: v.$space1;
+    padding: 0.25rem v.$space2;
+    border-radius: v.$radiusPill;
+    background: v.$cardSunken;
+    color: v.$ink2;
+    font-size: v.$caption;
+    font-weight: 650;
+  }
+
+  &__mode-icon {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: v.$space2;
+  }
+
+  &__section-title {
+    @include m.eyebrow();
+    margin-top: v.$space2;
+    font-size: v.$caption;
   }
 }

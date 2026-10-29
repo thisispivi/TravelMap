@@ -1,185 +1,208 @@
-import { AnimatePresence, domAnimation, LazyMotion, m } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
+import { PanelLeftOpen } from "lucide-react";
 import { lazy, ReactNode, Suspense } from "react";
 
-import { useAppLocation } from "@/app/routing/useAppLocation";
-import ChevronIcon from "@/assets/icons/Chevron.svg?react";
-import { FloatingNav } from "@/features/navigation/components/FloatingNav/FloatingNav";
-import { Container } from "@/shared/components/Container/Container";
+import { AppNav } from "@/features/navigation/components/AppNav/AppNav";
+import { BottomSheet } from "@/shared/components/BottomSheet/BottomSheet";
 import { Loading } from "@/shared/components/Loading/Loading";
-import { PanelLoading } from "@/shared/components/PanelLoading/PanelLoading";
+import { useAppRoute } from "@/shared/context/AppRoute.context";
 import { usePanel } from "@/shared/context/Panel.context";
 import { useLanguage } from "@/shared/hooks/useLanguage";
 import { ResponsiveType } from "@/shared/hooks/useResponsive";
-import { Design } from "@/shared/lib/design";
+import { easeOut, panelSpring } from "@/shared/lib/motion";
 
 const Map = lazy(() =>
   import("@/features/map/components/Map/Map").then((module) => ({
     default: module.Map,
   })),
 );
-
-/**
- * Properties accepted by the map shell layout.
- * @property {ReactNode} children - The active routed panel
- * @property {Design} design - The active visual design
- * @property {() => void} handleDarkModeSwitch - Toggles the application theme
- * @property {boolean} isDarkTheme - Whether the dark theme is active
- * @property {(design: Design) => void} onChangeDesign - Switches the visual design
- * @property {ResponsiveType} responsive - The current responsive viewport state
- */
-interface MapShellLayoutProps {
-  children: ReactNode;
-  design: Design;
-  handleDarkModeSwitch: () => void;
-  isDarkTheme: boolean;
-  onChangeDesign: (design: Design) => void;
-  responsive: ResponsiveType;
-}
-const TripBrowser = lazy(() =>
-  import("@/features/trips/components/TripBrowser/TripBrowser").then(
-    (module) => ({
-      default: module.TripBrowser,
-    }),
-  ),
-);
-const PlacesBrowser = lazy(() =>
-  import("@/features/places/components/PlacesBrowser/PlacesBrowser").then(
-    (module) => ({
-      default: module.PlacesBrowser,
-    }),
-  ),
+const TripList = lazy(() =>
+  import("@/features/trips/components/TripList/TripList").then((module) => ({
+    default: module.TripList,
+  })),
 );
 const TripDetail = lazy(() =>
   import("@/features/trips/components/TripDetail/TripDetail").then(
-    (module) => ({
-      default: module.TripDetail,
-    }),
+    (module) => ({ default: module.TripDetail }),
+  ),
+);
+const PlacesPanel = lazy(() =>
+  import("@/features/places/components/PlacesPanel/PlacesPanel").then(
+    (module) => ({ default: module.PlacesPanel }),
   ),
 );
 
 /**
- * MapShellLayout component
- * Root layout for the persistent map shell. Composes the FloatingNav, the
- * lazily-loaded side panels (TripBrowser, TripDetail, PlacesBrowser), the
- * animated bottom panel for Timeline and Stats, the Gallery container, and the
- * Map underneath everything.
+ * Properties accepted by the map shell layout.
+ * @property {boolean} isDarkTheme - Whether the dark theme is active
+ * @property {() => void} onToggleTheme - Switches between light and dark
+ * @property {ReactNode} outlet - The active page route's element, frozen per render
+ * @property {string} pathname - The current pathname, used to key page transitions
+ * @property {ResponsiveType} responsive - The current viewport
+ */
+interface MapShellLayoutProps {
+  isDarkTheme: boolean;
+  onToggleTheme: () => void;
+  outlet: ReactNode;
+  pathname: string;
+  responsive: ResponsiveType;
+}
+
+/**
+ * PanelFallback component
+ * What a lazily loaded panel or page shows while its code arrives.
  * @component
- * @param {MapShellLayoutProps} props - The map shell layout props
- * @param {ReactNode} props.children - The active route element (lazy page)
- * @param {Design} props.design - The active visual design
- * @param {() => void} props.handleDarkModeSwitch - Toggles the application theme
+ * @returns {ReactNode} A centred spinner
+ */
+function PanelFallback(): ReactNode {
+  return (
+    <div className="map-shell__loading">
+      <Loading />
+    </div>
+  );
+}
+
+/**
+ * SideContent component
+ * The content of the side panel for the active route: the trip list, one
+ * trip, or the places. Keyed by what it shows, so changing it cross-fades.
+ * @component
+ * @returns {ReactNode} The side panel content
+ */
+function SideContent(): ReactNode {
+  const { isTripDetail, isPlaces, tripDetailId } = useAppRoute();
+  const key = isTripDetail
+    ? `trip-${tripDetailId}`
+    : isPlaces
+      ? "places"
+      : "trips";
+
+  return (
+    <AnimatePresence initial={false} mode="popLayout">
+      <m.div
+        animate={{ opacity: 1, x: 0 }}
+        className="map-shell__side-content"
+        exit={{ opacity: 0, x: -12 }}
+        initial={{ opacity: 0, x: 12 }}
+        key={key}
+        transition={easeOut}
+      >
+        <Suspense fallback={<PanelFallback />}>
+          {isTripDetail ? (
+            <TripDetail />
+          ) : isPlaces ? (
+            <PlacesPanel />
+          ) : (
+            <TripList />
+          )}
+        </Suspense>
+      </m.div>
+    </AnimatePresence>
+  );
+}
+
+/**
+ * MapShellLayout component
+ * Puts the map underneath everything, the navigation over it, and the active
+ * route's content where its purpose wants it: trips and places beside the map
+ * so their routes stay visible (a bottom sheet on phones), timeline, stats and
+ * galleries as pages over it.
+ * @component
+ * @param {MapShellLayoutProps} props - The layout props
  * @param {boolean} props.isDarkTheme - Whether the dark theme is active
- * @param {(design: Design) => void} props.onChangeDesign - Switches the visual design
- * @param {ResponsiveType} props.responsive - The current responsive viewport state
- * @returns {ReactNode} The main application layout
+ * @param {() => void} props.onToggleTheme - Switches between light and dark
+ * @param {ReactNode} props.outlet - The active page route's element
+ * @param {string} props.pathname - The current pathname
+ * @param {ResponsiveType} props.responsive - The current viewport
+ * @returns {ReactNode} The application layout
  */
 export function MapShellLayout({
-  children,
-  design,
-  handleDarkModeSwitch,
   isDarkTheme,
-  onChangeDesign,
+  onToggleTheme,
+  outlet,
+  pathname,
   responsive,
 }: MapShellLayoutProps): ReactNode {
-  const { isGallery, isTrips, isPlaces, isTripDetail, isStats, isTimeline } =
-    useAppLocation();
+  const { surface, activeTab } = useAppRoute();
   const { isPanelOpen, setIsPanelOpen } = usePanel();
   const { t } = useLanguage(["home"]);
-
-  const bottomPanelMotion = {
-    animate: { scale: 1, x: "-50%", y: 0 },
-    exit: { scale: 0.98, x: "-50%", y: "100vh" },
-    initial: { scale: 0.98, x: "-50%", y: "100vh" },
-    transition: { duration: 0.22, ease: [0.35, 0, 0.25, 1] },
-  } as const;
+  const isSideDocked = surface === "side" && !responsive.isCompact;
+  /* A photo opening inside an album is the album's own business, not a new page. */
+  const pageKey = pathname.split("/").slice(0, 4).join("/");
 
   return (
     <div className="map-shell__layout">
-      <FloatingNav
-        design={design}
-        handleDarkModeSwitch={handleDarkModeSwitch}
+      <Suspense fallback={<PanelFallback />}>
+        <Map isDarkTheme={isDarkTheme} responsive={responsive} />
+      </Suspense>
+
+      <AppNav
+        isCompact={responsive.isCompact}
         isDarkTheme={isDarkTheme}
-        onChangeDesign={onChangeDesign}
+        onToggleTheme={onToggleTheme}
       />
 
-      <LazyMotion features={domAnimation}>
-        <AnimatePresence mode="wait">
-          {(isTrips || isTripDetail) && isPanelOpen ? (
-            <Suspense
-              fallback={<PanelLoading variant="side" />}
-              key="trip-panel"
-            >
-              {isTripDetail ? <TripDetail /> : <TripBrowser />}
-            </Suspense>
-          ) : null}
-          {isPlaces && isPanelOpen ? (
-            <Suspense fallback={<PanelLoading variant="side" />} key="places">
-              <PlacesBrowser />
-            </Suspense>
-          ) : null}
-          {(isTimeline || isStats) && isPanelOpen ? (
-            <m.div
-              animate={bottomPanelMotion.animate}
-              className="map-shell__bottom-panel"
-              exit={bottomPanelMotion.exit}
-              initial={bottomPanelMotion.initial}
-              key={isTimeline ? "timeline" : "stats"}
-              transition={bottomPanelMotion.transition}
-            >
-              <Suspense fallback={<PanelLoading variant="bottom" />}>
-                {children}
-              </Suspense>
-            </m.div>
-          ) : null}
-        </AnimatePresence>
-      </LazyMotion>
-
-      <LazyMotion features={domAnimation}>
-        <AnimatePresence>
-          {isTripDetail && !isPanelOpen ? (
-            <m.button
-              animate={{ opacity: 1, y: 0 }}
-              className="map-shell__back-to-trip"
-              exit={{ opacity: 0, y: 8 }}
-              initial={{ opacity: 0, y: 8 }}
-              onClick={() => setIsPanelOpen(true)}
-              transition={{ duration: 0.18, ease: [0.35, 0, 0.25, 1] }}
-              type="button"
-            >
-              <ChevronIcon className="map-shell__back-to-trip-chevron" />
-              {t("tripDetail.backToTrip")}
-            </m.button>
-          ) : null}
-        </AnimatePresence>
-      </LazyMotion>
-
-      <Container isVisible={isGallery}>
-        {isGallery ? (
-          <Suspense
-            fallback={
-              <div className="map-shell__loading">
-                <Loading />
-              </div>
-            }
+      <AnimatePresence>
+        {isSideDocked && isPanelOpen ? (
+          <m.aside
+            animate={{ opacity: 1, x: 0 }}
+            className="map-shell__side"
+            exit={{ opacity: 0, x: -32 }}
+            initial={{ opacity: 0, x: -32 }}
+            key="side"
+            transition={panelSpring}
           >
-            {children}
-          </Suspense>
+            <SideContent />
+          </m.aside>
         ) : null}
-      </Container>
+        {isSideDocked && !isPanelOpen ? (
+          <m.button
+            animate={{ opacity: 1, scale: 1 }}
+            className="map-shell__reopen"
+            exit={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            key="reopen"
+            onClick={() => setIsPanelOpen(true)}
+            transition={panelSpring}
+            type="button"
+          >
+            <PanelLeftOpen
+              aria-hidden="true"
+              className="map-shell__reopen-icon"
+            />
+            {t(`nav.${activeTab ?? "trips"}`)}
+          </m.button>
+        ) : null}
+        {surface === "page" ? (
+          <m.main
+            animate={{ opacity: 1, y: 0 }}
+            className="map-shell__page"
+            exit={{ opacity: 0, y: 24 }}
+            initial={{ opacity: 0, y: 24 }}
+            key="page"
+            transition={panelSpring}
+          >
+            <AnimatePresence initial={false} mode="popLayout">
+              <m.div
+                animate={{ opacity: 1 }}
+                className="map-shell__page-content"
+                exit={{ opacity: 0 }}
+                initial={{ opacity: 0 }}
+                key={pageKey}
+                transition={easeOut}
+              >
+                <Suspense fallback={<PanelFallback />}>{outlet}</Suspense>
+              </m.div>
+            </AnimatePresence>
+          </m.main>
+        ) : null}
+      </AnimatePresence>
 
-      <Suspense
-        fallback={
-          <div className="map-shell__loading">
-            <Loading />
-          </div>
-        }
-      >
-        <Map
-          design={design}
-          isDarkTheme={isDarkTheme}
-          responsive={responsive}
-        />
-      </Suspense>
+      {surface === "side" && responsive.isCompact ? (
+        <BottomSheet isOpen={isPanelOpen} onOpenChange={setIsPanelOpen}>
+          <SideContent />
+        </BottomSheet>
+      ) : null}
     </div>
   );
 }

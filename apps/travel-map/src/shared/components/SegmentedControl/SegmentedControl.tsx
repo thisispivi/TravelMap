@@ -1,75 +1,84 @@
 import "./SegmentedControl.scss";
 
-import { domAnimation, LazyMotion, m } from "framer-motion";
+import { m } from "framer-motion";
 import { ReactNode } from "react";
 
 import { classNames } from "@/shared/lib/classNames";
+import { panelSpring } from "@/shared/lib/motion";
+
+/**
+ * One choice in a segmented control.
+ * @property {T} value - The value the choice selects
+ * @property {string} label - The visible label
+ */
+interface SegmentedOption<T extends string> {
+  value: T;
+  label: string;
+}
 
 /**
  * Properties accepted by the SegmentedControl component.
- * @property {string} [className] - The class name
- * @property {{ value: T; label: string; tooltip?: string }[]} options - The options
- * @property {T} selected - The selected
- * @property {(value: T) => void} onSelect - The on select
- * @property {string} layoutId - The layout id
- * @property {string} [tooltipId] - The tooltip id
+ * @property {string} id - Unique per control on screen; scopes the sliding indicator
+ * @property {SegmentedOption<T>[]} options - The choices, in order
+ * @property {T} value - The selected value
+ * @property {(value: T) => void} onChange - Selects a value
+ * @property {string} label - The accessible name of the group
  */
 interface SegmentedControlProps<T extends string> {
-  className?: string;
-  options: { value: T; label: string; tooltip?: string }[];
-  selected: T;
-  onSelect: (value: T) => void;
-  layoutId: string;
-  tooltipId?: string;
+  id: string;
+  options: SegmentedOption<T>[];
+  value: T;
+  onChange: (value: T) => void;
+  label: string;
 }
 
 /**
  * SegmentedControl component
- * Button group for switching between related views.
+ * A row of mutually exclusive choices whose highlight slides to the selected
+ * one. Needs a `LazyMotion` ancestor, which the shell provides.
  * @component
- * @param {SegmentedControlProps<string>} props - The segmented control props
- * @param {string} [props.className=""] - Additional class names
- * @param {{ value: string; label: string; tooltip?: string }[]} props.options - Selectable options
- * @param {string} props.selected - Selected option value
- * @param {(value: string) => void} props.onSelect - Selection handler
- * @param {string} props.layoutId - Framer Motion shared layout id
- * @param {string} [props.tooltipId] - Tooltip id for option descriptions
+ * @param {SegmentedControlProps<T>} props - The control props
+ * @param {string} props.id - Unique per control on screen
+ * @param {SegmentedOption<T>[]} props.options - The choices, in order
+ * @param {T} props.value - The selected value
+ * @param {(value: T) => void} props.onChange - Selects a value
+ * @param {string} props.label - The accessible name of the group
  * @returns {ReactNode} The segmented control
  */
 export function SegmentedControl<T extends string>({
-  className = "",
+  id,
   options,
-  selected,
-  onSelect,
-  layoutId,
-  tooltipId,
+  value,
+  onChange,
+  label,
 }: SegmentedControlProps<T>): ReactNode {
   return (
-    <LazyMotion features={domAnimation}>
-      <div className={classNames("segmented-control", className)}>
-        {options.map((option) => (
+    <div aria-label={label} className="segmented-control" role="radiogroup">
+      {options.map((option) => {
+        const isActive = option.value === value;
+        return (
           <button
+            aria-checked={isActive}
             className={classNames(
               "segmented-control__option",
-              selected === option.value && "segmented-control__option--active",
+              isActive && "segmented-control__option--active",
             )}
-            data-tooltip-content={option.tooltip}
-            data-tooltip-id={option.tooltip ? tooltipId : undefined}
             key={option.value}
-            onClick={() => onSelect(option.value)}
+            onClick={() => onChange(option.value)}
+            role="radio"
             type="button"
           >
-            {selected === option.value ? (
-              <m.div
+            {isActive ? (
+              <m.span
                 className="segmented-control__indicator"
-                layoutId={layoutId}
-                transition={{ duration: 0.16, ease: [0.35, 0, 0.25, 1] }}
+                layoutId={`segmented-${id}`}
+                transition={panelSpring}
               />
             ) : null}
             <span className="segmented-control__label">{option.label}</span>
           </button>
-        ))}
-      </div>
-    </LazyMotion>
+        );
+      })}
+    </div>
   );
 }

@@ -5,9 +5,9 @@
   position: relative;
   z-index: 0;
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   overflow: hidden;
-  background: v.$darkBackground;
+  background: v.$ground;
 
   .maplibregl-map {
     position: relative;
@@ -17,6 +17,7 @@
     font-family: v.$fontBody;
   }
 
+  /* The canvas is focusable for keyboard panning; the ring replaces the outline. */
   .maplibregl-canvas {
     outline: none;
 
@@ -25,82 +26,46 @@
     }
   }
 
-  .loading {
+  &__loading {
     position: absolute;
+    z-index: 2;
     inset: 0;
     display: flex;
-    justify-content: center;
     align-items: center;
-    z-index: 2;
+    justify-content: center;
+    background: v.$ground;
   }
-  .map-zoom-controls {
+
+  &__zoom {
+    @include m.glass();
     position: absolute;
-    bottom: 2rem;
-    right: 1rem;
+    z-index: 3;
+    right: v.$shellGap;
+    bottom: v.$shellGap;
     display: flex;
     flex-direction: column;
-    gap: 0.375rem;
-    z-index: 3;
-    &__button {
-      width: 2.5rem;
-      height: 2.5rem;
-      border-radius: v.$radiusMd;
-      font-size: 1.4rem;
-      font-weight: 300;
-      line-height: 1;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      -webkit-backdrop-filter: blur(1.25rem);
-      backdrop-filter: blur(1.25rem);
-      @include m.transition(background-color, 0.2s);
-    }
+    padding: 0.1875rem;
+    border-radius: v.$radiusPill;
   }
-}
 
-.map-shell--dark {
-  .map-container {
-    .loading {
-      background-color: v.$darkBackground;
-    }
-    .map-zoom-controls__button {
-      background: rgba(36, 37, 38, 0.6);
-      border: 0.0625rem solid rgba(255, 255, 255, 0.1);
-      color: v.$darkButtonContent;
-      box-shadow: v.$glassShadowDark;
-      &:hover {
-        background: rgba(36, 37, 38, 0.85);
-      }
-    }
-  }
-}
+  &__zoom-button {
+    @include m.bare-button();
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    color: v.$ink2;
 
-.map-shell--light .map-container {
-  background: v.$lightBackground;
-}
-
-.map-shell--light {
-  .map-container {
-    .loading {
-      background-color: v.$lightBackground;
+    svg {
+      width: 1.125rem;
+      height: 1.125rem;
     }
-    .map-zoom-controls__button {
-      background: rgba(255, 255, 255, 0.65);
-      border: 0.0625rem solid rgba(255, 255, 255, 0.9);
-      color: v.$lightButtonContent;
-      box-shadow: v.$glassShadowLight;
-      &:hover {
-        background: rgba(255, 255, 255, 0.88);
-      }
-    }
-  }
-}
 
-@media screen and (max-width: 42.5rem) {
-  .map-container {
-    .map-zoom-controls {
-      display: none;
+    @include m.hover() {
+      background: v.$cardSunken;
+      color: v.$ink;
     }
   }
 }

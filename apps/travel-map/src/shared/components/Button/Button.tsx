@@ -1,81 +1,65 @@
 import "./Button.scss";
 
-import { domAnimation, LazyMotion, m } from "framer-motion";
-import { MouseEventHandler, ReactNode } from "react";
+import { ReactNode } from "react";
 
-import { classNames } from "../../lib/classNames";
+import { classNames } from "@/shared/lib/classNames";
+
+/** How strongly a button reads against its surface. */
+type ButtonVariant = "primary" | "soft" | "ghost";
 
 /**
- * Props for the shared animated button.
- * @property {string} [className] - Additional class names
- * @property {MouseEventHandler} [onClick] - Click handler
- * @property {MouseEventHandler} [onMouseEnter] - Mouse enter handler
- * @property {MouseEventHandler} [onMouseLeave] - Mouse leave handler
- * @property {string} [ariaLabel] - Accessible label
- * @property {string} [tooltipId] - Tooltip identifier
- * @property {string} [tooltipContent] - Tooltip content
- * @property {number} [hoverScale] - Hover scale
- * @property {number} [tapScale] - Tap scale
- * @property {ReactNode} children - Button content
+ * Properties accepted by the Button component.
+ * @property {ReactNode} children - The label, an icon, or both
+ * @property {() => void} onClick - Runs when the button is activated
+ * @property {ButtonVariant} [variant] - How strongly the button reads
+ * @property {string} [ariaLabel] - The accessible name, required for icon-only buttons
+ * @property {boolean} [isIconOnly] - Whether the button holds only an icon, drawn round
+ * @property {string} [className] - Extra classes from the owning block
  */
-export interface ButtonProps {
-  className?: string;
-  onClick?: MouseEventHandler;
-  onMouseEnter?: MouseEventHandler;
-  onMouseLeave?: MouseEventHandler;
-  ariaLabel?: string;
-  tooltipId?: string;
-  tooltipContent?: string;
-  hoverScale?: number;
-  tapScale?: number;
+interface ButtonProps {
   children: ReactNode;
+  onClick: () => void;
+  variant?: ButtonVariant;
+  ariaLabel?: string;
+  isIconOnly?: boolean;
+  className?: string;
 }
 
 /**
  * Button component
- * Shared animated button primitive used for icon and text actions.
+ * The app's one button: a pill with an optional icon, in three strengths.
+ * Press feedback is CSS, so it costs nothing until it is used.
  * @component
  * @param {ButtonProps} props - The button props
- * @param {MouseEventHandler} [props.onClick] - Click handler
- * @param {string} [props.className=""] - Additional class names
- * @param {ReactNode} props.children - Button content
- * @param {string} [props.ariaLabel] - Accessible label
- * @param {string} [props.tooltipContent] - Tooltip content
- * @param {string} [props.tooltipId] - Tooltip id to attach to
- * @param {MouseEventHandler} [props.onMouseEnter] - Mouse enter handler
- * @param {MouseEventHandler} [props.onMouseLeave] - Mouse leave handler
- * @param {number} [props.hoverScale=1.08] - Framer Motion hover scale
- * @param {number} [props.tapScale=0.95] - Framer Motion tap scale
+ * @param {ReactNode} props.children - The label, an icon, or both
+ * @param {() => void} props.onClick - Runs when the button is activated
+ * @param {ButtonVariant} [props.variant="soft"] - How strongly the button reads
+ * @param {string} [props.ariaLabel] - The accessible name, required for icon-only buttons
+ * @param {boolean} [props.isIconOnly=false] - Whether the button holds only an icon
+ * @param {string} [props.className] - Extra classes from the owning block
  * @returns {ReactNode} The button
  */
 export function Button({
-  onClick,
-  className = "",
   children,
+  onClick,
+  variant = "soft",
   ariaLabel,
-  tooltipContent,
-  tooltipId,
-  onMouseEnter,
-  onMouseLeave,
-  hoverScale = 1.08,
-  tapScale = 0.95,
+  isIconOnly = false,
+  className,
 }: ButtonProps): ReactNode {
   return (
-    <LazyMotion features={domAnimation}>
-      <m.button
-        aria-label={ariaLabel}
-        className={classNames("button", className)}
-        data-tooltip-content={tooltipContent}
-        data-tooltip-id={tooltipId}
-        onClick={onClick}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
-        type="button"
-        whileHover={hoverScale !== 1 ? { scale: hoverScale } : undefined}
-        whileTap={tapScale !== 1 ? { scale: tapScale } : undefined}
-      >
-        {children}
-      </m.button>
-    </LazyMotion>
+    <button
+      aria-label={ariaLabel}
+      className={classNames(
+        "button",
+        `button--${variant}`,
+        isIconOnly && "button--icon",
+        className,
+      )}
+      onClick={onClick}
+      type="button"
+    >
+      {children}
+    </button>
   );
 }

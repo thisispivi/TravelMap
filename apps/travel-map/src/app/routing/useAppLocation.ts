@@ -1,6 +1,12 @@
-import { useLocation as useLocationRouter } from "react-router";
+import { useLocation } from "react-router";
 
-import { AppRouteContextValue } from "@/shared/context/AppRoute.context";
+import {
+  AppRouteContextValue,
+  NavTabId,
+  PlacesFilter,
+} from "@/shared/context/AppRoute.context";
+
+const PLACES_FILTERS: readonly PlacesFilter[] = ["visited", "lived", "future"];
 
 /**
  * Reads the trip id out of a trip detail pathname. A reloaded hash URL keeps
@@ -22,49 +28,49 @@ export function readTripDetailId(pathname: string): string | null {
 }
 
 /**
+ * Classifies a pathname into the flags and ids the shell and its panels need.
+ * @param {string} pathname - The router pathname
+ * @returns {AppRouteContextValue} The route state
+ */
+export function classifyPathname(pathname: string): AppRouteContextValue {
+  const [, section = "", filter] = pathname.split("/");
+  const isTripDetail = section === "trip";
+  const isGallery = section === "gallery";
+  const tab: NavTabId | null =
+    section === "trips" || isTripDetail
+      ? "trips"
+      : section === "places" ||
+          section === "gallery" ||
+          section === "timeline" ||
+          section === "stats"
+        ? section
+        : null;
+
+  return {
+    activeTab: tab,
+    surface:
+      tab === "trips" || tab === "places" ? "side" : tab ? "page" : "map",
+    isTrips: section === "trips",
+    isTripDetail,
+    isPlaces: tab === "places",
+    isGallery,
+    /* `/gallery/<trip|place>/<id>/<photo>` */
+    isLightbox: isGallery && pathname.split("/").length === 5,
+    isTimeline: tab === "timeline",
+    isStats: tab === "stats",
+    tripDetailId: readTripDetailId(pathname),
+    placesFilter:
+      tab === "places"
+        ? (PLACES_FILTERS.find((candidate) => candidate === filter) ??
+          "visited")
+        : null,
+  };
+}
+
+/**
  * Derives structured route state from the current URL pathname.
  * @returns {AppRouteContextValue} Flags and extracted segments for the active route
  */
 export function useAppLocation(): AppRouteContextValue {
-  const location = useLocationRouter();
-  const pathname = location.pathname;
-  return (() => {
-    const isGallery = pathname.includes("gallery");
-    const isLightbox = pathname.split("/").length === 5;
-    const isTimeline = pathname.startsWith("/timeline");
-    const isStats = pathname.startsWith("/stats");
-    const isTripDetail = pathname.startsWith("/trip/");
-    const isPlaces = pathname.startsWith("/places");
-    const isTrips = pathname === "/trips" || isTripDetail;
-    const tripDetailId = readTripDetailId(pathname);
-    const placesFilterMatch = pathname.match(
-      /^\/places\/(lived|visited|future)$/,
-    );
-    const placesFilter = placesFilterMatch
-      ? (placesFilterMatch[1] as "lived" | "visited" | "future")
-      : isPlaces
-        ? "visited"
-        : null;
-    const activeTab = isTimeline
-      ? "timeline"
-      : isStats
-        ? "stats"
-        : isPlaces
-          ? "places"
-          : isTrips
-            ? "trips"
-            : null;
-    return {
-      isTrips,
-      isPlaces,
-      isTripDetail,
-      isTimeline,
-      isStats,
-      isGallery,
-      isLightbox,
-      activeTab,
-      tripDetailId,
-      placesFilter,
-    };
-  })();
+  return classifyPathname(useLocation().pathname);
 }

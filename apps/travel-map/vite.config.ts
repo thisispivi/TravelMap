@@ -17,12 +17,11 @@ import { siteBranding } from "./vite/siteBranding.ts";
  * List only what the first page load actually needs. Assigning a chunk to a
  * lazily imported dependency makes that chunk a static import, and everything
  * sharing it then loads eagerly too — a catch-all `return "vendor"` used to put
- * apexcharts in the same chunk as zod, which preloaded ~250 kB of charting on
- * every visit for a statistics page most visitors never open. Anything absent
+ * a charting library in the same chunk as zod, which preloaded ~250 kB of
+ * charting on every visit for a statistics page most visitors never open. Anything absent
  * here is left to automatic splitting, which keeps a dynamic import async.
  */
 const CHUNKS_BY_PACKAGE: Record<string, string> = {
-  "react-image-gallery": "gallery",
   "react-photo-album": "gallery",
   "maplibre-gl": "map",
   "react-map-gl": "map",
@@ -36,8 +35,6 @@ const CHUNKS_BY_PACKAGE: Record<string, string> = {
   "i18next-browser-languagedetector": "i18n",
   "i18next-http-backend": "i18n",
   "react-i18next": "i18n",
-  "mobile-device-detect": "ui",
-  "react-tooltip": "ui",
   remeda: "utils",
   swr: "vendor",
   zod: "vendor",
@@ -156,7 +153,7 @@ export default defineConfig({
           /*
            * Read the package name from the last node_modules segment rather than
            * testing the whole id for substrings: pnpm nests a dependency's own
-           * copies under its parent, so react-apexcharts/node_modules/react/...
+           * copies under its parent, so some-wrapper/node_modules/react/...
            * has to read as `react` and not match an earlier rule by accident.
            */
           const segments = path.slice(at + marker.length).split("/");

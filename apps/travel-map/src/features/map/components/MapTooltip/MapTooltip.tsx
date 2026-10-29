@@ -1,25 +1,21 @@
 import "./MapTooltip.scss";
 
 import { City } from "@travelmap/core";
+import { Clock, Coins, Images, Users } from "lucide-react";
 import { ReactNode, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router";
 
-import CoinIcon from "@/assets/icons/Coin.svg?react";
-import GalleryIcon from "@/assets/icons/Gallery.svg?react";
-import PeopleIcon from "@/assets/icons/People.svg?react";
-import TimezoneIcon from "@/assets/icons/Timezone.svg?react";
-import { visitedTrips } from "@/data/world";
-import { Button } from "@/shared/components/Button/Button";
+import { placeAlbum } from "@/data/albums";
 import { CountryFlag } from "@/shared/components/CountryFlag/CountryFlag";
+import { CoverImage } from "@/shared/components/CoverImage/CoverImage";
 import { useLanguage } from "@/shared/hooks/useLanguage";
 import { getTimeZoneAbbreviation } from "@/shared/lib/timezone";
-import { getCityTravels } from "@/shared/lib/travelQueries";
 
 /**
  * Properties accepted by the MapTooltip component.
- * @property {City} city - The city
- * @property {() => void} onClose - The on close
- * @property {(city: City | null) => void} onHoverCity - The on hover city
+ * @property {City} city - The city the card describes
+ * @property {() => void} onClose - Closes the card
+ * @property {(city: City | null) => void} onHoverCity - Keeps the card open while the pointer is over it
  */
 interface MapTooltipProps {
   city: City;
@@ -29,14 +25,15 @@ interface MapTooltipProps {
 
 /**
  * MapTooltip component
- * Displays city name, flag, population, timezone, currency and gallery access
- * from a map marker.
+ * The card a map marker opens: the city's picture and name, its population,
+ * time zone and currency, and a link to its photos when there are any. It
+ * closes when the window loses focus, so it never lingers behind another app.
  * @component
- * @param {MapTooltipProps} props
- * @param {City} props.city - The city the marker points at
- * @param {() => void} props.onClose - Closes the tooltip
- * @param {(city: City | null) => void} props.onHoverCity - Updates the hovered city
- * @returns {ReactNode} The tooltip content
+ * @param {MapTooltipProps} props - The tooltip props
+ * @param {City} props.city - The city the card describes
+ * @param {() => void} props.onClose - Closes the card
+ * @param {(city: City | null) => void} props.onHoverCity - Keeps the card open while hovered
+ * @returns {ReactNode} The city card
  */
 export function MapTooltip({
   city,
@@ -45,35 +42,30 @@ export function MapTooltip({
 }: MapTooltipProps): ReactNode {
   const navigate = useNavigate();
   const location = useLocation();
-  const { t, currLanguage: lang } = useLanguage(["home"]);
+  const { t, currLanguage } = useLanguage(["home"]);
   const onCloseRef = useRef(onClose);
-
-  useEffect(() => {
-    onCloseRef.current = onClose;
-  }, [onClose]);
-
-  const travels = getCityTravels(city, visitedTrips).filter(
-    (travel) => !travel.isFuture,
-  );
-  const galleryIndex = travels.findIndex(
-    (travel) => travel.photos && travel.photos.length > 0,
-  );
+  const photoCount = placeAlbum(city).count;
   const timeZone = getTimeZoneAbbreviation(city.timeZone);
 
   useEffect(() => {
+    onCloseRef.current = onClose;
+  });
+
+  useEffect(() => {
     /**
-     * Closes the tooltip through the latest callback reference.
+     * Closes the card through the latest close callback.
      * @returns {void}
      */
     const handleClose = (): void => onCloseRef.current();
 
     /**
-     * Closes the tooltip when its browser tab becomes hidden.
+     * Closes the card when the page is hidden.
      * @returns {void}
      */
     const handleVisibilityChange = (): void => {
       if (document.hidden) handleClose();
     };
+
     document.addEventListener("visibilitychange", handleVisibilityChange);
     window.addEventListener("blur", handleClose);
     return () => {
@@ -84,53 +76,61 @@ export function MapTooltip({
 
   return (
     <div
-      className="map-tooltip__container"
+      className="map-tooltip__card"
       onMouseEnter={() => onHoverCity(city)}
       onMouseLeave={() => onHoverCity(null)}
     >
-      <div className="map-tooltip__header">
-        <h2>{city.getLocalizedName(lang)}</h2>
-        <CountryFlag countryId={city.country.id} />
-      </div>
-
-      <div className="map-tooltip__pills">
-        {city.population ? (
-          <span className="map-tooltip__pill">
-            <PeopleIcon className="map-tooltip__pill-icon" />
-            {city.population.toLocaleString(lang)}
-          </span>
-        ) : null}
-        {timeZone ? (
-          <span className="map-tooltip__pill">
-            <TimezoneIcon className="map-tooltip__pill-icon" />
-            {timeZone}
-          </span>
-        ) : null}
-        {city.country.currency ? (
-          <span className="map-tooltip__pill">
-            <CoinIcon className="map-tooltip__pill-icon" />
-            {city.country.currency}
-          </span>
-        ) : null}
-      </div>
-
-      {galleryIndex >= 0 ? (
-        <div className="map-tooltip__footer">
-          <Button
-            className="map-tooltip__footer__button"
-            hoverScale={1}
+      <CoverImage
+        className="map-tooltip__image"
+        src={city.getBackgroundImgSourceByIndex(0)}
+      />
+      <div className="map-tooltip__body">
+        <h2 className="map-tooltip__title">
+          {city.getLocalizedName(currLanguage)}
+          <CountryFlag
+            className="map-tooltip__flag"
+            countryId={city.country.id}
+          />
+        </h2>
+        <ul className="map-tooltip__facts">
+          {city.population ? (
+            <li className="map-tooltip__fact">
+              <Users aria-hidden="true" className="map-tooltip__fact-icon" />
+              {city.population.toLocaleString(currLanguage)}
+            </li>
+          ) : null}
+          {timeZone ? (
+            <li className="map-tooltip__fact">
+              <Clock aria-hidden="true" className="map-tooltip__fact-icon" />
+              {timeZone}
+            </li>
+          ) : null}
+          {city.country.currency ? (
+            <li className="map-tooltip__fact">
+              <Coins aria-hidden="true" className="map-tooltip__fact-icon" />
+              {t(`currency.${city.country.currency}.symbol`, {
+                defaultValue: "",
+              })}{" "}
+              {city.country.currency}
+            </li>
+          ) : null}
+        </ul>
+        {photoCount > 0 ? (
+          <button
+            className="map-tooltip__photos"
             onClick={() => {
               onClose();
-              navigate(`/gallery/${city.name}/${galleryIndex}`, {
-                state: { fromPath: `${location.pathname}${location.search}` },
+              navigate(`/gallery/place/${encodeURIComponent(city.id)}`, {
+                state: { fromPath: location.pathname },
               });
             }}
+            type="button"
           >
-            <GalleryIcon />
-            <p>{t("galleryAlt")}</p>
-          </Button>
-        </div>
-      ) : null}
+            <Images aria-hidden="true" className="map-tooltip__photos-icon" />
+            {t("places.photos", { count: photoCount })}
+          </button>
+        ) : null}
+      </div>
     </div>
   );
 }

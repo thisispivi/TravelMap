@@ -1,330 +1,471 @@
-@use "../../../../styles/mixins" as m;
 @use "../../../../styles/variables" as v;
+@use "../../../../styles/mixins" as m;
 
-.trip-itinerary {
+$spineInset: 2.25rem;
+$nodeSize: 1.75rem;
+$passInset: v.$space4;
+$stayBanner: 6.5rem;
+$stayTitleLine: 1.75rem;
+/* The name's capitals centre this far above its line's middle, in Google Sans Flex. */
+$stayCapLift: 0.0625rem;
+
+/* The spine runs down the left edge; nodes sit on it, everything else beside it. */
+.itinerary {
+  position: relative;
   display: flex;
   flex-direction: column;
-  margin: 0;
-  padding: 0;
+  gap: v.$space3;
+  padding-left: $spineInset;
   list-style: none;
-}
-
-/*
- * A chapter is a numbered step of the trip. The number sits in a column on
- * the left and a thin line joins it to the next one, so the eye can follow the
- * trip's order while reading each chapter's rows at full width.
- */
-.trip-chapter {
-  --chapter-color: var(--rail-color);
-  position: relative;
-  display: grid;
-  grid-template-columns: 1.75rem minmax(0, 1fr);
-  column-gap: 0.75rem;
-  padding-bottom: 1.5rem;
 
   &::before {
     content: "";
     position: absolute;
-    top: 1.75rem;
-    bottom: 0;
-    left: 0.875rem;
-    border-left: 0.125rem solid var(--rail-color);
+    top: v.$space4;
+    bottom: v.$space4;
+    left: calc($nodeSize / 2 - 0.0625rem);
+    width: 0.125rem;
+    border-radius: v.$radiusPill;
+    background: repeating-linear-gradient(
+      to bottom,
+      v.$line 0 0.375rem,
+      transparent 0.375rem 0.625rem
+    );
   }
 
-  &:last-child {
-    padding-bottom: 0;
+  &__item {
+    position: relative;
+  }
 
-    &::before {
-      display: none;
+  &__node {
+    position: absolute;
+    top: 0.375rem;
+    left: -$spineInset;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: $nodeSize;
+    height: $nodeSize;
+    border: 0.125rem solid v.$card;
+    border-radius: 50%;
+    background: v.$blueSoft;
+    color: v.$blueInk;
+  }
+
+  /* Level with the place's name, which sits on one line at the banner's foot. */
+  &__item--stay &__node {
+    top: calc(
+      #{$stayBanner} - #{v.$space3} - #{$stayTitleLine} / 2 - #{$nodeSize} / 2 -
+        #{$stayCapLift}
+    );
+    background: v.$greenSoft;
+    color: v.$greenInk;
+  }
+
+  &__node-icon {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+
+  &__endpoint {
+    display: flex;
+    flex-direction: column;
+    padding: 0.125rem 0;
+  }
+
+  &__endpoint-city {
+    color: v.$ink;
+    font-size: v.$bodyLg;
+    font-weight: 700;
+  }
+
+  &__endpoint-date {
+    color: v.$ink3;
+    font-size: v.$caption;
+    font-weight: 600;
+  }
+
+  &__move {
+    display: flex;
+    flex-direction: column;
+    gap: v.$space2;
+  }
+
+  &__leg {
+    display: flex;
+    flex-direction: column;
+    gap: v.$space2;
+  }
+
+  &__connection {
+    display: flex;
+    align-items: center;
+    gap: v.$space2;
+    padding: 0 v.$space3;
+    color: v.$ink3;
+    font-size: v.$caption;
+    font-weight: 600;
+  }
+
+  &__connection-icon {
+    width: 0.875rem;
+    height: 0.875rem;
+    color: v.$future;
+  }
+}
+
+/*
+ * A ride as a two-part boarding pass. Cities share the first row with the
+ * duration and distance between them; the clocks, when known, take a second
+ * row under their cities. The stub below the tear names the mode and operator.
+ */
+.leg-card {
+  filter: v.$cardDrop;
+
+  &__main {
+    @include m.ticket-half(bottom);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: center;
+    column-gap: v.$space3;
+    padding: v.$space3 $passInset;
+    border-radius: v.$radiusLg v.$radiusLg 0 0;
+    background: v.$card;
+
+    &--timed {
+      row-gap: 0.125rem;
     }
   }
 
-  &--journey::before {
-    border-left-style: dashed;
-  }
-
-  &__header {
-    display: contents;
-  }
-
-  &__number {
-    position: relative;
-    z-index: 1;
-    display: grid;
-    place-items: center;
-    width: 1.75rem;
-    height: 1.75rem;
-    border-radius: 50%;
-    /* A design whose map no longer paints countries numbers its stays in its
-       own accent; left unset, each stay takes its country's colour. */
-    background: var(--chapter-number-fill, var(--chapter-color));
-    color: var(--number-ink);
+  &__city {
+    overflow: hidden;
+    color: v.$ink;
     font-size: v.$bodySm;
+    font-weight: 750;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    &--end {
+      text-align: right;
+    }
+  }
+
+  &__main--timed &__city {
+    color: v.$ink2;
+    font-size: v.$caption;
+    font-weight: 700;
+  }
+
+  /* Duration over distance, on a dashed hairline in the mode's colour. */
+  &__facts {
+    display: flex;
+    grid-row: span 2;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.1875rem;
+    min-width: 5.5rem;
+    white-space: nowrap;
+    @include m.figure();
+  }
+
+  &__duration {
+    color: v.$ink2;
+    font-size: v.$caption;
+    font-weight: 750;
+  }
+
+  &__line {
+    width: 100%;
+    border-top: 0.125rem dashed var(--mode-color);
+    opacity: 0.7;
+  }
+
+  &__distance {
+    color: v.$ink3;
+    font-size: v.$micro;
+    font-weight: 650;
+  }
+
+  &__time {
+    color: v.$ink;
+    font-size: v.$headingMd;
+    font-weight: 750;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+    @include m.figure();
+
+    &--end {
+      text-align: right;
+    }
+  }
+
+  &__day-shift {
+    margin-left: 0.125rem;
+    color: v.$accentInk;
+    font-size: v.$micro;
     font-weight: 800;
   }
 
-  &--journey &__number {
-    background: var(--surface-strong);
-    color: inherit;
-  }
-
-  &__heading {
-    display: flex;
-    flex-direction: column;
-    gap: 0.125rem;
-    min-width: 0;
-    padding-top: 0.0625rem;
-  }
-
-  &__eyebrow {
-    font-size: 0.8125rem;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--muted-color);
-  }
-
-  &__title {
+  &__stub {
+    @include m.ticket-half(top);
+    @include m.perforation();
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    font-size: 1.1875rem;
-    font-weight: 800;
-    line-height: 1.25;
+    justify-content: space-between;
+    gap: v.$space3;
+    min-height: 2.5rem;
+    padding: v.$space2 $passInset;
+    border-radius: 0 0 v.$radiusLg v.$radiusLg;
+    background: v.$card;
   }
 
-  &--journey &__title {
-    font-size: 1rem;
+  &__mode-name {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    gap: 0.375rem;
+    color: var(--mode-color);
+    font-size: v.$micro;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  &__mode-icon {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  &__operator {
+    display: flex;
+    align-items: center;
+    gap: v.$space2;
+    min-width: 0;
+    color: v.$ink2;
+    font-size: v.$caption;
+    font-weight: 650;
+  }
+
+  &__logo {
+    flex: none;
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 0.25rem;
+    object-fit: contain;
+  }
+
+  &__operator-name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+/* A place seen: its picture and name, pressed to show it on the map. */
+.place-row {
+  @include m.bare-button();
+  @include m.transition(transform, v.$durationFast);
+  display: flex;
+  align-items: center;
+  gap: v.$space3;
+  width: 100%;
+  padding: v.$space2;
+  border-radius: v.$radiusMd;
+  background: v.$cardSunken;
+  text-align: left;
+
+  @include m.hover() {
+    background: v.$accentSoft;
+  }
+
+  &:active {
+    transform: scale(0.985);
+  }
+
+  &__image {
+    flex: none;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: v.$radiusSm;
+  }
+
+  &__body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  &__name {
+    display: flex;
+    align-items: center;
+    gap: v.$space2;
+    color: v.$ink;
+    font-size: v.$bodySm;
     font-weight: 700;
   }
 
   &__flag {
-    width: 1.0625rem;
-    height: 1.0625rem;
-    flex-shrink: 0;
+    font-size: 0.875rem;
   }
 
-  &__body {
-    grid-column: 2;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    margin-top: 0.75rem;
+  &__label {
+    color: v.$ink3;
+    font-size: v.$caption;
+    font-weight: 600;
+  }
+}
+
+/* A place slept in, drawn as a hotel pass. */
+.stay-card {
+  filter: v.$cardDrop;
+
+  &__pass {
+    overflow: hidden;
+    border-radius: v.$radiusLg;
+    background: v.$card;
   }
 
-  &__rows {
+  &--split &__pass {
+    border-radius: v.$radiusLg v.$radiusLg 0 0;
+    @include m.ticket-half(bottom);
+  }
+
+  &__banner {
+    @include m.bare-button();
+    position: relative;
+    display: block;
+    overflow: hidden;
+    width: 100%;
+    height: $stayBanner;
+    text-align: left;
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(15, 23, 36, 0.62),
+        rgba(15, 23, 36, 0) 70%
+      );
+    }
+  }
+
+  &__image {
+    position: absolute;
+    inset: 0;
+    transition: transform 0.6s v.$easeOut;
+  }
+
+  @include m.hover() {
+    .stay-card__image {
+      transform: scale(1.03);
+    }
+  }
+
+  &__title {
+    position: absolute;
+    z-index: 1;
+    right: $passInset;
+    bottom: v.$space3;
+    left: $passInset;
+    display: flex;
+    align-items: center;
+    gap: v.$space2;
+    color: #ffffff;
+    font-size: v.$headingLg;
+    font-weight: 750;
+    letter-spacing: -0.015em;
+    line-height: $stayTitleLine;
+    text-shadow: 0 0.0625rem 0.5rem rgba(0, 0, 0, 0.3);
+  }
+
+  &__name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__flag {
+    flex: none;
+    font-size: 1.125rem;
+    transform: translateY(-$stayCapLift);
+  }
+
+  &__facts {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: v.$space3;
+    padding: v.$space3 $passInset;
+  }
+
+  &__fact {
     display: flex;
     flex-direction: column;
-    gap: 0.625rem;
-    margin: 0;
-    padding: 0;
+    gap: 0.375rem;
+
+    &--nights {
+      align-items: flex-end;
+    }
+  }
+
+  &__label {
+    @include m.eyebrow();
+  }
+
+  /* One line box for every value, so the nights figure sits on their row. */
+  &__value {
+    color: v.$ink;
+    font-size: v.$bodySm;
+    font-weight: 700;
+    line-height: 1.25rem;
+    @include m.figure();
+
+    &--nights {
+      color: v.$visitedInk;
+      font-size: v.$bodyLg;
+      font-weight: 800;
+    }
+  }
+
+  &__outings {
+    @include m.ticket-half(top);
+    @include m.perforation();
+    display: flex;
+    flex-direction: column;
+    gap: v.$space3;
+    padding: v.$space3 $passInset v.$space4;
+    border-radius: 0 0 v.$radiusLg v.$radiusLg;
+    background: v.$card;
     list-style: none;
   }
 
-  &__row {
+  &__outing {
+    display: flex;
+    flex-direction: column;
+    gap: v.$space2;
+  }
+
+  &__outing-date {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    min-width: 0;
-  }
-
-  &__row-body {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    gap: 0.0625rem;
-    min-width: 0;
-  }
-
-  &__row-line {
-    display: flex;
-    align-items: baseline;
     justify-content: space-between;
-    gap: 0.5rem;
-  }
-
-  &__row-detail {
-    font-size: v.$bodySm;
-    color: var(--muted-color);
-  }
-
-  &__ride {
-    &--plane {
-      --mode-color: #{v.$transportPlane};
-    }
-
-    &--ferry {
-      --mode-color: #{v.$transportFerry};
-    }
-
-    &--train {
-      --mode-color: #{v.$transportTrain};
-    }
-
-    &--bus {
-      --mode-color: #{v.$transportBus};
-    }
-
-    &--car {
-      --mode-color: #{v.$transportCar};
-    }
-
-    &--taxi {
-      --mode-color: #{v.$transportTaxi};
-    }
-
-    &--walk {
-      --mode-color: #{v.$transportWalk};
-    }
-  }
-
-  &__ride-icon {
-    width: 2rem;
-    height: 2rem;
-    flex-shrink: 0;
-    padding: 0.4375rem;
-    border-radius: 50%;
-    background: color-mix(in srgb, var(--mode-color) 20%, transparent);
-    color: var(--mode-color);
-  }
-
-  &__ride-route {
-    font-size: 0.9375rem;
-    font-weight: 600;
-  }
-
-  &__ride-time {
-    flex-shrink: 0;
-    font-size: 0.9375rem;
-    font-weight: 700;
-    font-variant-numeric: tabular-nums;
-  }
-
-  &__transit {
-    gap: 0.75rem;
-    padding-left: 0.5rem;
-    font-size: v.$bodySm;
-    font-weight: 600;
-    color: var(--accent-color);
-  }
-
-  &__transit-icon {
-    width: 1rem;
-    height: 1rem;
-    flex-shrink: 0;
-    margin-right: 0.25rem;
-  }
-
-  &__place {
-    display: flex;
-    flex: 1;
-    align-items: center;
-    gap: 0.75rem;
-    min-width: 0;
-    padding: 0.375rem 0.625rem 0.375rem 0.375rem;
-    border: 0;
-    border-radius: v.$radiusMd;
-    background: var(--card-color);
-    color: inherit;
-    font: inherit;
-    text-align: left;
-    outline: none;
-
-    &--clickable {
-      cursor: pointer;
-      @include m.transition(background-color, 0.15s);
-
-      &:hover {
-        background: var(--card-hover-color);
-      }
-    }
-
-    &:focus-visible {
-      @include m.focus-ring();
-    }
-  }
-
-  &__place-image {
-    width: 3.5rem;
-    height: 3.5rem;
-    flex-shrink: 0;
-    border-radius: v.$radiusSm;
-    object-fit: cover;
-
-    &--empty {
-      display: grid;
-      place-items: center;
-      background: var(--surface-strong);
-      color: var(--muted-color);
-
-      svg {
-        width: 1.25rem;
-        height: 1.25rem;
-        fill: currentColor;
-      }
-    }
-  }
-
-  &__place-name {
-    display: flex;
-    align-items: center;
-    gap: 0.375rem;
-    font-size: 1rem;
+    color: v.$ink2;
+    font-size: v.$caption;
     font-weight: 700;
   }
 
-  &__chevron {
-    width: 1.125rem;
-    height: 1.125rem;
-    flex-shrink: 0;
-    color: var(--muted-color);
-  }
-
-  &__day {
+  &__outing-modes {
     display: flex;
-    flex-direction: column;
-    gap: 0.625rem;
-    padding: 0.75rem;
-    border-radius: v.$radiusMd;
-    background: var(--surface-color);
+    gap: v.$space1;
+    color: v.$ink3;
   }
 
-  &__day-title {
-    margin: 0;
-    font-size: 0.8125rem;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--muted-color);
-
-    &--free {
-      padding: 0 0.25rem;
-    }
+  &__outing-mode {
+    width: 0.875rem;
+    height: 0.875rem;
   }
-}
-
-.map-shell--dark .trip-itinerary {
-  --chapter-number-fill: var(--chapter-number-dark);
-  --rail-color: rgba(255, 255, 255, 0.2);
-  --surface-color: rgba(255, 255, 255, 0.05);
-  --surface-strong: rgba(255, 255, 255, 0.12);
-  --card-color: rgba(255, 255, 255, 0.07);
-  --card-hover-color: rgba(255, 255, 255, 0.13);
-  --muted-color: #{v.$darkAltText};
-  --accent-color: #{v.$accentOnDark};
-  --number-ink: #{v.$darkBackground};
-  color: v.$darkButtonContent;
-}
-
-.map-shell--light .trip-itinerary {
-  --chapter-number-fill: var(--chapter-number-light);
-  --rail-color: rgba(0, 0, 0, 0.16);
-  --surface-color: rgba(0, 0, 0, 0.035);
-  --surface-strong: rgba(0, 0, 0, 0.08);
-  --card-color: #ffffff;
-  --card-hover-color: rgba(255, 255, 255, 0.65);
-  --muted-color: #{v.$lightAltText};
-  --accent-color: #{v.$accentPrimary};
-  --number-ink: #ffffff;
-  color: v.$lightButtonContent;
 }

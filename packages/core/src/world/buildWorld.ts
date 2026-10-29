@@ -4,6 +4,7 @@ import { countNights, Trip, TripLeg, TripStep } from "../classes/Trip";
 import {
   hasSource,
   Image,
+  PhotoRange,
   PublishedImage,
   TripJson,
   TripLegJson,
@@ -120,8 +121,15 @@ export function buildWorld(sources: unknown): World {
   );
   const trips = parsed.data.trips
     .map((data) =>
-      resolveTrip(data, citiesById, (path) =>
-        path ? publishableImages(parsed.data.photos[path]) : undefined,
+      resolveTrip(data, citiesById, (path, range) =>
+        path
+          ? publishableImages(
+              parsed.data.photos[path]?.slice(
+                (range?.from ?? 1) - 1,
+                range?.to,
+              ),
+            )
+          : undefined,
       ),
     )
     .sort(
@@ -165,7 +173,7 @@ export function buildWorld(sources: unknown): World {
  * @param {"move" | "outing"} context - What the leg belongs to
  * @param {string} date - The calendar day it happened, best known
  * @param {(id: string) => City} city - Resolves a city id or throws
- * @param {(path?: string) => PublishedImage[] | undefined} photos - Resolves a gallery
+ * @param {(path?: string, range?: PhotoRange) => PublishedImage[] | undefined} photos - Resolves a gallery, or the part of it a visit owns
  * @returns {TripLeg} The resolved leg
  */
 function resolveLeg(
@@ -174,7 +182,7 @@ function resolveLeg(
   context: "move" | "outing",
   date: string,
   city: (id: string) => City,
-  photos: (path?: string) => PublishedImage[] | undefined,
+  photos: (path?: string, range?: PhotoRange) => PublishedImage[] | undefined,
 ): TripLeg {
   const to = city(leg.toId);
   const via = (leg.viaIds ?? leg.ferry?.viaIds ?? []).map(city);
@@ -200,7 +208,7 @@ function resolveLeg(
     flight: leg.flight,
     from,
     mode: leg.mode,
-    photos: photos(leg.photoPath),
+    photos: photos(leg.photoPath, leg.photoRange),
     rowConstraints: leg.rowConstraints,
     targetRowHeight: leg.targetRowHeight,
     to,
@@ -214,13 +222,13 @@ function resolveLeg(
  * known date, so every leg learns its departure city and day from the chain.
  * @param {TripJson} data - The authored trip
  * @param {Map<string, City>} citiesById - The city registry
- * @param {(path?: string) => PublishedImage[] | undefined} photos - Resolves a gallery
+ * @param {(path?: string, range?: PhotoRange) => PublishedImage[] | undefined} photos - Resolves a gallery, or the part of it a visit owns
  * @returns {Trip} The resolved trip
  */
 function resolveTrip(
   data: TripJson,
   citiesById: Map<string, City>,
-  photos: (path?: string) => PublishedImage[] | undefined,
+  photos: (path?: string, range?: PhotoRange) => PublishedImage[] | undefined,
 ): Trip {
   /**
    * Resolves a city id against the registry, naming this trip on failure.
@@ -283,7 +291,7 @@ function resolveTrip(
         date: outing.date,
         legs: chain(outing.legs, "outing", stayCity, outing.date),
       })),
-      photos: photos(step.photoPath),
+      photos: photos(step.photoPath, step.photoRange),
       rowConstraints: step.rowConstraints,
       targetRowHeight: step.targetRowHeight,
       type: "stay",

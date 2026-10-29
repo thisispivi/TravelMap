@@ -1,84 +1,250 @@
 @use "../../../../styles/variables" as v;
 @use "../../../../styles/mixins" as m;
-@use "../../../../styles/scrollbar" as s;
+
+/* The trip column and the month grid share one template, row by row. */
+$tripColumn: 18rem;
+$rowHeight: 4rem;
+$barHeight: 1.75rem;
 
 .timeline-page {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: v.$space4;
+    padding: 0 v.$space6 v.$space6;
 
-  .timeline-page__scroll {
-    width: 100%;
-    height: 100%;
-    min-height: 0;
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
-
-  .timeline-page__header {
-    text-align: center;
-    padding: 0.25rem 0 1rem;
-
-    h1 {
-      font-size: v.$headingLg;
-      font-weight: 800;
-      letter-spacing: 0;
+    @include m.compact() {
+      padding: 0 v.$space3 v.$space5;
     }
   }
-}
 
-.map-shell--dark {
-  .timeline-page {
-    @include m.full-panel-dark();
-    padding: 1rem;
-
-    .timeline-page__scroll {
-      @include s.setScrollbar(
-        transparent,
-        rgba(255, 255, 255, 0.12),
-        rgba(255, 255, 255, 0.2),
-        rgba(255, 255, 255, 0.3)
-      );
-    }
-
-    .timeline-page__header h1 {
-      color: #ffffff;
-    }
+  &__chart {
+    @include m.pass-card();
+    overflow: hidden;
   }
-}
 
-.map-shell--light {
-  .timeline-page {
-    @include m.full-panel-light();
-    padding: 1rem;
-
-    .timeline-page__scroll {
-      @include s.setScrollbar(
-        transparent,
-        rgba(0, 0, 0, 0.15),
-        rgba(0, 0, 0, 0.25),
-        rgba(0, 0, 0, 0.35)
-      );
-    }
-
-    .timeline-page__header h1 {
-      color: v.$lightButtonContent;
-    }
+  &__chart-header {
+    padding: v.$space4 v.$space5 v.$space3;
   }
-}
 
-@media screen and (max-width: 42.5rem) {
-  .timeline-page {
-    border-radius: v.$radiusLg;
-    padding: 1rem;
+  &__chart-title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: v.$space3;
+    font-size: v.$headingXl;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    @include m.figure();
+  }
 
-    .timeline-page__header {
-      padding: 0 0 1rem;
+  &__chart-meta {
+    color: v.$ink3;
+    font-size: v.$bodySm;
+    font-weight: 650;
+    letter-spacing: 0;
+  }
 
-      h1 {
-        font-size: v.$headingMd;
+  &__months {
+    display: grid;
+    grid-template-columns: $tripColumn repeat(12, minmax(0, 1fr));
+    border-bottom: 0.125rem solid v.$accent;
+
+    /* On a phone the trip sits above its bar, so the months take the full width. */
+    @include m.compact() {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      margin: 0 v.$space3;
+    }
+
+    &::before {
+      content: "";
+
+      @include m.compact() {
+        display: none;
       }
+    }
+  }
+
+  &__month {
+    padding: v.$space2 0;
+    color: v.$ink2;
+    font-size: v.$caption;
+    font-weight: 750;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  &__rows {
+    list-style: none;
+  }
+
+  &__row {
+    & + & {
+      border-top: 0.0625rem dashed v.$line;
+    }
+  }
+
+  &__row-button {
+    @include m.bare-button();
+    display: grid;
+    grid-template-columns: $tripColumn minmax(0, 1fr);
+    width: 100%;
+    min-height: $rowHeight;
+    text-align: left;
+
+    @include m.compact() {
+      grid-template-columns: minmax(0, 1fr);
+      padding-bottom: v.$space3;
+    }
+
+    @include m.hover() {
+      background: v.$cardHover;
+
+      .timeline-page__bar {
+        box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.2);
+        filter: saturate(1.2);
+      }
+    }
+  }
+
+  &__trip {
+    display: flex;
+    align-items: center;
+    gap: v.$space3;
+    min-width: 0;
+    padding: v.$space2 v.$space3 v.$space2 v.$space5;
+
+    @include m.compact() {
+      gap: v.$space2;
+      padding-left: v.$space3;
+    }
+  }
+
+  &__thumb {
+    flex: none;
+    width: 3rem;
+    height: 3rem;
+    border-radius: v.$radiusSm;
+
+    @include m.compact() {
+      width: 2.25rem;
+      height: 2.25rem;
+    }
+  }
+
+  &__trip-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  &__trip-title {
+    overflow: hidden;
+    color: v.$ink;
+    font-size: v.$bodySm;
+    font-weight: 750;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__trip-dates {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: v.$ink3;
+    font-size: v.$micro;
+    font-weight: 650;
+    white-space: nowrap;
+    @include m.figure();
+  }
+
+  &__flag {
+    font-size: 0.75rem;
+  }
+
+  /* Month gridlines are a background, so they cost no elements. */
+  &__track {
+    position: relative;
+    align-self: stretch;
+
+    @include m.compact() {
+      height: 2.5rem;
+      margin: 0 v.$space3;
+    }
+
+    background: repeating-linear-gradient(
+      to right,
+      v.$line 0 0.0625rem,
+      transparent 0.0625rem calc(100% / 12)
+    );
+  }
+
+  &__today {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 0.125rem;
+    background: v.$accent;
+    opacity: 0.5;
+  }
+
+  &__bar {
+    position: absolute;
+    top: calc(50% - #{$barHeight} / 2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: $barHeight;
+    height: $barHeight;
+    border-radius: v.$radiusPill;
+    background: var(--bar-color);
+    transform-origin: left center;
+    transition:
+      box-shadow v.$durationFast v.$easeOut,
+      filter v.$durationFast v.$easeOut;
+  }
+
+  &__bar-label {
+    padding: 0 v.$space2;
+    overflow: hidden;
+    color: #1c1e21;
+    font-size: v.$micro;
+    font-weight: 750;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    &--outside {
+      position: absolute;
+      left: 100%;
+      overflow: visible;
+      color: v.$ink2;
+    }
+  }
+
+  &__legend {
+    @include m.pass-card();
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: v.$space2 v.$space5;
+    padding: v.$space3 v.$space5;
+    list-style: none;
+  }
+
+  &__legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: v.$space2;
+    color: v.$ink2;
+    font-size: v.$bodySm;
+    font-weight: 650;
+
+    &::before {
+      content: "";
+      width: 1rem;
+      height: 1rem;
+      border-radius: 50%;
+      background: var(--bar-color);
     }
   }
 }

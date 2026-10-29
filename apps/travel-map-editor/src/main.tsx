@@ -5,6 +5,10 @@ import "@app/features/map/lib/mapRuntime";
 import "maplibre-gl/dist/maplibre-gl.css";
 import "./i18n/i18n";
 
+import {
+  applyTheme,
+  readInitialDarkTheme,
+} from "@app/shared/hooks/useThemeDetector";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router";
@@ -12,6 +16,9 @@ import { BrowserRouter } from "react-router";
 import { App } from "./App";
 import { ToastProvider } from "./shared/components/Toast/Toast";
 import { SaveStatusProvider } from "./shared/context/SaveStatus.context";
+
+/* The shared tokens switch on the body's theme class, so it is set before the first paint. */
+applyTheme(readInitialDarkTheme());
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

@@ -1,7 +1,14 @@
 import { City, Trip } from "@travelmap/core";
 import { LngLatBounds, type PaddingOptions } from "maplibre-gl";
 
+import {
+  SHEET_HALF_HIDDEN_SHARE,
+  SHEET_PEEK_PX,
+  SHEET_TOP_PX,
+} from "@/shared/components/BottomSheet/BottomSheet.metrics";
+import { ResponsiveType } from "@/shared/hooks/useResponsive";
 import { parameters } from "@/shared/lib/parameters";
+import variables from "@/styles/_variables.module.scss";
 
 export const CAMERA_DURATION_MS = 1100;
 export const MAPLIBRE_MIN_ZOOM = 0;
@@ -9,55 +16,87 @@ export const MAPLIBRE_MAX_ZOOM = 12;
 export const SINGLE_DESTINATION_ZOOM = 6.5;
 export const WORLD_CENTER: [number, number] = [0, 0];
 
-const SIDE_PANEL_BREAKPOINT_PX = 680;
-const SIDE_PANEL_CLEARANCE_PX = 432;
-const NAV_CLEARANCE_PX = 88;
-const ZOOM_CONTROLS_CLEARANCE_PX = 64;
-const MAP_EDGE_PADDING_PX = 24;
 const HOME_COUNTRY_ID = parameters.homeCity?.country.id ?? null;
+const ROOT_PX = 16;
+const MAP_EDGE_PADDING_PX = 32;
+/* The phone's floating theme/language buttons and the zoom buttons on wider screens. */
+const TOP_TOOLS_PX = 64;
+const ZOOM_CONTROLS_PX = 72;
 
 /**
- * Calculates camera padding around the desktop side panel or mobile overlay.
- * @param {number} viewportWidth - The current map canvas width in pixels
- * @param {boolean} isPanelOpen - Whether a content panel is visible
+ * Reads a rem length exported by the stylesheet as pixels.
+ * @param {string} rem - A value such as `5rem`
+ * @returns {number} The length in CSS pixels
+ */
+function remToPx(rem: string): number {
+  return Number.parseFloat(rem) * ROOT_PX;
+}
+
+const RAIL_PX = remToPx(variables.railWidth);
+const GAP_PX = remToPx(variables.shellGap);
+const SIDE_PANEL_PX = remToPx(variables.sidePanelWidth);
+const SIDE_PANEL_WIDE_PX = remToPx(variables.sidePanelWidthWide);
+const WIDE_BREAKPOINT_PX = remToPx(variables.breakpointWide);
+const TAB_BAR_PX = 72;
+
+/**
+ * Calculates camera padding so whatever the camera frames lands in the part
+ * of the map no panel covers: right of the rail and side panel on wider
+ * screens, above the tab bar and bottom sheet on phones.
+ * @param {ResponsiveType} viewport - The current viewport
+ * @param {boolean} isSideOpen - Whether the side panel or sheet is open
  * @returns {PaddingOptions} The padding for MapLibre camera transitions
  */
 export function getCameraPadding(
-  viewportWidth: number,
-  isPanelOpen: boolean,
+  viewport: ResponsiveType,
+  isSideOpen: boolean,
 ): PaddingOptions {
-  const hasSidePanel = viewportWidth >= SIDE_PANEL_BREAKPOINT_PX && isPanelOpen;
-
-  if (!hasSidePanel) {
+  if (viewport.isCompact) {
+    const sheetHeight = viewport.window.height - SHEET_TOP_PX - TAB_BAR_PX;
+    const covered = isSideOpen
+      ? sheetHeight * (1 - SHEET_HALF_HIDDEN_SHARE)
+      : SHEET_PEEK_PX;
     return {
-      top: MAP_EDGE_PADDING_PX,
-      right: MAP_EDGE_PADDING_PX,
-      bottom: MAP_EDGE_PADDING_PX,
-      left: MAP_EDGE_PADDING_PX,
+      top: TOP_TOOLS_PX,
+      right: MAP_EDGE_PADDING_PX / 2,
+      bottom: TAB_BAR_PX + covered + MAP_EDGE_PADDING_PX / 2,
+      left: MAP_EDGE_PADDING_PX / 2,
     };
   }
 
+  const panel =
+    viewport.window.width >= WIDE_BREAKPOINT_PX
+      ? SIDE_PANEL_WIDE_PX
+      : SIDE_PANEL_PX;
   return {
-    top: NAV_CLEARANCE_PX,
-    right: MAP_EDGE_PADDING_PX,
-    bottom: ZOOM_CONTROLS_CLEARANCE_PX,
-    left: SIDE_PANEL_CLEARANCE_PX,
+    top: MAP_EDGE_PADDING_PX,
+    right: ZOOM_CONTROLS_PX,
+    bottom: MAP_EDGE_PADDING_PX,
+    left:
+      RAIL_PX +
+      2 * GAP_PX +
+      (isSideOpen ? panel + GAP_PX : 0) +
+      MAP_EDGE_PADDING_PX,
   };
 }
 
 /**
- * Calculates a temporary camera offset that keeps a target clear of the panel
- * without retaining asymmetric padding on later user-controlled camera moves.
- * @param {number} viewportWidth - The current map canvas width in pixels
- * @param {boolean} isPanelOpen - Whether a content panel is visible
- * @returns {[number, number]} The horizontal and vertical target offset
+ * Converts camera padding into a center offset for `flyTo`, which takes an
+ * offset rather than padding.
+ * @param {ResponsiveType} viewport - The current viewport
+ * @param {boolean} isSideOpen - Whether the side panel or sheet is open
+ * @returns {[number, number]} The x and y offset in pixels
  */
 export function getCameraOffset(
-  viewportWidth: number,
-  isPanelOpen: boolean,
+  viewport: ResponsiveType,
+  isSideOpen: boolean,
 ): [number, number] {
-  const padding = getCameraPadding(viewportWidth, isPanelOpen);
-  const { bottom = 0, left = 0, right = 0, top = 0 } = padding;
+  const {
+    bottom = 0,
+    left = 0,
+    right = 0,
+    top = 0,
+  } = getCameraPadding(viewport, isSideOpen);
 
   return [(left - right) / 2, (top - bottom) / 2];
 }

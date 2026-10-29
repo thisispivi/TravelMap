@@ -76,7 +76,10 @@
     "flightNumber": "Numero di volo",
     "cabinClass": "Classe di viaggio",
     "ferryCompany": "Compagnia di traghetti",
-    "noFerryCompany": "Nessuna compagnia di traghetti"
+    "noFerryCompany": "Nessuna compagnia di traghetti",
+    "photoFrom": "Prima foto",
+    "photoTo": "Ultima foto",
+    "photoRangeHint": "Solo se un'altra visita usa la stessa galleria; si parte da 1."
   },
   "combobox": {
     "typeToSearch": "Digita per cercare",

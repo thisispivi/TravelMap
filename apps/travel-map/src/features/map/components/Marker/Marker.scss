@@ -8,9 +8,9 @@
   height: 1.377rem;
   color: var(--marker-color);
   cursor: pointer;
-  filter: var(--marker-filter);
+  filter: drop-shadow(0 0.0625rem 0.125rem rgba(29, 41, 57, 0.35));
   transform-origin: 50% 100%;
-  transition: transform 150ms ease;
+  transition: transform v.$durationFast v.$easeOut;
 
   svg {
     display: block;
@@ -32,7 +32,7 @@
   &:focus-visible {
     z-index: 3;
     outline: none;
-    transform: rotate(var(--marker-hover-turn)) scale(1.22);
+    transform: scale(1.22);
 
     path {
       color: var(--marker-hover-color);
@@ -50,27 +50,19 @@
   }
 
   &--layover {
-    --marker-color: #{v.$darkAltTextDarker};
-    --marker-hover-color: #c0c0d0;
+    --marker-color: #{v.$ink3};
+    --marker-hover-color: #{v.$ink2};
     opacity: 0.72;
   }
 
   &--muted {
     opacity: 0.4;
-    /* Appended so a design keeps its pin shadow; the token is therefore always
-       a filter list, never `none`, which cannot be combined. */
-    filter: var(--marker-filter) grayscale(1);
+    filter: grayscale(1);
 
     &:hover,
     &:focus-visible {
       opacity: 1;
-      filter: var(--marker-filter);
+      filter: none;
     }
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .map-city-marker {
-    transition: none;
   }
 }

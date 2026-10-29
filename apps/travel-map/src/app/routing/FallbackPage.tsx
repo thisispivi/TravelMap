@@ -6,9 +6,6 @@ import { isRouteErrorResponse, useNavigate, useRouteError } from "react-router";
 
 import { Button } from "@/shared/components/Button/Button";
 import { useResponsive } from "@/shared/hooks/useResponsive";
-import { useThemeDetector } from "@/shared/hooks/useThemeDetector";
-import { classNames } from "@/shared/lib/classNames";
-import { mobileAndTabletCheck } from "@/shared/lib/responsive";
 import { getWithExpiry, setWithExpiry } from "@/shared/lib/storage";
 
 /*
@@ -29,7 +26,6 @@ export function FallbackPage(): ReactNode {
   const routerError = useRouteError();
   const { t } = useTranslation(["error"]);
   const navigate = useNavigate();
-  const { isDarkTheme } = useThemeDetector();
   const responsive = useResponsive();
 
   const isHttpError = isRouteErrorResponse(routerError);
@@ -57,19 +53,12 @@ export function FallbackPage(): ReactNode {
     }
   }, [error, isHttpError]);
 
-  const pageClass = classNames(
-    "fallback-page",
-    isDarkTheme ? "fallback-page--dark" : "fallback-page--light",
-  );
-  const stack =
-    !mobileAndTabletCheck() && responsive.window.width > 980
-      ? error?.stack
-      : undefined;
+  const stack = responsive.window.width > 980 ? error?.stack : undefined;
 
   if (isHttpError) {
     const is404 = routerError.status === 404;
     return (
-      <div className={pageClass}>
+      <div className="fallback-page">
         <div className="fallback-page__content">
           <span className="fallback-page__code">{routerError.status}</span>
           <h1 className="fallback-page__title">
@@ -81,6 +70,7 @@ export function FallbackPage(): ReactNode {
           <Button
             className="fallback-page__button"
             onClick={() => navigate("/")}
+            variant="primary"
           >
             {t("goToHome")}
           </Button>
@@ -94,13 +84,17 @@ export function FallbackPage(): ReactNode {
     (typeof rawError === "string" ? rawError : t("details.subtitle"));
 
   return (
-    <div className={pageClass}>
+    <div className="fallback-page">
       <div className="fallback-page__content">
         <h1 className="fallback-page__title">{t("details.title")}</h1>
         <p className="fallback-page__subtitle">{t("details.subtitle")}</p>
         <p className="fallback-page__message">{errorMessage}</p>
         {stack ? <pre className="fallback-page__stack">{stack}</pre> : null}
-        <Button className="fallback-page__button" onClick={() => navigate("/")}>
+        <Button
+          className="fallback-page__button"
+          onClick={() => navigate("/")}
+          variant="primary"
+        >
           {t("goToHome")}
         </Button>
       </div>

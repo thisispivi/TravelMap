@@ -114,6 +114,21 @@ export const LocalDateSchema = z
 /** A calendar day, read in the city where it happens. */
 export const CalendarDateSchema = z.iso.date();
 
+/**
+ * Which photos of a gallery belong to this visit, numbered from 1 and both
+ * ends included. Lets two visits share one folder — Sydney before and after
+ * Cairns — with each showing only its own part.
+ */
+const PhotoRangeSchema = z
+  .strictObject({
+    from: finiteNumberSchema.int().positive().optional(),
+    to: finiteNumberSchema.int().positive().optional(),
+  })
+  .refine((range) => (range.from ?? 1) <= (range.to ?? Infinity), {
+    error: "A photo range cannot end before it starts.",
+    path: ["to"],
+  });
+
 /** Gallery row overrides for a visit's photos. */
 const RowConstraintsSchema = z.strictObject({
   maxPhotos: finiteNumberSchema.int().positive().optional(),
@@ -150,12 +165,16 @@ export const TripLegJsonSchema = z.strictObject({
     .optional(),
   mode: TransportModeSchema,
   photoPath: z.string().trim().min(1).optional(),
+  photoRange: PhotoRangeSchema.optional(),
   rowConstraints: RowConstraintsSchema.optional(),
   targetRowHeight: finiteNumberSchema.positive().optional(),
   toId: idSchema,
   viaIds: z.array(idSchema).optional(),
   visited: z.literal(true).optional(),
 });
+
+/** Which photos of a shared gallery belong to one visit. */
+export type PhotoRange = z.infer<typeof PhotoRangeSchema>;
 
 /** A non-empty chain of legs. */
 const LegsSchema = z.array(TripLegJsonSchema).min(1);
@@ -177,6 +196,7 @@ export const TripStayJsonSchema = z
     cityId: idSchema,
     outings: z.array(TripOutingJsonSchema).optional(),
     photoPath: z.string().trim().min(1).optional(),
+    photoRange: PhotoRangeSchema.optional(),
     rowConstraints: RowConstraintsSchema.optional(),
     targetRowHeight: finiteNumberSchema.positive().optional(),
     type: z.literal("stay"),

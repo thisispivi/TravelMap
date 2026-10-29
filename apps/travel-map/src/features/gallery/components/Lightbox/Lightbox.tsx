@@ -1,245 +1,321 @@
 import "./Lightbox.scss";
-import "react-image-gallery/styles/image-gallery.css";
 
-import { mediaUrl } from "@travelmap/core";
+import { mediaUrl, PublishedImage } from "@travelmap/core";
+import { AnimatePresence, m, PanInfo } from "framer-motion";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { ReactNode, useEffect, useRef, useState } from "react";
-import ImageGallery, {
-  ImageGalleryProps,
-  ImageGalleryRef,
-} from "react-image-gallery";
+import { createPortal } from "react-dom";
 import { useLoaderData, useLocation, useNavigate } from "react-router";
 
-import ChevronIcon from "@/assets/icons/Chevron.svg?react";
-import FullscreenEnterIcon from "@/assets/icons/FullscreenEnter.svg?react";
-import FullscreenExitIcon from "@/assets/icons/FullscreenExit.svg?react";
-import GalleryIcon from "@/assets/icons/Gallery.svg?react";
-import { Button } from "@/shared/components/Button/Button";
+import { formatDateRangeShort } from "@/i18n/functions/date";
+import { CountryFlag } from "@/shared/components/CountryFlag/CountryFlag";
 import { useLanguage } from "@/shared/hooks/useLanguage";
 import { classNames } from "@/shared/lib/classNames";
 import { env } from "@/shared/lib/env";
-import { parameters } from "@/shared/lib/parameters";
+import { easeOut } from "@/shared/lib/motion";
 
-import type { lightboxLoader } from "../../loaders/Lightbox.loader";
+import { albumPhotos } from "../../lib/album";
+import type { LightboxRouteData } from "../../loaders/Lightbox.loader";
 
-const HIDE_NAV_AFTER_MS = 2000;
-
-/**
- * One slide handed to react-image-gallery, carrying the extra fields the custom
- * renderer needs to choose between an image and a YouTube embed.
- * @property {boolean} [youtube] - Whether the slide's original is a YouTube id
- * @property {string} [alt] - Alternative text from the dataset
- */
-type LightboxItem = ImageGalleryProps["items"][number] & {
-  youtube?: boolean;
-  alt?: string;
-};
+/* A swipe this far, or this fast, turns the page. */
+const SWIPE_DISTANCE_PX = 80;
+const SWIPE_VELOCITY = 500;
 
 /**
  * Normalizes an absolute or configured YouTube embed source.
  * @param {string} original - The media's stored URL or video identifier
  * @returns {string} The complete YouTube embed URL
  */
-function getYoutubeEmbedSrc(original: string): string {
-  const normalizedOriginal = original.replace(/^https:\//, "https://");
-  if (/^https?:\/\//.test(normalizedOriginal)) return normalizedOriginal;
+function youtubeEmbedSrc(original: string): string {
+  const normalized = original.replace(/^https:\//, "https://");
+  if (/^https?:\/\//.test(normalized)) return normalized;
+  return `${env.VITE_YOUTUBE_PATH}${normalized}`;
+}
 
-  return `${env.VITE_YOUTUBE_PATH}${normalizedOriginal}`;
+/**
+ * Properties accepted by the Slide component.
+ * @property {PublishedImage} photo - The photo or video
+ */
+interface SlideProps {
+  photo: PublishedImage;
+}
+
+/**
+ * Slide component
+ * The open photo at full size, or the embedded video. The thumbnail is drawn
+ * underneath at once, so a slow original arrives over something rather than
+ * over nothing.
+ * @component
+ * @param {SlideProps} props - The slide props
+ * @param {PublishedImage} props.photo - The photo or video
+ * @returns {ReactNode} The slide
+ */
+function Slide({ photo }: SlideProps): ReactNode {
+  const { t } = useLanguage(["home"]);
+
+  if (photo.youtube)
+    return (
+      <iframe
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowFullScreen
+        className="lightbox__video"
+        sandbox="allow-scripts allow-same-origin allow-presentation"
+        src={youtubeEmbedSrc(photo.original)}
+        title={t("gallery.video")}
+      />
+    );
+
+  /*
+   * The width and height attributes reserve the photo's shape before it
+   * loads, and the thumbnail painted behind it fills that shape at once.
+   */
+  return (
+    <img
+      alt={photo.alt ?? ""}
+      className="lightbox__image"
+      decoding="async"
+      draggable={false}
+      height={photo.height}
+      src={mediaUrl(photo.original)}
+      style={{ backgroundImage: `url("${mediaUrl(photo.thumbnail)}")` }}
+      width={photo.width}
+    />
+  );
 }
 
 /**
  * Lightbox component
- * Full-screen photo and video viewer. Wraps `react-image-gallery` with custom
- * navigation buttons, a fullscreen toggle, and an auto-hiding top bar.
+ * One photo of an album, full screen. Arrow keys, the side buttons, a swipe,
+ * or the thumbnail strip move through the whole album; Escape or the close
+ * button returns to it. Each move replaces the history entry, so Back closes
+ * the lightbox instead of stepping through every photo seen.
  * @component
  * @returns {ReactNode} The lightbox overlay
  */
 export function Lightbox(): ReactNode {
-  const { t } = useLanguage(["home"]);
+  const { t, currLanguage } = useLanguage(["home"]);
   const navigate = useNavigate();
   const location = useLocation();
-  const { photoIdx, travel } = useLoaderData<typeof lightboxLoader>();
-  const photos = travel.photos;
-  const [isNavVisible, setIsNavVisible] = useState(true);
-  const [isFullscreen, setIsFullscreen] = useState(false);
-  const hideNavTimeoutRef = useRef<number | undefined>(undefined);
-  const galleryRef = useRef<ImageGalleryRef>(null);
-
-  /**
-   * Restarts the timer that hides the lightbox navigation.
-   * @returns {void}
-   */
-  const scheduleHideNav = (): void => {
-    if (hideNavTimeoutRef.current !== undefined) {
-      window.clearTimeout(hideNavTimeoutRef.current);
-    }
-    hideNavTimeoutRef.current = window.setTimeout(() => {
-      setIsNavVisible(false);
-    }, HIDE_NAV_AFTER_MS);
-  };
-  const scheduleHideNavRef = useRef(scheduleHideNav);
+  /* Undefined while the album animates out after the route has changed. */
+  const data = useLoaderData<LightboxRouteData | undefined>();
+  const photoIdx = data?.photoIdx ?? 0;
+  const photos = data ? albumPhotos(data.album) : [];
+  const current = photos[photoIdx];
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const stripRef = useRef<HTMLDivElement>(null);
+  const currentIdx = useRef(photoIdx);
+  /* Which way the last move went, so the slides enter and leave from that side. */
+  const [step, setStep] = useState({ direction: 1, index: photoIdx });
+  if (step.index !== photoIdx)
+    setStep({ direction: photoIdx > step.index ? 1 : -1, index: photoIdx });
+  const { direction } = step;
 
   useEffect(() => {
-    scheduleHideNavRef.current = scheduleHideNav;
+    currentIdx.current = photoIdx;
+  }, [photoIdx]);
+
+  /**
+   * Opens another photo of the album, if there is one at that index.
+   * @param {number} index - The photo's album index
+   * @returns {void}
+   */
+  const goTo = (index: number): void => {
+    if (index < 0 || index >= photos.length) return;
+    navigate(`../${index}`, {
+      relative: "path",
+      replace: true,
+      state: location.state,
+    });
+  };
+
+  /**
+   * Returns to the album.
+   * @returns {void}
+   */
+  const close = (): void => {
+    navigate("..", { relative: "path", state: location.state });
+  };
+
+  const goToRef = useRef(goTo);
+  const closeRef = useRef(close);
+  useEffect(() => {
+    goToRef.current = goTo;
+    closeRef.current = close;
   });
 
-  /**
-   * Reveals the lightbox navigation and restarts its hide timer.
-   * @returns {void}
-   */
-  const revealNav = (): void => {
-    setIsNavVisible(true);
-    scheduleHideNavRef.current();
-  };
   useEffect(() => {
-    const timeoutId = window.setTimeout(() => {
-      setIsNavVisible(false);
-    }, HIDE_NAV_AFTER_MS);
-    hideNavTimeoutRef.current = timeoutId;
+    /**
+     * Moves with the arrow keys and closes with Escape.
+     * @param {KeyboardEvent} event - The key press
+     * @returns {void}
+     */
+    const handleKeyDown = (event: KeyboardEvent): void => {
+      if (event.key === "ArrowRight") goToRef.current(currentIdx.current + 1);
+      else if (event.key === "ArrowLeft")
+        goToRef.current(currentIdx.current - 1);
+      else if (event.key === "Escape") closeRef.current();
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  /* Focus moves into the dialog and back to whatever opened it on close. */
+  useEffect(() => {
+    const opener = document.activeElement;
+    dialogRef.current?.focus();
     return () => {
-      window.clearTimeout(timeoutId);
+      if (opener instanceof HTMLElement) opener.focus();
     };
   }, []);
 
-  /**
-   * Renders either a sandboxed video embed or a responsive image slide.
-   * @param {LightboxItem} item - The lightbox item to render
-   * @returns {ReactNode} The rendered media slide
-   */
-  const handleRenderItem = (item: LightboxItem): ReactNode => {
-    if (item.youtube) {
-      return (
-        <iframe
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowFullScreen
-          className="image-gallery-video"
-          sandbox="allow-scripts allow-same-origin allow-presentation"
-          src={parameters.isShowPhotos ? getYoutubeEmbedSrc(item.original) : ""}
-          title={t("lightbox.youtubeVideo")}
-        />
-      );
-    } else {
-      return (
-        <img
-          alt={item.alt ?? ""}
-          className="image-gallery-image"
-          src={parameters.isShowPhotos ? mediaUrl(item.original) : ""}
-        />
-      );
+  /* The neighbours are fetched ahead, so the next swipe lands on a loaded photo. */
+  useEffect(() => {
+    const sequence = data ? albumPhotos(data.album) : [];
+    for (const neighbour of [sequence[photoIdx - 1], sequence[photoIdx + 1]]) {
+      if (neighbour && !neighbour.photo.youtube)
+        new Image().src = mediaUrl(neighbour.photo.original);
     }
-  };
+    stripRef.current
+      ?.querySelector(".lightbox__thumb--active")
+      ?.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "center",
+      });
+  }, [data, photoIdx]);
 
   /**
-   * Stops media on the current slide and navigates to a new media index.
-   * @param {number} newIndex - The destination media index
+   * Turns the page when a drag was long or fast enough.
+   * @param {PointerEvent} _event - The pointer event that ended the drag
+   * @param {PanInfo} info - The drag's offset and velocity
    * @returns {void}
    */
-  const goToSlide = (newIndex: number): void => {
-    const media = document.querySelector(
-      `[aria-label="Go to Slide ${photoIdx + 1}"]`,
-    )?.children[0];
-    if (media instanceof HTMLVideoElement) media.pause();
-    if (media instanceof HTMLIFrameElement) {
-      /* Reloading the embed is the only way to stop a YouTube player from outside it. */
-      const { src } = media;
-      media.src = src;
-    }
-    navigate(`../${newIndex}`, { state: location.state });
+  const handleDragEnd = (_event: PointerEvent, info: PanInfo): void => {
+    if (info.offset.x < -SWIPE_DISTANCE_PX || info.velocity.x < -SWIPE_VELOCITY)
+      goTo(photoIdx + 1);
+    else if (
+      info.offset.x > SWIPE_DISTANCE_PX ||
+      info.velocity.x > SWIPE_VELOCITY
+    )
+      goTo(photoIdx - 1);
   };
 
-  /**
-   * Navigates to an in-range slide and reveals the navigation controls.
-   * @param {number} idx - The destination media index
-   * @returns {void}
-   */
-  const handleNavigateSlide = (idx: number): void => {
-    if (idx < 0 || idx >= photos.length) return;
-    revealNav();
-    goToSlide(idx);
-  };
+  if (!current) return null;
+  const { section } = current;
 
-  /**
-   * Toggles the underlying image gallery's fullscreen mode.
-   * @returns {void}
+  /*
+   * Portalled to the body: the album page sits under a backdrop filter and a
+   * transform, either of which would trap a fixed overlay inside the page.
    */
-  const handleToggleFullscreen = (): void => {
-    if (galleryRef.current) {
-      if (isFullscreen) {
-        galleryRef.current.exitFullScreen();
-      } else {
-        galleryRef.current.fullScreen();
-      }
-    }
-  };
-  return (
-    <div
-      className={classNames(
-        "lightbox",
-        !isNavVisible && "lightbox--nav-hidden",
-        isFullscreen && "lightbox--fullscreen",
-      )}
-      onMouseMove={revealNav}
-      onTouchStart={revealNav}
+  return createPortal(
+    <m.div
+      animate={{ opacity: 1 }}
+      aria-label={t("gallery.lightbox")}
+      aria-modal="true"
+      className="lightbox"
+      initial={{ opacity: 0 }}
+      ref={dialogRef}
+      role="dialog"
+      tabIndex={-1}
+      transition={easeOut}
     >
-      <div className="lightbox__top-bar">
-        <Button
-          className="lightbox__back-button"
-          onClick={() => navigate(`..`, { state: location.state })}
-        >
-          <GalleryIcon />
-          <p>{t("gallery")}</p>
-        </Button>
-        <span className="lightbox__spacer" />
-        <span className="lightbox__index">
-          <span className="lightbox__index--current">{photoIdx + 1}</span> /{" "}
-          {photos.length}
+      <header className="lightbox__bar">
+        <p className="lightbox__caption">
+          <CountryFlag
+            className="lightbox__flag"
+            countryId={section.city.country.id}
+          />
+          <span className="lightbox__place">
+            {section.city.getLocalizedName(currLanguage)}
+          </span>
+          <span className="lightbox__date">
+            {formatDateRangeShort({
+              eDateInput: section.eDate,
+              locale: currLanguage,
+              sDateInput: section.sDate,
+            })}
+          </span>
+        </p>
+        <span className="lightbox__counter">
+          {photoIdx + 1} / {photos.length}
         </span>
-        <Button
-          ariaLabel={t("lightbox.fullscreen")}
-          className="lightbox__fullscreen-button"
-          onClick={handleToggleFullscreen}
+        <button
+          aria-label={t("gallery.close")}
+          className="lightbox__button"
+          onClick={close}
+          type="button"
         >
-          {isFullscreen ? <FullscreenExitIcon /> : <FullscreenEnterIcon />}
-        </Button>
+          <X aria-hidden="true" />
+        </button>
+      </header>
+
+      <div className="lightbox__stage">
+        <AnimatePresence custom={direction} initial={false} mode="popLayout">
+          <m.div
+            animate={{ opacity: 1, scale: 1, x: 0 }}
+            className="lightbox__slide"
+            custom={direction}
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={0.5}
+            exit={{ opacity: 0, scale: 0.96, x: -direction * 80 }}
+            initial={{ opacity: 0, scale: 0.96, x: direction * 80 }}
+            key={photoIdx}
+            onDragEnd={handleDragEnd}
+            transition={easeOut}
+          >
+            <Slide photo={current.photo} />
+          </m.div>
+        </AnimatePresence>
+        <button
+          aria-label={t("gallery.previous")}
+          className={classNames(
+            "lightbox__button lightbox__nav lightbox__nav--previous",
+            photoIdx === 0 && "lightbox__nav--hidden",
+          )}
+          onClick={() => goTo(photoIdx - 1)}
+          type="button"
+        >
+          <ChevronLeft aria-hidden="true" />
+        </button>
+        <button
+          aria-label={t("gallery.next")}
+          className={classNames(
+            "lightbox__button lightbox__nav lightbox__nav--next",
+            photoIdx === photos.length - 1 && "lightbox__nav--hidden",
+          )}
+          onClick={() => goTo(photoIdx + 1)}
+          type="button"
+        >
+          <ChevronRight aria-hidden="true" />
+        </button>
       </div>
-      <ImageGallery
-        infinite={false}
-        items={photos}
-        lazyLoad={true}
-        onScreenChange={(fs) => setIsFullscreen(fs)}
-        onSlide={goToSlide}
-        ref={galleryRef}
-        renderItem={handleRenderItem}
-        showFullscreenButton={false}
-        showIndex={false}
-        showNav={false}
-        showPlayButton={false}
-        showThumbnails={false}
-        startIndex={photoIdx}
-      />
-      <Button
-        ariaLabel={t("lightbox.previousSlide")}
-        className={classNames(
-          "lightbox__nav-button image-gallery-left-nav",
-          photoIdx === 0 && "lightbox__nav-button--disabled",
-        )}
-        hoverScale={1}
-        onClick={() => handleNavigateSlide(photoIdx - 1)}
-        tapScale={1}
-      >
-        <ChevronIcon className="chevron" />
-      </Button>
-      <Button
-        ariaLabel={t("lightbox.nextSlide")}
-        className={classNames(
-          "lightbox__nav-button image-gallery-right-nav",
-          photoIdx >= photos.length - 1 && "lightbox__nav-button--disabled",
-        )}
-        hoverScale={1}
-        onClick={() => handleNavigateSlide(photoIdx + 1)}
-        tapScale={1}
-      >
-        <ChevronIcon className="chevron" />
-      </Button>
-    </div>
+
+      <div className="lightbox__strip" ref={stripRef}>
+        {photos.map(({ photo }, index) => (
+          <button
+            aria-current={index === photoIdx ? "true" : undefined}
+            aria-label={t("gallery.openPhoto", { index: index + 1 })}
+            className={classNames(
+              "lightbox__thumb",
+              index === photoIdx && "lightbox__thumb--active",
+            )}
+            key={photo.thumbnail}
+            onClick={() => goTo(index)}
+            type="button"
+          >
+            <img
+              alt=""
+              className="lightbox__thumb-image"
+              decoding="async"
+              loading="lazy"
+              src={mediaUrl(photo.thumbnail)}
+            />
+          </button>
+        ))}
+      </div>
+    </m.div>,
+    document.body,
   );
 }

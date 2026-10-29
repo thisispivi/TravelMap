@@ -102,18 +102,23 @@ dependency direction:
   resolve to `element: null` (`/trips`, `/trip/:tripId`, `/places`,
   `/places/:filter`) — `MapShell` stays mounted for all of them and reads the
   matched path through `app/routing/useAppLocation.ts` (a pathname classifier,
-  not `useParams`) to decide which panel to show over the map. Only genuinely
-  separate views (`Timeline`, `Stats`, `Gallery`, `Lightbox`) get a real routed
-  `element`, and those are lazy-loaded. **When adding a new panel that lives
+  not `useParams`) to decide which panel to show over the map. The classifier
+  also names the route's **surface**: `side` content (trips, one trip, places)
+  sits in the side panel beside the map — a bottom sheet on phones — so a route
+  stays visible next to it; `page` content (timeline, statistics, galleries)
+  covers the map as a full page. Only page views (`TimelinePage`, `StatsPage`,
+  `GalleryIndex`, `GalleryAlbum`, `Lightbox`) get a real routed `element`, and
+  those are lazy-loaded. **When adding a new panel that lives
   inside the map shell, follow this pattern**: add the path with
   `element: null`, then extend `useAppLocation.ts` and `MapShell` — don't give it
   its own routed page component. When adding a genuinely standalone view, follow the
-  `Timeline`/`Stats` pattern (own lazy-loaded route element).
+  `TimelinePage`/`StatsPage` pattern (own lazy-loaded route element).
 - **No client-server API.** There is no backend. All content is static JSON
   under `data/`, bundled at build time via `import.meta.glob` (see §9). The only
-  runtime requests are photo loads, which go through `swr` and Cache Storage in
-  `features/places/lib/useImageCache.ts`. If you add application-level
-  fetching, use `swr`; do not add a second data-fetching library.
+  runtime requests are photo loads, which are plain `<img loading="lazy">`
+  elements (`shared/components/CoverImage`) left to the browser's HTTP cache.
+  There is no data-fetching library; if application-level fetching ever
+  arrives, pick one then rather than hand-rolling a cache.
 
 The feature boundary is architectural, not a reason to add abstraction.
 Features use only the `components`, `lib`, and `loaders` subfolders they need,
@@ -131,7 +136,7 @@ apps/travel-map/src/
   data/          world.ts loads JSON and calls buildWorld() exactly once
   i18n/          Translation setup and formatting functions
   styles/        Global SCSS: _variables.scss, _variables.module.scss, mixins
-  assets/        Icons (SVG via svgr), JSON, flags
+  assets/        The logo and pin SVGs (via svgr), JSON
 
 packages/core/src/
   classes/       Trip, City, Country, Travel, Ferry, Flight, Color
@@ -175,7 +180,7 @@ anywhere in the app today — keep it that way; import from the concrete file.
 | Domain class file (core)        | `PascalCase`, matches export             | `packages/core/src/classes/Trip.ts` |
 | Type/typings file (core)        | `PascalCase` for a single concept        | `typings/Continent.ts`              |
 | Test file (see §16)             | Colocated, `<Owner>.test.ts`/`.test.tsx` | `Trip.test.ts` next to `Trip.ts`    |
-| SVG asset                       | `PascalCase.svg`, imported as component  | `Calendar.svg` → `?react`           |
+| SVG asset                       | `PascalCase.svg`, imported as component  | `Logo.svg` → `?react`               |
 
 - `PascalCase` for anything that exports a component, class, or type as its
   primary export.
@@ -183,7 +188,7 @@ anywhere in the app today — keep it that way; import from the concrete file.
 - **Use dot-qualified filenames for modules owned by a primary component or
   concept.** Keep the owner name first and add one lowercase responsibility:
   `MapShell.layout.tsx`, `MapShell.state.ts`, `Panel.context.ts`,
-  `Gallery.loader.ts`, and `Trip.test.ts`. This keeps companion files adjacent
+  `GalleryAlbum.loader.ts`, and `Trip.test.ts`. This keeps companion files adjacent
   in directory listings and makes ownership visible without another folder.
   The primary component remains `MapShell.tsx`, not `MapShell.component.tsx`.
   A role suffix describes the whole module; do not stack roles such as
@@ -242,18 +247,18 @@ export function Marker({
 - **Sub-components used by exactly one component** MUST live in that
   component's file. Prefer putting them above their consumer (as `MapLabels`
   precedes `MapLayers` in `features/map/components/Map/MapLayers.tsx`, and
-  `CompanyRows` precedes `CompaniesCard`); one placed below is a style nit, not
+  `PlaceRow` precedes `ConnectionRow` in `TripItinerary.tsx`); one placed below is a style nit, not
   a correctness issue — fix it if you are already editing that file. A
   sub-component a second component needs gets its own file, which is why
   `MapMarkers` and the map tooltip live in
   `features/map/components/Map/MapMarkers.tsx` and
-  `features/map/components/Tooltip/TooltipMap.tsx` rather than inside
+  `features/map/components/MapTooltip/MapTooltip.tsx` rather than inside
   `Map.tsx`. Never define a component inside another component's render body —
   `react/no-unstable-nested-components` forbids it.
 - **Event handlers wired directly to a JSX/DOM event prop** (`onClick=
 {handleClick}`) MUST be named `handleX`. **Action functions** that
   encapsulate a piece of business logic and are called from one or more
-  handlers (`openGallery`, `selectYear`) MAY keep a plain verb name — they
+  handlers (`openTrip`, `focusCity`) MAY keep a plain verb name — they
   aren't handlers themselves, they're what a handler calls. Don't force
   `handle` onto every function that happens to run in response to user
   interaction.
@@ -280,23 +285,26 @@ export function Marker({
 - **Icon-only actionable elements**: if it behaves like a button, make it a
   real `<button type="button">` wrapping the icon — that gets you focusability,
   keyboard activation, and a default accessible role for free, which is less
-  code than reimplementing them. `CloseButton` and `FloatingNav`'s logo are
-  the reference: a real button with an `aria-label` and an `aria-hidden` icon
-  inside. Never nest one interactive element in another: a library that
-  already wraps an item in a button (react-photo-album does) gets decoration
-  inside it, as `Gallery`'s play mark is. Reserve the `role="button"` +
-  `tabIndex={0}` + `isActivationKey` pattern (§13) for elements with a real
-  reason not to be a `<button>` — `Marker` and `CityCard`, which are
-  non-rectangular map and photo surfaces with their own layout and hover
-  semantics.
+  code than reimplementing them. The lightbox's close button and `AppNav`'s
+  logo are the reference: a real button with an `aria-label` and an
+  `aria-hidden` icon inside. Never nest one interactive element in another: a
+  library that already wraps an item in a button (react-photo-album does) gets
+  decoration inside it, as `GalleryAlbum`'s play mark is. Reserve the
+  `role="button"` + `tabIndex={0}` + `isActivationKey` pattern (§13) for
+  elements with a real reason not to be a `<button>` — `Marker`, a
+  non-rectangular map surface with its own layout and hover semantics.
+- **Icons come from `lucide-react`**, one stroke set for the whole app, so
+  nothing looks drawn by a different hand. Only the logo and the map pin are
+  bespoke SVGs under `assets/icons`.
 
 ### When to split a component, when to leave it together
 
 Split when a file mixes concerns that don't need to be adjacent to work: pure
 data transformation, imperative DOM measurement, and JSX rendering are three
-different jobs. The trip page's layout — which blocks, which night numbers —
-lives in `features/trips/lib/tripItinerary.ts`, next to the component that
-renders the result rather than inside it; `TripItinerary.tsx` only renders. Presentation
+different jobs. The trip page's layout — the stays and moves of its spine, the
+connections between rides — lives in `features/trips/lib/tripItinerary.ts`,
+next to the component that renders the result rather than inside it;
+`TripItinerary.tsx` only renders. Presentation
 data that comes from the dataset — an operator's name and logo, for instance —
 belongs in `data/`, where `resolveCompany` owns it, so no component keeps its
 own table of names that a fork cannot change.
@@ -337,11 +345,10 @@ vs. rendering, or "used elsewhere" vs. "used here"), not by line count alone.
 - **The "latest ref" effect is an accepted idiom, not a lint dodge.** A
   dependency-array-free `useEffect(() => { xRef.current = x; })` keeps a ref
   pointing at the latest closure for a callback that cannot itself be an effect
-  dependency — `useResizeMeasurement` and `MapTooltip` do this. It is
-  intentional: recognise it rather than "fixing" it with a dependency array that
-  would break it. Panel height measurement in particular is already factored
-  into `shared/hooks/useResizeMeasurement.ts`; use that hook rather than
-  hand-rolling another `ResizeObserver` plus `requestAnimationFrame` pair.
+  dependency — `MapTooltip` and `Lightbox` do this. It is intentional:
+  recognise it rather than "fixing" it with a dependency array that would break
+  it. Panels size themselves with CSS (fixed insets and an inner scroll
+  container); do not measure their content in JavaScript to animate a height.
 - **Don't use an effect to store what you can compute during render.** If a
   value can be derived from props/state/context synchronously, compute it
   inline (or in a `useMemo` per the rule below) instead of `useState` +
@@ -376,10 +383,10 @@ vs. rendering, or "used elsewhere" vs. "used here"), not by line count alone.
 - **Refs** (`useRef`) are for imperative handles (`mapRef`) and mutable
   non-render state (`hoverLeaveTimer`, `isTooltipInteracting`) — not as a
   substitute for state that should trigger a re-render.
-- **Data-fetching hooks**: `useCachedImageSource` is the only one, because there
-  is no backend (§9). A new one takes the same shape as every other hook here —
-  `useX` returning named fields — and the fetching itself lives in the owning
-  `lib/`, not in the component.
+- **Data-fetching hooks**: there are none, because there is no backend (§9). A
+  new one takes the same shape as every other hook here — `useX` returning
+  named fields — and the fetching itself lives in the owning `lib/`, not in the
+  component.
 
 ---
 
@@ -396,7 +403,8 @@ Choose the narrowest scope that works, in this order:
 3. **Context** — for state genuinely shared across a subtree with no single
    feature owner. There are three, each a narrow contract:
    `MapInteractionContext` coordinates map viewport, hover, and selected trip;
-   `PanelContext` owns route-panel visibility; `AppRouteContext` publishes what
+   `PanelContext` owns whether the side panel (or, on phones, the bottom
+   sheet) is open; `AppRouteContext` publishes what
    the current route means so features need not re-classify the pathname. All
    three live under `shared/context`, are provided once by `MapShell`, and are
    consumed through their hook. Context hooks MUST throw a clear error outside
@@ -426,8 +434,9 @@ of something already available from props/context/a domain object's method.
 
 There is no backend and no application API. Every piece of content is static
 JSON under `data/`, compiled into the bundle at build time. The only runtime
-network traffic is image loading: `features/places/lib/useImageCache.ts` fetches
-photos through `swr` and Cache Storage.
+network traffic is image loading, left to `<img loading="lazy">` and the
+browser's HTTP cache. `data/albums.ts` groups a trip's or a place's photos into
+the albums the gallery, places and map tooltip read.
 
 **How data flows:**
 
@@ -450,7 +459,7 @@ photos through `swr` and Cache Storage.
 ### Validation policy
 
 - **Validate at trust boundaries, once.** The boundaries are: `buildWorld()`
-  for the dataset; route loaders for URL params (`Gallery.loader.ts` answers a
+  for the dataset; route loaders for URL params (`GalleryAlbum.loader.ts` answers a
   bad one with a 404); `shared/lib/navigationState.ts` for router history
   state; the editor's `vite/` middleware for request bodies, query strings,
   and its upload settings in `.env`; `shared/lib/httpResponse.ts` for
@@ -499,8 +508,8 @@ photos through `swr` and Cache Storage.
 - MUST NOT fetch or transform data inside a component body. A derived slice of
   the world belongs on a domain class, in the owning feature's `lib/`, in
   `shared/lib/`, or in `data/` when it joins dataset documents together.
-- If application-level network fetching is introduced, use `swr` — it is
-  already a dependency and already used for images. Loading, empty, and error
+- If application-level network fetching is introduced, add one maintained
+  library for it rather than a hand-rolled cache. Loading, empty, and error
   states use the existing `EmptyState` and `Loading` components rather than a
   new set per feature.
 
@@ -570,17 +579,18 @@ Ordered by `simple-import-sort`, in groups separated by blank lines
 (`pnpm lint:fix` sorts for you):
 
 ```tsx
-import "./CityCard.scss";
-import "maplibre-gl/dist/maplibre-gl.css";
+import "./TripDetail.scss";
 
-import { City, Travel } from "@travelmap/core";
-import { ReactNode, useEffect, useRef } from "react";
+import { City, TransportModeSchema } from "@travelmap/core";
+import { ArrowLeft, Images } from "lucide-react";
+import { ReactNode, useEffect } from "react";
 import { useNavigate } from "react-router";
 
-import CalendarIcon from "@/assets/icons/Calendar.svg?react";
+import { findTripAlbum } from "@/data/albums";
 import { useLanguage } from "@/shared/hooks/useLanguage";
 
-import { CityCard } from "../CityCard/CityCard";
+import { totalsOf } from "../../lib/tripItinerary";
+import { TripItinerary } from "../TripItinerary/TripItinerary";
 ```
 
 The groups are, in order: side-effect imports, external/workspace packages,
@@ -709,7 +719,7 @@ Vertical whitespace communicates structure and MUST be deterministic:
 
   Global platform selectors (`html`, `body`, `#root`, `:root`, pseudo-elements),
   vendor selectors (`::-webkit-scrollbar`), and third-party classes that cannot
-  be renamed (`.react-tooltip`) are the only BEM exceptions. Scope third-party
+  be renamed (`.maplibregl-popup-content`) are the only BEM exceptions. Scope third-party
   selectors beneath the owning BEM block whenever possible. Existing IDs used
   as integration hooks are tolerated, but new authored UI styling MUST use BEM
   classes.
@@ -722,32 +732,50 @@ Vertical whitespace communicates structure and MUST be deterministic:
   @use "../../../styles/variables" as v;
   @use "../../../styles/mixins" as m;
 
-  color: v.$darkButtonContent;
-  @include m.transition(background-color, 0.2s);
+  color: v.$ink;
+  @include m.transition(transform, v.$durationFast);
   ```
 
-- **Theming is class-scoped**, not media-query-based: style under
-  `.map-shell--dark` and `.map-shell--light` modifiers, always provide both.
+- **One design, two themes, switched by tokens.** `styles/_tokens.scss` sets
+  every theme-dependent colour as a custom property on `.body--light` and
+  `.body--dark` (and `:root`, for the first paint), and `_variables.scss`
+  exposes them as semantic Sass names — `v.$ink`, `v.$card`, `v.$glass`,
+  `v.$accent`. A component writes each rule once and reads correctly in both
+  themes; do not add `--dark`/`--light` modifiers to app components. The
+  `$dark*`/`$light*` pairs remain only for the editor's own theme modifiers.
 
   ```scss
-  .map-shell {
-    &--dark {
-      .map__canvas {
-        background: v.$darkBackground;
-      }
-    }
-
-    &--light {
-      .map__canvas {
-        background: v.$lightBackground;
-      }
-    }
+  .stay-card {
+    background: v.$card;
+    color: v.$ink;
   }
   ```
 
-- **`prefers-reduced-motion` is honoured globally.** `styles/_global.scss`
-  gives every element a transition, so the carve-out lives beside it and
-  neutralises animation and transition durations for the whole app — the editor
+- **The look is pass cards on frosted panels.** Panels and pages over the map
+  use `m.panel()`, frosted glass the map shows through. Every panel is a
+  `PanelFrame`: a header that stays put and a body that scrolls beneath it, so
+  content never passes under a heading and the glass only ever shows the map.
+  Nothing is `position: sticky` inside a scrolling body; to say where the
+  reader is (the place in an album), follow the scroll with `useScrollState`
+  and show it in the header. Content inside a
+  panel uses `m.pass-card()`; a pass with two halves is two elements using
+  `m.ticket-half()` and `m.perforation()`, whose masked notches are real holes,
+  with the shadow as a `filter` on their wrapper. The navigation rail shares
+  `m.panel()`, so it and the open tab read as one surface. `m.glass()` is for
+  what floats on the map and holds no scrolling content: the phone toolbar,
+  zoom buttons, the map popup, menus. A menu opens through `Popover`, which
+  portals it to the body: a `backdrop-filter` inside another blurred element
+  only blurs that element, never the map behind it. Neutrals follow Facebook's light
+  and dark palettes; the accent is the logo's red, with its green and blue as
+  secondaries; data colours (transport, continents, place categories) stay
+  pastel. Do not hand-roll a `backdrop-filter` or a shadow per component.
+- **A scroller inside a rounded panel is inset from its edge**, so the
+  scrollbar never runs over the corners.
+
+- **`prefers-reduced-motion` is honoured globally.** The carve-out in
+  `styles/_global.scss` neutralises CSS animation and transition durations for
+  the whole app, and `MotionConfig reducedMotion="user"` in `main.tsx` does the
+  same for framer-motion — the editor
   included, since it imports the same file. Do not add a per-component
   `@media (prefers-reduced-motion: reduce)` block: a local carve-out would have
   to be repeated in every stylesheet and would silently miss the next one. Add a
@@ -760,19 +788,15 @@ Vertical whitespace communicates structure and MUST be deterministic:
   JavaScript needs (route and transport colours) are mirrored in
   `_variables.module.scss` and imported as a module:
   `import variables from "@/styles/_variables.module.scss"`.
-- **Reuse the glass/blur mixins** (`glassmorphism-dark/light`,
-  `floating-card-dark/light`, `full-panel-dark/light` in `_mixins.scss`)
-  instead of hand-rolling a `backdrop-filter` per file. Twelve stylesheets use
-  the mixins; `Map.scss`, `MapTooltip.scss`, `CityCard.scss`, `Card.scss`,
-  `TimelineTrack.scss`, `TripDetail.scss`, and `TripDetailHero.scss` still pick
-  their own radius by hand. Converge new work on the mixins and convert one of
-  those files when you are already editing it.
+- **Motion uses one vocabulary**, in `shared/lib/motion.ts`: `panelSpring` for
+  panels, sheets and sliding indicators, `easeOut` for content, and
+  `staggerList`/`staggerItem` for lists. Everything settles within ~300ms. The
+  app is wrapped in `LazyMotion` with `domMax`, so components use `m.*`, never
+  `motion.*`.
 - `outline: none` MUST always be paired with a visible focus replacement
   (scale, ring, z-lift) in the same rule or file — `m.focus-ring()` is the
-  usual answer. The one remaining exception is
-  `charts/BarChartPopulation.scss`, which clears the outline ApexCharts puts on
-  its own non-interactive SVG root; if you add such a rule, scope it to the
-  third-party element and say why.
+  usual answer. If a third-party element ever needs its outline cleared, scope
+  the rule to that element and say why.
 
 ---
 
@@ -788,20 +812,21 @@ Not optional. The existing markers show the baseline:
   (`shared/lib/keyboard`), never a hand-rolled key check:
 
   ```tsx
-  onKeyDown={(event) => isActivationKey(event) && openGallery()}
+  onKeyDown={(event) => isActivationKey(event) && onSelectCity(city)}
   ```
 
-  `Marker` and `CityCard` do this correctly — use them as the reference.
+  `Marker` does this correctly — use it as the reference.
 
 - `aria-label` on interactive elements that don't have visible text (icon
   buttons, map markers); `aria-hidden="true"` on decorative SVG.
 - Focus states are styled (`&:focus-visible`) with a replacement whenever
   `outline: none` is used (§12).
-- **Overlays and dialogs** (`Lightbox`, `Gallery`, the map tooltip, dropdown
-  panels like `FilterByCountry`): give the overlay `role="dialog"` and
-  `aria-modal="true"` when it takes over the screen, support `Escape` to close
-  (`FilterByCountry` and the pinned map tooltip in `Map.tsx` both do), and
-  return focus to the trigger element on close.
+- **Overlays and dialogs** (`Lightbox`, the map tooltip): give the overlay
+  `role="dialog"` and `aria-modal="true"` when it takes over the screen,
+  support `Escape` to close (`Lightbox` and the pinned map tooltip in `Map.tsx`
+  both do), and return focus to the trigger element on close, as `Lightbox`
+  does. A full-screen overlay is portalled to `body`, because a backdrop filter
+  or transform on an ancestor would trap `position: fixed` inside it.
 - **Image alt text** comes from the data: `photo.alt ?? ""`, never a hardcoded
   `alt=""` that discards what the dataset provides. A decorative image — an
   operator logo beside its own name, say — is the opposite case and takes
@@ -831,11 +856,10 @@ Not optional. The existing markers show the baseline:
 - **User-facing messages** stay non-technical; use `EmptyState` (§6, §18) for
   "nothing to show" and a translated string for anything the user needs to
   read, not a raw error message or stack trace.
-- **A failed image load falls back rather than failing the view**:
-  `useImageCache` records the source as un-cacheable and hands back the original
-  URL. Any future request follows the same shape — the existing
-  `EmptyState`/`Loading` components, plus `swr`'s retry if it is free — rather
-  than a bespoke retry system per feature.
+- **A failed image load leaves its tinted frame rather than failing the view**:
+  `CoverImage` only fades a photo in once it has loaded. Any future request
+  follows the same shape — the existing `EmptyState`/`Loading` components —
+  rather than a bespoke retry system per feature.
 
 ---
 
@@ -848,17 +872,21 @@ Not optional. The existing markers show the baseline:
   large enough to need virtualization; don't add a virtualization library
   ahead of an actual list that's slow to render.
 - **Lazy loading / code splitting**: already used correctly for route-level
-  views (`TimelinePage`, `StatsPage`, `Gallery`, `Lightbox` are all
+  views (`TimelinePage`, `StatsPage`, `GalleryIndex`, `GalleryAlbum`, and
+  `Lightbox` are all
   `lazy` routes in `app/routing/router.tsx`). Extend this pattern to any new heavyweight,
   not-always-visible view rather than bundling it into the main chunk.
 - **Map rendering**: MapLibre style objects are the one place `useMemo` is
   justified today (rebuild only when `theme` changes, not every render) — see
   §7. Keep marker/label rendering keyed on stable ids so MapLibre doesn't
   churn DOM nodes.
-- **Images**: `CityCard` lazy-loads its background through an
-  `IntersectionObserver` and `useCachedImageSource`, which keeps decoded blobs in
-  Cache Storage and reuses one object URL per photo. Follow that pattern for new
-  image-heavy components rather than loading everything eagerly.
+- **Images**: use `CoverImage` for decorative covers and `loading="lazy"` with
+  `decoding="async"` for photos, and let the browser cache them. Photographs
+  appear only in the gallery and its lightbox, never in the trip or places
+  panels, which show the city's cover instead.
+- **Charts are plain markup.** The statistics are bars and columns drawn with
+  CSS and animated with framer-motion; a charting library would cost more than
+  the whole page.
 - **Bundle size**: `knip` (one config per project, all run by `pnpm check`)
   flags unused files, exports, types, and dependencies — treat its findings as
   real cleanup, not noise to silence. `vite.config.ts` does manual chunking by
@@ -921,14 +949,14 @@ tooltip) and `@returns`:
 ```tsx
 /**
  * CityCard component
- * A photo card representing a single city visit. Lazily loads the background
- * image via an IntersectionObserver and caches it using the service worker.
- * Highlights the corresponding map marker on hover and, when clickable,
- * navigates to the photo gallery for that travel.
+ * A city with its picture and, for visited places, how often and how long it
+ * was visited. Pressing it shows the city on the map; the corner button opens
+ * its photos.
  * @component
- * @param {CityCardProps} props
- * @param {City} props.city - The city to display
- * @param {boolean} [props.isClickable=false] - Whether clicking opens the gallery
+ * @param {CityCardProps} props - The card props
+ * @param {City} props.city - The city
+ * @param {PlacesFilter} props.filter - Which list the card is in
+ * @param {(city: City) => void} props.onFocus - Shows the city on the map
  * @returns {ReactNode} The city card
  */
 ```
@@ -974,8 +1002,7 @@ Spacing rules (enforced by `eslint-plugin-jsdoc` and this repo's custom
 **A JSDoc block MUST describe what the thing actually does, not restate its
 name with a period.** Lint checks structure, not content — it will happily
 pass `/** Schedules . @returns {void} */` or `/** Check overflow. @returns
-{void} */` (both exist in the current codebase, in `TripBrowser.tsx` and
-`Gallery.tsx`). Treat a JSDoc block a reader couldn't use to understand the
+{void} */` (both once existed in this codebase). Treat a JSDoc block a reader couldn't use to understand the
 function without also reading its body as incomplete, the same as a missing
 one — this directly contradicts §2's "say why, not what," and passing lint
 doesn't mean the comment did its job.
@@ -1209,8 +1236,6 @@ Real work, listed so nobody rediscovers it as a surprise. None is urgent.
   moving shared itinerary and place logic somewhere both features may depend on;
   until then, treat the editor's feature folders as a naming convention rather
   than a boundary.
-- Seven stylesheets hand-roll `backdrop-filter` instead of using the glass
-  mixins (§12).
 - **Two large pieces of data are bundled as JavaScript rather than fetched.** A
   fresh load of `/#/trips` transfers ~927 kB of JS and parses ~4 MB. The two
   biggest items are `assets/json/countries-50m.json` (1.5 MB of country borders,
@@ -1221,17 +1246,16 @@ Real work, listed so nobody rediscovers it as a surprise. None is urgent.
   content changes.
 
   Neither is a chunking problem — moving them means making their reads
-  asynchronous. For the manifests the seam is already visible: `Gallery` and
-  `Lightbox` need one manifest and are lazily routed, while `MapTooltip`,
-  `shared/lib/travelQueries.ts`, and `features/stats/lib/cities.ts` need only a
-  count or emptiness, which a stop's `photoPath` almost answers on its own — only
-  the `totalMediaTaken` statistic genuinely needs totals, and that page is lazy
-  too. Lowering the border resolution to 110m is a smaller lever but trades
+  asynchronous. For the manifests the seam is already visible: `GalleryAlbum`
+  and `Lightbox` need one album and are lazily routed, while `MapTooltip`, the
+  places cards and the trip page need only a count, which a stop's `photoPath`
+  almost answers on its own — only the gallery index and the photo statistic
+  genuinely need totals, and both pages are lazy too. Lowering the border resolution to 110m is a smaller lever but trades
   coastline detail, so it is a design decision rather than a cleanup.
 
-- `useImageCache` keeps one object URL per photo for the life of the page. That
-  is intentional — the cache exists so a re-mounted card reuses the decoded blob
-  — but it is bounded by gallery size rather than by anything adaptive.
+- The timeline estimates a trip label's width from its length to decide when
+  bars need separate lanes (`TimelinePage.tsx`); a long title in a narrow
+  window can still touch its neighbour.
 - The uploader's tests (`scripts/uploader/test_uploader.py`) stub BunnyCDN and
   ffmpeg, so a real upload is still verified by hand.
 

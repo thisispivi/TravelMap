@@ -4,109 +4,104 @@
 .map-shell {
   height: inherit;
   width: inherit;
-  @include m.transition(background-color, 0.4s);
-
-  &--mobile,
-  &--tablet {
-    *::-webkit-scrollbar {
-      display: none;
-    }
-  }
-
-  &--dark {
-    background-color: v.$darkBackground;
-
-    .map-shell__back-to-trip {
-      @include m.glassmorphism-dark();
-      color: v.$darkButtonContent;
-    }
-
-    .map-shell__back-to-trip-chevron path {
-      stroke: v.$darkButtonContent;
-    }
-  }
-
-  &--light {
-    background-color: v.$lightBackground;
-
-    .map-shell__back-to-trip {
-      @include m.glassmorphism-light();
-      color: v.$lightButtonContent;
-    }
-
-    .map-shell__back-to-trip-chevron path {
-      stroke: v.$lightButtonContent;
-    }
-  }
 
   &__layout {
-    height: inherit;
     position: relative;
+    height: inherit;
     width: inherit;
   }
 
-  &__back-to-trip {
-    align-items: center;
-    border: none;
-    border-radius: v.$radiusPill;
-    bottom: 8.5rem;
-    cursor: pointer;
-    display: flex;
-    font-size: v.$bodySm;
-    font-weight: 600;
-    gap: 0.375rem;
-    padding: 0.5rem 1rem 0.5rem 0.75rem;
-    position: fixed;
-    right: 1rem;
-    white-space: nowrap;
-    z-index: 3;
-  }
-
-  &__back-to-trip-chevron {
-    fill: transparent;
-    flex-shrink: 0;
-    height: 1rem;
-    transform: rotate(-90deg);
-    width: auto;
-  }
-
-  &__bottom-panel {
-    height: calc(100vh - v.$floatingNavHeight - 2rem);
-    left: 50%;
-    max-height: calc(100vh - v.$floatingNavHeight - 2rem);
-    position: fixed;
-    top: calc(v.$floatingNavHeight + 1.5rem);
-    transform-origin: center top;
-    width: min(calc(100% - 1rem), 56rem);
-    z-index: 2;
-  }
-
   &__loading {
-    align-items: center;
     display: flex;
-    height: 100%;
+    align-items: center;
     justify-content: center;
-    width: 100%;
+    min-height: 12rem;
+    height: 100%;
   }
 
-  @media screen and (max-width: 42.5rem) {
-    &__back-to-trip {
-      bottom: calc(
-        v.$floatingNavMobileHeight + v.$mobileFloatingMargin * 2 +
-          env(safe-area-inset-bottom, 0rem)
-      );
-      right: v.$mobileFloatingMargin;
-    }
+  /*
+   * The side panel: beside the rail, full height, wide enough for a pass card
+   * and narrow enough that the route stays readable on the map to its right.
+   */
+  &__side {
+    @include m.panel();
+    position: fixed;
+    z-index: 4;
+    top: v.$shellGap;
+    bottom: v.$shellGap;
+    left: calc(v.$railWidth + 2 * v.$shellGap);
+    width: v.$sidePanelWidth;
+    overflow: hidden;
+    border-radius: v.$radiusXl;
 
-    &__bottom-panel {
-      bottom: calc(
-        v.$floatingNavHeight + v.$mobileFloatingMargin * 2 +
-          env(safe-area-inset-bottom, 0rem)
-      );
-      height: 75vh;
-      max-height: 75vh;
-      top: auto;
-      width: calc(100% - v.$mobileFloatingMargin * 2);
+    @include m.wide() {
+      width: v.$sidePanelWidthWide;
+    }
+  }
+
+  /*
+   * The panel content fills the panel or the sheet and scrolls inside its own
+   * frame. Docked, it is inset from the rounded edge so the scrollbar stays
+   * inside the panel's corners.
+   */
+  &__side-content {
+    flex: 1;
+    min-height: 0;
+  }
+
+  &__side &__side-content {
+    position: absolute;
+    inset: v.$space3 0.3125rem;
+  }
+
+  &__reopen {
+    @include m.glass();
+    @include m.bare-button();
+    position: fixed;
+    z-index: 4;
+    top: v.$shellGap;
+    left: calc(v.$railWidth + 2 * v.$shellGap);
+    display: flex;
+    align-items: center;
+    gap: v.$space2;
+    height: 2.75rem;
+    padding: 0 v.$space4 0 v.$space3;
+    border-radius: v.$radiusPill;
+    color: v.$ink;
+    font-size: v.$bodySm;
+    font-weight: 650;
+  }
+
+  &__reopen-icon {
+    width: 1.125rem;
+    height: 1.125rem;
+  }
+
+  /* A page covers the map beside the rail; on phones, everything above the tab bar. */
+  &__page {
+    @include m.panel();
+    position: fixed;
+    z-index: 5;
+    top: v.$shellGap;
+    right: v.$shellGap;
+    bottom: v.$shellGap;
+    left: calc(v.$railWidth + 2 * v.$shellGap);
+    overflow: hidden;
+    border-radius: v.$radiusXl;
+
+    @include m.compact() {
+      inset: 0 0 v.$tabBarHeight;
+      border: none;
+      border-radius: 0;
+    }
+  }
+
+  &__page-content {
+    position: absolute;
+    inset: v.$space3 0.3125rem;
+
+    @include m.compact() {
+      inset: 0;
     }
   }
 }

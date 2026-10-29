@@ -2,18 +2,17 @@ import "./Map.scss";
 import "maplibre-gl/dist/maplibre-gl.css";
 
 import { City } from "@travelmap/core";
+import { Minus, Plus } from "lucide-react";
 import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import MapGL, { type MapRef, Popup } from "react-map-gl/maplibre";
 
 import { futureCities, livedCities, visitedCities } from "@/data/world";
-import { Button } from "@/shared/components/Button/Button";
 import { Loading } from "@/shared/components/Loading/Loading";
 import { useAppRoute } from "@/shared/context/AppRoute.context";
 import { useMapInteraction } from "@/shared/context/MapInteraction.context";
 import { usePanel } from "@/shared/context/Panel.context";
 import { useLanguage } from "@/shared/hooks/useLanguage";
 import { ResponsiveType } from "@/shared/hooks/useResponsive";
-import { Design } from "@/shared/lib/design";
 
 import {
   CAMERA_DURATION_MS,
@@ -41,12 +40,10 @@ const ZOOM_CONTROL_DURATION_MS = 300;
 
 /**
  * Properties accepted by the interactive map.
- * @property {Design} design - The active visual design
  * @property {boolean} isDarkTheme - Whether the dark theme is active
  * @property {ResponsiveType} responsive - The current responsive viewport state
  */
 interface MapProps {
-  design: Design;
   isDarkTheme: boolean;
   responsive: ResponsiveType;
 }
@@ -57,29 +54,24 @@ interface MapProps {
  * themed geographic layers, and selected-city tooltip.
  * @component
  * @param {MapProps} props - The map props
- * @param {Design} props.design - The active visual design
  * @param {boolean} props.isDarkTheme - Whether the dark theme is active
  * @param {ResponsiveType} props.responsive - The current responsive viewport state
  * @returns {ReactNode} The interactive travel map
  */
-export function Map({ design, isDarkTheme, responsive }: MapProps): ReactNode {
+export function Map({ isDarkTheme, responsive }: MapProps): ReactNode {
   const { t } = useLanguage(["home"]);
   const { hoveredCity, setHoveredCity, mapPosition, selectedTrip } =
     useMapInteraction();
   const { isPanelOpen } = usePanel();
-  const { isTripDetail } = useAppRoute();
+  const { isTripDetail, surface } = useAppRoute();
+  const isSideOpen = surface === "side" && isPanelOpen;
   const mapRef = useRef<MapRef>(null);
   const hoverLeaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isFramingWorld = useRef(false);
   const pinnedCityRef = useRef<City | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  const theme = useMemo(
-    () => readMapTheme(isDarkTheme),
-    /* The palette is read off the document, which `design` has already restyled. */
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- design is the cache key for the document's tokens
-    [design, isDarkTheme],
-  );
+  const theme = useMemo(() => readMapTheme(isDarkTheme), [isDarkTheme]);
   const mapStyle = useMemo(() => createMapStyle(theme), [theme]);
   const appliedPosition = useRef(mapPosition);
 
@@ -91,17 +83,17 @@ export function Map({ design, isDarkTheme, responsive }: MapProps): ReactNode {
     map.flyTo({
       center: mapPosition.center,
       zoom: toMapLibreZoom(mapPosition.zoom),
-      offset: getCameraOffset(responsive.window.width, isPanelOpen),
+      offset: getCameraOffset(responsive, isSideOpen),
       duration: CAMERA_DURATION_MS,
       essential: true,
     });
-  }, [isLoaded, isPanelOpen, mapPosition, responsive.window.width]);
+  }, [isLoaded, isSideOpen, mapPosition, responsive]);
 
   useEffect(() => {
     const map = mapRef.current;
     if (!map || !isLoaded || !isTripDetail || !selectedTrip) return;
 
-    const padding = getCameraPadding(responsive.window.width, isPanelOpen);
+    const padding = getCameraPadding(responsive, isSideOpen);
 
     if (selectedTrip.mapFocus) {
       map.flyTo({
@@ -109,7 +101,7 @@ export function Map({ design, isDarkTheme, responsive }: MapProps): ReactNode {
         zoom: toMapLibreZoom(selectedTrip.mapFocus.zoom),
         duration: CAMERA_DURATION_MS,
         essential: true,
-        offset: getCameraOffset(responsive.window.width, isPanelOpen),
+        offset: getCameraOffset(responsive, isSideOpen),
       });
       return;
     }
@@ -123,13 +115,7 @@ export function Map({ design, isDarkTheme, responsive }: MapProps): ReactNode {
       maxZoom: SINGLE_DESTINATION_ZOOM,
       padding,
     });
-  }, [
-    isLoaded,
-    isPanelOpen,
-    isTripDetail,
-    responsive.window.width,
-    selectedTrip,
-  ]);
+  }, [isLoaded, isSideOpen, isTripDetail, responsive, selectedTrip]);
 
   /**
    * Clears both the pinned and transient tooltip selection.
@@ -202,7 +188,7 @@ export function Map({ design, isDarkTheme, responsive }: MapProps): ReactNode {
       center: WORLD_CENTER,
       duration: ZOOM_CONTROL_DURATION_MS,
       essential: true,
-      offset: getCameraOffset(responsive.window.width, isPanelOpen),
+      offset: getCameraOffset(responsive, isSideOpen),
       zoom,
     });
   };
@@ -266,7 +252,7 @@ export function Map({ design, isDarkTheme, responsive }: MapProps): ReactNode {
   return (
     <div className="map-container">
       {!isLoaded ? (
-        <div className="loading">
+        <div className="map-container__loading">
           <Loading />
         </div>
       ) : null}
@@ -324,24 +310,28 @@ export function Map({ design, isDarkTheme, responsive }: MapProps): ReactNode {
         ) : null}
       </MapGL>
 
-      <div className="map-zoom-controls">
-        <Button
-          ariaLabel={t("map.zoomIn")}
-          className="map-zoom-controls__button"
-          onClick={() =>
-            mapRef.current?.zoomIn({ duration: ZOOM_CONTROL_DURATION_MS })
-          }
-        >
-          +
-        </Button>
-        <Button
-          ariaLabel={t("map.zoomOut")}
-          className="map-zoom-controls__button"
-          onClick={handleZoomOut}
-        >
-          −
-        </Button>
-      </div>
+      {responsive.isCompact ? null : (
+        <div className="map-container__zoom">
+          <button
+            aria-label={t("map.zoomIn")}
+            className="map-container__zoom-button"
+            onClick={() =>
+              mapRef.current?.zoomIn({ duration: ZOOM_CONTROL_DURATION_MS })
+            }
+            type="button"
+          >
+            <Plus aria-hidden="true" />
+          </button>
+          <button
+            aria-label={t("map.zoomOut")}
+            className="map-container__zoom-button"
+            onClick={handleZoomOut}
+            type="button"
+          >
+            <Minus aria-hidden="true" />
+          </button>
+        </div>
+      )}
     </div>
   );
 }

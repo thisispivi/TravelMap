@@ -76,7 +76,10 @@
     "flightNumber": "Flight number",
     "cabinClass": "Cabin class",
     "ferryCompany": "Ferry company",
-    "noFerryCompany": "No ferry company"
+    "noFerryCompany": "No ferry company",
+    "photoFrom": "First photo",
+    "photoTo": "Last photo",
+    "photoRangeHint": "Only when another visit shares this gallery; numbers start at 1."
   },
   "combobox": {
     "typeToSearch": "Type to search",

@@ -1,44 +1,55 @@
-import { Trip } from "@travelmap/core";
 import { describe, expect, it } from "vitest";
 
-import { groupTripsByYear } from "./timeline";
+import { buildTimeline } from "./timeline";
 
 /**
- * Builds the only part of a trip the timeline groups by.
- * @param {string} id - Trip id
- * @param {string} start - ISO start date
- * @returns {Trip} A trip stand-in
+ * Builds the only part of a trip the timeline reads.
+ * @param {string} start - YYYY-MM-DD start
+ * @param {string} end - YYYY-MM-DD end
+ * @returns {{ sDate: Date; eDate: Date }} A trip stand-in
  */
-function trip(id: string, start: string): Trip {
-  /* groupTripsByYear reads only the id and start date of a trip. */
-  return { id, sDate: new Date(start) } as Trip;
+function trip(start: string, end: string): { sDate: Date; eDate: Date } {
+  const [sy, sm, sd] = start.split("-").map(Number);
+  const [ey, em, ed] = end.split("-").map(Number);
+  return { eDate: new Date(ey, em - 1, ed), sDate: new Date(sy, sm - 1, sd) };
 }
 
-describe("groupTripsByYear", () => {
-  it("groups newest year first and keeps trips newest first within a year", () => {
-    const groups = groupTripsByYear([
-      trip("a", "2023-03-01"),
-      trip("b", "2024-08-01"),
-      trip("c", "2023-11-01"),
+describe("buildTimeline", () => {
+  it("groups trips by the year they started, newest first", () => {
+    const years = buildTimeline([
+      trip("2021-05-01", "2021-05-03"),
+      trip("2023-08-01", "2023-08-10"),
+      trip("2023-02-01", "2023-02-02"),
     ]);
-    expect(
-      groups.map(({ trips, year }) => [year, trips.map(({ trip }) => trip.id)]),
-    ).toEqual([
-      [2024, ["b"]],
-      [2023, ["c", "a"]],
+    expect(years.map(({ year, entries }) => [year, entries.length])).toEqual([
+      [2023, 2],
+      [2021, 1],
     ]);
   });
 
-  it("alternates sides across year boundaries instead of restarting each year", () => {
-    const sides = groupTripsByYear([
-      trip("a", "2024-05-01"),
-      trip("b", "2023-05-01"),
-      trip("c", "2023-01-01"),
-    ]).flatMap(({ trips }) => trips.map(({ side }) => side));
-    expect(sides).toEqual(["left", "right", "left"]);
+  it("counts every day of a trip, the last one included", () => {
+    const [year] = buildTimeline([trip("2023-08-01", "2023-08-03")]);
+    expect(year?.days).toBe(3);
   });
 
-  it("returns no groups for no trips", () => {
-    expect(groupTripsByYear([])).toEqual([]);
+  it("lists a year's trips in date order", () => {
+    const [year] = buildTimeline([
+      trip("2023-08-15", "2023-08-20"),
+      trip("2023-02-01", "2023-02-05"),
+    ]);
+    expect(year?.entries.map(({ start }) => start < 0.5)).toEqual([
+      true,
+      false,
+    ]);
+  });
+
+  it("caps a trip over New Year at the end of the year it started", () => {
+    const [year] = buildTimeline([trip("2025-12-30", "2026-01-02")]);
+    expect(year?.year).toBe(2025);
+    expect(year?.entries[0]?.end).toBe(1);
+  });
+
+  it("returns nothing for no trips", () => {
+    expect(buildTimeline([])).toEqual([]);
   });
 });

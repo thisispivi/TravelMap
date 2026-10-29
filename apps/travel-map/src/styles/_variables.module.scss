@@ -1,42 +1,12 @@
 @use "variables" as v;
 
 :export {
-  leftBarWidth: v.$leftBarWidth;
-
-  lightLeftBar: v.$lightLeftBar;
-  lightLeftBarOpacity: v.$lightLeftBarOpacity;
-  lightInfoTab: v.$lightInfoTab;
-  lightButton: v.$lightButton;
-  lightButtonHover: v.$lightButtonHover;
-  lightButtonContent: v.$lightButtonContent;
-  lightAltText: v.$lightAltText;
-
-  darkLeftBar: v.$darkLeftBar;
-  darkLeftBarOpacity: v.$darkLeftBarOpacity;
-  darkInfoTab: v.$darkInfoTab;
-  darkButton: v.$darkButton;
-  darkButtonHover: v.$darkButtonHover;
-  darkAltText: v.$darkAltText;
-
-  futureButton: v.$futureButton;
-  futureButtonHover: v.$futureButtonHover;
-  futureButtonContent: v.$futureButtonContent;
-
-  visitedButton: v.$visitedButton;
-  visitedButtonHover: v.$visitedButtonHover;
-  visitedButtonContent: v.$visitedButtonContent;
-
-  languageButton: v.$languageButton;
-  languageButtonHover: v.$languageButtonHover;
-  languageButtonContent: v.$languageButtonContent;
-
-  filterButton: v.$filterButton;
-  filterButtonHover: v.$filterButtonHover;
-  filterButtonContent: v.$filterButtonContent;
-
-  statsButton: v.$statsButton;
-  statsButtonHover: v.$statsButtonHover;
-  statsButtonContent: v.$statsButtonContent;
+  breakpointCompact: v.$breakpointCompact;
+  breakpointWide: v.$breakpointWide;
+  railWidth: v.$railWidth;
+  shellGap: v.$shellGap;
+  sidePanelWidth: v.$sidePanelWidth;
+  sidePanelWidthWide: v.$sidePanelWidthWide;
 
   continentsAfrica: v.$continentsAfrica;
   continentsAsia: v.$continentsAsia;
@@ -44,6 +14,7 @@
   continentsNorthAmerica: v.$continentsNorthAmerica;
   continentsOceania: v.$continentsOceania;
   continentsSouthAmerica: v.$continentsSouthAmerica;
+  continentsAntarctica: v.$continentsAntarctica;
 
   transportPlane: v.$transportPlane;
   transportFerry: v.$transportFerry;

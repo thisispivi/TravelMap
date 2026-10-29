@@ -1,40 +1,51 @@
 import { createContext, use } from "react";
 
-/** The four top-level tabs of the floating navigation. */
-export type NavTabId = "trips" | "places" | "timeline" | "stats";
+/** A primary navigation tab. */
+export type NavTabId = "trips" | "places" | "gallery" | "timeline" | "stats";
+
+/** A filter the places panel can show. */
+export type PlacesFilter = "visited" | "lived" | "future";
 
 /**
- * Route state exposed to feature modules by the application shell.
- * @property {boolean} isTrips - Whether the trips route is active
- * @property {boolean} isPlaces - Whether the places route is active
- * @property {boolean} isTripDetail - Whether a trip detail route is active
- * @property {boolean} isTimeline - Whether the timeline route is active
- * @property {boolean} isStats - Whether the statistics route is active
- * @property {boolean} isGallery - Whether a gallery route is active
- * @property {boolean} isLightbox - Whether a lightbox route is active
- * @property {NavTabId | null} activeTab - The active navigation tab
- * @property {string | null} tripDetailId - The selected trip identifier
- * @property {"lived" | "visited" | "future" | null} placesFilter - The active places filter
+ * Where the active route draws its content: nowhere (the map alone), in the
+ * side panel beside the map, or as a page over it.
+ */
+type RouteSurface = "map" | "side" | "page";
+
+/**
+ * Structured state derived from the active route.
+ * @property {NavTabId | null} activeTab - The highlighted navigation tab
+ * @property {RouteSurface} surface - Where the route's content is drawn
+ * @property {boolean} isTrips - Whether the trip list is open
+ * @property {boolean} isTripDetail - Whether one trip is open
+ * @property {boolean} isPlaces - Whether the places panel is open
+ * @property {boolean} isGallery - Whether any gallery page is open
+ * @property {boolean} isLightbox - Whether one photo is open full screen
+ * @property {boolean} isTimeline - Whether the timeline is open
+ * @property {boolean} isStats - Whether the statistics are open
+ * @property {string | null} tripDetailId - The open trip's id
+ * @property {PlacesFilter | null} placesFilter - The places filter, when places are open
  */
 export interface AppRouteContextValue {
+  activeTab: NavTabId | null;
+  surface: RouteSurface;
   isTrips: boolean;
-  isPlaces: boolean;
   isTripDetail: boolean;
-  isTimeline: boolean;
-  isStats: boolean;
+  isPlaces: boolean;
   isGallery: boolean;
   isLightbox: boolean;
-  activeTab: NavTabId | null;
+  isTimeline: boolean;
+  isStats: boolean;
   tripDetailId: string | null;
-  placesFilter: "lived" | "visited" | "future" | null;
+  placesFilter: PlacesFilter | null;
 }
 
-/** Route-state context populated by the application shell. */
+/** Route state published by the map shell. */
 export const AppRouteContext = createContext<AppRouteContextValue | null>(null);
 
 /**
- * Reads the shell's classified route state.
- * @returns {AppRouteContextValue} The current application route state
+ * Reads the active route's meaning, classified once by the shell.
+ * @returns {AppRouteContextValue} The route state
  */
 export function useAppRoute(): AppRouteContextValue {
   const value = use(AppRouteContext);

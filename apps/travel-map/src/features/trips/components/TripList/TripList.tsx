@@ -1,0 +1,228 @@
+import "./TripList.scss";
+
+import { Trip } from "@travelmap/core";
+import { AnimatePresence, m, Variants } from "framer-motion";
+import { ReactNode, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router";
+
+import { formatDateRangeShort } from "@/i18n/functions/date";
+import { CountryFlag } from "@/shared/components/CountryFlag/CountryFlag";
+import { CoverImage } from "@/shared/components/CoverImage/CoverImage";
+import { EmptyState } from "@/shared/components/EmptyState/EmptyState";
+import { PanelFrame } from "@/shared/components/PanelFrame/PanelFrame";
+import { YearPills } from "@/shared/components/YearPills/YearPills";
+import { useMapInteraction } from "@/shared/context/MapInteraction.context";
+import { useLanguage } from "@/shared/hooks/useLanguage";
+import { easeOut, staggerItem } from "@/shared/lib/motion";
+
+import { browsableTrips, groupByYear } from "../../lib/trips";
+import { bucketOf, bucketYears } from "../../lib/yearBuckets";
+
+/** Room one year pill needs, gap included, in rem; `≤ 2022` is the widest. */
+const SLOT_REM = 4.5;
+
+/** Pills shown before the header has been measured. */
+const DEFAULT_SLOTS = 5;
+
+/**
+ * A year's cards slide in from the side its pill sits on and out the other
+ * way; `direction` is 1 for an older year (to the right) and -1 for a newer.
+ */
+const slideList: Variants = {
+  exit: (direction: number) => ({
+    opacity: 0,
+    transition: easeOut,
+    x: direction * -24,
+  }),
+  hidden: (direction: number) => ({ opacity: 0, x: direction * 24 }),
+  visible: {
+    opacity: 1,
+    transition: { ...easeOut, staggerChildren: 0.03 },
+    x: 0,
+  },
+};
+
+/**
+ * Properties accepted by the TripCard component.
+ * @property {Trip} trip - The trip
+ * @property {(trip: Trip) => void} onOpen - Opens the trip
+ */
+interface TripCardProps {
+  trip: Trip;
+  onOpen: (trip: Trip) => void;
+}
+
+/**
+ * TripCard component
+ * One trip in the list: its cover filling the card, with the title, dates and
+ * nights printed over it and the flags of the countries it reached in a corner.
+ * @component
+ * @param {TripCardProps} props - The card props
+ * @param {Trip} props.trip - The trip
+ * @param {(trip: Trip) => void} props.onOpen - Opens the trip
+ * @returns {ReactNode} The trip card
+ */
+function TripCard({ trip, onOpen }: TripCardProps): ReactNode {
+  const { t, currLanguage } = useLanguage(["home"]);
+  const nights = trip.getNights();
+
+  return (
+    <m.li className="trip-list__item" variants={staggerItem}>
+      <button
+        className="trip-list__card"
+        onClick={() => onOpen(trip)}
+        type="button"
+      >
+        <CoverImage
+          className="trip-list__cover"
+          src={trip.backgroundImgSource}
+        />
+        <span className="trip-list__flags">
+          {trip.getCountriesVisited().map((country) => (
+            <CountryFlag
+              className="trip-list__flag"
+              countryId={country.id}
+              key={country.id}
+            />
+          ))}
+        </span>
+        <span className="trip-list__caption">
+          <span className="trip-list__title">
+            {trip.getLocalizedTitle(currLanguage)}
+          </span>
+          <span className="trip-list__meta">
+            {formatDateRangeShort({
+              eDateInput: trip.eDate,
+              locale: currLanguage,
+              sDateInput: trip.sDate,
+              showYear: false,
+            })}
+            {nights > 0 ? ` · ${t("trip.nights", { count: nights })}` : null}
+          </span>
+        </span>
+      </button>
+    </m.li>
+  );
+}
+
+/**
+ * TripList component
+ * Every trip of one year at a time, newest first. Pills along the top switch
+ * the year: as many recent years as fit side by side, the last pill holding
+ * that year and all before it, so the row never scrolls. The cards slide in
+ * from the side the chosen pill sits on, so the row and the motion agree on
+ * which way time runs.
+ * @component
+ * @returns {ReactNode} The trip list
+ */
+export function TripList(): ReactNode {
+  const { t } = useLanguage(["home"]);
+  const navigate = useNavigate();
+  const { selectedTrip, setSelectedTrip } = useMapInteraction();
+  const bodyRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
+  const [slots, setSlots] = useState(DEFAULT_SLOTS);
+  const [selection, setSelection] = useState({
+    direction: 0,
+    year: selectedTrip?.sDate.getFullYear(),
+  });
+  const buckets = bucketYears(groupByYear(browsableTrips), slots);
+  const current =
+    (selection.year === undefined
+      ? undefined
+      : bucketOf(buckets, selection.year)) ?? buckets[0];
+
+  useEffect(() => {
+    const header = headerRef.current;
+    if (!header) return;
+    const slotPx =
+      SLOT_REM *
+      parseFloat(getComputedStyle(document.documentElement).fontSize);
+    const observer = new ResizeObserver(([entry]) => {
+      if (entry)
+        setSlots(Math.max(2, Math.floor(entry.contentRect.width / slotPx)));
+    });
+    observer.observe(header);
+    return () => observer.disconnect();
+  }, []);
+
+  /**
+   * Shows a trip's route on the map and opens its itinerary.
+   * @param {Trip} trip - The trip
+   * @returns {void}
+   */
+  const openTrip = (trip: Trip): void => {
+    setSelectedTrip(trip);
+    navigate(`/trip/${encodeURIComponent(trip.id)}`);
+  };
+
+  /**
+   * Switches to another year, remembering which way along the pills it lies
+   * so its cards come in from that side, and starts it from the top.
+   * @param {number} year - The year to show
+   * @returns {void}
+   */
+  const selectYear = (year: number): void => {
+    setSelection({
+      direction: year < (current?.year ?? year) ? 1 : -1,
+      year,
+    });
+    bodyRef.current?.scrollTo({ top: 0 });
+  };
+
+  return (
+    <PanelFrame
+      bodyRef={bodyRef}
+      header={
+        <header className="trip-list__header" ref={headerRef}>
+          <div className="trip-list__heading">
+            <h2>{t("trips.title")}</h2>
+            <p className="trip-list__summary">
+              {t("trips.summary", { count: browsableTrips.length })}
+            </p>
+          </div>
+          {current ? (
+            <YearPills
+              id="trips"
+              label={t("trips.chooseYear")}
+              onChange={selectYear}
+              value={current.year}
+              years={buckets.map(({ year, isOrEarlier }) => ({
+                ariaLabel: isOrEarlier
+                  ? t("trips.orEarlier", { year })
+                  : undefined,
+                label: isOrEarlier ? `≤ ${year}` : undefined,
+                year,
+              }))}
+            />
+          ) : null}
+        </header>
+      }
+    >
+      {!current ? <EmptyState message={t("trips.empty")} /> : null}
+      <div className="trip-list__years">
+        <AnimatePresence
+          custom={selection.direction}
+          initial={false}
+          mode="popLayout"
+        >
+          {current ? (
+            <m.ul
+              animate="visible"
+              className="trip-list__trips"
+              custom={selection.direction}
+              exit="exit"
+              initial="hidden"
+              key={current.year}
+              variants={slideList}
+            >
+              {current.trips.map((trip) => (
+                <TripCard key={trip.id} onOpen={openTrip} trip={trip} />
+              ))}
+            </m.ul>
+          ) : null}
+        </AnimatePresence>
+      </div>
+    </PanelFrame>
+  );
+}

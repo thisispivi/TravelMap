@@ -245,6 +245,34 @@ describe("buildWorld", () => {
     expect(world.trips[0]!.getCityTravels(tivoli)[0]!.photos).toEqual([image]);
   });
 
+  it("gives a stay only its own part of a gallery it shares", () => {
+    const images = [1, 2, 3, 4].map((n) => ({
+      height: 2,
+      original: `/Italy/Rome/00${n}c.webp`,
+      thumbnail: `/Italy/Rome/00${n}t.webp`,
+      width: 3,
+    }));
+    const trip = sources.trips[0]!;
+    const world = buildWorld({
+      ...sources,
+      photos: { "Italy/Rome/tr": images },
+      trips: [
+        {
+          ...trip,
+          steps: [
+            {
+              ...rome,
+              photoPath: "Italy/Rome/tr",
+              photoRange: { from: 2, to: 3 },
+            },
+          ],
+        },
+      ],
+    });
+
+    expect(world.trips[0]!.stays[0]!.photos).toEqual([images[1], images[2]]);
+  });
+
   it("leaves a stay pointing at a missing manifest with an empty gallery", () => {
     const trip = sources.trips[0]!;
     const world = buildWorld({

@@ -1,18 +1,4 @@
 import { City, Continent, Country } from "@travelmap/core";
-import { map, pipe, unique } from "remeda";
-
-/**
- * Get the continents by cities.
- * @param {City[]} cities - The list of cities
- * @returns {Continent[]} The list of continents
- */
-export function getContinentsByCities(cities: City[]): Continent[] {
-  return pipe(
-    cities,
-    map((city) => city.country.continent),
-    unique(),
-  );
-}
 
 /**
  * Counts how many visited countries and cities fall on one continent.

@@ -304,7 +304,9 @@ export function LegEditor({
             <PhotosField
               dataset={dataset}
               onChange={(photoPath) => onChange({ ...leg, photoPath })}
+              onRangeChange={(photoRange) => onChange({ ...leg, photoRange })}
               photoPath={leg.photoPath}
+              photoRange={leg.photoRange}
               visit={{ cityId: leg.toId, eDate: date, sDate: date }}
             />
           )}

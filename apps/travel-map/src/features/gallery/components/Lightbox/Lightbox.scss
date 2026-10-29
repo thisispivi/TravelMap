@@ -1,255 +1,185 @@
 @use "../../../../styles/variables" as v;
 @use "../../../../styles/mixins" as m;
 
+/* Always dark, whatever the theme: photographs read best on near-black. */
 .lightbox {
-  width: 100%;
-  height: inherit;
-  border-radius: inherit;
-  overflow: hidden;
+  position: fixed;
+  z-index: 20;
+  inset: 0;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  background: rgba(8, 12, 20, 0.94);
+  -webkit-backdrop-filter: blur(1.5rem);
+  backdrop-filter: blur(1.5rem);
+  color: #ffffff;
+  outline: none;
 
-  &.lightbox--fullscreen,
-  &:fullscreen {
-    border: 0;
-    border-radius: 0;
-    box-shadow: none;
-  }
-
-  &.lightbox--nav-hidden {
-    .image-gallery-left-nav,
-    .image-gallery-right-nav,
-    .lightbox__top-bar {
-      opacity: 0;
-      pointer-events: none;
-    }
-  }
-
-  .lightbox__top-bar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 10;
+  &__bar {
     display: flex;
     align-items: center;
-    padding: 0.75rem 1rem;
-    gap: 0.75rem;
-    @include m.transition(opacity, 0.3s, ease-in-out);
+    gap: v.$space3;
+    padding: calc(v.$space3 + env(safe-area-inset-top, 0rem)) v.$space4
+      v.$space3;
+  }
 
-    .lightbox__back-button {
-      border-radius: v.$radiusPill;
-      height: 2.5rem;
-      width: auto;
-      padding: 0 1rem;
-      flex-shrink: 0;
-      svg {
-        width: 1.2rem;
-        height: 1.2rem;
-        margin-right: 0.5rem;
-      }
-      p {
-        font-size: 0.9rem;
-        font-weight: 700;
-        white-space: nowrap;
-      }
+  &__caption {
+    display: flex;
+    flex: 1;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.125rem v.$space2;
+    min-width: 0;
+  }
+
+  &__flag {
+    font-size: 1rem;
+  }
+
+  &__place {
+    font-size: v.$bodyLg;
+    font-weight: 700;
+  }
+
+  &__date {
+    color: rgba(255, 255, 255, 0.65);
+    font-size: v.$bodySm;
+    font-weight: 600;
+  }
+
+  &__counter {
+    color: rgba(255, 255, 255, 0.65);
+    font-size: v.$bodySm;
+    font-weight: 650;
+    @include m.figure();
+  }
+
+  &__button {
+    @include m.bare-button();
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+
+    svg {
+      width: 1.375rem;
+      height: 1.375rem;
     }
 
-    .lightbox__spacer {
-      flex: 1;
-    }
-
-    .lightbox__index {
-      height: 2.5rem;
-      min-width: 5rem;
-      line-height: 2.5rem;
-      padding: 0 1rem;
-      border-radius: v.$radiusPill;
-      text-align: center;
-      font-size: 0.9rem;
-      flex-shrink: 0;
-      @include m.transition(all, 0.3s, ease-in-out);
-
-      .lightbox__index--current {
-        font-weight: 700;
-      }
-    }
-
-    .lightbox__fullscreen-button {
-      width: 2.5rem;
-      height: 2.5rem;
-      flex-shrink: 0;
-      @include m.transition(all, 0.3s, ease-in-out);
+    @include m.hover() {
+      background: rgba(255, 255, 255, 0.2);
     }
   }
 
-  .lightbox__nav-button {
+  &__stage {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  &__slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: 0 v.$space7;
+    cursor: grab;
+    touch-action: pan-y;
+
+    @include m.compact() {
+      padding: 0;
+    }
+
+    &:active {
+      cursor: grabbing;
+    }
+  }
+
+  &__image {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    max-height: calc(100dvh - 11rem);
+    border-radius: v.$radiusSm;
+    background-position: center;
+    background-size: cover;
+    user-select: none;
+
+    @include m.compact() {
+      border-radius: 0;
+    }
+  }
+
+  &__video {
+    width: min(100%, 60rem);
+    aspect-ratio: 16 / 9;
+    border: none;
+    border-radius: v.$radiusSm;
+  }
+
+  &__nav {
     position: absolute;
     top: 50%;
-    z-index: 4;
-    width: 2.5rem;
-    height: 2.5rem;
-    padding: 0;
-    filter: none;
     transform: translateY(-50%);
-    @include m.transition(all, 0.3s, ease-in-out);
 
-    &.lightbox__nav-button--disabled {
+    &--previous {
+      left: v.$space4;
+    }
+
+    &--next {
+      right: v.$space4;
+    }
+
+    &--hidden {
+      visibility: hidden;
+    }
+
+    @include m.compact() {
       display: none;
-    }
-
-    &.image-gallery-left-nav {
-      left: 0;
-      margin-left: 0.35rem;
-
-      .chevron {
-        @include m.transition(transform, 0.3s, ease-in-out);
-      }
-
-      &:hover .chevron {
-        transform: scale(1.08);
-      }
-
-      &:active .chevron {
-        transform: scale(0.95);
-      }
-    }
-
-    &.image-gallery-right-nav {
-      right: 0;
-      margin-right: 0.35rem;
-
-      .chevron {
-        transform: rotate(180deg);
-        @include m.transition(transform, 0.3s, ease-in-out);
-      }
-
-      &:hover .chevron {
-        transform: rotate(180deg) scale(1.08);
-      }
-
-      &:active .chevron {
-        transform: rotate(180deg) scale(0.95);
-      }
     }
   }
 
-  .image-gallery {
-    display: block;
-    height: 100%;
+  &__strip {
+    display: flex;
+    gap: v.$space1;
+    padding: v.$space3 v.$space4
+      calc(v.$space3 + env(safe-area-inset-bottom, 0rem));
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  &__thumb {
+    @include m.bare-button();
+    @include m.transition(opacity, v.$durationFast);
+    flex: none;
+    width: 3.25rem;
+    height: 3.25rem;
+    overflow: hidden;
+    border-radius: v.$radiusXs;
+    opacity: 0.45;
+
+    @include m.hover() {
+      opacity: 0.8;
+    }
+
+    &--active {
+      opacity: 1;
+      outline: 0.125rem solid #ffffff;
+      outline-offset: -0.125rem;
+    }
+  }
+
+  &__thumb-image {
     width: 100%;
-    .image-gallery-content {
-      height: 100%;
-      width: 100%;
-      .image-gallery-slide-wrapper {
-        height: 100%;
-        width: 100%;
-        .image-gallery-swipe {
-          height: 100%;
-          width: 100%;
-          .image-gallery-slides,
-          .image-gallery-slides-container {
-            height: 100%;
-            width: 100%;
-          }
-          .image-gallery-slide {
-            display: flex !important;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            height: 100%;
-            img {
-              padding: 0.1rem;
-              height: calc(100% - 4rem);
-              width: 100%;
-              object-fit: contain;
-            }
-            iframe {
-              padding: 0.1rem;
-              height: calc(100% - 4rem);
-              width: calc(100% - 6rem);
-              object-fit: contain;
-              border: 0;
-            }
-          }
-        }
-      }
-    }
-    .image-gallery-index {
-      display: none;
-    }
-
-    .image-gallery-fullscreen {
-      display: none;
-    }
-  }
-}
-
-@media screen and (max-width: 42.5rem) {
-  .lightbox {
-    .lightbox__top-bar {
-      padding: 0.5rem 0.75rem;
-
-      .lightbox__back-button {
-        height: 2.2rem;
-        padding: 0 0.75rem;
-        svg {
-          width: 1rem;
-          height: 1rem;
-          margin-right: 0.35rem;
-        }
-        p {
-          font-size: 0.8rem;
-        }
-      }
-
-      .lightbox__index {
-        height: 2.2rem;
-        line-height: 2.2rem;
-        min-width: 4rem;
-        padding: 0 0.75rem;
-        font-size: 0.8rem;
-      }
-
-      .lightbox__fullscreen-button {
-        width: 2.2rem;
-        height: 2.2rem;
-      }
-    }
-
-    .image-gallery-slide {
-      iframe {
-        width: 100% !important;
-      }
-    }
-  }
-}
-
-.map-shell--light {
-  .lightbox:not(.lightbox--fullscreen) {
-    @include m.full-panel-light();
-  }
-
-  .lightbox__index {
-    background-color: v.$lightButton;
-    color: v.$lightButtonContent;
-  }
-}
-
-.map-shell--dark {
-  .lightbox:not(.lightbox--fullscreen) {
-    @include m.full-panel-dark();
-  }
-
-  .lightbox__index {
-    background-color: v.$darkButton;
-    color: v.$darkButtonContent;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .lightbox {
-    .lightbox__nav-button,
-    .chevron {
-      transition: none;
-    }
+    height: 100%;
+    object-fit: cover;
   }
 }

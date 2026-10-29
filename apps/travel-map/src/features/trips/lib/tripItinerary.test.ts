@@ -1,7 +1,7 @@
 import { buildWorld, Continent, Currency } from "@travelmap/core";
 import { describe, expect, it } from "vitest";
 
-import { buildChapters, timeOf } from "./tripItinerary";
+import { buildItinerary, daysLater, timeOf, totalsOf } from "./tripItinerary";
 
 const [trip] = buildWorld({
   cities: [
@@ -87,53 +87,60 @@ const [trip] = buildWorld({
   ],
 }).trips;
 
-describe("buildChapters", () => {
-  const chapters = buildChapters(trip!);
+describe("buildItinerary", () => {
+  const items = buildItinerary(trip!);
 
-  it("reads getting there, the stay, and going home", () => {
-    expect(
-      chapters.map((chapter) =>
-        chapter.kind === "journey" ? chapter.role : chapter.kind,
-      ),
-    ).toEqual(["there", "stay", "home"]);
-  });
-
-  it("counts a small-hours arrival before a morning flight as a night in transit", () => {
-    const [there] = chapters;
-
-    expect(
-      there?.kind === "journey" ? there.rows.map((row) => row.kind) : [],
-    ).toEqual(["ride", "transit", "ride"]);
-  });
-
-  it("shows a night at a connection between an evening and a morning flight", () => {
-    const home = chapters[2];
-
-    expect(
-      home?.kind === "journey"
-        ? home.rows.map((row) =>
-            row.kind === "transit" ? `night:${row.city.id}` : row.kind,
-          )
-        : [],
-    ).toEqual(["ride", "night:bergamo", "ride"]);
-  });
-
-  it("puts a day trip on its date and folds the other full days together", () => {
-    const stay = chapters[1];
-
-    expect(stay?.kind === "stay" ? stay.days : []).toMatchObject([
-      { date: "2026-03-27", kind: "outing" },
-      { from: "2026-03-28", kind: "free", to: "2026-03-29" },
+  it("reads start, getting there, the stay, going home, and end", () => {
+    expect(items.map((item) => item.kind)).toEqual([
+      "endpoint",
+      "move",
+      "stay",
+      "move",
+      "endpoint",
     ]);
   });
 
-  it("gives a photographed day-trip place its own row", () => {
-    const stay = chapters[1];
-    const outing = stay?.kind === "stay" ? stay.days[0] : undefined;
+  it("counts a small-hours arrival before a morning flight as a night in transit", () => {
+    const there = items[1];
 
     expect(
-      outing?.kind === "outing" ? outing.rows.map((row) => row.kind) : [],
-    ).toEqual(["ride", "place", "ride"]);
+      there?.kind === "move" ? there.legs[0]?.connection : undefined,
+    ).toMatchObject({ isOvernight: true, minutes: 360 });
+  });
+
+  it("shows a night at a connection between an evening and a morning flight", () => {
+    const home = items[3];
+
+    expect(
+      home?.kind === "move" ? home.legs[0]?.connection : undefined,
+    ).toMatchObject({ isOvernight: true, isVisited: false });
+    expect(
+      home?.kind === "move" ? home.legs[0]?.connection?.city.id : undefined,
+    ).toBe("bergamo");
+  });
+
+  it("gives the last ride of a move no connection", () => {
+    const home = items[3];
+
+    expect(home?.kind === "move" ? home.legs[1]?.connection : null).toBe(
+      undefined,
+    );
+  });
+
+  it("names the places a day trip went to, not the ride back", () => {
+    const stay = items[2];
+
+    expect(
+      stay?.kind === "stay"
+        ? stay.outings.map((outing) => outing.places.map((city) => city.id))
+        : [],
+    ).toEqual([["sinaia"]]);
+  });
+});
+
+describe("totalsOf", () => {
+  it("counts nights slept in a stay, not nights in transit", () => {
+    expect(totalsOf(trip!).nights).toBe(4);
   });
 });
 
@@ -141,5 +148,17 @@ describe("timeOf", () => {
   it("reads only a real time", () => {
     expect(timeOf("2026-03-30T22:00")).toBe("22:00");
     expect(timeOf("2026-03-30")).toBeUndefined();
+  });
+});
+
+describe("daysLater", () => {
+  it("counts the nights an overnight ride crosses", () => {
+    expect(daysLater("2025-11-15T21:40", "2025-11-16T06:10")).toBe(1);
+    expect(daysLater("2025-12-31", "2026-01-02T08:00")).toBe(2);
+  });
+
+  it("reports a same-day or unknown arrival as zero", () => {
+    expect(daysLater("2025-11-15T08:00", "2025-11-15T12:00")).toBe(0);
+    expect(daysLater("2025-11-15T08:00")).toBe(0);
   });
 });
