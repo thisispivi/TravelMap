@@ -2,7 +2,7 @@ import "./PlaceImport.scss";
 
 import PositionIcon from "@app/assets/icons/Position.svg?react";
 import { useLanguage } from "@app/shared/hooks/useLanguage";
-import { ReactNode, useState } from "react";
+import { ReactNode, useId, useState } from "react";
 import { z } from "zod";
 
 import { parseJsonResponse } from "../../../../shared/lib/httpResponse";
@@ -22,6 +22,7 @@ const ResolvedMapLinkSchema = z.strictObject({ url: z.url() });
  */
 export function PlaceImport({ onImport }: PlaceImportProps): ReactNode {
   const { t } = useLanguage(["editor"]);
+  const inputId = useId();
   const [link, setLink] = useState("");
   const [error, setError] = useState("");
   const [isResolving, setIsResolving] = useState(false);
@@ -64,12 +65,15 @@ export function PlaceImport({ onImport }: PlaceImportProps): ReactNode {
   }
   return (
     <div className="place-import">
-      <label className="editor-field place-import__field">
-        <span className="editor-field__label">{t("placeImport.title")}</span>
+      <div className="editor-field place-import__field">
+        <label className="editor-field__label" htmlFor={inputId}>
+          {t("placeImport.title")}
+        </label>
         <div className="place-import__row">
           <PositionIcon aria-hidden="true" className="place-import__icon" />
           <input
             className="editor-field__control place-import__input"
+            id={inputId}
             onChange={(event) => {
               setLink(event.target.value);
               setError("");
@@ -92,7 +96,7 @@ export function PlaceImport({ onImport }: PlaceImportProps): ReactNode {
             {isResolving ? t("placeImport.resolving") : t("placeImport.use")}
           </button>
         </div>
-      </label>
+      </div>
       {parsed ? (
         <p className="place-import__preview">
           {parsed.name ? <strong>{parsed.name}</strong> : null}{" "}

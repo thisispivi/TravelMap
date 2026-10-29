@@ -234,8 +234,8 @@ export function Workspace({ file, isDarkTheme }: WorkspaceProps): ReactNode {
         </div>
       </header>
       {workspace.recovered ? (
-        <div className="workspace__recovery" role="alertdialog">
-          <p>
+        <div className="workspace__recovery">
+          <p role="status">
             {t("workspace.recoveryFound", {
               at: new Date(workspace.recovered.savedAt).toLocaleString(),
             })}

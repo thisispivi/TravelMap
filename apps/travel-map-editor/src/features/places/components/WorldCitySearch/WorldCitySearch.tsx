@@ -24,16 +24,19 @@ const menuVariants = {
   exit: { opacity: 0, scale: 0.98, y: -4, transition: { duration: 0.1 } },
 } as const;
 
+/** Compact population counts, such as `1.2M`, in the browser's locale. */
+const POPULATION_FORMAT = new Intl.NumberFormat(undefined, {
+  maximumFractionDigits: 1,
+  notation: "compact",
+});
+
 /**
  * Formats a population for the result list.
  * @param {number} population - Inhabitants
  * @returns {string} A compact, human-readable count
  */
 function formatPopulation(population: number): string {
-  return new Intl.NumberFormat(undefined, {
-    maximumFractionDigits: 1,
-    notation: "compact",
-  }).format(population);
+  return POPULATION_FORMAT.format(population);
 }
 
 /**

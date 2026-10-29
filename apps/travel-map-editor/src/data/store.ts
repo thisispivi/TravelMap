@@ -426,16 +426,19 @@ export async function applyWrites(
 
   try {
     for (const { path, value } of writes) {
+      /* react-doctor-disable-next-line react-doctor/async-await-in-loop -- writes land in order so a failure rolls back only what succeeded */
       await saveDocument(path, value, options);
       done.push(path);
     }
   } catch (error) {
     const failures: unknown[] = [error];
+    const before = new Map(previous.map((entry) => [entry.path, entry.value]));
     for (const path of done.toReversed()) {
-      const restored = previous.find((entry) => entry.path === path);
+      const restored = before.get(path);
       try {
-        if (restored?.value === undefined) await deleteDocument(path);
-        else await saveDocument(path, restored.value);
+        /* react-doctor-disable-next-line react-doctor/async-await-in-loop -- undone newest first, the reverse of the order they were written */
+        if (restored === undefined) await deleteDocument(path);
+        else await saveDocument(path, restored);
       } catch (rollbackError) {
         failures.push(rollbackError);
       }

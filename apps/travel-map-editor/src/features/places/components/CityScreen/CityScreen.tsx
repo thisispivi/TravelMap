@@ -36,7 +36,11 @@ export function CityScreen({ file, isDarkTheme }: CityScreenProps): ReactNode {
   const { t } = useLanguage(["editor"]);
   const dataset = useDataset();
   const navigate = useNavigate();
-  const [value, setValue] = useState(file.value);
+  /*
+   * A draft of the saved document: edits stay here until they are saved, and
+   * the route keys this screen by file, so opening another file starts fresh.
+   */
+  const [value, setValue] = useState(() => file.value);
   const isDirty = !isSameJson(value, file.value);
   const dependents = dataset.trips.filter(
     ({ value: trip }) =>
@@ -47,8 +51,8 @@ export function CityScreen({ file, isDarkTheme }: CityScreenProps): ReactNode {
       walkTripLegs(trip).some(
         ({ leg }) =>
           leg.toId === file.value.id ||
-          [...(leg.viaIds ?? []), ...(leg.ferry?.viaIds ?? [])].includes(
-            file.value.id,
+          [...(leg.viaIds ?? []), ...(leg.ferry?.viaIds ?? [])].some(
+            (via) => via === file.value.id,
           ),
       ),
   );

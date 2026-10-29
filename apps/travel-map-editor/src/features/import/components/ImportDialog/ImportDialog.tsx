@@ -218,6 +218,7 @@ export function ImportDialog({
             </button>
             <input
               accept=".json,.csv,.tsv,.txt,.gpx,.kml,.geojson"
+              aria-label={t("import.chooseFile")}
               className="import-dialog__file"
               onChange={handleFile}
               ref={fileRef}
@@ -249,10 +250,10 @@ export function ImportDialog({
           </p>
           {parsed && parsed.problems.length > 0 ? (
             <ul className="editor-notice editor-notice--warning">
-              {parsed.problems.map((problem, index) => (
+              {parsed.problems.map((problem) => (
                 <li
                   className="editor-notice__item"
-                  key={`${problem.code}-${problem.position ?? index}`}
+                  key={`${problem.code}-${problem.position ?? "file"}`}
                 >
                   {t(`import.problem.${problem.code}`, {
                     position: problem.position,

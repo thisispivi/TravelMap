@@ -53,7 +53,11 @@ const SITE_FIELDS = [
 export function SettingsScreen({ file }: SettingsScreenProps): ReactNode {
   const { t } = useLanguage(["editor"]);
   const { confirm, confirmDialog } = useConfirm();
-  const [value, setValue] = useState(file.value);
+  /*
+   * A draft of the saved document: edits stay here until they are saved, and
+   * the route keys this screen by file, so opening another file starts fresh.
+   */
+  const [value, setValue] = useState(() => file.value);
   const [newLocale, setNewLocale] = useState("");
   const dataset = useDataset();
   const isDirty = !isSameJson(value, file.value);

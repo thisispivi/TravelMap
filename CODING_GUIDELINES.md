@@ -1183,21 +1183,22 @@ review still has to catch.
 
 `pnpm check` from the repository root runs, across all three projects:
 
-| Check        | Command             | Enforces                                                       |
-| ------------ | ------------------- | -------------------------------------------------------------- |
-| Types        | `pnpm typecheck`    | `strict`, no unused locals or parameters, no fallthrough cases |
-| Lint         | `pnpm lint`         | The rules below, at zero warnings                              |
-| Formatting   | `pnpm format:check` | Prettier                                                       |
-| Tests        | `pnpm test`         | Vitest in core, both apps (§16)                                |
-| Dead code    | `pnpm knip`         | Unused files, exports, types, and dependencies                 |
-| React health | `react:doctor`      | Hook, accessibility, and bundle diagnostics                    |
+| Check        | Command               | Enforces                                                       |
+| ------------ | --------------------- | -------------------------------------------------------------- |
+| Types        | `pnpm typecheck`      | `strict`, no unused locals or parameters, no fallthrough cases |
+| Lint         | `pnpm lint`           | The rules below, at zero warnings                              |
+| Formatting   | `pnpm format:check`   | Prettier                                                       |
+| Tests        | `pnpm test`           | Vitest in core, both apps (§16)                                |
+| Dead code    | `pnpm knip`           | Unused files, exports, types, and dependencies                 |
+| React health | `pnpm react:doctor`   | Hook, accessibility, and bundle diagnostics, in both apps      |
+| Advisories   | `pnpm security:audit` | Known vulnerabilities in any installed dependency              |
 
 `pnpm build` additionally verifies production output. `.husky/pre-commit` runs
 lint-staged over changed files, falling back to a repository-wide lint and
 format check once a change is too wide to fit on one command line;
 `.husky/pre-push` runs the full suite, `pnpm build`, and the uploader's
 `compileall` and unit tests (through its virtual environment when one exists);
-`.github/workflows/ci.yml` repeats all of it and adds `pnpm audit`. An audit
+`.github/workflows/ci.yml` repeats all of it. An audit
 exception lives in `pnpm-workspace.yaml` under `auditConfig.ignoreGhsas`, with
 the reason and the condition for removing it.
 

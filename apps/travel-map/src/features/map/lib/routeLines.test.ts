@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { arcBetween } from "./routeLines";
+import { arcBetween, nearSide } from "./routeLines";
 
 describe("arcBetween", () => {
   it("starts and ends exactly on the two cities", () => {
@@ -21,5 +21,24 @@ describe("arcBetween", () => {
     const back = arcBetween([10, 0], [0, 0]);
     const middle = Math.floor(out.length / 2);
     expect(Math.sign(out[middle][1])).toBe(-Math.sign(back[middle][1]));
+  });
+});
+
+describe("nearSide", () => {
+  it("crosses the antimeridian rather than circling the globe", () => {
+    expect(nearSide([151.2, -33.9], [-118.2, 34.1])).toEqual([241.8, 34.1]);
+    expect(nearSide([-118.2, 34.1], [151.2, -33.9])[0]).toBeCloseTo(-208.8);
+  });
+
+  it("leaves a route that never nears the antimeridian alone", () => {
+    expect(nearSide([9, 39], [4, 50])).toEqual([4, 50]);
+  });
+
+  it("keeps a Pacific flight's arc short", () => {
+    const arc = arcBetween([151.2, -33.9], [-118.2, 34.1]);
+    expect(arc.at(-1)?.[0]).toBeCloseTo(241.8);
+    expect(arc.every(([lng]) => lng >= 151.2 - 20 && lng <= 241.8 + 20)).toBe(
+      true,
+    );
   });
 });

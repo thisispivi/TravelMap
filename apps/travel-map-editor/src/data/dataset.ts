@@ -4,14 +4,33 @@ import { isSafeImageUrl } from "./imageUrl";
 import { DatasetSnapshot, getDataset } from "./store";
 
 /**
- * Lists the gallery manifest keys a trip stop can reference, which are the
- * photo paths with their `photos/` prefix and `.json` suffix removed.
+ * Turns a gallery manifest's path into the key a trip stop references: the
+ * path without its `photos/` prefix and `.json` suffix.
+ * @param {string} path - The manifest's dataset path
+ * @returns {string} The gallery key
+ */
+function galleryKey(path: string): string {
+  return path.replace(/^photos\//, "").replace(/\.json$/, "");
+}
+
+/**
+ * Lists the gallery manifest keys a trip stop can reference.
  * @param {DatasetSnapshot} dataset - The current dataset
  * @returns {string[]} Referenceable manifest keys
  */
 export function photoKeys(dataset: DatasetSnapshot): string[] {
-  return dataset.photos.map(({ path }) =>
-    path.replace(/^photos\//, "").replace(/\.json$/, ""),
+  return dataset.photos.map(({ path }) => galleryKey(path));
+}
+
+/**
+ * Counts each gallery's entries by key, so validation can tell when a visit's
+ * photo range starts past the end of its gallery.
+ * @param {DatasetSnapshot} dataset - The current dataset
+ * @returns {Map<string, number>} Entries per gallery key
+ */
+export function photoCounts(dataset: DatasetSnapshot): Map<string, number> {
+  return new Map(
+    dataset.photos.map(({ path, value }) => [galleryKey(path), value.length]),
   );
 }
 

@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router";
 import { z } from "zod";
 
-import { photoKeys } from "../../data/dataset";
+import { photoCounts } from "../../data/dataset";
 import { DataFile, saveDocument } from "../../data/store";
 import { useAutosave } from "../../shared/hooks/useAutosave";
 import { useDataset } from "../../shared/hooks/useDataset";
@@ -159,7 +159,7 @@ export function useTripWorkspace(
     () =>
       validateTrip(
         trip,
-        { cities, photoKeys: new Set(photoKeys(dataset)) },
+        { cities, photoCounts: photoCounts(dataset) },
         file.path,
       ),
     [cities, dataset, file.path, trip],

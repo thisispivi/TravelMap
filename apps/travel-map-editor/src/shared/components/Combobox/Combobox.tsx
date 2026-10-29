@@ -367,10 +367,10 @@ export function MultiCombobox({
         .filter((option): option is ComboboxOption => option !== undefined),
     [options, value],
   );
-  const available = useMemo(
-    () => options.filter((option) => !value.includes(option.value)),
-    [options, value],
-  );
+  const available = useMemo(() => {
+    const chosen = new Set(value);
+    return options.filter((option) => !chosen.has(option.value));
+  }, [options, value]);
   const fuse = useMemo(() => new Fuse(available, FUSE_OPTIONS), [available]);
   const visible = useMemo(
     () => search(fuse, available, term),

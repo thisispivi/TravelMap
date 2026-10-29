@@ -28,6 +28,23 @@ const ARC_BOW = 0.18;
 const ARC_SEGMENTS = 40;
 
 /**
+ * Moves a destination's longitude by whole turns of the globe so it lies
+ * within 180° of the start. A route from Sydney to Los Angeles then crosses
+ * the Pacific instead of circling west over Asia; MapLibre draws longitudes
+ * past ±180 on the neighbouring copy of the world, so the line stays whole.
+ * @param {[number, number]} from - The start, as `[lng, lat]`
+ * @param {[number, number]} to - The end, as `[lng, lat]`
+ * @returns {[number, number]} The end on the short side of the antimeridian
+ */
+export function nearSide(
+  from: [number, number],
+  to: [number, number],
+): [number, number] {
+  const delta = ((((to[0] - from[0]) % 360) + 540) % 360) - 180;
+  return [from[0] + delta, to[1]];
+}
+
+/**
  * Draws a flight as a gentle arc: a quadratic curve whose control point sits
  * off the midpoint, always bowing to the same side of the direction of travel
  * so an outbound and a return flight separate instead of overlapping.
@@ -40,7 +57,7 @@ export function arcBetween(
   to: [number, number],
 ): [number, number][] {
   const [x1, y1] = from;
-  const [x2, y2] = to;
+  const [x2, y2] = nearSide(from, to);
   const control: [number, number] = [
     (x1 + x2) / 2 - (y2 - y1) * ARC_BOW,
     (y1 + y2) / 2 + (x2 - x1) * ARC_BOW,
@@ -92,7 +109,7 @@ export function buildRouteLayers(trip: Trip): RouteLayer[] {
           coordinates:
             stroke === "flight"
               ? arcBetween(city.coordinates, next)
-              : [city.coordinates, next],
+              : [city.coordinates, nearSide(city.coordinates, next)],
           type: "LineString",
         },
         properties: {},

@@ -107,10 +107,19 @@ export function BottomSheet({
   };
 
   /**
-   * Opens a collapsed sheet, or collapses an open one, from its handle.
+   * Steps the sheet through its heights from the handle: a collapsed sheet
+   * opens half way, a half-open one rises to full height, and a full one
+   * collapses. Dragging reaches the same heights, but a keyboard or switch
+   * user has only this button.
    * @returns {void}
    */
-  const handleToggle = (): void => onOpenChange(!isOpen);
+  const handleToggle = (): void => {
+    if (!isOpen) {
+      setOpenSnap("half");
+      onOpenChange(true);
+    } else if (openSnap === "half") setOpenSnap("full");
+    else onOpenChange(false);
+  };
 
   return (
     <m.div
@@ -130,7 +139,13 @@ export function BottomSheet({
       >
         <button
           aria-expanded={isOpen}
-          aria-label={isOpen ? t("sheet.collapse") : t("sheet.expand")}
+          aria-label={
+            !isOpen
+              ? t("sheet.expand")
+              : openSnap === "half"
+                ? t("sheet.expandFull")
+                : t("sheet.collapse")
+          }
           className="bottom-sheet__handle"
           onClick={handleToggle}
           type="button"

@@ -30,4 +30,3 @@ jobs:
       - run: python -m pip install -r scripts/uploader/requirements.txt
       - run: python -m compileall -q scripts/uploader
       - run: python -m unittest discover -s scripts/uploader -p 'test_*.py'
-      - run: pnpm --filter travel-map security:audit

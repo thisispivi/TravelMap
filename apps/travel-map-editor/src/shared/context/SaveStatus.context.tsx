@@ -46,8 +46,11 @@ const SaveStatusContext = createContext<SaveStatusValue | null>(null);
  */
 export function SaveStatusProvider({ children }: PropsWithChildren): ReactNode {
   const [status, setStatus] = useState<SaveStatus | null>(null);
+  const saveStatusContextValue: SaveStatusValue = { setStatus, status };
+
   return (
-    <SaveStatusContext.Provider value={{ setStatus, status }}>
+    /* react-doctor-disable-next-line react-doctor/context-provider-value-from-unmemoized-local-literal -- React Compiler memoizes the value, which the scan cannot see */
+    <SaveStatusContext.Provider value={saveStatusContextValue}>
       {children}
     </SaveStatusContext.Provider>
   );

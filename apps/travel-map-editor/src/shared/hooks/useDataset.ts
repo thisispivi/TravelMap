@@ -1,7 +1,7 @@
 import { Issue, validateDataset } from "@travelmap/core";
 import { useSyncExternalStore } from "react";
 
-import { photoKeys } from "../../data/dataset";
+import { photoCounts } from "../../data/dataset";
 import {
   DatasetSnapshot,
   getDataset,
@@ -42,7 +42,7 @@ export function datasetIssues(dataset: DatasetSnapshot): Issue[] {
     futureCityIds: dataset.config.value.futureCityIds,
     homeCityId: dataset.config.value.homeCityId,
     livedCityIds: dataset.config.value.livedCityIds,
-    photoKeys: photoKeys(dataset),
+    photoCounts: photoCounts(dataset),
     trips: dataset.trips,
   });
 }

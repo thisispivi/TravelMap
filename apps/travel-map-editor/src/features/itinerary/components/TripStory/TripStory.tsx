@@ -339,6 +339,21 @@ function NextStep({
 }
 
 /**
+ * Names where a move leaves from, for its list key: the stay before it, or the
+ * trip's start. Keys must not be positions, or every card after a removed
+ * step would remount and lose its open leg.
+ * @param {TripJson} trip - The trip
+ * @param {number} index - The move's position
+ * @returns {string} The stay's city and check-out date, or the trip's start
+ */
+function moveOrigin(trip: TripJson, index: number): string {
+  const previous = trip.steps[index - 1];
+  return previous?.type === "stay"
+    ? `${previous.cityId}-${previous.checkOut}`
+    : `${trip.originCityId}-${trip.sDate}`;
+}
+
+/**
  * Properties accepted by the TripStory component.
  * @property {DatasetSnapshot} dataset - The current dataset
  * @property {TripJson} trip - The trip being edited
@@ -437,7 +452,7 @@ export function TripStory({
           step.type === "stay" ? (
             <StayCard
               dataset={dataset}
-              key={`stay-${step.cityId}-${step.checkIn}-${index}`}
+              key={`stay-${step.cityId}-${step.checkIn}`}
               number={index + 1}
               onAddDayTrip={() => onRequestPlace({ index, kind: "dayTrip" })}
               onAddPlace={(outing) =>
@@ -459,7 +474,7 @@ export function TripStory({
             <MoveCard
               dataset={dataset}
               index={index}
-              key={`move-${step.legs[0]?.toId}-${index}`}
+              key={`move-${moveOrigin(trip, index)}-${step.legs.map(({ toId }) => toId).join(">")}`}
               move={step}
               number={index + 1}
               onAddStop={() => onRequestPlace({ index, kind: "addToChain" })}

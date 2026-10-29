@@ -83,8 +83,9 @@ export function toId(name: string): string {
  * @returns {string} An unused identifier
  */
 export function uniqueId(preferred: string, taken: string[]): string {
-  if (!taken.includes(preferred)) return preferred;
+  const used = new Set(taken);
+  if (!used.has(preferred)) return preferred;
   let counter = 2;
-  while (taken.includes(`${preferred}${counter}`)) counter += 1;
+  while (used.has(`${preferred}${counter}`)) counter += 1;
   return `${preferred}${counter}`;
 }

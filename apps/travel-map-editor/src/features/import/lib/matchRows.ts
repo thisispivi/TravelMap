@@ -84,6 +84,7 @@ export async function matchRows(
 
     let candidates: WorldCity[];
     try {
+      /* react-doctor-disable-next-line react-doctor/async-await-in-loop -- one search at a time keeps a long import from flooding the city search */
       candidates = await searchWorldCities(row.name, CANDIDATE_LIMIT, signal);
     } catch {
       /* A gazetteer outage must leave the row reviewable, not abort the run. */

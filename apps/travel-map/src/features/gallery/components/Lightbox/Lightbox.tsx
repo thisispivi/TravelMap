@@ -12,10 +12,17 @@ import { CountryFlag } from "@/shared/components/CountryFlag/CountryFlag";
 import { useLanguage } from "@/shared/hooks/useLanguage";
 import { classNames } from "@/shared/lib/classNames";
 import { env } from "@/shared/lib/env";
+import { keepTabWithin } from "@/shared/lib/focus";
 import { easeOut } from "@/shared/lib/motion";
 
 import { albumPhotos } from "../../lib/album";
 import type { LightboxRouteData } from "../../loaders/Lightbox.loader";
+
+/*
+ * The strip draws this many thumbnails either side of the open photo, so a
+ * thousand-photo album does not mount a thousand buttons on every turn.
+ */
+const STRIP_REACH = 30;
 
 /* A swipe this far, or this fast, turns the page. */
 const SWIPE_DISTANCE_PX = 80;
@@ -27,7 +34,8 @@ const SWIPE_VELOCITY = 500;
  * @returns {string} The complete YouTube embed URL
  */
 function youtubeEmbedSrc(original: string): string {
-  const normalized = original.replace(/^https:\//, "https://");
+  /* Repairs a scheme that lost a slash, without touching a correct one. */
+  const normalized = original.replace(/^https:\/(?!\/)/, "https://");
   if (/^https?:\/\//.test(normalized)) return normalized;
   return `${env.VITE_YOUTUBE_PATH}${normalized}`;
 }
@@ -101,8 +109,11 @@ export function Lightbox(): ReactNode {
   const photoIdx = data?.photoIdx ?? 0;
   const photos = data ? albumPhotos(data.album) : [];
   const current = photos[photoIdx];
+  const stripStart = Math.max(0, photoIdx - STRIP_REACH);
+  const stripEnd = photoIdx + STRIP_REACH + 1;
   const dialogRef = useRef<HTMLDivElement>(null);
   const stripRef = useRef<HTMLDivElement>(null);
+  const hasPlacedStripRef = useRef(false);
   const currentIdx = useRef(photoIdx);
   /* Which way the last move went, so the slides enter and leave from that side. */
   const [step, setStep] = useState({ direction: 1, index: photoIdx });
@@ -145,11 +156,13 @@ export function Lightbox(): ReactNode {
 
   useEffect(() => {
     /**
-     * Moves with the arrow keys and closes with Escape.
+     * Moves with the arrow keys, closes with Escape, and keeps Tab inside the
+     * dialog so focus never reaches the album hidden behind it.
      * @param {KeyboardEvent} event - The key press
      * @returns {void}
      */
     const handleKeyDown = (event: KeyboardEvent): void => {
+      keepTabWithin(event, dialogRef.current);
       if (event.key === "ArrowRight") goToRef.current(currentIdx.current + 1);
       else if (event.key === "ArrowLeft")
         goToRef.current(currentIdx.current - 1);
@@ -176,13 +189,21 @@ export function Lightbox(): ReactNode {
       if (neighbour && !neighbour.photo.youtube)
         new Image().src = mediaUrl(neighbour.photo.original);
     }
-    stripRef.current
-      ?.querySelector(".lightbox__thumb--active")
-      ?.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest",
-        inline: "center",
-      });
+    const strip = stripRef.current;
+    const active = strip?.querySelector<HTMLElement>(
+      ".lightbox__thumb--active",
+    );
+    if (!strip || !active) return;
+    /*
+     * The strip opens already centred on the photo; only later moves glide,
+     * and only the strip scrolls. Gliding there on open swept the whole strip
+     * past, which stuttered in a large album.
+     */
+    strip.scrollTo({
+      behavior: hasPlacedStripRef.current ? "smooth" : "instant",
+      left: active.offsetLeft - (strip.clientWidth - active.offsetWidth) / 2,
+    });
+    hasPlacedStripRef.current = true;
   }, [data, photoIdx]);
 
   /**
@@ -293,27 +314,30 @@ export function Lightbox(): ReactNode {
       </div>
 
       <div className="lightbox__strip" ref={stripRef}>
-        {photos.map(({ photo }, index) => (
-          <button
-            aria-current={index === photoIdx ? "true" : undefined}
-            aria-label={t("gallery.openPhoto", { index: index + 1 })}
-            className={classNames(
-              "lightbox__thumb",
-              index === photoIdx && "lightbox__thumb--active",
-            )}
-            key={photo.thumbnail}
-            onClick={() => goTo(index)}
-            type="button"
-          >
-            <img
-              alt=""
-              className="lightbox__thumb-image"
-              decoding="async"
-              loading="lazy"
-              src={mediaUrl(photo.thumbnail)}
-            />
-          </button>
-        ))}
+        {photos.slice(stripStart, stripEnd).map(({ photo }, offset) => {
+          const index = stripStart + offset;
+          return (
+            <button
+              aria-current={index === photoIdx ? "true" : undefined}
+              aria-label={t("gallery.openPhoto", { index: index + 1 })}
+              className={classNames(
+                "lightbox__thumb",
+                index === photoIdx && "lightbox__thumb--active",
+              )}
+              key={photo.thumbnail}
+              onClick={() => goTo(index)}
+              type="button"
+            >
+              <img
+                alt=""
+                className="lightbox__thumb-image"
+                decoding="async"
+                loading="lazy"
+                src={mediaUrl(photo.thumbnail)}
+              />
+            </button>
+          );
+        })}
       </div>
     </m.div>,
     document.body,

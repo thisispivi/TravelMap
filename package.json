@@ -4,7 +4,7 @@
   "packageManager": "pnpm@11.21.0",
   "scripts": {
     "build": "pnpm -r --if-present build",
-    "check": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm test && pnpm knip && pnpm --filter travel-map react:doctor",
+    "check": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm test && pnpm knip && pnpm react:doctor && pnpm security:audit",
     "dev": "pnpm -r --parallel --filter travel-map --filter travel-map-editor dev",
     "editor": "pnpm --filter travel-map-editor dev",
     "format": "prettier . --write",
@@ -13,6 +13,8 @@
     "lint": "pnpm -r --if-present lint",
     "lint:fix": "pnpm -r --if-present lint:fix",
     "prepare": "husky",
+    "react:doctor": "pnpm -r --if-present react:doctor",
+    "security:audit": "pnpm audit --audit-level=low",
     "test": "pnpm -r --if-present test",
     "typecheck": "pnpm -r --if-present typecheck"
   },

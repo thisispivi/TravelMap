@@ -17,7 +17,12 @@ export const SINGLE_DESTINATION_ZOOM = 6.5;
 export const WORLD_CENTER: [number, number] = [0, 0];
 
 const HOME_COUNTRY_ID = parameters.homeCity?.country.id ?? null;
-const ROOT_PX = 16;
+/*
+ * The layout is sized in rem, so it grows with the reader's browser font size;
+ * the camera reads the same root size to pad for the panels as drawn.
+ */
+const ROOT_PX =
+  Number.parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
 const MAP_EDGE_PADDING_PX = 32;
 /* The phone's floating theme/language buttons and the zoom buttons on wider screens. */
 const TOP_TOOLS_PX = 64;

@@ -246,8 +246,10 @@ export function parseCsv(input: string): ParsedInput {
    * @param {string[]} names - Accepted header names
    * @returns {number} The column index, or -1 when absent
    */
-  const indexOf = (...names: string[]): number =>
-    columns.findIndex((column) => names.includes(column));
+  const indexOf = (...names: string[]): number => {
+    const accepted = new Set(names);
+    return columns.findIndex((column) => accepted.has(column));
+  };
   const nameAt = indexOf("name", "place", "city");
   const latitudeAt = indexOf("lat", "latitude");
   const longitudeAt = indexOf("lng", "lon", "long", "longitude");

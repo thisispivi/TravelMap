@@ -110,7 +110,7 @@ describe("building a trip one answer at a time", () => {
             },
           ]),
         ),
-        photoKeys: new Set(),
+        photoCounts: new Map(),
       },
       "trips/romania.json",
     );

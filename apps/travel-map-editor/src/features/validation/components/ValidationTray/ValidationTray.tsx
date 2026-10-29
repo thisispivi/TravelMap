@@ -164,10 +164,10 @@ export function ValidationTray({
             </p>
           ) : (
             <ul className="validation-tray__issues">
-              {issues.map((issue, index) => (
+              {issues.map((issue) => (
                 <IssueRow
                   issue={issue}
-                  key={`${issue.code}-${index}`}
+                  key={`${issue.code}:${issue.path}:${JSON.stringify(issue.subject)}`}
                   onApplyFix={
                     issue.fix ? () => onApplyFix(issue.fix!) : undefined
                   }

@@ -475,7 +475,8 @@
       "arrivalBeforeDeparture": "The ride to {{to}} arrives before it leaves.",
       "flightOnNonFlight": "Flight details are recorded on a {{mode}} ride.",
       "ferryOnNonFerry": "Ferry details are recorded on a {{mode}} ride.",
-      "impossibleSpeed": "{{from}} to {{to}} in {{minutes}} minutes is faster than any of these modes travel."
+      "impossibleSpeed": "{{from}} to {{to}} in {{minutes}} minutes is faster than any of these modes travel.",
+      "rangePastGallery": "{{city}}'s first photo ({{from}}) is past the end of its gallery of {{count}}, so it shows none."
     },
     "city": {
       "unknownCountry": "City \"{{id}}\" belongs to the unknown country \"{{countryId}}\".",
@@ -504,7 +505,8 @@
       "missingGallery": "{{city}} points at the missing gallery \"{{photoPath}}\".",
       "notReached": "The journey before {{city}} ends in {{arrivedAt}}.",
       "noMoveBetween": "Nothing records how you got from {{from}} to {{to}}.",
-      "overlap": "{{city}} starts before you left {{previous}}."
+      "overlap": "{{city}} starts before you left {{previous}}.",
+      "rangePastGallery": "{{city}}'s first photo ({{from}}) is past the end of its gallery of {{count}}, so it shows none."
     },
     "outing": {
       "outsideStay": "The day trip on {{date}} is outside your stay in {{city}}.",

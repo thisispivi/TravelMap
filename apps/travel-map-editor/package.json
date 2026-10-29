@@ -9,6 +9,7 @@
     "knip": "knip",
     "lint": "eslint . --report-unused-disable-directives --max-warnings=0",
     "lint:fix": "eslint . --fix --max-warnings=0",
+    "react:doctor": "react-doctor . --verbose",
     "test": "vitest run",
     "typecheck": "tsc --noEmit"
   },
@@ -42,6 +43,7 @@
     "@vitejs/plugin-react": "^6.1.2",
     "autoprefixer": "^10.6.1",
     "knip": "^6.42.1",
+    "react-doctor": "^0.9.18",
     "sass": "^1.106.1",
     "sharp": "^0.35.5",
     "typescript": "^6.0.3",

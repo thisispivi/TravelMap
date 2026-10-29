@@ -219,10 +219,10 @@ export function PhotoImportDialog({
                 hasErrors ? "editor-notice--error" : "editor-notice--warning",
               )}
             >
-              {visibleProblems.map((problem, index) => (
+              {visibleProblems.map((problem) => (
                 <li
                   className="editor-notice__item"
-                  key={`${problem.code}-${problem.index ?? index}-${problem.path ?? ""}`}
+                  key={`${problem.code}-${problem.index ?? "file"}-${problem.path ?? ""}`}
                 >
                   {t(`photoImport.problem.${problem.code}`, {
                     path: problem.path,

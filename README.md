@@ -123,8 +123,10 @@ Run the repository-wide quality gate before pushing:
 ```bash
 pnpm check
 pnpm build
-pnpm --filter travel-map security:audit
 ```
+
+`pnpm check` covers types, lint, formatting, tests, dead code (knip), React
+Doctor for both apps, and the dependency vulnerability audit.
 
 For uploader changes, from `scripts/uploader/` with its virtual environment
 active:

@@ -475,7 +475,8 @@
       "arrivalBeforeDeparture": "La tratta per {{to}} arriva prima di partire.",
       "flightOnNonFlight": "Dettagli del volo registrati su una tratta in {{mode}}.",
       "ferryOnNonFerry": "Dettagli del traghetto registrati su una tratta in {{mode}}.",
-      "impossibleSpeed": "Da {{from}} a {{to}} in {{minutes}} minuti è più veloce di qualsiasi mezzo."
+      "impossibleSpeed": "Da {{from}} a {{to}} in {{minutes}} minuti è più veloce di qualsiasi mezzo.",
+      "rangePastGallery": "La prima foto di {{city}} ({{from}}) supera la fine della sua galleria di {{count}}, quindi non ne mostra nessuna."
     },
     "city": {
       "unknownCountry": "La citta' \"{{id}}\" appartiene al paese sconosciuto \"{{countryId}}\".",
@@ -504,7 +505,8 @@
       "missingGallery": "{{city}} punta alla galleria mancante \"{{photoPath}}\".",
       "notReached": "Lo spostamento prima di {{city}} finisce a {{arrivedAt}}.",
       "noMoveBetween": "Non è registrato come sei andato da {{from}} a {{to}}.",
-      "overlap": "{{city}} inizia prima che tu lasciassi {{previous}}."
+      "overlap": "{{city}} inizia prima che tu lasciassi {{previous}}.",
+      "rangePastGallery": "La prima foto di {{city}} ({{from}}) supera la fine della sua galleria di {{count}}, quindi non ne mostra nessuna."
     },
     "outing": {
       "outsideStay": "La gita del {{date}} è fuori dal soggiorno a {{city}}.",

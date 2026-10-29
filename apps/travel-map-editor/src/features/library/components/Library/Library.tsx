@@ -93,6 +93,26 @@ interface SearchFieldProps {
 /** Status treatment shown on a trip card. */
 type TripStatusTone = "ready" | "warning" | "blocking";
 
+/** Day formatters by locale, built once each rather than on every card render. */
+const dayFormatters = new Map<string, Intl.DateTimeFormat>();
+
+/**
+ * Returns the cached day-month-year formatter for a locale.
+ * @param {string} locale - The locale
+ * @returns {Intl.DateTimeFormat} The formatter
+ */
+function dayFormatter(locale: string): Intl.DateTimeFormat {
+  const cached = dayFormatters.get(locale);
+  if (cached) return cached;
+  const formatter = new Intl.DateTimeFormat(locale, {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+  dayFormatters.set(locale, formatter);
+  return formatter;
+}
+
 /**
  * Formats a trip's span, tolerating a draft that has no dates yet.
  * @param {string} sDate - Trip start
@@ -110,11 +130,7 @@ function formatRange(sDate: string, eDate: string, locale: string): string {
     const parsed = new Date(`${value.slice(0, 10)}T00:00:00`);
     return Number.isNaN(parsed.getTime())
       ? value
-      : new Intl.DateTimeFormat(locale, {
-          day: "numeric",
-          month: "short",
-          year: "numeric",
-        }).format(parsed);
+      : dayFormatter(locale).format(parsed);
   }
 
   if (!sDate && !eDate) return "";

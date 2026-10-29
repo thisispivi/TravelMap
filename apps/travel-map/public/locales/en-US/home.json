@@ -59,7 +59,8 @@
   "language": "Change language",
   "sheet": {
     "expand": "Expand panel",
-    "collapse": "Collapse panel"
+    "collapse": "Collapse panel",
+    "expandFull": "Expand panel to full height"
   },
   "map": {
     "zoomIn": "Zoom in",

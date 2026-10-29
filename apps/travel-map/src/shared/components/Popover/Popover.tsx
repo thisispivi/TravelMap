@@ -5,6 +5,7 @@ import { CSSProperties, ReactNode, RefObject, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 
 import { classNames } from "@/shared/lib/classNames";
+import { focusablesIn, keepTabWithin } from "@/shared/lib/focus";
 import { easeOut } from "@/shared/lib/motion";
 
 /** Where a popover opens: under its trigger, or beside it with bottoms aligned. */
@@ -38,21 +39,6 @@ const MAX_HEIGHT = "24rem";
 
 /** Less room than this under the trigger, in pixels, and the popover opens above it. */
 const MIN_ROOM_PX = 240;
-
-/**
- * Lists the controls inside an element that Tab can reach, in order.
- * @param {HTMLElement | null} root - The element to search
- * @returns {HTMLElement[]} Its enabled buttons, links and fields
- */
-function focusablesIn(root: HTMLElement | null): HTMLElement[] {
-  return root
-    ? [
-        ...root.querySelectorAll<HTMLElement>(
-          "button:not(:disabled), [href], input:not(:disabled)",
-        ),
-      ]
-    : [];
-}
 
 /**
  * Places the popover against its trigger and caps its height at the room the
@@ -188,16 +174,7 @@ export function Popover({
         close();
         return;
       }
-      const active = document.activeElement;
-      if (event.key !== "Tab" || !popoverRef.current?.contains(active)) return;
-      const focusables = focusablesIn(popoverRef.current);
-      const first = focusables[0];
-      const last = focusables.at(-1);
-      if (!first || !last) return;
-      if (event.shiftKey ? active === first : active === last) {
-        event.preventDefault();
-        (event.shiftKey ? last : first).focus();
-      }
+      keepTabWithin(event, popoverRef.current);
     };
 
     document.addEventListener("pointerdown", handlePointerDown);

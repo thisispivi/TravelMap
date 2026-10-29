@@ -1,5 +1,6 @@
 import type {
   CityJson,
+  PhotoRange,
   TripJson,
   TripLegJson,
   TripStayJson,
@@ -18,11 +19,11 @@ import type { Issue, IssueFix, IssueSeverity, IssueSubject } from "./issues";
 /**
  * Everything a trip needs resolving against to be checked.
  * @property {Map<string, CityJson>} cities - Every city in the dataset, by id
- * @property {Set<string>} photoKeys - Gallery manifest keys present on disk
+ * @property {Map<string, number>} photoCounts - Each gallery manifest on disk, by key, with how many entries it holds
  */
 export interface TripValidationContext {
   cities: Map<string, CityJson>;
-  photoKeys: Set<string>;
+  photoCounts: Map<string, number>;
 }
 
 /* Above this an itinerary is describing something that did not happen. */
@@ -126,6 +127,30 @@ export function validateTrip(
    */
   const label = (id: string): string =>
     context.cities.get(id)?.name ?? (id || "—");
+
+  /**
+   * Counts a gallery's entries, or 0 when it is not on disk.
+   * @param {string} [photoPath] - The gallery key
+   * @returns {number} How many entries the manifest holds
+   */
+  const galleryCount = (photoPath?: string): number =>
+    (photoPath && context.photoCounts.get(photoPath)) || 0;
+
+  /**
+   * Reports whether a visit's photo range begins after the last photo of a
+   * gallery that does exist, which leaves the visit with no photos at all.
+   * A missing gallery is reported on its own, so it is not flagged twice.
+   * @param {string} [photoPath] - The gallery key
+   * @param {PhotoRange} [range] - The part of the gallery the visit owns
+   * @returns {boolean} Whether the range starts past the end
+   */
+  const startsPastGallery = (photoPath?: string, range?: PhotoRange): boolean =>
+    Boolean(
+      photoPath &&
+      range?.from &&
+      context.photoCounts.has(photoPath) &&
+      range.from > galleryCount(photoPath),
+    );
 
   /**
    * Records one problem against this trip.
@@ -278,7 +303,7 @@ export function validateTrip(
         { index },
         { city },
       );
-    if (stay.photoPath && !context.photoKeys.has(stay.photoPath))
+    if (stay.photoPath && !context.photoCounts.has(stay.photoPath))
       report(
         "stay.missingGallery",
         "warning",
@@ -292,6 +317,18 @@ export function validateTrip(
               photoPath: undefined,
             })),
           label: "Remove the reference",
+        },
+      );
+    if (startsPastGallery(stay.photoPath, stay.photoRange))
+      report(
+        "stay.rangePastGallery",
+        "warning",
+        `${city}'s first photo is past the end of its gallery, so it shows none.`,
+        { index },
+        {
+          city,
+          count: galleryCount(stay.photoPath),
+          from: stay.photoRange?.from ?? 1,
         },
       );
     if (arrivedAt !== stay.cityId && context.cities.has(stay.cityId)) {
@@ -397,7 +434,7 @@ export function validateTrip(
           at,
           { cityId: id },
         );
-    if (leg.photoPath && !context.photoKeys.has(leg.photoPath))
+    if (leg.photoPath && !context.photoCounts.has(leg.photoPath))
       report(
         "leg.missingGallery",
         "warning",
@@ -411,6 +448,18 @@ export function validateTrip(
               photoPath: undefined,
             })),
           label: "Remove the reference",
+        },
+      );
+    if (startsPastGallery(leg.photoPath, leg.photoRange))
+      report(
+        "leg.rangePastGallery",
+        "warning",
+        `${to}'s first photo is past the end of its gallery, so it shows none.`,
+        at,
+        {
+          city: to,
+          count: galleryCount(leg.photoPath),
+          from: leg.photoRange?.from ?? 1,
         },
       );
     if (fromId === leg.toId)

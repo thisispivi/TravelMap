@@ -71,8 +71,11 @@ export function ToastProvider({ children }: PropsWithChildren): ReactNode {
     window.setTimeout(() => dismissToast(id), TOAST_DURATION_MS);
   }
 
+  const toastContextValue: ToastContextValue = { showToast };
+
   return (
-    <ToastContext.Provider value={{ showToast }}>
+    /* react-doctor-disable-next-line react-doctor/context-provider-value-from-unmemoized-local-literal -- React Compiler memoizes the value, which the scan cannot see */
+    <ToastContext.Provider value={toastContextValue}>
       {children}
       <section
         aria-label={t("toast.notifications")}

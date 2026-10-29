@@ -147,7 +147,9 @@
     }
   }
 
+  /* Positioned, so a thumbnail's offset is measured from the strip it scrolls in. */
   &__strip {
+    position: relative;
     display: flex;
     gap: v.$space1;
     padding: v.$space3 v.$space4

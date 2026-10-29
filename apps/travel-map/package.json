@@ -19,7 +19,6 @@
     "predeploygh": "pnpm run build",
     "preview": "vite preview",
     "react:doctor": "react-doctor . --verbose",
-    "security:audit": "pnpm audit --audit-level=low",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "update:packages": "ncu -u --peer --reject prettier,eslint,@eslint/js,typescript"

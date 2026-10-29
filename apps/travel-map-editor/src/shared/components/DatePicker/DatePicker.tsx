@@ -15,6 +15,20 @@ const WEEKDAY_COUNT = 7;
 const CALENDAR_CELLS = 42;
 const PANEL_WIDTH_PX = 280;
 
+/** Short weekday names for the calendar's header row. */
+const WEEKDAY_FORMAT = new Intl.DateTimeFormat(undefined, { weekday: "short" });
+
+/** The chosen date as the field shows it. */
+const VALUE_FORMAT = new Intl.DateTimeFormat(undefined, {
+  dateStyle: "medium",
+});
+
+/** The month and year above the calendar grid. */
+const MONTH_FORMAT = new Intl.DateTimeFormat(undefined, {
+  month: "long",
+  year: "numeric",
+});
+
 /**
  * Splits an authored value into its date and time halves.
  * @param {string} [value] - A YYYY-MM-DD or YYYY-MM-DDTHH:mm value
@@ -45,10 +59,9 @@ function toLocalDate(date: Date): string {
  * @returns {string[]} Short weekday labels
  */
 function weekdayLabels(firstDay: number): string[] {
-  const formatter = new Intl.DateTimeFormat(undefined, { weekday: "short" });
   /* A known Sunday provides a stable base for weekday ordering. */
   return Array.from({ length: WEEKDAY_COUNT }, (_unused, index) =>
-    formatter.format(new Date(2024, 0, 7 + ((firstDay + index) % 7))),
+    WEEKDAY_FORMAT.format(new Date(2024, 0, 7 + ((firstDay + index) % 7))),
   );
 }
 
@@ -181,11 +194,7 @@ export function DatePicker({
   function shiftMonth(delta: number): void {
     setMonth(new Date(month.getFullYear(), month.getMonth() + delta, 1));
   }
-  const formattedValue = selected
-    ? new Intl.DateTimeFormat(undefined, { dateStyle: "medium" }).format(
-        selected,
-      )
-    : "";
+  const formattedValue = selected ? VALUE_FORMAT.format(selected) : "";
   return (
     <div className="editor-field date-picker">
       <span className="editor-field__label">{label}</span>
@@ -262,10 +271,7 @@ export function DatePicker({
                     ‹
                   </button>
                   <span className="date-picker__month">
-                    {new Intl.DateTimeFormat(undefined, {
-                      month: "long",
-                      year: "numeric",
-                    }).format(month)}
+                    {MONTH_FORMAT.format(month)}
                   </span>
                   <button
                     aria-label={t("datePicker.nextMonth")}

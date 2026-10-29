@@ -33,7 +33,11 @@ export function CountryScreen({ file }: CountryScreenProps): ReactNode {
   const { t } = useLanguage(["editor"]);
   const dataset = useDataset();
   const navigate = useNavigate();
-  const [value, setValue] = useState(file.value);
+  /*
+   * A draft of the saved document: edits stay here until they are saved, and
+   * the route keys this screen by file, so opening another file starts fresh.
+   */
+  const [value, setValue] = useState(() => file.value);
   const isDirty = !isSameJson(value, file.value);
   const world = findWorldCountry(file.value.id);
   const dependents = dataset.cities.filter(
