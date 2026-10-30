@@ -1,5 +1,10 @@
 import "./AppNav.scss";
 
+import LogoIcon from "@travelmap/ui/assets/icons/Logo.svg?react";
+import { LanguageMenu } from "@travelmap/ui/components/LanguageMenu/LanguageMenu";
+import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
+import { classNames } from "@travelmap/ui/lib/classNames";
+import { panelSpring } from "@travelmap/ui/lib/motion";
 import { m } from "framer-motion";
 import {
   CalendarRange,
@@ -14,13 +19,8 @@ import {
 import { ReactNode } from "react";
 import { useLocation, useNavigate } from "react-router";
 
-import LogoIcon from "@/assets/icons/Logo.svg?react";
-import { LanguageMenu } from "@/shared/components/LanguageMenu/LanguageMenu";
 import { NavTabId, useAppRoute } from "@/shared/context/AppRoute.context";
 import { usePanel } from "@/shared/context/Panel.context";
-import { useLanguage } from "@/shared/hooks/useLanguage";
-import { classNames } from "@/shared/lib/classNames";
-import { panelSpring } from "@/shared/lib/motion";
 
 /**
  * One navigation tab.

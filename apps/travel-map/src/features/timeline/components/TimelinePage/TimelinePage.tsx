@@ -1,24 +1,24 @@
 import "./TimelinePage.scss";
 
 import { Continent, Trip } from "@travelmap/core";
+import { CountryFlag } from "@travelmap/ui/components/CountryFlag/CountryFlag";
+import { CoverImage } from "@travelmap/ui/components/CoverImage/CoverImage";
+import { PanelFrame } from "@travelmap/ui/components/PanelFrame/PanelFrame";
+import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
+import { formatDateRangeShort } from "@travelmap/ui/i18n/date";
+import { classNames } from "@travelmap/ui/lib/classNames";
+import { easeOut } from "@travelmap/ui/lib/motion";
 import { AnimatePresence, m } from "framer-motion";
 import { CSSProperties, ReactNode, useState } from "react";
 import { useNavigate } from "react-router";
 
 import { visitedTrips } from "@/data/world";
-import { formatDateRangeShort } from "@/i18n/functions/date";
-import { CountryFlag } from "@/shared/components/CountryFlag/CountryFlag";
-import { CoverImage } from "@/shared/components/CoverImage/CoverImage";
 import { EmptyState } from "@/shared/components/EmptyState/EmptyState";
 import { PageHeader } from "@/shared/components/PageHeader/PageHeader";
-import { PanelFrame } from "@/shared/components/PanelFrame/PanelFrame";
 import { YearPills } from "@/shared/components/YearPills/YearPills";
 import { useMapInteraction } from "@/shared/context/MapInteraction.context";
-import { useLanguage } from "@/shared/hooks/useLanguage";
 import { useResponsive } from "@/shared/hooks/useResponsive";
-import { classNames } from "@/shared/lib/classNames";
 import { CONTINENT_COLORS } from "@/shared/lib/continentColors";
-import { easeOut } from "@/shared/lib/motion";
 import { parameters } from "@/shared/lib/parameters";
 
 import { buildTimeline } from "../../lib/timeline";

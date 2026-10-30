@@ -1,7 +1,7 @@
 import "./SaveChip.scss";
 
-import { useLanguage } from "@app/shared/hooks/useLanguage";
-import { classNames } from "@app/shared/lib/classNames";
+import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
+import { classNames } from "@travelmap/ui/lib/classNames";
 import { Check, CircleAlert, LoaderCircle } from "lucide-react";
 import { ReactNode } from "react";
 

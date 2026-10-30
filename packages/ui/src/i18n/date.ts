@@ -1,4 +1,4 @@
-import { normalizeLocale } from "../locale";
+import { normalizeLocale } from "./locale";
 
 const monthFormatters = new Map<string, Intl.DateTimeFormat>();
 const weekdayFormatters = new Map<string, Intl.DateTimeFormat>();

@@ -1,5 +1,4 @@
 {
   "$schema": "https://unpkg.com/knip@latest/schema.json",
-  "project": ["src/**/*.{ts,tsx,scss,sass}"],
-  "entry": ["src/shared/components/Checkbox/Checkbox.tsx"]
+  "project": ["src/**/*.{ts,tsx,scss,sass}"]
 }

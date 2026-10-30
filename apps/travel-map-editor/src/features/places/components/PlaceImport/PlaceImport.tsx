@@ -1,7 +1,7 @@
 import "./PlaceImport.scss";
 
-import PositionIcon from "@app/assets/icons/Position.svg?react";
-import { useLanguage } from "@app/shared/hooks/useLanguage";
+import PositionIcon from "@travelmap/ui/assets/icons/Position.svg?react";
+import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { ReactNode, useId, useState } from "react";
 import { z } from "zod";
 

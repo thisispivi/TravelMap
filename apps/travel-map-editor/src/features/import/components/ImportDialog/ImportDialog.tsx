@@ -1,8 +1,8 @@
 import "./ImportDialog.scss";
 
-import { useLanguage } from "@app/shared/hooks/useLanguage";
-import { classNames } from "@app/shared/lib/classNames";
 import { TripJson } from "@travelmap/core";
+import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
+import { classNames } from "@travelmap/ui/lib/classNames";
 import { ArrowLeft, Check, FileUp, X } from "lucide-react";
 import {
   ChangeEvent,
@@ -327,7 +327,7 @@ export function ImportDialog({
               type="button"
             >
               <ArrowLeft aria-hidden="true" />
-              {t("import.back")}
+              {t("common:action.back")}
             </button>
             <output className="editor-form__message">{message}</output>
           </div>

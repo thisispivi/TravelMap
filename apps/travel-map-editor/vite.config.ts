@@ -7,10 +7,7 @@ import { assetWriter } from "./vite/assetWriter.ts";
 import { cityIndex } from "./vite/cityIndex.ts";
 import { dataWriter } from "./vite/dataWriter.ts";
 import { mediaUploader } from "./vite/mediaUploader.ts";
-import { siteFlags } from "./vite/siteFlags.ts";
 import { snapshots } from "./vite/snapshots.ts";
-
-const appSource = resolve(import.meta.dirname, "../travel-map/src");
 
 export default defineConfig(
   mergeConfig(sharedViteConfig(), {
@@ -23,14 +20,7 @@ export default defineConfig(
         resolve(import.meta.dirname, "../../data"),
       ),
       snapshots(resolve(import.meta.dirname, "../../.data-snapshots")),
-      siteFlags(resolve(import.meta.dirname, "../travel-map/public/flags")),
     ],
-    resolve: {
-      alias: [
-        { find: /^@app\//, replacement: `${appSource}/` },
-        { find: /^@\//, replacement: `${appSource}/` },
-      ],
-    },
     envDir: resolve(import.meta.dirname, "../travel-map/env"),
     server: { host: "localhost", port: 5174 },
   }),

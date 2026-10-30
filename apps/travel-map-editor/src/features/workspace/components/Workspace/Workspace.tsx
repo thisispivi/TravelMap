@@ -1,9 +1,5 @@
 import "./Workspace.scss";
 
-import { PanelFrame } from "@app/shared/components/PanelFrame/PanelFrame";
-import { Popover } from "@app/shared/components/Popover/Popover";
-import { useLanguage } from "@app/shared/hooks/useLanguage";
-import { classNames } from "@app/shared/lib/classNames";
 import {
   daysBetween,
   Issue,
@@ -12,6 +8,10 @@ import {
   tripPlaceIds,
   worstSeverity,
 } from "@travelmap/core";
+import { PanelFrame } from "@travelmap/ui/components/PanelFrame/PanelFrame";
+import { Popover } from "@travelmap/ui/components/Popover/Popover";
+import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
+import { classNames } from "@travelmap/ui/lib/classNames";
 import {
   ArrowLeft,
   CircleCheck,

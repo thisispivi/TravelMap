@@ -1,6 +1,6 @@
 import "./BackupPanel.scss";
 
-import { useLanguage } from "@app/shared/hooks/useLanguage";
+import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { Download, RotateCcw, ShieldPlus } from "lucide-react";
 import { ReactNode, useEffect, useState } from "react";
 

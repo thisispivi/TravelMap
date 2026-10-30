@@ -1,7 +1,7 @@
 import "./DocumentScreen.scss";
 
-import { PanelFrame } from "@app/shared/components/PanelFrame/PanelFrame";
-import { useLanguage } from "@app/shared/hooks/useLanguage";
+import { PanelFrame } from "@travelmap/ui/components/PanelFrame/PanelFrame";
+import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { ArrowLeft, Trash2 } from "lucide-react";
 import { ReactNode, useState } from "react";
 import { Link } from "react-router";

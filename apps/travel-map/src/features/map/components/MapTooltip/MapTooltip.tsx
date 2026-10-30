@@ -1,14 +1,14 @@
 import "./MapTooltip.scss";
 
 import { City } from "@travelmap/core";
+import { CountryFlag } from "@travelmap/ui/components/CountryFlag/CountryFlag";
+import { CoverImage } from "@travelmap/ui/components/CoverImage/CoverImage";
+import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { Clock, Coins, Images, Users } from "lucide-react";
 import { ReactNode, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router";
 
 import { placePhotoCount } from "@/data/albums";
-import { CountryFlag } from "@/shared/components/CountryFlag/CountryFlag";
-import { CoverImage } from "@/shared/components/CoverImage/CoverImage";
-import { useLanguage } from "@/shared/hooks/useLanguage";
 import { getTimeZoneAbbreviation } from "@/shared/lib/timezone";
 
 /**

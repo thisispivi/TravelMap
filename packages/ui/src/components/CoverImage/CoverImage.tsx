@@ -2,7 +2,7 @@ import "./CoverImage.scss";
 
 import { ReactNode, useState } from "react";
 
-import { classNames } from "@/shared/lib/classNames";
+import { classNames } from "../../lib/classNames";
 
 /**
  * Properties accepted by the CoverImage component.

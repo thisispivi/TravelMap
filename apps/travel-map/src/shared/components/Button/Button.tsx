@@ -1,8 +1,7 @@
 import "./Button.scss";
 
+import { classNames } from "@travelmap/ui/lib/classNames";
 import { ReactNode } from "react";
-
-import { classNames } from "@/shared/lib/classNames";
 
 /** How strongly a button reads against its surface. */
 type ButtonVariant = "primary" | "soft" | "ghost";

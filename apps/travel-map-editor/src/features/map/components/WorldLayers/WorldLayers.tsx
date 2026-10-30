@@ -1,5 +1,5 @@
-import { countriesGeoJson } from "@app/features/map/lib/countries";
-import { MapTheme } from "@app/features/map/lib/mapTheme";
+import { countriesGeoJson } from "@travelmap/ui/map/lib/countries";
+import { MapTheme } from "@travelmap/ui/map/lib/mapTheme";
 import { ReactNode } from "react";
 import { Layer, Source } from "react-map-gl/maplibre";
 

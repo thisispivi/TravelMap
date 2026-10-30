@@ -1,7 +1,7 @@
 import "./CountryScreen.scss";
 
-import { useLanguage } from "@app/shared/hooks/useLanguage";
 import { CountryJson } from "@travelmap/core";
+import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { ReactNode, useState } from "react";
 import { useNavigate } from "react-router";
 
@@ -105,7 +105,7 @@ export function CountryScreen({ file }: CountryScreenProps): ReactNode {
   }
   return (
     <DocumentScreen
-      backLabel={t("nav.places")}
+      backLabel={t("common:nav.places")}
       backTo="/places"
       deletedMessage={t("toast.countryDeleted")}
       isDirty={isDirty}

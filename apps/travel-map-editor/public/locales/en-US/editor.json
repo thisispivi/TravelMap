@@ -1,13 +1,4 @@
 {
-  "transportMode": {
-    "plane": "Plane",
-    "ferry": "Ferry",
-    "car": "Car",
-    "train": "Train",
-    "bus": "Bus",
-    "taxi": "Taxi",
-    "walk": "Walk"
-  },
   "app": {
     "notFound": "Not found",
     "notFoundHint": "That document is not in the dataset.",
@@ -18,16 +9,16 @@
     "primary": "Primary navigation",
     "breadcrumb": "Breadcrumb",
     "home": "Home",
-    "places": "Places",
     "companies": "Companies",
     "settings": "Settings",
     "configuration": "Configuration",
-    "trips": "Trips",
     "language": "Language",
     "english": "English",
     "italian": "Italian",
     "switchToLight": "Switch to light mode",
-    "switchToDark": "Switch to dark mode"
+    "switchToDark": "Switch to dark mode",
+    "trips": "Trips",
+    "places": "Places"
   },
   "editorForm": {
     "deleteError": "Could not delete the file.",
@@ -308,8 +299,6 @@
     "youtubeId": "YouTube ID for entry {{position}}",
     "replace": "Replace",
     "import": "Import",
-    "back": "Back",
-    "close": "Close",
     "done": "The manifest was imported and linked to this stay.",
     "failed": "The photo manifest could not be imported.",
     "problem": {
@@ -324,9 +313,7 @@
     "fitToTrip": "Fit to trip",
     "useThisView": "Use this view",
     "selectStop": "Select stop {{position}}, {{city}}",
-    "travelTo": "Travel to {{city}}",
-    "zoomIn": "Zoom in",
-    "zoomOut": "Zoom out"
+    "travelTo": "Travel to {{city}}"
   },
   "save": {
     "saving": "Saving",
@@ -401,7 +388,6 @@
     "read": "Read it",
     "matching": "Matching places",
     "apply": "Apply",
-    "back": "Back",
     "failed": "The import could not be applied.",
     "nothingFound": "No places could be read from that.",
     "summary": "Creates {{created}} places, reuses {{reused}}, skips {{skipped}}.",
@@ -522,7 +508,6 @@
     "checkIn": "Arrived on",
     "leftOn": "Left on {{date}}",
     "photos": "Photos",
-    "dayTrip": "Day trip",
     "dayTripDate": "Date",
     "removeDayTrip": "Remove this day trip",
     "addPlaceToDayTrip": "Add another place to this day trip",
@@ -547,11 +532,6 @@
       "onward": "Moving on",
       "home": "Going home"
     },
-    "nightsCount_one": "{{count}} night",
-    "nightsCount_other": "{{count}} nights",
-    "summaryCheckIn": "Check-in",
-    "summaryCheckOut": "Check-out",
-    "nightsLabel": "Nights",
     "dayTripCount_one": "{{count}} day trip",
     "dayTripCount_other": "{{count}} day trips",
     "drawHint": "Tap a dot on the map to travel there, or an empty spot to add a new place."
@@ -580,8 +560,7 @@
     "saved_one": "{{count}} file added to the gallery.",
     "saved_other": "{{count}} files added to the gallery.",
     "saveFailed": "The files uploaded but the gallery could not be saved.",
-    "configFailed": "Could not reach the editor's upload service.",
-    "close": "Close"
+    "configFailed": "Could not reach the editor's upload service."
   },
   "confirm": {
     "deleteTrip": {
@@ -631,8 +610,6 @@
     }
   },
   "places": {
-    "add": "Add place",
-    "tripCount_one": "{{count}} trip",
-    "tripCount_other": "{{count}} trips"
+    "add": "Add place"
   }
 }

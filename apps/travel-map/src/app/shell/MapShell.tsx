@@ -1,6 +1,7 @@
 import "./MapShell.scss";
 
 import { City, Trip } from "@travelmap/core";
+import { useThemeDetector } from "@travelmap/ui/hooks/useThemeDetector";
 import { ReactNode, useEffect, useReducer, useRef } from "react";
 import { useLocation, useNavigate, useOutlet } from "react-router";
 
@@ -14,7 +15,6 @@ import {
   PanelContextValue,
 } from "@/shared/context/Panel.context";
 import { useResponsive } from "@/shared/hooks/useResponsive";
-import { useThemeDetector } from "@/shared/hooks/useThemeDetector";
 import { readNavigationState } from "@/shared/lib/navigationState";
 
 import { useAppLocation } from "../routing/useAppLocation";

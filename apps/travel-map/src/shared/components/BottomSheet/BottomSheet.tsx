@@ -1,5 +1,7 @@
 import "./BottomSheet.scss";
 
+import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
+import { panelSpring } from "@travelmap/ui/lib/motion";
 import {
   animate,
   m,
@@ -10,9 +12,6 @@ import {
   useTransform,
 } from "framer-motion";
 import { ReactNode, useEffect, useRef, useState } from "react";
-
-import { useLanguage } from "@/shared/hooks/useLanguage";
-import { panelSpring } from "@/shared/lib/motion";
 
 import { SHEET_HALF_HIDDEN_SHARE, SHEET_PEEK_PX } from "./BottomSheet.metrics";
 

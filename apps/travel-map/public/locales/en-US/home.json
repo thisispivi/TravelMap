@@ -48,11 +48,11 @@
   },
   "nav": {
     "label": "Main navigation",
-    "trips": "Trips",
-    "places": "Places",
     "gallery": "Gallery",
     "timeline": "Timeline",
-    "stats": "Stats"
+    "stats": "Stats",
+    "trips": "Trips",
+    "places": "Places"
   },
   "goHome": "Show the whole map",
   "theme": "Switch between light and dark",
@@ -62,23 +62,8 @@
     "collapse": "Collapse panel",
     "expandFull": "Expand panel to full height"
   },
-  "map": {
-    "zoomIn": "Zoom in",
-    "zoomOut": "Zoom out"
-  },
-  "mode": {
-    "plane": "Flight",
-    "ferry": "Ferry",
-    "train": "Train",
-    "bus": "Bus",
-    "car": "Car",
-    "taxi": "Taxi",
-    "walk": "Walk"
-  },
   "trips": {
     "title": "Trips",
-    "summary_one": "{{count}} trip",
-    "summary_other": "{{count}} trips",
     "empty": "No trips yet.",
     "notFound": "This trip doesn't exist.",
     "yearCount_one": "{{count}} trip",
@@ -90,8 +75,6 @@
     "summary": "Trip summary",
     "days": "Days",
     "places": "Places",
-    "nights_one": "{{count}} night",
-    "nights_other": "{{count}} nights",
     "photos_one": "{{count}} photo",
     "photos_other": "{{count}} photos",
     "showMap": "Show map",
@@ -116,10 +99,6 @@
     "title": "Itinerary",
     "start": "Departure",
     "end": "Back home",
-    "checkIn": "Check-in",
-    "checkOut": "Check-out",
-    "nightsLabel": "Nights",
-    "dayTrip": "Day trip",
     "visitedOnTheWay": "Visited on the way",
     "layoverIn": "{{time}} layover in {{city}}",
     "changeIn": "Change in {{city}}",
@@ -152,18 +131,14 @@
     "title": "Gallery",
     "summary": "{{photos}} photos from {{trips}} trips",
     "empty": "No photos yet.",
-    "back": "Back",
     "photoCount_one": "{{count}} photo",
     "photoCount_other": "{{count}} photos",
     "lightbox": "Photo viewer",
-    "close": "Close",
     "previous": "Previous photo",
     "next": "Next photo",
     "openPhoto": "Open photo {{index}}",
     "playVideo": "Play video",
-    "video": "YouTube video",
-    "tripCount_one": "{{count}} trip",
-    "tripCount_other": "{{count}} trips"
+    "video": "YouTube video"
   },
   "timeline": {
     "title": "Timeline",

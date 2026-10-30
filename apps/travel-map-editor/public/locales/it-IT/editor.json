@@ -1,13 +1,4 @@
 {
-  "transportMode": {
-    "plane": "Aereo",
-    "ferry": "Traghetto",
-    "car": "Auto",
-    "train": "Treno",
-    "bus": "Autobus",
-    "taxi": "Taxi",
-    "walk": "A piedi"
-  },
   "app": {
     "notFound": "Non trovato",
     "notFoundHint": "Questo documento non è nel dataset.",
@@ -18,16 +9,16 @@
     "primary": "Navigazione principale",
     "breadcrumb": "Percorso",
     "home": "Home",
-    "places": "Luoghi",
     "companies": "Compagnie",
     "settings": "Impostazioni",
     "configuration": "Configurazione",
-    "trips": "Viaggi",
     "language": "Lingua",
     "english": "Inglese",
     "italian": "Italiano",
     "switchToLight": "Passa alla modalità chiara",
-    "switchToDark": "Passa alla modalità scura"
+    "switchToDark": "Passa alla modalità scura",
+    "trips": "Viaggi",
+    "places": "Luoghi"
   },
   "editorForm": {
     "deleteError": "Non è stato possibile eliminare il file.",
@@ -308,8 +299,6 @@
     "youtubeId": "ID YouTube per l'elemento {{position}}",
     "replace": "Sostituisci",
     "import": "Importa",
-    "back": "Indietro",
-    "close": "Chiudi",
     "done": "Il manifest è stato importato e collegato a questo soggiorno.",
     "failed": "Non è stato possibile importare il manifest fotografico.",
     "problem": {
@@ -324,9 +313,7 @@
     "fitToTrip": "Inquadra il viaggio",
     "useThisView": "Usa questa vista",
     "selectStop": "Seleziona la tappa {{position}}, {{city}}",
-    "travelTo": "Vai a {{city}}",
-    "zoomIn": "Aumenta lo zoom",
-    "zoomOut": "Riduci lo zoom"
+    "travelTo": "Vai a {{city}}"
   },
   "save": {
     "saving": "Salvataggio",
@@ -401,7 +388,6 @@
     "read": "Leggi",
     "matching": "Cerco i luoghi",
     "apply": "Applica",
-    "back": "Indietro",
     "failed": "Non è stato possibile applicare l'importazione.",
     "nothingFound": "Non è stato possibile leggere nessun luogo.",
     "summary": "Crea {{created}} luoghi, ne riusa {{reused}}, ne salta {{skipped}}.",
@@ -522,7 +508,6 @@
     "checkIn": "Arrivato il",
     "leftOn": "Partito il {{date}}",
     "photos": "Foto",
-    "dayTrip": "Gita",
     "dayTripDate": "Data",
     "removeDayTrip": "Rimuovi questa gita",
     "addPlaceToDayTrip": "Aggiungi un altro posto alla gita",
@@ -547,11 +532,6 @@
       "onward": "Spostamento",
       "home": "Ritorno"
     },
-    "nightsCount_one": "{{count}} notte",
-    "nightsCount_other": "{{count}} notti",
-    "summaryCheckIn": "Arrivo",
-    "summaryCheckOut": "Partenza",
-    "nightsLabel": "Notti",
     "dayTripCount_one": "{{count}} gita",
     "dayTripCount_other": "{{count}} gite",
     "drawHint": "Tocca un puntino sulla mappa per andarci, o un punto vuoto per aggiungere un posto nuovo."
@@ -580,8 +560,7 @@
     "saved_one": "{{count}} file aggiunto alla galleria.",
     "saved_other": "{{count}} file aggiunti alla galleria.",
     "saveFailed": "I file sono stati caricati ma la galleria non è stata salvata.",
-    "configFailed": "Impossibile raggiungere il servizio di caricamento dell'editor.",
-    "close": "Chiudi"
+    "configFailed": "Impossibile raggiungere il servizio di caricamento dell'editor."
   },
   "confirm": {
     "deleteTrip": {
@@ -631,8 +610,6 @@
     }
   },
   "places": {
-    "add": "Aggiungi luogo",
-    "tripCount_one": "{{count}} viaggio",
-    "tripCount_other": "{{count}} viaggi"
+    "add": "Aggiungi luogo"
   }
 }

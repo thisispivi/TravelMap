@@ -1,10 +1,10 @@
 import "./Marker.scss";
 
 import { City } from "@travelmap/core";
+import { classNames } from "@travelmap/ui/lib/classNames";
 import { ReactNode } from "react";
 import { Marker as MapLibreMarker } from "react-map-gl/maplibre";
 
-import { classNames } from "@/shared/lib/classNames";
 import { isActivationKey } from "@/shared/lib/keyboard";
 
 /**

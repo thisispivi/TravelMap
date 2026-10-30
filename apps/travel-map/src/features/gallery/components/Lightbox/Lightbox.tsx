@@ -1,19 +1,19 @@
 import "./Lightbox.scss";
 
 import { mediaUrl, PublishedImage } from "@travelmap/core";
+import { CountryFlag } from "@travelmap/ui/components/CountryFlag/CountryFlag";
+import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
+import { formatDateRangeShort } from "@travelmap/ui/i18n/date";
+import { classNames } from "@travelmap/ui/lib/classNames";
+import { keepTabWithin } from "@travelmap/ui/lib/focus";
+import { easeOut } from "@travelmap/ui/lib/motion";
 import { AnimatePresence, m, PanInfo } from "framer-motion";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useLoaderData, useLocation, useNavigate } from "react-router";
 
-import { formatDateRangeShort } from "@/i18n/functions/date";
-import { CountryFlag } from "@/shared/components/CountryFlag/CountryFlag";
-import { useLanguage } from "@/shared/hooks/useLanguage";
-import { classNames } from "@/shared/lib/classNames";
 import { env } from "@/shared/lib/env";
-import { keepTabWithin } from "@/shared/lib/focus";
-import { easeOut } from "@/shared/lib/motion";
 
 import { albumPhotos } from "../../lib/album";
 import type { LightboxRouteData } from "../../loaders/Lightbox.loader";
@@ -262,7 +262,7 @@ export function Lightbox(): ReactNode {
           {photoIdx + 1} / {photos.length}
         </span>
         <button
-          aria-label={t("gallery.close")}
+          aria-label={t("common:action.close")}
           className="lightbox__button"
           onClick={close}
           type="button"

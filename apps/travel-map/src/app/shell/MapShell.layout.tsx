@@ -1,3 +1,5 @@
+import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
+import { easeOut, panelSpring } from "@travelmap/ui/lib/motion";
 import { AnimatePresence, m } from "framer-motion";
 import { PanelLeftOpen } from "lucide-react";
 import { lazy, ReactNode, Suspense } from "react";
@@ -7,9 +9,7 @@ import { BottomSheet } from "@/shared/components/BottomSheet/BottomSheet";
 import { Loading } from "@/shared/components/Loading/Loading";
 import { useAppRoute } from "@/shared/context/AppRoute.context";
 import { usePanel } from "@/shared/context/Panel.context";
-import { useLanguage } from "@/shared/hooks/useLanguage";
 import { ResponsiveType } from "@/shared/hooks/useResponsive";
-import { easeOut, panelSpring } from "@/shared/lib/motion";
 
 const Map = lazy(() =>
   import("@/features/map/components/Map/Map").then((module) => ({

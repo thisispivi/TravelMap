@@ -1,7 +1,7 @@
 import "./Toast.scss";
 
-import { useLanguage } from "@app/shared/hooks/useLanguage";
-import { classNames } from "@app/shared/lib/classNames";
+import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
+import { classNames } from "@travelmap/ui/lib/classNames";
 import { CheckCircle2, CircleAlert, Info, X } from "lucide-react";
 import {
   createContext,

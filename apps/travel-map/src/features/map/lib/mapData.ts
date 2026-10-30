@@ -1,4 +1,9 @@
 import { City } from "@travelmap/core";
+import {
+  countriesGeoJson,
+  CountryProperties,
+} from "@travelmap/ui/map/lib/countries";
+import { ringArea, ringCentroid } from "@travelmap/ui/map/lib/geo";
 import type {
   Feature,
   FeatureCollection,
@@ -8,9 +13,6 @@ import type {
 } from "geojson";
 
 import { futureCities, livedCities, visitedCities } from "@/data/world";
-
-import { countriesGeoJson, CountryProperties } from "./countries";
-import { ringArea, ringCentroid } from "./geo";
 
 /**
  * Properties stored on a generated city label.

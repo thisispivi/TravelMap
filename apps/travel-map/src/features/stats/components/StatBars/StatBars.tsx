@@ -1,9 +1,8 @@
 import "./StatBars.scss";
 
+import { easeOut } from "@travelmap/ui/lib/motion";
 import { m } from "framer-motion";
 import { CSSProperties, ReactNode } from "react";
-
-import { easeOut } from "@/shared/lib/motion";
 
 /**
  * One bar of a bar list.

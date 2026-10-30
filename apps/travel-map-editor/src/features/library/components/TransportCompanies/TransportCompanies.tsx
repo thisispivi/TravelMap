@@ -1,9 +1,9 @@
 import "./TransportCompanies.scss";
 
-import { PanelFrame } from "@app/shared/components/PanelFrame/PanelFrame";
-import { useLanguage } from "@app/shared/hooks/useLanguage";
-import { classNames } from "@app/shared/lib/classNames";
 import { Company, SiteConfig } from "@travelmap/core";
+import { PanelFrame } from "@travelmap/ui/components/PanelFrame/PanelFrame";
+import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
+import { classNames } from "@travelmap/ui/lib/classNames";
 import { Building2, ChevronDown, Plus, Trash2 } from "lucide-react";
 import { ReactNode, useState } from "react";
 

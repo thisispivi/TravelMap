@@ -1,24 +1,24 @@
 import "./TripDetail.scss";
 
 import { City, TransportModeSchema } from "@travelmap/core";
+import { CountryFlag } from "@travelmap/ui/components/CountryFlag/CountryFlag";
+import { CoverImage } from "@travelmap/ui/components/CoverImage/CoverImage";
+import { PanelFrame } from "@travelmap/ui/components/PanelFrame/PanelFrame";
+import { TransportModeIcon } from "@travelmap/ui/components/TransportModeIcon/TransportModeIcon";
+import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
+import { formatDateRangeShort } from "@travelmap/ui/i18n/date";
+import { formatMileage } from "@travelmap/ui/i18n/format";
 import { ArrowLeft, Images, Map as MapIcon } from "lucide-react";
 import { ReactNode, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router";
 
 import { findTripAlbum } from "@/data/albums";
-import { formatDateRangeShort } from "@/i18n/functions/date";
 import { Button } from "@/shared/components/Button/Button";
-import { CountryFlag } from "@/shared/components/CountryFlag/CountryFlag";
-import { CoverImage } from "@/shared/components/CoverImage/CoverImage";
 import { EmptyState } from "@/shared/components/EmptyState/EmptyState";
-import { PanelFrame } from "@/shared/components/PanelFrame/PanelFrame";
-import { TransportModeIcon } from "@/shared/components/TransportModeIcon/TransportModeIcon";
 import { useAppRoute } from "@/shared/context/AppRoute.context";
 import { useMapInteraction } from "@/shared/context/MapInteraction.context";
 import { usePanel } from "@/shared/context/Panel.context";
-import { useLanguage } from "@/shared/hooks/useLanguage";
 import { useResponsive } from "@/shared/hooks/useResponsive";
-import { formatMileage } from "@/shared/lib/format";
 import { parameters } from "@/shared/lib/parameters";
 
 import { totalsOf } from "../../lib/tripItinerary";
@@ -94,7 +94,7 @@ export function TripDetail(): ReactNode {
             type="button"
           >
             <ArrowLeft aria-hidden="true" className="trip-detail__back-icon" />
-            {t("nav.trips")}
+            {t("common:nav.trips")}
           </button>
           <span className="trip-detail__flags">
             {trip.getCountriesVisited().map((country) => (
@@ -128,7 +128,7 @@ export function TripDetail(): ReactNode {
               </div>
               <div className="trip-detail__figure">
                 <dt className="trip-detail__figure-label">
-                  {t("itinerary.nightsLabel")}
+                  {t("common:stay.nights")}
                 </dt>
                 <dd className="trip-detail__figure-value">{totals.nights}</dd>
               </div>

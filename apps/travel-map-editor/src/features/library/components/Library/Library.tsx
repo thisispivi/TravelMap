@@ -1,10 +1,10 @@
 import "./Library.scss";
 
-import { CountryFlag } from "@app/shared/components/CountryFlag/CountryFlag";
-import { PanelFrame } from "@app/shared/components/PanelFrame/PanelFrame";
-import { useLanguage } from "@app/shared/hooks/useLanguage";
-import { classNames } from "@app/shared/lib/classNames";
 import { CityJson, Issue, TripJson } from "@travelmap/core";
+import { CountryFlag } from "@travelmap/ui/components/CountryFlag/CountryFlag";
+import { PanelFrame } from "@travelmap/ui/components/PanelFrame/PanelFrame";
+import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
+import { classNames } from "@travelmap/ui/lib/classNames";
 import {
   CheckCircle2,
   CircleAlert,
@@ -249,7 +249,7 @@ export function Library(): ReactNode {
       header={
         <header className="library__header">
           <div className="library__heading">
-            <h2>{t("nav.trips")}</h2>
+            <h2>{t("common:nav.trips")}</h2>
             <p className="library__summary">
               {t("library.tripCount", { count: matchingTrips.length })}
             </p>

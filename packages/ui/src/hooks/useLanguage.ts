@@ -1,7 +1,7 @@
 import { i18n } from "i18next";
 import { useTranslation } from "react-i18next";
 
-import { normalizeLocale, SupportedLocale } from "@/i18n/locale";
+import { normalizeLocale, SupportedLocale } from "../i18n/locale";
 
 /**
  * Translation utilities returned by `useLanguage`.

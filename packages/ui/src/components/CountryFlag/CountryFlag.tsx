@@ -2,7 +2,8 @@ import "./CountryFlag.scss";
 
 import { ReactNode, SyntheticEvent } from "react";
 
-import { classNames } from "@/shared/lib/classNames";
+import { classNames } from "../../lib/classNames";
+import { flagUrl } from "../../lib/flags";
 
 /**
  * Properties accepted by the CountryFlag component.
@@ -47,7 +48,7 @@ export function CountryFlag({
       aria-hidden="true"
       className={classNames("country-flag", className)}
       onError={handleImageError}
-      src={src ?? `/flags/${countryId}.svg`}
+      src={src ?? flagUrl(countryId)}
     />
   );
 }

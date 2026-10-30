@@ -1,10 +1,10 @@
 import "./PlacesIndex.scss";
 
-import { CountryFlag } from "@app/shared/components/CountryFlag/CountryFlag";
-import { CoverImage } from "@app/shared/components/CoverImage/CoverImage";
-import { PanelFrame } from "@app/shared/components/PanelFrame/PanelFrame";
-import { useLanguage } from "@app/shared/hooks/useLanguage";
-import { classNames } from "@app/shared/lib/classNames";
+import { CountryFlag } from "@travelmap/ui/components/CountryFlag/CountryFlag";
+import { CoverImage } from "@travelmap/ui/components/CoverImage/CoverImage";
+import { PanelFrame } from "@travelmap/ui/components/PanelFrame/PanelFrame";
+import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
+import { classNames } from "@travelmap/ui/lib/classNames";
 import { ChevronRight, MapPinPlus } from "lucide-react";
 import { ReactNode, useState } from "react";
 import { Link, useNavigate } from "react-router";
@@ -64,7 +64,7 @@ export function PlacesIndex(): ReactNode {
       header={
         <header className="places-index__header">
           <div className="places-index__heading">
-            <h2>{t("nav.places")}</h2>
+            <h2>{t("common:nav.places")}</h2>
             <p className="places-index__summary">
               {t("library.placesCount", {
                 cities: dataset.cities.length,
@@ -131,7 +131,7 @@ export function PlacesIndex(): ReactNode {
                       <span className="places-index__caption">
                         <span className="places-index__name">{city.name}</span>
                         <span className="places-index__meta">
-                          {t("places.tripCount", {
+                          {t("common:tripCount", {
                             count: tripCounts.get(city.id) ?? 0,
                           })}
                         </span>

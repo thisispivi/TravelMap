@@ -1,6 +1,6 @@
 import "./AddPlaceDialog.scss";
 
-import { useLanguage } from "@app/shared/hooks/useLanguage";
+import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { MapPinPlus, X } from "lucide-react";
 import { ReactNode, useEffect, useRef, useState } from "react";
 

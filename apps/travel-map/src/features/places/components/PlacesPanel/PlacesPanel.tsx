@@ -1,6 +1,14 @@
 import "./PlacesPanel.scss";
 
 import { City } from "@travelmap/core";
+import { Checkbox } from "@travelmap/ui/components/Checkbox/Checkbox";
+import { CountryFlag } from "@travelmap/ui/components/CountryFlag/CountryFlag";
+import { CoverImage } from "@travelmap/ui/components/CoverImage/CoverImage";
+import { PanelFrame } from "@travelmap/ui/components/PanelFrame/PanelFrame";
+import { Popover } from "@travelmap/ui/components/Popover/Popover";
+import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
+import { classNames } from "@travelmap/ui/lib/classNames";
+import { staggerItem, staggerList } from "@travelmap/ui/lib/motion";
 import { m } from "framer-motion";
 import { ChevronDown, Images, ListFilter } from "lucide-react";
 import { ReactNode, useRef, useState } from "react";
@@ -13,20 +21,12 @@ import {
   visitedCities,
   visitedTrips,
 } from "@/data/world";
-import { Checkbox } from "@/shared/components/Checkbox/Checkbox";
-import { CountryFlag } from "@/shared/components/CountryFlag/CountryFlag";
-import { CoverImage } from "@/shared/components/CoverImage/CoverImage";
 import { EmptyState } from "@/shared/components/EmptyState/EmptyState";
-import { PanelFrame } from "@/shared/components/PanelFrame/PanelFrame";
-import { Popover } from "@/shared/components/Popover/Popover";
 import { SegmentedControl } from "@/shared/components/SegmentedControl/SegmentedControl";
 import { PlacesFilter, useAppRoute } from "@/shared/context/AppRoute.context";
 import { useMapInteraction } from "@/shared/context/MapInteraction.context";
 import { usePanel } from "@/shared/context/Panel.context";
-import { useLanguage } from "@/shared/hooks/useLanguage";
 import { useResponsive } from "@/shared/hooks/useResponsive";
-import { classNames } from "@/shared/lib/classNames";
-import { staggerItem, staggerList } from "@/shared/lib/motion";
 import { parameters } from "@/shared/lib/parameters";
 
 import { cityVisits, CountryGroup, groupByCountry } from "../../lib/places";
@@ -89,7 +89,9 @@ function CityCard({ city, filter, onFocus }: CityCardProps): ReactNode {
           {filter === "visited" ? (
             <span className="city-card__meta">
               {t("places.visits", { count: visits })}
-              {nights > 0 ? ` · ${t("trip.nights", { count: nights })}` : null}
+              {nights > 0
+                ? ` · ${t("common:stay.nightsCount", { count: nights })}`
+                : null}
             </span>
           ) : null}
         </span>

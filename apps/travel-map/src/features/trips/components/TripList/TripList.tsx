@@ -1,19 +1,19 @@
 import "./TripList.scss";
 
 import { Trip } from "@travelmap/core";
+import { CountryFlag } from "@travelmap/ui/components/CountryFlag/CountryFlag";
+import { CoverImage } from "@travelmap/ui/components/CoverImage/CoverImage";
+import { PanelFrame } from "@travelmap/ui/components/PanelFrame/PanelFrame";
+import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
+import { formatDateRangeShort } from "@travelmap/ui/i18n/date";
+import { easeOut, staggerItem } from "@travelmap/ui/lib/motion";
 import { AnimatePresence, m, Variants } from "framer-motion";
 import { ReactNode, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 
-import { formatDateRangeShort } from "@/i18n/functions/date";
-import { CountryFlag } from "@/shared/components/CountryFlag/CountryFlag";
-import { CoverImage } from "@/shared/components/CoverImage/CoverImage";
 import { EmptyState } from "@/shared/components/EmptyState/EmptyState";
-import { PanelFrame } from "@/shared/components/PanelFrame/PanelFrame";
 import { YearPills } from "@/shared/components/YearPills/YearPills";
 import { useMapInteraction } from "@/shared/context/MapInteraction.context";
-import { useLanguage } from "@/shared/hooks/useLanguage";
-import { easeOut, staggerItem } from "@/shared/lib/motion";
 
 import { browsableTrips, groupByYear } from "../../lib/trips";
 import { bucketOf, bucketYears, fitSlots } from "../../lib/yearBuckets";
@@ -97,7 +97,9 @@ function TripCard({ trip, onOpen }: TripCardProps): ReactNode {
               sDateInput: trip.sDate,
               showYear: false,
             })}
-            {nights > 0 ? ` · ${t("trip.nights", { count: nights })}` : null}
+            {nights > 0
+              ? ` · ${t("common:stay.nightsCount", { count: nights })}`
+              : null}
           </span>
         </span>
       </button>
@@ -164,7 +166,7 @@ export function TripList(): ReactNode {
           <div className="trip-list__heading">
             <h2>{t("trips.title")}</h2>
             <p className="trip-list__summary">
-              {t("trips.summary", { count: browsableTrips.length })}
+              {t("common:tripCount", { count: browsableTrips.length })}
             </p>
           </div>
           {current ? (

@@ -1,6 +1,14 @@
 import "./StatsPage.scss";
 
 import { Continent, Ferry, Flight } from "@travelmap/core";
+import { CountryFlag } from "@travelmap/ui/components/CountryFlag/CountryFlag";
+import { PanelFrame } from "@travelmap/ui/components/PanelFrame/PanelFrame";
+import { TransportModeIcon } from "@travelmap/ui/components/TransportModeIcon/TransportModeIcon";
+import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
+import { formatDuration, formatMileage } from "@travelmap/ui/i18n/format";
+import { classNames } from "@travelmap/ui/lib/classNames";
+import { MODE_COLORS } from "@travelmap/ui/lib/modeColors";
+import { easeOut } from "@travelmap/ui/lib/motion";
 import { animate, m, useInView } from "framer-motion";
 import {
   BedDouble,
@@ -25,17 +33,9 @@ import ContinentsMap from "@/assets/icons/Continents.svg?react";
 import EarthFlat from "@/assets/icons/EarthFlat.svg?react";
 import MoonFlat from "@/assets/icons/MoonFlat.svg?react";
 import { resolveCompany } from "@/data/companies";
-import { CountryFlag } from "@/shared/components/CountryFlag/CountryFlag";
 import { EmptyState } from "@/shared/components/EmptyState/EmptyState";
 import { PageHeader } from "@/shared/components/PageHeader/PageHeader";
-import { PanelFrame } from "@/shared/components/PanelFrame/PanelFrame";
-import { TransportModeIcon } from "@/shared/components/TransportModeIcon/TransportModeIcon";
-import { useLanguage } from "@/shared/hooks/useLanguage";
-import { classNames } from "@/shared/lib/classNames";
 import { CONTINENT_COLORS } from "@/shared/lib/continentColors";
-import { formatDuration, formatMileage } from "@/shared/lib/format";
-import { MODE_COLORS } from "@/shared/lib/modeColors";
-import { easeOut } from "@/shared/lib/motion";
 
 import { getCurrencyDisplay } from "../../lib/countries";
 import { stats } from "../../lib/stats";

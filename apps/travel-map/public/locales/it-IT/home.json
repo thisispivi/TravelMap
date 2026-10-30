@@ -48,11 +48,11 @@
   },
   "nav": {
     "label": "Navigazione principale",
-    "trips": "Viaggi",
-    "places": "Luoghi",
     "gallery": "Galleria",
     "timeline": "Timeline",
-    "stats": "Statistiche"
+    "stats": "Statistiche",
+    "trips": "Viaggi",
+    "places": "Luoghi"
   },
   "goHome": "Mostra tutta la mappa",
   "theme": "Passa tra tema chiaro e scuro",
@@ -62,23 +62,8 @@
     "collapse": "Riduci pannello",
     "expandFull": "Espandi il pannello a tutta altezza"
   },
-  "map": {
-    "zoomIn": "Aumenta lo zoom",
-    "zoomOut": "Riduci lo zoom"
-  },
-  "mode": {
-    "plane": "Volo",
-    "ferry": "Traghetto",
-    "train": "Treno",
-    "bus": "Bus",
-    "car": "Auto",
-    "taxi": "Taxi",
-    "walk": "A piedi"
-  },
   "trips": {
     "title": "Viaggi",
-    "summary_one": "{{count}} viaggio",
-    "summary_other": "{{count}} viaggi",
     "empty": "Ancora nessun viaggio.",
     "notFound": "Questo viaggio non esiste.",
     "yearCount_one": "{{count}} viaggio",
@@ -90,8 +75,6 @@
     "summary": "Riepilogo del viaggio",
     "days": "Giorni",
     "places": "Luoghi",
-    "nights_one": "{{count}} notte",
-    "nights_other": "{{count}} notti",
     "photos_one": "{{count}} foto",
     "photos_other": "{{count}} foto",
     "showMap": "Mostra mappa",
@@ -116,10 +99,6 @@
     "title": "Itinerario",
     "start": "Partenza",
     "end": "Rientro",
-    "checkIn": "Check-in",
-    "checkOut": "Check-out",
-    "nightsLabel": "Notti",
-    "dayTrip": "Gita in giornata",
     "visitedOnTheWay": "Visitata lungo il tragitto",
     "layoverIn": "Scalo di {{time}} a {{city}}",
     "changeIn": "Cambio a {{city}}",
@@ -152,18 +131,14 @@
     "title": "Galleria",
     "summary": "{{photos}} foto da {{trips}} viaggi",
     "empty": "Ancora nessuna foto.",
-    "back": "Indietro",
     "photoCount_one": "{{count}} foto",
     "photoCount_other": "{{count}} foto",
     "lightbox": "Visualizzatore foto",
-    "close": "Chiudi",
     "previous": "Foto precedente",
     "next": "Foto successiva",
     "openPhoto": "Apri foto {{index}}",
     "playVideo": "Riproduci video",
-    "video": "Video YouTube",
-    "tripCount_one": "{{count}} viaggio",
-    "tripCount_other": "{{count}} viaggi"
+    "video": "Video YouTube"
   },
   "timeline": {
     "title": "Timeline",

@@ -1,7 +1,7 @@
 import "./App.scss";
 
-import { useLanguage } from "@app/shared/hooks/useLanguage";
-import { useThemeDetector } from "@app/shared/hooks/useThemeDetector";
+import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
+import { useThemeDetector } from "@travelmap/ui/hooks/useThemeDetector";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { Link, Route, Routes, useParams } from "react-router";
 

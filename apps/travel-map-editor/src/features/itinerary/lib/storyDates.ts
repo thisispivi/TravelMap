@@ -1,5 +1,5 @@
-import { formatDateRangeShort } from "@app/i18n/functions/date";
 import { parseLocalDate } from "@travelmap/core";
+import { formatDateRangeShort } from "@travelmap/ui/i18n/date";
 
 /**
  * Formats a day or a range of days with weekdays — `Fri 27 Mar` or

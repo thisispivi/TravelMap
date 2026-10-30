@@ -4,9 +4,9 @@ import { AnimatePresence, m } from "framer-motion";
 import { CSSProperties, ReactNode, RefObject, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 
-import { classNames } from "@/shared/lib/classNames";
-import { focusablesIn, keepTabWithin } from "@/shared/lib/focus";
-import { easeOut } from "@/shared/lib/motion";
+import { classNames } from "../../lib/classNames";
+import { focusablesIn, keepTabWithin } from "../../lib/focus";
+import { easeOut } from "../../lib/motion";
 
 /** Where a popover opens: under its trigger, or beside it with bottoms aligned. */
 type PopoverPlacement = "below" | "beside";

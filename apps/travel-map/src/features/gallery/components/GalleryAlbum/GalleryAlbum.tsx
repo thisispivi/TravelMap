@@ -2,6 +2,12 @@ import "./GalleryAlbum.scss";
 import "react-photo-album/rows.css";
 
 import { mediaUrl } from "@travelmap/core";
+import { CountryFlag } from "@travelmap/ui/components/CountryFlag/CountryFlag";
+import { PanelFrame } from "@travelmap/ui/components/PanelFrame/PanelFrame";
+import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
+import { formatDateRangeShort } from "@travelmap/ui/i18n/date";
+import { classNames } from "@travelmap/ui/lib/classNames";
+import { easeOut } from "@travelmap/ui/lib/motion";
 import { AnimatePresence, m } from "framer-motion";
 import { ArrowLeft, Play } from "lucide-react";
 import { ReactNode, useRef } from "react";
@@ -9,13 +15,7 @@ import { RowsPhotoAlbum } from "react-photo-album";
 import { Outlet, useLoaderData, useLocation, useNavigate } from "react-router";
 
 import { Album, AlbumSection } from "@/data/albums";
-import { formatDateRangeShort } from "@/i18n/functions/date";
-import { CountryFlag } from "@/shared/components/CountryFlag/CountryFlag";
-import { PanelFrame } from "@/shared/components/PanelFrame/PanelFrame";
-import { useLanguage } from "@/shared/hooks/useLanguage";
 import { useScrollState } from "@/shared/hooks/useScrollState";
-import { classNames } from "@/shared/lib/classNames";
-import { easeOut } from "@/shared/lib/motion";
 import { readNavigationState } from "@/shared/lib/navigationState";
 
 /**
@@ -206,10 +206,10 @@ export function GalleryAlbum(): ReactNode {
           locale: currLanguage,
           sDateInput: first.trip.sDate,
         })
-      : t("gallery.tripCount", {
+      : t("common:tripCount", {
           count: new Set(album.sections.map(({ trip }) => trip.id)).size,
         });
-  const backLabel = fromPath ? t("gallery.back") : t("gallery.title");
+  const backLabel = fromPath ? t("common:action.back") : t("gallery.title");
 
   return (
     <PanelFrame

@@ -1,7 +1,7 @@
 import "./SettingsScreen.scss";
 
-import { useLanguage } from "@app/shared/hooks/useLanguage";
 import { SiteConfig } from "@travelmap/core";
+import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { Plus, Trash2 } from "lucide-react";
 import { ReactNode, useState } from "react";
 

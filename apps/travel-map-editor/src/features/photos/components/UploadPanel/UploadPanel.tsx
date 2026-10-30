@@ -1,7 +1,7 @@
 import "./UploadPanel.scss";
 
-import { useLanguage } from "@app/shared/hooks/useLanguage";
-import { classNames } from "@app/shared/lib/classNames";
+import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
+import { classNames } from "@travelmap/ui/lib/classNames";
 import { CloudUpload, HardDrive, Upload, X } from "lucide-react";
 import {
   ChangeEvent,
@@ -342,7 +342,7 @@ export function UploadPanel({
           type="button"
         >
           <X aria-hidden="true" />
-          {t("upload.close")}
+          {t("common:action.close")}
         </button>
       </footer>
     </dialog>

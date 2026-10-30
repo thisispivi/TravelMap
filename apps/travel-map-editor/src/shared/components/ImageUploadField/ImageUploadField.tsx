@@ -1,7 +1,7 @@
 import "./ImageUploadField.scss";
 
-import { useLanguage } from "@app/shared/hooks/useLanguage";
-import { classNames } from "@app/shared/lib/classNames";
+import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
+import { classNames } from "@travelmap/ui/lib/classNames";
 import { Image, UploadCloud, X } from "lucide-react";
 import { DragEvent, ReactNode, useId, useState } from "react";
 import { z } from "zod";

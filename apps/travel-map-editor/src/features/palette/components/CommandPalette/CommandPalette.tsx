@@ -1,7 +1,7 @@
 import "./CommandPalette.scss";
 
-import { useLanguage } from "@app/shared/hooks/useLanguage";
-import { classNames } from "@app/shared/lib/classNames";
+import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
+import { classNames } from "@travelmap/ui/lib/classNames";
 import Fuse from "fuse.js";
 import {
   ReactNode,

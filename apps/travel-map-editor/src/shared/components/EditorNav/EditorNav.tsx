@@ -1,10 +1,10 @@
 import "./EditorNav.scss";
 
-import LogoIcon from "@app/assets/icons/Logo.svg?react";
-import { LanguageMenu } from "@app/shared/components/LanguageMenu/LanguageMenu";
-import { useLanguage } from "@app/shared/hooks/useLanguage";
-import { classNames } from "@app/shared/lib/classNames";
-import { panelSpring } from "@app/shared/lib/motion";
+import LogoIcon from "@travelmap/ui/assets/icons/Logo.svg?react";
+import { LanguageMenu } from "@travelmap/ui/components/LanguageMenu/LanguageMenu";
+import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
+import { classNames } from "@travelmap/ui/lib/classNames";
+import { panelSpring } from "@travelmap/ui/lib/motion";
 import { m } from "framer-motion";
 import { Building2, MapPinned, Moon, Route, Settings, Sun } from "lucide-react";
 import { ReactNode } from "react";

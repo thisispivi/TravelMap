@@ -1,11 +1,11 @@
 import "./SegmentedControl.scss";
 
+import { classNames } from "@travelmap/ui/lib/classNames";
+import { panelSpring } from "@travelmap/ui/lib/motion";
 import { m } from "framer-motion";
 import { KeyboardEvent, ReactNode } from "react";
 
-import { classNames } from "@/shared/lib/classNames";
 import { radioTarget } from "@/shared/lib/keyboard";
-import { panelSpring } from "@/shared/lib/motion";
 
 /**
  * One choice in a segmented control.

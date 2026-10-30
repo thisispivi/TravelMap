@@ -10,23 +10,49 @@
     "typecheck": "tsc --noEmit"
   },
   "exports": {
-    "./vite": "./vite/preset.ts",
-    "./*": "./src/*"
+    "./assets/*": "./src/assets/*",
+    "./components/*": "./src/components/*.tsx",
+    "./hooks/*": "./src/hooks/*.ts",
+    "./i18n/*": "./src/i18n/*.ts",
+    "./lib/*": "./src/lib/*.ts",
+    "./map/components/*": "./src/map/components/*.tsx",
+    "./map/lib/*": "./src/map/lib/*.ts",
+    "./styles/*": "./src/styles/*",
+    "./vite": "./vite/preset.ts"
   },
   "dependencies": {
-    "@rolldown/plugin-babel": "^0.2.4",
     "@babel/core": "^8.0.7",
+    "@rolldown/plugin-babel": "^0.2.4",
+    "@travelmap/core": "workspace:*",
     "@vitejs/plugin-react": "^6.1.2",
     "autoprefixer": "^10.6.1",
     "babel-plugin-react-compiler": "^1.0.0",
-    "vite-plugin-svgr": "^5.2.0"
+    "framer-motion": "^13.5.1",
+    "i18next": "^26.5.5",
+    "i18next-browser-languagedetector": "^8.2.1",
+    "i18next-http-backend": "^4.0.4",
+    "lucide-react": "^1.61.0",
+    "maplibre-gl": "6.6.0",
+    "react-i18next": "^17.1.2",
+    "topojson-client": "^3.1.0",
+    "vite-plugin-svgr": "^5.2.0",
+    "zod": "^4.6.7"
   },
   "peerDependencies": {
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
     "vite": "^8.3.5"
   },
   "devDependencies": {
+    "@types/geojson": "^7946.0.16",
     "@types/node": "^26.6.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@types/topojson-client": "^3.1.5",
+    "@types/topojson-specification": "^1.0.5",
     "knip": "^6.42.1",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
     "typescript": "^6.0.3",
     "vite": "^8.3.5",
     "vitest": "^4.1.12"

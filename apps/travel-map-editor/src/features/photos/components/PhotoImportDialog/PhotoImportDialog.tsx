@@ -1,8 +1,8 @@
 import "./PhotoImportDialog.scss";
 
-import { useLanguage } from "@app/shared/hooks/useLanguage";
-import { classNames } from "@app/shared/lib/classNames";
 import type { Image } from "@travelmap/core";
+import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
+import { classNames } from "@travelmap/ui/lib/classNames";
 import { Check, FileUp, X } from "lucide-react";
 import { ChangeEvent, ReactNode, useEffect, useRef, useState } from "react";
 
@@ -270,7 +270,7 @@ export function PhotoImportDialog({
               onClick={() => setStage("input")}
               type="button"
             >
-              {t("photoImport.back")}
+              {t("common:action.back")}
             </button>
           </div>
         </>
@@ -284,7 +284,7 @@ export function PhotoImportDialog({
       <footer className="photo-import-dialog__footer">
         <button className="editor-button" onClick={onClose} type="button">
           <X aria-hidden="true" />
-          {stage === "done" ? t("photoImport.close") : t("editorForm.cancel")}
+          {stage === "done" ? t("common:action.close") : t("editorForm.cancel")}
         </button>
       </footer>
     </dialog>

@@ -1,20 +1,20 @@
 import "./TripItinerary.scss";
 
 import { City, parseLocalDate, Trip, TripLeg, TripStay } from "@travelmap/core";
+import { CountryFlag } from "@travelmap/ui/components/CountryFlag/CountryFlag";
+import { CoverImage } from "@travelmap/ui/components/CoverImage/CoverImage";
+import { TransportModeIcon } from "@travelmap/ui/components/TransportModeIcon/TransportModeIcon";
+import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
+import { formatDateRangeShort } from "@travelmap/ui/i18n/date";
+import { formatDuration, formatMileage } from "@travelmap/ui/i18n/format";
+import { classNames } from "@travelmap/ui/lib/classNames";
+import { MODE_COLORS } from "@travelmap/ui/lib/modeColors";
+import { staggerItem, staggerList } from "@travelmap/ui/lib/motion";
 import { m } from "framer-motion";
 import { BedDouble, Flag, Moon } from "lucide-react";
 import { CSSProperties, ReactNode } from "react";
 
 import { resolveCompany } from "@/data/companies";
-import { formatDateRangeShort } from "@/i18n/functions/date";
-import { CountryFlag } from "@/shared/components/CountryFlag/CountryFlag";
-import { CoverImage } from "@/shared/components/CoverImage/CoverImage";
-import { TransportModeIcon } from "@/shared/components/TransportModeIcon/TransportModeIcon";
-import { useLanguage } from "@/shared/hooks/useLanguage";
-import { classNames } from "@/shared/lib/classNames";
-import { formatDuration, formatMileage } from "@/shared/lib/format";
-import { MODE_COLORS } from "@/shared/lib/modeColors";
-import { staggerItem, staggerList } from "@/shared/lib/motion";
 
 import {
   buildItinerary,
@@ -82,7 +82,7 @@ function LegStub({ leg }: LegCardProps): ReactNode {
     <div className="leg-card__stub">
       <span className="leg-card__mode-name">
         <TransportModeIcon className="leg-card__mode-icon" mode={leg.mode} />
-        {t(`mode.${leg.mode}`)}
+        {t(`common:mode.${leg.mode}`)}
       </span>
       {operator || number ? (
         <span className="leg-card__operator">
@@ -368,7 +368,7 @@ function OutingRow({
         <PlaceRow
           city={city}
           key={city.id}
-          label={t("itinerary.dayTrip")}
+          label={t("common:stay.dayTrip")}
           onFocusCity={onFocusCity}
           onHoverCity={onHoverCity}
         />
@@ -438,19 +438,19 @@ function StayCard({
         </button>
         <dl className="stay-card__facts">
           <div className="stay-card__fact">
-            <dt className="stay-card__label">{t("itinerary.checkIn")}</dt>
+            <dt className="stay-card__label">{t("common:stay.checkIn")}</dt>
             <dd className="stay-card__value">
               {formatDays(stay.checkIn, stay.checkIn, currLanguage)}
             </dd>
           </div>
           <div className="stay-card__fact">
-            <dt className="stay-card__label">{t("itinerary.checkOut")}</dt>
+            <dt className="stay-card__label">{t("common:stay.checkOut")}</dt>
             <dd className="stay-card__value">
               {formatDays(stay.checkOut, stay.checkOut, currLanguage)}
             </dd>
           </div>
           <div className="stay-card__fact stay-card__fact--nights">
-            <dt className="stay-card__label">{t("itinerary.nightsLabel")}</dt>
+            <dt className="stay-card__label">{t("common:stay.nights")}</dt>
             <dd className="stay-card__value stay-card__value--nights">
               {stay.nights}
             </dd>

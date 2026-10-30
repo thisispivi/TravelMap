@@ -1,8 +1,7 @@
 import "./Loading.scss";
 
+import { classNames } from "@travelmap/ui/lib/classNames";
 import { ReactNode } from "react";
-
-import { classNames } from "@/shared/lib/classNames";
 
 /**
  * Properties accepted by the Loading component.

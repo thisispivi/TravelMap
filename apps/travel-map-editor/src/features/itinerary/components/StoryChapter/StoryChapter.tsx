@@ -1,8 +1,8 @@
 import "./StoryChapter.scss";
 
-import { CoverImage } from "@app/shared/components/CoverImage/CoverImage";
-import { classNames } from "@app/shared/lib/classNames";
 import { IssueSeverity } from "@travelmap/core";
+import { CoverImage } from "@travelmap/ui/components/CoverImage/CoverImage";
+import { classNames } from "@travelmap/ui/lib/classNames";
 import { ReactNode } from "react";
 
 /**

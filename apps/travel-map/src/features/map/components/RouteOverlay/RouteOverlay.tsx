@@ -1,12 +1,14 @@
+import { MODE_COLORS } from "@travelmap/ui/lib/modeColors";
+import { MapTheme } from "@travelmap/ui/map/lib/mapTheme";
+import {
+  buildRouteLayers,
+  RouteStroke,
+} from "@travelmap/ui/map/lib/routeLines";
 import { ReactNode } from "react";
 import { Layer, Source } from "react-map-gl/maplibre";
 
 import { useAppRoute } from "@/shared/context/AppRoute.context";
 import { useMapInteraction } from "@/shared/context/MapInteraction.context";
-import { MODE_COLORS } from "@/shared/lib/modeColors";
-
-import { MapTheme } from "../../lib/mapTheme";
-import { buildRouteLayers, RouteStroke } from "../../lib/routeLines";
 
 /*
  * Widths in pixels and dashes in multiples of the width. A cased route stays

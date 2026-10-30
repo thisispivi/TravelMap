@@ -1,9 +1,5 @@
 import "./LegEditor.scss";
 
-import { TransportModeIcon } from "@app/shared/components/TransportModeIcon/TransportModeIcon";
-import { useLanguage } from "@app/shared/hooks/useLanguage";
-import { classNames } from "@app/shared/lib/classNames";
-import { formatDuration } from "@app/shared/lib/format";
 import {
   CityJson,
   resolveLegDistance,
@@ -12,6 +8,10 @@ import {
   TransportModeSchema,
   TripLegJson,
 } from "@travelmap/core";
+import { TransportModeIcon } from "@travelmap/ui/components/TransportModeIcon/TransportModeIcon";
+import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
+import { formatDuration } from "@travelmap/ui/i18n/format";
+import { classNames } from "@travelmap/ui/lib/classNames";
 import { ChevronDown, Trash2 } from "lucide-react";
 import { ReactNode } from "react";
 
@@ -93,7 +93,7 @@ function ModeSelector({ onChange, value }: ModeSelectorProps): ReactNode {
               value={mode}
             />
             <TransportModeIcon mode={mode} />
-            <span>{t(`transportMode.${mode}`)}</span>
+            <span>{t(`common:mode.${mode}`)}</span>
           </label>
         ))}
       </div>

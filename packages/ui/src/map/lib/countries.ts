@@ -3,8 +3,7 @@ import type { FeatureCollection, Geometry } from "geojson";
 import { feature } from "topojson-client";
 import type { GeometryCollection, Topology } from "topojson-specification";
 
-import countriesTopologyJson from "@/assets/json/countries-50m.json";
-
+import countriesTopologyJson from "../../assets/json/countries-50m.json";
 import { splitGeometryAtAntimeridian } from "./geo";
 
 /**

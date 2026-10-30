@@ -1,4 +1,4 @@
-import { normalizeLocale } from "@/i18n/locale";
+import { normalizeLocale } from "./locale";
 
 const mileageFormatters = new Map<string, Intl.NumberFormat>();
 

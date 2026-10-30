@@ -1,5 +1,6 @@
-import countriesTopologyJson from "@app/assets/json/countries-50m.json";
 import { Continent, Currency, toId } from "@travelmap/core";
+import countriesTopologyJson from "@travelmap/ui/assets/json/countries-50m.json";
+import { FLAG_NAMES, flagUrl } from "@travelmap/ui/lib/flags";
 import type { GeometryCollection, Topology } from "topojson-specification";
 import worldCountries from "world-countries";
 
@@ -12,18 +13,6 @@ import worldCountries from "world-countries";
 const topology = countriesTopologyJson as unknown as Topology<{
   countries: GeometryCollection<{ name: string }>;
 }>;
-
-/* The editor bundles the public app's flag pack through its own Vite graph. */
-const flagUrls = import.meta.glob<string>(
-  "../../../../travel-map/public/flags/*.svg",
-  { eager: true, import: "default", query: "?url" },
-);
-const flagsByName = new Map(
-  Object.entries(flagUrls).map(([path, url]) => [
-    path.slice(path.lastIndexOf("/") + 1, -".svg".length),
-    url,
-  ]),
-);
 
 const CONTINENT_BY_REGION: Record<string, Continent> = {
   Africa: Continent.AFRICA,
@@ -74,8 +63,7 @@ function resolveFlag(names: string[]): string | undefined {
       base.replace(/^The/, ""),
     ];
     for (const candidate of candidates) {
-      const url = flagsByName.get(candidate);
-      if (url) return url;
+      if (FLAG_NAMES.has(candidate)) return flagUrl(candidate);
     }
   }
   return undefined;

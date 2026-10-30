@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { flushSync } from "react-dom";
 
-import { readStoredString, writeStoredString } from "@/shared/lib/storage";
+import { readStoredString, writeStoredString } from "../lib/storage";
 
 /**
  * Theme state returned by `useThemeDetector`.

@@ -2,11 +2,11 @@ import "./LanguageMenu.scss";
 
 import { ReactNode, useRef, useState } from "react";
 
-import { SUPPORTED_LOCALES, SupportedLocale } from "@/i18n/locale";
-import { CountryFlag } from "@/shared/components/CountryFlag/CountryFlag";
-import { Popover } from "@/shared/components/Popover/Popover";
-import { useLanguage } from "@/shared/hooks/useLanguage";
-import { classNames } from "@/shared/lib/classNames";
+import { useLanguage } from "../../hooks/useLanguage";
+import { SUPPORTED_LOCALES, SupportedLocale } from "../../i18n/locale";
+import { classNames } from "../../lib/classNames";
+import { CountryFlag } from "../CountryFlag/CountryFlag";
+import { Popover } from "../Popover/Popover";
 
 /* English is drawn with the United Kingdom's flag, as the old switcher did. */
 const LOCALE_FLAGS: Record<SupportedLocale, string> = {

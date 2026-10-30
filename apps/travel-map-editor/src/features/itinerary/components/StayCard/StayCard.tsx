@@ -1,7 +1,5 @@
 import "./StayCard.scss";
 
-import { CountryFlag } from "@app/shared/components/CountryFlag/CountryFlag";
-import { useLanguage } from "@app/shared/hooks/useLanguage";
 import {
   addDays,
   daysBetween,
@@ -9,6 +7,8 @@ import {
   TripLegJson,
   TripStayJson,
 } from "@travelmap/core";
+import { CountryFlag } from "@travelmap/ui/components/CountryFlag/CountryFlag";
+import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { MapPinPlus, Route, Trash2, X } from "lucide-react";
 import { ReactNode } from "react";
 
@@ -145,7 +145,7 @@ export function StayCard({
           </button>
         </>
       }
-      eyebrow={t("story.nightsCount", { count: nights })}
+      eyebrow={t("common:stay.nightsCount", { count: nights })}
       image={resolveMediaUrl(cityJson?.backgroundImages?.[0])}
       isOpen={isOpen}
       kind="stay"
@@ -156,19 +156,19 @@ export function StayCard({
       summary={
         <dl className="stay-card__facts">
           <div className="stay-card__fact">
-            <dt className="stay-card__label">{t("story.summaryCheckIn")}</dt>
+            <dt className="stay-card__label">{t("common:stay.checkIn")}</dt>
             <dd className="stay-card__value">
               {formatStoryDays(stay.checkIn, stay.checkIn, lang)}
             </dd>
           </div>
           <div className="stay-card__fact">
-            <dt className="stay-card__label">{t("story.summaryCheckOut")}</dt>
+            <dt className="stay-card__label">{t("common:stay.checkOut")}</dt>
             <dd className="stay-card__value">
               {formatStoryDays(stay.checkOut, stay.checkOut, lang)}
             </dd>
           </div>
           <div className="stay-card__fact stay-card__fact--nights">
-            <dt className="stay-card__label">{t("story.nightsLabel")}</dt>
+            <dt className="stay-card__label">{t("common:stay.nights")}</dt>
             <dd className="stay-card__value stay-card__value--nights">
               {nights}
             </dd>
@@ -246,7 +246,7 @@ export function StayCard({
           <div className="stay-card__outing-header">
             <span className="stay-card__outing-title">
               {formatStoryDays(outing.date, outing.date, lang)} ·{" "}
-              {t("story.dayTrip")}
+              {t("common:stay.dayTrip")}
             </span>
             <DatePicker
               label={t("story.dayTripDate")}

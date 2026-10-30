@@ -1,6 +1,6 @@
 import "./Fields.scss";
 
-import { Checkbox } from "@app/shared/components/Checkbox/Checkbox";
+import { Checkbox } from "@travelmap/ui/components/Checkbox/Checkbox";
 import { ReactNode } from "react";
 
 /**

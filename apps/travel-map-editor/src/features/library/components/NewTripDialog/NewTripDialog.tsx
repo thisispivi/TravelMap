@@ -1,7 +1,7 @@
 import "./NewTripDialog.scss";
 
-import { useLanguage } from "@app/shared/hooks/useLanguage";
 import { formatLocalDate, toId, TripJson } from "@travelmap/core";
+import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { MapPinPlus, Plus, X } from "lucide-react";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";

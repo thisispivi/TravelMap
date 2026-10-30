@@ -1,14 +1,14 @@
 import "@travelmap/ui/styles/_global.scss";
 import "@travelmap/ui/styles/_typography.scss";
 import "@travelmap/ui/styles/_scrollbar.scss";
-import "@app/features/map/lib/mapRuntime";
+import "@travelmap/ui/map/lib/mapRuntime";
 import "maplibre-gl/dist/maplibre-gl.css";
-import "./i18n/i18n";
 
 import {
   applyTheme,
   readInitialDarkTheme,
-} from "@app/shared/hooks/useThemeDetector";
+} from "@travelmap/ui/hooks/useThemeDetector";
+import { initI18n } from "@travelmap/ui/i18n/i18n";
 import { domMax, LazyMotion, MotionConfig } from "framer-motion";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
@@ -21,6 +21,7 @@ import { SaveStatusProvider } from "./shared/context/SaveStatus.context";
 
 /* The shared tokens switch on the body's theme class, so it is set before the first paint. */
 applyTheme(readInitialDarkTheme());
+initI18n(["editor"]);
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

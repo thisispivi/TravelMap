@@ -1,7 +1,7 @@
 import "./PhotosField.scss";
 
-import { useLanguage } from "@app/shared/hooks/useLanguage";
 import { PhotoRange } from "@travelmap/core";
+import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { Images, Upload } from "lucide-react";
 import { ReactNode, useState } from "react";
 

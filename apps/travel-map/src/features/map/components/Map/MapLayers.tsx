@@ -1,15 +1,15 @@
+import { countriesGeoJson } from "@travelmap/ui/map/lib/countries";
+import { MapTheme, toOpaqueFill } from "@travelmap/ui/map/lib/mapTheme";
 import { ReactNode, useMemo } from "react";
 import { Layer, Source } from "react-map-gl/maplibre";
 
 import { visitedCountries } from "@/data/world";
 
-import { countriesGeoJson } from "../../lib/countries";
 import {
   CITY_LABEL_TIERS,
   cityLabelsGeoJson,
   countryLabelsGeoJson,
 } from "../../lib/mapData";
-import { MapTheme, toOpaqueFill } from "../../lib/mapTheme";
 
 const LABEL_FONT = ["Urbanist SemiBold"];
 

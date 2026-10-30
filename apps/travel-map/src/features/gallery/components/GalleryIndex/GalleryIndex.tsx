@@ -1,18 +1,18 @@
 import "./GalleryIndex.scss";
 
+import { CoverImage } from "@travelmap/ui/components/CoverImage/CoverImage";
+import { PanelFrame } from "@travelmap/ui/components/PanelFrame/PanelFrame";
+import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
+import { formatDateRangeShort } from "@travelmap/ui/i18n/date";
+import { staggerItem, staggerList } from "@travelmap/ui/lib/motion";
 import { m } from "framer-motion";
 import { Images } from "lucide-react";
 import { ReactNode } from "react";
 import { useNavigate } from "react-router";
 
 import { tripAlbums } from "@/data/albums";
-import { formatDateRangeShort } from "@/i18n/functions/date";
-import { CoverImage } from "@/shared/components/CoverImage/CoverImage";
 import { EmptyState } from "@/shared/components/EmptyState/EmptyState";
 import { PageHeader } from "@/shared/components/PageHeader/PageHeader";
-import { PanelFrame } from "@/shared/components/PanelFrame/PanelFrame";
-import { useLanguage } from "@/shared/hooks/useLanguage";
-import { staggerItem, staggerList } from "@/shared/lib/motion";
 
 const totalPhotos = tripAlbums.reduce((sum, { album }) => sum + album.count, 0);
 

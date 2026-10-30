@@ -1,7 +1,5 @@
 import "./TripStory.scss";
 
-import { TransportModeIcon } from "@app/shared/components/TransportModeIcon/TransportModeIcon";
-import { useLanguage } from "@app/shared/hooks/useLanguage";
 import {
   Issue,
   IssueSeverity,
@@ -9,6 +7,8 @@ import {
   TripMoveJson,
   worstSeverity,
 } from "@travelmap/core";
+import { TransportModeIcon } from "@travelmap/ui/components/TransportModeIcon/TransportModeIcon";
+import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import {
   BedDouble,
   Flag,
