@@ -1,0 +1,1 @@
+.panel-frame{flex-direction:column;height:100%;min-height:0;display:flex}.panel-frame__header{flex:none}.panel-frame__body{min-height:0;padding-bottom:var(--sheet-hidden,0);overscroll-behavior:contain;flex:1;position:relative;overflow-y:auto}

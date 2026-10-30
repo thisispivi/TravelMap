@@ -1,0 +1,1 @@
+function e(e){return e.key===`Enter`||e.key===` `}function t(e,t,n){switch(e.key){case`ArrowRight`:case`ArrowDown`:return(t+1)%n;case`ArrowLeft`:case`ArrowUp`:return(t-1+n)%n;case`Home`:return 0;case`End`:return n-1;default:return}}export{t as n,e as t};

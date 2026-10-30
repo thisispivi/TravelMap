@@ -1,0 +1,1 @@
+import{u as e}from"./router-CDBXBGJF.js";import{IndexParamSchema as t,albumLoader as n}from"./GalleryAlbum.loader-BPDsLGdR.js";function r(r,i){let a=n(r,i),o=t.safeParse(r.params.photoIdx);if(!o.success||o.data>=a.count)throw e(null,{status:404});return{album:a,photoIdx:o.data}}export{r as lightboxLoader};

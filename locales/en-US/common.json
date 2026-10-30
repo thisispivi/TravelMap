@@ -1,0 +1,39 @@
+{
+  "mode": {
+    "plane": "Flight",
+    "ferry": "Ferry",
+    "train": "Train",
+    "bus": "Bus",
+    "car": "Car",
+    "taxi": "Taxi",
+    "walk": "Walk"
+  },
+  "nav": {
+    "trips": "Trips",
+    "places": "Places",
+    "label": "Main navigation"
+  },
+  "map": {
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out"
+  },
+  "action": {
+    "close": "Close",
+    "back": "Back"
+  },
+  "stay": {
+    "nightsCount_one": "{{count}} night",
+    "nightsCount_other": "{{count}} nights",
+    "checkIn": "Check-in",
+    "checkOut": "Check-out",
+    "nights": "Nights",
+    "dayTrip": "Day trip"
+  },
+  "tripCount_one": "{{count}} trip",
+  "tripCount_other": "{{count}} trips",
+  "theme": {
+    "switchToLight": "Switch to light mode",
+    "switchToDark": "Switch to dark mode"
+  },
+  "language": "Change language"
+}

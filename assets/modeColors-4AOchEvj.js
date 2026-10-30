@@ -1,0 +1,1 @@
+import{t as e}from"./_variables.module-CkGSGZUE.js";var t={bus:e.transportBus,car:e.transportCar,ferry:e.transportFerry,plane:e.transportPlane,taxi:e.transportTaxi,train:e.transportTrain,walk:e.transportWalk};export{t};
