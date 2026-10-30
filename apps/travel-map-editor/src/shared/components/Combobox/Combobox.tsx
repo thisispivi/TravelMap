@@ -10,7 +10,7 @@ import { menuVariants } from "@travelmap/ui/lib/motion";
 import { useCombobox, useMultipleSelection } from "downshift";
 import { domAnimation, LazyMotion, m } from "framer-motion";
 import Fuse, { IFuseOptions } from "fuse.js";
-import { ReactNode, useMemo, useRef, useState } from "react";
+import { ReactNode, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 /**
@@ -217,16 +217,13 @@ export function Combobox({
 }: ComboboxProps): ReactNode {
   const { t } = useLanguage(["editor"]);
   const controlRef = useRef<HTMLDivElement>(null);
-  const items = useMemo(
-    () =>
-      emptyLabel === undefined
-        ? options
-        : [{ label: emptyLabel, value: "" }, ...options],
-    [emptyLabel, options],
-  );
-  const fuse = useMemo(() => new Fuse(items, FUSE_OPTIONS), [items]);
+  const items =
+    emptyLabel === undefined
+      ? options
+      : [{ label: emptyLabel, value: "" }, ...options];
+  const fuse = new Fuse(items, FUSE_OPTIONS);
   const [term, setTerm] = useState("");
-  const visible = useMemo(() => search(fuse, items, term), [fuse, items, term]);
+  const visible = search(fuse, items, term);
   const selected = items.find((option) => option.value === value) ?? null;
   const {
     getInputProps,
@@ -359,22 +356,13 @@ export function MultiCombobox({
   const { t } = useLanguage(["editor"]);
   const controlRef = useRef<HTMLDivElement>(null);
   const [term, setTerm] = useState("");
-  const selectedItems = useMemo(
-    () =>
-      value
-        .map((entry) => options.find((option) => option.value === entry))
-        .filter((option): option is ComboboxOption => option !== undefined),
-    [options, value],
-  );
-  const available = useMemo(() => {
-    const chosen = new Set(value);
-    return options.filter((option) => !chosen.has(option.value));
-  }, [options, value]);
-  const fuse = useMemo(() => new Fuse(available, FUSE_OPTIONS), [available]);
-  const visible = useMemo(
-    () => search(fuse, available, term),
-    [available, fuse, term],
-  );
+  const selectedItems = value
+    .map((entry) => options.find((option) => option.value === entry))
+    .filter((option): option is ComboboxOption => option !== undefined);
+  const chosen = new Set(value);
+  const available = options.filter((option) => !chosen.has(option.value));
+  const fuse = new Fuse(available, FUSE_OPTIONS);
+  const visible = search(fuse, available, term);
   const { getDropdownProps, getSelectedItemProps, removeSelectedItem } =
     useMultipleSelection({ selectedItems });
   const {

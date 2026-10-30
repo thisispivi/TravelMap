@@ -51,6 +51,10 @@ export function useAutosave<T>(
     onSavedRef.current = options.onSaved;
   });
 
+  /*
+   * Kept stable on purpose: the debounce and visibility effects below depend
+   * on it, and a new function each render would restart the debounce.
+   */
   const persist = useCallback(async (): Promise<void> => {
     if (isWritingRef.current) {
       isQueuedRef.current = true;

@@ -11,7 +11,7 @@ import {
   TripJsonSchema,
 } from "@travelmap/core";
 
-import { readResponseError } from "../shared/lib/httpResponse";
+import { readResponseError } from "./httpResponse";
 import { DEFAULT_CONFIG } from "./siteConfig";
 
 /**

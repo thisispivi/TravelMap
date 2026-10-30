@@ -10,7 +10,7 @@ import { mediaUploader } from "./vite/mediaUploader.ts";
 import { snapshots } from "./vite/snapshots.ts";
 
 export default defineConfig(
-  mergeConfig(sharedViteConfig(), {
+  mergeConfig(sharedViteConfig(import.meta.dirname), {
     plugins: [
       dataWriter(resolve(import.meta.dirname, "../../data")),
       assetWriter(resolve(import.meta.dirname, "../../data/logos")),

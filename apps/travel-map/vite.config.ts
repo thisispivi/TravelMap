@@ -116,7 +116,7 @@ const siteConfig: unknown = existsSync(siteConfigPath)
   : {};
 
 export default defineConfig(
-  mergeConfig(sharedViteConfig(), {
+  mergeConfig(sharedViteConfig(import.meta.dirname), {
     plugins: [
       qrcode(),
       siteBranding(siteConfig),
@@ -124,11 +124,6 @@ export default defineConfig(
     ],
     base: "/",
     server: { watch: { usePolling: true }, host: true },
-    resolve: {
-      alias: [
-        { find: "@", replacement: resolve(import.meta.dirname, "./src") },
-      ],
-    },
     build: {
       target: "esnext",
       chunkSizeWarningLimit: 800,

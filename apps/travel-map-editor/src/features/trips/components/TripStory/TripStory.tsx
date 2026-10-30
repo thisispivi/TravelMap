@@ -1,0 +1,575 @@
+import "./TripStory.scss";
+
+import {
+  Issue,
+  IssueSeverity,
+  TripJson,
+  TripMoveJson,
+  worstSeverity,
+} from "@travelmap/core";
+import { Button } from "@travelmap/ui/components/Button/Button";
+import { TransportModeIcon } from "@travelmap/ui/components/TransportModeIcon/TransportModeIcon";
+import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
+import {
+  BedDouble,
+  Flag,
+  House,
+  MapPinPlus,
+  Navigation,
+  Trash2,
+} from "lucide-react";
+import { ReactNode, useEffect, useRef, useState } from "react";
+
+import { DatasetSnapshot } from "@/data/store";
+import { Combobox } from "@/shared/components/Combobox/Combobox";
+import { useConfirm } from "@/shared/components/ConfirmDialog/ConfirmDialog";
+import { DatePicker } from "@/shared/components/DatePicker/DatePicker";
+import { NumberField, TextField } from "@/shared/components/Fields/Fields";
+import { LocalizedNames } from "@/shared/components/LocalizedNames/LocalizedNames";
+import { cityOptions } from "@/shared/lib/placeOptions";
+
+import {
+  chainOrigins,
+  currentCityId,
+  PlaceRequest,
+  removeLeg,
+  removeStep,
+  replaceStep,
+  stayHere,
+  updateLeg,
+} from "../../lib/itinerary";
+import { formatStoryDays } from "../../lib/storyDates";
+import { IssueList } from "../IssueList/IssueList";
+import { LegEditor } from "../LegEditor/LegEditor";
+import { StayCard } from "../StayCard/StayCard";
+import { StoryChapter } from "../StoryChapter/StoryChapter";
+import { Selection } from "../Workspace/Workspace.state";
+
+/**
+ * Properties accepted by the TripDetails component.
+ * @property {TripJson} trip - The trip being edited
+ * @property {(next: TripJson, isMergeable?: boolean) => void} onChange - Edit callback
+ */
+interface TripDetailsProps {
+  trip: TripJson;
+  onChange: (next: TripJson, isMergeable?: boolean) => void;
+}
+
+/**
+ * TripDetails component
+ * The trip's own fields — name, translations, cover — kept folded away,
+ * because they are typed once while the itinerary below is edited often.
+ * @component
+ * @param {TripDetailsProps} props - The details props
+ * @param {TripJson} props.trip - The trip being edited
+ * @param {(next: TripJson, isMergeable?: boolean) => void} props.onChange - Edit callback
+ * @returns {ReactNode} The folded trip details
+ */
+function TripDetails({ trip, onChange }: TripDetailsProps): ReactNode {
+  const { t } = useLanguage(["editor"]);
+  return (
+    <details className="trip-story__details">
+      <summary className="trip-story__details-summary">
+        {t("story.tripDetails")}
+      </summary>
+      <div className="trip-story__details-body">
+        <LocalizedNames
+          canonicalHint={t("trip.canonicalHint")}
+          label={t("trip.titles")}
+          onChange={({ name, nameByLocale }) =>
+            onChange(
+              { ...trip, title: name, titleByLocale: nameByLocale },
+              true,
+            )
+          }
+          value={{ name: trip.title, nameByLocale: trip.titleByLocale }}
+        />
+        <DatePicker
+          hint={t("story.endHint")}
+          label={t("trip.end")}
+          onChange={(eDate) =>
+            eDate ? onChange({ ...trip, eDate }) : undefined
+          }
+          value={trip.eDate}
+          withTime={false}
+        />
+        <TextField
+          hint={t("trip.coverImageHint")}
+          label={t("trip.coverImage")}
+          onChange={(coverImage) =>
+            onChange({ ...trip, coverImage: coverImage || undefined }, true)
+          }
+          placeholder="/Trips/my-trip-2026.jpg"
+          value={trip.coverImage ?? ""}
+        />
+        {trip.mapFocus ? (
+          <Button onClick={() => onChange({ ...trip, mapFocus: undefined })}>
+            {t("story.clearMapFocus")}
+          </Button>
+        ) : null}
+      </div>
+    </details>
+  );
+}
+
+/**
+ * Properties accepted by the MoveCard component.
+ * @property {DatasetSnapshot} dataset - The current dataset
+ * @property {TripJson} trip - The trip being edited
+ * @property {number} index - Position of the journey
+ * @property {TripMoveJson} move - The journey
+ * @property {number | undefined} openLeg - The ride whose form is open
+ * @property {(leg: number | null) => void} onOpenLeg - Opens or closes a ride's form
+ * @property {(next: TripJson) => void} onChange - Edit callback
+ * @property {() => void} onAddStop - Asks for another place on this journey
+ * @property {ReactNode} [problems] - What is wrong with the journey
+ * @property {IssueSeverity} [severity] - The worst of those problems
+ */
+interface MoveCardProps {
+  dataset: DatasetSnapshot;
+  trip: TripJson;
+  index: number;
+  move: TripMoveJson;
+  openLeg: number | undefined;
+  onOpenLeg: (leg: number | null) => void;
+  onChange: (next: TripJson) => void;
+  onAddStop: () => void;
+  problems?: ReactNode;
+  severity?: IssueSeverity;
+}
+
+/**
+ * MoveCard component
+ * Getting from one bed to the next: one line per ride, with changes and
+ * places seen along the way as further rides rather than separate stops.
+ * @component
+ * @param {MoveCardProps} props - The card props
+ * @param {DatasetSnapshot} props.dataset - The current dataset
+ * @param {TripJson} props.trip - The trip being edited
+ * @param {number} props.index - Position of the journey
+ * @param {TripMoveJson} props.move - The journey
+ * @param {number | undefined} props.openLeg - The ride whose form is open
+ * @param {(leg: number | null) => void} props.onOpenLeg - Opens or closes a ride's form
+ * @param {(next: TripJson) => void} props.onChange - Edit callback
+ * @param {() => void} props.onAddStop - Asks for another place on this journey
+ * @param {ReactNode} [props.problems] - What is wrong with the journey
+ * @param {IssueSeverity} [props.severity] - The worst of those problems
+ * @returns {ReactNode} The journey card
+ */
+function MoveCard({
+  dataset,
+  trip,
+  index,
+  move,
+  openLeg,
+  onOpenLeg,
+  onChange,
+  onAddStop,
+  problems,
+  severity,
+}: MoveCardProps): ReactNode {
+  const { t, currLanguage: lang } = useLanguage(["editor"]);
+  const origins = chainOrigins(trip, { index });
+  const { confirm, confirmDialog } = useConfirm();
+  const previous = trip.steps[index - 1];
+  const next = trip.steps[index + 1];
+  const date =
+    move.legs[0]?.depart?.slice(0, 10) ??
+    (previous?.type === "stay" ? previous.checkOut : trip.sDate.slice(0, 10));
+  const endDate =
+    move.legs.at(-1)?.arrive?.slice(0, 10) ??
+    (next?.type === "stay" ? next.checkIn : date);
+  const role =
+    index === 0 ? "there" : index === trip.steps.length - 1 ? "home" : "onward";
+
+  /**
+   * Names a city for the chapter title, falling back to its id.
+   * @param {string} id - The city id
+   * @returns {string} The display name
+   */
+  const cityName = (id: string): string =>
+    dataset.cities.find(({ value }) => value.id === id)?.value.name ?? id;
+
+  return (
+    <StoryChapter
+      action={
+        <Button
+          aria-label={t("story.removeJourney")}
+          className="trip-story__remove"
+          onClick={() =>
+            confirm({
+              confirmLabel: t("confirm.removeJourney.action"),
+              isDanger: true,
+              message: t("confirm.removeJourney.message"),
+              onConfirm: () => onChange(removeStep(trip, index)),
+              title: t("confirm.removeJourney.title"),
+            })
+          }
+        >
+          <Trash2 aria-hidden="true" />
+        </Button>
+      }
+      eyebrow={`${t(`story.chapter.${role}`)} · ${formatStoryDays(date, endDate, lang)}`}
+      kind="journey"
+      node={
+        <TransportModeIcon
+          className="trip-story__node-icon"
+          mode={move.legs[0]?.mode ?? "plane"}
+        />
+      }
+      problems={problems}
+      severity={severity}
+      title={`${cityName(origins[0] ?? trip.originCityId)} → ${cityName(move.legs.at(-1)?.toId ?? "")}`}
+    >
+      {confirmDialog}
+      <ol className="trip-story__legs">
+        {move.legs.map((leg, legIndex) => (
+          <LegEditor
+            dataset={dataset}
+            date={(leg.arrive ?? leg.depart ?? date).slice(0, 10)}
+            fromId={origins[legIndex] ?? trip.originCityId}
+            isDayTrip={false}
+            isOpen={openLeg === legIndex}
+            isReturn={false}
+            key={`${leg.toId}-${legIndex}`}
+            leg={leg}
+            onChange={(next) =>
+              onChange(updateLeg(trip, { index, leg: legIndex }, next))
+            }
+            onRemove={() => onChange(removeLeg(trip, { index, leg: legIndex }))}
+            onToggle={() => onOpenLeg(openLeg === legIndex ? null : legIndex)}
+          />
+        ))}
+      </ol>
+      <Button className="trip-story__add" onClick={onAddStop}>
+        <MapPinPlus aria-hidden="true" />
+        {t("story.addStopOnTheWay")}
+      </Button>
+    </StoryChapter>
+  );
+}
+
+/**
+ * Properties accepted by the NextStep component.
+ * @property {DatasetSnapshot} dataset - The current dataset
+ * @property {TripJson} trip - The trip being edited
+ * @property {(next: TripJson) => void} onChange - Edit callback
+ * @property {(request: PlaceRequest) => void} onRequestPlace - Asks the author for a place
+ * @property {() => void} onReturnHome - Ends the trip back at its origin
+ */
+interface NextStepProps {
+  dataset: DatasetSnapshot;
+  trip: TripJson;
+  onChange: (next: TripJson) => void;
+  onRequestPlace: (request: PlaceRequest) => void;
+  onReturnHome: () => void;
+}
+
+/**
+ * NextStep component
+ * The one question the author answers to build a trip: what happened next?
+ * After arriving somewhere they either slept there or kept travelling; after
+ * a stay they travelled on or went home. Only the choices that make sense are
+ * offered, so the trip cannot be built in an order that does not read.
+ * @component
+ * @param {NextStepProps} props - The panel props
+ * @param {DatasetSnapshot} props.dataset - The current dataset
+ * @param {TripJson} props.trip - The trip being edited
+ * @param {(next: TripJson) => void} props.onChange - Edit callback
+ * @param {(request: PlaceRequest) => void} props.onRequestPlace - Asks the author for a place
+ * @param {() => void} props.onReturnHome - Ends the trip back at its origin
+ * @returns {ReactNode} The next-step panel
+ */
+function NextStep({
+  dataset,
+  trip,
+  onChange,
+  onRequestPlace,
+  onReturnHome,
+}: NextStepProps): ReactNode {
+  const { t } = useLanguage(["editor"]);
+  const [nights, setNights] = useState<number | undefined>(1);
+  const last = trip.steps.at(-1);
+  const hereId = currentCityId(trip);
+  const here =
+    dataset.cities.find(({ value }) => value.id === hereId)?.value.name ??
+    hereId;
+  const isHome = hereId === trip.originCityId && trip.steps.length > 0;
+
+  return (
+    <section className="trip-story__next">
+      <h3 className="trip-story__next-title">
+        {isHome
+          ? t("story.backHome", { city: here })
+          : t("story.whatNext", { city: here })}
+      </h3>
+      {isHome ? null : (
+        <p className="trip-story__next-hint">{t("story.drawHint")}</p>
+      )}
+      <div className="trip-story__next-actions">
+        {last?.type === "move" && !isHome ? (
+          <div className="trip-story__stay-here">
+            <NumberField
+              label={t("story.howManyNights")}
+              min={0}
+              onChange={setNights}
+              value={nights}
+            />
+            <Button
+              onClick={() => onChange(stayHere(trip, nights ?? 0))}
+              variant="primary"
+            >
+              <BedDouble aria-hidden="true" />
+              {t("story.sleepHere", { city: here })}
+            </Button>
+          </div>
+        ) : null}
+        <Button
+          onClick={() => onRequestPlace({ kind: "travel" })}
+          variant="primary"
+        >
+          <Navigation aria-hidden="true" />
+          {last?.type === "move"
+            ? t("story.travelOn", { city: here })
+            : t("story.travelTo", { city: here })}
+        </Button>
+        {trip.steps.length > 0 && !isHome ? (
+          <Button onClick={onReturnHome}>
+            <House aria-hidden="true" />
+            {t("story.returnHome")}
+          </Button>
+        ) : null}
+      </div>
+    </section>
+  );
+}
+
+/**
+ * Counts which stay a step is, for its node: the same number its pin carries
+ * on the map, where only stays are numbered.
+ * @param {TripJson} trip - The trip
+ * @param {number} index - The stay's position among all steps
+ * @returns {number} Its position among the stays, from 1
+ */
+function stayNumber(trip: TripJson, index: number): number {
+  return trip.steps.slice(0, index + 1).filter(({ type }) => type === "stay")
+    .length;
+}
+
+/**
+ * Names where a move leaves from, for its list key: the stay before it, or the
+ * trip's start. Keys must not be positions, or every card after a removed
+ * step would remount and lose its open leg.
+ * @param {TripJson} trip - The trip
+ * @param {number} index - The move's position
+ * @returns {string} The stay's city and check-out date, or the trip's start
+ */
+function moveOrigin(trip: TripJson, index: number): string {
+  const previous = trip.steps[index - 1];
+  return previous?.type === "stay"
+    ? `${previous.cityId}-${previous.checkOut}`
+    : `${trip.originCityId}-${trip.sDate}`;
+}
+
+/**
+ * Properties accepted by the TripStory component.
+ * @property {DatasetSnapshot} dataset - The current dataset
+ * @property {TripJson} trip - The trip being edited
+ * @property {Selection} selection - What is selected
+ * @property {(selection: Selection) => void} onSelect - Selection callback
+ * @property {(next: TripJson, isMergeable?: boolean) => void} onChange - Edit callback
+ * @property {(request: PlaceRequest) => void} onRequestPlace - Asks the author for a place
+ * @property {() => void} onReturnHome - Ends the trip back at its origin
+ * @property {Issue[]} issues - Live validation for the trip
+ * @property {(fix: NonNullable<Issue["fix"]>) => void} onApplyFix - Applies a repair
+ */
+interface TripStoryProps {
+  dataset: DatasetSnapshot;
+  trip: TripJson;
+  selection: Selection;
+  onSelect: (selection: Selection) => void;
+  onChange: (next: TripJson, isMergeable?: boolean) => void;
+  onRequestPlace: (request: PlaceRequest) => void;
+  onReturnHome: () => void;
+  issues: Issue[];
+  onApplyFix: (fix: NonNullable<Issue["fix"]>) => void;
+}
+
+/**
+ * TripStory component
+ * The trip edited in the same shape the public page shows it: where it
+ * started, each journey, each place slept with its day trips, and a single
+ * "what happened next?" question at the end. Building a trip is answering that
+ * question until the answer is "went home". Problems sit on the step they
+ * belong to; those about the trip as a whole sit above it.
+ * @component
+ * @param {TripStoryProps} props - The story props
+ * @param {DatasetSnapshot} props.dataset - The current dataset
+ * @param {TripJson} props.trip - The trip being edited
+ * @param {Selection} props.selection - What is selected
+ * @param {(selection: Selection) => void} props.onSelect - Selection callback
+ * @param {(next: TripJson, isMergeable?: boolean) => void} props.onChange - Edit callback
+ * @param {(request: PlaceRequest) => void} props.onRequestPlace - Asks the author for a place
+ * @param {() => void} props.onReturnHome - Ends the trip back at its origin
+ * @param {Issue[]} props.issues - Live validation for the trip
+ * @param {(fix: NonNullable<Issue["fix"]>) => void} props.onApplyFix - Applies a repair
+ * @returns {ReactNode} The editable trip story
+ */
+export function TripStory({
+  dataset,
+  trip,
+  selection,
+  onSelect,
+  onChange,
+  onRequestPlace,
+  onReturnHome,
+  issues,
+  onApplyFix,
+}: TripStoryProps): ReactNode {
+  const { t } = useLanguage(["editor"]);
+  const selected = selection.kind === "step" ? selection : undefined;
+  const chaptersRef = useRef<HTMLOListElement>(null);
+  const selectedIndex = selected?.index;
+
+  /* A step picked on the map or by the problem counter may be off screen. */
+  useEffect(() => {
+    if (selectedIndex === undefined) return;
+    chaptersRef.current?.children[selectedIndex]?.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+    });
+  }, [selectedIndex]);
+
+  /**
+   * Gathers what is wrong with one step, as its problems and its worst
+   * severity.
+   * @param {number} index - Position of the step
+   * @returns {{ problems: ReactNode; severity: IssueSeverity | undefined }} The step's problems
+   */
+  const problemsOf = (
+    index: number,
+  ): { problems: ReactNode; severity: IssueSeverity | undefined } => {
+    const own = issues.filter(
+      ({ subject }) => subject.kind === "step" && subject.index === index,
+    );
+    return {
+      problems:
+        own.length > 0 ? (
+          <IssueList issues={own} onApplyFix={onApplyFix} />
+        ) : undefined,
+      severity: worstSeverity(own),
+    };
+  };
+
+  /**
+   * Opens one ride's form, or closes it, by moving the selection.
+   * @param {number} index - Position of the step
+   * @param {number | undefined} outing - Position of the day trip
+   * @param {number | null} leg - The ride, or null to close
+   * @returns {void}
+   */
+  const openLeg = (
+    index: number,
+    outing: number | undefined,
+    leg: number | null,
+  ): void =>
+    onSelect(
+      leg === null
+        ? { index, kind: "step" }
+        : {
+            index,
+            kind: "step",
+            leg,
+            ...(outing === undefined ? {} : { outing }),
+          },
+    );
+
+  return (
+    <div className="trip-story">
+      <IssueList
+        issues={issues.filter(({ subject }) => subject.kind !== "step")}
+        onApplyFix={onApplyFix}
+      />
+      <TripDetails onChange={onChange} trip={trip} />
+
+      <section className="trip-story__start">
+        <Flag aria-hidden="true" className="trip-story__start-icon" />
+        <Combobox
+          label={t("story.startedIn")}
+          onChange={(originCityId) => onChange({ ...trip, originCityId })}
+          options={cityOptions(dataset)}
+          value={trip.originCityId}
+        />
+        <DatePicker
+          label={t("story.startedOn")}
+          onChange={(sDate) =>
+            sDate ? onChange({ ...trip, sDate }) : undefined
+          }
+          value={trip.sDate}
+          withTime={false}
+        />
+      </section>
+
+      <ol className="trip-story__chapters" ref={chaptersRef}>
+        {trip.steps.map((step, index) =>
+          step.type === "stay" ? (
+            <StayCard
+              dataset={dataset}
+              isOpen={selected?.index === index}
+              key={`stay-${step.cityId}-${step.checkIn}`}
+              number={stayNumber(trip, index)}
+              onAddDayTrip={() => onRequestPlace({ index, kind: "dayTrip" })}
+              onAddPlace={(outing) =>
+                onRequestPlace({ index, kind: "addToChain", outing })
+              }
+              onChange={(next) => onChange(replaceStep(trip, index, next))}
+              onOpenLeg={(outing, leg) => openLeg(index, outing, leg)}
+              onRemove={() => onChange(removeStep(trip, index))}
+              onToggle={() =>
+                onSelect(
+                  selected?.index === index
+                    ? { kind: "trip" }
+                    : { index, kind: "step" },
+                )
+              }
+              openLeg={
+                selected?.index === index &&
+                selected.outing !== undefined &&
+                selected.leg !== undefined
+                  ? { leg: selected.leg, outing: selected.outing }
+                  : undefined
+              }
+              stay={step}
+              {...problemsOf(index)}
+            />
+          ) : (
+            <MoveCard
+              dataset={dataset}
+              index={index}
+              key={`move-${moveOrigin(trip, index)}-${step.legs.map(({ toId }) => toId).join(">")}`}
+              move={step}
+              onAddStop={() => onRequestPlace({ index, kind: "addToChain" })}
+              onChange={onChange}
+              onOpenLeg={(leg) => openLeg(index, undefined, leg)}
+              openLeg={
+                selected?.index === index && selected.outing === undefined
+                  ? selected.leg
+                  : undefined
+              }
+              trip={trip}
+              {...problemsOf(index)}
+            />
+          ),
+        )}
+      </ol>
+
+      <NextStep
+        dataset={dataset}
+        onChange={onChange}
+        onRequestPlace={onRequestPlace}
+        onReturnHome={onReturnHome}
+        trip={trip}
+      />
+    </div>
+  );
+}

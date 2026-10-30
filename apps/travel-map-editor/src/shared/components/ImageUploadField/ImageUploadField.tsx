@@ -6,7 +6,8 @@ import { Image, UploadCloud, X } from "lucide-react";
 import { DragEvent, ReactNode, useId, useState } from "react";
 import { z } from "zod";
 
-import { parseJsonResponse } from "../../lib/httpResponse";
+import { parseJsonResponse } from "@/data/httpResponse";
+
 import { useToast } from "../Toast/Toast";
 
 const ASSET_WRITE_ENDPOINT = "/__assets/write";

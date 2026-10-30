@@ -1,0 +1,66 @@
+@use "variables" as v;
+@use "mixins" as m;
+
+/*
+ * The site's shell: the map fills the window behind everything, the rail runs
+ * down its left edge, and each screen opens in a frosted panel. Nothing
+ * scrolls but the panel's own body.
+ */
+.editor {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background-color: v.$ground;
+  color: v.$ink;
+
+  /* Beside the map, as the site's side panel sits: the map stays in view. */
+  /* Inset like the site's panel, so a scrollbar stays inside its corners. */
+  &__panel {
+    @include m.panel();
+    position: fixed;
+    z-index: 5;
+    top: v.$shellGap;
+    bottom: v.$shellGap;
+    left: calc(#{v.$shellGap} * 2 + #{v.$railWidth});
+    display: flex;
+    flex-direction: column;
+    width: min(30rem, calc(100vw - 8rem));
+    padding: v.$space3 0.3125rem;
+    overflow: hidden;
+    border-radius: v.$radiusXl;
+  }
+
+  &__status {
+    position: fixed;
+    z-index: 6;
+    top: v.$shellGap;
+    right: v.$shellGap;
+  }
+
+  /* A page screen scrolls inside the panel and keeps a readable width. */
+  &__screen {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: v.$space3;
+    width: min(80rem, 100%);
+    min-height: 0;
+    margin: 0 auto;
+    padding: 1.5rem 1rem 3rem;
+    overflow-y: auto;
+  }
+
+  &__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 3rem 0;
+  }
+}
+
+@media (max-width: 58rem) {
+  .editor__screen {
+    padding-bottom: 7rem;
+  }
+}

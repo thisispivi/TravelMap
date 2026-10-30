@@ -488,10 +488,7 @@ export default [
     },
   },
   {
-    files: [
-      "apps/travel-map/src/shared/**/*.ts",
-      "apps/travel-map/src/shared/**/*.tsx",
-    ],
+    files: ["apps/*/src/shared/**/*.ts", "apps/*/src/shared/**/*.tsx"],
     rules: {
       "no-restricted-imports": [
         "error",
@@ -514,10 +511,7 @@ export default [
     },
   },
   {
-    files: [
-      "apps/travel-map/src/features/**/*.ts",
-      "apps/travel-map/src/features/**/*.tsx",
-    ],
+    files: ["apps/*/src/features/**/*.ts", "apps/*/src/features/**/*.tsx"],
     rules: {
       "no-restricted-imports": [
         "error",
@@ -536,7 +530,7 @@ export default [
             },
             {
               regex:
-                "^(?:\\.\\./)+(?:gallery|map|navigation|places|stats|timeline|trips)/",
+                "^(?:\\.\\./)+(?:companies|gallery|map|navigation|palette|places|settings|stats|timeline|trips)/",
               message:
                 "Features cannot import another feature's private modules.",
             },
@@ -546,10 +540,7 @@ export default [
     },
   },
   {
-    files: [
-      "apps/travel-map/src/data/**/*.ts",
-      "apps/travel-map/src/data/**/*.tsx",
-    ],
+    files: ["apps/*/src/data/**/*.ts", "apps/*/src/data/**/*.tsx"],
     rules: {
       "no-restricted-imports": [
         "error",
@@ -593,51 +584,6 @@ export default [
               group: ["@/*", "@app/*", "**/apps/**"],
               message:
                 "The shared domain package cannot depend on either application.",
-            },
-          ],
-        },
-      ],
-    },
-  },
-  {
-    files: [
-      "apps/travel-map-editor/src/**/*.ts",
-      "apps/travel-map-editor/src/**/*.tsx",
-    ],
-    rules: {
-      "no-restricted-imports": [
-        "error",
-        {
-          patterns: [
-            {
-              group: ["@/*"],
-              message:
-                "In the editor, @/ resolves into the public app. Use @app/ for app modules and relative paths for editor modules.",
-            },
-          ],
-        },
-      ],
-    },
-  },
-  {
-    files: [
-      "apps/travel-map-editor/src/shared/**/*.ts",
-      "apps/travel-map-editor/src/shared/**/*.tsx",
-    ],
-    rules: {
-      "no-restricted-imports": [
-        "error",
-        {
-          patterns: [
-            {
-              group: ["@/*"],
-              message:
-                "In the editor, @/ resolves into the public app. Use @app/ for app modules and relative paths for editor modules.",
-            },
-            {
-              regex: "^(?:\\.\\./)+features/",
-              message:
-                "Editor shared modules cannot depend on feature internals.",
             },
           ],
         },

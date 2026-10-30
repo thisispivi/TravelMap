@@ -12,13 +12,14 @@ import { ChevronRight, MapPinPlus } from "lucide-react";
 import { ReactNode, useState } from "react";
 import { Link, useNavigate } from "react-router";
 
-import { resolveMediaUrl } from "../../../../data/dataset";
-import { SearchField } from "../../../../shared/components/SearchField/SearchField";
-import { useMapScene } from "../../../../shared/context/MapScene.context";
-import { useDataset } from "../../../../shared/hooks/useDataset";
-import { findWorldCountry } from "../../../../shared/lib/worldCountries";
+import { resolveMediaUrl } from "@/data/dataset";
+import { AddPlaceDialog } from "@/shared/components/AddPlaceDialog/AddPlaceDialog";
+import { SearchField } from "@/shared/components/SearchField/SearchField";
+import { useMapScene } from "@/shared/context/MapScene.context";
+import { useDataset } from "@/shared/hooks/useDataset";
+import { findWorldCountry } from "@/shared/lib/worldCountries";
+
 import { countTripsByPlace, groupCities } from "../../lib/placeGroups";
-import { AddPlaceDialog } from "../AddPlaceDialog/AddPlaceDialog";
 
 /**
  * PlacesIndex component

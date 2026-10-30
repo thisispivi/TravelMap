@@ -1,12 +1,8 @@
 import { Issue, validateDataset } from "@travelmap/core";
 import { useSyncExternalStore } from "react";
 
-import { photoCounts } from "../../data/dataset";
-import {
-  DatasetSnapshot,
-  getDataset,
-  subscribeToDataset,
-} from "../../data/store";
+import { photoCounts } from "@/data/dataset";
+import { DatasetSnapshot, getDataset, subscribeToDataset } from "@/data/store";
 
 /**
  * Subscribes a component to the authored dataset. The store publishes a fresh

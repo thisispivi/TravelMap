@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { isSafeImageUrl } from "./imageUrl.ts";
+import { isSafeImageUrl } from "./imageUrl";
 
 describe("isSafeImageUrl", () => {
   it("accepts the path shapes the dataset holds", () => {

@@ -6,24 +6,22 @@ import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { Plus, Trash2 } from "lucide-react";
 import { ReactNode, useState } from "react";
 
-import { resolveMapSettings } from "../../../../data/siteConfig";
-import { DataFile, saveDocument } from "../../../../data/store";
-import {
-  Combobox,
-  MultiCombobox,
-} from "../../../../shared/components/Combobox/Combobox";
-import { useConfirm } from "../../../../shared/components/ConfirmDialog/ConfirmDialog";
-import { DocumentScreen } from "../../../../shared/components/DocumentScreen/DocumentScreen";
+import { resolveMapSettings } from "@/data/siteConfig";
+import { DataFile, saveDocument } from "@/data/store";
+import { Combobox, MultiCombobox } from "@/shared/components/Combobox/Combobox";
+import { useConfirm } from "@/shared/components/ConfirmDialog/ConfirmDialog";
+import { DocumentScreen } from "@/shared/components/DocumentScreen/DocumentScreen";
 import {
   NumberField,
   StringListField,
   TextField,
-} from "../../../../shared/components/Fields/Fields";
-import { useMapScene } from "../../../../shared/context/MapScene.context";
-import { useDataset } from "../../../../shared/hooks/useDataset";
-import { isSameJson } from "../../../../shared/lib/jsonEquality";
-import { findWorldCountry } from "../../../../shared/lib/worldCountries";
-import { BackupPanel } from "../../../backup/components/BackupPanel/BackupPanel";
+} from "@/shared/components/Fields/Fields";
+import { useMapScene } from "@/shared/context/MapScene.context";
+import { useDataset } from "@/shared/hooks/useDataset";
+import { isSameJson } from "@/shared/lib/jsonEquality";
+import { findWorldCountry } from "@/shared/lib/worldCountries";
+
+import { BackupPanel } from "../BackupPanel/BackupPanel";
 
 const MAP_ZOOM_FIELDS = [
   ["defaultZoom", "configScreen.defaultZoom"],

@@ -6,20 +6,20 @@ import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { ReactNode, useState } from "react";
 import { useNavigate } from "react-router";
 
-import { locales } from "../../../../data/dataset";
-import { countryPath } from "../../../../data/paths";
-import { DataFile, deleteDocument, saveDocument } from "../../../../data/store";
-import { ColorField } from "../../../../shared/components/ColorField/ColorField";
-import { DocumentScreen } from "../../../../shared/components/DocumentScreen/DocumentScreen";
-import { NumberField } from "../../../../shared/components/Fields/Fields";
-import { useMapScene } from "../../../../shared/context/MapScene.context";
-import { useDataset } from "../../../../shared/hooks/useDataset";
-import { isSameJson } from "../../../../shared/lib/jsonEquality";
+import { locales } from "@/data/dataset";
+import { countryPath } from "@/data/paths";
+import { snapshotBeforeChange } from "@/data/snapshots";
+import { DataFile, deleteDocument, saveDocument } from "@/data/store";
+import { ColorField } from "@/shared/components/ColorField/ColorField";
+import { DocumentScreen } from "@/shared/components/DocumentScreen/DocumentScreen";
+import { NumberField } from "@/shared/components/Fields/Fields";
+import { useMapScene } from "@/shared/context/MapScene.context";
+import { useDataset } from "@/shared/hooks/useDataset";
+import { isSameJson } from "@/shared/lib/jsonEquality";
 import {
   findWorldCountry,
   translationsForLocales,
-} from "../../../../shared/lib/worldCountries";
-import { snapshotBeforeChange } from "../../../backup/lib/snapshots";
+} from "@/shared/lib/worldCountries";
 
 /**
  * CountryScreen component

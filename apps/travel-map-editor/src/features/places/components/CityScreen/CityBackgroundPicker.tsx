@@ -4,8 +4,8 @@ import { hasSource, PublishedImage, walkTripLegs } from "@travelmap/core";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { ReactNode } from "react";
 
-import { resolveMediaUrl } from "../../../../data/dataset";
-import { DatasetSnapshot } from "../../../../data/store";
+import { resolveMediaUrl } from "@/data/dataset";
+import { DatasetSnapshot } from "@/data/store";
 
 /**
  * A gallery photo that can become a city card background.

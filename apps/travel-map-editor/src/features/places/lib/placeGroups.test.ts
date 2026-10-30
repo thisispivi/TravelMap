@@ -8,7 +8,8 @@ import {
 } from "@travelmap/core";
 import { describe, expect, it } from "vitest";
 
-import type { DataFile, DatasetSnapshot } from "../../../data/store";
+import type { DataFile, DatasetSnapshot } from "@/data/store";
+
 import { countTripsByPlace, groupCities } from "./placeGroups";
 
 /**

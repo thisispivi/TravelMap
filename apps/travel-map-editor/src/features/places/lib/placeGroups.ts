@@ -1,7 +1,7 @@
 import { CityJson, tripPlaceIds } from "@travelmap/core";
 
-import type { DatasetSnapshot } from "../../../data/store";
-import { searchItems } from "../../library/lib/search";
+import type { DatasetSnapshot } from "@/data/store";
+import { searchItems } from "@/shared/lib/search";
 
 /**
  * One country's places, for the list.

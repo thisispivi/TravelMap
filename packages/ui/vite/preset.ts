@@ -16,10 +16,12 @@ const publicDir = resolve(import.meta.dirname, "../public");
  * way (with React Compiler), import SVGs as components, and read the shared
  * design tokens with a bare `@use "variables" as v`. Both also serve the
  * shared public files: flags, map glyphs and common translations. Each app merges its own
- * plugins, server, and build settings on top with `mergeConfig`.
+ * plugins, server, and build settings on top with `mergeConfig`. In either
+ * app, `@/` names the app's own `src`.
+ * @param {string} appDir - The app's directory
  * @returns {UserConfig} The shared configuration
  */
-export function sharedViteConfig(): UserConfig {
+export function sharedViteConfig(appDir: string): UserConfig {
   return {
     plugins: [
       react(),
@@ -31,6 +33,9 @@ export function sharedViteConfig(): UserConfig {
       preprocessorOptions: { scss: { loadPaths: [stylesDir] } },
       postcss: { plugins: [autoprefixer({})] },
     },
-    resolve: { dedupe: ["react", "react-dom", "i18next", "react-i18next"] },
+    resolve: {
+      alias: [{ find: /^@\//, replacement: `${resolve(appDir, "src")}/` }],
+      dedupe: ["react", "react-dom", "i18next", "react-i18next"],
+    },
   };
 }

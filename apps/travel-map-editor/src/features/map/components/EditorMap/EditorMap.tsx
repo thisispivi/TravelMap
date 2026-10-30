@@ -18,7 +18,7 @@ import {
   MapRoute,
   MapScene,
   useMapSceneContext,
-} from "../../../../shared/context/MapScene.context";
+} from "@/shared/context/MapScene.context";
 
 /* Room kept around the framed places, beyond whatever the panel covers. */
 const FRAME_PADDING_PX = 56;

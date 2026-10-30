@@ -12,12 +12,12 @@ import {
 } from "react";
 import { useNavigate } from "react-router";
 
-import { useDataset } from "../../../../shared/hooks/useDataset";
+import { useDataset } from "@/shared/hooks/useDataset";
 import {
   Command,
   getCommands,
   subscribeToCommands,
-} from "../../../../shared/lib/commands";
+} from "@/shared/lib/commands";
 
 const FUSE_OPTIONS = {
   ignoreLocation: true,

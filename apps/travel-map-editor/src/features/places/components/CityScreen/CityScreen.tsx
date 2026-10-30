@@ -3,23 +3,24 @@ import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { ReactNode, useState } from "react";
 import { useNavigate } from "react-router";
 
-import { cityPath } from "../../../../data/paths";
-import { DataFile, deleteDocument, moveDocument } from "../../../../data/store";
-import { Combobox } from "../../../../shared/components/Combobox/Combobox";
-import { DocumentScreen } from "../../../../shared/components/DocumentScreen/DocumentScreen";
+import { cityPath } from "@/data/paths";
+import { snapshotBeforeChange } from "@/data/snapshots";
+import { DataFile, deleteDocument, moveDocument } from "@/data/store";
+import { Combobox } from "@/shared/components/Combobox/Combobox";
+import { DocumentScreen } from "@/shared/components/DocumentScreen/DocumentScreen";
 import {
   CheckboxField,
   NumberField,
   StringListField,
-} from "../../../../shared/components/Fields/Fields";
-import { LocalizedNames } from "../../../../shared/components/LocalizedNames/LocalizedNames";
-import { useMapScene } from "../../../../shared/context/MapScene.context";
-import { useDataset } from "../../../../shared/hooks/useDataset";
-import { isSameJson } from "../../../../shared/lib/jsonEquality";
-import { findWorldCountry } from "../../../../shared/lib/worldCountries";
-import { snapshotBeforeChange } from "../../../backup/lib/snapshots";
-import { countryOptions, timeZoneOptions } from "../../lib/placeOptions";
-import { PlaceImport } from "../PlaceImport/PlaceImport";
+} from "@/shared/components/Fields/Fields";
+import { LocalizedNames } from "@/shared/components/LocalizedNames/LocalizedNames";
+import { PlaceImport } from "@/shared/components/PlaceImport/PlaceImport";
+import { useMapScene } from "@/shared/context/MapScene.context";
+import { useDataset } from "@/shared/hooks/useDataset";
+import { isSameJson } from "@/shared/lib/jsonEquality";
+import { countryOptions, timeZoneOptions } from "@/shared/lib/placeOptions";
+import { findWorldCountry } from "@/shared/lib/worldCountries";
+
 import { CityBackgroundPicker } from "./CityBackgroundPicker";
 
 /**
