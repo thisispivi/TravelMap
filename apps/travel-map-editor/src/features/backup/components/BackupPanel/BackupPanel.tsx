@@ -1,5 +1,6 @@
 import "./BackupPanel.scss";
 
+import { Button } from "@travelmap/ui/components/Button/Button";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { Download, RotateCcw, ShieldPlus } from "lucide-react";
 import { ReactNode, useEffect, useState } from "react";
@@ -101,22 +102,14 @@ export function BackupPanel(): ReactNode {
       <h2 className="editor-panel__legend">{t("backup.title")}</h2>
       <p className="editor-panel__hint">{t("backup.hint")}</p>
       <div className="backup-panel__actions">
-        <button
-          className="editor-button editor-button--primary"
-          onClick={handleSnapshot}
-          type="button"
-        >
+        <Button onClick={handleSnapshot} variant="primary">
           <ShieldPlus aria-hidden="true" />
           {t("backup.takeSnapshot")}
-        </button>
-        <button
-          className="editor-button"
-          onClick={() => downloadBundle(buildBundle(dataset, "export"))}
-          type="button"
-        >
+        </Button>
+        <Button onClick={() => downloadBundle(buildBundle(dataset, "export"))}>
           <Download aria-hidden="true" />
           {t("backup.download")}
-        </button>
+        </Button>
         <output className="editor-form__message">{message}</output>
       </div>
       {names.length === 0 ? (
@@ -128,8 +121,7 @@ export function BackupPanel(): ReactNode {
               <span className="backup-panel__name">
                 {describeSnapshot(name)}
               </span>
-              <button
-                className="editor-button"
+              <Button
                 onClick={() =>
                   confirm({
                     confirmLabel: t("backup.confirmRestore"),
@@ -141,11 +133,10 @@ export function BackupPanel(): ReactNode {
                     }),
                   })
                 }
-                type="button"
               >
                 <RotateCcw aria-hidden="true" />
                 {t("backup.restore")}
-              </button>
+              </Button>
             </li>
           ))}
         </ul>

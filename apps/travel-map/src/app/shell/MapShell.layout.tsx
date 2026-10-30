@@ -1,3 +1,4 @@
+import { Loading } from "@travelmap/ui/components/Loading/Loading";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { easeOut, panelSpring } from "@travelmap/ui/lib/motion";
 import { AnimatePresence, m } from "framer-motion";
@@ -6,7 +7,6 @@ import { lazy, ReactNode, Suspense } from "react";
 
 import { AppNav } from "@/features/navigation/components/AppNav/AppNav";
 import { BottomSheet } from "@/shared/components/BottomSheet/BottomSheet";
-import { Loading } from "@/shared/components/Loading/Loading";
 import { useAppRoute } from "@/shared/context/AppRoute.context";
 import { usePanel } from "@/shared/context/Panel.context";
 import { ResponsiveType } from "@/shared/hooks/useResponsive";

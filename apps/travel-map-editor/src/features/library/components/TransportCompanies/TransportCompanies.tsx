@@ -1,7 +1,10 @@
 import "./TransportCompanies.scss";
 
 import { Company, SiteConfig } from "@travelmap/core";
+import { Button } from "@travelmap/ui/components/Button/Button";
+import { EmptyState } from "@travelmap/ui/components/EmptyState/EmptyState";
 import { PanelFrame } from "@travelmap/ui/components/PanelFrame/PanelFrame";
+import { PanelHeader } from "@travelmap/ui/components/PanelHeader/PanelHeader";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { classNames } from "@travelmap/ui/lib/classNames";
 import { Building2, ChevronDown, Plus, Trash2 } from "lucide-react";
@@ -103,13 +106,10 @@ export function TransportCompanies({
   return (
     <PanelFrame
       header={
-        <header className="transport-companies__header">
-          <div>
-            <h2>{t("nav.companies")}</h2>
-            <p className="transport-companies__summary">
-              {t("library.companyCount", { count: entries.length })}
-            </p>
-          </div>
+        <PanelHeader
+          subtitle={t("library.companyCount", { count: entries.length })}
+          title={t("nav.companies")}
+        >
           <div className="transport-companies__add">
             <TextField
               hint={
@@ -122,17 +122,16 @@ export function TransportCompanies({
               placeholder="ryanair"
               value={newCompanyId}
             />
-            <button
-              className="editor-button editor-button--primary"
+            <Button
               disabled={Boolean(companyIdProblem)}
               onClick={addCompany}
-              type="button"
+              variant="primary"
             >
               <Plus aria-hidden="true" />
               {t("companyEditor.add")}
-            </button>
+            </Button>
           </div>
-        </header>
+        </PanelHeader>
       }
     >
       {confirmDialog}
@@ -202,8 +201,8 @@ export function TransportCompanies({
                       }
                       value={logo}
                     />
-                    <button
-                      className="editor-button editor-button--danger transport-companies__remove"
+                    <Button
+                      className="transport-companies__remove"
                       onClick={() =>
                         confirm({
                           confirmLabel: t("confirm.removeCompany.action"),
@@ -215,11 +214,11 @@ export function TransportCompanies({
                           }),
                         })
                       }
-                      type="button"
+                      variant="danger"
                     >
                       <Trash2 aria-hidden="true" />
                       {t("companyEditor.removeCompany", { id })}
-                    </button>
+                    </Button>
                   </div>
                 ) : null}
               </li>
@@ -227,10 +226,7 @@ export function TransportCompanies({
           })}
         </ul>
       ) : (
-        <p className="transport-companies__empty">
-          <Building2 aria-hidden="true" />
-          {t("companyEditor.empty")}
-        </p>
+        <EmptyState message={t("companyEditor.empty")} />
       )}
     </PanelFrame>
   );

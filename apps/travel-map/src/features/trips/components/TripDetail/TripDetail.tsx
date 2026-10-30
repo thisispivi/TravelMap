@@ -1,8 +1,10 @@
 import "./TripDetail.scss";
 
 import { City, TransportModeSchema } from "@travelmap/core";
+import { Button } from "@travelmap/ui/components/Button/Button";
 import { CountryFlag } from "@travelmap/ui/components/CountryFlag/CountryFlag";
 import { CoverImage } from "@travelmap/ui/components/CoverImage/CoverImage";
+import { EmptyState } from "@travelmap/ui/components/EmptyState/EmptyState";
 import { PanelFrame } from "@travelmap/ui/components/PanelFrame/PanelFrame";
 import { TransportModeIcon } from "@travelmap/ui/components/TransportModeIcon/TransportModeIcon";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
@@ -13,8 +15,6 @@ import { ReactNode, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router";
 
 import { findTripAlbum } from "@/data/albums";
-import { Button } from "@/shared/components/Button/Button";
-import { EmptyState } from "@/shared/components/EmptyState/EmptyState";
 import { useAppRoute } from "@/shared/context/AppRoute.context";
 import { useMapInteraction } from "@/shared/context/MapInteraction.context";
 import { usePanel } from "@/shared/context/Panel.context";
@@ -174,7 +174,7 @@ export function TripDetail(): ReactNode {
                 </Button>
               ) : null}
               {isCompact ? (
-                <Button onClick={() => setIsPanelOpen(false)}>
+                <Button onClick={() => setIsPanelOpen(false)} variant="soft">
                   <MapIcon aria-hidden="true" />
                   {t("trip.showMap")}
                 </Button>

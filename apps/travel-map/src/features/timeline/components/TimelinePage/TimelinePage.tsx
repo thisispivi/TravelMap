@@ -3,7 +3,9 @@ import "./TimelinePage.scss";
 import { Continent, Trip } from "@travelmap/core";
 import { CountryFlag } from "@travelmap/ui/components/CountryFlag/CountryFlag";
 import { CoverImage } from "@travelmap/ui/components/CoverImage/CoverImage";
+import { EmptyState } from "@travelmap/ui/components/EmptyState/EmptyState";
 import { PanelFrame } from "@travelmap/ui/components/PanelFrame/PanelFrame";
+import { PanelHeader } from "@travelmap/ui/components/PanelHeader/PanelHeader";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { formatDateRangeShort } from "@travelmap/ui/i18n/date";
 import { classNames } from "@travelmap/ui/lib/classNames";
@@ -13,8 +15,6 @@ import { CSSProperties, ReactNode, useState } from "react";
 import { useNavigate } from "react-router";
 
 import { visitedTrips } from "@/data/world";
-import { EmptyState } from "@/shared/components/EmptyState/EmptyState";
-import { PageHeader } from "@/shared/components/PageHeader/PageHeader";
 import { YearPills } from "@/shared/components/YearPills/YearPills";
 import { useMapInteraction } from "@/shared/context/MapInteraction.context";
 import { useResponsive } from "@/shared/hooks/useResponsive";
@@ -83,11 +83,12 @@ export function TimelinePage(): ReactNode {
   return (
     <PanelFrame
       header={
-        <PageHeader
+        <PanelHeader
           subtitle={t("timeline.summary", {
             trips: visitedTrips.length,
             years: years.length,
           })}
+          surface="page"
           title={t("timeline.title")}
         />
       }

@@ -1,9 +1,10 @@
 import "./ConfirmDialog.scss";
 
+import { Button } from "@travelmap/ui/components/Button/Button";
+import { Dialog } from "@travelmap/ui/components/Dialog/Dialog";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
-import { classNames } from "@travelmap/ui/lib/classNames";
 import { TriangleAlert } from "lucide-react";
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, useState } from "react";
 
 /**
  * What a confirmation asks.
@@ -43,12 +44,7 @@ interface ConfirmDialogProps {
  */
 function ConfirmDialog({ request, onClose }: ConfirmDialogProps): ReactNode {
   const { t } = useLanguage(["editor"]);
-  const dialogRef = useRef<HTMLDialogElement>(null);
   const [isWorking, setIsWorking] = useState(false);
-
-  useEffect(() => {
-    dialogRef.current?.showModal();
-  }, []);
 
   /**
    * Goes ahead, keeping the dialog open until the action has finished so a
@@ -62,50 +58,28 @@ function ConfirmDialog({ request, onClose }: ConfirmDialogProps): ReactNode {
   }
 
   return (
-    <dialog
-      aria-describedby="confirm-dialog-message"
-      aria-labelledby="confirm-dialog-title"
-      className="confirm-dialog"
-      onCancel={onClose}
+    <Dialog
+      actions={
+        <>
+          <Button autoFocus disabled={isWorking} onClick={onClose}>
+            {t("editorForm.cancel")}
+          </Button>
+          <Button
+            disabled={isWorking}
+            onClick={handleConfirm}
+            variant={request.isDanger ? "danger" : "primary"}
+          >
+            {request.confirmLabel}
+          </Button>
+        </>
+      }
+      icon={request.isDanger ? <TriangleAlert aria-hidden="true" /> : undefined}
       onClose={onClose}
-      ref={dialogRef}
+      size="small"
+      title={request.title}
     >
-      <div className="confirm-dialog__header">
-        {request.isDanger ? (
-          <TriangleAlert aria-hidden="true" className="confirm-dialog__icon" />
-        ) : null}
-        <h2 className="confirm-dialog__title" id="confirm-dialog-title">
-          {request.title}
-        </h2>
-      </div>
-      <p className="confirm-dialog__message" id="confirm-dialog-message">
-        {request.message}
-      </p>
-      <footer className="confirm-dialog__actions">
-        <button
-          autoFocus
-          className="editor-button"
-          disabled={isWorking}
-          onClick={onClose}
-          type="button"
-        >
-          {t("editorForm.cancel")}
-        </button>
-        <button
-          className={classNames(
-            "editor-button",
-            request.isDanger
-              ? "editor-button--danger"
-              : "editor-button--primary",
-          )}
-          disabled={isWorking}
-          onClick={handleConfirm}
-          type="button"
-        >
-          {request.confirmLabel}
-        </button>
-      </footer>
-    </dialog>
+      <p className="confirm-dialog__message">{request.message}</p>
+    </Dialog>
   );
 }
 

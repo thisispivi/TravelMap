@@ -1,8 +1,10 @@
 import "./AddPlaceDialog.scss";
 
+import { Button } from "@travelmap/ui/components/Button/Button";
+import { Dialog } from "@travelmap/ui/components/Dialog/Dialog";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { MapPinPlus, X } from "lucide-react";
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, useState } from "react";
 
 import { applyWrites, DatasetSnapshot } from "../../../../data/store";
 import { Combobox } from "../../../../shared/components/Combobox/Combobox";
@@ -56,7 +58,6 @@ export function AddPlaceDialog({
   title,
 }: AddPlaceDialogProps): ReactNode {
   const { t } = useLanguage(["editor"]);
-  const dialogRef = useRef<HTMLDialogElement>(null);
   const [picked, setPicked] = useState<WorldCity | null>(null);
   const [manualName, setManualName] = useState("");
   const [manualCountryId, setManualCountryId] = useState(
@@ -69,10 +70,6 @@ export function AddPlaceDialog({
     coordinates?.[1],
   );
   const [message, setMessage] = useState("");
-
-  useEffect(() => {
-    dialogRef.current?.showModal();
-  }, []);
 
   const plan = picked ? planPlace(dataset, picked) : null;
 
@@ -122,14 +119,25 @@ export function AddPlaceDialog({
     }
   }
   return (
-    <dialog
-      aria-label={title ?? t("addPlace.title")}
+    <Dialog
+      actions={
+        <>
+          <Button disabled={!plan} onClick={handleConfirm} variant="primary">
+            <MapPinPlus aria-hidden="true" />
+            {t("addPlace.add")}
+          </Button>
+          <Button onClick={onClose}>
+            <X aria-hidden="true" />
+            {t("editorForm.cancel")}
+          </Button>
+          <output className="editor-form__message">{message}</output>
+        </>
+      }
       className="add-place"
-      onCancel={onClose}
       onClose={onClose}
-      ref={dialogRef}
+      size="medium"
+      title={title ?? t("addPlace.title")}
     >
-      <h2 className="add-place__title">{title ?? t("addPlace.title")}</h2>
       {dataset.cities.length > 0 ? (
         <Combobox
           hint={t("addPlace.existingHint")}
@@ -221,37 +229,19 @@ export function AddPlaceDialog({
             value={latitude}
           />
         </div>
-        <button
-          className="editor-button"
+        <Button
           disabled={
             !manualName.trim() ||
             !manualCountryId ||
             !validPoint(longitude, latitude)
           }
           onClick={handleCreateManual}
-          type="button"
         >
           <MapPinPlus aria-hidden="true" />
           {t("addPlace.createHere")}
-        </button>
+        </Button>
       </div>
-      <footer className="add-place__actions">
-        <button
-          className="editor-button editor-button--primary"
-          disabled={!plan}
-          onClick={handleConfirm}
-          type="button"
-        >
-          <MapPinPlus aria-hidden="true" />
-          {t("addPlace.add")}
-        </button>
-        <button className="editor-button" onClick={onClose} type="button">
-          <X aria-hidden="true" />
-          {t("editorForm.cancel")}
-        </button>
-        <output className="editor-form__message">{message}</output>
-      </footer>
-    </dialog>
+    </Dialog>
   );
 }
 

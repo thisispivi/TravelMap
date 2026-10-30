@@ -6,17 +6,13 @@
   },
   "nav": {
     "brandHint": "Travel Map",
-    "primary": "Primary navigation",
     "breadcrumb": "Breadcrumb",
     "home": "Home",
     "companies": "Companies",
     "settings": "Settings",
     "configuration": "Configuration",
-    "language": "Language",
     "english": "English",
     "italian": "Italian",
-    "switchToLight": "Switch to light mode",
-    "switchToDark": "Switch to dark mode",
     "trips": "Trips",
     "places": "Places"
   },

@@ -1,6 +1,8 @@
-import "./anchoredMenu.scss";
+import "./useAnchoredMenu.scss";
 
 import { RefObject, useEffect, useLayoutEffect, useState } from "react";
+
+import { fitVertically } from "../lib/anchor";
 
 /**
  * Where a floating menu should be drawn, in viewport coordinates.
@@ -32,20 +34,9 @@ const MENU_GAP_REM = 0.25;
 const MENU_MAX_HEIGHT_REM = 22;
 const REM_IN_PX = 16;
 
-/** Shared animation states for anchored editor panels. */
-export const ANCHORED_PANEL_VARIANTS = {
-  initial: { opacity: 0, scale: 0.98, y: -4 },
-  animate: {
-    opacity: 1,
-    scale: 1,
-    y: 0,
-    transition: { duration: 0.14, ease: [0.4, 0, 0.2, 1] },
-  },
-  exit: { opacity: 0, scale: 0.98, y: -4, transition: { duration: 0.1 } },
-} as const;
-
 /**
- * Measures an anchor and picks the side of it with more room.
+ * Measures an anchor and places the menu under it, or above it when below
+ * has too little room, as wide as the anchor.
  * @param {HTMLElement | null} anchor - The control the menu attaches to
  * @param {number} [preferredWidth] - Minimum panel width in pixels
  * @returns {MenuPosition | null} The position, when the anchor is mounted
@@ -62,13 +53,11 @@ function measure(
     Math.max(rect.width, preferredWidth ?? rect.width),
     window.innerWidth - gap * 2,
   );
-  const below = window.innerHeight - rect.bottom - gap * 2;
-  const above = rect.top - gap * 2;
-  const opensUp = below < maxHeight && above > below;
+  const { opensUp, room } = fitVertically(rect, gap, maxHeight);
 
   return {
     left: Math.min(Math.max(gap, rect.left), window.innerWidth - width - gap),
-    maxHeight: Math.max(0, Math.min(maxHeight, opensUp ? above : below)),
+    maxHeight: Math.min(maxHeight, room),
     placement: opensUp ? "top" : "bottom",
     top: opensUp ? rect.top - gap : rect.bottom + gap,
     width,

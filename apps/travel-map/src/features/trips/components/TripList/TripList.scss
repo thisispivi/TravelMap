@@ -2,18 +2,6 @@
 @use "mixins" as m;
 
 .trip-list {
-  &__header {
-    display: flex;
-    flex-direction: column;
-    gap: v.$space3;
-    padding: v.$space2 v.$space5 v.$space3;
-  }
-
-  &__summary {
-    color: v.$ink3;
-    font-size: v.$bodySm;
-  }
-
   &__years {
     padding: v.$space1 v.$space3 v.$space5;
     overflow-x: clip;

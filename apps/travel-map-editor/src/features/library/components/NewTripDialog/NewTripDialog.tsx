@@ -1,9 +1,11 @@
 import "./NewTripDialog.scss";
 
 import { formatLocalDate, toId, TripJson } from "@travelmap/core";
+import { Button } from "@travelmap/ui/components/Button/Button";
+import { Dialog } from "@travelmap/ui/components/Dialog/Dialog";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { MapPinPlus, Plus, X } from "lucide-react";
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, useState } from "react";
 import { useNavigate } from "react-router";
 
 import { idError, tripPath } from "../../../../data/paths";
@@ -33,7 +35,6 @@ export function NewTripDialog({
   const { t } = useLanguage(["editor"]);
   const { showToast } = useToast();
   const navigate = useNavigate();
-  const dialogRef = useRef<HTMLDialogElement>(null);
   const now = new Date();
   const today = formatLocalDate(
     new Date(now.getFullYear(), now.getMonth(), now.getDate()),
@@ -46,10 +47,6 @@ export function NewTripDialog({
   );
   const [isAddingPlace, setIsAddingPlace] = useState(false);
   const [message, setMessage] = useState("");
-
-  useEffect(() => {
-    dialogRef.current?.showModal();
-  }, []);
 
   const derivedId = title.trim()
     ? `${toId(title).toLowerCase()}-${sDate.slice(0, 4)}`
@@ -93,14 +90,29 @@ export function NewTripDialog({
     }
   }
   return (
-    <dialog
-      aria-label={t("createScreen.addA.trip")}
+    <Dialog
+      actions={
+        <>
+          <Button
+            disabled={problems.length > 0}
+            onClick={handleCreate}
+            variant="primary"
+          >
+            <Plus aria-hidden="true" />
+            {t("createScreen.create")}
+          </Button>
+          <Button onClick={onClose}>
+            <X aria-hidden="true" />
+            {t("editorForm.cancel")}
+          </Button>
+          <output className="editor-form__message">{message}</output>
+        </>
+      }
       className="new-trip"
-      onCancel={onClose}
       onClose={onClose}
-      ref={dialogRef}
+      size="small"
+      title={t("createScreen.addA.trip")}
     >
-      <h2 className="new-trip__title">{t("createScreen.addA.trip")}</h2>
       <TextField
         label={t("createScreen.title")}
         onChange={setTitle}
@@ -121,14 +133,13 @@ export function NewTripDialog({
           withTime={false}
         />
       </div>
-      <button
-        className="editor-button new-trip__add-place"
+      <Button
+        className="new-trip__add-place"
         onClick={() => setIsAddingPlace(true)}
-        type="button"
       >
         <MapPinPlus aria-hidden="true" />
         {t("createScreen.originMissing")}
-      </button>
+      </Button>
       {isAddingPlace ? (
         <AddPlaceDialog
           dataset={dataset}
@@ -153,23 +164,7 @@ export function NewTripDialog({
           ))}
         </ul>
       ) : null}
-      <footer className="new-trip__actions">
-        <button
-          className="editor-button editor-button--primary"
-          disabled={problems.length > 0}
-          onClick={handleCreate}
-          type="button"
-        >
-          <Plus aria-hidden="true" />
-          {t("createScreen.create")}
-        </button>
-        <button className="editor-button" onClick={onClose} type="button">
-          <X aria-hidden="true" />
-          {t("editorForm.cancel")}
-        </button>
-        <output className="editor-form__message">{message}</output>
-      </footer>
-    </dialog>
+    </Dialog>
   );
 }
 

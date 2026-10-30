@@ -1,17 +1,12 @@
 import "./ImportDialog.scss";
 
 import { TripJson } from "@travelmap/core";
+import { Button } from "@travelmap/ui/components/Button/Button";
+import { Dialog } from "@travelmap/ui/components/Dialog/Dialog";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { classNames } from "@travelmap/ui/lib/classNames";
 import { ArrowLeft, Check, FileUp, X } from "lucide-react";
-import {
-  ChangeEvent,
-  DragEvent,
-  ReactNode,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { ChangeEvent, DragEvent, ReactNode, useRef, useState } from "react";
 
 import { applyWrites } from "../../../../data/store";
 import { useDataset } from "../../../../shared/hooks/useDataset";
@@ -47,7 +42,6 @@ export function ImportDialog({
 }: ImportDialogProps): ReactNode {
   const { t } = useLanguage(["editor"]);
   const dataset = useDataset();
-  const dialogRef = useRef<HTMLDialogElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const [text, setText] = useState("");
   const [parsed, setParsed] = useState<ParsedInput | null>(null);
@@ -55,10 +49,6 @@ export function ImportDialog({
   const [stage, setStage] = useState<Stage>("input");
   const [message, setMessage] = useState("");
   const [isDraggingFile, setIsDraggingFile] = useState(false);
-
-  useEffect(() => {
-    dialogRef.current?.showModal();
-  }, []);
 
   const plan: ImportPlan | null =
     stage === "review" ? planImport(trip, rows, dataset) : null;
@@ -178,14 +168,18 @@ export function ImportDialog({
     }
   }
   return (
-    <dialog
-      aria-label={t("import.title")}
+    <Dialog
+      actions={
+        <Button onClick={onClose}>
+          <X aria-hidden="true" />
+          {t("editorForm.cancel")}
+        </Button>
+      }
       className="import-dialog"
-      onCancel={onClose}
       onClose={onClose}
-      ref={dialogRef}
+      size="large"
+      title={t("import.title")}
     >
-      <h2 className="import-dialog__title">{t("import.title")}</h2>
       {stage === "input" || stage === "matching" ? (
         <>
           <p className="editor-panel__hint">{t("import.hint")}</p>
@@ -208,14 +202,10 @@ export function ImportDialog({
             />
           </label>
           <div className="import-dialog__actions">
-            <button
-              className="editor-button"
-              onClick={() => fileRef.current?.click()}
-              type="button"
-            >
+            <Button onClick={() => fileRef.current?.click()}>
               <FileUp aria-hidden="true" />
               {t("import.chooseFile")}
-            </button>
+            </Button>
             <input
               accept=".json,.csv,.tsv,.txt,.gpx,.kml,.geojson"
               aria-label={t("import.chooseFile")}
@@ -224,15 +214,14 @@ export function ImportDialog({
               ref={fileRef}
               type="file"
             />
-            <button
-              className="editor-button editor-button--primary"
+            <Button
               disabled={!text.trim() || stage === "matching"}
               onClick={handleParse}
-              type="button"
+              variant="primary"
             >
               <Check aria-hidden="true" />
               {stage === "matching" ? t("import.matching") : t("import.read")}
-            </button>
+            </Button>
             <output className="editor-form__message">{message}</output>
           </div>
         </>
@@ -287,16 +276,14 @@ export function ImportDialog({
                         ) : matched.disposition === "ambiguous" ? (
                           <span className="import-dialog__candidates">
                             {matched.candidates.map((candidate) => (
-                              <button
-                                className="editor-button"
+                              <Button
                                 key={candidate.key}
                                 onClick={() =>
                                   chooseCandidate(index, candidate)
                                 }
-                                type="button"
                               >
                                 {candidate.name} · {candidate.country?.name}
-                              </button>
+                              </Button>
                             ))}
                           </span>
                         ) : (
@@ -313,33 +300,19 @@ export function ImportDialog({
             </div>
           ) : null}
           <div className="import-dialog__actions">
-            <button
-              className="editor-button editor-button--primary"
-              onClick={handleApply}
-              type="button"
-            >
+            <Button onClick={handleApply} variant="primary">
               <Check aria-hidden="true" />
               {t("import.apply")}
-            </button>
-            <button
-              className="editor-button"
-              onClick={() => setStage("input")}
-              type="button"
-            >
+            </Button>
+            <Button onClick={() => setStage("input")}>
               <ArrowLeft aria-hidden="true" />
               {t("common:action.back")}
-            </button>
+            </Button>
             <output className="editor-form__message">{message}</output>
           </div>
         </>
       ) : null}
-      <footer className="import-dialog__footer">
-        <button className="editor-button" onClick={onClose} type="button">
-          <X aria-hidden="true" />
-          {t("editorForm.cancel")}
-        </button>
-      </footer>
-    </dialog>
+    </Dialog>
   );
 }
 

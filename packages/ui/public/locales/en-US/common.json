@@ -10,7 +10,8 @@
   },
   "nav": {
     "trips": "Trips",
-    "places": "Places"
+    "places": "Places",
+    "label": "Main navigation"
   },
   "map": {
     "zoomIn": "Zoom in",
@@ -29,5 +30,10 @@
     "dayTrip": "Day trip"
   },
   "tripCount_one": "{{count}} trip",
-  "tripCount_other": "{{count}} trips"
+  "tripCount_other": "{{count}} trips",
+  "theme": {
+    "switchToLight": "Switch to light mode",
+    "switchToDark": "Switch to dark mode"
+  },
+  "language": "Change language"
 }

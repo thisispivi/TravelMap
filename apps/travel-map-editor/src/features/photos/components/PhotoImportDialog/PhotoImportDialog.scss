@@ -1,16 +1,6 @@
 @use "variables" as v;
-@use "mixins" as m;
 
 .photo-import-dialog {
-  @include m.dialog(46rem);
-  gap: 0.75rem;
-  padding: 1.1rem;
-
-  &__title {
-    font-size: v.$headingMd;
-    font-weight: 600;
-  }
-
   &__summary {
     display: flex;
     flex-direction: column;
@@ -59,14 +49,6 @@
     height: 0.0625rem;
     overflow: hidden;
     clip-path: inset(50%);
-  }
-
-  &__footer {
-    display: flex;
-    align-items: center;
-    margin: 0.25rem -1.1rem -1.1rem;
-    padding: 0.9rem 1.1rem;
-    border-top: 0.0625rem solid;
   }
 
   .photo-import-dialog__footer {

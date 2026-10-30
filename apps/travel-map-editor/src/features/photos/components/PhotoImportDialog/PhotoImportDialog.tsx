@@ -1,10 +1,12 @@
 import "./PhotoImportDialog.scss";
 
 import type { Image } from "@travelmap/core";
+import { Button } from "@travelmap/ui/components/Button/Button";
+import { Dialog } from "@travelmap/ui/components/Dialog/Dialog";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { classNames } from "@travelmap/ui/lib/classNames";
 import { Check, FileUp, X } from "lucide-react";
-import { ChangeEvent, ReactNode, useEffect, useRef, useState } from "react";
+import { ChangeEvent, ReactNode, useState } from "react";
 
 import type { DatasetSnapshot } from "../../../../data/store";
 import { applyWrites } from "../../../../data/store";
@@ -39,16 +41,11 @@ export function PhotoImportDialog({
   visit,
 }: PhotoImportDialogProps): ReactNode {
   const { t } = useLanguage(["editor"]);
-  const dialogRef = useRef<HTMLDialogElement>(null);
   const [text, setText] = useState("");
   const [parsed, setParsed] = useState<ParsedPhotoManifest | null>(null);
   const [images, setImages] = useState<Image[]>([]);
   const [stage, setStage] = useState<Stage>("input");
   const [message, setMessage] = useState("");
-
-  useEffect(() => {
-    dialogRef.current?.showModal();
-  }, []);
 
   const path = manifestPathForVisit(dataset, visit);
   const existing = dataset.photos.find((file) => file.path === path);
@@ -143,14 +140,18 @@ export function PhotoImportDialog({
   }
 
   return (
-    <dialog
-      aria-label={t("photoImport.title")}
+    <Dialog
+      actions={
+        <Button onClick={onClose}>
+          <X aria-hidden="true" />
+          {stage === "done" ? t("common:action.close") : t("editorForm.cancel")}
+        </Button>
+      }
       className="photo-import-dialog"
-      onCancel={onClose}
       onClose={onClose}
-      ref={dialogRef}
+      size="large"
+      title={t("photoImport.title")}
     >
-      <h2 className="photo-import-dialog__title">{t("photoImport.title")}</h2>
       {stage === "input" ? (
         <>
           <p className="editor-panel__hint">{t("photoImport.hint")}</p>
@@ -166,7 +167,7 @@ export function PhotoImportDialog({
             />
           </label>
           <div className="photo-import-dialog__actions">
-            <label className="editor-button photo-import-dialog__file-button">
+            <label className="button button--neutral photo-import-dialog__file-button">
               <FileUp aria-hidden="true" />
               {t("photoImport.chooseFile")}
               <input
@@ -176,15 +177,14 @@ export function PhotoImportDialog({
                 type="file"
               />
             </label>
-            <button
-              className="editor-button editor-button--primary"
+            <Button
               disabled={!text.trim()}
               onClick={handleReview}
-              type="button"
+              variant="primary"
             >
               <Check aria-hidden="true" />
               {t("photoImport.review")}
-            </button>
+            </Button>
           </div>
         </>
       ) : null}
@@ -256,22 +256,17 @@ export function PhotoImportDialog({
             </div>
           ) : null}
           <div className="photo-import-dialog__actions">
-            <button
-              className="editor-button editor-button--primary"
+            <Button
               disabled={hasErrors || hasMissingVideoId || images.length === 0}
               onClick={handleApply}
-              type="button"
+              variant="primary"
             >
               <Check aria-hidden="true" />
               {existing ? t("photoImport.replace") : t("photoImport.import")}
-            </button>
-            <button
-              className="editor-button"
-              onClick={() => setStage("input")}
-              type="button"
-            >
+            </Button>
+            <Button onClick={() => setStage("input")}>
               {t("common:action.back")}
-            </button>
+            </Button>
           </div>
         </>
       ) : null}
@@ -281,13 +276,7 @@ export function PhotoImportDialog({
         </p>
       ) : null}
       <output className="editor-form__message">{message}</output>
-      <footer className="photo-import-dialog__footer">
-        <button className="editor-button" onClick={onClose} type="button">
-          <X aria-hidden="true" />
-          {stage === "done" ? t("common:action.close") : t("editorForm.cancel")}
-        </button>
-      </footer>
-    </dialog>
+    </Dialog>
   );
 }
 

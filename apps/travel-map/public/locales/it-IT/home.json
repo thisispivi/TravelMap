@@ -47,7 +47,6 @@
     }
   },
   "nav": {
-    "label": "Navigazione principale",
     "gallery": "Galleria",
     "timeline": "Timeline",
     "stats": "Statistiche",
@@ -55,8 +54,6 @@
     "places": "Luoghi"
   },
   "goHome": "Mostra tutta la mappa",
-  "theme": "Passa tra tema chiaro e scuro",
-  "language": "Cambia lingua",
   "sheet": {
     "expand": "Espandi pannello",
     "collapse": "Riduci pannello",

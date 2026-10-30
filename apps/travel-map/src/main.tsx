@@ -3,6 +3,7 @@ import "@travelmap/ui/styles/_typography.scss";
 import "@travelmap/ui/styles/_scrollbar.scss";
 import "@travelmap/ui/map/lib/mapRuntime";
 
+import { Loading } from "@travelmap/ui/components/Loading/Loading";
 import {
   applyTheme,
   readInitialDarkTheme,
@@ -14,7 +15,6 @@ import { createRoot } from "react-dom/client";
 import { RouterProvider } from "react-router";
 
 import { router } from "./app/routing/router";
-import { Loading } from "./shared/components/Loading/Loading";
 
 /* Applied before the first render so a dark-theme reader never sees a light flash. */
 applyTheme(readInitialDarkTheme());

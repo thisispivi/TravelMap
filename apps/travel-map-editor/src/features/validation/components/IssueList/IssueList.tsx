@@ -1,6 +1,7 @@
 import "./IssueList.scss";
 
 import { Issue } from "@travelmap/core";
+import { Button } from "@travelmap/ui/components/Button/Button";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { classNames } from "@travelmap/ui/lib/classNames";
 import { CircleAlert, Sparkles, TriangleAlert } from "lucide-react";
@@ -81,16 +82,15 @@ export function IssueList({ issues, onApplyFix }: IssueListProps): ReactNode {
             )}
           </span>
           {issue.fix ? (
-            <button
-              className="editor-button issue-list__fix"
+            <Button
+              className="issue-list__fix"
               onClick={() => (issue.fix ? onApplyFix(issue.fix) : undefined)}
-              type="button"
             >
               {t(`issueFix.${issue.code}`, {
                 ...issue.params,
                 defaultValue: issue.fix.label,
               })}
-            </button>
+            </Button>
           ) : null}
         </li>
       ))}

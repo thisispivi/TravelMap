@@ -1,0 +1,67 @@
+@use "variables" as v;
+@use "mixins" as m;
+
+/*
+ * A native `<dialog>` in the top layer, so its blur reaches the map behind
+ * it. Its actions sit on a card strip across its foot.
+ */
+.dialog {
+  @include m.panel();
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-height: calc(100vh - 2rem);
+  margin: auto;
+  padding: 1.1rem;
+  border-radius: v.$radiusXl;
+  overflow-y: auto;
+  color: v.$ink;
+
+  &::backdrop {
+    background: rgb(0 0 0 / 40%);
+  }
+
+  &--small {
+    width: min(28rem, 92vw);
+  }
+
+  &--medium {
+    width: min(36rem, 92vw);
+  }
+
+  &--large {
+    width: min(52rem, 92vw);
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+
+    svg {
+      width: 1.375rem;
+      height: 1.375rem;
+      flex-shrink: 0;
+      color: v.$transportCar;
+    }
+  }
+
+  &__title {
+    margin: 0;
+    font-size: v.$headingMd;
+    font-weight: 600;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin: 0.25rem -1.1rem -1.1rem;
+    padding: 0.9rem 1.1rem;
+    border-top: 0.0625rem solid v.$line;
+    background: v.$card;
+  }
+}

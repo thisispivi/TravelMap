@@ -1,18 +1,17 @@
 import "./Combobox.scss";
 
+import {
+  MenuPosition,
+  useAnchoredMenu,
+} from "@travelmap/ui/hooks/useAnchoredMenu";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { classNames } from "@travelmap/ui/lib/classNames";
+import { menuVariants } from "@travelmap/ui/lib/motion";
 import { useCombobox, useMultipleSelection } from "downshift";
 import { domAnimation, LazyMotion, m } from "framer-motion";
 import Fuse, { IFuseOptions } from "fuse.js";
 import { ReactNode, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-
-import {
-  ANCHORED_PANEL_VARIANTS,
-  MenuPosition,
-  useAnchoredMenu,
-} from "../../hooks/anchoredMenu";
 
 /**
  * One choice in a combobox.
@@ -166,7 +165,7 @@ function ComboboxMenu({
               }
             : undefined
         }
-        variants={ANCHORED_PANEL_VARIANTS}
+        variants={menuVariants}
         {...menuProps}
       >
         {isShown ? children : null}

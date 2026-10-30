@@ -1,7 +1,9 @@
 import "./GalleryIndex.scss";
 
 import { CoverImage } from "@travelmap/ui/components/CoverImage/CoverImage";
+import { EmptyState } from "@travelmap/ui/components/EmptyState/EmptyState";
 import { PanelFrame } from "@travelmap/ui/components/PanelFrame/PanelFrame";
+import { PanelHeader } from "@travelmap/ui/components/PanelHeader/PanelHeader";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { formatDateRangeShort } from "@travelmap/ui/i18n/date";
 import { staggerItem, staggerList } from "@travelmap/ui/lib/motion";
@@ -11,8 +13,6 @@ import { ReactNode } from "react";
 import { useNavigate } from "react-router";
 
 import { tripAlbums } from "@/data/albums";
-import { EmptyState } from "@/shared/components/EmptyState/EmptyState";
-import { PageHeader } from "@/shared/components/PageHeader/PageHeader";
 
 const totalPhotos = tripAlbums.reduce((sum, { album }) => sum + album.count, 0);
 
@@ -30,11 +30,12 @@ export function GalleryIndex(): ReactNode {
   return (
     <PanelFrame
       header={
-        <PageHeader
+        <PanelHeader
           subtitle={t("gallery.summary", {
             photos: totalPhotos.toLocaleString(currLanguage),
             trips: tripAlbums.length,
           })}
+          surface="page"
           title={t("gallery.title")}
         />
       }

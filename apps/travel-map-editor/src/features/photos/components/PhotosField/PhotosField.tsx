@@ -1,6 +1,7 @@
 import "./PhotosField.scss";
 
 import { PhotoRange } from "@travelmap/core";
+import { Button } from "@travelmap/ui/components/Button/Button";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { Images, Upload } from "lucide-react";
 import { ReactNode, useState } from "react";
@@ -81,25 +82,24 @@ export function PhotosField({
         }))}
         value={photoPath ?? ""}
       />
-      <button
-        className="editor-button editor-button--primary photos-field__action"
+      <Button
+        className="photos-field__action"
         disabled={!canAttach}
         onClick={() => setIsUploading(true)}
-        type="button"
+        variant="primary"
       >
         <Upload aria-hidden="true" />
         {t("upload.open")}
-      </button>
-      <button
-        className="editor-button photos-field__action"
+      </Button>
+      <Button
+        className="photos-field__action"
         disabled={!canAttach}
         onClick={() => setIsImporting(true)}
         title={t("photoImport.title")}
-        type="button"
       >
         <Images aria-hidden="true" />
         {t("photoImport.open")}
-      </button>
+      </Button>
       {photoPath ? (
         <div className="photos-field__range">
           <NumberField

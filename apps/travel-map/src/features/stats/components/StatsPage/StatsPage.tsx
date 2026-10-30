@@ -2,7 +2,9 @@ import "./StatsPage.scss";
 
 import { Continent, Ferry, Flight } from "@travelmap/core";
 import { CountryFlag } from "@travelmap/ui/components/CountryFlag/CountryFlag";
+import { EmptyState } from "@travelmap/ui/components/EmptyState/EmptyState";
 import { PanelFrame } from "@travelmap/ui/components/PanelFrame/PanelFrame";
+import { PanelHeader } from "@travelmap/ui/components/PanelHeader/PanelHeader";
 import { TransportModeIcon } from "@travelmap/ui/components/TransportModeIcon/TransportModeIcon";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { formatDuration, formatMileage } from "@travelmap/ui/i18n/format";
@@ -33,8 +35,6 @@ import ContinentsMap from "@/assets/icons/Continents.svg?react";
 import EarthFlat from "@/assets/icons/EarthFlat.svg?react";
 import MoonFlat from "@/assets/icons/MoonFlat.svg?react";
 import { resolveCompany } from "@/data/companies";
-import { EmptyState } from "@/shared/components/EmptyState/EmptyState";
-import { PageHeader } from "@/shared/components/PageHeader/PageHeader";
 import { CONTINENT_COLORS } from "@/shared/lib/continentColors";
 
 import { getCurrencyDisplay } from "../../lib/countries";
@@ -682,7 +682,9 @@ export function StatsPage(): ReactNode {
 
   if (stats.trips === 0)
     return (
-      <PanelFrame header={<PageHeader title={t("stats.title")} />}>
+      <PanelFrame
+        header={<PanelHeader surface="page" title={t("stats.title")} />}
+      >
         <div className="stats-page">
           <EmptyState message={t("stats.empty")} />
         </div>
@@ -690,7 +692,9 @@ export function StatsPage(): ReactNode {
     );
 
   return (
-    <PanelFrame header={<PageHeader title={t("stats.title")} />}>
+    <PanelFrame
+      header={<PanelHeader surface="page" title={t("stats.title")} />}
+    >
       <div className="stats-page">
         <div className="stats-page__bento">
           <Figure

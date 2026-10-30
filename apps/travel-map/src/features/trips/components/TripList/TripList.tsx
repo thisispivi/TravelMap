@@ -3,7 +3,9 @@ import "./TripList.scss";
 import { Trip } from "@travelmap/core";
 import { CountryFlag } from "@travelmap/ui/components/CountryFlag/CountryFlag";
 import { CoverImage } from "@travelmap/ui/components/CoverImage/CoverImage";
+import { EmptyState } from "@travelmap/ui/components/EmptyState/EmptyState";
 import { PanelFrame } from "@travelmap/ui/components/PanelFrame/PanelFrame";
+import { PanelHeader } from "@travelmap/ui/components/PanelHeader/PanelHeader";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { formatDateRangeShort } from "@travelmap/ui/i18n/date";
 import { easeOut, staggerItem } from "@travelmap/ui/lib/motion";
@@ -11,7 +13,6 @@ import { AnimatePresence, m, Variants } from "framer-motion";
 import { ReactNode, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 
-import { EmptyState } from "@/shared/components/EmptyState/EmptyState";
 import { YearPills } from "@/shared/components/YearPills/YearPills";
 import { useMapInteraction } from "@/shared/context/MapInteraction.context";
 
@@ -162,13 +163,10 @@ export function TripList(): ReactNode {
     <PanelFrame
       bodyRef={bodyRef}
       header={
-        <header className="trip-list__header">
-          <div className="trip-list__heading">
-            <h2>{t("trips.title")}</h2>
-            <p className="trip-list__summary">
-              {t("common:tripCount", { count: browsableTrips.length })}
-            </p>
-          </div>
+        <PanelHeader
+          subtitle={t("common:tripCount", { count: browsableTrips.length })}
+          title={t("trips.title")}
+        >
           {current ? (
             <YearPills
               id="trips"
@@ -187,7 +185,7 @@ export function TripList(): ReactNode {
               }))}
             />
           ) : null}
-        </header>
+        </PanelHeader>
       }
     >
       {!current ? <EmptyState message={t("trips.empty")} /> : null}

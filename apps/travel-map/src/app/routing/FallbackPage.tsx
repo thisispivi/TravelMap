@@ -1,11 +1,11 @@
 import "./FallbackPage.scss";
 
+import { Button } from "@travelmap/ui/components/Button/Button";
 import { getWithExpiry, setWithExpiry } from "@travelmap/ui/lib/storage";
 import { ReactNode, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { isRouteErrorResponse, useNavigate, useRouteError } from "react-router";
 
-import { Button } from "@/shared/components/Button/Button";
 import { useResponsive } from "@/shared/hooks/useResponsive";
 
 /*

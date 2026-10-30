@@ -1,8 +1,11 @@
 import "./PlacesIndex.scss";
 
+import { Button } from "@travelmap/ui/components/Button/Button";
 import { CountryFlag } from "@travelmap/ui/components/CountryFlag/CountryFlag";
 import { CoverImage } from "@travelmap/ui/components/CoverImage/CoverImage";
+import { EmptyState } from "@travelmap/ui/components/EmptyState/EmptyState";
 import { PanelFrame } from "@travelmap/ui/components/PanelFrame/PanelFrame";
+import { PanelHeader } from "@travelmap/ui/components/PanelHeader/PanelHeader";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { classNames } from "@travelmap/ui/lib/classNames";
 import { ChevronRight, MapPinPlus } from "lucide-react";
@@ -62,35 +65,30 @@ export function PlacesIndex(): ReactNode {
   return (
     <PanelFrame
       header={
-        <header className="places-index__header">
-          <div className="places-index__heading">
-            <h2>{t("common:nav.places")}</h2>
-            <p className="places-index__summary">
-              {t("library.placesCount", {
-                cities: dataset.cities.length,
-                countries: dataset.countries.length,
-              })}
-            </p>
-          </div>
-          <button
-            className="editor-button editor-button--primary"
-            onClick={() => setNewPlaceAt(null)}
-            type="button"
-          >
-            <MapPinPlus aria-hidden="true" />
-            {t("places.add")}
-          </button>
+        <PanelHeader
+          action={
+            <Button onClick={() => setNewPlaceAt(null)} variant="primary">
+              <MapPinPlus aria-hidden="true" />
+              {t("places.add")}
+            </Button>
+          }
+          subtitle={t("library.placesCount", {
+            cities: dataset.cities.length,
+            countries: dataset.countries.length,
+          })}
+          title={t("common:nav.places")}
+        >
           <SearchField
             label={t("library.searchCities")}
             onChange={setQuery}
             value={query}
           />
-        </header>
+        </PanelHeader>
       }
     >
       <div className="places-index">
         {groups.length === 0 ? (
-          <p className="places-index__empty">{t("library.noMatches")}</p>
+          <EmptyState message={t("library.noMatches")} />
         ) : (
           groups.map(({ countryId, name, cities }) => (
             <section className="places-index__country" key={countryId}>

@@ -1,6 +1,7 @@
 import "./SettingsScreen.scss";
 
 import { SiteConfig } from "@travelmap/core";
+import { Button } from "@travelmap/ui/components/Button/Button";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { Plus, Trash2 } from "lucide-react";
 import { ReactNode, useState } from "react";
@@ -202,10 +203,10 @@ export function SettingsScreen({ file }: SettingsScreenProps): ReactNode {
             placeholder="it-IT"
             value={newLocale}
           />
-          <button className="editor-button" onClick={addLocale} type="button">
+          <Button onClick={addLocale}>
             <Plus aria-hidden="true" />
             {t("configScreen.add")}
-          </button>
+          </Button>
         </div>
       </section>
       <section className="editor-panel">

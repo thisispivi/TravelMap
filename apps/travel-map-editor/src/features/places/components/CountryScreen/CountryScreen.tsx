@@ -1,6 +1,7 @@
 import "./CountryScreen.scss";
 
 import { CountryJson } from "@travelmap/core";
+import { Button } from "@travelmap/ui/components/Button/Button";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { ReactNode, useState } from "react";
 import { useNavigate } from "react-router";
@@ -158,13 +159,9 @@ export function CountryScreen({ file }: CountryScreenProps): ReactNode {
             </p>
             {isStale ? (
               <div className="country-screen__actions">
-                <button
-                  className="editor-button editor-button--primary"
-                  onClick={refreshFromWorld}
-                  type="button"
-                >
+                <Button onClick={refreshFromWorld} variant="primary">
                   {t("countryScreen.restoreFromWorldData")}
-                </button>
+                </Button>
               </div>
             ) : null}
           </>

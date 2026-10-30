@@ -9,25 +9,13 @@
   padding: 0 v.$space4 v.$space5;
   list-style: none;
 
-  &__header {
-    display: flex;
-    flex-direction: column;
-    gap: v.$space3;
-    padding: v.$space3 v.$space4;
-  }
-
-  &__summary {
-    color: v.$ink3;
-    font-size: v.$bodySm;
-  }
-
   &__add {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: start;
     gap: v.$space2;
 
-    .editor-button {
+    .button {
       margin-top: 1.4rem;
     }
   }
@@ -116,20 +104,5 @@
 
   &__remove {
     align-self: flex-start;
-  }
-
-  &__empty {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: v.$space2;
-    padding: v.$space6 v.$space4;
-    color: v.$ink3;
-    text-align: center;
-
-    svg {
-      width: 2rem;
-      height: 2rem;
-    }
   }
 }

@@ -1,15 +1,13 @@
 import "./DatePicker.scss";
 
+import { Button } from "@travelmap/ui/components/Button/Button";
+import { useAnchoredMenu } from "@travelmap/ui/hooks/useAnchoredMenu";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { classNames } from "@travelmap/ui/lib/classNames";
+import { menuVariants } from "@travelmap/ui/lib/motion";
 import { AnimatePresence, domAnimation, LazyMotion, m } from "framer-motion";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-
-import {
-  ANCHORED_PANEL_VARIANTS,
-  useAnchoredMenu,
-} from "../../hooks/anchoredMenu";
 
 const WEEKDAY_COUNT = 7;
 const CALENDAR_CELLS = 42;
@@ -259,7 +257,7 @@ export function DatePicker({
                       : undefined,
                   width: position.width,
                 }}
-                variants={ANCHORED_PANEL_VARIANTS}
+                variants={menuVariants}
               >
                 <div className="date-picker__header">
                   <button
@@ -314,17 +312,16 @@ export function DatePicker({
                   })}
                 </div>
                 <div className="date-picker__footer">
-                  <button
-                    className="editor-button date-picker__today"
+                  <Button
+                    className="date-picker__today"
                     onClick={() => {
                       emit(today, timePart);
                       setMonth(new Date());
                       setIsOpen(false);
                     }}
-                    type="button"
                   >
                     {t("datePicker.today")}
-                  </button>
+                  </Button>
                   {withTime ? (
                     <label className="date-picker__time">
                       <span>{t("datePicker.time")}</span>

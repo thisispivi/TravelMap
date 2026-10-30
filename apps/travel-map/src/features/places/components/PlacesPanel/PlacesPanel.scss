@@ -3,22 +3,8 @@
 
 /* Same insets as the trip list, so switching tabs keeps the title in place. */
 .places-panel {
-  &__top {
-    padding: v.$space2 v.$space3 0;
-  }
-
-  &__header {
-    padding: 0 v.$space2 v.$space3;
-  }
-
   &__body {
     padding: 0 v.$space3 v.$space5;
-  }
-
-  &__summary {
-    color: v.$ink3;
-    font-size: v.$bodySm;
-    @include m.figure();
   }
 
   &__filters {

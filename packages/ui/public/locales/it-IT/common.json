@@ -10,7 +10,8 @@
   },
   "nav": {
     "trips": "Viaggi",
-    "places": "Luoghi"
+    "places": "Luoghi",
+    "label": "Navigazione principale"
   },
   "map": {
     "zoomIn": "Aumenta lo zoom",
@@ -29,5 +30,10 @@
     "dayTrip": "Gita in giornata"
   },
   "tripCount_one": "{{count}} viaggio",
-  "tripCount_other": "{{count}} viaggi"
+  "tripCount_other": "{{count}} viaggi",
+  "theme": {
+    "switchToLight": "Passa alla modalità chiara",
+    "switchToDark": "Passa alla modalità scura"
+  },
+  "language": "Cambia lingua"
 }

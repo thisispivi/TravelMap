@@ -8,6 +8,7 @@ import {
   TransportModeSchema,
   TripLegJson,
 } from "@travelmap/core";
+import { Button } from "@travelmap/ui/components/Button/Button";
 import { TransportModeIcon } from "@travelmap/ui/components/TransportModeIcon/TransportModeIcon";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { formatDuration } from "@travelmap/ui/i18n/format";
@@ -371,8 +372,8 @@ export function LegEditor({
               value={leg.ferry?.company ?? ""}
             />
           ) : null}
-          <button
-            className="editor-button editor-button--danger leg-editor__remove"
+          <Button
+            className="leg-editor__remove"
             onClick={() =>
               confirm({
                 confirmLabel: t("confirm.removeRide.action"),
@@ -385,11 +386,11 @@ export function LegEditor({
                 }),
               })
             }
-            type="button"
+            variant="danger"
           >
             <Trash2 aria-hidden="true" />
             {t("story.removeRide")}
-          </button>
+          </Button>
         </div>
       ) : null}
     </li>

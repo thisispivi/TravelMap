@@ -20,6 +20,13 @@ export const easeOut: Transition = {
   ease: [0.22, 1, 0.36, 1],
 };
 
+/** How a menu or popover appears beside its trigger, and leaves. */
+export const menuVariants: Variants = {
+  initial: { opacity: 0, scale: 0.96, y: -4 },
+  animate: { opacity: 1, scale: 1, transition: easeOut, y: 0 },
+  exit: { opacity: 0, scale: 0.96, transition: easeOut, y: -4 },
+};
+
 /** A list whose children reveal one after another. */
 export const staggerList: Variants = {
   hidden: {},

@@ -1,16 +1,11 @@
 import "./UploadPanel.scss";
 
+import { Button } from "@travelmap/ui/components/Button/Button";
+import { Dialog } from "@travelmap/ui/components/Dialog/Dialog";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { classNames } from "@travelmap/ui/lib/classNames";
 import { CloudUpload, HardDrive, Upload, X } from "lucide-react";
-import {
-  ChangeEvent,
-  DragEvent,
-  ReactNode,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { ChangeEvent, DragEvent, ReactNode, useEffect, useState } from "react";
 
 import { applyWrites, DatasetSnapshot } from "../../../../data/store";
 import { snapshotBeforeChange } from "../../../backup/lib/snapshots";
@@ -63,7 +58,6 @@ export function UploadPanel({
   onClose,
 }: UploadPanelProps): ReactNode {
   const { t } = useLanguage(["editor"]);
-  const dialogRef = useRef<HTMLDialogElement>(null);
   const [config, setConfig] = useState<MediaConfig | null>(null);
   const [target, setTarget] = useState<"local" | "bunny">("local");
   const [items, setItems] = useState<UploadItem[]>([]);
@@ -71,7 +65,6 @@ export function UploadPanel({
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    dialogRef.current?.showModal();
     fetchMediaConfig()
       .then((next) => {
         setConfig(next);
@@ -213,14 +206,27 @@ export function UploadPanel({
   }
 
   return (
-    <dialog
-      aria-label={t("upload.title")}
+    <Dialog
+      actions={
+        <>
+          <output className="upload-panel__message">
+            {message ||
+              (items.length > 0
+                ? t("upload.summary", { done, total: items.length })
+                : "")}
+          </output>
+          <Button disabled={isBusy} onClick={onClose}>
+            <X aria-hidden="true" />
+            {t("common:action.close")}
+          </Button>
+        </>
+      }
+      canClose={!isBusy}
       className="upload-panel"
-      onCancel={(event) => (isBusy ? event.preventDefault() : onClose())}
       onClose={onClose}
-      ref={dialogRef}
+      size="medium"
+      title={t("upload.title")}
     >
-      <h2 className="upload-panel__title">{t("upload.title")}</h2>
       <fieldset className="upload-panel__targets" disabled={isBusy}>
         <legend className="editor-field__label">{t("upload.where")}</legend>
         <label
@@ -314,37 +320,14 @@ export function UploadPanel({
                       })}
               </span>
               {item.status === "failed" ? (
-                <button
-                  className="editor-button"
-                  disabled={isBusy}
-                  onClick={() => void runQueue([item])}
-                  type="button"
-                >
+                <Button disabled={isBusy} onClick={() => void runQueue([item])}>
                   {t("upload.retry")}
-                </button>
+                </Button>
               ) : null}
             </li>
           ))}
         </ul>
       ) : null}
-
-      <footer className="upload-panel__footer">
-        <output className="upload-panel__message">
-          {message ||
-            (items.length > 0
-              ? t("upload.summary", { done, total: items.length })
-              : "")}
-        </output>
-        <button
-          className="editor-button"
-          disabled={isBusy}
-          onClick={onClose}
-          type="button"
-        >
-          <X aria-hidden="true" />
-          {t("common:action.close")}
-        </button>
-      </footer>
-    </dialog>
+    </Dialog>
   );
 }

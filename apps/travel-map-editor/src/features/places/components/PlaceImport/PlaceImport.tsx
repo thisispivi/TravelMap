@@ -1,6 +1,7 @@
 import "./PlaceImport.scss";
 
 import PositionIcon from "@travelmap/ui/assets/icons/Position.svg?react";
+import { Button } from "@travelmap/ui/components/Button/Button";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { ReactNode, useId, useState } from "react";
 import { z } from "zod";
@@ -87,14 +88,13 @@ export function PlaceImport({ onImport }: PlaceImportProps): ReactNode {
             type="text"
             value={link}
           />
-          <button
-            className="editor-button editor-button--primary"
+          <Button
             disabled={!link.trim() || isResolving}
             onClick={() => void handleImport()}
-            type="button"
+            variant="primary"
           >
             {isResolving ? t("placeImport.resolving") : t("placeImport.use")}
-          </button>
+          </Button>
         </div>
       </div>
       {parsed ? (

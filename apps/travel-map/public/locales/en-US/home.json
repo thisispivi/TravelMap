@@ -47,7 +47,6 @@
     }
   },
   "nav": {
-    "label": "Main navigation",
     "gallery": "Gallery",
     "timeline": "Timeline",
     "stats": "Stats",
@@ -55,8 +54,6 @@
     "places": "Places"
   },
   "goHome": "Show the whole map",
-  "theme": "Switch between light and dark",
-  "language": "Change language",
   "sheet": {
     "expand": "Expand panel",
     "collapse": "Collapse panel",

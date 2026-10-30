@@ -7,6 +7,7 @@ import {
   TripLegJson,
   TripStayJson,
 } from "@travelmap/core";
+import { Button } from "@travelmap/ui/components/Button/Button";
 import { CountryFlag } from "@travelmap/ui/components/CountryFlag/CountryFlag";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { MapPinPlus, Route, Trash2, X } from "lucide-react";
@@ -127,9 +128,9 @@ export function StayCard({
         <>
           {/* Beside its button, since the body that would hold it only exists while the stay is open. */}
           {confirmDialog}
-          <button
+          <Button
             aria-label={t("story.removeStay", { city })}
-            className="editor-button stay-card__remove"
+            className="stay-card__remove"
             onClick={() =>
               confirm({
                 confirmLabel: t("confirm.removeStay.action"),
@@ -139,10 +140,9 @@ export function StayCard({
                 title: t("confirm.removeStay.title", { city }),
               })
             }
-            type="button"
           >
             <Trash2 aria-hidden="true" />
-          </button>
+          </Button>
         </>
       }
       eyebrow={t("common:stay.nightsCount", { count: nights })}
@@ -265,9 +265,9 @@ export function StayCard({
               value={outing.date}
               withTime={false}
             />
-            <button
+            <Button
               aria-label={t("story.removeDayTrip")}
-              className="editor-button stay-card__remove"
+              className="stay-card__remove"
               onClick={() =>
                 confirm({
                   confirmLabel: t("confirm.removeDayTrip.action"),
@@ -279,10 +279,9 @@ export function StayCard({
                   }),
                 })
               }
-              type="button"
             >
               <X aria-hidden="true" />
-            </button>
+            </Button>
           </div>
           <ol className="stay-card__legs">
             {outing.legs.map((leg, legIndex) => (
@@ -329,25 +328,20 @@ export function StayCard({
               />
             ))}
           </ol>
-          <button
-            className="editor-button stay-card__add"
+          <Button
+            className="stay-card__add"
             onClick={() => onAddPlace(outingIndex)}
-            type="button"
           >
             <MapPinPlus aria-hidden="true" />
             {t("story.addPlaceToDayTrip")}
-          </button>
+          </Button>
         </div>
       ))}
 
-      <button
-        className="editor-button stay-card__add"
-        onClick={onAddDayTrip}
-        type="button"
-      >
+      <Button className="stay-card__add" onClick={onAddDayTrip}>
         <Route aria-hidden="true" />
         {t("story.addDayTrip", { city })}
-      </button>
+      </Button>
     </StoryChapter>
   );
 }

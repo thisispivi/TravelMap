@@ -1,5 +1,6 @@
 import "./SaveChip.scss";
 
+import { Button } from "@travelmap/ui/components/Button/Button";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { classNames } from "@travelmap/ui/lib/classNames";
 import { Check, CircleAlert, LoaderCircle } from "lucide-react";
@@ -33,9 +34,7 @@ export function SaveChip({
           <CircleAlert aria-hidden="true" />
           {error ?? t("save.failed")}
         </span>
-        <button className="editor-button" onClick={onRetry} type="button">
-          {t("save.retry")}
-        </button>
+        <Button onClick={onRetry}>{t("save.retry")}</Button>
       </span>
     );
   return (

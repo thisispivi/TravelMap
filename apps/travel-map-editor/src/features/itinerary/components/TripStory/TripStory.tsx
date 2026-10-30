@@ -7,6 +7,7 @@ import {
   TripMoveJson,
   worstSeverity,
 } from "@travelmap/core";
+import { Button } from "@travelmap/ui/components/Button/Button";
 import { TransportModeIcon } from "@travelmap/ui/components/TransportModeIcon/TransportModeIcon";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import {
@@ -104,13 +105,9 @@ function TripDetails({ trip, onChange }: TripDetailsProps): ReactNode {
           value={trip.coverImage ?? ""}
         />
         {trip.mapFocus ? (
-          <button
-            className="editor-button"
-            onClick={() => onChange({ ...trip, mapFocus: undefined })}
-            type="button"
-          >
+          <Button onClick={() => onChange({ ...trip, mapFocus: undefined })}>
             {t("story.clearMapFocus")}
-          </button>
+          </Button>
         ) : null}
       </div>
     </details>
@@ -198,9 +195,9 @@ function MoveCard({
   return (
     <StoryChapter
       action={
-        <button
+        <Button
           aria-label={t("story.removeJourney")}
-          className="editor-button trip-story__remove"
+          className="trip-story__remove"
           onClick={() =>
             confirm({
               confirmLabel: t("confirm.removeJourney.action"),
@@ -210,10 +207,9 @@ function MoveCard({
               title: t("confirm.removeJourney.title"),
             })
           }
-          type="button"
         >
           <Trash2 aria-hidden="true" />
-        </button>
+        </Button>
       }
       eyebrow={`${t(`story.chapter.${role}`)} · ${formatStoryDays(date, endDate, lang)}`}
       kind="journey"
@@ -247,14 +243,10 @@ function MoveCard({
           />
         ))}
       </ol>
-      <button
-        className="editor-button trip-story__add"
-        onClick={onAddStop}
-        type="button"
-      >
+      <Button className="trip-story__add" onClick={onAddStop}>
         <MapPinPlus aria-hidden="true" />
         {t("story.addStopOnTheWay")}
-      </button>
+      </Button>
     </StoryChapter>
   );
 }
@@ -325,35 +317,29 @@ function NextStep({
               onChange={setNights}
               value={nights}
             />
-            <button
-              className="editor-button editor-button--primary"
+            <Button
               onClick={() => onChange(stayHere(trip, nights ?? 0))}
-              type="button"
+              variant="primary"
             >
               <BedDouble aria-hidden="true" />
               {t("story.sleepHere", { city: here })}
-            </button>
+            </Button>
           </div>
         ) : null}
-        <button
-          className="editor-button editor-button--primary"
+        <Button
           onClick={() => onRequestPlace({ kind: "travel" })}
-          type="button"
+          variant="primary"
         >
           <Navigation aria-hidden="true" />
           {last?.type === "move"
             ? t("story.travelOn", { city: here })
             : t("story.travelTo", { city: here })}
-        </button>
+        </Button>
         {trip.steps.length > 0 && !isHome ? (
-          <button
-            className="editor-button"
-            onClick={onReturnHome}
-            type="button"
-          >
+          <Button onClick={onReturnHome}>
             <House aria-hidden="true" />
             {t("story.returnHome")}
-          </button>
+          </Button>
         ) : null}
       </div>
     </section>

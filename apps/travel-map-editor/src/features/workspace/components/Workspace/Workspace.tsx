@@ -8,6 +8,7 @@ import {
   tripPlaceIds,
   worstSeverity,
 } from "@travelmap/core";
+import { Button } from "@travelmap/ui/components/Button/Button";
 import { PanelFrame } from "@travelmap/ui/components/PanelFrame/PanelFrame";
 import { Popover } from "@travelmap/ui/components/Popover/Popover";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
@@ -391,20 +392,12 @@ export function Workspace({ file }: WorkspaceProps): ReactNode {
                     at: new Date(workspace.recovered.savedAt).toLocaleString(),
                   })}
                 </p>
-                <button
-                  className="editor-button editor-button--primary"
-                  onClick={workspace.restoreRecovered}
-                  type="button"
-                >
+                <Button onClick={workspace.restoreRecovered} variant="primary">
                   {t("workspace.restore")}
-                </button>
-                <button
-                  className="editor-button"
-                  onClick={workspace.discardRecovered}
-                  type="button"
-                >
+                </Button>
+                <Button onClick={workspace.discardRecovered}>
                   {t("workspace.discard")}
-                </button>
+                </Button>
               </div>
             ) : null}
           </header>

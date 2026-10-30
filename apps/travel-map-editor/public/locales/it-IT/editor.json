@@ -6,17 +6,13 @@
   },
   "nav": {
     "brandHint": "Travel Map",
-    "primary": "Navigazione principale",
     "breadcrumb": "Percorso",
     "home": "Home",
     "companies": "Compagnie",
     "settings": "Impostazioni",
     "configuration": "Configurazione",
-    "language": "Lingua",
     "english": "Inglese",
     "italian": "Italiano",
-    "switchToLight": "Passa alla modalità chiara",
-    "switchToDark": "Passa alla modalità scura",
     "trips": "Viaggi",
     "places": "Luoghi"
   },

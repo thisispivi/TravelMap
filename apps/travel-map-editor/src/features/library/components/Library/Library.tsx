@@ -1,8 +1,10 @@
 import "./Library.scss";
 
 import { CityJson, Issue, TripJson } from "@travelmap/core";
+import { Button } from "@travelmap/ui/components/Button/Button";
 import { CountryFlag } from "@travelmap/ui/components/CountryFlag/CountryFlag";
 import { PanelFrame } from "@travelmap/ui/components/PanelFrame/PanelFrame";
+import { PanelHeader } from "@travelmap/ui/components/PanelHeader/PanelHeader";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { classNames } from "@travelmap/ui/lib/classNames";
 import {
@@ -247,27 +249,22 @@ export function Library(): ReactNode {
   return (
     <PanelFrame
       header={
-        <header className="library__header">
-          <div className="library__heading">
-            <h2>{t("common:nav.trips")}</h2>
-            <p className="library__summary">
-              {t("library.tripCount", { count: matchingTrips.length })}
-            </p>
-          </div>
-          <button
-            className="editor-button editor-button--primary"
-            onClick={() => setIsCreating(true)}
-            type="button"
-          >
-            <Plus aria-hidden="true" />
-            {t("library.newTrip")}
-          </button>
+        <PanelHeader
+          action={
+            <Button onClick={() => setIsCreating(true)} variant="primary">
+              <Plus aria-hidden="true" />
+              {t("library.newTrip")}
+            </Button>
+          }
+          subtitle={t("library.tripCount", { count: matchingTrips.length })}
+          title={t("common:nav.trips")}
+        >
           <SearchField
             label={t("library.searchTrips")}
             onChange={setTripQuery}
             value={tripQuery}
           />
-        </header>
+        </PanelHeader>
       }
     >
       <div className="library">

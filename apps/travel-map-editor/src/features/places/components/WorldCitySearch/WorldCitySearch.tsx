@@ -1,28 +1,18 @@
 import "./WorldCitySearch.scss";
 
+import { useAnchoredMenu } from "@travelmap/ui/hooks/useAnchoredMenu";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { classNames } from "@travelmap/ui/lib/classNames";
+import { menuVariants } from "@travelmap/ui/lib/motion";
 import { useCombobox } from "downshift";
 import { domAnimation, LazyMotion, m } from "framer-motion";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
-import { useAnchoredMenu } from "../../../../shared/hooks/anchoredMenu";
 import { searchWorldCities, WorldCity } from "../../lib/gazetteer";
 
 const RESULT_LIMIT = 30;
 const DEBOUNCE_MS = 180;
-
-const menuVariants = {
-  initial: { opacity: 0, scale: 0.98, y: -4 },
-  animate: {
-    opacity: 1,
-    scale: 1,
-    y: 0,
-    transition: { duration: 0.14, ease: [0.4, 0, 0.2, 1] },
-  },
-  exit: { opacity: 0, scale: 0.98, y: -4, transition: { duration: 0.1 } },
-} as const;
 
 /** Compact population counts, such as `1.2M`, in the browser's locale. */
 const POPULATION_FORMAT = new Intl.NumberFormat(undefined, {

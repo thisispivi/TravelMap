@@ -2,13 +2,13 @@ import "./Map.scss";
 import "maplibre-gl/dist/maplibre-gl.css";
 
 import { City } from "@travelmap/core";
+import { Loading } from "@travelmap/ui/components/Loading/Loading";
 import { ZoomControls } from "@travelmap/ui/map/components/ZoomControls/ZoomControls";
 import { createMapStyle, readMapTheme } from "@travelmap/ui/map/lib/mapTheme";
 import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import MapGL, { type MapRef, Popup } from "react-map-gl/maplibre";
 
 import { futureCities, livedCities, visitedCities } from "@/data/world";
-import { Loading } from "@/shared/components/Loading/Loading";
 import { useAppRoute } from "@/shared/context/AppRoute.context";
 import { useMapInteraction } from "@/shared/context/MapInteraction.context";
 import { usePanel } from "@/shared/context/Panel.context";

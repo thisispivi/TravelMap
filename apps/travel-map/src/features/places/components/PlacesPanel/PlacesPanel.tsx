@@ -4,7 +4,9 @@ import { City } from "@travelmap/core";
 import { Checkbox } from "@travelmap/ui/components/Checkbox/Checkbox";
 import { CountryFlag } from "@travelmap/ui/components/CountryFlag/CountryFlag";
 import { CoverImage } from "@travelmap/ui/components/CoverImage/CoverImage";
+import { EmptyState } from "@travelmap/ui/components/EmptyState/EmptyState";
 import { PanelFrame } from "@travelmap/ui/components/PanelFrame/PanelFrame";
+import { PanelHeader } from "@travelmap/ui/components/PanelHeader/PanelHeader";
 import { Popover } from "@travelmap/ui/components/Popover/Popover";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { classNames } from "@travelmap/ui/lib/classNames";
@@ -21,7 +23,6 @@ import {
   visitedCities,
   visitedTrips,
 } from "@/data/world";
-import { EmptyState } from "@/shared/components/EmptyState/EmptyState";
 import { SegmentedControl } from "@/shared/components/SegmentedControl/SegmentedControl";
 import { PlacesFilter, useAppRoute } from "@/shared/context/AppRoute.context";
 import { useMapInteraction } from "@/shared/context/MapInteraction.context";
@@ -283,16 +284,13 @@ export function PlacesPanel(): ReactNode {
   return (
     <PanelFrame
       header={
-        <div className="places-panel__top">
-          <header className="places-panel__header">
-            <h2>{t("places.title")}</h2>
-            <p className="places-panel__summary">
-              {t("places.summary", {
-                cities: CITIES[filter].length,
-                countries: groups.length,
-              })}
-            </p>
-          </header>
+        <PanelHeader
+          subtitle={t("places.summary", {
+            cities: CITIES[filter].length,
+            countries: groups.length,
+          })}
+          title={t("places.title")}
+        >
           <div className="places-panel__filters">
             <SegmentedControl
               id="places-filter"
@@ -316,7 +314,7 @@ export function PlacesPanel(): ReactNode {
               />
             ) : null}
           </div>
-        </div>
+        </PanelHeader>
       }
     >
       <div className="places-panel__body">

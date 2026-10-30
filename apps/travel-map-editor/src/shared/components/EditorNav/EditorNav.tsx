@@ -1,14 +1,8 @@
-import "./EditorNav.scss";
-
-import LogoIcon from "@travelmap/ui/assets/icons/Logo.svg?react";
-import { LanguageMenu } from "@travelmap/ui/components/LanguageMenu/LanguageMenu";
+import { NavRail } from "@travelmap/ui/components/NavRail/NavRail";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
-import { classNames } from "@travelmap/ui/lib/classNames";
-import { panelSpring } from "@travelmap/ui/lib/motion";
-import { m } from "framer-motion";
-import { Building2, MapPinned, Moon, Route, Settings, Sun } from "lucide-react";
+import { Building2, MapPinned, Route, Settings } from "lucide-react";
 import { ReactNode } from "react";
-import { Link, useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 
 const NAV_TABS = [
   { icon: Route, id: "trips", to: "/" },
@@ -45,9 +39,8 @@ interface EditorNavProps {
 
 /**
  * EditorNav component
- * The editor's rail, the same frosted column as the site's: the logo, one
- * tab per kind of document with a highlight that slides between them, and
- * the theme and language at its foot.
+ * The editor's sections on the shared rail: one tab per kind of document,
+ * with the logo leading back to the trips.
  * @component
  * @param {EditorNavProps} props - The rail props
  * @param {boolean} props.isDarkTheme - Whether the dark theme is active
@@ -60,59 +53,23 @@ export function EditorNav({
 }: EditorNavProps): ReactNode {
   const { t } = useLanguage(["editor"]);
   const { pathname } = useLocation();
-  const activeTab = activeTabId(pathname);
+  const navigate = useNavigate();
 
   return (
-    <nav aria-label={t("nav.primary")} className="editor-nav">
-      <Link aria-label={t("nav.brandHint")} className="editor-nav__logo" to="/">
-        <LogoIcon aria-hidden="true" />
-      </Link>
-      <ul className="editor-nav__tabs">
-        {NAV_TABS.map(({ icon: Icon, id, to }) => {
-          const isActive = id === activeTab;
-          return (
-            <li key={id}>
-              <Link
-                aria-current={isActive ? "page" : undefined}
-                className={classNames(
-                  "editor-nav__tab",
-                  isActive && "editor-nav__tab--active",
-                )}
-                to={to}
-              >
-                {isActive ? (
-                  <m.span
-                    className="editor-nav__indicator"
-                    layoutId="editor-nav-indicator"
-                    transition={panelSpring}
-                  />
-                ) : null}
-                <Icon aria-hidden="true" className="editor-nav__icon" />
-                <span className="editor-nav__label">{t(`nav.${id}`)}</span>
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
-      <div className="editor-nav__tools">
-        <button
-          aria-label={t(isDarkTheme ? "nav.switchToLight" : "nav.switchToDark")}
-          className="editor-nav__tool"
-          onClick={onToggleTheme}
-          type="button"
-        >
-          {isDarkTheme ? (
-            <Sun aria-hidden="true" className="editor-nav__tool-icon" />
-          ) : (
-            <Moon aria-hidden="true" className="editor-nav__tool-icon" />
-          )}
-        </button>
-        <LanguageMenu
-          label={t("nav.language")}
-          placement="beside"
-          triggerClassName="editor-nav__tool"
-        />
-      </div>
-    </nav>
+    <NavRail
+      activeId={activeTabId(pathname)}
+      isDarkTheme={isDarkTheme}
+      items={NAV_TABS.map(({ icon, id }) => ({
+        icon,
+        id,
+        label: t(`nav.${id}`),
+      }))}
+      logoLabel={t("nav.brandHint")}
+      onLogo={() => void navigate("/")}
+      onSelect={(id) =>
+        void navigate(NAV_TABS.find((tab) => tab.id === id)?.to ?? "/")
+      }
+      onToggleTheme={onToggleTheme}
+    />
   );
 }

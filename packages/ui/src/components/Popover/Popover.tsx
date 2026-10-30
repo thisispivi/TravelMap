@@ -4,9 +4,10 @@ import { AnimatePresence, m } from "framer-motion";
 import { CSSProperties, ReactNode, RefObject, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 
+import { fitVertically } from "../../lib/anchor";
 import { classNames } from "../../lib/classNames";
 import { focusablesIn, keepTabWithin } from "../../lib/focus";
-import { easeOut } from "../../lib/motion";
+import { menuVariants } from "../../lib/motion";
 
 /** Where a popover opens: under its trigger, or beside it with bottoms aligned. */
 type PopoverPlacement = "below" | "beside";
@@ -64,19 +65,16 @@ function positionOf(
         maxHeight: `min(${MAX_HEIGHT}, ${anchor.bottom - GAP * 2}px)`,
       };
     case "below": {
-      const roomBelow = window.innerHeight - anchor.bottom - GAP * 3;
-      const roomAbove = anchor.top - GAP * 3;
-      /* Low on a phone the list would be a sliver, so it opens upwards. */
-      const vertical =
-        roomBelow < MIN_ROOM_PX && roomAbove > roomBelow
-          ? {
-              bottom: window.innerHeight - anchor.top + GAP,
-              maxHeight: `min(${MAX_HEIGHT}, ${roomAbove}px)`,
-            }
-          : {
-              maxHeight: `min(${MAX_HEIGHT}, ${roomBelow}px)`,
-              top: anchor.bottom + GAP,
-            };
+      const { opensUp, room } = fitVertically(anchor, GAP, MIN_ROOM_PX);
+      const vertical = opensUp
+        ? {
+            bottom: window.innerHeight - anchor.top + GAP,
+            maxHeight: `min(${MAX_HEIGHT}, ${room}px)`,
+          }
+        : {
+            maxHeight: `min(${MAX_HEIGHT}, ${room}px)`,
+            top: anchor.bottom + GAP,
+          };
       return anchor.left + anchor.width / 2 > window.innerWidth / 2
         ? { ...vertical, right: window.innerWidth - anchor.right }
         : { ...vertical, left: anchor.left };
@@ -197,15 +195,15 @@ export function Popover({
     <AnimatePresence>
       {anchor ? (
         <m.div
-          animate={{ opacity: 1, scale: 1, y: 0 }}
+          animate="animate"
           aria-label={label}
           className={classNames("popover", `popover--${placement}`, className)}
-          exit={{ opacity: 0, scale: 0.96, y: -4 }}
-          initial={{ opacity: 0, scale: 0.96, y: -4 }}
+          exit="exit"
+          initial="initial"
           ref={popoverRef}
           role="dialog"
           style={positionOf(anchor, placement)}
-          transition={easeOut}
+          variants={menuVariants}
         >
           {children}
         </m.div>

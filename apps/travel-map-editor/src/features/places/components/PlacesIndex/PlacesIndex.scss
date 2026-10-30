@@ -8,29 +8,6 @@
   gap: v.$space4;
   padding: 0 v.$space4 v.$space5;
 
-  &__header {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: center;
-    gap: v.$space3;
-    padding: v.$space3 v.$space4;
-
-    .search-field {
-      grid-column: 1 / -1;
-    }
-  }
-
-  &__summary {
-    color: v.$ink3;
-    font-size: v.$bodySm;
-  }
-
-  &__empty {
-    padding: v.$space5 0;
-    color: v.$ink3;
-    text-align: center;
-  }
-
   &__country-link {
     display: flex;
     align-items: center;
