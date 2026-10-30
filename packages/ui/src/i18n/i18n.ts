@@ -21,6 +21,7 @@ export function initI18n(namespaces: string[]): void {
     .init({
       ns: [...namespaces, "common"],
       defaultNS: namespaces[0],
+      fallbackNS: "common",
       debug: false,
       fallbackLng: DEFAULT_LOCALE,
       supportedLngs: [...SUPPORTED_LOCALES],

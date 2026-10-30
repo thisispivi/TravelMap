@@ -49,9 +49,7 @@
   "nav": {
     "gallery": "Galleria",
     "timeline": "Timeline",
-    "stats": "Statistiche",
-    "trips": "Viaggi",
-    "places": "Luoghi"
+    "stats": "Statistiche"
   },
   "goHome": "Mostra tutta la mappa",
   "sheet": {

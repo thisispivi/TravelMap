@@ -12,9 +12,7 @@
     "settings": "Settings",
     "configuration": "Configuration",
     "english": "English",
-    "italian": "Italian",
-    "trips": "Trips",
-    "places": "Places"
+    "italian": "Italian"
   },
   "editorForm": {
     "deleteError": "Could not delete the file.",

@@ -12,9 +12,7 @@
     "settings": "Impostazioni",
     "configuration": "Configurazione",
     "english": "Inglese",
-    "italian": "Italiano",
-    "trips": "Viaggi",
-    "places": "Luoghi"
+    "italian": "Italiano"
   },
   "editorForm": {
     "deleteError": "Non è stato possibile eliminare il file.",
