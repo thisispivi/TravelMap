@@ -45,6 +45,22 @@ describe("Dialog", () => {
     expect(cancel.defaultPrevented).toBe(true);
   });
 
+  it("opens again when a repeated Escape closes it while it cannot close", () => {
+    const onClose = vi.fn();
+    render(
+      <Dialog canClose={false} onClose={onClose} title="Uploading">
+        <p>Body</p>
+      </Dialog>,
+    );
+    const dialog = screen.getByRole<HTMLDialogElement>("dialog");
+
+    dialog.open = false;
+    fireEvent(dialog, new Event("close"));
+
+    expect(onClose).not.toHaveBeenCalled();
+    expect(dialog.open).toBe(true);
+  });
+
   it("shows its actions in a strip along its foot", () => {
     render(
       <Dialog

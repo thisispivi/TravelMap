@@ -69,7 +69,11 @@ export function Dialog({
       aria-labelledby={titleId}
       className={classNames("dialog", `dialog--${size}`, className)}
       onCancel={(event) => (canClose ? onClose() : event.preventDefault())}
-      onClose={onClose}
+      /*
+       * Chrome lets a second Escape past a prevented cancel, so a dialog that
+       * must stay open can only be opened again.
+       */
+      onClose={() => (canClose ? onClose() : dialogRef.current?.showModal())}
       ref={dialogRef}
     >
       <header className="dialog__header">

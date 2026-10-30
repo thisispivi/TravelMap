@@ -1,6 +1,10 @@
 @use "variables" as v;
 
 .confirm-dialog {
+  &__icon {
+    color: v.$transportCar;
+  }
+
   &__message {
     margin: 0;
     font-size: v.$bodySm;

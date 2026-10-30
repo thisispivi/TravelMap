@@ -73,7 +73,11 @@ function ConfirmDialog({ request, onClose }: ConfirmDialogProps): ReactNode {
           </Button>
         </>
       }
-      icon={request.isDanger ? <TriangleAlert aria-hidden="true" /> : undefined}
+      icon={
+        request.isDanger ? (
+          <TriangleAlert aria-hidden="true" className="confirm-dialog__icon" />
+        ) : undefined
+      }
       onClose={onClose}
       size="small"
       title={request.title}
