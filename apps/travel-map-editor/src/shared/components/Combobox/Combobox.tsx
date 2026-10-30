@@ -43,19 +43,19 @@ const MAX_VISIBLE_OPTIONS = 100;
 
 /**
  * Ranks options against a search term, falling back to the full list when the
- * term is empty.
- * @param {Fuse<ComboboxOption>} fuse - The prepared index
+ * term is empty. The index is built only for a search, so the many idle
+ * comboboxes on a form cost nothing.
  * @param {ComboboxOption[]} options - Every available option
  * @param {string} term - The current search term
  * @returns {ComboboxOption[]} The options to display
  */
-function search(
-  fuse: Fuse<ComboboxOption>,
-  options: ComboboxOption[],
-  term: string,
-): ComboboxOption[] {
+function search(options: ComboboxOption[], term: string): ComboboxOption[] {
   if (!term.trim()) return options.slice(0, MAX_VISIBLE_OPTIONS);
-  return fuse
+  /*
+   * ponytail: rebuilt per keystroke, which is fine for a few hundred options;
+   * keep one index per options list if a list ever reaches thousands.
+   */
+  return new Fuse(options, FUSE_OPTIONS)
     .search(term, { limit: MAX_VISIBLE_OPTIONS })
     .map((result) => result.item);
 }
@@ -221,9 +221,8 @@ export function Combobox({
     emptyLabel === undefined
       ? options
       : [{ label: emptyLabel, value: "" }, ...options];
-  const fuse = new Fuse(items, FUSE_OPTIONS);
   const [term, setTerm] = useState("");
-  const visible = search(fuse, items, term);
+  const visible = search(items, term);
   const selected = items.find((option) => option.value === value) ?? null;
   const {
     getInputProps,
@@ -367,8 +366,7 @@ export function MultiCombobox({
     .filter((option): option is ComboboxOption => option !== undefined);
   const chosen = new Set(value);
   const available = options.filter((option) => !chosen.has(option.value));
-  const fuse = new Fuse(available, FUSE_OPTIONS);
-  const visible = search(fuse, available, term);
+  const visible = search(available, term);
   const { getDropdownProps, getSelectedItemProps, removeSelectedItem } =
     useMultipleSelection({
       itemToKey: (option) => option?.value,

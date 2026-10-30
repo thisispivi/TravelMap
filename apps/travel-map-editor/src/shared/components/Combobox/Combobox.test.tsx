@@ -53,9 +53,14 @@ describe("Combobox", () => {
   });
 
   it("settles when the empty choice is selected, though it is rebuilt each render", () => {
-    const errors = vi
-      .spyOn(console, "error")
-      .mockImplementation(() => undefined);
+    /*
+     * React only logs an endless loop of effect updates and keeps looping, and
+     * no timeout can interrupt that, so the log has to throw for the test to
+     * fail instead of hanging.
+     */
+    const errors = vi.spyOn(console, "error").mockImplementation((message) => {
+      throw new Error(String(message));
+    });
     const props = {
       emptyLabel: "None",
       label: "Company",
