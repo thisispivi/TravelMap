@@ -4,7 +4,8 @@
 $spineInset: 2.25rem;
 $nodeSize: 1.75rem;
 $passInset: v.$space4;
-$stayBanner: 6.5rem;
+/* A stay's banner is 6:3 wide, and the node below is placed from that height. */
+$stayBannerRatio: 0.5;
 $stayTitleLine: 1.75rem;
 /* The name's capitals centre this far above its line's middle, in Google Sans Flex. */
 $stayCapLift: 0.0625rem;
@@ -52,11 +53,16 @@ $stayCapLift: 0.0625rem;
     color: v.$blueInk;
   }
 
+  /* Sized by its width, so the node below can find the banner's foot. */
+  &__item--stay {
+    container-type: inline-size;
+  }
+
   /* Level with the place's name, which sits on one line at the banner's foot. */
   &__item--stay &__node {
     top: calc(
-      #{$stayBanner} - #{v.$space3} - #{$stayTitleLine} / 2 - #{$nodeSize} / 2 -
-        #{$stayCapLift}
+      100cqw * #{$stayBannerRatio} - #{v.$space3} - #{$stayTitleLine} / 2 -
+        #{$nodeSize} / 2 - #{$stayCapLift}
     );
     background: v.$greenSoft;
     color: v.$greenInk;
@@ -285,8 +291,8 @@ $stayCapLift: 0.0625rem;
 
   &__image {
     flex: none;
-    width: 2.75rem;
-    height: 2.75rem;
+    width: 4rem;
+    aspect-ratio: 6 / 3;
     border-radius: v.$radiusSm;
   }
 
@@ -338,7 +344,7 @@ $stayCapLift: 0.0625rem;
     display: block;
     overflow: hidden;
     width: 100%;
-    height: $stayBanner;
+    aspect-ratio: 6 / 3;
     text-align: left;
 
     &::after {

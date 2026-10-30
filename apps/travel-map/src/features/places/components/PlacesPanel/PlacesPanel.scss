@@ -100,15 +100,13 @@
   }
 
   &__name {
-    overflow: hidden;
-    font-size: v.$bodySm;
+    font-size: v.$headingMd;
     font-weight: 750;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    line-height: 1.15;
   }
 
   &__meta {
-    font-size: v.$micro;
+    font-size: v.$bodySm;
     font-weight: 600;
     opacity: 0.85;
     @include m.figure();
@@ -122,7 +120,7 @@
     right: v.$space2;
     display: inline-flex;
     align-items: center;
-    gap: 0.1875rem;
+    gap: v.$space1;
     height: 1.75rem;
     padding: 0 v.$space2;
     border-radius: v.$radiusPill;
@@ -130,7 +128,7 @@
     -webkit-backdrop-filter: blur(0.5rem);
     backdrop-filter: blur(0.5rem);
     color: #ffffff;
-    font-size: v.$micro;
+    font-size: v.$caption;
     font-weight: 700;
 
     @include m.hover() {
@@ -139,8 +137,8 @@
   }
 
   &__photos-icon {
-    width: 0.875rem;
-    height: 0.875rem;
+    width: 1rem;
+    height: 1rem;
   }
 }
 

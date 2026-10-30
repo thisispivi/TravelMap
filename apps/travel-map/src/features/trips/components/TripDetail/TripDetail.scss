@@ -10,9 +10,11 @@
     flex-direction: column;
     justify-content: space-between;
     height: 13rem;
-    padding: v.$space4 v.$space4 4.75rem;
+    padding: v.$space4 v.$space4 2.75rem;
     overflow: hidden;
     border-radius: v.$radiusLg;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
     color: #ffffff;
 
     &::after {
@@ -105,12 +107,10 @@
   &__pass {
     position: relative;
     z-index: 1;
-    /* Deep enough to hide the hero's lower corners behind the pass. */
-    margin: -4rem 0 0;
+    margin: -2.5rem 0 0;
     filter: v.$cardDrop;
   }
 
-  /* Each figure is as wide as its number, with the slack shared between them. */
   &__figures {
     @include m.ticket-half(bottom);
     display: flex;
