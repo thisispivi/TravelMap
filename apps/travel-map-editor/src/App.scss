@@ -31,22 +31,10 @@
   }
 
   &__status {
-    @include m.glass();
     position: fixed;
     z-index: 6;
     top: v.$shellGap;
     right: v.$shellGap;
-    padding: 0.1875rem;
-    border-radius: v.$radiusPill;
-
-    /* Once saved there is nothing to act on, so the chip stops being a surface. */
-    &--saved {
-      border-color: transparent;
-      background: transparent;
-      box-shadow: none;
-      -webkit-backdrop-filter: none;
-      backdrop-filter: none;
-    }
   }
 
   /* A page screen scrolls inside the panel and keeps a readable width. */
