@@ -11,6 +11,7 @@ import { DataFile, deleteDocument, saveDocument } from "../../../../data/store";
 import { ColorField } from "../../../../shared/components/ColorField/ColorField";
 import { DocumentScreen } from "../../../../shared/components/DocumentScreen/DocumentScreen";
 import { NumberField } from "../../../../shared/components/Fields/Fields";
+import { useMapScene } from "../../../../shared/context/MapScene.context";
 import { useDataset } from "../../../../shared/hooks/useDataset";
 import { isSameJson } from "../../../../shared/lib/jsonEquality";
 import {
@@ -44,6 +45,24 @@ export function CountryScreen({ file }: CountryScreenProps): ReactNode {
     (city) => city.value.countryId === file.value.id,
   );
   const problems = value.name.trim() ? [] : [t("countryScreen.nameRequired")];
+
+  /* The country's cities on the shared map; pressing one opens its card. */
+  useMapScene(
+    {
+      frame: dependents.map(({ value: city }) => city.coordinates),
+      pins: dependents.map(({ value: city }) => ({
+        coordinates: city.coordinates,
+        id: city.id,
+        label: city.name,
+        tone: "place" as const,
+      })),
+      routes: [],
+    },
+    {
+      onSelect: (id) =>
+        void navigate(`/places/cities/${encodeURIComponent(id)}`),
+    },
+  );
   const configuredLocales = locales();
   const worldNames = world
     ? {
@@ -82,10 +101,12 @@ export function CountryScreen({ file }: CountryScreenProps): ReactNode {
   async function handleDelete(): Promise<void> {
     await snapshotBeforeChange(`before deleting ${file.path}`);
     await deleteDocument(file.path);
-    await navigate("/");
+    await navigate("/places");
   }
   return (
     <DocumentScreen
+      backLabel={t("nav.places")}
+      backTo="/places"
       deletedMessage={t("toast.countryDeleted")}
       isDirty={isDirty}
       kind={t("countryScreen.kind")}

@@ -63,6 +63,21 @@
       }
     }
 
+    /* A known place offered as a destination: quiet until pointed at. */
+    &--candidate {
+      width: 0.625rem;
+      height: 0.625rem;
+      border: 0.125rem solid v.$ink3;
+      background: v.$card;
+      opacity: 0.8;
+
+      @include m.hover() {
+        border-color: v.$accent;
+        opacity: 1;
+        transform: scale(1.4);
+      }
+    }
+
     &--selected {
       z-index: 2;
       transform: scale(1.3);

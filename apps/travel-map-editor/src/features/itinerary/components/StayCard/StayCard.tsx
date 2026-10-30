@@ -5,6 +5,7 @@ import { useLanguage } from "@app/shared/hooks/useLanguage";
 import {
   addDays,
   daysBetween,
+  IssueSeverity,
   TripLegJson,
   TripStayJson,
 } from "@travelmap/core";
@@ -37,6 +38,8 @@ import { StoryChapter } from "../StoryChapter/StoryChapter";
  * @property {(outing: number, leg: number | null) => void} onOpenLeg - Opens or closes a ride's form
  * @property {boolean} isOpen - Whether the stay's fields are showing
  * @property {() => void} onToggle - Opens or closes the stay
+ * @property {ReactNode} [problems] - What is wrong with the stay
+ * @property {IssueSeverity} [severity] - The worst of those problems
  */
 interface StayCardProps {
   dataset: DatasetSnapshot;
@@ -50,6 +53,8 @@ interface StayCardProps {
   onOpenLeg: (outing: number, leg: number | null) => void;
   isOpen: boolean;
   onToggle: () => void;
+  problems?: ReactNode;
+  severity?: IssueSeverity;
 }
 
 /**
@@ -72,6 +77,8 @@ interface StayCardProps {
  * @param {(outing: number, leg: number | null) => void} props.onOpenLeg - Opens or closes a ride's form
  * @param {boolean} props.isOpen - Whether the stay's fields are showing
  * @param {() => void} props.onToggle - Opens or closes the stay
+ * @param {ReactNode} [props.problems] - What is wrong with the stay
+ * @param {IssueSeverity} [props.severity] - The worst of those problems
  * @returns {ReactNode} The stay card
  */
 export function StayCard({
@@ -86,6 +93,8 @@ export function StayCard({
   onOpenLeg,
   isOpen,
   onToggle,
+  problems,
+  severity,
 }: StayCardProps): ReactNode {
   const { t, currLanguage: lang } = useLanguage(["editor"]);
   const nights = daysBetween(stay.checkIn, stay.checkOut);
@@ -138,6 +147,8 @@ export function StayCard({
       kind="stay"
       node={number}
       onToggle={onToggle}
+      problems={problems}
+      severity={severity}
       summary={
         <dl className="stay-card__facts">
           <div className="stay-card__fact">

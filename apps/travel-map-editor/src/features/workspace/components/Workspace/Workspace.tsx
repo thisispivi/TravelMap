@@ -3,15 +3,18 @@ import "./Workspace.scss";
 import { PanelFrame } from "@app/shared/components/PanelFrame/PanelFrame";
 import { Popover } from "@app/shared/components/Popover/Popover";
 import { useLanguage } from "@app/shared/hooks/useLanguage";
+import { classNames } from "@app/shared/lib/classNames";
 import {
   daysBetween,
   Issue,
   toAuthoredZoom,
   TripJson,
   tripPlaceIds,
+  worstSeverity,
 } from "@travelmap/core";
 import {
   ArrowLeft,
+  CircleCheck,
   Ellipsis,
   FileInput,
   Focus,
@@ -26,10 +29,7 @@ import { DataFile, deleteDocument } from "../../../../data/store";
 import { useConfirm } from "../../../../shared/components/ConfirmDialog/ConfirmDialog";
 import { useToast } from "../../../../shared/components/Toast/Toast";
 import { useMapScene } from "../../../../shared/context/MapScene.context";
-import {
-  useDataset,
-  useSessionChanges,
-} from "../../../../shared/hooks/useDataset";
+import { useDataset } from "../../../../shared/hooks/useDataset";
 import { registerCommands } from "../../../../shared/lib/commands";
 import { snapshotBeforeChange } from "../../../backup/lib/snapshots";
 import { ImportDialog } from "../../../import/components/ImportDialog/ImportDialog";
@@ -42,10 +42,8 @@ import {
 import { legMapId, stepMapId, tripScene } from "../../../map/lib/tripScene";
 import { AddPlaceDialog } from "../../../places/components/AddPlaceDialog/AddPlaceDialog";
 import { cityCoordinates } from "../../../places/lib/placeOptions";
-import {
-  TrayTab,
-  ValidationTray,
-} from "../../../validation/components/ValidationTray/ValidationTray";
+import { SeverityIcon } from "../../../validation/components/IssueList/IssueList";
+import { describeIssue } from "../../../validation/lib/issues";
 import { Selection, useTripWorkspace } from "../../Workspace.state";
 
 /**
@@ -79,6 +77,22 @@ function selectionOf(id: string): Selection {
 }
 
 /**
+ * Reads the step an issue is about as the selection that opens it.
+ * @param {Issue} issue - The problem
+ * @returns {Selection} The step, or the whole trip
+ */
+function issueSelection(issue: Issue): Selection {
+  const { subject } = issue;
+  if (subject.kind !== "step") return { kind: "trip" };
+  return {
+    index: subject.index,
+    kind: "step",
+    ...(subject.leg === undefined ? {} : { leg: subject.leg }),
+    ...(subject.outing === undefined ? {} : { outing: subject.outing }),
+  };
+}
+
+/**
  * Workspace component
  * One trip, edited in the panel beside the shared map: the itinerary in the
  * panel and the trip drawn on the map, both from one draft. Selecting a step
@@ -94,11 +108,10 @@ export function Workspace({ file }: WorkspaceProps): ReactNode {
   const { showToast } = useToast();
   const navigate = useNavigate();
   const dataset = useDataset();
-  const changes = useSessionChanges();
   const workspace = useTripWorkspace(file, () =>
     showToast(t("toast.tripSaved")),
   );
-  const [tray, setTray] = useState<TrayTab>("closed");
+  const [nextIssue, setNextIssue] = useState(0);
   const [placePoint, setPlacePoint] = useState<[number, number] | undefined>();
   const [placeRequest, setPlaceRequest] = useState<PlaceRequest | null>(null);
   const [isImporting, setIsImporting] = useState(false);
@@ -111,12 +124,25 @@ export function Workspace({ file }: WorkspaceProps): ReactNode {
     dataset.cities.map(({ value }) => [value.id, value] as const),
   );
   const scene = tripScene(trip, cityById);
+  const tripCityIds = new Set(tripPlaceIds(trip).concat(trip.originCityId));
+  /* Every other known place is a dot to tap: the trip is drawn by tapping where it goes next. */
+  const candidates = dataset.cities
+    .filter(({ value }) => !tripCityIds.has(value.id))
+    .map(({ value }) => ({
+      coordinates: value.coordinates,
+      id: `city:${value.id}`,
+      label: t("map.travelTo", { city: value.name }),
+      tone: "candidate" as const,
+    }));
+  const severity = worstSeverity(workspace.issues);
+  const upcoming = workspace.issues.at(nextIssue % workspace.issues.length);
   const selectedId = selectedMapId(workspace.selection);
   const selectedPin = scene.pins.find(({ id }) => id === selectedId);
   const selectedRoute = scene.routes.find(({ id }) => id === selectedId);
   const { readView } = useMapScene(
     {
       ...scene,
+      pins: [...candidates, ...scene.pins],
       frame: selectedPin
         ? [selectedPin.coordinates]
         : selectedRoute
@@ -126,7 +152,17 @@ export function Workspace({ file }: WorkspaceProps): ReactNode {
     },
     {
       onPick: (coordinates) => requestPlace({ kind: "travel" }, coordinates),
-      onSelect: (id) => workspace.select(selectionOf(id)),
+      onSelect: (id) =>
+        id.startsWith("city:")
+          ? update(
+              applyPlace(
+                trip,
+                { kind: "travel" },
+                id.slice("city:".length),
+                cityCoordinates(dataset),
+              ),
+            )
+          : workspace.select(selectionOf(id)),
     },
   );
 
@@ -143,6 +179,18 @@ export function Workspace({ file }: WorkspaceProps): ReactNode {
   ): void {
     setPlacePoint(coordinates);
     setPlaceRequest(request);
+  }
+
+  /**
+   * Opens the next problem's step, which the itinerary then scrolls to,
+   * cycling back to the first after the last so the counter walks through
+   * every problem.
+   * @returns {void}
+   */
+  function showNextIssue(): void {
+    if (!upcoming) return;
+    workspace.select(issueSelection(upcoming));
+    setNextIssue(nextIssue + 1);
   }
 
   /**
@@ -204,11 +252,6 @@ export function Workspace({ file }: WorkspaceProps): ReactNode {
         },
         { id: "undo", label: t("workspace.undo"), run: undoEdit },
         { id: "redo", label: t("workspace.redo"), run: redoEdit },
-        {
-          id: "validation",
-          label: t("tray.validation"),
-          run: () => setTray("validation"),
-        },
       ]),
     [redoEdit, t, trip, undoEdit, update],
   );
@@ -277,6 +320,31 @@ export function Workspace({ file }: WorkspaceProps): ReactNode {
                   })}
                 </p>
               </div>
+              {severity && upcoming ? (
+                <button
+                  className={classNames(
+                    "workspace__issues",
+                    `workspace__issues--${severity}`,
+                  )}
+                  onClick={showNextIssue}
+                  title={describeIssue(
+                    upcoming,
+                    /* i18next's overloads are too narrow to pass as a plain function. */
+                    t as (key: string, options: object) => string,
+                  )}
+                  type="button"
+                >
+                  <SeverityIcon severity={severity} />
+                  {t("workspace.issueCount", {
+                    count: workspace.issues.length,
+                  })}
+                </button>
+              ) : (
+                <span className="workspace__issues workspace__issues--clean">
+                  <CircleCheck aria-hidden="true" />
+                  {t("workspace.noIssues")}
+                </span>
+              )}
               <button
                 aria-label={t("workspace.undo")}
                 className="workspace__tool"
@@ -345,6 +413,8 @@ export function Workspace({ file }: WorkspaceProps): ReactNode {
         <div className="workspace__story">
           <TripStory
             dataset={dataset}
+            issues={workspace.issues}
+            onApplyFix={handleApplyFix}
             onChange={update}
             onRequestPlace={requestPlace}
             onReturnHome={() =>
@@ -413,15 +483,6 @@ export function Workspace({ file }: WorkspaceProps): ReactNode {
           </li>
         </ul>
       </Popover>
-      <ValidationTray
-        changes={changes}
-        issues={workspace.issues}
-        onApplyFix={handleApplyFix}
-        onChangeTab={setTray}
-        onSelect={workspace.select}
-        tab={tray}
-        trip={trip}
-      />
       {confirmDialog}
       {placeRequest ? (
         <AddPlaceDialog

@@ -18,6 +18,7 @@ import {
   StringListField,
   TextField,
 } from "../../../../shared/components/Fields/Fields";
+import { useMapScene } from "../../../../shared/context/MapScene.context";
 import { useDataset } from "../../../../shared/hooks/useDataset";
 import { isSameJson } from "../../../../shared/lib/jsonEquality";
 import { findWorldCountry } from "../../../../shared/lib/worldCountries";
@@ -64,6 +65,35 @@ export function SettingsScreen({ file }: SettingsScreenProps): ReactNode {
   const site = value.site ?? {};
   const map = resolveMapSettings(value.map);
   const locales = value.locales ?? [];
+
+  /* The site's default view on the shared map; a press moves its centre. */
+  useMapScene(
+    {
+      frame: [map.defaultCenter],
+      pins: [
+        {
+          coordinates: map.defaultCenter,
+          id: "center",
+          label: t("configScreen.mapDefaults"),
+          tone: "place",
+        },
+      ],
+      routes: [],
+    },
+    {
+      onPick: (coordinates) =>
+        setValue((current) => ({
+          ...current,
+          map: {
+            ...resolveMapSettings(current.map),
+            defaultCenter: [
+              Number(coordinates[0].toFixed(4)),
+              Number(coordinates[1].toFixed(4)),
+            ],
+          },
+        })),
+    },
+  );
   const cityOptions = dataset.cities.map(({ value: city }) => ({
     hint: city.countryId,
     iconUrl: findWorldCountry(city.countryId)?.flagUrl,
@@ -208,6 +238,9 @@ export function SettingsScreen({ file }: SettingsScreenProps): ReactNode {
         <h2 className="editor-panel__legend">
           {t("configScreen.mapDefaults")}
         </h2>
+        <p className="editor-panel__hint">
+          {t("configScreen.pickCenterOnMap")}
+        </p>
         <div className="editor-panel__row">
           <NumberField
             label={t("cityScreen.longitude")}

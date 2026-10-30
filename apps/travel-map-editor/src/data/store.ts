@@ -52,16 +52,6 @@ export interface DocumentWrite {
   value: unknown;
 }
 
-/**
- * What happened to a document during this editing session.
- * @property {string} path - Dataset-relative JSON path
- * @property {"created" | "updated" | "deleted"} change - What was done to it
- */
-export interface DocumentChange {
-  path: string;
-  change: "created" | "updated" | "deleted";
-}
-
 const DATA_PREFIX = "../../../../data/";
 const CONFIG_PATH = "site.config.json";
 
@@ -130,32 +120,6 @@ const baselines = new Map<string, unknown>(
     ...(seededConfig ? [seededConfig] : []),
   ].map(({ path, value }) => [path, value] as const),
 );
-const changeLog = new Map<string, DocumentChange["change"]>();
-/*
- * Cached because `useSyncExternalStore` compares snapshots by identity: a
- * freshly built array on every read would re-render forever.
- */
-let changes: DocumentChange[] = [];
-
-/**
- * Records what happened to a document and republishes the change list.
- * @param {string} path - Dataset-relative JSON path
- * @param {DocumentChange["change"]} change - What was done to it
- * @returns {void}
- */
-function logChange(path: string, change: DocumentChange["change"]): void {
-  /* A document created and then edited in one session is still just created. */
-  const existing = changeLog.get(path);
-  changeLog.set(
-    path,
-    existing === "created" && change === "updated" ? "created" : change,
-  );
-  changes = Array.from(changeLog, ([entryPath, entryChange]) => ({
-    change: entryChange,
-    path: entryPath,
-  })).sort((first, second) => first.path.localeCompare(second.path));
-  for (const listener of listeners) listener();
-}
 
 /**
  * Publishes a new snapshot to every subscriber.
@@ -222,14 +186,6 @@ export function getDataset(): DatasetSnapshot {
 export function subscribeToDataset(listener: () => void): () => void {
   listeners.add(listener);
   return () => listeners.delete(listener);
-}
-
-/**
- * Lists what this session has written, for the changes tray.
- * @returns {DocumentChange[]} Every touched path, sorted
- */
-export function getSessionChanges(): DocumentChange[] {
-  return changes;
 }
 
 /**
@@ -370,11 +326,9 @@ export async function saveDocument(
   options: WriteOptions = {},
 ): Promise<void> {
   const base = options.isOverwrite ? undefined : (baselines.get(path) ?? null);
-  const isNew = readDocument(path) === undefined;
   await callWriter("write", { base, path, value });
   putDocument(path, value);
   baselines.set(path, value);
-  logChange(path, isNew ? "created" : "updated");
 }
 
 /**
@@ -386,7 +340,6 @@ export async function deleteDocument(path: string): Promise<void> {
   await callWriter("delete", { base: baselines.get(path) ?? null, path });
   dropDocument(path);
   baselines.delete(path);
-  logChange(path, "deleted");
 }
 
 /**

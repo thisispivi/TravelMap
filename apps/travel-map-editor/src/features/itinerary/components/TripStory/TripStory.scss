@@ -104,6 +104,11 @@ $nodeSize: 1.75rem;
     font-size: v.$headingMd;
   }
 
+  &__next-hint {
+    color: v.$ink2;
+    font-size: v.$bodySm;
+  }
+
   &__next-actions {
     display: flex;
     flex-wrap: wrap;

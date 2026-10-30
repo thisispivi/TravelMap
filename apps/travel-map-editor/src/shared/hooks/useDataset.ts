@@ -5,7 +5,6 @@ import { photoCounts } from "../../data/dataset";
 import {
   DatasetSnapshot,
   getDataset,
-  getSessionChanges,
   subscribeToDataset,
 } from "../../data/store";
 
@@ -17,15 +16,6 @@ import {
  */
 export function useDataset(): DatasetSnapshot {
   return useSyncExternalStore(subscribeToDataset, getDataset);
-}
-
-/**
- * Subscribes a component to what this session has written, for the changes
- * tray and the commit checklist.
- * @returns {ReturnType<typeof getSessionChanges>} Every touched path
- */
-export function useSessionChanges(): ReturnType<typeof getSessionChanges> {
-  return useSyncExternalStore(subscribeToDataset, getSessionChanges);
 }
 
 /**

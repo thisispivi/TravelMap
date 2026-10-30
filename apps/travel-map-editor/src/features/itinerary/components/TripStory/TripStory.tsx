@@ -2,7 +2,13 @@ import "./TripStory.scss";
 
 import { TransportModeIcon } from "@app/shared/components/TransportModeIcon/TransportModeIcon";
 import { useLanguage } from "@app/shared/hooks/useLanguage";
-import { TripJson, TripMoveJson } from "@travelmap/core";
+import {
+  Issue,
+  IssueSeverity,
+  TripJson,
+  TripMoveJson,
+  worstSeverity,
+} from "@travelmap/core";
 import {
   BedDouble,
   Flag,
@@ -11,7 +17,7 @@ import {
   Navigation,
   Trash2,
 } from "lucide-react";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 
 import { DatasetSnapshot } from "../../../../data/store";
 import { Combobox } from "../../../../shared/components/Combobox/Combobox";
@@ -23,6 +29,7 @@ import {
 } from "../../../../shared/components/Fields/Fields";
 import { LocalizedNames } from "../../../../shared/components/LocalizedNames/LocalizedNames";
 import { cityOptions } from "../../../places/lib/placeOptions";
+import { IssueList } from "../../../validation/components/IssueList/IssueList";
 import { Selection } from "../../../workspace/Workspace.state";
 import {
   chainOrigins,
@@ -120,6 +127,8 @@ function TripDetails({ trip, onChange }: TripDetailsProps): ReactNode {
  * @property {(leg: number | null) => void} onOpenLeg - Opens or closes a ride's form
  * @property {(next: TripJson) => void} onChange - Edit callback
  * @property {() => void} onAddStop - Asks for another place on this journey
+ * @property {ReactNode} [problems] - What is wrong with the journey
+ * @property {IssueSeverity} [severity] - The worst of those problems
  */
 interface MoveCardProps {
   dataset: DatasetSnapshot;
@@ -130,6 +139,8 @@ interface MoveCardProps {
   onOpenLeg: (leg: number | null) => void;
   onChange: (next: TripJson) => void;
   onAddStop: () => void;
+  problems?: ReactNode;
+  severity?: IssueSeverity;
 }
 
 /**
@@ -146,6 +157,8 @@ interface MoveCardProps {
  * @param {(leg: number | null) => void} props.onOpenLeg - Opens or closes a ride's form
  * @param {(next: TripJson) => void} props.onChange - Edit callback
  * @param {() => void} props.onAddStop - Asks for another place on this journey
+ * @param {ReactNode} [props.problems] - What is wrong with the journey
+ * @param {IssueSeverity} [props.severity] - The worst of those problems
  * @returns {ReactNode} The journey card
  */
 function MoveCard({
@@ -157,6 +170,8 @@ function MoveCard({
   onOpenLeg,
   onChange,
   onAddStop,
+  problems,
+  severity,
 }: MoveCardProps): ReactNode {
   const { t, currLanguage: lang } = useLanguage(["editor"]);
   const origins = chainOrigins(trip, { index });
@@ -208,6 +223,8 @@ function MoveCard({
           mode={move.legs[0]?.mode ?? "plane"}
         />
       }
+      problems={problems}
+      severity={severity}
       title={`${cityName(origins[0] ?? trip.originCityId)} → ${cityName(move.legs.at(-1)?.toId ?? "")}`}
     >
       {confirmDialog}
@@ -296,6 +313,9 @@ function NextStep({
           ? t("story.backHome", { city: here })
           : t("story.whatNext", { city: here })}
       </h3>
+      {isHome ? null : (
+        <p className="trip-story__next-hint">{t("story.drawHint")}</p>
+      )}
       <div className="trip-story__next-actions">
         {last?.type === "move" && !isHome ? (
           <div className="trip-story__stay-here">
@@ -376,6 +396,8 @@ function moveOrigin(trip: TripJson, index: number): string {
  * @property {(next: TripJson, isMergeable?: boolean) => void} onChange - Edit callback
  * @property {(request: PlaceRequest) => void} onRequestPlace - Asks the author for a place
  * @property {() => void} onReturnHome - Ends the trip back at its origin
+ * @property {Issue[]} issues - Live validation for the trip
+ * @property {(fix: NonNullable<Issue["fix"]>) => void} onApplyFix - Applies a repair
  */
 interface TripStoryProps {
   dataset: DatasetSnapshot;
@@ -385,6 +407,8 @@ interface TripStoryProps {
   onChange: (next: TripJson, isMergeable?: boolean) => void;
   onRequestPlace: (request: PlaceRequest) => void;
   onReturnHome: () => void;
+  issues: Issue[];
+  onApplyFix: (fix: NonNullable<Issue["fix"]>) => void;
 }
 
 /**
@@ -392,7 +416,8 @@ interface TripStoryProps {
  * The trip edited in the same shape the public page shows it: where it
  * started, each journey, each place slept with its day trips, and a single
  * "what happened next?" question at the end. Building a trip is answering that
- * question until the answer is "went home".
+ * question until the answer is "went home". Problems sit on the step they
+ * belong to; those about the trip as a whole sit above it.
  * @component
  * @param {TripStoryProps} props - The story props
  * @param {DatasetSnapshot} props.dataset - The current dataset
@@ -402,6 +427,8 @@ interface TripStoryProps {
  * @param {(next: TripJson, isMergeable?: boolean) => void} props.onChange - Edit callback
  * @param {(request: PlaceRequest) => void} props.onRequestPlace - Asks the author for a place
  * @param {() => void} props.onReturnHome - Ends the trip back at its origin
+ * @param {Issue[]} props.issues - Live validation for the trip
+ * @param {(fix: NonNullable<Issue["fix"]>) => void} props.onApplyFix - Applies a repair
  * @returns {ReactNode} The editable trip story
  */
 export function TripStory({
@@ -412,9 +439,43 @@ export function TripStory({
   onChange,
   onRequestPlace,
   onReturnHome,
+  issues,
+  onApplyFix,
 }: TripStoryProps): ReactNode {
   const { t } = useLanguage(["editor"]);
   const selected = selection.kind === "step" ? selection : undefined;
+  const chaptersRef = useRef<HTMLOListElement>(null);
+  const selectedIndex = selected?.index;
+
+  /* A step picked on the map or by the problem counter may be off screen. */
+  useEffect(() => {
+    if (selectedIndex === undefined) return;
+    chaptersRef.current?.children[selectedIndex]?.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+    });
+  }, [selectedIndex]);
+
+  /**
+   * Gathers what is wrong with one step, as its problems and its worst
+   * severity.
+   * @param {number} index - Position of the step
+   * @returns {{ problems: ReactNode; severity: IssueSeverity | undefined }} The step's problems
+   */
+  const problemsOf = (
+    index: number,
+  ): { problems: ReactNode; severity: IssueSeverity | undefined } => {
+    const own = issues.filter(
+      ({ subject }) => subject.kind === "step" && subject.index === index,
+    );
+    return {
+      problems:
+        own.length > 0 ? (
+          <IssueList issues={own} onApplyFix={onApplyFix} />
+        ) : undefined,
+      severity: worstSeverity(own),
+    };
+  };
 
   /**
    * Opens one ride's form, or closes it, by moving the selection.
@@ -441,6 +502,10 @@ export function TripStory({
 
   return (
     <div className="trip-story">
+      <IssueList
+        issues={issues.filter(({ subject }) => subject.kind !== "step")}
+        onApplyFix={onApplyFix}
+      />
       <TripDetails onChange={onChange} trip={trip} />
 
       <section className="trip-story__start">
@@ -461,7 +526,7 @@ export function TripStory({
         />
       </section>
 
-      <ol className="trip-story__chapters">
+      <ol className="trip-story__chapters" ref={chaptersRef}>
         {trip.steps.map((step, index) =>
           step.type === "stay" ? (
             <StayCard
@@ -491,6 +556,7 @@ export function TripStory({
                   : undefined
               }
               stay={step}
+              {...problemsOf(index)}
             />
           ) : (
             <MoveCard
@@ -507,6 +573,7 @@ export function TripStory({
                   : undefined
               }
               trip={trip}
+              {...problemsOf(index)}
             />
           ),
         )}

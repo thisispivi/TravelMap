@@ -67,6 +67,48 @@
     font-size: v.$bodySm;
   }
 
+  /* The problem counter: the worst severity's colour, pressed to walk them. */
+  &__issues {
+    @include m.bare-button();
+    --issues-tint: #{v.$futureSoft};
+    --issues-ink: #{v.$futureInk};
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    gap: v.$space1;
+    padding: v.$space1 v.$space3;
+    border-radius: v.$radiusPill;
+    background: var(--issues-tint);
+    color: var(--issues-ink);
+    font-size: v.$caption;
+    font-weight: 700;
+    white-space: nowrap;
+
+    svg {
+      width: 0.875rem;
+      height: 0.875rem;
+    }
+
+    &:focus-visible {
+      @include m.focus-ring();
+    }
+
+    &--blocking {
+      --issues-tint: #{v.$visitedSoft};
+      --issues-ink: #{v.$visitedInk};
+    }
+
+    &--warning {
+      --issues-tint: #{v.$livedSoft};
+      --issues-ink: #{v.$livedInk};
+    }
+
+    &--clean {
+      --issues-tint: #{v.$greenSoft};
+      --issues-ink: #{v.$greenInk};
+    }
+  }
+
   &__tool {
     @include m.bare-button();
     display: grid;

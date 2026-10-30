@@ -2,20 +2,17 @@ import "./App.scss";
 
 import { useLanguage } from "@app/shared/hooks/useLanguage";
 import { useThemeDetector } from "@app/shared/hooks/useThemeDetector";
-import { classNames } from "@app/shared/lib/classNames";
 import { ReactNode, useEffect, useRef, useState } from "react";
-import { Link, Route, Routes, useLocation, useParams } from "react-router";
+import { Link, Route, Routes, useParams } from "react-router";
 
 import { DataFile } from "./data/store";
-import {
-  Library,
-  PlacesIndex,
-} from "./features/library/components/Library/Library";
+import { Library } from "./features/library/components/Library/Library";
 import { TransportCompanies } from "./features/library/components/TransportCompanies/TransportCompanies";
 import { EditorMap } from "./features/map/components/EditorMap/EditorMap";
 import { CommandPalette } from "./features/palette/components/CommandPalette/CommandPalette";
 import { CityScreen } from "./features/places/components/CityScreen/CityScreen";
 import { CountryScreen } from "./features/places/components/CountryScreen/CountryScreen";
+import { PlacesIndex } from "./features/places/components/PlacesIndex/PlacesIndex";
 import { SettingsScreen } from "./features/settings/components/SettingsScreen/SettingsScreen";
 import { Workspace } from "./features/workspace/components/Workspace/Workspace";
 import { EditorNav } from "./shared/components/EditorNav/EditorNav";
@@ -84,25 +81,15 @@ function PlacesRoute(): ReactNode {
  * CityRoute component
  * Resolves the city id in the route to its document.
  * @component
- * @param {CityRouteProps} props
- * @param {boolean} props.isDarkTheme - Whether the dark map theme is active
  * @returns {ReactNode} The city screen or a not-found message
  */
-function CityRoute({ isDarkTheme }: CityRouteProps): ReactNode {
+function CityRoute(): ReactNode {
   const file = findById(useDataset().cities, useParams().id);
   return file ? (
-    <CityScreen file={file} isDarkTheme={isDarkTheme} key={file.path} />
+    <CityScreen file={file} key={file.path} />
   ) : (
     <MissingDocument />
   );
-}
-
-/**
- * Props for CityRoute.
- * @property {boolean} isDarkTheme - Whether the dark map theme is active
- */
-interface CityRouteProps {
-  isDarkTheme: boolean;
 }
 
 /**
@@ -141,35 +128,20 @@ function CompaniesRoute(): ReactNode {
   return <TransportCompanies file={useDataset().config} />;
 }
 
-/** Whether the panel sits beside the map or covers it as a page. */
-type PanelSurface = "side" | "page";
-
-/**
- * Picks the panel's surface for a path. Trips are edited beside the map they
- * draw on; the screens not yet rebuilt around the map still take the page.
- * @param {string} pathname - The current path
- * @returns {PanelSurface} Where the panel sits
- */
-function surfaceOf(pathname: string): PanelSurface {
-  return pathname === "/" || pathname.startsWith("/trip/") ? "side" : "page";
-}
-
 /**
  * App component
  * The editor's shell, built like the site's: one map fills the window, the
  * rail runs down its left edge, and every screen opens in a frosted panel
- * beside the map, or across it for the screens that are pages. The map stays
- * mounted while the panel changes, and each screen tells it what to draw.
+ * beside the map. The map stays mounted while the panel changes, and each
+ * screen tells it what to draw.
  * @component
  * @returns {ReactNode} The local editor UI
  */
 export function App(): ReactNode {
   const { isDarkTheme, handleDarkModeSwitch } = useThemeDetector();
-  const { pathname } = useLocation();
   const { status } = useSaveStatus();
   const panelRef = useRef<HTMLElement>(null);
   const [insetLeft, setInsetLeft] = useState(0);
-  const surface = surfaceOf(pathname);
 
   useEffect(() => {
     const panel = panelRef.current;
@@ -188,20 +160,14 @@ export function App(): ReactNode {
         isDarkTheme={isDarkTheme}
         onToggleTheme={handleDarkModeSwitch}
       />
-      <main
-        className={classNames("editor__panel", `editor__panel--${surface}`)}
-        ref={panelRef}
-      >
+      <main className="editor__panel" ref={panelRef}>
         <Routes>
           <Route element={<Library />} path="/" />
           <Route element={<PlacesRoute />} path="/places" />
           <Route element={<CompaniesRoute />} path="/companies" />
           <Route element={<SettingsRoute />} path="/settings" />
           <Route element={<TripRoute />} path="/trip/:id" />
-          <Route
-            element={<CityRoute isDarkTheme={isDarkTheme} />}
-            path="/places/cities/:id"
-          />
+          <Route element={<CityRoute />} path="/places/cities/:id" />
           <Route element={<CountryRoute />} path="/places/countries/:id" />
           <Route element={<MissingDocument />} path="*" />
         </Routes>

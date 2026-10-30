@@ -14,8 +14,11 @@ import {
 
 import { isSameJson } from "../lib/jsonEquality";
 
-/** How a pin reads on the map: a place slept in, a place passed, or any place. */
-type MapPinTone = "stay" | "stop" | "place";
+/**
+ * How a pin reads on the map: a place slept in, a place passed, any place, or
+ * a known place the panel offers as somewhere to go next.
+ */
+type MapPinTone = "stay" | "stop" | "place" | "candidate";
 
 /**
  * One place drawn on the map.

@@ -1,25 +1,10 @@
 @use "variables" as v;
+@use "mixins" as m;
 
 .add-place {
-  position: fixed;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
+  @include m.dialog(34rem);
   gap: 0.75rem;
-  width: min(34rem, 92vw);
-  max-height: calc(100vh - 2rem);
-  margin: auto;
   padding: 1.1rem;
-  border: 0.0625rem solid v.$line;
-  border-radius: v.$radiusMd;
-  overflow-y: auto;
-  background: v.$card;
-  box-shadow: v.$glassShadow;
-  color: v.$ink;
-
-  &::backdrop {
-    background: rgb(0 0 0 / 45%);
-  }
 
   &__title,
   &__plan-title {

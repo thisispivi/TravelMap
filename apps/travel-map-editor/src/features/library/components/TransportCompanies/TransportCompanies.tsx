@@ -1,10 +1,17 @@
 import "./TransportCompanies.scss";
 
+import { PanelFrame } from "@app/shared/components/PanelFrame/PanelFrame";
 import { useLanguage } from "@app/shared/hooks/useLanguage";
-import { Company, SiteConfig } from "@travelmap/core";
-import { Building2, ChevronRight, Plus, Trash2 } from "lucide-react";
+import { classNames } from "@app/shared/lib/classNames";
+import {
+  CityJson,
+  Company,
+  SiteConfig,
+  TripJson,
+  walkTripLegs,
+} from "@travelmap/core";
+import { Building2, ChevronDown, Plus, Trash2 } from "lucide-react";
 import { ReactNode, useState } from "react";
-import { Link } from "react-router";
 
 import { resolveLogoUrl } from "../../../../data/dataset";
 import { idError } from "../../../../data/paths";
@@ -13,8 +20,45 @@ import { useConfirm } from "../../../../shared/components/ConfirmDialog/ConfirmD
 import { TextField } from "../../../../shared/components/Fields/Fields";
 import { ImageUploadField } from "../../../../shared/components/ImageUploadField/ImageUploadField";
 import { useToast } from "../../../../shared/components/Toast/Toast";
+import {
+  MapRoute,
+  useMapScene,
+} from "../../../../shared/context/MapScene.context";
 import { useAutosave } from "../../../../shared/hooks/useAutosave";
+import { useDataset } from "../../../../shared/hooks/useDataset";
 import { isSameJson } from "../../../../shared/lib/jsonEquality";
+
+/**
+ * Gathers every ride made with each operator across all trips, as map lines:
+ * a flight by its airline, a crossing by its ferry line.
+ * @param {DataFile<TripJson>[]} trips - Every trip document
+ * @param {Map<string, CityJson>} cityById - The dataset's cities
+ * @returns {Map<string, MapRoute[]>} Rides by operator id
+ */
+function companyRides(
+  trips: DataFile<TripJson>[],
+  cityById: Map<string, CityJson>,
+): Map<string, MapRoute[]> {
+  const rides = new Map<string, MapRoute[]>();
+  for (const { value: trip } of trips)
+    for (const { fromId, index, leg, legIndex, outing } of walkTripLegs(trip)) {
+      const operator = leg.flight?.company ?? leg.ferry?.company;
+      const from = cityById.get(fromId);
+      const to = cityById.get(leg.toId);
+      if (!operator || !from || !to) continue;
+      rides.set(operator, [
+        ...(rides.get(operator) ?? []),
+        {
+          from: from.coordinates,
+          id: `${trip.id}:${index}:${outing ?? ""}:${legIndex}`,
+          isOuting: outing !== undefined,
+          mode: leg.mode,
+          to: to.coordinates,
+        },
+      ]);
+    }
+  return rides;
+}
 
 /**
  * TransportCompanies component
@@ -48,6 +92,20 @@ export function TransportCompanies({
   const entries = Object.entries(companies).toSorted((first, second) =>
     first[1].name.localeCompare(second[1].name),
   );
+  const [openId, setOpenId] = useState<string | undefined>();
+  const dataset = useDataset();
+  const cityById = new Map(
+    dataset.cities.map(({ value }) => [value.id, value] as const),
+  );
+  const ridesByCompany = companyRides(dataset.trips, cityById);
+  const openRides = openId ? (ridesByCompany.get(openId) ?? []) : [];
+
+  /* The open company's rides on the map: every flight or crossing with it. */
+  useMapScene({
+    frame: openRides.flatMap(({ from, to }) => [from, to]),
+    pins: [],
+    routes: openRides,
+  });
 
   /**
    * Replaces one company while preserving every other catalogue entry.
@@ -83,104 +141,138 @@ export function TransportCompanies({
   }
 
   return (
-    <main className="editor__screen transport-companies">
-      {confirmDialog}
-      <header className="editor__header">
-        <div>
-          <nav aria-label={t("nav.breadcrumb")} className="editor__breadcrumb">
-            <Link className="editor__breadcrumb-link" to="/#companies">
-              {t("nav.home")}
-            </Link>
-            <ChevronRight aria-hidden="true" />
-            <span>{t("nav.companies")}</span>
-          </nav>
-          <h1>{t("companyEditor.title")}</h1>
-          <p className="editor__path">{file.path}</p>
-        </div>
-      </header>
-      <section className="editor-panel">
+    <PanelFrame
+      header={
         <header className="transport-companies__header">
-          <span aria-hidden="true" className="transport-companies__icon">
-            <Building2 />
-          </span>
           <div>
-            <h2 className="editor-panel__legend">{t("companyEditor.title")}</h2>
-            <p className="editor-panel__hint">{t("companyEditor.hint")}</p>
+            <h2>{t("nav.companies")}</h2>
+            <p className="transport-companies__summary">
+              {t("library.companyCount", { count: entries.length })}
+            </p>
+          </div>
+          <div className="transport-companies__add">
+            <TextField
+              hint={
+                newCompanyId
+                  ? (companyIdMessage ?? t("companyEditor.readyToAdd"))
+                  : t("companyEditor.hint")
+              }
+              label={t("companyEditor.addCompanyId")}
+              onChange={setNewCompanyId}
+              placeholder="ryanair"
+              value={newCompanyId}
+            />
+            <button
+              className="editor-button editor-button--primary"
+              disabled={Boolean(companyIdProblem)}
+              onClick={addCompany}
+              type="button"
+            >
+              <Plus aria-hidden="true" />
+              {t("companyEditor.add")}
+            </button>
           </div>
         </header>
-        <div className="transport-companies__add">
-          <TextField
-            hint={
-              newCompanyId
-                ? (companyIdMessage ?? t("companyEditor.readyToAdd"))
-                : ""
-            }
-            label={t("companyEditor.addCompanyId")}
-            onChange={setNewCompanyId}
-            placeholder="ryanair"
-            value={newCompanyId}
-          />
-          <button
-            className="editor-button editor-button--primary"
-            disabled={Boolean(companyIdProblem)}
-            onClick={addCompany}
-            type="button"
-          >
-            <Plus aria-hidden="true" />
-            {t("companyEditor.add")}
-          </button>
-        </div>
-        {entries.length > 0 ? (
-          <ul className="transport-companies__list">
-            {entries.map(([id, company]) => (
-              <li className="transport-companies__company" key={id}>
-                <header className="transport-companies__company-header">
-                  <code className="transport-companies__company-id">{id}</code>
-                  <button
-                    aria-label={t("companyEditor.removeCompany", { id })}
-                    className="editor-button editor-button--danger"
-                    onClick={() =>
-                      confirm({
-                        confirmLabel: t("confirm.removeCompany.action"),
-                        isDanger: true,
-                        message: t("confirm.removeCompany.message"),
-                        onConfirm: () => removeCompany(id),
-                        title: t("confirm.removeCompany.title", {
-                          name: company.name || id,
-                        }),
-                      })
-                    }
-                    type="button"
-                  >
-                    <Trash2 aria-hidden="true" />
-                    {t("companyEditor.remove")}
-                  </button>
-                </header>
-                <TextField
-                  label={t("companyEditor.name")}
-                  onChange={(name) => setCompany(id, { ...company, name })}
-                  value={company.name}
-                />
-                <ImageUploadField
-                  fileNameHint={id}
-                  label={t("companyEditor.logo")}
-                  onClear={() =>
-                    setCompany(id, { ...company, logo: undefined })
-                  }
-                  onUpload={(logo) => setCompany(id, { ...company, logo })}
-                  value={resolveLogoUrl(company.logo)}
-                />
+      }
+    >
+      {confirmDialog}
+      {entries.length > 0 ? (
+        <ul className="transport-companies">
+          {entries.map(([id, company]) => {
+            const isOpen = id === openId;
+            const logo = resolveLogoUrl(company.logo);
+            return (
+              <li
+                className={classNames(
+                  "transport-companies__company",
+                  isOpen && "transport-companies__company--open",
+                )}
+                key={id}
+              >
+                <button
+                  aria-expanded={isOpen}
+                  className="transport-companies__summary-row"
+                  onClick={() => setOpenId(isOpen ? undefined : id)}
+                  type="button"
+                >
+                  {logo ? (
+                    <img
+                      alt=""
+                      aria-hidden="true"
+                      className="transport-companies__logo"
+                      src={logo}
+                    />
+                  ) : (
+                    <span
+                      aria-hidden="true"
+                      className="transport-companies__logo"
+                    >
+                      <Building2 />
+                    </span>
+                  )}
+                  <span className="transport-companies__name">
+                    {company.name || id}
+                    <code className="transport-companies__id">{id}</code>
+                  </span>
+                  <span className="transport-companies__rides">
+                    {t("companyEditor.rideCount", {
+                      count: ridesByCompany.get(id)?.length ?? 0,
+                    })}
+                  </span>
+                  <ChevronDown
+                    aria-hidden="true"
+                    className="transport-companies__chevron"
+                  />
+                </button>
+                {isOpen ? (
+                  <div className="transport-companies__form">
+                    <TextField
+                      label={t("companyEditor.name")}
+                      onChange={(name) => setCompany(id, { ...company, name })}
+                      value={company.name}
+                    />
+                    <ImageUploadField
+                      fileNameHint={id}
+                      label={t("companyEditor.logo")}
+                      onClear={() =>
+                        setCompany(id, { ...company, logo: undefined })
+                      }
+                      onUpload={(next) =>
+                        setCompany(id, { ...company, logo: next })
+                      }
+                      value={logo}
+                    />
+                    <button
+                      className="editor-button editor-button--danger transport-companies__remove"
+                      onClick={() =>
+                        confirm({
+                          confirmLabel: t("confirm.removeCompany.action"),
+                          isDanger: true,
+                          message: t("confirm.removeCompany.message"),
+                          onConfirm: () => removeCompany(id),
+                          title: t("confirm.removeCompany.title", {
+                            name: company.name || id,
+                          }),
+                        })
+                      }
+                      type="button"
+                    >
+                      <Trash2 aria-hidden="true" />
+                      {t("companyEditor.removeCompany", { id })}
+                    </button>
+                  </div>
+                ) : null}
               </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="transport-companies__empty">
-            <Building2 aria-hidden="true" />
-            {t("companyEditor.empty")}
-          </p>
-        )}
-      </section>
-    </main>
+            );
+          })}
+        </ul>
+      ) : (
+        <p className="transport-companies__empty">
+          <Building2 aria-hidden="true" />
+          {t("companyEditor.empty")}
+        </p>
+      )}
+    </PanelFrame>
   );
 }
 

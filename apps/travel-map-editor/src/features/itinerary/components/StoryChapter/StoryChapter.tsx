@@ -2,6 +2,7 @@ import "./StoryChapter.scss";
 
 import { CoverImage } from "@app/shared/components/CoverImage/CoverImage";
 import { classNames } from "@app/shared/lib/classNames";
+import { IssueSeverity } from "@travelmap/core";
 import { ReactNode } from "react";
 
 /**
@@ -15,6 +16,8 @@ import { ReactNode } from "react";
  * @property {ReactNode} [summary] - What a closed stay shows under its banner
  * @property {boolean} [isOpen] - Whether a stay's fields are showing
  * @property {() => void} [onToggle] - Opens or closes a stay
+ * @property {ReactNode} [problems] - What is wrong with the step, shown open or closed
+ * @property {IssueSeverity} [severity] - The worst of those problems, tinting the node
  * @property {ReactNode} children - The chapter's fields, or a journey's rides
  */
 interface StoryChapterProps {
@@ -27,6 +30,8 @@ interface StoryChapterProps {
   summary?: ReactNode;
   isOpen?: boolean;
   onToggle?: () => void;
+  problems?: ReactNode;
+  severity?: IssueSeverity;
   children: ReactNode;
 }
 
@@ -36,7 +41,8 @@ interface StoryChapterProps {
  * spine, numbered for a stay as its pin on the map is, beside the step. A stay
  * is a pass with the city's picture as its banner; pressing the banner opens
  * its fields under it, in the pass. A journey is a heading over its rides,
- * which are tickets that open themselves.
+ * which are tickets that open themselves. A step with problems says so on
+ * itself, open or closed, and its node takes the problem's colour.
  * @component
  * @param {StoryChapterProps} props - The chapter props
  * @param {ReactNode} props.node - What the spine's node shows
@@ -48,6 +54,8 @@ interface StoryChapterProps {
  * @param {ReactNode} [props.summary] - What a closed stay shows
  * @param {boolean} [props.isOpen] - Whether a stay's fields are showing
  * @param {() => void} [props.onToggle] - Opens or closes a stay
+ * @param {ReactNode} [props.problems] - What is wrong with the step
+ * @param {IssueSeverity} [props.severity] - The worst of those problems
  * @param {ReactNode} props.children - The chapter's fields or rides
  * @returns {ReactNode} The chapter
  */
@@ -61,6 +69,8 @@ export function StoryChapter({
   summary,
   isOpen,
   onToggle,
+  problems,
+  severity,
   children,
 }: StoryChapterProps): ReactNode {
   return (
@@ -69,6 +79,7 @@ export function StoryChapter({
         "story-chapter",
         `story-chapter--${kind}`,
         isOpen && "story-chapter--open",
+        severity && `story-chapter--${severity}`,
       )}
     >
       <span aria-hidden="true" className="story-chapter__node">
@@ -91,6 +102,9 @@ export function StoryChapter({
           {action ? (
             <span className="story-chapter__action">{action}</span>
           ) : null}
+          {problems ? (
+            <div className="story-chapter__problems">{problems}</div>
+          ) : null}
           {isOpen ? (
             <div className="story-chapter__body">{children}</div>
           ) : (
@@ -106,6 +120,7 @@ export function StoryChapter({
             </span>
             {action}
           </header>
+          {problems}
           <div className="story-chapter__rides">{children}</div>
         </div>
       )}

@@ -35,6 +35,21 @@ $banner: 6.5rem;
     color: v.$greenInk;
   }
 
+  /* A step with a problem shows it on the spine, so it is found by scrolling. */
+  &--blocking &__node {
+    background: v.$visitedSoft;
+    color: v.$visitedInk;
+  }
+
+  &--warning &__node {
+    background: v.$livedSoft;
+    color: v.$livedInk;
+  }
+
+  &__problems {
+    padding: v.$space3 v.$space3 0;
+  }
+
   &__pass {
     @include m.pass-card();
     position: relative;

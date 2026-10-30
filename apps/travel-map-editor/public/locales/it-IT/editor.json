@@ -154,7 +154,8 @@
     "nameRequired": "Il nome canonico è obbligatorio.",
     "timezoneRequired": "Il fuso orario è obbligatorio.",
     "cannotDelete_one": "{{count}} viaggio fa riferimento a questa città, quindi non può ancora essere eliminata.",
-    "cannotDelete_other": "{{count}} viaggi fanno riferimento a questa città, quindi non può ancora essere eliminata."
+    "cannotDelete_other": "{{count}} viaggi fanno riferimento a questa città, quindi non può ancora essere eliminata.",
+    "pickOnMap": "Tocca la mappa per spostare il punto della città."
   },
   "countryScreen": {
     "kind": "Paese",
@@ -228,12 +229,13 @@
     "mediaRoot": "Radice multimediale",
     "mediaRootHint": "Viene inserita nei percorsi generati dall'uploader. I manifest esistenti non cambiano.",
     "unescoSites": "Siti UNESCO",
-    "unescoSitesHint": "Usato solo per contare quanti siti hai visitato. Lascia vuoto per mostrare zero."
+    "unescoSitesHint": "Usato solo per contare quanti siti hai visitato. Lascia vuoto per mostrare zero.",
+    "pickCenterOnMap": "Tocca la mappa per impostare il centro predefinito del sito."
   },
   "library": {
     "newTrip": "Nuovo viaggio",
     "welcome": "Ancora nessun viaggio",
-    "welcomeHint": "Il viaggio e' l'unica cosa che crei qui. Le citta' e i paesi necessari vengono scritti per te mentre aggiungi luoghi.",
+    "welcomeHint": "Il viaggio è l'unica cosa che crei qui. Le città e i paesi necessari vengono scritti per te mentre aggiungi luoghi.",
     "stopCount_one": "{{count}} posto in cui dormire",
     "stopCount_other": "{{count}} posti in cui dormire",
     "readyBadge": "Pronto",
@@ -241,8 +243,8 @@
     "warningBadge_other": "{{count}} avvisi",
     "blockingBadge_one": "{{count}} problema",
     "blockingBadge_other": "{{count}} problemi",
-    "places": "Paesi e citta'",
-    "placesCount": "{{countries}} paesi, {{cities}} citta'",
+    "places": "Paesi e città",
+    "placesCount": "{{countries}} paesi, {{cities}} città",
     "countries": "Paesi",
     "cities": "Città",
     "archive": "Archivio viaggi",
@@ -274,7 +276,9 @@
     "removeCompany": "Rimuovi {{id}}",
     "remove": "Rimuovi",
     "empty": "Nessuna compagnia di trasporto.",
-    "manage": "Gestisci compagnie"
+    "manage": "Gestisci compagnie",
+    "rideCount_one": "{{count}} tratta",
+    "rideCount_other": "{{count}} tratte"
   },
   "workspace": {
     "backToLibrary": "Viaggi",
@@ -284,7 +288,10 @@
     "restore": "Ripristina",
     "discard": "Scarta",
     "summary": "{{places}} posti, {{nights}} notti",
-    "more": "Altre azioni"
+    "more": "Altre azioni",
+    "noIssues": "Nessun problema",
+    "issueCount_one": "{{count}} problema",
+    "issueCount_other": "{{count}} problemi"
   },
   "photoImport": {
     "title": "Importa manifest fotografico",
@@ -316,27 +323,8 @@
   "map": {
     "fitToTrip": "Inquadra il viaggio",
     "useThisView": "Usa questa vista",
-    "selectStop": "Seleziona la tappa {{position}}, {{city}}"
-  },
-  "tray": {
-    "title": "Validazione e modifiche",
-    "validation": "Validazione",
-    "changes_one": "Modifiche ({{count}})",
-    "changes_other": "Modifiche ({{count}})",
-    "blockingSummary_one": "{{count}} problema bloccante",
-    "blockingSummary_other": "{{count}} problemi bloccanti",
-    "warningSummary_one": "{{count}} avviso",
-    "warningSummary_other": "{{count}} avvisi",
-    "cleanSummary": "Nessun problema bloccante",
-    "noIssues_one": "Niente da correggere. {{steps}} passo.",
-    "noIssues_other": "Niente da correggere. {{steps}} passi.",
-    "noChanges": "Niente scritto in questa sessione.",
-    "commitHint": "L'editor scrive i file; git li pubblica.",
-    "change": {
-      "created": "creato",
-      "updated": "aggiornato",
-      "deleted": "eliminato"
-    }
+    "selectStop": "Seleziona la tappa {{position}}, {{city}}",
+    "travelTo": "Vai a {{city}}"
   },
   "save": {
     "saving": "Salvataggio",
@@ -365,24 +353,24 @@
   "addPlace": {
     "title": "Aggiungi un luogo",
     "search": "Cerca nel mondo",
-    "searchHint": "Citta' sopra i 5.000 abitanti, dal gazetteer locale.",
-    "existing": "Gia' in questo dataset",
-    "existingHint": "Riusa una citta' invece di crearne una seconda copia.",
-    "countryNotOnMap": "Quel paese non e' nel catalogo mondiale, quindi non si puo' ancora creare una citta' li'.",
-    "willCreateCity": "Crea la citta' {{city}}.",
-    "reusesExisting": "Riusa la citta' esistente {{city}}.",
-    "willCreateCountry": "E' il primo luogo in {{country}}, quindi viene creato anche il file del paese.",
+    "searchHint": "Città sopra i 5.000 abitanti, dal gazetteer locale.",
+    "existing": "Già in questo dataset",
+    "existingHint": "Riusa una città invece di crearne una seconda copia.",
+    "countryNotOnMap": "Quel paese non è nel catalogo mondiale, quindi non si può ancora creare una città lì.",
+    "willCreateCity": "Crea la città {{city}}.",
+    "reusesExisting": "Riusa la città esistente {{city}}.",
+    "willCreateCountry": "È il primo luogo in {{country}}, quindi viene creato anche il file del paese.",
     "nearbyDuplicate": "{{city}} è già in questa posizione.",
     "manualTitle": "Crea un luogo personalizzato",
     "manualName": "Nome",
     "manualCountry": "Paese",
     "createHere": "Crea qui",
     "add": "Aggiungi all'itinerario",
-    "writeFailed": "Non e' stato possibile scrivere il luogo."
+    "writeFailed": "Non è stato possibile scrivere il luogo."
   },
   "backup": {
     "title": "Backup",
-    "hint": "data/ non e' in git, quindi queste istantanee sono l'unica seconda copia dei tuoi contenuti. Una viene presa automaticamente prima di ogni eliminazione e importazione.",
+    "hint": "data/ non è in git, quindi queste istantanee sono l'unica seconda copia dei tuoi contenuti. Una viene presa automaticamente prima di ogni eliminazione e importazione.",
     "takeSnapshot": "Crea un'istantanea",
     "download": "Scarica una copia",
     "snapshotTaken": "Istantanea creata.",
@@ -400,20 +388,20 @@
     "openSettings": "Vai alle impostazioni",
     "sortByDate": "Ordina l'itinerario per data",
     "trip": "Viaggio",
-    "city": "Citta'",
+    "city": "Città",
     "country": "Paese"
   },
   "import": {
     "title": "Importa",
-    "hint": "Incolla un itinerario scritto, un JSON di viaggio, un CSV, GeoJSON, GPX o KML. Non viene scritto nulla finche' non approvi.",
+    "hint": "Incolla un itinerario scritto, un JSON di viaggio, un CSV, GeoJSON, GPX o KML. Non viene scritto nulla finchè non approvi.",
     "paste": "Incolla o trascina il contenuto",
     "chooseFile": "Scegli un file",
     "read": "Leggi",
     "matching": "Cerco i luoghi",
     "apply": "Applica",
     "back": "Indietro",
-    "failed": "Non e' stato possibile applicare l'importazione.",
-    "nothingFound": "Non e' stato possibile leggere nessun luogo.",
+    "failed": "Non è stato possibile applicare l'importazione.",
+    "nothingFound": "Non è stato possibile leggere nessun luogo.",
     "summary": "Crea {{created}} luoghi, ne riusa {{reused}}, ne salta {{skipped}}.",
     "replaceSummary": "Sostituisce questo viaggio con {{id}} importato.",
     "reuse": "Riusa {{city}}",
@@ -480,11 +468,11 @@
       "rangePastGallery": "La prima foto di {{city}} ({{from}}) supera la fine della sua galleria di {{count}}, quindi non ne mostra nessuna."
     },
     "city": {
-      "unknownCountry": "La citta' \"{{id}}\" appartiene al paese sconosciuto \"{{countryId}}\".",
-      "timeZoneRequired": "La citta' \"{{id}}\" non ha un fuso orario.",
-      "invalidCoordinates": "La citta' \"{{id}}\" ha coordinate fuori dal mondo.",
-      "nullIsland": "La citta' \"{{id}}\" si trova a 0,0: di solito significa che la posizione non e' mai stata impostata.",
-      "unused": "La citta' \"{{id}}\" non e' usata da nessun viaggio."
+      "unknownCountry": "La città \"{{id}}\" appartiene al paese sconosciuto \"{{countryId}}\".",
+      "timeZoneRequired": "La città \"{{id}}\" non ha un fuso orario.",
+      "invalidCoordinates": "La città \"{{id}}\" ha coordinate fuori dal mondo.",
+      "nullIsland": "La città \"{{id}}\" si trova a 0,0: di solito significa che la posizione non è mai stata impostata.",
+      "unused": "La città \"{{id}}\" non è usata da nessun viaggio."
     },
     "country": {
       "nameRequired": "Il paese \"{{id}}\" non ha un nome.",
@@ -492,10 +480,10 @@
       "unknownCurrency": "Il paese \"{{id}}\" ha una valuta non riconosciuta."
     },
     "dataset": {
-      "duplicateId": "Piu' di un {{kind}} usa l'id \"{{id}}\"."
+      "duplicateId": "Più di un {{kind}} usa l'id \"{{id}}\"."
     },
     "config": {
-      "unknownCity": "Il campo {{field}} della configurazione usa la citta' sconosciuta \"{{id}}\"."
+      "unknownCity": "Il campo {{field}} della configurazione usa la città sconosciuta \"{{id}}\"."
     },
     "move": {
       "consecutive": "Due spostamenti si susseguono senza un soggiorno in mezzo."
@@ -563,7 +551,8 @@
     "summaryCheckOut": "Partenza",
     "nightsLabel": "Notti",
     "dayTripCount_one": "{{count}} gita",
-    "dayTripCount_other": "{{count}} gite"
+    "dayTripCount_other": "{{count}} gite",
+    "drawHint": "Tocca un puntino sulla mappa per andarci, o un punto vuoto per aggiungere un posto nuovo."
   },
   "upload": {
     "open": "Carica foto",
@@ -638,5 +627,10 @@
       "message": "I viaggi che usano questo operatore mostreranno il suo id invece di nome e logo.",
       "action": "Rimuovi compagnia"
     }
+  },
+  "places": {
+    "add": "Aggiungi luogo",
+    "tripCount_one": "{{count}} viaggio",
+    "tripCount_other": "{{count}} viaggi"
   }
 }

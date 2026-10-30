@@ -27,6 +27,28 @@
   box-shadow: v.$panelShadow;
 }
 
+/*
+ * A modal over the whole window, in the panel's frosted glass. It is a native
+ * `<dialog>` in the top layer, so its blur reaches the map behind it.
+ */
+@mixin dialog($width) {
+  @include panel();
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  width: min($width, 92vw);
+  max-height: calc(100vh - 2rem);
+  margin: auto;
+  border-radius: v.$radiusXl;
+  overflow-y: auto;
+  color: v.$ink;
+
+  &::backdrop {
+    background: rgb(0 0 0 / 40%);
+  }
+}
+
 /* A small frosted control floating over the map: the rail, buttons, the popup. */
 @mixin glass() {
   background: v.$glass;

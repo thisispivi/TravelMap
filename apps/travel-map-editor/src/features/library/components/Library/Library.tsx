@@ -6,25 +6,19 @@ import { useLanguage } from "@app/shared/hooks/useLanguage";
 import { classNames } from "@app/shared/lib/classNames";
 import { CityJson, Issue, TripJson } from "@travelmap/core";
 import {
-  ArrowUpRight,
   CheckCircle2,
-  ChevronLeft,
-  ChevronRight,
   CircleAlert,
-  Globe2,
   Image as ImageIcon,
-  MapPin,
-  MapPinned,
   Plus,
   Route,
-  Search,
   TriangleAlert,
 } from "lucide-react";
 import { ReactNode, SyntheticEvent, useState } from "react";
 import { Link } from "react-router";
 
 import { resolveMediaUrl } from "../../../../data/dataset";
-import { DataFile, DatasetSnapshot } from "../../../../data/store";
+import { DataFile } from "../../../../data/store";
+import { SearchField } from "../../../../shared/components/SearchField/SearchField";
 import { useMapScene } from "../../../../shared/context/MapScene.context";
 import { datasetIssues, useDataset } from "../../../../shared/hooks/useDataset";
 import { findWorldCountry } from "../../../../shared/lib/worldCountries";
@@ -37,60 +31,6 @@ import {
   tripThumbnail,
 } from "../../lib/tripCards";
 import { NewTripDialog } from "../NewTripDialog/NewTripDialog";
-
-/** Maximum number of rows shown on one library page. */
-const LIBRARY_PAGE_SIZE = 10;
-
-/**
- * SearchField component
- * The filter control shared by every library collection.
- * @component
- * @param {SearchFieldProps} props
- * @param {boolean} [props.isInset=false] - Whether it sits inside a bordered group
- * @param {string} props.label - Accessible name and placeholder
- * @param {(value: string) => void} props.onChange - Receives the typed query
- * @param {string} props.value - The current query
- * @returns {ReactNode} A labelled search input
- */
-function SearchField({
-  isInset = false,
-  label,
-  onChange,
-  value,
-}: SearchFieldProps): ReactNode {
-  return (
-    <div
-      className={classNames(
-        "library__search",
-        isInset && "library__search--inset",
-      )}
-    >
-      <Search aria-hidden="true" />
-      <input
-        aria-label={label}
-        className="library__search-input"
-        onChange={(event) => onChange(event.target.value)}
-        placeholder={label}
-        type="search"
-        value={value}
-      />
-    </div>
-  );
-}
-
-/**
- * Props for SearchField.
- * @property {boolean} [isInset] - Whether it sits inside a bordered group
- * @property {string} label - Accessible name and placeholder
- * @property {(value: string) => void} onChange - Receives the typed query
- * @property {string} value - The current query
- */
-interface SearchFieldProps {
-  isInset?: boolean;
-  label: string;
-  onChange: (value: string) => void;
-  value: string;
-}
 
 /** Status treatment shown on a trip card. */
 type TripStatusTone = "ready" | "warning" | "blocking";
@@ -147,240 +87,6 @@ function formatRange(sDate: string, eDate: string, locale: string): string {
  */
 function handleImageError(event: SyntheticEvent<HTMLImageElement>): void {
   event.currentTarget.hidden = true;
-}
-
-/**
- * Pagination component
- * Keeps the compact place collections usable without growing the dashboard
- * indefinitely.
- * @component
- * @param {PaginationProps} props
- * @param {number} props.page - Zero-based current page
- * @param {number} props.pageCount - Total page count
- * @param {(page: number) => void} props.onChange - Selects another page
- * @returns {ReactNode} Previous and next page controls
- */
-function Pagination({ page, pageCount, onChange }: PaginationProps): ReactNode {
-  const { t } = useLanguage(["editor"]);
-  return (
-    <footer className="library__pagination">
-      <button
-        aria-label={t("library.previousPage")}
-        className="library__pagination-button"
-        disabled={page === 0}
-        onClick={() => onChange(page - 1)}
-        type="button"
-      >
-        <ChevronLeft aria-hidden="true" />
-      </button>
-      <span>{t("library.page", { current: page + 1, total: pageCount })}</span>
-      <button
-        aria-label={t("library.nextPage")}
-        className="library__pagination-button"
-        disabled={page === pageCount - 1}
-        onClick={() => onChange(page + 1)}
-        type="button"
-      >
-        <ChevronRight aria-hidden="true" />
-      </button>
-    </footer>
-  );
-}
-
-/**
- * Props for Pagination.
- * @property {number} page - Zero-based current page
- * @property {number} pageCount - Total page count
- * @property {(page: number) => void} onChange - Selects another page
- */
-interface PaginationProps {
-  page: number;
-  pageCount: number;
-  onChange: (page: number) => void;
-}
-
-/**
- * PlacesPanel component
- * Gives countries and cities equal, compact access from the dashboard.
- * @component
- * @param {PlacesPanelProps} props
- * @param {DatasetSnapshot} props.dataset - Current authored dataset
- * @returns {ReactNode} The countries and cities bento panel
- */
-function PlacesPanel({ dataset }: PlacesPanelProps): ReactNode {
-  const { t } = useLanguage(["editor"]);
-  const [countryPage, setCountryPage] = useState(0);
-  const [cityPage, setCityPage] = useState(0);
-  const [countryQuery, setCountryQuery] = useState("");
-  const [cityQuery, setCityQuery] = useState("");
-  const countryNames = new Map(
-    dataset.countries.map(({ value }) => [value.id, value.name]),
-  );
-  const countries = searchItems(
-    dataset.countries.toSorted((first, second) =>
-      first.value.name.localeCompare(second.value.name),
-    ),
-    countryQuery,
-    ({ value }) => [
-      value.id,
-      value.name,
-      ...Object.values(value.nameByLocale ?? {}),
-    ],
-  );
-  const cities = searchItems(
-    dataset.cities.toSorted((first, second) =>
-      first.value.name.localeCompare(second.value.name),
-    ),
-    cityQuery,
-    ({ value }) => [
-      value.id,
-      value.name,
-      value.countryId,
-      countryNames.get(value.countryId) ?? "",
-      ...Object.values(value.nameByLocale ?? {}),
-    ],
-  );
-  const countryPageCount = Math.max(
-    1,
-    Math.ceil(countries.length / LIBRARY_PAGE_SIZE),
-  );
-  const cityPageCount = Math.max(
-    1,
-    Math.ceil(cities.length / LIBRARY_PAGE_SIZE),
-  );
-  const visibleCountryPage = Math.min(countryPage, countryPageCount - 1);
-  const visibleCityPage = Math.min(cityPage, cityPageCount - 1);
-
-  return (
-    <section className="library__panel library__panel--places" id="places">
-      <header className="library__section-header">
-        <span aria-hidden="true" className="library__section-icon">
-          <MapPinned />
-        </span>
-        <div>
-          <p className="library__section-kicker">{t("library.explore")}</p>
-          <h2>{t("library.places")}</h2>
-          <p className="library__section-hint">
-            {t("library.placesCount", {
-              cities: dataset.cities.length,
-              countries: dataset.countries.length,
-            })}
-          </p>
-        </div>
-      </header>
-      <div className="library__place-groups">
-        <section className="library__place-group">
-          <header className="library__place-group-header">
-            <Globe2 aria-hidden="true" />
-            <h3>{t("library.countries")}</h3>
-            <span>{countries.length}</span>
-          </header>
-          <SearchField
-            isInset
-            label={t("library.searchCountries")}
-            onChange={setCountryQuery}
-            value={countryQuery}
-          />
-          <ul className="library__places">
-            {countries.length === 0 ? (
-              <li className="library__places-empty">
-                {t("library.noMatches")}
-              </li>
-            ) : null}
-            {countries
-              .slice(
-                visibleCountryPage * LIBRARY_PAGE_SIZE,
-                (visibleCountryPage + 1) * LIBRARY_PAGE_SIZE,
-              )
-              .map(({ value }) => (
-                <li key={value.id}>
-                  <Link
-                    className="library__place-link"
-                    to={`/places/countries/${value.id}`}
-                  >
-                    <span className="library__flag-frame">
-                      <CountryFlag
-                        className="library__flag"
-                        countryId={value.id}
-                        src={findWorldCountry(value.id)?.flagUrl}
-                      />
-                    </span>
-                    <span className="library__place-name">{value.name}</span>
-                    <ArrowUpRight aria-hidden="true" />
-                  </Link>
-                </li>
-              ))}
-          </ul>
-          <Pagination
-            onChange={setCountryPage}
-            page={visibleCountryPage}
-            pageCount={countryPageCount}
-          />
-        </section>
-        <section className="library__place-group">
-          <header className="library__place-group-header">
-            <MapPin aria-hidden="true" />
-            <h3>{t("library.cities")}</h3>
-            <span>{cities.length}</span>
-          </header>
-          <SearchField
-            isInset
-            label={t("library.searchCities")}
-            onChange={setCityQuery}
-            value={cityQuery}
-          />
-          <ul className="library__places">
-            {cities.length === 0 ? (
-              <li className="library__places-empty">
-                {t("library.noMatches")}
-              </li>
-            ) : null}
-            {cities
-              .slice(
-                visibleCityPage * LIBRARY_PAGE_SIZE,
-                (visibleCityPage + 1) * LIBRARY_PAGE_SIZE,
-              )
-              .map(({ value }) => (
-                <li key={value.id}>
-                  <Link
-                    className="library__place-link"
-                    to={`/places/cities/${value.id}`}
-                  >
-                    <span className="library__flag-frame">
-                      <CountryFlag
-                        className="library__flag"
-                        countryId={value.countryId}
-                        src={findWorldCountry(value.countryId)?.flagUrl}
-                      />
-                    </span>
-                    <span className="library__place-copy">
-                      <span className="library__place-name">{value.name}</span>
-                      <span className="library__place-country">
-                        {countryNames.get(value.countryId) ?? value.countryId}
-                      </span>
-                    </span>
-                    <ArrowUpRight aria-hidden="true" />
-                  </Link>
-                </li>
-              ))}
-          </ul>
-          <Pagination
-            onChange={setCityPage}
-            page={visibleCityPage}
-            pageCount={cityPageCount}
-          />
-        </section>
-      </div>
-    </section>
-  );
-}
-
-/**
- * Props for PlacesPanel.
- * @property {DatasetSnapshot} dataset - Current authored dataset
- */
-interface PlacesPanelProps {
-  dataset: DatasetSnapshot;
 }
 
 /**
@@ -601,20 +307,5 @@ export function Library(): ReactNode {
         <NewTripDialog dataset={dataset} onClose={() => setIsCreating(false)} />
       ) : null}
     </PanelFrame>
-  );
-}
-
-/**
- * PlacesIndex component
- * The countries and cities lists, on their own page until the Places tab is
- * rebuilt around the map.
- * @component
- * @returns {ReactNode} The places page
- */
-export function PlacesIndex(): ReactNode {
-  return (
-    <div className="library library--page">
-      <PlacesPanel dataset={useDataset()} />
-    </div>
   );
 }

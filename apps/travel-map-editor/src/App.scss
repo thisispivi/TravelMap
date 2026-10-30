@@ -23,17 +23,9 @@
     left: calc(#{v.$shellGap} * 2 + #{v.$railWidth});
     display: flex;
     flex-direction: column;
+    width: min(30rem, calc(100vw - 8rem));
     overflow: hidden;
     border-radius: v.$radiusXl;
-
-    &--side {
-      width: min(30rem, calc(100vw - 8rem));
-    }
-
-    /* A screen not yet rebuilt around the map covers it, as a site page does. */
-    &--page {
-      right: v.$shellGap;
-    }
   }
 
   &__status {
