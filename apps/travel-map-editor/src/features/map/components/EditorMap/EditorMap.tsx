@@ -1,21 +1,12 @@
 import "./EditorMap.scss";
 
 import { createMapStyle, readMapTheme } from "@app/features/map/lib/mapTheme";
-import { useLanguage } from "@app/shared/hooks/useLanguage";
+import { arcBetween, nearSide } from "@app/features/map/lib/routeLines";
 import { classNames } from "@app/shared/lib/classNames";
-import {
-  CityJson,
-  fitViewport,
-  MapFocus,
-  toAuthoredZoom,
-  toMapLibreZoom,
-  TripJson,
-  walkTripLegs,
-} from "@travelmap/core";
-import type { FeatureCollection, Geometry } from "geojson";
-import { Focus, ScanLine } from "lucide-react";
+import { MODE_COLORS } from "@app/shared/lib/modeColors";
+import type { FeatureCollection, LineString } from "geojson";
 import { LngLatBounds } from "maplibre-gl";
-import { ReactNode, useMemo, useRef } from "react";
+import { ReactNode, useEffect, useMemo, useRef } from "react";
 import Map, {
   Layer,
   MapLayerMouseEvent,
@@ -25,219 +16,230 @@ import Map, {
   Source,
 } from "react-map-gl/maplibre";
 
-import { Selection } from "../../../workspace/Workspace.state";
+import {
+  MapRoute,
+  MapScene,
+  useMapSceneContext,
+} from "../../../../shared/context/MapScene.context";
 import { WorldLayers } from "../WorldLayers/WorldLayers";
 
-const FIT_PADDING_PX = 64;
+/* Room kept around the framed places, beyond whatever the panel covers. */
+const FRAME_PADDING_PX = 56;
+/* A single place is shown close enough to read its surroundings. */
+const SINGLE_PLACE_ZOOM = 7;
+/* Framing never zooms closer than a region, even for two nearby towns. */
+const FRAME_MAX_ZOOM = 9;
+const CAMERA_DURATION_MS = 900;
+const ROUTE_LAYERS = [
+  "editor-route-ground",
+  "editor-route-flight",
+  "editor-route-outing",
+];
+
+/**
+ * Turns the scene's rides into one line feature each, coloured by mode.
+ * Flights bow into the same arcs the site draws; ground rides take the short
+ * way across the antimeridian.
+ * @param {MapRoute[]} routes - The rides
+ * @returns {FeatureCollection<LineString>} The lines, with id, colour and stroke
+ */
+function routeFeatures(routes: MapRoute[]): FeatureCollection<LineString> {
+  return {
+    features: routes.map(({ from, id, isOuting, mode, to }) => ({
+      geometry: {
+        coordinates:
+          mode === "plane" ? arcBetween(from, to) : [from, nearSide(from, to)],
+        type: "LineString",
+      },
+      properties: {
+        color: MODE_COLORS[mode],
+        id,
+        stroke: isOuting ? "outing" : mode === "plane" ? "flight" : "ground",
+      },
+      type: "Feature",
+    })),
+    type: "FeatureCollection",
+  };
+}
+
+/**
+ * Properties accepted by the EditorMap component.
+ * @property {boolean} isDarkTheme - Whether the dark map theme is active
+ * @property {number} insetLeft - How far from the left edge the panel covers the map, in pixels
+ */
+interface EditorMapProps {
+  isDarkTheme: boolean;
+  insetLeft: number;
+}
 
 /**
  * EditorMap component
- * The geography half of the workspace. Places slept in are numbered markers,
- * journeys are solid lines and day trips dashed, so an itinerary that doubles
- * back or leaves a gap is visible here even when the story reads plausibly. Selecting anything selects
- * it in every other pane too.
+ * The one map behind every panel of the editor. It draws whatever scene the
+ * panel on screen describes, styled as the site draws trips, frames the
+ * scene's places in the part of the map the panel leaves visible, and hands
+ * presses on pins, rides and empty ground back to that panel.
  * @component
- * @param {EditorMapProps} props
- * @param {Map<string, CityJson>} props.cityById - Cities the trip can reference
+ * @param {EditorMapProps} props - The map props
  * @param {boolean} props.isDarkTheme - Whether the dark map theme is active
- * @param {(coordinates: [number, number]) => void} [props.onAddHere] - Called when the author clicks empty map
- * @param {(focus: MapFocus) => void} props.onCaptureView - Stores the current camera as the trip's map focus
- * @param {(selection: Selection) => void} props.onSelect - Selection callback
- * @param {Selection} props.selection - What every pane is pointed at
- * @param {TripJson} props.trip - The trip being edited
- * @returns {ReactNode} The map pane
+ * @param {number} props.insetLeft - How far from the left the panel covers the map
+ * @returns {ReactNode} The map
  */
 export function EditorMap({
-  cityById,
   isDarkTheme,
-  onAddHere,
-  onCaptureView,
-  onSelect,
-  selection,
-  trip,
+  insetLeft,
 }: EditorMapProps): ReactNode {
-  const { t } = useLanguage(["editor"]);
+  const { handlersRef, scene, viewReaderRef } = useMapSceneContext();
   const mapRef = useRef<MapRef>(null);
+  const sceneRef = useRef<MapScene>(scene);
   const theme = useMemo(() => readMapTheme(isDarkTheme), [isDarkTheme]);
   const mapStyle = useMemo(() => createMapStyle(theme), [theme]);
+  const frameKey = JSON.stringify(scene.frame);
+  const selectedId = scene.selectedId ?? "";
 
-  const stops = trip.steps.flatMap((step, index) => {
-    if (step.type !== "stay") return [];
-    const city = cityById.get(step.cityId);
-    return city ? [{ city, index }] : [];
+  useEffect(() => {
+    sceneRef.current = scene;
   });
-  const routes: FeatureCollection<Geometry> = {
-    features: walkTripLegs(trip).flatMap(({ fromId, index, leg, outing }) => {
-      const from = cityById.get(fromId);
-      const to = cityById.get(leg.toId);
-      if (!from || !to || fromId === leg.toId) return [];
-      return [
-        {
-          geometry: {
-            coordinates: [from.coordinates, to.coordinates],
-            type: "LineString" as const,
-          },
-          properties: { index, isOuting: outing !== undefined },
-          type: "Feature" as const,
-        },
-      ];
-    }),
-    type: "FeatureCollection",
-  };
-  const initial = trip.mapFocus
-    ? {
-        latitude: trip.mapFocus.center[1],
-        longitude: trip.mapFocus.center[0],
-        zoom: toMapLibreZoom(trip.mapFocus.zoom),
-      }
-    : (() => {
-        const suggested = fitViewport(
-          stops.map(({ city }) => city.coordinates),
-        );
-        return {
-          latitude: suggested?.center[1] ?? 20,
-          longitude: suggested?.center[0] ?? 0,
-          zoom: suggested ? toMapLibreZoom(suggested.zoom) : 1.5,
-        };
-      })();
 
-  /**
-   * Frames every stop in the trip, which is the answer to "where did I go"
-   * far more often than any stored camera is.
-   * @returns {void}
-   */
-  function handleFit(): void {
-    const first = stops[0];
-    if (!first || !mapRef.current) return;
-    const bounds = stops.reduce(
-      (extent, { city }) => extent.extend(city.coordinates),
-      new LngLatBounds(first.city.coordinates, first.city.coordinates),
-    );
-    mapRef.current.fitBounds(bounds, { padding: FIT_PADDING_PX });
-  }
+  useEffect(() => {
+    viewReaderRef.current = () => {
+      const map = mapRef.current;
+      if (!map) return undefined;
+      const center = map.getCenter();
+      return { center: [center.lng, center.lat], zoom: map.getZoom() };
+    };
+    return () => {
+      viewReaderRef.current = null;
+    };
+  }, [viewReaderRef]);
 
-  /**
-   * Stores the current camera centre and zoom as the trip's authored map focus.
-   * @returns {void}
-   */
-  function handleCaptureView(): void {
+  useEffect(() => {
     const map = mapRef.current;
-    if (!map) return;
-    const center = map.getCenter();
-    onCaptureView({
-      center: [Number(center.lng.toFixed(4)), Number(center.lat.toFixed(4))],
-      zoom: toAuthoredZoom(map.getZoom()),
+    const [first, ...rest] = sceneRef.current.frame;
+    if (!map || !first) return;
+    const padding = {
+      bottom: FRAME_PADDING_PX,
+      left: insetLeft + FRAME_PADDING_PX,
+      right: FRAME_PADDING_PX,
+      top: FRAME_PADDING_PX,
+    };
+    if (rest.length === 0) {
+      map.flyTo({
+        center: first,
+        duration: CAMERA_DURATION_MS,
+        padding,
+        zoom: Math.max(map.getZoom(), SINGLE_PLACE_ZOOM),
+      });
+      return;
+    }
+    const bounds = rest.reduce(
+      (extent, point) => extent.extend(point),
+      new LngLatBounds(first, first),
+    );
+    map.fitBounds(bounds, {
+      duration: CAMERA_DURATION_MS,
+      maxZoom: FRAME_MAX_ZOOM,
+      padding,
     });
-  }
+  }, [frameKey, insetLeft]);
 
   /**
-   * Offers to add a stop where the author clicked bare map.
-   * @param {MapLayerMouseEvent} event - The map click
+   * Hands a press to the panel: a ride when one was hit, otherwise the spot.
+   * @param {MapLayerMouseEvent} event - The press
    * @returns {void}
    */
-  function handleClick(event: MapLayerMouseEvent): void {
-    onAddHere?.([event.lngLat.lng, event.lngLat.lat]);
-  }
+  const handleClick = (event: MapLayerMouseEvent): void => {
+    const rideId = event.features?.[0]?.properties?.id;
+    if (typeof rideId === "string") {
+      handlersRef.current.onSelect?.(rideId);
+      return;
+    }
+    handlersRef.current.onPick?.([event.lngLat.lng, event.lngLat.lat]);
+  };
+
   return (
     <div className="editor-map">
       <Map
         attributionControl={false}
         dragRotate={false}
-        initialViewState={initial}
+        initialViewState={{ latitude: 30, longitude: 10, zoom: 1.6 }}
+        interactiveLayerIds={ROUTE_LAYERS}
         mapStyle={mapStyle}
         maxPitch={0}
         onClick={handleClick}
         ref={mapRef}
-        renderWorldCopies={false}
       >
         <WorldLayers theme={theme} />
-        <Source data={routes} id="routes" type="geojson">
+        <Source
+          data={routeFeatures(scene.routes)}
+          id="editor-routes"
+          type="geojson"
+        >
           <Layer
-            filter={["!", ["get", "isOuting"]]}
-            id="route-line"
-            paint={{ "line-color": theme.border, "line-width": 2.5 }}
+            filter={["==", ["get", "stroke"], "ground"]}
+            id="editor-route-ground"
+            layout={{ "line-cap": "round" }}
+            paint={{
+              "line-color": ["get", "color"],
+              "line-width": ["case", ["==", ["get", "id"], selectedId], 5, 3],
+            }}
             type="line"
           />
           <Layer
-            filter={["get", "isOuting"]}
-            id="route-outing-line"
+            filter={["==", ["get", "stroke"], "flight"]}
+            id="editor-route-flight"
             paint={{
-              "line-color": theme.border,
-              "line-dasharray": [2, 1.5],
-              "line-width": 1.75,
+              "line-color": ["get", "color"],
+              "line-dasharray": [2, 1.6],
+              "line-width": ["case", ["==", ["get", "id"], selectedId], 4, 2.5],
+            }}
+            type="line"
+          />
+          <Layer
+            filter={["==", ["get", "stroke"], "outing"]}
+            id="editor-route-outing"
+            layout={{ "line-cap": "round" }}
+            paint={{
+              "line-color": ["get", "color"],
+              "line-dasharray": [0.1, 2],
+              "line-width": ["case", ["==", ["get", "id"], selectedId], 4, 2.5],
             }}
             type="line"
           />
         </Source>
         <NavigationControl position="top-right" showCompass={false} />
-        {stops.map(({ city, index }) => (
+        {scene.pins.map((pin) => (
           <Marker
-            anchor="bottom"
-            key={`${city.id}-${index}`}
-            latitude={city.coordinates[1]}
-            longitude={city.coordinates[0]}
+            anchor={pin.tone === "place" ? "bottom" : "center"}
+            key={pin.id}
+            latitude={pin.coordinates[1]}
+            longitude={pin.coordinates[0]}
           >
             <button
-              aria-label={t("map.selectStop", {
-                city: city.name,
-                position: index + 1,
-              })}
+              aria-label={pin.label}
               className={classNames(
-                "editor-map__marker",
-                selection.kind === "step" &&
-                  selection.index === index &&
-                  "editor-map__marker--selected",
+                "editor-map__pin",
+                `editor-map__pin--${pin.tone}`,
+                pin.id === selectedId && "editor-map__pin--selected",
               )}
               onClick={(event) => {
                 event.stopPropagation();
-                onSelect({ index, kind: "step" });
+                handlersRef.current.onSelect?.(pin.id);
               }}
+              title={pin.label}
               type="button"
             >
-              {stops.findIndex((entry) => entry.index === index) + 1}
+              {pin.tone === "place" ? (
+                <svg aria-hidden="true" viewBox="0 0 466.7 666.7">
+                  <path d="M233.3,0C104.5,0,0,104.5,0,233.3c0,128.9,233.3,433.3,233.3,433.3s233.3-304.5,233.3-433.3C466.7,104.5,362.2,0,233.3,0L233.3,0z M233.3,350c-64.4,0-116.7-52.2-116.7-116.7s52.2-116.7,116.7-116.7l0,0c64.4,0,116.7,52.2,116.7,116.7S297.8,350,233.3,350z" />
+                  <circle cx="233.3" cy="233.3" r="116.7" />
+                </svg>
+              ) : (
+                pin.number
+              )}
             </button>
           </Marker>
         ))}
       </Map>
-      <div className="editor-map__actions">
-        <button
-          className="editor-button"
-          disabled={stops.length === 0}
-          onClick={handleFit}
-          type="button"
-        >
-          <ScanLine aria-hidden="true" />
-          {t("map.fitToTrip")}
-        </button>
-        <button
-          className="editor-button"
-          onClick={handleCaptureView}
-          type="button"
-        >
-          <Focus aria-hidden="true" />
-          {t("map.useThisView")}
-        </button>
-      </div>
     </div>
   );
-}
-
-/**
- * Props for EditorMap.
- * @property {Map<string, CityJson>} cityById - Cities the trip can reference
- * @property {boolean} isDarkTheme - Whether the dark map theme is active
- * @property {(coordinates: [number, number]) => void} [onAddHere] - Called when the author clicks empty map
- * @property {(focus: MapFocus) => void} onCaptureView - Stores the current camera as the trip's map focus
- * @property {(selection: Selection) => void} onSelect - Selection callback
- * @property {Selection} selection - What every pane is pointed at
- * @property {TripJson} trip - The trip being edited
- */
-interface EditorMapProps {
-  cityById: Map<string, CityJson>;
-  isDarkTheme: boolean;
-  onAddHere?: (coordinates: [number, number]) => void;
-  onCaptureView: (focus: MapFocus) => void;
-  onSelect: (selection: Selection) => void;
-  selection: Selection;
-  trip: TripJson;
 }

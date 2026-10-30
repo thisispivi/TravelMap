@@ -1,59 +1,82 @@
 @use "variables" as v;
+@use "mixins" as m;
+
+$nodeSize: 1.75rem;
 
 .trip-story {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
-  padding: 1rem 1.25rem 3rem;
-  --story-rail: v.$line;
-  --story-surface: v.$cardSunken;
-  --story-surface-strong: v.$line;
-  --story-muted: #{v.$ink2};
+  gap: v.$space4;
 
   &__details {
-    border-radius: 0.875rem;
-    background: var(--story-surface);
+    @include m.pass-card();
   }
 
   &__details-summary {
-    padding: 0.75rem 1rem;
-    font-weight: 600;
+    padding: v.$space3 v.$space4;
+    font-weight: 650;
     cursor: pointer;
   }
 
   &__details-body {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
-    padding: 0 1rem 1rem;
+    gap: v.$space3;
+    padding: 0 v.$space4 v.$space4;
   }
 
   &__start {
     display: grid;
-    grid-template-columns: 2rem 2fr 1fr;
+    grid-template-columns: #{$nodeSize} 2fr 1fr;
     align-items: end;
-    gap: 0.75rem 0.875rem;
+    gap: v.$space3;
   }
 
   &__start-icon {
-    width: 2rem;
-    height: 2rem;
-    padding: 0.4375rem;
+    width: $nodeSize;
+    height: $nodeSize;
+    margin-bottom: 0.5rem;
+    padding: 0.375rem;
+    border: 0.125rem solid v.$card;
     border-radius: 50%;
-    background: var(--story-surface-strong);
+    background: v.$blueSoft;
+    color: v.$blueInk;
   }
 
+  /* The site's spine: a dashed line the chapters' nodes sit on. */
   &__chapters {
+    position: relative;
     display: flex;
     flex-direction: column;
+    gap: v.$space3;
     margin: 0;
     padding: 0;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: v.$space4;
+      bottom: v.$space4;
+      left: calc(#{$nodeSize} / 2 - 0.0625rem);
+      width: 0.125rem;
+      border-radius: v.$radiusPill;
+      background: repeating-linear-gradient(
+        to bottom,
+        v.$line 0 0.375rem,
+        transparent 0.375rem 0.625rem
+      );
+    }
+  }
+
+  &__node-icon {
+    width: 0.875rem;
+    height: 0.875rem;
   }
 
   &__legs {
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    gap: v.$space2;
     margin: 0;
     padding: 0;
   }
@@ -69,34 +92,32 @@
   &__next {
     display: flex;
     flex-direction: column;
-    gap: 0.875rem;
-    margin-left: 2.875rem;
-    padding: 1.125rem;
+    gap: v.$space3;
+    margin-left: 2.25rem;
+    padding: v.$space4;
     border: 0.125rem dashed v.$accent;
-    border-radius: 1.125rem;
+    border-radius: v.$radiusLg;
   }
 
   &__next-title {
     margin: 0;
-    font-size: 1.125rem;
+    font-size: v.$headingMd;
   }
 
   &__next-actions {
     display: flex;
     flex-wrap: wrap;
     align-items: flex-end;
-    gap: 0.75rem;
+    gap: v.$space2;
   }
 
   &__stay-here {
     display: flex;
     align-items: flex-end;
-    gap: 0.5rem;
+    gap: v.$space2;
 
     .editor-field {
       width: 7rem;
     }
   }
 }
-
-/* Colours shared by the story, its chapters, and their rows. */

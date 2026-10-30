@@ -1,5 +1,6 @@
 import "./TripStory.scss";
 
+import { TransportModeIcon } from "@app/shared/components/TransportModeIcon/TransportModeIcon";
 import { useLanguage } from "@app/shared/hooks/useLanguage";
 import { TripJson, TripMoveJson } from "@travelmap/core";
 import {
@@ -114,7 +115,6 @@ function TripDetails({ trip, onChange }: TripDetailsProps): ReactNode {
  * @property {DatasetSnapshot} dataset - The current dataset
  * @property {TripJson} trip - The trip being edited
  * @property {number} index - Position of the journey
- * @property {number} number - The chapter number shown in its badge
  * @property {TripMoveJson} move - The journey
  * @property {number | undefined} openLeg - The ride whose form is open
  * @property {(leg: number | null) => void} onOpenLeg - Opens or closes a ride's form
@@ -125,7 +125,6 @@ interface MoveCardProps {
   dataset: DatasetSnapshot;
   trip: TripJson;
   index: number;
-  number: number;
   move: TripMoveJson;
   openLeg: number | undefined;
   onOpenLeg: (leg: number | null) => void;
@@ -142,7 +141,6 @@ interface MoveCardProps {
  * @param {DatasetSnapshot} props.dataset - The current dataset
  * @param {TripJson} props.trip - The trip being edited
  * @param {number} props.index - Position of the journey
- * @param {number} props.number - The chapter number shown in its badge
  * @param {TripMoveJson} props.move - The journey
  * @param {number | undefined} props.openLeg - The ride whose form is open
  * @param {(leg: number | null) => void} props.onOpenLeg - Opens or closes a ride's form
@@ -154,7 +152,6 @@ function MoveCard({
   dataset,
   trip,
   index,
-  number,
   move,
   openLeg,
   onOpenLeg,
@@ -205,7 +202,12 @@ function MoveCard({
       }
       eyebrow={`${t(`story.chapter.${role}`)} · ${formatStoryDays(date, endDate, lang)}`}
       kind="journey"
-      number={number}
+      node={
+        <TransportModeIcon
+          className="trip-story__node-icon"
+          mode={move.legs[0]?.mode ?? "plane"}
+        />
+      }
       title={`${cityName(origins[0] ?? trip.originCityId)} → ${cityName(move.legs.at(-1)?.toId ?? "")}`}
     >
       {confirmDialog}
@@ -339,6 +341,18 @@ function NextStep({
 }
 
 /**
+ * Counts which stay a step is, for its node: the same number its pin carries
+ * on the map, where only stays are numbered.
+ * @param {TripJson} trip - The trip
+ * @param {number} index - The stay's position among all steps
+ * @returns {number} Its position among the stays, from 1
+ */
+function stayNumber(trip: TripJson, index: number): number {
+  return trip.steps.slice(0, index + 1).filter(({ type }) => type === "stay")
+    .length;
+}
+
+/**
  * Names where a move leaves from, for its list key: the stay before it, or the
  * trip's start. Keys must not be positions, or every card after a removed
  * step would remount and lose its open leg.
@@ -452,8 +466,9 @@ export function TripStory({
           step.type === "stay" ? (
             <StayCard
               dataset={dataset}
+              isOpen={selected?.index === index}
               key={`stay-${step.cityId}-${step.checkIn}`}
-              number={index + 1}
+              number={stayNumber(trip, index)}
               onAddDayTrip={() => onRequestPlace({ index, kind: "dayTrip" })}
               onAddPlace={(outing) =>
                 onRequestPlace({ index, kind: "addToChain", outing })
@@ -461,6 +476,13 @@ export function TripStory({
               onChange={(next) => onChange(replaceStep(trip, index, next))}
               onOpenLeg={(outing, leg) => openLeg(index, outing, leg)}
               onRemove={() => onChange(removeStep(trip, index))}
+              onToggle={() =>
+                onSelect(
+                  selected?.index === index
+                    ? { kind: "trip" }
+                    : { index, kind: "step" },
+                )
+              }
               openLeg={
                 selected?.index === index &&
                 selected.outing !== undefined &&
@@ -476,7 +498,6 @@ export function TripStory({
               index={index}
               key={`move-${moveOrigin(trip, index)}-${step.legs.map(({ toId }) => toId).join(">")}`}
               move={step}
-              number={index + 1}
               onAddStop={() => onRequestPlace({ index, kind: "addToChain" })}
               onChange={onChange}
               onOpenLeg={(leg) => openLeg(index, undefined, leg)}

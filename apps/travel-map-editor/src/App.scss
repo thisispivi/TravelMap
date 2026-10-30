@@ -1,35 +1,62 @@
 @use "variables" as v;
 @use "mixins" as m;
 
-/* The public app owns the viewport; the editor must remain scrollable. */
-body,
-#root {
-  height: auto;
-  min-height: 100%;
-  overflow: auto;
-}
-
 /*
- * The shell owns the scrolling, and is a flex column of a definite height, so
- * a full-height screen such as the workspace can claim exactly the space the
- * navigation leaves instead of subtracting the bar's height by hand.
+ * The site's shell: the map fills the window behind everything, the rail runs
+ * down its left edge, and each screen opens in a frosted panel. Nothing
+ * scrolls but the panel's own body.
  */
 .editor {
-  position: relative;
-  display: flex;
-  height: 100dvh;
-  flex-direction: column;
-  overflow: auto;
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
   background-color: v.$ground;
   color: v.$ink;
 
+  /* Beside the map, as the site's side panel sits: the map stays in view. */
+  &__panel {
+    @include m.panel();
+    position: fixed;
+    z-index: 5;
+    top: v.$shellGap;
+    bottom: v.$shellGap;
+    left: calc(#{v.$shellGap} * 2 + #{v.$railWidth});
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: v.$radiusXl;
+
+    &--side {
+      width: min(30rem, calc(100vw - 8rem));
+    }
+
+    /* A screen not yet rebuilt around the map covers it, as a site page does. */
+    &--page {
+      right: v.$shellGap;
+    }
+  }
+
+  &__status {
+    @include m.glass();
+    position: fixed;
+    z-index: 6;
+    top: v.$shellGap;
+    right: calc(#{v.$shellGap} + 3rem);
+    padding: 0.1875rem;
+    border-radius: v.$radiusPill;
+  }
+
+  /* A page screen scrolls inside the panel and keeps a readable width. */
   &__screen {
     display: flex;
+    flex: 1;
     flex-direction: column;
     gap: v.$space3;
     width: min(80rem, 100%);
+    min-height: 0;
     margin: 0 auto;
-    padding: 1.5rem 1rem 5rem;
+    padding: 1.5rem 1rem 3rem;
+    overflow-y: auto;
   }
 
   &__header {

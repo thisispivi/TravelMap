@@ -11,13 +11,11 @@ import {
   Route,
   Sun,
 } from "lucide-react";
-import { ReactNode, useRef, useState } from "react";
+import { ReactNode } from "react";
 import { useLocation, useNavigate } from "react-router";
 
 import LogoIcon from "@/assets/icons/Logo.svg?react";
-import { SUPPORTED_LOCALES, SupportedLocale } from "@/i18n/locale";
-import { CountryFlag } from "@/shared/components/CountryFlag/CountryFlag";
-import { Popover } from "@/shared/components/Popover/Popover";
+import { LanguageMenu } from "@/shared/components/LanguageMenu/LanguageMenu";
 import { NavTabId, useAppRoute } from "@/shared/context/AppRoute.context";
 import { usePanel } from "@/shared/context/Panel.context";
 import { useLanguage } from "@/shared/hooks/useLanguage";
@@ -54,102 +52,6 @@ interface AppNavProps {
   isCompact: boolean;
   isDarkTheme: boolean;
   onToggleTheme: () => void;
-}
-
-/* English is drawn with the United Kingdom's flag, as the old switcher did. */
-const LOCALE_FLAGS: Record<SupportedLocale, string> = {
-  "en-US": "UnitedKingdom",
-  "it-IT": "Italy",
-};
-
-/**
- * Names a locale in its own language, such as `English` or `Italiano`.
- * @param {SupportedLocale} locale - The locale
- * @returns {string} Its native name
- */
-function nativeName(locale: SupportedLocale): string {
-  const language = locale.slice(0, 2);
-  const name =
-    new Intl.DisplayNames([locale], { type: "language" }).of(language) ??
-    language;
-  return name.charAt(0).toLocaleUpperCase(locale) + name.slice(1);
-}
-
-/**
- * Properties accepted by the LanguageMenu component.
- * @property {boolean} isCompact - Whether the menu drops down from the phone toolbar rather than opening beside the rail
- */
-interface LanguageMenuProps {
-  isCompact: boolean;
-}
-
-/**
- * LanguageMenu component
- * The current language's flag; pressing it lists every language by flag and
- * native name in a frosted popover, beside the rail or under the phone
- * toolbar.
- * @component
- * @param {LanguageMenuProps} props - The menu props
- * @param {boolean} props.isCompact - Whether the menu drops down from the phone toolbar
- * @returns {ReactNode} The language menu
- */
-function LanguageMenu({ isCompact }: LanguageMenuProps): ReactNode {
-  const { t, currLanguage, changeLanguage } = useLanguage(["home"]);
-  const [anchor, setAnchor] = useState<DOMRect | null>(null);
-  const triggerRef = useRef<HTMLButtonElement>(null);
-
-  return (
-    <>
-      <button
-        aria-expanded={anchor !== null}
-        aria-haspopup="dialog"
-        aria-label={t("language")}
-        className="app-nav__tool"
-        onClick={(event) =>
-          setAnchor(anchor ? null : event.currentTarget.getBoundingClientRect())
-        }
-        ref={triggerRef}
-        type="button"
-      >
-        <CountryFlag
-          className="app-nav__tool-flag"
-          countryId={LOCALE_FLAGS[currLanguage]}
-        />
-      </button>
-      <Popover
-        anchor={anchor}
-        label={t("language")}
-        onClose={() => setAnchor(null)}
-        placement={isCompact ? "below" : "beside"}
-        triggerRef={triggerRef}
-      >
-        <ul className="app-nav__languages">
-          {SUPPORTED_LOCALES.map((locale) => (
-            <li key={locale}>
-              <button
-                aria-pressed={locale === currLanguage}
-                className={classNames(
-                  "app-nav__language-option",
-                  locale === currLanguage && "app-nav__language-option--active",
-                )}
-                onClick={() => {
-                  changeLanguage(locale);
-                  setAnchor(null);
-                }}
-                type="button"
-              >
-                <CountryFlag
-                  className="app-nav__tool-flag"
-                  countryId={LOCALE_FLAGS[locale]}
-                />
-                {nativeName(locale)}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </Popover>
-    </>
-  );
 }
 
 /**
@@ -195,7 +97,11 @@ function NavTools({
           <Moon aria-hidden="true" className="app-nav__tool-icon" />
         )}
       </button>
-      <LanguageMenu isCompact={isCompact} />
+      <LanguageMenu
+        label={t("language")}
+        placement={isCompact ? "below" : "beside"}
+        triggerClassName="app-nav__tool"
+      />
     </>
   );
 }

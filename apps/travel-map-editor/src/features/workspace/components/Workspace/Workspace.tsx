@@ -1,14 +1,31 @@
 import "./Workspace.scss";
 
+import { PanelFrame } from "@app/shared/components/PanelFrame/PanelFrame";
+import { Popover } from "@app/shared/components/Popover/Popover";
 import { useLanguage } from "@app/shared/hooks/useLanguage";
-import { daysBetween, Issue, TripJson, tripPlaceIds } from "@travelmap/core";
-import { ArrowLeft, FileInput, Redo2, Trash2, Undo2 } from "lucide-react";
-import { ReactNode, useEffect, useState } from "react";
+import {
+  daysBetween,
+  Issue,
+  toAuthoredZoom,
+  TripJson,
+  tripPlaceIds,
+} from "@travelmap/core";
+import {
+  ArrowLeft,
+  Ellipsis,
+  FileInput,
+  Focus,
+  Redo2,
+  Trash2,
+  Undo2,
+} from "lucide-react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router";
 
 import { DataFile, deleteDocument } from "../../../../data/store";
 import { useConfirm } from "../../../../shared/components/ConfirmDialog/ConfirmDialog";
 import { useToast } from "../../../../shared/components/Toast/Toast";
+import { useMapScene } from "../../../../shared/context/MapScene.context";
 import {
   useDataset,
   useSessionChanges,
@@ -22,27 +39,57 @@ import {
   PlaceRequest,
   returnHome,
 } from "../../../itinerary/lib/itinerary";
-import { EditorMap } from "../../../map/components/EditorMap/EditorMap";
+import { legMapId, stepMapId, tripScene } from "../../../map/lib/tripScene";
 import { AddPlaceDialog } from "../../../places/components/AddPlaceDialog/AddPlaceDialog";
 import { cityCoordinates } from "../../../places/lib/placeOptions";
 import {
   TrayTab,
   ValidationTray,
 } from "../../../validation/components/ValidationTray/ValidationTray";
-import { useTripWorkspace } from "../../Workspace.state";
+import { Selection, useTripWorkspace } from "../../Workspace.state";
+
+/**
+ * Names the map id the current selection draws as selected.
+ * @param {Selection} selection - What the itinerary is pointed at
+ * @returns {string | undefined} The pin or ride id, or nothing for the whole trip
+ */
+function selectedMapId(selection: Selection): string | undefined {
+  if (selection.kind === "trip") return undefined;
+  return selection.leg === undefined
+    ? stepMapId(selection.index)
+    : legMapId(selection.index, selection.outing, selection.leg);
+}
+
+/**
+ * Reads a map id back into the selection it stands for.
+ * @param {string} id - A pin or ride id from the map
+ * @returns {Selection} What to point the itinerary at
+ */
+function selectionOf(id: string): Selection {
+  const step = /^step:(\d+)$/.exec(id);
+  if (step) return { index: Number(step[1]), kind: "step" };
+  const leg = /^leg:(\d+):(\d*):(\d+)$/.exec(id);
+  if (!leg) return { kind: "trip" };
+  return {
+    index: Number(leg[1]),
+    kind: "step",
+    leg: Number(leg[3]),
+    ...(leg[2] ? { outing: Number(leg[2]) } : {}),
+  };
+}
 
 /**
  * Workspace component
- * The whole editing surface for one trip: the trip story on the left and the
- * map on the right, both rendering from one draft. It autosaves edits and adds
- * places without leaving the current trip.
+ * One trip, edited in the panel beside the shared map: the itinerary in the
+ * panel and the trip drawn on the map, both from one draft. Selecting a step
+ * on either side points the other at it; pressing an empty spot on the map
+ * adds a place there. Edits autosave and can be undone.
  * @component
  * @param {WorkspaceProps} props
  * @param {DataFile<TripJson>} props.file - The trip document being edited
- * @param {boolean} props.isDarkTheme - Whether the dark map theme is active
  * @returns {ReactNode} The trip workspace
  */
-export function Workspace({ file, isDarkTheme }: WorkspaceProps): ReactNode {
+export function Workspace({ file }: WorkspaceProps): ReactNode {
   const { t } = useLanguage(["editor"]);
   const { showToast } = useToast();
   const navigate = useNavigate();
@@ -58,8 +105,29 @@ export function Workspace({ file, isDarkTheme }: WorkspaceProps): ReactNode {
   const { confirm, confirmDialog } = useConfirm();
 
   const { redoEdit, trip, undoEdit, update } = workspace;
+  const [menuAnchor, setMenuAnchor] = useState<DOMRect | null>(null);
+  const menuTriggerRef = useRef<HTMLButtonElement>(null);
   const cityById = new Map(
     dataset.cities.map(({ value }) => [value.id, value] as const),
+  );
+  const scene = tripScene(trip, cityById);
+  const selectedId = selectedMapId(workspace.selection);
+  const selectedPin = scene.pins.find(({ id }) => id === selectedId);
+  const selectedRoute = scene.routes.find(({ id }) => id === selectedId);
+  const { readView } = useMapScene(
+    {
+      ...scene,
+      frame: selectedPin
+        ? [selectedPin.coordinates]
+        : selectedRoute
+          ? [selectedRoute.from, selectedRoute.to]
+          : scene.frame,
+      selectedId,
+    },
+    {
+      onPick: (coordinates) => requestPlace({ kind: "travel" }, coordinates),
+      onSelect: (id) => workspace.select(selectionOf(id)),
+    },
   );
 
   /**
@@ -164,99 +232,116 @@ export function Workspace({ file, isDarkTheme }: WorkspaceProps): ReactNode {
     update(fix.apply(trip));
   }
 
+  /**
+   * Saves where the map is looking as the trip's own view, the one the site
+   * opens it on.
+   * @returns {void}
+   */
+  function captureView(): void {
+    const view = readView();
+    if (!view) return;
+    update({
+      ...trip,
+      mapFocus: {
+        center: [
+          Number(view.center[0].toFixed(4)),
+          Number(view.center[1].toFixed(4)),
+        ],
+        zoom: toAuthoredZoom(view.zoom),
+      },
+    });
+  }
+
   return (
     <div className="workspace">
-      <header className="workspace__header">
-        <Link className="editor-button workspace__back" to="/">
-          <ArrowLeft aria-hidden="true" />
-          {t("workspace.backToLibrary")}
-        </Link>
-        <div className="workspace__identity">
-          <h1 className="workspace__title">{trip.title || trip.id}</h1>
-          <p className="workspace__summary">
-            {t("workspace.summary", {
-              nights: trip.steps.reduce(
-                (sum, step) =>
-                  step.type === "stay"
-                    ? sum + daysBetween(step.checkIn, step.checkOut)
-                    : sum,
-                0,
-              ),
-              places: new Set(tripPlaceIds(trip)).size,
-            })}
-          </p>
-        </div>
-        <div className="workspace__actions">
-          <button
-            className="editor-button"
-            onClick={() => setIsImporting(true)}
-            type="button"
-          >
-            <FileInput aria-hidden="true" />
-            {t("import.title")}
-          </button>
-          <button
-            className="editor-button"
-            disabled={!workspace.canUndo}
-            onClick={undoEdit}
-            type="button"
-          >
-            <Undo2 aria-hidden="true" />
-            {t("workspace.undo")}
-          </button>
-          <button
-            className="editor-button"
-            disabled={!workspace.canRedo}
-            onClick={redoEdit}
-            type="button"
-          >
-            <Redo2 aria-hidden="true" />
-            {t("workspace.redo")}
-          </button>
-          <button
-            className="editor-button"
-            onClick={() =>
-              confirm({
-                confirmLabel: t("confirm.deleteTrip.action"),
-                isDanger: true,
-                message: t("confirm.deleteTrip.message"),
-                onConfirm: handleDeleteTrip,
-                title: t("confirm.deleteTrip.title", {
-                  trip: trip.title || trip.id,
-                }),
-              })
-            }
-            type="button"
-          >
-            <Trash2 aria-hidden="true" />
-            {t("editorForm.delete")}
-          </button>
-        </div>
-      </header>
-      {workspace.recovered ? (
-        <div className="workspace__recovery">
-          <p role="status">
-            {t("workspace.recoveryFound", {
-              at: new Date(workspace.recovered.savedAt).toLocaleString(),
-            })}
-          </p>
-          <button
-            className="editor-button editor-button--primary"
-            onClick={workspace.restoreRecovered}
-            type="button"
-          >
-            {t("workspace.restore")}
-          </button>
-          <button
-            className="editor-button"
-            onClick={workspace.discardRecovered}
-            type="button"
-          >
-            {t("workspace.discard")}
-          </button>
-        </div>
-      ) : null}
-      <div className="workspace__panes">
+      <PanelFrame
+        header={
+          <header className="workspace__header">
+            <Link className="workspace__back" to="/">
+              <ArrowLeft aria-hidden="true" />
+              {t("workspace.backToLibrary")}
+            </Link>
+            <div className="workspace__bar">
+              <div className="workspace__identity">
+                <h1 className="workspace__title">{trip.title || trip.id}</h1>
+                <p className="workspace__summary">
+                  {t("workspace.summary", {
+                    nights: trip.steps.reduce(
+                      (sum, step) =>
+                        step.type === "stay"
+                          ? sum + daysBetween(step.checkIn, step.checkOut)
+                          : sum,
+                      0,
+                    ),
+                    places: new Set(tripPlaceIds(trip)).size,
+                  })}
+                </p>
+              </div>
+              <button
+                aria-label={t("workspace.undo")}
+                className="workspace__tool"
+                disabled={!workspace.canUndo}
+                onClick={undoEdit}
+                title={t("workspace.undo")}
+                type="button"
+              >
+                <Undo2 aria-hidden="true" />
+              </button>
+              <button
+                aria-label={t("workspace.redo")}
+                className="workspace__tool"
+                disabled={!workspace.canRedo}
+                onClick={redoEdit}
+                title={t("workspace.redo")}
+                type="button"
+              >
+                <Redo2 aria-hidden="true" />
+              </button>
+              <button
+                aria-expanded={menuAnchor !== null}
+                aria-haspopup="dialog"
+                aria-label={t("workspace.more")}
+                className="workspace__tool"
+                onClick={(event) =>
+                  setMenuAnchor(
+                    menuAnchor
+                      ? null
+                      : event.currentTarget.getBoundingClientRect(),
+                  )
+                }
+                ref={menuTriggerRef}
+                title={t("workspace.more")}
+                type="button"
+              >
+                <Ellipsis aria-hidden="true" />
+              </button>
+            </div>
+            {workspace.recovered ? (
+              <div className="workspace__recovery">
+                <p role="status">
+                  {t("workspace.recoveryFound", {
+                    at: new Date(workspace.recovered.savedAt).toLocaleString(),
+                  })}
+                </p>
+                <button
+                  className="editor-button editor-button--primary"
+                  onClick={workspace.restoreRecovered}
+                  type="button"
+                >
+                  {t("workspace.restore")}
+                </button>
+                <button
+                  className="editor-button"
+                  onClick={workspace.discardRecovered}
+                  type="button"
+                >
+                  {t("workspace.discard")}
+                </button>
+              </div>
+            ) : null}
+          </header>
+        }
+      >
         <div className="workspace__story">
           <TripStory
             dataset={dataset}
@@ -270,20 +355,64 @@ export function Workspace({ file, isDarkTheme }: WorkspaceProps): ReactNode {
             trip={trip}
           />
         </div>
-        <div className="workspace__map">
-          <EditorMap
-            cityById={cityById}
-            isDarkTheme={isDarkTheme}
-            onAddHere={(coordinates) =>
-              requestPlace({ kind: "travel" }, coordinates)
-            }
-            onCaptureView={(mapFocus) => update({ ...trip, mapFocus })}
-            onSelect={workspace.select}
-            selection={workspace.selection}
-            trip={trip}
-          />
-        </div>
-      </div>
+      </PanelFrame>
+      <Popover
+        anchor={menuAnchor}
+        label={t("workspace.more")}
+        onClose={() => setMenuAnchor(null)}
+        placement="below"
+        triggerRef={menuTriggerRef}
+      >
+        <ul className="workspace__menu">
+          <li>
+            <button
+              className="workspace__menu-item"
+              onClick={() => {
+                setMenuAnchor(null);
+                setIsImporting(true);
+              }}
+              type="button"
+            >
+              <FileInput aria-hidden="true" />
+              {t("import.title")}
+            </button>
+          </li>
+          <li>
+            <button
+              className="workspace__menu-item"
+              onClick={() => {
+                setMenuAnchor(null);
+                captureView();
+              }}
+              type="button"
+            >
+              <Focus aria-hidden="true" />
+              {t("map.useThisView")}
+            </button>
+          </li>
+          <li>
+            <button
+              className="workspace__menu-item workspace__menu-item--danger"
+              onClick={() => {
+                setMenuAnchor(null);
+                confirm({
+                  confirmLabel: t("confirm.deleteTrip.action"),
+                  isDanger: true,
+                  message: t("confirm.deleteTrip.message"),
+                  onConfirm: handleDeleteTrip,
+                  title: t("confirm.deleteTrip.title", {
+                    trip: trip.title || trip.id,
+                  }),
+                });
+              }}
+              type="button"
+            >
+              <Trash2 aria-hidden="true" />
+              {t("editorForm.delete")}
+            </button>
+          </li>
+        </ul>
+      </Popover>
       <ValidationTray
         changes={changes}
         issues={workspace.issues}
@@ -317,9 +446,7 @@ export function Workspace({ file, isDarkTheme }: WorkspaceProps): ReactNode {
 /**
  * Props for Workspace.
  * @property {DataFile<TripJson>} file - The trip document being edited
- * @property {boolean} isDarkTheme - Whether the dark map theme is active
  */
 interface WorkspaceProps {
   file: DataFile<TripJson>;
-  isDarkTheme: boolean;
 }

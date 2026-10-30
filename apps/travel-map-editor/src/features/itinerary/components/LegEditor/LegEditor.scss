@@ -1,8 +1,11 @@
 @use "variables" as v;
+@use "mixins" as m;
 
+/* A ride as one of the site's tickets; its form opens below a tear line. */
 .leg-editor {
+  @include m.pass-card();
+  overflow: hidden;
   list-style: none;
-  border-radius: 0.75rem;
 
   &--plane {
     --mode-color: #{v.$transportPlane};
@@ -33,22 +36,21 @@
   }
 
   &__summary {
+    @include m.bare-button();
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: v.$space3;
     width: 100%;
-    padding: 0.5rem 0.625rem;
-    border: 0;
-    border-radius: 0.75rem;
-    background: transparent;
-    color: inherit;
-    font: inherit;
+    padding: v.$space3 v.$space4;
+    color: v.$ink;
     text-align: left;
-    cursor: pointer;
+
+    @include m.hover() {
+      background: v.$cardSunken;
+    }
 
     &:focus-visible {
-      outline: 2px solid v.$accent;
-      outline-offset: 2px;
+      @include m.focus-ring();
     }
   }
 
@@ -101,9 +103,10 @@
   }
 
   &__meta {
-    font-size: v.$bodySm;
-    font-variant-numeric: tabular-nums;
-    opacity: 0.75;
+    color: v.$ink3;
+    font-size: v.$caption;
+    font-weight: 600;
+    @include m.figure();
   }
 
   &__chevron {
@@ -119,8 +122,9 @@
   &__form {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
-    padding: 0.5rem 0.75rem 0.875rem;
+    gap: v.$space3;
+    padding: v.$space4;
+    border-top: 0.125rem dashed v.$line;
   }
 
   &__row {

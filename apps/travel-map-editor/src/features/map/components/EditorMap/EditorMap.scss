@@ -1,47 +1,71 @@
 @use "variables" as v;
+@use "mixins" as m;
 
+/* Fills the window behind the rail and the panel, as the site's map does. */
 .editor-map {
-  position: relative;
-  height: 100%;
-  min-height: 20rem;
-  overflow: hidden;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
 
-  &__marker {
+  &__pin {
+    @include m.bare-button();
+    @include m.transition(transform, v.$durationFast);
     display: grid;
     place-items: center;
-    width: 1.75rem;
-    height: 1.75rem;
-    padding: 0;
-    border: 2px solid rgb(255 255 255 / 85%);
     border-radius: 50%;
-    background: v.$accent;
-    color: #fff;
-    font-size: 0.75rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: transform 0.15s ease;
+    filter: drop-shadow(0 0.0625rem 0.1875rem rgba(0, 0, 0, 0.35));
 
-    &:hover,
-    &:focus-visible {
+    @include m.hover() {
       transform: scale(1.15);
     }
 
     &:focus-visible {
-      outline: 2px solid v.$accent;
-      outline-offset: 3px;
+      @include m.focus-ring();
+    }
+
+    &--stay {
+      width: 1.75rem;
+      height: 1.75rem;
+      border: 0.125rem solid #ffffff;
+      background: var(--marker-visited);
+      color: #ffffff;
+      font-size: v.$caption;
+      font-weight: 800;
+    }
+
+    &--stop {
+      width: 0.875rem;
+      height: 0.875rem;
+      border: 0.125rem solid #ffffff;
+      background: var(--marker-future);
+    }
+
+    /* The site's teardrop pin, for a place shown on its own. */
+    &--place {
+      width: 0.964rem;
+      height: 1.377rem;
+      border-radius: 0;
+      color: var(--marker-visited);
+      transform-origin: 50% 100%;
+
+      svg {
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+      }
+
+      path {
+        fill: currentColor;
+      }
+
+      circle {
+        fill: #ffffff;
+      }
     }
 
     &--selected {
-      transform: scale(1.25);
-      box-shadow: 0 0 0 4px rgb(0 0 0 / 20%);
+      z-index: 2;
+      transform: scale(1.3);
     }
-  }
-
-  &__actions {
-    position: absolute;
-    bottom: 0.75rem;
-    left: 0.75rem;
-    display: flex;
-    gap: 0.5rem;
   }
 }

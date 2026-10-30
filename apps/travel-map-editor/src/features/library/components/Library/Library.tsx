@@ -1,12 +1,12 @@
 import "./Library.scss";
 
 import { CountryFlag } from "@app/shared/components/CountryFlag/CountryFlag";
+import { PanelFrame } from "@app/shared/components/PanelFrame/PanelFrame";
 import { useLanguage } from "@app/shared/hooks/useLanguage";
 import { classNames } from "@app/shared/lib/classNames";
-import { CityJson, Company, Issue, TripJson } from "@travelmap/core";
+import { CityJson, Issue, TripJson } from "@travelmap/core";
 import {
   ArrowUpRight,
-  Building2,
   CheckCircle2,
   ChevronLeft,
   ChevronRight,
@@ -20,13 +20,15 @@ import {
   Search,
   TriangleAlert,
 } from "lucide-react";
-import { ReactNode, SyntheticEvent, useEffect, useState } from "react";
-import { Link, useLocation } from "react-router";
+import { ReactNode, SyntheticEvent, useState } from "react";
+import { Link } from "react-router";
 
-import { resolveLogoUrl, resolveMediaUrl } from "../../../../data/dataset";
+import { resolveMediaUrl } from "../../../../data/dataset";
 import { DataFile, DatasetSnapshot } from "../../../../data/store";
+import { useMapScene } from "../../../../shared/context/MapScene.context";
 import { datasetIssues, useDataset } from "../../../../shared/hooks/useDataset";
 import { findWorldCountry } from "../../../../shared/lib/worldCountries";
+import { tripScene, visitedPlacesScene } from "../../../map/lib/tripScene";
 import { searchItems } from "../../lib/search";
 import {
   groupTripsByYear,
@@ -145,115 +147,6 @@ function formatRange(sDate: string, eDate: string, locale: string): string {
  */
 function handleImageError(event: SyntheticEvent<HTMLImageElement>): void {
   event.currentTarget.hidden = true;
-}
-
-/**
- * TripCard component
- * Summarizes a trip with the same country flags and authored imagery used by
- * the public travel map.
- * @component
- * @param {TripCardProps} props
- * @param {Map<string, CityJson>} props.cities - Cities indexed by id
- * @param {DataFile<TripJson>} props.file - Trip source file
- * @param {Issue[]} props.issues - Validation issues belonging to the trip
- * @returns {ReactNode} A linked trip card
- */
-function TripCard({ cities, file, issues }: TripCardProps): ReactNode {
-  const { currLanguage, t } = useLanguage(["editor"]);
-  const { value } = file;
-  const blocking = issues.filter(
-    (issue) => issue.severity === "blocking",
-  ).length;
-  const warnings = issues.filter(
-    (issue) => issue.severity === "warning",
-  ).length;
-  const tone: TripStatusTone =
-    blocking > 0 ? "blocking" : warnings > 0 ? "warning" : "ready";
-  const statusLabel =
-    tone === "blocking"
-      ? t("library.blockingBadge", { count: blocking })
-      : tone === "warning"
-        ? t("library.warningBadge", { count: warnings })
-        : t("library.readyBadge");
-  const imageUrl = resolveMediaUrl(tripThumbnail(value, cities));
-  const countryIds = tripCountryIds(value, cities);
-  const stops = value.steps.filter((step) => step.type === "stay").length;
-
-  return (
-    <Link className="trip-library-card" to={`/trip/${value.id}`}>
-      <span className="trip-library-card__media">
-        <ImageIcon aria-hidden="true" className="trip-library-card__fallback" />
-        {imageUrl ? (
-          <img
-            alt=""
-            className="trip-library-card__image"
-            loading="lazy"
-            onError={handleImageError}
-            src={imageUrl}
-          />
-        ) : null}
-        <span className="trip-library-card__flags">
-          {countryIds.length > 0 ? (
-            countryIds
-              .slice(0, 3)
-              .map((countryId) => (
-                <CountryFlag
-                  className="trip-library-card__flag"
-                  countryId={countryId}
-                  key={countryId}
-                  src={findWorldCountry(countryId)?.flagUrl}
-                />
-              ))
-          ) : (
-            <Globe2 aria-hidden="true" />
-          )}
-        </span>
-      </span>
-      <span className="trip-library-card__body">
-        <span className="trip-library-card__heading">
-          <strong>{value.title || value.id}</strong>
-          <ArrowUpRight aria-hidden="true" />
-        </span>
-        <time
-          className="trip-library-card__date"
-          dateTime={value.sDate || undefined}
-        >
-          {formatRange(value.sDate, value.eDate, currLanguage) ||
-            t("library.noDates")}
-        </time>
-        <span className="trip-library-card__footer">
-          <span>{t("library.stopCount", { count: stops })}</span>
-          <span
-            className={classNames(
-              "trip-library-card__status",
-              `trip-library-card__status--${tone}`,
-            )}
-          >
-            {tone === "blocking" ? (
-              <CircleAlert aria-hidden="true" />
-            ) : tone === "warning" ? (
-              <TriangleAlert aria-hidden="true" />
-            ) : (
-              <CheckCircle2 aria-hidden="true" />
-            )}
-            {statusLabel}
-          </span>
-        </span>
-      </span>
-    </Link>
-  );
-}
-
-/**
- * Props for TripCard.
- * @property {Map<string, CityJson>} cities - Cities indexed by id
- * @property {DataFile<TripJson>} file - Trip source file
- * @property {Issue[]} issues - Validation issues belonging to the trip
- */
-interface TripCardProps {
-  cities: Map<string, CityJson>;
-  file: DataFile<TripJson>;
-  issues: Issue[];
 }
 
 /**
@@ -491,104 +384,134 @@ interface PlacesPanelProps {
 }
 
 /**
- * CompaniesPanel component
- * Shows the available operator catalogue and links to its dedicated editor.
- * @component
- * @param {CompaniesPanelProps} props
- * @param {Record<string, Company>} props.companies - Authored operators
- * @returns {ReactNode} The transport-company bento panel
+ * Properties accepted by the TripCard component.
+ * @property {Map<string, CityJson>} cities - The dataset's cities, by id
+ * @property {DataFile<TripJson>} file - The trip document
+ * @property {Issue[]} issues - Validation issues reported for the trip
+ * @property {(trip: TripJson | null) => void} onPreview - Shows the trip on the map, or clears it
  */
-function CompaniesPanel({ companies }: CompaniesPanelProps): ReactNode {
-  const { t } = useLanguage(["editor"]);
-  const [page, setPage] = useState(0);
-  const entries = Object.entries(companies).toSorted((first, second) =>
-    first[1].name.localeCompare(second[1].name),
-  );
-  const pageCount = Math.max(1, Math.ceil(entries.length / LIBRARY_PAGE_SIZE));
-  const visiblePage = Math.min(page, pageCount - 1);
-
-  return (
-    <section
-      className="library__panel library__panel--companies"
-      id="companies"
-    >
-      <header className="library__section-header library__section-header--actions">
-        <span aria-hidden="true" className="library__section-icon">
-          <Building2 />
-        </span>
-        <div>
-          <p className="library__section-kicker">{t("library.operators")}</p>
-          <h2>{t("companyEditor.title")}</h2>
-          <p className="library__section-hint">
-            {t("library.companyCount", { count: entries.length })}
-          </p>
-        </div>
-        <Link
-          className="editor-button editor-button--primary library__section-action"
-          to="/companies"
-        >
-          {t("companyEditor.manage")}
-          <ArrowUpRight aria-hidden="true" />
-        </Link>
-      </header>
-      {entries.length > 0 ? (
-        <ul className="library__companies">
-          {entries
-            .slice(
-              visiblePage * LIBRARY_PAGE_SIZE,
-              (visiblePage + 1) * LIBRARY_PAGE_SIZE,
-            )
-            .map(([id, company]) => {
-              const logo = resolveLogoUrl(company.logo);
-              return (
-                <li className="library__company" key={id}>
-                  <span className="library__company-logo">
-                    {logo ? (
-                      <img alt="" onError={handleImageError} src={logo} />
-                    ) : (
-                      <Building2 aria-hidden="true" />
-                    )}
-                  </span>
-                  <span className="library__company-copy">
-                    <strong>{company.name}</strong>
-                    <code>{id}</code>
-                  </span>
-                </li>
-              );
-            })}
-        </ul>
-      ) : (
-        <p className="library__companies-empty">
-          <Building2 aria-hidden="true" />
-          {t("companyEditor.empty")}
-        </p>
-      )}
-      <Pagination onChange={setPage} page={visiblePage} pageCount={pageCount} />
-    </section>
-  );
+interface TripCardProps {
+  cities: Map<string, CityJson>;
+  file: DataFile<TripJson>;
+  issues: Issue[];
+  onPreview: (trip: TripJson | null) => void;
 }
 
 /**
- * Props for CompaniesPanel.
- * @property {Record<string, Company>} companies - Authored operators
+ * TripCard component
+ * One trip as the site draws it: its cover filling the card, the title and
+ * dates over a gradient, the countries' flags in one corner and, in the
+ * other, whether it is ready to publish or how many problems stand in the
+ * way. Pointing at it draws the trip on the map.
+ * @component
+ * @param {TripCardProps} props - The card props
+ * @param {Map<string, CityJson>} props.cities - The dataset's cities
+ * @param {DataFile<TripJson>} props.file - The trip document
+ * @param {Issue[]} props.issues - Validation issues reported for the trip
+ * @param {(trip: TripJson | null) => void} props.onPreview - Shows the trip on the map
+ * @returns {ReactNode} The trip card
  */
-interface CompaniesPanelProps {
-  companies: Record<string, Company>;
+function TripCard({
+  cities,
+  file,
+  issues,
+  onPreview,
+}: TripCardProps): ReactNode {
+  const { currLanguage, t } = useLanguage(["editor"]);
+  const { value } = file;
+  const blocking = issues.filter(
+    ({ severity }) => severity === "blocking",
+  ).length;
+  const warnings = issues.filter(
+    ({ severity }) => severity === "warning",
+  ).length;
+  const tone: TripStatusTone =
+    blocking > 0 ? "blocking" : warnings > 0 ? "warning" : "ready";
+  const imageUrl = resolveMediaUrl(tripThumbnail(value, cities));
+  const stays = value.steps.filter((step) => step.type === "stay").length;
+
+  return (
+    <li>
+      <Link
+        className="trip-library-card"
+        onBlur={() => onPreview(null)}
+        onFocus={() => onPreview(value)}
+        onMouseEnter={() => onPreview(value)}
+        onMouseLeave={() => onPreview(null)}
+        to={`/trip/${encodeURIComponent(value.id)}`}
+      >
+        <ImageIcon aria-hidden="true" className="trip-library-card__fallback" />
+        {imageUrl ? (
+          <img
+            alt=""
+            className="trip-library-card__image"
+            loading="lazy"
+            onError={handleImageError}
+            src={imageUrl}
+          />
+        ) : null}
+        <span
+          className={classNames(
+            "trip-library-card__status",
+            `trip-library-card__status--${tone}`,
+          )}
+        >
+          {tone === "blocking" ? (
+            <CircleAlert aria-hidden="true" />
+          ) : tone === "warning" ? (
+            <TriangleAlert aria-hidden="true" />
+          ) : (
+            <CheckCircle2 aria-hidden="true" />
+          )}
+          {tone === "blocking"
+            ? t("library.blockingBadge", { count: blocking })
+            : tone === "warning"
+              ? t("library.warningBadge", { count: warnings })
+              : t("library.readyBadge")}
+        </span>
+        <span className="trip-library-card__flags">
+          {tripCountryIds(value, cities)
+            .slice(0, 3)
+            .map((countryId) => (
+              <CountryFlag
+                className="trip-library-card__flag"
+                countryId={countryId}
+                key={countryId}
+                src={findWorldCountry(countryId)?.flagUrl}
+              />
+            ))}
+        </span>
+        <span className="trip-library-card__caption">
+          <span className="trip-library-card__title">
+            {value.title || value.id}
+          </span>
+          <span className="trip-library-card__meta">
+            {formatRange(value.sDate, value.eDate, currLanguage) ||
+              t("library.noDates")}
+            {" · "}
+            {t("library.stopCount", { count: stays })}
+          </span>
+        </span>
+      </Link>
+    </li>
+  );
 }
 
 /**
  * Library component
- * The editor home is a bento dashboard: the trip archive remains dominant,
- * with supporting place and operator libraries alongside it.
+ * The Trips tab: every trip, newest first and grouped by year, as the cards
+ * the site shows, with a search and the way to start a new one. Pointing at a
+ * card draws that trip on the map; otherwise the map shows every place the
+ * trips have slept in.
  * @component
- * @returns {ReactNode} The editor dashboard
+ * @returns {ReactNode} The trips panel
  */
 export function Library(): ReactNode {
   const { t } = useLanguage(["editor"]);
-  const { hash } = useLocation();
   const dataset = useDataset();
   const [isCreating, setIsCreating] = useState(false);
   const [tripQuery, setTripQuery] = useState("");
+  const [preview, setPreview] = useState<TripJson | null>(null);
   const issues = datasetIssues(dataset);
   const cities = new Map(dataset.cities.map(({ value }) => [value.id, value]));
   const matchingTrips = searchItems(dataset.trips, tripQuery, ({ value }) =>
@@ -596,18 +519,16 @@ export function Library(): ReactNode {
   );
   const tripGroups = groupTripsByYear(matchingTrips);
 
-  useEffect(() => {
-    if (!hash) return;
-    document.getElementById(hash.slice(1))?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-  }, [hash]);
+  useMapScene(
+    preview
+      ? tripScene(preview, cities)
+      : { ...visitedPlacesScene(dataset.trips, cities), frame: [] },
+  );
 
   /**
-   * Returns validation issues attached to one trip.
-   * @param {string} tripId - Trip identifier
-   * @returns {Issue[]} Matching trip and itinerary issues
+   * Collects the issues that concern one trip.
+   * @param {string} tripId - The trip id
+   * @returns {Issue[]} Its issues
    */
   function issuesFor(tripId: string): Issue[] {
     return issues.filter(
@@ -618,79 +539,82 @@ export function Library(): ReactNode {
   }
 
   return (
-    <main className="library">
-      <div className="library__bento">
-        <section className="library__panel library__panel--trips" id="trips">
-          <header className="library__section-header library__section-header--actions">
-            <span aria-hidden="true" className="library__section-icon">
-              <Route />
-            </span>
-            <div>
-              <p className="library__section-kicker">{t("library.archive")}</p>
-              <h2>{t("library.allTrips")}</h2>
-              <p className="library__section-hint">
-                {t("library.tripCount", { count: matchingTrips.length })}
-              </p>
-            </div>
-            <button
-              className="editor-button editor-button--primary library__section-action"
-              onClick={() => setIsCreating(true)}
-              type="button"
-            >
-              <Plus aria-hidden="true" />
-              {t("library.newTrip")}
-            </button>
-          </header>
+    <PanelFrame
+      header={
+        <header className="library__header">
+          <div className="library__heading">
+            <h2>{t("nav.trips")}</h2>
+            <p className="library__summary">
+              {t("library.tripCount", { count: matchingTrips.length })}
+            </p>
+          </div>
+          <button
+            className="editor-button editor-button--primary"
+            onClick={() => setIsCreating(true)}
+            type="button"
+          >
+            <Plus aria-hidden="true" />
+            {t("library.newTrip")}
+          </button>
           <SearchField
             label={t("library.searchTrips")}
             onChange={setTripQuery}
             value={tripQuery}
           />
-          {tripGroups.length > 0 ? (
-            <div className="library__years">
-              {tripGroups.map((group) => (
-                <section className="library__year" key={group.year ?? "drafts"}>
-                  <header className="library__year-header">
-                    <h3>{group.year ?? t("library.drafts")}</h3>
-                    <span>{group.trips.length}</span>
-                  </header>
-                  <div className="library__trips">
-                    {group.trips.map((trip) => (
-                      <TripCard
-                        cities={cities}
-                        file={trip}
-                        issues={issuesFor(trip.value.id)}
-                        key={trip.value.id}
-                      />
-                    ))}
-                  </div>
-                </section>
-              ))}
-            </div>
-          ) : tripQuery ? (
-            <p className="library__no-matches">{t("library.noMatches")}</p>
-          ) : (
-            <div className="library__welcome">
-              <Route aria-hidden="true" />
-              <h3>{t("library.welcome")}</h3>
-              <p>{t("library.welcomeHint")}</p>
-              <button
-                className="editor-button editor-button--primary"
-                onClick={() => setIsCreating(true)}
-                type="button"
-              >
-                <Plus aria-hidden="true" />
-                {t("library.newTrip")}
-              </button>
-            </div>
-          )}
-        </section>
-        <PlacesPanel dataset={dataset} />
-        <CompaniesPanel companies={dataset.config.value.companies ?? {}} />
+        </header>
+      }
+    >
+      <div className="library">
+        {tripGroups.length > 0 ? (
+          tripGroups.map((group) => (
+            <section className="library__year" key={group.year ?? "drafts"}>
+              <h3 className="library__year-title">
+                {group.year ?? t("library.drafts")}
+                <span className="library__year-count">
+                  {group.trips.length}
+                </span>
+              </h3>
+              <ul className="library__trips">
+                {group.trips.map((trip) => (
+                  <TripCard
+                    cities={cities}
+                    file={trip}
+                    issues={issuesFor(trip.value.id)}
+                    key={trip.value.id}
+                    onPreview={setPreview}
+                  />
+                ))}
+              </ul>
+            </section>
+          ))
+        ) : tripQuery ? (
+          <p className="library__no-matches">{t("library.noMatches")}</p>
+        ) : (
+          <div className="library__welcome">
+            <Route aria-hidden="true" />
+            <h3>{t("library.welcome")}</h3>
+            <p>{t("library.welcomeHint")}</p>
+          </div>
+        )}
       </div>
       {isCreating ? (
         <NewTripDialog dataset={dataset} onClose={() => setIsCreating(false)} />
       ) : null}
-    </main>
+    </PanelFrame>
+  );
+}
+
+/**
+ * PlacesIndex component
+ * The countries and cities lists, on their own page until the Places tab is
+ * rebuilt around the map.
+ * @component
+ * @returns {ReactNode} The places page
+ */
+export function PlacesIndex(): ReactNode {
+  return (
+    <div className="library library--page">
+      <PlacesPanel dataset={useDataset()} />
+    </div>
   );
 }

@@ -1,25 +1,60 @@
 @use "variables" as v;
 @use "mixins" as m;
 
+/* The Trips tab inside the panel, and the places lists on their own page. */
 .library {
   display: flex;
-  width: min(88rem, 100%);
-  margin: 0 auto;
-  padding: 1.5rem 1.25rem 6rem;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: v.$space4;
+  padding: 0 v.$space4 v.$space5;
 
-  /*
-   * Stretching the row is what keeps the places and operators cards the same
-   * height: their lists hold the same number of rows but not the same row
-   * height, so equal height has to come from the grid rather than a shared
-   * measurement neither card can honour.
-   */
-  &__bento {
+  &--page {
+    flex: 1;
+    width: min(88rem, 100%);
+    min-height: 0;
+    margin: 0 auto;
+    padding: 1.5rem 1.25rem 3rem;
+    overflow-y: auto;
+  }
+
+  &__header {
     display: grid;
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    align-items: stretch;
-    gap: 1rem;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: v.$space3;
+    padding: v.$space3 v.$space4;
+
+    .library__search {
+      grid-column: 1 / -1;
+    }
+  }
+
+  &__summary {
+    color: v.$ink3;
+    font-size: v.$bodySm;
+  }
+
+  &__year-title {
+    display: flex;
+    align-items: center;
+    gap: v.$space2;
+    margin-bottom: v.$space2;
+    font-size: v.$headingMd;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+
+  &__year-count {
+    color: v.$ink3;
+    font-size: v.$caption;
+    font-weight: 700;
+  }
+
+  &__trips {
+    display: flex;
+    flex-direction: column;
+    gap: v.$space3;
+    list-style: none;
   }
 
   &__panel {
@@ -48,7 +83,6 @@
   &__place-group-header,
   &__place-link,
   &__pagination,
-  &__year-header,
   &__company,
   &__companies-empty {
     display: flex;
@@ -153,44 +187,6 @@
     font-size: v.$bodySm;
     opacity: 0.7;
     text-align: center;
-  }
-
-  &__years {
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-  }
-
-  &__year {
-    min-width: 0;
-  }
-
-  &__year-header {
-    gap: 0.5rem;
-    margin-bottom: 0.65rem;
-
-    h3 {
-      font-size: v.$headingMd;
-      font-weight: 750;
-      letter-spacing: -0.02em;
-    }
-
-    span {
-      display: grid;
-      place-items: center;
-      min-width: 1.55rem;
-      height: 1.55rem;
-      padding-inline: 0.4rem;
-      border-radius: 62.4375rem;
-      font-size: v.$caption;
-      font-weight: 700;
-    }
-  }
-
-  &__trips {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 0.75rem;
   }
 
   &__welcome {
@@ -472,7 +468,6 @@
     color: v.$ink2;
   }
 
-  &__year-header span,
   &__flag-frame,
   &__place-group-header span,
   &__pagination-button,
@@ -495,45 +490,53 @@
   }
 }
 
+/* A trip as the site draws it: the cover is the card, the words sit over it. */
 .trip-library-card {
-  display: flex;
-  min-width: 0;
-  min-height: 15rem;
-  flex-direction: column;
+  @include m.transition(transform, v.$durationFast);
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
-
-  /* A sunken tile, as rows inside the site's pass cards are, so it reads on the panel's card in both themes. */
-  border: 0.0625rem solid v.$line;
-  border-radius: v.$radiusMd;
+  border-radius: v.$radiusLg;
   background: v.$cardSunken;
-  color: inherit;
+  box-shadow: v.$cardShadow;
+  color: #ffffff;
   text-decoration: none;
-  @include m.transition(transform, 0.2s);
 
-  &:hover {
-    transform: translateY(-0.2rem);
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.72),
+      rgba(0, 0, 0, 0.12) 55%,
+      rgba(0, 0, 0, 0.2)
+    );
+  }
+
+  @include m.hover() {
+    .trip-library-card__image {
+      transform: scale(1.04);
+    }
+  }
+
+  &:active {
+    transform: scale(0.985);
   }
 
   &:focus-visible {
-    outline: 0.1875rem solid v.$accent;
-    outline-offset: 0.15rem;
-  }
-
-  &__media {
-    position: relative;
-    display: grid;
-    min-height: 7.6rem;
-    place-items: center;
-    overflow: hidden;
-    background:
-      linear-gradient(145deg, v.$accentSoft, transparent 70%),
-      color-mix(in srgb, v.$continentsNorthAmerica 24%, transparent);
+    @include m.focus-ring();
   }
 
   &__fallback {
-    width: 1.7rem;
-    height: 1.7rem;
-    opacity: 0.45;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 2rem;
+    height: 2rem;
+    color: v.$ink3;
+    transform: translate(-50%, -50%);
   }
 
   &__image {
@@ -542,170 +545,78 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform 0.6s v.$easeOut;
+  }
+
+  &__status {
+    @include m.glass();
+    position: absolute;
+    z-index: 1;
+    top: v.$space3;
+    left: v.$space3;
+    display: inline-flex;
+    align-items: center;
+    gap: v.$space1;
+    padding: 0.25rem v.$space2;
+    border-radius: v.$radiusPill;
+    color: v.$ink;
+    font-size: v.$caption;
+    font-weight: 700;
+
+    svg {
+      width: 0.875rem;
+      height: 0.875rem;
+    }
+
+    &--ready svg {
+      color: v.$green;
+    }
+
+    &--warning svg {
+      color: v.$lived;
+    }
+
+    &--blocking {
+      background: v.$accent;
+      color: v.$onAccent;
+    }
   }
 
   &__flags {
     position: absolute;
-    right: 0.6rem;
-    bottom: 0.55rem;
+    z-index: 1;
+    top: v.$space3;
+    right: v.$space3;
     display: flex;
-    min-height: 1.8rem;
-    align-items: center;
-    gap: 0.2rem;
-    padding: 0.25rem 0.35rem;
-    border: 0.0625rem solid rgb(255 255 255 / 22%);
-    border-radius: 62.4375rem;
-    background: rgb(10 10 18 / 70%);
-    color: #ffffff;
-    -webkit-backdrop-filter: blur(0.7rem);
-    backdrop-filter: blur(0.7rem);
-
-    > svg {
-      width: 0.9rem;
-      height: 0.9rem;
-    }
+    gap: v.$space1;
   }
 
   &__flag {
-    width: 1.2rem;
-    height: 0.8rem;
-    border-radius: 0.12rem;
-    object-fit: cover;
+    font-size: 1.5rem;
+    filter: drop-shadow(0 0.0625rem 0.25rem rgba(0, 0, 0, 0.4));
   }
 
-  &__body {
+  &__caption {
+    position: absolute;
+    z-index: 1;
+    right: v.$space4;
+    bottom: v.$space3;
+    left: v.$space4;
     display: flex;
-    min-width: 0;
-    flex: 1;
     flex-direction: column;
-    gap: 0.35rem;
-    padding: 0.75rem;
   }
 
-  &__heading,
-  &__footer,
-  &__status {
-    display: flex;
-    align-items: center;
+  &__title {
+    font-size: v.$headingLg;
+    font-weight: 800;
+    letter-spacing: -0.015em;
+    line-height: 1.15;
+    text-shadow: 0 0.0625rem 0.5rem rgba(0, 0, 0, 0.3);
   }
 
-  &__heading {
-    justify-content: space-between;
-    gap: 0.5rem;
-
-    strong {
-      overflow: hidden;
-      font-weight: 720;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    svg {
-      width: 0.95rem;
-      height: 0.95rem;
-      flex: 0 0 auto;
-      opacity: 0.5;
-    }
-  }
-
-  &__date {
-    font-size: v.$caption;
-  }
-
-  &__footer {
-    justify-content: space-between;
-    gap: 0.4rem;
-    margin-top: auto;
-    padding-top: 0.35rem;
-    font-size: v.$caption;
-  }
-
-  &__status {
-    gap: 0.2rem;
-    padding: 0.18rem 0.4rem;
-    border-radius: 62.4375rem;
-    font-weight: 700;
-
-    svg {
-      width: 0.75rem;
-      height: 0.75rem;
-    }
-
-    &--ready {
-      background: color-mix(in srgb, v.$transportBus 18%, transparent);
-      color: v.$transportBus;
-    }
-
-    &--warning {
-      background: color-mix(in srgb, v.$transportTrain 18%, transparent);
-      color: #b26a00;
-    }
-
-    &--blocking {
-      background: color-mix(in srgb, v.$transportCar 18%, transparent);
-      color: v.$transportCar;
-    }
-  }
-
-  &__date,
-  &__footer > span:first-child {
-    color: v.$ink2;
-  }
-
-  /*
-   * The global reduced-motion rule only shortens transitions, so the
-   * transform would still jump; it is dropped here instead.
-   */
-  @media (prefers-reduced-motion: reduce) {
-    &:hover {
-      transform: none;
-    }
-  }
-}
-
-@media (max-width: 70rem) {
-  .library {
-    &__panel--places,
-    &__panel--companies {
-      grid-column: 1 / -1;
-    }
-
-    &__trips {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-  }
-}
-
-@media (max-width: 52rem) {
-  .library {
-    padding: 1.5rem 1rem 7rem;
-
-    &__trips {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
-}
-
-@media (max-width: 38rem) {
-  .library {
-    padding-inline: 0.75rem;
-
-    &__section-header--actions {
-      grid-template-columns: auto minmax(0, 1fr);
-    }
-
-    &__section-action {
-      grid-column: 1 / -1;
-      justify-self: stretch;
-    }
-
-    &__trips,
-    &__place-groups {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  .trip-library-card {
-    min-height: 13rem;
+  &__meta {
+    font-size: v.$bodySm;
+    font-weight: 600;
+    opacity: 0.9;
   }
 }

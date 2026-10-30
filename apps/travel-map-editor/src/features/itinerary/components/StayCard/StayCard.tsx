@@ -11,6 +11,7 @@ import {
 import { MapPinPlus, Route, Trash2, X } from "lucide-react";
 import { ReactNode } from "react";
 
+import { resolveMediaUrl } from "../../../../data/dataset";
 import { DatasetSnapshot } from "../../../../data/store";
 import { Combobox } from "../../../../shared/components/Combobox/Combobox";
 import { useConfirm } from "../../../../shared/components/ConfirmDialog/ConfirmDialog";
@@ -27,13 +28,15 @@ import { StoryChapter } from "../StoryChapter/StoryChapter";
  * Properties accepted by the StayCard component.
  * @property {DatasetSnapshot} dataset - The current dataset
  * @property {TripStayJson} stay - Where the traveller slept
- * @property {number} number - The chapter number shown in its badge
+ * @property {number} number - The stay's number, the same as its pin on the map
  * @property {{ outing: number; leg: number } | undefined} openLeg - The day-trip ride whose form is open
  * @property {(stay: TripStayJson) => void} onChange - Edit callback
  * @property {() => void} onRemove - Removes the stay
  * @property {() => void} onAddDayTrip - Asks where a new day trip goes
  * @property {(outing: number) => void} onAddPlace - Asks for another place on a day trip
  * @property {(outing: number, leg: number | null) => void} onOpenLeg - Opens or closes a ride's form
+ * @property {boolean} isOpen - Whether the stay's fields are showing
+ * @property {() => void} onToggle - Opens or closes the stay
  */
 interface StayCardProps {
   dataset: DatasetSnapshot;
@@ -45,25 +48,30 @@ interface StayCardProps {
   onAddDayTrip: () => void;
   onAddPlace: (outing: number) => void;
   onOpenLeg: (outing: number, leg: number | null) => void;
+  isOpen: boolean;
+  onToggle: () => void;
 }
 
 /**
  * StayCard component
- * A place slept in, edited the way it is read: which city, which night it
+ * A place slept in, drawn as the site's hotel pass: the city's picture,
+ * then check-in, check-out and nights. Pressing it opens the fields in the
+ * pass, edited the way a stay is remembered: which city, which night it
  * started, how many nights, its photos, and the day trips taken from it. The
- * check-out date is worked out from the nights, because "three nights" is
- * what a traveller remembers.
+ * check-out date is worked out from the nights.
  * @component
  * @param {StayCardProps} props - The card props
  * @param {DatasetSnapshot} props.dataset - The current dataset
  * @param {TripStayJson} props.stay - Where the traveller slept
- * @param {number} props.number - The chapter number shown in its badge
+ * @param {number} props.number - The stay's number, the same as its pin on the map
  * @param {{ outing: number; leg: number } | undefined} props.openLeg - The day-trip ride whose form is open
  * @param {(stay: TripStayJson) => void} props.onChange - Edit callback
  * @param {() => void} props.onRemove - Removes the stay
  * @param {() => void} props.onAddDayTrip - Asks where a new day trip goes
  * @param {(outing: number) => void} props.onAddPlace - Asks for another place on a day trip
  * @param {(outing: number, leg: number | null) => void} props.onOpenLeg - Opens or closes a ride's form
+ * @param {boolean} props.isOpen - Whether the stay's fields are showing
+ * @param {() => void} props.onToggle - Opens or closes the stay
  * @returns {ReactNode} The stay card
  */
 export function StayCard({
@@ -76,6 +84,8 @@ export function StayCard({
   onAddDayTrip,
   onAddPlace,
   onOpenLeg,
+  isOpen,
+  onToggle,
 }: StayCardProps): ReactNode {
   const { t, currLanguage: lang } = useLanguage(["editor"]);
   const nights = daysBetween(stay.checkIn, stay.checkOut);
@@ -83,9 +93,6 @@ export function StayCard({
     ({ value }) => value.id === stay.cityId,
   )?.value;
   const city = cityJson?.name ?? stay.cityId;
-  const color = dataset.countries.find(
-    ({ value }) => value.id === cityJson?.countryId,
-  )?.value.color;
   const outings = stay.outings ?? [];
   const { confirm, confirmDialog } = useConfirm();
 
@@ -125,10 +132,40 @@ export function StayCard({
           <Trash2 aria-hidden="true" />
         </button>
       }
-      color={color ? `hsl(${color.h} ${color.s}% ${color.l}%)` : undefined}
-      eyebrow={`${t("story.nightsCount", { count: nights })} · ${formatStoryDays(stay.checkIn, stay.checkOut, lang)}`}
+      eyebrow={t("story.nightsCount", { count: nights })}
+      image={resolveMediaUrl(cityJson?.backgroundImages?.[0])}
+      isOpen={isOpen}
       kind="stay"
-      number={number}
+      node={number}
+      onToggle={onToggle}
+      summary={
+        <dl className="stay-card__facts">
+          <div className="stay-card__fact">
+            <dt className="stay-card__label">{t("story.summaryCheckIn")}</dt>
+            <dd className="stay-card__value">
+              {formatStoryDays(stay.checkIn, stay.checkIn, lang)}
+            </dd>
+          </div>
+          <div className="stay-card__fact">
+            <dt className="stay-card__label">{t("story.summaryCheckOut")}</dt>
+            <dd className="stay-card__value">
+              {formatStoryDays(stay.checkOut, stay.checkOut, lang)}
+            </dd>
+          </div>
+          <div className="stay-card__fact stay-card__fact--nights">
+            <dt className="stay-card__label">{t("story.nightsLabel")}</dt>
+            <dd className="stay-card__value stay-card__value--nights">
+              {nights}
+            </dd>
+          </div>
+          {outings.length > 0 ? (
+            <p className="stay-card__trips">
+              <Route aria-hidden="true" />
+              {t("story.dayTripCount", { count: outings.length })}
+            </p>
+          ) : null}
+        </dl>
+      }
       title={
         <>
           {city}

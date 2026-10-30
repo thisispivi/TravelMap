@@ -283,7 +283,8 @@
     "recoveryFound": "Trovate modifiche non salvate del {{at}} in questo browser.",
     "restore": "Ripristina",
     "discard": "Scarta",
-    "summary": "{{places}} posti, {{nights}} notti"
+    "summary": "{{places}} posti, {{nights}} notti",
+    "more": "Altre azioni"
   },
   "photoImport": {
     "title": "Importa manifest fotografico",
@@ -557,7 +558,12 @@
       "home": "Ritorno"
     },
     "nightsCount_one": "{{count}} notte",
-    "nightsCount_other": "{{count}} notti"
+    "nightsCount_other": "{{count}} notti",
+    "summaryCheckIn": "Arrivo",
+    "summaryCheckOut": "Partenza",
+    "nightsLabel": "Notti",
+    "dayTripCount_one": "{{count}} gita",
+    "dayTripCount_other": "{{count}} gite"
   },
   "upload": {
     "open": "Carica foto",

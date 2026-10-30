@@ -283,7 +283,8 @@
     "recoveryFound": "Unsaved changes from {{at}} were found in this browser.",
     "restore": "Restore",
     "discard": "Discard",
-    "summary": "{{places}} places, {{nights}} nights"
+    "summary": "{{places}} places, {{nights}} nights",
+    "more": "More actions"
   },
   "photoImport": {
     "title": "Import photo manifest",
@@ -557,7 +558,12 @@
       "home": "Going home"
     },
     "nightsCount_one": "{{count}} night",
-    "nightsCount_other": "{{count}} nights"
+    "nightsCount_other": "{{count}} nights",
+    "summaryCheckIn": "Check-in",
+    "summaryCheckOut": "Check-out",
+    "nightsLabel": "Nights",
+    "dayTripCount_one": "{{count}} day trip",
+    "dayTripCount_other": "{{count}} day trips"
   },
   "upload": {
     "open": "Upload photos",
