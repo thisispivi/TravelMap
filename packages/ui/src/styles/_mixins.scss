@@ -50,7 +50,10 @@
  * Masking clips box shadows, so a ticket's shadow is a `filter` on its wrapper.
  */
 @mixin ticket-half($edge) {
-  $y: if($edge == bottom, 100%, 0%);
+  $y: 0%;
+  @if $edge == bottom {
+    $y: 100%;
+  }
   $bite:
     radial-gradient(circle 0.5rem at 0% #{$y}, transparent 97%, #000) left / 51%
       100% no-repeat,
