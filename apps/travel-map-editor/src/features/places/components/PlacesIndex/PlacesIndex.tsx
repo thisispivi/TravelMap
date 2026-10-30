@@ -17,7 +17,6 @@ import { AddPlaceDialog } from "@/shared/components/AddPlaceDialog/AddPlaceDialo
 import { SearchField } from "@/shared/components/SearchField/SearchField";
 import { useMapScene } from "@/shared/context/MapScene.context";
 import { useDataset } from "@/shared/hooks/useDataset";
-import { findWorldCountry } from "@/shared/lib/worldCountries";
 
 import { countTripsByPlace, groupCities } from "../../lib/placeGroups";
 
@@ -100,7 +99,6 @@ export function PlacesIndex(): ReactNode {
                 <CountryFlag
                   className="places-index__flag"
                   countryId={countryId}
-                  src={findWorldCountry(countryId)?.flagUrl}
                 />
                 {name}
                 <span className="places-index__count">{cities.length}</span>

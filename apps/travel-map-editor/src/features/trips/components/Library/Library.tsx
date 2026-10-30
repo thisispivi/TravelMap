@@ -25,7 +25,6 @@ import { useMapScene } from "@/shared/context/MapScene.context";
 import { datasetIssues, useDataset } from "@/shared/hooks/useDataset";
 import { searchItems } from "@/shared/lib/search";
 import { tripScene, visitedPlacesScene } from "@/shared/lib/tripScene";
-import { findWorldCountry } from "@/shared/lib/worldCountries";
 
 import {
   groupTripsByYear,
@@ -186,7 +185,6 @@ function TripCard({
                 className="trip-library-card__flag"
                 countryId={countryId}
                 key={countryId}
-                src={findWorldCountry(countryId)?.flagUrl}
               />
             ))}
         </span>

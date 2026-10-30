@@ -20,7 +20,6 @@ import { useConfirm } from "@/shared/components/ConfirmDialog/ConfirmDialog";
 import { DatePicker } from "@/shared/components/DatePicker/DatePicker";
 import { NumberField } from "@/shared/components/Fields/Fields";
 import { cityOptions } from "@/shared/lib/placeOptions";
-import { findWorldCountry } from "@/shared/lib/worldCountries";
 
 import { formatStoryDays } from "../../lib/storyDates";
 import { LegEditor } from "../LegEditor/LegEditor";
@@ -189,7 +188,6 @@ export function StayCard({
             <CountryFlag
               className="stay-card__flag"
               countryId={cityJson.countryId}
-              src={findWorldCountry(cityJson.countryId)?.flagUrl}
             />
           ) : null}
         </>

@@ -9,12 +9,10 @@ import { flagUrl } from "../../lib/flags";
  * Properties accepted by the CountryFlag component.
  * @property {string} countryId - The country id
  * @property {string} [className] - The class name
- * @property {string} [src] - A bundled flag URL for consumers without the public flag directory
  */
 interface CountryFlagProps {
   countryId: string;
   className?: string;
-  src?: string;
 }
 
 /**
@@ -34,13 +32,11 @@ function handleImageError(event: SyntheticEvent<HTMLImageElement>): void {
  * @param {CountryFlagProps} props - The props of the component
  * @param {string} props.countryId - The id of the country
  * @param {string} [props.className=""] - The class name of the component
- * @param {string} [props.src] - A bundled flag URL when the consumer does not serve the public flag directory
  * @returns {ReactNode} The country flag
  */
 export function CountryFlag({
   countryId,
   className = "",
-  src,
 }: CountryFlagProps): ReactNode {
   return (
     <img
@@ -48,7 +44,7 @@ export function CountryFlag({
       aria-hidden="true"
       className={classNames("country-flag", className)}
       onError={handleImageError}
-      src={src ?? flagUrl(countryId)}
+      src={flagUrl(countryId)}
     />
   );
 }

@@ -1,6 +1,7 @@
 import { Continent, Currency, toId } from "@travelmap/core";
 import countriesTopologyJson from "@travelmap/ui/assets/json/countries-50m.json";
-import { FLAG_NAMES, flagUrl } from "@travelmap/ui/lib/flags";
+import { hasFlag } from "@travelmap/ui/lib/flagPack";
+import { flagUrl } from "@travelmap/ui/lib/flags";
 import type { GeometryCollection, Topology } from "topojson-specification";
 import worldCountries from "world-countries";
 
@@ -45,28 +46,13 @@ export interface WorldCountry {
 }
 
 /**
- * Finds a flag for a country, trying the naming variants the pack uses. The
- * pack abbreviates saints and drops articles, and is missing a few countries
- * outright, so an unresolved flag is expected rather than an error.
- * @param {string[]} names - Candidate names, most preferred first
+ * Finds a country's flag. The pack is missing a few countries outright, so a
+ * country without one is expected rather than an error.
+ * @param {string} id - The country id
  * @returns {string | undefined} The flag asset URL, when one exists
  */
-function resolveFlag(names: string[]): string | undefined {
-  for (const name of names) {
-    const base = toId(name);
-    const candidates = [
-      base,
-      base.replace(/^Saint/, "St"),
-      base.replace(/^Saint/, "St").replace(/AndThe/, "And"),
-      base.replace(/^UnitedStates/, "Us"),
-      base.replace(/Islands$/, "Is"),
-      base.replace(/^The/, ""),
-    ];
-    for (const candidate of candidates) {
-      if (FLAG_NAMES.has(candidate)) return flagUrl(candidate);
-    }
-  }
-  return undefined;
+function resolveFlag(id: string): string | undefined {
+  return hasFlag(id) ? flagUrl(id) : undefined;
 }
 
 /**
@@ -116,7 +102,7 @@ function buildCatalogue(): WorldCountry[] {
         cca2: "",
         continent: Continent.EUROPE,
         currency: Currency.USD,
-        flagUrl: resolveFlag([polygonName]),
+        flagUrl: resolveFlag(toId(polygonName)),
         id: toId(polygonName),
         name: polygonName,
       });
@@ -131,7 +117,7 @@ function buildCatalogue(): WorldCountry[] {
         currencyCode && currencyCodes.has(currencyCode)
           ? (currencyCode as Currency)
           : Currency.USD,
-      flagUrl: resolveFlag([metadata.name.common, polygonName]),
+      flagUrl: resolveFlag(toId(polygonName)),
       id: toId(polygonName),
       name: metadata.name.common,
     });
