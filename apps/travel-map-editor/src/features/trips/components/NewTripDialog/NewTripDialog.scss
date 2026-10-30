@@ -1,0 +1,14 @@
+@use "variables" as v;
+
+.new-trip {
+  &__row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+
+    > * {
+      flex: 1 1 8rem;
+      min-width: 0;
+    }
+  }
+}

@@ -1,13 +1,9 @@
 import "./MapShell.scss";
 
 import { City, Trip } from "@travelmap/core";
-import { isMobile, isTablet } from "mobile-device-detect";
+import { useThemeDetector } from "@travelmap/ui/hooks/useThemeDetector";
 import { ReactNode, useEffect, useReducer, useRef } from "react";
-import {
-  Outlet,
-  useLocation as useRouterLocation,
-  useNavigate,
-} from "react-router";
+import { useLocation, useNavigate, useOutlet } from "react-router";
 
 import { AppRouteContext } from "@/shared/context/AppRoute.context";
 import {
@@ -19,8 +15,6 @@ import {
   PanelContextValue,
 } from "@/shared/context/Panel.context";
 import { useResponsive } from "@/shared/hooks/useResponsive";
-import { useThemeDetector } from "@/shared/hooks/useThemeDetector";
-import { classNames } from "@/shared/lib/classNames";
 import { readNavigationState } from "@/shared/lib/navigationState";
 
 import { useAppLocation } from "../routing/useAppLocation";
@@ -43,7 +37,8 @@ export function MapShell(): ReactNode {
   const responsive = useResponsive();
   const appRoute = useAppLocation();
   const navigate = useNavigate();
-  const location = useRouterLocation();
+  const location = useLocation();
+  const outlet = useOutlet();
   const isInitialRouteRef = useRef(true);
   const [mapShellState, dispatchMapShellAction] = useReducer(
     mapShellReducer,
@@ -56,14 +51,14 @@ export function MapShell(): ReactNode {
     isInitialRouteRef.current = false;
     if (location.pathname !== "/") return;
 
+    /* History state survives a reload, so a reloaded map-only view still opens the trips. */
     const { mapOnly } = readNavigationState(location.state);
-    const navigation = performance.getEntriesByType("navigation")[0] as
-      PerformanceNavigationTiming | undefined;
-    const isRefresh = navigation?.type === "reload";
-    if (isInitialRoute && (isRefresh || mapOnly !== true)) {
+    const navigation = performance.getEntriesByType("navigation")[0];
+    const isRefresh =
+      navigation instanceof PerformanceNavigationTiming &&
+      navigation.type === "reload";
+    if (isInitialRoute && (isRefresh || mapOnly !== true))
       navigate("/trips", { replace: true });
-      return;
-    }
   }, [location, navigate]);
 
   const mapInteractionContextValue: MapInteractionContextValue = {
@@ -83,30 +78,18 @@ export function MapShell(): ReactNode {
       dispatchMapShellAction({ type: "isPanelOpen", value }),
   };
 
-  const deviceModifier = isMobile
-    ? "map-shell--mobile"
-    : isTablet
-      ? "map-shell--tablet"
-      : "map-shell--desktop";
-
   return (
-    <div
-      className={classNames(
-        "map-shell",
-        isDarkTheme ? "map-shell--dark" : "map-shell--light",
-        deviceModifier,
-      )}
-    >
+    <div className="map-shell">
       <AppRouteContext.Provider value={appRoute}>
         <MapInteractionContext.Provider value={mapInteractionContextValue}>
           <PanelContext.Provider value={panelContextValue}>
             <MapShellLayout
-              handleDarkModeSwitch={handleDarkModeSwitch}
               isDarkTheme={isDarkTheme}
+              onToggleTheme={handleDarkModeSwitch}
+              outlet={outlet}
+              pathname={location.pathname}
               responsive={responsive}
-            >
-              <Outlet />
-            </MapShellLayout>
+            />
           </PanelContext.Provider>
         </MapInteractionContext.Provider>
       </AppRouteContext.Provider>

@@ -1,130 +1,195 @@
 import "./TripDetail.scss";
 
-import { domAnimation, LazyMotion, m } from "framer-motion";
-import { ReactNode, useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router";
+import { City, TransportModeSchema } from "@travelmap/core";
+import { Button } from "@travelmap/ui/components/Button/Button";
+import { CountryFlag } from "@travelmap/ui/components/CountryFlag/CountryFlag";
+import { CoverImage } from "@travelmap/ui/components/CoverImage/CoverImage";
+import { EmptyState } from "@travelmap/ui/components/EmptyState/EmptyState";
+import { PanelFrame } from "@travelmap/ui/components/PanelFrame/PanelFrame";
+import { TransportModeIcon } from "@travelmap/ui/components/TransportModeIcon/TransportModeIcon";
+import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
+import { formatDateRangeShort } from "@travelmap/ui/i18n/date";
+import { formatMileage } from "@travelmap/ui/i18n/format";
+import { ArrowLeft, Images, Map as MapIcon } from "lucide-react";
+import { ReactNode, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router";
 
-import ChevronIcon from "@/assets/icons/Chevron.svg?react";
-import { futureTrips, visitedTrips } from "@/data/world";
-import { isPanelLoadingVisible } from "@/shared/components/PanelLoading/PanelLoading.state";
+import { findTripAlbum } from "@/data/albums";
 import { useAppRoute } from "@/shared/context/AppRoute.context";
 import { useMapInteraction } from "@/shared/context/MapInteraction.context";
 import { usePanel } from "@/shared/context/Panel.context";
-import { useLanguage } from "@/shared/hooks/useLanguage";
-import { classNames } from "@/shared/lib/classNames";
+import { useResponsive } from "@/shared/hooks/useResponsive";
+import { parameters } from "@/shared/lib/parameters";
 
-import { TripDetailHero } from "../TripDetailHero/TripDetailHero";
+import { totalsOf } from "../../lib/tripItinerary";
+import { findTrip } from "../../lib/trips";
 import { TripItinerary } from "../TripItinerary/TripItinerary";
 
 /**
  * TripDetail component
- * Floating panel showing the full route timeline and transport stats for
- * the selected trip. Slides in from the left and persists the trip in
- * shell-owned map interaction state so the route overlay stays visible.
+ * One trip: a cover with its title and dates, a pass of headline figures and
+ * the modes used, links to its photos and the map, then the itinerary. Opening
+ * it puts the trip in shared map state, so the route is drawn beside it.
  * @component
- * @returns {ReactNode} The trip detail panel, or null when no trip is selected
+ * @returns {ReactNode} The trip detail
  */
 export function TripDetail(): ReactNode {
-  const { t } = useLanguage(["home"]);
+  const { t, currLanguage } = useLanguage(["home"]);
   const navigate = useNavigate();
+  const location = useLocation();
   const { tripDetailId } = useAppRoute();
-  const { selectedTrip, setSelectedTrip } = useMapInteraction();
+  const { selectedTrip, setSelectedTrip, setHoveredCity, setMapPosition } =
+    useMapInteraction();
   const { setIsPanelOpen } = usePanel();
-  const bodyRef = useRef<HTMLDivElement | null>(null);
-  const [skipEntrance] = useState(isPanelLoadingVisible);
-  const [isBodyScrollable, setIsBodyScrollable] = useState(false);
+  const { isCompact } = useResponsive();
+  const trip = findTrip(tripDetailId) ?? selectedTrip;
+
   /*
-   * Planned trips are absent from the browsable list, but a link to one still
-   * has to resolve, so the lookup spans both records.
+   * A trip reached by its URL rather than from the list still has to draw its
+   * route, which lives in shell-owned state.
    */
-  const trip =
-    [...visitedTrips, ...futureTrips].find((tr) => tr.id === tripDetailId) ??
-    selectedTrip;
   useEffect(() => {
     if (trip && selectedTrip?.id !== trip.id) setSelectedTrip(trip);
   }, [selectedTrip?.id, setSelectedTrip, trip]);
 
+  if (!trip) return <EmptyState message={t("trips.notFound")} />;
+
+  const totals = totalsOf(trip);
+  const album = findTripAlbum(trip.id);
+  const totalsByMode = trip.getModeTotals();
+  const modes = TransportModeSchema.options.filter(
+    (mode) => totalsByMode[mode],
+  );
+
   /**
-   * Recomputes whether the trip detail body overflows its container, so the
-   * scroll-shadow/back-to-trip affordances only show up when there's
-   * actually more content to scroll to.
+   * Flies the map to a place from the itinerary, and on phones lowers the
+   * sheet so the map can be seen.
+   * @param {City} city - The place
    * @returns {void}
    */
-  const updateBodyScrollable = () => {
-    const body = bodyRef.current;
-    if (!body) return;
-    setIsBodyScrollable(body.scrollHeight > body.clientHeight + 1);
+  const focusCity = (city: City): void => {
+    setMapPosition({
+      center: city.coordinates,
+      zoom: parameters.map.hoveredCityZoom,
+    });
+    setHoveredCity(city);
+    if (isCompact) setIsPanelOpen(false);
   };
-  const updateBodyScrollableRef = useRef(updateBodyScrollable);
 
-  useEffect(() => {
-    updateBodyScrollableRef.current = updateBodyScrollable;
-  });
-
-  useEffect(() => {
-    const body = bodyRef.current;
-    if (!body) return;
-
-    /**
-     * Recalculates whether the trip-detail body can scroll.
-     * @returns {void}
-     */
-    const handleScrollableChange = (): void =>
-      updateBodyScrollableRef.current();
-
-    handleScrollableChange();
-    const observer =
-      typeof ResizeObserver === "undefined"
-        ? null
-        : new ResizeObserver(handleScrollableChange);
-    observer?.observe(body);
-    window.addEventListener("resize", handleScrollableChange);
-    return () => {
-      observer?.disconnect();
-      window.removeEventListener("resize", handleScrollableChange);
-    };
-  }, [trip?.id]);
-  if (!trip) return null;
-  const countries = trip.getCountriesVisited();
   return (
-    <LazyMotion features={domAnimation}>
-      <m.div
-        animate={{ scale: 1, x: 0 }}
-        className="trip-detail"
-        exit={{ scale: 0.98, x: "-120%" }}
-        initial={skipEntrance ? false : { scale: 0.98, x: "-120%" }}
-        key={trip.id}
-        layout="position"
-        transition={{ duration: 0.22, ease: [0.35, 0, 0.25, 1] }}
-      >
-        <button
-          className="trip-detail__back"
-          onClick={() => {
-            setSelectedTrip(null);
-            navigate("/trips");
-          }}
-          type="button"
-        >
-          <ChevronIcon className="trip-detail__back-chevron" />
-          <span>{t("visited.title")}</span>
-        </button>
+    <PanelFrame>
+      <article className="trip-detail">
+        <header className="trip-detail__hero">
+          <CoverImage
+            className="trip-detail__cover"
+            isEager
+            src={trip.backgroundImgSource}
+          />
+          <button
+            className="trip-detail__back"
+            onClick={() => {
+              setSelectedTrip(null);
+              navigate("/trips");
+            }}
+            type="button"
+          >
+            <ArrowLeft aria-hidden="true" className="trip-detail__back-icon" />
+            {t("common:nav.trips")}
+          </button>
+          <span className="trip-detail__flags">
+            {trip.getCountriesVisited().map((country) => (
+              <CountryFlag
+                className="trip-detail__flag"
+                countryId={country.id}
+                key={country.id}
+              />
+            ))}
+          </span>
+          <div className="trip-detail__heading">
+            <p className="trip-detail__dates">
+              {formatDateRangeShort({
+                eDateInput: trip.eDate,
+                locale: currLanguage,
+                sDateInput: trip.sDate,
+              })}
+            </p>
+            <h1 className="trip-detail__title">
+              {trip.getLocalizedTitle(currLanguage)}
+            </h1>
+          </div>
+        </header>
 
-        <div
-          className={classNames(
-            "trip-detail__body",
-            isBodyScrollable && "trip-detail__body--scrollable",
-          )}
-          ref={bodyRef}
-        >
-          <TripDetailHero
-            countries={countries}
-            onViewMap={() => setIsPanelOpen(false)}
+        <div className="trip-detail__content">
+          <section aria-label={t("trip.summary")} className="trip-detail__pass">
+            <dl className="trip-detail__figures">
+              <div className="trip-detail__figure">
+                <dt className="trip-detail__figure-label">{t("trip.days")}</dt>
+                <dd className="trip-detail__figure-value">{totals.days}</dd>
+              </div>
+              <div className="trip-detail__figure">
+                <dt className="trip-detail__figure-label">
+                  {t("common:stay.nights")}
+                </dt>
+                <dd className="trip-detail__figure-value">{totals.nights}</dd>
+              </div>
+              <div className="trip-detail__figure">
+                <dt className="trip-detail__figure-label">
+                  {t("trip.places")}
+                </dt>
+                <dd className="trip-detail__figure-value">{totals.places}</dd>
+              </div>
+              <div className="trip-detail__figure">
+                <dt className="trip-detail__figure-label">km</dt>
+                <dd className="trip-detail__figure-value">
+                  {formatMileage(totals.km, currLanguage, 0)}
+                </dd>
+              </div>
+            </dl>
+            <ul className="trip-detail__modes">
+              {modes.map((mode) => (
+                <li className="trip-detail__mode" key={mode}>
+                  <TransportModeIcon
+                    className="trip-detail__mode-icon"
+                    mode={mode}
+                  />
+                  {t(`trip.mode.${mode}`, { count: totalsByMode[mode]?.count })}
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          {album || isCompact ? (
+            <div className="trip-detail__actions">
+              {album ? (
+                <Button
+                  onClick={() =>
+                    navigate(`/gallery/trip/${encodeURIComponent(trip.id)}`, {
+                      state: { fromPath: location.pathname },
+                    })
+                  }
+                  variant="primary"
+                >
+                  <Images aria-hidden="true" />
+                  {t("trip.photos", { count: album.count })}
+                </Button>
+              ) : null}
+              {isCompact ? (
+                <Button onClick={() => setIsPanelOpen(false)} variant="soft">
+                  <MapIcon aria-hidden="true" />
+                  {t("trip.showMap")}
+                </Button>
+              ) : null}
+            </div>
+          ) : null}
+
+          <h2 className="trip-detail__section-title">{t("itinerary.title")}</h2>
+          <TripItinerary
+            onFocusCity={focusCity}
+            onHoverCity={setHoveredCity}
             trip={trip}
           />
-          <p className="trip-detail__route-label">{t("tripDetail.route")}</p>
-          <TripItinerary trip={trip} />
         </div>
-      </m.div>
-    </LazyMotion>
+      </article>
+    </PanelFrame>
   );
 }

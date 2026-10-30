@@ -4,7 +4,7 @@ import { join } from "node:path";
 
 import type { Plugin, ViteDevServer } from "vite";
 
-import { SnapshotBundleSchema } from "../src/features/backup/lib/snapshot.ts";
+import { SnapshotBundleSchema } from "../src/data/snapshot.ts";
 import { resolveOwnedPath, writeAtomically } from "./files.ts";
 import {
   assertLocalRequest,

@@ -1,0 +1,35 @@
+@use "variables" as v;
+
+.add-place {
+  &__plan-title {
+    font-size: v.$bodySm;
+    font-weight: 600;
+  }
+
+  &__plan,
+  &__manual {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 0.85rem;
+    padding: 0.7rem;
+    border-radius: 0.6rem;
+  }
+
+  &__writes {
+    margin: 0;
+    padding-left: 1.1rem;
+    font-family: ui-monospace, "SFMono-Regular", monospace;
+    font-size: v.$caption;
+  }
+
+  .add-place__plan,
+  .add-place__manual {
+    background: v.$cardSunken;
+  }
+
+  .add-place__actions {
+    border-color: v.$line;
+    background: v.$card;
+  }
+}

@@ -1,5 +1,5 @@
 import { City } from "@travelmap/core";
-import { filter, firstBy, pipe, uniqueBy } from "remeda";
+import { filter, pipe, uniqueBy } from "remeda";
 
 import { visitedTrips } from "@/data/world";
 import { getCityTravels } from "@/shared/lib/travelQueries";
@@ -27,39 +27,6 @@ export function getTimeZoneAbbreviation(
   } catch {
     return null;
   }
-}
-
-/**
- * Get the City with the biggest timezone jump. In case of a tie, the one with the biggest population is returned.
- * @param {City[]} countries - The list of countries
- * @returns {City | undefined} The City with the biggest timezone jump
- */
-export function getCityBiggestTimezoneJump(
-  countries: City[],
-): City | undefined {
-  const birthCity = parameters.homeCity;
-  if (!birthCity) return undefined;
-  return pipe(
-    countries,
-    firstBy(
-      (city) => {
-        const referenceDate =
-          getCityTravels(city, visitedTrips)[0]?.sDate ?? new Date();
-        const cityOffset = getCityOffsetMinutesOnDate(
-          DEFAULT_LOCALE,
-          city,
-          referenceDate,
-        );
-        const birthOffset = getCityOffsetMinutesOnDate(
-          DEFAULT_LOCALE,
-          birthCity,
-          referenceDate,
-        );
-        return -Math.abs(cityOffset - birthOffset);
-      },
-      (city) => -(city.population ?? 0),
-    ),
-  );
 }
 
 /**

@@ -1,27 +1,27 @@
 import "./SettingsScreen.scss";
 
-import { useLanguage } from "@app/shared/hooks/useLanguage";
 import { SiteConfig } from "@travelmap/core";
+import { Button } from "@travelmap/ui/components/Button/Button";
+import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { Plus, Trash2 } from "lucide-react";
 import { ReactNode, useState } from "react";
 
-import { resolveMapSettings } from "../../../../data/siteConfig";
-import { DataFile, saveDocument } from "../../../../data/store";
-import {
-  Combobox,
-  MultiCombobox,
-} from "../../../../shared/components/Combobox/Combobox";
-import { useConfirm } from "../../../../shared/components/ConfirmDialog/ConfirmDialog";
-import { DocumentScreen } from "../../../../shared/components/DocumentScreen/DocumentScreen";
+import { resolveMapSettings } from "@/data/siteConfig";
+import { DataFile, saveDocument } from "@/data/store";
+import { Combobox, MultiCombobox } from "@/shared/components/Combobox/Combobox";
+import { useConfirm } from "@/shared/components/ConfirmDialog/ConfirmDialog";
+import { DocumentScreen } from "@/shared/components/DocumentScreen/DocumentScreen";
 import {
   NumberField,
   StringListField,
   TextField,
-} from "../../../../shared/components/Fields/Fields";
-import { useDataset } from "../../../../shared/hooks/useDataset";
-import { isSameJson } from "../../../../shared/lib/jsonEquality";
-import { findWorldCountry } from "../../../../shared/lib/worldCountries";
-import { BackupPanel } from "../../../backup/components/BackupPanel/BackupPanel";
+} from "@/shared/components/Fields/Fields";
+import { useMapScene } from "@/shared/context/MapScene.context";
+import { useDataset } from "@/shared/hooks/useDataset";
+import { isSameJson } from "@/shared/lib/jsonEquality";
+import { findWorldCountry } from "@/shared/lib/worldCountries";
+
+import { BackupPanel } from "../BackupPanel/BackupPanel";
 
 const MAP_ZOOM_FIELDS = [
   ["defaultZoom", "configScreen.defaultZoom"],
@@ -53,13 +53,46 @@ const SITE_FIELDS = [
 export function SettingsScreen({ file }: SettingsScreenProps): ReactNode {
   const { t } = useLanguage(["editor"]);
   const { confirm, confirmDialog } = useConfirm();
-  const [value, setValue] = useState(file.value);
+  /*
+   * A draft of the saved document: edits stay here until they are saved, and
+   * the route keys this screen by file, so opening another file starts fresh.
+   */
+  const [value, setValue] = useState(() => file.value);
   const [newLocale, setNewLocale] = useState("");
   const dataset = useDataset();
   const isDirty = !isSameJson(value, file.value);
   const site = value.site ?? {};
   const map = resolveMapSettings(value.map);
   const locales = value.locales ?? [];
+
+  /* The site's default view on the shared map; a press moves its centre. */
+  useMapScene(
+    {
+      frame: [map.defaultCenter],
+      pins: [
+        {
+          coordinates: map.defaultCenter,
+          id: "center",
+          label: t("configScreen.mapDefaults"),
+          tone: "place",
+        },
+      ],
+      routes: [],
+    },
+    {
+      onPick: (coordinates) =>
+        setValue((current) => ({
+          ...current,
+          map: {
+            ...resolveMapSettings(current.map),
+            defaultCenter: [
+              Number(coordinates[0].toFixed(4)),
+              Number(coordinates[1].toFixed(4)),
+            ],
+          },
+        })),
+    },
+  );
   const cityOptions = dataset.cities.map(({ value: city }) => ({
     hint: city.countryId,
     iconUrl: findWorldCountry(city.countryId)?.flagUrl,
@@ -168,10 +201,10 @@ export function SettingsScreen({ file }: SettingsScreenProps): ReactNode {
             placeholder="it-IT"
             value={newLocale}
           />
-          <button className="editor-button" onClick={addLocale} type="button">
+          <Button onClick={addLocale}>
             <Plus aria-hidden="true" />
             {t("configScreen.add")}
-          </button>
+          </Button>
         </div>
       </section>
       <section className="editor-panel">
@@ -204,6 +237,9 @@ export function SettingsScreen({ file }: SettingsScreenProps): ReactNode {
         <h2 className="editor-panel__legend">
           {t("configScreen.mapDefaults")}
         </h2>
+        <p className="editor-panel__hint">
+          {t("configScreen.pickCenterOnMap")}
+        </p>
         <div className="editor-panel__row">
           <NumberField
             label={t("cityScreen.longitude")}

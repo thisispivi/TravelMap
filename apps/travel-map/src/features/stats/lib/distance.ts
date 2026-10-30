@@ -1,7 +1,5 @@
 import { City, getCitiesDistance } from "@travelmap/core";
-import type { Ferry } from "@travelmap/core/classes/Ferry";
-import type { Flight } from "@travelmap/core/classes/Flight";
-import { firstBy, sumBy } from "remeda";
+import { firstBy } from "remeda";
 
 /**
  * Get the furthest and nearest cities from a reference city.
@@ -51,20 +49,4 @@ export function getMinAndMaxTransport<T extends TransportWithDistance>(
     min: firstBy(transports, (t) => t.distanceInKm)!,
     max: firstBy(transports, (t) => -t.distanceInKm)!,
   };
-}
-
-/**
- * Get the total mileage from a list of flights.
- * @param {Flight[]} takenFlights - The list of flights
- * @param {Ferry[]} takenFerries - The list of ferries
- * @returns {string} The total mileage in kilometers
- */
-export function getTotalMileage(
-  takenFlights: Flight[],
-  takenFerries: Ferry[],
-): number {
-  return (
-    sumBy(takenFlights, (f) => f.distanceInKm) +
-    sumBy(takenFerries, (f) => f.distanceInKm)
-  );
 }

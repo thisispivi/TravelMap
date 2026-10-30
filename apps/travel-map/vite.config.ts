@@ -1,12 +1,9 @@
 import { createReadStream, existsSync, readFileSync } from "node:fs";
 import { extname, resolve, sep } from "node:path";
 
-import babel from "@rolldown/plugin-babel";
-import react, { reactCompilerPreset } from "@vitejs/plugin-react";
-import autoprefixer from "autoprefixer";
-import { defineConfig, Plugin } from "vite";
+import { sharedViteConfig } from "@travelmap/ui/vite";
+import { defineConfig, mergeConfig, Plugin } from "vite";
 import { qrcode } from "vite-plugin-qrcode";
-import svgr from "vite-plugin-svgr";
 
 import { siteBranding } from "./vite/siteBranding.ts";
 
@@ -17,12 +14,11 @@ import { siteBranding } from "./vite/siteBranding.ts";
  * List only what the first page load actually needs. Assigning a chunk to a
  * lazily imported dependency makes that chunk a static import, and everything
  * sharing it then loads eagerly too — a catch-all `return "vendor"` used to put
- * apexcharts in the same chunk as zod, which preloaded ~250 kB of charting on
- * every visit for a statistics page most visitors never open. Anything absent
+ * a charting library in the same chunk as zod, which preloaded ~250 kB of
+ * charting on every visit for a statistics page most visitors never open. Anything absent
  * here is left to automatic splitting, which keeps a dynamic import async.
  */
 const CHUNKS_BY_PACKAGE: Record<string, string> = {
-  "react-image-gallery": "gallery",
   "react-photo-album": "gallery",
   "maplibre-gl": "map",
   "react-map-gl": "map",
@@ -36,8 +32,6 @@ const CHUNKS_BY_PACKAGE: Record<string, string> = {
   "i18next-browser-languagedetector": "i18n",
   "i18next-http-backend": "i18n",
   "react-i18next": "i18n",
-  "mobile-device-detect": "ui",
-  "react-tooltip": "ui",
   remeda: "utils",
   swr: "vendor",
   zod: "vendor",
@@ -121,53 +115,48 @@ const siteConfig: unknown = existsSync(siteConfigPath)
   ? JSON.parse(readFileSync(siteConfigPath, "utf8"))
   : {};
 
-export default defineConfig({
-  plugins: [
-    react(),
-    babel({ presets: [reactCompilerPreset()] }),
-    svgr(),
-    qrcode(),
-    siteBranding(siteConfig),
-    mediaServer(resolve(import.meta.dirname, "../../media")),
-  ],
-  base: "/",
-  server: { watch: { usePolling: true }, host: true },
-  css: { postcss: { plugins: [autoprefixer({})] } },
-  resolve: {
-    alias: [{ find: "@", replacement: resolve(import.meta.dirname, "./src") }],
-  },
-  build: {
-    target: "esnext",
-    chunkSizeWarningLimit: 800,
-    minify: "oxc",
-    rolldownOptions: {
-      output: {
-        /**
-         * Groups large dependencies by runtime concern for stable cacheable chunks.
-         * @param {string} id - The resolved module identifier
-         * @returns {string | undefined} The manual chunk name when the module is grouped
-         */
-        manualChunks(id) {
-          const path = id.replace(/\\/g, "/");
-          const marker = "node_modules/";
-          const at = path.lastIndexOf(marker);
-          if (at === -1) return;
-
-          /*
-           * Read the package name from the last node_modules segment rather than
-           * testing the whole id for substrings: pnpm nests a dependency's own
-           * copies under its parent, so react-apexcharts/node_modules/react/...
-           * has to read as `react` and not match an earlier rule by accident.
+export default defineConfig(
+  mergeConfig(sharedViteConfig(import.meta.dirname), {
+    plugins: [
+      qrcode(),
+      siteBranding(siteConfig),
+      mediaServer(resolve(import.meta.dirname, "../../media")),
+    ],
+    base: "/",
+    server: { watch: { usePolling: true }, host: true },
+    build: {
+      target: "esnext",
+      chunkSizeWarningLimit: 800,
+      minify: "oxc",
+      rolldownOptions: {
+        output: {
+          /**
+           * Groups large dependencies by runtime concern for stable cacheable chunks.
+           * @param {string} id - The resolved module identifier
+           * @returns {string | undefined} The manual chunk name when the module is grouped
            */
-          const segments = path.slice(at + marker.length).split("/");
-          const name = segments[0]?.startsWith("@")
-            ? `${segments[0]}/${segments[1]}`
-            : (segments[0] ?? "");
+          manualChunks(id: string) {
+            const path = id.replace(/\\/g, "/");
+            const marker = "node_modules/";
+            const at = path.lastIndexOf(marker);
+            if (at === -1) return;
 
-          return CHUNKS_BY_PACKAGE[name];
+            /*
+             * Read the package name from the last node_modules segment rather than
+             * testing the whole id for substrings: pnpm nests a dependency's own
+             * copies under its parent, so some-wrapper/node_modules/react/...
+             * has to read as `react` and not match an earlier rule by accident.
+             */
+            const segments = path.slice(at + marker.length).split("/");
+            const name = segments[0]?.startsWith("@")
+              ? `${segments[0]}/${segments[1]}`
+              : (segments[0] ?? "");
+
+            return CHUNKS_BY_PACKAGE[name];
+          },
         },
       },
     },
-  },
-  envDir: "./env",
-});
+    envDir: "./env",
+  }),
+);

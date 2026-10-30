@@ -1,10 +1,13 @@
 @use "variables" as v;
+@use "mixins" as m;
 
+/* One frosted pill floating over the map; a failure tints it instead. */
 .save-chip {
+  @include m.glass();
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.25rem 0.6rem;
+  padding: 0.4rem 0.8rem;
   border-radius: 62.4375rem;
   font-size: v.$caption;
   white-space: nowrap;
@@ -29,27 +32,13 @@
   }
 
   &--failed {
-    background: v.$visitedButton;
-    color: v.$visitedButtonContent;
+    background: v.$visitedSoft;
+    color: v.$visitedInk;
   }
 }
 
 @keyframes save-chip-spin {
   to {
     transform: rotate(360deg);
-  }
-}
-
-.editor--dark .save-chip:not(.save-chip--failed) {
-  background: v.$darkButton;
-}
-
-.editor--light .save-chip:not(.save-chip--failed) {
-  background: v.$lightButton;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .save-chip__spinner {
-    animation: none;
   }
 }

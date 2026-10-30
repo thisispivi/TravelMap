@@ -1,0 +1,82 @@
+@use "variables" as v;
+
+.import-dialog {
+  &__summary {
+    font-size: v.$bodySm;
+    font-weight: 600;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  &__dropzone {
+    padding: 0.6rem;
+    border: 0.0625rem dashed transparent;
+    border-radius: 0.75rem;
+
+    &--active {
+      border-color: v.$accent;
+    }
+  }
+
+  &__file {
+    position: absolute;
+    width: 0.0625rem;
+    height: 0.0625rem;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+
+  &__table-scroll {
+    max-height: 40vh;
+    overflow: auto;
+  }
+
+  &__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: v.$bodySm;
+
+    th,
+    td {
+      padding: 0.35rem 0.5rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      font-size: v.$caption;
+      text-transform: uppercase;
+    }
+  }
+
+  &__candidates {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+
+  &__unmatched {
+    color: v.$livedInk;
+  }
+
+  .import-dialog__table th {
+    background: v.$card;
+    color: v.$ink2;
+  }
+
+  .import-dialog__table tbody tr:hover {
+    background: v.$cardSunken;
+  }
+
+  .import-dialog__footer {
+    border-color: v.$line;
+    background: v.$card;
+  }
+}

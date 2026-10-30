@@ -458,35 +458,41 @@ export function mediaUploader(repoRoot: string, dataRoot: string): Plugin {
           );
           const root = await mediaRoot();
           const folder = `${query.country}/${query.city}`;
-          for (const output of files) {
-            if (query.target === "bunny" && settings.bunny) {
-              const upload = await fetch(
-                bunnyUrl(settings.bunny, `${folder}/${output.name}`),
-                {
-                  body: new Uint8Array(output.content),
-                  headers: {
-                    AccessKey: settings.bunny.key,
-                    "Content-Type": "application/octet-stream",
+          /*
+           * A photo's few outputs (original, thumbnail) are independent, so
+           * they are stored at the same time; any failure rejects the upload.
+           */
+          await Promise.all(
+            files.map(async (output) => {
+              if (query.target === "bunny" && settings.bunny) {
+                const upload = await fetch(
+                  bunnyUrl(settings.bunny, `${folder}/${output.name}`),
+                  {
+                    body: new Uint8Array(output.content),
+                    headers: {
+                      AccessKey: settings.bunny.key,
+                      "Content-Type": "application/octet-stream",
+                    },
+                    method: "PUT",
+                    redirect: "error",
                   },
-                  method: "PUT",
-                  redirect: "error",
-                },
-              );
-              if (!upload.ok)
-                throw new RequestError(
-                  `Bunny Storage rejected the upload (HTTP ${upload.status}).`,
                 );
-              continue;
-            }
-            const mediaDirectory = join(repoRoot, "media");
-            await writeAtomically(
-              await resolveOwnedPath(
-                mediaDirectory,
-                `${root.slice(1)}/${folder}/${output.name}`,
-              ),
-              output.content,
-            );
-          }
+                if (!upload.ok)
+                  throw new RequestError(
+                    `Bunny Storage rejected the upload (HTTP ${upload.status}).`,
+                  );
+                return;
+              }
+              const mediaDirectory = join(repoRoot, "media");
+              await writeAtomically(
+                await resolveOwnedPath(
+                  mediaDirectory,
+                  `${root.slice(1)}/${folder}/${output.name}`,
+                ),
+                output.content,
+              );
+            }),
+          );
 
           /**
            * Builds the media-root path a manifest stores for one file.

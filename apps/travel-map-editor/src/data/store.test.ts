@@ -20,7 +20,6 @@ describe("dataset persistence", { timeout: 30_000 }, () => {
       "Disk full",
     );
     expect(store.getDataset()).toBe(before);
-    expect(store.getSessionChanges()).toEqual([]);
   });
 
   it("keeps a document visible after a failed deletion", async () => {

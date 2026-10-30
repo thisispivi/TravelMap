@@ -1,0 +1,7 @@
+@use "variables" as v;
+
+/* The standard properties cover every engine the app supports; no ::-webkit hacks. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: v.$line transparent;
+}

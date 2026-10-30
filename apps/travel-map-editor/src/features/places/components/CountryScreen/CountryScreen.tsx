@@ -1,23 +1,25 @@
 import "./CountryScreen.scss";
 
-import { useLanguage } from "@app/shared/hooks/useLanguage";
 import { CountryJson } from "@travelmap/core";
+import { Button } from "@travelmap/ui/components/Button/Button";
+import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { ReactNode, useState } from "react";
 import { useNavigate } from "react-router";
 
-import { locales } from "../../../../data/dataset";
-import { countryPath } from "../../../../data/paths";
-import { DataFile, deleteDocument, saveDocument } from "../../../../data/store";
-import { ColorField } from "../../../../shared/components/ColorField/ColorField";
-import { DocumentScreen } from "../../../../shared/components/DocumentScreen/DocumentScreen";
-import { NumberField } from "../../../../shared/components/Fields/Fields";
-import { useDataset } from "../../../../shared/hooks/useDataset";
-import { isSameJson } from "../../../../shared/lib/jsonEquality";
+import { locales } from "@/data/dataset";
+import { countryPath } from "@/data/paths";
+import { snapshotBeforeChange } from "@/data/snapshots";
+import { DataFile, deleteDocument, saveDocument } from "@/data/store";
+import { ColorField } from "@/shared/components/ColorField/ColorField";
+import { DocumentScreen } from "@/shared/components/DocumentScreen/DocumentScreen";
+import { NumberField } from "@/shared/components/Fields/Fields";
+import { useMapScene } from "@/shared/context/MapScene.context";
+import { useDataset } from "@/shared/hooks/useDataset";
+import { isSameJson } from "@/shared/lib/jsonEquality";
 import {
   findWorldCountry,
   translationsForLocales,
-} from "../../../../shared/lib/worldCountries";
-import { snapshotBeforeChange } from "../../../backup/lib/snapshots";
+} from "@/shared/lib/worldCountries";
 
 /**
  * CountryScreen component
@@ -33,13 +35,35 @@ export function CountryScreen({ file }: CountryScreenProps): ReactNode {
   const { t } = useLanguage(["editor"]);
   const dataset = useDataset();
   const navigate = useNavigate();
-  const [value, setValue] = useState(file.value);
+  /*
+   * A draft of the saved document: edits stay here until they are saved, and
+   * the route keys this screen by file, so opening another file starts fresh.
+   */
+  const [value, setValue] = useState(() => file.value);
   const isDirty = !isSameJson(value, file.value);
   const world = findWorldCountry(file.value.id);
   const dependents = dataset.cities.filter(
     (city) => city.value.countryId === file.value.id,
   );
   const problems = value.name.trim() ? [] : [t("countryScreen.nameRequired")];
+
+  /* The country's cities on the shared map; pressing one opens its card. */
+  useMapScene(
+    {
+      frame: dependents.map(({ value: city }) => city.coordinates),
+      pins: dependents.map(({ value: city }) => ({
+        coordinates: city.coordinates,
+        id: city.id,
+        label: city.name,
+        tone: "place" as const,
+      })),
+      routes: [],
+    },
+    {
+      onSelect: (id) =>
+        void navigate(`/places/cities/${encodeURIComponent(id)}`),
+    },
+  );
   const configuredLocales = locales();
   const worldNames = world
     ? {
@@ -78,10 +102,12 @@ export function CountryScreen({ file }: CountryScreenProps): ReactNode {
   async function handleDelete(): Promise<void> {
     await snapshotBeforeChange(`before deleting ${file.path}`);
     await deleteDocument(file.path);
-    await navigate("/");
+    await navigate("/places");
   }
   return (
     <DocumentScreen
+      backLabel={t("common:nav.places")}
+      backTo="/places"
       deletedMessage={t("toast.countryDeleted")}
       isDirty={isDirty}
       kind={t("countryScreen.kind")}
@@ -133,13 +159,9 @@ export function CountryScreen({ file }: CountryScreenProps): ReactNode {
             </p>
             {isStale ? (
               <div className="country-screen__actions">
-                <button
-                  className="editor-button editor-button--primary"
-                  onClick={refreshFromWorld}
-                  type="button"
-                >
+                <Button onClick={refreshFromWorld} variant="primary">
                   {t("countryScreen.restoreFromWorldData")}
-                </button>
+                </Button>
               </div>
             ) : null}
           </>

@@ -1,29 +1,19 @@
-import countriesTopologyJson from "@app/assets/json/countries-50m.json";
-import { Continent, Currency } from "@travelmap/core";
+import { Continent, Currency, toId } from "@travelmap/core";
+import countriesTopologyJson from "@travelmap/ui/assets/json/countries-50m.json";
+import { hasFlag } from "@travelmap/ui/lib/flagPack";
+import { flagUrl } from "@travelmap/ui/lib/flags";
 import type { GeometryCollection, Topology } from "topojson-specification";
 import worldCountries from "world-countries";
 
-import { toId } from "../../data/paths";
-
 /*
- * Country ids match Natural Earth polygon names. Display metadata instead
- * comes from world-countries, joined through the topology's numeric ISO code.
+ * Country ids are Natural Earth polygon names in the dataset's id form
+ * (`UnitedKingdom`), the same form country folders and flag files use. Display
+ * metadata comes from world-countries, joined through the topology's numeric
+ * ISO code.
  */
 const topology = countriesTopologyJson as unknown as Topology<{
   countries: GeometryCollection<{ name: string }>;
 }>;
-
-/* The editor bundles the public app's flag pack through its own Vite graph. */
-const flagUrls = import.meta.glob<string>(
-  "../../../../travel-map/public/flags/*.svg",
-  { eager: true, import: "default", query: "?url" },
-);
-const flagsByName = new Map(
-  Object.entries(flagUrls).map(([path, url]) => [
-    path.slice(path.lastIndexOf("/") + 1, -".svg".length),
-    url,
-  ]),
-);
 
 const CONTINENT_BY_REGION: Record<string, Continent> = {
   Africa: Continent.AFRICA,
@@ -43,7 +33,7 @@ const SOUTH_AMERICAN_SUBREGIONS = new Set(["South America"]);
  * @property {Continent} continent - The continent the country belongs to
  * @property {Currency} currency - The country's primary currency
  * @property {string} [flagUrl] - Resolved flag asset, absent when the pack has no match
- * @property {string} id - The Natural Earth polygon name, used to fill the map
+ * @property {string} id - The dataset id, the Natural Earth polygon name in id form
  * @property {string} name - The common English name
  */
 export interface WorldCountry {
@@ -56,29 +46,13 @@ export interface WorldCountry {
 }
 
 /**
- * Finds a flag for a country, trying the naming variants the pack uses. The
- * pack abbreviates saints and drops articles, and is missing a few countries
- * outright, so an unresolved flag is expected rather than an error.
- * @param {string[]} names - Candidate names, most preferred first
+ * Finds a country's flag. The pack is missing a few countries outright, so a
+ * country without one is expected rather than an error.
+ * @param {string} id - The country id
  * @returns {string | undefined} The flag asset URL, when one exists
  */
-function resolveFlag(names: string[]): string | undefined {
-  for (const name of names) {
-    const base = toId(name);
-    const candidates = [
-      base,
-      base.replace(/^Saint/, "St"),
-      base.replace(/^Saint/, "St").replace(/AndThe/, "And"),
-      base.replace(/^UnitedStates/, "Us"),
-      base.replace(/Islands$/, "Is"),
-      base.replace(/^The/, ""),
-    ];
-    for (const candidate of candidates) {
-      const url = flagsByName.get(candidate);
-      if (url) return url;
-    }
-  }
-  return undefined;
+function resolveFlag(id: string): string | undefined {
+  return hasFlag(id) ? flagUrl(id) : undefined;
 }
 
 /**
@@ -104,6 +78,9 @@ function buildCatalogue(): WorldCountry[] {
   const metadataByCode = new Map(
     worldCountries.map((country) => [country.ccn3, country]),
   );
+  const metadataByName = new Map(
+    worldCountries.map((country) => [country.name.common, country]),
+  );
   const currencyCodes = new Set(Object.values(Currency) as string[]);
   const catalogue: WorldCountry[] = [];
 
@@ -111,9 +88,13 @@ function buildCatalogue(): WorldCountry[] {
     const polygonName = (geometry.properties as { name?: string } | undefined)
       ?.name;
     if (!polygonName) continue;
-    const metadata = geometry.id
-      ? metadataByCode.get(String(geometry.id))
-      : undefined;
+    /*
+     * A polygon with no numeric ISO code, such as Kosovo's, is joined by name
+     * instead; one the standard does not cover at all keeps its map name.
+     */
+    const metadata =
+      (geometry.id ? metadataByCode.get(String(geometry.id)) : undefined) ??
+      metadataByName.get(polygonName);
 
     /* Polygons without ISO metadata remain selectable under their map name. */
     if (!metadata) {
@@ -121,8 +102,8 @@ function buildCatalogue(): WorldCountry[] {
         cca2: "",
         continent: Continent.EUROPE,
         currency: Currency.USD,
-        flagUrl: resolveFlag([polygonName]),
-        id: polygonName,
+        flagUrl: resolveFlag(toId(polygonName)),
+        id: toId(polygonName),
         name: polygonName,
       });
       continue;
@@ -136,8 +117,8 @@ function buildCatalogue(): WorldCountry[] {
         currencyCode && currencyCodes.has(currencyCode)
           ? (currencyCode as Currency)
           : Currency.USD,
-      flagUrl: resolveFlag([metadata.name.common, polygonName]),
-      id: polygonName,
+      flagUrl: resolveFlag(toId(polygonName)),
+      id: toId(polygonName),
       name: metadata.name.common,
     });
   }
@@ -157,6 +138,19 @@ const catalogueByCode = new Map(
     .map((country) => [country.cca2, country]),
 );
 
+/*
+ * Territories with their own ISO code but no polygon of their own on the
+ * 1:50m map, which draws them as part of the country that governs them.
+ */
+const GOVERNING_COUNTRY_CODES: Record<string, string> = {
+  GF: "FR",
+  GI: "GB",
+  GP: "FR",
+  MQ: "FR",
+  RE: "FR",
+  YT: "FR",
+};
+
 /**
  * Looks up a country in the catalogue by its dataset id.
  * @param {string} id - The country id
@@ -168,12 +162,13 @@ export function findWorldCountry(id: string): WorldCountry | undefined {
 
 /**
  * Looks up a country by its ISO 3166-1 alpha-2 code, which is how the world
- * city dataset refers to countries.
+ * city dataset refers to countries. A territory the map draws inside another
+ * country, such as Réunion, resolves to that country.
  * @param {string} code - The alpha-2 country code
  * @returns {WorldCountry | undefined} The catalogue entry, when known
  */
 export function findWorldCountryByCode(code: string): WorldCountry | undefined {
-  return catalogueByCode.get(code);
+  return catalogueByCode.get(GOVERNING_COUNTRY_CODES[code] ?? code);
 }
 
 /**

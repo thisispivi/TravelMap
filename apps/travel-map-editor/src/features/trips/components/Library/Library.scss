@@ -1,0 +1,200 @@
+@use "variables" as v;
+@use "mixins" as m;
+
+/* The Trips tab inside the panel, and the places lists on their own page. */
+/* The Trips tab inside the panel. */
+.library {
+  display: flex;
+  flex-direction: column;
+  gap: v.$space4;
+  padding: 0 v.$space4 v.$space5;
+
+  &__year-title {
+    display: flex;
+    align-items: center;
+    gap: v.$space2;
+    margin-bottom: v.$space2;
+    font-size: v.$headingMd;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+
+  &__year-count {
+    color: v.$ink3;
+    font-size: v.$caption;
+    font-weight: 700;
+  }
+
+  &__trips {
+    display: flex;
+    flex-direction: column;
+    gap: v.$space3;
+    list-style: none;
+  }
+
+  &__no-matches {
+    padding: v.$space5 v.$space2;
+    color: v.$ink3;
+    font-size: v.$bodySm;
+    text-align: center;
+  }
+
+  &__welcome {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: v.$space2;
+    padding: v.$space6 v.$space4;
+    border: 0.125rem dashed v.$line;
+    border-radius: v.$radiusLg;
+    color: v.$ink2;
+    text-align: center;
+
+    > svg {
+      width: 2rem;
+      height: 2rem;
+      color: v.$accent;
+    }
+
+    h3 {
+      color: v.$ink;
+      font-size: v.$headingMd;
+    }
+
+    p {
+      font-size: v.$bodySm;
+      line-height: 1.5;
+    }
+  }
+}
+
+/* A trip as the site draws it: the cover is the card, the words sit over it. */
+.trip-library-card {
+  @include m.transition(transform, v.$durationFast);
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: v.$radiusLg;
+  background: v.$cardSunken;
+  box-shadow: v.$cardShadow;
+  color: #ffffff;
+  text-decoration: none;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.72),
+      rgba(0, 0, 0, 0.12) 55%,
+      rgba(0, 0, 0, 0.2)
+    );
+  }
+
+  @include m.hover() {
+    .trip-library-card__image {
+      transform: scale(1.04);
+    }
+  }
+
+  &:active {
+    transform: scale(0.985);
+  }
+
+  &:focus-visible {
+    @include m.focus-ring();
+  }
+
+  &__fallback {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 2rem;
+    height: 2rem;
+    color: v.$ink3;
+    transform: translate(-50%, -50%);
+  }
+
+  &__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s v.$easeOut;
+  }
+
+  &__status {
+    @include m.glass();
+    position: absolute;
+    z-index: 1;
+    top: v.$space3;
+    left: v.$space3;
+    display: inline-flex;
+    align-items: center;
+    gap: v.$space1;
+    padding: 0.25rem v.$space2;
+    border-radius: v.$radiusPill;
+    color: v.$ink;
+    font-size: v.$caption;
+    font-weight: 700;
+
+    svg {
+      width: 0.875rem;
+      height: 0.875rem;
+    }
+
+    &--ready svg {
+      color: v.$green;
+    }
+
+    &--warning svg {
+      color: v.$lived;
+    }
+
+    &--blocking {
+      background: v.$accent;
+      color: v.$onAccent;
+    }
+  }
+
+  &__flags {
+    position: absolute;
+    z-index: 1;
+    top: v.$space3;
+    right: v.$space3;
+    display: flex;
+    gap: v.$space1;
+  }
+
+  &__flag {
+    font-size: 1.75rem;
+    filter: drop-shadow(0 0.0625rem 0.25rem rgba(0, 0, 0, 0.4));
+  }
+
+  &__caption {
+    position: absolute;
+    z-index: 1;
+    right: v.$space4;
+    bottom: v.$space3;
+    left: v.$space4;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__title {
+    font-size: v.$headingLg;
+    font-weight: 800;
+    letter-spacing: -0.015em;
+    line-height: 1.15;
+    text-shadow: 0 0.0625rem 0.5rem rgba(0, 0, 0, 0.3);
+  }
+
+  &__meta {
+    font-size: v.$bodySm;
+    font-weight: 600;
+    opacity: 0.9;
+  }
+}

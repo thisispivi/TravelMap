@@ -1,0 +1,39 @@
+{
+  "mode": {
+    "plane": "Volo",
+    "ferry": "Traghetto",
+    "train": "Treno",
+    "bus": "Bus",
+    "car": "Auto",
+    "taxi": "Taxi",
+    "walk": "A piedi"
+  },
+  "nav": {
+    "trips": "Viaggi",
+    "places": "Luoghi",
+    "label": "Navigazione principale"
+  },
+  "map": {
+    "zoomIn": "Aumenta lo zoom",
+    "zoomOut": "Riduci lo zoom"
+  },
+  "action": {
+    "close": "Chiudi",
+    "back": "Indietro"
+  },
+  "stay": {
+    "nightsCount_one": "{{count}} notte",
+    "nightsCount_other": "{{count}} notti",
+    "checkIn": "Check-in",
+    "checkOut": "Check-out",
+    "nights": "Notti",
+    "dayTrip": "Gita in giornata"
+  },
+  "tripCount_one": "{{count}} viaggio",
+  "tripCount_other": "{{count}} viaggi",
+  "theme": {
+    "switchToLight": "Passa alla modalità chiara",
+    "switchToDark": "Passa alla modalità scura"
+  },
+  "language": "Cambia lingua"
+}

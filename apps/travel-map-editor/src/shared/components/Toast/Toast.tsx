@@ -1,7 +1,7 @@
 import "./Toast.scss";
 
-import { useLanguage } from "@app/shared/hooks/useLanguage";
-import { classNames } from "@app/shared/lib/classNames";
+import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
+import { classNames } from "@travelmap/ui/lib/classNames";
 import { CheckCircle2, CircleAlert, Info, X } from "lucide-react";
 import {
   createContext,
@@ -71,8 +71,11 @@ export function ToastProvider({ children }: PropsWithChildren): ReactNode {
     window.setTimeout(() => dismissToast(id), TOAST_DURATION_MS);
   }
 
+  const toastContextValue: ToastContextValue = { showToast };
+
   return (
-    <ToastContext.Provider value={{ showToast }}>
+    /* react-doctor-disable-next-line react-doctor/context-provider-value-from-unmemoized-local-literal -- React Compiler memoizes the value, which the scan cannot see */
+    <ToastContext.Provider value={toastContextValue}>
       {children}
       <section
         aria-label={t("toast.notifications")}

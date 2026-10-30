@@ -1,0 +1,37 @@
+@use "variables" as v;
+@use "mixins" as m;
+
+.search-field {
+  display: flex;
+  align-items: center;
+  gap: v.$space2;
+  padding: 0 v.$space3;
+  border-radius: v.$radiusPill;
+  background: v.$cardSunken;
+  color: v.$ink3;
+
+  &:focus-within {
+    @include m.focus-ring();
+  }
+
+  &__icon {
+    flex: none;
+    width: 1rem;
+    height: 1rem;
+  }
+
+  &__input {
+    width: 100%;
+    min-width: 0;
+    min-height: 2.5rem;
+    border: 0;
+    background: none;
+    color: v.$ink;
+    font: inherit;
+    font-size: v.$bodySm;
+
+    &:focus-visible {
+      outline: none;
+    }
+  }
+}

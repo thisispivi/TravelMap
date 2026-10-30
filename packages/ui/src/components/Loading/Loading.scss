@@ -1,0 +1,17 @@
+@use "variables" as v;
+
+.loader {
+  margin: auto;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 0.1875rem solid v.$accentSoft;
+  border-top-color: v.$accent;
+  border-radius: 50%;
+  animation: loader-spin 0.7s linear infinite;
+}
+
+@keyframes loader-spin {
+  to {
+    transform: rotate(1turn);
+  }
+}

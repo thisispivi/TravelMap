@@ -1,0 +1,128 @@
+/*
+ * One design, two themes. Values a theme switches resolve to the custom
+ * properties `_tokens.scss` sets on `body`, so a component writes each rule
+ * once and reads correctly in light and dark. Values no theme changes (layout,
+ * type scale, data colours) stay compile-time.
+ */
+
+/* Type families */
+$fontBody: "Google Sans Flex", "Urbanist", system-ui, sans-serif;
+$fontDisplay: $fontBody;
+
+/* Corner scale */
+$radiusXs: 0.5rem;
+$radiusSm: 0.75rem;
+$radiusMd: 1.125rem;
+$radiusLg: 1.5rem;
+$radiusXl: 2rem;
+$radiusPill: 62.4375rem;
+
+/* Spacing scale */
+$space1: 0.25rem;
+$space2: 0.5rem;
+$space3: 0.75rem;
+$space4: 1rem;
+$space5: 1.5rem;
+$space6: 2rem;
+$space7: 3rem;
+
+/* Typography scale */
+$displayLg: 2.75rem;
+$headingXl: 2rem;
+$headingLg: 1.5rem;
+$headingMd: 1.125rem;
+$bodyLg: 1rem;
+$bodySm: 0.875rem;
+$caption: 0.75rem;
+$micro: 0.6875rem;
+
+/*
+ * Layout. The compact breakpoint is mirrored to JavaScript through
+ * `_variables.module.scss`, so the camera and the layout agree on it.
+ */
+$breakpointCompact: 48rem;
+$breakpointWide: 75rem;
+$railWidth: 5rem;
+$sidePanelWidth: 23rem;
+$sidePanelWidthWide: 27rem;
+$shellGap: 0.75rem;
+$tabBarBase: 4.5rem;
+$tabBarHeight: calc(#{$tabBarBase} + env(safe-area-inset-bottom, 0rem));
+
+/* Theme-switched semantic tokens, set in `_tokens.scss` */
+$ground: var(--c-ground);
+$panel: var(--c-panel);
+$panelShadow: var(--c-panel-shadow);
+$glass: var(--c-glass);
+$glassBorder: var(--c-glass-border);
+$glassShadow: var(--c-glass-shadow);
+$card: var(--c-card);
+$cardSunken: var(--c-card-sunken);
+$cardSunkenHover: var(--c-card-sunken-hover);
+$cardHover: var(--c-card-hover);
+$cardShadow: var(--c-card-shadow);
+$cardDrop: var(--c-card-drop);
+$ink: var(--c-ink);
+$ink2: var(--c-ink-2);
+$ink3: var(--c-ink-3);
+$line: var(--c-line);
+$accent: var(--c-accent);
+$accentSoft: var(--c-accent-soft);
+$accentInk: var(--c-accent-ink);
+$onAccent: var(--c-on-accent);
+$green: var(--c-green);
+$greenSoft: var(--c-green-soft);
+$greenInk: var(--c-green-ink);
+$blue: var(--c-blue);
+$blueSoft: var(--c-blue-soft);
+$blueInk: var(--c-blue-ink);
+$visited: var(--c-visited);
+$visitedSoft: var(--c-visited-soft);
+$visitedInk: var(--c-visited-ink);
+$future: var(--c-future);
+$futureSoft: var(--c-future-soft);
+$futureInk: var(--c-future-ink);
+$lived: var(--c-lived);
+$livedSoft: var(--c-lived-soft);
+$livedInk: var(--c-lived-ink);
+
+/* Motion */
+$easeOut: cubic-bezier(0.22, 1, 0.36, 1);
+$easeInOut: cubic-bezier(0.65, 0, 0.35, 1);
+$durationFast: 0.16s;
+$durationBase: 0.24s;
+
+/* Transport colours: compile-time because MapLibre cannot resolve var(). */
+$transportPlane: #8b7cf6;
+$transportFerry: #3fb0dc;
+$transportTrain: #f0a35e;
+$transportBus: #4fbf8a;
+$transportCar: #ef7f92;
+$transportTaxi: #e2b33f;
+$transportWalk: #3fb8a6;
+
+/* Continent colours */
+$continentsAfrica: #f2c66d;
+$continentsAsia: #f39ab9;
+$continentsEurope: #f08a7e;
+$continentsNorthAmerica: #7cc3ea;
+$continentsOceania: #f7a76c;
+$continentsSouthAmerica: #8fcf96;
+$continentsAntarctica: #a9bdd0;
+
+/* The raw values the theme tokens in `_tokens.scss` are built from. */
+$glassBgDark: rgba(36, 37, 38, 0.72);
+$glassBgLight: rgba(255, 255, 255, 0.72);
+$glassBorderDark: rgba(255, 255, 255, 0.08);
+$glassBorderLight: rgba(255, 255, 255, 0.7);
+$glassBlur: 1.25rem;
+$glassShadowDark: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.5);
+$glassShadowLight:
+  0 0.5rem 1.5rem rgba(0, 0, 0, 0.1),
+  0 0.125rem 0.375rem rgba(0, 0, 0, 0.06);
+
+/* The logo's pin red is the accent; its green and blue are the secondaries. */
+$accentPrimary: #ea4335;
+$accentSoftLight: #fdecea;
+$accentSoftDark: rgba(234, 67, 53, 0.2);
+$accentOnDark: #f2665a;

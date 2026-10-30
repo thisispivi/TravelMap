@@ -1,0 +1,20 @@
+@use "variables" as v;
+@use "mixins" as m;
+
+.popover {
+  @include m.glass();
+  position: fixed;
+  z-index: 40;
+  overflow-y: auto;
+  padding: v.$space1;
+  border-radius: v.$radiusMd;
+  overscroll-behavior: contain;
+
+  &--below {
+    transform-origin: top center;
+  }
+
+  &--beside {
+    transform-origin: left bottom;
+  }
+}

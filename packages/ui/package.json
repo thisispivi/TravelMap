@@ -1,0 +1,67 @@
+{
+  "name": "@travelmap/ui",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "knip": "knip",
+    "lint": "eslint . --report-unused-disable-directives --max-warnings=0",
+    "lint:fix": "eslint . --fix --max-warnings=0",
+    "react:doctor": "react-doctor . --verbose",
+    "test": "vitest run --passWithNoTests",
+    "typecheck": "tsc --noEmit"
+  },
+  "exports": {
+    "./assets/*": "./src/assets/*",
+    "./components/*": "./src/components/*.tsx",
+    "./hooks/*": "./src/hooks/*.ts",
+    "./i18n/*": "./src/i18n/*.ts",
+    "./lib/*": "./src/lib/*.ts",
+    "./map/components/*": "./src/map/components/*.tsx",
+    "./map/lib/*": "./src/map/lib/*.ts",
+    "./styles/*": "./src/styles/*",
+    "./vite": "./vite/preset.ts"
+  },
+  "dependencies": {
+    "@babel/core": "^8.0.7",
+    "@rolldown/plugin-babel": "^0.2.4",
+    "@travelmap/core": "workspace:*",
+    "@vitejs/plugin-react": "^6.1.2",
+    "autoprefixer": "^10.6.1",
+    "babel-plugin-react-compiler": "^1.0.0",
+    "framer-motion": "^13.5.1",
+    "i18next": "^26.5.5",
+    "i18next-browser-languagedetector": "^8.2.1",
+    "i18next-http-backend": "^4.0.4",
+    "lucide-react": "^1.61.0",
+    "maplibre-gl": "6.6.0",
+    "react-i18next": "^17.1.2",
+    "react-map-gl": "^8.1.3",
+    "topojson-client": "^3.1.0",
+    "vite-plugin-svgr": "^5.2.0",
+    "zod": "^4.6.7"
+  },
+  "peerDependencies": {
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "vite": "^8.3.5"
+  },
+  "devDependencies": {
+    "@testing-library/dom": "^10.4.2",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.8",
+    "@types/geojson": "^7946.0.16",
+    "@types/node": "^26.6.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@types/topojson-client": "^3.1.5",
+    "@types/topojson-specification": "^1.0.5",
+    "jsdom": "^30.1.3",
+    "knip": "^6.42.1",
+    "react": "^19.3.1",
+    "react-doctor": "^0.9.18",
+    "react-dom": "^19.3.1",
+    "typescript": "^6.0.3",
+    "vite": "^8.3.5",
+    "vitest": "^4.1.12"
+  }
+}

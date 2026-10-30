@@ -1,0 +1,54 @@
+@use "variables" as v;
+@use "mixins" as m;
+
+.bottom-sheet {
+  @include m.panel();
+  position: fixed;
+  z-index: 4;
+  top: 4.5rem;
+  right: 0;
+  bottom: v.$tabBarHeight;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  border-bottom: none;
+  border-radius: v.$radiusXl v.$radiusXl 0 0;
+  touch-action: none;
+
+  &__grip {
+    display: flex;
+    justify-content: center;
+    padding: v.$space2 0 v.$space1;
+    cursor: grab;
+    touch-action: none;
+  }
+
+  &__handle {
+    @include m.bare-button();
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 1.25rem;
+    border-radius: v.$radiusPill;
+
+    &::before {
+      content: "";
+      width: 2.5rem;
+      height: 0.3125rem;
+      border-radius: v.$radiusPill;
+      background: v.$ink3;
+      opacity: 0.45;
+    }
+  }
+
+  /* The content scrolls inside its own frame; the sheet only holds it. */
+  &__body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+    touch-action: pan-y;
+  }
+}

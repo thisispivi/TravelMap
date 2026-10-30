@@ -1,30 +1,34 @@
 import { data, LoaderFunctionArgs } from "react-router";
 
-import {
-  galleryLoader,
-  GalleryRouteData,
-  IndexParamSchema,
-} from "./Gallery.loader";
+import { Album } from "@/data/albums";
+
+import { albumLoader, IndexParamSchema } from "./GalleryAlbum.loader";
 
 /**
- * The gallery a lightbox route resolves to, plus the photo it opens on.
- * @property {number} photoIdx - The selected media index within the travel
+ * The album a lightbox route resolves to, plus the photo it opens on.
+ * @property {Album} album - The album
+ * @property {number} photoIdx - The open photo's position in the whole album
  */
-export interface LightboxRouteData extends GalleryRouteData {
+export interface LightboxRouteData {
+  album: Album;
   photoIdx: number;
 }
 
 /**
- * Resolves the lightbox route on top of its parent gallery, answering a photo
- * index past the end of the travel with a 404.
+ * Resolves the lightbox route on top of its album, answering a photo index
+ * past the end with a 404.
  * @param {LoaderFunctionArgs} args - React Router loader arguments
- * @returns {LightboxRouteData} The resolved gallery and photo index
+ * @param {Album["kind"]} kind - Which kind of album the route serves
+ * @returns {LightboxRouteData} The album and photo index
  */
-export function lightboxLoader(args: LoaderFunctionArgs): LightboxRouteData {
-  const gallery = galleryLoader(args);
+export function lightboxLoader(
+  args: LoaderFunctionArgs,
+  kind: Album["kind"],
+): LightboxRouteData {
+  const album = albumLoader(args, kind);
   const photoIdx = IndexParamSchema.safeParse(args.params.photoIdx);
-  if (!photoIdx.success || photoIdx.data >= gallery.travel.photos.length)
+  if (!photoIdx.success || photoIdx.data >= album.count)
     throw data(null, { status: 404 });
 
-  return { ...gallery, photoIdx: photoIdx.data };
+  return { album, photoIdx: photoIdx.data };
 }

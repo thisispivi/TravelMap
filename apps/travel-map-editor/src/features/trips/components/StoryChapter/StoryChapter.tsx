@@ -1,0 +1,129 @@
+import "./StoryChapter.scss";
+
+import { IssueSeverity } from "@travelmap/core";
+import { CoverImage } from "@travelmap/ui/components/CoverImage/CoverImage";
+import { classNames } from "@travelmap/ui/lib/classNames";
+import { ReactNode } from "react";
+
+/**
+ * Properties accepted by the StoryChapter component.
+ * @property {ReactNode} node - What the spine's node shows: a stay's number, matching its pin, or a journey's mode
+ * @property {"journey" | "stay"} kind - A move between places or a place slept in
+ * @property {string} eyebrow - The line above the title: dates, nights, or role
+ * @property {ReactNode} title - The chapter's title
+ * @property {ReactNode} [action] - A control in the card's corner, such as remove
+ * @property {string} [image] - A stay's picture, drawn as the card's banner
+ * @property {ReactNode} [summary] - What a closed stay shows under its banner
+ * @property {boolean} [isOpen] - Whether a stay's fields are showing
+ * @property {() => void} [onToggle] - Opens or closes a stay
+ * @property {ReactNode} [problems] - What is wrong with the step, shown open or closed
+ * @property {IssueSeverity} [severity] - The worst of those problems, tinting the node
+ * @property {ReactNode} children - The chapter's fields, or a journey's rides
+ */
+interface StoryChapterProps {
+  node: ReactNode;
+  kind: "journey" | "stay";
+  eyebrow: string;
+  title: ReactNode;
+  action?: ReactNode;
+  image?: string;
+  summary?: ReactNode;
+  isOpen?: boolean;
+  onToggle?: () => void;
+  problems?: ReactNode;
+  severity?: IssueSeverity;
+  children: ReactNode;
+}
+
+/**
+ * StoryChapter component
+ * One step of the itinerary as the site draws it: a node on the dashed
+ * spine, numbered for a stay as its pin on the map is, beside the step. A stay
+ * is a pass with the city's picture as its banner; pressing the banner opens
+ * its fields under it, in the pass. A journey is a heading over its rides,
+ * which are tickets that open themselves. A step with problems says so on
+ * itself, open or closed, and its node takes the problem's colour.
+ * @component
+ * @param {StoryChapterProps} props - The chapter props
+ * @param {ReactNode} props.node - What the spine's node shows
+ * @param {"journey" | "stay"} props.kind - A move or a place slept in
+ * @param {string} props.eyebrow - The line above the title
+ * @param {ReactNode} props.title - The chapter's title
+ * @param {ReactNode} [props.action] - A control in the card's corner
+ * @param {string} [props.image] - A stay's picture
+ * @param {ReactNode} [props.summary] - What a closed stay shows
+ * @param {boolean} [props.isOpen] - Whether a stay's fields are showing
+ * @param {() => void} [props.onToggle] - Opens or closes a stay
+ * @param {ReactNode} [props.problems] - What is wrong with the step
+ * @param {IssueSeverity} [props.severity] - The worst of those problems
+ * @param {ReactNode} props.children - The chapter's fields or rides
+ * @returns {ReactNode} The chapter
+ */
+export function StoryChapter({
+  node,
+  kind,
+  eyebrow,
+  title,
+  action,
+  image,
+  summary,
+  isOpen,
+  onToggle,
+  problems,
+  severity,
+  children,
+}: StoryChapterProps): ReactNode {
+  return (
+    <li
+      className={classNames(
+        "story-chapter",
+        `story-chapter--${kind}`,
+        isOpen && "story-chapter--open",
+        severity && `story-chapter--${severity}`,
+      )}
+    >
+      <span aria-hidden="true" className="story-chapter__node">
+        {node}
+      </span>
+      {kind === "stay" ? (
+        <div className="story-chapter__pass">
+          <button
+            aria-expanded={isOpen}
+            className="story-chapter__banner"
+            onClick={onToggle}
+            type="button"
+          >
+            <CoverImage className="story-chapter__image" src={image} />
+            <span className="story-chapter__banner-text">
+              <span className="story-chapter__eyebrow">{eyebrow}</span>
+              <span className="story-chapter__title">{title}</span>
+            </span>
+          </button>
+          {action ? (
+            <span className="story-chapter__action">{action}</span>
+          ) : null}
+          {problems ? (
+            <div className="story-chapter__problems">{problems}</div>
+          ) : null}
+          {isOpen ? (
+            <div className="story-chapter__body">{children}</div>
+          ) : (
+            summary
+          )}
+        </div>
+      ) : (
+        <div className="story-chapter__journey">
+          <header className="story-chapter__header">
+            <span className="story-chapter__heading">
+              <span className="story-chapter__eyebrow">{eyebrow}</span>
+              <span className="story-chapter__title">{title}</span>
+            </span>
+            {action}
+          </header>
+          {problems}
+          <div className="story-chapter__rides">{children}</div>
+        </div>
+      )}
+    </li>
+  );
+}

@@ -1,0 +1,15 @@
+@use "variables" as v;
+
+/*
+ * `grid-column` is a no-op outside a grid, but keeps the message spanning the
+ * row when it stands in for the cards of a card grid.
+ */
+.empty-state {
+  grid-column: 1 / -1;
+  align-self: center;
+  width: 100%;
+  padding: v.$space6 v.$space4;
+  color: v.$ink3;
+  font-size: v.$bodySm;
+  text-align: center;
+}

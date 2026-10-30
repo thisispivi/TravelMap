@@ -1,0 +1,236 @@
+@use "variables" as v;
+@use "mixins" as m;
+
+/* Same insets as the trip list, so switching tabs keeps the title in place. */
+.places-panel {
+  &__body {
+    padding: 0 v.$space3 v.$space5;
+  }
+
+  &__filters {
+    display: flex;
+    align-items: center;
+    gap: v.$space2;
+    padding-bottom: v.$space3;
+
+    /* The switch takes the room the country filter leaves it. */
+    .segmented-control {
+      flex: 1;
+    }
+  }
+
+  &__country {
+    margin-top: v.$space4;
+  }
+
+  &__country-title {
+    display: flex;
+    align-items: center;
+    gap: v.$space2;
+    padding: 0 v.$space2 v.$space2;
+    font-size: v.$bodyLg;
+  }
+
+  &__country-flag {
+    font-size: 1.125rem;
+    border-radius: 0.1875rem;
+  }
+
+  &__country-count {
+    color: v.$ink3;
+    font-size: v.$caption;
+    font-weight: 700;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: v.$space2;
+    list-style: none;
+  }
+}
+
+.city-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: v.$radiusMd;
+  box-shadow: v.$cardShadow;
+
+  &__main {
+    @include m.bare-button();
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    text-align: left;
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(15, 23, 36, 0.72),
+        rgba(15, 23, 36, 0) 60%
+      );
+    }
+
+    @include m.hover() {
+      .city-card__image {
+        transform: scale(1.05);
+      }
+    }
+  }
+
+  &__image {
+    position: absolute;
+    inset: 0;
+    transition: transform 0.6s v.$easeOut;
+  }
+
+  &__caption {
+    position: absolute;
+    z-index: 1;
+    right: v.$space3;
+    bottom: v.$space2;
+    left: v.$space3;
+    display: flex;
+    flex-direction: column;
+    color: #ffffff;
+  }
+
+  &__name {
+    font-size: v.$headingMd;
+    font-weight: 750;
+    line-height: 1.15;
+  }
+
+  &__meta {
+    font-size: v.$bodySm;
+    font-weight: 600;
+    opacity: 0.85;
+    @include m.figure();
+  }
+
+  &__photos {
+    @include m.bare-button();
+    position: absolute;
+    z-index: 2;
+    top: v.$space2;
+    right: v.$space2;
+    display: inline-flex;
+    align-items: center;
+    gap: v.$space1;
+    height: 1.75rem;
+    padding: 0 v.$space2;
+    border-radius: v.$radiusPill;
+    background: rgba(15, 23, 36, 0.45);
+    -webkit-backdrop-filter: blur(0.5rem);
+    backdrop-filter: blur(0.5rem);
+    color: #ffffff;
+    font-size: v.$caption;
+    font-weight: 700;
+
+    @include m.hover() {
+      background: rgba(15, 23, 36, 0.65);
+    }
+  }
+
+  &__photos-icon {
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
+/* The trigger sits beside the filter switch; its list opens in a popover. */
+.country-filter {
+  @include m.bare-button();
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: v.$space2;
+  max-width: 50%;
+  min-height: 2.625rem;
+  padding: 0 v.$space3;
+  border-radius: v.$radiusPill;
+  background: v.$cardSunken;
+  color: v.$ink2;
+  font-size: v.$bodySm;
+  font-weight: 650;
+
+  @include m.hover() {
+    color: v.$ink;
+  }
+
+  &--active {
+    background: v.$accentSoft;
+    color: v.$accentInk;
+  }
+
+  &__icon,
+  &__chevron {
+    flex: none;
+    width: 1rem;
+    height: 1rem;
+  }
+
+  &[aria-expanded="true"] &__chevron {
+    transform: rotate(180deg);
+  }
+
+  &__label {
+    display: inline-flex;
+    align-items: center;
+    gap: v.$space1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    min-width: 16rem;
+    list-style: none;
+  }
+
+  &__option {
+    @include m.bare-button();
+    display: flex;
+    align-items: center;
+    gap: v.$space3;
+    width: 100%;
+    padding: 0.625rem v.$space3;
+    border-radius: v.$radiusSm;
+    color: v.$ink;
+    font-size: v.$bodyLg;
+    font-weight: 600;
+    text-align: left;
+
+    @include m.hover() {
+      background: v.$cardSunken;
+    }
+
+    &[aria-pressed="true"] {
+      color: v.$accentInk;
+    }
+
+    &--all {
+      font-weight: 750;
+    }
+  }
+
+  &__name {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__count {
+    color: v.$ink3;
+    font-size: v.$bodySm;
+    font-weight: 700;
+    @include m.figure();
+  }
+}

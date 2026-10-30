@@ -1,0 +1,108 @@
+@use "variables" as v;
+@use "mixins" as m;
+
+/* Operators as rows that open in place, like the itinerary's tickets. */
+.transport-companies {
+  display: flex;
+  flex-direction: column;
+  gap: v.$space2;
+  padding: 0 v.$space4 v.$space5;
+  list-style: none;
+
+  &__add {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    gap: v.$space2;
+
+    .button {
+      margin-top: 1.4rem;
+    }
+  }
+
+  &__company {
+    @include m.pass-card();
+    overflow: hidden;
+  }
+
+  &__summary-row {
+    @include m.bare-button();
+    display: flex;
+    align-items: center;
+    gap: v.$space3;
+    width: 100%;
+    padding: v.$space3 v.$space4;
+    color: v.$ink;
+    text-align: left;
+
+    @include m.hover() {
+      background: v.$cardSunken;
+    }
+
+    &:focus-visible {
+      @include m.focus-ring();
+    }
+  }
+
+  &__logo {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    padding: 0.25rem;
+    border-radius: v.$radiusSm;
+    background: #ffffff;
+    color: v.$ink3;
+    object-fit: contain;
+
+    svg {
+      width: 1.125rem;
+      height: 1.125rem;
+    }
+  }
+
+  &__name {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+    font-weight: 700;
+  }
+
+  &__id {
+    color: v.$ink3;
+    font-size: v.$caption;
+    font-weight: 500;
+  }
+
+  &__rides {
+    color: v.$ink3;
+    font-size: v.$caption;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  &__chevron {
+    flex: none;
+    width: 1rem;
+    height: 1rem;
+    color: v.$ink3;
+  }
+
+  &__company--open &__chevron {
+    transform: rotate(180deg);
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: v.$space3;
+    padding: v.$space4;
+    border-top: 0.125rem dashed v.$line;
+  }
+
+  &__remove {
+    align-self: flex-start;
+  }
+}

@@ -40,3 +40,22 @@ export function getTripLayoverCities(
 
   return Array.from(auxiliaryCities.values());
 }
+
+/**
+ * Identifies every city the trip touches, so the map can quiet the pins of
+ * every other trip while this one is open. Destinations cover stays no leg
+ * reaches, such as a trip recorded as stays alone; ids keep two cities that
+ * share a name apart.
+ * @param {Trip} trip - The open trip
+ * @returns {Set<string>} The ids of the cities on the trip
+ */
+export function getTripCityIds(trip: Trip): Set<string> {
+  return new Set(
+    [
+      trip.origin,
+      trip.returnTo,
+      ...trip.destinations.map(({ city }) => city),
+      ...trip.getLegs().flatMap((leg) => [leg.from, ...leg.via, leg.to]),
+    ].map(({ id }) => id),
+  );
+}

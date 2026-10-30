@@ -1,0 +1,6 @@
+{
+  "$schema": "https://unpkg.com/knip@latest/schema.json",
+  "entry": ["src/**/*.test.{ts,tsx}"],
+  "project": ["src/**/*.{ts,tsx}", "vite/*.ts"],
+  "ignoreBinaries": ["eslint"]
+}

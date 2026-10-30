@@ -1,13 +1,8 @@
 import { Issue, validateDataset } from "@travelmap/core";
 import { useSyncExternalStore } from "react";
 
-import { photoKeys } from "../../data/dataset";
-import {
-  DatasetSnapshot,
-  getDataset,
-  getSessionChanges,
-  subscribeToDataset,
-} from "../../data/store";
+import { photoCounts } from "@/data/dataset";
+import { DatasetSnapshot, getDataset, subscribeToDataset } from "@/data/store";
 
 /**
  * Subscribes a component to the authored dataset. The store publishes a fresh
@@ -17,15 +12,6 @@ import {
  */
 export function useDataset(): DatasetSnapshot {
   return useSyncExternalStore(subscribeToDataset, getDataset);
-}
-
-/**
- * Subscribes a component to what this session has written, for the changes
- * tray and the commit checklist.
- * @returns {ReturnType<typeof getSessionChanges>} Every touched path
- */
-export function useSessionChanges(): ReturnType<typeof getSessionChanges> {
-  return useSyncExternalStore(subscribeToDataset, getSessionChanges);
 }
 
 /**
@@ -42,7 +28,7 @@ export function datasetIssues(dataset: DatasetSnapshot): Issue[] {
     futureCityIds: dataset.config.value.futureCityIds,
     homeCityId: dataset.config.value.homeCityId,
     livedCityIds: dataset.config.value.livedCityIds,
-    photoKeys: photoKeys(dataset),
+    photoCounts: photoCounts(dataset),
     trips: dataset.trips,
   });
 }

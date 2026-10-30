@@ -20,7 +20,7 @@ export interface DatasetDocument<T> {
  * @property {DatasetDocument<CountryJson>[]} countries - Country documents
  * @property {DatasetDocument<CityJson>[]} cities - City documents
  * @property {DatasetDocument<TripJson>[]} trips - Trip documents
- * @property {string[]} photoKeys - Gallery manifest keys present on disk
+ * @property {Map<string, number>} photoCounts - Each gallery manifest on disk, by key, with how many entries it holds
  * @property {string | null} [homeCityId] - Configured home city
  * @property {string[]} [livedCityIds] - Configured former-home cities
  * @property {string[]} [futureCityIds] - Configured planned cities
@@ -29,7 +29,7 @@ export interface DatasetSources {
   countries: DatasetDocument<CountryJson>[];
   cities: DatasetDocument<CityJson>[];
   trips: DatasetDocument<TripJson>[];
-  photoKeys: string[];
+  photoCounts: Map<string, number>;
   homeCityId?: string | null;
   livedCityIds?: string[];
   futureCityIds?: string[];
@@ -52,7 +52,6 @@ export function validateDataset(sources: DatasetSources): Issue[] {
     sources.cities.map(({ value }) => [value.id, value] as const),
   );
   const countryIds = new Set(sources.countries.map(({ value }) => value.id));
-  const photoKeys = new Set(sources.photoKeys);
   const continents = new Set<string>(Object.values(Continent));
   const currencies = new Set<string>(Object.values(Currency));
 
@@ -177,7 +176,13 @@ export function validateDataset(sources: DatasetSources): Issue[] {
   }
 
   for (const { path, value } of sources.trips)
-    issues.push(...validateTrip(value, { cities, photoKeys }, path));
+    issues.push(
+      ...validateTrip(
+        value,
+        { cities, photoCounts: sources.photoCounts },
+        path,
+      ),
+    );
 
   const usedCityIds = new Set(
     sources.trips.flatMap(({ value }) => [

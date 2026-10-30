@@ -1,0 +1,53 @@
+@use "variables" as v;
+@use "mixins" as m;
+
+/* Problems on the card they belong to, tinted by how serious they are. */
+.issue-list {
+  display: flex;
+  flex-direction: column;
+  gap: v.$space1;
+  list-style: none;
+
+  &__issue {
+    --issue-tint: #{v.$futureSoft};
+    --issue-ink: #{v.$futureInk};
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: v.$space2;
+    padding: v.$space2 v.$space3;
+    border-radius: v.$radiusSm;
+    background: var(--issue-tint);
+    color: v.$ink;
+    font-size: v.$bodySm;
+
+    &--blocking {
+      --issue-tint: #{v.$visitedSoft};
+      --issue-ink: #{v.$visitedInk};
+    }
+
+    &--warning {
+      --issue-tint: #{v.$livedSoft};
+      --issue-ink: #{v.$livedInk};
+    }
+  }
+
+  &__icon {
+    display: inline-flex;
+    color: var(--issue-ink);
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+
+  &__message {
+    flex: 1 1 12rem;
+    min-width: 0;
+  }
+
+  &__fix {
+    margin-left: auto;
+  }
+}

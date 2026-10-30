@@ -80,6 +80,18 @@ export function countBySeverity(
 }
 
 /**
+ * Names the most serious severity among some issues, for a single mark that
+ * stands for all of them.
+ * @param {Issue[]} issues - Issues to inspect
+ * @returns {IssueSeverity | undefined} The worst severity, or nothing when there are no issues
+ */
+export function worstSeverity(issues: Issue[]): IssueSeverity | undefined {
+  return (["blocking", "warning", "suggestion"] as const).find((severity) =>
+    issues.some((issue) => issue.severity === severity),
+  );
+}
+
+/**
  * Reports whether two subjects point at the same thing, so a selection can be
  * compared without the caller reaching into the union's shape.
  * @param {IssueSubject | null} first - First subject

@@ -1,0 +1,23 @@
+.photos-field {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.5rem;
+
+  > :first-child {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  &__action {
+    flex: 0 0 auto;
+  }
+
+  /* The range sits on its own line, under the gallery it narrows. */
+  &__range {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    flex: 1 0 100%;
+    gap: 0.5rem;
+  }
+}

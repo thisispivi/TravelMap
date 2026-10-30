@@ -1,0 +1,258 @@
+@use "variables" as v;
+@use "mixins" as m;
+
+/*
+ * The header keeps one bar — back, title, count — whose type shrinks when the
+ * photos scroll, while the line under it swaps from the album's dates or trips
+ * to the group being looked at. Sizes ease with CSS; the swap is animated by
+ * height in the component.
+ */
+.gallery-album {
+  &__header {
+    display: flex;
+    flex-direction: column;
+    padding: v.$space3 v.$space6 v.$space3;
+    border-bottom: 0.0625rem solid transparent;
+    transition:
+      padding v.$durationFast v.$easeOut,
+      border-color v.$durationFast v.$easeOut;
+
+    @include m.compact() {
+      padding-inline: v.$space3;
+    }
+
+    &--condensed {
+      padding-block: v.$space2;
+      border-bottom-color: v.$line;
+    }
+  }
+
+  &__bar {
+    display: flex;
+    align-items: center;
+    gap: v.$space3;
+  }
+
+  &__back {
+    @include m.bare-button();
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: v.$cardSunken;
+    color: v.$ink;
+    transition:
+      width v.$durationFast v.$easeOut,
+      height v.$durationFast v.$easeOut;
+
+    @include m.hover() {
+      background: v.$accentSoft;
+      color: v.$accentInk;
+    }
+  }
+
+  &__header--condensed &__back {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+
+  &__back-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  &__title {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    gap: v.$space2;
+    min-width: 0;
+    font-size: v.$headingXl;
+    line-height: 1.15;
+    transition: font-size v.$durationFast v.$easeOut;
+
+    @include m.compact() {
+      font-size: v.$headingLg;
+    }
+  }
+
+  &__header--condensed &__title {
+    font-size: v.$headingMd;
+  }
+
+  &__title-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__title-flag {
+    flex: none;
+    font-size: 1.375rem;
+    transition: font-size v.$durationFast v.$easeOut;
+  }
+
+  &__header--condensed &__title-flag {
+    font-size: 1.125rem;
+  }
+
+  &__count {
+    flex: none;
+    padding: 0.25rem v.$space3;
+    border-radius: v.$radiusPill;
+    background: v.$accentSoft;
+    color: v.$accentInk;
+    font-size: v.$caption;
+    font-weight: 750;
+    white-space: nowrap;
+    @include m.figure();
+  }
+
+  /*
+   * Indented to the title, so the second line reads as part of it. Its two
+   * states stack in one cell, which keeps the line's height while they fade.
+   */
+  &__line {
+    display: grid;
+    min-height: 1.5rem;
+    overflow: hidden;
+    padding: 0.125rem 0 0 calc(2.5rem + #{v.$space3});
+    transition: padding v.$durationFast v.$easeOut;
+  }
+
+  &__header--condensed &__line {
+    padding-left: calc(2.25rem + #{v.$space3});
+  }
+
+  &__line-text {
+    grid-area: 1 / 1;
+    min-width: 0;
+    overflow: hidden;
+    color: v.$ink3;
+    font-size: v.$bodySm;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    @include m.figure();
+
+    &--current {
+      display: flex;
+      align-items: baseline;
+      gap: v.$space2;
+    }
+  }
+
+  &__line-text--current &__label-name {
+    font-size: v.$bodyLg;
+    font-weight: 700;
+  }
+
+  &__line-text--current &__label-meta {
+    overflow: hidden;
+    font-size: v.$bodySm;
+    text-overflow: ellipsis;
+  }
+
+  &__sections {
+    display: flex;
+    flex-direction: column;
+    gap: v.$space5;
+    padding: 0 v.$space6 v.$space6;
+
+    @include m.compact() {
+      padding: 0 v.$space3 v.$space5;
+    }
+  }
+
+  &__section-title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    column-gap: v.$space3;
+    row-gap: 0.125rem;
+    margin-bottom: v.$space3;
+  }
+
+  &__label-name {
+    display: inline-flex;
+    align-items: center;
+    gap: v.$space2;
+    min-width: 0;
+    color: v.$ink;
+    font-size: v.$headingMd;
+    font-weight: 750;
+  }
+
+  &__label-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__label-flag {
+    flex: none;
+    font-size: 1rem;
+  }
+
+  &__label-meta {
+    color: v.$ink3;
+    font-size: v.$bodySm;
+    font-weight: 600;
+    @include m.figure();
+  }
+
+  /* Each tile is a button react-photo-album draws; rounding it clips the photo. */
+  &__tile {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: v.$radiusSm;
+    background: v.$cardSunken;
+
+    img {
+      transition: transform 0.5s v.$easeOut;
+    }
+
+    @include m.hover() {
+      img {
+        transform: scale(1.04);
+      }
+    }
+  }
+
+  &__play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background: rgba(15, 23, 36, 0.5);
+    -webkit-backdrop-filter: blur(0.5rem);
+    backdrop-filter: blur(0.5rem);
+    color: #ffffff;
+    transform: translate(-50%, -50%);
+
+    svg {
+      width: 1.25rem;
+      height: 1.25rem;
+      fill: currentColor;
+    }
+  }
+
+  .react-photo-album--button {
+    border-radius: v.$radiusSm;
+
+    &:focus-visible {
+      @include m.focus-ring();
+    }
+  }
+}

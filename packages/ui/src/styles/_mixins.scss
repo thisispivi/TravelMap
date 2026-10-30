@@ -1,0 +1,126 @@
+@use "variables" as v;
+
+@mixin transition($property, $duration: v.$durationBase, $timing: v.$easeOut) {
+  transition:
+    #{$property} #{$duration} #{$timing},
+    background-color v.$durationBase v.$easeOut,
+    border-color v.$durationBase v.$easeOut,
+    color v.$durationBase v.$easeOut,
+    box-shadow v.$durationBase v.$easeOut;
+}
+
+@mixin focus-ring() {
+  outline: 0.125rem solid v.$accent;
+  outline-offset: 0.125rem;
+}
+
+/*
+ * A frosted panel over the map, holding a list or a page. Its headers sit
+ * outside the scrolling area, so content never passes under anything and the
+ * glass only ever shows the map.
+ */
+@mixin panel() {
+  background: v.$panel;
+  -webkit-backdrop-filter: blur(1.75rem) saturate(1.6);
+  backdrop-filter: blur(1.75rem) saturate(1.6);
+  border: 0.0625rem solid v.$glassBorder;
+  box-shadow: v.$panelShadow;
+}
+
+/* A small frosted control floating over the map: the rail, buttons, the popup. */
+@mixin glass() {
+  background: v.$glass;
+  -webkit-backdrop-filter: blur(v.$glassBlur) saturate(1.4);
+  backdrop-filter: blur(v.$glassBlur) saturate(1.4);
+  border: 0.0625rem solid v.$glassBorder;
+  box-shadow: v.$glassShadow;
+}
+
+/* A solid card inside a panel, drawn like a boarding pass. */
+@mixin pass-card() {
+  background: v.$card;
+  border-radius: v.$radiusLg;
+  box-shadow: v.$cardShadow;
+}
+
+/*
+ * One half of a pass. A semicircle is bitten out of both corners on the edge
+ * where it meets the other half, so the two halves together leave real holes
+ * that show whatever is behind the card, glass included. `$edge` is that edge.
+ * Masking clips box shadows, so a ticket's shadow is a `filter` on its wrapper.
+ */
+@mixin ticket-half($edge) {
+  $y: 0%;
+  @if $edge == bottom {
+    $y: 100%;
+  }
+  $bite:
+    radial-gradient(circle 0.5rem at 0% #{$y}, transparent 97%, #000) left / 51%
+      100% no-repeat,
+    radial-gradient(circle 0.5rem at 100% #{$y}, transparent 97%, #000) right /
+      51% 100% no-repeat;
+  -webkit-mask: $bite;
+  mask: $bite;
+}
+
+/* The dashed tear between the bites, on the lower half's top edge. */
+@mixin perforation() {
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0.875rem;
+    left: 0.875rem;
+    border-top: 0.125rem dashed v.$line;
+  }
+}
+
+/* The small uppercase label above a value. */
+@mixin eyebrow() {
+  color: v.$ink3;
+  font-size: v.$micro;
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* Any element whose contents are a reading: digits line up in columns. */
+@mixin figure() {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* A button with no chrome of its own, reset to inherit the surrounding type. */
+@mixin bare-button() {
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+
+  &:focus-visible {
+    @include focus-ring();
+  }
+}
+
+@mixin compact() {
+  @media (max-width: calc(#{v.$breakpointCompact} - 0.0625rem)) {
+    @content;
+  }
+}
+
+@mixin wide() {
+  @media (min-width: v.$breakpointWide) {
+    @content;
+  }
+}
+
+@mixin hover() {
+  @media (hover: hover) {
+    &:hover {
+      @content;
+    }
+  }
+}

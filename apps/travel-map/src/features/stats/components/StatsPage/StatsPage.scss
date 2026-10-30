@@ -1,40 +1,548 @@
-@use "../../../../styles/variables" as v;
-@use "../../../../styles/mixins" as m;
+@use "variables" as v;
+@use "mixins" as m;
 
+/*
+ * The bento sizes itself by its own width, not the window's, so it fills the
+ * page whether the rail is beside it or not, and stops growing at a width
+ * past which its tiles would only stretch around content that never gets
+ * bigger. Every tile is a named area of one grid, so edges line up while the
+ * arrangement stays uneven: two columns on a phone, six on a tablet, twelve on
+ * a desktop.
+ */
 .stats-page {
+  container: stats / inline-size;
+
+  &__bento {
+    display: grid;
+    grid-template-areas:
+      "f1 f2"
+      "f3 f4"
+      "f5 f6"
+      "continents continents"
+      "distance distance"
+      "world world"
+      "countries countries"
+      "modes modes"
+      "records records"
+      "days days"
+      "h1 h1"
+      "h2 h2"
+      "h3 h3"
+      "trips trips"
+      "currencies currencies"
+      "operators operators";
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: v.$space3;
+    max-width: 96rem;
+    margin: 0 auto;
+    padding: 0 v.$space6 v.$space7;
+
+    @include m.compact() {
+      padding: 0 v.$space3 v.$space6;
+    }
+
+    @container stats (min-width: 40rem) {
+      grid-template-areas:
+        "f1 f1 f2 f2 f3 f3"
+        "f4 f4 f5 f5 f6 f6"
+        "continents continents continents continents continents continents"
+        "distance distance distance distance world world"
+        "countries countries countries modes modes modes"
+        "records records records currencies currencies currencies"
+        "days days days days h1 h1"
+        "days days days days h2 h2"
+        "days days days days h3 h3"
+        "trips trips trips trips trips trips"
+        "operators operators operators operators operators operators";
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: v.$space4;
+    }
+
+    @container stats (min-width: 72rem) {
+      grid-template-areas:
+        "f1 f1 f2 f2 f3 f3 continents continents continents continents continents continents"
+        "f4 f4 f5 f5 f6 f6 continents continents continents continents continents continents"
+        "distance distance distance distance distance distance distance distance world world world world"
+        "countries countries countries countries modes modes modes modes records records records records"
+        "days days days days days days days days h1 h1 h1 h1"
+        "days days days days days days days days h2 h2 h2 h2"
+        "days days days days days days days days h3 h3 h3 h3"
+        "trips trips trips trips trips trips trips trips currencies currencies currencies currencies"
+        "operators operators operators operators operators operators operators operators operators operators operators operators";
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+    }
+  }
+}
+
+.stats-tile {
+  @include m.pass-card();
   display: flex;
   flex-direction: column;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  border-radius: v.$floatingCardRadiusLg;
+  gap: v.$space4;
+  min-width: 0;
+  padding: v.$space5;
 
-  .stats-grid {
-    flex: 1 1 auto;
-    min-height: 0;
+  @include m.compact() {
+    padding: v.$space4;
   }
-}
 
-.map-shell--dark {
-  .stats-page {
-    @include m.full-panel-dark();
-  }
-}
-
-.map-shell--light {
-  .stats-page {
-    @include m.full-panel-light();
-  }
-}
-
-@media screen and (max-width: 42.5rem) {
-  .stats-page {
-    .stats-grid__header {
-      padding: 1rem;
-
-      h1 {
-        font-size: v.$headingMd;
-      }
+  @each $area in f1, f2, f3, f4, f5, f6, h1, h2, h3, continents, countries,
+    distance, world, modes, records, days, trips, currencies, operators
+  {
+    &--#{$area} {
+      grid-area: $area;
     }
+  }
+
+  &--figure {
+    justify-content: space-between;
+    gap: v.$space3;
+  }
+
+  /* A habit in a short tile: label on the left, value on the right. */
+  &--inline {
+    flex-direction: row;
+    align-items: center;
+    padding-block: v.$space3;
+  }
+
+  &--inline &__label {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &--inline &__value {
+    flex: none;
+    font-size: v.$headingLg;
+    white-space: nowrap;
+  }
+
+  &__label {
+    @include m.eyebrow();
+    display: flex;
+    align-items: center;
+    gap: v.$space2;
+  }
+
+  &__icon {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    background: v.$accentSoft;
+    color: v.$accentInk;
+
+    svg {
+      width: 0.9375rem;
+      height: 0.9375rem;
+    }
+  }
+
+  /* The logo's three colours take turns down the figures. */
+  &--figure:nth-child(3n + 2) &__icon {
+    background: v.$greenSoft;
+    color: v.$greenInk;
+  }
+
+  &--figure:nth-child(3n) &__icon {
+    background: v.$blueSoft;
+    color: v.$blueInk;
+  }
+
+  &__value {
+    color: v.$ink;
+    font-size: v.$headingXl;
+    font-weight: 750;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    @include m.figure();
+  }
+
+  &__suffix {
+    margin-left: 0.25rem;
+    color: v.$ink3;
+    font-size: v.$bodySm;
+    font-weight: 650;
+    letter-spacing: 0;
+  }
+
+  &__title {
+    font-size: v.$bodyLg;
+  }
+
+  &__continents {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+    align-items: center;
+    gap: v.$space5;
+  }
+
+  /* The map's continent groups carry the ids its source file gave them. */
+  &__continents-map {
+    width: 100%;
+    max-height: 13rem;
+    height: auto;
+
+    #Africa * {
+      fill: var(--fill-africa);
+    }
+
+    #Asia * {
+      fill: var(--fill-asia);
+    }
+
+    #Europe * {
+      fill: var(--fill-europe);
+    }
+
+    #NorthAmerica * {
+      fill: var(--fill-north_america);
+    }
+
+    #Oceania * {
+      fill: var(--fill-oceania);
+    }
+
+    #SouthAmerica * {
+      fill: var(--fill-south_america);
+    }
+  }
+
+  &__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: v.$space2;
+    list-style: none;
+  }
+
+  &__chip {
+    display: inline-flex;
+    align-items: center;
+    gap: v.$space2;
+    padding: v.$space2 0.875rem;
+    border-radius: v.$radiusPill;
+    background: v.$cardSunken;
+    color: v.$ink2;
+    font-size: v.$bodySm;
+    font-weight: 650;
+  }
+
+  &__chip-symbol {
+    color: v.$ink;
+    font-weight: 800;
+  }
+
+  &__records {
+    display: flex;
+    flex-direction: column;
+    gap: v.$space3;
+    list-style: none;
+  }
+
+  &__record {
+    display: flex;
+    align-items: flex-start;
+    gap: v.$space3;
+  }
+
+  &__record-icon {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    background: v.$accentSoft;
+    color: v.$accentInk;
+
+    svg {
+      width: 1.125rem;
+      height: 1.125rem;
+    }
+  }
+
+  &__record:nth-child(3n + 2) &__record-icon {
+    background: v.$greenSoft;
+    color: v.$greenInk;
+  }
+
+  &__record:nth-child(3n) &__record-icon {
+    background: v.$blueSoft;
+    color: v.$blueInk;
+  }
+
+  &__record-body {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  &__record-label {
+    @include m.eyebrow();
+  }
+
+  &__record-value {
+    color: v.$ink;
+    font-size: v.$headingMd;
+    font-weight: 750;
+    @include m.figure();
+  }
+
+  &__record-detail {
+    color: v.$ink3;
+    font-size: v.$caption;
+    font-weight: 600;
+  }
+
+  &__operator-groups {
+    display: flex;
+    flex-direction: column;
+    gap: v.$space4;
+  }
+
+  &__operator-heading {
+    display: flex;
+    align-items: center;
+    gap: v.$space2;
+    margin-bottom: v.$space2;
+    color: v.$ink2;
+    font-size: v.$bodySm;
+    font-weight: 700;
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+
+  &__operators {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+    gap: v.$space2;
+    list-style: none;
+  }
+
+  &__operator {
+    display: flex;
+    align-items: center;
+    gap: v.$space2;
+    padding: v.$space2;
+    border-radius: v.$radiusSm;
+    background: v.$cardSunken;
+  }
+
+  &__operator-logo {
+    flex: none;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: v.$radiusXs;
+    background: v.$card;
+    object-fit: contain;
+  }
+
+  &__operator-name {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    color: v.$ink;
+    font-size: v.$bodySm;
+    font-weight: 650;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__operator-count {
+    color: v.$ink3;
+    font-size: v.$caption;
+    font-weight: 700;
+    @include m.figure();
+  }
+
+  /* A column per year, drawn with flexbox: no chart library. */
+  &__years {
+    display: flex;
+    flex: 1;
+    align-items: stretch;
+    gap: v.$space1;
+    min-height: 12rem;
+    list-style: none;
+  }
+
+  &__year {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    gap: v.$space1;
+    min-width: 0;
+  }
+
+  &__year-value {
+    flex: none;
+    color: v.$ink2;
+    font-size: v.$micro;
+    line-height: 0.875rem;
+    font-weight: 700;
+    @include m.figure();
+  }
+
+  /* The count rides on top of its bar, however tall the bar grows. */
+  &__year-track {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.125rem;
+    width: 100%;
+    max-width: 2.5rem;
+  }
+
+  &__year-bar {
+    width: 100%;
+    border-radius: v.$radiusXs v.$radiusXs 0.125rem 0.125rem;
+    background: linear-gradient(to top, v.$accent, v.$blue);
+    transform-origin: bottom center;
+  }
+
+  &--trips &__year-bar {
+    background: linear-gradient(to top, v.$green, v.$blue);
+  }
+
+  &__year-label {
+    color: v.$ink3;
+    font-size: v.$micro;
+    font-weight: 700;
+    @include m.figure();
+  }
+
+  &__distance {
+    color: v.$ink;
+    font-size: v.$headingXl;
+    font-weight: 750;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    @include m.figure();
+  }
+
+  /* The Earth and the Moon, joined by how much of the way there was flown. */
+  &__journey {
+    display: flex;
+    align-items: center;
+    gap: v.$space3;
+  }
+
+  &__planet {
+    display: flex;
+    flex: none;
+  }
+
+  &__planet-image {
+    width: 4rem;
+    height: 4rem;
+
+    @include m.compact() {
+      width: 3rem;
+      height: 3rem;
+    }
+  }
+
+  &__journey-track {
+    flex: 1;
+    height: 0.375rem;
+    overflow: hidden;
+    border-radius: v.$radiusPill;
+    background: v.$cardSunken;
+  }
+
+  &__journey-fill {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(to right, v.$blue, v.$accent);
+    transform-origin: left center;
+  }
+
+  &__journey-captions {
+    display: flex;
+    justify-content: space-between;
+    gap: v.$space3;
+  }
+
+  &__journey-caption {
+    display: flex;
+    flex-direction: column;
+    color: v.$ink3;
+    font-size: v.$caption;
+    font-weight: 600;
+
+    &--end {
+      align-items: flex-end;
+      text-align: right;
+    }
+  }
+
+  &__journey-value {
+    color: v.$ink;
+    font-size: v.$headingLg;
+    font-weight: 750;
+    @include m.figure();
+  }
+
+  /* The share of the world's countries, as a ring that fills to it. */
+  &__world {
+    position: relative;
+    display: grid;
+    flex: 1;
+    place-items: center;
+  }
+
+  &__ring {
+    width: 100%;
+    max-width: 11rem;
+    transform: rotate(-90deg);
+  }
+
+  &__ring-track,
+  &__ring-fill {
+    fill: none;
+    stroke-width: 10;
+  }
+
+  &__ring-track {
+    stroke: v.$cardSunken;
+  }
+
+  &__ring-fill {
+    stroke: v.$green;
+    stroke-linecap: round;
+  }
+
+  &__world-share {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  &__world-value {
+    color: v.$ink;
+    font-size: v.$headingXl;
+    font-weight: 750;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    @include m.figure();
+  }
+
+  &__world-label {
+    max-width: 7rem;
+    color: v.$ink3;
+    font-size: v.$caption;
+    font-weight: 600;
   }
 }

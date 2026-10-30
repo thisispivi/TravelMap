@@ -1,0 +1,37 @@
+@use "variables" as v;
+
+.place-import {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+
+  &__row {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__icon {
+    position: absolute;
+    left: 0.65rem;
+    width: 0.9rem;
+    height: 0.9rem;
+    pointer-events: none;
+    fill: v.$ink2;
+  }
+
+  &__input {
+    padding-left: 2rem;
+  }
+
+  &__preview {
+    margin: 0;
+    font-size: v.$caption;
+    color: v.$futureInk;
+  }
+
+  &__error {
+    padding: 0.5rem 0.75rem;
+  }
+}

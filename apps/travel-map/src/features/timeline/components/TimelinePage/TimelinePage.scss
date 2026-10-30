@@ -1,84 +1,221 @@
-@use "../../../../styles/variables" as v;
-@use "../../../../styles/mixins" as m;
-@use "../../../../styles/scrollbar" as s;
+@use "variables" as v;
+@use "mixins" as m;
+
+/* The room each card leaves for the line: half the middle, or a phone's gutter. */
+$lineRoom: 3rem;
+$lineRoomCompact: 3.25rem;
+$cardWidth: 26rem;
+$cardHeight: 13rem;
+$cardHeightCompact: 9.5rem;
+$dotSize: 1.125rem;
+/* Each card starts halfway down the last, so neither side of the line stands empty. */
+$stagger: calc(#{$cardHeight} / -2 + #{v.$space6});
+/* A year's cards keep to themselves: more than the gap between any two cards. */
+$yearGap: 5rem;
+$yearGapCompact: 3.5rem;
 
 .timeline-page {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
+  padding: 0 v.$space6 v.$space6;
 
-  .timeline-page__scroll {
+  @include m.compact() {
+    padding: 0 v.$space3 v.$space5;
+  }
+
+  /* A tilted card's corner must not make the page scroll sideways as it enters. */
+  &__route {
+    position: relative;
+    overflow-x: clip;
+  }
+
+  /* Coordinates are the route's own pixels, so it takes no viewBox. */
+  &__line {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
-    min-height: 0;
-    overflow-y: auto;
-    overflow-x: hidden;
+    overflow: visible;
+    pointer-events: none;
   }
 
-  .timeline-page__header {
-    text-align: center;
-    padding: 0.25rem 0 1rem;
+  /* Starts undrawn: the page's scroll loop draws what is on screen. */
+  &__path {
+    fill: none;
+    stroke: v.$accent;
+    stroke-dasharray: 0 1;
+    stroke-linecap: round;
+    stroke-width: 0.1875rem;
+  }
 
-    h1 {
-      font-size: v.$headingLg;
-      font-weight: 800;
-      letter-spacing: 0;
+  /* The logo's three colours in turn: decoration, not a category. */
+  &__dot {
+    position: absolute;
+    top: calc(50% - #{$dotSize} / 2);
+    width: $dotSize;
+    height: $dotSize;
+    margin-left: calc(#{$dotSize} / -2);
+    border: 0.1875rem solid v.$card;
+    border-radius: 50%;
+    transform: scale(0);
+    will-change: transform;
+
+    &--0 {
+      background: v.$green;
+    }
+
+    &--1 {
+      background: v.$lived;
+    }
+
+    &--2 {
+      background: v.$blue;
     }
   }
-}
 
-.map-shell--dark {
-  .timeline-page {
-    @include m.full-panel-dark();
-    padding: 1rem;
+  &__year {
+    display: flex;
+    flex-direction: column;
+    gap: v.$space4;
 
-    .timeline-page__scroll {
-      @include s.setScrollbar(
-        transparent,
-        rgba(255, 255, 255, 0.12),
-        rgba(255, 255, 255, 0.2),
-        rgba(255, 255, 255, 0.3)
-      );
-    }
+    & + & {
+      margin-top: $yearGap;
 
-    .timeline-page__header h1 {
-      color: #ffffff;
-    }
-  }
-}
-
-.map-shell--light {
-  .timeline-page {
-    @include m.full-panel-light();
-    padding: 1rem;
-
-    .timeline-page__scroll {
-      @include s.setScrollbar(
-        transparent,
-        rgba(0, 0, 0, 0.15),
-        rgba(0, 0, 0, 0.25),
-        rgba(0, 0, 0, 0.35)
-      );
-    }
-
-    .timeline-page__header h1 {
-      color: v.$lightButtonContent;
-    }
-  }
-}
-
-@media screen and (max-width: 42.5rem) {
-  .timeline-page {
-    border-radius: 1.5rem;
-    padding: 1rem;
-
-    .timeline-page__header {
-      padding: 0 0 1rem;
-
-      h1 {
-        font-size: v.$headingMd;
+      @include m.compact() {
+        margin-top: $yearGapCompact;
       }
     }
+  }
+
+  &__year-label {
+    position: relative;
+    align-self: center;
+    padding: v.$space1 v.$space4;
+    border-radius: v.$radiusPill;
+    background: v.$accent;
+    color: v.$onAccent;
+    font-size: v.$bodySm;
+    font-weight: 800;
+    @include m.figure();
+
+    @include m.compact() {
+      align-self: flex-start;
+    }
+  }
+
+  &__stops {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+  }
+
+  /* Cards overlap down the page, so an item's empty side must not catch the pointer. */
+  &__item {
+    position: relative;
+    display: flex;
+    pointer-events: none;
+
+    & + & {
+      margin-top: $stagger;
+
+      @include m.compact() {
+        margin-top: v.$space5;
+      }
+    }
+  }
+
+  /*
+   * Starts transparent: the page's scroll loop shows what the scroll has reached.
+   * Never `visibility: hidden`, which would take off-screen trips from the keyboard.
+   */
+  &__stop {
+    @include m.bare-button();
+    position: relative;
+    display: block;
+    width: min(calc(50% - #{$lineRoom}), #{$cardWidth});
+    height: $cardHeight;
+    padding: 0;
+    overflow: hidden;
+    border-radius: v.$radiusLg;
+    color: #ffffff;
+    text-align: left;
+    opacity: 0;
+    pointer-events: auto;
+    will-change: transform, opacity;
+
+    @include m.compact() {
+      width: calc(100% - #{$lineRoomCompact});
+      height: $cardHeightCompact;
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.78),
+        rgba(0, 0, 0, 0.05) 65%
+      );
+    }
+
+    /* Both sides sit against the line, however wide the page is. */
+    &--left {
+      margin-right: calc(50% + #{$lineRoom});
+      margin-left: auto;
+    }
+
+    &--right {
+      margin-left: calc(50% + #{$lineRoom});
+
+      @include m.compact() {
+        margin-left: auto;
+      }
+    }
+
+    @include m.hover() {
+      .timeline-page__cover {
+        transform: scale(1.06);
+      }
+    }
+  }
+
+  &__cover {
+    position: absolute;
+    inset: 0;
+    @include m.transition(transform, 0.5s);
+  }
+
+  &__caption {
+    position: absolute;
+    right: v.$space4;
+    bottom: v.$space3;
+    left: v.$space4;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  &__title {
+    display: -webkit-box;
+    overflow: hidden;
+    font-size: v.$headingMd;
+    font-weight: 800;
+    line-height: 1.15;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  &__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: v.$caption;
+    font-weight: 650;
+    @include m.figure();
+  }
+
+  &__flag {
+    font-size: 0.75rem;
   }
 }

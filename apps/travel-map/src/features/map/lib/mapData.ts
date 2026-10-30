@@ -1,4 +1,10 @@
 import { City } from "@travelmap/core";
+import {
+  countriesGeoJson,
+  CountryProperties,
+} from "@travelmap/ui/map/lib/countries";
+import { ringArea, ringCentroid } from "@travelmap/ui/map/lib/geo";
+import { MapTheme, toOpaqueFill } from "@travelmap/ui/map/lib/mapTheme";
 import type {
   Feature,
   FeatureCollection,
@@ -7,10 +13,12 @@ import type {
   Position,
 } from "geojson";
 
-import { futureCities, livedCities, visitedCities } from "@/data/world";
-
-import { countriesGeoJson, CountryProperties } from "./countries";
-import { ringArea, ringCentroid } from "./geo";
+import {
+  futureCities,
+  livedCities,
+  visitedCities,
+  visitedCountries,
+} from "@/data/world";
 
 /**
  * Properties stored on a generated city label.
@@ -121,3 +129,42 @@ export const cityLabelsGeoJson: FeatureCollection<Point, CityLabelProperties> =
     type: "FeatureCollection",
     features: Array.from(labelCities.values(), createCityLabel),
   };
+
+/**
+ * Builds the MapLibre colour expression that paints each visited country in
+ * its own pastel, made opaque over the land, and leaves the rest as land.
+ * @param {MapTheme} theme - The active map theme
+ * @returns {unknown} The fill expression, or the land colour when nothing was visited
+ */
+export function visitedCountryFill(theme: MapTheme): unknown {
+  const fills = visitedCountries.map(
+    (country) =>
+      [
+        country,
+        toOpaqueFill(
+          theme.countryInk ?? country.fillColor,
+          theme.land,
+          theme.countryStrength,
+        ),
+      ] as const,
+  );
+  /* MapLibre rejects a `match` with no cases, which an empty dataset would give. */
+  if (fills.length === 0) return theme.land;
+
+  /*
+   * A country is found by its id, the polygon's name in id form, so its
+   * display name is free to differ from the map's abbreviated one. The name
+   * still matches for a hand-written dataset that used the map's name as is.
+   */
+  return [
+    "match",
+    ["get", "id"],
+    ...fills.flatMap(([country, fill]) => [country.id, fill]),
+    [
+      "match",
+      ["get", "name"],
+      ...fills.flatMap(([country, fill]) => [country.name, fill]),
+      theme.land,
+    ],
+  ];
+}

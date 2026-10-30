@@ -2,16 +2,17 @@ import "./Map.scss";
 import "maplibre-gl/dist/maplibre-gl.css";
 
 import { City } from "@travelmap/core";
+import { Loading } from "@travelmap/ui/components/Loading/Loading";
+import { remToPx } from "@travelmap/ui/lib/rem";
+import { BaseMap } from "@travelmap/ui/map/components/BaseMap/BaseMap";
+import { readMapTheme } from "@travelmap/ui/map/lib/mapTheme";
 import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
-import MapGL, { type MapRef, Popup } from "react-map-gl/maplibre";
+import { type MapRef, Popup } from "react-map-gl/maplibre";
 
 import { futureCities, livedCities, visitedCities } from "@/data/world";
-import { Button } from "@/shared/components/Button/Button";
-import { Loading } from "@/shared/components/Loading/Loading";
 import { useAppRoute } from "@/shared/context/AppRoute.context";
 import { useMapInteraction } from "@/shared/context/MapInteraction.context";
 import { usePanel } from "@/shared/context/Panel.context";
-import { useLanguage } from "@/shared/hooks/useLanguage";
 import { ResponsiveType } from "@/shared/hooks/useResponsive";
 
 import {
@@ -25,17 +26,17 @@ import {
   toMapLibreZoom,
   WORLD_CENTER,
 } from "../../lib/mapCamera";
-import { createMapStyle, MAP_THEMES } from "../../lib/mapTheme";
-import { getTripLayoverCities } from "../../lib/mapTripCities";
+import { visitedCountryFill } from "../../lib/mapData";
+import { getTripCityIds, getTripLayoverCities } from "../../lib/mapTripCities";
 import { MapTooltip } from "../MapTooltip/MapTooltip";
 import { RouteOverlay } from "../RouteOverlay/RouteOverlay";
-import { MapLayers } from "./MapLayers";
+import { MapLabels } from "./MapLabels";
 import { MapMarkers } from "./MapMarkers";
 
 const HOVER_LEAVE_DELAY_MS = 300;
 const MAP_TILE_SIZE_PX = 512;
 const MIN_ZOOM_EPSILON = 0.01;
-const TOOLTIP_OFFSET_PX = 14;
+const TOOLTIP_OFFSET_REM = 0.875;
 const ZOOM_CONTROL_DURATION_MS = 300;
 
 /**
@@ -59,19 +60,20 @@ interface MapProps {
  * @returns {ReactNode} The interactive travel map
  */
 export function Map({ isDarkTheme, responsive }: MapProps): ReactNode {
-  const { t } = useLanguage(["home"]);
   const { hoveredCity, setHoveredCity, mapPosition, selectedTrip } =
     useMapInteraction();
   const { isPanelOpen } = usePanel();
-  const { isTripDetail } = useAppRoute();
+  const { isTripDetail, surface } = useAppRoute();
+  const isSideOpen = surface === "side" && isPanelOpen;
   const mapRef = useRef<MapRef>(null);
   const hoverLeaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isFramingWorld = useRef(false);
   const pinnedCityRef = useRef<City | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  const theme = MAP_THEMES[isDarkTheme ? "dark" : "light"];
-  const mapStyle = useMemo(() => createMapStyle(theme), [theme]);
+  const theme = useMemo(() => readMapTheme(isDarkTheme), [isDarkTheme]);
+  /* Rebuilding the fill reloads the country layer, so it follows the theme only. */
+  const countryFill = useMemo(() => visitedCountryFill(theme), [theme]);
   const appliedPosition = useRef(mapPosition);
 
   useEffect(() => {
@@ -82,17 +84,17 @@ export function Map({ isDarkTheme, responsive }: MapProps): ReactNode {
     map.flyTo({
       center: mapPosition.center,
       zoom: toMapLibreZoom(mapPosition.zoom),
-      offset: getCameraOffset(responsive.window.width, isPanelOpen),
+      offset: getCameraOffset(responsive, isSideOpen),
       duration: CAMERA_DURATION_MS,
       essential: true,
     });
-  }, [isLoaded, isPanelOpen, mapPosition, responsive.window.width]);
+  }, [isLoaded, isSideOpen, mapPosition, responsive]);
 
   useEffect(() => {
     const map = mapRef.current;
     if (!map || !isLoaded || !isTripDetail || !selectedTrip) return;
 
-    const padding = getCameraPadding(responsive.window.width, isPanelOpen);
+    const padding = getCameraPadding(responsive, isSideOpen);
 
     if (selectedTrip.mapFocus) {
       map.flyTo({
@@ -100,7 +102,7 @@ export function Map({ isDarkTheme, responsive }: MapProps): ReactNode {
         zoom: toMapLibreZoom(selectedTrip.mapFocus.zoom),
         duration: CAMERA_DURATION_MS,
         essential: true,
-        offset: getCameraOffset(responsive.window.width, isPanelOpen),
+        offset: getCameraOffset(responsive, isSideOpen),
       });
       return;
     }
@@ -114,13 +116,7 @@ export function Map({ isDarkTheme, responsive }: MapProps): ReactNode {
       maxZoom: SINGLE_DESTINATION_ZOOM,
       padding,
     });
-  }, [
-    isLoaded,
-    isPanelOpen,
-    isTripDetail,
-    responsive.window.width,
-    selectedTrip,
-  ]);
+  }, [isLoaded, isSideOpen, isTripDetail, responsive, selectedTrip]);
 
   /**
    * Clears both the pinned and transient tooltip selection.
@@ -193,7 +189,7 @@ export function Map({ isDarkTheme, responsive }: MapProps): ReactNode {
       center: WORLD_CENTER,
       duration: ZOOM_CONTROL_DURATION_MS,
       essential: true,
-      offset: getCameraOffset(responsive.window.width, isPanelOpen),
+      offset: getCameraOffset(responsive, isSideOpen),
       zoom,
     });
   };
@@ -251,37 +247,37 @@ export function Map({ isDarkTheme, responsive }: MapProps): ReactNode {
           ...livedCities,
         ])
       : [];
+  const tripCityIds =
+    isTripDetail && selectedTrip ? getTripCityIds(selectedTrip) : null;
 
   return (
     <div className="map-container">
       {!isLoaded ? (
-        <div className="loading">
+        <div className="map-container__loading">
           <Loading />
         </div>
       ) : null}
 
-      <MapGL
-        attributionControl={false}
-        dragRotate={false}
+      <BaseMap
+        countryFill={countryFill}
+        hasZoomControls={!responsive.isCompact}
         initialViewState={{
           longitude: mapPosition.center[0],
           latitude: mapPosition.center[1],
           zoom: toMapLibreZoom(mapPosition.zoom),
         }}
-        mapStyle={mapStyle}
-        maxPitch={0}
+        mapRef={mapRef}
         maxZoom={MAPLIBRE_MAX_ZOOM}
-        minPitch={0}
         minZoom={MAPLIBRE_MIN_ZOOM}
         onClick={closeTooltip}
         onLoad={() => setIsLoaded(true)}
         onZoomEnd={handleZoomEnd}
-        ref={mapRef}
+        onZoomOut={handleZoomOut}
         renderWorldCopies={false}
-        touchPitch={false}
+        theme={theme}
       >
-        <MapLayers theme={theme} />
-        <RouteOverlay isDarkTheme={isDarkTheme} />
+        <MapLabels theme={theme} />
+        <RouteOverlay />
 
         {isLoaded ? (
           <MapMarkers
@@ -289,6 +285,7 @@ export function Map({ isDarkTheme, responsive }: MapProps): ReactNode {
             layoverCities={layoverCities}
             onHoverCity={handleHoverCity}
             onSelectCity={handleSelectCity}
+            tripCityIds={tripCityIds}
           />
         ) : null}
 
@@ -300,7 +297,7 @@ export function Map({ isDarkTheme, responsive }: MapProps): ReactNode {
             latitude={hoveredCity.coordinates[1]}
             longitude={hoveredCity.coordinates[0]}
             maxWidth="none"
-            offset={TOOLTIP_OFFSET_PX}
+            offset={remToPx(TOOLTIP_OFFSET_REM)}
             onClose={closeTooltip}
           >
             <MapTooltip
@@ -310,26 +307,7 @@ export function Map({ isDarkTheme, responsive }: MapProps): ReactNode {
             />
           </Popup>
         ) : null}
-      </MapGL>
-
-      <div className="map-zoom-controls">
-        <Button
-          ariaLabel={t("map.zoomIn")}
-          className="map-zoom-controls__button"
-          onClick={() =>
-            mapRef.current?.zoomIn({ duration: ZOOM_CONTROL_DURATION_MS })
-          }
-        >
-          +
-        </Button>
-        <Button
-          ariaLabel={t("map.zoomOut")}
-          className="map-zoom-controls__button"
-          onClick={handleZoomOut}
-        >
-          −
-        </Button>
-      </div>
+      </BaseMap>
     </div>
   );
 }

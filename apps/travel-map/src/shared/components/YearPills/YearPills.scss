@@ -1,0 +1,52 @@
+@use "variables" as v;
+@use "mixins" as m;
+
+/* Positioned, so each pill's offset is measured from the row it scrolls in. */
+.year-pills {
+  position: relative;
+  display: flex;
+  gap: v.$space1;
+  padding: 0.1875rem;
+  overflow-x: auto;
+  border-radius: v.$radiusPill;
+  background: v.$cardSunken;
+  scrollbar-width: none;
+
+  &__pill {
+    @include m.bare-button();
+    position: relative;
+    display: inline-flex;
+    flex: 1 0 auto;
+    align-items: center;
+    justify-content: center;
+    gap: v.$space1;
+    min-height: 2.25rem;
+    padding: 0 v.$space3;
+    border-radius: v.$radiusPill;
+    color: v.$ink2;
+    font-size: v.$bodySm;
+    font-weight: 700;
+    @include m.figure();
+
+    &--active {
+      color: v.$onAccent;
+    }
+  }
+
+  &__indicator {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: v.$accent;
+  }
+
+  &__year,
+  &__count {
+    position: relative;
+  }
+
+  &__count {
+    font-size: v.$micro;
+    opacity: 0.7;
+  }
+}

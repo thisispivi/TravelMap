@@ -1,0 +1,27 @@
+@use "variables" as v;
+
+/*
+ * Fills whatever holds it (the docked panel, the bottom sheet, a page) and
+ * scrolls only its body. In the sheet, the part of the sheet below the screen
+ * is added to the end of the body, so its last item can still be reached.
+ */
+.panel-frame {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+
+  &__header {
+    flex: none;
+  }
+
+  /* Positioned so scroll-linked animations can measure against it. */
+  &__body {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    padding-bottom: var(--sheet-hidden, 0);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+}

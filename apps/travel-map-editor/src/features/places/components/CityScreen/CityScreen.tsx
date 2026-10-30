@@ -1,25 +1,26 @@
-import { useLanguage } from "@app/shared/hooks/useLanguage";
 import { CityJson, walkTripLegs } from "@travelmap/core";
+import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { ReactNode, useState } from "react";
 import { useNavigate } from "react-router";
 
-import { cityPath } from "../../../../data/paths";
-import { DataFile, deleteDocument, moveDocument } from "../../../../data/store";
-import { Combobox } from "../../../../shared/components/Combobox/Combobox";
-import { DocumentScreen } from "../../../../shared/components/DocumentScreen/DocumentScreen";
+import { cityPath } from "@/data/paths";
+import { snapshotBeforeChange } from "@/data/snapshots";
+import { DataFile, deleteDocument, moveDocument } from "@/data/store";
+import { Combobox } from "@/shared/components/Combobox/Combobox";
+import { DocumentScreen } from "@/shared/components/DocumentScreen/DocumentScreen";
 import {
   CheckboxField,
   NumberField,
   StringListField,
-} from "../../../../shared/components/Fields/Fields";
-import { LocalizedNames } from "../../../../shared/components/LocalizedNames/LocalizedNames";
-import { useDataset } from "../../../../shared/hooks/useDataset";
-import { isSameJson } from "../../../../shared/lib/jsonEquality";
-import { findWorldCountry } from "../../../../shared/lib/worldCountries";
-import { snapshotBeforeChange } from "../../../backup/lib/snapshots";
-import { CoordinatePicker } from "../../../map/components/CoordinatePicker/CoordinatePicker";
-import { countryOptions, timeZoneOptions } from "../../lib/placeOptions";
-import { PlaceImport } from "../PlaceImport/PlaceImport";
+} from "@/shared/components/Fields/Fields";
+import { LocalizedNames } from "@/shared/components/LocalizedNames/LocalizedNames";
+import { PlaceImport } from "@/shared/components/PlaceImport/PlaceImport";
+import { useMapScene } from "@/shared/context/MapScene.context";
+import { useDataset } from "@/shared/hooks/useDataset";
+import { isSameJson } from "@/shared/lib/jsonEquality";
+import { countryOptions, timeZoneOptions } from "@/shared/lib/placeOptions";
+import { findWorldCountry } from "@/shared/lib/worldCountries";
+
 import { CityBackgroundPicker } from "./CityBackgroundPicker";
 
 /**
@@ -29,14 +30,17 @@ import { CityBackgroundPicker } from "./CityBackgroundPicker";
  * @component
  * @param {CityScreenProps} props
  * @param {DataFile<CityJson>} props.file - City source file
- * @param {boolean} props.isDarkTheme - Whether the dark map theme is active
  * @returns {ReactNode} The city editor screen
  */
-export function CityScreen({ file, isDarkTheme }: CityScreenProps): ReactNode {
+export function CityScreen({ file }: CityScreenProps): ReactNode {
   const { t } = useLanguage(["editor"]);
   const dataset = useDataset();
   const navigate = useNavigate();
-  const [value, setValue] = useState(file.value);
+  /*
+   * A draft of the saved document: edits stay here until they are saved, and
+   * the route keys this screen by file, so opening another file starts fresh.
+   */
+  const [value, setValue] = useState(() => file.value);
   const isDirty = !isSameJson(value, file.value);
   const dependents = dataset.trips.filter(
     ({ value: trip }) =>
@@ -47,10 +51,48 @@ export function CityScreen({ file, isDarkTheme }: CityScreenProps): ReactNode {
       walkTripLegs(trip).some(
         ({ leg }) =>
           leg.toId === file.value.id ||
-          [...(leg.viaIds ?? []), ...(leg.ferry?.viaIds ?? [])].includes(
-            file.value.id,
+          [...(leg.viaIds ?? []), ...(leg.ferry?.viaIds ?? [])].some(
+            (via) => via === file.value.id,
           ),
       ),
+  );
+  /* The city sits on the shared map among its neighbours; a press moves it. */
+  useMapScene(
+    {
+      frame: [value.coordinates],
+      pins: [
+        ...dataset.cities
+          .filter(({ value: other }) => other.id !== file.value.id)
+          .map(({ value: other }) => ({
+            coordinates: other.coordinates,
+            id: other.id,
+            label: other.name,
+            tone: "candidate" as const,
+          })),
+        {
+          coordinates: value.coordinates,
+          id: file.value.id,
+          label: value.name,
+          tone: "place" as const,
+        },
+      ],
+      routes: [],
+      selectedId: file.value.id,
+    },
+    {
+      onPick: (coordinates) =>
+        setValue((current) => ({
+          ...current,
+          coordinates: [
+            Number(coordinates[0].toFixed(5)),
+            Number(coordinates[1].toFixed(5)),
+          ],
+        })),
+      onSelect: (id) =>
+        id === file.value.id
+          ? undefined
+          : void navigate(`/places/cities/${encodeURIComponent(id)}`),
+    },
   );
   const problems = [
     ...(value.name.trim() ? [] : [t("cityScreen.nameRequired")]),
@@ -72,10 +114,12 @@ export function CityScreen({ file, isDarkTheme }: CityScreenProps): ReactNode {
   async function handleDelete(): Promise<void> {
     await snapshotBeforeChange(`before deleting ${file.path}`);
     await deleteDocument(file.path);
-    await navigate("/");
+    await navigate("/places");
   }
   return (
     <DocumentScreen
+      backLabel={t("common:nav.places")}
+      backTo="/places"
       deletedMessage={t("toast.cityDeleted")}
       isDirty={isDirty}
       kind={t("cityScreen.kind")}
@@ -98,11 +142,7 @@ export function CityScreen({ file, isDarkTheme }: CityScreenProps): ReactNode {
             }))
           }
         />
-        <CoordinatePicker
-          isDarkTheme={isDarkTheme}
-          onChange={(coordinates) => setValue({ ...value, coordinates })}
-          value={value.coordinates}
-        />
+        <p className="editor-panel__hint">{t("cityScreen.pickOnMap")}</p>
         <div className="editor-panel__row">
           <NumberField
             label={t("cityScreen.longitude")}
@@ -215,9 +255,7 @@ export function CityScreen({ file, isDarkTheme }: CityScreenProps): ReactNode {
 /**
  * Props for CityScreen.
  * @property {DataFile<CityJson>} file - City source file
- * @property {boolean} isDarkTheme - Whether the dark map theme is active
  */
 interface CityScreenProps {
   file: DataFile<CityJson>;
-  isDarkTheme: boolean;
 }

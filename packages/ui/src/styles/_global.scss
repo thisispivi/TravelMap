@@ -1,0 +1,71 @@
+@use "tokens";
+@use "variables" as v;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/*
+ * Honoured once, globally, so no stylesheet has to repeat it. framer-motion's
+ * JS-driven animations follow the same preference through `MotionConfig` in
+ * `main.tsx`. 0.01ms rather than 0 so transitionend still fires.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Exposes the home-indicator inset to the map camera, which frames above the tab bar. */
+html {
+  --safe-area-bottom: env(safe-area-inset-bottom, 0rem);
+  height: 100%;
+  width: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: v.$ground;
+  color: v.$ink;
+  font-family: v.$fontBody;
+  font-optical-sizing: auto;
+  font-variation-settings: "ROND" 60;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body,
+#root {
+  height: inherit;
+  width: inherit;
+  overflow: hidden;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-variation-settings: inherit;
+}
+
+img {
+  display: block;
+}
+
+.app-loading {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: v.$ground;
+}

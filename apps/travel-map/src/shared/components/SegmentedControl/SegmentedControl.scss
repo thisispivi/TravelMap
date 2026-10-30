@@ -1,79 +1,37 @@
-@use "../../../styles/variables" as v;
-@use "../../../styles/mixins" as m;
+@use "variables" as v;
+@use "mixins" as m;
 
 .segmented-control {
   display: flex;
-  gap: 0.25rem;
-  padding: 0.25rem;
-  border-radius: 0.75rem;
-  width: 100%;
-  overflow-x: auto;
-  scrollbar-width: none;
+  padding: 0.1875rem;
+  border-radius: v.$radiusPill;
+  background: v.$cardSunken;
 
-  &::-webkit-scrollbar {
-    display: none;
-  }
-
-  .segmented-control__option {
+  &__option {
+    @include m.bare-button();
     position: relative;
-    padding: 0.5rem 1rem;
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    border-radius: 0.5rem;
-    flex-shrink: 0;
-    @include m.transition(color, 0.2s);
+    flex: 1;
+    min-height: 2.25rem;
+    padding: 0 v.$space3;
+    border-radius: v.$radiusPill;
+    color: v.$ink2;
+    font-size: v.$bodySm;
+    font-weight: 650;
 
-    .segmented-control__indicator {
-      position: absolute;
-      inset: 0;
-      border-radius: 0.5rem;
-      z-index: 0;
-    }
-
-    .segmented-control__label {
-      position: relative;
-      z-index: 1;
-      font-size: v.$bodySm;
-      font-weight: 600;
-      white-space: nowrap;
+    &--active {
+      color: v.$ink;
     }
   }
-}
 
-.map-shell--dark {
-  .segmented-control {
-    background: rgba(255, 255, 255, 0.06);
-
-    .segmented-control__option {
-      color: v.$darkAltTextDarker;
-
-      &--active {
-        color: #ffffff;
-      }
-
-      .segmented-control__indicator {
-        background: rgba(255, 255, 255, 0.12);
-      }
-    }
+  &__indicator {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: v.$card;
+    box-shadow: v.$cardShadow;
   }
-}
 
-.map-shell--light {
-  .segmented-control {
-    background: rgba(0, 0, 0, 0.04);
-
-    .segmented-control__option {
-      color: v.$lightAltText;
-
-      &--active {
-        color: v.$lightButtonContent;
-      }
-
-      .segmented-control__indicator {
-        background: #ffffff;
-        @include m.smooth-shadow(1);
-      }
-    }
+  &__label {
+    position: relative;
   }
 }

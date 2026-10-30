@@ -144,6 +144,35 @@ describe("authored stays and moves", () => {
     ).toBe(false);
   });
 
+  it("accepts a photo range and rejects one that ends before it starts", () => {
+    /**
+     * Builds a trip with one stay owning part of a shared gallery.
+     * @param {object} photoRange - The range under test
+     * @returns {object} The trip document
+     */
+    const stay = (photoRange: object): object => ({
+      ...trip,
+      steps: [
+        {
+          checkIn: "2026-05-01",
+          checkOut: "2026-05-03",
+          cityId: "rome",
+          photoPath: "Italy/Rome/tr",
+          photoRange,
+          type: "stay",
+        },
+      ],
+    });
+    expect(TripJsonSchema.safeParse(stay({ to: 538 })).success).toBe(true);
+    expect(TripJsonSchema.safeParse(stay({ from: 15, to: 61 })).success).toBe(
+      true,
+    );
+    expect(TripJsonSchema.safeParse(stay({ from: 61, to: 15 })).success).toBe(
+      false,
+    );
+    expect(TripJsonSchema.safeParse(stay({ from: 0 })).success).toBe(false);
+  });
+
   it("accepts a night spent on board, arriving the day after departing", () => {
     expect(
       TripJsonSchema.safeParse({

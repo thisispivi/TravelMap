@@ -1,7 +1,7 @@
 import "./CommandPalette.scss";
 
-import { useLanguage } from "@app/shared/hooks/useLanguage";
-import { classNames } from "@app/shared/lib/classNames";
+import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
+import { classNames } from "@travelmap/ui/lib/classNames";
 import Fuse from "fuse.js";
 import {
   ReactNode,
@@ -12,12 +12,12 @@ import {
 } from "react";
 import { useNavigate } from "react-router";
 
-import { useDataset } from "../../../../shared/hooks/useDataset";
+import { useDataset } from "@/shared/hooks/useDataset";
 import {
   Command,
   getCommands,
   subscribeToCommands,
-} from "../../../../shared/lib/commands";
+} from "@/shared/lib/commands";
 
 const FUSE_OPTIONS = {
   ignoreLocation: true,

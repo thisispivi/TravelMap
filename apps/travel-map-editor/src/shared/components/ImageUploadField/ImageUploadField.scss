@@ -10,18 +10,20 @@
     min-height: 5.5rem;
     padding: 0.65rem;
     border: 0.0625rem dashed;
-    border-radius: v.$floatingCardRadius;
+    border-radius: v.$radiusMd;
     cursor: pointer;
     @include m.transition(transform, 0.18s);
+    border-color: v.$line;
+    background: v.$cardSunken;
 
     &:hover,
     &--dragging {
-      border-color: var(--editor-accent);
+      border-color: v.$accent;
       transform: translateY(-0.08rem);
     }
 
     &:focus-within {
-      outline: 0.125rem solid var(--editor-accent);
+      outline: 0.125rem solid v.$accent;
       outline-offset: 0.12rem;
     }
   }
@@ -40,7 +42,9 @@
     svg {
       width: 1.3rem;
       height: 1.3rem;
-      color: v.$lightAltTextDarker;
+
+      /* The tile stays white in both themes, so its icon keeps a light-theme grey. */
+      color: #65676b;
     }
   }
 
@@ -54,7 +58,7 @@
       display: flex;
       align-items: center;
       gap: 0.35rem;
-      color: var(--editor-accent);
+      color: v.$accent;
       font-size: v.$bodySm;
       font-weight: 700;
     }
@@ -103,36 +107,18 @@
       height: 0.85rem;
     }
   }
-}
-
-.editor--dark .image-upload-field {
-  &__dropzone {
-    border-color: v.$glassBorderDark;
-    background: v.$darkButton;
-  }
 
   &__copy > span {
-    color: v.$darkAltTextDarker;
-  }
-}
-
-.editor--light .image-upload-field {
-  &__dropzone {
-    border-color: rgb(0 0 0 / 14%);
-    background: v.$lightButton;
+    color: v.$ink2;
   }
 
-  &__copy > span {
-    color: v.$lightAltTextDarker;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .image-upload-field__dropzone {
-    transition: none;
-
-    &:hover,
-    &--dragging {
+  /*
+   * The global reduced-motion rule only shortens transitions, so the
+   * transform would still jump; it is dropped here instead.
+   */
+  @media (prefers-reduced-motion: reduce) {
+    &__dropzone:hover,
+    &__dropzone--dragging {
       transform: none;
     }
   }

@@ -1,0 +1,16 @@
+@use "variables" as v;
+@use "mixins" as m;
+
+.trip-list {
+  &__years {
+    padding: v.$space1 v.$space3 v.$space5;
+    overflow-x: clip;
+  }
+
+  &__trips {
+    display: flex;
+    flex-direction: column;
+    gap: v.$space3;
+    list-style: none;
+  }
+}

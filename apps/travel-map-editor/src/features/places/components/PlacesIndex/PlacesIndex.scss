@@ -1,0 +1,115 @@
+@use "variables" as v;
+@use "mixins" as m;
+
+/* The site's Places tab: cities under their country, as picture cards. */
+.places-index {
+  display: flex;
+  flex-direction: column;
+  gap: v.$space4;
+  padding: 0 v.$space4 v.$space5;
+
+  &__country-link {
+    display: flex;
+    align-items: center;
+    gap: v.$space2;
+    margin-bottom: v.$space2;
+    padding: v.$space1 v.$space2;
+    border-radius: v.$radiusSm;
+    color: v.$ink;
+    font-size: v.$bodyLg;
+    font-weight: 750;
+    text-decoration: none;
+
+    @include m.hover() {
+      background: v.$cardSunken;
+    }
+
+    &:focus-visible {
+      @include m.focus-ring();
+    }
+  }
+
+  &__flag {
+    font-size: 1.5rem;
+  }
+
+  &__count {
+    color: v.$ink3;
+    font-size: v.$caption;
+    font-weight: 700;
+  }
+
+  &__chevron {
+    width: 1rem;
+    height: 1rem;
+    margin-left: auto;
+    color: v.$ink3;
+  }
+
+  &__cities {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: v.$space2;
+    list-style: none;
+  }
+
+  &__city {
+    @include m.transition(transform, v.$durationFast);
+    position: relative;
+    display: block;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: v.$radiusMd;
+    color: #ffffff;
+    text-decoration: none;
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.7),
+        rgba(0, 0, 0, 0) 60%
+      );
+    }
+
+    &--hovered,
+    &:hover {
+      transform: scale(1.02);
+    }
+
+    &:focus-visible {
+      @include m.focus-ring();
+    }
+  }
+
+  &__image {
+    position: absolute;
+    inset: 0;
+  }
+
+  &__caption {
+    position: absolute;
+    z-index: 1;
+    right: v.$space3;
+    bottom: v.$space2;
+    left: v.$space3;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__name {
+    overflow: hidden;
+    font-size: v.$bodySm;
+    font-weight: 750;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__meta {
+    font-size: v.$micro;
+    font-weight: 600;
+    opacity: 0.85;
+  }
+}

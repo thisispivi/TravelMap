@@ -1,7 +1,50 @@
-import { createHashRouter, Navigate } from "react-router";
+import {
+  createHashRouter,
+  LoaderFunctionArgs,
+  Navigate,
+  RouteObject,
+} from "react-router";
 
 import { MapShell } from "../shell/MapShell";
 import { FallbackPage } from "./FallbackPage";
+
+/**
+ * Builds an album route. A trip's photos and a place's photos are the same
+ * album page reached by a different id, each with the lightbox as a child.
+ * @param {"trip" | "place"} kind - Which kind of album the route serves
+ * @returns {RouteObject} The album route with its lightbox child
+ */
+function albumRoute(kind: "trip" | "place"): RouteObject {
+  return {
+    path: `gallery/${kind}/:albumId`,
+    lazy: async () => {
+      const [{ GalleryAlbum: Component }, { albumLoader }] = await Promise.all([
+        import("@/features/gallery/components/GalleryAlbum/GalleryAlbum"),
+        import("@/features/gallery/loaders/GalleryAlbum.loader"),
+      ]);
+      return {
+        Component,
+        loader: (args: LoaderFunctionArgs) => albumLoader(args, kind),
+      };
+    },
+    children: [
+      {
+        path: ":photoIdx",
+        lazy: async () => {
+          const [{ Lightbox: Component }, { lightboxLoader }] =
+            await Promise.all([
+              import("@/features/gallery/components/Lightbox/Lightbox"),
+              import("@/features/gallery/loaders/Lightbox.loader"),
+            ]);
+          return {
+            Component,
+            loader: (args: LoaderFunctionArgs) => lightboxLoader(args, kind),
+          };
+        },
+      },
+    ],
+  };
+}
 
 /** Hash router for the persistent map shell and its route-owned panels. */
 export const router = createHashRouter([
@@ -32,31 +75,15 @@ export const router = createHashRouter([
         },
       },
       {
-        path: "gallery/:cityName/:travelIdx",
+        path: "gallery",
         lazy: async () => {
-          const [{ Gallery: Component }, { galleryLoader: loader }] =
-            await Promise.all([
-              import("@/features/gallery/components/Gallery/Gallery"),
-              import("@/features/gallery/loaders/Gallery.loader"),
-            ]);
-
-          return { Component, loader };
+          const { GalleryIndex: Component } =
+            await import("@/features/gallery/components/GalleryIndex/GalleryIndex");
+          return { Component };
         },
-        children: [
-          {
-            path: ":photoIdx",
-            lazy: async () => {
-              const [{ Lightbox: Component }, { lightboxLoader: loader }] =
-                await Promise.all([
-                  import("@/features/gallery/components/Lightbox/Lightbox"),
-                  import("@/features/gallery/loaders/Lightbox.loader"),
-                ]);
-
-              return { Component, loader };
-            },
-          },
-        ],
       },
+      albumRoute("trip"),
+      albumRoute("place"),
       { path: "*", element: <Navigate replace to="/trips" /> },
     ],
   },

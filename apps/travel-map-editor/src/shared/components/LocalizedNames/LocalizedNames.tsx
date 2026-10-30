@@ -1,9 +1,10 @@
-import { useLanguage } from "@app/shared/hooks/useLanguage";
+import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { ChevronRight } from "lucide-react";
 import { ReactNode } from "react";
 import { Link } from "react-router";
 
-import { locales } from "../../../data/dataset";
+import { locales } from "@/data/dataset";
+
 import { TextField } from "../Fields/Fields";
 
 /**

@@ -1,18 +1,17 @@
 import "./Combobox.scss";
 
-import { useLanguage } from "@app/shared/hooks/useLanguage";
-import { classNames } from "@app/shared/lib/classNames";
+import {
+  MenuPosition,
+  useAnchoredMenu,
+} from "@travelmap/ui/hooks/useAnchoredMenu";
+import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
+import { classNames } from "@travelmap/ui/lib/classNames";
+import { menuVariants } from "@travelmap/ui/lib/motion";
 import { useCombobox, useMultipleSelection } from "downshift";
 import { domAnimation, LazyMotion, m } from "framer-motion";
 import Fuse, { IFuseOptions } from "fuse.js";
-import { ReactNode, useMemo, useRef, useState } from "react";
+import { ReactNode, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-
-import {
-  ANCHORED_PANEL_VARIANTS,
-  MenuPosition,
-  useAnchoredMenu,
-} from "../../hooks/anchoredMenu";
 
 /**
  * One choice in a combobox.
@@ -44,19 +43,19 @@ const MAX_VISIBLE_OPTIONS = 100;
 
 /**
  * Ranks options against a search term, falling back to the full list when the
- * term is empty.
- * @param {Fuse<ComboboxOption>} fuse - The prepared index
+ * term is empty. The index is built only for a search, so the many idle
+ * comboboxes on a form cost nothing.
  * @param {ComboboxOption[]} options - Every available option
  * @param {string} term - The current search term
  * @returns {ComboboxOption[]} The options to display
  */
-function search(
-  fuse: Fuse<ComboboxOption>,
-  options: ComboboxOption[],
-  term: string,
-): ComboboxOption[] {
+function search(options: ComboboxOption[], term: string): ComboboxOption[] {
   if (!term.trim()) return options.slice(0, MAX_VISIBLE_OPTIONS);
-  return fuse
+  /*
+   * ponytail: rebuilt per keystroke, which is fine for a few hundred options;
+   * keep one index per options list if a list ever reaches thousands.
+   */
+  return new Fuse(options, FUSE_OPTIONS)
     .search(term, { limit: MAX_VISIBLE_OPTIONS })
     .map((result) => result.item);
 }
@@ -166,7 +165,7 @@ function ComboboxMenu({
               }
             : undefined
         }
-        variants={ANCHORED_PANEL_VARIANTS}
+        variants={menuVariants}
         {...menuProps}
       >
         {isShown ? children : null}
@@ -218,16 +217,12 @@ export function Combobox({
 }: ComboboxProps): ReactNode {
   const { t } = useLanguage(["editor"]);
   const controlRef = useRef<HTMLDivElement>(null);
-  const items = useMemo(
-    () =>
-      emptyLabel === undefined
-        ? options
-        : [{ label: emptyLabel, value: "" }, ...options],
-    [emptyLabel, options],
-  );
-  const fuse = useMemo(() => new Fuse(items, FUSE_OPTIONS), [items]);
+  const items =
+    emptyLabel === undefined
+      ? options
+      : [{ label: emptyLabel, value: "" }, ...options];
   const [term, setTerm] = useState("");
-  const visible = useMemo(() => search(fuse, items, term), [fuse, items, term]);
+  const visible = search(items, term);
   const selected = items.find((option) => option.value === value) ?? null;
   const {
     getInputProps,
@@ -240,6 +235,12 @@ export function Combobox({
   } = useCombobox({
     inputValue: term,
     items: visible,
+    /*
+     * Downshift compares items by identity unless told otherwise, and the
+     * options are rebuilt on every render, so an unchanged selection would
+     * read as a new one and update its state forever.
+     */
+    itemToKey: (option) => option?.value,
     itemToString: (option) => option?.label ?? "",
     onInputValueChange: ({ inputValue }) => setTerm(inputValue ?? ""),
     onIsOpenChange: ({ isOpen: nextIsOpen }) => {
@@ -360,24 +361,17 @@ export function MultiCombobox({
   const { t } = useLanguage(["editor"]);
   const controlRef = useRef<HTMLDivElement>(null);
   const [term, setTerm] = useState("");
-  const selectedItems = useMemo(
-    () =>
-      value
-        .map((entry) => options.find((option) => option.value === entry))
-        .filter((option): option is ComboboxOption => option !== undefined),
-    [options, value],
-  );
-  const available = useMemo(
-    () => options.filter((option) => !value.includes(option.value)),
-    [options, value],
-  );
-  const fuse = useMemo(() => new Fuse(available, FUSE_OPTIONS), [available]);
-  const visible = useMemo(
-    () => search(fuse, available, term),
-    [available, fuse, term],
-  );
+  const selectedItems = value
+    .map((entry) => options.find((option) => option.value === entry))
+    .filter((option): option is ComboboxOption => option !== undefined);
+  const chosen = new Set(value);
+  const available = options.filter((option) => !chosen.has(option.value));
+  const visible = search(available, term);
   const { getDropdownProps, getSelectedItemProps, removeSelectedItem } =
-    useMultipleSelection({ selectedItems });
+    useMultipleSelection({
+      itemToKey: (option) => option?.value,
+      selectedItems,
+    });
   const {
     getInputProps,
     getItemProps,
@@ -388,6 +382,12 @@ export function MultiCombobox({
   } = useCombobox({
     inputValue: term,
     items: visible,
+    /*
+     * Downshift compares items by identity unless told otherwise, and the
+     * options are rebuilt on every render, so an unchanged selection would
+     * read as a new one and update its state forever.
+     */
+    itemToKey: (option) => option?.value,
     itemToString: (option) => option?.label ?? "",
     onInputValueChange: ({ inputValue }) => setTerm(inputValue ?? ""),
     onSelectedItemChange: ({ selectedItem }) => {

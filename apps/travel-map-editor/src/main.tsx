@@ -1,26 +1,47 @@
-import "@app/styles/_global.scss";
-import "@app/styles/_typography.scss";
-import "@app/styles/_scrollbar.scss";
-import "@app/features/map/lib/mapRuntime";
+import "@travelmap/ui/styles/_global.scss";
+import "@travelmap/ui/styles/_typography.scss";
+import "@travelmap/ui/styles/_scrollbar.scss";
+import "@travelmap/ui/map/lib/mapRuntime";
 import "maplibre-gl/dist/maplibre-gl.css";
-import "./i18n/i18n";
 
+import {
+  applyTheme,
+  readInitialDarkTheme,
+} from "@travelmap/ui/hooks/useThemeDetector";
+import { initI18n } from "@travelmap/ui/i18n/i18n";
+import { domMax, LazyMotion, MotionConfig } from "framer-motion";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router";
 
-import { App } from "./App";
-import { ToastProvider } from "./shared/components/Toast/Toast";
-import { SaveStatusProvider } from "./shared/context/SaveStatus.context";
+import { ToastProvider } from "@/shared/components/Toast/Toast";
+import { MapSceneProvider } from "@/shared/context/MapScene.context";
+import { SaveStatusProvider } from "@/shared/context/SaveStatus.context";
+
+import { EditorShell } from "./app/shell/EditorShell";
+
+/* The shared tokens switch on the body's theme class, so it is set before the first paint. */
+applyTheme(readInitialDarkTheme());
+initI18n(["editor"]);
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <BrowserRouter>
-      <ToastProvider>
-        <SaveStatusProvider>
-          <App />
-        </SaveStatusProvider>
-      </ToastProvider>
-    </BrowserRouter>
+    {/*
+     * The same motion setup as the site: reduced motion honoured, and the
+     * full feature set the rail's sliding highlight and the panels need.
+     */}
+    <MotionConfig reducedMotion="user">
+      <LazyMotion features={domMax} strict>
+        <BrowserRouter>
+          <ToastProvider>
+            <SaveStatusProvider>
+              <MapSceneProvider>
+                <EditorShell />
+              </MapSceneProvider>
+            </SaveStatusProvider>
+          </ToastProvider>
+        </BrowserRouter>
+      </LazyMotion>
+    </MotionConfig>
   </StrictMode>,
 );

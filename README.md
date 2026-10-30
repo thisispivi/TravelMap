@@ -15,7 +15,7 @@ TypeScript, and MapLibre. Travel Map combines an interactive public website with
 a local visual editor for creating trips, managing places, attaching photos,
 validating data, and preparing a static site for the web.
 
-![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB) ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) ![pnpm](https://img.shields.io/badge/pnpm-%23F69220.svg?style=for-the-badge&logo=pnpm&logoColor=white) ![Node.js](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white) ![React Router](https://img.shields.io/badge/react_router-CA4245.svg?style=for-the-badge&logo=react-router&logoColor=white) ![MapLibre](https://img.shields.io/badge/maplibre-396CB2.svg?style=for-the-badge&logo=maplibre&logoColor=white) ![i18next](https://img.shields.io/badge/i18next-26A69A.svg?style=for-the-badge&logo=i18next&logoColor=white) ![Framer Motion](https://img.shields.io/badge/framer_motion-0055FF.svg?style=for-the-badge&logo=framer&logoColor=white) ![ApexCharts](https://img.shields.io/badge/apexcharts-008FFB.svg?style=for-the-badge&logoColor=white) ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white) ![Python](https://img.shields.io/badge/python-3670A0.svg?style=for-the-badge&logo=python&logoColor=ffdd54) ![ESLint](https://img.shields.io/badge/eslint-4B3263.svg?style=for-the-badge&logo=eslint&logoColor=white) ![Prettier](https://img.shields.io/badge/prettier-F7B93E.svg?style=for-the-badge&logo=prettier&logoColor=black) ![Sass](https://img.shields.io/badge/sass-CC6699.svg?style=for-the-badge&logo=sass&logoColor=white) ![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white) ![Docker](https://img.shields.io/badge/docker-2496ED.svg?style=for-the-badge&logo=docker&logoColor=white) ![Nginx](https://img.shields.io/badge/nginx-009639.svg?style=for-the-badge&logo=nginx&logoColor=white) ![GitHub Pages](https://img.shields.io/badge/github_pages-222222.svg?style=for-the-badge&logo=github&logoColor=white)
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB) ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) ![pnpm](https://img.shields.io/badge/pnpm-%23F69220.svg?style=for-the-badge&logo=pnpm&logoColor=white) ![Node.js](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white) ![React Router](https://img.shields.io/badge/react_router-CA4245.svg?style=for-the-badge&logo=react-router&logoColor=white) ![MapLibre](https://img.shields.io/badge/maplibre-396CB2.svg?style=for-the-badge&logo=maplibre&logoColor=white) ![i18next](https://img.shields.io/badge/i18next-26A69A.svg?style=for-the-badge&logo=i18next&logoColor=white) ![Framer Motion](https://img.shields.io/badge/framer_motion-0055FF.svg?style=for-the-badge&logo=framer&logoColor=white) ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white) ![Python](https://img.shields.io/badge/python-3670A0.svg?style=for-the-badge&logo=python&logoColor=ffdd54) ![ESLint](https://img.shields.io/badge/eslint-4B3263.svg?style=for-the-badge&logo=eslint&logoColor=white) ![Prettier](https://img.shields.io/badge/prettier-F7B93E.svg?style=for-the-badge&logo=prettier&logoColor=black) ![Sass](https://img.shields.io/badge/sass-CC6699.svg?style=for-the-badge&logo=sass&logoColor=white) ![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white) ![Docker](https://img.shields.io/badge/docker-2496ED.svg?style=for-the-badge&logo=docker&logoColor=white) ![Nginx](https://img.shields.io/badge/nginx-009639.svg?style=for-the-badge&logo=nginx&logoColor=white) ![GitHub Pages](https://img.shields.io/badge/github_pages-222222.svg?style=for-the-badge&logo=github&logoColor=white)
 
 The [live demo](https://map.pivi.dev/) shows one completed map. A fresh clone
 starts empty and is ready for your own trips, places, and media. Read the
@@ -23,8 +23,8 @@ starts empty and is ready for your own trips, places, and media. Read the
 
 ## Tech Stack
 
-- **Public app**: React 19, React Router, MapLibre GL, React Map GL, ApexCharts,
-  React Image Gallery, and React Photo Album.
+- **Public app**: React 19, React Router, MapLibre GL, React Map GL, Framer
+  Motion, Lucide icons, and React Photo Album.
 - **Editor**: React 19, Downshift, Fuse.js, Framer Motion, MapLibre GL, sharp
   for photo encoding, and continuous dataset validation.
 - **Shared model**: TypeScript domain classes, schemas, parsing, and validation
@@ -123,8 +123,10 @@ Run the repository-wide quality gate before pushing:
 ```bash
 pnpm check
 pnpm build
-pnpm --filter travel-map security:audit
 ```
+
+`pnpm check` covers types, lint, formatting, tests, dead code (knip), React
+Doctor for both apps, and the dependency vulnerability audit.
 
 For uploader changes, from `scripts/uploader/` with its virtual environment
 active:
@@ -234,15 +236,26 @@ files themselves.
 
 ## Project Structure
 
+See [ARCHITECTURE.md](./ARCHITECTURE.md) for how the pieces fit together.
+
 ```text
 .
 ├── apps/
 │   ├── travel-map/          Public static site
 │   └── travel-map-editor/   Local visual editor
-├── packages/core/           Shared travel model and validation
+├── packages/
+│   ├── core/                Shared travel model and validation
+│   └── ui/                  Shared components, styles, map and Vite preset
 ├── data/                    Your authored content (gitignored)
 ├── media/                   Your self-hosted media (gitignored)
 ├── scripts/uploader/        Photo and video preparation tools
 ├── docker/                  Nginx image and Compose configuration
 └── docs/                    User documentation
 ```
+
+## Credits
+
+Country flags are from [Twemoji](https://github.com/jdecked/twemoji) (v17.0.3),
+© Twitter, Inc and other contributors, licensed under
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Only their file names
+were changed.

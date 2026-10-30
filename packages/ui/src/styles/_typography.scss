@@ -1,0 +1,42 @@
+@use "variables" as v;
+
+h1,
+h2,
+h3 {
+  font-family: v.$fontDisplay;
+  font-variation-settings: "ROND" 100;
+  color: inherit;
+}
+
+h1 {
+  font-size: v.$headingXl;
+  font-weight: 750;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+h2 {
+  font-size: v.$headingLg;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+}
+
+h3 {
+  font-size: v.$headingMd;
+  font-weight: 650;
+  letter-spacing: -0.005em;
+  line-height: 1.35;
+}
+
+p {
+  font-size: v.$bodyLg;
+  line-height: 1.55;
+}
+
+.caption {
+  font-size: v.$caption;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}

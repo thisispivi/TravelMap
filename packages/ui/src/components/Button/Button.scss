@@ -1,0 +1,78 @@
+@use "variables" as v;
+@use "mixins" as m;
+
+/* Also worn by a label or link that must look like a button. */
+.button {
+  @include m.bare-button();
+  @include m.transition(transform, v.$durationFast);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: v.$space2;
+  min-height: 2.5rem;
+  padding: 0 v.$space4;
+  border-radius: v.$radiusPill;
+  font-size: v.$bodySm;
+  font-weight: 650;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+
+  svg {
+    width: 1rem;
+    height: 1rem;
+    flex: none;
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.96);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  &--primary {
+    background: v.$accent;
+    color: v.$onAccent;
+
+    @include m.hover() {
+      background: v.$accentInk;
+    }
+  }
+
+  &--soft {
+    background: v.$accentSoft;
+    color: v.$accentInk;
+  }
+
+  &--ghost {
+    background: transparent;
+    color: v.$ink2;
+
+    @include m.hover() {
+      background: v.$cardSunken;
+      color: v.$ink;
+    }
+  }
+
+  &--neutral {
+    background: v.$cardSunken;
+    color: v.$ink;
+
+    @include m.hover() {
+      background: v.$cardSunkenHover;
+    }
+  }
+
+  &--danger {
+    background: v.$visitedSoft;
+    color: v.$visitedInk;
+  }
+
+  &--icon {
+    width: 2.5rem;
+    padding: 0;
+  }
+}

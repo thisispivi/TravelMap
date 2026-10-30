@@ -1,0 +1,27 @@
+@use "variables" as v;
+
+:export {
+  breakpointCompact: v.$breakpointCompact;
+  breakpointWide: v.$breakpointWide;
+  railWidth: v.$railWidth;
+  shellGap: v.$shellGap;
+  sidePanelWidth: v.$sidePanelWidth;
+  sidePanelWidthWide: v.$sidePanelWidthWide;
+  tabBarBase: v.$tabBarBase;
+
+  continentsAfrica: v.$continentsAfrica;
+  continentsAsia: v.$continentsAsia;
+  continentsEurope: v.$continentsEurope;
+  continentsNorthAmerica: v.$continentsNorthAmerica;
+  continentsOceania: v.$continentsOceania;
+  continentsSouthAmerica: v.$continentsSouthAmerica;
+  continentsAntarctica: v.$continentsAntarctica;
+
+  transportPlane: v.$transportPlane;
+  transportFerry: v.$transportFerry;
+  transportTrain: v.$transportTrain;
+  transportBus: v.$transportBus;
+  transportCar: v.$transportCar;
+  transportTaxi: v.$transportTaxi;
+  transportWalk: v.$transportWalk;
+}

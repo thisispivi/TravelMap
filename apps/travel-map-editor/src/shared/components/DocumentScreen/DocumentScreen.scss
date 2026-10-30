@@ -1,27 +1,100 @@
 @use "variables" as v;
+@use "mixins" as m;
 
+/* A document in the panel: the same header as a trip's, the fields below. */
 .document-screen {
+  &__header {
+    display: flex;
+    flex-direction: column;
+    gap: v.$space2;
+    padding: v.$space3 v.$space4;
+  }
+
+  &__back {
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-start;
+    gap: v.$space1;
+    padding: 0.25rem v.$space2 0.25rem 0.25rem;
+    border-radius: v.$radiusPill;
+    color: v.$ink2;
+    font-size: v.$bodySm;
+    font-weight: 650;
+    text-decoration: none;
+
+    svg {
+      width: 1.125rem;
+      height: 1.125rem;
+    }
+
+    @include m.hover() {
+      background: v.$cardSunken;
+      color: v.$ink;
+    }
+
+    &:focus-visible {
+      @include m.focus-ring();
+    }
+  }
+
+  &__bar {
+    display: flex;
+    align-items: center;
+    gap: v.$space2;
+  }
+
+  &__identity {
+    flex: 1;
+    min-width: 0;
+  }
+
   &__title {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: v.$space2;
     font-size: v.$headingLg;
+    line-height: 1.2;
   }
 
   &__title-icon {
-    width: 1.5rem;
+    width: 1.875rem;
     border-radius: 0.2rem;
   }
 
-  &__actions {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+  &__path {
+    overflow: hidden;
+    color: v.$ink3;
+    font-family: ui-monospace, "SFMono-Regular", monospace;
+    font-size: v.$caption;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__tool {
+    @include m.bare-button();
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    color: v.$ink2;
+
+    svg {
+      width: 1.125rem;
+      height: 1.125rem;
+    }
+
+    @include m.hover() {
+      background: v.$visitedSoft;
+      color: v.$visitedInk;
+    }
   }
 
   &__body {
     display: flex;
     flex-direction: column;
-    gap: v.$floatingCardGap;
+    gap: v.$space3;
+    padding: 0 v.$space4 v.$space5;
   }
 }

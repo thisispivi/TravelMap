@@ -33,22 +33,19 @@
    * stylesheet the bundler happens to emit last.
    */
   &__control &__input--with-icon {
-    padding-left: 2.55rem;
+    padding-left: 2.85rem;
   }
 
   /*
    * The flag pack draws a landscape flag inside a square viewBox, so a circular
    * frame clips its left and right edges. A landscape frame the flag's own
    * shape holds the whole thing, and `contain` keeps a square operator logo
-   * intact inside the same frame.
+   * intact inside the same frame. Flags and logos stand on their own; only a
+   * glyph gets a tinted frame, since it has no shape of its own.
    */
   &__icon {
-    width: 1.55rem;
-    height: 1.1rem;
-    box-sizing: border-box;
-    padding: 0.05rem;
-    border-radius: 0.25rem;
-    background-color: rgba(128, 128, 128, 0.18);
+    width: 1.85rem;
+    height: 1.3rem;
     object-fit: contain;
     flex-shrink: 0;
 
@@ -57,6 +54,8 @@
      * rather than being object-fit, since it isn't a replaced element.
      */
     &--node {
+      border-radius: 0.25rem;
+      background-color: v.$cardSunken;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -82,7 +81,7 @@
     cursor: pointer;
 
     &:focus-visible {
-      outline: 0.125rem solid var(--editor-accent);
+      outline: 0.125rem solid v.$accent;
     }
   }
 
@@ -132,14 +131,14 @@
     cursor: pointer;
 
     &:focus-visible {
-      outline: 0.125rem solid var(--editor-accent);
+      outline: 0.125rem solid v.$accent;
     }
   }
 }
 
 /*
- * Portalled to the body, so it is styled from the theme class on the shell
- * rather than nested inside the combobox block.
+ * Portalled to the body, so it sits outside the combobox block and frosts
+ * whatever lies behind it rather than only the field's own panel.
  */
 .combobox__menu {
   position: fixed;
@@ -151,6 +150,7 @@
   overflow-y: auto;
   overscroll-behavior: contain;
   transform-origin: top center;
+  @include m.glass();
 
   /*
    * Kept mounted for downshift's ref, so it must not swallow clicks or be
@@ -170,6 +170,17 @@
   border-radius: 0.55rem;
   font-size: v.$bodySm;
   cursor: pointer;
+  color: v.$ink2;
+
+  &--highlighted {
+    background-color: v.$cardSunkenHover;
+    color: v.$ink;
+  }
+
+  &--selected {
+    color: v.$ink;
+    font-weight: 600;
+  }
 }
 
 .combobox__option-label {
@@ -183,88 +194,26 @@
   padding-left: 0.6rem;
   font-size: v.$caption;
   flex-shrink: 0;
+  color: v.$ink2;
 }
 
 .combobox__empty {
   padding: 0.85rem 0.6rem;
   font-size: v.$bodySm;
   text-align: center;
+  color: v.$ink2;
 }
 
-.editor--dark {
-  .combobox__toggle,
-  .combobox__chip-remove {
-    color: v.$darkAltText;
+.combobox__toggle,
+.combobox__chip-remove {
+  color: v.$ink2;
 
-    &:hover {
-      color: v.$darkButtonContent;
-    }
-  }
-  .combobox__chip {
-    background-color: v.$darkButton;
-    color: v.$darkButtonContent;
-  }
-}
-.body--dark .combobox__menu {
-  @include m.glassmorphism-dark();
-  background: v.$darkInfoTab;
-
-  .combobox__option {
-    color: v.$darkAltText;
-
-    &--highlighted {
-      background-color: v.$darkButtonHover;
-      color: v.$darkButtonContent;
-    }
-    &--selected {
-      color: v.$darkButtonContent;
-      font-weight: 600;
-    }
-  }
-  .combobox__option-hint,
-  .combobox__empty {
-    color: v.$darkAltTextDarker;
+  &:hover {
+    color: v.$ink;
   }
 }
 
-.editor--light {
-  .combobox__toggle,
-  .combobox__chip-remove {
-    color: v.$lightAltText;
-
-    &:hover {
-      color: v.$lightButtonContent;
-    }
-  }
-  .combobox__chip {
-    background-color: v.$lightButton;
-    color: v.$lightButtonContent;
-  }
-}
-.body--light .combobox__menu {
-  @include m.glassmorphism-light();
-  background: #ffffff;
-
-  .combobox__option {
-    color: v.$lightAltText;
-
-    &--highlighted {
-      background-color: v.$lightButtonHover;
-      color: v.$lightButtonContent;
-    }
-    &--selected {
-      color: v.$lightButtonContent;
-      font-weight: 600;
-    }
-  }
-  .combobox__option-hint,
-  .combobox__empty {
-    color: v.$lightAltTextDarker;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .combobox__caret {
-    transition: none;
-  }
+.combobox__chip {
+  background-color: v.$cardSunken;
+  color: v.$ink;
 }
