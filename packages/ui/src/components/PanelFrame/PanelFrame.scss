@@ -15,7 +15,9 @@
     flex: none;
   }
 
+  /* Positioned so scroll-linked animations can measure against it. */
   &__body {
+    position: relative;
     flex: 1;
     min-height: 0;
     padding-bottom: var(--sheet-hidden, 0);

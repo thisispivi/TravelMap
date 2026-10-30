@@ -1307,9 +1307,6 @@ Real work, listed so nobody rediscovers it as a surprise. None is urgent.
   genuinely need totals, and both pages are lazy too. Lowering the border resolution to 110m is a smaller lever but trades
   coastline detail, so it is a design decision rather than a cleanup.
 
-- The timeline estimates a trip label's width from its length to decide when
-  bars need separate lanes (`TimelinePage.tsx`); a long title in a narrow
-  window can still touch its neighbour.
 - The uploader's tests (`scripts/uploader/test_uploader.py`) stub BunnyCDN and
   ffmpeg, so a real upload is still verified by hand.
 

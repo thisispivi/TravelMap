@@ -1,6 +1,6 @@
 import "./TimelinePage.scss";
 
-import { Continent, Trip } from "@travelmap/core";
+import { Trip } from "@travelmap/core";
 import { CountryFlag } from "@travelmap/ui/components/CountryFlag/CountryFlag";
 import { CoverImage } from "@travelmap/ui/components/CoverImage/CoverImage";
 import { EmptyState } from "@travelmap/ui/components/EmptyState/EmptyState";
@@ -9,66 +9,126 @@ import { PanelHeader } from "@travelmap/ui/components/PanelHeader/PanelHeader";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { formatDateRangeShort } from "@travelmap/ui/i18n/date";
 import { classNames } from "@travelmap/ui/lib/classNames";
-import { easeOut } from "@travelmap/ui/lib/motion";
-import { AnimatePresence, m } from "framer-motion";
-import { CSSProperties, ReactNode, useState } from "react";
+import { ReactNode, useRef } from "react";
 import { useNavigate } from "react-router";
 
 import { visitedTrips } from "@/data/world";
-import { YearPills } from "@/shared/components/YearPills/YearPills";
 import { useMapInteraction } from "@/shared/context/MapInteraction.context";
 import { useResponsive } from "@/shared/hooks/useResponsive";
-import { CONTINENT_COLORS } from "@/shared/lib/continentColors";
-import { parameters } from "@/shared/lib/parameters";
+import { useScrollState } from "@/shared/hooks/useScrollState";
 
-import { buildTimeline } from "../../lib/timeline";
+import { buildTimeline, isLeftOfLine } from "../../lib/timeline";
+import { useTimelineScroll } from "./TimelinePage.scroll";
 
 const years = buildTimeline(visitedTrips);
-const HOME_COUNTRY_ID = parameters.homeCity?.country.id;
-/* A bar narrower than this share of the year prints its day count beside it. */
-const LABEL_MIN_SHARE = 0.035;
+/* The trips in the order the line passes them, whatever year they fall in. */
+const stops = years.flatMap(({ trips }) => trips);
+const DOT_COLOURS = 3;
 
 /**
- * Picks the continent a trip is about: that of its first country abroad, or
- * of its first country when it never left home.
- * @param {Trip} trip - The trip
- * @returns {Continent} The continent its bar is coloured by
+ * Properties accepted by the TripStop component.
+ * @property {Trip} trip - The trip
+ * @property {number} index - Its place along the route
+ * @property {boolean} isLeft - Whether the card sits left of the line
+ * @property {(trip: Trip) => void} onOpen - Opens the trip
  */
-function continentOf(trip: Trip): Continent {
-  const countries = trip.getCountriesVisited();
-  const abroad = countries.find((country) => country.id !== HOME_COUNTRY_ID);
-  return (abroad ?? countries[0])?.continent ?? Continent.EUROPE;
+interface TripStopProps {
+  trip: Trip;
+  index: number;
+  isLeft: boolean;
+  onOpen: (trip: Trip) => void;
+}
+
+/**
+ * TripStop component
+ * One trip on the route: its dot on the line and a card with its photo, name,
+ * dates and flags. The page moves both as the reader scrolls, so this only
+ * draws them.
+ * @component
+ * @param {TripStopProps} props - The stop props
+ * @param {Trip} props.trip - The trip
+ * @param {number} props.index - Its place along the route
+ * @param {boolean} props.isLeft - Whether the card sits left of the line
+ * @param {(trip: Trip) => void} props.onOpen - Opens the trip
+ * @returns {ReactNode} The stop
+ */
+function TripStop({ trip, index, isLeft, onOpen }: TripStopProps): ReactNode {
+  const { t, currLanguage } = useLanguage(["home"]);
+
+  return (
+    <li className="timeline-page__item">
+      <span
+        aria-hidden="true"
+        className={classNames(
+          "timeline-page__dot",
+          `timeline-page__dot--${index % DOT_COLOURS}`,
+        )}
+      />
+      <button
+        className={classNames(
+          "timeline-page__stop",
+          isLeft ? "timeline-page__stop--left" : "timeline-page__stop--right",
+        )}
+        onClick={() => onOpen(trip)}
+        type="button"
+      >
+        <CoverImage
+          className="timeline-page__cover"
+          src={trip.backgroundImgSource}
+        />
+        <span className="timeline-page__caption">
+          <span className="timeline-page__title">
+            {trip.getLocalizedTitle(currLanguage)}
+          </span>
+          <span className="timeline-page__meta">
+            {formatDateRangeShort({
+              eDateInput: trip.eDate,
+              locale: currLanguage,
+              sDateInput: trip.sDate,
+              showYear: false,
+            })}
+            {" · "}
+            {t("timeline.days", { count: trip.getDurationInDays() })}
+            {trip.getCountriesVisited().map((country) => (
+              <CountryFlag
+                className="timeline-page__flag"
+                countryId={country.id}
+                key={country.id}
+              />
+            ))}
+          </span>
+        </span>
+      </button>
+    </li>
+  );
 }
 
 /**
  * TimelinePage component
- * One year at a time as a chart drawn to scale: a row per trip with its
- * picture, title and dates on the left, and a bar across the twelve months as
- * long as it lasted, coloured by continent. Chips switch the year; a row opens
- * its trip.
+ * Every trip as a photo along one winding line, newest first, with a marker at
+ * each year. A short weekend gets the same card as a long journey, which a
+ * chart drawn to scale could not give it. The page plays as the reader scrolls,
+ * in both directions: cards swing out from the line as they rise into view,
+ * sink away again on the way back, and fade as they pass the top, while only
+ * the stretch of line on screen is drawn.
  * @component
  * @returns {ReactNode} The timeline page
  */
 export function TimelinePage(): ReactNode {
-  const { t, currLanguage } = useLanguage(["home"]);
+  const { t } = useLanguage(["home"]);
   const navigate = useNavigate();
   const { setSelectedTrip } = useMapInteraction();
-  const [selectedYear, setSelectedYear] = useState(years[0]?.year);
-  const current = years.find(({ year }) => year === selectedYear) ?? years[0];
   const { isCompact } = useResponsive();
-  /* A phone has no room for month names beside each other; their initials fit. */
-  const months = Array.from({ length: 12 }, (_, month) => ({
-    label: new Date(2024, month, 1).toLocaleDateString(currLanguage, {
-      month: isCompact ? "narrow" : "short",
-    }),
-    month,
-  }));
-  const today = new Date();
-  const todayShare =
-    (today.getTime() - new Date(today.getFullYear(), 0, 1).getTime()) /
-    (new Date(today.getFullYear() + 1, 0, 1).getTime() -
-      new Date(today.getFullYear(), 0, 1).getTime());
-  const continents = [...new Set(visitedTrips.map(continentOf))];
+  const bodyRef = useRef<HTMLDivElement>(null);
+  const routeRef = useRef<HTMLDivElement>(null);
+  const pathRef = useRef<SVGPathElement>(null);
+  const { isScrolled, activeIndex } = useScrollState(
+    bodyRef,
+    ".timeline-page__year",
+  );
+  const currentYear = years[activeIndex];
+
+  useTimelineScroll({ bodyRef, isCompact, pathRef, routeRef });
 
   /**
    * Shows a trip's route on the map and opens its itinerary.
@@ -82,160 +142,56 @@ export function TimelinePage(): ReactNode {
 
   return (
     <PanelFrame
+      bodyRef={bodyRef}
       header={
         <PanelHeader
-          subtitle={t("timeline.summary", {
-            trips: visitedTrips.length,
-            years: years.length,
-          })}
+          subtitle={
+            isScrolled && currentYear
+              ? `${currentYear.year} · ${t("timeline.yearSummary", {
+                  count: currentYear.trips.length,
+                  days: currentYear.days,
+                })}`
+              : t("timeline.summary", {
+                  trips: visitedTrips.length,
+                  years: years.length,
+                })
+          }
           surface="page"
           title={t("timeline.title")}
         />
       }
     >
       <div className="timeline-page">
-        {!current ? (
+        {stops.length === 0 ? (
           <EmptyState message={t("timeline.empty")} />
         ) : (
-          <div className="timeline-page__content">
-            <YearPills
-              id="timeline"
-              label={t("timeline.chooseYear")}
-              onChange={setSelectedYear}
-              value={current.year}
-              years={years.map(({ year, entries }) => ({
-                count: entries.length,
-                year,
-              }))}
-            />
-
-            <section className="timeline-page__chart">
-              <header className="timeline-page__chart-header">
-                <h2 className="timeline-page__chart-title">
-                  {current.year}
-                  <span className="timeline-page__chart-meta">
-                    {t("timeline.yearSummary", {
-                      count: current.entries.length,
-                      days: current.days,
-                    })}
-                  </span>
-                </h2>
-              </header>
-              <div className="timeline-page__grid">
-                <div aria-hidden="true" className="timeline-page__months">
-                  {months.map(({ month, label }) => (
-                    <span className="timeline-page__month" key={month}>
-                      {label}
-                    </span>
-                  ))}
-                </div>
-                <AnimatePresence initial={false} mode="popLayout">
-                  <m.ol
-                    animate={{ opacity: 1 }}
-                    className="timeline-page__rows"
-                    exit={{ opacity: 0 }}
-                    initial={{ opacity: 0 }}
-                    key={current.year}
-                    transition={easeOut}
-                  >
-                    {current.entries.map(({ trip, start, end }, index) => {
-                      const days = trip.getDurationInDays();
-                      return (
-                        <li className="timeline-page__row" key={trip.id}>
-                          <button
-                            className="timeline-page__row-button"
-                            onClick={() => openTrip(trip)}
-                            style={
-                              {
-                                "--bar-color":
-                                  CONTINENT_COLORS[continentOf(trip)],
-                              } as CSSProperties
-                            }
-                            type="button"
-                          >
-                            <span className="timeline-page__trip">
-                              <CoverImage
-                                className="timeline-page__thumb"
-                                src={trip.backgroundImgSource}
-                              />
-                              <span className="timeline-page__trip-text">
-                                <span className="timeline-page__trip-title">
-                                  {trip.getLocalizedTitle(currLanguage)}
-                                </span>
-                                <span className="timeline-page__trip-dates">
-                                  {formatDateRangeShort({
-                                    eDateInput: trip.eDate,
-                                    locale: currLanguage,
-                                    sDateInput: trip.sDate,
-                                    showYear: false,
-                                  })}
-                                  {trip.getCountriesVisited().map((country) => (
-                                    <CountryFlag
-                                      className="timeline-page__flag"
-                                      countryId={country.id}
-                                      key={country.id}
-                                    />
-                                  ))}
-                                </span>
-                              </span>
-                            </span>
-                            <span className="timeline-page__track">
-                              {current.year === today.getFullYear() ? (
-                                <span
-                                  aria-hidden="true"
-                                  className="timeline-page__today"
-                                  style={{ left: `${todayShare * 100}%` }}
-                                />
-                              ) : null}
-                              <m.span
-                                animate={{ opacity: 1, scaleX: 1 }}
-                                className="timeline-page__bar"
-                                initial={{ opacity: 0, scaleX: 0 }}
-                                style={{
-                                  left: `${start * 100}%`,
-                                  width: `${(end - start) * 100}%`,
-                                }}
-                                transition={{
-                                  ...easeOut,
-                                  delay: index * 0.04,
-                                  duration: 0.5,
-                                }}
-                              >
-                                <span
-                                  className={classNames(
-                                    "timeline-page__bar-label",
-                                    end - start < LABEL_MIN_SHARE &&
-                                      "timeline-page__bar-label--outside",
-                                  )}
-                                >
-                                  {t("timeline.days", { count: days })}
-                                </span>
-                              </m.span>
-                            </span>
-                          </button>
-                        </li>
-                      );
-                    })}
-                  </m.ol>
-                </AnimatePresence>
-              </div>
-            </section>
-
-            <ul className="timeline-page__legend">
-              {continents.map((continent) => (
-                <li
-                  className="timeline-page__legend-item"
-                  key={continent}
-                  style={
-                    {
-                      "--bar-color": CONTINENT_COLORS[continent],
-                    } as CSSProperties
-                  }
-                >
-                  {t(`continents.${continent}`)}
-                </li>
-              ))}
-            </ul>
+          <div className="timeline-page__route" ref={routeRef}>
+            <svg aria-hidden="true" className="timeline-page__line">
+              <path
+                className="timeline-page__path"
+                pathLength={1}
+                ref={pathRef}
+              />
+            </svg>
+            {years.map(({ year, trips }) => (
+              <section className="timeline-page__year" key={year}>
+                <h2 className="timeline-page__year-label">{year}</h2>
+                <ol className="timeline-page__stops">
+                  {trips.map((trip) => {
+                    const index = stops.indexOf(trip);
+                    return (
+                      <TripStop
+                        index={index}
+                        isLeft={isLeftOfLine(index, isCompact)}
+                        key={trip.id}
+                        onOpen={openTrip}
+                        trip={trip}
+                      />
+                    );
+                  })}
+                </ol>
+              </section>
+            ))}
           </div>
         )}
       </div>

@@ -1,7 +1,7 @@
 import { Continent } from "@travelmap/core";
 import variables from "@travelmap/ui/styles/_variables.module.scss";
 
-/** Each continent's pastel, shared by the timeline bars and the statistics. */
+/** Each continent's pastel, as the statistics draw it on the map and bars. */
 export const CONTINENT_COLORS: Record<Continent, string> = {
   [Continent.AFRICA]: variables.continentsAfrica,
   [Continent.ANTARCTICA]: variables.continentsAntarctica,
