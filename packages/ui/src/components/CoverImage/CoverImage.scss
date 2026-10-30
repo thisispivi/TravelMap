@@ -1,7 +1,11 @@
 @use "variables" as v;
 
+/*
+ * No `position` of its own: owners place the frame (most fill a card with
+ * `position: absolute`), and a shared default would win or lose against
+ * theirs depending on which stylesheet the bundle happens to load last.
+ */
 .cover-image {
-  position: relative;
   display: block;
   overflow: hidden;
   background: v.$cardSunken;
