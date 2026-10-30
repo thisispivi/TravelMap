@@ -6,8 +6,10 @@ import worldCountries from "world-countries";
 import { toId } from "../../data/paths";
 
 /*
- * Country ids match Natural Earth polygon names. Display metadata instead
- * comes from world-countries, joined through the topology's numeric ISO code.
+ * Country ids are Natural Earth polygon names in the dataset's id form
+ * (`UnitedKingdom`), the same form country folders and flag files use. Display
+ * metadata comes from world-countries, joined through the topology's numeric
+ * ISO code.
  */
 const topology = countriesTopologyJson as unknown as Topology<{
   countries: GeometryCollection<{ name: string }>;
@@ -43,7 +45,7 @@ const SOUTH_AMERICAN_SUBREGIONS = new Set(["South America"]);
  * @property {Continent} continent - The continent the country belongs to
  * @property {Currency} currency - The country's primary currency
  * @property {string} [flagUrl] - Resolved flag asset, absent when the pack has no match
- * @property {string} id - The Natural Earth polygon name, used to fill the map
+ * @property {string} id - The dataset id, the Natural Earth polygon name in id form
  * @property {string} name - The common English name
  */
 export interface WorldCountry {
@@ -122,7 +124,7 @@ function buildCatalogue(): WorldCountry[] {
         continent: Continent.EUROPE,
         currency: Currency.USD,
         flagUrl: resolveFlag([polygonName]),
-        id: polygonName,
+        id: toId(polygonName),
         name: polygonName,
       });
       continue;
@@ -137,7 +139,7 @@ function buildCatalogue(): WorldCountry[] {
           ? (currencyCode as Currency)
           : Currency.USD,
       flagUrl: resolveFlag([metadata.name.common, polygonName]),
-      id: polygonName,
+      id: toId(polygonName),
       name: metadata.name.common,
     });
   }

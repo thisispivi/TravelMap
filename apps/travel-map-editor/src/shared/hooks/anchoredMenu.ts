@@ -1,3 +1,5 @@
+import "./anchoredMenu.scss";
+
 import { RefObject, useLayoutEffect, useState } from "react";
 
 /**
@@ -74,6 +76,29 @@ function measure(
 }
 
 /**
+ * Finds or makes the layer a dialog's menus are drawn in, and shows it. The
+ * dialog's frosted glass is a `backdrop-filter`, which turns it into the
+ * containing block of every fixed descendant: a menu portalled straight into
+ * it would be placed against the dialog instead of the window and clipped by
+ * its scrolling, growing a scrollbar rather than showing. A popover sits in
+ * the top layer, above the dialog and outside its box, while staying inside
+ * its DOM, where a modal dialog keeps its controls interactive.
+ * @param {HTMLDialogElement} dialog - The dialog holding the control
+ * @returns {HTMLElement} The shown layer
+ */
+function menuLayerOf(dialog: HTMLDialogElement): HTMLElement {
+  let layer = dialog.querySelector<HTMLElement>(":scope > .anchored-layer");
+  if (!layer) {
+    layer = document.createElement("div");
+    layer.className = "anchored-layer";
+    layer.popover = "manual";
+    dialog.append(layer);
+  }
+  if (!layer.matches(":popover-open")) layer.showPopover();
+  return layer;
+}
+
+/**
  * Reports whether two positions differ enough to be worth re-rendering.
  * @param {MenuPosition | null} first - The current position
  * @param {MenuPosition | null} second - The freshly measured position
@@ -97,8 +122,9 @@ function hasMoved(
  * Tracks where a dropdown attached to an anchor should be drawn.
  * Editor panels use backdrop filters, which create stacking contexts that trap
  * an absolutely positioned menu behind the next panel and clip it at the panel
- * edge. Menus are therefore portalled to the body and positioned here, against
- * the viewport, flipping above the anchor when there is more room there.
+ * edge. Menus are therefore portalled to the body, or to a dialog's top-layer
+ * menu layer, and positioned here, against the viewport, flipping above the
+ * anchor when there is more room there.
  * @param {RefObject<HTMLElement | null>} anchorRef - The control the menu attaches to
  * @param {boolean} isOpen - Whether the menu is currently shown
  * @param {number} [preferredWidth] - Minimum panel width in pixels
@@ -115,6 +141,7 @@ export function useAnchoredMenu(
   /* The first measurement must precede paint to avoid an incorrectly placed frame. */
   useLayoutEffect(() => {
     if (!isOpen) return;
+    let layer: HTMLElement | undefined;
 
     /**
      * Re-measures the anchor, keeping the previous object when nothing moved so
@@ -124,7 +151,9 @@ export function useAnchoredMenu(
     function update(): void {
       const anchor = anchorRef.current;
       const next = measure(anchor, preferredWidth);
-      setContainer(anchor?.closest("dialog") ?? document.body);
+      const dialog = anchor?.closest("dialog");
+      layer = dialog ? menuLayerOf(dialog) : undefined;
+      setContainer(layer ?? document.body);
       setPosition((current) => (hasMoved(current, next) ? next : current));
     }
 
@@ -137,6 +166,7 @@ export function useAnchoredMenu(
       observer.disconnect();
       window.removeEventListener("scroll", update, true);
       window.removeEventListener("resize", update);
+      if (layer?.matches(":popover-open")) layer.hidePopover();
     };
   }, [anchorRef, isOpen, preferredWidth]);
 

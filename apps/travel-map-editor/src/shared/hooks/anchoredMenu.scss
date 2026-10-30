@@ -1,0 +1,19 @@
+/*
+ * A dialog's menu layer: an empty, zero-sized popover at the window's origin,
+ * so the fixed menus inside it are placed against the window. Its backdrop
+ * would otherwise cover the dialog and take every press meant for it.
+ */
+.anchored-layer {
+  inset: 0 auto auto 0;
+  width: 0;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  overflow: visible;
+
+  &::backdrop {
+    pointer-events: none;
+  }
+}
