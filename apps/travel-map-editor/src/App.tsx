@@ -2,6 +2,7 @@ import "./App.scss";
 
 import { useLanguage } from "@app/shared/hooks/useLanguage";
 import { useThemeDetector } from "@app/shared/hooks/useThemeDetector";
+import { classNames } from "@app/shared/lib/classNames";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { Link, Route, Routes, useParams } from "react-router";
 
@@ -173,7 +174,12 @@ export function App(): ReactNode {
         </Routes>
       </main>
       {status ? (
-        <div className="editor__status">
+        <div
+          className={classNames(
+            "editor__status",
+            status.state === "saved" && "editor__status--saved",
+          )}
+        >
           <SaveChip
             error={status.error}
             onRetry={status.retry}

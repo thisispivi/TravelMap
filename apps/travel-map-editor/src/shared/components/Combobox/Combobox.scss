@@ -33,22 +33,19 @@
    * stylesheet the bundler happens to emit last.
    */
   &__control &__input--with-icon {
-    padding-left: 2.55rem;
+    padding-left: 2.85rem;
   }
 
   /*
    * The flag pack draws a landscape flag inside a square viewBox, so a circular
    * frame clips its left and right edges. A landscape frame the flag's own
    * shape holds the whole thing, and `contain` keeps a square operator logo
-   * intact inside the same frame.
+   * intact inside the same frame. Flags and logos stand on their own; only a
+   * glyph gets a tinted frame, since it has no shape of its own.
    */
   &__icon {
-    width: 1.55rem;
-    height: 1.1rem;
-    box-sizing: border-box;
-    padding: 0.05rem;
-    border-radius: 0.25rem;
-    background-color: rgba(128, 128, 128, 0.18);
+    width: 1.85rem;
+    height: 1.3rem;
     object-fit: contain;
     flex-shrink: 0;
 
@@ -57,6 +54,8 @@
      * rather than being object-fit, since it isn't a replaced element.
      */
     &--node {
+      border-radius: 0.25rem;
+      background-color: v.$cardSunken;
       display: flex;
       align-items: center;
       justify-content: center;

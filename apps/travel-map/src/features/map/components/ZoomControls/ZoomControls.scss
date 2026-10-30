@@ -1,0 +1,39 @@
+@use "../../../../styles/variables" as v;
+@use "../../../../styles/mixins" as m;
+
+.zoom-controls {
+  @include m.glass();
+  position: absolute;
+  z-index: 3;
+  right: v.$shellGap;
+  bottom: v.$shellGap;
+  display: flex;
+  flex-direction: column;
+  padding: 0.1875rem;
+  border-radius: v.$radiusPill;
+
+  &__button {
+    @include m.bare-button();
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    color: v.$ink2;
+
+    svg {
+      width: 1.125rem;
+      height: 1.125rem;
+    }
+
+    @include m.hover() {
+      background: v.$cardSunken;
+      color: v.$ink;
+    }
+
+    &:focus-visible {
+      @include m.focus-ring();
+    }
+  }
+}

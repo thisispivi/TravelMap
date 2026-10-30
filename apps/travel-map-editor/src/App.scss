@@ -14,6 +14,7 @@
   color: v.$ink;
 
   /* Beside the map, as the site's side panel sits: the map stays in view. */
+  /* Inset like the site's panel, so a scrollbar stays inside its corners. */
   &__panel {
     @include m.panel();
     position: fixed;
@@ -24,6 +25,7 @@
     display: flex;
     flex-direction: column;
     width: min(30rem, calc(100vw - 8rem));
+    padding: v.$space3 0.3125rem;
     overflow: hidden;
     border-radius: v.$radiusXl;
   }
@@ -33,9 +35,18 @@
     position: fixed;
     z-index: 6;
     top: v.$shellGap;
-    right: calc(#{v.$shellGap} + 3rem);
+    right: v.$shellGap;
     padding: 0.1875rem;
     border-radius: v.$radiusPill;
+
+    /* Once saved there is nothing to act on, so the chip stops being a surface. */
+    &--saved {
+      border-color: transparent;
+      background: transparent;
+      box-shadow: none;
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+    }
   }
 
   /* A page screen scrolls inside the panel and keeps a readable width. */

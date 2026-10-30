@@ -1,7 +1,9 @@
 import "./EditorMap.scss";
 
+import { ZoomControls } from "@app/features/map/components/ZoomControls/ZoomControls";
 import { createMapStyle, readMapTheme } from "@app/features/map/lib/mapTheme";
 import { arcBetween, nearSide } from "@app/features/map/lib/routeLines";
+import { useLanguage } from "@app/shared/hooks/useLanguage";
 import { classNames } from "@app/shared/lib/classNames";
 import { MODE_COLORS } from "@app/shared/lib/modeColors";
 import type { FeatureCollection, LineString } from "geojson";
@@ -12,7 +14,6 @@ import Map, {
   MapLayerMouseEvent,
   type MapRef,
   Marker,
-  NavigationControl,
   Source,
 } from "react-map-gl/maplibre";
 
@@ -88,6 +89,7 @@ export function EditorMap({
   isDarkTheme,
   insetLeft,
 }: EditorMapProps): ReactNode {
+  const { t } = useLanguage(["editor"]);
   const { handlersRef, scene, viewReaderRef } = useMapSceneContext();
   const mapRef = useRef<MapRef>(null);
   const sceneRef = useRef<MapScene>(scene);
@@ -206,7 +208,6 @@ export function EditorMap({
             type="line"
           />
         </Source>
-        <NavigationControl position="top-right" showCompass={false} />
         {scene.pins.map((pin) => (
           <Marker
             anchor={pin.tone === "place" ? "bottom" : "center"}
@@ -240,6 +241,12 @@ export function EditorMap({
           </Marker>
         ))}
       </Map>
+      <ZoomControls
+        onZoomIn={() => mapRef.current?.zoomIn()}
+        onZoomOut={() => mapRef.current?.zoomOut()}
+        zoomInLabel={t("map.zoomIn")}
+        zoomOutLabel={t("map.zoomOut")}
+      />
     </div>
   );
 }

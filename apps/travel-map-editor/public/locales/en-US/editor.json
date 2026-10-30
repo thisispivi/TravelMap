@@ -324,7 +324,9 @@
     "fitToTrip": "Fit to trip",
     "useThisView": "Use this view",
     "selectStop": "Select stop {{position}}, {{city}}",
-    "travelTo": "Travel to {{city}}"
+    "travelTo": "Travel to {{city}}",
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out"
   },
   "save": {
     "saving": "Saving",

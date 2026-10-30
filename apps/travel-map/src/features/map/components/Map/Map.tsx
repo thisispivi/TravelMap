@@ -2,7 +2,6 @@ import "./Map.scss";
 import "maplibre-gl/dist/maplibre-gl.css";
 
 import { City } from "@travelmap/core";
-import { Minus, Plus } from "lucide-react";
 import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import MapGL, { type MapRef, Popup } from "react-map-gl/maplibre";
 
@@ -29,6 +28,7 @@ import { createMapStyle, readMapTheme } from "../../lib/mapTheme";
 import { getTripCityIds, getTripLayoverCities } from "../../lib/mapTripCities";
 import { MapTooltip } from "../MapTooltip/MapTooltip";
 import { RouteOverlay } from "../RouteOverlay/RouteOverlay";
+import { ZoomControls } from "../ZoomControls/ZoomControls";
 import { MapLayers } from "./MapLayers";
 import { MapMarkers } from "./MapMarkers";
 
@@ -311,26 +311,14 @@ export function Map({ isDarkTheme, responsive }: MapProps): ReactNode {
       </MapGL>
 
       {responsive.isCompact ? null : (
-        <div className="map-container__zoom">
-          <button
-            aria-label={t("map.zoomIn")}
-            className="map-container__zoom-button"
-            onClick={() =>
-              mapRef.current?.zoomIn({ duration: ZOOM_CONTROL_DURATION_MS })
-            }
-            type="button"
-          >
-            <Plus aria-hidden="true" />
-          </button>
-          <button
-            aria-label={t("map.zoomOut")}
-            className="map-container__zoom-button"
-            onClick={handleZoomOut}
-            type="button"
-          >
-            <Minus aria-hidden="true" />
-          </button>
-        </div>
+        <ZoomControls
+          onZoomIn={() =>
+            mapRef.current?.zoomIn({ duration: ZOOM_CONTROL_DURATION_MS })
+          }
+          onZoomOut={handleZoomOut}
+          zoomInLabel={t("map.zoomIn")}
+          zoomOutLabel={t("map.zoomOut")}
+        />
       )}
     </div>
   );

@@ -324,7 +324,9 @@
     "fitToTrip": "Inquadra il viaggio",
     "useThisView": "Usa questa vista",
     "selectStop": "Seleziona la tappa {{position}}, {{city}}",
-    "travelTo": "Vai a {{city}}"
+    "travelTo": "Vai a {{city}}",
+    "zoomIn": "Aumenta lo zoom",
+    "zoomOut": "Riduci lo zoom"
   },
   "save": {
     "saving": "Salvataggio",
