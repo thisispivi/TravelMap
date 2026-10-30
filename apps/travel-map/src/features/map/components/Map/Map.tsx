@@ -276,7 +276,7 @@ export function Map({ isDarkTheme, responsive }: MapProps): ReactNode {
         theme={theme}
       >
         <MapLabels theme={theme} />
-        <RouteOverlay theme={theme} />
+        <RouteOverlay />
 
         {isLoaded ? (
           <MapMarkers

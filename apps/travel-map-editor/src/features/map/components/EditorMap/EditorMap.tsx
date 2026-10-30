@@ -150,7 +150,6 @@ export function EditorMap({
           id={ROUTES_ID}
           routes={routeFeatures(scene.routes)}
           selectedId={selectedId}
-          theme={theme}
         />
         {scene.pins.map((pin) => (
           <Marker
