@@ -262,13 +262,25 @@ export class Trip {
   }
 
   /**
-   * Calculates the inclusive duration of the trip in calendar days.
+   * Calculates the inclusive duration of the trip in calendar days, by the
+   * calendar rather than the clock: a trip across the autumn clock change is an
+   * hour longer than its days, which must not count as one more day.
    * @returns {number} The inclusive trip duration
    */
   getDurationInDays(): number {
     const millisecondsPerDay = 1000 * 60 * 60 * 24;
-    const durationInMilliseconds = this.eDate.getTime() - this.sDate.getTime();
-    return Math.ceil(durationInMilliseconds / millisecondsPerDay) + 1;
+    const durationInMilliseconds =
+      Date.UTC(
+        this.eDate.getFullYear(),
+        this.eDate.getMonth(),
+        this.eDate.getDate(),
+      ) -
+      Date.UTC(
+        this.sDate.getFullYear(),
+        this.sDate.getMonth(),
+        this.sDate.getDate(),
+      );
+    return durationInMilliseconds / millisecondsPerDay + 1;
   }
 
   /**
