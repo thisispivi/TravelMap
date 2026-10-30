@@ -1,5 +1,5 @@
 import { readdirSync, readFileSync, statSync } from "node:fs";
-import { extname, relative, resolve, sep } from "node:path";
+import { extname, resolve, sep } from "node:path";
 
 import type { Plugin, ViteDevServer } from "vite";
 
@@ -22,20 +22,15 @@ function listFiles(root: string): string[] {
 }
 
 /**
- * Finds the shared file a request URL names, refusing any path that leaves the
- * public directory.
- * @param {string} publicRoot - The UI package's public directory
+ * Reads the shared file's relative path out of a request URL.
  * @param {string} url - The request URL
- * @returns {string | undefined} The file's absolute path, when it is a shared file
+ * @returns {string | undefined} The path without its leading slash, unless malformed
  */
-function sharedFileAt(publicRoot: string, url: string): string | undefined {
+function requestedPath(url: string): string | undefined {
   try {
-    const { pathname } = new URL(url, "http://localhost");
-    const path = resolve(publicRoot, `.${decodeURI(pathname)}`);
-    const isInside = !relative(publicRoot, path).startsWith("..");
-    return isInside && statSync(path).isFile() ? path : undefined;
+    return decodeURI(new URL(url, "http://localhost").pathname).slice(1);
   } catch {
-    /* A malformed or missing path is not a shared file; Vite answers it. */
+    /* A malformed path is not a shared file; Vite answers it. */
     return undefined;
   }
 }
@@ -58,15 +53,27 @@ export function sharedPublic(publicRoot: string): Plugin {
      * @returns {void}
      */
     configureServer(server: ViteDevServer): void {
+      /*
+       * Listed once rather than checked on disk per request, since every
+       * module the dev server answers passes through here. Only a listed path
+       * is ever read, so a request cannot leave the directory. A file added
+       * meanwhile needs a restart.
+       */
+      const files = new Set(listFiles(publicRoot));
       server.middlewares.use((request, response, next) => {
-        const path = sharedFileAt(publicRoot, request.url ?? "");
+        const path = requestedPath(request.url ?? "");
         const contentType = path ? MEDIA_TYPES[extname(path)] : undefined;
-        if (request.method !== "GET" || !path || !contentType) {
+        if (
+          request.method !== "GET" ||
+          !path ||
+          !files.has(path) ||
+          !contentType
+        ) {
           next();
           return;
         }
         response.setHeader("Content-Type", contentType);
-        response.end(readFileSync(path));
+        response.end(readFileSync(resolve(publicRoot, path)));
       });
     },
 
