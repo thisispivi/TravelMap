@@ -236,12 +236,16 @@ files themselves.
 
 ## Project Structure
 
+See [ARCHITECTURE.md](./ARCHITECTURE.md) for how the pieces fit together.
+
 ```text
 .
 ├── apps/
 │   ├── travel-map/          Public static site
 │   └── travel-map-editor/   Local visual editor
-├── packages/core/           Shared travel model and validation
+├── packages/
+│   ├── core/                Shared travel model and validation
+│   └── ui/                  Shared components, styles, map and Vite preset
 ├── data/                    Your authored content (gitignored)
 ├── media/                   Your self-hosted media (gitignored)
 ├── scripts/uploader/        Photo and video preparation tools

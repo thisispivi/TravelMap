@@ -16,6 +16,7 @@ assistants cannot drift apart.
 - `apps/travel-map/` contains the React, TypeScript, Vite, and SCSS application.
 - `apps/travel-map-editor/` contains the companion authoring tool for `data/` content.
 - `packages/core/` contains `@travelmap/core`, the shared domain model used by both apps.
+- `packages/ui/` contains `@travelmap/ui`, the components, styles, i18n, map base, and Vite preset both apps share.
 - `scripts/uploader/` contains the typed Python media uploader.
 - `logos/` contains source and exported brand assets.
 
@@ -23,7 +24,7 @@ assistants cannot drift apart.
 
 For application changes, run `pnpm check` from the repository root. It runs
 typecheck, lint, formatting, tests, and dead-code analysis across every
-workspace project, plus `travel-map`'s React Doctor scan. Also run `pnpm build`
+workspace project, plus the React Doctor scan of both apps. Also run `pnpm build`
 when behavior, dependencies, configuration, routing, or production output can be
 affected.
 

@@ -8,7 +8,8 @@ Keep shared rules in `CODING_GUIDELINES.md`, not in this adapter.
 
 - The web application is in `apps/travel-map/`; its companion authoring tool
   is `apps/travel-map-editor/`; both depend on the shared domain model in
-  `packages/core/` (`@travelmap/core`).
+  `packages/core/` (`@travelmap/core`) and the shared UI in `packages/ui/`
+  (`@travelmap/ui`).
 - The typed Python media uploader is in `scripts/uploader/`.
 - Prefer the least code that works, comments that explain why, native platform
   features, explicit types, and accessible UI.
