@@ -1,27 +1,24 @@
 import "./EditorMap.scss";
 
 import { classNames } from "@travelmap/ui/lib/classNames";
-import { MODE_COLORS } from "@travelmap/ui/lib/modeColors";
-import { ZoomControls } from "@travelmap/ui/map/components/ZoomControls/ZoomControls";
-import { createMapStyle, readMapTheme } from "@travelmap/ui/map/lib/mapTheme";
-import { arcBetween, nearSide } from "@travelmap/ui/map/lib/routeLines";
-import type { FeatureCollection, LineString } from "geojson";
+import { BaseMap } from "@travelmap/ui/map/components/BaseMap/BaseMap";
+import { RouteLines } from "@travelmap/ui/map/components/RouteLines/RouteLines";
+import { readMapTheme } from "@travelmap/ui/map/lib/mapTheme";
+import {
+  RouteFeatures,
+  routeLineLayerIds,
+  routeSegment,
+  routeStroke,
+} from "@travelmap/ui/map/lib/routeLines";
 import { LngLatBounds } from "maplibre-gl";
 import { ReactNode, useEffect, useMemo, useRef } from "react";
-import Map, {
-  Layer,
-  MapLayerMouseEvent,
-  type MapRef,
-  Marker,
-  Source,
-} from "react-map-gl/maplibre";
+import { MapLayerMouseEvent, type MapRef, Marker } from "react-map-gl/maplibre";
 
 import {
   MapRoute,
   MapScene,
   useMapSceneContext,
 } from "../../../../shared/context/MapScene.context";
-import { WorldLayers } from "../WorldLayers/WorldLayers";
 
 /* Room kept around the framed places, beyond whatever the panel covers. */
 const FRAME_PADDING_PX = 56;
@@ -30,34 +27,19 @@ const SINGLE_PLACE_ZOOM = 7;
 /* Framing never zooms closer than a region, even for two nearby towns. */
 const FRAME_MAX_ZOOM = 9;
 const CAMERA_DURATION_MS = 900;
-const ROUTE_LAYERS = [
-  "editor-route-ground",
-  "editor-route-flight",
-  "editor-route-outing",
-];
+const ROUTES_ID = "editor-routes";
+const ROUTE_LAYERS = routeLineLayerIds(ROUTES_ID);
 
 /**
- * Turns the scene's rides into one line feature each, coloured by mode.
- * Flights bow into the same arcs the site draws; ground rides take the short
- * way across the antimeridian.
+ * Turns the scene's rides into route segments, drawn as the site draws them.
  * @param {MapRoute[]} routes - The rides
- * @returns {FeatureCollection<LineString>} The lines, with id, colour and stroke
+ * @returns {RouteFeatures} The segments
  */
-function routeFeatures(routes: MapRoute[]): FeatureCollection<LineString> {
+function routeFeatures(routes: MapRoute[]): RouteFeatures {
   return {
-    features: routes.map(({ from, id, isOuting, mode, to }) => ({
-      geometry: {
-        coordinates:
-          mode === "plane" ? arcBetween(from, to) : [from, nearSide(from, to)],
-        type: "LineString",
-      },
-      properties: {
-        color: MODE_COLORS[mode],
-        id,
-        stroke: isOuting ? "outing" : mode === "plane" ? "flight" : "ground",
-      },
-      type: "Feature",
-    })),
+    features: routes.map(({ from, id, isOuting, mode, to }) =>
+      routeSegment(from, to, { id, mode, stroke: routeStroke(mode, isOuting) }),
+    ),
     type: "FeatureCollection",
   };
 }
@@ -92,7 +74,6 @@ export function EditorMap({
   const mapRef = useRef<MapRef>(null);
   const sceneRef = useRef<MapScene>(scene);
   const theme = useMemo(() => readMapTheme(isDarkTheme), [isDarkTheme]);
-  const mapStyle = useMemo(() => createMapStyle(theme), [theme]);
   const frameKey = JSON.stringify(scene.frame);
   const selectedId = scene.selectedId ?? "";
 
@@ -158,54 +139,19 @@ export function EditorMap({
 
   return (
     <div className="editor-map">
-      <Map
-        attributionControl={false}
-        dragRotate={false}
+      <BaseMap
         initialViewState={{ latitude: 30, longitude: 10, zoom: 1.6 }}
         interactiveLayerIds={ROUTE_LAYERS}
-        mapStyle={mapStyle}
-        maxPitch={0}
+        mapRef={mapRef}
         onClick={handleClick}
-        ref={mapRef}
+        theme={theme}
       >
-        <WorldLayers theme={theme} />
-        <Source
-          data={routeFeatures(scene.routes)}
-          id="editor-routes"
-          type="geojson"
-        >
-          <Layer
-            filter={["==", ["get", "stroke"], "ground"]}
-            id="editor-route-ground"
-            layout={{ "line-cap": "round" }}
-            paint={{
-              "line-color": ["get", "color"],
-              "line-width": ["case", ["==", ["get", "id"], selectedId], 5, 3],
-            }}
-            type="line"
-          />
-          <Layer
-            filter={["==", ["get", "stroke"], "flight"]}
-            id="editor-route-flight"
-            paint={{
-              "line-color": ["get", "color"],
-              "line-dasharray": [2, 1.6],
-              "line-width": ["case", ["==", ["get", "id"], selectedId], 4, 2.5],
-            }}
-            type="line"
-          />
-          <Layer
-            filter={["==", ["get", "stroke"], "outing"]}
-            id="editor-route-outing"
-            layout={{ "line-cap": "round" }}
-            paint={{
-              "line-color": ["get", "color"],
-              "line-dasharray": [0.1, 2],
-              "line-width": ["case", ["==", ["get", "id"], selectedId], 4, 2.5],
-            }}
-            type="line"
-          />
-        </Source>
+        <RouteLines
+          id={ROUTES_ID}
+          routes={routeFeatures(scene.routes)}
+          selectedId={selectedId}
+          theme={theme}
+        />
         {scene.pins.map((pin) => (
           <Marker
             anchor={pin.tone === "place" ? "bottom" : "center"}
@@ -238,11 +184,7 @@ export function EditorMap({
             </button>
           </Marker>
         ))}
-      </Map>
-      <ZoomControls
-        onZoomIn={() => mapRef.current?.zoomIn()}
-        onZoomOut={() => mapRef.current?.zoomOut()}
-      />
+      </BaseMap>
     </div>
   );
 }

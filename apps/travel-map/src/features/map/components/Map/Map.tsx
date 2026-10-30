@@ -3,10 +3,10 @@ import "maplibre-gl/dist/maplibre-gl.css";
 
 import { City } from "@travelmap/core";
 import { Loading } from "@travelmap/ui/components/Loading/Loading";
-import { ZoomControls } from "@travelmap/ui/map/components/ZoomControls/ZoomControls";
-import { createMapStyle, readMapTheme } from "@travelmap/ui/map/lib/mapTheme";
+import { BaseMap } from "@travelmap/ui/map/components/BaseMap/BaseMap";
+import { readMapTheme } from "@travelmap/ui/map/lib/mapTheme";
 import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
-import MapGL, { type MapRef, Popup } from "react-map-gl/maplibre";
+import { type MapRef, Popup } from "react-map-gl/maplibre";
 
 import { futureCities, livedCities, visitedCities } from "@/data/world";
 import { useAppRoute } from "@/shared/context/AppRoute.context";
@@ -25,10 +25,11 @@ import {
   toMapLibreZoom,
   WORLD_CENTER,
 } from "../../lib/mapCamera";
+import { visitedCountryFill } from "../../lib/mapData";
 import { getTripCityIds, getTripLayoverCities } from "../../lib/mapTripCities";
 import { MapTooltip } from "../MapTooltip/MapTooltip";
 import { RouteOverlay } from "../RouteOverlay/RouteOverlay";
-import { MapLayers } from "./MapLayers";
+import { MapLabels } from "./MapLabels";
 import { MapMarkers } from "./MapMarkers";
 
 const HOVER_LEAVE_DELAY_MS = 300;
@@ -70,7 +71,8 @@ export function Map({ isDarkTheme, responsive }: MapProps): ReactNode {
   const [isLoaded, setIsLoaded] = useState(false);
 
   const theme = useMemo(() => readMapTheme(isDarkTheme), [isDarkTheme]);
-  const mapStyle = useMemo(() => createMapStyle(theme), [theme]);
+  /* Rebuilding the fill reloads the country layer, so it follows the theme only. */
+  const countryFill = useMemo(() => visitedCountryFill(theme), [theme]);
   const appliedPosition = useRef(mapPosition);
 
   useEffect(() => {
@@ -255,27 +257,25 @@ export function Map({ isDarkTheme, responsive }: MapProps): ReactNode {
         </div>
       ) : null}
 
-      <MapGL
-        attributionControl={false}
-        dragRotate={false}
+      <BaseMap
+        countryFill={countryFill}
+        hasZoomControls={!responsive.isCompact}
         initialViewState={{
           longitude: mapPosition.center[0],
           latitude: mapPosition.center[1],
           zoom: toMapLibreZoom(mapPosition.zoom),
         }}
-        mapStyle={mapStyle}
-        maxPitch={0}
+        mapRef={mapRef}
         maxZoom={MAPLIBRE_MAX_ZOOM}
-        minPitch={0}
         minZoom={MAPLIBRE_MIN_ZOOM}
         onClick={closeTooltip}
         onLoad={() => setIsLoaded(true)}
         onZoomEnd={handleZoomEnd}
-        ref={mapRef}
+        onZoomOut={handleZoomOut}
         renderWorldCopies={false}
-        touchPitch={false}
+        theme={theme}
       >
-        <MapLayers theme={theme} />
+        <MapLabels theme={theme} />
         <RouteOverlay theme={theme} />
 
         {isLoaded ? (
@@ -306,16 +306,7 @@ export function Map({ isDarkTheme, responsive }: MapProps): ReactNode {
             />
           </Popup>
         ) : null}
-      </MapGL>
-
-      {responsive.isCompact ? null : (
-        <ZoomControls
-          onZoomIn={() =>
-            mapRef.current?.zoomIn({ duration: ZOOM_CONTROL_DURATION_MS })
-          }
-          onZoomOut={handleZoomOut}
-        />
-      )}
+      </BaseMap>
     </div>
   );
 }

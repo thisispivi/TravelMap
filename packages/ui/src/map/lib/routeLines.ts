@@ -1,4 +1,4 @@
-import { TransportMode, Trip, TripLeg } from "@travelmap/core";
+import { TransportMode, Trip } from "@travelmap/core";
 import type { FeatureCollection, LineString } from "geojson";
 
 /**
@@ -10,18 +10,42 @@ import type { FeatureCollection, LineString } from "geojson";
 export type RouteStroke = "flight" | "ground" | "outing";
 
 /**
- * The legs of one stroke and mode, as one GeoJSON source.
- * @property {string} key - A stable id for the source and its layers
- * @property {RouteStroke} stroke - How the lines are drawn
- * @property {TransportMode} mode - The transport mode, which picks the colour
- * @property {FeatureCollection<LineString>} data - The lines
+ * What each route segment carries, for the shared route layers to style it.
+ * @property {string} id - Identifies the ride, for selecting it
+ * @property {TransportMode} mode - Its transport mode, which picks its colour
+ * @property {RouteStroke} stroke - How it is drawn
  */
-export interface RouteLayer {
-  key: string;
-  stroke: RouteStroke;
+export interface RouteProperties {
+  id: string;
   mode: TransportMode;
-  data: FeatureCollection<LineString>;
+  stroke: RouteStroke;
 }
+
+/* Flights last, so their arcs pass over the ground lines they cross. */
+export const ROUTE_STROKE_ORDER: RouteStroke[] = ["ground", "outing", "flight"];
+
+/**
+ * Names the layer that draws one stroke's lines.
+ * @param {string} id - The routes' source id
+ * @param {RouteStroke} stroke - The stroke
+ * @returns {string} The layer id
+ */
+export function routeLineLayerId(id: string, stroke: RouteStroke): string {
+  return `${id}-line-${stroke}`;
+}
+
+/**
+ * Names every layer that draws the lines themselves, for a map that lets them
+ * be pressed.
+ * @param {string} id - The routes' source id
+ * @returns {string[]} The line layer ids
+ */
+export function routeLineLayerIds(id: string): string[] {
+  return ROUTE_STROKE_ORDER.map((stroke) => routeLineLayerId(id, stroke));
+}
+
+/** Route segments, as the shared route layers draw them. */
+export type RouteFeatures = FeatureCollection<LineString, RouteProperties>;
 
 /* How far an arc bows out, as a share of the distance it spans. */
 const ARC_BOW = 0.18;
@@ -74,53 +98,63 @@ export function arcBetween(
 }
 
 /**
- * Picks how a leg is drawn.
- * @param {TripLeg} leg - The leg
+ * Picks how a ride is drawn: a flight is always an arc, even on a day trip.
+ * @param {TransportMode} mode - How it travels
+ * @param {boolean} isOuting - Whether it belongs to a day trip
  * @returns {RouteStroke} Its stroke
  */
-function strokeOf(leg: TripLeg): RouteStroke {
-  if (leg.mode === "plane") return "flight";
-  return leg.context === "outing" ? "outing" : "ground";
+export function routeStroke(
+  mode: TransportMode,
+  isOuting: boolean,
+): RouteStroke {
+  if (mode === "plane") return "flight";
+  return isOuting ? "outing" : "ground";
 }
 
 /**
- * Groups a trip's legs into one source per stroke and mode, each leg split at
- * the cities it called at so a ferry's stops bend its line.
- * @param {Trip} trip - The trip to draw
- * @returns {RouteLayer[]} The layers, flights last so they draw on top
+ * Draws one segment from one place to the next: an arc for a flight, the
+ * short way round the globe for anything else.
+ * @param {[number, number]} from - The start, as `[lng, lat]`
+ * @param {[number, number]} to - The end, as `[lng, lat]`
+ * @param {RouteProperties} properties - Its id, mode and stroke
+ * @returns {RouteFeatures["features"][number]} The segment
  */
-export function buildRouteLayers(trip: Trip): RouteLayer[] {
-  const layers = new Map<string, RouteLayer>();
+export function routeSegment(
+  from: [number, number],
+  to: [number, number],
+  properties: RouteProperties,
+): RouteFeatures["features"][number] {
+  return {
+    geometry: {
+      coordinates:
+        properties.stroke === "flight"
+          ? arcBetween(from, to)
+          : [from, nearSide(from, to)],
+      type: "LineString",
+    },
+    properties,
+    type: "Feature",
+  };
+}
 
-  for (const leg of trip.getLegs()) {
-    const stroke = strokeOf(leg);
-    const key = `${stroke}-${leg.mode}`;
-    const layer = layers.get(key) ?? {
-      data: { features: [], type: "FeatureCollection" },
-      key,
-      mode: leg.mode,
-      stroke,
-    };
-    const cities = [leg.from, ...leg.via, leg.to];
-    for (const [index, city] of cities.slice(0, -1).entries()) {
-      const next = cities[index + 1].coordinates;
-      layer.data.features.push({
-        geometry: {
-          coordinates:
-            stroke === "flight"
-              ? arcBetween(city.coordinates, next)
-              : [city.coordinates, nearSide(city.coordinates, next)],
-          type: "LineString",
-        },
-        properties: {},
-        type: "Feature",
-      });
-    }
-    layers.set(key, layer);
-  }
-
-  return [...layers.values()].toSorted(
-    (first, second) =>
-      Number(first.stroke === "flight") - Number(second.stroke === "flight"),
-  );
+/**
+ * Turns a trip's legs into route segments, each leg split at the places it
+ * called at so a ferry's stops bend its line.
+ * @param {Trip} trip - The trip to draw
+ * @returns {RouteFeatures} The segments
+ */
+export function tripRouteFeatures(trip: Trip): RouteFeatures {
+  return {
+    features: trip.getLegs().flatMap((leg, legIndex) => {
+      const cities = [leg.from, ...leg.via, leg.to];
+      return cities.slice(0, -1).map((city, index) =>
+        routeSegment(city.coordinates, cities[index + 1].coordinates, {
+          id: `${legIndex}:${index}`,
+          mode: leg.mode,
+          stroke: routeStroke(leg.mode, leg.context === "outing"),
+        }),
+      );
+    }),
+    type: "FeatureCollection",
+  };
 }

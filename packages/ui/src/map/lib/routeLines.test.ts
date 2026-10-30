@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { arcBetween, nearSide } from "./routeLines";
+import { arcBetween, nearSide, routeStroke } from "./routeLines";
 
 describe("arcBetween", () => {
   it("starts and ends exactly on the two cities", () => {
@@ -40,5 +40,16 @@ describe("nearSide", () => {
     expect(arc.every(([lng]) => lng >= 151.2 - 20 && lng <= 241.8 + 20)).toBe(
       true,
     );
+  });
+});
+
+describe("routeStroke", () => {
+  it("draws a flight as an arc even on a day trip", () => {
+    expect(routeStroke("plane", true)).toBe("flight");
+  });
+
+  it("dots a ride that belongs to a day trip", () => {
+    expect(routeStroke("train", true)).toBe("outing");
+    expect(routeStroke("train", false)).toBe("ground");
   });
 });
