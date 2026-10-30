@@ -9,7 +9,7 @@
   align-items: center;
   justify-content: center;
   gap: v.$space2;
-  min-height: 2.25rem;
+  min-height: 2.5rem;
   padding: 0 v.$space4;
   border-radius: v.$radiusPill;
   font-size: v.$bodySm;
@@ -72,7 +72,7 @@
   }
 
   &--icon {
-    width: 2.25rem;
+    width: 2.5rem;
     padding: 0;
   }
 }
