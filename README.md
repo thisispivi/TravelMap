@@ -252,3 +252,10 @@ See [ARCHITECTURE.md](./ARCHITECTURE.md) for how the pieces fit together.
 ├── docker/                  Nginx image and Compose configuration
 └── docs/                    User documentation
 ```
+
+## Credits
+
+Country flags are from [Twemoji](https://github.com/jdecked/twemoji) (v17.0.3),
+© Twitter, Inc and other contributors, licensed under
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Only their file names
+were changed.

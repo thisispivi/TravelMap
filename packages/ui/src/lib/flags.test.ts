@@ -14,6 +14,12 @@ describe("flags", () => {
     expect(hasFlag("Italy")).toBe(true);
   });
 
+  it("has the flags the previous pack was missing", () => {
+    expect(hasFlag("Thailand")).toBe(true);
+    expect(hasFlag("Afghanistan")).toBe(true);
+    expect(hasFlag("FrSAntarcticLands")).toBe(true);
+  });
+
   it("knows the pack has no flag for a made-up country", () => {
     expect(hasFlag("Atlantis")).toBe(false);
   });

@@ -1,8 +1,9 @@
 /*
  * Country ids come from Natural Earth's abbreviated map names, the flag pack
  * spells countries out, and the site has no country catalogue to join them
- * through, so the two differences are listed here. Thailand and Afghanistan,
- * among others, have no flag in the pack and are left to `hasFlag`.
+ * through, so the two differences are listed here. The pack is Twemoji, which
+ * has no flag for places without an emoji, such as Somaliland, Northern Cyprus
+ * and the Siachen Glacier; those are left to `hasFlag`.
  */
 const FLAG_NAME_BY_COUNTRY_ID: Readonly<Record<string, string>> = {
   Aland: "AlandIslands",
@@ -24,8 +25,10 @@ const FLAG_NAME_BY_COUNTRY_ID: Readonly<Record<string, string>> = {
   FaeroeIs: "FaroeIslands",
   FalklandIs: "FalklandIslands",
   FrPolynesia: "FrenchPolynesia",
+  FrSAntarcticLands: "FrenchSouthernTerritories",
   HeardIAndMcDonaldIs: "HeardAndMcdonaldIslands",
   HongKong: "HongKongSarChina",
+  IndianOceanTer: "Australia",
   Macao: "MacaoSarChina",
   Macedonia: "NorthMacedonia",
   MarshallIs: "MarshallIslands",
