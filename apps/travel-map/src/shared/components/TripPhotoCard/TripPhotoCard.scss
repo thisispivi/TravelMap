@@ -1,0 +1,85 @@
+@use "variables" as v;
+@use "mixins" as m;
+
+/* The photo is the card; the text sits on a gradient over its lower half. */
+.trip-photo-card {
+  @include m.bare-button();
+  @include m.transition(transform, v.$durationFast);
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: v.$radiusLg;
+  box-shadow: v.$cardShadow;
+  text-align: left;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.72),
+      rgba(0, 0, 0, 0.12) 55%,
+      rgba(0, 0, 0, 0) 75%
+    );
+  }
+
+  @include m.hover() {
+    .trip-photo-card__cover {
+      transform: scale(1.04);
+    }
+  }
+
+  &:active {
+    transform: scale(0.985);
+  }
+
+  &__cover {
+    position: absolute;
+    inset: 0;
+    transition: transform 0.6s v.$easeOut;
+  }
+
+  &__flags {
+    position: absolute;
+    z-index: 1;
+    top: v.$space3;
+    right: v.$space3;
+    display: flex;
+    gap: v.$space1;
+  }
+
+  &__flag {
+    font-size: 1.75rem;
+    filter: drop-shadow(0 0.0625rem 0.25rem rgba(0, 0, 0, 0.4));
+  }
+
+  &__caption {
+    position: absolute;
+    z-index: 1;
+    right: v.$space4;
+    bottom: v.$space3;
+    left: v.$space4;
+    display: flex;
+    flex-direction: column;
+    gap: v.$space2;
+    color: #ffffff;
+  }
+
+  &__title {
+    font-size: v.$headingLg;
+    font-weight: 800;
+    letter-spacing: -0.015em;
+    line-height: 1.15;
+    text-shadow: 0 0.0625rem 0.5rem rgba(0, 0, 0, 0.3);
+  }
+
+  &__meta {
+    font-size: v.$bodySm;
+    font-weight: 600;
+    opacity: 0.9;
+    @include m.figure();
+  }
+}

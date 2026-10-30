@@ -4,9 +4,8 @@
 .gallery-index {
   &__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(22.5rem, 1fr));
     gap: v.$space4;
-    /* Room for a card lifting on hover without sliding under the header. */
     padding: v.$space2 v.$space6 v.$space6;
     list-style: none;
 
@@ -15,95 +14,5 @@
       gap: v.$space3;
       padding: v.$space2 v.$space4 v.$space5;
     }
-  }
-
-  &__card {
-    @include m.bare-button();
-    @include m.transition(transform, v.$durationFast);
-    position: relative;
-    display: block;
-    width: 100%;
-    aspect-ratio: 3 / 2;
-    overflow: hidden;
-    border-radius: v.$radiusLg;
-    box-shadow: v.$cardShadow;
-    text-align: left;
-    isolation: isolate;
-
-    &::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        to top,
-        rgba(0, 0, 0, 0.72),
-        rgba(0, 0, 0, 0) 60%
-      );
-    }
-
-    @include m.hover() {
-      transform: translateY(-0.1875rem);
-
-      .gallery-index__cover {
-        transform: scale(1.04);
-      }
-    }
-
-    &:active {
-      transform: scale(0.98);
-    }
-  }
-
-  &__cover {
-    position: absolute;
-    inset: 0;
-    transition: transform 0.6s v.$easeOut;
-  }
-
-  &__count {
-    position: absolute;
-    z-index: 1;
-    top: v.$space3;
-    right: v.$space3;
-    display: inline-flex;
-    align-items: center;
-    gap: v.$space1;
-    padding: 0.1875rem v.$space2;
-    border-radius: v.$radiusPill;
-    background: rgba(15, 23, 36, 0.45);
-    -webkit-backdrop-filter: blur(0.5rem);
-    backdrop-filter: blur(0.5rem);
-    color: #ffffff;
-    font-size: v.$caption;
-    font-weight: 700;
-    @include m.figure();
-  }
-
-  &__count-icon {
-    width: 0.875rem;
-    height: 0.875rem;
-  }
-
-  &__caption {
-    position: absolute;
-    z-index: 1;
-    right: v.$space4;
-    bottom: v.$space4;
-    left: v.$space4;
-    display: flex;
-    flex-direction: column;
-    color: #ffffff;
-  }
-
-  &__title {
-    font-size: v.$headingMd;
-    font-weight: 750;
-    line-height: 1.2;
-  }
-
-  &__dates {
-    font-size: v.$caption;
-    font-weight: 600;
-    opacity: 0.85;
   }
 }

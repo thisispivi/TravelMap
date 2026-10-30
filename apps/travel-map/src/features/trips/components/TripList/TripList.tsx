@@ -1,8 +1,6 @@
 import "./TripList.scss";
 
 import { Trip } from "@travelmap/core";
-import { CountryFlag } from "@travelmap/ui/components/CountryFlag/CountryFlag";
-import { CoverImage } from "@travelmap/ui/components/CoverImage/CoverImage";
 import { EmptyState } from "@travelmap/ui/components/EmptyState/EmptyState";
 import { PanelFrame } from "@travelmap/ui/components/PanelFrame/PanelFrame";
 import { PanelHeader } from "@travelmap/ui/components/PanelHeader/PanelHeader";
@@ -13,6 +11,7 @@ import { AnimatePresence, m, Variants } from "framer-motion";
 import { ReactNode, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 
+import { TripPhotoCard } from "@/shared/components/TripPhotoCard/TripPhotoCard";
 import { YearPills } from "@/shared/components/YearPills/YearPills";
 import { useMapInteraction } from "@/shared/context/MapInteraction.context";
 
@@ -55,8 +54,7 @@ interface TripCardProps {
 
 /**
  * TripCard component
- * One trip in the list: its cover filling the card, with the title, dates and
- * nights printed over it and the flags of the countries it reached in a corner.
+ * One trip in the list, with its dates and nights under the title.
  * @component
  * @param {TripCardProps} props - The card props
  * @param {Trip} props.trip - The trip
@@ -66,44 +64,20 @@ interface TripCardProps {
 function TripCard({ trip, onOpen }: TripCardProps): ReactNode {
   const { t, currLanguage } = useLanguage(["home"]);
   const nights = trip.getNights();
+  const dates = formatDateRangeShort({
+    eDateInput: trip.eDate,
+    locale: currLanguage,
+    sDateInput: trip.sDate,
+    showYear: false,
+  });
+  const meta =
+    nights > 0
+      ? `${dates} · ${t("common:stay.nightsCount", { count: nights })}`
+      : dates;
 
   return (
     <m.li className="trip-list__item" variants={staggerItem}>
-      <button
-        className="trip-list__card"
-        onClick={() => onOpen(trip)}
-        type="button"
-      >
-        <CoverImage
-          className="trip-list__cover"
-          src={trip.backgroundImgSource}
-        />
-        <span className="trip-list__flags">
-          {trip.getCountriesVisited().map((country) => (
-            <CountryFlag
-              className="trip-list__flag"
-              countryId={country.id}
-              key={country.id}
-            />
-          ))}
-        </span>
-        <span className="trip-list__caption">
-          <span className="trip-list__title">
-            {trip.getLocalizedTitle(currLanguage)}
-          </span>
-          <span className="trip-list__meta">
-            {formatDateRangeShort({
-              eDateInput: trip.eDate,
-              locale: currLanguage,
-              sDateInput: trip.sDate,
-              showYear: false,
-            })}
-            {nights > 0
-              ? ` · ${t("common:stay.nightsCount", { count: nights })}`
-              : null}
-          </span>
-        </span>
-      </button>
+      <TripPhotoCard meta={meta} onOpen={() => onOpen(trip)} trip={trip} />
     </m.li>
   );
 }
