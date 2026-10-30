@@ -59,7 +59,8 @@ export function EditorNav({
     <NavRail
       activeId={activeTabId(pathname)}
       isDarkTheme={isDarkTheme}
-      items={NAV_TABS.map(({ icon, id }) => ({
+      items={NAV_TABS.map(({ icon, id, to }) => ({
+        href: to,
         icon,
         id,
         label: t(`nav.${id}`),

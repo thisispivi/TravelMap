@@ -2,7 +2,7 @@ import "./NavRail.scss";
 
 import { m } from "framer-motion";
 import { LucideIcon, Moon, Sun } from "lucide-react";
-import { ReactNode } from "react";
+import { MouseEvent, ReactNode } from "react";
 
 import LogoIcon from "../../assets/icons/Logo.svg?react";
 import { useLanguage } from "../../hooks/useLanguage";
@@ -13,13 +13,25 @@ import { LanguageMenu } from "../LanguageMenu/LanguageMenu";
 /**
  * One tab of the rail.
  * @property {string} id - Identifies the tab to `onSelect`
+ * @property {string} href - Where it leads when opened in a new tab
  * @property {string} label - Its visible name
  * @property {LucideIcon} icon - Its icon
  */
 export interface NavRailItem {
   id: string;
+  href: string;
   label: string;
   icon: LucideIcon;
+}
+
+/**
+ * Tells whether a press on a link asks the browser for a new tab or window,
+ * which the link should then do by itself.
+ * @param {MouseEvent} event - The press
+ * @returns {boolean} Whether a modifier key was held
+ */
+function opensElsewhere(event: MouseEvent): boolean {
+  return event.ctrlKey || event.metaKey || event.shiftKey || event.altKey;
 }
 
 /**
@@ -157,18 +169,22 @@ export function NavRail({
           </button>
         )}
         <ul className="nav-rail__tabs">
-          {items.map(({ icon: Icon, id, label }) => {
+          {items.map(({ href, icon: Icon, id, label }) => {
             const isActive = id === activeId;
             return (
               <li className="nav-rail__item" key={id}>
-                <button
+                <a
                   aria-current={isActive ? "page" : undefined}
                   className={classNames(
                     "nav-rail__tab",
                     isActive && "nav-rail__tab--active",
                   )}
-                  onClick={() => onSelect(id)}
-                  type="button"
+                  href={href}
+                  onClick={(event) => {
+                    if (opensElsewhere(event)) return;
+                    event.preventDefault();
+                    onSelect(id);
+                  }}
                 >
                   {isActive ? (
                     <m.span
@@ -179,7 +195,7 @@ export function NavRail({
                   ) : null}
                   <Icon aria-hidden="true" className="nav-rail__icon" />
                   <span className="nav-rail__label">{label}</span>
-                </button>
+                </a>
               </li>
             );
           })}

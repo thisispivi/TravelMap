@@ -92,7 +92,9 @@ export function AppNav({
       hasFloatingTools={surface !== "page"}
       isCompact={isCompact}
       isDarkTheme={isDarkTheme}
-      items={NAV_TABS.map(({ icon, id }) => ({
+      items={NAV_TABS.map(({ icon, id, path }) => ({
+        /* The site runs on a hash router, so a new tab needs the path after `#`. */
+        href: `#${path}`,
         icon,
         id,
         label: t(`nav.${id}`),
