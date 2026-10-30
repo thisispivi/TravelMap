@@ -298,6 +298,27 @@
     font-weight: 600;
   }
 
+  &__operator-groups {
+    display: flex;
+    flex-direction: column;
+    gap: v.$space4;
+  }
+
+  &__operator-heading {
+    display: flex;
+    align-items: center;
+    gap: v.$space2;
+    margin-bottom: v.$space2;
+    color: v.$ink2;
+    font-size: v.$bodySm;
+    font-weight: 700;
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+
   &__operators {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));

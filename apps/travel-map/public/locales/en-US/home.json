@@ -142,8 +142,7 @@
     "days_one": "{{count}} day",
     "days_other": "{{count}} days",
     "yearSummary_one": "{{count}} trip · {{days}} days away",
-    "yearSummary_other": "{{count}} trips · {{days}} days away",
-    "chooseYear": "Choose a year"
+    "yearSummary_other": "{{count}} trips · {{days}} days away"
   },
   "stats": {
     "title": "Statistics",
@@ -160,6 +159,8 @@
     "modes": "Getting around",
     "records": "Records",
     "operators": "Airlines and ferry lines",
+    "airlines": "Airlines",
+    "ferryLines": "Ferry lines",
     "longestFlight": "Longest flight",
     "shortestFlight": "Shortest flight",
     "longestFerry": "Longest ferry",

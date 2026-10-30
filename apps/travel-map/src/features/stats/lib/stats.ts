@@ -75,14 +75,11 @@ function computeStats() {
   const km = Math.round(modes.reduce((sum, mode) => sum + mode.km, 0));
 
   return {
+    airlines: getCompanyStats(takenFlights),
     aroundEarth: km / constants.EARTH_CIRCUMFERENCE,
     avgTripDays:
       visitedTrips.length > 0 ? Math.round(totalDays / visitedTrips.length) : 0,
     cities: visitedCities.length,
-    companies: [
-      ...getCompanyStats(takenFlights),
-      ...getCompanyStats(takenFerries),
-    ].sort((first, second) => second.count - first.count),
     continents: Object.values(Continent)
       .map((continent) =>
         getContinentStats(continent, visitedCities, visitedCountries),
@@ -93,6 +90,7 @@ function computeStats() {
     countriesByCities: getCountryVisitStats(visitedCities),
     countryShare: visitedCountries.length / constants.TOTAL_COUNTRIES,
     currencies: getCurrencyCountries(visitedCountries),
+    ferryLines: getCompanyStats(takenFerries),
     furthestCity: places?.furthest,
     km,
     longestFerry: getMinAndMaxTransport(takenFerries)?.max,

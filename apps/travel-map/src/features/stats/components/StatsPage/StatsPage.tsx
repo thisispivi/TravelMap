@@ -39,6 +39,7 @@ import { CONTINENT_COLORS } from "@/shared/lib/continentColors";
 
 import { getCurrencyDisplay } from "../../lib/countries";
 import { stats } from "../../lib/stats";
+import { CompanyStat } from "../../lib/transport";
 import { StatBars } from "../StatBars/StatBars";
 
 /** Which tile of the bento a card is, which decides how many columns it spans. */
@@ -629,18 +630,43 @@ function RecordsTile(): ReactNode {
 }
 
 /**
- * OperatorsTile component
- * One tile of the statistics bento: the airlines and ferry lines used, most used first, with their logos.
- * @component
- * @returns {ReactNode} The tile
+ * Properties accepted by the OperatorGroup component.
+ * @property {ReactNode} icon - The kind of transport, drawn beside the heading
+ * @property {string} title - What kind of operators these are
+ * @property {CompanyStat[]} companies - The operators, most used first
  */
-function OperatorsTile(): ReactNode {
-  const { t } = useLanguage(["home"]);
+interface OperatorGroupProps {
+  icon: ReactNode;
+  title: string;
+  companies: CompanyStat[];
+}
+
+/**
+ * OperatorGroup component
+ * One kind of operator under its own heading, each with its logo and how many
+ * journeys it carried. A kind never used leaves no empty heading behind.
+ * @component
+ * @param {OperatorGroupProps} props - The group props
+ * @param {ReactNode} props.icon - The kind of transport
+ * @param {string} props.title - What kind of operators these are
+ * @param {CompanyStat[]} props.companies - The operators, most used first
+ * @returns {ReactNode} The group
+ */
+function OperatorGroup({
+  icon,
+  title,
+  companies,
+}: OperatorGroupProps): ReactNode {
+  if (companies.length === 0) return null;
 
   return (
-    <Card area="operators" title={t("stats.operators")}>
+    <section className="stats-tile__operator-group">
+      <h3 className="stats-tile__operator-heading">
+        {icon}
+        {title}
+      </h3>
       <ul className="stats-tile__operators">
-        {stats.companies.slice(0, 12).map(({ company, count }) => {
+        {companies.slice(0, 12).map(({ company, count }) => {
           const { name, logo } = resolveCompany(company);
           return (
             <li className="stats-tile__operator" key={company}>
@@ -663,6 +689,34 @@ function OperatorsTile(): ReactNode {
           );
         })}
       </ul>
+    </section>
+  );
+}
+
+/**
+ * OperatorsTile component
+ * One tile of the statistics bento: the airlines and the ferry lines used, kept
+ * apart, since a flight and a crossing are not rivals for the same place.
+ * @component
+ * @returns {ReactNode} The tile
+ */
+function OperatorsTile(): ReactNode {
+  const { t } = useLanguage(["home"]);
+
+  return (
+    <Card area="operators" title={t("stats.operators")}>
+      <div className="stats-tile__operator-groups">
+        <OperatorGroup
+          companies={stats.airlines}
+          icon={<Plane aria-hidden="true" />}
+          title={t("stats.airlines")}
+        />
+        <OperatorGroup
+          companies={stats.ferryLines}
+          icon={<Ship aria-hidden="true" />}
+          title={t("stats.ferryLines")}
+        />
+      </div>
     </Card>
   );
 }
@@ -836,7 +890,9 @@ export function StatsPage(): ReactNode {
             />
           </Card>
 
-          {stats.companies.length > 0 ? <OperatorsTile /> : null}
+          {stats.airlines.length + stats.ferryLines.length > 0 ? (
+            <OperatorsTile />
+          ) : null}
         </div>
       </div>
     </PanelFrame>
