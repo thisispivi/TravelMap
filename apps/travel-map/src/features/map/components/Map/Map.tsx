@@ -3,6 +3,7 @@ import "maplibre-gl/dist/maplibre-gl.css";
 
 import { City } from "@travelmap/core";
 import { Loading } from "@travelmap/ui/components/Loading/Loading";
+import { remToPx } from "@travelmap/ui/lib/rem";
 import { BaseMap } from "@travelmap/ui/map/components/BaseMap/BaseMap";
 import { readMapTheme } from "@travelmap/ui/map/lib/mapTheme";
 import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
@@ -35,7 +36,7 @@ import { MapMarkers } from "./MapMarkers";
 const HOVER_LEAVE_DELAY_MS = 300;
 const MAP_TILE_SIZE_PX = 512;
 const MIN_ZOOM_EPSILON = 0.01;
-const TOOLTIP_OFFSET_PX = 14;
+const TOOLTIP_OFFSET_REM = 0.875;
 const ZOOM_CONTROL_DURATION_MS = 300;
 
 /**
@@ -296,7 +297,7 @@ export function Map({ isDarkTheme, responsive }: MapProps): ReactNode {
             latitude={hoveredCity.coordinates[1]}
             longitude={hoveredCity.coordinates[0]}
             maxWidth="none"
-            offset={TOOLTIP_OFFSET_PX}
+            offset={remToPx(TOOLTIP_OFFSET_REM)}
             onClose={closeTooltip}
           >
             <MapTooltip

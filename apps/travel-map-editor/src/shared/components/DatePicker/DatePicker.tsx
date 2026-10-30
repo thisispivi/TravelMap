@@ -5,13 +5,14 @@ import { useAnchoredMenu } from "@travelmap/ui/hooks/useAnchoredMenu";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { classNames } from "@travelmap/ui/lib/classNames";
 import { menuVariants } from "@travelmap/ui/lib/motion";
+import { remToPx } from "@travelmap/ui/lib/rem";
 import { AnimatePresence, domAnimation, LazyMotion, m } from "framer-motion";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 const WEEKDAY_COUNT = 7;
 const CALENDAR_CELLS = 42;
-const PANEL_WIDTH_PX = 280;
+const PANEL_WIDTH_REM = 17.5;
 
 /** Short weekday names for the calendar's header row. */
 const WEEKDAY_FORMAT = new Intl.DateTimeFormat(undefined, { weekday: "short" });
@@ -128,7 +129,7 @@ export function DatePicker({
   const { container, position } = useAnchoredMenu(
     controlRef,
     isOpen,
-    PANEL_WIDTH_PX,
+    remToPx(PANEL_WIDTH_REM),
   );
   const firstDay = firstDayOfWeek();
   const today = toLocalDate(new Date());

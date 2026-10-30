@@ -8,6 +8,7 @@ import { fitVertically } from "../../lib/anchor";
 import { classNames } from "../../lib/classNames";
 import { focusablesIn, keepTabWithin } from "../../lib/focus";
 import { menuVariants } from "../../lib/motion";
+import { remToPx } from "../../lib/rem";
 
 /** Where a popover opens: under its trigger, or beside it with bottoms aligned. */
 type PopoverPlacement = "below" | "beside";
@@ -32,14 +33,14 @@ interface PopoverProps {
   children: ReactNode;
 }
 
-/** The gap between a trigger and its popover, in pixels. */
-const GAP = 8;
+/** The gap between a trigger and its popover, in rem. */
+const GAP_REM = 0.5;
 
 /** The tallest a popover grows before its list scrolls. */
 const MAX_HEIGHT = "24rem";
 
-/** Less room than this under the trigger, in pixels, and the popover opens above it. */
-const MIN_ROOM_PX = 240;
+/** Less room than this under the trigger, in rem, and the popover opens above it. */
+const MIN_ROOM_REM = 15;
 
 /**
  * Places the popover against its trigger and caps its height at the room the
@@ -57,23 +58,29 @@ function positionOf(
   anchor: DOMRect,
   placement: PopoverPlacement,
 ): CSSProperties {
+  const gap = remToPx(GAP_REM);
+
   switch (placement) {
     case "beside":
       return {
         bottom: window.innerHeight - anchor.bottom,
-        left: anchor.right + GAP,
-        maxHeight: `min(${MAX_HEIGHT}, ${anchor.bottom - GAP * 2}px)`,
+        left: anchor.right + gap,
+        maxHeight: `min(${MAX_HEIGHT}, ${anchor.bottom - gap * 2}px)`,
       };
     case "below": {
-      const { opensUp, room } = fitVertically(anchor, GAP, MIN_ROOM_PX);
+      const { opensUp, room } = fitVertically(
+        anchor,
+        gap,
+        remToPx(MIN_ROOM_REM),
+      );
       const vertical = opensUp
         ? {
-            bottom: window.innerHeight - anchor.top + GAP,
+            bottom: window.innerHeight - anchor.top + gap,
             maxHeight: `min(${MAX_HEIGHT}, ${room}px)`,
           }
         : {
             maxHeight: `min(${MAX_HEIGHT}, ${room}px)`,
-            top: anchor.bottom + GAP,
+            top: anchor.bottom + gap,
           };
       return anchor.left + anchor.width / 2 > window.innerWidth / 2
         ? { ...vertical, right: window.innerWidth - anchor.right }

@@ -1,11 +1,12 @@
 import { City, Trip } from "@travelmap/core";
+import { remToPx } from "@travelmap/ui/lib/rem";
 import variables from "@travelmap/ui/styles/_variables.module.scss";
 import { LngLatBounds, type PaddingOptions } from "maplibre-gl";
 
 import {
   SHEET_HALF_HIDDEN_SHARE,
-  SHEET_PEEK_PX,
-  SHEET_TOP_PX,
+  SHEET_PEEK_REM,
+  SHEET_TOP_REM,
 } from "@/shared/components/BottomSheet/BottomSheet.metrics";
 import { ResponsiveType } from "@/shared/hooks/useResponsive";
 import { parameters } from "@/shared/lib/parameters";
@@ -17,32 +18,20 @@ export const SINGLE_DESTINATION_ZOOM = 6.5;
 export const WORLD_CENTER: [number, number] = [0, 0];
 
 const HOME_COUNTRY_ID = parameters.homeCity?.country.id ?? null;
-/*
- * The layout is sized in rem, so it grows with the reader's browser font size;
- * the camera reads the same root size to pad for the panels as drawn.
- */
-const ROOT_PX =
-  Number.parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
-const MAP_EDGE_PADDING_PX = 32;
+const MAP_EDGE_PADDING_REM = 2;
 /* The phone's floating theme/language buttons and the zoom buttons on wider screens. */
-const TOP_TOOLS_PX = 64;
-const ZOOM_CONTROLS_PX = 72;
+const TOP_TOOLS_REM = 4;
+const ZOOM_CONTROLS_REM = 4.5;
 
 /**
- * Reads a rem length exported by the stylesheet as pixels.
+ * Reads a rem length exported by the stylesheet as pixels. The layout is sized in
+ * rem, so the camera pads for the panels as they are actually drawn.
  * @param {string} rem - A value such as `5rem`
  * @returns {number} The length in CSS pixels
  */
-function remToPx(rem: string): number {
-  return Number.parseFloat(rem) * ROOT_PX;
+function stylesheetPx(rem: string): number {
+  return remToPx(Number.parseFloat(rem));
 }
-
-const RAIL_PX = remToPx(variables.railWidth);
-const GAP_PX = remToPx(variables.shellGap);
-const SIDE_PANEL_PX = remToPx(variables.sidePanelWidth);
-const SIDE_PANEL_WIDE_PX = remToPx(variables.sidePanelWidthWide);
-const WIDE_BREAKPOINT_PX = remToPx(variables.breakpointWide);
-const TAB_BAR_BASE_PX = remToPx(variables.tabBarBase);
 
 /**
  * Measures the tab bar as drawn: its base height plus the home-indicator
@@ -55,7 +44,7 @@ function tabBarPx(): number {
       "--safe-area-bottom",
     ),
   );
-  return TAB_BAR_BASE_PX + (Number.isNaN(inset) ? 0 : inset);
+  return stylesheetPx(variables.tabBarBase) + (Number.isNaN(inset) ? 0 : inset);
 }
 
 /**
@@ -70,33 +59,38 @@ export function getCameraPadding(
   viewport: ResponsiveType,
   isSideOpen: boolean,
 ): PaddingOptions {
+  const edge = remToPx(MAP_EDGE_PADDING_REM);
+
   if (viewport.isCompact) {
     const tabBar = tabBarPx();
-    const sheetHeight = viewport.window.height - SHEET_TOP_PX - tabBar;
+    const sheetHeight =
+      viewport.window.height - remToPx(SHEET_TOP_REM) - tabBar;
     const covered = isSideOpen
       ? sheetHeight * (1 - SHEET_HALF_HIDDEN_SHARE)
-      : SHEET_PEEK_PX;
+      : remToPx(SHEET_PEEK_REM);
     return {
-      top: TOP_TOOLS_PX,
-      right: MAP_EDGE_PADDING_PX / 2,
-      bottom: tabBar + covered + MAP_EDGE_PADDING_PX / 2,
-      left: MAP_EDGE_PADDING_PX / 2,
+      top: remToPx(TOP_TOOLS_REM),
+      right: edge / 2,
+      bottom: tabBar + covered + edge / 2,
+      left: edge / 2,
     };
   }
 
-  const panel =
-    viewport.window.width >= WIDE_BREAKPOINT_PX
-      ? SIDE_PANEL_WIDE_PX
-      : SIDE_PANEL_PX;
+  const gap = stylesheetPx(variables.shellGap);
+  const panel = stylesheetPx(
+    viewport.window.width >= stylesheetPx(variables.breakpointWide)
+      ? variables.sidePanelWidthWide
+      : variables.sidePanelWidth,
+  );
   return {
-    top: MAP_EDGE_PADDING_PX,
-    right: ZOOM_CONTROLS_PX,
-    bottom: MAP_EDGE_PADDING_PX,
+    top: edge,
+    right: remToPx(ZOOM_CONTROLS_REM),
+    bottom: edge,
     left:
-      RAIL_PX +
-      2 * GAP_PX +
-      (isSideOpen ? panel + GAP_PX : 0) +
-      MAP_EDGE_PADDING_PX,
+      stylesheetPx(variables.railWidth) +
+      2 * gap +
+      (isSideOpen ? panel + gap : 0) +
+      edge,
   };
 }
 

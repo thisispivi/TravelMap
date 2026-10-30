@@ -2,6 +2,7 @@ import "./BottomSheet.scss";
 
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { panelSpring } from "@travelmap/ui/lib/motion";
+import { remToPx } from "@travelmap/ui/lib/rem";
 import {
   animate,
   m,
@@ -13,7 +14,7 @@ import {
 } from "framer-motion";
 import { ReactNode, useEffect, useRef, useState } from "react";
 
-import { SHEET_HALF_HIDDEN_SHARE, SHEET_PEEK_PX } from "./BottomSheet.metrics";
+import { SHEET_HALF_HIDDEN_SHARE, SHEET_PEEK_REM } from "./BottomSheet.metrics";
 
 /** A resting height of the open sheet. */
 type OpenSnap = "half" | "full";
@@ -64,7 +65,7 @@ export function BottomSheet({
   const offsets = {
     full: 0,
     half: height * SHEET_HALF_HIDDEN_SHARE,
-    peek: Math.max(height - SHEET_PEEK_PX, 0),
+    peek: Math.max(height - remToPx(SHEET_PEEK_REM), 0),
   };
   const target = isOpen ? offsets[openSnap] : offsets.peek;
 

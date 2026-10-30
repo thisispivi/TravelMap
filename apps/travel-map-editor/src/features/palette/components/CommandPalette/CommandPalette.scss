@@ -23,8 +23,8 @@
     font: inherit;
 
     &:focus-visible {
-      outline: 2px solid v.$accent;
-      outline-offset: 1px;
+      outline: 0.125rem solid v.$accent;
+      outline-offset: 0.0625rem;
     }
   }
 
@@ -55,8 +55,8 @@
     cursor: pointer;
 
     &:focus-visible {
-      outline: 2px solid v.$accent;
-      outline-offset: -2px;
+      outline: 0.125rem solid v.$accent;
+      outline-offset: -0.125rem;
     }
   }
 

@@ -3,6 +3,7 @@ import "./useAnchoredMenu.scss";
 import { RefObject, useEffect, useLayoutEffect, useState } from "react";
 
 import { fitVertically } from "../lib/anchor";
+import { remToPx } from "../lib/rem";
 
 /**
  * Where a floating menu should be drawn, in viewport coordinates.
@@ -32,7 +33,6 @@ export interface AnchoredMenuState {
 
 const MENU_GAP_REM = 0.25;
 const MENU_MAX_HEIGHT_REM = 22;
-const REM_IN_PX = 16;
 
 /**
  * Measures an anchor and places the menu under it, or above it when below
@@ -47,8 +47,8 @@ function measure(
 ): MenuPosition | null {
   if (!anchor) return null;
   const rect = anchor.getBoundingClientRect();
-  const gap = MENU_GAP_REM * REM_IN_PX;
-  const maxHeight = MENU_MAX_HEIGHT_REM * REM_IN_PX;
+  const gap = remToPx(MENU_GAP_REM);
+  const maxHeight = remToPx(MENU_MAX_HEIGHT_REM);
   const width = Math.min(
     Math.max(rect.width, preferredWidth ?? rect.width),
     window.innerWidth - gap * 2,

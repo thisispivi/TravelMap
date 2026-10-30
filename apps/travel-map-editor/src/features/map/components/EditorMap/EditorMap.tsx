@@ -1,6 +1,7 @@
 import "./EditorMap.scss";
 
 import { classNames } from "@travelmap/ui/lib/classNames";
+import { remToPx } from "@travelmap/ui/lib/rem";
 import { BaseMap } from "@travelmap/ui/map/components/BaseMap/BaseMap";
 import { RouteLines } from "@travelmap/ui/map/components/RouteLines/RouteLines";
 import { readMapTheme } from "@travelmap/ui/map/lib/mapTheme";
@@ -21,7 +22,7 @@ import {
 } from "@/shared/context/MapScene.context";
 
 /* Room kept around the framed places, beyond whatever the panel covers. */
-const FRAME_PADDING_PX = 56;
+const FRAME_PADDING_REM = 3.5;
 /* A single place is shown close enough to read its surroundings. */
 const SINGLE_PLACE_ZOOM = 7;
 /* Framing never zooms closer than a region, even for two nearby towns. */
@@ -97,11 +98,12 @@ export function EditorMap({
     const map = mapRef.current;
     const [first, ...rest] = sceneRef.current.frame;
     if (!map || !first) return;
+    const room = remToPx(FRAME_PADDING_REM);
     const padding = {
-      bottom: FRAME_PADDING_PX,
-      left: insetLeft + FRAME_PADDING_PX,
-      right: FRAME_PADDING_PX,
-      top: FRAME_PADDING_PX,
+      bottom: room,
+      left: insetLeft + room,
+      right: room,
+      top: room,
     };
     if (rest.length === 0) {
       map.flyTo({
