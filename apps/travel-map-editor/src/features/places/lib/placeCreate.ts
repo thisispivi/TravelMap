@@ -1,7 +1,12 @@
-import { CityJson, CountryJson, deriveLegDistance } from "@travelmap/core";
+import {
+  CityJson,
+  CountryJson,
+  deriveLegDistance,
+  toId,
+} from "@travelmap/core";
 
 import { locales } from "../../../data/dataset";
-import { cityPath, countryPath, toId, uniqueId } from "../../../data/paths";
+import { cityPath, countryPath, uniqueId } from "../../../data/paths";
 import { DatasetSnapshot, DocumentWrite } from "../../../data/store";
 import { translationsForLocales } from "../../../shared/lib/worldCountries";
 import { WorldCity } from "./gazetteer";

@@ -1,3 +1,4 @@
+import { toId } from "@travelmap/core";
 import type { FeatureCollection, Geometry } from "geojson";
 import { feature } from "topojson-client";
 import type { GeometryCollection, Topology } from "topojson-specification";
@@ -9,9 +10,11 @@ import { splitGeometryAtAntimeridian } from "./geo";
 /**
  * Properties stored on a country polygon and its generated label.
  * @property {string} name - The country name
+ * @property {string} [id] - The polygon's name in dataset id form, which a country document's id matches
  */
 export interface CountryProperties {
   name: string;
+  id?: string;
 }
 
 const countriesTopology = countriesTopologyJson as unknown as Topology<{
@@ -37,6 +40,10 @@ function createCountriesGeoJson(): FeatureCollection<
     features: rawCountries.features.map((country) => ({
       ...country,
       geometry: splitGeometryAtAntimeridian(country.geometry),
+      properties: {
+        ...country.properties,
+        id: toId(country.properties.name),
+      },
     })),
   };
 }

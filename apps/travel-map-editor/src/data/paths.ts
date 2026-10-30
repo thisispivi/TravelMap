@@ -59,23 +59,6 @@ export function idError(id: string, taken: string[]): IdProblem | null {
 }
 
 /**
- * Derives a stable id from a display name, keeping it readable in the URL and
- * on disk.
- * @param {string} name - The display name
- * @returns {string} The derived id
- */
-export function toId(name: string): string {
-  return name
-    .normalize("NFD")
-    .replace(/[̀-ͯ]/g, "")
-    .replace(/[^a-zA-Z0-9]+/g, " ")
-    .split(" ")
-    .filter(Boolean)
-    .map((word) => word[0]!.toUpperCase() + word.slice(1))
-    .join("");
-}
-
-/**
  * Derives a free id by appending a counter until nothing collides, so an
  * automated creation never fails on a name the dataset already uses.
  * @param {string} preferred - The id the caller would like

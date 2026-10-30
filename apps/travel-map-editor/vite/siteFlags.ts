@@ -26,9 +26,11 @@ export function siteFlags(flagsRoot: string): Plugin {
      */
     configureServer(server: ViteDevServer): void {
       server.middlewares.use("/flags", async (request, response, next) => {
-        const name = decodeURIComponent(
-          new URL(request.url ?? "", "http://localhost").pathname.slice(1),
-        );
+        /* Left encoded: a flag name is plain letters, so an escape never matches. */
+        const name = new URL(
+          request.url ?? "",
+          "http://localhost",
+        ).pathname.slice(1);
         if (request.method !== "GET" || !/^[A-Za-z]+\.svg$/.test(name)) {
           next();
           return;

@@ -1,9 +1,7 @@
 import countriesTopologyJson from "@app/assets/json/countries-50m.json";
-import { Continent, Currency } from "@travelmap/core";
+import { Continent, Currency, toId } from "@travelmap/core";
 import type { GeometryCollection, Topology } from "topojson-specification";
 import worldCountries from "world-countries";
-
-import { toId } from "../../data/paths";
 
 /*
  * Country ids are Natural Earth polygon names in the dataset's id form

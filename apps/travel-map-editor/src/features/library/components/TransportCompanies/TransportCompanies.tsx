@@ -3,13 +3,7 @@ import "./TransportCompanies.scss";
 import { PanelFrame } from "@app/shared/components/PanelFrame/PanelFrame";
 import { useLanguage } from "@app/shared/hooks/useLanguage";
 import { classNames } from "@app/shared/lib/classNames";
-import {
-  CityJson,
-  Company,
-  SiteConfig,
-  TripJson,
-  walkTripLegs,
-} from "@travelmap/core";
+import { Company, SiteConfig } from "@travelmap/core";
 import { Building2, ChevronDown, Plus, Trash2 } from "lucide-react";
 import { ReactNode, useState } from "react";
 
@@ -20,45 +14,11 @@ import { useConfirm } from "../../../../shared/components/ConfirmDialog/ConfirmD
 import { TextField } from "../../../../shared/components/Fields/Fields";
 import { ImageUploadField } from "../../../../shared/components/ImageUploadField/ImageUploadField";
 import { useToast } from "../../../../shared/components/Toast/Toast";
-import {
-  MapRoute,
-  useMapScene,
-} from "../../../../shared/context/MapScene.context";
+import { useMapScene } from "../../../../shared/context/MapScene.context";
 import { useAutosave } from "../../../../shared/hooks/useAutosave";
 import { useDataset } from "../../../../shared/hooks/useDataset";
 import { isSameJson } from "../../../../shared/lib/jsonEquality";
-
-/**
- * Gathers every ride made with each operator across all trips, as map lines:
- * a flight by its airline, a crossing by its ferry line.
- * @param {DataFile<TripJson>[]} trips - Every trip document
- * @param {Map<string, CityJson>} cityById - The dataset's cities
- * @returns {Map<string, MapRoute[]>} Rides by operator id
- */
-function companyRides(
-  trips: DataFile<TripJson>[],
-  cityById: Map<string, CityJson>,
-): Map<string, MapRoute[]> {
-  const rides = new Map<string, MapRoute[]>();
-  for (const { value: trip } of trips)
-    for (const { fromId, index, leg, legIndex, outing } of walkTripLegs(trip)) {
-      const operator = leg.flight?.company ?? leg.ferry?.company;
-      const from = cityById.get(fromId);
-      const to = cityById.get(leg.toId);
-      if (!operator || !from || !to) continue;
-      rides.set(operator, [
-        ...(rides.get(operator) ?? []),
-        {
-          from: from.coordinates,
-          id: `${trip.id}:${index}:${outing ?? ""}:${legIndex}`,
-          isOuting: outing !== undefined,
-          mode: leg.mode,
-          to: to.coordinates,
-        },
-      ]);
-    }
-  return rides;
-}
+import { companyRides } from "../../lib/companyRides";
 
 /**
  * TransportCompanies component

@@ -1,12 +1,12 @@
 import "./NewTripDialog.scss";
 
 import { useLanguage } from "@app/shared/hooks/useLanguage";
-import { formatLocalDate, TripJson } from "@travelmap/core";
+import { formatLocalDate, toId, TripJson } from "@travelmap/core";
 import { MapPinPlus, Plus, X } from "lucide-react";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 
-import { idError, toId, tripPath } from "../../../../data/paths";
+import { idError, tripPath } from "../../../../data/paths";
 import { DatasetSnapshot, saveDocument } from "../../../../data/store";
 import { Combobox } from "../../../../shared/components/Combobox/Combobox";
 import { DatePicker } from "../../../../shared/components/DatePicker/DatePicker";

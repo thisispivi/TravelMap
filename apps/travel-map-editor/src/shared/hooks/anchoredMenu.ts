@@ -1,6 +1,6 @@
 import "./anchoredMenu.scss";
 
-import { RefObject, useLayoutEffect, useState } from "react";
+import { RefObject, useEffect, useLayoutEffect, useState } from "react";
 
 /**
  * Where a floating menu should be drawn, in viewport coordinates.
@@ -76,25 +76,20 @@ function measure(
 }
 
 /**
- * Finds or makes the layer a dialog's menus are drawn in, and shows it. The
- * dialog's frosted glass is a `backdrop-filter`, which turns it into the
- * containing block of every fixed descendant: a menu portalled straight into
- * it would be placed against the dialog instead of the window and clipped by
- * its scrolling, growing a scrollbar rather than showing. A popover sits in
- * the top layer, above the dialog and outside its box, while staying inside
- * its DOM, where a modal dialog keeps its controls interactive.
- * @param {HTMLDialogElement} dialog - The dialog holding the control
- * @returns {HTMLElement} The shown layer
+ * Makes the detached layer one menu is drawn in when its control sits in a
+ * dialog. The dialog's frosted glass is a `backdrop-filter`, which turns it
+ * into the containing block of every fixed descendant: a menu portalled
+ * straight into it would be placed against the dialog instead of the window
+ * and clipped by its scrolling, growing a scrollbar rather than showing. A
+ * popover sits in the top layer, above the dialog and outside its box, while
+ * staying inside its DOM, where a modal dialog keeps its controls interactive.
+ * Each menu has its own, so one closing never hides another.
+ * @returns {HTMLDivElement} The layer, not yet in the document
  */
-function menuLayerOf(dialog: HTMLDialogElement): HTMLElement {
-  let layer = dialog.querySelector<HTMLElement>(":scope > .anchored-layer");
-  if (!layer) {
-    layer = document.createElement("div");
-    layer.className = "anchored-layer";
-    layer.popover = "manual";
-    dialog.append(layer);
-  }
-  if (!layer.matches(":popover-open")) layer.showPopover();
+function createMenuLayer(): HTMLDivElement {
+  const layer = document.createElement("div");
+  layer.className = "anchored-layer";
+  layer.popover = "manual";
   return layer;
 }
 
@@ -122,8 +117,8 @@ function hasMoved(
  * Tracks where a dropdown attached to an anchor should be drawn.
  * Editor panels use backdrop filters, which create stacking contexts that trap
  * an absolutely positioned menu behind the next panel and clip it at the panel
- * edge. Menus are therefore portalled to the body, or to a dialog's top-layer
- * menu layer, and positioned here, against the viewport, flipping above the
+ * edge. Menus are therefore portalled to the body, or to their own top-layer
+ * layer inside a dialog, and positioned here, against the viewport, flipping above the
  * anchor when there is more room there.
  * @param {RefObject<HTMLElement | null>} anchorRef - The control the menu attaches to
  * @param {boolean} isOpen - Whether the menu is currently shown
@@ -137,11 +132,17 @@ export function useAnchoredMenu(
 ): AnchoredMenuState {
   const [position, setPosition] = useState<MenuPosition | null>(null);
   const [container, setContainer] = useState<Element>(document.body);
+  const [layer] = useState(createMenuLayer);
 
   /* The first measurement must precede paint to avoid an incorrectly placed frame. */
   useLayoutEffect(() => {
     if (!isOpen) return;
-    let layer: HTMLElement | undefined;
+    const dialog = anchorRef.current?.closest("dialog");
+    if (dialog) {
+      if (layer.parentElement !== dialog) dialog.append(layer);
+      layer.showPopover();
+    }
+    setContainer(dialog ? layer : document.body);
 
     /**
      * Re-measures the anchor, keeping the previous object when nothing moved so
@@ -149,11 +150,7 @@ export function useAnchoredMenu(
      * @returns {void}
      */
     function update(): void {
-      const anchor = anchorRef.current;
-      const next = measure(anchor, preferredWidth);
-      const dialog = anchor?.closest("dialog");
-      layer = dialog ? menuLayerOf(dialog) : undefined;
-      setContainer(layer ?? document.body);
+      const next = measure(anchorRef.current, preferredWidth);
       setPosition((current) => (hasMoved(current, next) ? next : current));
     }
 
@@ -166,9 +163,11 @@ export function useAnchoredMenu(
       observer.disconnect();
       window.removeEventListener("scroll", update, true);
       window.removeEventListener("resize", update);
-      if (layer?.matches(":popover-open")) layer.hidePopover();
+      if (layer.matches(":popover-open")) layer.hidePopover();
     };
-  }, [anchorRef, isOpen, preferredWidth]);
+  }, [anchorRef, isOpen, layer, preferredWidth]);
+
+  useEffect(() => () => layer.remove(), [layer]);
 
   return { container, position: isOpen ? position : null };
 }

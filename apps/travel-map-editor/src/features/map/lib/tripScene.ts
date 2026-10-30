@@ -33,7 +33,7 @@ export function legMapId(
 
 /**
  * Turns a trip into what the shared map draws: its origin, a numbered pin for
- * each place slept in, a smaller pin for each place only passed through, and
+ * each stay, a smaller pin for each place only passed through, and
  * a line for every ride. Places that are not in the dataset yet are skipped,
  * so a half-written trip still draws what it can.
  * @param {TripJson} trip - The trip
@@ -48,7 +48,9 @@ export function tripScene(
   const pinned = new Set<string>();
 
   /**
-   * Adds a pin for a city once, however many times the trip reaches it.
+   * Adds a pin for a city. A place only passed through is pinned once, however
+   * many times the trip reaches it; every stay gets its own numbered pin, so a
+   * second stay in the same city can still be selected on the map.
    * @param {string} cityId - The city
    * @param {Omit<MapPin, "coordinates" | "label">} details - The pin's id, tone and number
    * @returns {void}
@@ -58,7 +60,7 @@ export function tripScene(
     details: Omit<MapPin, "coordinates" | "label">,
   ): void => {
     const city = cityById.get(cityId);
-    if (!city || pinned.has(cityId)) return;
+    if (!city || (details.tone !== "stay" && pinned.has(cityId))) return;
     pinned.add(cityId);
     pins.push({ ...details, coordinates: city.coordinates, label: city.name });
   };

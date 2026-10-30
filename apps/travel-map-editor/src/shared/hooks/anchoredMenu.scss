@@ -1,5 +1,5 @@
 /*
- * A dialog's menu layer: an empty, zero-sized popover at the window's origin,
+ * One menu's layer inside a dialog: an empty, zero-sized popover at the window's origin,
  * so the fixed menus inside it are placed against the window. Its backdrop
  * would otherwise cover the dialog and take every press meant for it.
  */

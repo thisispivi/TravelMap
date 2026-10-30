@@ -5,67 +5,17 @@ import { CoverImage } from "@app/shared/components/CoverImage/CoverImage";
 import { PanelFrame } from "@app/shared/components/PanelFrame/PanelFrame";
 import { useLanguage } from "@app/shared/hooks/useLanguage";
 import { classNames } from "@app/shared/lib/classNames";
-import { CityJson, tripPlaceIds } from "@travelmap/core";
 import { ChevronRight, MapPinPlus } from "lucide-react";
 import { ReactNode, useState } from "react";
 import { Link, useNavigate } from "react-router";
 
 import { resolveMediaUrl } from "../../../../data/dataset";
-import { DatasetSnapshot } from "../../../../data/store";
 import { SearchField } from "../../../../shared/components/SearchField/SearchField";
 import { useMapScene } from "../../../../shared/context/MapScene.context";
 import { useDataset } from "../../../../shared/hooks/useDataset";
 import { findWorldCountry } from "../../../../shared/lib/worldCountries";
-import { searchItems } from "../../../library/lib/search";
+import { countTripsByPlace, groupCities } from "../../lib/placeGroups";
 import { AddPlaceDialog } from "../AddPlaceDialog/AddPlaceDialog";
-
-/**
- * One country's places, for the list.
- * @property {string} countryId - The country id
- * @property {string} name - The country's name
- * @property {CityJson[]} cities - Its cities, by name
- */
-interface CountryGroup {
-  countryId: string;
-  name: string;
-  cities: CityJson[];
-}
-
-/**
- * Groups the cities that match the search by country, both by name, so the
- * list reads as the site's Places tab does.
- * @param {DatasetSnapshot} dataset - The dataset
- * @param {string} query - What was typed in the search
- * @returns {CountryGroup[]} The countries with at least one matching city
- */
-function groupCities(dataset: DatasetSnapshot, query: string): CountryGroup[] {
-  const names = new Map(
-    dataset.countries.map(({ value }) => [value.id, value.name]),
-  );
-  const matching = searchItems(
-    dataset.cities.map(({ value }) => value),
-    query,
-    (city) => [city.name, names.get(city.countryId) ?? city.countryId],
-  );
-  const groups = new Map<string, CountryGroup>();
-  for (const city of matching) {
-    const group = groups.get(city.countryId) ?? {
-      cities: [],
-      countryId: city.countryId,
-      name: names.get(city.countryId) ?? city.countryId,
-    };
-    group.cities.push(city);
-    groups.set(city.countryId, group);
-  }
-  return [...groups.values()]
-    .toSorted((first, second) => first.name.localeCompare(second.name))
-    .map((group) => ({
-      ...group,
-      cities: group.cities.toSorted((first, second) =>
-        first.name.localeCompare(second.name),
-      ),
-    }));
-}
 
 /**
  * PlacesIndex component
@@ -86,10 +36,7 @@ export function PlacesIndex(): ReactNode {
     [number, number] | null | undefined
   >();
   const groups = groupCities(dataset, query);
-  const tripCounts = new Map<string, number>();
-  for (const { value } of dataset.trips)
-    for (const id of new Set(tripPlaceIds(value)))
-      tripCounts.set(id, (tripCounts.get(id) ?? 0) + 1);
+  const tripCounts = countTripsByPlace(dataset);
 
   useMapScene(
     {
