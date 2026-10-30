@@ -289,10 +289,9 @@ export function Marker({
   intended value, destructure without a default; never write
   `prop = undefined`.
 - **Sub-components used by exactly one component** MUST live in that
-  component's file. Prefer putting them above their consumer (as `MapLabels`
-  precedes `MapLayers` in `features/map/components/Map/MapLayers.tsx`, and
-  `PlaceRow` precedes `ConnectionRow` in `TripItinerary.tsx`); one placed below is a style nit, not
-  a correctness issue — fix it if you are already editing that file. A
+  component's file. Prefer putting them above their consumer (as `PlaceRow`
+  precedes `ConnectionRow` in `TripItinerary.tsx`); one placed below is a style
+  nit, not a correctness issue — fix it if you are already editing that file. A
   sub-component a second component needs gets its own file, which is why
   `MapMarkers` and the map tooltip live in
   `features/map/components/Map/MapMarkers.tsx` and
@@ -776,8 +775,8 @@ Vertical whitespace communicates structure and MUST be deterministic:
 - **Import shared SCSS with namespaces**, never `@import`:
 
   ```scss
-  @use "../../../styles/variables" as v;
-  @use "../../../styles/mixins" as m;
+  @use "variables" as v;
+  @use "mixins" as m;
 
   color: v.$ink;
   @include m.transition(transform, v.$durationFast);
@@ -1170,7 +1169,7 @@ FlightCompany` looked like typing and was actually an unchecked assertion over
 - **A kitchen-sink context.** Do not recombine `MapInteractionContext`,
   `PanelContext`, and `AppRouteContext` into one shell context.
 - **Exporting something only its own module uses.** `knip` runs in `pnpm check`
-  for all three projects and will catch it; treat its findings as work, not
+  for all four projects and will catch it; treat its findings as work, not
   noise.
 
 **Checked for and not present** — so nobody "fixes" a problem that does not
