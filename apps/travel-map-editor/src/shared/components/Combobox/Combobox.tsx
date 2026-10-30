@@ -236,6 +236,12 @@ export function Combobox({
   } = useCombobox({
     inputValue: term,
     items: visible,
+    /*
+     * Downshift compares items by identity unless told otherwise, and the
+     * options are rebuilt on every render, so an unchanged selection would
+     * read as a new one and update its state forever.
+     */
+    itemToKey: (option) => option?.value,
     itemToString: (option) => option?.label ?? "",
     onInputValueChange: ({ inputValue }) => setTerm(inputValue ?? ""),
     onIsOpenChange: ({ isOpen: nextIsOpen }) => {
@@ -364,7 +370,10 @@ export function MultiCombobox({
   const fuse = new Fuse(available, FUSE_OPTIONS);
   const visible = search(fuse, available, term);
   const { getDropdownProps, getSelectedItemProps, removeSelectedItem } =
-    useMultipleSelection({ selectedItems });
+    useMultipleSelection({
+      itemToKey: (option) => option?.value,
+      selectedItems,
+    });
   const {
     getInputProps,
     getItemProps,
@@ -375,6 +384,12 @@ export function MultiCombobox({
   } = useCombobox({
     inputValue: term,
     items: visible,
+    /*
+     * Downshift compares items by identity unless told otherwise, and the
+     * options are rebuilt on every render, so an unchanged selection would
+     * read as a new one and update its state forever.
+     */
+    itemToKey: (option) => option?.value,
     itemToString: (option) => option?.label ?? "",
     onInputValueChange: ({ inputValue }) => setTerm(inputValue ?? ""),
     onSelectedItemChange: ({ selectedItem }) => {

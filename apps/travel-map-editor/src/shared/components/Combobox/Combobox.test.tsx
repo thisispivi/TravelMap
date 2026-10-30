@@ -51,4 +51,23 @@ describe("Combobox", () => {
 
     expect(onChange).toHaveBeenCalledWith("Turin");
   });
+
+  it("settles when the empty choice is selected, though it is rebuilt each render", () => {
+    const errors = vi
+      .spyOn(console, "error")
+      .mockImplementation(() => undefined);
+    const props = {
+      emptyLabel: "None",
+      label: "Company",
+      onChange: () => undefined,
+      options: CITIES,
+      value: "",
+    };
+    const { rerender } = render(<Combobox {...props} />);
+
+    rerender(<Combobox {...props} />);
+
+    expect(errors).not.toHaveBeenCalled();
+    errors.mockRestore();
+  });
 });

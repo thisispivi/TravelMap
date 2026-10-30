@@ -85,6 +85,7 @@ export function WorldCitySearch({
   } = useCombobox({
     inputValue: term,
     items: visible,
+    itemToKey: (city) => city?.key,
     itemToString: (city) => city?.name ?? "",
     onInputValueChange: ({ inputValue }) => setTerm(inputValue ?? ""),
     onSelectedItemChange: ({ selectedItem }) => {
