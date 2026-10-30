@@ -106,6 +106,9 @@ function buildCatalogue(): WorldCountry[] {
   const metadataByCode = new Map(
     worldCountries.map((country) => [country.ccn3, country]),
   );
+  const metadataByName = new Map(
+    worldCountries.map((country) => [country.name.common, country]),
+  );
   const currencyCodes = new Set(Object.values(Currency) as string[]);
   const catalogue: WorldCountry[] = [];
 
@@ -113,9 +116,13 @@ function buildCatalogue(): WorldCountry[] {
     const polygonName = (geometry.properties as { name?: string } | undefined)
       ?.name;
     if (!polygonName) continue;
-    const metadata = geometry.id
-      ? metadataByCode.get(String(geometry.id))
-      : undefined;
+    /*
+     * A polygon with no numeric ISO code, such as Kosovo's, is joined by name
+     * instead; one the standard does not cover at all keeps its map name.
+     */
+    const metadata =
+      (geometry.id ? metadataByCode.get(String(geometry.id)) : undefined) ??
+      metadataByName.get(polygonName);
 
     /* Polygons without ISO metadata remain selectable under their map name. */
     if (!metadata) {
@@ -159,6 +166,19 @@ const catalogueByCode = new Map(
     .map((country) => [country.cca2, country]),
 );
 
+/*
+ * Territories with their own ISO code but no polygon of their own on the
+ * 1:50m map, which draws them as part of the country that governs them.
+ */
+const GOVERNING_COUNTRY_CODES: Record<string, string> = {
+  GF: "FR",
+  GI: "GB",
+  GP: "FR",
+  MQ: "FR",
+  RE: "FR",
+  YT: "FR",
+};
+
 /**
  * Looks up a country in the catalogue by its dataset id.
  * @param {string} id - The country id
@@ -170,12 +190,13 @@ export function findWorldCountry(id: string): WorldCountry | undefined {
 
 /**
  * Looks up a country by its ISO 3166-1 alpha-2 code, which is how the world
- * city dataset refers to countries.
+ * city dataset refers to countries. A territory the map draws inside another
+ * country, such as Réunion, resolves to that country.
  * @param {string} code - The alpha-2 country code
  * @returns {WorldCountry | undefined} The catalogue entry, when known
  */
 export function findWorldCountryByCode(code: string): WorldCountry | undefined {
-  return catalogueByCode.get(code);
+  return catalogueByCode.get(GOVERNING_COUNTRY_CODES[code] ?? code);
 }
 
 /**

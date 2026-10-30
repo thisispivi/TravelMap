@@ -124,22 +124,26 @@ export function StayCard({
   return (
     <StoryChapter
       action={
-        <button
-          aria-label={t("story.removeStay", { city })}
-          className="editor-button stay-card__remove"
-          onClick={() =>
-            confirm({
-              confirmLabel: t("confirm.removeStay.action"),
-              isDanger: true,
-              message: t("confirm.removeStay.message"),
-              onConfirm: onRemove,
-              title: t("confirm.removeStay.title", { city }),
-            })
-          }
-          type="button"
-        >
-          <Trash2 aria-hidden="true" />
-        </button>
+        <>
+          {/* Beside its button, since the body that would hold it only exists while the stay is open. */}
+          {confirmDialog}
+          <button
+            aria-label={t("story.removeStay", { city })}
+            className="editor-button stay-card__remove"
+            onClick={() =>
+              confirm({
+                confirmLabel: t("confirm.removeStay.action"),
+                isDanger: true,
+                message: t("confirm.removeStay.message"),
+                onConfirm: onRemove,
+                title: t("confirm.removeStay.title", { city }),
+              })
+            }
+            type="button"
+          >
+            <Trash2 aria-hidden="true" />
+          </button>
+        </>
       }
       eyebrow={t("story.nightsCount", { count: nights })}
       image={resolveMediaUrl(cityJson?.backgroundImages?.[0])}
@@ -190,7 +194,6 @@ export function StayCard({
         </>
       }
     >
-      {confirmDialog}
       <div className="stay-card__fields">
         <Combobox
           label={t("stepFields.city")}

@@ -13,4 +13,16 @@ describe("worldCountries", () => {
   it("gives a gazetteer match the id the dataset's folders use", () => {
     expect(findWorldCountryByCode("GB")?.id).toBe("UnitedKingdom");
   });
+
+  it("knows Kosovo, which has no numeric ISO code to join on", () => {
+    const kosovo = findWorldCountryByCode("XK");
+
+    expect(kosovo?.id).toBe("Kosovo");
+    expect(kosovo?.currency).toBe("EUR");
+  });
+
+  it("places a city in an overseas territory in the country the map draws it in", () => {
+    expect(findWorldCountryByCode("RE")?.id).toBe("France");
+    expect(findWorldCountryByCode("GI")?.id).toBe("UnitedKingdom");
+  });
 });
