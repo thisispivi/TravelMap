@@ -1,4 +1,5 @@
 import { City, Trip } from "@travelmap/core";
+import variables from "@travelmap/ui/styles/_variables.module.scss";
 import { LngLatBounds, type PaddingOptions } from "maplibre-gl";
 
 import {
@@ -8,7 +9,6 @@ import {
 } from "@/shared/components/BottomSheet/BottomSheet.metrics";
 import { ResponsiveType } from "@/shared/hooks/useResponsive";
 import { parameters } from "@/shared/lib/parameters";
-import variables from "@/styles/_variables.module.scss";
 
 export const CAMERA_DURATION_MS = 1100;
 export const MAPLIBRE_MIN_ZOOM = 0;

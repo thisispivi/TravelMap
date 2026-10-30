@@ -74,9 +74,8 @@ export function useAutosave<T>(
           : "The editor could not write to disk.",
       );
       setWriteState("failed");
-    } finally {
-      isWritingRef.current = false;
     }
+    isWritingRef.current = false;
   }, []);
 
   /*

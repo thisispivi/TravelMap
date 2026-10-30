@@ -57,11 +57,8 @@ function ConfirmDialog({ request, onClose }: ConfirmDialogProps): ReactNode {
    */
   async function handleConfirm(): Promise<void> {
     setIsWorking(true);
-    try {
-      await request.onConfirm();
-    } finally {
-      onClose();
-    }
+    /* React Compiler cannot compile a `finally` block; the promise's own runs the same way. */
+    await Promise.resolve().then(request.onConfirm).finally(onClose);
   }
 
   return (

@@ -1,6 +1,6 @@
-import "@app/styles/_global.scss";
-import "@app/styles/_typography.scss";
-import "@app/styles/_scrollbar.scss";
+import "@travelmap/ui/styles/_global.scss";
+import "@travelmap/ui/styles/_typography.scss";
+import "@travelmap/ui/styles/_scrollbar.scss";
 import "@app/features/map/lib/mapRuntime";
 import "maplibre-gl/dist/maplibre-gl.css";
 import "./i18n/i18n";

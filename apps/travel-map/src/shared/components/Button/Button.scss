@@ -1,5 +1,5 @@
-@use "../../../styles/variables" as v;
-@use "../../../styles/mixins" as m;
+@use "variables" as v;
+@use "mixins" as m;
 
 .button {
   @include m.bare-button();

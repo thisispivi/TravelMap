@@ -1,6 +1,6 @@
-import "./styles/_global.scss";
-import "./styles/_typography.scss";
-import "./styles/_scrollbar.scss";
+import "@travelmap/ui/styles/_global.scss";
+import "@travelmap/ui/styles/_typography.scss";
+import "@travelmap/ui/styles/_scrollbar.scss";
 import "./i18n/i18n";
 import "./features/map/lib/mapRuntime";
 

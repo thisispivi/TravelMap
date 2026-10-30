@@ -45,11 +45,11 @@ export function PlaceImport({ onImport }: PlaceImportProps): ReactNode {
           place = parseGoogleMapsUrl(body.url);
         }
       } catch {
+        setIsResolving(false);
         setError(t("placeImport.shortLinkError"));
         return;
-      } finally {
-        setIsResolving(false);
       }
+      setIsResolving(false);
     }
     if (!place) {
       setError(

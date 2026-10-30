@@ -1,6 +1,5 @@
 import { Continent } from "@travelmap/core";
-
-import variables from "@/styles/_variables.module.scss";
+import variables from "@travelmap/ui/styles/_variables.module.scss";
 
 /** Each continent's pastel, shared by the timeline bars and the statistics. */
 export const CONTINENT_COLORS: Record<Continent, string> = {

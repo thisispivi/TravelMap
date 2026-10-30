@@ -67,6 +67,26 @@ async function createRasterPreview(file: File): Promise<string> {
 }
 
 /**
+ * Sends a picked image to the editor's asset writer under the given name.
+ * @param {File} file - The picked file
+ * @param {string} fileNameHint - Destination filename, without extension
+ * @returns {Promise<string | { error: string }>} The stored public path, or why it was refused
+ */
+async function uploadAsset(
+  file: File,
+  fileNameHint: string,
+): Promise<string | { error: string }> {
+  const base64 = await readFileAsBase64(file);
+  const extension = file.name.slice(file.name.lastIndexOf("."));
+  const response = await fetch(ASSET_WRITE_ENDPOINT, {
+    body: JSON.stringify({ base64, filename: `${fileNameHint}${extension}` }),
+    method: "POST",
+  });
+  const body = await parseJsonResponse(response, UploadResponseSchema);
+  return "path" in body ? body.path : body;
+}
+
+/**
  * ImageUploadField component
  * A labelled file picker that uploads an SVG or PNG to the editor's local dev
  * server and reports back the resulting public path. Named after
@@ -108,21 +128,15 @@ export function ImageUploadField({
     setIsUploading(true);
     try {
       const preview = await createRasterPreview(file);
-      const base64 = await readFileAsBase64(file);
-      const extension = file.name.slice(file.name.lastIndexOf("."));
-      const response = await fetch(ASSET_WRITE_ENDPOINT, {
-        body: JSON.stringify({
-          base64,
-          filename: `${fileNameHint}${extension}`,
-        }),
-        method: "POST",
-      });
-      const body = await parseJsonResponse(response, UploadResponseSchema);
-      if (!("path" in body))
-        throw new Error(body.error || t("imageUploadField.uploadFailed"));
-      onUpload(body.path);
-      setPreviewOverride(preview);
-      showToast(t("toast.logoUploaded"));
+      const result = await uploadAsset(file, fileNameHint);
+      if (typeof result === "string") {
+        onUpload(result);
+        setPreviewOverride(preview);
+        showToast(t("toast.logoUploaded"));
+      } else {
+        setError(result.error);
+        showToast(result.error, "error");
+      }
     } catch (uploadError) {
       const errorMessage =
         uploadError instanceof Error
@@ -130,9 +144,8 @@ export function ImageUploadField({
           : t("imageUploadField.uploadFailed");
       setError(errorMessage);
       showToast(errorMessage, "error");
-    } finally {
-      setIsUploading(false);
     }
+    setIsUploading(false);
   }
 
   /**

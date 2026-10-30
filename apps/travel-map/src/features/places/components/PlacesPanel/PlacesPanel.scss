@@ -1,5 +1,5 @@
-@use "../../../../styles/variables" as v;
-@use "../../../../styles/mixins" as m;
+@use "variables" as v;
+@use "mixins" as m;
 
 /* Same insets as the trip list, so switching tabs keeps the title in place. */
 .places-panel {

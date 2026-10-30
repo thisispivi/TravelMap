@@ -1,6 +1,5 @@
+import variables from "@travelmap/ui/styles/_variables.module.scss";
 import { useEffect, useState } from "react";
-
-import variables from "@/styles/_variables.module.scss";
 
 /*
  * The layout switches from rail + side panel to tab bar + bottom sheet at this

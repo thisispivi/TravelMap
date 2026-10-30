@@ -566,6 +566,23 @@ export default [
     },
   },
   {
+    files: ["packages/ui/src/**/*.ts", "packages/ui/src/**/*.tsx"],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: ["@/*", "@app/*", "**/apps/**"],
+              message:
+                "The shared UI package cannot depend on either application.",
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
     files: ["packages/core/src/**/*.ts"],
     rules: {
       "no-restricted-imports": [
