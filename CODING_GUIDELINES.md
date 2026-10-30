@@ -1240,15 +1240,15 @@ review still has to catch.
 
 `pnpm check` from the repository root runs, across all four projects:
 
-| Check        | Command               | Enforces                                                       |
-| ------------ | --------------------- | -------------------------------------------------------------- |
-| Types        | `pnpm typecheck`      | `strict`, no unused locals or parameters, no fallthrough cases |
-| Lint         | `pnpm lint`           | The rules below, at zero warnings                              |
-| Formatting   | `pnpm format:check`   | Prettier                                                       |
-| Tests        | `pnpm test`           | Vitest in both packages and both apps (§16)                    |
-| Dead code    | `pnpm knip`           | Unused files, exports, types, and dependencies                 |
-| React health | `pnpm react:doctor`   | Hook, accessibility, and bundle diagnostics, in both apps      |
-| Advisories   | `pnpm security:audit` | Known vulnerabilities in any installed dependency              |
+| Check        | Command               | Enforces                                                                     |
+| ------------ | --------------------- | ---------------------------------------------------------------------------- |
+| Types        | `pnpm typecheck`      | `strict`, no unused locals or parameters, no fallthrough cases               |
+| Lint         | `pnpm lint`           | The rules below, at zero warnings                                            |
+| Formatting   | `pnpm format:check`   | Prettier                                                                     |
+| Tests        | `pnpm test`           | Vitest in both packages and both apps (§16)                                  |
+| Dead code    | `pnpm knip`           | Unused files, exports, types, and dependencies                               |
+| React health | `pnpm react:doctor`   | Hook, accessibility, and bundle diagnostics, in both apps and the UI package |
+| Advisories   | `pnpm security:audit` | Known vulnerabilities in any installed dependency                            |
 
 `pnpm build` additionally verifies production output. `.husky/pre-commit` runs
 lint-staged over changed files, falling back to a repository-wide lint and
