@@ -531,6 +531,38 @@ export function validateTrip(
           label: "Remove the ferry details",
         },
       );
+    if (leg.bus && leg.mode !== "bus")
+      report(
+        "leg.busOnNonBus",
+        "warning",
+        `Bus details are recorded on a ${leg.mode} ride.`,
+        at,
+        { mode: leg.mode },
+        {
+          apply: (current) =>
+            withLeg(current, located, (candidate) => ({
+              ...candidate,
+              bus: undefined,
+            })),
+          label: "Remove the bus details",
+        },
+      );
+    if (leg.taxi && leg.mode !== "taxi")
+      report(
+        "leg.taxiOnNonTaxi",
+        "warning",
+        `Taxi details are recorded on a ${leg.mode} ride.`,
+        at,
+        { mode: leg.mode },
+        {
+          apply: (current) =>
+            withLeg(current, located, (candidate) => ({
+              ...candidate,
+              taxi: undefined,
+            })),
+          label: "Remove the taxi details",
+        },
+      );
 
     const minutes = leg.durationMinutes ?? timed;
     if (fromCity && toCity && minutes) {

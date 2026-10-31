@@ -65,6 +65,56 @@ function companyOptions(
 }
 
 /**
+ * Properties accepted by the RideCompanyField component.
+ * @property {DatasetSnapshot} dataset - The current dataset
+ * @property {TripLegJson} leg - The ride being edited
+ * @property {"ferry" | "bus" | "taxi"} mode - The ride's mode, which names its details
+ * @property {(leg: TripLegJson) => void} onChange - Edit callback
+ */
+interface RideCompanyFieldProps {
+  dataset: DatasetSnapshot;
+  leg: TripLegJson;
+  mode: "ferry" | "bus" | "taxi";
+  onChange: (leg: TripLegJson) => void;
+}
+
+/**
+ * RideCompanyField component
+ * The company picker for a ride whose only operator detail is its company: a
+ * ferry, a bus or a taxi.
+ * @component
+ * @param {RideCompanyFieldProps} props - The field props
+ * @param {DatasetSnapshot} props.dataset - The current dataset
+ * @param {TripLegJson} props.leg - The ride being edited
+ * @param {"ferry" | "bus" | "taxi"} props.mode - The ride's mode
+ * @param {(leg: TripLegJson) => void} props.onChange - Edit callback
+ * @returns {ReactNode} The company picker
+ */
+function RideCompanyField({
+  dataset,
+  leg,
+  mode,
+  onChange,
+}: RideCompanyFieldProps): ReactNode {
+  const { t } = useLanguage(["editor"]);
+  const details = leg[mode];
+  return (
+    <Combobox
+      emptyLabel={t(`stepFields.noCompany.${mode}`)}
+      label={t(`stepFields.company.${mode}`)}
+      onChange={(company) =>
+        onChange({
+          ...leg,
+          [mode]: { ...details, company: company || undefined },
+        })
+      }
+      options={companyOptions(dataset, mode, details?.company)}
+      value={details?.company ?? ""}
+    />
+  );
+}
+
+/**
  * Properties accepted by the ModeSelector component.
  * @property {(mode: TransportMode) => void} onChange - Selection callback
  * @property {TransportMode} value - The current mode
@@ -372,18 +422,12 @@ export function LegEditor({
               />
             </div>
           ) : null}
-          {leg.mode === "ferry" ? (
-            <Combobox
-              emptyLabel={t("stepFields.noFerryCompany")}
-              label={t("stepFields.ferryCompany")}
-              onChange={(company) =>
-                onChange({
-                  ...leg,
-                  ferry: { ...leg.ferry, company: company || undefined },
-                })
-              }
-              options={companyOptions(dataset, "ferry", leg.ferry?.company)}
-              value={leg.ferry?.company ?? ""}
+          {leg.mode === "ferry" || leg.mode === "bus" || leg.mode === "taxi" ? (
+            <RideCompanyField
+              dataset={dataset}
+              leg={leg}
+              mode={leg.mode}
+              onChange={onChange}
             />
           ) : null}
           <Button

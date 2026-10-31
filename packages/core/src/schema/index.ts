@@ -143,6 +143,11 @@ const RowConstraintsSchema = z.strictObject({
   minPhotos: finiteNumberSchema.int().positive().optional(),
 });
 
+/** The company that ran a ride whose mode records nothing else about it. */
+const RideCompanySchema = z.strictObject({
+  company: idSchema.optional(),
+});
+
 /**
  * One ride from wherever the traveller stands to `toId`. A leg never names its
  * departure city: it starts where the previous leg ended, at its stay, or at the
@@ -151,6 +156,7 @@ const RowConstraintsSchema = z.strictObject({
  */
 export const TripLegJsonSchema = z.strictObject({
   arrive: LocalDateSchema.optional(),
+  bus: RideCompanySchema.optional(),
   depart: LocalDateSchema.optional(),
   distanceInKm: finiteNumberSchema.nonnegative().optional(),
   durationMinutes: finiteNumberSchema.nonnegative().optional(),
@@ -176,6 +182,7 @@ export const TripLegJsonSchema = z.strictObject({
   photoRange: PhotoRangeSchema.optional(),
   rowConstraints: RowConstraintsSchema.optional(),
   targetRowHeight: finiteNumberSchema.positive().optional(),
+  taxi: RideCompanySchema.optional(),
   toId: idSchema,
   viaIds: z.array(idSchema).optional(),
   visited: z.literal(true).optional(),
