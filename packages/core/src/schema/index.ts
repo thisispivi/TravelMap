@@ -100,6 +100,14 @@ export const TransportModeSchema = z.enum([
   "walk",
 ]);
 
+/** The transport modes whose rides can name the company that ran them. */
+export const CompanyModeSchema = TransportModeSchema.extract([
+  "plane",
+  "ferry",
+  "bus",
+  "taxi",
+]);
+
 /** A local calendar date with an optional wall-clock time. */
 export const LocalDateSchema = z
   .string()
@@ -253,9 +261,13 @@ export const ImageSchema = z
     path: ["original"],
   });
 
-/** A configured transport operator. */
+/**
+ * A configured transport operator. `mode` is what it runs; a company without
+ * one, such as a freshly added entry, is offered for every kind of ride.
+ */
 export const CompanySchema = z.strictObject({
   logo: z.string().trim().min(1).optional(),
+  mode: CompanyModeSchema.optional(),
   name: z.string().trim().min(1),
 });
 
@@ -358,6 +370,9 @@ export type MarkerSizes = z.infer<typeof MarkerSizesSchema>;
 
 /** Transport modes supported by authored itinerary legs. */
 export type TransportMode = z.infer<typeof TransportModeSchema>;
+
+/** The kind of transport a company runs. */
+export type CompanyMode = z.infer<typeof CompanyModeSchema>;
 
 /** Raw authored data accepted by the world graph builder. */
 export type WorldSources = z.input<typeof WorldSourcesSchema>;

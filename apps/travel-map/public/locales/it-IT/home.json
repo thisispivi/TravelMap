@@ -158,9 +158,13 @@
     "currencies": "Valute usate",
     "modes": "Spostamenti",
     "records": "Record",
-    "operators": "Compagnie aeree e di navigazione",
-    "airlines": "Compagnie aeree",
-    "ferryLines": "Compagnie di navigazione",
+    "operators": "Compagnie di trasporto",
+    "operatorGroup": {
+      "plane": "Compagnie aeree",
+      "ferry": "Compagnie di navigazione",
+      "bus": "Compagnie di autobus",
+      "taxi": "Compagnie di taxi"
+    },
     "longestFlight": "Volo più lungo",
     "shortestFlight": "Volo più breve",
     "longestFerry": "Traghetto più lungo",

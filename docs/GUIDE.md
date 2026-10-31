@@ -299,11 +299,17 @@ photos — it is written into the photo lists as they are created.
 
 ## 8. Transport companies and logos
 
-Airlines and ferry operators are defined once and then reused by every trip.
+Airlines and ferry, bus and taxi companies are defined once and then reused by
+every trip.
 
 1. In the editor, open **Companies**.
-2. Add the operator with an **id**, a display **name**, and a **logo**.
-3. In a trip, pick the operator from the dropdown on a flight or ferry leg.
+2. Add the operator with an **id**, a display **name**, its **type**, and a
+   **logo**.
+3. In a trip, pick the operator from the dropdown on a ride of that type.
+
+The type decides which rides offer the company and where it is listed on the
+statistics page. A company with no type is offered on every ride and listed by
+the rides it ran.
 
 The **id** is what your trips store, and it must match exactly — use lowercase
 with underscores, like `ryanair` or `ita_airways`. If a company shows up on the

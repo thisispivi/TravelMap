@@ -264,11 +264,19 @@
   },
   "companyEditor": {
     "title": "Compagnie di trasporto",
-    "hint": "Gestisci le compagnie aeree e di traghetti disponibili nelle tratte.",
+    "hint": "Gestisci le compagnie aeree, di traghetti, di autobus e di taxi disponibili nelle tratte.",
     "addCompanyId": "Id nuova compagnia",
     "readyToAdd": "Pronto per l'aggiunta.",
     "add": "Aggiungi compagnia",
     "name": "Nome",
+    "mode": "Tipo",
+    "anyMode": "Qualsiasi tipo",
+    "modes": {
+      "plane": "Compagnia aerea",
+      "ferry": "Traghetti",
+      "bus": "Autobus",
+      "taxi": "Taxi"
+    },
     "logo": "Logo",
     "removeCompany": "Rimuovi {{id}}",
     "remove": "Rimuovi",

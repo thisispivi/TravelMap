@@ -2,6 +2,7 @@ import { Continent } from "@travelmap/core";
 
 import { tripAlbums } from "@/data/albums";
 import {
+  siteConfig,
   takenFerries,
   takenFlights,
   visitedCities,
@@ -15,8 +16,8 @@ import { getContinentStats } from "./continents";
 import { getCurrencyCountries } from "./countries";
 import { getFurthestAndNearestCity, getMinAndMaxTransport } from "./distance";
 import {
-  getCompanyStats,
   getCountryVisitStats,
+  getOperatorGroups,
   getTransportModeStats,
 } from "./transport";
 
@@ -75,7 +76,6 @@ function computeStats() {
   const km = Math.round(modes.reduce((sum, mode) => sum + mode.km, 0));
 
   return {
-    airlines: getCompanyStats(takenFlights),
     aroundEarth: km / constants.EARTH_CIRCUMFERENCE,
     avgTripDays:
       visitedTrips.length > 0 ? Math.round(totalDays / visitedTrips.length) : 0,
@@ -90,13 +90,16 @@ function computeStats() {
     countriesByCities: getCountryVisitStats(visitedCities),
     countryShare: visitedCountries.length / constants.TOTAL_COUNTRIES,
     currencies: getCurrencyCountries(visitedCountries),
-    ferryLines: getCompanyStats(takenFerries),
     furthestCity: places?.furthest,
     km,
     longestFerry: getMinAndMaxTransport(takenFerries)?.max,
     longestFlight: getMinAndMaxTransport(takenFlights)?.max,
     modes,
     nights: visitedTrips.reduce((sum, trip) => sum + trip.getNights(), 0),
+    operators: getOperatorGroups(
+      visitedTrips.flatMap((trip) => trip.getLegs()),
+      (company) => siteConfig?.companies?.[company]?.mode,
+    ),
     perYear: perYear(),
     photos: tripAlbums.reduce((sum, { album }) => sum + album.count, 0),
     shortestFlight: getMinAndMaxTransport(takenFlights)?.min,

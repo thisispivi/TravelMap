@@ -11,7 +11,7 @@ import {
   WorldSourcesSchema,
 } from "../schema";
 import { parseLocalDate } from "./date";
-import { resolveLegDistance, resolveLegDuration } from "./derive";
+import { legCompany, resolveLegDistance, resolveLegDuration } from "./derive";
 
 /**
  * Resolved domain data shared by the public app and local editor.
@@ -201,6 +201,7 @@ function resolveLeg(
   return {
     arrive: leg.arrive,
     arrivedAt: parseLocalDate(leg.arrive ?? day),
+    company: legCompany(leg),
     context,
     date: day,
     depart: leg.depart,
@@ -211,7 +212,6 @@ function resolveLeg(
       from.timeZone,
       to.timeZone,
     ),
-    ferryCompany: leg.ferry?.company,
     flight: leg.flight,
     from,
     mode: leg.mode,
