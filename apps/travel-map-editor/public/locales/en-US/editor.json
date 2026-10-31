@@ -60,8 +60,16 @@
     "noAirline": "No airline",
     "flightNumber": "Flight number",
     "cabinClass": "Cabin class",
-    "ferryCompany": "Ferry company",
-    "noFerryCompany": "No ferry company",
+    "company": {
+      "ferry": "Ferry company",
+      "bus": "Bus company",
+      "taxi": "Taxi company"
+    },
+    "noCompany": {
+      "ferry": "No ferry company",
+      "bus": "No bus company",
+      "taxi": "No taxi company"
+    },
     "photoFrom": "First photo",
     "photoTo": "Last photo",
     "photoRangeHint": "Only when another visit shares this gallery; numbers start at 1."
@@ -442,7 +450,9 @@
       "missingGallery": "Remove the reference",
       "identicalEndpoints": "Remove the ride",
       "flightOnNonFlight": "Remove the flight details",
-      "ferryOnNonFerry": "Remove the ferry details"
+      "ferryOnNonFerry": "Remove the ferry details",
+      "busOnNonBus": "Remove the bus details",
+      "taxiOnNonTaxi": "Remove the taxi details"
     }
   },
   "issues": {
@@ -466,6 +476,8 @@
       "arrivalBeforeDeparture": "The ride to {{to}} arrives before it leaves.",
       "flightOnNonFlight": "Flight details are recorded on a {{mode}} ride.",
       "ferryOnNonFerry": "Ferry details are recorded on a {{mode}} ride.",
+      "busOnNonBus": "Bus details are recorded on a {{mode}} ride.",
+      "taxiOnNonTaxi": "Taxi details are recorded on a {{mode}} ride.",
       "impossibleSpeed": "{{from}} to {{to}} in {{minutes}} minutes is faster than any of these modes travel.",
       "rangePastGallery": "{{city}}'s first photo ({{from}}) is past the end of its gallery of {{count}}, so it shows none."
     },

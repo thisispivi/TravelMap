@@ -61,7 +61,8 @@ starts empty and is ready for your own trips, places, and media. Read the
 
 - Create and edit trips through a visual itinerary workspace.
 - Search a worldwide city database or add a place from a Google Maps link.
-- Add stops, layovers, dates, transport modes, airlines, ferries, and logos.
+- Add stops, layovers, dates, transport modes, airlines, ferry, bus and taxi
+  companies, and logos.
 - Import GPX, KML, GeoJSON, CSV, JSON, and plain-text itineraries.
 - Validate the complete dataset and apply guided fixes before publishing.
 - Configure branding, locales, map defaults, media paths, and travel categories.

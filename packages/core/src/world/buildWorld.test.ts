@@ -167,6 +167,28 @@ describe("buildWorld", () => {
     ]);
   });
 
+  it("names the company of a bus ride, as it does a flight's", () => {
+    const steps = [
+      {
+        legs: [
+          {
+            bus: { company: "flixbus" },
+            mode: "bus" as const,
+            toId: "rome",
+          },
+        ],
+        type: "move" as const,
+      },
+      ...sources.trips[0]!.steps.slice(1),
+    ];
+    const { trips } = buildWorld({
+      ...sources,
+      trips: [{ ...sources.trips[0]!, steps }],
+    });
+
+    expect(trips[0]!.getLegs()[0]!.company).toBe("flixbus");
+  });
+
   it("names a ride's company only for the mode the ride has now", () => {
     const steps = [
       {

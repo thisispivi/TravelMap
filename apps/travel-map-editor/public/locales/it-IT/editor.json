@@ -60,8 +60,16 @@
     "noAirline": "Nessuna compagnia aerea",
     "flightNumber": "Numero di volo",
     "cabinClass": "Classe di viaggio",
-    "ferryCompany": "Compagnia di traghetti",
-    "noFerryCompany": "Nessuna compagnia di traghetti",
+    "company": {
+      "ferry": "Compagnia di traghetti",
+      "bus": "Compagnia di autobus",
+      "taxi": "Compagnia di taxi"
+    },
+    "noCompany": {
+      "ferry": "Nessuna compagnia di traghetti",
+      "bus": "Nessuna compagnia di autobus",
+      "taxi": "Nessuna compagnia di taxi"
+    },
     "photoFrom": "Prima foto",
     "photoTo": "Ultima foto",
     "photoRangeHint": "Solo se un'altra visita usa la stessa galleria; si parte da 1."
@@ -442,7 +450,9 @@
       "missingGallery": "Rimuovi il riferimento",
       "identicalEndpoints": "Rimuovi la tratta",
       "flightOnNonFlight": "Rimuovi i dettagli del volo",
-      "ferryOnNonFerry": "Rimuovi i dettagli del traghetto"
+      "ferryOnNonFerry": "Rimuovi i dettagli del traghetto",
+      "busOnNonBus": "Rimuovi i dettagli dell'autobus",
+      "taxiOnNonTaxi": "Rimuovi i dettagli del taxi"
     }
   },
   "issues": {
@@ -466,6 +476,8 @@
       "arrivalBeforeDeparture": "La tratta per {{to}} arriva prima di partire.",
       "flightOnNonFlight": "Dettagli del volo registrati su una tratta in {{mode}}.",
       "ferryOnNonFerry": "Dettagli del traghetto registrati su una tratta in {{mode}}.",
+      "busOnNonBus": "Dettagli dell'autobus registrati su una tratta in {{mode}}.",
+      "taxiOnNonTaxi": "Dettagli del taxi registrati su una tratta in {{mode}}.",
       "impossibleSpeed": "Da {{from}} a {{to}} in {{minutes}} minuti è più veloce di qualsiasi mezzo.",
       "rangePastGallery": "La prima foto di {{city}} ({{from}}) supera la fine della sua galleria di {{count}}, quindi non ne mostra nessuna."
     },

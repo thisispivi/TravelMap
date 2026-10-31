@@ -20,6 +20,10 @@ export function legCompany(leg: TripLegJson): CompanyId | undefined {
       return leg.flight?.company;
     case "ferry":
       return leg.ferry?.company;
+    case "bus":
+      return leg.bus?.company;
+    case "taxi":
+      return leg.taxi?.company;
     default:
       return undefined;
   }

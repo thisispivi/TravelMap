@@ -272,6 +272,23 @@ describe("authored transport legs", () => {
     ).toBe(true);
   });
 
+  it("accepts a company on a bus or a taxi ride", () => {
+    expect(
+      TripJsonSchema.safeParse({
+        ...trip,
+        steps: [
+          {
+            legs: [
+              { bus: { company: "flixbus" }, mode: "bus", toId: "tokyo" },
+              { mode: "taxi", taxi: { company: "mk" }, toId: "tokyo" },
+            ],
+            type: "move",
+          },
+        ],
+      }).success,
+    ).toBe(true);
+  });
+
   it("rejects an empty operator id rather than storing a blank name", () => {
     expect(
       TripJsonSchema.safeParse({
