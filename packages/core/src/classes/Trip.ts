@@ -53,7 +53,7 @@ interface RowConstraints {
  * @property {RowConstraints} [rowConstraints] - Gallery row overrides
  * @property {number} [targetRowHeight] - Gallery row height override
  * @property {FlightDetails} [flight] - Airline details
- * @property {CompanyId} [ferryCompany] - The ferry operator
+ * @property {CompanyId} [company] - The company that ran the ride
  */
 export interface TripLeg {
   context: "move" | "outing";
@@ -72,7 +72,7 @@ export interface TripLeg {
   rowConstraints?: RowConstraints;
   targetRowHeight?: number;
   flight?: FlightDetails;
-  ferryCompany?: CompanyId;
+  company?: CompanyId;
 }
 
 /**
@@ -419,7 +419,7 @@ export class Trip {
             new Ferry({
               sCity: leg.from,
               eCity: leg.to,
-              company: leg.ferryCompany,
+              company: leg.company,
               sDate: leg.depart ? parseLocalDate(leg.depart) : undefined,
               eDate: leg.arrive ? parseLocalDate(leg.arrive) : undefined,
               via: leg.via,

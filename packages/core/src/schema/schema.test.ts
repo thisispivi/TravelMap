@@ -234,6 +234,27 @@ describe("authored stays and moves", () => {
   });
 });
 
+describe("transport companies", () => {
+  it("accepts a company tagged with what it runs, or not tagged yet", () => {
+    expect(
+      SiteConfigSchema.safeParse({
+        companies: {
+          flixbus: { mode: "bus", name: "FlixBus" },
+          ryanair: { name: "Ryanair" },
+        },
+      }).success,
+    ).toBe(true);
+  });
+
+  it("rejects a tag for a mode that records no company", () => {
+    expect(
+      SiteConfigSchema.safeParse({
+        companies: { boots: { mode: "walk", name: "Boots" } },
+      }).success,
+    ).toBe(false);
+  });
+});
+
 describe("authored transport legs", () => {
   const leg = { mode: "plane", toId: "tokyo" };
 

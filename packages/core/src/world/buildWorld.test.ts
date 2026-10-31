@@ -167,6 +167,28 @@ describe("buildWorld", () => {
     ]);
   });
 
+  it("names a ride's company only for the mode the ride has now", () => {
+    const steps = [
+      {
+        legs: [
+          {
+            flight: { company: "ryanair" },
+            mode: "train" as const,
+            toId: "rome",
+          },
+        ],
+        type: "move" as const,
+      },
+      ...sources.trips[0]!.steps.slice(1),
+    ];
+    const { trips } = buildWorld({
+      ...sources,
+      trips: [{ ...sources.trips[0]!, steps }],
+    });
+
+    expect(trips[0]!.getLegs()[0]!.company).toBeUndefined();
+  });
+
   it("dates every day-trip leg with the day trip", () => {
     const [outing] = buildWorld(sources).trips[0]!.stays[0]!.outings;
 

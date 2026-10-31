@@ -1,12 +1,13 @@
 import {
   City,
   CompanyId,
+  CompanyMode,
+  CompanyModeSchema,
   Country,
-  Ferry,
-  Flight,
   TransportMode,
   TransportModeSchema,
   Trip,
+  TripLeg,
 } from "@travelmap/core";
 
 /**
@@ -53,9 +54,19 @@ export interface TransportModeStat {
  * @property {CompanyId} company - The operator id, named by the site configuration
  * @property {number} count - The number of recorded journeys
  */
-export interface CompanyStat {
+interface CompanyStat {
   company: CompanyId;
   count: number;
+}
+
+/**
+ * The operators of one kind of transport.
+ * @property {CompanyMode} mode - What they run
+ * @property {CompanyStat[]} companies - The operators, most used first
+ */
+export interface OperatorGroup {
+  mode: CompanyMode;
+  companies: CompanyStat[];
 }
 
 /**
@@ -88,18 +99,38 @@ export function getTransportModeStats(trips: Trip[]): TransportModeStat[] {
 }
 
 /**
- * Rank transport operators by how many of the given journeys they carried.
- * Journeys with no recorded operator are skipped rather than grouped under a
- * blank name.
- * @param {(Flight | Ferry)[]} journeys - Taken flights or ferry crossings
- * @returns {CompanyStat[]} Stats per operator sorted by count descending
+ * Ranks the operators of each kind of transport by how many rides they ran, so
+ * a flight and a crossing never compete for the same place. A company's own tag
+ * says which kind it belongs to; one not tagged yet goes by the ride. Rides with
+ * no recorded operator are skipped rather than grouped under a blank name, and a
+ * kind nobody used is left out.
+ * @param {Pick<TripLeg, "company" | "mode">[]} legs - The rides taken
+ * @param {(company: CompanyId) => CompanyMode | undefined} modeOf - Reads a company's tag
+ * @returns {OperatorGroup[]} One group per kind used
  */
-export function getCompanyStats(journeys: (Flight | Ferry)[]): CompanyStat[] {
-  const counts = new Map<CompanyId, number>();
-  for (const { company } of journeys) {
-    if (company) counts.set(company, (counts.get(company) ?? 0) + 1);
+export function getOperatorGroups(
+  legs: Pick<TripLeg, "company" | "mode">[],
+  modeOf: (company: CompanyId) => CompanyMode | undefined,
+): OperatorGroup[] {
+  const counts = new Map<TransportMode, Map<CompanyId, number>>();
+  for (const { company, mode } of legs) {
+    if (!company) continue;
+    const group = modeOf(company) ?? mode;
+    const companies = counts.get(group) ?? new Map<CompanyId, number>();
+    companies.set(company, (companies.get(company) ?? 0) + 1);
+    counts.set(group, companies);
   }
-  return [...counts.entries()]
-    .map(([company, count]) => ({ company, count }))
-    .sort((first, second) => second.count - first.count);
+  return CompanyModeSchema.options.flatMap((mode) => {
+    const companies = counts.get(mode);
+    return companies
+      ? [
+          {
+            companies: [...companies]
+              .map(([company, count]) => ({ company, count }))
+              .sort((first, second) => second.count - first.count),
+            mode,
+          },
+        ]
+      : [];
+  });
 }

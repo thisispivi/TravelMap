@@ -39,7 +39,7 @@ import { CONTINENT_COLORS } from "@/shared/lib/continentColors";
 
 import { getCurrencyDisplay } from "../../lib/countries";
 import { stats } from "../../lib/stats";
-import { CompanyStat } from "../../lib/transport";
+import { OperatorGroup as OperatorGroupStat } from "../../lib/transport";
 import { StatBars } from "../StatBars/StatBars";
 
 /** Which tile of the bento a card is, which decides how many columns it spans. */
@@ -631,39 +631,30 @@ function RecordsTile(): ReactNode {
 
 /**
  * Properties accepted by the OperatorGroup component.
- * @property {ReactNode} icon - The kind of transport, drawn beside the heading
- * @property {string} title - What kind of operators these are
- * @property {CompanyStat[]} companies - The operators, most used first
+ * @property {OperatorGroupStat} group - The kind of transport and its operators
  */
 interface OperatorGroupProps {
-  icon: ReactNode;
-  title: string;
-  companies: CompanyStat[];
+  group: OperatorGroupStat;
 }
 
 /**
  * OperatorGroup component
  * One kind of operator under its own heading, each with its logo and how many
- * journeys it carried. A kind never used leaves no empty heading behind.
+ * journeys it carried.
  * @component
  * @param {OperatorGroupProps} props - The group props
- * @param {ReactNode} props.icon - The kind of transport
- * @param {string} props.title - What kind of operators these are
- * @param {CompanyStat[]} props.companies - The operators, most used first
+ * @param {OperatorGroupStat} props.group - The kind of transport and its operators
  * @returns {ReactNode} The group
  */
-function OperatorGroup({
-  icon,
-  title,
-  companies,
-}: OperatorGroupProps): ReactNode {
-  if (companies.length === 0) return null;
+function OperatorGroup({ group }: OperatorGroupProps): ReactNode {
+  const { t } = useLanguage(["home"]);
+  const { companies, mode } = group;
 
   return (
     <section className="stats-tile__operator-group">
       <h3 className="stats-tile__operator-heading">
-        {icon}
-        {title}
+        <TransportModeIcon mode={mode} />
+        {t(`stats.operatorGroup.${mode}`)}
       </h3>
       <ul className="stats-tile__operators">
         {companies.slice(0, 12).map(({ company, count }) => {
@@ -695,8 +686,8 @@ function OperatorGroup({
 
 /**
  * OperatorsTile component
- * One tile of the statistics bento: the airlines and the ferry lines used, kept
- * apart, since a flight and a crossing are not rivals for the same place.
+ * One tile of the statistics bento: the companies used, kept apart by what they
+ * run, since a flight and a crossing are not rivals for the same place.
  * @component
  * @returns {ReactNode} The tile
  */
@@ -706,16 +697,9 @@ function OperatorsTile(): ReactNode {
   return (
     <Card area="operators" title={t("stats.operators")}>
       <div className="stats-tile__operator-groups">
-        <OperatorGroup
-          companies={stats.airlines}
-          icon={<Plane aria-hidden="true" />}
-          title={t("stats.airlines")}
-        />
-        <OperatorGroup
-          companies={stats.ferryLines}
-          icon={<Ship aria-hidden="true" />}
-          title={t("stats.ferryLines")}
-        />
+        {stats.operators.map((group) => (
+          <OperatorGroup group={group} key={group.mode} />
+        ))}
       </div>
     </Card>
   );
@@ -890,9 +874,7 @@ export function StatsPage(): ReactNode {
             />
           </Card>
 
-          {stats.airlines.length + stats.ferryLines.length > 0 ? (
-            <OperatorsTile />
-          ) : null}
+          {stats.operators.length > 0 ? <OperatorsTile /> : null}
         </div>
       </div>
     </PanelFrame>

@@ -158,9 +158,13 @@
     "currencies": "Currencies used",
     "modes": "Getting around",
     "records": "Records",
-    "operators": "Airlines and ferry lines",
-    "airlines": "Airlines",
-    "ferryLines": "Ferry lines",
+    "operators": "Transport companies",
+    "operatorGroup": {
+      "plane": "Airlines",
+      "ferry": "Ferry lines",
+      "bus": "Bus companies",
+      "taxi": "Taxi companies"
+    },
     "longestFlight": "Longest flight",
     "shortestFlight": "Shortest flight",
     "longestFerry": "Longest ferry",

@@ -74,8 +74,7 @@ interface LegCardProps {
  */
 function LegStub({ leg }: LegCardProps): ReactNode {
   const { t } = useLanguage(["home"]);
-  const operatorId = leg.flight?.company ?? leg.ferryCompany;
-  const operator = operatorId ? resolveCompany(operatorId) : undefined;
+  const operator = leg.company ? resolveCompany(leg.company) : undefined;
   const number = leg.flight?.number;
 
   return (

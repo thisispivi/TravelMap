@@ -264,11 +264,19 @@
   },
   "companyEditor": {
     "title": "Transport companies",
-    "hint": "Manage the airlines and ferry operators available on transport legs.",
+    "hint": "Manage the airlines and the ferry, bus and taxi companies available on rides.",
     "addCompanyId": "New company id",
     "readyToAdd": "Ready to add.",
     "add": "Add company",
     "name": "Name",
+    "mode": "Type",
+    "anyMode": "Any type",
+    "modes": {
+      "plane": "Airline",
+      "ferry": "Ferry",
+      "bus": "Bus",
+      "taxi": "Taxi"
+    },
     "logo": "Logo",
     "removeCompany": "Remove {{id}}",
     "remove": "Remove",

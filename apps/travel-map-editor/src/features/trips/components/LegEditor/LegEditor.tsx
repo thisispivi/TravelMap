@@ -2,6 +2,8 @@ import "./LegEditor.scss";
 
 import {
   CityJson,
+  CompanyMode,
+  legCompany,
   resolveLegDistance,
   resolveLegDuration,
   TransportMode,
@@ -35,14 +37,25 @@ import { cityOptions } from "@/shared/lib/placeOptions";
 import { PhotosField } from "../PhotosField/PhotosField";
 
 /**
- * Lists the transport operators a fork has configured, with their logo when
- * one is set.
+ * Lists the operators a ride can name, with their logo when one is set: those
+ * tagged with its mode, any not tagged yet, and whichever it already names, so
+ * a retagged company does not vanish from the rides that use it.
  * @param {DatasetSnapshot} dataset - The current dataset
+ * @param {CompanyMode} mode - The kind of ride
+ * @param {string} [current] - The company the ride names now
  * @returns {ComboboxOption[]} Company options
  */
-function companyOptions(dataset: DatasetSnapshot): ComboboxOption[] {
+function companyOptions(
+  dataset: DatasetSnapshot,
+  mode: CompanyMode,
+  current?: string,
+): ComboboxOption[] {
   const companies = dataset.config.value.companies ?? {};
   return Object.keys(companies)
+    .filter((id) => {
+      const companyMode = companies[id]?.mode;
+      return !companyMode || companyMode === mode || id === current;
+    })
     .sort()
     .map((id) => ({
       iconUrl: resolveLogoUrl(companies[id]?.logo),
@@ -180,7 +193,7 @@ export function LegEditor({
     distance && from && to
       ? resolveLegDuration(leg, distance.value, from.timeZone, to.timeZone)
       : undefined;
-  const operator = leg.flight?.company ?? leg.ferry?.company;
+  const operator = legCompany(leg);
   const departs = leg.depart?.split("T")[1];
   const arrives = leg.arrive?.split("T")[1];
   const times =
@@ -334,7 +347,7 @@ export function LegEditor({
                     flight: { ...leg.flight, company: company || undefined },
                   })
                 }
-                options={companyOptions(dataset)}
+                options={companyOptions(dataset, "plane", leg.flight?.company)}
                 value={leg.flight?.company ?? ""}
               />
               <TextField
@@ -369,7 +382,7 @@ export function LegEditor({
                   ferry: { ...leg.ferry, company: company || undefined },
                 })
               }
-              options={companyOptions(dataset)}
+              options={companyOptions(dataset, "ferry", leg.ferry?.company)}
               value={leg.ferry?.company ?? ""}
             />
           ) : null}

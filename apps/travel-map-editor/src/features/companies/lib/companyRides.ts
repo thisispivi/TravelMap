@@ -1,12 +1,11 @@
-import { CityJson, TripJson, walkTripLegs } from "@travelmap/core";
+import { CityJson, legCompany, TripJson, walkTripLegs } from "@travelmap/core";
 
 import type { DataFile } from "@/data/store";
 import type { MapRoute } from "@/shared/context/MapScene.context";
 import { legMapId } from "@/shared/lib/tripScene";
 
 /**
- * Gathers every ride made with each operator across all trips, as map lines:
- * a flight by its airline, a crossing by its ferry line.
+ * Gathers every ride made with each operator across all trips, as map lines.
  * @param {DataFile<TripJson>[]} trips - Every trip document
  * @param {Map<string, CityJson>} cityById - The dataset's cities
  * @returns {Map<string, MapRoute[]>} Rides by operator id
@@ -18,7 +17,7 @@ export function companyRides(
   const rides = new Map<string, MapRoute[]>();
   for (const { value: trip } of trips)
     for (const { fromId, index, leg, legIndex, outing } of walkTripLegs(trip)) {
-      const operator = leg.flight?.company ?? leg.ferry?.company;
+      const operator = legCompany(leg);
       const from = cityById.get(fromId);
       const to = cityById.get(leg.toId);
       if (!operator || !from || !to) continue;

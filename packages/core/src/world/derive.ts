@@ -1,6 +1,29 @@
-import type { TransportMode, TripJson, TripLegJson } from "../schema";
+import type {
+  CompanyId,
+  TransportMode,
+  TripJson,
+  TripLegJson,
+} from "../schema";
 import { zonedDurationMinutes } from "./date";
 import { getCoordinatesDistance } from "./distance";
+
+/**
+ * Reads the company that ran a ride. It goes by the ride's mode because changing
+ * a ride's mode leaves its old details behind, and a train once authored as a
+ * flight must not keep counting for the airline.
+ * @param {TripLegJson} leg - The authored ride
+ * @returns {CompanyId | undefined} The company, when this kind of ride records one
+ */
+export function legCompany(leg: TripLegJson): CompanyId | undefined {
+  switch (leg.mode) {
+    case "plane":
+      return leg.flight?.company;
+    case "ferry":
+      return leg.ferry?.company;
+    default:
+      return undefined;
+  }
+}
 
 /**
  * A map camera position in the authored scale the dataset stores.

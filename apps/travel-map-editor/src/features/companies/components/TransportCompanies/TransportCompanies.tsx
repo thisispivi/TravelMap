@@ -1,10 +1,11 @@
 import "./TransportCompanies.scss";
 
-import { Company, SiteConfig } from "@travelmap/core";
+import { Company, CompanyModeSchema, SiteConfig } from "@travelmap/core";
 import { Button } from "@travelmap/ui/components/Button/Button";
 import { EmptyState } from "@travelmap/ui/components/EmptyState/EmptyState";
 import { PanelFrame } from "@travelmap/ui/components/PanelFrame/PanelFrame";
 import { PanelHeader } from "@travelmap/ui/components/PanelHeader/PanelHeader";
+import { TransportModeIcon } from "@travelmap/ui/components/TransportModeIcon/TransportModeIcon";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { classNames } from "@travelmap/ui/lib/classNames";
 import { Building2, ChevronDown, Plus, Trash2 } from "lucide-react";
@@ -13,6 +14,7 @@ import { ReactNode, useState } from "react";
 import { resolveLogoUrl } from "@/data/dataset";
 import { idError } from "@/data/paths";
 import { DataFile, saveDocument } from "@/data/store";
+import { Combobox } from "@/shared/components/Combobox/Combobox";
 import { useConfirm } from "@/shared/components/ConfirmDialog/ConfirmDialog";
 import { TextField } from "@/shared/components/Fields/Fields";
 import { ImageUploadField } from "@/shared/components/ImageUploadField/ImageUploadField";
@@ -95,12 +97,14 @@ export function TransportCompanies({
   }
 
   /**
-   * Adds an empty company entry after its stable identifier is validated.
+   * Adds an empty company entry after its stable identifier is validated, and
+   * opens it, since it still needs a type, a name and a logo.
    * @returns {void}
    */
   function addCompany(): void {
     if (companyIdProblem) return;
     setCompany(newCompanyId, { name: newCompanyId });
+    setOpenId(newCompanyId);
     setNewCompanyId("");
   }
 
@@ -174,6 +178,12 @@ export function TransportCompanies({
                     {company.name || id}
                     <code className="transport-companies__id">{id}</code>
                   </span>
+                  {company.mode ? (
+                    <TransportModeIcon
+                      className="transport-companies__mode"
+                      mode={company.mode}
+                    />
+                  ) : null}
                   <span className="transport-companies__rides">
                     {t("companyEditor.rideCount", {
                       count: ridesByCompany.get(id)?.length ?? 0,
@@ -190,6 +200,23 @@ export function TransportCompanies({
                       label={t("companyEditor.name")}
                       onChange={(name) => setCompany(id, { ...company, name })}
                       value={company.name}
+                    />
+                    <Combobox
+                      emptyLabel={t("companyEditor.anyMode")}
+                      label={t("companyEditor.mode")}
+                      onChange={(next) =>
+                        setCompany(id, {
+                          ...company,
+                          mode: CompanyModeSchema.options.find(
+                            (mode) => mode === next,
+                          ),
+                        })
+                      }
+                      options={CompanyModeSchema.options.map((mode) => ({
+                        label: t(`companyEditor.modes.${mode}`),
+                        value: mode,
+                      }))}
+                      value={company.mode ?? ""}
                     />
                     <ImageUploadField
                       fileNameHint={id}

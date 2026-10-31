@@ -76,6 +76,13 @@
     font-weight: 500;
   }
 
+  &__mode {
+    flex: none;
+    width: 1rem;
+    height: 1rem;
+    color: v.$ink3;
+  }
+
   &__rides {
     color: v.$ink3;
     font-size: v.$caption;
