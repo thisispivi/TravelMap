@@ -13,6 +13,17 @@ import { createPortal } from "react-dom";
 const WEEKDAY_COUNT = 7;
 const CALENDAR_CELLS = 42;
 const PANEL_WIDTH_REM = 17.5;
+const CHOICES_PER_VIEW = 12;
+
+/** Which grid the calendar panel is showing. */
+type CalendarView = "days" | "months" | "years";
+
+/** How many months the arrows move in each view: a month, a year, a page of years. */
+const VIEW_STEP_MONTHS: Record<CalendarView, number> = {
+  days: 1,
+  months: 12,
+  years: 12 * CHOICES_PER_VIEW,
+};
 
 /** Short weekday names for the calendar's header row. */
 const WEEKDAY_FORMAT = new Intl.DateTimeFormat(undefined, { weekday: "short" });
@@ -22,10 +33,12 @@ const VALUE_FORMAT = new Intl.DateTimeFormat(undefined, {
   dateStyle: "medium",
 });
 
-/** The month and year above the calendar grid. */
-const MONTH_FORMAT = new Intl.DateTimeFormat(undefined, {
-  month: "long",
-  year: "numeric",
+/** The month above the calendar grid. */
+const MONTH_FORMAT = new Intl.DateTimeFormat(undefined, { month: "long" });
+
+/** A month in the grid of months. */
+const SHORT_MONTH_FORMAT = new Intl.DateTimeFormat(undefined, {
+  month: "short",
 });
 
 /**
@@ -98,6 +111,250 @@ function monthGrid(month: Date, firstDay: number): Date[] {
 }
 
 /**
+ * One month or year offered in place of the days.
+ * @property {number} value - The month index or the year
+ * @property {string} label - What the cell prints
+ * @property {boolean} isSelected - Whether it holds the chosen date
+ * @property {boolean} isCurrent - Whether it holds today
+ */
+interface CalendarChoice {
+  value: number;
+  label: string;
+  isSelected: boolean;
+  isCurrent: boolean;
+}
+
+/**
+ * Properties accepted by the ChoiceGrid component.
+ * @property {CalendarChoice[]} choices - The months or years to offer
+ * @property {(value: number) => void} onChoose - Picks one
+ */
+interface ChoiceGridProps {
+  choices: CalendarChoice[];
+  onChoose: (value: number) => void;
+}
+
+/**
+ * ChoiceGrid component
+ * The months of a year or a page of years, drawn in the same room as the days
+ * so the panel keeps its size while switching views.
+ * @component
+ * @param {ChoiceGridProps} props - The grid props
+ * @param {CalendarChoice[]} props.choices - The months or years to offer
+ * @param {(value: number) => void} props.onChoose - Picks one
+ * @returns {ReactNode} The grid
+ */
+function ChoiceGrid({ choices, onChoose }: ChoiceGridProps): ReactNode {
+  return (
+    <div className="date-picker__choices">
+      {choices.map(({ value, label, isSelected, isCurrent }) => (
+        <button
+          className={classNames(
+            "date-picker__day",
+            isSelected && "date-picker__day--selected",
+            isCurrent && "date-picker__day--today",
+          )}
+          key={value}
+          onClick={() => onChoose(value)}
+          type="button"
+        >
+          {label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+/**
+ * Properties accepted by the Calendar component.
+ * @property {string} datePart - The chosen YYYY-MM-DD, empty when there is none
+ * @property {number} firstDay - The locale's first weekday
+ * @property {(iso: string) => void} onPick - Chooses a day
+ * @property {Date | null} selected - The chosen date
+ * @property {string} today - Today as YYYY-MM-DD
+ */
+interface CalendarProps {
+  datePart: string;
+  firstDay: number;
+  onPick: (iso: string) => void;
+  selected: Date | null;
+  today: string;
+}
+
+/**
+ * Calendar component
+ * The days of one month, with the month and the year in its header opening a
+ * grid of them, so an old date is a few presses away rather than dozens of
+ * steps of the arrows. It exists only while the panel is open, so it always
+ * opens on the days of the chosen date.
+ * @component
+ * @param {CalendarProps} props - The calendar props
+ * @param {string} props.datePart - The chosen YYYY-MM-DD
+ * @param {number} props.firstDay - The locale's first weekday
+ * @param {(iso: string) => void} props.onPick - Chooses a day
+ * @param {Date | null} props.selected - The chosen date
+ * @param {string} props.today - Today as YYYY-MM-DD
+ * @returns {ReactNode} The calendar
+ */
+function Calendar({
+  datePart,
+  firstDay,
+  onPick,
+  selected,
+  today,
+}: CalendarProps): ReactNode {
+  const { t } = useLanguage(["editor"]);
+  const [month, setMonth] = useState(() => selected ?? new Date());
+  const [view, setView] = useState<CalendarView>("days");
+  const now = new Date();
+  const year = month.getFullYear();
+  const firstYear = year - (year % CHOICES_PER_VIEW);
+  const yearRange = `${firstYear}–${firstYear + CHOICES_PER_VIEW - 1}`;
+
+  /**
+   * Moves the visible month.
+   * @param {number} delta - Months to move by
+   * @returns {void}
+   */
+  function shiftMonth(delta: number): void {
+    setMonth(new Date(year, month.getMonth() + delta, 1));
+  }
+
+  /**
+   * Opens a grid of months or years, or returns to the days from it.
+   * @param {CalendarView} next - The grid the header button stands for
+   * @returns {void}
+   */
+  function toggleView(next: CalendarView): void {
+    setView(view === next ? "days" : next);
+  }
+
+  /**
+   * Shows a chosen month and year, and returns to its days.
+   * @param {number} nextYear - The year to show
+   * @param {number} nextMonth - The month index to show
+   * @returns {void}
+   */
+  function showMonth(nextYear: number, nextMonth: number): void {
+    setMonth(new Date(nextYear, nextMonth, 1));
+    setView("days");
+  }
+
+  return (
+    <>
+      <div className="date-picker__header">
+        <button
+          aria-label={t(`datePicker.previous.${view}`)}
+          className="date-picker__nav"
+          onClick={() => shiftMonth(-VIEW_STEP_MONTHS[view])}
+          type="button"
+        >
+          ‹
+        </button>
+        <span className="date-picker__heading">
+          <button
+            aria-label={t("datePicker.chooseMonth")}
+            aria-pressed={view === "months"}
+            className={classNames(
+              "date-picker__month",
+              view === "months" && "date-picker__month--active",
+            )}
+            onClick={() => toggleView("months")}
+            type="button"
+          >
+            {MONTH_FORMAT.format(month)}
+          </button>
+          <button
+            aria-label={t("datePicker.chooseYear")}
+            aria-pressed={view === "years"}
+            className={classNames(
+              "date-picker__month",
+              view === "years" && "date-picker__month--active",
+            )}
+            onClick={() => toggleView("years")}
+            type="button"
+          >
+            {view === "years" ? yearRange : year}
+          </button>
+        </span>
+        <button
+          aria-label={t(`datePicker.next.${view}`)}
+          className="date-picker__nav"
+          onClick={() => shiftMonth(VIEW_STEP_MONTHS[view])}
+          type="button"
+        >
+          ›
+        </button>
+      </div>
+      {view === "months" ? (
+        <ChoiceGrid
+          choices={Array.from(
+            { length: CHOICES_PER_VIEW },
+            (_unused, index) => ({
+              isCurrent: year === now.getFullYear() && index === now.getMonth(),
+              isSelected:
+                year === selected?.getFullYear() &&
+                index === selected.getMonth(),
+              label: SHORT_MONTH_FORMAT.format(new Date(2024, index, 1)),
+              value: index,
+            }),
+          )}
+          onChoose={(index) => showMonth(year, index)}
+        />
+      ) : null}
+      {view === "years" ? (
+        <ChoiceGrid
+          choices={Array.from(
+            { length: CHOICES_PER_VIEW },
+            (_unused, index) => ({
+              isCurrent: firstYear + index === now.getFullYear(),
+              isSelected: firstYear + index === selected?.getFullYear(),
+              label: String(firstYear + index),
+              value: firstYear + index,
+            }),
+          )}
+          onChoose={(chosen) => showMonth(chosen, month.getMonth())}
+        />
+      ) : null}
+      {view === "days" ? (
+        <>
+          <div className="date-picker__weekdays">
+            {weekdayLabels(firstDay).map((weekday) => (
+              <span className="date-picker__weekday" key={weekday}>
+                {weekday}
+              </span>
+            ))}
+          </div>
+          <div className="date-picker__grid">
+            {monthGrid(month, firstDay).map((date) => {
+              const iso = toLocalDate(date);
+              return (
+                <button
+                  className={classNames(
+                    "date-picker__day",
+                    date.getMonth() !== month.getMonth() &&
+                      "date-picker__day--outside",
+                    iso === datePart && "date-picker__day--selected",
+                    iso === today && "date-picker__day--today",
+                  )}
+                  key={iso}
+                  onClick={() => {
+                    onPick(iso);
+                  }}
+                  type="button"
+                >
+                  {date.getDate()}
+                </button>
+              );
+            })}
+          </div>
+        </>
+      ) : null}
+    </>
+  );
+}
+
+/**
  * DatePicker component
  * A calendar field. The native date input is replaced because its rendering
  * cannot be themed, and a trip's dates are compared side by side often enough
@@ -125,7 +382,6 @@ export function DatePicker({
   const [isOpen, setIsOpen] = useState(false);
   const [datePart, timePart] = splitValue(value);
   const selected = datePart ? new Date(`${datePart}T00:00:00`) : null;
-  const [month, setMonth] = useState(() => selected ?? new Date());
   const { container, position } = useAnchoredMenu(
     controlRef,
     isOpen,
@@ -185,14 +441,6 @@ export function DatePicker({
     );
   }
 
-  /**
-   * Moves the visible month.
-   * @param {number} delta - Months to move by
-   * @returns {void}
-   */
-  function shiftMonth(delta: number): void {
-    setMonth(new Date(month.getFullYear(), month.getMonth() + delta, 1));
-  }
   const formattedValue = selected ? VALUE_FORMAT.format(selected) : "";
   return (
     <div className="editor-field date-picker">
@@ -260,64 +508,21 @@ export function DatePicker({
                 }}
                 variants={menuVariants}
               >
-                <div className="date-picker__header">
-                  <button
-                    aria-label={t("datePicker.previousMonth")}
-                    className="date-picker__nav"
-                    onClick={() => shiftMonth(-1)}
-                    type="button"
-                  >
-                    ‹
-                  </button>
-                  <span className="date-picker__month">
-                    {MONTH_FORMAT.format(month)}
-                  </span>
-                  <button
-                    aria-label={t("datePicker.nextMonth")}
-                    className="date-picker__nav"
-                    onClick={() => shiftMonth(1)}
-                    type="button"
-                  >
-                    ›
-                  </button>
-                </div>
-                <div className="date-picker__weekdays">
-                  {weekdayLabels(firstDay).map((weekday) => (
-                    <span className="date-picker__weekday" key={weekday}>
-                      {weekday}
-                    </span>
-                  ))}
-                </div>
-                <div className="date-picker__grid">
-                  {monthGrid(month, firstDay).map((date) => {
-                    const iso = toLocalDate(date);
-                    return (
-                      <button
-                        className={classNames(
-                          "date-picker__day",
-                          date.getMonth() !== month.getMonth() &&
-                            "date-picker__day--outside",
-                          iso === datePart && "date-picker__day--selected",
-                          iso === today && "date-picker__day--today",
-                        )}
-                        key={iso}
-                        onClick={() => {
-                          emit(iso, timePart);
-                          setIsOpen(false);
-                        }}
-                        type="button"
-                      >
-                        {date.getDate()}
-                      </button>
-                    );
-                  })}
-                </div>
+                <Calendar
+                  datePart={datePart}
+                  firstDay={firstDay}
+                  onPick={(iso) => {
+                    emit(iso, timePart);
+                    setIsOpen(false);
+                  }}
+                  selected={selected}
+                  today={today}
+                />
                 <div className="date-picker__footer">
                   <Button
                     className="date-picker__today"
                     onClick={() => {
                       emit(today, timePart);
-                      setMonth(new Date());
                       setIsOpen(false);
                     }}
                   >
