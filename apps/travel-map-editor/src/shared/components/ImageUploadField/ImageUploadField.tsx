@@ -38,10 +38,11 @@ function readFileAsBase64(file: File): Promise<string> {
 }
 
 /**
- * Decodes a selected logo and returns only rasterized PNG pixels for preview.
- * SVG files can contain active markup, so their source text must never become
- * a browser-rendered URL even though the original vector remains the upload.
- * @param {File} file - The picked PNG or SVG file
+ * Decodes a selected PNG and returns only rasterized pixels for preview. An SVG
+ * gets no preview here: `createImageBitmap` refuses SVG in Chrome, and its source
+ * can contain active markup, so it must never become a browser-rendered URL. It
+ * shows once the server has checked and stored it.
+ * @param {File} file - The picked PNG file
  * @returns {Promise<string>} A canvas-produced PNG data URL
  */
 async function createRasterPreview(file: File): Promise<string> {
@@ -81,6 +82,7 @@ async function uploadAsset(
   const extension = file.name.slice(file.name.lastIndexOf("."));
   const response = await fetch(ASSET_WRITE_ENDPOINT, {
     body: JSON.stringify({ base64, filename: `${fileNameHint}${extension}` }),
+    headers: { "Content-Type": "application/json" },
     method: "POST",
   });
   const body = await parseJsonResponse(response, UploadResponseSchema);
@@ -128,7 +130,9 @@ export function ImageUploadField({
     setError(null);
     setIsUploading(true);
     try {
-      const preview = await createRasterPreview(file);
+      const preview = file.name.toLowerCase().endsWith(".svg")
+        ? null
+        : await createRasterPreview(file);
       const result = await uploadAsset(file, fileNameHint);
       if (typeof result === "string") {
         onUpload(result);
