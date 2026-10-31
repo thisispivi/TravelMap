@@ -39,31 +39,35 @@ function readFileAsBase64(file: File): Promise<string> {
 
 /**
  * Decodes a selected logo and returns only rasterized PNG pixels for preview.
- * SVG files can contain active markup, so their source text must never become
- * a browser-rendered URL even though the original vector remains the upload.
+ * SVG files can contain active markup, so the page only ever shows the resulting
+ * pixels. An image element decodes them because `createImageBitmap` refuses SVG
+ * in Chrome, and image elements neither run an SVG's scripts nor load its remote
+ * content. An SVG with no size of its own can report a natural size of zero.
  * @param {File} file - The picked PNG or SVG file
  * @returns {Promise<string>} A canvas-produced PNG data URL
  */
 async function createRasterPreview(file: File): Promise<string> {
-  const bitmap = await createImageBitmap(file);
+  const url = URL.createObjectURL(file);
   try {
-    if (bitmap.width < 1 || bitmap.height < 1)
-      throw new Error("The image has no visible dimensions.");
-
+    const image = document.createElement("img");
+    image.src = url;
+    await image.decode();
+    const width = image.naturalWidth || MAX_PREVIEW_EDGE;
+    const height = image.naturalHeight || MAX_PREVIEW_EDGE;
     const scale = Math.min(
       1,
-      MAX_PREVIEW_EDGE / bitmap.width,
-      MAX_PREVIEW_EDGE / bitmap.height,
+      MAX_PREVIEW_EDGE / width,
+      MAX_PREVIEW_EDGE / height,
     );
     const canvas = document.createElement("canvas");
-    canvas.width = Math.max(1, Math.round(bitmap.width * scale));
-    canvas.height = Math.max(1, Math.round(bitmap.height * scale));
+    canvas.width = Math.max(1, Math.round(width * scale));
+    canvas.height = Math.max(1, Math.round(height * scale));
     const context = canvas.getContext("2d");
     if (!context) throw new Error("Could not prepare the image preview.");
-    context.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+    context.drawImage(image, 0, 0, canvas.width, canvas.height);
     return canvas.toDataURL("image/png");
   } finally {
-    bitmap.close();
+    URL.revokeObjectURL(url);
   }
 }
 
@@ -81,6 +85,7 @@ async function uploadAsset(
   const extension = file.name.slice(file.name.lastIndexOf("."));
   const response = await fetch(ASSET_WRITE_ENDPOINT, {
     body: JSON.stringify({ base64, filename: `${fileNameHint}${extension}` }),
+    headers: { "Content-Type": "application/json" },
     method: "POST",
   });
   const body = await parseJsonResponse(response, UploadResponseSchema);
