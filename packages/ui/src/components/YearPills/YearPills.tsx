@@ -1,11 +1,11 @@
 import "./YearPills.scss";
 
-import { classNames } from "@travelmap/ui/lib/classNames";
-import { panelSpring } from "@travelmap/ui/lib/motion";
 import { m } from "framer-motion";
 import { KeyboardEvent, ReactNode, useEffect, useRef } from "react";
 
-import { radioTarget } from "@/shared/lib/keyboard";
+import { classNames } from "../../lib/classNames";
+import { radioTarget } from "../../lib/keyboard";
+import { panelSpring } from "../../lib/motion";
 
 /**
  * One year a pill can select.

@@ -862,7 +862,7 @@ Not optional. The existing markers show the baseline:
   manual pattern below only when the element genuinely can't be a `<button>`.
 - For elements that can't be a native control: `role="button"` +
   `tabIndex={0}` **and** keyboard activation via the `isActivationKey` helper
-  (`shared/lib/keyboard`), never a hand-rolled key check:
+  (`@travelmap/ui/lib/keyboard`), never a hand-rolled key check:
 
   ```tsx
   onKeyDown={(event) => isActivationKey(event) && onSelectCity(city)}

@@ -5,8 +5,10 @@ import { Button } from "@travelmap/ui/components/Button/Button";
 import { CountryFlag } from "@travelmap/ui/components/CountryFlag/CountryFlag";
 import { PanelFrame } from "@travelmap/ui/components/PanelFrame/PanelFrame";
 import { PanelHeader } from "@travelmap/ui/components/PanelHeader/PanelHeader";
+import { YearPills } from "@travelmap/ui/components/YearPills/YearPills";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { classNames } from "@travelmap/ui/lib/classNames";
+import { bucketOf, bucketYears, fitSlots } from "@travelmap/ui/lib/yearBuckets";
 import {
   CheckCircle2,
   CircleAlert,
@@ -16,7 +18,7 @@ import {
   TriangleAlert,
 } from "lucide-react";
 import { ReactNode, SyntheticEvent, useState } from "react";
-import { Link } from "react-router";
+import { Link, useSearchParams } from "react-router";
 
 import { resolveMediaUrl } from "@/data/dataset";
 import { DataFile } from "@/data/store";
@@ -31,8 +33,12 @@ import {
   tripCountryIds,
   tripSearchTerms,
   tripThumbnail,
+  TripYearGroup,
 } from "../../lib/tripCards";
 import { NewTripDialog } from "../NewTripDialog/NewTripDialog";
+
+/** Pills shown before the row has been measured. */
+const DEFAULT_SLOTS = 5;
 
 /** Status treatment shown on a trip card. */
 type TripStatusTone = "ready" | "warning" | "blocking";
@@ -206,10 +212,12 @@ function TripCard({
 
 /**
  * Library component
- * The Trips tab: every trip, newest first and grouped by year, as the cards
- * the site shows, with a search and the way to start a new one. Pointing at a
- * card draws that trip on the map; otherwise the map shows every place the
- * trips have slept in.
+ * The Trips tab: the trips of one year at a time as the cards the site shows,
+ * switched with the site's year pills, with a search and the way to start a new
+ * one. Undated drafts stay on top whichever year is open, and a search looks
+ * through every year. The year lives in the URL, so coming back from a trip
+ * returns to it. Pointing at a card draws that trip on the map; otherwise the
+ * map shows every place the trips have slept in.
  * @component
  * @returns {ReactNode} The trips panel
  */
@@ -225,6 +233,24 @@ export function Library(): ReactNode {
     tripSearchTerms(value, cities),
   );
   const tripGroups = groupTripsByYear(matchingTrips);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [slots, setSlots] = useState(DEFAULT_SLOTS);
+  const datedYears = tripGroups.flatMap(({ trips, year }) =>
+    year ? [{ trips, year: Number(year) }] : [],
+  );
+  const buckets = bucketYears(datedYears, slots);
+  const yearParam = searchParams.get("year");
+  const currentYear =
+    (yearParam ? bucketOf(buckets, Number(yearParam)) : undefined) ??
+    buckets[0];
+  const visibleGroups: TripYearGroup[] = tripQuery
+    ? tripGroups
+    : [
+        ...tripGroups.filter(({ year }) => year === null),
+        ...(currentYear
+          ? [{ trips: currentYear.trips, year: String(currentYear.year) }]
+          : []),
+      ];
 
   useMapScene(
     preview
@@ -263,19 +289,41 @@ export function Library(): ReactNode {
             onChange={setTripQuery}
             value={tripQuery}
           />
+          {!tripQuery && currentYear ? (
+            <YearPills
+              id="library"
+              label={t("library.chooseYear")}
+              onChange={(year) =>
+                setSearchParams({ year: String(year) }, { replace: true })
+              }
+              onMeasure={(widths) =>
+                setSlots(fitSlots(widths, datedYears.length))
+              }
+              value={currentYear.year}
+              years={buckets.map(({ year, isOrEarlier }) => ({
+                ariaLabel: isOrEarlier
+                  ? t("library.orEarlier", { year })
+                  : undefined,
+                label: isOrEarlier ? `≤ ${year}` : undefined,
+                year,
+              }))}
+            />
+          ) : null}
         </PanelHeader>
       }
     >
       <div className="library">
-        {tripGroups.length > 0 ? (
-          tripGroups.map((group) => (
+        {visibleGroups.length > 0 ? (
+          visibleGroups.map((group) => (
             <section className="library__year" key={group.year ?? "drafts"}>
-              <h3 className="library__year-title">
-                {group.year ?? t("library.drafts")}
-                <span className="library__year-count">
-                  {group.trips.length}
-                </span>
-              </h3>
+              {tripQuery || group.year === null ? (
+                <h3 className="library__year-title">
+                  {group.year ?? t("library.drafts")}
+                  <span className="library__year-count">
+                    {group.trips.length}
+                  </span>
+                </h3>
+              ) : null}
               <ul className="library__trips">
                 {group.trips.map((trip) => (
                   <TripCard

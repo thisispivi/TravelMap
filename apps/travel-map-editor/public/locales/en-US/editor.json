@@ -218,6 +218,8 @@
     "pickCenterOnMap": "Tap the map to set the site's default centre."
   },
   "library": {
+    "chooseYear": "Choose a year",
+    "orEarlier": "{{year}} and earlier",
     "newTrip": "New trip",
     "welcome": "No trips yet",
     "welcomeHint": "A trip is the only thing you create here. The cities and countries it needs are written for you as you add places.",

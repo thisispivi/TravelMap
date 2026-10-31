@@ -4,19 +4,19 @@ import { Trip } from "@travelmap/core";
 import { EmptyState } from "@travelmap/ui/components/EmptyState/EmptyState";
 import { PanelFrame } from "@travelmap/ui/components/PanelFrame/PanelFrame";
 import { PanelHeader } from "@travelmap/ui/components/PanelHeader/PanelHeader";
+import { YearPills } from "@travelmap/ui/components/YearPills/YearPills";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { formatDateRangeShort } from "@travelmap/ui/i18n/date";
 import { easeOut, staggerItem } from "@travelmap/ui/lib/motion";
+import { bucketOf, bucketYears, fitSlots } from "@travelmap/ui/lib/yearBuckets";
 import { AnimatePresence, m, Variants } from "framer-motion";
 import { ReactNode, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 
 import { TripPhotoCard } from "@/shared/components/TripPhotoCard/TripPhotoCard";
-import { YearPills } from "@/shared/components/YearPills/YearPills";
 import { useMapInteraction } from "@/shared/context/MapInteraction.context";
 
 import { browsableTrips, groupByYear } from "../../lib/trips";
-import { bucketOf, bucketYears, fitSlots } from "../../lib/yearBuckets";
 
 /** The trip list's years, newest first; the record never changes while open. */
 const TRIP_YEARS = groupByYear(browsableTrips);
