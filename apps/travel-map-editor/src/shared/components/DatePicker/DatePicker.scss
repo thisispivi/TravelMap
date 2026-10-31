@@ -79,6 +79,7 @@
   padding: 0.85rem;
   border-radius: 0.85rem;
   overflow-y: auto;
+  scrollbar-width: none;
   transform-origin: top center;
   @include m.glass();
   color: v.$ink;
@@ -92,10 +93,34 @@
   margin-bottom: 0.6rem;
 }
 
+.date-picker__heading {
+  display: flex;
+  gap: 0.15rem;
+}
+
 .date-picker__month {
+  padding: 0.25rem 0.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+  background: transparent;
+  color: v.$ink;
   font-size: v.$bodySm;
   font-weight: 700;
   text-transform: capitalize;
+  cursor: pointer;
+  @include m.transition(background-color, 0.15s);
+
+  &--active {
+    background-color: v.$cardSunken;
+  }
+
+  &:focus-visible {
+    outline: 0.125rem solid v.$accent;
+  }
+
+  &:hover {
+    background-color: v.$cardSunken;
+  }
 }
 
 .date-picker__nav {
@@ -140,8 +165,18 @@
   color: v.$ink2;
 }
 
+/* As tall as the weekdays and days together, so the panel keeps its size. */
+.date-picker__choices {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 1fr;
+  gap: 0.15rem;
+  height: 13.15rem;
+}
+
+/* Short enough that the whole panel fits under the anchored menu's height cap. */
 .date-picker__day {
-  aspect-ratio: 1;
+  min-height: 1.85rem;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -76,8 +76,18 @@
   "datePicker": {
     "pickADate": "Scegli una data",
     "clear": "Rimuovi {{label}}",
-    "previousMonth": "Mese precedente",
-    "nextMonth": "Mese successivo",
+    "previous": {
+      "days": "Mese precedente",
+      "months": "Anno precedente",
+      "years": "Anni precedenti"
+    },
+    "next": {
+      "days": "Mese successivo",
+      "months": "Anno successivo",
+      "years": "Anni successivi"
+    },
+    "chooseMonth": "Scegli un mese",
+    "chooseYear": "Scegli un anno",
     "today": "Oggi",
     "time": "Ora"
   },
