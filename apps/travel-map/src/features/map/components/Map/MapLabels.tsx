@@ -8,7 +8,7 @@ import {
   countryLabelsGeoJson,
 } from "../../lib/mapData";
 
-const LABEL_FONT = ["Urbanist SemiBold"];
+const LABEL_FONT = ["Google Sans Flex SemiBold"];
 
 /**
  * Properties accepted by the map label layers.
