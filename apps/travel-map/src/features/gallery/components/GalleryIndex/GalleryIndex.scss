@@ -4,13 +4,20 @@
 .gallery-index {
   &__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(22.5rem, 1fr));
+    /*
+     * Cards shrink to half the row before the grid gives up a column, since one
+     * card across a tablet is far wider than the picture wants. Half a gap comes
+     * off each, and below 16rem a card is too narrow for its title.
+     */
+    grid-template-columns: repeat(
+      auto-fill,
+      minmax(min(22.5rem, max(calc(50% - #{v.$space2}), 16rem)), 1fr)
+    );
     gap: v.$space4;
     padding: v.$space2 v.$space6 v.$space6;
     list-style: none;
 
     @include m.compact() {
-      grid-template-columns: minmax(0, 1fr);
       gap: v.$space3;
       padding: v.$space2 v.$space4 v.$space5;
     }
