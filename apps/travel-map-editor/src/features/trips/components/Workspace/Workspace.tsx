@@ -298,7 +298,10 @@ export function Workspace({ file }: WorkspaceProps): ReactNode {
       <PanelFrame
         header={
           <header className="workspace__header">
-            <Link className="workspace__back" to="/">
+            <Link
+              className="workspace__back"
+              to={`/?year=${trip.sDate.slice(0, 4)}`}
+            >
               <ArrowLeft aria-hidden="true" />
               {t("workspace.backToLibrary")}
             </Link>

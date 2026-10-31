@@ -228,6 +228,8 @@
     "pickCenterOnMap": "Tocca la mappa per impostare il centro predefinito del sito."
   },
   "library": {
+    "chooseYear": "Scegli un anno",
+    "orEarlier": "{{year}} e precedenti",
     "newTrip": "Nuovo viaggio",
     "welcome": "Ancora nessun viaggio",
     "welcomeHint": "Il viaggio è l'unica cosa che crei qui. Le città e i paesi necessari vengono scritti per te mentre aggiungi luoghi.",

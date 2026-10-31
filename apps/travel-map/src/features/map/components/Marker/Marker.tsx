@@ -2,10 +2,9 @@ import "./Marker.scss";
 
 import { City } from "@travelmap/core";
 import { classNames } from "@travelmap/ui/lib/classNames";
+import { isActivationKey } from "@travelmap/ui/lib/keyboard";
 import { ReactNode } from "react";
 import { Marker as MapLibreMarker } from "react-map-gl/maplibre";
-
-import { isActivationKey } from "@/shared/lib/keyboard";
 
 /**
  * The visual state used to render a map marker.

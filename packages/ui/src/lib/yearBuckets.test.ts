@@ -1,11 +1,10 @@
-import { Trip } from "@travelmap/core";
 import { describe, expect, it } from "vitest";
 
 import { bucketOf, bucketYears, fitSlots } from "./yearBuckets";
 
 /* The buckets only move trips around, so a labelled stand-in is enough. */
 const years = [2026, 2025, 2024, 2022, 2019].map((year) => ({
-  trips: [String(year) as unknown as Trip],
+  trips: [String(year)],
   year,
 }));
 
