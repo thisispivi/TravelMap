@@ -48,3 +48,8 @@ auditConfig:
     # repository writes itself, and no fixed release exists yet (3.0.3 is the
     # latest). Drop this entry once braces publishes the patched version.
     - GHSA-vfj7-8cjw-p6xm
+    # minimatch denial of service through globparts amplification. Reached only
+    # through dev tooling (eslint and its plugins) that expands patterns this
+    # repository writes itself, and those consumers still ask for 3.x and 10.x,
+    # which get no fix. Drop this entry once they accept minimatch 11.0.1 or later.
+    - GHSA-g3hv-75wg-m249
