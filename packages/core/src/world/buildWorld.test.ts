@@ -104,6 +104,22 @@ const sources: WorldSources = {
 };
 
 describe("buildWorld", () => {
+  it("numbers a city's stays across trips in date order", () => {
+    const later = {
+      ...sources.trips[0]!,
+      eDate: "2027-05-06",
+      id: "a-later-rome",
+      sDate: "2027-05-01",
+    };
+    const { trips } = buildWorld({
+      ...sources,
+      trips: [later, ...sources.trips],
+    });
+
+    expect(trips.map((trip) => trip.stays[0]!.visitIndex)).toEqual([0, 1]);
+    expect(trips[1]!.id).toBe("a-later-rome");
+  });
+
   it.each(["cities", "countries", "trips"] as const)(
     "refuses duplicate %s identifiers instead of shadowing documents",
     (kind) => {

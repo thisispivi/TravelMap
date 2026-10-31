@@ -426,7 +426,7 @@ function StayCard({
         >
           <CoverImage
             className="stay-card__image"
-            src={stay.city.getBackgroundImgSourceByIndex(0)}
+            src={stay.city.getBackgroundImgSourceByIndex(stay.visitIndex)}
           />
           <span className="stay-card__title">
             <span className="stay-card__name">{name}</span>

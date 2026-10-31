@@ -137,6 +137,13 @@ export function buildWorld(sources: unknown): World {
         a.sDate.getTime() - b.sDate.getTime() || a.id.localeCompare(b.id),
     );
 
+  /* Counting needs every trip in date order, which one trip's resolver cannot see. */
+  const visitsByCity = new Map<string, number>();
+  for (const stay of trips.flatMap((trip) => trip.stays)) {
+    stay.visitIndex = visitsByCity.get(stay.city.id) ?? 0;
+    visitsByCity.set(stay.city.id, stay.visitIndex + 1);
+  }
+
   /**
    * Resolves configured city references against the shared city registry.
    * @param {string[]} [ids] - City ids listed in the site configuration
@@ -295,6 +302,7 @@ function resolveTrip(
       rowConstraints: step.rowConstraints,
       targetRowHeight: step.targetRowHeight,
       type: "stay",
+      visitIndex: 0,
     };
   });
 

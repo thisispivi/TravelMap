@@ -96,6 +96,7 @@ export interface TripOuting {
  * @property {RowConstraints} [rowConstraints] - Gallery row overrides
  * @property {number} [targetRowHeight] - Gallery row height override
  * @property {TripOuting[]} outings - Day trips taken from here
+ * @property {number} visitIndex - How many earlier stays this city has had, across all trips
  */
 export interface TripStay {
   type: "stay";
@@ -107,6 +108,7 @@ export interface TripStay {
   rowConstraints?: RowConstraints;
   targetRowHeight?: number;
   outings: TripOuting[];
+  visitIndex: number;
 }
 
 /**
