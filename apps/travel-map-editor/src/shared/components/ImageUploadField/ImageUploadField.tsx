@@ -38,36 +38,33 @@ function readFileAsBase64(file: File): Promise<string> {
 }
 
 /**
- * Decodes a selected logo and returns only rasterized PNG pixels for preview.
- * SVG files can contain active markup, so the page only ever shows the resulting
- * pixels. An image element decodes them because `createImageBitmap` refuses SVG
- * in Chrome, and image elements neither run an SVG's scripts nor load its remote
- * content. An SVG with no size of its own can report a natural size of zero.
- * @param {File} file - The picked PNG or SVG file
+ * Decodes a selected PNG and returns only rasterized pixels for preview. An SVG
+ * gets no preview here: `createImageBitmap` refuses SVG in Chrome, and its source
+ * can contain active markup, so it must never become a browser-rendered URL. It
+ * shows once the server has checked and stored it.
+ * @param {File} file - The picked PNG file
  * @returns {Promise<string>} A canvas-produced PNG data URL
  */
 async function createRasterPreview(file: File): Promise<string> {
-  const url = URL.createObjectURL(file);
+  const bitmap = await createImageBitmap(file);
   try {
-    const image = document.createElement("img");
-    image.src = url;
-    await image.decode();
-    const width = image.naturalWidth || MAX_PREVIEW_EDGE;
-    const height = image.naturalHeight || MAX_PREVIEW_EDGE;
+    if (bitmap.width < 1 || bitmap.height < 1)
+      throw new Error("The image has no visible dimensions.");
+
     const scale = Math.min(
       1,
-      MAX_PREVIEW_EDGE / width,
-      MAX_PREVIEW_EDGE / height,
+      MAX_PREVIEW_EDGE / bitmap.width,
+      MAX_PREVIEW_EDGE / bitmap.height,
     );
     const canvas = document.createElement("canvas");
-    canvas.width = Math.max(1, Math.round(width * scale));
-    canvas.height = Math.max(1, Math.round(height * scale));
+    canvas.width = Math.max(1, Math.round(bitmap.width * scale));
+    canvas.height = Math.max(1, Math.round(bitmap.height * scale));
     const context = canvas.getContext("2d");
     if (!context) throw new Error("Could not prepare the image preview.");
-    context.drawImage(image, 0, 0, canvas.width, canvas.height);
+    context.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
     return canvas.toDataURL("image/png");
   } finally {
-    URL.revokeObjectURL(url);
+    bitmap.close();
   }
 }
 
@@ -133,7 +130,9 @@ export function ImageUploadField({
     setError(null);
     setIsUploading(true);
     try {
-      const preview = await createRasterPreview(file);
+      const preview = file.name.toLowerCase().endsWith(".svg")
+        ? null
+        : await createRasterPreview(file);
       const result = await uploadAsset(file, fileNameHint);
       if (typeof result === "string") {
         onUpload(result);
