@@ -214,3 +214,21 @@
     object-fit: cover;
   }
 }
+
+/*
+ * Once the lightbox covers the album, the album's images leave rendering: the
+ * browser re-checks every lazy image for visibility on every frame of a swipe,
+ * which is most of a phone's frame in an album of a thousand photos. Their tiles
+ * keep the shape react-photo-album gave them, so the album keeps its height and
+ * scroll position, and its photo can take focus back.
+ */
+body:has(> .lightbox--covering) .gallery-album__tile {
+  aspect-ratio: calc(
+    var(--react-photo-album--photo-width) /
+      var(--react-photo-album--photo-height)
+  );
+
+  img {
+    display: none;
+  }
+}
