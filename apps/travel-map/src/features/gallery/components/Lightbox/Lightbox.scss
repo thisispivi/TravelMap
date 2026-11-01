@@ -1,16 +1,17 @@
 @use "variables" as v;
 @use "mixins" as m;
 
-/* Always dark, whatever the theme: photographs read best on near-black. */
+/*
+ * Always dark, whatever the theme: photographs read best on near-black. Opaque,
+ * so the compositor has nothing to blend or blur behind it on every frame.
+ */
 .lightbox {
   position: fixed;
   z-index: 20;
   inset: 0;
   display: grid;
   grid-template-rows: auto minmax(0, 1fr) auto;
-  background: rgba(8, 12, 20, 0.94);
-  -webkit-backdrop-filter: blur(1.5rem);
-  backdrop-filter: blur(1.5rem);
+  background: rgb(8, 12, 20);
   color: #ffffff;
   outline: none;
 
@@ -75,15 +76,36 @@
     }
   }
 
+  /*
+   * `pan-y` alone would forbid pinching too; naming `pinch-zoom` leaves both to
+   * the browser, and the lightbox keeps only the horizontal drag.
+   */
   &__stage {
     position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     overflow: hidden;
+    touch-action: pan-y pinch-zoom;
+
+    &--zoomed {
+      touch-action: auto;
+    }
+  }
+
+  &__track {
+    position: absolute;
+    inset: 0;
+
+    &--moving {
+      will-change: transform;
+
+      .lightbox__video {
+        pointer-events: none;
+      }
+    }
   }
 
   &__slide {
+    position: absolute;
+    top: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -91,7 +113,6 @@
     height: 100%;
     padding: 0 v.$space7;
     cursor: grab;
-    touch-action: pan-y;
 
     @include m.compact() {
       padding: 0;
@@ -116,6 +137,14 @@
     @include m.compact() {
       border-radius: 0;
     }
+  }
+
+  &__poster {
+    width: min(100%, 60rem);
+    aspect-ratio: 16 / 9;
+    border-radius: v.$radiusSm;
+    object-fit: cover;
+    user-select: none;
   }
 
   &__video {
@@ -183,5 +212,23 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+}
+
+/*
+ * Once the lightbox covers the album, the album's images leave rendering: the
+ * browser re-checks every lazy image for visibility on every frame of a swipe,
+ * which is most of a phone's frame in an album of a thousand photos. Their tiles
+ * keep the shape react-photo-album gave them, so the album keeps its height and
+ * scroll position, and its photo can take focus back.
+ */
+body:has(> .lightbox--covering) .gallery-album__tile {
+  aspect-ratio: calc(
+    var(--react-photo-album--photo-width) /
+      var(--react-photo-album--photo-height)
+  );
+
+  img {
+    display: none;
   }
 }
