@@ -7,7 +7,7 @@ import { formatDateRangeShort } from "@travelmap/ui/i18n/date";
 import { classNames } from "@travelmap/ui/lib/classNames";
 import { keepTabWithin } from "@travelmap/ui/lib/focus";
 import { easeOut } from "@travelmap/ui/lib/motion";
-import { AnimatePresence, m, PanInfo } from "framer-motion";
+import { animate, m, useMotionValue, useReducedMotion } from "framer-motion";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
@@ -17,6 +17,7 @@ import { env } from "@/shared/lib/env";
 
 import { albumPhotos } from "../../lib/album";
 import type { LightboxRouteData } from "../../loaders/Lightbox.loader";
+import { useLightboxTrack } from "./Lightbox.track";
 
 /*
  * The strip draws this many thumbnails either side of the open photo, so a
@@ -24,9 +25,11 @@ import type { LightboxRouteData } from "../../loaders/Lightbox.loader";
  */
 const STRIP_REACH = 30;
 
-/* A swipe this far, or this fast, turns the page. */
-const SWIPE_DISTANCE_PX = 80;
-const SWIPE_VELOCITY = 500;
+/*
+ * Slides further than one away are fetched and decoded too: the slide after
+ * the next mounts during the move, and must arrive ready to paint.
+ */
+const DECODE_REACH = [-2, -1, 1, 2];
 
 /**
  * Normalizes an absolute or configured YouTube embed source.
@@ -42,24 +45,39 @@ function youtubeEmbedSrc(original: string): string {
 
 /**
  * Properties accepted by the Slide component.
+ * @property {boolean} isPlayable - Whether a video may load its player
  * @property {PublishedImage} photo - The photo or video
  */
 interface SlideProps {
+  isPlayable: boolean;
   photo: PublishedImage;
 }
 
 /**
  * Slide component
- * The open photo at full size, or the embedded video. The thumbnail is drawn
- * underneath at once, so a slow original arrives over something rather than
- * over nothing.
+ * A photo at full size, or a video. The thumbnail is drawn underneath at once,
+ * so a slow original arrives over something rather than over nothing. A video
+ * is its thumbnail until it has come to rest in the middle, since building a
+ * player mid-swipe would stall the swipe.
  * @component
  * @param {SlideProps} props - The slide props
+ * @param {boolean} props.isPlayable - Whether a video may load its player
  * @param {PublishedImage} props.photo - The photo or video
  * @returns {ReactNode} The slide
  */
-function Slide({ photo }: SlideProps): ReactNode {
+function Slide({ isPlayable, photo }: SlideProps): ReactNode {
   const { t } = useLanguage(["home"]);
+
+  if (photo.youtube && !isPlayable)
+    return (
+      <img
+        alt={photo.alt ?? ""}
+        className="lightbox__poster"
+        decoding="async"
+        draggable={false}
+        src={mediaUrl(photo.thumbnail)}
+      />
+    );
 
   if (photo.youtube)
     return (
@@ -93,10 +111,11 @@ function Slide({ photo }: SlideProps): ReactNode {
 
 /**
  * Lightbox component
- * One photo of an album, full screen. Arrow keys, the side buttons, a swipe,
- * or the thumbnail strip move through the whole album; Escape or the close
- * button returns to it. Each move replaces the history entry, so Back closes
- * the lightbox instead of stepping through every photo seen.
+ * One photo of an album, full screen, with its neighbours beside it on a track
+ * that follows the finger. Arrow keys, the side buttons, a swipe, or the
+ * thumbnail strip move through the whole album; Escape or the close button
+ * returns to it. Each move replaces the history entry once it has settled, so
+ * Back closes the lightbox instead of stepping through every photo seen.
  * @component
  * @returns {ReactNode} The lightbox overlay
  */
@@ -108,36 +127,38 @@ export function Lightbox(): ReactNode {
   const data = useLoaderData<LightboxRouteData | undefined>();
   const photoIdx = data?.photoIdx ?? 0;
   const photos = data ? albumPhotos(data.album) : [];
-  const current = photos[photoIdx];
-  const stripStart = Math.max(0, photoIdx - STRIP_REACH);
-  const stripEnd = photoIdx + STRIP_REACH + 1;
+  const {
+    goTo,
+    handlePan,
+    handlePanEnd,
+    handlePointerDown,
+    index: shownIdx,
+    isMoving,
+    isZoomed,
+    step,
+    trackRef,
+    x,
+  } = useLightboxTrack({
+    count: photos.length,
+    onSettled: (index) =>
+      navigate(`../${index}`, {
+        relative: "path",
+        replace: true,
+        state: location.state,
+      }),
+    urlIndex: photoIdx,
+  });
+  const current = photos[shownIdx];
+  const stripStart = Math.max(0, shownIdx - STRIP_REACH);
+  const stripEnd = shownIdx + STRIP_REACH + 1;
+  const slidesStart = Math.max(0, shownIdx - 1);
   const dialogRef = useRef<HTMLDivElement>(null);
   const stripRef = useRef<HTMLDivElement>(null);
   const hasPlacedStripRef = useRef(false);
-  const currentIdx = useRef(photoIdx);
-  /* Which way the last move went, so the slides enter and leave from that side. */
-  const [step, setStep] = useState({ direction: 1, index: photoIdx });
-  if (step.index !== photoIdx)
-    setStep({ direction: photoIdx > step.index ? 1 : -1, index: photoIdx });
-  const { direction } = step;
-
-  useEffect(() => {
-    currentIdx.current = photoIdx;
-  }, [photoIdx]);
-
-  /**
-   * Opens another photo of the album, if there is one at that index.
-   * @param {number} index - The photo's album index
-   * @returns {void}
-   */
-  const goTo = (index: number): void => {
-    if (index < 0 || index >= photos.length) return;
-    navigate(`../${index}`, {
-      relative: "path",
-      replace: true,
-      state: location.state,
-    });
-  };
+  const opacity = useMotionValue(0);
+  /* Set once the fade has finished, when the album behind is fully covered. */
+  const [isCovering, setIsCovering] = useState(false);
+  const isReduced = useReducedMotion();
 
   /**
    * Returns to the album.
@@ -147,10 +168,10 @@ export function Lightbox(): ReactNode {
     navigate("..", { relative: "path", state: location.state });
   };
 
-  const goToRef = useRef(goTo);
+  const stepRef = useRef(step);
   const closeRef = useRef(close);
   useEffect(() => {
-    goToRef.current = goTo;
+    stepRef.current = step;
     closeRef.current = close;
   });
 
@@ -163,15 +184,22 @@ export function Lightbox(): ReactNode {
      */
     const handleKeyDown = (event: KeyboardEvent): void => {
       keepTabWithin(event, dialogRef.current);
-      if (event.key === "ArrowRight") goToRef.current(currentIdx.current + 1);
-      else if (event.key === "ArrowLeft")
-        goToRef.current(currentIdx.current - 1);
+      if (event.key === "ArrowRight") stepRef.current(1);
+      else if (event.key === "ArrowLeft") stepRef.current(-1);
       else if (event.key === "Escape") closeRef.current();
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
+
+  useEffect(() => {
+    const fade = animate(opacity, 1, {
+      ...easeOut,
+      onComplete: () => setIsCovering(true),
+    });
+    return () => fade.stop();
+  }, [opacity]);
 
   /* Focus moves into the dialog and back to whatever opened it on close. */
   useEffect(() => {
@@ -182,12 +210,17 @@ export function Lightbox(): ReactNode {
     };
   }, []);
 
-  /* The neighbours are fetched ahead, so the next swipe lands on a loaded photo. */
+  /* The neighbours are decoded ahead, so the next swipe lands on a painted photo. */
   useEffect(() => {
     const sequence = data ? albumPhotos(data.album) : [];
-    for (const neighbour of [sequence[photoIdx - 1], sequence[photoIdx + 1]]) {
-      if (neighbour && !neighbour.photo.youtube)
-        new Image().src = mediaUrl(neighbour.photo.original);
+    for (const reach of DECODE_REACH) {
+      const neighbour = sequence[shownIdx + reach];
+      if (neighbour && !neighbour.photo.youtube) {
+        const image = new Image();
+        image.src = mediaUrl(neighbour.photo.original);
+        /* A photo that cannot be decoded just stays on its thumbnail. */
+        image.decode().catch(() => undefined);
+      }
     }
     const strip = stripRef.current;
     const active = strip?.querySelector<HTMLElement>(
@@ -200,27 +233,11 @@ export function Lightbox(): ReactNode {
      * past, which stuttered in a large album.
      */
     strip.scrollTo({
-      behavior: hasPlacedStripRef.current ? "smooth" : "instant",
+      behavior: hasPlacedStripRef.current && !isReduced ? "smooth" : "instant",
       left: active.offsetLeft - (strip.clientWidth - active.offsetWidth) / 2,
     });
     hasPlacedStripRef.current = true;
-  }, [data, photoIdx]);
-
-  /**
-   * Turns the page when a drag was long or fast enough.
-   * @param {PointerEvent} _event - The pointer event that ended the drag
-   * @param {PanInfo} info - The drag's offset and velocity
-   * @returns {void}
-   */
-  const handleDragEnd = (_event: PointerEvent, info: PanInfo): void => {
-    if (info.offset.x < -SWIPE_DISTANCE_PX || info.velocity.x < -SWIPE_VELOCITY)
-      goTo(photoIdx + 1);
-    else if (
-      info.offset.x > SWIPE_DISTANCE_PX ||
-      info.velocity.x > SWIPE_VELOCITY
-    )
-      goTo(photoIdx - 1);
-  };
+  }, [data, isReduced, shownIdx]);
 
   if (!current) return null;
   const { section } = current;
@@ -231,15 +248,13 @@ export function Lightbox(): ReactNode {
    */
   return createPortal(
     <m.div
-      animate={{ opacity: 1 }}
       aria-label={t("gallery.lightbox")}
       aria-modal="true"
-      className="lightbox"
-      initial={{ opacity: 0 }}
+      className={classNames("lightbox", isCovering && "lightbox--covering")}
       ref={dialogRef}
       role="dialog"
+      style={{ opacity }}
       tabIndex={-1}
-      transition={easeOut}
     >
       <header className="lightbox__bar">
         <p className="lightbox__caption">
@@ -259,7 +274,7 @@ export function Lightbox(): ReactNode {
           </span>
         </p>
         <span className="lightbox__counter">
-          {photoIdx + 1} / {photos.length}
+          {shownIdx + 1} / {photos.length}
         </span>
         <button
           aria-label={t("common:action.close")}
@@ -271,31 +286,49 @@ export function Lightbox(): ReactNode {
         </button>
       </header>
 
-      <div className="lightbox__stage">
-        <AnimatePresence custom={direction} initial={false} mode="popLayout">
-          <m.div
-            animate={{ opacity: 1, scale: 1, x: 0 }}
-            className="lightbox__slide"
-            custom={direction}
-            drag="x"
-            dragConstraints={{ left: 0, right: 0 }}
-            dragElastic={0.5}
-            exit={{ opacity: 0, scale: 0.96, x: -direction * 80 }}
-            initial={{ opacity: 0, scale: 0.96, x: direction * 80 }}
-            key={photoIdx}
-            onDragEnd={handleDragEnd}
-            transition={easeOut}
-          >
-            <Slide photo={current.photo} />
-          </m.div>
-        </AnimatePresence>
+      <div
+        className={classNames(
+          "lightbox__stage",
+          isZoomed && "lightbox__stage--zoomed",
+        )}
+      >
+        <m.div
+          className={classNames(
+            "lightbox__track",
+            isMoving && "lightbox__track--moving",
+          )}
+          onPan={handlePan}
+          onPanEnd={handlePanEnd}
+          onPointerDown={handlePointerDown}
+          ref={trackRef}
+          style={{ x }}
+        >
+          {photos.slice(slidesStart, shownIdx + 2).map(({ photo }, offset) => {
+            const index = slidesStart + offset;
+            return (
+              <div
+                aria-hidden={index === shownIdx ? undefined : true}
+                className="lightbox__slide"
+                key={photo.thumbnail}
+                style={{ left: `${index * 100}%` }}
+              >
+                <Slide
+                  isPlayable={
+                    index === shownIdx ? shownIdx === photoIdx : false
+                  }
+                  photo={photo}
+                />
+              </div>
+            );
+          })}
+        </m.div>
         <button
           aria-label={t("gallery.previous")}
           className={classNames(
             "lightbox__button lightbox__nav lightbox__nav--previous",
-            photoIdx === 0 && "lightbox__nav--hidden",
+            shownIdx === 0 && "lightbox__nav--hidden",
           )}
-          onClick={() => goTo(photoIdx - 1)}
+          onClick={() => step(-1)}
           type="button"
         >
           <ChevronLeft aria-hidden="true" />
@@ -304,9 +337,9 @@ export function Lightbox(): ReactNode {
           aria-label={t("gallery.next")}
           className={classNames(
             "lightbox__button lightbox__nav lightbox__nav--next",
-            photoIdx === photos.length - 1 && "lightbox__nav--hidden",
+            shownIdx === photos.length - 1 && "lightbox__nav--hidden",
           )}
-          onClick={() => goTo(photoIdx + 1)}
+          onClick={() => step(1)}
           type="button"
         >
           <ChevronRight aria-hidden="true" />
@@ -318,11 +351,11 @@ export function Lightbox(): ReactNode {
           const index = stripStart + offset;
           return (
             <button
-              aria-current={index === photoIdx ? "true" : undefined}
+              aria-current={index === shownIdx ? "true" : undefined}
               aria-label={t("gallery.openPhoto", { index: index + 1 })}
               className={classNames(
                 "lightbox__thumb",
-                index === photoIdx && "lightbox__thumb--active",
+                index === shownIdx && "lightbox__thumb--active",
               )}
               key={photo.thumbnail}
               onClick={() => goTo(index)}
