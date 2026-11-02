@@ -173,6 +173,72 @@
       "row": "{{type}} {{count}}, {{share}}%, {{km}} km"
     },
     "records": "Record",
+    "runnerUp": "Secondo posto",
+    "longestOverland": "Tragitto via terra più lungo",
+    "longestLayover": "Scalo più lungo",
+    "biggestZoneJump": "Salto di fuso più grande",
+    "visitCount_one": "{{count}} visita",
+    "visitCount_other": "{{count}} visite",
+    "photoCount_one": "{{count}} foto",
+    "photoCount_other": "{{count}} foto",
+    "edges": {
+      "title": "I confini della tua mappa",
+      "north": "Nord",
+      "south": "Sud",
+      "east": "Est",
+      "west": "Ovest",
+      "letter": {
+        "N": "N",
+        "S": "S",
+        "E": "E",
+        "W": "O"
+      },
+      "home": "Casa",
+      "showOnMap": "Mostra {{city}} sulla mappa",
+      "latitudeSpan": "{{degrees}}° di latitudine tra nord e sud",
+      "longitudeSpan": "{{degrees}}° di longitudine tra ovest ed est"
+    },
+    "hemispheres": {
+      "title": "Emisferi",
+      "NW": "Nord-ovest",
+      "NE": "Nord-est",
+      "SW": "Sud-ovest",
+      "SE": "Sud-est",
+      "notYet": "Non ancora",
+      "more": "+{{count}} altre",
+      "halves": "Nord {{north}} · Sud {{south}} · Est {{east}} · Ovest {{west}}"
+    },
+    "lines": {
+      "title": "Linee attraversate",
+      "arctic": "Circolo polare artico",
+      "cancer": "Tropico del Cancro",
+      "equator": "Equatore",
+      "capricorn": "Tropico del Capricorno",
+      "antarctic": "Circolo polare antartico",
+      "primeMeridian": "Meridiano di Greenwich",
+      "antimeridian": "Linea del cambio di data",
+      "notYet": "Non ancora",
+      "more": "+{{count}} altri"
+    },
+    "topTrips": {
+      "title": "I viaggi più grandi",
+      "days": "Giorni",
+      "cities": "Città"
+    },
+    "topPlaces": {
+      "title": "I tuoi luoghi",
+      "nights": "Notti",
+      "visits": "Ritorni",
+      "photos": "Foto"
+    },
+    "clock": {
+      "title": "Quando viaggi",
+      "departures": "Partenze",
+      "arrivals": "Arrivi",
+      "earliest": "Partenza più mattiniera",
+      "latest": "Arrivo più tardivo",
+      "hour": "{{hour}}: {{departures}} partenze, {{arrivals}} arrivi"
+    },
     "operators": "Compagnie di trasporto",
     "operatorGroup": {
       "plane": "Compagnie aeree",
@@ -181,7 +247,6 @@
       "taxi": "Compagnie di taxi"
     },
     "longestFlight": "Volo più lungo",
-    "shortestFlight": "Volo più breve",
     "longestFerry": "Traghetto più lungo",
     "furthestCity": "Più lontano da casa",
     "timezones": "Fusi orari attraversati",

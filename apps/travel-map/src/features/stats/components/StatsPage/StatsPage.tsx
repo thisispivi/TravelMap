@@ -1,6 +1,6 @@
 import "./StatsPage.scss";
 
-import { Continent, Ferry, Flight } from "@travelmap/core";
+import { City, Continent } from "@travelmap/core";
 import { TravelType } from "@travelmap/core/typings/Travel";
 import { CountryFlag } from "@travelmap/ui/components/CountryFlag/CountryFlag";
 import { EmptyState } from "@travelmap/ui/components/EmptyState/EmptyState";
@@ -19,18 +19,23 @@ import {
   CalendarDays,
   Camera,
   Clock,
+  Compass,
   Earth,
   Globe,
+  Hourglass,
   Landmark,
   LucideIcon,
   MapPinned,
   Milestone,
+  Moon,
   Plane,
   Route,
   Ship,
   Sunrise,
+  TrainFront,
 } from "lucide-react";
 import { CSSProperties, ReactNode, useEffect, useRef, useState } from "react";
+import { Link, useNavigate } from "react-router";
 
 import ContinentsMap from "@/assets/icons/Continents.svg?react";
 import EarthFlat from "@/assets/icons/EarthFlat.svg?react";
@@ -38,10 +43,14 @@ import MoonFlat from "@/assets/icons/MoonFlat.svg?react";
 import { resolveCompany } from "@/data/companies";
 import { JournalSwitcher } from "@/shared/components/JournalSwitcher/JournalSwitcher";
 import { SegmentedControl } from "@/shared/components/SegmentedControl/SegmentedControl";
+import { useMapInteraction } from "@/shared/context/MapInteraction.context";
 import { CONTINENT_COLORS } from "@/shared/lib/continentColors";
+import { parameters } from "@/shared/lib/parameters";
 
 import { getCurrencyDisplay } from "../../lib/countries";
 import { FlightMeasure, getDonutSegments } from "../../lib/flightTypes";
+import { PlaceMeasure, TripMeasure } from "../../lib/rankings";
+import { RecordHolder, RecordId, TravelRecord } from "../../lib/records";
 import { stats } from "../../lib/stats";
 import { OperatorGroup as OperatorGroupStat } from "../../lib/transport";
 import { StatBars } from "../StatBars/StatBars";
@@ -52,11 +61,17 @@ type TileArea =
   | "countries"
   | "currencies"
   | "days"
+  | "clock"
   | "distance"
+  | "edges"
   | "flightTypes"
+  | "hemispheres"
+  | "lines"
   | "modes"
   | "records"
   | "operators"
+  | "topPlaces"
+  | "topTrips"
   | "trips"
   | "world";
 
@@ -243,33 +258,87 @@ function Card({ area, title, children }: CardProps): ReactNode {
 }
 
 /**
+ * Properties accepted by the PlaceNames component.
+ * @property {City[]} cities - The places, in order
+ * @property {boolean} [isRoute] - Whether they are the stops of one journey
+ */
+interface PlaceNamesProps {
+  cities: City[];
+  isRoute?: boolean;
+}
+
+/**
+ * PlaceNames component
+ * Names places with their flags, an arrow between them when they are the two
+ * ends of a journey.
+ * @component
+ * @param {PlaceNamesProps} props - The names props
+ * @param {City[]} props.cities - The places, in order
+ * @param {boolean} [props.isRoute=false] - Whether they are the stops of one journey
+ * @returns {ReactNode} The names
+ */
+function PlaceNames({ cities, isRoute = false }: PlaceNamesProps): ReactNode {
+  const { currLanguage } = useLanguage(["home"]);
+
+  return (
+    <span className="stats-tile__places">
+      {cities.map((city, index) => (
+        <span className="stats-tile__place" key={`${city.id}-${index}`}>
+          {isRoute && index > 0 ? "→ " : null}
+          <CountryFlag countryId={city.country.id} />
+          {city.getLocalizedName(currLanguage)}
+        </span>
+      ))}
+    </span>
+  );
+}
+
+/**
  * Properties accepted by the Record component.
  * @property {ReactNode} icon - The record's icon
  * @property {string} label - What the record is
  * @property {string} value - The record itself
- * @property {string} [detail] - A line under it
+ * @property {ReactNode} [detail] - Who holds it
+ * @property {string} [runnerUp] - The next best, as a line under it
+ * @property {string} [to] - The trip page it links to
+ * @property {() => void} [onPress] - Shows its place on the map
  */
 interface RecordProps {
   icon: ReactNode;
   label: string;
   value: string;
-  detail?: string;
+  detail?: ReactNode;
+  runnerUp?: string;
+  to?: string;
+  onPress?: () => void;
 }
 
 /**
  * Record component
- * One superlative, such as the longest flight, as a row of the records tile.
+ * One superlative, such as the longest flight, as a row of the records tile,
+ * leading to the trip or the place that holds it.
  * @component
  * @param {RecordProps} props - The record props
  * @param {ReactNode} props.icon - The record's icon
  * @param {string} props.label - What the record is
  * @param {string} props.value - The record itself
- * @param {string} [props.detail] - A line under it
+ * @param {ReactNode} [props.detail] - Who holds it
+ * @param {string} [props.runnerUp] - The next best
+ * @param {string} [props.to] - The trip page it links to
+ * @param {() => void} [props.onPress] - Shows its place on the map
  * @returns {ReactNode} The record row
  */
-function Record({ icon, label, value, detail }: RecordProps): ReactNode {
-  return (
-    <li className="stats-tile__record">
+function Record({
+  icon,
+  label,
+  value,
+  detail,
+  runnerUp,
+  to,
+  onPress,
+}: RecordProps): ReactNode {
+  const content = (
+    <>
       <span className="stats-tile__record-icon">{icon}</span>
       <span className="stats-tile__record-body">
         <span className="stats-tile__record-label">{label}</span>
@@ -277,7 +346,33 @@ function Record({ icon, label, value, detail }: RecordProps): ReactNode {
         {detail ? (
           <span className="stats-tile__record-detail">{detail}</span>
         ) : null}
+        {runnerUp ? (
+          <span className="stats-tile__record-runner-up">{runnerUp}</span>
+        ) : null}
       </span>
+    </>
+  );
+
+  return (
+    <li className="stats-tile__record">
+      {to ? (
+        <Link
+          className="stats-tile__record-row stats-tile__record-row--link"
+          to={to}
+        >
+          {content}
+        </Link>
+      ) : onPress ? (
+        <button
+          className="stats-tile__record-row stats-tile__record-row--link"
+          onClick={onPress}
+          type="button"
+        >
+          {content}
+        </button>
+      ) : (
+        <span className="stats-tile__record-row">{content}</span>
+      )}
     </li>
   );
 }
@@ -387,16 +482,6 @@ function Planet({ body, delay = 0 }: PlanetProps): ReactNode {
       <Picture aria-hidden="true" className="stats-tile__planet-image" />
     </m.span>
   );
-}
-
-/**
- * Prints a ride's two ends, for a record's detail line.
- * @param {Flight | Ferry} ride - The ride
- * @param {string} locale - The active locale
- * @returns {string} `From → To`
- */
-function routeOf(ride: Flight | Ferry, locale: string): string {
-  return `${ride.sCity.getLocalizedName(locale)} → ${ride.eCity.getLocalizedName(locale)}`;
 }
 
 /**
@@ -728,51 +813,335 @@ function FlightTypesTile(): ReactNode {
 }
 
 /**
+ * Gives a page a way to show a city on the map: the map flies there and opens
+ * the city's card, with the bare map in front of it.
+ * @returns {{ showCity: (city: City) => void }} The action
+ */
+function useShowCity(): { showCity: (city: City) => void } {
+  const navigate = useNavigate();
+  const { setHoveredCity, setMapPosition } = useMapInteraction();
+
+  return {
+    showCity: (city) => {
+      setMapPosition({
+        center: city.coordinates,
+        zoom: parameters.map.hoveredCityZoom,
+      });
+      setHoveredCity(city);
+      navigate("/", { state: { mapOnly: true } });
+    },
+  };
+}
+
+/**
+ * Prints a latitude or longitude with its compass letter.
+ * @param {number} degrees - The signed coordinate
+ * @param {string} positive - The letter for a positive coordinate
+ * @param {string} negative - The letter for a negative one
+ * @param {string} locale - The active locale
+ * @returns {string} Such as `59.33° N`
+ */
+function coordinateIn(
+  degrees: number,
+  positive: string,
+  negative: string,
+  locale: string,
+): string {
+  return `${formatMileage(Math.abs(degrees), locale)}° ${degrees < 0 ? negative : positive}`;
+}
+
+/**
+ * Properties accepted by the EdgeCity component.
+ * @property {"north" | "south" | "east" | "west"} edge - Which end of the map it is
+ * @property {City} city - The city there
+ */
+interface EdgeCityProps {
+  edge: "north" | "south" | "east" | "west";
+  city: City;
+}
+
+/**
+ * EdgeCity component
+ * One point of the compass: the city at that end of the map, with its flag and
+ * the coordinate that puts it there. Pressing it shows it on the map.
+ * @component
+ * @param {EdgeCityProps} props - The point's props
+ * @param {"north" | "south" | "east" | "west"} props.edge - Which end of the map it is
+ * @param {City} props.city - The city there
+ * @returns {ReactNode} The compass point
+ */
+function EdgeCity({ edge, city }: EdgeCityProps): ReactNode {
+  const { t, currLanguage } = useLanguage(["home"]);
+  const { showCity } = useShowCity();
+  const name = city.getLocalizedName(currLanguage);
+  const [longitude, latitude] = city.coordinates;
+
+  return (
+    <button
+      aria-label={t("stats.edges.showOnMap", { city: name })}
+      className={classNames("stats-tile__edge", `stats-tile__edge--${edge}`)}
+      onClick={() => showCity(city)}
+      type="button"
+    >
+      <span className="stats-tile__edge-label">{t(`stats.edges.${edge}`)}</span>
+      <span className="stats-tile__edge-name">
+        <CountryFlag countryId={city.country.id} />
+        {name}
+      </span>
+      <span className="stats-tile__edge-coordinate">
+        {edge === "north" || edge === "south"
+          ? coordinateIn(
+              latitude,
+              t("stats.edges.letter.N"),
+              t("stats.edges.letter.S"),
+              currLanguage,
+            )
+          : coordinateIn(
+              longitude,
+              t("stats.edges.letter.E"),
+              t("stats.edges.letter.W"),
+              currLanguage,
+            )}
+      </span>
+    </button>
+  );
+}
+
+/**
+ * EdgesTile component
+ * One tile of the statistics bento: the furthest cities slept in each way, laid
+ * out as a compass around home, with how far apart they lie.
+ * @component
+ * @returns {ReactNode} The tile, or nothing before the first night away
+ */
+function EdgesTile(): ReactNode {
+  const { t, currLanguage } = useLanguage(["home"]);
+  const { edges } = stats;
+  const home = parameters.homeCity;
+  if (!edges) return null;
+
+  return (
+    <Card area="edges" title={t("stats.edges.title")}>
+      <div className="stats-tile__compass">
+        <EdgeCity city={edges.north} edge="north" />
+        <EdgeCity city={edges.west} edge="west" />
+        <div className="stats-tile__compass-center">
+          {home ? (
+            <>
+              <span className="stats-tile__edge-label">
+                {t("stats.edges.home")}
+              </span>
+              <span className="stats-tile__edge-name">
+                <CountryFlag countryId={home.country.id} />
+                {home.getLocalizedName(currLanguage)}
+              </span>
+            </>
+          ) : (
+            <Compass aria-hidden="true" className="stats-tile__compass-mark" />
+          )}
+        </div>
+        <EdgeCity city={edges.east} edge="east" />
+        <EdgeCity city={edges.south} edge="south" />
+      </div>
+      <p className="stats-tile__note">
+        {t("stats.edges.latitudeSpan", {
+          degrees: formatMileage(edges.latitudeSpan, currLanguage, 0),
+        })}
+        <br />
+        {t("stats.edges.longitudeSpan", {
+          degrees: formatMileage(edges.longitudeSpan, currLanguage, 0),
+        })}
+      </p>
+    </Card>
+  );
+}
+
+/**
+ * HemispheresTile component
+ * One tile of the statistics bento: the four quarters of the globe, each with a
+ * couple of the cities slept in there, or muted until one is.
+ * @component
+ * @returns {ReactNode} The tile
+ */
+function HemispheresTile(): ReactNode {
+  const { t } = useLanguage(["home"]);
+  const { halves, quadrants } = stats.hemispheres;
+
+  return (
+    <Card area="hemispheres" title={t("stats.hemispheres.title")}>
+      <ul className="stats-tile__quadrants">
+        {quadrants.map(({ id, cities }) => (
+          <li
+            className={classNames(
+              "stats-tile__quadrant",
+              cities.length === 0 && "stats-tile__quadrant--empty",
+            )}
+            key={id}
+          >
+            <span className="stats-tile__edge-label">
+              {t(`stats.hemispheres.${id}`)}
+            </span>
+            {cities.length > 0 ? (
+              <span className="stats-tile__quadrant-cities">
+                <PlaceNames cities={cities.slice(0, 2)} />
+                {cities.length > 2
+                  ? ` ${t("stats.hemispheres.more", { count: cities.length - 2 })}`
+                  : null}
+              </span>
+            ) : (
+              <span className="stats-tile__quadrant-cities">
+                {t("stats.hemispheres.notYet")}
+              </span>
+            )}
+          </li>
+        ))}
+      </ul>
+      <p className="stats-tile__note">
+        {t("stats.hemispheres.halves", halves)}
+      </p>
+    </Card>
+  );
+}
+
+/**
+ * LinesTile component
+ * One tile of the statistics bento: the lines every globe has, how many times
+ * the routes crossed each, and on which trips.
+ * @component
+ * @returns {ReactNode} The tile
+ */
+function LinesTile(): ReactNode {
+  const { t, currLanguage } = useLanguage(["home"]);
+
+  return (
+    <Card area="lines" title={t("stats.lines.title")}>
+      <ul className="stats-tile__lines">
+        {stats.crossings.map(({ id, count, trips }) => (
+          <li
+            className={classNames(
+              "stats-tile__line",
+              count === 0 && "stats-tile__line--empty",
+            )}
+            key={id}
+          >
+            <span className="stats-tile__line-body">
+              <span className="stats-tile__line-name">
+                {t(`stats.lines.${id}`)}
+              </span>
+              <span className="stats-tile__line-trips">
+                {trips[0]
+                  ? trips[0].getLocalizedTitle(currLanguage)
+                  : t("stats.lines.notYet")}
+                {trips.length > 1
+                  ? ` ${t("stats.lines.more", { count: trips.length - 1 })}`
+                  : null}
+              </span>
+            </span>
+            {count > 0 ? (
+              <span className="stats-tile__line-count">×{count}</span>
+            ) : null}
+          </li>
+        ))}
+      </ul>
+    </Card>
+  );
+}
+
+const RECORD_ICONS: { [id in RecordId]: LucideIcon } = {
+  biggestZoneJump: Clock,
+  furthestCity: MapPinned,
+  longestFerry: Ship,
+  longestFlight: Plane,
+  longestLayover: Hourglass,
+  longestOverland: TrainFront,
+};
+
+/**
+ * Properties accepted by the TravelRecordRow component.
+ * @property {TravelRecord} record - The record
+ */
+interface TravelRecordRowProps {
+  record: TravelRecord;
+}
+
+/**
+ * TravelRecordRow component
+ * A computed record in words: the figure, who holds it, the runner-up beneath,
+ * leading to the holder's place or trip.
+ * @component
+ * @param {TravelRecordRowProps} props - The row props
+ * @param {TravelRecord} props.record - The record
+ * @returns {ReactNode} The record row
+ */
+function TravelRecordRow({ record }: TravelRecordRowProps): ReactNode {
+  const { id, unit, best, runnerUp } = record;
+  const { t, currLanguage } = useLanguage(["home"]);
+  const { showCity } = useShowCity();
+  const Icon = RECORD_ICONS[id];
+
+  /**
+   * Prints a record's figure in its own unit.
+   * @param {number} value - The figure
+   * @returns {string} The figure in words
+   */
+  const figure = (value: number): string =>
+    unit === "km" ? kilometresIn(value, currLanguage) : formatDuration(value);
+
+  /**
+   * Names who holds a record: the ride or layover, else the place, else the trip.
+   * @param {RecordHolder} holder - The holder
+   * @returns {string} Its name
+   */
+  const subject = (holder: RecordHolder): string =>
+    holder.route
+      ? holder.route
+          .map((stop) => stop.getLocalizedName(currLanguage))
+          .join(" → ")
+      : (holder.city?.getLocalizedName(currLanguage) ??
+        holder.trip?.getLocalizedTitle(currLanguage) ??
+        "");
+
+  const { city, trip } = best;
+
+  return (
+    <Record
+      detail={
+        <PlaceNames
+          cities={best.route ?? (best.city ? [best.city] : [])}
+          isRoute={(best.route?.length ?? 0) > 1}
+        />
+      }
+      icon={<Icon aria-hidden="true" />}
+      label={t(`stats.${id}`)}
+      onPress={city ? () => showCity(city) : undefined}
+      runnerUp={
+        runnerUp
+          ? `${t("stats.runnerUp")} · ${subject(runnerUp)} · ${figure(runnerUp.value)}`
+          : undefined
+      }
+      to={trip && !city ? `/trip/${encodeURIComponent(trip.id)}` : undefined}
+      value={figure(best.value)}
+    />
+  );
+}
+
+/**
  * RecordsTile component
- * One tile of the statistics bento: the superlatives: longest and shortest flight, longest ferry, furthest place, time zones and UNESCO sites.
+ * One tile of the statistics bento: the few superlatives a chart cannot say
+ * better, each a single ride, wait or place. One the dataset cannot support is
+ * left out.
  * @component
  * @returns {ReactNode} The tile
  */
 function RecordsTile(): ReactNode {
-  const { t, currLanguage } = useLanguage(["home"]);
+  const { t } = useLanguage(["home"]);
 
   return (
     <Card area="records" title={t("stats.records")}>
       <ul className="stats-tile__records">
-        {stats.longestFlight ? (
-          <Record
-            detail={routeOf(stats.longestFlight, currLanguage)}
-            icon={<Plane aria-hidden="true" />}
-            label={t("stats.longestFlight")}
-            value={kilometresIn(stats.longestFlight.distanceInKm, currLanguage)}
-          />
-        ) : null}
-        {stats.shortestFlight ? (
-          <Record
-            detail={routeOf(stats.shortestFlight, currLanguage)}
-            icon={<Plane aria-hidden="true" />}
-            label={t("stats.shortestFlight")}
-            value={kilometresIn(
-              stats.shortestFlight.distanceInKm,
-              currLanguage,
-            )}
-          />
-        ) : null}
-        {stats.longestFerry ? (
-          <Record
-            detail={routeOf(stats.longestFerry, currLanguage)}
-            icon={<Ship aria-hidden="true" />}
-            label={t("stats.longestFerry")}
-            value={kilometresIn(stats.longestFerry.distanceInKm, currLanguage)}
-          />
-        ) : null}
-        {stats.furthestCity ? (
-          <Record
-            icon={<MapPinned aria-hidden="true" />}
-            label={t("stats.furthestCity")}
-            value={stats.furthestCity.getLocalizedName(currLanguage)}
-          />
-        ) : null}
+        {stats.records.map((record) => (
+          <TravelRecordRow key={record.id} record={record} />
+        ))}
         <Record
           icon={<Clock aria-hidden="true" />}
           label={t("stats.timezones")}
@@ -783,6 +1152,253 @@ function RecordsTile(): ReactNode {
             icon={<Landmark aria-hidden="true" />}
             label={t("stats.unesco")}
             value={String(stats.unesco)}
+          />
+        ) : null}
+      </ul>
+    </Card>
+  );
+}
+
+/**
+ * TopTripsTile component
+ * One tile of the statistics bento: the biggest trips as a bar chart, by how
+ * long they lasted or how many places they saw. Each bar's name opens its trip.
+ * @component
+ * @returns {ReactNode} The tile
+ */
+function TopTripsTile(): ReactNode {
+  const { t, currLanguage } = useLanguage(["home"]);
+  const [measure, setMeasure] = useState<TripMeasure>("days");
+
+  return (
+    <Card area="topTrips" title={t("stats.topTrips.title")}>
+      <SegmentedControl
+        id="top-trips"
+        label={t("stats.topTrips.title")}
+        onChange={setMeasure}
+        options={(["days", "cities"] as const).map((value) => ({
+          label: t(`stats.topTrips.${value}`),
+          value,
+        }))}
+        value={measure}
+      />
+      <StatBars
+        bars={stats.tripRankings[measure].map(({ trip, value }) => ({
+          color: "var(--c-blue)",
+          display:
+            measure === "days"
+              ? `${value} ${t("stats.daysUnit", { count: value })}`
+              : t("stats.cityCount", { count: value }),
+          key: trip.id,
+          label: (
+            <Link
+              className="stats-tile__bar-link"
+              to={`/trip/${encodeURIComponent(trip.id)}`}
+            >
+              {trip.getLocalizedTitle(currLanguage)}
+              <span className="stats-tile__trip-flags">
+                {trip.getCountriesVisited().map((country) => (
+                  <CountryFlag countryId={country.id} key={country.id} />
+                ))}
+              </span>
+            </Link>
+          ),
+          value,
+        }))}
+        key={measure}
+      />
+    </Card>
+  );
+}
+
+/**
+ * TopPlacesTile component
+ * One tile of the statistics bento: the places slept in as a bar chart, by
+ * nights, by returns, or by photos. A measure nothing scores on is not offered.
+ * Each bar's name shows its place on the map.
+ * @component
+ * @returns {ReactNode} The tile, or nothing before the first night away
+ */
+function TopPlacesTile(): ReactNode {
+  const { t, currLanguage } = useLanguage(["home"]);
+  const { showCity } = useShowCity();
+  const options = (["nights", "visits", "photos"] as const).filter(
+    (value) => stats.placeRankings[value].length > 0,
+  );
+  const [chosen, setChosen] = useState<PlaceMeasure | null>(null);
+  const measure = chosen ?? options[0];
+  if (!measure) return null;
+
+  /**
+   * Prints a place's score in the chosen measure.
+   * @param {number} count - The score
+   * @returns {string} The score in words
+   */
+  const scoreOf = (count: number): string => {
+    switch (measure) {
+      case "nights":
+        return t("common:stay.nightsCount", { count });
+      case "photos":
+        return t("stats.photoCount", { count });
+      case "visits":
+        return t("stats.visitCount", { count });
+    }
+  };
+
+  return (
+    <Card area="topPlaces" title={t("stats.topPlaces.title")}>
+      <SegmentedControl
+        id="top-places"
+        label={t("stats.topPlaces.title")}
+        onChange={setChosen}
+        options={options.map((value) => ({
+          label: t(`stats.topPlaces.${value}`),
+          value,
+        }))}
+        value={measure}
+      />
+      <StatBars
+        bars={stats.placeRankings[measure].map(({ city, value }) => ({
+          color: "var(--c-green)",
+          display: scoreOf(value),
+          key: city.id,
+          label: (
+            <button
+              className="stats-tile__bar-link"
+              onClick={() => showCity(city)}
+              type="button"
+            >
+              <CountryFlag countryId={city.country.id} />
+              {city.getLocalizedName(currLanguage)}
+            </button>
+          ),
+          value,
+        }))}
+        key={measure}
+      />
+    </Card>
+  );
+}
+
+/**
+ * Prints a time of day on the reader's clock.
+ * @param {number} minute - Minutes since midnight
+ * @param {string} locale - The active locale
+ * @returns {string} Such as `05:45`
+ */
+function clockIn(minute: number, locale: string): string {
+  return new Date(
+    2000,
+    0,
+    1,
+    Math.floor(minute / 60),
+    minute % 60,
+  ).toLocaleTimeString(locale, { hour: "2-digit", minute: "2-digit" });
+}
+
+/**
+ * ClockTile component
+ * One tile of the statistics bento: the hours of the day the journeys left and
+ * arrived, departures rising from a shared baseline and arrivals hanging from
+ * it, with the earliest start and the latest finish beneath. Every hour reads on
+ * the clock of the city it happened in.
+ * @component
+ * @returns {ReactNode} The tile, or nothing when no ride recorded a time
+ */
+function ClockTile(): ReactNode {
+  const { t, currLanguage } = useLanguage(["home"]);
+  const { arrivals, departures, earliest, latest } = stats.clock;
+  if (!earliest && !latest) return null;
+
+  const max = Math.max(...departures, ...arrivals, 1);
+  const hours = departures.map((left, hour) => ({
+    arrived: arrivals[hour],
+    hour,
+    label: clockIn(hour * 60, currLanguage),
+    left,
+  }));
+
+  return (
+    <Card area="clock" title={t("stats.clock.title")}>
+      <p className="stats-tile__clock-legend">
+        <span className="stats-tile__clock-key stats-tile__clock-key--departures">
+          {t("stats.clock.departures")}
+        </span>
+        <span className="stats-tile__clock-key stats-tile__clock-key--arrivals">
+          {t("stats.clock.arrivals")}
+        </span>
+      </p>
+      {/* The chart, not each bar, watches for the viewport, as a bar at zero has no area. */}
+      <m.div
+        aria-label={hours
+          .filter(({ arrived, left }) => arrived + left > 0)
+          .map(({ arrived, label, left }) =>
+            t("stats.clock.hour", {
+              arrivals: arrived,
+              departures: left,
+              hour: label,
+            }),
+          )
+          .join("; ")}
+        className="stats-tile__clock"
+        initial="hidden"
+        role="img"
+        viewport={{ once: true }}
+        whileInView="visible"
+      >
+        {hours.map(({ arrived, hour, label, left }) => (
+          <div
+            className="stats-tile__clock-hour"
+            key={hour}
+            title={t("stats.clock.hour", {
+              arrivals: arrived,
+              departures: left,
+              hour: label,
+            })}
+          >
+            <span className="stats-tile__clock-side stats-tile__clock-side--departures">
+              <m.span
+                className="stats-tile__clock-bar stats-tile__clock-bar--departures"
+                style={{ height: `${(left / max) * 100}%` }}
+                transition={{ ...easeOut, delay: hour * 0.015, duration: 0.5 }}
+                variants={{ hidden: { scaleY: 0 }, visible: { scaleY: 1 } }}
+              />
+            </span>
+            <span className="stats-tile__clock-side stats-tile__clock-side--arrivals">
+              <m.span
+                className="stats-tile__clock-bar stats-tile__clock-bar--arrivals"
+                style={{ height: `${(arrived / max) * 100}%` }}
+                transition={{ ...easeOut, delay: hour * 0.015, duration: 0.5 }}
+                variants={{ hidden: { scaleY: 0 }, visible: { scaleY: 1 } }}
+              />
+            </span>
+            {hour % 6 === 0 ? (
+              <span aria-hidden="true" className="stats-tile__clock-tick">
+                {label}
+              </span>
+            ) : null}
+          </div>
+        ))}
+      </m.div>
+      <ul className="stats-tile__records stats-tile__records--pair">
+        {earliest ? (
+          <Record
+            detail={
+              <PlaceNames cities={[earliest.from, earliest.to]} isRoute />
+            }
+            icon={<Sunrise aria-hidden="true" />}
+            label={t("stats.clock.earliest")}
+            to={`/trip/${encodeURIComponent(earliest.trip.id)}`}
+            value={clockIn(earliest.minute, currLanguage)}
+          />
+        ) : null}
+        {latest ? (
+          <Record
+            detail={<PlaceNames cities={[latest.from, latest.to]} isRoute />}
+            icon={<Moon aria-hidden="true" />}
+            label={t("stats.clock.latest")}
+            to={`/trip/${encodeURIComponent(latest.trip.id)}`}
+            value={clockIn(latest.minute, currLanguage)}
           />
         ) : null}
       </ul>
@@ -1025,7 +1641,19 @@ export function StatsPage(): ReactNode {
 
           {stats.flightTypes.count > 0 ? <FlightTypesTile /> : null}
 
+          <TopTripsTile />
+
+          <TopPlacesTile />
+
           <RecordsTile />
+
+          <ClockTile />
+
+          <EdgesTile />
+
+          <HemispheresTile />
+
+          <LinesTile />
 
           <Card area="days" title={t("stats.daysPerYear")}>
             <YearChart

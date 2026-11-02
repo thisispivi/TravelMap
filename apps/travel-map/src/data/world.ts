@@ -2,7 +2,6 @@ import {
   buildWorld,
   City,
   Country,
-  Ferry,
   SiteConfig,
   SiteConfigSchema,
   Trip,
@@ -107,7 +106,4 @@ export const visitedCountries: Country[] = unique(
   visitedCities.map((city) => city.country),
 ).sort((first, second) => first.id.localeCompare(second.id));
 export const takenFlights = visitedTrips.flatMap((trip) => trip.getFlights());
-export const takenFerries: Ferry[] = visitedTrips.flatMap((trip) =>
-  trip.getFerries().flatMap((ferry) => (ferry.company ? [ferry] : [])),
-);
 export const siteConfig = worldConfig;
