@@ -17,7 +17,8 @@
   align-items: center;
   gap: v.$space4;
   width: v.$railWidth;
-  padding: v.$space3 v.$space2;
+  /* Narrow at the sides so the highlight clears Italian's longest label, `Statistiche`. */
+  padding: v.$space3 v.$space1;
   border-radius: v.$radiusXl;
 
   @include m.compact() {
@@ -129,7 +130,7 @@
     background: v.$accentSoft;
 
     @include m.compact() {
-      inset: 0 0.375rem;
+      inset: 0 0.125rem;
     }
   }
 
