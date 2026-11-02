@@ -1,6 +1,7 @@
 import "./StatsPage.scss";
 
 import { Continent, Ferry, Flight } from "@travelmap/core";
+import { TravelType } from "@travelmap/core/typings/Travel";
 import { CountryFlag } from "@travelmap/ui/components/CountryFlag/CountryFlag";
 import { EmptyState } from "@travelmap/ui/components/EmptyState/EmptyState";
 import { PanelFrame } from "@travelmap/ui/components/PanelFrame/PanelFrame";
@@ -11,7 +12,7 @@ import { formatDuration, formatMileage } from "@travelmap/ui/i18n/format";
 import { classNames } from "@travelmap/ui/lib/classNames";
 import { MODE_COLORS } from "@travelmap/ui/lib/modeColors";
 import { easeOut } from "@travelmap/ui/lib/motion";
-import { animate, m, useInView } from "framer-motion";
+import { animate, m, useInView, useReducedMotionConfig } from "framer-motion";
 import {
   BedDouble,
   Building2,
@@ -29,16 +30,18 @@ import {
   Ship,
   Sunrise,
 } from "lucide-react";
-import { CSSProperties, ReactNode, useEffect, useRef } from "react";
+import { CSSProperties, ReactNode, useEffect, useRef, useState } from "react";
 
 import ContinentsMap from "@/assets/icons/Continents.svg?react";
 import EarthFlat from "@/assets/icons/EarthFlat.svg?react";
 import MoonFlat from "@/assets/icons/MoonFlat.svg?react";
 import { resolveCompany } from "@/data/companies";
 import { JournalSwitcher } from "@/shared/components/JournalSwitcher/JournalSwitcher";
+import { SegmentedControl } from "@/shared/components/SegmentedControl/SegmentedControl";
 import { CONTINENT_COLORS } from "@/shared/lib/continentColors";
 
 import { getCurrencyDisplay } from "../../lib/countries";
+import { FlightMeasure, getDonutSegments } from "../../lib/flightTypes";
 import { stats } from "../../lib/stats";
 import { OperatorGroup as OperatorGroupStat } from "../../lib/transport";
 import { StatBars } from "../StatBars/StatBars";
@@ -50,6 +53,7 @@ type TileArea =
   | "currencies"
   | "days"
   | "distance"
+  | "flightTypes"
   | "modes"
   | "records"
   | "operators"
@@ -86,6 +90,7 @@ function CountUp({ value, locale, decimals = 0 }: CountUpProps): ReactNode {
   const ref = useRef<HTMLSpanElement>(null);
   const hasCountedRef = useRef(false);
   const isInView = useInView(ref, { once: true });
+  const isReduced = useReducedMotionConfig() ?? false;
   const digits = {
     maximumFractionDigits: decimals,
     minimumFractionDigits: decimals,
@@ -111,9 +116,9 @@ function CountUp({ value, locale, decimals = 0 }: CountUpProps): ReactNode {
      * it finishes: an effect re-run mid-count, as StrictMode's double mount
      * does, starts it over. The animation writes to the DOM behind React's
      * back, so a later change — a new language — is written the same way,
-     * straight to its final value.
+     * straight to its final value, as is every number under Reduce motion.
      */
-    if (hasCountedRef.current) {
+    if (hasCountedRef.current || isReduced) {
       write(value);
       return;
     }
@@ -126,7 +131,7 @@ function CountUp({ value, locale, decimals = 0 }: CountUpProps): ReactNode {
       onUpdate: write,
     });
     return () => controls.stop();
-  }, [decimals, isInView, locale, value]);
+  }, [decimals, isInView, isReduced, locale, value]);
 
   return <span ref={ref}>{value.toLocaleString(locale, digits)}</span>;
 }
@@ -525,6 +530,7 @@ function DistanceTile(): ReactNode {
  */
 function WorldTile(): ReactNode {
   const { t, currLanguage } = useLanguage(["home"]);
+  const isReduced = useReducedMotionConfig() ?? false;
 
   return (
     <Card area="world" title={t("stats.world")}>
@@ -541,7 +547,11 @@ function WorldTile(): ReactNode {
             cy="60"
             initial={{ pathLength: 0 }}
             r="52"
-            transition={{ ...easeOut, delay: 0.2, duration: 1.2 }}
+            transition={
+              isReduced
+                ? { duration: 0 }
+                : { ...easeOut, delay: 0.2, duration: 1.2 }
+            }
             viewport={{ once: true }}
             whileInView={{ pathLength: stats.countryShare }}
           />
@@ -563,6 +573,156 @@ function WorldTile(): ReactNode {
           </span>
         </p>
       </div>
+    </Card>
+  );
+}
+
+/**
+ * FlightTypesTile component
+ * One tile of the statistics bento: the flights split into national,
+ * international and intercontinental, as a donut sized by flights or by
+ * kilometres beside a legend. A segment and its legend row highlight each other;
+ * the rows are what a keyboard reaches, since the picture is one image to a
+ * screen reader, which reads the same figures from a hidden table.
+ * @component
+ * @returns {ReactNode} The tile
+ */
+function FlightTypesTile(): ReactNode {
+  const { t, currLanguage } = useLanguage(["home"]);
+  const isReduced = useReducedMotionConfig() ?? false;
+  const [measure, setMeasure] = useState<FlightMeasure>("count");
+  const [activeType, setActiveType] = useState<TravelType | null>(null);
+  const { count, types } = stats.flightTypes;
+  const segments = getDonutSegments(types.map((type) => type[measure]));
+  const rows = types.map((stat, index) => ({
+    ...stat,
+    name: t(`stats.flightTypes.type.${stat.type}`),
+    segment: segments[index],
+    share: stats.flightTypes[measure]
+      ? (stat[measure] / stats.flightTypes[measure]) * 100
+      : 0,
+  }));
+
+  return (
+    <Card area="flightTypes" title={t("stats.flightTypes.title")}>
+      <SegmentedControl
+        id="flight-types"
+        label={t("stats.flightTypes.measure")}
+        onChange={setMeasure}
+        options={[
+          { label: t("stats.flightTypes.byCount"), value: "count" },
+          { label: t("stats.flightTypes.byKm"), value: "km" },
+        ]}
+        value={measure}
+      />
+      <div className="stats-tile__flight-types">
+        <div className="stats-tile__donut">
+          <svg
+            aria-label={t("stats.flightTypes.summary", {
+              count,
+              types: rows
+                .map(({ name, count: flights, share, km }) =>
+                  t("stats.flightTypes.row", {
+                    count: flights,
+                    km: formatMileage(km, currLanguage, 0),
+                    share: Math.round(share),
+                    type: name,
+                  }),
+                )
+                .join("; "),
+            })}
+            className="stats-tile__ring"
+            role="img"
+            viewBox="0 0 120 120"
+          >
+            {rows.map(({ type, segment }) =>
+              segment.length > 0 ? (
+                <m.circle
+                  className={classNames(
+                    "stats-tile__donut-segment",
+                    `stats-tile--${type}`,
+                    activeType !== null &&
+                      activeType !== type &&
+                      "stats-tile__donut-segment--muted",
+                  )}
+                  cx="60"
+                  cy="60"
+                  initial={{ pathLength: 0, pathOffset: 0 }}
+                  key={type}
+                  onMouseEnter={() => setActiveType(type)}
+                  onMouseLeave={() => setActiveType(null)}
+                  r="52"
+                  transition={
+                    isReduced ? { duration: 0 } : { ...easeOut, duration: 0.9 }
+                  }
+                  viewport={{ once: true }}
+                  whileInView={{
+                    pathLength: segment.length,
+                    pathOffset: segment.offset,
+                  }}
+                />
+              ) : null,
+            )}
+          </svg>
+          <p className="stats-tile__donut-total">
+            <span className="stats-tile__world-value">
+              <CountUp locale={currLanguage} value={count} />
+            </span>
+            <span className="stats-tile__world-label">
+              {t("stats.flightTypes.flights", { count })}
+            </span>
+          </p>
+        </div>
+        <ul className="stats-tile__flight-legend">
+          {rows.map(({ type, name, count: flights, share, km }) => (
+            <li key={type}>
+              <button
+                className={classNames(
+                  "stats-tile__flight-row",
+                  `stats-tile--${type}`,
+                  activeType === type && "stats-tile__flight-row--active",
+                )}
+                onBlur={() => setActiveType(null)}
+                onFocus={() => setActiveType(type)}
+                onMouseEnter={() => setActiveType(type)}
+                onMouseLeave={() => setActiveType(null)}
+                type="button"
+              >
+                <span aria-hidden="true" className="stats-tile__flight-dot" />
+                <span className="stats-tile__flight-name">{name}</span>
+                <span className="stats-tile__flight-count">
+                  <CountUp locale={currLanguage} value={flights} />
+                </span>
+                <span className="stats-tile__flight-detail">
+                  <CountUp locale={currLanguage} value={share} />%{" · "}
+                  <CountUp locale={currLanguage} value={km} /> km
+                </span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <table className="stats-tile__flight-table">
+        <caption>{t("stats.flightTypes.title")}</caption>
+        <thead>
+          <tr>
+            <th scope="col">{t("stats.flightTypes.typeHeader")}</th>
+            <th scope="col">{t("stats.flightTypes.byCount")}</th>
+            <th scope="col">{t("stats.flightTypes.shareHeader")}</th>
+            <th scope="col">{t("stats.flightTypes.byKm")}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map(({ type, name, count: flights, share, km }) => (
+            <tr key={type}>
+              <th scope="row">{name}</th>
+              <td>{flights}</td>
+              <td>{Math.round(share)}%</td>
+              <td>{formatMileage(km, currLanguage, 0)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </Card>
   );
 }
@@ -862,6 +1022,8 @@ export function StatsPage(): ReactNode {
               }))}
             />
           </Card>
+
+          {stats.flightTypes.count > 0 ? <FlightTypesTile /> : null}
 
           <RecordsTile />
 

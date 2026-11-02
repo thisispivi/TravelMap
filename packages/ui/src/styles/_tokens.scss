@@ -1,3 +1,4 @@
+@use "sass:color";
 @use "variables" as v;
 
 /*
@@ -48,6 +49,13 @@
   --c-lived: #e9b949;
   --c-lived-soft: #fbf0d2;
   --c-lived-ink: #8a6510;
+  /* Flight reach: the plane's colour, further from the card the further it went. */
+  --c-flight-national: #{v.$transportPlane};
+  --c-flight-international: #{color.scale(v.$transportPlane, $lightness: -35%)};
+  --c-flight-intercontinental: #{color.scale(
+      v.$transportPlane,
+      $lightness: -62%
+    )};
   --marker-visited: #ea4335;
   --marker-visited-hover: #c5221f;
   --marker-future: #4a89dc;
@@ -115,6 +123,12 @@
   --c-lived: #f2cd6b;
   --c-lived-soft: rgba(242, 205, 107, 0.16);
   --c-lived-ink: #f5dc97;
+  --c-flight-national: #{v.$transportPlane};
+  --c-flight-international: #{color.scale(v.$transportPlane, $lightness: 40%)};
+  --c-flight-intercontinental: #{color.scale(
+      v.$transportPlane,
+      $lightness: 78%
+    )};
   --marker-visited: #ff5a4a;
   --marker-visited-hover: #ff8a80;
   --marker-future: #5d9cec;

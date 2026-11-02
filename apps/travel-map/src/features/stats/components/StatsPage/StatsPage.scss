@@ -23,6 +23,7 @@
       "world world"
       "countries countries"
       "modes modes"
+      "flightTypes flightTypes"
       "records records"
       "days days"
       "h1 h1"
@@ -47,11 +48,12 @@
         "f4 f4 f5 f5 f6 f6"
         "continents continents continents continents continents continents"
         "distance distance distance distance world world"
-        "countries countries countries modes modes modes"
-        "records records records currencies currencies currencies"
-        "days days days days h1 h1"
-        "days days days days h2 h2"
-        "days days days days h3 h3"
+        "modes modes modes flightTypes flightTypes flightTypes"
+        "countries countries countries records records records"
+        "currencies currencies currencies currencies currencies currencies"
+        "days days days h1 h1 h1"
+        "days days days h2 h2 h2"
+        "days days days h3 h3 h3"
         "trips trips trips trips trips trips"
         "operators operators operators operators operators operators";
       grid-template-columns: repeat(6, minmax(0, 1fr));
@@ -63,11 +65,11 @@
         "f1 f1 f2 f2 f3 f3 continents continents continents continents continents continents"
         "f4 f4 f5 f5 f6 f6 continents continents continents continents continents continents"
         "distance distance distance distance distance distance distance distance world world world world"
-        "countries countries countries countries modes modes modes modes records records records records"
+        "countries countries countries countries modes modes modes modes flightTypes flightTypes flightTypes flightTypes"
         "days days days days days days days days h1 h1 h1 h1"
         "days days days days days days days days h2 h2 h2 h2"
         "days days days days days days days days h3 h3 h3 h3"
-        "trips trips trips trips trips trips trips trips currencies currencies currencies currencies"
+        "records records records records trips trips trips trips currencies currencies currencies currencies"
         "operators operators operators operators operators operators operators operators operators operators operators operators";
       grid-template-columns: repeat(12, minmax(0, 1fr));
     }
@@ -87,10 +89,22 @@
   }
 
   @each $area in f1, f2, f3, f4, f5, f6, h1, h2, h3, continents, countries,
-    distance, world, modes, records, days, trips, currencies, operators
+    distance, world, modes, flightTypes, records, days, trips, currencies,
+    operators
   {
     &--#{$area} {
       grid-area: $area;
+    }
+  }
+
+  /* With no flights to split, the modes tile takes the room left beside it. */
+  .stats-page__bento:not(:has(.stats-tile--flightTypes)) &--modes {
+    @container stats (min-width: 40rem) {
+      grid-column: 1 / -1;
+    }
+
+    @container stats (min-width: 72rem) {
+      grid-column: 5 / -1;
     }
   }
 
@@ -544,5 +558,119 @@
     color: v.$ink3;
     font-size: v.$caption;
     font-weight: 600;
+  }
+
+  /* The flights split by reach: a donut beside its legend, under it when narrow. */
+  &__flight-types {
+    display: flex;
+    flex: 1;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: v.$space4;
+  }
+
+  &__donut {
+    position: relative;
+    display: grid;
+    flex: 0 1 11rem;
+    place-items: center;
+  }
+
+  &__donut-segment {
+    fill: none;
+    stroke: var(--segment-color);
+    stroke-linecap: round;
+    stroke-width: 10;
+    @include m.transition(opacity, v.$durationFast);
+
+    &--muted {
+      opacity: 0.3;
+    }
+  }
+
+  &__donut-total {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    pointer-events: none;
+  }
+
+  &__flight-legend {
+    display: flex;
+    flex: 1 1 13rem;
+    flex-direction: column;
+    gap: v.$space1;
+    min-width: 0;
+    list-style: none;
+  }
+
+  &__flight-row {
+    @include m.bare-button();
+    @include m.transition(background);
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: v.$space2;
+    width: 100%;
+    min-height: 2.75rem;
+    padding: v.$space1 v.$space2;
+    border-radius: v.$radiusSm;
+    text-align: left;
+
+    &--active {
+      background: v.$cardSunken;
+    }
+  }
+
+  &__flight-dot {
+    width: 0.625rem;
+    height: 0.625rem;
+    border-radius: 50%;
+    background: var(--segment-color);
+  }
+
+  &__flight-name {
+    color: v.$ink;
+    font-size: v.$bodySm;
+    font-weight: 650;
+  }
+
+  &__flight-count {
+    color: v.$ink;
+    font-size: v.$bodySm;
+    font-weight: 750;
+    @include m.figure();
+  }
+
+  &__flight-detail {
+    grid-column: 2 / -1;
+    color: v.$ink3;
+    font-size: v.$caption;
+    font-weight: 600;
+    @include m.figure();
+  }
+
+  /* The same figures for a screen reader, out of sight but not out of the tree. */
+  &__flight-table {
+    position: absolute;
+    width: 0.0625rem;
+    height: 0.0625rem;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  &--national {
+    --segment-color: #{v.$flightNational};
+  }
+
+  &--international {
+    --segment-color: #{v.$flightInternational};
+  }
+
+  &--intercontinental {
+    --segment-color: #{v.$flightIntercontinental};
   }
 }
