@@ -1,0 +1,1 @@
+.gallery-index__grid{grid-template-columns:repeat(auto-fill,minmax(min(22.5rem,max(50% - .5rem,16rem)),1fr));gap:1rem;padding:.5rem 2rem 2rem;list-style:none;display:grid}@media (width<=47.9375rem){.gallery-index__grid{gap:.75rem;padding:.5rem 1rem 1.5rem}}

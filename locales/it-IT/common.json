@@ -14,6 +14,7 @@
     "label": "Navigazione principale"
   },
   "map": {
+    "title": "Mappa",
     "zoomIn": "Aumenta lo zoom",
     "zoomOut": "Riduci lo zoom"
   },

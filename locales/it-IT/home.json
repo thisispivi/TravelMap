@@ -49,7 +49,9 @@
   "nav": {
     "gallery": "Galleria",
     "timeline": "Timeline",
-    "stats": "Statistiche"
+    "stats": "Statistiche",
+    "settings": "Opzioni",
+    "journal": "Diario"
   },
   "goHome": "Mostra tutta la mappa",
   "sheet": {
@@ -124,7 +126,6 @@
   },
   "gallery": {
     "title": "Galleria",
-    "summary": "{{photos}} foto da {{trips}} viaggi",
     "empty": "Ancora nessuna foto.",
     "photoCount_one": "{{count}} foto",
     "photoCount_other": "{{count}} foto",
@@ -137,12 +138,9 @@
   },
   "timeline": {
     "title": "Timeline",
-    "summary": "{{trips}} viaggi in {{years}} anni",
     "empty": "Ancora nessun viaggio.",
     "days_one": "{{count}} giorno",
-    "days_other": "{{count}} giorni",
-    "yearSummary_one": "{{count}} viaggio · {{days}} giorni fuori",
-    "yearSummary_other": "{{count}} viaggi · {{days}} giorni fuori"
+    "days_other": "{{count}} giorni"
   },
   "stats": {
     "title": "Statistiche",
@@ -157,12 +155,98 @@
     "byCountry": "Città per paese",
     "currencies": "Valute usate",
     "modes": "Spostamenti",
+    "flightTypes": {
+      "title": "Voli per tipo",
+      "flights_one": "volo",
+      "flights_other": "voli",
+      "measure": "Dimensiona i segmenti per",
+      "byCount": "Voli",
+      "byKm": "Chilometri",
+      "type": {
+        "national": "Nazionali",
+        "international": "Internazionali",
+        "intercontinental": "Intercontinentali"
+      },
+      "typeHeader": "Tipo",
+      "shareHeader": "Quota",
+      "summary": "{{count}} voli: {{types}}",
+      "row": "{{type}} {{count}}, {{share}}%, {{km}} km"
+    },
     "records": "Record",
-    "operators": "Compagnie aeree e di navigazione",
-    "airlines": "Compagnie aeree",
-    "ferryLines": "Compagnie di navigazione",
+    "runnerUp": "Secondo posto",
+    "longestOverland": "Tragitto via terra più lungo",
+    "longestLayover": "Scalo più lungo",
+    "biggestZoneJump": "Salto di fuso più grande",
+    "visitCount_one": "{{count}} visita",
+    "visitCount_other": "{{count}} visite",
+    "photoCount_one": "{{count}} foto",
+    "photoCount_other": "{{count}} foto",
+    "edges": {
+      "title": "I confini della tua mappa",
+      "north": "Nord",
+      "south": "Sud",
+      "east": "Est",
+      "west": "Ovest",
+      "letter": {
+        "N": "N",
+        "S": "S",
+        "E": "E",
+        "W": "O"
+      },
+      "home": "Casa",
+      "showOnMap": "Mostra {{city}} sulla mappa",
+      "latitudeSpan": "{{degrees}}° di latitudine tra nord e sud",
+      "longitudeSpan": "{{degrees}}° di longitudine tra ovest ed est"
+    },
+    "hemispheres": {
+      "title": "Emisferi",
+      "NW": "Nord-ovest",
+      "NE": "Nord-est",
+      "SW": "Sud-ovest",
+      "SE": "Sud-est",
+      "notYet": "Non ancora",
+      "more": "+{{count}} altre",
+      "halves": "Nord {{north}} · Sud {{south}} · Est {{east}} · Ovest {{west}}"
+    },
+    "lines": {
+      "title": "Linee attraversate",
+      "arctic": "Circolo polare artico",
+      "cancer": "Tropico del Cancro",
+      "equator": "Equatore",
+      "capricorn": "Tropico del Capricorno",
+      "antarctic": "Circolo polare antartico",
+      "primeMeridian": "Meridiano di Greenwich",
+      "antimeridian": "Linea del cambio di data",
+      "notYet": "Non ancora",
+      "more": "+{{count}} altri"
+    },
+    "topTrips": {
+      "title": "I viaggi più grandi",
+      "days": "Giorni",
+      "cities": "Città"
+    },
+    "topPlaces": {
+      "title": "I tuoi luoghi",
+      "nights": "Notti",
+      "visits": "Ritorni",
+      "photos": "Foto"
+    },
+    "clock": {
+      "title": "Quando viaggi",
+      "departures": "Partenze",
+      "arrivals": "Arrivi",
+      "earliest": "Partenza più mattiniera",
+      "latest": "Arrivo più tardivo",
+      "hour": "{{hour}}: {{departures}} partenze, {{arrivals}} arrivi"
+    },
+    "operators": "Compagnie di trasporto",
+    "operatorGroup": {
+      "plane": "Compagnie aeree",
+      "ferry": "Compagnie di navigazione",
+      "bus": "Compagnie di autobus",
+      "taxi": "Compagnie di taxi"
+    },
     "longestFlight": "Volo più lungo",
-    "shortestFlight": "Volo più breve",
     "longestFerry": "Traghetto più lungo",
     "furthestCity": "Più lontano da casa",
     "timezones": "Fusi orari attraversati",
@@ -184,5 +268,36 @@
     "countryCount_other": "{{count}} paesi",
     "cityCount_one": "{{count}} città",
     "cityCount_other": "{{count}} città"
+  },
+  "settings": {
+    "title": "Impostazioni",
+    "appearance": {
+      "title": "Aspetto",
+      "theme": "Tema",
+      "themes": {
+        "light": "Chiaro",
+        "dark": "Scuro",
+        "system": "Sistema"
+      },
+      "motion": "Animazioni",
+      "motions": {
+        "system": "Come il sistema",
+        "reduce": "Riduci animazioni"
+      }
+    },
+    "language": {
+      "title": "Lingua"
+    },
+    "about": {
+      "title": "Informazioni",
+      "version": "Versione",
+      "source": "Codice sorgente",
+      "sourceLink": "Vedi su GitHub",
+      "credits": "Riconoscimenti",
+      "creditTwemoji": "Bandiere dei paesi di Twemoji, CC BY 4.0",
+      "creditNaturalEarth": "Confini dei paesi da Natural Earth",
+      "creditMapLibre": "Mappa disegnata con MapLibre GL JS",
+      "opensInNewTab": "{{name}} (si apre in una nuova scheda)"
+    }
   }
 }
