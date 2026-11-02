@@ -136,6 +136,11 @@ dependency direction:
   `element: null`, then extend `useAppLocation.ts` and `MapShell` — don't give it
   its own routed page component. When adding a genuinely standalone view, follow the
   `TimelinePage`/`StatsPage` pattern (own lazy-loaded route element).
+- **The navigation fits itself to the window.** Stats, Timeline and any other
+  page in `JOURNAL_PAGES` (`shared/lib/journal.ts`) get their own tabs when
+  there is room and share a Journal tab when there is not, with a
+  `JournalSwitcher` in each page's header. A new page that looks back over the
+  archive is one line in that list and one `JournalSwitcher`, not a new tab.
 - **The routers differ on purpose.** The site uses a hash router because it is
   served as static files (GitHub Pages, nginx) with no fallback to
   `index.html`; the editor runs only on its dev server, where plain URLs work,

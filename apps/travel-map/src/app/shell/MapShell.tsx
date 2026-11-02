@@ -1,7 +1,9 @@
 import "./MapShell.scss";
 
 import { City, Trip } from "@travelmap/core";
+import { useMotionPreference } from "@travelmap/ui/hooks/useMotionPreference";
 import { useThemeDetector } from "@travelmap/ui/hooks/useThemeDetector";
+import { MotionConfig } from "framer-motion";
 import { ReactNode, useEffect, useReducer, useRef } from "react";
 import { useLocation, useNavigate, useOutlet } from "react-router";
 
@@ -44,7 +46,8 @@ export function MapShell(): ReactNode {
     mapShellReducer,
     initialMapShellState,
   );
-  const { isDarkTheme, handleDarkModeSwitch } = useThemeDetector();
+  const { isDarkTheme } = useThemeDetector();
+  const { reducedMotion } = useMotionPreference();
 
   useEffect(() => {
     const isInitialRoute = isInitialRouteRef.current;
@@ -83,13 +86,14 @@ export function MapShell(): ReactNode {
       <AppRouteContext.Provider value={appRoute}>
         <MapInteractionContext.Provider value={mapInteractionContextValue}>
           <PanelContext.Provider value={panelContextValue}>
-            <MapShellLayout
-              isDarkTheme={isDarkTheme}
-              onToggleTheme={handleDarkModeSwitch}
-              outlet={outlet}
-              pathname={location.pathname}
-              responsive={responsive}
-            />
+            <MotionConfig reducedMotion={reducedMotion}>
+              <MapShellLayout
+                isDarkTheme={isDarkTheme}
+                outlet={outlet}
+                pathname={location.pathname}
+                responsive={responsive}
+              />
+            </MotionConfig>
           </PanelContext.Provider>
         </MapInteractionContext.Provider>
       </AppRouteContext.Provider>

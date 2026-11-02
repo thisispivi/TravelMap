@@ -90,4 +90,29 @@ describe("NavRail", () => {
 
     expect(screen.queryByRole("button", { name: "Home" })).toBeNull();
   });
+
+  it("marks the settings as current among the rail's tools", () => {
+    render(
+      <NavRail
+        activeId={undefined}
+        isDarkTheme={false}
+        items={ITEMS}
+        logoLabel="Home"
+        onLogo={() => undefined}
+        onSelect={() => undefined}
+        onToggleTheme={() => undefined}
+        settings={{
+          href: "/settings",
+          isActive: true,
+          label: "Settings",
+          onSelect: () => undefined,
+        }}
+      />,
+    );
+
+    expect(screen.getByRole("link", { name: "Settings" })).toHaveProperty(
+      "ariaCurrent",
+      "page",
+    );
+  });
 });

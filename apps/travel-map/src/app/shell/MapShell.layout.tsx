@@ -35,14 +35,12 @@ const PlacesPanel = lazy(() =>
 /**
  * Properties accepted by the map shell layout.
  * @property {boolean} isDarkTheme - Whether the dark theme is active
- * @property {() => void} onToggleTheme - Switches between light and dark
  * @property {ReactNode} outlet - The active page route's element, frozen per render
  * @property {string} pathname - The current pathname, used to key page transitions
  * @property {ResponsiveType} responsive - The current viewport
  */
 interface MapShellLayoutProps {
   isDarkTheme: boolean;
-  onToggleTheme: () => void;
   outlet: ReactNode;
   pathname: string;
   responsive: ResponsiveType;
@@ -110,7 +108,6 @@ function SideContent(): ReactNode {
  * @component
  * @param {MapShellLayoutProps} props - The layout props
  * @param {boolean} props.isDarkTheme - Whether the dark theme is active
- * @param {() => void} props.onToggleTheme - Switches between light and dark
  * @param {ReactNode} props.outlet - The active page route's element
  * @param {string} props.pathname - The current pathname
  * @param {ResponsiveType} props.responsive - The current viewport
@@ -118,7 +115,6 @@ function SideContent(): ReactNode {
  */
 export function MapShellLayout({
   isDarkTheme,
-  onToggleTheme,
   outlet,
   pathname,
   responsive,
@@ -136,11 +132,7 @@ export function MapShellLayout({
         <Map isDarkTheme={isDarkTheme} responsive={responsive} />
       </Suspense>
 
-      <AppNav
-        isCompact={responsive.isCompact}
-        isDarkTheme={isDarkTheme}
-        onToggleTheme={onToggleTheme}
-      />
+      <AppNav responsive={responsive} />
 
       <AnimatePresence>
         {isSideDocked && isPanelOpen ? (

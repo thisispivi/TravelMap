@@ -12,12 +12,10 @@ interface Dated {
  * The trips that started in one year.
  * @property {number} year - The year
  * @property {T[]} trips - Its trips, newest first
- * @property {number} days - Days spent travelling on those trips
  */
 export interface TimelineYear<T extends Dated> {
   year: number;
   trips: T[];
-  days: number;
 }
 
 /**
@@ -217,12 +215,10 @@ export function buildTimeline<T extends Dated>(trips: T[]): TimelineYear<T>[] {
 
   for (const trip of sorted) {
     const year = trip.sDate.getFullYear();
-    const days = trip.getDurationInDays();
     const current = years.at(-1);
     if (current?.year === year) {
       current.trips.push(trip);
-      current.days += days;
-    } else years.push({ days, trips: [trip], year });
+    } else years.push({ trips: [trip], year });
   }
 
   return years;

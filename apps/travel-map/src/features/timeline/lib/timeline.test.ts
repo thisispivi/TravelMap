@@ -39,14 +39,6 @@ describe("buildTimeline", () => {
     ]);
   });
 
-  it("adds up the days of all of a year's trips", () => {
-    const [year] = buildTimeline([
-      trip("2023-08-01", 3),
-      trip("2023-02-01", 2),
-    ]);
-    expect(year?.days).toBe(5);
-  });
-
   it("lists a year's trips newest first", () => {
     const early = trip("2023-02-01", 5);
     const late = trip("2023-08-15", 6);
@@ -57,7 +49,6 @@ describe("buildTimeline", () => {
   it("keeps a trip over New Year whole in the year it started", () => {
     const [year] = buildTimeline([trip("2025-12-30", 4)]);
     expect(year?.year).toBe(2025);
-    expect(year?.days).toBe(4);
   });
 
   it("returns nothing for no trips", () => {
