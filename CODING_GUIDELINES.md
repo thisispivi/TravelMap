@@ -811,7 +811,8 @@ Vertical whitespace communicates structure and MUST be deterministic:
   content never passes under a heading and the glass only ever shows the map.
   Nothing is `position: sticky` inside a scrolling body; to say where the
   reader is (the place in an album), follow the scroll with `useScrollState`
-  and show it in the header. Content inside a
+  and show it in the header. The one exception is the timeline's year marker,
+  which rides its line in a lane no card enters. Content inside a
   panel uses `m.pass-card()`; a pass with two halves is two elements using
   `m.ticket-half()` and `m.perforation()`, whose masked notches are real holes,
   with the shadow as a `filter` on their wrapper. The navigation rail shares

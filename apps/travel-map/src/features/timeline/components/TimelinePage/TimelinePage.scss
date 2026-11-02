@@ -85,10 +85,18 @@ $yearGapCompact: 3.5rem;
     }
   }
 
+  /*
+   * Stays at the top of the page for as long as its year's trips last, the next
+   * year's marker taking over. It keeps to the line's lane, which no card enters,
+   * and the page's scroll loop moves it sideways to stay on the line.
+   */
   &__year-label {
-    position: relative;
+    position: sticky;
+    top: v.$space2;
+    z-index: 2;
     align-self: center;
-    padding: v.$space1 v.$space4;
+    /* Narrow enough to keep clear of the cards however tight the line's lane gets. */
+    padding: v.$space1 v.$space2;
     border-radius: v.$radiusPill;
     background: v.$accent;
     color: v.$onAccent;
@@ -98,6 +106,7 @@ $yearGapCompact: 3.5rem;
 
     @include m.compact() {
       align-self: flex-start;
+      padding-inline: 0.375rem;
     }
   }
 
