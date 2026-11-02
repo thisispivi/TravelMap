@@ -15,6 +15,7 @@ import { getNumberOfTimezonesJumped } from "@/shared/lib/timezone";
 import { getContinentStats } from "./continents";
 import { getCurrencyCountries } from "./countries";
 import { getFurthestAndNearestCity, getMinAndMaxTransport } from "./distance";
+import { getFlightTypeStats } from "./flightTypes";
 import {
   getCountryVisitStats,
   getOperatorGroups,
@@ -90,6 +91,7 @@ function computeStats() {
     countriesByCities: getCountryVisitStats(visitedCities),
     countryShare: visitedCountries.length / constants.TOTAL_COUNTRIES,
     currencies: getCurrencyCountries(visitedCountries),
+    flightTypes: getFlightTypeStats(takenFlights),
     furthestCity: places?.furthest,
     km,
     longestFerry: getMinAndMaxTransport(takenFerries)?.max,

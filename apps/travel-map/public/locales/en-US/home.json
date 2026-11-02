@@ -155,6 +155,23 @@
     "byCountry": "Cities by country",
     "currencies": "Currencies used",
     "modes": "Getting around",
+    "flightTypes": {
+      "title": "Flights by type",
+      "flights_one": "flight",
+      "flights_other": "flights",
+      "measure": "Size the segments by",
+      "byCount": "Flights",
+      "byKm": "Kilometres",
+      "type": {
+        "national": "National",
+        "international": "International",
+        "intercontinental": "Intercontinental"
+      },
+      "typeHeader": "Type",
+      "shareHeader": "Share",
+      "summary": "{{count}} flights: {{types}}",
+      "row": "{{type}} {{count}}, {{share}}%, {{km}} km"
+    },
     "records": "Records",
     "operators": "Transport companies",
     "operatorGroup": {

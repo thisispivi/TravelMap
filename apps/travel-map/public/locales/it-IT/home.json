@@ -155,6 +155,23 @@
     "byCountry": "Città per paese",
     "currencies": "Valute usate",
     "modes": "Spostamenti",
+    "flightTypes": {
+      "title": "Voli per tipo",
+      "flights_one": "volo",
+      "flights_other": "voli",
+      "measure": "Dimensiona i segmenti per",
+      "byCount": "Voli",
+      "byKm": "Chilometri",
+      "type": {
+        "national": "Nazionali",
+        "international": "Internazionali",
+        "intercontinental": "Intercontinentali"
+      },
+      "typeHeader": "Tipo",
+      "shareHeader": "Quota",
+      "summary": "{{count}} voli: {{types}}",
+      "row": "{{type}} {{count}}, {{share}}%, {{km}} km"
+    },
     "records": "Record",
     "operators": "Compagnie di trasporto",
     "operatorGroup": {
