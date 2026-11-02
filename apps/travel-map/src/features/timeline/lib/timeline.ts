@@ -33,7 +33,6 @@ export interface RoutePoint {
  * @property {number} opacity - From 0, unseen, to 1
  * @property {number} x - Sideways shift in rem
  * @property {number} y - Downward shift in rem
- * @property {number} hold - Further downward shift in pixels, against the scroll
  * @property {number} rotate - Tilt in degrees
  * @property {number} scale - Size, where 1 is its own
  */
@@ -41,7 +40,6 @@ interface StopPose {
   opacity: number;
   x: number;
   y: number;
-  hold: number;
   rotate: number;
   scale: number;
 }
@@ -125,9 +123,9 @@ export function isLeftOfLine(index: number, isCompact: boolean): boolean {
  * Places a card by the scroll alone, so scrolling back plays it in reverse. It
  * enters while it rises into the page, whole by the time its bottom edge is on
  * screen, which the last card can reach, easing out so it arrives gently. Leaving
- * returns it to the pose it entered from, holding at the top edge because the
- * page's header would otherwise hide it. The next card closes up over it, so the
- * leaving is quick at first: most of it has played before the two overlap much.
+ * plays the same thing upwards: as the card slides under the page's header it
+ * eases away from its place, rising instead of sinking, gone just as its bottom
+ * edge passes the header.
  * @param {StopPoseInput} input - The measurements
  * @param {number} input.scroll - How far the page has scrolled, in pixels
  * @param {number} input.top - The stop's top within the scrolling content
@@ -148,16 +146,15 @@ export function stopPose({
   const enter = unit((scroll + viewport - top) / height);
   const leave = unit((scroll - top) / height);
   const entering = (1 - enter) ** 3;
-  const leaving = 1 - (1 - leave) ** 3;
+  const leaving = leave ** 3;
   const away = entering + leaving;
   const motion = isReduced ? 0 : 1;
   return {
-    hold: leave * height * motion,
     opacity: (1 - entering) * (1 - leaving),
     rotate: away * (isLeft ? -CARD_TILT_DEG : CARD_TILT_DEG) * motion,
     scale: 1 - away * CARD_SHRINK * motion,
     x: away * (isLeft ? CARD_SHIFT_REM : -CARD_SHIFT_REM) * motion,
-    y: away * CARD_SHIFT_REM * motion,
+    y: (entering - leaving) * CARD_SHIFT_REM * motion,
   };
 }
 

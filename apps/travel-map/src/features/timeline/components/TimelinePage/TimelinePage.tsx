@@ -108,9 +108,11 @@ function TripStop({ trip, index, isLeft, onOpen }: TripStopProps): ReactNode {
  * Every trip as a photo along one winding line, newest first, with a marker at
  * each year. A short weekend gets the same card as a long journey, which a
  * chart drawn to scale could not give it. The page plays as the reader scrolls,
- * in both directions: cards swing out from the line as they rise into view,
- * sink away again on the way back, and leave the same way at the top, while
- * only the stretch of line on screen is drawn.
+ * in both directions: cards swing out from the line as they rise into view, and
+ * swing away upwards as they pass under the header, while only the stretch of
+ * line on screen is drawn. A year's marker rides the line at the top of the page
+ * until the year's trips are over, so the reader always knows which year they
+ * are in.
  * @component
  * @returns {ReactNode} The timeline page
  */

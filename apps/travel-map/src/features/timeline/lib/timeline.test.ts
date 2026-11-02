@@ -71,7 +71,6 @@ describe("stopPose", () => {
 
   it("shows a card whole and in place once its bottom edge is on screen", () => {
     expect(stopPose({ ...stop, scroll: 400 })).toEqual({
-      hold: 0,
       opacity: 1,
       rotate: -0,
       scale: 1,
@@ -89,23 +88,21 @@ describe("stopPose", () => {
     expect(stopPose({ ...stop, scroll: 1100 }).opacity).toBeLessThan(1);
   });
 
-  it("leaves towards the pose it entered from", () => {
+  it("leaves the way it entered, but upwards", () => {
     const entering = stopPose({ ...stop, scroll: 200 });
     const leaving = stopPose({ ...stop, scroll: 1200 });
     expect(leaving.opacity).toBe(entering.opacity);
     expect(leaving.rotate).toBe(entering.rotate);
     expect(leaving.scale).toBe(entering.scale);
     expect(leaving.x).toBe(entering.x);
-    expect(leaving.y).toBe(entering.y);
+    expect(leaving.y).toBe(-entering.y);
+    expect(leaving.y).toBeLessThan(0);
   });
 
-  it("is mostly faded by the time the next card covers half of it", () => {
-    expect(stopPose({ ...stop, scroll: 1100 }).opacity).toBe(0.125);
-  });
-
-  it("holds at the top edge while leaving, instead of passing under the header", () => {
-    expect(stopPose({ ...stop, scroll: 900 }).hold).toBe(0);
-    expect(stopPose({ ...stop, scroll: 1100 }).hold).toBe(100);
+  it("plays its leaving as the mirror of its entering", () => {
+    expect(stopPose({ ...stop, scroll: 1100 }).opacity).toBe(
+      stopPose({ ...stop, scroll: 300 }).opacity,
+    );
   });
 
   it("is the same pose whichever way the page reached that scroll", () => {

@@ -23,6 +23,8 @@ const SWAY_SHARE = 0.68;
 const LINE_ROOM_REM = 3;
 /* How many points along the line are read to tell how far down each one lies. */
 const LINE_SAMPLES = 400;
+/* Matches where the stylesheet holds a year's marker, below the page's top edge. */
+const YEAR_TOP_REM = 0.5;
 /* The spring between the scroll and the page, so a wheel's steps do not show. */
 const SCRUB = { damping: 30, stiffness: 160 };
 
@@ -74,12 +76,17 @@ export function useTimelineScroll({
     const dots = items.map((item) =>
       item.querySelector<HTMLElement>(".timeline-page__dot"),
     );
-    const labels = [...route.querySelectorAll(".timeline-page__year-label")];
+    const labels = [
+      ...route.querySelectorAll<HTMLElement>(".timeline-page__year-label"),
+    ];
     let tops: number[] = [];
     let height = 0;
     let routeTop = 0;
     let routeHeight = 1;
     let lineHeights: number[] = [];
+    let lineXs: number[] = [];
+    let labelYs: number[] = [];
+    let centreX = 0;
 
     /**
      * Moves everything to where the scroll puts it, written straight to the DOM
@@ -117,8 +124,20 @@ export function useTimelineScroll({
         });
         if (pose.opacity === 0 && card.style.opacity === "0") return;
         card.style.opacity = `${pose.opacity}`;
-        card.style.transform = `translate3d(${pose.x}rem, calc(${pose.y}rem + ${pose.hold}px), 0) rotate(${pose.rotate}deg) scale(${pose.scale})`;
+        card.style.transform = `translate3d(${pose.x}rem, ${pose.y}rem, 0) rotate(${pose.rotate}deg) scale(${pose.scale})`;
         dot.style.transform = `scale(${pose.opacity})`;
+      });
+      labels.forEach((label, index) => {
+        const y =
+          body.scrollTop -
+          routeTop +
+          remToPx(YEAR_TOP_REM) +
+          label.offsetHeight / 2;
+        const isHeld = !isCompact && y > (labelYs[index] ?? y);
+        /* It joins the line where its own place on the line is, so nothing jumps. */
+        const share = isHeld ? lengthShareAt(lineHeights, y) : 0;
+        const x = lineXs[Math.round(share * LINE_SAMPLES)] ?? centreX;
+        label.style.transform = isHeld ? `translateX(${x - centreX}px)` : "";
       });
     };
 
@@ -154,10 +173,13 @@ export function useTimelineScroll({
         x: routeX(index, centre, sway),
         y: box.top + box.height / 2 - routeBoxTop,
       }));
-      const labelPoints = labels.map((label) => {
-        const box = label.getBoundingClientRect();
-        return { x: centre, y: box.top + box.height / 2 - routeBoxTop };
+      /* Read off its year, as the marker itself may be held at the top by now. */
+      labelYs = labels.map((label) => {
+        const yearTop = label.parentElement?.getBoundingClientRect().top ?? 0;
+        return yearTop + label.offsetHeight / 2 - routeBoxTop;
       });
+      const labelPoints = labelYs.map((y) => ({ x: centre, y }));
+      centreX = centre;
       path.setAttribute(
         "d",
         routePath(
@@ -167,10 +189,11 @@ export function useTimelineScroll({
         ),
       );
       const total = path.getTotalLength();
-      lineHeights = Array.from(
-        { length: LINE_SAMPLES + 1 },
-        (_, sample) => path.getPointAtLength((total * sample) / LINE_SAMPLES).y,
+      const samples = Array.from({ length: LINE_SAMPLES + 1 }, (_, sample) =>
+        path.getPointAtLength((total * sample) / LINE_SAMPLES),
       );
+      lineHeights = samples.map(({ y }) => y);
+      lineXs = samples.map(({ x }) => x);
       stopPoints.forEach(({ x }, index) => {
         const card = cards[index];
         const dot = dots[index];
