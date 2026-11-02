@@ -1,3 +1,4 @@
+import { Loading } from "@travelmap/ui/components/Loading/Loading";
 import {
   createHashRouter,
   LoaderFunctionArgs,
@@ -52,6 +53,12 @@ export const router = createHashRouter([
     path: "/",
     element: <MapShell />,
     errorElement: <FallbackPage />,
+    /* A page opened directly has to wait for its lazy route before anything draws. */
+    hydrateFallbackElement: (
+      <div className="app-loading">
+        <Loading />
+      </div>
+    ),
     children: [
       { index: true, element: null },
       { path: "trips", element: null },
@@ -79,6 +86,14 @@ export const router = createHashRouter([
         lazy: async () => {
           const { GalleryIndex: Component } =
             await import("@/features/gallery/components/GalleryIndex/GalleryIndex");
+          return { Component };
+        },
+      },
+      {
+        path: "settings",
+        lazy: async () => {
+          const { SettingsPage: Component } =
+            await import("@/features/settings/components/SettingsPage/SettingsPage");
           return { Component };
         },
       },

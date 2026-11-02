@@ -8,11 +8,25 @@
 }
 
 /*
- * Honoured once, globally, so no stylesheet has to repeat it. framer-motion's
- * JS-driven animations follow the same preference through `MotionConfig` in
- * `main.tsx`. 0.01ms rather than 0 so transitionend still fires.
+ * Honoured once, globally, so no stylesheet has to repeat it: for the operating
+ * system's preference, and for the site's own Reduce motion setting, which puts
+ * `data-motion` on the root. framer-motion's JS-driven animations follow the same
+ * preference through `MotionConfig`. 0.01ms rather than 0 so transitionend still
+ * fires. Written out twice because React Doctor reads the media query's body as
+ * text and cannot see through an `@include`.
  */
 @media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+[data-motion="reduce"] {
   *,
   *::before,
   *::after {

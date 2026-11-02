@@ -49,7 +49,9 @@
   "nav": {
     "gallery": "Gallery",
     "timeline": "Timeline",
-    "stats": "Stats"
+    "stats": "Stats",
+    "settings": "Settings",
+    "journal": "Journal"
   },
   "goHome": "Show the whole map",
   "sheet": {
@@ -124,7 +126,6 @@
   },
   "gallery": {
     "title": "Gallery",
-    "summary": "{{photos}} photos from {{trips}} trips",
     "empty": "No photos yet.",
     "photoCount_one": "{{count}} photo",
     "photoCount_other": "{{count}} photos",
@@ -137,12 +138,9 @@
   },
   "timeline": {
     "title": "Timeline",
-    "summary": "{{trips}} trips over {{years}} years",
     "empty": "No trips yet.",
     "days_one": "{{count}} day",
-    "days_other": "{{count}} days",
-    "yearSummary_one": "{{count}} trip · {{days}} days away",
-    "yearSummary_other": "{{count}} trips · {{days}} days away"
+    "days_other": "{{count}} days"
   },
   "stats": {
     "title": "Statistics",
@@ -188,5 +186,36 @@
     "countryCount_other": "{{count}} countries",
     "cityCount_one": "{{count}} city",
     "cityCount_other": "{{count}} cities"
+  },
+  "settings": {
+    "title": "Settings",
+    "appearance": {
+      "title": "Appearance",
+      "theme": "Theme",
+      "themes": {
+        "light": "Light",
+        "dark": "Dark",
+        "system": "System"
+      },
+      "motion": "Motion",
+      "motions": {
+        "system": "Follow system",
+        "reduce": "Reduce motion"
+      }
+    },
+    "language": {
+      "title": "Language"
+    },
+    "about": {
+      "title": "About",
+      "version": "Version",
+      "source": "Source code",
+      "sourceLink": "View on GitHub",
+      "credits": "Credits",
+      "creditTwemoji": "Country flags by Twemoji, CC BY 4.0",
+      "creditNaturalEarth": "Country borders from Natural Earth",
+      "creditMapLibre": "Map rendered with MapLibre GL JS",
+      "opensInNewTab": "{{name}} (opens in a new tab)"
+    }
   }
 }

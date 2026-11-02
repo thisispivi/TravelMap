@@ -59,12 +59,12 @@ shared/     what several features use   → may use data
 data/       the dataset                 → only static JSON and @travelmap/core
 ```
 
-| Layer       | Site                                                     | Editor                                           |
-| ----------- | -------------------------------------------------------- | ------------------------------------------------ |
-| `app/`      | `router.tsx`, `MapShell`                                 | `EditorRoutes`, `EditorShell`                    |
-| `features/` | trips, places, gallery, timeline, stats, map, navigation | trips, places, companies, settings, map, palette |
-| `shared/`   | contexts, hooks, bottom sheet, year pills                | fields, combobox, date picker, add-place dialog  |
-| `data/`     | `world.ts` builds the graph once                         | `store.ts` holds and writes the documents        |
+| Layer       | Site                                                               | Editor                                           |
+| ----------- | ------------------------------------------------------------------ | ------------------------------------------------ |
+| `app/`      | `router.tsx`, `MapShell`                                           | `EditorRoutes`, `EditorShell`                    |
+| `features/` | trips, places, gallery, timeline, stats, settings, map, navigation | trips, places, companies, settings, map, palette |
+| `shared/`   | contexts, hooks, bottom sheet, year pills                          | fields, combobox, date picker, add-place dialog  |
+| `data/`     | `world.ts` builds the graph once                                   | `store.ts` holds and writes the documents        |
 
 Both keep one map mounted behind a panel. The site's routes decide which panel
 shows over its map; the editor's screens each describe what its map draws.

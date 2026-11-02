@@ -5,7 +5,7 @@
   @include m.panel();
   position: fixed;
   z-index: 4;
-  top: 4.5rem;
+  top: env(safe-area-inset-top, 0rem);
   right: 0;
   bottom: v.$tabBarHeight;
   left: 0;

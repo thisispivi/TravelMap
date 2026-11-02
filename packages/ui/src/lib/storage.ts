@@ -82,3 +82,48 @@ export function writeStoredString(key: string, value: string): void {
     /* Blocked storage only costs remembering the choice on the next visit. */
   }
 }
+
+/**
+ * One remembered choice out of a closed list, which any number of components
+ * can read and follow.
+ * @property {() => T} read - The current choice
+ * @property {(value: T) => void} write - Remembers a choice and tells the subscribers
+ * @property {(listener: () => void) => () => void} subscribe - Follows changes until the returned function runs
+ */
+export interface StoredChoice<T extends string> {
+  read: () => T;
+  write: (value: T) => void;
+  subscribe: (listener: () => void) => () => void;
+}
+
+/**
+ * Creates a remembered choice shaped for `useSyncExternalStore`. The value is
+ * held in memory too, so a choice still applies when storage is blocked, and an
+ * entry outside the list reads as the fallback.
+ * @param {string} key - The key under which the choice is stored
+ * @param {readonly T[]} options - Every valid choice
+ * @param {T} fallback - The choice when nothing valid is stored
+ * @returns {StoredChoice<T>} The choice
+ */
+export function createStoredChoice<T extends string>(
+  key: string,
+  options: readonly T[],
+  fallback: T,
+): StoredChoice<T> {
+  const stored = readStoredString(key);
+  const listeners = new Set<() => void>();
+  let value = options.find((option) => option === stored) ?? fallback;
+
+  return {
+    read: () => value,
+    write: (next) => {
+      value = next;
+      writeStoredString(key, next);
+      listeners.forEach((listener) => listener());
+    },
+    subscribe: (listener) => {
+      listeners.add(listener);
+      return () => listeners.delete(listener);
+    },
+  };
+}

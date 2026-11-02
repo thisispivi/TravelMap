@@ -13,8 +13,6 @@ import { useNavigate } from "react-router";
 import { tripAlbums } from "@/data/albums";
 import { TripPhotoCard } from "@/shared/components/TripPhotoCard/TripPhotoCard";
 
-const totalPhotos = tripAlbums.reduce((sum, { album }) => sum + album.count, 0);
-
 /**
  * GalleryIndex component
  * Every trip that has photos, newest first, as a grid of the same cards the
@@ -29,16 +27,7 @@ export function GalleryIndex(): ReactNode {
 
   return (
     <PanelFrame
-      header={
-        <PanelHeader
-          subtitle={t("gallery.summary", {
-            photos: totalPhotos.toLocaleString(currLanguage),
-            trips: tripAlbums.length,
-          })}
-          surface="page"
-          title={t("gallery.title")}
-        />
-      }
+      header={<PanelHeader surface="page" title={t("gallery.title")} />}
     >
       <div className="gallery-index">
         {tripAlbums.length === 0 ? (

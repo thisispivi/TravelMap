@@ -32,6 +32,13 @@ editor. The repository `media/` folder mirrors those paths, so
 from `site.config.json`'s optional `media.root` setting and defaults to that
 value when it is absent. Keep trip cover images under `/Trips/...`.
 
+`site.avatar` is the picture on the site's Settings page: a media path, resolved
+against `VITE_CDN_PATH` like any other image, or an absolute URL. Without one the
+page shows the author's initials. `site.sourceUrl` is where that page links for
+the source code, and defaults to the upstream TravelMap repository. `site.website`
+is the link under the author's name, and defaults to `site.domain`, which stays
+the site's own address for publishing. The page reads `site.author` for the name.
+
 Replace the favicon binaries and `apps/travel-map/public/Logo.svg` to change the
 brand assets. The primary accent colours intentionally remain in
 `apps/travel-map/src/styles/_variables.scss`: keeping two CSS design tokens in

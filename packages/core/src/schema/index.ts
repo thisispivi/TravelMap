@@ -278,6 +278,19 @@ export const CompanySchema = z.strictObject({
   name: z.string().trim().min(1),
 });
 
+/*
+ * The author's picture: a media path resolved like a cover image, or an absolute
+ * URL when it is hosted elsewhere. Only the start is checked because media folders
+ * can have spaces in their names.
+ */
+export const SiteAvatarSchema = z
+  .string()
+  .trim()
+  .regex(/^(?:\/|https?:\/\/)\S/);
+
+/* Rendered as a link, so `javascript:` and the like must not get through. */
+export const SiteLinkSchema = z.httpUrl();
+
 /** Fork-owned site, map, media, and classification settings. */
 export const SiteConfigSchema = z.strictObject({
   companies: z.record(z.string().min(1), CompanySchema).optional(),
@@ -299,10 +312,13 @@ export const SiteConfigSchema = z.strictObject({
   site: z
     .strictObject({
       author: z.string().optional(),
+      avatar: SiteAvatarSchema.optional(),
       description: z.string().optional(),
       domain: z.string().optional(),
       keywords: z.array(z.string()).optional(),
       name: z.string().trim().min(1).optional(),
+      sourceUrl: SiteLinkSchema.optional(),
+      website: SiteLinkSchema.optional(),
     })
     .optional(),
   trips: z

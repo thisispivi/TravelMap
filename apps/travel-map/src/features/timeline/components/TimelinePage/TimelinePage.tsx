@@ -13,9 +13,9 @@ import { ReactNode, useRef } from "react";
 import { useNavigate } from "react-router";
 
 import { visitedTrips } from "@/data/world";
+import { JournalSwitcher } from "@/shared/components/JournalSwitcher/JournalSwitcher";
 import { useMapInteraction } from "@/shared/context/MapInteraction.context";
 import { useResponsive } from "@/shared/hooks/useResponsive";
-import { useScrollState } from "@/shared/hooks/useScrollState";
 
 import { buildTimeline, isLeftOfLine } from "../../lib/timeline";
 import { useTimelineScroll } from "./TimelinePage.scroll";
@@ -109,8 +109,8 @@ function TripStop({ trip, index, isLeft, onOpen }: TripStopProps): ReactNode {
  * each year. A short weekend gets the same card as a long journey, which a
  * chart drawn to scale could not give it. The page plays as the reader scrolls,
  * in both directions: cards swing out from the line as they rise into view,
- * sink away again on the way back, and fade as they pass the top, while only
- * the stretch of line on screen is drawn.
+ * sink away again on the way back, and leave the same way at the top, while
+ * only the stretch of line on screen is drawn.
  * @component
  * @returns {ReactNode} The timeline page
  */
@@ -122,11 +122,6 @@ export function TimelinePage(): ReactNode {
   const bodyRef = useRef<HTMLDivElement>(null);
   const routeRef = useRef<HTMLDivElement>(null);
   const pathRef = useRef<SVGPathElement>(null);
-  const { isScrolled, activeIndex } = useScrollState(
-    bodyRef,
-    ".timeline-page__year",
-  );
-  const currentYear = years[activeIndex];
 
   useTimelineScroll({ bodyRef, isCompact, pathRef, routeRef });
 
@@ -144,21 +139,9 @@ export function TimelinePage(): ReactNode {
     <PanelFrame
       bodyRef={bodyRef}
       header={
-        <PanelHeader
-          subtitle={
-            isScrolled && currentYear
-              ? `${currentYear.year} · ${t("timeline.yearSummary", {
-                  count: currentYear.trips.length,
-                  days: currentYear.days,
-                })}`
-              : t("timeline.summary", {
-                  trips: visitedTrips.length,
-                  years: years.length,
-                })
-          }
-          surface="page"
-          title={t("timeline.title")}
-        />
+        <PanelHeader surface="page" title={t("timeline.title")}>
+          <JournalSwitcher />
+        </PanelHeader>
       }
     >
       <div className="timeline-page">

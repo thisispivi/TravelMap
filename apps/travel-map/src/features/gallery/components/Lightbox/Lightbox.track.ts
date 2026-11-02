@@ -5,7 +5,7 @@ import {
   MotionValue,
   PanInfo,
   useMotionValue,
-  useReducedMotion,
+  useReducedMotionConfig,
   useTransform,
 } from "framer-motion";
 import {
@@ -92,7 +92,7 @@ export function useLightboxTrack({
 }: UseLightboxTrackProps): UseLightboxTrackReturn {
   const position = useMotionValue(urlIndex);
   const x = useTransform(position, (value) => `${-value * 100}%`);
-  const isReduced = useReducedMotion() ?? false;
+  const isReduced = useReducedMotionConfig() ?? false;
   /*
    * The photo shown is the URL's, except from arrival until the URL has caught
    * up. An override only holds for the URL it was set against, so a URL changed

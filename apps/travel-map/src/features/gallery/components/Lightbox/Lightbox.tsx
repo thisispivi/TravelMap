@@ -7,7 +7,12 @@ import { formatDateRangeShort } from "@travelmap/ui/i18n/date";
 import { classNames } from "@travelmap/ui/lib/classNames";
 import { keepTabWithin } from "@travelmap/ui/lib/focus";
 import { easeOut } from "@travelmap/ui/lib/motion";
-import { animate, m, useMotionValue, useReducedMotion } from "framer-motion";
+import {
+  animate,
+  m,
+  useMotionValue,
+  useReducedMotionConfig,
+} from "framer-motion";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
@@ -158,7 +163,7 @@ export function Lightbox(): ReactNode {
   const opacity = useMotionValue(0);
   /* Set once the fade has finished, when the album behind is fully covered. */
   const [isCovering, setIsCovering] = useState(false);
-  const isReduced = useReducedMotion();
+  const isReduced = useReducedMotionConfig();
 
   /**
    * Returns to the album.

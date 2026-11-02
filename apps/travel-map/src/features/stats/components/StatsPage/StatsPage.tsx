@@ -35,6 +35,7 @@ import ContinentsMap from "@/assets/icons/Continents.svg?react";
 import EarthFlat from "@/assets/icons/EarthFlat.svg?react";
 import MoonFlat from "@/assets/icons/MoonFlat.svg?react";
 import { resolveCompany } from "@/data/companies";
+import { JournalSwitcher } from "@/shared/components/JournalSwitcher/JournalSwitcher";
 import { CONTINENT_COLORS } from "@/shared/lib/continentColors";
 
 import { getCurrencyDisplay } from "../../lib/countries";
@@ -721,7 +722,11 @@ export function StatsPage(): ReactNode {
   if (stats.trips === 0)
     return (
       <PanelFrame
-        header={<PanelHeader surface="page" title={t("stats.title")} />}
+        header={
+          <PanelHeader surface="page" title={t("stats.title")}>
+            <JournalSwitcher />
+          </PanelHeader>
+        }
       >
         <div className="stats-page">
           <EmptyState message={t("stats.empty")} />
@@ -731,7 +736,11 @@ export function StatsPage(): ReactNode {
 
   return (
     <PanelFrame
-      header={<PanelHeader surface="page" title={t("stats.title")} />}
+      header={
+        <PanelHeader surface="page" title={t("stats.title")}>
+          <JournalSwitcher />
+        </PanelHeader>
+      }
     >
       <div className="stats-page">
         <div className="stats-page__bento">

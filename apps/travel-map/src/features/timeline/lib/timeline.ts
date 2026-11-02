@@ -12,12 +12,10 @@ interface Dated {
  * The trips that started in one year.
  * @property {number} year - The year
  * @property {T[]} trips - Its trips, newest first
- * @property {number} days - Days spent travelling on those trips
  */
 export interface TimelineYear<T extends Dated> {
   year: number;
   trips: T[];
-  days: number;
 }
 
 /**
@@ -35,6 +33,7 @@ export interface RoutePoint {
  * @property {number} opacity - From 0, unseen, to 1
  * @property {number} x - Sideways shift in rem
  * @property {number} y - Downward shift in rem
+ * @property {number} hold - Further downward shift in pixels, against the scroll
  * @property {number} rotate - Tilt in degrees
  * @property {number} scale - Size, where 1 is its own
  */
@@ -42,6 +41,7 @@ interface StopPose {
   opacity: number;
   x: number;
   y: number;
+  hold: number;
   rotate: number;
   scale: number;
 }
@@ -94,12 +94,10 @@ interface LineWindow {
 const SWAY_STEP = 1.25;
 /* The shortest swing, as a share of the longest, so the line never runs straight. */
 const MIN_SWING = 0.6;
-/* How far a card travels from the line as it enters, and rises as it leaves. */
-const ENTER_SHIFT_REM = 3;
-const LEAVE_RISE_REM = 2.5;
-const ENTER_TILT_DEG = 5;
-const ENTER_SHRINK = 0.2;
-const LEAVE_SHRINK = 0.12;
+/* How far a card is from its place at the very start of entering or end of leaving. */
+const CARD_SHIFT_REM = 3;
+const CARD_TILT_DEG = 5;
+const CARD_SHRINK = 0.2;
 /* Where the tip of the line sits on the page, as a share of its height. */
 const TIP_SHARE = 0.85;
 
@@ -126,8 +124,10 @@ export function isLeftOfLine(index: number, isCompact: boolean): boolean {
 /**
  * Places a card by the scroll alone, so scrolling back plays it in reverse. It
  * enters while it rises into the page, whole by the time its bottom edge is on
- * screen, which the last card can reach, and leaves as it passes the top. The
- * entrance eases out, so it arrives gently rather than stopping dead.
+ * screen, which the last card can reach, easing out so it arrives gently. Leaving
+ * returns it to the pose it entered from, holding at the top edge because the
+ * page's header would otherwise hide it. The next card closes up over it, so the
+ * leaving is quick at first: most of it has played before the two overlap much.
  * @param {StopPoseInput} input - The measurements
  * @param {number} input.scroll - How far the page has scrolled, in pixels
  * @param {number} input.top - The stop's top within the scrolling content
@@ -147,14 +147,17 @@ export function stopPose({
 }: StopPoseInput): StopPose {
   const enter = unit((scroll + viewport - top) / height);
   const leave = unit((scroll - top) / height);
-  const remaining = (1 - enter) ** 3;
+  const entering = (1 - enter) ** 3;
+  const leaving = 1 - (1 - leave) ** 3;
+  const away = entering + leaving;
   const motion = isReduced ? 0 : 1;
   return {
-    opacity: (1 - remaining) * (1 - leave),
-    rotate: remaining * (isLeft ? -ENTER_TILT_DEG : ENTER_TILT_DEG) * motion,
-    scale: 1 - (remaining * ENTER_SHRINK + leave * LEAVE_SHRINK) * motion,
-    x: remaining * (isLeft ? ENTER_SHIFT_REM : -ENTER_SHIFT_REM) * motion,
-    y: (remaining * ENTER_SHIFT_REM - leave * LEAVE_RISE_REM) * motion,
+    hold: leave * height * motion,
+    opacity: (1 - entering) * (1 - leaving),
+    rotate: away * (isLeft ? -CARD_TILT_DEG : CARD_TILT_DEG) * motion,
+    scale: 1 - away * CARD_SHRINK * motion,
+    x: away * (isLeft ? CARD_SHIFT_REM : -CARD_SHIFT_REM) * motion,
+    y: away * CARD_SHIFT_REM * motion,
   };
 }
 
@@ -217,12 +220,10 @@ export function buildTimeline<T extends Dated>(trips: T[]): TimelineYear<T>[] {
 
   for (const trip of sorted) {
     const year = trip.sDate.getFullYear();
-    const days = trip.getDurationInDays();
     const current = years.at(-1);
     if (current?.year === year) {
       current.trips.push(trip);
-      current.days += days;
-    } else years.push({ days, trips: [trip], year });
+    } else years.push({ trips: [trip], year });
   }
 
   return years;

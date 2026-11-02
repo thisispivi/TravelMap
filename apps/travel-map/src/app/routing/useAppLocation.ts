@@ -42,7 +42,8 @@ export function classifyPathname(pathname: string): AppRouteContextValue {
       : section === "places" ||
           section === "gallery" ||
           section === "timeline" ||
-          section === "stats"
+          section === "stats" ||
+          section === "settings"
         ? section
         : null;
 

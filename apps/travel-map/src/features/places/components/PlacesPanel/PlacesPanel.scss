@@ -9,13 +9,14 @@
 
   &__filters {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: v.$space2;
     padding-bottom: v.$space3;
 
-    /* The switch takes the room the country filter leaves it. */
+    /* Takes the room the country filter leaves it; with none, the filter wraps below. */
     .segmented-control {
-      flex: 1;
+      flex: 1 1 auto;
     }
   }
 
@@ -149,7 +150,7 @@
   flex: none;
   align-items: center;
   gap: v.$space2;
-  max-width: 50%;
+  max-width: 100%;
   min-height: 2.625rem;
   padding: 0 v.$space3;
   border-radius: v.$radiusPill;

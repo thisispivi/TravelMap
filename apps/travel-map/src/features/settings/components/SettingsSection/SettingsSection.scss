@@ -1,0 +1,19 @@
+@use "variables" as v;
+@use "mixins" as m;
+
+.settings-section {
+  @include m.pass-card();
+  display: flex;
+  flex-direction: column;
+  gap: v.$space4;
+  min-width: 0;
+  padding: v.$space5;
+
+  @include m.compact() {
+    padding: v.$space4;
+  }
+
+  &__title {
+    font-size: v.$bodyLg;
+  }
+}

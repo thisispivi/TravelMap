@@ -5,6 +5,7 @@ import { sharedViteConfig } from "@travelmap/ui/vite";
 import { defineConfig, mergeConfig, Plugin } from "vite";
 import { qrcode } from "vite-plugin-qrcode";
 
+import { buildInfoDefine } from "./vite/buildInfo.ts";
 import { siteBranding } from "./vite/siteBranding.ts";
 
 /*
@@ -123,6 +124,7 @@ export default defineConfig(
       mediaServer(resolve(import.meta.dirname, "../../media")),
     ],
     base: "/",
+    define: buildInfoDefine(import.meta.dirname),
     server: { watch: { usePolling: true }, host: true },
     build: {
       target: "esnext",

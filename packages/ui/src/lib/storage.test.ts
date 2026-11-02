@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import {
+  createStoredChoice,
   getWithExpiry,
   readStoredString,
   setWithExpiry,
@@ -89,5 +90,36 @@ describe("plain string storage", () => {
     writeStoredString("design", "phosphor");
 
     expect(readStoredString("design")).toBe("phosphor");
+  });
+});
+
+describe("createStoredChoice", () => {
+  const OPTIONS = ["light", "dark", "system"] as const;
+
+  it("reads a stored choice", () => {
+    localStorage.setItem("theme", "dark");
+    expect(createStoredChoice("theme", OPTIONS, "system").read()).toBe("dark");
+  });
+
+  it("reads an entry outside the list as the fallback", () => {
+    localStorage.setItem("theme", "sepia");
+    expect(createStoredChoice("theme", OPTIONS, "system").read()).toBe(
+      "system",
+    );
+  });
+
+  it("remembers a new choice and tells whoever follows it", () => {
+    const choice = createStoredChoice("theme", OPTIONS, "system");
+    const listener = vi.fn();
+    const stop = choice.subscribe(listener);
+
+    choice.write("light");
+    expect(choice.read()).toBe("light");
+    expect(localStorage.getItem("theme")).toBe("light");
+    expect(listener).toHaveBeenCalledOnce();
+
+    stop();
+    choice.write("dark");
+    expect(listener).toHaveBeenCalledOnce();
   });
 });

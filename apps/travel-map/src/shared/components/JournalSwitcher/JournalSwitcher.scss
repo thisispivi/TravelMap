@@ -1,0 +1,4 @@
+/* Wide enough for the longest labels, and no wider on a short, wide window. */
+.journal-switcher {
+  max-width: 32rem;
+}

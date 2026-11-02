@@ -1,0 +1,14 @@
+@use "variables" as v;
+@use "mixins" as m;
+
+.appearance-section {
+  &__setting {
+    display: flex;
+    flex-direction: column;
+    gap: v.$space2;
+  }
+
+  &__label {
+    @include m.eyebrow();
+  }
+}

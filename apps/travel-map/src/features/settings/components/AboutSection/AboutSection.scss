@@ -1,0 +1,95 @@
+@use "variables" as v;
+@use "mixins" as m;
+
+.about-section {
+  &__profile {
+    display: flex;
+    align-items: center;
+    gap: v.$space4;
+  }
+
+  &__avatar {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 4.5rem;
+    height: 4.5rem;
+    overflow: hidden;
+    border-radius: 50%;
+    background: v.$accentSoft;
+    color: v.$accentInk;
+    font-size: v.$headingLg;
+    font-weight: 750;
+  }
+
+  &__avatar-icon {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  &__identity {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 0;
+  }
+
+  &__name {
+    color: v.$ink;
+    font-size: v.$headingMd;
+    font-weight: 750;
+    overflow-wrap: anywhere;
+  }
+
+  &__link {
+    @include m.bare-button();
+    display: inline-flex;
+    align-items: center;
+    gap: v.$space1;
+    border-radius: v.$radiusXs;
+    color: v.$accentInk;
+    font-size: v.$bodySm;
+    font-weight: 650;
+    overflow-wrap: anywhere;
+    text-decoration: none;
+
+    @include m.compact() {
+      min-height: 2.75rem;
+    }
+
+    @include m.hover() {
+      text-decoration: underline;
+    }
+  }
+
+  &__link-icon {
+    flex: none;
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+
+  &__facts {
+    display: flex;
+    flex-direction: column;
+    gap: v.$space4;
+  }
+
+  &__fact {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: v.$space1;
+  }
+
+  &__label {
+    @include m.eyebrow();
+  }
+
+  &__value {
+    color: v.$ink;
+    font-size: v.$bodySm;
+    font-weight: 600;
+    @include m.figure();
+  }
+}
