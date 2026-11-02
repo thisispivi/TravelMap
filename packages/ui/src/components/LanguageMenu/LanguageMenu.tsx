@@ -3,29 +3,10 @@ import "./LanguageMenu.scss";
 import { ReactNode, useRef, useState } from "react";
 
 import { useLanguage } from "../../hooks/useLanguage";
-import { SUPPORTED_LOCALES, SupportedLocale } from "../../i18n/locale";
+import { LOCALE_FLAGS, nativeName, SUPPORTED_LOCALES } from "../../i18n/locale";
 import { classNames } from "../../lib/classNames";
 import { CountryFlag } from "../CountryFlag/CountryFlag";
 import { Popover } from "../Popover/Popover";
-
-/* English is drawn with the United Kingdom's flag, as the old switcher did. */
-const LOCALE_FLAGS: Record<SupportedLocale, string> = {
-  "en-US": "UnitedKingdom",
-  "it-IT": "Italy",
-};
-
-/**
- * Names a locale in its own language, such as `English` or `Italiano`.
- * @param {SupportedLocale} locale - The locale
- * @returns {string} Its native name
- */
-function nativeName(locale: SupportedLocale): string {
-  const language = locale.slice(0, 2);
-  const name =
-    new Intl.DisplayNames([locale], { type: "language" }).of(language) ??
-    language;
-  return name.charAt(0).toLocaleUpperCase(locale) + name.slice(1);
-}
 
 /**
  * Properties accepted by the LanguageMenu component.

@@ -147,3 +147,15 @@ export function formatDateRangeShort({
 
   return `${fullDateForceYear(s)} - ${fullDateForceYear(e)}`.trim();
 }
+
+/**
+ * Formats an instant as a full localized date, such as a build's.
+ * @param {string} input - The ISO date
+ * @param {string} locale - The requested locale
+ * @returns {string} The localized date
+ */
+export function formatDateMedium(input: string, locale: string): string {
+  return new Intl.DateTimeFormat(locale, { dateStyle: "medium" }).format(
+    new Date(input),
+  );
+}
