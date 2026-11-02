@@ -6,7 +6,6 @@ import { LngLatBounds, type PaddingOptions } from "maplibre-gl";
 import {
   SHEET_HALF_HIDDEN_SHARE,
   SHEET_PEEK_REM,
-  SHEET_TOP_REM,
 } from "@/shared/components/BottomSheet/BottomSheet.metrics";
 import { ResponsiveType } from "@/shared/hooks/useResponsive";
 import { parameters } from "@/shared/lib/parameters";
@@ -19,8 +18,6 @@ export const WORLD_CENTER: [number, number] = [0, 0];
 
 const HOME_COUNTRY_ID = parameters.homeCity?.country.id ?? null;
 const MAP_EDGE_PADDING_REM = 2;
-/* The phone's floating theme/language buttons and the zoom buttons on wider screens. */
-const TOP_TOOLS_REM = 4;
 const ZOOM_CONTROLS_REM = 4.5;
 
 /**
@@ -63,13 +60,12 @@ export function getCameraPadding(
 
   if (viewport.isCompact) {
     const tabBar = tabBarPx();
-    const sheetHeight =
-      viewport.window.height - remToPx(SHEET_TOP_REM) - tabBar;
+    const sheetHeight = viewport.window.height - tabBar;
     const covered = isSideOpen
       ? sheetHeight * (1 - SHEET_HALF_HIDDEN_SHARE)
       : remToPx(SHEET_PEEK_REM);
     return {
-      top: remToPx(TOP_TOOLS_REM),
+      top: edge / 2,
       right: edge / 2,
       bottom: tabBar + covered + edge / 2,
       left: edge / 2,
