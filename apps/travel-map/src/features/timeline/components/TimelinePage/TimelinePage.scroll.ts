@@ -117,7 +117,7 @@ export function useTimelineScroll({
         });
         if (pose.opacity === 0 && card.style.opacity === "0") return;
         card.style.opacity = `${pose.opacity}`;
-        card.style.transform = `translate3d(${pose.x}rem, ${pose.y}rem, 0) rotate(${pose.rotate}deg) scale(${pose.scale})`;
+        card.style.transform = `translate3d(${pose.x}rem, calc(${pose.y}rem + ${pose.hold}px), 0) rotate(${pose.rotate}deg) scale(${pose.scale})`;
         dot.style.transform = `scale(${pose.opacity})`;
       });
     };
