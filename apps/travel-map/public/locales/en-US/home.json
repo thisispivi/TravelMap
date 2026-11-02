@@ -173,6 +173,72 @@
       "row": "{{type}} {{count}}, {{share}}%, {{km}} km"
     },
     "records": "Records",
+    "runnerUp": "Runner-up",
+    "longestOverland": "Longest overland ride",
+    "longestLayover": "Longest layover",
+    "biggestZoneJump": "Biggest time-zone jump",
+    "visitCount_one": "{{count}} visit",
+    "visitCount_other": "{{count}} visits",
+    "photoCount_one": "{{count}} photo",
+    "photoCount_other": "{{count}} photos",
+    "edges": {
+      "title": "Edges of your map",
+      "north": "North",
+      "south": "South",
+      "east": "East",
+      "west": "West",
+      "letter": {
+        "N": "N",
+        "S": "S",
+        "E": "E",
+        "W": "W"
+      },
+      "home": "Home",
+      "showOnMap": "Show {{city}} on the map",
+      "latitudeSpan": "{{degrees}}° of latitude between north and south",
+      "longitudeSpan": "{{degrees}}° of longitude between west and east"
+    },
+    "hemispheres": {
+      "title": "Hemispheres",
+      "NW": "North-west",
+      "NE": "North-east",
+      "SW": "South-west",
+      "SE": "South-east",
+      "notYet": "Not yet",
+      "more": "+{{count}} more",
+      "halves": "North {{north}} · South {{south}} · East {{east}} · West {{west}}"
+    },
+    "lines": {
+      "title": "Lines crossed",
+      "arctic": "Arctic Circle",
+      "cancer": "Tropic of Cancer",
+      "equator": "Equator",
+      "capricorn": "Tropic of Capricorn",
+      "antarctic": "Antarctic Circle",
+      "primeMeridian": "Prime meridian",
+      "antimeridian": "Date line",
+      "notYet": "Not yet",
+      "more": "+{{count}} more"
+    },
+    "topTrips": {
+      "title": "Biggest trips",
+      "days": "Days",
+      "cities": "Cities"
+    },
+    "topPlaces": {
+      "title": "Top places",
+      "nights": "Nights",
+      "visits": "Returns",
+      "photos": "Photos"
+    },
+    "clock": {
+      "title": "When you travel",
+      "departures": "Departures",
+      "arrivals": "Arrivals",
+      "earliest": "Earliest departure",
+      "latest": "Latest arrival",
+      "hour": "{{hour}}: {{departures}} departures, {{arrivals}} arrivals"
+    },
     "operators": "Transport companies",
     "operatorGroup": {
       "plane": "Airlines",
@@ -181,7 +247,6 @@
       "taxi": "Taxi companies"
     },
     "longestFlight": "Longest flight",
-    "shortestFlight": "Shortest flight",
     "longestFerry": "Longest ferry",
     "furthestCity": "Furthest from home",
     "timezones": "Time zones crossed",

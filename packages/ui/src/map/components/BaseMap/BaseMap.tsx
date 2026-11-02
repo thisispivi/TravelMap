@@ -1,6 +1,7 @@
 import { ReactNode, RefObject, useMemo } from "react";
 import MapGL, { MapProps, type MapRef } from "react-map-gl/maplibre";
 
+import { useLanguage } from "../../../hooks/useLanguage";
 import { createMapStyle, MapTheme } from "../../lib/mapTheme";
 import { WorldLayers } from "../WorldLayers/WorldLayers";
 import { ZoomControls } from "../ZoomControls/ZoomControls";
@@ -51,6 +52,7 @@ export function BaseMap({
   onZoomOut,
   ...mapProps
 }: BaseMapProps): ReactNode {
+  const { t } = useLanguage([]);
   /* Rebuilding the style object makes MapLibre diff and reload every layer. */
   const mapStyle = useMemo(() => createMapStyle(theme), [theme]);
 
@@ -59,6 +61,7 @@ export function BaseMap({
       <MapGL
         attributionControl={false}
         dragRotate={false}
+        locale={{ "Map.Title": t("common:map.title") }}
         maxPitch={0}
         minPitch={0}
         touchPitch={false}

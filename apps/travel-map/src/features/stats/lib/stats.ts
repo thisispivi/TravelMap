@@ -1,9 +1,9 @@
 import { Continent } from "@travelmap/core";
 
-import { tripAlbums } from "@/data/albums";
+import { placePhotoCount, tripAlbums } from "@/data/albums";
 import {
+  livedCities,
   siteConfig,
-  takenFerries,
   takenFlights,
   visitedCities,
   visitedCountries,
@@ -12,10 +12,14 @@ import {
 import { constants, parameters } from "@/shared/lib/parameters";
 import { getNumberOfTimezonesJumped } from "@/shared/lib/timezone";
 
+import { getTravelClock } from "./clock";
 import { getContinentStats } from "./continents";
 import { getCurrencyCountries } from "./countries";
-import { getFurthestAndNearestCity, getMinAndMaxTransport } from "./distance";
+import { getLineCrossings } from "./crossings";
+import { getHemispheres, getMapEdges, getSleptInCities } from "./edges";
 import { getFlightTypeStats } from "./flightTypes";
+import { getPlaceRankings, getTripRankings } from "./rankings";
+import { getRecords } from "./records";
 import {
   getCountryVisitStats,
   getOperatorGroups,
@@ -69,11 +73,7 @@ function computeStats() {
     (sum, trip) => sum + trip.getDurationInDays(),
     0,
   );
-  const home = parameters.homeCity;
-  const places = home
-    ? getFurthestAndNearestCity(visitedCities, home)
-    : undefined;
-
+  const sleptIn = getSleptInCities(visitedTrips, livedCities);
   const km = Math.round(modes.reduce((sum, mode) => sum + mode.km, 0));
 
   return {
@@ -81,6 +81,7 @@ function computeStats() {
     avgTripDays:
       visitedTrips.length > 0 ? Math.round(totalDays / visitedTrips.length) : 0,
     cities: visitedCities.length,
+    clock: getTravelClock(visitedTrips),
     continents: Object.values(Continent)
       .map((continent) =>
         getContinentStats(continent, visitedCities, visitedCountries),
@@ -90,12 +91,12 @@ function computeStats() {
     countries: visitedCountries.length,
     countriesByCities: getCountryVisitStats(visitedCities),
     countryShare: visitedCountries.length / constants.TOTAL_COUNTRIES,
+    crossings: getLineCrossings(visitedTrips),
     currencies: getCurrencyCountries(visitedCountries),
+    edges: getMapEdges(sleptIn),
     flightTypes: getFlightTypeStats(takenFlights),
-    furthestCity: places?.furthest,
+    hemispheres: getHemispheres(sleptIn),
     km,
-    longestFerry: getMinAndMaxTransport(takenFerries)?.max,
-    longestFlight: getMinAndMaxTransport(takenFlights)?.max,
     modes,
     nights: visitedTrips.reduce((sum, trip) => sum + trip.getNights(), 0),
     operators: getOperatorGroups(
@@ -104,11 +105,21 @@ function computeStats() {
     ),
     perYear: perYear(),
     photos: tripAlbums.reduce((sum, { album }) => sum + album.count, 0),
-    shortestFlight: getMinAndMaxTransport(takenFlights)?.min,
+    placeRankings: getPlaceRankings({
+      lived: livedCities,
+      photosOf: placePhotoCount,
+      trips: visitedTrips,
+    }),
+    records: getRecords({
+      home: parameters.homeCity,
+      lived: livedCities,
+      trips: visitedTrips,
+    }),
     timezones: getNumberOfTimezonesJumped(visitedCities),
     toMoon: km / constants.MOON_DISTANCE,
     totalContinents: constants.TOTAL_CONTINENTS,
     totalCountries: constants.TOTAL_COUNTRIES,
+    tripRankings: getTripRankings(visitedTrips),
     trips: visitedTrips.length,
     unesco: Object.values(parameters.stats.unescoSites).reduce(
       (sum, sites) => sum + sites.length,
