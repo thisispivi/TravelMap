@@ -234,6 +234,39 @@ describe("authored stays and moves", () => {
   });
 });
 
+describe("site profile", () => {
+  /**
+   * Parses a site block alone.
+   * @param {object} site - The authored site block
+   * @returns {boolean} Whether the configuration is accepted
+   */
+  const accepts = (site: object): boolean =>
+    SiteConfigSchema.safeParse({ site }).success;
+
+  it("accepts an avatar as a media path or an absolute URL", () => {
+    expect(accepts({ avatar: "/Travels/About/me.webp" })).toBe(true);
+    expect(accepts({ avatar: "/Travels/New York/me.webp" })).toBe(true);
+    expect(accepts({ avatar: "https://example.com/me.jpg" })).toBe(true);
+  });
+
+  it("rejects an avatar that is neither", () => {
+    for (const avatar of ["", "me.jpg", "data:image/png;base64,AA"]) {
+      expect(accepts({ avatar })).toBe(false);
+    }
+  });
+
+  it("accepts a source link only over http or https", () => {
+    expect(accepts({ sourceUrl: "https://github.com/me/map" })).toBe(true);
+    expect(accepts({ sourceUrl: "javascript:alert(1)" })).toBe(false);
+    expect(accepts({ sourceUrl: "github.com/me/map" })).toBe(false);
+  });
+
+  it("accepts a personal website only over http or https", () => {
+    expect(accepts({ website: "https://linktree.pivi.dev" })).toBe(true);
+    expect(accepts({ website: "javascript:alert(1)" })).toBe(false);
+  });
+});
+
 describe("transport companies", () => {
   it("accepts a company tagged with what it runs, or not tagged yet", () => {
     expect(

@@ -1,6 +1,6 @@
 import "./SettingsScreen.scss";
 
-import { SiteConfig } from "@travelmap/core";
+import { SiteAvatarSchema, SiteConfig, SiteLinkSchema } from "@travelmap/core";
 import { Button } from "@travelmap/ui/components/Button/Button";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { Plus, Trash2 } from "lucide-react";
@@ -64,6 +64,12 @@ export function SettingsScreen({ file }: SettingsScreenProps): ReactNode {
   const site = value.site ?? {};
   const map = resolveMapSettings(value.map);
   const locales = value.locales ?? [];
+  const isAvatarValid =
+    !site.avatar || SiteAvatarSchema.safeParse(site.avatar).success;
+  const isSourceUrlValid =
+    !site.sourceUrl || SiteLinkSchema.safeParse(site.sourceUrl).success;
+  const isWebsiteValid =
+    !site.website || SiteLinkSchema.safeParse(site.website).success;
 
   /* The site's default view on the shared map; a press moves its centre. */
   useMapScene(
@@ -99,6 +105,23 @@ export function SettingsScreen({ file }: SettingsScreenProps): ReactNode {
     label: city.name,
     value: city.id,
   }));
+
+  /**
+   * Changes an optional site field. A blank one is removed rather than stored
+   * empty, which its schema would refuse.
+   * @param {"avatar" | "sourceUrl" | "website"} key - The field
+   * @param {string} next - What the author typed
+   * @returns {void}
+   */
+  function setOptionalSiteField(
+    key: "avatar" | "sourceUrl" | "website",
+    next: string,
+  ): void {
+    setValue((current) => ({
+      ...current,
+      site: { ...(current.site ?? {}), [key]: next.trim() ? next : undefined },
+    }));
+  }
 
   /**
    * Adds a locale tag used for translated names across the dataset.
@@ -160,6 +183,48 @@ export function SettingsScreen({ file }: SettingsScreenProps): ReactNode {
           }
           value={site.keywords?.join(", ") ?? ""}
         />
+        {/*
+         * A path or URL rather than an upload: the upload field stores under
+         * data/logos, which the site bundles for companies, while an avatar is
+         * media served from the media root, like a trip cover.
+         */}
+        <div className="editor-panel__row">
+          <TextField
+            hint={t(
+              isAvatarValid
+                ? "configScreen.avatarHint"
+                : "configScreen.avatarInvalid",
+            )}
+            label={t("configScreen.avatar")}
+            onChange={(next) => setOptionalSiteField("avatar", next)}
+            placeholder="/About/me.webp"
+            value={site.avatar ?? ""}
+          />
+          <TextField
+            hint={t(
+              isWebsiteValid
+                ? "configScreen.websiteHint"
+                : "configScreen.websiteInvalid",
+            )}
+            label={t("configScreen.website")}
+            onChange={(next) => setOptionalSiteField("website", next)}
+            placeholder="https://example.com"
+            value={site.website ?? ""}
+          />
+        </div>
+        <div className="editor-panel__row">
+          <TextField
+            hint={t(
+              isSourceUrlValid
+                ? "configScreen.sourceUrlHint"
+                : "configScreen.sourceUrlInvalid",
+            )}
+            label={t("configScreen.sourceUrl")}
+            onChange={(next) => setOptionalSiteField("sourceUrl", next)}
+            placeholder="https://github.com/thisispivi/TravelMap"
+            value={site.sourceUrl ?? ""}
+          />
+        </div>
       </section>
       <section className="editor-panel">
         <h2 className="editor-panel__legend">{t("configScreen.locales")}</h2>

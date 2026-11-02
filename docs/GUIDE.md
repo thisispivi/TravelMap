@@ -329,6 +329,9 @@ The editor's **Settings** screen covers everything global:
 | Setting                                | What it does                                                                                                            |
 | -------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
 | Site name, domain, description, author | Page title, search metadata, and the custom domain used when publishing                                                 |
+| Avatar                                 | The picture on the site's Settings page: a media path or a full URL. Without one, the page shows your initials          |
+| Personal website                       | The link under your name on the site's Settings page. Leave it empty to link the site's domain                          |
+| Source code link                       | Where the site's Settings page links for the code. Leave it empty to credit the upstream TravelMap project              |
 | Locales                                | Extra languages you can write translated names in                                                                       |
 | Home city                              | Your own city, shown with its own marker                                                                                |
 | Lived cities                           | Places you have lived. Like layovers, these are kept out of visited places and statistics — they are their own category |
