@@ -1,0 +1,53 @@
+@use "variables" as v;
+@use "mixins" as m;
+
+.language-section {
+  display: flex;
+  flex-direction: column;
+  gap: v.$space1;
+
+  &__option {
+    @include m.transition(background-color);
+    display: flex;
+    align-items: center;
+    gap: v.$space3;
+    min-height: 2.75rem;
+    padding: v.$space2 v.$space3;
+    border-radius: v.$radiusSm;
+    color: v.$ink;
+    font-size: v.$bodySm;
+    font-weight: 600;
+    cursor: pointer;
+
+    @include m.hover() {
+      background: v.$cardSunken;
+    }
+
+    &:has(:focus-visible) {
+      @include m.focus-ring();
+    }
+
+    &--active {
+      background: v.$accentSoft;
+      color: v.$accentInk;
+    }
+  }
+
+  /* The native radio stays for its behaviour; only its colour is ours. */
+  &__radio {
+    flex: none;
+    width: 1.125rem;
+    height: 1.125rem;
+    margin: 0;
+    accent-color: v.$accent;
+
+    &:focus-visible {
+      outline: none;
+    }
+  }
+
+  &__flag {
+    font-size: 1.375rem;
+    border-radius: 0.1875rem;
+  }
+}

@@ -404,6 +404,12 @@ pnpm --filter travel-map deploygh
 This builds the site and pushes it to the `gh-pages` branch. The custom domain
 comes from the **domain** field in Settings.
 
+The site's Settings page shows which build is live, such as
+`v1.0.0 · abc1234 · 1 Nov 2026`. The commit and date are filled in by the build;
+to publish a new version number, change `version` in
+`apps/travel-map/package.json` first. A Docker build has no git history, so its
+line leaves the commit out.
+
 Before publishing, decide where photos should come from. GitHub Pages serves
 only the site, so `VITE_CDN_PATH` must point at BunnyCDN (or another host) — a
 `/media` path has nothing behind it there.

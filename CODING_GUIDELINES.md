@@ -91,7 +91,7 @@ dependency direction:
 
 - `app` owns route composition, the persistent shell, and global hosts.
 - `features` owns the UI and logic of one capability: in the site gallery,
-  map, navigation, places, stats, timeline, and trips; in the editor trips,
+  map, navigation, places, settings, stats, timeline, and trips; in the editor trips,
   places, companies, settings, map, and the command palette.
 - `shared` owns technical primitives and narrow cross-feature contracts.
 - Dependencies flow `app → features → shared → data`; `shared` never imports

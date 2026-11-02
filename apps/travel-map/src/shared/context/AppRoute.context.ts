@@ -1,7 +1,8 @@
 import { createContext, use } from "react";
 
 /** A primary navigation tab. */
-export type NavTabId = "trips" | "places" | "gallery" | "timeline" | "stats";
+export type NavTabId =
+  "trips" | "places" | "gallery" | "timeline" | "stats" | "settings";
 
 /** A filter the places panel can show. */
 export type PlacesFilter = "visited" | "lived" | "future";

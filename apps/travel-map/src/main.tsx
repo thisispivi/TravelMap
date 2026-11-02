@@ -4,6 +4,7 @@ import "@travelmap/ui/styles/_scrollbar.scss";
 import "@travelmap/ui/map/lib/mapRuntime";
 
 import { Loading } from "@travelmap/ui/components/Loading/Loading";
+import { applyStoredMotion } from "@travelmap/ui/hooks/useMotionPreference";
 import {
   applyTheme,
   readInitialDarkTheme,
@@ -18,6 +19,7 @@ import { router } from "./app/routing/router";
 
 /* Applied before the first render so a dark-theme reader never sees a light flash. */
 applyTheme(readInitialDarkTheme());
+applyStoredMotion();
 initI18n(["home", "error"]);
 
 createRoot(document.getElementById("root")!).render(

@@ -49,7 +49,9 @@
   "nav": {
     "gallery": "Galleria",
     "timeline": "Timeline",
-    "stats": "Statistiche"
+    "stats": "Statistiche",
+    "settings": "Opzioni",
+    "journal": "Diario"
   },
   "goHome": "Mostra tutta la mappa",
   "sheet": {
@@ -124,7 +126,6 @@
   },
   "gallery": {
     "title": "Galleria",
-    "summary": "{{photos}} foto da {{trips}} viaggi",
     "empty": "Ancora nessuna foto.",
     "photoCount_one": "{{count}} foto",
     "photoCount_other": "{{count}} foto",
@@ -137,12 +138,9 @@
   },
   "timeline": {
     "title": "Timeline",
-    "summary": "{{trips}} viaggi in {{years}} anni",
     "empty": "Ancora nessun viaggio.",
     "days_one": "{{count}} giorno",
-    "days_other": "{{count}} giorni",
-    "yearSummary_one": "{{count}} viaggio · {{days}} giorni fuori",
-    "yearSummary_other": "{{count}} viaggi · {{days}} giorni fuori"
+    "days_other": "{{count}} giorni"
   },
   "stats": {
     "title": "Statistiche",
@@ -188,5 +186,36 @@
     "countryCount_other": "{{count}} paesi",
     "cityCount_one": "{{count}} città",
     "cityCount_other": "{{count}} città"
+  },
+  "settings": {
+    "title": "Impostazioni",
+    "appearance": {
+      "title": "Aspetto",
+      "theme": "Tema",
+      "themes": {
+        "light": "Chiaro",
+        "dark": "Scuro",
+        "system": "Sistema"
+      },
+      "motion": "Animazioni",
+      "motions": {
+        "system": "Come il sistema",
+        "reduce": "Riduci animazioni"
+      }
+    },
+    "language": {
+      "title": "Lingua"
+    },
+    "about": {
+      "title": "Informazioni",
+      "version": "Versione",
+      "source": "Codice sorgente",
+      "sourceLink": "Vedi su GitHub",
+      "credits": "Riconoscimenti",
+      "creditTwemoji": "Bandiere dei paesi di Twemoji, CC BY 4.0",
+      "creditNaturalEarth": "Confini dei paesi da Natural Earth",
+      "creditMapLibre": "Mappa disegnata con MapLibre GL JS",
+      "opensInNewTab": "{{name}} (si apre in una nuova scheda)"
+    }
   }
 }

@@ -1,0 +1,17 @@
+@use "variables" as v;
+@use "mixins" as m;
+
+/* Two columns once both fit, with each card as tall as its own content. */
+.settings-page {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr));
+  align-items: start;
+  gap: v.$space4;
+  max-width: 64rem;
+  padding: 0 v.$space6 v.$space7;
+
+  @include m.compact() {
+    gap: v.$space3;
+    padding: 0 v.$space3 v.$space6;
+  }
+}

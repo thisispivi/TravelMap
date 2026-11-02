@@ -9,6 +9,12 @@ import { z } from "zod";
  */
 const EnvSchema = z.object({
   DEV: z.boolean(),
+  VITE_BUILD_COMMIT: z
+    .string()
+    .regex(/^[0-9a-f]{4,40}$/)
+    .optional(),
+  VITE_BUILD_DATE: z.iso.datetime(),
+  VITE_BUILD_VERSION: z.string().min(1),
   VITE_SHOW_FUTURE_TRIPS: z
     .enum(["true", "false"])
     .default("false")
@@ -19,6 +25,9 @@ const EnvSchema = z.object({
 /**
  * Validated build-time environment.
  * @property {boolean} DEV - Whether Vite is serving a development build
+ * @property {string} [VITE_BUILD_COMMIT] - The short commit built, unknown without `.git`
+ * @property {string} VITE_BUILD_DATE - When the build ran, as an ISO instant
+ * @property {string} VITE_BUILD_VERSION - The app's package version
  * @property {boolean} VITE_SHOW_FUTURE_TRIPS - Whether planned trips are listed
  * @property {string} VITE_YOUTUBE_PATH - Base URL used to embed authored videos
  */

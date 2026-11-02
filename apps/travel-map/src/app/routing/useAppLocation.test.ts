@@ -32,6 +32,11 @@ describe("classifyPathname", () => {
     expect(classifyPathname("/").surface).toBe("map");
   });
 
+  it("draws the settings as a page with a tab of their own", () => {
+    expect(classifyPathname("/settings").surface).toBe("page");
+    expect(classifyPathname("/settings").activeTab).toBe("settings");
+  });
+
   it("keeps the trips tab active while one trip is open", () => {
     expect(classifyPathname("/trip/rome-2021").activeTab).toBe("trips");
   });

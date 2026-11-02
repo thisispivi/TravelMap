@@ -1,5 +1,5 @@
 import { remToPx } from "@travelmap/ui/lib/rem";
-import { useReducedMotion, useScroll, useSpring } from "framer-motion";
+import { useReducedMotionConfig, useScroll, useSpring } from "framer-motion";
 import { RefObject, useEffect, useRef } from "react";
 
 import {
@@ -56,7 +56,7 @@ export function useTimelineScroll({
   pathRef,
   isCompact,
 }: TimelineScrollOptions): void {
-  const isReduced = useReducedMotion() ?? false;
+  const isReduced = useReducedMotionConfig() ?? false;
   const { scrollY } = useScroll({ container: bodyRef });
   const scrub = useSpring(scrollY, SCRUB);
   /* Outlives the effect, so crossing a breakpoint does not replay the entrance. */

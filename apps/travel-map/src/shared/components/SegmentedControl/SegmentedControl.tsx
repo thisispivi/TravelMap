@@ -4,16 +4,19 @@ import { classNames } from "@travelmap/ui/lib/classNames";
 import { radioTarget } from "@travelmap/ui/lib/keyboard";
 import { panelSpring } from "@travelmap/ui/lib/motion";
 import { m } from "framer-motion";
+import { LucideIcon } from "lucide-react";
 import { KeyboardEvent, ReactNode } from "react";
 
 /**
  * One choice in a segmented control.
  * @property {T} value - The value the choice selects
  * @property {string} label - The visible label
+ * @property {LucideIcon} [icon] - An icon before the label
  */
 interface SegmentedOption<T extends string> {
   value: T;
   label: string;
+  icon?: LucideIcon;
 }
 
 /**
@@ -81,6 +84,7 @@ export function SegmentedControl<T extends string>({
     >
       {options.map((option) => {
         const isActive = option.value === value;
+        const Icon = option.icon;
         return (
           <button
             aria-checked={isActive}
@@ -101,7 +105,12 @@ export function SegmentedControl<T extends string>({
                 transition={panelSpring}
               />
             ) : null}
-            <span className="segmented-control__label">{option.label}</span>
+            <span className="segmented-control__label">
+              {Icon ? (
+                <Icon aria-hidden="true" className="segmented-control__icon" />
+              ) : null}
+              {option.label}
+            </span>
           </button>
         );
       })}
