@@ -309,6 +309,8 @@ export const SiteConfigSchema = z.strictObject({
     })
     .optional(),
   media: z.strictObject({ root: z.string().trim().min(1) }).optional(),
+  /* The country whose passport the site's passport page is made in, by its id. */
+  nationality: idSchema.optional(),
   site: z
     .strictObject({
       author: z.string().optional(),

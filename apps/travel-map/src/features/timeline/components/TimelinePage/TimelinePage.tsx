@@ -76,6 +76,15 @@ function TripStop({ trip, index, isLeft, onOpen }: TripStopProps): ReactNode {
           className="timeline-page__cover"
           src={trip.backgroundImgSource}
         />
+        <span className="timeline-page__flags">
+          {trip.getCountriesVisited().map((country) => (
+            <CountryFlag
+              className="timeline-page__flag"
+              countryId={country.id}
+              key={country.id}
+            />
+          ))}
+        </span>
         <span className="timeline-page__caption">
           <span className="timeline-page__title">
             {trip.getLocalizedTitle(currLanguage)}
@@ -89,13 +98,6 @@ function TripStop({ trip, index, isLeft, onOpen }: TripStopProps): ReactNode {
             })}
             {" · "}
             {t("timeline.days", { count: trip.getDurationInDays() })}
-            {trip.getCountriesVisited().map((country) => (
-              <CountryFlag
-                className="timeline-page__flag"
-                countryId={country.id}
-                key={country.id}
-              />
-            ))}
           </span>
         </span>
       </button>

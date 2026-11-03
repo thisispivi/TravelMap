@@ -51,7 +51,8 @@
     "timeline": "Timeline",
     "stats": "Statistiche",
     "settings": "Opzioni",
-    "journal": "Diario"
+    "journal": "Diario",
+    "passport": "Passaporto"
   },
   "goHome": "Mostra tutta la mappa",
   "sheet": {
@@ -299,5 +300,26 @@
       "creditMapLibre": "Mappa disegnata con MapLibre GL JS",
       "opensInNewTab": "{{name}} (si apre in una nuova scheda)"
     }
+  },
+  "passport": {
+    "planned": "In programma",
+    "issuing": "Paese di rilascio",
+    "issuingLabel": "{{name}}, il paese di rilascio. Mostra i suoi luoghi",
+    "pageOne_one": "Pagina {{page}} di {{count}}",
+    "pageOne_other": "Pagina {{page}} di {{count}}",
+    "pageTwo_one": "Pagine {{start}}–{{end}} di {{count}}",
+    "pageTwo_other": "Pagine {{start}}–{{end}} di {{count}}",
+    "progress": "{{pages}} · {{continent}} {{stamped}} su {{total}} visitati",
+    "folio": "{{continent}} · {{page}}",
+    "previous": "Pagina precedente",
+    "next": "Pagina successiva",
+    "stampLabel_one": "{{name}}: primo ingresso il {{date}} a {{city}}. Mostra i suoi luoghi",
+    "stampLabel_other": "{{name}}: primo ingresso il {{date}} a {{city}}, {{count}} ingressi. Mostra i suoi luoghi",
+    "totals": {
+      "stamps": "Timbri",
+      "continents": "Continenti"
+    },
+    "cover": "Copertina",
+    "empty": "Ancora nessun timbro. Aggiungi un viaggio o una città di residenza per iniziare il passaporto."
   }
 }

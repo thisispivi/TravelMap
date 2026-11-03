@@ -228,6 +228,8 @@
     "cityRoles": "Ruoli delle città",
     "none": "Nessuna",
     "homeCity": "Città natale",
+    "nationality": "Nazionalità",
+    "nationalityHint": "Dà alla copertina del passaporto del sito il colore del tuo. Senza, si usa il paese della città natale.",
     "formerHomes": "Ex residenze",
     "futureCities": "Città future",
     "mapDefaults": "Impostazioni mappa predefinite",

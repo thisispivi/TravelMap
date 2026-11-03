@@ -228,6 +228,8 @@
     "cityRoles": "City roles",
     "none": "None",
     "homeCity": "Home city",
+    "nationality": "Nationality",
+    "nationalityHint": "Colours the cover of the site's passport like your own. Without one, the home city's country is used.",
     "formerHomes": "Former homes",
     "futureCities": "Future cities",
     "mapDefaults": "Map defaults",

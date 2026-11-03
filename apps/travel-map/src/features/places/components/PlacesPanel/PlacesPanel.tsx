@@ -14,7 +14,7 @@ import { staggerItem, staggerList } from "@travelmap/ui/lib/motion";
 import { m } from "framer-motion";
 import { ChevronDown, Images, ListFilter } from "lucide-react";
 import { ReactNode, useRef, useState } from "react";
-import { useLocation, useNavigate } from "react-router";
+import { useLocation, useNavigate, useSearchParams } from "react-router";
 
 import { placePhotoCount } from "@/data/albums";
 import {
@@ -252,15 +252,19 @@ export function PlacesPanel(): ReactNode {
   const { setHoveredCity, setMapPosition } = useMapInteraction();
   const { setIsPanelOpen } = usePanel();
   const { isCompact } = useResponsive();
+  const [searchParams, setSearchParams] = useSearchParams();
   const filter = placesFilter ?? "visited";
-  const [countryFilter, setCountryFilter] = useState<{
-    filter: PlacesFilter;
-    ids: string[];
-  }>({ filter, ids: [] });
-  /* Countries picked under one filter mean nothing under another. */
-  const countryIds = countryFilter.filter === filter ? countryFilter.ids : [];
-  const shownIds = new Set(countryIds);
+  /*
+   * The countries shown live in the URL, so a link can open the list narrowed to
+   * one. Switching list drops them: countries picked under one mean nothing under
+   * another.
+   */
   const groups = groupByCountry(CITIES[filter], currLanguage);
+  /* A country with nothing in this list, from a link or a stale URL, narrows nothing. */
+  const countryIds = searchParams
+    .getAll("country")
+    .filter((id) => groups.some(({ country }) => country.id === id));
+  const shownIds = new Set(countryIds);
   const shown =
     countryIds.length > 0
       ? groups.filter((group) => shownIds.has(group.country.id))
@@ -309,7 +313,9 @@ export function PlacesPanel(): ReactNode {
             {groups.length > 1 ? (
               <CountryFilter
                 groups={groups}
-                onChange={(ids) => setCountryFilter({ filter, ids })}
+                onChange={(ids) =>
+                  setSearchParams({ country: ids }, { replace: true })
+                }
                 selected={countryIds}
               />
             ) : null}

@@ -1,0 +1,153 @@
+@use "variables" as v;
+@use "mixins" as m;
+
+/* A passport's corners are cut round, about 3 mm on a page 88 mm wide. */
+$corner: 3.5% 2.46%;
+
+.booklet {
+  display: flex;
+  flex-direction: column;
+  gap: v.$space3;
+  width: 100%;
+
+  /*
+   * A turn draws past the book's edges, so nothing here clips. Vertical drags
+   * still scroll a page too short for the book; sideways ones turn it.
+   */
+  &__book {
+    @include m.transition(transform);
+    position: relative;
+    aspect-ratio: 880 / 625;
+    touch-action: pan-y;
+    user-select: none;
+
+    &--single {
+      aspect-ratio: 440 / 625;
+    }
+
+    /* Shut, the book lies in the middle, not where its one cover would be open. */
+    &--front {
+      transform: translateX(-25%);
+    }
+
+    &--back {
+      transform: translateX(25%);
+    }
+  }
+
+  &__page {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    background: v.$passportPaper;
+    box-shadow: v.$cardShadow;
+
+    /*
+     * What is printed on a page is cut to the page's own corners: the browser
+     * clips a composited child of a rounded box square, leaving a sliver of it
+     * beside the curve.
+     */
+    > *,
+    > *::before {
+      border-radius: inherit;
+    }
+
+    /* The fold: paper darkens towards the spine on both sides of it. */
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 12%;
+      pointer-events: none;
+    }
+
+    &--left {
+      left: 0;
+      border-top-left-radius: $corner;
+      border-bottom-left-radius: $corner;
+
+      &::after {
+        right: 0;
+        background: linear-gradient(to left, v.$passportPaperLine, transparent);
+      }
+    }
+
+    &--right {
+      left: 50%;
+      border-top-right-radius: $corner;
+      border-bottom-right-radius: $corner;
+
+      &::after {
+        left: 0;
+        background: linear-gradient(
+          to right,
+          v.$passportPaperLine,
+          transparent
+        );
+      }
+    }
+
+    /* One page alone shows all four of its corners. */
+    &--single {
+      left: 0;
+      width: 100%;
+      border-radius: $corner;
+    }
+
+    /* A cover is board, not paper, and has no fold. */
+    &--hard {
+      background: v.$passportCover;
+
+      &::after {
+        content: none;
+      }
+    }
+
+    /* Kept mounted for the next turn, but neither seen nor reached. */
+    &--away {
+      visibility: hidden;
+    }
+  }
+
+  /* Where a turn draws the shadows of its fold. */
+  &__shade {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  /* Above the book, so a page swinging past its edge never covers the buttons. */
+  &__controls {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: v.$space3;
+  }
+
+  &__turn {
+    flex: none;
+
+    @include m.compact() {
+      width: 2.75rem;
+      height: 2.75rem;
+    }
+  }
+
+  &__indicator {
+    @include m.figure();
+    margin: 0;
+    color: v.$ink2;
+    font-size: v.$bodySm;
+    font-weight: 600;
+    text-align: center;
+
+    @include m.compact() {
+      font-size: v.$caption;
+    }
+  }
+}

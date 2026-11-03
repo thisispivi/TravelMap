@@ -9,6 +9,7 @@ import { ResponsiveType } from "@/shared/hooks/useResponsive";
 export const JOURNAL_PAGES = [
   { id: "stats", path: "/stats" },
   { id: "timeline", path: "/timeline" },
+  { id: "passport", path: "/passport" },
 ] as const satisfies readonly { id: NavTabId; path: string }[];
 
 /* Trips, places and gallery always have a tab; on a phone, so do the settings. */

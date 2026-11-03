@@ -91,7 +91,7 @@ dependency direction:
 
 - `app` owns route composition, the persistent shell, and global hosts.
 - `features` owns the UI and logic of one capability: in the site gallery,
-  map, navigation, places, settings, stats, timeline, and trips; in the editor trips,
+  map, navigation, passport, places, settings, stats, timeline, and trips; in the editor trips,
   places, companies, settings, map, and the command palette.
 - `shared` owns technical primitives and narrow cross-feature contracts.
 - Dependencies flow `app → features → shared → data`; `shared` never imports
@@ -130,13 +130,13 @@ dependency direction:
   sits in the side panel beside the map — a bottom sheet on phones — so a route
   stays visible next to it; `page` content (timeline, statistics, galleries)
   covers the map as a full page. Only page views (`TimelinePage`, `StatsPage`,
-  `GalleryIndex`, `GalleryAlbum`, `Lightbox`) get a real routed `element`, and
+  `PassportPage`, `GalleryIndex`, `GalleryAlbum`, `Lightbox`) get a real routed `element`, and
   those are lazy-loaded. **When adding a new panel that lives
   inside the map shell, follow this pattern**: add the path with
   `element: null`, then extend `useAppLocation.ts` and `MapShell` — don't give it
   its own routed page component. When adding a genuinely standalone view, follow the
   `TimelinePage`/`StatsPage` pattern (own lazy-loaded route element).
-- **The navigation fits itself to the window.** Stats, Timeline and any other
+- **The navigation fits itself to the window.** Stats, Timeline, Passport and any other
   page in `JOURNAL_PAGES` (`shared/lib/journal.ts`) get their own tabs when
   there is room and share a Journal tab when there is not, with a
   `JournalSwitcher` in each page's header. A new page that looks back over the
@@ -177,6 +177,8 @@ packages/ui/src/
   lib/           DOM and styling helpers: classNames, focus, motion, anchor
   i18n/          i18next setup, locales, date and number formatting
   map/           BaseMap, WorldLayers, RouteLines, ZoomControls; theme, routes
+  stamps/        Stamp, its frames and ink, the catalogue of every map country,
+                 and one code-split emblem module per continent
   styles/        Global SCSS: _variables.scss, _variables.module.scss, mixins
   assets/        The logo, shared icons, and the country borders
 packages/ui/public/   Flags, map glyphs, and the `common` translations
@@ -931,8 +933,8 @@ Not optional. The existing markers show the baseline:
   large enough to need virtualization; don't add a virtualization library
   ahead of an actual list that's slow to render.
 - **Lazy loading / code splitting**: already used correctly for route-level
-  views (`TimelinePage`, `StatsPage`, `GalleryIndex`, `GalleryAlbum`, and
-  `Lightbox` are all
+  views (`TimelinePage`, `StatsPage`, `PassportPage`, `GalleryIndex`,
+  `GalleryAlbum`, and `Lightbox` are all
   `lazy` routes in `app/routing/router.tsx`). Extend this pattern to any new heavyweight,
   not-always-visible view rather than bundling it into the main chunk.
 - **Map rendering**: MapLibre style objects are the one place `useMemo` is

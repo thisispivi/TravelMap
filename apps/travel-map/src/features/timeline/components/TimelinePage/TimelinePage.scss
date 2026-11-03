@@ -224,7 +224,18 @@ $yearGapCompact: 3.5rem;
     @include m.figure();
   }
 
+  /* Where and how the trip list's cards show their flags, so the two read alike. */
+  &__flags {
+    position: absolute;
+    z-index: 1;
+    top: v.$space3;
+    right: v.$space3;
+    display: flex;
+    gap: v.$space1;
+  }
+
   &__flag {
-    font-size: 0.75rem;
+    font-size: 1.75rem;
+    filter: drop-shadow(0 0.0625rem 0.25rem rgba(0, 0, 0, 0.4));
   }
 }

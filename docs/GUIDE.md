@@ -334,6 +334,7 @@ The editor's **Settings** screen covers everything global:
 | Source code link                       | Where the site's Settings page links for the code. Leave it empty to credit the upstream TravelMap project              |
 | Locales                                | Extra languages you can write translated names in                                                                       |
 | Home city                              | Your own city, shown with its own marker                                                                                |
+| Nationality                            | Colours the passport page's cover like your own passport. Without one, the home city's country is used                  |
 | Lived cities                           | Places you have lived. Like layovers, these are kept out of visited places and statistics — they are their own category |
 | Future cities                          | Places to show as planned even without a trip for them yet                                                              |
 | Media root                             | The path prefix written into new photo lists (default `/Travels`)                                                       |

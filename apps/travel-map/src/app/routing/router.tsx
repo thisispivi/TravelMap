@@ -82,6 +82,14 @@ export const router = createHashRouter([
         },
       },
       {
+        path: "passport",
+        lazy: async () => {
+          const { PassportPage: Component } =
+            await import("@/features/passport/components/PassportPage/PassportPage");
+          return { Component };
+        },
+      },
+      {
         path: "gallery",
         lazy: async () => {
           const { GalleryIndex: Component } =

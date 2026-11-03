@@ -19,7 +19,10 @@ import {
 import { useMapScene } from "@/shared/context/MapScene.context";
 import { useDataset } from "@/shared/hooks/useDataset";
 import { isSameJson } from "@/shared/lib/jsonEquality";
-import { findWorldCountry } from "@/shared/lib/worldCountries";
+import {
+  findWorldCountry,
+  listWorldCountries,
+} from "@/shared/lib/worldCountries";
 
 import { BackupPanel } from "../BackupPanel/BackupPanel";
 
@@ -282,6 +285,20 @@ export function SettingsScreen({ file }: SettingsScreenProps): ReactNode {
           }
           options={cityOptions}
           value={value.homeCityId ?? ""}
+        />
+        <Combobox
+          emptyLabel={t("configScreen.none")}
+          hint={t("configScreen.nationalityHint")}
+          label={t("configScreen.nationality")}
+          onChange={(nationality) =>
+            setValue({ ...value, nationality: nationality || undefined })
+          }
+          options={listWorldCountries().map(({ flagUrl, id, name }) => ({
+            iconUrl: flagUrl,
+            label: name,
+            value: id,
+          }))}
+          value={value.nationality ?? ""}
         />
         <div className="editor-panel__row">
           <MultiCombobox

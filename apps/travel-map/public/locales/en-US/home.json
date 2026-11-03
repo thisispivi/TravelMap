@@ -51,7 +51,8 @@
     "timeline": "Timeline",
     "stats": "Stats",
     "settings": "Settings",
-    "journal": "Journal"
+    "journal": "Journal",
+    "passport": "Passport"
   },
   "goHome": "Show the whole map",
   "sheet": {
@@ -299,5 +300,26 @@
       "creditMapLibre": "Map rendered with MapLibre GL JS",
       "opensInNewTab": "{{name}} (opens in a new tab)"
     }
+  },
+  "passport": {
+    "planned": "Planned",
+    "issuing": "Issuing country",
+    "issuingLabel": "{{name}}, the issuing country. Show its places",
+    "pageOne_one": "Page {{page}} of {{count}}",
+    "pageOne_other": "Page {{page}} of {{count}}",
+    "pageTwo_one": "Pages {{start}}–{{end}} of {{count}}",
+    "pageTwo_other": "Pages {{start}}–{{end}} of {{count}}",
+    "progress": "{{pages}} · {{continent}} {{stamped}} of {{total}} visited",
+    "folio": "{{continent}} · {{page}}",
+    "previous": "Previous page",
+    "next": "Next page",
+    "stampLabel_one": "{{name}}: first entered {{date}} at {{city}}. Show its places",
+    "stampLabel_other": "{{name}}: first entered {{date}} at {{city}}, {{count}} entries. Show its places",
+    "totals": {
+      "stamps": "Stamps",
+      "continents": "Continents"
+    },
+    "cover": "Cover",
+    "empty": "No stamps yet. Add a trip or a home city to start the passport."
   }
 }

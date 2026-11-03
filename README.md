@@ -54,6 +54,8 @@ starts empty and is ready for your own trips, places, and media. Read the
 - A chronological timeline and travel statistics for distance, transport,
   countries, continents, currencies, time zones, companies, UNESCO sites, and
   media.
+- An explorable passport: a booklet with an original stamp for every country
+  on the map, inked for the ones you have entered.
 - Responsive mobile and desktop layouts, light and dark themes, and English and
   Italian interfaces.
 

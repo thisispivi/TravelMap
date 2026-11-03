@@ -129,6 +129,14 @@ function buildCatalogue(): WorldCountry[] {
 
 const worldCatalogue = buildCatalogue();
 
+/**
+ * Lists every country the world map can draw, by display name.
+ * @returns {WorldCountry[]} The countries
+ */
+export function listWorldCountries(): WorldCountry[] {
+  return worldCatalogue;
+}
+
 const catalogueById = new Map(
   worldCatalogue.map((country) => [country.id, country]),
 );
