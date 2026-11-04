@@ -3,6 +3,7 @@ import "./WorldCitySearch.scss";
 import { useAnchoredMenu } from "@travelmap/ui/hooks/useAnchoredMenu";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { classNames } from "@travelmap/ui/lib/classNames";
+import { flagUrl } from "@travelmap/ui/lib/flags";
 import { menuVariants } from "@travelmap/ui/lib/motion";
 import { useCombobox } from "downshift";
 import { domAnimation, LazyMotion, m } from "framer-motion";
@@ -10,7 +11,6 @@ import { ReactNode, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 import { searchWorldCities, WorldCity } from "../../lib/gazetteer";
-import { flagIconUrl } from "../../lib/placeOptions";
 
 const RESULT_LIMIT = 30;
 const DEBOUNCE_MS = 180;
@@ -153,11 +153,11 @@ export function WorldCitySearch({
                     key={city.key}
                     {...getItemProps({ index, item: city })}
                   >
-                    {city.country && flagIconUrl(city.country.id) ? (
+                    {city.country ? (
                       <img
                         alt=""
                         className="combobox__icon"
-                        src={flagIconUrl(city.country.id)}
+                        src={flagUrl(city.country.id)}
                       />
                     ) : (
                       <span className="combobox__icon combobox__icon--none" />

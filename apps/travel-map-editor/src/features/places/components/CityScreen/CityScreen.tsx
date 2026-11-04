@@ -1,5 +1,6 @@
 import { CityJson, walkTripLegs } from "@travelmap/core";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
+import { flagUrl } from "@travelmap/ui/lib/flags";
 import { ReactNode, useState } from "react";
 import { useNavigate } from "react-router";
 
@@ -18,11 +19,7 @@ import { PlaceImport } from "@/shared/components/PlaceImport/PlaceImport";
 import { useMapScene } from "@/shared/context/MapScene.context";
 import { useDataset } from "@/shared/hooks/useDataset";
 import { isSameJson } from "@/shared/lib/jsonEquality";
-import {
-  countryOptions,
-  flagIconUrl,
-  timeZoneOptions,
-} from "@/shared/lib/placeOptions";
+import { countryOptions, timeZoneOptions } from "@/shared/lib/placeOptions";
 
 import { CityBackgroundPicker } from "./CityBackgroundPicker";
 
@@ -132,7 +129,7 @@ export function CityScreen({ file }: CityScreenProps): ReactNode {
       problems={problems}
       savedMessage={t("toast.citySaved")}
       title={file.value.name}
-      titleIconUrl={flagIconUrl(value.countryId)}
+      titleIconUrl={flagUrl(value.countryId)}
       value={value}
     >
       <section className="editor-panel">
