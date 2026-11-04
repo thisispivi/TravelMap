@@ -1,3 +1,9 @@
+/*
+ * Set up here, where a map is first drawn, rather than when an app starts: the
+ * setup pulls in all of MapLibre, which a page opened first has no use for.
+ */
+import "../../lib/mapRuntime";
+
 import { ReactNode, RefObject, useMemo } from "react";
 import MapGL, { MapProps, type MapRef } from "react-map-gl/maplibre";
 

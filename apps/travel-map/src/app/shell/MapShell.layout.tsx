@@ -3,7 +3,7 @@ import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { easeOut, panelSpring } from "@travelmap/ui/lib/motion";
 import { AnimatePresence, m } from "framer-motion";
 import { PanelLeftOpen } from "lucide-react";
-import { lazy, ReactNode, Suspense } from "react";
+import { lazy, ReactNode, Suspense, useEffect, useState } from "react";
 
 import { AppNav } from "@/features/navigation/components/AppNav/AppNav";
 import { BottomSheet } from "@/shared/components/BottomSheet/BottomSheet";
@@ -31,6 +31,43 @@ const PlacesPanel = lazy(() =>
     (module) => ({ default: module.PlacesPanel }),
   ),
 );
+
+/* The longest a page opened first leaves the map waiting for an idle moment. */
+const MAP_IDLE_TIMEOUT_MS = 2000;
+
+/**
+ * Properties accepted by the PageReady component.
+ * @property {() => void} onReady - Told once the page has rendered and the browser is idle
+ */
+interface PageReadyProps {
+  onReady: () => void;
+}
+
+/**
+ * PageReady component
+ * Sits beside a page inside its suspense boundary, so it mounts only once the
+ * page has, then waits for the browser to be idle before saying so. It draws
+ * nothing.
+ * @component
+ * @param {PageReadyProps} props - The component props
+ * @param {() => void} props.onReady - Told once the page has rendered and the browser is idle
+ * @returns {ReactNode} Nothing
+ */
+function PageReady({ onReady }: PageReadyProps): ReactNode {
+  useEffect(() => {
+    /* Safari has no idle callback before 18.4; a timer stands in. */
+    if (!("requestIdleCallback" in window)) {
+      const timer = setTimeout(onReady, MAP_IDLE_TIMEOUT_MS);
+      return () => clearTimeout(timer);
+    }
+    const idle = window.requestIdleCallback(onReady, {
+      timeout: MAP_IDLE_TIMEOUT_MS,
+    });
+    return () => window.cancelIdleCallback(idle);
+  }, [onReady]);
+
+  return null;
+}
 
 /**
  * Properties accepted by the map shell layout.
@@ -104,7 +141,8 @@ function SideContent(): ReactNode {
  * Puts the map underneath everything, the navigation over it, and the active
  * route's content where its purpose wants it: trips and places beside the map
  * so their routes stay visible (a bottom sheet on phones), timeline, stats and
- * galleries as pages over it.
+ * galleries as pages over it. A page opened first comes before the map: the
+ * map, the heaviest part of the site, starts behind it once it has rendered.
  * @component
  * @param {MapShellLayoutProps} props - The layout props
  * @param {boolean} props.isDarkTheme - Whether the dark theme is active
@@ -122,15 +160,20 @@ export function MapShellLayout({
   const { surface, activeTab } = useAppRoute();
   const { isPanelOpen, setIsPanelOpen } = usePanel();
   const { t } = useLanguage(["home"]);
+  const [isMapWanted, setIsMapWanted] = useState(surface !== "page");
+  /* Once a route beside the map has shown it, it stays mounted for every page after. */
+  if (surface !== "page" && !isMapWanted) setIsMapWanted(true);
   const isSideDocked = surface === "side" && !responsive.isCompact;
   /* A photo opening inside an album is the album's own business, not a new page. */
   const pageKey = pathname.split("/").slice(0, 4).join("/");
 
   return (
     <div className="map-shell__layout">
-      <Suspense fallback={<PanelFallback />}>
-        <Map isDarkTheme={isDarkTheme} responsive={responsive} />
-      </Suspense>
+      {isMapWanted ? (
+        <Suspense fallback={<PanelFallback />}>
+          <Map isDarkTheme={isDarkTheme} responsive={responsive} />
+        </Suspense>
+      ) : null}
 
       <AppNav responsive={responsive} />
 
@@ -183,7 +226,10 @@ export function MapShellLayout({
                 key={pageKey}
                 transition={easeOut}
               >
-                <Suspense fallback={<PanelFallback />}>{outlet}</Suspense>
+                <Suspense fallback={<PanelFallback />}>
+                  {outlet}
+                  <PageReady onReady={() => setIsMapWanted(true)} />
+                </Suspense>
               </m.div>
             </AnimatePresence>
           </m.main>
