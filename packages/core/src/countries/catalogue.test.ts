@@ -22,7 +22,7 @@ describe("the country catalogue", () => {
     expect(italy?.getLocalizedName("it-IT")).toBe("Italia");
     expect(italy?.continent).toBe(Continent.EUROPE);
     expect(italy?.passportCover).toBe("red");
-    expect(italy?.stamp.emblem).toBe("/stamp-emblems/IT.png");
+    expect(italy?.stamp.emblem).toBe("/stamp-emblems/IT.webp");
     expect(findCountry("US")?.passportCover).toBe("blue");
     expect(findCountry("Italy")).toBeUndefined();
   });

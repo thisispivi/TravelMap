@@ -73,6 +73,6 @@ export class Stamp {
     this.frame = frame;
     this.textStyle = textStyle;
     this.tilt = tiltOf(code);
-    this.emblem = `/stamp-emblems/${code}.png`;
+    this.emblem = `/stamp-emblems/${code}.webp`;
   }
 }

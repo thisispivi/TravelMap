@@ -124,7 +124,7 @@ describe("buildWorld", () => {
   it("resolves a city's country from the catalogue by its code", () => {
     const city = buildWorld(sources).citiesById.get("rome");
     expect(city?.country.name).toBe("Italy");
-    expect(city?.country.stamp.emblem).toBe("/stamp-emblems/IT.png");
+    expect(city?.country.stamp.emblem).toBe("/stamp-emblems/IT.webp");
   });
 
   it("refuses a city in a country the catalogue does not know", () => {
