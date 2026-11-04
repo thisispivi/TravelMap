@@ -1,4 +1,4 @@
-import { toId } from "@travelmap/core";
+import { countryOnMap } from "@travelmap/core";
 import type { FeatureCollection, Geometry } from "geojson";
 import { feature } from "topojson-client";
 import type { GeometryCollection, Topology } from "topojson-specification";
@@ -9,7 +9,7 @@ import { splitGeometryAtAntimeridian } from "./geo";
 /**
  * Properties stored on a country polygon and its generated label.
  * @property {string} name - The country name
- * @property {string} [id] - The polygon's name in dataset id form, which a country document's id matches
+ * @property {string} [id] - The code of the country it draws, from the catalogue
  */
 export interface CountryProperties {
   name: string;
@@ -41,7 +41,7 @@ function createCountriesGeoJson(): FeatureCollection<
       geometry: splitGeometryAtAntimeridian(country.geometry),
       properties: {
         ...country.properties,
-        id: toId(country.properties.name),
+        id: countryOnMap(country.properties.name)?.id,
       },
     })),
   };
@@ -49,6 +49,7 @@ function createCountriesGeoJson(): FeatureCollection<
 
 /*
  * Shared with the editor, which draws the same world. Keep this module free of
- * dataset imports so the editor does not bundle the public app's world.
+ * dataset imports so the editor does not bundle the public app's world; the
+ * country catalogue is not the dataset.
  */
 export const countriesGeoJson = createCountriesGeoJson();

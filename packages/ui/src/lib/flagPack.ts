@@ -1,5 +1,3 @@
-import { flagNameOf } from "./flags";
-
 /*
  * Only the file names are read here, to know which flags exist; the flags
  * themselves are served at /flags by the shared Vite preset. This stays apart
@@ -15,10 +13,11 @@ const FLAG_NAMES: ReadonlySet<string> = new Set(
 );
 
 /**
- * Tells whether the pack has a flag for a country id.
- * @param {string} countryId - The country id
+ * Tells whether the pack has a flag for a country. Twemoji has none for places
+ * without an emoji, such as Somaliland, Northern Cyprus and the Siachen Glacier.
+ * @param {string} countryId - The country's code
  * @returns {boolean} Whether `flagUrl` leads to a real file
  */
 export function hasFlag(countryId: string): boolean {
-  return FLAG_NAMES.has(flagNameOf(countryId));
+  return FLAG_NAMES.has(countryId);
 }

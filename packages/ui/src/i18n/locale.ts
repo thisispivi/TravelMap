@@ -9,8 +9,8 @@ export const DEFAULT_LOCALE: SupportedLocale = "en-US";
 
 /* English is drawn with the United Kingdom's flag, as the old switcher did. */
 export const LOCALE_FLAGS: Record<SupportedLocale, string> = {
-  "en-US": "UnitedKingdom",
-  "it-IT": "Italy",
+  "en-US": "GB",
+  "it-IT": "IT",
 };
 
 /**

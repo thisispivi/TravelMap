@@ -18,8 +18,6 @@
     "./lib/*": "./src/lib/*.ts",
     "./map/components/*": "./src/map/components/*.tsx",
     "./map/lib/*": "./src/map/lib/*.ts",
-    "./stamps/Stamp": "./src/stamps/Stamp.tsx",
-    "./stamps/*": "./src/stamps/*.ts",
     "./styles/*": "./src/styles/*",
     "./vite": "./vite/preset.ts"
   },

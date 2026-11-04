@@ -1,26 +1,23 @@
+import { COUNTRIES } from "@travelmap/core";
 import { describe, expect, it } from "vitest";
 
 import { hasFlag } from "./flagPack";
 import { flagUrl } from "./flags";
 
+/* Twemoji draws no flag for these, so their flag stays hidden. */
+const FLAGLESS = ["XG", "XN", "XS"];
+
 describe("flags", () => {
-  it("leads an abbreviated map name to the flag the pack spells out", () => {
-    expect(flagUrl("BosniaAndHerz")).toBe("/flags/BosniaAndHerzegovina.svg");
-    expect(hasFlag("BosniaAndHerz")).toBe(true);
+  it("names a flag by its country's code", () => {
+    expect(flagUrl("IT")).toBe("/flags/IT.svg");
   });
 
-  it("uses a country id that already is a flag's name as it stands", () => {
-    expect(flagUrl("Italy")).toBe("/flags/Italy.svg");
-    expect(hasFlag("Italy")).toBe(true);
+  it("has a flag for every country of the catalogue but the flagless ones", () => {
+    for (const code of COUNTRIES.keys())
+      expect(hasFlag(code), code).toBe(!FLAGLESS.includes(code));
   });
 
-  it("has the flags the previous pack was missing", () => {
-    expect(hasFlag("Thailand")).toBe(true);
-    expect(hasFlag("Afghanistan")).toBe(true);
-    expect(hasFlag("FrSAntarcticLands")).toBe(true);
-  });
-
-  it("knows the pack has no flag for a made-up country", () => {
-    expect(hasFlag("Atlantis")).toBe(false);
+  it("keeps the European Union's flag for the euro", () => {
+    expect(hasFlag("EU")).toBe(true);
   });
 });
