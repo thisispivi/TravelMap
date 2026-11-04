@@ -51,8 +51,10 @@ export function SaveChip({
       {state === "pending" ? t("save.pending") : null}
       {state === "saved" && savedAt
         ? t("save.savedAt", {
+            /* Always 24-hour, whatever the locale would choose. */
             time: savedAt.toLocaleTimeString(currLanguage, {
               hour: "2-digit",
+              hourCycle: "h23",
               minute: "2-digit",
             }),
           })
