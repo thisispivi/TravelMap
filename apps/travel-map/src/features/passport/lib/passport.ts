@@ -1,9 +1,4 @@
-import { City, Continent, Country, toId, Trip } from "@travelmap/core";
-import {
-  catalogueNameOf,
-  STAMP_CATALOGUE,
-} from "@travelmap/ui/stamps/catalogue";
-import { StampFrame, StampTextStyle } from "@travelmap/ui/stamps/frames";
+import { City, Continent, COUNTRIES, Country, Trip } from "@travelmap/core";
 
 /* Continents never entered follow the entered ones, in this order. */
 const CONTINENT_ORDER = [
@@ -15,9 +10,6 @@ const CONTINENT_ORDER = [
   Continent.OCEANIA,
   Continent.ANTARCTICA,
 ];
-
-/* What a country outside the map's catalogue is drawn with, on a fork's odd id. */
-const FALLBACK_LOOK = { frame: "rounded", textStyle: "caps" } as const;
 
 /**
  * One time a trip reached a country.
@@ -32,30 +24,12 @@ interface PassportEntry {
 }
 
 /**
- * What every slot knows about its country.
- * @property {string} id - The country's id
- * @property {string} name - Its name in the reader's language
- * @property {Continent} continent - The continent whose pages hold it
- * @property {StampFrame} frame - The stamp's shape
- * @property {StampTextStyle} textStyle - How the stamp sets the name
- * @property {string} [emblem] - The stamp's drawing
- */
-interface PassportCountry {
-  id: string;
-  name: string;
-  continent: Continent;
-  frame: StampFrame;
-  textStyle: StampTextStyle;
-  emblem?: string;
-}
-
-/**
  * A country entered at least once.
  * @property {"stamp"} kind - The slot discriminator
- * @property {Country} country - The country's document
+ * @property {Country} country - The country
  * @property {PassportEntry[]} entries - Its entries, oldest first
  */
-export interface StampSlot extends PassportCountry {
+export interface StampSlot {
   kind: "stamp";
   country: Country;
   entries: PassportEntry[];
@@ -64,10 +38,10 @@ export interface StampSlot extends PassportCountry {
 /**
  * A country only planned so far.
  * @property {"planned"} kind - The slot discriminator
- * @property {Country} country - The country's document
+ * @property {Country} country - The country
  * @property {Date} [date] - When the first planned trip reaches it, if a trip does
  */
-interface PlannedSlot extends PassportCountry {
+interface PlannedSlot {
   kind: "planned";
   country: Country;
   date?: Date;
@@ -132,7 +106,6 @@ export interface Passport {
  * @property {Trip[]} futureTrips - The trips planned
  * @property {City[]} futureCities - The cities planned, by a trip or by hand
  * @property {City | null} homeCity - The home city
- * @property {string} locale - The reader's locale
  * @property {number} perPage - How many stamps a page holds in the layout shown
  */
 interface PassportSources {
@@ -140,7 +113,6 @@ interface PassportSources {
   futureTrips: Trip[];
   futureCities: City[];
   homeCity: City | null;
-  locale: string;
   perPage: number;
 }
 
@@ -163,30 +135,11 @@ function entryOf(trip: Trip, country: Country): PassportEntry | undefined {
 }
 
 /**
- * Reads what the slots of a country with a document share. A visited country's own
- * continent wins over the catalogue's, which only places the ones with no document.
- * @param {Country} country - The country
- * @param {string} locale - The reader's locale
- * @returns {PassportCountry} Its look and place in the booklet
- */
-function describe(country: Country, locale: string): PassportCountry {
-  const entry = STAMP_CATALOGUE[catalogueNameOf(country) ?? ""];
-  return {
-    ...(entry ?? FALLBACK_LOOK),
-    continent: country.continent,
-    emblem: entry?.emblem,
-    id: country.id,
-    name: country.getLocalizedName(locale),
-  };
-}
-
-/**
  * Collects every entry of every country the given trips reached.
  * @param {Trip[]} trips - The trips
- * @param {string} locale - The reader's locale
  * @returns {StampSlot[]} One slot per country, the oldest first entry first
  */
-function stampsFrom(trips: Trip[], locale: string): StampSlot[] {
+function stampsFrom(trips: Trip[]): StampSlot[] {
   const countries = new Map<string, Country>();
   for (const trip of trips)
     for (const country of trip.getCountriesVisited())
@@ -197,12 +150,7 @@ function stampsFrom(trips: Trip[], locale: string): StampSlot[] {
       const entries = trips
         .flatMap((trip) => entryOf(trip, country) ?? [])
         .toSorted((first, second) => +first.date - +second.date);
-      return {
-        ...describe(country, locale),
-        country,
-        entries,
-        kind: "stamp",
-      };
+      return { country, entries, kind: "stamp" };
     })
     .toSorted(
       (first, second) =>
@@ -216,12 +164,11 @@ function stampsFrom(trips: Trip[], locale: string): StampSlot[] {
  * @param {PassportSources} sources - The dataset
  * @param {Trip[]} sources.futureTrips - The trips planned
  * @param {City[]} sources.futureCities - The cities planned
- * @param {string} sources.locale - The reader's locale
  * @param {Set<string>} taken - Countries that already have a slot
  * @returns {PlannedSlot[]} One slot per country, soonest first
  */
 function plannedFrom(
-  { futureTrips, futureCities, locale }: PassportSources,
+  { futureTrips, futureCities }: PassportSources,
   taken: Set<string>,
 ): PlannedSlot[] {
   const dates = new Map<string, Date>();
@@ -241,7 +188,6 @@ function plannedFrom(
   return [...countries.values()]
     .filter(({ id }) => !taken.has(id))
     .map((country): PlannedSlot => ({
-      ...describe(country, locale),
       country,
       date: dates.get(country.id),
       kind: "planned",
@@ -259,8 +205,8 @@ function plannedFrom(
  * @returns {number} How many are still to see
  */
 function remainingIn(continent: Continent, taken: Set<string>): number {
-  return Object.entries(STAMP_CATALOGUE).filter(
-    ([name, entry]) => entry.continent === continent && !taken.has(toId(name)),
+  return [...COUNTRIES.values()].filter(
+    (country) => country.continent === continent && !taken.has(country.id),
   ).length;
 }
 
@@ -273,17 +219,17 @@ function remainingIn(continent: Continent, taken: Set<string>): number {
  * @returns {Passport} The booklet
  */
 export function buildPassport(sources: PassportSources): Passport {
-  const { visitedTrips, homeCity, locale, perPage } = sources;
+  const { visitedTrips, homeCity, perPage } = sources;
   const homeId = homeCity?.country.id;
-  const allStamps = stampsFrom(visitedTrips, locale);
-  const homeStamp = allStamps.find(({ id }) => id === homeId);
-  const stamps = allStamps.filter(({ id }) => id !== homeId);
-  const taken = new Set(stamps.map(({ id }) => id));
+  const allStamps = stampsFrom(visitedTrips);
+  const homeStamp = allStamps.find(({ country }) => country.id === homeId);
+  const stamps = allStamps.filter(({ country }) => country.id !== homeId);
+  const taken = new Set(stamps.map(({ country }) => country.id));
   if (homeId) taken.add(homeId);
   const planned = plannedFrom(sources, taken);
-  for (const { id } of planned) taken.add(id);
+  for (const { country } of planned) taken.add(country.id);
 
-  const entered = stamps.map(({ continent }) => continent);
+  const entered = stamps.map(({ country }) => country.continent);
   const order = [...new Set([...entered, ...CONTINENT_ORDER])];
 
   /**
@@ -292,7 +238,9 @@ export function buildPassport(sources: PassportSources): Passport {
    * @returns {PassportSlot[]} Its slots
    */
   const slotsOf = (continent: Continent): PassportSlot[] =>
-    [...stamps, ...planned].filter((slot) => slot.continent === continent);
+    [...stamps, ...planned].filter(
+      ({ country }) => country.continent === continent,
+    );
 
   const pages = order.flatMap((continent) => {
     const slots = slotsOf(continent);
@@ -325,7 +273,6 @@ export function buildPassport(sources: PassportSources): Passport {
         ? {
             city: homeCity,
             slot: homeStamp ?? {
-              ...describe(homeCity.country, locale),
               country: homeCity.country,
               entries: [],
               kind: "stamp",

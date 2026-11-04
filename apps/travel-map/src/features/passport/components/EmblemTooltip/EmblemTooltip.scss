@@ -1,0 +1,17 @@
+@use "variables" as v;
+@use "mixins" as m;
+
+.emblem-tooltip {
+  @include m.glass();
+  position: fixed;
+  z-index: 40;
+  max-width: 16rem;
+  margin: 0;
+  padding: v.$space1 v.$space2;
+  border-radius: v.$radiusMd;
+  color: v.$ink;
+  font-size: v.$bodySm;
+  text-align: center;
+  pointer-events: none;
+  translate: -50% 0;
+}

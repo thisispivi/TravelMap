@@ -1,6 +1,6 @@
 import "./PassportPage.scss";
 
-import { Continent } from "@travelmap/core";
+import { Continent, Country, findCountry } from "@travelmap/core";
 import { CountryFlag } from "@travelmap/ui/components/CountryFlag/CountryFlag";
 import { EmptyState } from "@travelmap/ui/components/EmptyState/EmptyState";
 import { PanelFrame } from "@travelmap/ui/components/PanelFrame/PanelFrame";
@@ -8,17 +8,18 @@ import { PanelHeader } from "@travelmap/ui/components/PanelHeader/PanelHeader";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { formatDateRangeShort, formatMonthYear } from "@travelmap/ui/i18n/date";
 import { classNames } from "@travelmap/ui/lib/classNames";
-import {
-  catalogueNameById,
-  STAMP_CATALOGUE,
-  stampName,
-} from "@travelmap/ui/stamps/catalogue";
-import { passportCoverOf } from "@travelmap/ui/stamps/covers";
-import { EmblemSet } from "@travelmap/ui/stamps/emblems";
-import { stampTilt } from "@travelmap/ui/stamps/frames";
-import { Stamp, StampEmblem, StampInk } from "@travelmap/ui/stamps/Stamp";
 import { Globe } from "lucide-react";
-import { CSSProperties, ReactNode, useEffect, useRef, useState } from "react";
+import {
+  CSSProperties,
+  FocusEvent,
+  KeyboardEvent,
+  PointerEvent,
+  ReactNode,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+} from "react";
 import { useNavigate } from "react-router";
 
 import {
@@ -40,17 +41,115 @@ import {
   StampSlot,
 } from "../../lib/passport";
 import { Booklet } from "../Booklet/Booklet";
-import { useEmblems } from "./PassportPage.emblems";
+import { EmblemTooltip } from "../EmblemTooltip/EmblemTooltip";
+import { Stamp, StampEmblem, StampInk } from "../Stamp/Stamp";
+
+/**
+ * Properties accepted by the StampButton component.
+ * @property {Country} country - The stamp's country
+ * @property {string} label - The button's accessible name
+ * @property {string[]} lines - The stamp's small lines
+ * @property {string} [className] - The slot's modifier class
+ * @property {CSSProperties} [style] - The slot's offset on its square
+ * @property {() => void} onSelect - Shows the country among the places
+ * @property {ReactNode} [children] - What sits on the stamp, such as its entry count
+ */
+interface StampButtonProps {
+  country: Country;
+  label: string;
+  lines: string[];
+  className?: string;
+  style?: CSSProperties;
+  onSelect: () => void;
+  children?: ReactNode;
+}
+
+/**
+ * StampButton component
+ * A struck stamp to press. Hovering or focusing it names what its drawing shows
+ * in a tooltip, the only place that description appears; Escape hides it.
+ * @component
+ * @param {StampButtonProps} props - The button props
+ * @param {Country} props.country - The stamp's country
+ * @param {string} props.label - The button's accessible name
+ * @param {string[]} props.lines - The stamp's small lines
+ * @param {string} [props.className] - The slot's modifier class
+ * @param {CSSProperties} [props.style] - The slot's offset on its square
+ * @param {() => void} props.onSelect - Shows the country among the places
+ * @param {ReactNode} [props.children] - What sits on the stamp
+ * @returns {ReactNode} The stamp button
+ */
+function StampButton({
+  country,
+  label,
+  lines,
+  className,
+  style,
+  onSelect,
+  children,
+}: StampButtonProps): ReactNode {
+  const { t, currLanguage } = useLanguage(["home"]);
+  const descriptionId = useId();
+  const [anchor, setAnchor] = useState<DOMRect | null>(null);
+  const description = t(`passport.emblems.${country.id}`, {
+    defaultValue: "",
+  });
+
+  /**
+   * Shows the tooltip over the stamp.
+   * @param {FocusEvent<HTMLButtonElement> | PointerEvent<HTMLButtonElement>} event - The hover or focus
+   * @returns {void}
+   */
+  const handleShow = (
+    event: FocusEvent<HTMLButtonElement> | PointerEvent<HTMLButtonElement>,
+  ): void => {
+    if (description) setAnchor(event.currentTarget.getBoundingClientRect());
+  };
+
+  /**
+   * Hides the tooltip once Escape is pressed on the stamp.
+   * @param {KeyboardEvent<HTMLButtonElement>} event - The key press
+   * @returns {void}
+   */
+  const handleKeyDown = (event: KeyboardEvent<HTMLButtonElement>): void => {
+    if (event.key === "Escape") setAnchor(null);
+  };
+
+  return (
+    <button
+      aria-describedby={description ? descriptionId : undefined}
+      aria-label={label}
+      className={classNames("passport-slot", "passport-slot--stamp", className)}
+      onBlur={() => setAnchor(null)}
+      onClick={onSelect}
+      onFocus={handleShow}
+      onKeyDown={handleKeyDown}
+      onPointerEnter={handleShow}
+      onPointerLeave={() => setAnchor(null)}
+      style={style}
+      type="button"
+    >
+      <Stamp
+        country={country}
+        lines={lines}
+        name={country.getLocalizedName(currLanguage)}
+      />
+      {children}
+      <span hidden id={descriptionId}>
+        {description}
+      </span>
+      <EmblemTooltip anchor={anchor} text={description} />
+    </button>
+  );
+}
 
 /**
  * Properties accepted by the SlotView component.
  * @property {PassportSlot} slot - The slot
- * @property {EmblemSet} emblems - The drawings that have arrived
  * @property {(slot: StampSlot) => void} onSelect - Shows the stamp's country among the places
  */
 interface SlotViewProps {
   slot: PassportSlot;
-  emblems: EmblemSet;
   onSelect: (slot: StampSlot) => void;
 }
 
@@ -62,25 +161,18 @@ interface SlotViewProps {
  * @component
  * @param {SlotViewProps} props - The slot props
  * @param {PassportSlot} props.slot - The slot
- * @param {EmblemSet} props.emblems - The drawings that have arrived
  * @param {(slot: StampSlot) => void} props.onSelect - Shows the stamp's country among the places
  * @returns {ReactNode} The slot
  */
-function SlotView({ slot, emblems, onSelect }: SlotViewProps): ReactNode {
+function SlotView({ slot, onSelect }: SlotViewProps): ReactNode {
   const { t, currLanguage } = useLanguage(["home"]);
-  const tilt = stampTilt(slot.id);
+  const { country } = slot;
+  const { tilt } = country.stamp;
   /* CSSProperties has no keys for custom properties, hence the cast. */
   const offset = {
     "--slot-x": `${tilt * 1.4}%`,
     "--slot-y": `${-tilt * 1.1}%`,
   } as CSSProperties;
-  const look = {
-    emblem: slot.emblem ? emblems[slot.emblem] : undefined,
-    frame: slot.frame,
-    id: slot.id,
-    name: slot.name,
-    textStyle: slot.textStyle,
-  };
 
   switch (slot.kind) {
     case "stamp": {
@@ -90,38 +182,37 @@ function SlotView({ slot, emblems, onSelect }: SlotViewProps): ReactNode {
         : "";
       const city = first?.city.getLocalizedName(currLanguage) ?? "";
       return (
-        <button
-          aria-label={t("passport.stampLabel", {
+        <StampButton
+          country={country}
+          label={t("passport.stampLabel", {
             city,
             count: slot.entries.length,
             date,
-            name: slot.name,
+            name: country.getLocalizedName(currLanguage),
           })}
-          className="passport-slot passport-slot--stamp"
-          onClick={() => onSelect(slot)}
+          lines={[date, city]}
+          onSelect={() => onSelect(slot)}
           style={offset}
-          type="button"
         >
-          <Stamp {...look} color={slot.country.color} lines={[date, city]} />
           {slot.entries.length > 1 ? (
             <span aria-hidden="true" className="passport-slot__badge">
               ×{slot.entries.length}
             </span>
           ) : null}
-        </button>
+        </StampButton>
       );
     }
     case "planned":
       return (
         <div className="passport-slot" style={offset}>
           <Stamp
-            {...look}
-            color={slot.country.color}
+            country={country}
             isPencil
             lines={[
               t("passport.planned"),
               ...(slot.date ? [formatMonthYear(slot.date, currLanguage)] : []),
             ]}
+            name={country.getLocalizedName(currLanguage)}
           />
         </div>
       );
@@ -132,13 +223,11 @@ function SlotView({ slot, emblems, onSelect }: SlotViewProps): ReactNode {
  * Properties accepted by the IssuingPage component.
  * @property {IssuingCountry} issuing - The home country
  * @property {Passport} passport - The whole booklet, for its totals
- * @property {EmblemSet} emblems - The drawings that have arrived
  * @property {(slot: StampSlot) => void} onSelect - Shows the home country among the places
  */
 interface IssuingPageProps {
   issuing: IssuingCountry;
   passport: Passport;
-  emblems: EmblemSet;
   onSelect: (slot: StampSlot) => void;
 }
 
@@ -150,44 +239,34 @@ interface IssuingPageProps {
  * @param {IssuingPageProps} props - The page props
  * @param {IssuingCountry} props.issuing - The home country
  * @param {Passport} props.passport - The whole booklet, for its totals
- * @param {EmblemSet} props.emblems - The drawings that have arrived
  * @param {(slot: StampSlot) => void} props.onSelect - Shows the home country among the places
  * @returns {ReactNode} The page
  */
 function IssuingPage({
   issuing,
   passport,
-  emblems,
   onSelect,
 }: IssuingPageProps): ReactNode {
   const { t, currLanguage } = useLanguage(["home"]);
   const { city, slot } = issuing;
+  const name = slot.country.getLocalizedName(currLanguage);
 
   return (
     <section className="passport-sheet passport-sheet--issuing">
       <p className="passport-sheet__eyebrow">{t("passport.issuing")}</p>
-      <button
-        aria-label={t("passport.issuingLabel", { name: slot.name })}
-        className="passport-slot passport-slot--stamp passport-slot--issuing"
-        onClick={() => onSelect(slot)}
-        type="button"
-      >
-        <Stamp
-          color={slot.country.color}
-          emblem={slot.emblem ? emblems[slot.emblem] : undefined}
-          frame={slot.frame}
-          id={slot.id}
-          lines={[city.getLocalizedName(currLanguage)]}
-          name={slot.name}
-          textStyle={slot.textStyle}
-        />
-      </button>
+      <StampButton
+        className="passport-slot--issuing"
+        country={slot.country}
+        label={t("passport.issuingLabel", { name })}
+        lines={[city.getLocalizedName(currLanguage)]}
+        onSelect={() => onSelect(slot)}
+      />
       <h2 className="passport-sheet__holder">
         <CountryFlag
           className="passport-sheet__flag"
           countryId={slot.country.id}
         />
-        {slot.name}
+        {name}
       </h2>
       <dl className="passport-sheet__totals">
         <div className="passport-sheet__total">
@@ -208,14 +287,12 @@ function IssuingPage({
  * @property {ContinentPage} page - The page
  * @property {boolean} isSingle - Whether one page shows at a time, two stamps to a row
  * @property {string} folio - The line at its head
- * @property {EmblemSet} emblems - The drawings that have arrived
  * @property {(slot: StampSlot) => void} onSelect - Shows a stamp's country among the places
  */
 interface SlotsPageProps {
   page: ContinentPage;
   isSingle: boolean;
   folio: string;
-  emblems: EmblemSet;
   onSelect: (slot: StampSlot) => void;
 }
 
@@ -228,7 +305,6 @@ interface SlotsPageProps {
  * @param {ContinentPage} props.page - The page
  * @param {boolean} props.isSingle - Whether one page shows at a time
  * @param {string} props.folio - The line at its head
- * @param {EmblemSet} props.emblems - The drawings that have arrived
  * @param {(slot: StampSlot) => void} props.onSelect - Shows a stamp's country among the places
  * @returns {ReactNode} The page
  */
@@ -236,7 +312,6 @@ function SlotsPage({
   page,
   isSingle,
   folio,
-  emblems,
   onSelect,
 }: SlotsPageProps): ReactNode {
   return (
@@ -249,12 +324,7 @@ function SlotsPage({
         )}
       >
         {page.slots.map((slot) => (
-          <SlotView
-            emblems={emblems}
-            key={slot.id}
-            onSelect={onSelect}
-            slot={slot}
-          />
+          <SlotView key={slot.country.id} onSelect={onSelect} slot={slot} />
         ))}
       </div>
     </section>
@@ -264,13 +334,11 @@ function SlotsPage({
 /**
  * Properties accepted by the CoverPage component.
  * @property {string} title - The document's name, under the emblem
- * @property {string} [country] - The issuing country, above it
- * @property {string} [emblem] - The issuing country's drawing, for the arms
+ * @property {Country} [country] - The issuing country, named above the arms
  */
 interface CoverPageProps {
   title: string;
-  country?: string;
-  emblem?: string;
+  country?: Country;
 }
 
 /**
@@ -283,16 +351,23 @@ interface CoverPageProps {
  * @component
  * @param {CoverPageProps} props - The cover props
  * @param {string} props.title - The document's name
- * @param {string} [props.country] - The issuing country
- * @param {string} [props.emblem] - The issuing country's drawing
+ * @param {Country} [props.country] - The issuing country
  * @returns {ReactNode} The cover
  */
-function CoverPage({ title, country, emblem }: CoverPageProps): ReactNode {
+function CoverPage({ title, country }: CoverPageProps): ReactNode {
+  const { currLanguage } = useLanguage(["home"]);
+
   return (
     <section className="passport-cover">
-      <p className="passport-cover__country">{country}</p>
+      <p className="passport-cover__country">
+        {country?.getLocalizedName(currLanguage)}
+      </p>
       <span aria-hidden="true" className="passport-cover__arms">
-        {emblem ? <StampEmblem drawing={emblem} /> : <Globe strokeWidth={1} />}
+        {country ? (
+          <StampEmblem drawing={country.stamp.emblem} />
+        ) : (
+          <Globe strokeWidth={1} />
+        )}
       </span>
       <p className="passport-cover__title">{title}</p>
       <svg
@@ -337,15 +412,13 @@ const SPREAD_MIN_HEIGHT = 368;
 /**
  * Lays the passport out for one page at a time or for spreads.
  * @param {boolean} isSingle - Whether one page shows at a time
- * @param {string} locale - The reader's locale
  * @returns {Passport} The booklet
  */
-function passportFor(isSingle: boolean, locale: string): Passport {
+function passportFor(isSingle: boolean): Passport {
   return buildPassport({
     futureCities,
     futureTrips,
     homeCity,
-    locale,
     perPage: isSingle ? PER_PAGE_SINGLE : PER_PAGE_DOUBLE,
     visitedTrips,
   });
@@ -375,7 +448,7 @@ function openPages(page: number, isSingle: boolean, count: number): number[] {
  * @returns {ReactNode} The passport page
  */
 export function PassportPage(): ReactNode {
-  const { t, currLanguage } = useLanguage(["home"]);
+  const { t } = useLanguage(["home"]);
   const { isCompact } = useResponsive();
   const navigate = useNavigate();
   const pageRef = useRef<HTMLDivElement>(null);
@@ -384,13 +457,12 @@ export function PassportPage(): ReactNode {
   const { isSingle, page } = layout;
   const relayoutRef = useRef<(isSingle: boolean) => void>(() => undefined);
 
-  const passport = passportFor(isSingle, currLanguage);
+  const passport = passportFor(isSingle);
+  /* The site's schema has already checked a configured nationality against the catalogue. */
   const nationality =
-    siteConfig?.nationality ?? homeCity?.country.id ?? undefined;
-  const nationalityName = nationality
-    ? catalogueNameById(nationality)
-    : undefined;
-  const arms = nationalityName ? STAMP_CATALOGUE[nationalityName] : undefined;
+    (siteConfig?.nationality
+      ? findCountry(siteConfig.nationality)
+      : undefined) ?? homeCity?.country;
   const sheets = sheetsOf(passport);
   const open = openPages(page, isSingle, sheets.length);
 
@@ -407,16 +479,6 @@ export function PassportPage(): ReactNode {
   const progress = passport.continents.find(
     ({ continent }) => continent === current,
   );
-  /* The open pages and the ones either side, so a turn never finds a stamp blank. */
-  const nearby = Array.from(
-    { length: 6 },
-    (_, offset) => (open[0] ?? 0) - 2 + offset,
-  ).flatMap((index) => continentOf(index) ?? []);
-  const emblems = useEmblems([
-    ...nearby,
-    ...(passport.issuing ? [passport.issuing.slot.continent] : []),
-    ...(arms ? [arms.continent] : []),
-  ]);
   /* The covers are not pages: a spread of the last page and the back cover reads as one. */
   const printed = open.filter(
     (index) => index > 0 && index < sheets.length - 1,
@@ -441,11 +503,13 @@ export function PassportPage(): ReactNode {
   const relayout = (nextIsSingle: boolean): void => {
     if (nextIsSingle === isSingle) return;
     const sheet = sheets[open[0] ?? 0];
-    const anchor = typeof sheet === "object" ? sheet.slots[0]?.id : undefined;
-    const nextSheets = sheetsOf(passportFor(nextIsSingle, currLanguage));
+    const anchor =
+      typeof sheet === "object" ? sheet.slots[0]?.country.id : undefined;
+    const nextSheets = sheetsOf(passportFor(nextIsSingle));
     const found = nextSheets.findIndex(
       (next) =>
-        typeof next === "object" && next.slots.some(({ id }) => id === anchor),
+        typeof next === "object" &&
+        next.slots.some(({ country }) => country.id === anchor),
     );
     setLayout({
       isSingle: nextIsSingle,
@@ -494,7 +558,7 @@ export function PassportPage(): ReactNode {
       }
     >
       <div
-        className={`passport-page passport-page--${passportCoverOf(nationality ?? "")}`}
+        className={`passport-page passport-page--${nationality?.passportCover ?? "red"}`}
         ref={pageRef}
       >
         <StampInk />
@@ -528,12 +592,7 @@ export function PassportPage(): ReactNode {
                     content:
                       index === 0 ? (
                         <CoverPage
-                          country={
-                            nationalityName
-                              ? stampName(nationalityName, currLanguage)
-                              : undefined
-                          }
-                          emblem={arms ? emblems[arms.emblem] : undefined}
+                          country={nationality}
                           title={t("nav.passport")}
                         />
                       ) : (
@@ -546,7 +605,6 @@ export function PassportPage(): ReactNode {
                   return {
                     content: passport.issuing ? (
                       <IssuingPage
-                        emblems={emblems}
                         issuing={passport.issuing}
                         onSelect={showPlaces}
                         passport={passport}
@@ -557,7 +615,6 @@ export function PassportPage(): ReactNode {
                 return {
                   content: (
                     <SlotsPage
-                      emblems={emblems}
                       folio={t("passport.folio", {
                         continent: t(`continents.${sheet.continent}`),
                         page: index,

@@ -55,7 +55,7 @@ $guilloche: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width=
   gap: v.$space2;
   height: 100%;
   /* A margin of paper all round, as a printed page has, wider than any spill. */
-  padding: 8% 9%;
+  padding: 7% 7%;
   background: v.$passportPaper;
   color: v.$passportInk;
 
@@ -84,10 +84,23 @@ $guilloche: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width=
     grid-template-rows: repeat(3, minmax(0, 1fr));
     /* The rows share the page's height; the stamps never grow the page. */
     min-height: 0;
-    place-items: center;
+    place-items: start center;
+
+    /*
+     * The middle column sits low in its row, so a spread's tall page fills as a
+     * stagger rather than a lattice. A page alone has no height to spare for it.
+     */
+    > :nth-child(3n + 2) {
+      align-self: end;
+    }
 
     &--single {
       grid-template-columns: repeat(2, minmax(0, 1fr));
+      place-items: center;
+
+      > :nth-child(3n + 2) {
+        align-self: center;
+      }
     }
   }
 
@@ -150,7 +163,7 @@ $guilloche: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width=
   position: relative;
   display: flex;
   /* A stamp spills a little past its square, so neighbours overlap like real ones. */
-  width: 104%;
+  width: 106%;
   max-height: 100%;
   aspect-ratio: 1;
   transform: translate(var(--slot-x, 0), var(--slot-y, 0));

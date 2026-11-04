@@ -1,4 +1,4 @@
-import { buildWorld, Continent, Currency } from "@travelmap/core";
+import { buildWorld, Continent } from "@travelmap/core";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -8,17 +8,17 @@ import {
   StampSlot,
 } from "./passport";
 
-/* id: [lng, lat, IANA zone, country id, continent] */
-const PLACES: Record<string, [number, number, string, string, Continent]> = {
-  cagliari: [9.11, 39.22, "Europe/Rome", "Italy", Continent.EUROPE],
-  kyoto: [135.77, 35.01, "Asia/Tokyo", "Japan", Continent.ASIA],
-  lisbon: [-9.14, 38.72, "Europe/Lisbon", "Portugal", Continent.EUROPE],
-  monaco: [7.42, 43.74, "Europe/Monaco", "Monaco", Continent.EUROPE],
-  nice: [7.26, 43.7, "Europe/Paris", "France", Continent.EUROPE],
-  rome: [12.5, 41.9, "Europe/Rome", "Italy", Continent.EUROPE],
-  sydney: [151.21, -33.87, "Australia/Sydney", "Australia", Continent.OCEANIA],
-  tokyo: [139.69, 35.68, "Asia/Tokyo", "Japan", Continent.ASIA],
-  vienna: [16.37, 48.21, "Europe/Vienna", "Austria", Continent.EUROPE],
+/* id: [lng, lat, IANA zone, country code] */
+const PLACES: Record<string, [number, number, string, string]> = {
+  cagliari: [9.11, 39.22, "Europe/Rome", "IT"],
+  kyoto: [135.77, 35.01, "Asia/Tokyo", "JP"],
+  lisbon: [-9.14, 38.72, "Europe/Lisbon", "PT"],
+  monaco: [7.42, 43.74, "Europe/Monaco", "MC"],
+  nice: [7.26, 43.7, "Europe/Paris", "FR"],
+  rome: [12.5, 41.9, "Europe/Rome", "IT"],
+  sydney: [151.21, -33.87, "Australia/Sydney", "AU"],
+  tokyo: [139.69, 35.68, "Asia/Tokyo", "JP"],
+  vienna: [16.37, 48.21, "Europe/Vienna", "AT"],
 };
 
 /**
@@ -70,15 +70,6 @@ const world = buildWorld({
       id,
       name: id,
       timeZone,
-    }),
-  ),
-  countries: [...new Set(Object.values(PLACES).map((place) => place[3]))].map(
-    (id) => ({
-      color: { h: 0, l: 50, s: 50 },
-      continent: Object.values(PLACES).find((place) => place[3] === id)?.[4],
-      currency: Currency.EUR,
-      id,
-      name: id,
     }),
   ),
   futureCityIds: ["vienna"],
@@ -144,7 +135,6 @@ const passport = buildPassport({
   futureCities: world.futureCities,
   futureTrips,
   homeCity: world.homeCity,
-  locale: "en-US",
   perPage: 9,
   visitedTrips,
 });
@@ -152,15 +142,15 @@ const slots = passport.pages.flatMap(({ slots: onPage }) => onPage);
 
 /**
  * Finds a country's slot in the booklet.
- * @param {string} id - The country's id
+ * @param {string} id - The country's code
  * @returns {PassportSlot | undefined} Its slot
  */
 const slotOf = (id: string): PassportSlot | undefined =>
-  slots.find((slot) => slot.id === id);
+  slots.find((slot) => slot.country.id === id);
 
 /**
  * Finds a country's stamp, failing the test if it has none.
- * @param {string} id - The country's id
+ * @param {string} id - The country's code
  * @returns {StampSlot} Its stamp
  */
 const stampOf = (id: string): StampSlot => {
@@ -171,13 +161,13 @@ const stampOf = (id: string): StampSlot => {
 
 describe("buildPassport", () => {
   it("takes a country's first entry from the first stay in it", () => {
-    const [first] = stampOf("Japan").entries;
+    const [first] = stampOf("JP").entries;
     expect(first?.trip.id).toBe("japan-2024");
     expect(first?.city.id).toBe("tokyo");
   });
 
   it("counts a repeat visit as one more entry, not one per city", () => {
-    const japan = stampOf("Japan");
+    const japan = stampOf("JP");
     expect(japan.entries.map(({ trip: { id } }) => id)).toEqual([
       "japan-2024",
       "japan-2025",
@@ -185,23 +175,23 @@ describe("buildPassport", () => {
   });
 
   it("stamps a country entered only by a day trip", () => {
-    expect(stampOf("Monaco").entries[0]?.city.id).toBe("monaco");
+    expect(stampOf("MC").entries[0]?.city.id).toBe("monaco");
   });
 
   it("marks a country only in a future trip as planned, with its date", () => {
-    const sydney = slotOf("Australia");
+    const sydney = slotOf("AU");
     expect(sydney?.kind).toBe("planned");
     expect(sydney?.kind === "planned" && sydney.date?.getMonth()).toBe(2);
   });
 
   it("marks a hand-picked future city's country as planned, with no date", () => {
-    const austria = slotOf("Austria");
+    const austria = slotOf("AT");
     expect(austria?.kind).toBe("planned");
     expect(austria?.kind === "planned" && austria.date).toBeUndefined();
   });
 
   it("keeps a visited country stamped when a future trip returns to it", () => {
-    expect(slotOf("Japan")?.kind).toBe("stamp");
+    expect(slotOf("JP")?.kind).toBe("stamp");
   });
 
   it("gives a country nobody has reached no slot, only a place in the total", () => {
@@ -214,10 +204,10 @@ describe("buildPassport", () => {
   });
 
   it("gives the home country its own page instead of counting it a visit", () => {
-    expect(passport.issuing?.slot.id).toBe("Italy");
+    expect(passport.issuing?.slot.country.id).toBe("IT");
     expect(passport.issuing?.city.id).toBe("cagliari");
     expect(passport.issuing?.slot.entries[0]?.trip.id).toBe("rome-2023");
-    expect(slotOf("Italy")).toBeUndefined();
+    expect(slotOf("IT")).toBeUndefined();
     expect(passport.stamps).toBe(3);
   });
 
@@ -233,10 +223,12 @@ describe("buildPassport", () => {
     const europe = passport.pages
       .filter((page: PassportPage) => page.continent === Continent.EUROPE)
       .flatMap((page) => page.slots);
-    expect(europe.slice(0, 3).map(({ id, kind }) => [id, kind])).toEqual([
-      ["France", "stamp"],
-      ["Monaco", "stamp"],
-      ["Austria", "planned"],
+    expect(
+      europe.slice(0, 3).map(({ country, kind }) => [country.id, kind]),
+    ).toEqual([
+      ["FR", "stamp"],
+      ["MC", "stamp"],
+      ["AT", "planned"],
     ]);
     expect(europe).toHaveLength(3);
   });
@@ -261,7 +253,6 @@ describe("buildPassport", () => {
       futureCities: [],
       futureTrips: [],
       homeCity: null,
-      locale: "it-IT",
       perPage: 6,
       visitedTrips: [],
     });
