@@ -5,7 +5,6 @@ import { Link, Route, Routes, useParams } from "react-router";
 import { DataFile } from "@/data/store";
 import { TransportCompanies } from "@/features/companies/components/TransportCompanies/TransportCompanies";
 import { CityScreen } from "@/features/places/components/CityScreen/CityScreen";
-import { CountryScreen } from "@/features/places/components/CountryScreen/CountryScreen";
 import { PlacesIndex } from "@/features/places/components/PlacesIndex/PlacesIndex";
 import { SettingsScreen } from "@/features/settings/components/SettingsScreen/SettingsScreen";
 import { Library } from "@/features/trips/components/Library/Library";
@@ -61,7 +60,7 @@ function TripRoute(): ReactNode {
 
 /**
  * PlacesRoute component
- * Opens the countries and cities lists.
+ * Opens the cities list, grouped by country.
  * @component
  * @returns {ReactNode} The places page
  */
@@ -79,21 +78,6 @@ function CityRoute(): ReactNode {
   const file = findById(useDataset().cities, useParams().id);
   return file ? (
     <CityScreen file={file} key={file.path} />
-  ) : (
-    <MissingDocument />
-  );
-}
-
-/**
- * CountryRoute component
- * Resolves the country id in the route to its document.
- * @component
- * @returns {ReactNode} The country screen or a not-found message
- */
-function CountryRoute(): ReactNode {
-  const file = findById(useDataset().countries, useParams().id);
-  return file ? (
-    <CountryScreen file={file} key={file.path} />
   ) : (
     <MissingDocument />
   );
@@ -123,7 +107,7 @@ function CompaniesRoute(): ReactNode {
 /**
  * EditorRoutes component
  * Picks the screen for the current URL: the trips, places, companies and
- * settings tabs, one trip, one city or one country, or a not-found page when
+ * settings tabs, one trip or one city, or a not-found page when
  * an id names no document.
  * @component
  * @returns {ReactNode} The screen for the current route
@@ -137,7 +121,6 @@ export function EditorRoutes(): ReactNode {
       <Route element={<SettingsRoute />} path="/settings" />
       <Route element={<TripRoute />} path="/trip/:id" />
       <Route element={<CityRoute />} path="/places/cities/:id" />
-      <Route element={<CountryRoute />} path="/places/countries/:id" />
       <Route element={<MissingDocument />} path="*" />
     </Routes>
   );

@@ -1,11 +1,11 @@
-import { CityJson, tripPlaceIds } from "@travelmap/core";
+import { CityJson, findCountry, tripPlaceIds } from "@travelmap/core";
 
 import type { DatasetSnapshot } from "@/data/store";
 import { searchItems } from "@/shared/lib/search";
 
 /**
  * One country's places, for the list.
- * @property {string} countryId - The country id
+ * @property {string} countryId - The country's code
  * @property {string} name - The country's name
  * @property {CityJson[]} cities - Its cities, by name
  */
@@ -26,20 +26,24 @@ export function groupCities(
   dataset: DatasetSnapshot,
   query: string,
 ): CountryGroup[] {
-  const names = new Map(
-    dataset.countries.map(({ value }) => [value.id, value.name]),
-  );
+  /**
+   * Names a city's country, or shows its code when the catalogue lacks it.
+   * @param {string} countryId - The country's code
+   * @returns {string} The name to group and search by
+   */
+  const nameOf = (countryId: string): string =>
+    findCountry(countryId)?.name ?? countryId;
   const matching = searchItems(
     dataset.cities.map(({ value }) => value),
     query,
-    (city) => [city.name, names.get(city.countryId) ?? city.countryId],
+    (city) => [city.name, nameOf(city.countryId)],
   );
   const groups = new Map<string, CountryGroup>();
   for (const city of matching) {
     const group = groups.get(city.countryId) ?? {
       cities: [],
       countryId: city.countryId,
-      name: names.get(city.countryId) ?? city.countryId,
+      name: nameOf(city.countryId),
     };
     group.cities.push(city);
     groups.set(city.countryId, group);

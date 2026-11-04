@@ -10,6 +10,7 @@ import { ReactNode, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 import { searchWorldCities, WorldCity } from "../../lib/gazetteer";
+import { flagIconUrl } from "../../lib/placeOptions";
 
 const RESULT_LIMIT = 30;
 const DEBOUNCE_MS = 180;
@@ -152,11 +153,11 @@ export function WorldCitySearch({
                     key={city.key}
                     {...getItemProps({ index, item: city })}
                   >
-                    {city.country?.flagUrl ? (
+                    {city.country && flagIconUrl(city.country.id) ? (
                       <img
                         alt=""
                         className="combobox__icon"
-                        src={city.country.flagUrl}
+                        src={flagIconUrl(city.country.id)}
                       />
                     ) : (
                       <span className="combobox__icon combobox__icon--none" />

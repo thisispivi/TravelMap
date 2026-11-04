@@ -59,7 +59,7 @@ export function AddPlaceDialog({
   const [picked, setPicked] = useState<WorldCity | null>(null);
   const [manualName, setManualName] = useState("");
   const [manualCountryId, setManualCountryId] = useState(
-    dataset.countries[0]?.value.id ?? "",
+    dataset.cities[0]?.value.countryId ?? "",
   );
   const [longitude, setLongitude] = useState<number | undefined>(
     coordinates?.[0],
@@ -168,13 +168,6 @@ export function AddPlaceDialog({
               ? t("addPlace.reusesExisting", { city: plan.cityId })
               : t("addPlace.willCreateCity", { city: plan.cityId })}
           </p>
-          {plan.createsCountry ? (
-            <p className="editor-panel__hint">
-              {t("addPlace.willCreateCountry", {
-                country: plan.createsCountry,
-              })}
-            </p>
-          ) : null}
           {!plan.isExisting && plan.nearbyCityId ? (
             <p className="editor-notice editor-notice--warning">
               <span className="editor-notice__item">
@@ -209,7 +202,7 @@ export function AddPlaceDialog({
           <Combobox
             label={t("addPlace.manualCountry")}
             onChange={setManualCountryId}
-            options={countryOptions(dataset)}
+            options={countryOptions()}
             value={manualCountryId}
           />
         </div>

@@ -24,7 +24,6 @@ export function useDataset(): DatasetSnapshot {
 export function datasetIssues(dataset: DatasetSnapshot): Issue[] {
   return validateDataset({
     cities: dataset.cities,
-    countries: dataset.countries,
     futureCityIds: dataset.config.value.futureCityIds,
     homeCityId: dataset.config.value.homeCityId,
     livedCityIds: dataset.config.value.livedCityIds,

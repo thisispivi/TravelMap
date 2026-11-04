@@ -8,7 +8,7 @@ import { PanelFrame } from "@travelmap/ui/components/PanelFrame/PanelFrame";
 import { PanelHeader } from "@travelmap/ui/components/PanelHeader/PanelHeader";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { classNames } from "@travelmap/ui/lib/classNames";
-import { ChevronRight, MapPinPlus } from "lucide-react";
+import { MapPinPlus } from "lucide-react";
 import { ReactNode, useState } from "react";
 import { Link, useNavigate } from "react-router";
 
@@ -74,7 +74,9 @@ export function PlacesIndex(): ReactNode {
           }
           subtitle={t("library.placesCount", {
             cities: dataset.cities.length,
-            countries: dataset.countries.length,
+            countries: new Set(
+              dataset.cities.map(({ value }) => value.countryId),
+            ).size,
           })}
           title={t("common:nav.places")}
         >
@@ -92,21 +94,14 @@ export function PlacesIndex(): ReactNode {
         ) : (
           groups.map(({ countryId, name, cities }) => (
             <section className="places-index__country" key={countryId}>
-              <Link
-                className="places-index__country-link"
-                to={`/places/countries/${encodeURIComponent(countryId)}`}
-              >
+              <h2 className="places-index__country-title">
                 <CountryFlag
                   className="places-index__flag"
                   countryId={countryId}
                 />
                 {name}
                 <span className="places-index__count">{cities.length}</span>
-                <ChevronRight
-                  aria-hidden="true"
-                  className="places-index__chevron"
-                />
-              </Link>
+              </h2>
               <ul className="places-index__cities">
                 {cities.map((city) => (
                   <li key={city.id}>

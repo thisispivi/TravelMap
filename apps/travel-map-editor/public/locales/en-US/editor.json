@@ -160,27 +160,6 @@
     "cannotDelete_other": "{{count}} trips reference this city, so it cannot be deleted yet.",
     "pickOnMap": "Tap the map to move the city's point."
   },
-  "countryScreen": {
-    "kind": "Country",
-    "identity": "Identity",
-    "name": "Name",
-    "continent": "Continent",
-    "currency": "Currency",
-    "mapId": "Map id",
-    "fromWorldDataHint": "Taken from world data — nothing here needs typing.",
-    "restoreFromWorldData": "Restore from world data",
-    "notInWorldData": "is not in the world map data, so it will not be filled in on the map and its details cannot be refreshed automatically.",
-    "mapColour": "Map colour",
-    "mapColourHint": "Fills the country on the map once you have visited it.",
-    "fill": "Fill",
-    "markerScale": "Marker scale",
-    "markerScaleHint": "Optional bounds on how large this country's city markers grow.",
-    "minimum": "Minimum",
-    "maximum": "Maximum",
-    "nameRequired": "A canonical name is required.",
-    "cannotDelete_one": "{{count}} city belongs to this country, so it cannot be deleted yet.",
-    "cannotDelete_other": "{{count}} cities belong to this country, so it cannot be deleted yet."
-  },
   "createScreen": {
     "addA": {
       "trip": "Add a trip"
@@ -209,15 +188,6 @@
     "descriptionPlaceholder": "A personal map of travels.",
     "author": "Author",
     "authorPlaceholder": "Your name",
-    "avatar": "Avatar",
-    "avatarHint": "A media path or a full URL. Without one, the site shows your initials.",
-    "avatarInvalid": "Start with / for a media path, or with https:// for a full URL.",
-    "website": "Personal website",
-    "websiteHint": "Linked under your name. Leave it empty to link the site's domain.",
-    "websiteInvalid": "Enter a full address starting with https://.",
-    "sourceUrl": "Source code link",
-    "sourceUrlHint": "Leave it empty to credit the upstream TravelMap project.",
-    "sourceUrlInvalid": "Enter a full address starting with https://.",
     "commaSeparated": "Comma separated.",
     "keywords": "Keywords",
     "locales": "Locales",
@@ -366,8 +336,6 @@
     "tripDeleted": "Trip deleted.",
     "citySaved": "City saved.",
     "cityDeleted": "City deleted.",
-    "countrySaved": "Country saved.",
-    "countryDeleted": "Country deleted.",
     "settingsSaved": "Settings saved.",
     "companiesSaved": "Transport companies saved.",
     "logoUploaded": "Logo uploaded."
@@ -381,7 +349,6 @@
     "countryNotOnMap": "That country is not in the world catalogue, so a city there cannot be created yet.",
     "willCreateCity": "Creates the city {{city}}.",
     "reusesExisting": "Reuses the existing city {{city}}.",
-    "willCreateCountry": "This is the first place in {{country}}, so its country file is created too.",
     "nearbyDuplicate": "{{city}} is already at this location.",
     "manualTitle": "Create a custom place",
     "manualName": "Name",
@@ -410,8 +377,7 @@
     "openSettings": "Go to settings",
     "sortByDate": "Sort itinerary by date",
     "trip": "Trip",
-    "city": "City",
-    "country": "Country"
+    "city": "City"
   },
   "import": {
     "title": "Import",
@@ -498,11 +464,6 @@
       "invalidCoordinates": "City \"{{id}}\" has coordinates outside the world.",
       "nullIsland": "City \"{{id}}\" sits at 0,0, which usually means its position was never set.",
       "unused": "City \"{{id}}\" is not used by any trip."
-    },
-    "country": {
-      "nameRequired": "Country \"{{id}}\" has no name.",
-      "unknownContinent": "Country \"{{id}}\" has an unrecognised continent.",
-      "unknownCurrency": "Country \"{{id}}\" has an unrecognised currency."
     },
     "dataset": {
       "duplicateId": "More than one {{kind}} uses the id \"{{id}}\"."

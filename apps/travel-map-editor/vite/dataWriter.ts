@@ -70,10 +70,9 @@ async function resolveGoogleMapsUrl(initialUrl: URL): Promise<string> {
 
 /**
  * Removes directories left empty by a delete, stopping at the data root.
- * A country lives at `cities/<Id>/<Id>.json` and a city at
- * `cities/<Country>/<Id>/<Id>.json`, so deleting one would otherwise strand an
- * empty folder that still reads as an existing entity to anyone browsing the
- * dataset.
+ * A city lives at `cities/<Country>/<Id>/<Id>.json`, so deleting the last one
+ * of a country would otherwise strand empty folders that still read as
+ * existing places to anyone browsing the dataset.
  * @param {string} dataRoot - Absolute data directory
  * @param {string} directory - Directory the deleted file lived in
  * @returns {Promise<void>} Completion once empty parents are gone

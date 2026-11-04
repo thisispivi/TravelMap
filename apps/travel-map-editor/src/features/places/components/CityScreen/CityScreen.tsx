@@ -18,8 +18,11 @@ import { PlaceImport } from "@/shared/components/PlaceImport/PlaceImport";
 import { useMapScene } from "@/shared/context/MapScene.context";
 import { useDataset } from "@/shared/hooks/useDataset";
 import { isSameJson } from "@/shared/lib/jsonEquality";
-import { countryOptions, timeZoneOptions } from "@/shared/lib/placeOptions";
-import { findWorldCountry } from "@/shared/lib/worldCountries";
+import {
+  countryOptions,
+  flagIconUrl,
+  timeZoneOptions,
+} from "@/shared/lib/placeOptions";
 
 import { CityBackgroundPicker } from "./CityBackgroundPicker";
 
@@ -129,7 +132,7 @@ export function CityScreen({ file }: CityScreenProps): ReactNode {
       problems={problems}
       savedMessage={t("toast.citySaved")}
       title={file.value.name}
-      titleIconUrl={findWorldCountry(value.countryId)?.flagUrl}
+      titleIconUrl={flagIconUrl(value.countryId)}
       value={value}
     >
       <section className="editor-panel">
@@ -180,7 +183,7 @@ export function CityScreen({ file }: CityScreenProps): ReactNode {
           <Combobox
             label={t("cityScreen.country")}
             onChange={(countryId) => setValue({ ...value, countryId })}
-            options={countryOptions(dataset)}
+            options={countryOptions()}
             value={value.countryId}
           />
           <Combobox
