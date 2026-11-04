@@ -2,7 +2,6 @@ import { z } from "zod";
 
 import {
   CityJsonSchema,
-  CountryJsonSchema,
   ImageSchema,
   SiteConfigSchema,
   TripJsonSchema,
@@ -17,9 +16,9 @@ export const DatasetPathSchema = z
   .max(512)
   .regex(
     new RegExp(
-      `^(?:site\\.config\\.json|trips/${segment}\\.json|cities/${segment}/${segment}(?:/${segment})?\\.json|photos/(?:${segment}/)*${segment}\\.json)$`,
+      `^(?:site\\.config\\.json|trips/${segment}\\.json|cities/${segment}/${segment}/${segment}\\.json|photos/(?:${segment}/)*${segment}\\.json)$`,
     ),
-    "Expected a site, trip, country, city, or photo document path.",
+    "Expected a site, trip, city, or photo document path.",
   );
 
 /** A dataset document whose path selects its authoritative content schema. */
@@ -36,9 +35,7 @@ export const DatasetDocumentSchema = z
           ? TripJsonSchema
           : document.path.startsWith("photos/")
             ? ImageSchema.array()
-            : document.path.split("/").length === 4
-              ? CityJsonSchema
-              : CountryJsonSchema;
+            : CityJsonSchema;
     const parsed = schema.safeParse(document.value);
     if (!parsed.success) {
       for (const issue of parsed.error.issues)

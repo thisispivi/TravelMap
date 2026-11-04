@@ -34,7 +34,7 @@ packages/
   core/                @travelmap/core — shared domain model, no build step
   ui/                  @travelmap/ui — components, styles, hooks, i18n, the map
                        base, and the Vite preset both apps share
-data/                  Trip/city/country JSON + photos consumed by both apps
+data/                  Trip and city JSON + photos consumed by both apps
 scripts/uploader/      Typed Python media uploader
 logos/                 Source and exported brand assets
 docker/                Nginx image and Compose configuration for the built site
@@ -116,10 +116,13 @@ dependency direction:
   Compiler, SVGR, the Sass load path, the `@/` alias, and the shared public
   files (flags, glyphs, common translations).
 - **Domain model lives outside the app**, in the `@travelmap/core` workspace
-  package (`packages/core`) — classes (`Trip`, `City`, `Country`, `Travel`,
-  `Ferry`, `Flight`, `Color`), typings, a `schema/` module holding the Zod
-  contracts for the authored JSON, and `world/buildWorld.ts`, the single place
-  that validates raw JSON and turns it into a linked object graph (see §9).
+  package (`packages/core`) — classes (`Trip`, `City`, `Country`, `Stamp`,
+  `Travel`, `Ferry`, `Flight`, `Color`), typings, the `countries/` catalogue
+  (every country of the map under its ISO code, with its names, currency,
+  colour and passport stamp; a city names its country by that code), a
+  `schema/` module holding the Zod contracts for the authored JSON, and
+  `world/buildWorld.ts`, the single place that validates raw JSON and turns it
+  into a linked object graph (see §9).
 - **Routing is a persistent shell, not per-route pages.**
   `app/routing/router.tsx` defines a `createHashRouter` tree where most routes
   resolve to `element: null` (`/trips`, `/trip/:tripId`, `/places`,
@@ -177,15 +180,15 @@ packages/ui/src/
   lib/           DOM and styling helpers: classNames, focus, motion, anchor
   i18n/          i18next setup, locales, date and number formatting
   map/           BaseMap, WorldLayers, RouteLines, ZoomControls; theme, routes
-  stamps/        Stamp, its frames and ink, the catalogue of every map country,
-                 and one code-split emblem module per continent
   styles/        Global SCSS: _variables.scss, _variables.module.scss, mixins
   assets/        The logo, shared icons, and the country borders
 packages/ui/public/   Flags, map glyphs, and the `common` translations
 packages/ui/vite/     The shared Vite preset
 
 packages/core/src/
-  classes/       Trip, City, Country, Travel, Ferry, Flight, Color
+  classes/       Trip, City, Country, Stamp, Travel, Ferry, Flight, Color
+  countries/     The catalogue of every country on the map, one file per
+                 continent, keyed by ISO 3166-1 alpha-2 code
   typings/       Continent, Currency, Localized, Travel
   schema/        Zod contracts for the authored JSON, and the types inferred
                  from them
@@ -495,7 +498,7 @@ the albums the gallery, places and map tooltip read.
    `import.meta.glob(..., { eager: true })` — no `fetch`, no loading state,
    because the data is part of the build.
 2. `packages/core/src/schema/index.ts` owns the Zod contracts for every
-   authored shape (`CountryJsonSchema`, `CityJsonSchema`, `TripJsonSchema`,
+   authored shape (`CityJsonSchema`, `TripJsonSchema`,
    `ImageSchema`, `SiteConfigSchema`, `WorldSourcesSchema`) and the TypeScript
    types are inferred from them.
 3. `packages/core/src/world/buildWorld.ts` is the dataset's **single trust

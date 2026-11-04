@@ -1,73 +1,70 @@
-import { Continent } from "../typings/Continent";
-import { Currency } from "../typings/Currency";
-import { localize } from "../typings/Localized";
-import { Color, ColorData } from "./Color";
+import { Continent } from "../typings/Continent.ts";
+import { Currency } from "../typings/Currency.ts";
+import { localize } from "../typings/Localized.ts";
+import { Color, ColorData } from "./Color.ts";
+import { Stamp, StampData } from "./Stamp.ts";
+
+/** The colour of an ordinary passport's cover: the four almost every country uses. */
+export type PassportCover = "red" | "blue" | "green" | "black";
 
 /**
- * Data represented by the country data interface.
- * @property {string} id - The id
- * @property {string} [name] - The canonical country name used by the map join
- * @property {Record<string, string>} [nameByLocale] - Locale-specific display names
- * @property {ColorData} color - The color
- * @property {Continent} continent - The continent
- * @property {number} [minMarkerScale] - The min marker scale
- * @property {number} [maxMarkerScale] - The max marker scale
- * @property {Currency} currency - The currency
+ * A country as the catalogue writes it, under its code and its continent.
+ * @property {string} name - Its English name
+ * @property {Record<string, string>} [nameByLocale] - Its names in other locales
+ * @property {string} [mapName] - The map polygon's name, where it differs from `name`
+ * @property {Currency} [currency] - Its currency, absent where nobody issues one
+ * @property {ColorData} color - Its colour on the map and on its stamp
+ * @property {PassportCover} [passportCover] - Its passport's cover, burgundy when absent
+ * @property {StampData} stamp - How its stamp is struck
  */
-interface CountryData {
-  id: string;
-  name?: string;
+export interface CountryEntry {
+  name: string;
   nameByLocale?: Record<string, string>;
+  mapName?: string;
+  currency?: Currency;
   color: ColorData;
-  continent: Continent;
-  minMarkerScale?: number;
-  maxMarkerScale?: number;
-  currency: Currency;
+  passportCover?: PassportCover;
+  stamp: StampData;
 }
 
 /**
- * The country class is used to represent a country.
+ * A country of the world map, with everything the site shows about it.
  * @class
- * @param {CountryData} data - The data of the country
- * @param {string} data.id - The id of the country
- * @param {string} [data.name] - The canonical country name
- * @param {Record<string, string>} [data.nameByLocale] - Locale-specific display names
- * @param {ColorData} data.color - The color of the country
- * @param {Continent} data.continent - The continent of the country
- * @param {number} [data.minMarkerScale] - The minimum scale of the marker
- * @param {number} [data.maxMarkerScale] - The maximum scale of the marker
- * @param {Currency} data.currency - The currency of the country
+ * @param {string} id - Its ISO 3166-1 alpha-2 code, or an X code for a disputed territory
+ * @param {Continent} continent - Its continent
+ * @param {CountryEntry} entry - Its catalogue entry
  */
 export class Country {
   id: string;
   name: string;
   nameByLocale?: Record<string, string>;
+  mapName: string;
+  continent: Continent;
+  currency?: Currency;
   color: ColorData;
   borderColor: string;
   fillColor: string;
-  continent: Continent;
-  minMarkerScale?: number;
-  maxMarkerScale?: number;
-  currency: Currency;
+  passportCover: PassportCover;
+  stamp: Stamp;
 
   /**
-   * Creates a country instance.
-   * @param {Partial<CountryData> & Pick<CountryData, "id" | "continent" | "color" | "currency">} data - The data
+   * Creates a country from its catalogue entry.
+   * @param {string} id - Its code
+   * @param {Continent} continent - Its continent
+   * @param {CountryEntry} entry - Its catalogue entry
    */
-  constructor(
-    data: Partial<CountryData> &
-      Pick<CountryData, "id" | "continent" | "color" | "currency">,
-  ) {
-    this.id = data.id;
-    this.name = data.name ?? data.id;
-    this.nameByLocale = data.nameByLocale;
-    this.color = data.color;
-    this.borderColor = new Color(data.color).toHSL();
-    this.fillColor = new Color(data.color).toHSLA(0.6);
-    this.continent = data.continent;
-    this.minMarkerScale = data?.minMarkerScale;
-    this.maxMarkerScale = data?.maxMarkerScale;
-    this.currency = data.currency;
+  constructor(id: string, continent: Continent, entry: CountryEntry) {
+    this.id = id;
+    this.name = entry.name;
+    this.nameByLocale = entry.nameByLocale;
+    this.mapName = entry.mapName ?? entry.name;
+    this.continent = continent;
+    this.currency = entry.currency;
+    this.color = entry.color;
+    this.borderColor = new Color(entry.color).toHSL();
+    this.fillColor = new Color(entry.color).toHSLA(0.6);
+    this.passportCover = entry.passportCover ?? "red";
+    this.stamp = new Stamp(id, entry.stamp);
   }
 
   /**

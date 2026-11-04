@@ -1,7 +1,6 @@
 import { z } from "zod";
 
-import { Continent } from "../typings/Continent.ts";
-import { Currency } from "../typings/Currency.ts";
+import { COUNTRIES } from "../countries/catalogue.ts";
 
 /** A finite number used by authored coordinates, dimensions, and map settings. */
 const finiteNumberSchema = z.number().finite();
@@ -15,6 +14,11 @@ const idSchema = z.string().trim().min(1);
  * own airlines and ferry lines without changing this package.
  */
 export type CompanyId = string;
+
+/** A country's code, as the catalogue in this package knows it. */
+const CountryCodeSchema = z
+  .string()
+  .refine((code) => COUNTRIES.has(code), "Expected a country code such as IT.");
 
 /** A locale-to-label mapping stored alongside a canonical name. */
 const localizedNamesSchema = z.record(
@@ -56,22 +60,6 @@ export const MarkerSizesSchema = z.strictObject({
   defaultScale: finiteNumberSchema.positive(),
   maxScale: finiteNumberSchema.positive(),
   minScale: finiteNumberSchema.positive(),
-});
-
-/** Serializable country data authored in the forkable dataset. */
-export const CountryJsonSchema = z.strictObject({
-  color: z.strictObject({
-    h: finiteNumberSchema.min(0).max(360),
-    l: finiteNumberSchema.min(0).max(100),
-    s: finiteNumberSchema.min(0).max(100),
-  }),
-  continent: z.enum(Continent),
-  currency: z.enum(Currency),
-  id: idSchema,
-  maxMarkerScale: finiteNumberSchema.positive().optional(),
-  minMarkerScale: finiteNumberSchema.positive().optional(),
-  name: z.string().trim().min(1),
-  nameByLocale: localizedNamesSchema.optional(),
 });
 
 /** Serializable city data authored in the forkable dataset. */
@@ -278,19 +266,6 @@ export const CompanySchema = z.strictObject({
   name: z.string().trim().min(1),
 });
 
-/*
- * The author's picture: a media path resolved like a cover image, or an absolute
- * URL when it is hosted elsewhere. Only the start is checked because media folders
- * can have spaces in their names.
- */
-export const SiteAvatarSchema = z
-  .string()
-  .trim()
-  .regex(/^(?:\/|https?:\/\/)\S/);
-
-/* Rendered as a link, so `javascript:` and the like must not get through. */
-export const SiteLinkSchema = z.httpUrl();
-
 /** Fork-owned site, map, media, and classification settings. */
 export const SiteConfigSchema = z.strictObject({
   companies: z.record(z.string().min(1), CompanySchema).optional(),
@@ -309,39 +284,33 @@ export const SiteConfigSchema = z.strictObject({
     })
     .optional(),
   media: z.strictObject({ root: z.string().trim().min(1) }).optional(),
-  /* The country whose passport the site's passport page is made in, by its id. */
-  nationality: idSchema.optional(),
+  /* The country whose passport the site's passport page is made in. */
+  nationality: CountryCodeSchema.optional(),
   site: z
     .strictObject({
       author: z.string().optional(),
-      avatar: SiteAvatarSchema.optional(),
       description: z.string().optional(),
       domain: z.string().optional(),
       keywords: z.array(z.string()).optional(),
       name: z.string().trim().min(1).optional(),
-      sourceUrl: SiteLinkSchema.optional(),
-      website: SiteLinkSchema.optional(),
     })
     .optional(),
   trips: z
     .strictObject({ groupByCitiesCutoffYear: finiteNumberSchema.int() })
     .optional(),
-  unescoSites: z.record(z.string().min(1), z.array(z.string())).optional(),
+  /* World Heritage sites seen, listed under each country's code. */
+  unescoSites: z.record(CountryCodeSchema, z.array(z.string())).optional(),
 });
 
 /** Raw authored data accepted by the world graph builder. */
 export const WorldSourcesSchema = z.strictObject({
   cities: z.array(CityJsonSchema),
-  countries: z.array(CountryJsonSchema),
   futureCityIds: z.array(idSchema).optional(),
   homeCityId: idSchema.nullable().optional(),
   livedCityIds: z.array(idSchema).optional(),
   photos: z.record(z.string(), z.array(ImageSchema)),
   trips: z.array(TripJsonSchema),
 });
-
-/** Serializable country data authored in the forkable dataset. */
-export type CountryJson = z.infer<typeof CountryJsonSchema>;
 
 /** Serializable city data authored in the forkable dataset. */
 export type CityJson = z.infer<typeof CityJsonSchema>;

@@ -79,8 +79,7 @@ Everything you author lives in one folder:
 data/
 ├── site.config.json          Global settings
 ├── cities/
-│   └── Italy/
-│       ├── Italy.json        The country
+│   └── IT/                   A country, by its two-letter code
 │       └── Rome/Rome.json    A city in it
 ├── trips/
 │   └── rome-trip-2026.json   One trip
@@ -99,9 +98,11 @@ own backup of them — see [section 11](#11-backups).
 
 ## 4. Adding places
 
-You never create a country by hand. Add a city, and if its country is new, the
-editor creates it for you with its name, continent, currency, translated names
-and map colour already filled in.
+Countries are not files you write. Every country of the world map is built
+into the app, under its two-letter ISO code (`IT`, `JP`, `GB`) with its name,
+continent, currency, map colour and passport stamp. A few disputed territories
+without an ISO code use an `X` code, such as `XK` for Kosovo. A city names its
+country by that code, and the editor fills it in for you.
 
 To add a city, open a trip and click **Add place**. You can either:
 
@@ -113,10 +114,9 @@ Coordinates and time zone come from the database automatically. Population is
 optional and only affects how prominently the map labels the city.
 
 To find something you already have, use the **Places** card on the editor home
-page. The **Search countries** and **Search cities** boxes are fuzzy and ignore
-filler words, so `the city of rome`, `roma` and even the typo `rme` all find
-Rome. Searching cities also matches on country, so `japan` lists every Japanese
-city.
+page. Its search box is fuzzy and ignores filler words, so `the city of rome`,
+`roma` and even the typo `rme` all find Rome. It also matches on country, so
+`japan` lists every Japanese city.
 
 ### Choosing a city's Places background
 
@@ -239,7 +239,8 @@ python main.py -c Rome -C Italy --local
 ```
 
 - `-c` is the folder name under `photos/`
-- `-C` is the country, spelled the same way as your country in `data/cities/`
+- `-C` is the country's folder under `photos/` and on the CDN, written out in
+  words such as `Italy`
 - `--local` keeps everything on your machine. **Leave it off** to upload to
   BunnyCDN instead.
 
@@ -329,9 +330,6 @@ The editor's **Settings** screen covers everything global:
 | Setting                                | What it does                                                                                                            |
 | -------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
 | Site name, domain, description, author | Page title, search metadata, and the custom domain used when publishing                                                 |
-| Avatar                                 | The picture on the site's Settings page: a media path or a full URL. Without one, the page shows your initials          |
-| Personal website                       | The link under your name on the site's Settings page. Leave it empty to link the site's domain                          |
-| Source code link                       | Where the site's Settings page links for the code. Leave it empty to credit the upstream TravelMap project              |
 | Locales                                | Extra languages you can write translated names in                                                                       |
 | Home city                              | Your own city, shown with its own marker                                                                                |
 | Nationality                            | Colours the passport page's cover like your own passport. Without one, the home city's country is used                  |
@@ -339,7 +337,7 @@ The editor's **Settings** screen covers everything global:
 | Future cities                          | Places to show as planned even without a trip for them yet                                                              |
 | Media root                             | The path prefix written into new photo lists (default `/Travels`)                                                       |
 | Map defaults                           | Starting zoom, centre, and marker sizes                                                                                 |
-| UNESCO sites                           | Site names per country, shown in statistics                                                                             |
+| UNESCO sites                           | Site names for each country you have places in, shown in statistics                                                     |
 
 ---
 

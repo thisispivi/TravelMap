@@ -1,8 +1,6 @@
 import { describe, expect, it } from "vitest";
 
 import type { WorldSources } from "../schema";
-import { Continent } from "../typings/Continent";
-import { Currency } from "../typings/Currency";
 import { buildWorld } from "./buildWorld";
 
 /**
@@ -17,7 +15,7 @@ function italianCity(
 ): WorldSources["cities"][number] {
   return {
     coordinates,
-    countryId: "italy",
+    countryId: "IT",
     id,
     name: id[0]!.toUpperCase() + id.slice(1),
     timeZone: "Europe/Rome",
@@ -38,15 +36,6 @@ const sources: WorldSources = {
     italianCity("tivoli", [12.7977, 41.9637]),
     italianCity("ostia", [12.2858, 41.7319]),
     italianCity("florence", [11.2558, 43.7696]),
-  ],
-  countries: [
-    {
-      color: { h: 210, l: 45, s: 60 },
-      continent: Continent.EUROPE,
-      currency: Currency.EUR,
-      id: "italy",
-      name: "Italy",
-    },
   ],
   photos: {},
   trips: [
@@ -120,7 +109,7 @@ describe("buildWorld", () => {
     expect(trips[1]!.id).toBe("a-later-rome");
   });
 
-  it.each(["cities", "countries", "trips"] as const)(
+  it.each(["cities", "trips"] as const)(
     "refuses duplicate %s identifiers instead of shadowing documents",
     (kind) => {
       expect(() =>
@@ -132,16 +121,19 @@ describe("buildWorld", () => {
     },
   );
 
-  it("refuses two countries sharing a name, which would blank the map fill", () => {
+  it("resolves a city's country from the catalogue by its code", () => {
+    const city = buildWorld(sources).citiesById.get("rome");
+    expect(city?.country.name).toBe("Italy");
+    expect(city?.country.stamp.emblem).toBe("/stamp-emblems/IT.png");
+  });
+
+  it("refuses a city in a country the catalogue does not know", () => {
     expect(() =>
       buildWorld({
         ...sources,
-        countries: [
-          ...sources.countries,
-          { ...sources.countries[0]!, id: "italy-copy" },
-        ],
+        cities: [{ ...sources.cities[0]!, countryId: "Italy" }],
       }),
-    ).toThrow(/Duplicate country name "Italy"/);
+    ).toThrow(/unknown id "Italy"/);
   });
 
   it("resolves references to shared domain objects", () => {

@@ -1,6 +1,5 @@
-import type { CityJson, CountryJson, TripJson } from "../schema";
-import { Continent } from "../typings/Continent";
-import { Currency } from "../typings/Currency";
+import { COUNTRIES } from "../countries/catalogue";
+import type { CityJson, TripJson } from "../schema";
 import { walkTripLegs } from "../world/derive";
 import type { Issue, IssueSeverity } from "./issues";
 import { validateTrip } from "./validateTrip";
@@ -17,7 +16,6 @@ export interface DatasetDocument<T> {
 
 /**
  * The whole authored dataset, as loaded by either app.
- * @property {DatasetDocument<CountryJson>[]} countries - Country documents
  * @property {DatasetDocument<CityJson>[]} cities - City documents
  * @property {DatasetDocument<TripJson>[]} trips - Trip documents
  * @property {Map<string, number>} photoCounts - Each gallery manifest on disk, by key, with how many entries it holds
@@ -26,7 +24,6 @@ export interface DatasetDocument<T> {
  * @property {string[]} [futureCityIds] - Configured planned cities
  */
 export interface DatasetSources {
-  countries: DatasetDocument<CountryJson>[];
   cities: DatasetDocument<CityJson>[];
   trips: DatasetDocument<TripJson>[];
   photoCounts: Map<string, number>;
@@ -51,9 +48,6 @@ export function validateDataset(sources: DatasetSources): Issue[] {
   const cities = new Map(
     sources.cities.map(({ value }) => [value.id, value] as const),
   );
-  const countryIds = new Set(sources.countries.map(({ value }) => value.id));
-  const continents = new Set<string>(Object.values(Continent));
-  const currencies = new Set<string>(Object.values(Currency));
 
   /**
    * Records one dataset-level problem.
@@ -68,12 +62,12 @@ export function validateDataset(sources: DatasetSources): Issue[] {
    * Flags any identifier used by more than one document of the same kind,
    * which would silently shadow one file with another on load.
    * @param {DatasetDocument<{ id: string }>[] } documents - Documents to scan
-   * @param {"city" | "country" | "trip"} kind - What is being scanned
+   * @param {"city" | "trip"} kind - What is being scanned
    * @returns {void}
    */
   function reportDuplicateIds(
     documents: DatasetDocument<{ id: string }>[],
-    kind: "city" | "country" | "trip",
+    kind: "city" | "trip",
   ): void {
     const seen = new Set<string>();
     for (const { path, value } of documents) {
@@ -87,50 +81,17 @@ export function validateDataset(sources: DatasetSources): Issue[] {
           subject:
             kind === "trip"
               ? { kind: "trip", tripId: value.id }
-              : kind === "city"
-                ? { cityId: value.id, kind: "city" }
-                : { countryId: value.id, kind: "country" },
+              : { cityId: value.id, kind: "city" },
         });
       seen.add(value.id);
     }
   }
 
-  reportDuplicateIds(sources.countries, "country");
   reportDuplicateIds(sources.cities, "city");
   reportDuplicateIds(sources.trips, "trip");
 
-  for (const { path, value } of sources.countries) {
-    if (!value.name.trim())
-      report({
-        code: "country.nameRequired",
-        message: `Country "${value.id}" has no name.`,
-        params: { id: value.id },
-        path,
-        severity: "blocking",
-        subject: { countryId: value.id, kind: "country" },
-      });
-    if (!continents.has(value.continent))
-      report({
-        code: "country.unknownContinent",
-        message: `Country "${value.id}" has an unrecognised continent.`,
-        params: { id: value.id },
-        path,
-        severity: "blocking",
-        subject: { countryId: value.id, kind: "country" },
-      });
-    if (!currencies.has(value.currency))
-      report({
-        code: "country.unknownCurrency",
-        message: `Country "${value.id}" has an unrecognised currency.`,
-        params: { id: value.id },
-        path,
-        severity: "blocking",
-        subject: { countryId: value.id, kind: "country" },
-      });
-  }
-
   for (const { path, value } of sources.cities) {
-    if (!countryIds.has(value.countryId))
+    if (!COUNTRIES.has(value.countryId))
       report({
         code: "city.unknownCountry",
         message: `City "${value.id}" belongs to the unknown country "${value.countryId}".`,

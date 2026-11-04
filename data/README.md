@@ -7,12 +7,13 @@ app and local editor both bundle these JSON files at development and build time.
 
 - `site.config.json` holds branding, city roles, map defaults, and transport
   company metadata.
-- `cities/<Country>/<Country>.json` defines a country. Its `id` is the stable
-  reference key; `name` is the Natural Earth map join name.
-- `cities/<Country>/<City>/<City>.json` defines a city. Its `id` is used in
-  URLs and trip references, while `name` is the display name.
+- `cities/<Code>/<City>/<City>.json` defines a city. `<Code>` is its country's
+  ISO 3166-1 alpha-2 code, which the city's `countryId` repeats; countries
+  themselves are built into `@travelmap/core`. The city's `id` is used in URLs
+  and trip references, while `name` is the display name.
 - `trips/<trip-id>.json` defines ordered stop and transport steps.
-- `photos/<Country>/<City>/<manifest>.json` contains media metadata referenced
+- `photos/<Country>/<City>/<manifest>.json`, with the country in words as on
+  the CDN, contains media metadata referenced
   by a trip stop's `photoPath` without the `.json` suffix.
 
 In the trip editor, select a stay and choose its photo manifest, or import the
@@ -32,14 +33,9 @@ editor. The repository `media/` folder mirrors those paths, so
 from `site.config.json`'s optional `media.root` setting and defaults to that
 value when it is absent. Keep trip cover images under `/Trips/...`.
 
-`site.avatar` is the picture on the site's Settings page: a media path, resolved
-against `VITE_CDN_PATH` like any other image, or an absolute URL. Without one the
-page shows the author's initials. `site.sourceUrl` is where that page links for
-the source code, and defaults to the upstream TravelMap repository. `site.website`
-is the link under the author's name, and defaults to `site.domain`, which stays
-the site's own address for publishing. The page reads `site.author` for the name.
+`site.author` names the author in the site's page metadata. The About section
+of the site's Settings page is written into the app rather than read from here.
 
-Replace the favicon binaries and `apps/travel-map/public/Logo.svg` to change the
-brand assets. The primary accent colours intentionally remain in
-`apps/travel-map/src/styles/_variables.scss`: keeping two CSS design tokens in
-SCSS avoids a fragile JSON-to-SCSS build pipeline.
+Replace the favicon binaries in `apps/travel-map/public/` and
+`packages/ui/src/assets/Logo.svg` to change the brand assets. The accent colours
+are design tokens in `packages/ui/src/styles/_variables.scss`.

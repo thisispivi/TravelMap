@@ -1,6 +1,6 @@
 import { City } from "../classes/City";
-import { Country } from "../classes/Country";
 import { countNights, Trip, TripLeg, TripStep } from "../classes/Trip";
+import { COUNTRIES } from "../countries/catalogue";
 import {
   hasSource,
   Image,
@@ -15,7 +15,6 @@ import { legCompany, resolveLegDistance, resolveLegDuration } from "./derive";
 
 /**
  * Resolved domain data shared by the public app and local editor.
- * @property {Map<string, Country>} countriesById - Countries keyed by stable id
  * @property {Map<string, City>} citiesById - Cities keyed by stable id
  * @property {Trip[]} trips - Trips sorted by start date then id
  * @property {City[]} livedCities - Resolved former-home cities
@@ -23,7 +22,6 @@ import { legCompany, resolveLegDistance, resolveLegDuration } from "./derive";
  * @property {City | null} homeCity - Resolved home city
  */
 export interface World {
-  countriesById: Map<string, Country>;
   citiesById: Map<string, City>;
   trips: Trip[];
   livedCities: City[];
@@ -33,13 +31,13 @@ export interface World {
 
 /**
  * Resolves a reference or throws close to the malformed JSON that introduced it.
- * @param {Map<string, T>} values - Entities keyed by id
+ * @param {ReadonlyMap<string, T>} values - Entities keyed by id
  * @param {string} id - Referenced id
  * @param {string} source - JSON source being resolved
  * @returns {T} The resolved entity
  */
 function requireReference<T>(
-  values: Map<string, T>,
+  values: ReadonlyMap<string, T>,
   id: string,
   source: string,
 ): T {
@@ -85,7 +83,7 @@ export function buildWorld(sources: unknown): World {
     );
   }
 
-  for (const kind of ["countries", "cities", "trips"] as const) {
+  for (const kind of ["cities", "trips"] as const) {
     const seen = new Set<string>();
     for (const { id } of parsed.data[kind]) {
       if (seen.has(id)) throw new Error(`Duplicate id "${id}" in ${kind}.`);
@@ -93,28 +91,12 @@ export function buildWorld(sources: unknown): World {
     }
   }
 
-  /* The map colours countries by matching their name, and MapLibre rejects the whole fill layer when one name appears twice. */
-  const countryNames = new Set<string>();
-  for (const { id, name = id } of parsed.data.countries) {
-    if (countryNames.has(name)) {
-      throw new Error(`Duplicate country name "${name}" on "${id}".`);
-    }
-    countryNames.add(name);
-  }
-
-  const countriesById = new Map(
-    parsed.data.countries.map((data) => [data.id, new Country(data)]),
-  );
   const citiesById = new Map(
     parsed.data.cities.map((data) => [
       data.id,
       new City({
         ...data,
-        country: requireReference(
-          countriesById,
-          data.countryId,
-          `city ${data.id}`,
-        ),
+        country: requireReference(COUNTRIES, data.countryId, `city ${data.id}`),
         backgroundImgSources: data.backgroundImages,
       }),
     ]),
@@ -161,7 +143,6 @@ export function buildWorld(sources: unknown): World {
   );
 
   return {
-    countriesById,
     citiesById,
     trips,
     livedCities,
