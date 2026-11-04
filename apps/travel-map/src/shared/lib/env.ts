@@ -15,6 +15,10 @@ const EnvSchema = z.object({
     .optional(),
   VITE_BUILD_DATE: z.iso.datetime(),
   VITE_BUILD_VERSION: z.string().min(1),
+  VITE_COLOR_ALL_COUNTRIES: z
+    .enum(["true", "false"])
+    .default("false")
+    .transform((value) => value === "true"),
   VITE_SHOW_FUTURE_TRIPS: z
     .enum(["true", "false"])
     .default("false")
@@ -28,6 +32,7 @@ const EnvSchema = z.object({
  * @property {string} [VITE_BUILD_COMMIT] - The short commit built, unknown without `.git`
  * @property {string} VITE_BUILD_DATE - When the build ran, as an ISO instant
  * @property {string} VITE_BUILD_VERSION - The app's package version
+ * @property {boolean} VITE_COLOR_ALL_COUNTRIES - Whether the map paints every country, not only those visited
  * @property {boolean} VITE_SHOW_FUTURE_TRIPS - Whether planned trips are listed
  * @property {string} VITE_YOUTUBE_PATH - Base URL used to embed authored videos
  */

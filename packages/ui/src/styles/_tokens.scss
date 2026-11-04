@@ -77,14 +77,18 @@
   --marker-lived: #f6bb42;
   --marker-lived-hover: #e8a317;
   /* readMapTheme reads these: MapLibre paints on a canvas and cannot resolve var(). */
-  --map-ocean-light: #d6e6f2;
-  --map-land-light: #fbfbfc;
-  --map-border-light: rgba(60, 80, 110, 0.18);
+  /*
+   * A sea almost as pale as the page, with the land a shade darker beneath it,
+   * so countries read as shapes on paper rather than islands in deep water.
+   */
+  --map-ocean-light: #f6f9fc;
+  --map-land-light: #e4e6ea;
+  --map-border-light: rgba(60, 80, 110, 0.28);
   --map-country-label-light: #7b8aa0;
-  --map-country-label-halo-light: #eef4f9;
+  --map-country-label-halo-light: #f6f9fc;
   --map-city-label-light: #1c1e21;
   --map-city-label-halo-light: rgba(251, 251, 252, 0.95);
-  --map-country-strength-light: 0.42;
+  --map-country-strength-light: 0.6;
   /*
    * By night the sea is near black and the land a warm charcoal; visited
    * countries keep most of their own colour so the map stays as lively as

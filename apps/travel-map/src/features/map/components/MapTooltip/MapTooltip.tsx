@@ -9,6 +9,7 @@ import { ReactNode, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router";
 
 import { placePhotoCount } from "@/data/albums";
+import { currencyName, currencySymbol } from "@/shared/lib/currency";
 import { getTimeZoneAbbreviation } from "@/shared/lib/timezone";
 
 /**
@@ -108,10 +109,8 @@ export function MapTooltip({
           {city.country.currency ? (
             <li className="map-tooltip__fact">
               <Coins aria-hidden="true" className="map-tooltip__fact-icon" />
-              {t(`currency.${city.country.currency}.symbol`, {
-                defaultValue: "",
-              })}{" "}
-              {city.country.currency}
+              {currencySymbol(city.country.currency, currLanguage)}{" "}
+              {currencyName(city.country.currency, currLanguage)}
             </li>
           ) : null}
         </ul>
