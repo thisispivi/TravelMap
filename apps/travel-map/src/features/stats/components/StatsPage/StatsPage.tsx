@@ -44,7 +44,9 @@ import MoonFlat from "@/assets/icons/MoonFlat.svg?react";
 import { resolveCompany } from "@/data/companies";
 import { JournalSwitcher } from "@/shared/components/JournalSwitcher/JournalSwitcher";
 import { SegmentedControl } from "@/shared/components/SegmentedControl/SegmentedControl";
+import { Tooltip, TooltipBody } from "@/shared/components/Tooltip/Tooltip";
 import { useMapInteraction } from "@/shared/context/MapInteraction.context";
+import { useTooltip } from "@/shared/hooks/useTooltip";
 import { CONTINENT_COLORS } from "@/shared/lib/continentColors";
 import { parameters } from "@/shared/lib/parameters";
 
@@ -391,63 +393,94 @@ interface YearValue {
 /**
  * Properties accepted by the YearChart component.
  * @property {YearValue[]} years - Every year, oldest first
+ * @property {(count: number) => string} unit - Writes a value with its unit, such as `12 days`
  */
 interface YearChartProps {
   years: YearValue[];
+  unit: (count: number) => string;
 }
 
 /**
  * YearChart component
  * A column per year, drawn with flexbox rather than a chart library, growing
  * from the baseline the first time it scrolls into view. A year with nothing
- * in it keeps its label but draws no bar.
+ * in it keeps its label but draws no bar. Hovering or tapping a year tells
+ * its value in full and its share of every year together.
  * @component
  * @param {YearChartProps} props - The chart props
  * @param {YearValue[]} props.years - Every year, oldest first
+ * @param {(count: number) => string} props.unit - Writes a value with its unit
  * @returns {ReactNode} The chart
  */
-function YearChart({ years }: YearChartProps): ReactNode {
+function YearChart({ years, unit }: YearChartProps): ReactNode {
+  const { t, currLanguage } = useLanguage(["home"]);
+  const { tip, triggerProps } = useTooltip();
   const max = Math.max(...years.map(({ value }) => value), 1);
+  const total = years.reduce((sum, { value }) => sum + value, 0) || 1;
 
+  /*
+   * The list, not each bar, watches for the viewport: a bar that starts at
+   * zero height has no area to intersect it.
+   */
   return (
-    /*
-     * The list, not each bar, watches for the viewport: a bar that starts at
-     * zero height has no area to intersect it.
-     */
-    <m.ol
-      className="stats-tile__years"
-      initial="hidden"
-      viewport={{ once: true }}
-      whileInView="visible"
-    >
-      {years.map(({ year, value }, index) => (
-        <li className="stats-tile__year" key={year}>
-          <span className="stats-tile__year-track">
-            {/* The count above takes 1rem of the track; the bar scales in the rest. */}
-            {value > 0 ? (
-              <m.span
-                className="stats-tile__year-value"
-                transition={{ ...easeOut, delay: index * 0.03 + 0.4 }}
-                variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
-              >
-                {value}
-              </m.span>
-            ) : null}
-            {value > 0 ? (
-              <m.span
-                className="stats-tile__year-bar"
-                style={{ height: `calc((100% - 1rem) * ${value / max})` }}
-                transition={{ ...easeOut, delay: index * 0.03, duration: 0.6 }}
-                variants={{ hidden: { scaleY: 0 }, visible: { scaleY: 1 } }}
-              />
-            ) : null}
-          </span>
-          <span className="stats-tile__year-label">
-            ’{String(year).slice(2)}
-          </span>
-        </li>
-      ))}
-    </m.ol>
+    <>
+      <m.ol
+        className="stats-tile__years"
+        initial="hidden"
+        viewport={{ once: true }}
+        whileInView="visible"
+      >
+        {years.map(({ year, value }, index) => (
+          <li
+            className="stats-tile__year"
+            key={year}
+            {...triggerProps(
+              String(year),
+              <TooltipBody
+                lines={[
+                  unit(value),
+                  t("stats.tooltip.share", {
+                    share: Math.round((value / total) * 100).toLocaleString(
+                      currLanguage,
+                    ),
+                  }),
+                ]}
+                title={year}
+              />,
+            )}
+          >
+            <span className="stats-tile__year-track">
+              {/* The count above takes 1rem of the track; the bar scales in the rest. */}
+              {value > 0 ? (
+                <m.span
+                  className="stats-tile__year-value"
+                  transition={{ ...easeOut, delay: index * 0.03 + 0.4 }}
+                  variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
+                >
+                  {value}
+                </m.span>
+              ) : null}
+              {value > 0 ? (
+                <m.span
+                  className="stats-tile__year-bar"
+                  style={{ height: `calc((100% - 1rem) * ${value / max})` }}
+                  transition={{
+                    ...easeOut,
+                    delay: index * 0.03,
+                    duration: 0.6,
+                  }}
+                  variants={{ hidden: { scaleY: 0 }, visible: { scaleY: 1 } }}
+                />
+              ) : null}
+            </span>
+            <span className="stats-tile__year-label">
+              ’{String(year).slice(2)}
+            </span>
+          </li>
+        ))}
+      </m.ol>
+      <Tooltip tip={tip} />
+    </>
   );
 }
 
@@ -678,6 +711,7 @@ function FlightTypesTile(): ReactNode {
   const isReduced = useReducedMotionConfig() ?? false;
   const [measure, setMeasure] = useState<FlightMeasure>("count");
   const [activeType, setActiveType] = useState<TravelType | null>(null);
+  const { tip, triggerProps } = useTooltip();
   const { count, types } = stats.flightTypes;
   const segments = getDonutSegments(types.map((type) => type[measure]));
   const rows = types.map((stat, index) => ({
@@ -721,9 +755,24 @@ function FlightTypesTile(): ReactNode {
             role="img"
             viewBox="0 0 120 120"
           >
-            {rows.map(({ type, segment }) =>
+            {rows.map(({ type, segment, name, count: flights, share, km }) =>
               segment.length > 0 ? (
                 <m.circle
+                  key={type}
+                  {...triggerProps(
+                    type,
+                    <TooltipBody
+                      lines={[
+                        t("stats.tooltip.flights", { count: flights }),
+                        kilometresIn(km, currLanguage),
+                        t("stats.tooltip.share", {
+                          share: Math.round(share).toLocaleString(currLanguage),
+                        }),
+                      ]}
+                      swatch={`var(--c-flight-${type})`}
+                      title={name}
+                    />,
+                  )}
                   className={classNames(
                     "stats-tile__donut-segment",
                     `stats-tile--${type}`,
@@ -734,7 +783,6 @@ function FlightTypesTile(): ReactNode {
                   cx="60"
                   cy="60"
                   initial={{ pathLength: 0, pathOffset: 0 }}
-                  key={type}
                   onMouseEnter={() => setActiveType(type)}
                   onMouseLeave={() => setActiveType(null)}
                   r="52"
@@ -788,6 +836,7 @@ function FlightTypesTile(): ReactNode {
           ))}
         </ul>
       </div>
+      <Tooltip tip={tip} />
       <table className="stats-tile__flight-table">
         <caption>{t("stats.flightTypes.title")}</caption>
         <thead>
@@ -1374,6 +1423,7 @@ function clockIn(minute: number, locale: string): string {
  */
 function ClockTile(): ReactNode {
   const { t, currLanguage } = useLanguage(["home"]);
+  const { tip, triggerProps } = useTooltip();
   const { arrivals, departures, earliest, latest } = stats.clock;
   if (!earliest && !latest) return null;
 
@@ -1417,11 +1467,16 @@ function ClockTile(): ReactNode {
           <div
             className="stats-tile__clock-hour"
             key={hour}
-            title={t("stats.clock.hour", {
-              arrivals: arrived,
-              departures: left,
-              hour: label,
-            })}
+            {...triggerProps(
+              String(hour),
+              <TooltipBody
+                lines={[
+                  t("stats.tooltip.departures", { count: left }),
+                  t("stats.tooltip.arrivals", { count: arrived }),
+                ]}
+                title={`${label}–${clockIn(((hour + 1) % 24) * 60, currLanguage)}`}
+              />,
+            )}
           >
             <span className="stats-tile__clock-side stats-tile__clock-side--departures">
               <m.span
@@ -1447,6 +1502,7 @@ function ClockTile(): ReactNode {
           </div>
         ))}
       </m.div>
+      <Tooltip tip={tip} />
       <ul className="stats-tile__records stats-tile__records--pair">
         {earliest ? (
           <Record
@@ -1724,6 +1780,7 @@ export function StatsPage(): ReactNode {
 
           <Card area="days" title={t("stats.daysPerYear")}>
             <YearChart
+              unit={(count) => t("stats.tooltip.days", { count })}
               years={stats.perYear.map(({ year, days }) => ({
                 value: days,
                 year,
@@ -1733,6 +1790,7 @@ export function StatsPage(): ReactNode {
 
           <Card area="trips" title={t("stats.tripsPerYear")}>
             <YearChart
+              unit={(count) => t("stats.tooltip.trips", { count })}
               years={stats.perYear.map(({ year, trips }) => ({
                 value: trips,
                 year,

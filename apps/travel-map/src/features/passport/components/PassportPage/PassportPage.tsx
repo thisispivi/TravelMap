@@ -11,9 +11,6 @@ import { classNames } from "@travelmap/ui/lib/classNames";
 import { Globe } from "lucide-react";
 import {
   CSSProperties,
-  FocusEvent,
-  KeyboardEvent,
-  PointerEvent,
   ReactNode,
   useEffect,
   useId,
@@ -30,25 +27,31 @@ import {
   visitedTrips,
 } from "@/data/world";
 import { JournalSwitcher } from "@/shared/components/JournalSwitcher/JournalSwitcher";
+import { Tooltip } from "@/shared/components/Tooltip/Tooltip";
 import { useResponsive } from "@/shared/hooks/useResponsive";
+import { useTooltip } from "@/shared/hooks/useTooltip";
 
 import {
   buildPassport,
   IssuingCountry,
   Passport,
+  PassportEntry,
   PassportPage as ContinentPage,
   PassportSlot,
   StampSlot,
 } from "../../lib/passport";
 import { Booklet } from "../Booklet/Booklet";
-import { EmblemTooltip } from "../EmblemTooltip/EmblemTooltip";
 import { Stamp, StampEmblem, StampInk } from "../Stamp/Stamp";
+import { StampCard } from "../StampCard/StampCard";
 
 /**
  * Properties accepted by the StampButton component.
  * @property {Country} country - The stamp's country
  * @property {string} label - The button's accessible name
  * @property {string[]} lines - The stamp's small lines
+ * @property {PassportEntry[]} entries - Its entries, which the tooltip lists
+ * @property {boolean} [isIssuing] - Whether it is the issuing country
+ * @property {boolean} [isTopRow] - Whether it sits in its page's first row
  * @property {string} [className] - The slot's modifier class
  * @property {CSSProperties} [style] - The slot's offset on its square
  * @property {() => void} onSelect - Shows the country among the places
@@ -58,6 +61,9 @@ interface StampButtonProps {
   country: Country;
   label: string;
   lines: string[];
+  entries: PassportEntry[];
+  isIssuing?: boolean;
+  isTopRow?: boolean;
   className?: string;
   style?: CSSProperties;
   onSelect: () => void;
@@ -66,13 +72,20 @@ interface StampButtonProps {
 
 /**
  * StampButton component
- * A struck stamp to press. Hovering or focusing it names what its drawing shows
- * in a tooltip, the only place that description appears; Escape hides it.
+ * A struck stamp to press. Hovering or focusing it shows the country's card,
+ * laid out as the map's city card: its picture, flag and name, what its
+ * drawing shows (the only place that description appears) and every entry. A finger has no hover, so on a phone a tap
+ * opens the country's places and holding the finger on the stamp shows the
+ * tooltip. There a first-row stamp opens its tooltip beneath it rather than
+ * over the page's header.
  * @component
  * @param {StampButtonProps} props - The button props
  * @param {Country} props.country - The stamp's country
  * @param {string} props.label - The button's accessible name
  * @param {string[]} props.lines - The stamp's small lines
+ * @param {PassportEntry[]} props.entries - Its entries
+ * @param {boolean} [props.isIssuing=false] - Whether it is the issuing country
+ * @param {boolean} [props.isTopRow=false] - Whether it sits in its page's first row
  * @param {string} [props.className] - The slot's modifier class
  * @param {CSSProperties} [props.style] - The slot's offset on its square
  * @param {() => void} props.onSelect - Shows the country among the places
@@ -83,6 +96,9 @@ function StampButton({
   country,
   label,
   lines,
+  entries,
+  isIssuing = false,
+  isTopRow = false,
   className,
   style,
   onSelect,
@@ -90,55 +106,32 @@ function StampButton({
 }: StampButtonProps): ReactNode {
   const { t, currLanguage } = useLanguage(["home"]);
   const descriptionId = useId();
-  const [anchor, setAnchor] = useState<DOMRect | null>(null);
+  const { tip, triggerProps } = useTooltip();
+  const { isCompact } = useResponsive();
+  const isTooltipBelow = isCompact && isTopRow;
+  const name = country.getLocalizedName(currLanguage);
   const description = t(`passport.emblems.${country.id}`, {
     defaultValue: "",
   });
-
-  /**
-   * Shows the tooltip over the stamp.
-   * @param {FocusEvent<HTMLButtonElement> | PointerEvent<HTMLButtonElement>} event - The hover or focus
-   * @returns {void}
-   */
-  const handleShow = (
-    event: FocusEvent<HTMLButtonElement> | PointerEvent<HTMLButtonElement>,
-  ): void => {
-    if (description) setAnchor(event.currentTarget.getBoundingClientRect());
-  };
-
-  /**
-   * Hides the tooltip once Escape is pressed on the stamp.
-   * @param {KeyboardEvent<HTMLButtonElement>} event - The key press
-   * @returns {void}
-   */
-  const handleKeyDown = (event: KeyboardEvent<HTMLButtonElement>): void => {
-    if (event.key === "Escape") setAnchor(null);
-  };
+  const content = (
+    <StampCard country={country} entries={entries} isIssuing={isIssuing} />
+  );
 
   return (
     <button
       aria-describedby={description ? descriptionId : undefined}
       aria-label={label}
       className={classNames("passport-slot", "passport-slot--stamp", className)}
-      onBlur={() => setAnchor(null)}
-      onClick={onSelect}
-      onFocus={handleShow}
-      onKeyDown={handleKeyDown}
-      onPointerEnter={handleShow}
-      onPointerLeave={() => setAnchor(null)}
       style={style}
       type="button"
+      {...triggerProps(country.id, content, onSelect)}
     >
-      <Stamp
-        country={country}
-        lines={lines}
-        name={country.getLocalizedName(currLanguage)}
-      />
+      <Stamp country={country} lines={lines} name={name} />
       {children}
       <span hidden id={descriptionId}>
         {description}
       </span>
-      <EmblemTooltip anchor={anchor} text={description} />
+      <Tooltip isBelow={isTooltipBelow} isCard tip={tip} />
     </button>
   );
 }
@@ -146,10 +139,12 @@ function StampButton({
 /**
  * Properties accepted by the SlotView component.
  * @property {PassportSlot} slot - The slot
+ * @property {boolean} isTopRow - Whether it sits in its page's first row
  * @property {(slot: StampSlot) => void} onSelect - Shows the stamp's country among the places
  */
 interface SlotViewProps {
   slot: PassportSlot;
+  isTopRow: boolean;
   onSelect: (slot: StampSlot) => void;
 }
 
@@ -161,10 +156,11 @@ interface SlotViewProps {
  * @component
  * @param {SlotViewProps} props - The slot props
  * @param {PassportSlot} props.slot - The slot
+ * @param {boolean} props.isTopRow - Whether it sits in its page's first row
  * @param {(slot: StampSlot) => void} props.onSelect - Shows the stamp's country among the places
  * @returns {ReactNode} The slot
  */
-function SlotView({ slot, onSelect }: SlotViewProps): ReactNode {
+function SlotView({ slot, isTopRow, onSelect }: SlotViewProps): ReactNode {
   const { t, currLanguage } = useLanguage(["home"]);
   const { country } = slot;
   const { tilt } = country.stamp;
@@ -184,6 +180,8 @@ function SlotView({ slot, onSelect }: SlotViewProps): ReactNode {
       return (
         <StampButton
           country={country}
+          entries={slot.entries}
+          isTopRow={isTopRow}
           label={t("passport.stampLabel", {
             city,
             count: slot.entries.length,
@@ -257,6 +255,9 @@ function IssuingPage({
       <StampButton
         className="passport-slot--issuing"
         country={slot.country}
+        entries={slot.entries}
+        isIssuing
+        isTopRow
         label={t("passport.issuingLabel", { name })}
         lines={[city.getLocalizedName(currLanguage)]}
         onSelect={() => onSelect(slot)}
@@ -323,8 +324,13 @@ function SlotsPage({
           isSingle && "passport-sheet__grid--single",
         )}
       >
-        {page.slots.map((slot) => (
-          <SlotView key={slot.country.id} onSelect={onSelect} slot={slot} />
+        {page.slots.map((slot, index) => (
+          <SlotView
+            isTopRow={index < (isSingle ? COLUMNS_SINGLE : COLUMNS_DOUBLE)}
+            key={slot.country.id}
+            onSelect={onSelect}
+            slot={slot}
+          />
         ))}
       </div>
     </section>
@@ -402,8 +408,10 @@ function sheetsOf(
 }
 
 /* Stamps a page holds: three rows of three on a spread, of two on a page alone. */
-const PER_PAGE_DOUBLE = 9;
-const PER_PAGE_SINGLE = 6;
+const COLUMNS_DOUBLE = 3;
+const COLUMNS_SINGLE = 2;
+const PER_PAGE_DOUBLE = COLUMNS_DOUBLE * 3;
+const PER_PAGE_SINGLE = COLUMNS_SINGLE * 3;
 
 /* The least room two pages side by side need, in CSS pixels, controls included. */
 const SPREAD_MIN_WIDTH = 440;

@@ -231,7 +231,20 @@
     "countryCount_one": "{{count}} country",
     "countryCount_other": "{{count}} countries",
     "cityCount_one": "{{count}} city",
-    "cityCount_other": "{{count}} cities"
+    "cityCount_other": "{{count}} cities",
+    "tooltip": {
+      "days_one": "{{count}} day",
+      "days_other": "{{count}} days",
+      "trips_one": "{{count}} trip",
+      "trips_other": "{{count}} trips",
+      "share": "{{share}}% of the total",
+      "departures_one": "{{count}} departure",
+      "departures_other": "{{count}} departures",
+      "arrivals_one": "{{count}} arrival",
+      "arrivals_other": "{{count}} arrivals",
+      "flights_one": "{{count}} flight",
+      "flights_other": "{{count}} flights"
+    }
   },
   "settings": {
     "title": "Settings",
@@ -327,7 +340,7 @@
       "CH": "The Matterhorn",
       "CI": "An African elephant",
       "CK": "Te Rua Manga, the Needle of Rarotonga",
-      "CL": "A moai of Rapa Nui",
+      "CL": "A Chilean bellflower",
       "CM": "Mount Cameroon above the coastal plain",
       "CN": "The Great Wall winding between its watchtowers",
       "CO": "A Quindío wax palm",
@@ -451,7 +464,7 @@
       "OM": "A dhow with a lateen sail",
       "PA": "A ship in the Panama Canal locks",
       "PE": "Machu Picchu below Huayna Picchu",
-      "PF": "A lagoon, a palm and a volcanic peak",
+      "PF": "A Tahitian tiare flower",
       "PG": "A kundu drum",
       "PH": "A tarsier with its big round eyes",
       "PK": "A painted truck",
@@ -526,6 +539,10 @@
       "ZA": "Table Mountain",
       "ZM": "Victoria Falls and their spray",
       "ZW": "The Great Enclosure and its conical tower"
+    },
+    "tooltip": {
+      "entries_one": "Entered once",
+      "entries_other": "Entered {{count}} times"
     }
   }
 }

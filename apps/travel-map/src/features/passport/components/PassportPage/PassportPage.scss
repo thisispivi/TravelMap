@@ -173,6 +173,8 @@ $guilloche: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width=
     @include m.transition(transform, v.$durationFast);
     padding: 0;
     border-radius: v.$radiusSm;
+    /* Holding a finger on a stamp shows its tooltip, not the browser's own image menu. */
+    -webkit-touch-callout: none;
 
     @include m.hover() {
       transform: translate(var(--slot-x, 0), var(--slot-y, 0)) scale(1.04);

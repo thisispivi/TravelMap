@@ -231,7 +231,20 @@
     "countryCount_one": "{{count}} paese",
     "countryCount_other": "{{count}} paesi",
     "cityCount_one": "{{count}} città",
-    "cityCount_other": "{{count}} città"
+    "cityCount_other": "{{count}} città",
+    "tooltip": {
+      "days_one": "{{count}} giorno",
+      "days_other": "{{count}} giorni",
+      "trips_one": "{{count}} viaggio",
+      "trips_other": "{{count}} viaggi",
+      "share": "{{share}}% del totale",
+      "departures_one": "{{count}} partenza",
+      "departures_other": "{{count}} partenze",
+      "arrivals_one": "{{count}} arrivo",
+      "arrivals_other": "{{count}} arrivi",
+      "flights_one": "{{count}} volo",
+      "flights_other": "{{count}} voli"
+    }
   },
   "settings": {
     "title": "Impostazioni",
@@ -327,7 +340,7 @@
       "CH": "Il Cervino",
       "CI": "Un elefante africano",
       "CK": "Te Rua Manga, l'Ago di Rarotonga",
-      "CL": "Un moai di Rapa Nui",
+      "CL": "Un fiore di copihue",
       "CM": "Il Monte Camerun sopra la pianura costiera",
       "CN": "La Grande Muraglia tra le sue torri di guardia",
       "CO": "Una palma da cera del Quindío",
@@ -451,7 +464,7 @@
       "OM": "Un dhow con la vela latina",
       "PA": "Una nave nelle chiuse del Canale di Panama",
       "PE": "Machu Picchu ai piedi dello Huayna Picchu",
-      "PF": "Una laguna, una palma e un picco vulcanico",
+      "PF": "Un fiore di tiarè tahitiano",
       "PG": "Un tamburo kundu",
       "PH": "Un tarsio con i suoi grandi occhi",
       "PK": "Un camion decorato",
@@ -526,6 +539,10 @@
       "ZA": "La Table Mountain",
       "ZM": "Le cascate Vittoria e i loro spruzzi",
       "ZW": "Il Grande Recinto e la sua torre conica"
+    },
+    "tooltip": {
+      "entries_one": "Un ingresso",
+      "entries_other": "{{count}} ingressi"
     }
   }
 }

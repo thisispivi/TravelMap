@@ -17,7 +17,7 @@ const CONTINENT_ORDER = [
  * @property {Date} date - The day it arrived
  * @property {City} city - Where it arrived
  */
-interface PassportEntry {
+export interface PassportEntry {
   trip: Trip;
   date: Date;
   city: City;
