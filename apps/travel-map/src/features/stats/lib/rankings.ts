@@ -88,10 +88,11 @@ export function getPlaceRankings(
   sources: PlaceSources,
 ): Record<PlaceMeasure, RankedPlace[]> {
   const { trips, lived, photosOf } = sources;
+  const livedIn = new Set(lived);
   const stays = trips
     .toSorted((a, b) => a.sDate.getTime() - b.sDate.getTime())
     .flatMap((trip) => trip.stays)
-    .filter(({ city }) => !lived.includes(city));
+    .filter(({ city }) => !livedIn.has(city));
   const cities = unique(stays.map(({ city }) => city));
 
   return {

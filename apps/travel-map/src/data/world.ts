@@ -22,9 +22,6 @@ function values(modules: Record<string, { default: unknown }>): unknown[] {
  * trusted — but only once, by `buildWorld`, which owns the dataset contract.
  * The globs below deliberately hand over raw JSON.
  */
-const countries = values(
-  import.meta.glob("../../../../data/cities/*/*.json", { eager: true }),
-);
 const cities = values(
   import.meta.glob("../../../../data/cities/*/*/*.json", { eager: true }),
 );
@@ -51,7 +48,6 @@ const worldConfig: SiteConfig | undefined = rawWorldConfig
   ? SiteConfigSchema.parse(rawWorldConfig)
   : undefined;
 const world = buildWorld({
-  countries,
   cities,
   futureCityIds: worldConfig?.futureCityIds,
   homeCityId: worldConfig?.homeCityId,

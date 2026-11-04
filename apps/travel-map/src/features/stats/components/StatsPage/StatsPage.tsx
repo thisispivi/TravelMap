@@ -6,6 +6,7 @@ import { CountryFlag } from "@travelmap/ui/components/CountryFlag/CountryFlag";
 import { EmptyState } from "@travelmap/ui/components/EmptyState/EmptyState";
 import { PanelFrame } from "@travelmap/ui/components/PanelFrame/PanelFrame";
 import { PanelHeader } from "@travelmap/ui/components/PanelHeader/PanelHeader";
+import { Popover } from "@travelmap/ui/components/Popover/Popover";
 import { TransportModeIcon } from "@travelmap/ui/components/TransportModeIcon/TransportModeIcon";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { formatDuration, formatMileage } from "@travelmap/ui/i18n/format";
@@ -957,9 +958,77 @@ function EdgesTile(): ReactNode {
 }
 
 /**
+ * Properties accepted by the QuadrantCities component.
+ * @property {string} label - The quarter's name
+ * @property {City[]} cities - Every city slept in there, at least one
+ */
+interface QuadrantCitiesProps {
+  label: string;
+  cities: City[];
+}
+
+/**
+ * QuadrantCities component
+ * A quarter's first two cities, and for the rest a "+N more" that opens a
+ * frosted list of every city slept in that quarter.
+ * @component
+ * @param {QuadrantCitiesProps} props - The cities props
+ * @param {string} props.label - The quarter's name
+ * @param {City[]} props.cities - Every city slept in there
+ * @returns {ReactNode} The cities
+ */
+function QuadrantCities({ label, cities }: QuadrantCitiesProps): ReactNode {
+  const { t, currLanguage } = useLanguage(["home"]);
+  const [anchor, setAnchor] = useState<DOMRect | null>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+
+  return (
+    <span className="stats-tile__quadrant-cities">
+      <PlaceNames cities={cities.slice(0, 2)} />
+      {cities.length > 2 ? (
+        <>
+          {" "}
+          <button
+            aria-expanded={anchor !== null}
+            aria-haspopup="dialog"
+            className="stats-tile__more"
+            onClick={(event) =>
+              setAnchor(
+                anchor ? null : event.currentTarget.getBoundingClientRect(),
+              )
+            }
+            ref={triggerRef}
+            type="button"
+          >
+            {t("stats.hemispheres.more", { count: cities.length - 2 })}
+          </button>
+          <Popover
+            anchor={anchor}
+            label={t("stats.hemispheres.citiesIn", { quarter: label })}
+            onClose={() => setAnchor(null)}
+            placement="below"
+            triggerRef={triggerRef}
+          >
+            <ul className="stats-tile__city-list">
+              {cities.map((city) => (
+                <li className="stats-tile__city-item" key={city.id}>
+                  <CountryFlag countryId={city.country.id} />
+                  {city.getLocalizedName(currLanguage)}
+                </li>
+              ))}
+            </ul>
+          </Popover>
+        </>
+      ) : null}
+    </span>
+  );
+}
+
+/**
  * HemispheresTile component
  * One tile of the statistics bento: the four quarters of the globe, each with a
- * couple of the cities slept in there, or muted until one is.
+ * couple of the cities slept in there and the rest a press away, or muted until
+ * one is.
  * @component
  * @returns {ReactNode} The tile
  */
@@ -982,12 +1051,10 @@ function HemispheresTile(): ReactNode {
               {t(`stats.hemispheres.${id}`)}
             </span>
             {cities.length > 0 ? (
-              <span className="stats-tile__quadrant-cities">
-                <PlaceNames cities={cities.slice(0, 2)} />
-                {cities.length > 2
-                  ? ` ${t("stats.hemispheres.more", { count: cities.length - 2 })}`
-                  : null}
-              </span>
+              <QuadrantCities
+                cities={cities}
+                label={t(`stats.hemispheres.${id}`)}
+              />
             ) : (
               <span className="stats-tile__quadrant-cities">
                 {t("stats.hemispheres.notYet")}
@@ -1584,7 +1651,7 @@ export function StatsPage(): ReactNode {
           <Card area="currencies" title={t("stats.currencies")}>
             <ul className="stats-tile__chips">
               {stats.currencies.map((country) => {
-                const currency = getCurrencyDisplay(country, t);
+                const currency = getCurrencyDisplay(country, currLanguage);
                 return (
                   <li className="stats-tile__chip" key={currency.code}>
                     <CountryFlag countryId={currency.countryId} />

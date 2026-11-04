@@ -41,9 +41,10 @@ export interface Hemispheres {
  * @returns {City[]} Each city once, by its first night
  */
 export function getSleptInCities(trips: Trip[], lived: City[]): City[] {
+  const livedIn = new Set(lived);
   return unique(
     trips.flatMap((trip) => trip.stays.map((stay) => stay.city)),
-  ).filter((city) => !lived.includes(city));
+  ).filter((city) => !livedIn.has(city));
 }
 
 /**
