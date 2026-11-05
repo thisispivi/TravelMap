@@ -32,12 +32,17 @@ export function photoIndex(): Plugin {
      * @returns {{ code: string; moduleType: "js" } | undefined} The module, or nothing for other ids
      */
     load(id): { code: string; moduleType: "js" } | undefined {
-      const [path, query] = id.split("?");
-      if (query !== PHOTO_INDEX_QUERY || !path) return;
+      const [path = "", query = ""] = id.split("?");
+      /* Vite adds its own parameters, such as an HMR timestamp, after ours. */
+      if (!new URLSearchParams(query).has(PHOTO_INDEX_QUERY)) return;
 
-      const parsed = ImageSchema.array().safeParse(
-        JSON.parse(readFileSync(path, "utf8")),
-      );
+      let manifest: unknown;
+      try {
+        manifest = JSON.parse(readFileSync(path, "utf8"));
+      } catch (error) {
+        throw new Error(`${path}: not valid JSON`, { cause: error });
+      }
+      const parsed = ImageSchema.array().safeParse(manifest);
       if (!parsed.success)
         throw new Error(`${path}: ${z.prettifyError(parsed.error)}`);
       const flags = parsed.data

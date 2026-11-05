@@ -47,6 +47,21 @@ describe("photoIndex", () => {
     ).toBe("101");
   });
 
+  it("still answers when Vite adds its own query parameters", async () => {
+    writeFileSync(join(dir, "hmr.json"), JSON.stringify([]));
+    const module = await server.ssrLoadModule("/hmr.json?photo-index&t=1");
+
+    expect(module.default).toBe("");
+  });
+
+  it("names the file when a manifest is not JSON at all", async () => {
+    writeFileSync(join(dir, "garbled.json"), "{");
+
+    await expect(
+      server.ssrLoadModule("/garbled.json?photo-index"),
+    ).rejects.toThrow(/garbled\.json/);
+  });
+
   it("stops on a malformed manifest and names the file", async () => {
     await expect(
       importIndex("broken.json", [{ original: "/a.webp" }]),
