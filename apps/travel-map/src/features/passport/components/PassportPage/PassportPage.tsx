@@ -104,13 +104,13 @@ function StampButton({
   onSelect,
   children,
 }: StampButtonProps): ReactNode {
-  const { t, currLanguage } = useLanguage(["home"]);
+  const { t, currLanguage } = useLanguage(["home", "emblems"]);
   const descriptionId = useId();
   const { tip, triggerProps } = useTooltip();
   const { isCompact } = useResponsive();
   const isTooltipBelow = isCompact && isTopRow;
   const name = country.getLocalizedName(currLanguage);
-  const description = t(`passport.emblems.${country.id}`, {
+  const description = t(`emblems:${country.id}`, {
     defaultValue: "",
   });
   const content = (
@@ -456,7 +456,7 @@ function openPages(page: number, isSingle: boolean, count: number): number[] {
  * @returns {ReactNode} The passport page
  */
 export function PassportPage(): ReactNode {
-  const { t } = useLanguage(["home"]);
+  const { t } = useLanguage(["home", "emblems"]);
   const { isCompact } = useResponsive();
   const navigate = useNavigate();
   const pageRef = useRef<HTMLDivElement>(null);

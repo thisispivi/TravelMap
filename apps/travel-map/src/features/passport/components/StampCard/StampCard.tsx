@@ -40,8 +40,8 @@ export function StampCard({
   entries,
   isIssuing = false,
 }: StampCardProps): ReactNode {
-  const { t, currLanguage } = useLanguage(["home"]);
-  const description = t(`passport.emblems.${country.id}`, {
+  const { t, currLanguage } = useLanguage(["home", "emblems"]);
+  const description = t(`emblems:${country.id}`, {
     defaultValue: "",
   });
 
