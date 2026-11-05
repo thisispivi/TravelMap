@@ -160,27 +160,6 @@
     "cannotDelete_other": "{{count}} viaggi fanno riferimento a questa città, quindi non può ancora essere eliminata.",
     "pickOnMap": "Tocca la mappa per spostare il punto della città."
   },
-  "countryScreen": {
-    "kind": "Paese",
-    "identity": "Identità",
-    "name": "Nome",
-    "continent": "Continente",
-    "currency": "Valuta",
-    "mapId": "Id mappa",
-    "fromWorldDataHint": "Preso dai dati mondiali — qui non c'è nulla da digitare.",
-    "restoreFromWorldData": "Ripristina dai dati mondiali",
-    "notInWorldData": "non è nei dati della mappa mondiale, quindi non verrà riempito sulla mappa e i suoi dettagli non possono essere aggiornati automaticamente.",
-    "mapColour": "Colore mappa",
-    "mapColourHint": "Riempie il paese sulla mappa una volta visitato.",
-    "fill": "Riempimento",
-    "markerScale": "Scala del marcatore",
-    "markerScaleHint": "Limiti opzionali su quanto possono crescere i marcatori delle città di questo paese.",
-    "minimum": "Minimo",
-    "maximum": "Massimo",
-    "nameRequired": "Il nome canonico è obbligatorio.",
-    "cannotDelete_one": "{{count}} città appartiene a questo paese, quindi non può ancora essere eliminato.",
-    "cannotDelete_other": "{{count}} città appartengono a questo paese, quindi non può ancora essere eliminato."
-  },
   "createScreen": {
     "addA": {
       "trip": "Aggiungi un viaggio"
@@ -209,15 +188,6 @@
     "descriptionPlaceholder": "Una mappa personale dei viaggi.",
     "author": "Autore",
     "authorPlaceholder": "Il tuo nome",
-    "avatar": "Avatar",
-    "avatarHint": "Un percorso media o un URL completo. Senza, il sito mostra le tue iniziali.",
-    "avatarInvalid": "Inizia con / per un percorso media, o con https:// per un URL completo.",
-    "website": "Sito personale",
-    "websiteHint": "Collegato sotto il tuo nome. Lascialo vuoto per collegare il dominio del sito.",
-    "websiteInvalid": "Inserisci un indirizzo completo che inizi con https://.",
-    "sourceUrl": "Link al codice sorgente",
-    "sourceUrlHint": "Lascialo vuoto per citare il progetto TravelMap originale.",
-    "sourceUrlInvalid": "Inserisci un indirizzo completo che inizi con https://.",
     "commaSeparated": "Separati da virgola.",
     "keywords": "Parole chiave",
     "locales": "Lingue",
@@ -228,6 +198,8 @@
     "cityRoles": "Ruoli delle città",
     "none": "Nessuna",
     "homeCity": "Città natale",
+    "nationality": "Nazionalità",
+    "nationalityHint": "Dà alla copertina del passaporto del sito il colore del tuo. Senza, si usa il paese della città natale.",
     "formerHomes": "Ex residenze",
     "futureCities": "Città future",
     "mapDefaults": "Impostazioni mappa predefinite",
@@ -364,8 +336,6 @@
     "tripDeleted": "Viaggio eliminato.",
     "citySaved": "Città salvata.",
     "cityDeleted": "Città eliminata.",
-    "countrySaved": "Paese salvato.",
-    "countryDeleted": "Paese eliminato.",
     "settingsSaved": "Impostazioni salvate.",
     "companiesSaved": "Compagnie di trasporto salvate.",
     "logoUploaded": "Logo caricato."
@@ -379,7 +349,6 @@
     "countryNotOnMap": "Quel paese non è nel catalogo mondiale, quindi non si può ancora creare una città lì.",
     "willCreateCity": "Crea la città {{city}}.",
     "reusesExisting": "Riusa la città esistente {{city}}.",
-    "willCreateCountry": "È il primo luogo in {{country}}, quindi viene creato anche il file del paese.",
     "nearbyDuplicate": "{{city}} è già in questa posizione.",
     "manualTitle": "Crea un luogo personalizzato",
     "manualName": "Nome",
@@ -408,8 +377,7 @@
     "openSettings": "Vai alle impostazioni",
     "sortByDate": "Ordina l'itinerario per data",
     "trip": "Viaggio",
-    "city": "Città",
-    "country": "Paese"
+    "city": "Città"
   },
   "import": {
     "title": "Importa",
@@ -496,11 +464,6 @@
       "invalidCoordinates": "La città \"{{id}}\" ha coordinate fuori dal mondo.",
       "nullIsland": "La città \"{{id}}\" si trova a 0,0: di solito significa che la posizione non è mai stata impostata.",
       "unused": "La città \"{{id}}\" non è usata da nessun viaggio."
-    },
-    "country": {
-      "nameRequired": "Il paese \"{{id}}\" non ha un nome.",
-      "unknownContinent": "Il paese \"{{id}}\" ha un continente non riconosciuto.",
-      "unknownCurrency": "Il paese \"{{id}}\" ha una valuta non riconosciuta."
     },
     "dataset": {
       "duplicateId": "Più di un {{kind}} usa l'id \"{{id}}\"."

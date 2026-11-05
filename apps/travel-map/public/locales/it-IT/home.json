@@ -8,50 +8,13 @@
     "OCEANIA": "Oceania",
     "SOUTH_AMERICA": "America del Sud"
   },
-  "currency": {
-    "EUR": {
-      "name": "Euro",
-      "symbol": "€"
-    },
-    "JPY": {
-      "name": "Yen giapponese",
-      "symbol": "¥"
-    },
-    "HUF": {
-      "name": "Fiorino ungherese",
-      "symbol": "Ft"
-    },
-    "GBP": {
-      "name": "Sterlina britannica",
-      "symbol": "£"
-    },
-    "AUD": {
-      "name": "Dollaro australiano",
-      "symbol": "$"
-    },
-    "CNY": {
-      "name": "Yuan cinese",
-      "symbol": "¥"
-    },
-    "BGN": {
-      "name": "Lev bulgaro",
-      "symbol": "лв"
-    },
-    "RON": {
-      "name": "Leu rumeno",
-      "symbol": "lei"
-    },
-    "SEK": {
-      "name": "Corona svedese",
-      "symbol": "kr"
-    }
-  },
   "nav": {
     "gallery": "Galleria",
     "timeline": "Timeline",
     "stats": "Statistiche",
     "settings": "Opzioni",
-    "journal": "Diario"
+    "journal": "Diario",
+    "passport": "Passaporto"
   },
   "goHome": "Mostra tutta la mappa",
   "sheet": {
@@ -206,7 +169,8 @@
       "SE": "Sud-est",
       "notYet": "Non ancora",
       "more": "+{{count}} altre",
-      "halves": "Nord {{north}} · Sud {{south}} · Est {{east}} · Ovest {{west}}"
+      "halves": "Nord {{north}} · Sud {{south}} · Est {{east}} · Ovest {{west}}",
+      "citiesIn": "Città nel quadrante {{quarter}}"
     },
     "lines": {
       "title": "Linee attraversate",
@@ -267,7 +231,20 @@
     "countryCount_one": "{{count}} paese",
     "countryCount_other": "{{count}} paesi",
     "cityCount_one": "{{count}} città",
-    "cityCount_other": "{{count}} città"
+    "cityCount_other": "{{count}} città",
+    "tooltip": {
+      "days_one": "{{count}} giorno",
+      "days_other": "{{count}} giorni",
+      "trips_one": "{{count}} viaggio",
+      "trips_other": "{{count}} viaggi",
+      "share": "{{share}}% del totale",
+      "departures_one": "{{count}} partenza",
+      "departures_other": "{{count}} partenze",
+      "arrivals_one": "{{count}} arrivo",
+      "arrivals_other": "{{count}} arrivi",
+      "flights_one": "{{count}} volo",
+      "flights_other": "{{count}} voli"
+    }
   },
   "settings": {
     "title": "Impostazioni",
@@ -298,6 +275,31 @@
       "creditNaturalEarth": "Confini dei paesi da Natural Earth",
       "creditMapLibre": "Mappa disegnata con MapLibre GL JS",
       "opensInNewTab": "{{name}} (si apre in una nuova scheda)"
+    }
+  },
+  "passport": {
+    "planned": "In programma",
+    "issuing": "Paese di rilascio",
+    "issuingLabel": "{{name}}, il paese di rilascio. Mostra i suoi luoghi",
+    "pageOne_one": "Pagina {{page}} di {{count}}",
+    "pageOne_other": "Pagina {{page}} di {{count}}",
+    "pageTwo_one": "Pagine {{start}}–{{end}} di {{count}}",
+    "pageTwo_other": "Pagine {{start}}–{{end}} di {{count}}",
+    "progress": "{{pages}} · {{continent}} {{stamped}} su {{total}} visitati",
+    "folio": "{{continent}} · {{page}}",
+    "previous": "Pagina precedente",
+    "next": "Pagina successiva",
+    "stampLabel_one": "{{name}}: primo ingresso il {{date}} a {{city}}. Mostra i suoi luoghi",
+    "stampLabel_other": "{{name}}: primo ingresso il {{date}} a {{city}}, {{count}} ingressi. Mostra i suoi luoghi",
+    "totals": {
+      "stamps": "Timbri",
+      "continents": "Continenti"
+    },
+    "cover": "Copertina",
+    "empty": "Ancora nessun timbro. Aggiungi un viaggio o una città di residenza per iniziare il passaporto.",
+    "tooltip": {
+      "entries_one": "Un ingresso",
+      "entries_other": "{{count}} ingressi"
     }
   }
 }

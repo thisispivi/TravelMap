@@ -23,7 +23,6 @@ export function buildBundle(
     createdAt: new Date().toISOString(),
     documents: [
       dataset.config,
-      ...dataset.countries,
       ...dataset.cities,
       ...dataset.trips,
       ...dataset.photos,

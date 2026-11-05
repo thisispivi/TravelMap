@@ -1,5 +1,5 @@
 import type { Image } from "@travelmap/core";
-import { ImageSchema } from "@travelmap/core";
+import { findCountry, ImageSchema, toId } from "@travelmap/core";
 
 import type { DatasetSnapshot } from "@/data/store";
 
@@ -108,7 +108,11 @@ export function manifestPathForVisit(
 ): string {
   const city = dataset.cities.find(({ value }) => value.id === step.cityId);
   if (!city) throw new Error(`Unknown city: ${step.cityId}`);
-  return `photos/${city.value.countryId}/${city.value.id}/tr_${compactDate(step.sDate)}_${compactDate(step.eDate)}.json`;
+  /* Photo folders mirror the CDN's, which name a country in words rather than by its code. */
+  const country = toId(
+    findCountry(city.value.countryId)?.name ?? city.value.countryId,
+  );
+  return `photos/${country}/${city.value.id}/tr_${compactDate(step.sDate)}_${compactDate(step.eDate)}.json`;
 }
 
 /**

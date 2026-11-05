@@ -149,6 +149,19 @@ export function formatDateRangeShort({
 }
 
 /**
+ * Formats the month a planned visit falls in, such as `Mar 2027`.
+ * @param {Date} date - The date
+ * @param {string} locale - The requested locale
+ * @returns {string} The localized month and year
+ */
+export function formatMonthYear(date: Date, locale: string): string {
+  return new Intl.DateTimeFormat(normalizeLocale(locale), {
+    month: "short",
+    year: "numeric",
+  }).format(date);
+}
+
+/**
  * Formats an instant as a full localized date, such as a build's.
  * @param {string} input - The ISO date
  * @param {string} locale - The requested locale

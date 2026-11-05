@@ -1,19 +1,27 @@
 @use "variables" as v;
 @use "mixins" as m;
 
+/* A frame over the map that the sheet slides within, clipped at the tab bar. */
 .bottom-sheet {
-  @include m.panel();
   position: fixed;
   z-index: 4;
   top: env(safe-area-inset-top, 0rem);
   right: 0;
   bottom: v.$tabBarHeight;
   left: 0;
-  display: flex;
-  flex-direction: column;
-  border-bottom: none;
-  border-radius: v.$radiusXl v.$radiusXl 0 0;
-  touch-action: none;
+  overflow: hidden;
+  pointer-events: none;
+
+  &__panel {
+    @include m.panel();
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border-bottom: none;
+    border-radius: v.$radiusXl v.$radiusXl 0 0;
+    pointer-events: auto;
+    touch-action: none;
+  }
 
   &__grip {
     display: flex;

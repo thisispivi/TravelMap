@@ -39,7 +39,7 @@ function requestedPath(url: string): string | undefined {
  * Serves the shared public files (flags, map glyphs, common translations) next
  * to each app's own public directory, which Vite allows only one of. The dev
  * server answers them from the UI package, and a build copies them into the
- * output at the same paths, so `/flags/Italy.svg` works the same in both apps.
+ * output at the same paths, so `/flags/IT.svg` works the same in both apps.
  * @param {string} publicRoot - The UI package's public directory
  * @returns {Plugin} The Vite plugin
  */

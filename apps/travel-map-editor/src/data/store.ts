@@ -1,8 +1,6 @@
 import {
   CityJson,
   CityJsonSchema,
-  CountryJson,
-  CountryJsonSchema,
   Image,
   ImageSchema,
   SiteConfig,
@@ -30,14 +28,12 @@ export interface DataFile<T> {
  * compare snapshots by identity instead of walking the dataset.
  * @property {DataFile<CityJson>[]} cities - City documents, sorted by path
  * @property {DataFile<SiteConfig>} config - The site configuration
- * @property {DataFile<CountryJson>[]} countries - Country documents
  * @property {DataFile<Image[]>[]} photos - Gallery manifests
  * @property {DataFile<TripJson>[]} trips - Trip documents
  */
 export interface DatasetSnapshot {
   cities: DataFile<CityJson>[];
   config: DataFile<SiteConfig>;
-  countries: DataFile<CountryJson>[];
   photos: DataFile<Image[]>[];
   trips: DataFile<TripJson>[];
 }
@@ -90,10 +86,6 @@ let snapshot: DatasetSnapshot = {
     (value) => CityJsonSchema.parse(value),
   ),
   config: seededConfig ?? { path: CONFIG_PATH, value: DEFAULT_CONFIG },
-  countries: files(
-    import.meta.glob("../../../../data/cities/*/*.json", { eager: true }),
-    (value) => CountryJsonSchema.parse(value),
-  ),
   photos: files(
     import.meta.glob("../../../../data/photos/**/*.json", { eager: true }),
     (value) => ImageSchema.array().parse(value),
@@ -114,7 +106,6 @@ const listeners = new Set<() => void>();
 const baselines = new Map<string, unknown>(
   [
     ...snapshot.cities,
-    ...snapshot.countries,
     ...snapshot.trips,
     ...snapshot.photos,
     ...(seededConfig ? [seededConfig] : []),
@@ -133,8 +124,7 @@ function publish(next: DatasetSnapshot): void {
 
 /**
  * Decides which collection a dataset path belongs to from its shape alone,
- * because the layout encodes the kind: `cities/<Country>/<Country>.json` is a
- * country and `cities/<Country>/<City>/<City>.json` is a city.
+ * because the layout encodes the kind.
  * @param {string} path - Dataset-relative JSON path
  * @returns {keyof DatasetSnapshot} The collection the path belongs to
  */
@@ -142,8 +132,7 @@ function collectionFor(path: string): keyof DatasetSnapshot {
   if (path === CONFIG_PATH) return "config";
   if (path.startsWith("trips/")) return "trips";
   if (path.startsWith("photos/")) return "photos";
-  if (path.startsWith("cities/"))
-    return path.split("/").length >= 4 ? "cities" : "countries";
+  if (path.startsWith("cities/")) return "cities";
   throw new Error(`Unknown dataset path: ${path}`);
 }
 
@@ -199,8 +188,6 @@ function readDocument(path: string): unknown {
       return snapshot.config.value;
     case "cities":
       return snapshot.cities.find((file) => file.path === path)?.value;
-    case "countries":
-      return snapshot.countries.find((file) => file.path === path)?.value;
     case "photos":
       return snapshot.photos.find((file) => file.path === path)?.value;
     case "trips":
@@ -227,16 +214,6 @@ function putDocument(path: string, value: unknown): void {
       publish({
         ...snapshot,
         cities: upsert(snapshot.cities, path, CityJsonSchema.parse(value)),
-      });
-      return;
-    case "countries":
-      publish({
-        ...snapshot,
-        countries: upsert(
-          snapshot.countries,
-          path,
-          CountryJsonSchema.parse(value),
-        ),
       });
       return;
     case "photos":
@@ -267,12 +244,6 @@ function dropDocument(path: string): void {
       publish({
         ...snapshot,
         cities: snapshot.cities.filter((file) => file.path !== path),
-      });
-      return;
-    case "countries":
-      publish({
-        ...snapshot,
-        countries: snapshot.countries.filter((file) => file.path !== path),
       });
       return;
     case "photos":

@@ -1,11 +1,4 @@
-import {
-  CityJson,
-  Continent,
-  CountryJson,
-  Currency,
-  SiteConfig,
-  TripJson,
-} from "@travelmap/core";
+import { CityJson, SiteConfig, TripJson } from "@travelmap/core";
 import { describe, expect, it } from "vitest";
 
 import type { DataFile, DatasetSnapshot } from "@/data/store";
@@ -24,7 +17,7 @@ function file<T>(value: T): DataFile<T> {
 /**
  * Builds a city document.
  * @param {string} id - The city id, also its name
- * @param {string} countryId - Its country
+ * @param {string} countryId - Its country's code
  * @returns {CityJson} The city
  */
 function city(id: string, countryId: string): CityJson {
@@ -32,22 +25,11 @@ function city(id: string, countryId: string): CityJson {
 }
 
 const dataset = {
-  cities: [
-    city("Rome", "Italy"),
-    city("Milan", "Italy"),
-    city("Paris", "France"),
-  ].map(file),
+  cities: [city("Rome", "IT"), city("Milan", "IT"), city("Paris", "FR")].map(
+    file,
+  ),
   /* The grouping never reads the configuration, so an empty one stands in. */
   config: file({} as SiteConfig),
-  countries: ["Italy", "France"].map((id) =>
-    file<CountryJson>({
-      color: { h: 0, l: 50, s: 50 },
-      continent: Continent.EUROPE,
-      currency: Currency.EUR,
-      id,
-      name: id,
-    }),
-  ),
   photos: [],
   trips: [
     file<TripJson>({
@@ -77,7 +59,7 @@ const dataset = {
 } satisfies DatasetSnapshot;
 
 describe("groupCities", () => {
-  it("groups cities under their countries, both in name order", () => {
+  it("groups cities under their countries' catalogue names, both in name order", () => {
     expect(
       groupCities(dataset, "").map(({ cities, name }) => [
         name,

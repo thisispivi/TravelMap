@@ -95,12 +95,6 @@ export function CommandPalette(): ReactNode {
       label: file.value.name,
       run: () => void navigate(`/places/cities/${file.value.id}`),
     })),
-    ...dataset.countries.map((file) => ({
-      hint: t("palette.country"),
-      id: `go:country:${file.value.id}`,
-      label: file.value.name,
-      run: () => void navigate(`/places/countries/${file.value.id}`),
-    })),
   ];
   const all = [...registered, ...navigation];
   const results = term.trim()

@@ -631,6 +631,39 @@
     overflow-wrap: anywhere;
   }
 
+  /* The rest of a quarter's cities, a press away. */
+  &__more {
+    @include m.bare-button();
+    border-radius: v.$radiusXs;
+    color: v.$accent;
+    font: inherit;
+    text-decoration: underline;
+    text-decoration-thickness: 0.0625rem;
+    text-underline-offset: 0.15em;
+
+    &:focus-visible {
+      @include m.focus-ring();
+    }
+  }
+
+  &__city-list {
+    display: flex;
+    flex-direction: column;
+    gap: v.$space1;
+    min-width: 12rem;
+    padding: v.$space2 v.$space3;
+    list-style: none;
+  }
+
+  &__city-item {
+    display: flex;
+    align-items: center;
+    gap: v.$space2;
+    color: v.$ink;
+    font-size: v.$bodySm;
+    font-weight: 600;
+  }
+
   &__quadrant--empty &__quadrant-cities {
     color: v.$ink3;
   }

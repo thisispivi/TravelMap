@@ -15,7 +15,7 @@ const dataset: DatasetSnapshot = {
       path: "cities/Italy/Monza/Monza.json",
       value: {
         coordinates: [9.2744, 45.5845],
-        countryId: "Italy",
+        countryId: "IT",
         id: "Monza",
         name: "Monza",
         timeZone: "Europe/Rome",
@@ -23,7 +23,6 @@ const dataset: DatasetSnapshot = {
     },
   ],
   config: { path: "site.config.json", value: { media: { root: "/Travels" } } },
-  countries: [],
   photos: [],
   trips: [],
 };

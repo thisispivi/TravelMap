@@ -18,17 +18,8 @@ export interface IdProblem {
 }
 
 /**
- * Builds the dataset path a country document is stored at.
- * @param {string} id - Country identifier
- * @returns {string} Dataset-relative JSON path
- */
-export function countryPath(id: string): string {
-  return `cities/${id}/${id}.json`;
-}
-
-/**
  * Builds the dataset path a city document is stored at.
- * @param {string} countryId - Owning country identifier
+ * @param {string} countryId - Owning country's code
  * @param {string} id - City identifier
  * @returns {string} Dataset-relative JSON path
  */

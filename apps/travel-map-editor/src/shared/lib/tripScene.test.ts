@@ -12,7 +12,7 @@ import { stepMapId, tripScene } from "./tripScene";
 function cityAt(id: string, coordinates: [number, number]): CityJson {
   return {
     coordinates,
-    countryId: "Italy",
+    countryId: "IT",
     id,
     name: id,
     timeZone: "Europe/Rome",

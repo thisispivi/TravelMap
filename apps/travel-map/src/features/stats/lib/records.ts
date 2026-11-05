@@ -165,6 +165,7 @@ export function getRecords(sources: RecordSources): TravelRecord[] {
   const byDate = trips.toSorted(
     (a, b) => a.sDate.getTime() - b.sDate.getTime(),
   );
+  const livedIn = new Set(lived);
   const rides = byDate.flatMap((trip) =>
     trip.getLegs().map((leg) => ({ leg, trip })),
   );
@@ -174,7 +175,7 @@ export function getRecords(sources: RecordSources): TravelRecord[] {
         kind === "stopover" ? [] : [city],
       ),
     ),
-  ).filter((city) => !lived.includes(city));
+  ).filter((city) => !livedIn.has(city));
 
   return [
     ...recordOf(

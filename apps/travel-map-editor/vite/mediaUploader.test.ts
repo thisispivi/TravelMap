@@ -101,31 +101,42 @@ describe("bunnyUrl", () => {
   });
 });
 
-describe("encodeWithinSize", () => {
-  it("steps quality down until a large photo fits its size window", async () => {
-    const noise = await sharp(
-      Buffer.from(
-        Array.from({ length: 1200 * 900 * 3 }, () =>
-          Math.floor(Math.random() * 256),
-        ),
-      ),
-      {
-        raw: { channels: 3, height: 900, width: 1200 },
-      },
-    )
-      .jpeg({ quality: 100 })
-      .toBuffer();
-    const encoded = await encodeWithinSize(noise, {
-      maxKb: 200,
-      minKb: 10,
-      resolution: 800,
-    });
-    const { format, width } = await sharp(encoded).metadata();
+/*
+ * Re-encoding a megapixel of noise several times is CPU-bound, and with every
+ * workspace's suite running in parallel, as the pre-push hook does, it lands
+ * right on Vitest's five-second default.
+ */
+const ENCODE_TIMEOUT_MS = 20_000;
 
-    expect(format).toBe("webp");
-    expect(width).toBe(800);
-    expect(encoded.byteLength / 1024).toBeLessThanOrEqual(200);
-  });
+describe("encodeWithinSize", () => {
+  it(
+    "steps quality down until a large photo fits its size window",
+    async () => {
+      const noise = await sharp(
+        Buffer.from(
+          Array.from({ length: 1200 * 900 * 3 }, () =>
+            Math.floor(Math.random() * 256),
+          ),
+        ),
+        {
+          raw: { channels: 3, height: 900, width: 1200 },
+        },
+      )
+        .jpeg({ quality: 100 })
+        .toBuffer();
+      const encoded = await encodeWithinSize(noise, {
+        maxKb: 200,
+        minKb: 10,
+        resolution: 800,
+      });
+      const { format, width } = await sharp(encoded).metadata();
+
+      expect(format).toBe("webp");
+      expect(width).toBe(800);
+      expect(encoded.byteLength / 1024).toBeLessThanOrEqual(200);
+    },
+    ENCODE_TIMEOUT_MS,
+  );
 
   it("never enlarges a photo smaller than the target resolution", async () => {
     const small = await sharp({

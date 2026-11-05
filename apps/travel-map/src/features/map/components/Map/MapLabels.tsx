@@ -1,3 +1,4 @@
+import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { MapTheme } from "@travelmap/ui/map/lib/mapTheme";
 import { ReactNode } from "react";
 import { Layer, Source } from "react-map-gl/maplibre";
@@ -20,14 +21,23 @@ interface MapLabelsProps {
 
 /**
  * MapLabels component
- * The country and city names, drawn above the shared world layers in the
- * site's label font and ranked by population so the map never crowds.
+ * The country and city names in the reader's language, drawn above the shared
+ * world layers in the site's label font and ranked by population so the map
+ * never crowds.
  * @component
  * @param {MapLabelsProps} props
  * @param {MapTheme} props.theme - The active map theme
  * @returns {ReactNode} The themed map label layers
  */
 export function MapLabels({ theme }: MapLabelsProps): ReactNode {
+  const { currLanguage } = useLanguage(["home"]);
+  /* Every label carries its name in each language, so a switch only changes this lookup. */
+  const name = [
+    "coalesce",
+    ["get", currLanguage, ["get", "names"]],
+    ["get", "name"],
+  ];
+
   return (
     <>
       <Source
@@ -38,7 +48,7 @@ export function MapLabels({ theme }: MapLabelsProps): ReactNode {
         <Layer
           id="country-labels"
           layout={{
-            "text-field": ["upcase", ["get", "name"]],
+            "text-field": ["upcase", name] as never,
             "text-font": LABEL_FONT,
             "text-size": [
               "interpolate",
@@ -89,7 +99,7 @@ export function MapLabels({ theme }: MapLabelsProps): ReactNode {
             layout={{
               "symbol-sort-key": ["-", ["get", "population"]],
               "text-anchor": "top",
-              "text-field": ["get", "name"],
+              "text-field": name as never,
               "text-font": LABEL_FONT,
               "text-offset": [0, 0.6],
               "text-optional": true,

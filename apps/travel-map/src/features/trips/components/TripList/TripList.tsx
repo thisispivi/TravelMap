@@ -45,10 +45,12 @@ const slideList: Variants = {
 /**
  * Properties accepted by the TripCard component.
  * @property {Trip} trip - The trip
+ * @property {boolean} isYearShown - Whether its dates name the year, which a pill holding several years does not
  * @property {(trip: Trip) => void} onOpen - Opens the trip
  */
 interface TripCardProps {
   trip: Trip;
+  isYearShown: boolean;
   onOpen: (trip: Trip) => void;
 }
 
@@ -58,17 +60,18 @@ interface TripCardProps {
  * @component
  * @param {TripCardProps} props - The card props
  * @param {Trip} props.trip - The trip
+ * @param {boolean} props.isYearShown - Whether its dates name the year
  * @param {(trip: Trip) => void} props.onOpen - Opens the trip
  * @returns {ReactNode} The trip card
  */
-function TripCard({ trip, onOpen }: TripCardProps): ReactNode {
+function TripCard({ trip, isYearShown, onOpen }: TripCardProps): ReactNode {
   const { t, currLanguage } = useLanguage(["home"]);
   const nights = trip.getNights();
   const dates = formatDateRangeShort({
     eDateInput: trip.eDate,
     locale: currLanguage,
     sDateInput: trip.sDate,
-    showYear: false,
+    showYear: isYearShown,
   });
   const meta =
     nights > 0
@@ -180,7 +183,12 @@ export function TripList(): ReactNode {
               variants={slideList}
             >
               {current.trips.map((trip) => (
-                <TripCard key={trip.id} onOpen={openTrip} trip={trip} />
+                <TripCard
+                  isYearShown={current.isOrEarlier}
+                  key={trip.id}
+                  onOpen={openTrip}
+                  trip={trip}
+                />
               ))}
             </m.ul>
           ) : null}

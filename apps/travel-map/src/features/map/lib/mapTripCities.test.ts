@@ -1,4 +1,4 @@
-import { buildWorld, Continent, Currency } from "@travelmap/core";
+import { buildWorld } from "@travelmap/core";
 import { describe, expect, it } from "vitest";
 
 import { getTripCityIds } from "./mapTripCities";
@@ -10,20 +10,11 @@ const [stayOnlyTrip] = buildWorld({
     ["valencia-ve", "Valencia", -68.0, 10.16],
   ].map(([id, name, lng, lat]) => ({
     coordinates: [lng, lat],
-    countryId: "x",
+    countryId: "IT",
     id,
     name,
     timeZone: "Europe/Rome",
   })),
-  countries: [
-    {
-      color: { h: 0, l: 0, s: 0 },
-      continent: Continent.EUROPE,
-      currency: Currency.EUR,
-      id: "x",
-      name: "X",
-    },
-  ],
   photos: {},
   trips: [
     {

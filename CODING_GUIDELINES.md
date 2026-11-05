@@ -34,7 +34,7 @@ packages/
   core/                @travelmap/core — shared domain model, no build step
   ui/                  @travelmap/ui — components, styles, hooks, i18n, the map
                        base, and the Vite preset both apps share
-data/                  Trip/city/country JSON + photos consumed by both apps
+data/                  Trip and city JSON + photos consumed by both apps
 scripts/uploader/      Typed Python media uploader
 logos/                 Source and exported brand assets
 docker/                Nginx image and Compose configuration for the built site
@@ -91,7 +91,7 @@ dependency direction:
 
 - `app` owns route composition, the persistent shell, and global hosts.
 - `features` owns the UI and logic of one capability: in the site gallery,
-  map, navigation, places, settings, stats, timeline, and trips; in the editor trips,
+  map, navigation, passport, places, settings, stats, timeline, and trips; in the editor trips,
   places, companies, settings, map, and the command palette.
 - `shared` owns technical primitives and narrow cross-feature contracts.
 - Dependencies flow `app → features → shared → data`; `shared` never imports
@@ -116,10 +116,13 @@ dependency direction:
   Compiler, SVGR, the Sass load path, the `@/` alias, and the shared public
   files (flags, glyphs, common translations).
 - **Domain model lives outside the app**, in the `@travelmap/core` workspace
-  package (`packages/core`) — classes (`Trip`, `City`, `Country`, `Travel`,
-  `Ferry`, `Flight`, `Color`), typings, a `schema/` module holding the Zod
-  contracts for the authored JSON, and `world/buildWorld.ts`, the single place
-  that validates raw JSON and turns it into a linked object graph (see §9).
+  package (`packages/core`) — classes (`Trip`, `City`, `Country`, `Stamp`,
+  `Travel`, `Ferry`, `Flight`, `Color`), typings, the `countries/` catalogue
+  (every country of the map under its ISO code, with its names, currency,
+  colour and passport stamp; a city names its country by that code), a
+  `schema/` module holding the Zod contracts for the authored JSON, and
+  `world/buildWorld.ts`, the single place that validates raw JSON and turns it
+  into a linked object graph (see §9).
 - **Routing is a persistent shell, not per-route pages.**
   `app/routing/router.tsx` defines a `createHashRouter` tree where most routes
   resolve to `element: null` (`/trips`, `/trip/:tripId`, `/places`,
@@ -130,13 +133,13 @@ dependency direction:
   sits in the side panel beside the map — a bottom sheet on phones — so a route
   stays visible next to it; `page` content (timeline, statistics, galleries)
   covers the map as a full page. Only page views (`TimelinePage`, `StatsPage`,
-  `GalleryIndex`, `GalleryAlbum`, `Lightbox`) get a real routed `element`, and
+  `PassportPage`, `GalleryIndex`, `GalleryAlbum`, `Lightbox`) get a real routed `element`, and
   those are lazy-loaded. **When adding a new panel that lives
   inside the map shell, follow this pattern**: add the path with
   `element: null`, then extend `useAppLocation.ts` and `MapShell` — don't give it
   its own routed page component. When adding a genuinely standalone view, follow the
   `TimelinePage`/`StatsPage` pattern (own lazy-loaded route element).
-- **The navigation fits itself to the window.** Stats, Timeline and any other
+- **The navigation fits itself to the window.** Stats, Timeline, Passport and any other
   page in `JOURNAL_PAGES` (`shared/lib/journal.ts`) get their own tabs when
   there is room and share a Journal tab when there is not, with a
   `JournalSwitcher` in each page's header. A new page that looks back over the
@@ -150,7 +153,8 @@ dependency direction:
 - **No client-server API.** There is no backend. All content is static JSON
   under `data/`, bundled at build time via `import.meta.glob` (see §9). The only
   runtime requests are photo loads, which are plain `<img loading="lazy">`
-  elements (`CoverImage`) left to the browser's HTTP cache. The editor talks
+  elements (`CoverImage`) left to the browser's HTTP cache, and the lazy chunk
+  of each photo manifest an open album needs. The editor talks
   only to its own dev server, through `data/store.ts`. There is no
   data-fetching library; if application-level fetching ever arrives, pick one
   then rather than hand-rolling a cache.
@@ -183,7 +187,9 @@ packages/ui/public/   Flags, map glyphs, and the `common` translations
 packages/ui/vite/     The shared Vite preset
 
 packages/core/src/
-  classes/       Trip, City, Country, Travel, Ferry, Flight, Color
+  classes/       Trip, City, Country, Stamp, Travel, Ferry, Flight, Color
+  countries/     The catalogue of every country on the map, one file per
+                 continent, keyed by ISO 3166-1 alpha-2 code
   typings/       Continent, Currency, Localized, Travel
   schema/        Zod contracts for the authored JSON, and the types inferred
                  from them
@@ -484,16 +490,21 @@ of something already available from props/context/a domain object's method.
 There is no backend and no application API. Every piece of content is static
 JSON under `data/`, compiled into the bundle at build time. The only runtime
 network traffic is image loading, left to `<img loading="lazy">` and the
-browser's HTTP cache. `data/albums.ts` groups a trip's or a place's photos into
-the albums the gallery, places and map tooltip read.
+browser's HTTP cache, plus the photo manifests: `data/photos.ts` bundles each one
+as its own lazy chunk, and only the album that shows it loads it. `data/albums.ts`
+groups a trip's or a place's visits into the albums the gallery, places and map
+tooltip read, and `loadAlbum` fills an album in with its photos.
 
 **How data flows:**
 
 1. `apps/travel-map/src/data/world.ts` collects the raw JSON with
    `import.meta.glob(..., { eager: true })` — no `fetch`, no loading state,
-   because the data is part of the build.
+   because the data is part of the build. Photo manifests arrive only as their
+   publish flags (one character per entry), which the site's `photo-index` Vite
+   plugin builds, so every visit carries a photo count and the entry chunk none
+   of the paths.
 2. `packages/core/src/schema/index.ts` owns the Zod contracts for every
-   authored shape (`CountryJsonSchema`, `CityJsonSchema`, `TripJsonSchema`,
+   authored shape (`CityJsonSchema`, `TripJsonSchema`,
    `ImageSchema`, `SiteConfigSchema`, `WorldSourcesSchema`) and the TypeScript
    types are inferred from them.
 3. `packages/core/src/world/buildWorld.ts` is the dataset's **single trust
@@ -508,7 +519,8 @@ the albums the gallery, places and map tooltip read.
 ### Validation policy
 
 - **Validate at trust boundaries, once.** The boundaries are: `buildWorld()`
-  for the dataset; route loaders for URL params (`GalleryAlbum.loader.ts` answers a
+  for the dataset; `data/photos.ts` for a manifest loaded on demand (and the
+  `photo-index` plugin for the flags it reduces each one to); route loaders for URL params (`GalleryAlbum.loader.ts` answers a
   bad one with a 404); `shared/lib/navigationState.ts` for router history
   state; the editor's `vite/` middleware for request bodies, query strings,
   and its upload settings in `.env`; the editor's `data/httpResponse.ts` for
@@ -931,8 +943,8 @@ Not optional. The existing markers show the baseline:
   large enough to need virtualization; don't add a virtualization library
   ahead of an actual list that's slow to render.
 - **Lazy loading / code splitting**: already used correctly for route-level
-  views (`TimelinePage`, `StatsPage`, `GalleryIndex`, `GalleryAlbum`, and
-  `Lightbox` are all
+  views (`TimelinePage`, `StatsPage`, `PassportPage`, `GalleryIndex`,
+  `GalleryAlbum`, and `Lightbox` are all
   `lazy` routes in `app/routing/router.tsx`). Extend this pattern to any new heavyweight,
   not-always-visible view rather than bundling it into the main chunk.
 - **Map rendering**: MapLibre style objects are the one place `useMemo` is
@@ -1295,23 +1307,15 @@ merely present.
 
 Real work, listed so nobody rediscovers it as a surprise. None is urgent.
 
-- **Two large pieces of data are bundled as JavaScript rather than fetched.** A
-  fresh load of `/#/trips` transfers ~927 kB of JS and parses ~4 MB. The two
-  biggest items are `@travelmap/ui/assets/json/countries-50m.json` (1.5 MB of
-  country borders, 238 kB gzipped, statically imported by the shared map's
-  `countries.ts`) and the
-  photo manifests (75 files, 8,589 entries, ~1.3 MB, most of the entry chunk,
-  eagerly globbed by `data/world.ts`). Both are inert data paying JavaScript
-  parse cost on first paint, and both invalidate the chunk they sit in whenever
-  content changes.
-
-  Neither is a chunking problem — moving them means making their reads
-  asynchronous. For the manifests the seam is already visible: `GalleryAlbum`
-  and `Lightbox` need one album and are lazily routed, while `MapTooltip`, the
-  places cards and the trip page need only a count, which a stop's `photoPath`
-  almost answers on its own — only the gallery index and the photo statistic
-  genuinely need totals, and both pages are lazy too. Lowering the border resolution to 110m is a smaller lever but trades
-  coastline detail, so it is a design decision rather than a cleanup.
+- **The country borders are bundled as JavaScript rather than fetched.**
+  `@travelmap/ui/assets/json/countries-50m.json` (1.5 MB, 238 kB gzipped,
+  statically imported by the shared map's `countries.ts`) is inert data paying
+  JavaScript parse cost and invalidating its chunk whenever it changes. Moving
+  it means making its read asynchronous, not rechunking. Lowering the
+  resolution to 110m is a smaller lever but trades coastline detail, so it is a
+  design decision rather than a cleanup. The photo manifests, once the bulk of
+  the startup data, now load per album (`data/photos.ts`); the world chunk
+  keeps only their publish flags.
 
 - The uploader's tests (`scripts/uploader/test_uploader.py`) stub BunnyCDN and
   ffmpeg, so a real upload is still verified by hand.

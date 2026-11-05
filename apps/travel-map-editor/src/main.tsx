@@ -1,7 +1,6 @@
 import "@travelmap/ui/styles/_global.scss";
 import "@travelmap/ui/styles/_typography.scss";
 import "@travelmap/ui/styles/_scrollbar.scss";
-import "@travelmap/ui/map/lib/mapRuntime";
 import "maplibre-gl/dist/maplibre-gl.css";
 
 import {

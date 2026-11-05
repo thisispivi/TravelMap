@@ -1,4 +1,5 @@
-import { City } from "@travelmap/core";
+import { City, COUNTRIES, Country, findCountry } from "@travelmap/core";
+import { SUPPORTED_LOCALES } from "@travelmap/ui/i18n/locale";
 import {
   countriesGeoJson,
   CountryProperties,
@@ -19,15 +20,36 @@ import {
   visitedCities,
   visitedCountries,
 } from "@/data/world";
+import { env } from "@/shared/lib/env";
+
+/**
+ * A label's text in every language the site speaks, by locale, so the map can
+ * switch language without rebuilding its sources.
+ * @property {string} name - The canonical name, for a locale with no entry
+ * @property {Record<string, string>} names - The name in each supported locale
+ */
+interface LabelProperties {
+  name: string;
+  names: Record<string, string>;
+}
 
 /**
  * Properties stored on a generated city label.
- * @property {string} name - The city name
  * @property {number} population - The population used for label priority
  */
-interface CityLabelProperties {
-  name: string;
+interface CityLabelProperties extends LabelProperties {
   population: number;
+}
+
+/**
+ * Names a place in every supported locale.
+ * @param {Country | City} place - A country or city
+ * @returns {Record<string, string>} Its name by locale
+ */
+function namesOf(place: Country | City): Record<string, string> {
+  return Object.fromEntries(
+    SUPPORTED_LOCALES.map((locale) => [locale, place.getLocalizedName(locale)]),
+  );
 }
 
 /**
@@ -73,11 +95,11 @@ function getExteriorRings(geometry: Geometry): Position[][] {
 /**
  * Creates a label point on the largest landmass of one country.
  * @param {Feature<Geometry, CountryProperties>} country - The country polygon
- * @returns {Feature<Point, CountryProperties>[]} A single label feature, when possible
+ * @returns {Feature<Point, LabelProperties>[]} A single label feature, when possible
  */
 function createCountryLabel(
   country: Feature<Geometry, CountryProperties>,
-): Feature<Point, CountryProperties>[] {
+): Feature<Point, LabelProperties>[] {
   const rings = getExteriorRings(country.geometry);
   const largestRing = rings.toSorted(
     (firstRing, secondRing) =>
@@ -86,10 +108,14 @@ function createCountryLabel(
 
   if (!country.properties.name || !largestRing) return [];
 
+  const drawn = findCountry(country.properties.id ?? "");
   return [
     {
       type: "Feature",
-      properties: { name: country.properties.name },
+      properties: {
+        name: country.properties.name,
+        names: drawn ? namesOf(drawn) : {},
+      },
       geometry: {
         type: "Point",
         coordinates: ringCentroid(largestRing),
@@ -106,16 +132,19 @@ function createCountryLabel(
 function createCityLabel(city: City): Feature<Point, CityLabelProperties> {
   return {
     type: "Feature",
-    properties: { name: city.name, population: city.population ?? 0 },
+    properties: {
+      name: city.name,
+      names: namesOf(city),
+      population: city.population ?? 0,
+    },
     geometry: { type: "Point", coordinates: city.coordinates },
   };
 }
 
-export const countryLabelsGeoJson: FeatureCollection<Point, CountryProperties> =
-  {
-    type: "FeatureCollection",
-    features: countriesGeoJson.features.flatMap(createCountryLabel),
-  };
+export const countryLabelsGeoJson: FeatureCollection<Point, LabelProperties> = {
+  type: "FeatureCollection",
+  features: countriesGeoJson.features.flatMap(createCountryLabel),
+};
 
 const labelCities = new Map(
   [...visitedCities, ...futureCities, ...livedCities].map((city) => [
@@ -133,11 +162,15 @@ export const cityLabelsGeoJson: FeatureCollection<Point, CityLabelProperties> =
 /**
  * Builds the MapLibre colour expression that paints each visited country in
  * its own pastel, made opaque over the land, and leaves the rest as land.
+ * `VITE_COLOR_ALL_COUNTRIES` paints every country instead, to preview them all.
  * @param {MapTheme} theme - The active map theme
  * @returns {unknown} The fill expression, or the land colour when nothing was visited
  */
 export function visitedCountryFill(theme: MapTheme): unknown {
-  const fills = visitedCountries.map(
+  const painted = env.VITE_COLOR_ALL_COUNTRIES
+    ? [...COUNTRIES.values()]
+    : visitedCountries;
+  const fills = painted.map(
     (country) =>
       [
         country,
@@ -151,20 +184,11 @@ export function visitedCountryFill(theme: MapTheme): unknown {
   /* MapLibre rejects a `match` with no cases, which an empty dataset would give. */
   if (fills.length === 0) return theme.land;
 
-  /*
-   * A country is found by its id, the polygon's name in id form, so its
-   * display name is free to differ from the map's abbreviated one. The name
-   * still matches for a hand-written dataset that used the map's name as is.
-   */
+  /* A polygon carries its country's code, so the display name is free to differ from the map's. */
   return [
     "match",
     ["get", "id"],
     ...fills.flatMap(([country, fill]) => [country.id, fill]),
-    [
-      "match",
-      ["get", "name"],
-      ...fills.flatMap(([country, fill]) => [country.name, fill]),
-      theme.land,
-    ],
+    theme.land,
   ];
 }

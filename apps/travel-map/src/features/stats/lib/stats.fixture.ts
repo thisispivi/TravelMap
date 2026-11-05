@@ -1,14 +1,14 @@
-import { buildWorld, City, Continent, Currency, Trip } from "@travelmap/core";
+import { buildWorld, City, Trip } from "@travelmap/core";
 
-/* id: [lng, lat, IANA zone, population] */
-const PLACES: Record<string, [number, number, string, number?]> = {
-  cagliari: [9.11, 39.22, "Europe/Rome", 150_000],
-  istanbul: [28.97, 41.01, "Europe/Istanbul", 15_000_000],
-  oslo: [10.75, 59.91, "Europe/Oslo", 700_000],
-  lisbon: [-9.14, 38.72, "Europe/Lisbon"],
-  sydney: [151.21, -33.87, "Australia/Sydney", 5_000_000],
-  auckland: [174.76, -36.85, "Pacific/Auckland"],
-  losAngeles: [-118.24, 34.05, "America/Los_Angeles"],
+/* id: [lng, lat, IANA zone, country code, population] */
+const PLACES: Record<string, [number, number, string, string, number?]> = {
+  cagliari: [9.11, 39.22, "Europe/Rome", "IT", 150_000],
+  istanbul: [28.97, 41.01, "Europe/Istanbul", "TR", 15_000_000],
+  oslo: [10.75, 59.91, "Europe/Oslo", "NO", 700_000],
+  lisbon: [-9.14, 38.72, "Europe/Lisbon", "PT"],
+  sydney: [151.21, -33.87, "Australia/Sydney", "AU", 5_000_000],
+  auckland: [174.76, -36.85, "Pacific/Auckland", "NZ"],
+  losAngeles: [-118.24, 34.05, "America/Los_Angeles", "US"],
 };
 
 /**
@@ -22,22 +22,15 @@ export function buildFixture(trips: unknown[]): {
 } {
   const world = buildWorld({
     cities: Object.entries(PLACES).map(
-      ([id, [lng, lat, timeZone, population]]) => ({
+      ([id, [lng, lat, timeZone, countryId, population]]) => ({
         coordinates: [lng, lat],
-        countryId: id,
+        countryId,
         id,
         name: id,
         population,
         timeZone,
       }),
     ),
-    countries: Object.keys(PLACES).map((id) => ({
-      color: { h: 0, l: 0, s: 0 },
-      continent: Continent.EUROPE,
-      currency: Currency.EUR,
-      id,
-      name: id,
-    })),
     photos: {},
     trips,
   });

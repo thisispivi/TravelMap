@@ -44,3 +44,6 @@ Thumbs.db
 .venv/
 venv/
 __pycache__/
+
+# Full-size stamp drawings waiting for `pnpm --filter travel-map emblems`.
+/apps/travel-map/emblem-originals/

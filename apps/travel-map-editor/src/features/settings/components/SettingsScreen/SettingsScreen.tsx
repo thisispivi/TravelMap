@@ -1,6 +1,6 @@
 import "./SettingsScreen.scss";
 
-import { SiteAvatarSchema, SiteConfig, SiteLinkSchema } from "@travelmap/core";
+import { findCountry, SiteConfig } from "@travelmap/core";
 import { Button } from "@travelmap/ui/components/Button/Button";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { Plus, Trash2 } from "lucide-react";
@@ -19,7 +19,7 @@ import {
 import { useMapScene } from "@/shared/context/MapScene.context";
 import { useDataset } from "@/shared/hooks/useDataset";
 import { isSameJson } from "@/shared/lib/jsonEquality";
-import { findWorldCountry } from "@/shared/lib/worldCountries";
+import { cityOptions, countryOptions } from "@/shared/lib/placeOptions";
 
 import { BackupPanel } from "../BackupPanel/BackupPanel";
 
@@ -64,12 +64,6 @@ export function SettingsScreen({ file }: SettingsScreenProps): ReactNode {
   const site = value.site ?? {};
   const map = resolveMapSettings(value.map);
   const locales = value.locales ?? [];
-  const isAvatarValid =
-    !site.avatar || SiteAvatarSchema.safeParse(site.avatar).success;
-  const isSourceUrlValid =
-    !site.sourceUrl || SiteLinkSchema.safeParse(site.sourceUrl).success;
-  const isWebsiteValid =
-    !site.website || SiteLinkSchema.safeParse(site.website).success;
 
   /* The site's default view on the shared map; a press moves its centre. */
   useMapScene(
@@ -99,29 +93,10 @@ export function SettingsScreen({ file }: SettingsScreenProps): ReactNode {
         })),
     },
   );
-  const cityOptions = dataset.cities.map(({ value: city }) => ({
-    hint: city.countryId,
-    iconUrl: findWorldCountry(city.countryId)?.flagUrl,
-    label: city.name,
-    value: city.id,
-  }));
-
-  /**
-   * Changes an optional site field. A blank one is removed rather than stored
-   * empty, which its schema would refuse.
-   * @param {"avatar" | "sourceUrl" | "website"} key - The field
-   * @param {string} next - What the author typed
-   * @returns {void}
-   */
-  function setOptionalSiteField(
-    key: "avatar" | "sourceUrl" | "website",
-    next: string,
-  ): void {
-    setValue((current) => ({
-      ...current,
-      site: { ...(current.site ?? {}), [key]: next.trim() ? next : undefined },
-    }));
-  }
+  const cities = cityOptions(dataset);
+  const visitedCountryIds = [
+    ...new Set(dataset.cities.map(({ value: city }) => city.countryId)),
+  ].toSorted();
 
   /**
    * Adds a locale tag used for translated names across the dataset.
@@ -183,48 +158,6 @@ export function SettingsScreen({ file }: SettingsScreenProps): ReactNode {
           }
           value={site.keywords?.join(", ") ?? ""}
         />
-        {/*
-         * A path or URL rather than an upload: the upload field stores under
-         * data/logos, which the site bundles for companies, while an avatar is
-         * media served from the media root, like a trip cover.
-         */}
-        <div className="editor-panel__row">
-          <TextField
-            hint={t(
-              isAvatarValid
-                ? "configScreen.avatarHint"
-                : "configScreen.avatarInvalid",
-            )}
-            label={t("configScreen.avatar")}
-            onChange={(next) => setOptionalSiteField("avatar", next)}
-            placeholder="/About/me.webp"
-            value={site.avatar ?? ""}
-          />
-          <TextField
-            hint={t(
-              isWebsiteValid
-                ? "configScreen.websiteHint"
-                : "configScreen.websiteInvalid",
-            )}
-            label={t("configScreen.website")}
-            onChange={(next) => setOptionalSiteField("website", next)}
-            placeholder="https://example.com"
-            value={site.website ?? ""}
-          />
-        </div>
-        <div className="editor-panel__row">
-          <TextField
-            hint={t(
-              isSourceUrlValid
-                ? "configScreen.sourceUrlHint"
-                : "configScreen.sourceUrlInvalid",
-            )}
-            label={t("configScreen.sourceUrl")}
-            onChange={(next) => setOptionalSiteField("sourceUrl", next)}
-            placeholder="https://github.com/thisispivi/TravelMap"
-            value={site.sourceUrl ?? ""}
-          />
-        </div>
       </section>
       <section className="editor-panel">
         <h2 className="editor-panel__legend">{t("configScreen.locales")}</h2>
@@ -280,20 +213,30 @@ export function SettingsScreen({ file }: SettingsScreenProps): ReactNode {
           onChange={(homeCityId) =>
             setValue({ ...value, homeCityId: homeCityId || null })
           }
-          options={cityOptions}
+          options={cities}
           value={value.homeCityId ?? ""}
+        />
+        <Combobox
+          emptyLabel={t("configScreen.none")}
+          hint={t("configScreen.nationalityHint")}
+          label={t("configScreen.nationality")}
+          onChange={(nationality) =>
+            setValue({ ...value, nationality: nationality || undefined })
+          }
+          options={countryOptions()}
+          value={value.nationality ?? ""}
         />
         <div className="editor-panel__row">
           <MultiCombobox
             label={t("configScreen.formerHomes")}
             onChange={(livedCityIds) => setValue({ ...value, livedCityIds })}
-            options={cityOptions}
+            options={cities}
             value={value.livedCityIds ?? []}
           />
           <MultiCombobox
             label={t("configScreen.futureCities")}
             onChange={(futureCityIds) => setValue({ ...value, futureCityIds })}
-            options={cityOptions}
+            options={cities}
             value={value.futureCityIds ?? []}
           />
         </div>
@@ -386,19 +329,19 @@ export function SettingsScreen({ file }: SettingsScreenProps): ReactNode {
         <p className="editor-panel__hint">
           {t("configScreen.unescoSitesHint")}
         </p>
-        {dataset.countries.map(({ value: country }) => (
+        {visitedCountryIds.map((countryId) => (
           <StringListField
-            key={country.id}
-            label={country.name}
+            key={countryId}
+            label={findCountry(countryId)?.name ?? countryId}
             onChange={(sites) =>
               setValue((current) => {
                 const unescoSites = { ...(current.unescoSites ?? {}) };
-                if (sites.length > 0) unescoSites[country.name] = sites;
-                else delete unescoSites[country.name];
+                if (sites.length > 0) unescoSites[countryId] = sites;
+                else delete unescoSites[countryId];
                 return { ...current, unescoSites };
               })
             }
-            value={value.unescoSites?.[country.name]}
+            value={value.unescoSites?.[countryId]}
           />
         ))}
       </section>

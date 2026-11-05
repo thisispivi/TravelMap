@@ -3,6 +3,7 @@ import "./WorldCitySearch.scss";
 import { useAnchoredMenu } from "@travelmap/ui/hooks/useAnchoredMenu";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { classNames } from "@travelmap/ui/lib/classNames";
+import { flagUrl } from "@travelmap/ui/lib/flags";
 import { menuVariants } from "@travelmap/ui/lib/motion";
 import { useCombobox } from "downshift";
 import { domAnimation, LazyMotion, m } from "framer-motion";
@@ -152,11 +153,11 @@ export function WorldCitySearch({
                     key={city.key}
                     {...getItemProps({ index, item: city })}
                   >
-                    {city.country?.flagUrl ? (
+                    {city.country ? (
                       <img
                         alt=""
                         className="combobox__icon"
-                        src={city.country.flagUrl}
+                        src={flagUrl(city.country.id)}
                       />
                     ) : (
                       <span className="combobox__icon combobox__icon--none" />

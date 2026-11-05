@@ -18,7 +18,6 @@ export type IssueSubject =
       leg?: number;
     }
   | { kind: "city"; cityId: string }
-  | { kind: "country"; countryId: string }
   | { kind: "config" };
 
 /**
@@ -115,8 +114,6 @@ export function isSameSubject(
       );
     case "city":
       return first.cityId === (second as typeof first).cityId;
-    case "country":
-      return first.countryId === (second as typeof first).countryId;
     case "config":
       return true;
   }

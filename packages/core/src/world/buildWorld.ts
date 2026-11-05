@@ -1,21 +1,18 @@
 import { City } from "../classes/City";
-import { Country } from "../classes/Country";
-import { countNights, Trip, TripLeg, TripStep } from "../classes/Trip";
+import { countNights, Gallery, Trip, TripLeg, TripStep } from "../classes/Trip";
+import { COUNTRIES } from "../countries/catalogue";
 import {
-  hasSource,
-  Image,
   PhotoRange,
-  PublishedImage,
   TripJson,
   TripLegJson,
   WorldSourcesSchema,
 } from "../schema";
 import { parseLocalDate } from "./date";
 import { legCompany, resolveLegDistance, resolveLegDuration } from "./derive";
+import { sliceRange } from "./media";
 
 /**
  * Resolved domain data shared by the public app and local editor.
- * @property {Map<string, Country>} countriesById - Countries keyed by stable id
  * @property {Map<string, City>} citiesById - Cities keyed by stable id
  * @property {Trip[]} trips - Trips sorted by start date then id
  * @property {City[]} livedCities - Resolved former-home cities
@@ -23,7 +20,6 @@ import { legCompany, resolveLegDistance, resolveLegDuration } from "./derive";
  * @property {City | null} homeCity - Resolved home city
  */
 export interface World {
-  countriesById: Map<string, Country>;
   citiesById: Map<string, City>;
   trips: Trip[];
   livedCities: City[];
@@ -33,13 +29,13 @@ export interface World {
 
 /**
  * Resolves a reference or throws close to the malformed JSON that introduced it.
- * @param {Map<string, T>} values - Entities keyed by id
+ * @param {ReadonlyMap<string, T>} values - Entities keyed by id
  * @param {string} id - Referenced id
  * @param {string} source - JSON source being resolved
  * @returns {T} The resolved entity
  */
 function requireReference<T>(
-  values: Map<string, T>,
+  values: ReadonlyMap<string, T>,
   id: string,
   source: string,
 ): T {
@@ -50,18 +46,6 @@ function requireReference<T>(
 
 /* Enough detail to find the offending document without a wall of output. */
 const REPORTED_ISSUE_LIMIT = 5;
-
-/**
- * Keeps only the gallery items a visitor could actually open. A video whose
- * YouTube id has not been pasted in yet is valid to store — the editor lists it
- * for the author to finish — but publishing it would render an empty embed, so
- * it stays out of the site until it has a source.
- * @param {Image[]} [images] - The manifest the stop names
- * @returns {PublishedImage[]} The publishable items, in authored order
- */
-function publishableImages(images: Image[] = []): PublishedImage[] {
-  return images.filter(hasSource);
-}
 
 /**
  * Builds one shared graph so all trip references retain object identity.
@@ -85,7 +69,7 @@ export function buildWorld(sources: unknown): World {
     );
   }
 
-  for (const kind of ["countries", "cities", "trips"] as const) {
+  for (const kind of ["cities", "trips"] as const) {
     const seen = new Set<string>();
     for (const { id } of parsed.data[kind]) {
       if (seen.has(id)) throw new Error(`Duplicate id "${id}" in ${kind}.`);
@@ -93,28 +77,12 @@ export function buildWorld(sources: unknown): World {
     }
   }
 
-  /* The map colours countries by matching their name, and MapLibre rejects the whole fill layer when one name appears twice. */
-  const countryNames = new Set<string>();
-  for (const { id, name = id } of parsed.data.countries) {
-    if (countryNames.has(name)) {
-      throw new Error(`Duplicate country name "${name}" on "${id}".`);
-    }
-    countryNames.add(name);
-  }
-
-  const countriesById = new Map(
-    parsed.data.countries.map((data) => [data.id, new Country(data)]),
-  );
   const citiesById = new Map(
     parsed.data.cities.map((data) => [
       data.id,
       new City({
         ...data,
-        country: requireReference(
-          countriesById,
-          data.countryId,
-          `city ${data.id}`,
-        ),
+        country: requireReference(COUNTRIES, data.countryId, `city ${data.id}`),
         backgroundImgSources: data.backgroundImages,
       }),
     ]),
@@ -123,12 +91,15 @@ export function buildWorld(sources: unknown): World {
     .map((data) =>
       resolveTrip(data, citiesById, (path, range) =>
         path
-          ? publishableImages(
-              parsed.data.photos[path]?.slice(
-                (range?.from ?? 1) - 1,
-                range?.to,
-              ),
-            )
+          ? {
+              /* A video still waiting for its YouTube id is stored but not published. */
+              count: sliceRange(
+                parsed.data.photos[path] ?? "",
+                range,
+              ).replaceAll("0", "").length,
+              path,
+              range,
+            }
           : undefined,
       ),
     )
@@ -161,7 +132,6 @@ export function buildWorld(sources: unknown): World {
   );
 
   return {
-    countriesById,
     citiesById,
     trips,
     livedCities,
@@ -180,7 +150,7 @@ export function buildWorld(sources: unknown): World {
  * @param {"move" | "outing"} context - What the leg belongs to
  * @param {string} date - The calendar day it happened, best known
  * @param {(id: string) => City} city - Resolves a city id or throws
- * @param {(path?: string, range?: PhotoRange) => PublishedImage[] | undefined} photos - Resolves a gallery, or the part of it a visit owns
+ * @param {(path?: string, range?: PhotoRange) => Gallery | undefined} gallery - Resolves the part of a manifest a visit owns
  * @returns {TripLeg} The resolved leg
  */
 function resolveLeg(
@@ -189,7 +159,7 @@ function resolveLeg(
   context: "move" | "outing",
   date: string,
   city: (id: string) => City,
-  photos: (path?: string, range?: PhotoRange) => PublishedImage[] | undefined,
+  gallery: (path?: string, range?: PhotoRange) => Gallery | undefined,
 ): TripLeg {
   const to = city(leg.toId);
   const via = (leg.viaIds ?? leg.ferry?.viaIds ?? []).map(city);
@@ -215,7 +185,7 @@ function resolveLeg(
     flight: leg.flight,
     from,
     mode: leg.mode,
-    photos: photos(leg.photoPath, leg.photoRange),
+    gallery: gallery(leg.photoPath, leg.photoRange),
     rowConstraints: leg.rowConstraints,
     targetRowHeight: leg.targetRowHeight,
     to,
@@ -229,13 +199,13 @@ function resolveLeg(
  * known date, so every leg learns its departure city and day from the chain.
  * @param {TripJson} data - The authored trip
  * @param {Map<string, City>} citiesById - The city registry
- * @param {(path?: string, range?: PhotoRange) => PublishedImage[] | undefined} photos - Resolves a gallery, or the part of it a visit owns
+ * @param {(path?: string, range?: PhotoRange) => Gallery | undefined} gallery - Resolves the part of a manifest a visit owns
  * @returns {Trip} The resolved trip
  */
 function resolveTrip(
   data: TripJson,
   citiesById: Map<string, City>,
-  photos: (path?: string, range?: PhotoRange) => PublishedImage[] | undefined,
+  gallery: (path?: string, range?: PhotoRange) => Gallery | undefined,
 ): Trip {
   /**
    * Resolves a city id against the registry, naming this trip on failure.
@@ -270,7 +240,7 @@ function resolveTrip(
         context,
         outingDate ?? day,
         city,
-        photos,
+        gallery,
       );
       from = resolved.to;
       if (context === "move") day = resolved.date;
@@ -298,7 +268,7 @@ function resolveTrip(
         date: outing.date,
         legs: chain(outing.legs, "outing", stayCity, outing.date),
       })),
-      photos: photos(step.photoPath, step.photoRange),
+      gallery: gallery(step.photoPath, step.photoRange),
       rowConstraints: step.rowConstraints,
       targetRowHeight: step.targetRowHeight,
       type: "stay",

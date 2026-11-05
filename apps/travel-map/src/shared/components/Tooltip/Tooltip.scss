@@ -1,0 +1,48 @@
+@use "variables" as v;
+@use "mixins" as m;
+
+.tooltip {
+  @include m.glass();
+  position: fixed;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  /* Its own width, not what is left beside its trigger, so it can be kept on screen. */
+  width: max-content;
+  max-width: min(17rem, calc(100vw - 1rem));
+  padding: v.$space2 v.$space3;
+  border-radius: v.$radiusMd;
+  color: v.$ink;
+  font-size: v.$bodySm;
+  pointer-events: none;
+
+  &--card {
+    width: min(16rem, calc(100vw - 1rem));
+    padding: 0;
+    overflow: hidden;
+    border-radius: v.$radiusLg;
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: v.$space2;
+    margin: 0;
+    font-weight: 700;
+  }
+
+  &__swatch {
+    flex: none;
+    width: 0.625rem;
+    height: 0.625rem;
+    border-radius: v.$radiusPill;
+    background: var(--tooltip-swatch);
+  }
+
+  &__line {
+    margin: 0;
+    color: v.$ink2;
+    @include m.figure();
+  }
+}

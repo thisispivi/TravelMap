@@ -18,3 +18,6 @@ apps/travel-map/.cursor/
 .venv/
 **/venv/
 **/__pycache__/
+
+# Session worktrees are separate checkouts that format themselves.
+.claude/worktrees/

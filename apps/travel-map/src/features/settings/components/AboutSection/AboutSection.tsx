@@ -2,20 +2,28 @@ import "./AboutSection.scss";
 
 import { CoverImage } from "@travelmap/ui/components/CoverImage/CoverImage";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
-import { ExternalLink as ExternalLinkIcon, UserRound } from "lucide-react";
+import { ExternalLink as ExternalLinkIcon } from "lucide-react";
 import { ReactNode } from "react";
 
-import { siteConfig } from "@/data/world";
 import { env } from "@/shared/lib/env";
 
-import {
-  formatBuildLine,
-  initialsOf,
-  resolveAvatarUrl,
-  UPSTREAM_SOURCE_URL,
-  websiteOf,
-} from "../../lib/about";
+import { formatBuildLine } from "../../lib/about";
 import { SettingsSection } from "../SettingsSection/SettingsSection";
+
+/*
+ * Who made TravelMap and where its code lives. This credits the project, not the
+ * site: a fork names itself through its site name and domain, and its About
+ * still names the project's author and links the upstream repository.
+ */
+const AUTHOR = {
+  avatar: "https://pivi-travel-map.b-cdn.net/LinkTree/Images/Profile.png",
+  links: [
+    { href: "https://github.com/thisispivi", label: "github.com/thisispivi" },
+    { href: "https://linktree.pivi.dev", label: "linktree.pivi.dev" },
+  ],
+  name: "Andrea Piras (Pivi)",
+  sourceUrl: "https://github.com/thisispivi/TravelMap",
+} as const;
 
 /*
  * What the site really ships: flags, the country borders behind the map's fills,
@@ -68,38 +76,29 @@ function ExternalLink({ href, children }: ExternalLinkProps): ReactNode {
 
 /**
  * AboutSection component
- * Who made this site and what it is made of: the author, the build, the source
- * code and the credits.
+ * Who made TravelMap and what it is made of: its author with their links, the
+ * build, the source code and the credits.
  * @component
  * @returns {ReactNode} The about card
  */
 export function AboutSection(): ReactNode {
   const { t, currLanguage } = useLanguage(["home"]);
-  const site = siteConfig?.site;
-  const name = site?.author?.trim() || site?.name;
-  const initials = initialsOf(name ?? "");
-  const avatarUrl = resolveAvatarUrl(site?.avatar);
-  const website = websiteOf(site?.website ?? site?.domain);
 
   return (
     <SettingsSection title={t("settings.about.title")}>
       <div className="about-section__profile">
-        {avatarUrl ? (
-          <CoverImage
-            className="about-section__avatar"
-            isEager
-            src={avatarUrl}
-          />
-        ) : (
-          <span aria-hidden="true" className="about-section__avatar">
-            {initials || <UserRound className="about-section__avatar-icon" />}
-          </span>
-        )}
+        <CoverImage
+          className="about-section__avatar"
+          isEager
+          src={AUTHOR.avatar}
+        />
         <div className="about-section__identity">
-          {name ? <p className="about-section__name">{name}</p> : null}
-          {website ? (
-            <ExternalLink href={website.href}>{website.host}</ExternalLink>
-          ) : null}
+          <p className="about-section__name">{AUTHOR.name}</p>
+          {AUTHOR.links.map(({ href, label }) => (
+            <ExternalLink href={href} key={href}>
+              {label}
+            </ExternalLink>
+          ))}
         </div>
       </div>
       <dl className="about-section__facts">
@@ -121,7 +120,7 @@ export function AboutSection(): ReactNode {
         <div className="about-section__fact">
           <dt className="about-section__label">{t("settings.about.source")}</dt>
           <dd className="about-section__value">
-            <ExternalLink href={site?.sourceUrl ?? UPSTREAM_SOURCE_URL}>
+            <ExternalLink href={AUTHOR.sourceUrl}>
               {t("settings.about.sourceLink")}
             </ExternalLink>
           </dd>

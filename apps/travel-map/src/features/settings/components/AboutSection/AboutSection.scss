@@ -9,23 +9,12 @@
   }
 
   &__avatar {
-    display: flex;
     flex: none;
-    align-items: center;
-    justify-content: center;
     width: 4.5rem;
     height: 4.5rem;
     overflow: hidden;
     border-radius: 50%;
     background: v.$accentSoft;
-    color: v.$accentInk;
-    font-size: v.$headingLg;
-    font-weight: 750;
-  }
-
-  &__avatar-icon {
-    width: 2rem;
-    height: 2rem;
   }
 
   &__identity {

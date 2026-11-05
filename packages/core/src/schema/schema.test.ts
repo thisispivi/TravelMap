@@ -1,10 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import { Continent } from "../typings/Continent";
-import { Currency } from "../typings/Currency";
 import {
   CityJsonSchema,
-  CountryJsonSchema,
   hasSource,
   ImageSchema,
   isTripJson,
@@ -13,17 +10,9 @@ import {
   TripJsonSchema,
 } from "./index";
 
-const country = {
-  color: { h: 210, l: 45, s: 60 },
-  continent: Continent.EUROPE,
-  currency: Currency.EUR,
-  id: "italy",
-  name: "Italy",
-};
-
 const city = {
   coordinates: [12.4964, 41.9028],
-  countryId: "italy",
+  countryId: "IT",
   id: "rome",
   name: "Rome",
   timeZone: "Europe/Rome",
@@ -57,9 +46,17 @@ const trip = {
 
 describe("authored data schemas", () => {
   it("accepts a valid linked dataset document set", () => {
-    expect(CountryJsonSchema.parse(country)).toEqual(country);
     expect(CityJsonSchema.parse(city)).toEqual(city);
     expect(TripJsonSchema.parse(trip)).toEqual(trip);
+  });
+
+  it("accepts a nationality from the catalogue and rejects any other", () => {
+    expect(SiteConfigSchema.safeParse({ nationality: "IT" }).success).toBe(
+      true,
+    );
+    expect(SiteConfigSchema.safeParse({ nationality: "Italy" }).success).toBe(
+      false,
+    );
   });
 
   it("rejects unknown fields instead of silently discarding them", () => {
@@ -231,39 +228,6 @@ describe("authored stays and moves", () => {
         ],
       }).success,
     ).toBe(false);
-  });
-});
-
-describe("site profile", () => {
-  /**
-   * Parses a site block alone.
-   * @param {object} site - The authored site block
-   * @returns {boolean} Whether the configuration is accepted
-   */
-  const accepts = (site: object): boolean =>
-    SiteConfigSchema.safeParse({ site }).success;
-
-  it("accepts an avatar as a media path or an absolute URL", () => {
-    expect(accepts({ avatar: "/Travels/About/me.webp" })).toBe(true);
-    expect(accepts({ avatar: "/Travels/New York/me.webp" })).toBe(true);
-    expect(accepts({ avatar: "https://example.com/me.jpg" })).toBe(true);
-  });
-
-  it("rejects an avatar that is neither", () => {
-    for (const avatar of ["", "me.jpg", "data:image/png;base64,AA"]) {
-      expect(accepts({ avatar })).toBe(false);
-    }
-  });
-
-  it("accepts a source link only over http or https", () => {
-    expect(accepts({ sourceUrl: "https://github.com/me/map" })).toBe(true);
-    expect(accepts({ sourceUrl: "javascript:alert(1)" })).toBe(false);
-    expect(accepts({ sourceUrl: "github.com/me/map" })).toBe(false);
-  });
-
-  it("accepts a personal website only over http or https", () => {
-    expect(accepts({ website: "https://linktree.pivi.dev" })).toBe(true);
-    expect(accepts({ website: "javascript:alert(1)" })).toBe(false);
   });
 });
 

@@ -56,6 +56,20 @@
       v.$transportPlane,
       $lightness: -62%
     )};
+  /*
+   * A passport: a cover in one of the four colours real ones come in, gold
+   * lettering, and cream pages. The cover is burgundy until a nationality picks.
+   */
+  --c-passport-cover-red: #7f2a24;
+  --c-passport-cover-blue: #1f2f57;
+  --c-passport-cover-green: #1e4a34;
+  --c-passport-cover-black: #232325;
+  --c-passport-cover: var(--c-passport-cover-red);
+  --c-passport-cover-ink: #f0d9a0;
+  --c-passport-paper: #{v.$passportPaperLight};
+  --c-passport-paper-line: rgba(120, 96, 60, 0.09);
+  --c-passport-ink: #2e2a20;
+  --c-passport-ink-2: #6a6252;
   --marker-visited: #ea4335;
   --marker-visited-hover: #c5221f;
   --marker-future: #4a89dc;
@@ -63,14 +77,18 @@
   --marker-lived: #f6bb42;
   --marker-lived-hover: #e8a317;
   /* readMapTheme reads these: MapLibre paints on a canvas and cannot resolve var(). */
-  --map-ocean-light: #d6e6f2;
-  --map-land-light: #fbfbfc;
-  --map-border-light: rgba(60, 80, 110, 0.18);
+  /*
+   * A sea almost as pale as the page, with the land a shade darker beneath it,
+   * so countries read as shapes on paper rather than islands in deep water.
+   */
+  --map-ocean-light: #f6f9fc;
+  --map-land-light: #e4e6ea;
+  --map-border-light: rgba(60, 80, 110, 0.28);
   --map-country-label-light: #7b8aa0;
-  --map-country-label-halo-light: #eef4f9;
+  --map-country-label-halo-light: #f6f9fc;
   --map-city-label-light: #1c1e21;
   --map-city-label-halo-light: rgba(251, 251, 252, 0.95);
-  --map-country-strength-light: 0.42;
+  --map-country-strength-light: 0.6;
   /*
    * By night the sea is near black and the land a warm charcoal; visited
    * countries keep most of their own colour so the map stays as lively as
@@ -129,6 +147,16 @@
       v.$transportPlane,
       $lightness: 78%
     )};
+  --c-passport-cover-red: #4d1a16;
+  --c-passport-cover-blue: #18233f;
+  --c-passport-cover-green: #163828;
+  --c-passport-cover-black: #18181a;
+  --c-passport-cover: var(--c-passport-cover-red);
+  --c-passport-cover-ink: #e2c88a;
+  --c-passport-paper: #{v.$passportPaperDark};
+  --c-passport-paper-line: rgba(235, 220, 180, 0.06);
+  --c-passport-ink: #ece6d6;
+  --c-passport-ink-2: #b8b09c;
   --marker-visited: #ff5a4a;
   --marker-visited-hover: #ff8a80;
   --marker-future: #5d9cec;

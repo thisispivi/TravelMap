@@ -44,8 +44,7 @@ export function locales(): string[] {
 
 /*
  * Logos live in the dataset, outside either app's served root, so both apps
- * bundle them by filename rather than linking /logos/*.svg directly (the same
- * reason worldCountries.ts keeps a parallel map for flags).
+ * bundle them by filename rather than linking /logos/*.svg directly.
  */
 const logoUrls = import.meta.glob<string>(
   ["../../../../data/logos/*.svg", "../../../../data/logos/*.png"],

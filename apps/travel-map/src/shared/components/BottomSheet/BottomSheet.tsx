@@ -122,46 +122,53 @@ export function BottomSheet({
   };
 
   return (
-    <m.div
-      className="bottom-sheet"
-      drag="y"
-      dragConstraints={{ bottom: offsets.peek, top: 0 }}
-      dragControls={dragControls}
-      dragElastic={0.06}
-      dragListener={false}
-      onDragEnd={handleDragEnd}
-      ref={sheetRef}
-      style={{ y }}
-    >
-      <div
-        className="bottom-sheet__grip"
-        onPointerDown={(event) => dragControls.start(event)}
-      >
-        <button
-          aria-expanded={isOpen}
-          aria-label={
-            !isOpen
-              ? t("sheet.expand")
-              : openSnap === "half"
-                ? t("sheet.expandFull")
-                : t("sheet.collapse")
-          }
-          className="bottom-sheet__handle"
-          onClick={handleToggle}
-          type="button"
-        />
-      </div>
-      {/*
-       * How much of the sheet is below the screen, which the panel inside
-       * adds to the end of its scrolling body so its last item stays reachable.
-       * MotionStyle has no keys for custom properties, hence the cast.
-       */}
+    /*
+     * The frame clips the sheet at the tab bar. Without it, the part of the
+     * sheet slid below the screen shows through the tab bar's glass, and
+     * Safari may paint a moving sheet's blur at its full size.
+     */
+    <div className="bottom-sheet">
       <m.div
-        className="bottom-sheet__body"
-        style={{ "--sheet-hidden": hidden } as MotionStyle}
+        className="bottom-sheet__panel"
+        drag="y"
+        dragConstraints={{ bottom: offsets.peek, top: 0 }}
+        dragControls={dragControls}
+        dragElastic={0.06}
+        dragListener={false}
+        onDragEnd={handleDragEnd}
+        ref={sheetRef}
+        style={{ y }}
       >
-        {children}
+        <div
+          className="bottom-sheet__grip"
+          onPointerDown={(event) => dragControls.start(event)}
+        >
+          <button
+            aria-expanded={isOpen}
+            aria-label={
+              !isOpen
+                ? t("sheet.expand")
+                : openSnap === "half"
+                  ? t("sheet.expandFull")
+                  : t("sheet.collapse")
+            }
+            className="bottom-sheet__handle"
+            onClick={handleToggle}
+            type="button"
+          />
+        </div>
+        {/*
+         * How much of the sheet is below the screen, which the panel inside
+         * adds to the end of its scrolling body so its last item stays reachable.
+         * MotionStyle has no keys for custom properties, hence the cast.
+         */}
+        <m.div
+          className="bottom-sheet__body"
+          style={{ "--sheet-hidden": hidden } as MotionStyle}
+        >
+          {children}
+        </m.div>
       </m.div>
-    </m.div>
+    </div>
   );
 }

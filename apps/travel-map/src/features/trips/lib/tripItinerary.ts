@@ -115,7 +115,7 @@ function connectionOf(leg: TripLeg, next: TripLeg): Connection {
   return {
     city: leg.to,
     isOvernight,
-    isVisited: leg.visited || Boolean(leg.photos?.length),
+    isVisited: leg.visited || Boolean(leg.gallery?.count),
     minutes: minutesBetween(arrived, leaves),
   };
 }

@@ -1,5 +1,6 @@
-node_modules
-dist
+**/node_modules
+**/dist
+apps/travel-map/emblem-originals
 .git
 .venv
 **/__pycache__

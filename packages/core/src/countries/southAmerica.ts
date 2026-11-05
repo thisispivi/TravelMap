@@ -1,0 +1,105 @@
+import { CountryEntry } from "../classes/Country.ts";
+import { Currency } from "../typings/Currency.ts";
+
+/** The countries of South America, by ISO 3166-1 alpha-2 code. */
+export const SOUTH_AMERICA: Record<string, CountryEntry> = {
+  AR: {
+    name: "Argentina",
+    currency: Currency.ARS,
+    color: { h: 229, s: 59, l: 42 },
+    passportCover: "blue",
+    stamp: { frame: "pentagon", textStyle: "title" },
+  },
+  BO: {
+    name: "Bolivia",
+    currency: Currency.BOB,
+    color: { h: 53, s: 80, l: 42 },
+    stamp: { frame: "rectangle", textStyle: "tracked" },
+  },
+  BR: {
+    name: "Brazil",
+    nameByLocale: { "it-IT": "Brasile" },
+    currency: Currency.BRL,
+    color: { h: 142, s: 80, l: 50 },
+    passportCover: "blue",
+    stamp: { frame: "octagon", textStyle: "tracked" },
+  },
+  CL: {
+    name: "Chile",
+    nameByLocale: { "it-IT": "Cile" },
+    currency: Currency.CLP,
+    color: { h: 183, s: 67, l: 58 },
+    passportCover: "blue",
+    stamp: { frame: "circle", textStyle: "curved" },
+  },
+  CO: {
+    name: "Colombia",
+    currency: Currency.COP,
+    color: { h: 243, s: 61, l: 50 },
+    stamp: { frame: "diamond", textStyle: "caps" },
+  },
+  EC: {
+    name: "Ecuador",
+    currency: Currency.USD,
+    color: { h: 101, s: 58, l: 50 },
+    stamp: { frame: "seal", textStyle: "curved" },
+  },
+  FK: {
+    name: "Falkland Islands",
+    nameByLocale: { "it-IT": "Isole Falkland" },
+    mapName: "Falkland Is.",
+    currency: Currency.FKP,
+    color: { h: 17, s: 58, l: 50 },
+    stamp: { frame: "hexagon", textStyle: "caps" },
+  },
+  GS: {
+    name: "South Georgia",
+    nameByLocale: { "it-IT": "Georgia del Sud" },
+    mapName: "S. Geo. and the Is.",
+    currency: Currency.SHP,
+    color: { h: 243, s: 80, l: 50 },
+    stamp: { frame: "clipped", textStyle: "tracked" },
+  },
+  GY: {
+    name: "Guyana",
+    currency: Currency.GYD,
+    color: { h: 188, s: 80, l: 42 },
+    passportCover: "blue",
+    stamp: { frame: "shield", textStyle: "title" },
+  },
+  PE: {
+    name: "Peru",
+    nameByLocale: { "it-IT": "Perù" },
+    currency: Currency.PEN,
+    color: { h: 354, s: 80, l: 50 },
+    stamp: { frame: "arch", textStyle: "curved" },
+  },
+  PY: {
+    name: "Paraguay",
+    currency: Currency.PYG,
+    color: { h: 324, s: 75, l: 50 },
+    passportCover: "blue",
+    stamp: { frame: "postage", textStyle: "caps" },
+  },
+  SR: {
+    name: "Suriname",
+    currency: Currency.SRD,
+    color: { h: 50, s: 80, l: 42 },
+    passportCover: "blue",
+    stamp: { frame: "banner", textStyle: "tracked" },
+  },
+  UY: {
+    name: "Uruguay",
+    currency: Currency.UYU,
+    color: { h: 22, s: 80, l: 50 },
+    passportCover: "blue",
+    stamp: { frame: "doubleRing", textStyle: "curved" },
+  },
+  VE: {
+    name: "Venezuela",
+    currency: Currency.VES,
+    color: { h: 353, s: 80, l: 50 },
+    passportCover: "blue",
+    stamp: { frame: "oval", textStyle: "curved" },
+  },
+};

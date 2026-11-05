@@ -1,13 +1,25 @@
+import { Country, findCountry } from "@travelmap/core";
 import { z } from "zod";
 
 import { parseJsonResponse } from "@/data/httpResponse";
 
-import { findWorldCountryByCode, WorldCountry } from "./worldCountries";
+/*
+ * Territories with their own ISO code but no polygon of their own on the
+ * 1:50m map, which draws them as part of the country that governs them.
+ */
+const GOVERNING_COUNTRY_CODES: Record<string, string> = {
+  GF: "FR",
+  GI: "GB",
+  GP: "FR",
+  MQ: "FR",
+  RE: "FR",
+  YT: "FR",
+};
 
 /**
  * A city from the world gazetteer, ready to become a dataset document.
  * @property {[number, number]} coordinates - Longitude and latitude, in dataset order
- * @property {WorldCountry} [country] - The owning country, when the map knows it
+ * @property {Country} [country] - The owning country, when the map knows it
  * @property {string} countryCode - The ISO 3166-1 alpha-2 country code
  * @property {string} key - A stable identity for list rendering
  * @property {string} name - The city's local name
@@ -16,7 +28,7 @@ import { findWorldCountryByCode, WorldCountry } from "./worldCountries";
  */
 export interface WorldCity {
   coordinates: [number, number];
-  country?: WorldCountry;
+  country?: Country;
   countryCode: string;
   key: string;
   name: string;
@@ -69,7 +81,9 @@ export async function searchWorldCities(
 
   return matches.map((match) => ({
     ...match,
-    country: findWorldCountryByCode(match.countryCode),
+    country: findCountry(
+      GOVERNING_COUNTRY_CODES[match.countryCode] ?? match.countryCode,
+    ),
   }));
 }
 

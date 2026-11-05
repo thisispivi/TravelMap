@@ -1,6 +1,7 @@
 import { NavRail } from "@travelmap/ui/components/NavRail/NavRail";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import {
+  BookOpen,
   CalendarRange,
   ChartColumn,
   Images,
@@ -38,6 +39,7 @@ const FIXED_TABS: NavTab[] = [
 
 const JOURNAL_ICONS: Record<(typeof JOURNAL_PAGES)[number]["id"], LucideIcon> =
   {
+    passport: BookOpen,
     stats: ChartColumn,
     timeline: CalendarRange,
   };
