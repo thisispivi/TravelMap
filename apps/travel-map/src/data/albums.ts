@@ -90,7 +90,7 @@ function visitsOf(trip: Trip, city?: City): Omit<AlbumSection, "offset">[] {
   for (const destination of trip.destinations) {
     const { gallery, city: place } = destination;
     if (!gallery?.count || (city && place.id !== city.id)) continue;
-    const folder = `${place.id}:${gallery.path}:${gallery.range?.from}-${gallery.range?.to}`;
+    const folder = `${place.id}:${gallery.path}:${gallery.range?.from ?? 1}-${gallery.range?.to ?? ""}`;
     const earlier = byFolder.get(folder);
     if (earlier) {
       earlier.eDate = destination.eDate;

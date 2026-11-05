@@ -48,7 +48,9 @@ const manifests = byManifestKey(
 
 /*
  * The lightbox re-runs its album's loader on every photo it moves to, so a
- * manifest is fetched and validated once and the promise is kept.
+ * manifest is fetched and validated once and the promise is kept. A failed load
+ * is forgotten, so a dropped connection or a chunk replaced by a newer deploy
+ * is retried on the next visit rather than failing until a reload.
  */
 const loaded = new Map<string, Promise<Image[]>>();
 
@@ -63,7 +65,13 @@ function loadManifest(path: string): Promise<Image[]> {
   if (!manifest) {
     const load = manifests[path];
     manifest = load
-      ? load().then((value) => ImageSchema.array().parse(value))
+      ? load().then(
+          (value) => ImageSchema.array().parse(value),
+          (error: unknown) => {
+            loaded.delete(path);
+            throw error;
+          },
+        )
       : Promise.resolve([]);
     loaded.set(path, manifest);
   }
