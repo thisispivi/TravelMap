@@ -11,10 +11,18 @@ import { z } from "zod";
  * @returns {string | undefined} The short commit, or undefined when unknown
  */
 function readShortCommit(appDir: string): string | undefined {
+  /*
+   * A git hook exports `GIT_DIR`, which would answer for the repository running
+   * the hook instead of the one `appDir` sits in; git finds that from `cwd`.
+   */
+  const env = Object.fromEntries(
+    Object.entries(process.env).filter(([name]) => !name.startsWith("GIT_")),
+  );
   try {
     return execFileSync("git", ["rev-parse", "--short", "HEAD"], {
       cwd: appDir,
       encoding: "utf8",
+      env,
       stdio: ["ignore", "pipe", "ignore"],
     }).trim();
   } catch {
