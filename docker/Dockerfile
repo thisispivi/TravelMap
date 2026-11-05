@@ -15,3 +15,4 @@ FROM nginxinc/nginx-unprivileged:alpine
 
 COPY --from=builder /app/apps/travel-map/dist /usr/share/nginx/html
 COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
+COPY docker/security-headers.conf /etc/nginx/security-headers.conf
