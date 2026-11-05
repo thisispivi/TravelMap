@@ -20,6 +20,16 @@ export function countryOptions(): ComboboxOption[] {
 }
 
 /**
+ * Finds the flag for a code a draft may still hold: empty while the author has
+ * not picked a country, or one the catalogue does not know, which has no flag.
+ * @param {string} countryId - The country's code
+ * @returns {string | undefined} The flag's URL, when the catalogue has the country
+ */
+export function flagIconUrl(countryId: string): string | undefined {
+  return COUNTRIES.has(countryId) ? flagUrl(countryId) : undefined;
+}
+
+/**
  * Builds the city choices, each hinted with its country and flag.
  * @param {DatasetSnapshot} dataset - The current dataset
  * @returns {ComboboxOption[]} City options
@@ -27,7 +37,7 @@ export function countryOptions(): ComboboxOption[] {
 export function cityOptions(dataset: DatasetSnapshot): ComboboxOption[] {
   return dataset.cities.map(({ value }) => ({
     hint: value.countryId,
-    iconUrl: flagUrl(value.countryId),
+    iconUrl: flagIconUrl(value.countryId),
     label: value.name,
     value: value.id,
   }));
