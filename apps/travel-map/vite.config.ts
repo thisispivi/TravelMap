@@ -6,6 +6,7 @@ import { defineConfig, mergeConfig, Plugin } from "vite";
 import { qrcode } from "vite-plugin-qrcode";
 
 import { buildInfoDefine } from "./vite/buildInfo.ts";
+import { photoIndex } from "./vite/photoIndex.ts";
 import { siteBranding } from "./vite/siteBranding.ts";
 
 /*
@@ -120,6 +121,7 @@ export default defineConfig(
   mergeConfig(sharedViteConfig(import.meta.dirname), {
     plugins: [
       qrcode(),
+      photoIndex(),
       siteBranding(siteConfig),
       mediaServer(resolve(import.meta.dirname, "../../media")),
     ],

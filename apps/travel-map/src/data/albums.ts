@@ -1,5 +1,6 @@
-import { City, PublishedImage, Trip } from "@travelmap/core";
+import { City, Gallery, PublishedImage, Trip } from "@travelmap/core";
 
+import { loadGallery } from "./photos";
 import { visitedTrips } from "./world";
 
 /**
@@ -10,7 +11,7 @@ import { visitedTrips } from "./world";
  * @property {Trip} trip - The trip the visit belongs to
  * @property {Date} sDate - When the visit started
  * @property {Date} eDate - When it ended
- * @property {PublishedImage[]} photos - The visit's photos, in order
+ * @property {Gallery} gallery - The part of a manifest holding the visit's photos
  * @property {number} offset - The index of the visit's first photo in its album
  * @property {{ minPhotos?: number; maxPhotos?: number }} [rowConstraints] - Gallery row overrides
  * @property {number} [targetRowHeight] - Gallery row height override
@@ -21,7 +22,7 @@ export interface AlbumSection {
   trip: Trip;
   sDate: Date;
   eDate: Date;
-  photos: PublishedImage[];
+  gallery: Gallery;
   offset: number;
   rowConstraints?: { minPhotos?: number; maxPhotos?: number };
   targetRowHeight?: number;
@@ -43,6 +44,23 @@ export interface Album {
 }
 
 /**
+ * A visit with its photos loaded.
+ * @property {PublishedImage[]} photos - The visit's photos, in order
+ */
+export interface LoadedAlbumSection extends AlbumSection {
+  photos: PublishedImage[];
+}
+
+/**
+ * An album whose photos have loaded, which only the gallery and the lightbox
+ * need; everything else reads the counts.
+ * @property {LoadedAlbumSection[]} sections - The visits, with their photos
+ */
+export interface LoadedAlbum extends Album {
+  sections: LoadedAlbumSection[];
+}
+
+/**
  * Gives each visit its starting position in the album.
  * @param {Omit<AlbumSection, "offset">[]} visits - The visits, in order
  * @returns {AlbumSection[]} The visits with offsets
@@ -51,7 +69,7 @@ function withOffsets(visits: Omit<AlbumSection, "offset">[]): AlbumSection[] {
   let offset = 0;
   return visits.map((visit) => {
     const section = { ...visit, offset };
-    offset += visit.photos.length;
+    offset += visit.gallery.count;
     return section;
   });
 }
@@ -61,7 +79,7 @@ function withOffsets(visits: Omit<AlbumSection, "offset">[]): AlbumSection[] {
  * Two visits can point at the same photo folder — Sydney before and after
  * Cairns, Toulon either side of New Year — and showing the folder twice would
  * double every photo, so a repeated folder joins the first visit instead and
- * stretches its dates to cover both.
+ * stretches its dates to cover both. A folder is one manifest and range.
  * @param {Trip} trip - The trip
  * @param {City} [city] - Restricts the visits to this city
  * @returns {Omit<AlbumSection, "offset">[]} The visits with photos
@@ -70,10 +88,9 @@ function visitsOf(trip: Trip, city?: City): Omit<AlbumSection, "offset">[] {
   const byFolder = new Map<string, Omit<AlbumSection, "offset">>();
   const visits: Omit<AlbumSection, "offset">[] = [];
   for (const destination of trip.destinations) {
-    const { photos, city: place } = destination;
-    if (!photos?.length || (city && place.id !== city.id)) continue;
-    /* A folder is identified by its first file and its size. */
-    const folder = `${place.id}:${photos[0].original}:${photos.length}`;
+    const { gallery, city: place } = destination;
+    if (!gallery?.count || (city && place.id !== city.id)) continue;
+    const folder = `${place.id}:${gallery.path}:${gallery.range?.from}-${gallery.range?.to}`;
     const earlier = byFolder.get(folder);
     if (earlier) {
       earlier.eDate = destination.eDate;
@@ -82,8 +99,8 @@ function visitsOf(trip: Trip, city?: City): Omit<AlbumSection, "offset">[] {
     const visit = {
       city: place,
       eDate: destination.eDate,
+      gallery,
       key: `${trip.id}-${place.id}-${destination.travelIdx}`,
-      photos,
       rowConstraints: destination.rowConstraints,
       sDate: destination.sDate,
       targetRowHeight: destination.targetRowHeight,
@@ -109,7 +126,7 @@ function albumOf(
 ): Album {
   const sections = withOffsets(visits);
   return {
-    count: sections.reduce((sum, section) => sum + section.photos.length, 0),
+    count: sections.reduce((sum, section) => sum + section.gallery.count, 0),
     id,
     kind,
     sections,
@@ -137,8 +154,8 @@ export function findTripAlbum(tripId: string): Album | undefined {
 const PLACE_PHOTO_COUNTS = tripAlbums
   .flatMap(({ album }) => album.sections)
   .reduce(
-    (counts, { city, photos }) =>
-      counts.set(city.id, (counts.get(city.id) ?? 0) + photos.length),
+    (counts, { city, gallery }) =>
+      counts.set(city.id, (counts.get(city.id) ?? 0) + gallery.count),
     new Map<string, number>(),
   );
 
@@ -167,4 +184,20 @@ export function placeAlbum(city: City): Album {
         (first, second) => first.sDate.getTime() - second.sDate.getTime(),
       ),
   );
+}
+
+/**
+ * Loads the photos of every visit in an album, each manifest once however many
+ * visits share it.
+ * @param {Album} album - The album, counted but not loaded
+ * @returns {Promise<LoadedAlbum>} The same album with its photos
+ */
+export async function loadAlbum(album: Album): Promise<LoadedAlbum> {
+  const sections = await Promise.all(
+    album.sections.map(async (section) => ({
+      ...section,
+      photos: await loadGallery(section.gallery),
+    })),
+  );
+  return { ...album, sections };
 }

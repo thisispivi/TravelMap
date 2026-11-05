@@ -8,6 +8,8 @@ import {
 } from "@travelmap/core";
 import { partition, unique } from "remeda";
 
+import { photoIndex } from "./photos";
+
 /**
  * Extracts eagerly bundled JSON values from Vite's module map.
  * @param {Record<string, { default: unknown }>} modules - Modules returned by Vite
@@ -32,17 +34,6 @@ const config = import.meta.glob<{ default: unknown }>(
   "../../../../data/site.config.json",
   { eager: true },
 );
-const photoModules = import.meta.glob<{ default: unknown }>(
-  "../../../../data/photos/**/*.json",
-  { eager: true },
-);
-const photos = Object.fromEntries(
-  Object.entries(photoModules).map(([path, { default: images }]) => [
-    path.replace(/^.*\/data\/photos\//, "").replace(/\.json$/, ""),
-    images,
-  ]),
-);
-
 const rawWorldConfig = Object.values(config)[0]?.default;
 const worldConfig: SiteConfig | undefined = rawWorldConfig
   ? SiteConfigSchema.parse(rawWorldConfig)
@@ -52,7 +43,7 @@ const world = buildWorld({
   futureCityIds: worldConfig?.futureCityIds,
   homeCityId: worldConfig?.homeCityId,
   livedCityIds: worldConfig?.livedCityIds,
-  photos,
+  photos: photoIndex,
   trips,
 });
 

@@ -255,16 +255,10 @@ describe("buildWorld", () => {
   });
 
   it("attaches galleries to stays and to places seen on a day trip", () => {
-    const image = {
-      height: 2,
-      original: "/Italy/Rome/001c.webp",
-      thumbnail: "/Italy/Rome/001t.webp",
-      width: 3,
-    };
     const trip = sources.trips[0]!;
     const world = buildWorld({
       ...sources,
-      photos: { "Italy/Rome/tr": [image], "Italy/Tivoli/tr": [image] },
+      photos: { "Italy/Rome/tr": "11", "Italy/Tivoli/tr": "1" },
       trips: [
         {
           ...trip,
@@ -293,21 +287,19 @@ describe("buildWorld", () => {
     });
     const tivoli = world.citiesById.get("tivoli")!;
 
-    expect(world.trips[0]!.stays[0]!.photos).toEqual([image]);
-    expect(world.trips[0]!.getCityTravels(tivoli)[0]!.photos).toEqual([image]);
+    expect(world.trips[0]!.stays[0]!.gallery).toEqual({
+      count: 2,
+      path: "Italy/Rome/tr",
+      range: undefined,
+    });
+    expect(world.trips[0]!.getCityTravels(tivoli)[0]!.gallery?.count).toBe(1);
   });
 
-  it("gives a stay only its own part of a gallery it shares", () => {
-    const images = [1, 2, 3, 4].map((n) => ({
-      height: 2,
-      original: `/Italy/Rome/00${n}c.webp`,
-      thumbnail: `/Italy/Rome/00${n}t.webp`,
-      width: 3,
-    }));
+  it("counts only a stay's own part of a gallery it shares", () => {
     const trip = sources.trips[0]!;
     const world = buildWorld({
       ...sources,
-      photos: { "Italy/Rome/tr": images },
+      photos: { "Italy/Rome/tr": "1111" },
       trips: [
         {
           ...trip,
@@ -322,7 +314,7 @@ describe("buildWorld", () => {
       ],
     });
 
-    expect(world.trips[0]!.stays[0]!.photos).toEqual([images[1], images[2]]);
+    expect(world.trips[0]!.stays[0]!.gallery?.count).toBe(2);
   });
 
   it("leaves a stay pointing at a missing manifest with an empty gallery", () => {
@@ -332,7 +324,28 @@ describe("buildWorld", () => {
       trips: [{ ...trip, steps: [{ ...rome, photoPath: "nothing/here" }] }],
     });
 
-    expect(world.trips[0]!.stays[0]!.photos).toEqual([]);
+    expect(world.trips[0]!.stays[0]!.gallery?.count).toBe(0);
+  });
+
+  it("does not count a video that has no YouTube id yet", () => {
+    const world = buildWorld({
+      ...sources,
+      photos: { "Italy/Rome/tr": "10" },
+      trips: [
+        {
+          ...sources.trips[0]!,
+          steps: [{ ...rome, photoPath: "Italy/Rome/tr" }],
+        },
+      ],
+    });
+
+    expect(world.trips[0]!.stays[0]!.gallery?.count).toBe(1);
+  });
+
+  it("refuses a photo index that is not a string of publish flags", () => {
+    expect(() =>
+      buildWorld({ ...sources, photos: { "Italy/Rome/tr": "1x" } }),
+    ).toThrow(/Malformed dataset/);
   });
 
   it("lists a lived-in city once when both the city and the config say so", () => {
@@ -350,34 +363,6 @@ describe("buildWorld", () => {
   it("refuses a value that is not a dataset at all", () => {
     expect(() => buildWorld(null)).toThrow(/Malformed dataset/);
     expect(() => buildWorld({})).toThrow(/Malformed dataset/);
-  });
-
-  it("leaves a video out of the gallery until it has a YouTube id", () => {
-    const photo = {
-      height: 2,
-      original: "/Italy/Rome/001c.webp",
-      thumbnail: "/Italy/Rome/001t.webp",
-      width: 3,
-    };
-    const unfinishedVideo = {
-      height: 9,
-      original: "",
-      thumbnail: "/Italy/Rome/002t.webp",
-      width: 16,
-      youtube: true,
-    };
-    const world = buildWorld({
-      ...sources,
-      photos: { "Italy/Rome/tr": [photo, unfinishedVideo] },
-      trips: [
-        {
-          ...sources.trips[0]!,
-          steps: [{ ...rome, photoPath: "Italy/Rome/tr" }],
-        },
-      ],
-    });
-
-    expect(world.trips[0]!.stays[0]!.photos).toEqual([photo]);
   });
 });
 

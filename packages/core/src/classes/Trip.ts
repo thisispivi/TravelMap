@@ -1,6 +1,6 @@
 import { unique } from "remeda";
 
-import { CompanyId, PublishedImage, TransportMode } from "../schema";
+import { CompanyId, PhotoRange, TransportMode } from "../schema";
 import { localize } from "../typings/Localized";
 import { daysBetween, formatLocalDate, parseLocalDate } from "../world/date";
 import { Measured } from "../world/derive";
@@ -34,6 +34,20 @@ interface RowConstraints {
 }
 
 /**
+ * The part of a photo manifest a visit owns. Only the count travels with the
+ * world graph; the photos themselves load with the album that shows them, so
+ * the first page does not parse thousands of entries it never displays.
+ * @property {string} path - The manifest key, relative to `data/photos`
+ * @property {PhotoRange} [range] - Which entries belong to this visit
+ * @property {number} count - How many of those entries can be published
+ */
+export interface Gallery {
+  path: string;
+  range?: PhotoRange;
+  count: number;
+}
+
+/**
  * One resolved ride. `depart` and `arrive` keep the authored wall-clock strings
  * because each is local to a different city; reading them as one `Date` would
  * silently apply the browser's zone to both.
@@ -49,7 +63,7 @@ interface RowConstraints {
  * @property {Measured} distance - Kilometres, flagged when estimated
  * @property {Measured} duration - Minutes, flagged when estimated
  * @property {boolean} visited - Whether `to` was a place seen rather than passed through
- * @property {PublishedImage[]} [photos] - Photos taken at `to`
+ * @property {Gallery} [gallery] - Photos taken at `to`
  * @property {RowConstraints} [rowConstraints] - Gallery row overrides
  * @property {number} [targetRowHeight] - Gallery row height override
  * @property {FlightDetails} [flight] - Airline details
@@ -68,7 +82,7 @@ export interface TripLeg {
   distance: Measured;
   duration: Measured;
   visited: boolean;
-  photos?: PublishedImage[];
+  gallery?: Gallery;
   rowConstraints?: RowConstraints;
   targetRowHeight?: number;
   flight?: FlightDetails;
@@ -92,7 +106,7 @@ export interface TripOuting {
  * @property {string} checkIn - The first night's date
  * @property {string} checkOut - The morning they left
  * @property {number} nights - Nights slept here
- * @property {PublishedImage[]} [photos] - Photos of the stay
+ * @property {Gallery} [gallery] - Photos of the stay
  * @property {RowConstraints} [rowConstraints] - Gallery row overrides
  * @property {number} [targetRowHeight] - Gallery row height override
  * @property {TripOuting[]} outings - Day trips taken from here
@@ -104,7 +118,7 @@ export interface TripStay {
   checkIn: string;
   checkOut: string;
   nights: number;
-  photos?: PublishedImage[];
+  gallery?: Gallery;
   rowConstraints?: RowConstraints;
   targetRowHeight?: number;
   outings: TripOuting[];
@@ -138,7 +152,7 @@ export type DestinationKind = "stay" | "visit" | "stopover";
  * @property {DestinationKind} kind - Slept in, seen, or passed through
  * @property {Date} sDate - Arrival
  * @property {Date} eDate - Departure
- * @property {PublishedImage[]} [photos] - Photos taken there
+ * @property {Gallery} [gallery] - Photos taken there
  * @property {RowConstraints} [rowConstraints] - Gallery row overrides
  * @property {number} [targetRowHeight] - Gallery row height override
  * @property {number} travelIdx - How many earlier destinations in this trip were the same city
@@ -149,7 +163,7 @@ export interface TripDestination {
   kind: DestinationKind;
   sDate: Date;
   eDate: Date;
-  photos?: PublishedImage[];
+  gallery?: Gallery;
   rowConstraints?: RowConstraints;
   targetRowHeight?: number;
   travelIdx: number;
@@ -374,7 +388,7 @@ export class Trip {
             new Travel({
               sDate: destination.sDate,
               eDate: destination.eDate,
-              photos: destination.photos,
+              gallery: destination.gallery,
               isFuture: false,
               rowConstraints: destination.rowConstraints,
               targetRowHeight: destination.targetRowHeight,
@@ -487,7 +501,7 @@ export class Trip {
         kind,
         sDate: leg.arrivedAt,
         eDate: leg.arrivedAt,
-        photos: leg.photos,
+        gallery: leg.gallery,
         rowConstraints: leg.rowConstraints,
         targetRowHeight: leg.targetRowHeight,
         arrivalTransport: leg.mode,
@@ -512,7 +526,7 @@ export class Trip {
             kind: "stay",
             sDate: parseLocalDate(step.checkIn),
             eDate: parseLocalDate(step.checkOut),
-            photos: step.photos,
+            gallery: step.gallery,
             rowConstraints: step.rowConstraints,
             targetRowHeight: step.targetRowHeight,
             arrivalTransport:

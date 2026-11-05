@@ -16,11 +16,7 @@ const [trip] = buildWorld({
     name: id,
     timeZone: "Europe/Rome",
   })),
-  photos: {
-    sinaia: [
-      { height: 3, original: "/s.webp", thumbnail: "/t.webp", width: 4 },
-    ],
-  },
+  photos: { sinaia: "1" },
   trips: [
     {
       eDate: "2026-03-31",

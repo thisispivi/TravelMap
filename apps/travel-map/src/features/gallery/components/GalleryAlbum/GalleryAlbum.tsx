@@ -14,7 +14,12 @@ import { ReactNode, useRef } from "react";
 import { RowsPhotoAlbum } from "react-photo-album";
 import { Outlet, useLoaderData, useLocation, useNavigate } from "react-router";
 
-import { Album, AlbumSection } from "@/data/albums";
+import {
+  Album,
+  AlbumSection,
+  LoadedAlbum,
+  LoadedAlbumSection,
+} from "@/data/albums";
 import { useScrollState } from "@/shared/hooks/useScrollState";
 import { readNavigationState } from "@/shared/lib/navigationState";
 
@@ -79,7 +84,7 @@ function SectionLabel({ section, kind }: SectionLabelProps): ReactNode {
           locale: currLanguage,
           sDateInput: section.sDate,
         })}{" "}
-        · {t("gallery.photoCount", { count: section.photos.length })}
+        · {t("gallery.photoCount", { count: section.gallery.count })}
       </span>
     </>
   );
@@ -87,12 +92,12 @@ function SectionLabel({ section, kind }: SectionLabelProps): ReactNode {
 
 /**
  * Properties accepted by the AlbumSectionView component.
- * @property {AlbumSection} section - The visit whose photos to show
+ * @property {LoadedAlbumSection} section - The visit whose photos to show
  * @property {Album["kind"]} kind - Whether the album is a trip's or a place's, which decides the heading
  * @property {(index: number) => void} onOpen - Opens a photo by its album index
  */
 interface AlbumSectionViewProps {
-  section: AlbumSection;
+  section: LoadedAlbumSection;
   kind: Album["kind"];
   onOpen: (index: number) => void;
 }
@@ -103,7 +108,7 @@ interface AlbumSectionViewProps {
  * album, or the trip, in a place's album.
  * @component
  * @param {AlbumSectionViewProps} props - The section props
- * @param {AlbumSection} props.section - The visit whose photos to show
+ * @param {LoadedAlbumSection} props.section - The visit whose photos to show
  * @param {Album["kind"]} props.kind - Whether the album is a trip's or a place's
  * @param {(index: number) => void} props.onOpen - Opens a photo by its album index
  * @returns {ReactNode} The section
@@ -180,7 +185,7 @@ export function GalleryAlbum(): ReactNode {
    * The page keeps rendering while it animates out, after the router has
    * already dropped this route's data.
    */
-  const album = useLoaderData<Album | undefined>();
+  const album = useLoaderData<LoadedAlbum | undefined>();
   const bodyRef = useRef<HTMLDivElement>(null);
   const { isScrolled, activeIndex } = useScrollState(
     bodyRef,

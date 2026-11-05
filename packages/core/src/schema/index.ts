@@ -302,13 +302,21 @@ export const SiteConfigSchema = z.strictObject({
   unescoSites: z.record(CountryCodeSchema, z.array(z.string())).optional(),
 });
 
+/*
+ * A photo manifest reduced to what the world graph needs: one character per
+ * entry, `1` where it can be published. Counting a visit's range needs the
+ * positions of the unpublished entries, and the full manifests are too heavy to
+ * parse before the first page draws, so they load with their album instead.
+ */
+const PhotoIndexSchema = z.string().regex(/^[01]*$/);
+
 /** Raw authored data accepted by the world graph builder. */
 export const WorldSourcesSchema = z.strictObject({
   cities: z.array(CityJsonSchema),
   futureCityIds: z.array(idSchema).optional(),
   homeCityId: idSchema.nullable().optional(),
   livedCityIds: z.array(idSchema).optional(),
-  photos: z.record(z.string(), z.array(ImageSchema)),
+  photos: z.record(z.string(), PhotoIndexSchema),
   trips: z.array(TripJsonSchema),
 });
 

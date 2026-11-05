@@ -153,7 +153,8 @@ dependency direction:
 - **No client-server API.** There is no backend. All content is static JSON
   under `data/`, bundled at build time via `import.meta.glob` (see §9). The only
   runtime requests are photo loads, which are plain `<img loading="lazy">`
-  elements (`CoverImage`) left to the browser's HTTP cache. The editor talks
+  elements (`CoverImage`) left to the browser's HTTP cache, and the lazy chunk
+  of each photo manifest an open album needs. The editor talks
   only to its own dev server, through `data/store.ts`. There is no
   data-fetching library; if application-level fetching ever arrives, pick one
   then rather than hand-rolling a cache.
@@ -489,14 +490,19 @@ of something already available from props/context/a domain object's method.
 There is no backend and no application API. Every piece of content is static
 JSON under `data/`, compiled into the bundle at build time. The only runtime
 network traffic is image loading, left to `<img loading="lazy">` and the
-browser's HTTP cache. `data/albums.ts` groups a trip's or a place's photos into
-the albums the gallery, places and map tooltip read.
+browser's HTTP cache, plus the photo manifests: `data/photos.ts` bundles each one
+as its own lazy chunk, and only the album that shows it loads it. `data/albums.ts`
+groups a trip's or a place's visits into the albums the gallery, places and map
+tooltip read, and `loadAlbum` fills an album in with its photos.
 
 **How data flows:**
 
 1. `apps/travel-map/src/data/world.ts` collects the raw JSON with
    `import.meta.glob(..., { eager: true })` — no `fetch`, no loading state,
-   because the data is part of the build.
+   because the data is part of the build. Photo manifests arrive only as their
+   publish flags (one character per entry), which the site's `photo-index` Vite
+   plugin builds, so every visit carries a photo count and the entry chunk none
+   of the paths.
 2. `packages/core/src/schema/index.ts` owns the Zod contracts for every
    authored shape (`CityJsonSchema`, `TripJsonSchema`,
    `ImageSchema`, `SiteConfigSchema`, `WorldSourcesSchema`) and the TypeScript
@@ -513,7 +519,8 @@ the albums the gallery, places and map tooltip read.
 ### Validation policy
 
 - **Validate at trust boundaries, once.** The boundaries are: `buildWorld()`
-  for the dataset; route loaders for URL params (`GalleryAlbum.loader.ts` answers a
+  for the dataset; `data/photos.ts` for a manifest loaded on demand (and the
+  `photo-index` plugin for the flags it reduces each one to); route loaders for URL params (`GalleryAlbum.loader.ts` answers a
   bad one with a 404); `shared/lib/navigationState.ts` for router history
   state; the editor's `vite/` middleware for request bodies, query strings,
   and its upload settings in `.env`; the editor's `data/httpResponse.ts` for
@@ -1300,23 +1307,15 @@ merely present.
 
 Real work, listed so nobody rediscovers it as a surprise. None is urgent.
 
-- **Two large pieces of data are bundled as JavaScript rather than fetched.** A
-  fresh load of `/#/trips` transfers ~927 kB of JS and parses ~4 MB. The two
-  biggest items are `@travelmap/ui/assets/json/countries-50m.json` (1.5 MB of
-  country borders, 238 kB gzipped, statically imported by the shared map's
-  `countries.ts`) and the
-  photo manifests (75 files, 8,589 entries, ~1.3 MB, most of the entry chunk,
-  eagerly globbed by `data/world.ts`). Both are inert data paying JavaScript
-  parse cost on first paint, and both invalidate the chunk they sit in whenever
-  content changes.
-
-  Neither is a chunking problem — moving them means making their reads
-  asynchronous. For the manifests the seam is already visible: `GalleryAlbum`
-  and `Lightbox` need one album and are lazily routed, while `MapTooltip`, the
-  places cards and the trip page need only a count, which a stop's `photoPath`
-  almost answers on its own — only the gallery index and the photo statistic
-  genuinely need totals, and both pages are lazy too. Lowering the border resolution to 110m is a smaller lever but trades
-  coastline detail, so it is a design decision rather than a cleanup.
+- **The country borders are bundled as JavaScript rather than fetched.**
+  `@travelmap/ui/assets/json/countries-50m.json` (1.5 MB, 238 kB gzipped,
+  statically imported by the shared map's `countries.ts`) is inert data paying
+  JavaScript parse cost and invalidating its chunk whenever it changes. Moving
+  it means making its read asynchronous, not rechunking. Lowering the
+  resolution to 110m is a smaller lever but trades coastline detail, so it is a
+  design decision rather than a cleanup. The photo manifests, once the bulk of
+  the startup data, now load per album (`data/photos.ts`); the world chunk
+  keeps only their publish flags.
 
 - The uploader's tests (`scripts/uploader/test_uploader.py`) stub BunnyCDN and
   ffmpeg, so a real upload is still verified by hand.
