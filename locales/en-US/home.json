@@ -8,50 +8,13 @@
     "OCEANIA": "Oceania",
     "SOUTH_AMERICA": "South America"
   },
-  "currency": {
-    "EUR": {
-      "name": "Euro",
-      "symbol": "€"
-    },
-    "JPY": {
-      "name": "Japanese Yen",
-      "symbol": "¥"
-    },
-    "HUF": {
-      "name": "Hungarian Forint",
-      "symbol": "Ft"
-    },
-    "GBP": {
-      "name": "British Pound",
-      "symbol": "£"
-    },
-    "AUD": {
-      "name": "Australian Dollar",
-      "symbol": "$"
-    },
-    "CNY": {
-      "name": "Chinese Yuan",
-      "symbol": "¥"
-    },
-    "BGN": {
-      "name": "Bulgarian Lev",
-      "symbol": "лв"
-    },
-    "RON": {
-      "name": "Romanian Leu",
-      "symbol": "lei"
-    },
-    "SEK": {
-      "name": "Swedish Krona",
-      "symbol": "kr"
-    }
-  },
   "nav": {
     "gallery": "Gallery",
     "timeline": "Timeline",
     "stats": "Stats",
     "settings": "Settings",
-    "journal": "Journal"
+    "journal": "Journal",
+    "passport": "Passport"
   },
   "goHome": "Show the whole map",
   "sheet": {
@@ -206,7 +169,8 @@
       "SE": "South-east",
       "notYet": "Not yet",
       "more": "+{{count}} more",
-      "halves": "North {{north}} · South {{south}} · East {{east}} · West {{west}}"
+      "halves": "North {{north}} · South {{south}} · East {{east}} · West {{west}}",
+      "citiesIn": "Cities in the {{quarter}}"
     },
     "lines": {
       "title": "Lines crossed",
@@ -267,7 +231,20 @@
     "countryCount_one": "{{count}} country",
     "countryCount_other": "{{count}} countries",
     "cityCount_one": "{{count}} city",
-    "cityCount_other": "{{count}} cities"
+    "cityCount_other": "{{count}} cities",
+    "tooltip": {
+      "days_one": "{{count}} day",
+      "days_other": "{{count}} days",
+      "trips_one": "{{count}} trip",
+      "trips_other": "{{count}} trips",
+      "share": "{{share}}% of the total",
+      "departures_one": "{{count}} departure",
+      "departures_other": "{{count}} departures",
+      "arrivals_one": "{{count}} arrival",
+      "arrivals_other": "{{count}} arrivals",
+      "flights_one": "{{count}} flight",
+      "flights_other": "{{count}} flights"
+    }
   },
   "settings": {
     "title": "Settings",
@@ -298,6 +275,31 @@
       "creditNaturalEarth": "Country borders from Natural Earth",
       "creditMapLibre": "Map rendered with MapLibre GL JS",
       "opensInNewTab": "{{name}} (opens in a new tab)"
+    }
+  },
+  "passport": {
+    "planned": "Planned",
+    "issuing": "Issuing country",
+    "issuingLabel": "{{name}}, the issuing country. Show its places",
+    "pageOne_one": "Page {{page}} of {{count}}",
+    "pageOne_other": "Page {{page}} of {{count}}",
+    "pageTwo_one": "Pages {{start}}–{{end}} of {{count}}",
+    "pageTwo_other": "Pages {{start}}–{{end}} of {{count}}",
+    "progress": "{{pages}} · {{continent}} {{stamped}} of {{total}} visited",
+    "folio": "{{continent}} · {{page}}",
+    "previous": "Previous page",
+    "next": "Next page",
+    "stampLabel_one": "{{name}}: first entered {{date}} at {{city}}. Show its places",
+    "stampLabel_other": "{{name}}: first entered {{date}} at {{city}}, {{count}} entries. Show its places",
+    "totals": {
+      "stamps": "Stamps",
+      "continents": "Continents"
+    },
+    "cover": "Cover",
+    "empty": "No stamps yet. Add a trip or a home city to start the passport.",
+    "tooltip": {
+      "entries_one": "Entered once",
+      "entries_other": "Entered {{count}} times"
     }
   }
 }
