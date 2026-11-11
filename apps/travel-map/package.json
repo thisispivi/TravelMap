@@ -1,7 +1,7 @@
 {
   "name": "travel-map",
   "private": true,
-  "version": "1.0.3",
+  "version": "1.0.4",
   "type": "module",
   "homepage": "https://map.pivi.dev",
   "packageManager": "pnpm@11.21.0",
