@@ -1,7 +1,7 @@
 {
   "name": "travel-map",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "homepage": "https://map.pivi.dev",
   "packageManager": "pnpm@11.21.0",
@@ -17,7 +17,7 @@
     "knip": "knip",
     "lint": "eslint . --report-unused-disable-directives --max-warnings=0",
     "lint:fix": "eslint . --fix --max-warnings=0",
-    "predeploygh": "pnpm run build",
+    "predeploygh": "node scripts/check-release.mjs && pnpm run build",
     "preview": "vite preview",
     "react:doctor": "react-doctor . --verbose",
     "test": "vitest run",

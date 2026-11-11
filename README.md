@@ -192,6 +192,10 @@ Publish the site directly to the repository's `gh-pages` branch:
 pnpm --filter travel-map deploygh
 ```
 
+The deploy runs only from a clean `main` that is in sync with `origin/main`
+and whose version the Release workflow has already tagged, so the live site
+always matches a release.
+
 Read [Publishing to GitHub Pages](./docs/GUIDE.md#13-publishing-to-github-pages)
 before deploying, especially if your map includes photos.
 
@@ -262,3 +266,13 @@ Country flags are from [Twemoji](https://github.com/jdecked/twemoji) (v17.0.3),
 © Twitter, Inc and other contributors, licensed under
 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Only their file names
 were changed.
+
+## Versioning and releases
+
+Releases are automatic and follow [Semantic Versioning](https://semver.org/).
+Every pull request that changes code bumps the version in `apps/travel-map/package.json`, as
+[AGENTS.md](./AGENTS.md#versioning-and-releases) describes. When CI passes on
+`main`, the Release workflow tags the new version, publishes the
+[GitHub release](https://github.com/thisispivi/TravelMap/releases), and `pnpm --filter travel-map deploygh` then publishes the site from a clean, released `main`.
+Dependabot alerts and security updates are on; the `fix-vulnerabilities` skill
+triages them.

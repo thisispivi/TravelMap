@@ -1,0 +1,84 @@
+# Dependabot: security updates open as soon as an advisory lands; version
+# updates arrive once a week, minor and patch grouped into one pull request.
+# Triage both with the fix-vulnerabilities skill (.claude/skills/).
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: chore
+      include: scope
+    groups:
+      security:
+        applies-to: security-updates
+        patterns: ["*"]
+      dependencies:
+        applies-to: version-updates
+        patterns: ["*"]
+        update-types: [minor, patch]
+
+  - package-ecosystem: pip
+    directory: /scripts/uploader
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: chore
+      include: scope
+    groups:
+      security:
+        applies-to: security-updates
+        patterns: ["*"]
+      dependencies:
+        applies-to: version-updates
+        patterns: ["*"]
+        update-types: [minor, patch]
+
+  - package-ecosystem: docker
+    directory: /docker
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: chore
+      include: scope
+    groups:
+      security:
+        applies-to: security-updates
+        patterns: ["*"]
+      dependencies:
+        applies-to: version-updates
+        patterns: ["*"]
+        update-types: [minor, patch]
+
+  - package-ecosystem: docker-compose
+    directory: /docker
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: chore
+      include: scope
+    groups:
+      security:
+        applies-to: security-updates
+        patterns: ["*"]
+      dependencies:
+        applies-to: version-updates
+        patterns: ["*"]
+        update-types: [minor, patch]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    commit-message:
+      prefix: chore
+      include: scope
+    groups:
+      security:
+        applies-to: security-updates
+        patterns: ["*"]
+      actions:
+        applies-to: version-updates
+        patterns: ["*"]
+        update-types: [minor, patch]
