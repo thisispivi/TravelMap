@@ -1,0 +1,1 @@
+import{H as e}from"./index-aeJ_S2Ye.js";var t={name:`chevron-left`,size:24,node:[[`path`,{d:`m15 18-6-6 6-6`,key:`1wnfg3`}]]};t.node;var n=e(t),r={name:`chevron-right`,size:24,node:[[`path`,{d:`m9 18 6-6-6-6`,key:`mthhwq`}]]};r.node;var i=e(r);export{n,i as t};

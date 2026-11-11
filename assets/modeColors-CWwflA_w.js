@@ -1,0 +1,1 @@
+import{Z as e}from"./index-aeJ_S2Ye.js";var t={bus:e.transportBus,car:e.transportCar,ferry:e.transportFerry,plane:e.transportPlane,taxi:e.transportTaxi,train:e.transportTrain,walk:e.transportWalk};export{t};

@@ -1,0 +1,1 @@
+import{f as e}from"./router-Sahi8U_G.js";import{IndexParamSchema as t,albumLoader as n}from"./GalleryAlbum.loader-BgRboxjZ.js";async function r(r,i){let a=await n(r,i),o=t.safeParse(r.params.photoIdx);if(!o.success||o.data>=a.count)throw e(null,{status:404});return{album:a,photoIdx:o.data}}export{r as lightboxLoader};
