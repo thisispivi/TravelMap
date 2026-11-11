@@ -1,32 +1,32 @@
-# TravelMap Uploader (Images/Videos + JSON Export) • ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+# TravelMap uploader (images/videos + JSON export) • ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 
-This script prepares a city’s media for the TravelMap project:
-
-- Converts photos into two optimized WEBP files: a **compressed** version and a **thumbnail**.
-- Extracts the **first frame** of videos and creates a **thumbnail WEBP**.
-- Uploads the generated WEBP files to **BunnyCDN Storage**, or copies them to
-  the repository `media/` folder with `--local`.
-- Exports a `<city>.json` file describing the processed media (paths + basic metadata).
+This script prepares a city's media for the TravelMap project. It converts
+photos to WEBP, makes thumbnails from the first frame of videos, uploads the
+results to BunnyCDN Storage (or copies them into the repository `media/`
+folder with `--local`), and exports a `<city>.json` file describing the
+processed media (paths and basic metadata).
 
 ## Features
 
-- Converts images to WEBP and creates:
+- Converts each image to two WEBP files:
   - `*c.webp` (compressed)
   - `*t.webp` (thumbnail)
-- Extracts first frame from video files using `ffmpeg` and generates `*t.webp` thumbnails.
-- Uploads generated files to BunnyCDN Storage or copies them into local media.
-- Exports `<city>.json` sorted by numeric index in filenames (e.g. `001t.webp`, `12t.webp`).
+- Extracts the first frame of each video with `ffmpeg` and generates a `*t.webp`
+  thumbnail.
+- Uploads the generated files to BunnyCDN Storage or copies them into local media.
+- Exports `<city>.json` sorted by the numeric index in the filenames (e.g.
+  `001t.webp`, `12t.webp`).
 
 ## Requirements
 
 ### Dependencies
 
 - Python 3
-- Python packages (installed via `requirements.txt`)
-- `ffmpeg` (required for video first-frame extraction)
-  - Windows: install ffmpeg and ensure `ffmpeg` (and ideally `ffprobe`) are on your PATH.
+- Python packages (installed from `requirements.txt`)
+- `ffmpeg`, for extracting the first frame of videos
+  - Windows: install ffmpeg and make sure `ffmpeg` (and ideally `ffprobe`) is on your PATH.
 
-Install Python dependencies:
+Install the Python dependencies:
 
 ```bash
 pip install -r requirements.txt
@@ -34,7 +34,8 @@ pip install -r requirements.txt
 
 ### Configuration (.env)
 
-This script loads configuration from `env/.env` and falls back to `env/example.env`.
+The script loads its configuration from `env/.env` and falls back to
+`env/example.env`.
 
 1. Copy the example file:
 
@@ -54,7 +55,7 @@ Expected keys:
 
 Environment variables override values from the file.
 
-## Project Structure
+## Project structure
 
 ```text
 .
@@ -79,7 +80,7 @@ Environment variables override values from the file.
 
 ## Usage
 
-### Command-Line Arguments
+### Command-line arguments
 
 | Flag              | Description                          | Required |
 | ----------------- | ------------------------------------ | -------- |
@@ -87,7 +88,7 @@ Environment variables override values from the file.
 | `-C`, `--country` | Country slug used to build CDN paths | Yes      |
 | `-l`, `--local`   | Copy into `media/` instead of Bunny  | No       |
 
-### Running the Program
+### Running the program
 
 ```bash
 python main.py -c <city_name> -C <country_slug>
@@ -105,23 +106,25 @@ For self-hosted media:
 python main.py -c Cairns -C Australia --local
 ```
 
-This will:
+A run:
 
-- Read all files in `photos/<city_name>/`.
-- For images: generate `*c.webp` and `*t.webp` in `results/<city_name>/`.
-- For videos: extract the first frame and generate `*t.webp` in `results/<city_name>/`.
-- Upload generated WEBP files to BunnyCDN Storage, or copy them into the local
-  media tree when `--local` is set.
-- Write `<city_name>.json` to the repository root.
+- reads all files in `photos/<city_name>/`
+- generates `*c.webp` and `*t.webp` in `results/<city_name>/` for each image
+- extracts the first frame of each video and generates `*t.webp` in
+  `results/<city_name>/`
+- uploads the generated WEBP files to BunnyCDN Storage, or copies them into the
+  local media tree when `--local` is set
+- writes `<city_name>.json` to the repository root
 
-## Processing Logic
+## Processing logic
 
 - Images
-
   - Outputs are always WEBP:
     - `{base}c.webp` (compressed)
     - `{base}t.webp` (thumbnail)
-  - If the original image is already smaller than the configured minimum size, the script still re-encodes to WEBP at high quality (to guarantee correct WEBP output).
+  - If the original image is already smaller than the configured minimum size,
+    the script still re-encodes it to WEBP at high quality, so the output is
+    always valid WEBP.
 
 - Videos
   - The script uses `ffmpeg` to extract the first frame.
@@ -138,24 +141,25 @@ This will:
 
 ## Logging
 
-A custom logger reports progress and key steps:
+A custom logger reports progress:
 
-- Which files are processed (photo vs video)
-- Compression decisions and output sizes
-- Upload attempts to BunnyCDN
-- Errors (e.g., missing folders or missing `ffmpeg`)
+- which files are processed (photo or video)
+- compression decisions and output sizes
+- upload attempts to BunnyCDN
+- errors (e.g., missing folders or missing `ffmpeg`)
 
-## Error Handling
+## Error handling
 
 - The script exits with an error if required CLI arguments are missing.
 - The script errors if `photos/<city>/` does not exist.
-- For videos, if `ffmpeg` is not available on PATH, the video thumbnail generation will fail and the error will be logged.
+- For videos, if `ffmpeg` is not on PATH, thumbnail generation fails and the
+  error is logged.
 
 ## Troubleshooting
 
 - Make sure `photos/<city_name>/` exists and contains files.
-- If videos are not processed, ensure `ffmpeg` is installed and available on PATH:
+- If videos are not processed, check that `ffmpeg` is installed and on PATH:
   - `ffmpeg -version`
   - `ffprobe -version`
-- If uploads fail, verify your BunnyCDN settings in `env/.env`:
+- If uploads fail, check your BunnyCDN settings in `env/.env`:
   - API key, storage zone name/region, and base storage path

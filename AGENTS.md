@@ -39,10 +39,13 @@ violations introduced or exposed by the change.
 
 ## Versioning and releases
 
-`apps/travel-map/package.json` holds the version, and it is what triggers a release. When
-CI passes on `main` and that version has no tag yet, the Release workflow tags
-it, publishes the GitHub release with generated notes. Then `pnpm --filter travel-map deploygh` publishes the site from your machine; it refuses to run unless `main` is clean, in sync with `origin/main`, and its version is released. Nobody
-releases by hand, and nothing is committed back to `main`.
+`apps/travel-map/package.json` holds the version, and a change to it is what
+triggers a release. When CI passes on `main` and that version has no tag yet,
+the Release workflow tags it and publishes the GitHub release with generated
+notes. `pnpm --filter travel-map deploygh` then publishes the site from your
+machine. It refuses to run unless `main` is clean, in sync with `origin/main`,
+and its version is released. Nobody releases by hand, and nothing is committed
+back to `main`.
 
 Every change that reaches `main` bumps the version in the same pull request,
 following [Semantic Versioning](https://semver.org/):
