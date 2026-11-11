@@ -11,15 +11,15 @@
 # [Travel Map](https://map.pivi.dev/)
 
 A self-hosted travel archive and publishing application built with React,
-TypeScript, and MapLibre. Travel Map combines an interactive public website with
-a local visual editor for creating trips, managing places, attaching photos,
-validating data, and preparing a static site for the web.
+TypeScript, and MapLibre. It has two parts: an interactive public website, and
+a local visual editor where you create trips, manage places, attach photos,
+validate the data, and prepare the static site for the web.
 
-![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB) ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) ![pnpm](https://img.shields.io/badge/pnpm-%23F69220.svg?style=for-the-badge&logo=pnpm&logoColor=white) ![Node.js](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white) ![React Router](https://img.shields.io/badge/react_router-CA4245.svg?style=for-the-badge&logo=react-router&logoColor=white) ![MapLibre](https://img.shields.io/badge/maplibre-396CB2.svg?style=for-the-badge&logo=maplibre&logoColor=white) ![i18next](https://img.shields.io/badge/i18next-26A69A.svg?style=for-the-badge&logo=i18next&logoColor=white) ![Framer Motion](https://img.shields.io/badge/framer_motion-0055FF.svg?style=for-the-badge&logo=framer&logoColor=white) ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white) ![Python](https://img.shields.io/badge/python-3670A0.svg?style=for-the-badge&logo=python&logoColor=ffdd54) ![ESLint](https://img.shields.io/badge/eslint-4B3263.svg?style=for-the-badge&logo=eslint&logoColor=white) ![Prettier](https://img.shields.io/badge/prettier-F7B93E.svg?style=for-the-badge&logo=prettier&logoColor=black) ![Sass](https://img.shields.io/badge/sass-CC6699.svg?style=for-the-badge&logo=sass&logoColor=white) ![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white) ![Docker](https://img.shields.io/badge/docker-2496ED.svg?style=for-the-badge&logo=docker&logoColor=white) ![Nginx](https://img.shields.io/badge/nginx-009639.svg?style=for-the-badge&logo=nginx&logoColor=white) ![GitHub Pages](https://img.shields.io/badge/github_pages-222222.svg?style=for-the-badge&logo=github&logoColor=white)
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB) ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) ![pnpm](https://img.shields.io/badge/pnpm-%23F69220.svg?style=for-the-badge&logo=pnpm&logoColor=white) ![Node.js](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white) ![React Router](https://img.shields.io/badge/react_router-CA4245.svg?style=for-the-badge&logo=react-router&logoColor=white) ![MapLibre](https://img.shields.io/badge/maplibre-396CB2.svg?style=for-the-badge&logo=maplibre&logoColor=white) ![i18next](https://img.shields.io/badge/i18next-26A69A.svg?style=for-the-badge&logo=i18next&logoColor=white) ![Framer Motion](https://img.shields.io/badge/framer_motion-0055FF.svg?style=for-the-badge&logo=framer&logoColor=white) ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white) ![Python](https://img.shields.io/badge/python-3670A0.svg?style=for-the-badge&logo=python&logoColor=ffdd54) ![ESLint](https://img.shields.io/badge/eslint-4B3263.svg?style=for-the-badge&logo=eslint&logoColor=white) ![Prettier](https://img.shields.io/badge/prettier-F7B93E.svg?style=for-the-badge&logo=prettier&logoColor=black) ![Sass](https://img.shields.io/badge/sass-CC6699.svg?style=for-the-badge&logo=sass&logoColor=white) ![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white) ![Vitest](https://img.shields.io/badge/vitest-6E9F18.svg?style=for-the-badge&logo=vitest&logoColor=white) ![Zod](https://img.shields.io/badge/zod-3E67B1.svg?style=for-the-badge&logo=zod&logoColor=white) ![Docker](https://img.shields.io/badge/docker-2496ED.svg?style=for-the-badge&logo=docker&logoColor=white) ![Nginx](https://img.shields.io/badge/nginx-009639.svg?style=for-the-badge&logo=nginx&logoColor=white) ![GitHub Pages](https://img.shields.io/badge/github_pages-222222.svg?style=for-the-badge&logo=github&logoColor=white)
 
 The [live demo](https://map.pivi.dev/) shows one completed map. A fresh clone
-starts empty and is ready for your own trips, places, and media. Read the
-[user guide](./docs/GUIDE.md) for the complete setup and authoring workflow.
+starts empty, with no trips, places, or media. The [user guide](./docs/GUIDE.md)
+covers the full setup and authoring workflow.
 
 ## Tech Stack
 
@@ -43,25 +43,25 @@ starts empty and is ready for your own trips, places, and media. Read the
 - **Quality**: ESLint, Prettier, Vitest, Knip, React Doctor, and
   repository-level type checking.
 
-## What Travel Map includes
+## Features
 
-### A public travel site
+### Public site
 
 - An interactive world map with visited, lived-in, future, and home cities.
 - Trip routes, transport legs, city tooltips, and detailed itineraries.
-- Browsable trips and places, grouped into useful views.
+- Trip and place lists, grouped into views.
 - Photo galleries and a full-screen lightbox.
-- A chronological timeline and travel statistics for distance, transport,
+- A chronological timeline, and travel statistics for distance, transport,
   countries, continents, currencies, time zones, companies, UNESCO sites, and
   media.
-- An explorable passport: a booklet with an original stamp for every country
-  on the map, inked for the ones you have entered.
+- A passport page: a booklet with an original stamp for every country on the
+  map, inked for the ones you have entered.
 - Responsive mobile and desktop layouts, light and dark themes, and English and
   Italian interfaces.
 
-### A local content editor
+### Local editor
 
-- Create and edit trips through a visual itinerary workspace.
+- Create and edit trips in a visual itinerary workspace.
 - Search a worldwide city database or add a place from a Google Maps link.
 - Add stops, layovers, dates, transport modes, airlines, ferry, bus and taxi
   companies, and logos.
@@ -70,17 +70,17 @@ starts empty and is ready for your own trips, places, and media. Read the
 - Configure branding, locales, map defaults, media paths, and travel categories.
 - Autosave changes to disk and create or restore local backups.
 
-The editor is an authoring tool for your machine; it is not part of the
-published site. Visitors receive only the generated static application and the
-media you choose to host.
+The editor runs only on your machine and is not part of the published site.
+Visitors receive the generated static application and whatever media you
+choose to host.
 
-### A media workflow
+### Media
 
 The editor's **Upload photos** button encodes photos and video thumbnails for
 the web and adds them to the trip's gallery. The standalone Python uploader in
-`scripts/uploader/` does the same from the command line. Media can be served from the included local `media/` directory or from a CDN
-such as BunnyCDN. See [Adding photos](./docs/GUIDE.md#6-adding-photos) for the
-complete workflow.
+`scripts/uploader/` does the same from the command line. Media can be served
+from the included local `media/` directory or from a CDN such as BunnyCDN. See
+[Adding photos](./docs/GUIDE.md#6-adding-photos) for the full workflow.
 
 ## How it works
 
@@ -90,8 +90,8 @@ complete workflow.
 4. `pnpm build` produces a static site under `apps/travel-map/dist/`.
 5. Serve that directory from a static host, GitHub Pages, or Docker.
 
-There is no production database, account system, or application server. Your
-content stays in files you control.
+There is no production database, account system, or application server; all
+content is in files on disk.
 
 ## Getting Started
 
@@ -106,18 +106,30 @@ cp apps/travel-map/env/.env.example apps/travel-map/env/.env
 pnpm dev
 ```
 
-Open the two local applications:
+This starts two local applications:
 
 | Address                 | Application                                     |
 | ----------------------- | ----------------------------------------------- |
 | <http://localhost:5173> | Your public Travel Map                          |
 | <http://localhost:5174> | The local editor used to create and manage data |
 
-Start in the editor, open **Settings** to name the site, then create your first
+Start in the editor: open **Settings** to name the site, then create your first
 trip. Changes autosave into `data/` and appear in the public app after a reload.
 
-For the complete first-run walkthrough, read the
-[Travel Map user guide](./docs/GUIDE.md).
+The [Travel Map user guide](./docs/GUIDE.md) has the full first-run
+walkthrough.
+
+### Data and backups
+
+Your content is kept apart from the application source:
+
+- `data/` contains site settings, places, trips, photo manifests, and logos.
+- `media/` contains self-hosted photos and video thumbnails.
+- `.data-snapshots/` contains editor backups.
+
+All three directories are gitignored, so your travel history and media are not
+committed when you update or share the application. Back them up yourself:
+editor snapshots cover authored data but not the media files.
 
 ## Development checks
 
@@ -128,28 +140,25 @@ pnpm check
 pnpm build
 ```
 
-`pnpm check` covers types, lint, formatting, tests, dead code (knip), React
-Doctor for both apps, and the dependency vulnerability audit.
+`pnpm check` runs type checking, linting, formatting, unit tests, and dead-code
+analysis (knip) across every workspace project, plus React Doctor for both apps
+and the dependency vulnerability audit. Git hooks run staged-file checks before
+commits and the full suite before pushes, and CI repeats the same checks.
 
-For uploader changes, from `scripts/uploader/` with its virtual environment
-active:
+For uploader changes, run these from `scripts/uploader/` with its virtual
+environment active:
 
 ```bash
 python -m compileall -q .
 python -m unittest discover -p "test_*.py"
 ```
 
-`pnpm check` runs type checking, linting, formatting, unit tests, and dead-code
-analysis across every workspace project, plus React Doctor on the public app.
-Git hooks run staged-file checks before commits and the full suite before
-pushes; CI repeats the same checks.
-
 ### Runtime validation
 
 Authored JSON is untrusted. `@travelmap/core` owns the Zod schemas for
 countries, cities, trips, photo manifests, and site configuration, and
-`buildWorld()` is the one place the dataset is parsed — a malformed document
-fails the build with the field named, rather than surfacing as a blank panel.
+`buildWorld()` is the one place the dataset is parsed. A malformed document
+fails the build and names the field, instead of showing up as a blank panel.
 The other validated boundaries are route parameters and router history state,
 the editor's local endpoints (request bodies, query strings, and its upload
 settings in `.env`), the responses the editor reads back, `localStorage`, and
@@ -161,7 +170,7 @@ from shape validation. Values that never leave the application do not need
 another layer.
 
 [CODING_GUIDELINES.md](./CODING_GUIDELINES.md) is the canonical standard for
-anything else — architecture, naming, state, styling, accessibility, testing,
+everything else: architecture, naming, state, styling, accessibility, testing,
 and what the tooling enforces for you.
 
 ## Deployment
@@ -174,9 +183,9 @@ Build the production application:
 pnpm build
 ```
 
-The deployable output is written to `apps/travel-map/dist/`. Upload that folder
-to any static hosting service. Travel Map uses hash-based routing, so it does
-not require server-side route handling.
+The output is written to `apps/travel-map/dist/`. Upload that folder to any
+static hosting service. Travel Map uses hash-based routing, so the server needs
+no route handling.
 
 Photos are hosted separately from the application bundle. Copy
 `apps/travel-map/env/.env.example` to `apps/travel-map/env/.env`, then set
@@ -186,15 +195,15 @@ for local and CDN examples.
 
 ### GitHub Pages
 
-Publish the site directly to the repository's `gh-pages` branch:
+Publish the site to the repository's `gh-pages` branch from your machine:
 
 ```bash
 pnpm --filter travel-map deploygh
 ```
 
-The deploy runs only from a clean `main` that is in sync with `origin/main`
-and whose version the Release workflow has already tagged, so the live site
-always matches a release.
+The deploy refuses to run unless `main` is clean, in sync with `origin/main`,
+and its version has already been tagged by the Release workflow, so the live
+site always matches a release.
 
 Read [Publishing to GitHub Pages](./docs/GUIDE.md#13-publishing-to-github-pages)
 before deploying, especially if your map includes photos.
@@ -209,24 +218,23 @@ docker compose -f docker/compose.yml up --build
 
 Open <http://localhost:8080>. The local `media/` directory is mounted read-only
 inside the container, so adding or replacing a photo does not require a rebuild.
-Changes to trips, cities, or settings do require rebuilding because `data/` is
+Changes to trips, cities, or settings do require a rebuild because `data/` is
 compiled into the static site.
 
 See [Running the finished site with Docker](./docs/GUIDE.md#12-running-the-finished-site-with-docker)
 for details.
 
-## Your data stays yours
+## Versioning and releases
 
-Personal content is deliberately separate from the application source:
-
-- `data/` contains site settings, places, trips, photo manifests, and logos.
-- `media/` contains self-hosted photos and video thumbnails.
-- `.data-snapshots/` contains editor backups.
-
-These directories are excluded from git, so personal travel history and media
-are not accidentally committed when you update or share the application. Back
-them up independently; editor snapshots cover authored data but not the media
-files themselves.
+Releases are automatic and follow [Semantic Versioning](https://semver.org/).
+Every pull request that changes code bumps the version in
+`apps/travel-map/package.json`, as
+[AGENTS.md](./AGENTS.md#versioning-and-releases) describes. When CI passes on
+`main`, the Release workflow tags the new version and publishes the
+[GitHub release](https://github.com/thisispivi/TravelMap/releases). Then
+`pnpm --filter travel-map deploygh` publishes the site from a clean, released
+`main`. Dependabot alerts and security updates are on, and the
+`fix-vulnerabilities` skill triages them.
 
 ## Documentation
 
@@ -266,13 +274,3 @@ Country flags are from [Twemoji](https://github.com/jdecked/twemoji) (v17.0.3),
 © Twitter, Inc and other contributors, licensed under
 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Only their file names
 were changed.
-
-## Versioning and releases
-
-Releases are automatic and follow [Semantic Versioning](https://semver.org/).
-Every pull request that changes code bumps the version in `apps/travel-map/package.json`, as
-[AGENTS.md](./AGENTS.md#versioning-and-releases) describes. When CI passes on
-`main`, the Release workflow tags the new version, publishes the
-[GitHub release](https://github.com/thisispivi/TravelMap/releases), and `pnpm --filter travel-map deploygh` then publishes the site from a clean, released `main`.
-Dependabot alerts and security updates are on; the `fix-vulnerabilities` skill
-triages them.
