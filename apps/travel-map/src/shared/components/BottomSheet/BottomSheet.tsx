@@ -6,13 +6,12 @@ import { remToPx } from "@travelmap/ui/lib/rem";
 import {
   animate,
   m,
-  MotionStyle,
   PanInfo,
   useDragControls,
   useMotionValue,
-  useTransform,
+  useReducedMotionConfig,
 } from "framer-motion";
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { CSSProperties, ReactNode, useEffect, useRef, useState } from "react";
 
 import { SHEET_HALF_HIDDEN_SHARE, SHEET_PEEK_REM } from "./BottomSheet.metrics";
 
@@ -56,11 +55,11 @@ export function BottomSheet({
   const { t } = useLanguage(["home"]);
   const sheetRef = useRef<HTMLDivElement>(null);
   const dragControls = useDragControls();
+  const isReduced = useReducedMotionConfig();
   const [height, setHeight] = useState(() => window.innerHeight * 0.85);
   const [openSnap, setOpenSnap] = useState<OpenSnap>("half");
   /* Starts below the screen, so the first settle slides it into place. */
   const y = useMotionValue(height);
-  const hidden = useTransform(y, (offset) => `${offset}px`);
 
   const offsets = {
     full: 0,
@@ -78,9 +77,13 @@ export function BottomSheet({
   }, []);
 
   useEffect(() => {
-    const controls = animate(y, target, panelSpring);
+    const controls = animate(
+      y,
+      target,
+      isReduced ? { duration: 0 } : panelSpring,
+    );
     return () => controls.stop();
-  }, [target, y]);
+  }, [isReduced, target, y]);
 
   /**
    * Settles a released drag on the resting height nearest to where a fling
@@ -98,12 +101,12 @@ export function BottomSheet({
     );
     if (nearest === "peek") {
       onOpenChange(false);
-      animate(y, offsets.peek, panelSpring);
+      animate(y, offsets.peek, isReduced ? { duration: 0 } : panelSpring);
       return;
     }
     setOpenSnap(nearest);
     onOpenChange(true);
-    animate(y, offsets[nearest], panelSpring);
+    animate(y, offsets[nearest], isReduced ? { duration: 0 } : panelSpring);
   };
 
   /**
@@ -158,16 +161,17 @@ export function BottomSheet({
           />
         </div>
         {/*
-         * How much of the sheet is below the screen, which the panel inside
-         * adds to the end of its scrolling body so its last item stays reachable.
-         * MotionStyle has no keys for custom properties, hence the cast.
+         * Reserve the hidden space at the snap target. Updating this padding
+         * with every drag frame relaid out the entire list during the gesture.
+         * The last item remains reachable at every resting height.
+         * CSSProperties has no keys for custom properties, hence the cast.
          */}
-        <m.div
+        <div
           className="bottom-sheet__body"
-          style={{ "--sheet-hidden": hidden } as MotionStyle}
+          style={{ "--sheet-hidden": `${target}px` } as CSSProperties}
         >
           {children}
-        </m.div>
+        </div>
       </m.div>
     </div>
   );

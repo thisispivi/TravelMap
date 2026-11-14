@@ -3,14 +3,14 @@ import { ResponsiveType } from "@/shared/hooks/useResponsive";
 
 /*
  * The pages that look back over the whole archive. They have their own tabs when
- * the navigation has room, and share one Journal tab, with a switcher on each
- * page, when it does not. A new page needs one line here.
+ * the navigation has room, and share one Journal tab, with a switcher in the
+ * shell's page header, when it does not. A new page needs one line here.
  */
 export const JOURNAL_PAGES = [
-  { id: "stats", path: "/stats" },
-  { id: "timeline", path: "/timeline" },
-  { id: "passport", path: "/passport" },
-] as const satisfies readonly { id: NavTabId; path: string }[];
+  { id: "stats", path: "/stats", title: "stats.title" },
+  { id: "timeline", path: "/timeline", title: "timeline.title" },
+  { id: "passport", path: "/passport", title: "nav.passport" },
+] as const satisfies readonly { id: NavTabId; path: string; title: string }[];
 
 /* Trips, places and gallery always have a tab; on a phone, so do the settings. */
 const RAIL_FIXED_TABS = 3;

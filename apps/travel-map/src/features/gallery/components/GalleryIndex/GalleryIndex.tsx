@@ -5,7 +5,7 @@ import { PanelFrame } from "@travelmap/ui/components/PanelFrame/PanelFrame";
 import { PanelHeader } from "@travelmap/ui/components/PanelHeader/PanelHeader";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { formatDateRangeShort } from "@travelmap/ui/i18n/date";
-import { staggerItem, staggerList } from "@travelmap/ui/lib/motion";
+import { listReveal } from "@travelmap/ui/lib/motion";
 import { m } from "framer-motion";
 import { ReactNode } from "react";
 import { useNavigate } from "react-router";
@@ -37,14 +37,10 @@ export function GalleryIndex(): ReactNode {
             animate="visible"
             className="gallery-index__grid"
             initial="hidden"
-            variants={staggerList}
+            variants={listReveal}
           >
             {tripAlbums.map(({ trip, album }) => (
-              <m.li
-                className="gallery-index__item"
-                key={trip.id}
-                variants={staggerItem}
-              >
+              <li className="gallery-index__item" key={trip.id}>
                 <TripPhotoCard
                   meta={`${formatDateRangeShort({
                     eDateInput: trip.eDate,
@@ -56,7 +52,7 @@ export function GalleryIndex(): ReactNode {
                   }
                   trip={trip}
                 />
-              </m.li>
+              </li>
             ))}
           </m.ul>
         )}

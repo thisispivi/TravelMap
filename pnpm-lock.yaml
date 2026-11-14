@@ -131,6 +131,9 @@ importers:
       gh-pages:
         specifier: ^6.3.0
         version: 6.3.0
+      jsdom:
+        specifier: ^30.1.3
+        version: 30.1.3
       knip:
         specifier: ^6.44.1
         version: 6.44.1

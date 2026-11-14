@@ -99,9 +99,51 @@
   &__page-content {
     position: absolute;
     inset: v.$space3 0.3125rem;
+    display: flex;
+    flex-direction: column;
 
     @include m.compact() {
       inset: 0;
     }
+  }
+
+  &__journal-header {
+    flex: none;
+  }
+
+  &__outlet {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+  }
+
+  &__route {
+    height: 100%;
+  }
+
+  /* Quick route changes finish before any temporary loading surface appears. */
+  &__pending {
+    z-index: 6;
+    animation: pending-reveal 0.12s ease-out 0.15s both;
+
+    &--inline {
+      @include m.panel();
+      position: absolute;
+      inset: 0;
+      border: none;
+      box-shadow: none;
+    }
+  }
+}
+
+@keyframes pending-reveal {
+  from {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  to {
+    opacity: 1;
+    visibility: visible;
   }
 }

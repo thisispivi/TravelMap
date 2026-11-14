@@ -7,7 +7,7 @@ import { PanelHeader } from "@travelmap/ui/components/PanelHeader/PanelHeader";
 import { YearPills } from "@travelmap/ui/components/YearPills/YearPills";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { formatDateRangeShort } from "@travelmap/ui/i18n/date";
-import { easeOut, staggerItem } from "@travelmap/ui/lib/motion";
+import { easeOut } from "@travelmap/ui/lib/motion";
 import { bucketOf, bucketYears, fitSlots } from "@travelmap/ui/lib/yearBuckets";
 import { AnimatePresence, m, Variants } from "framer-motion";
 import { ReactNode, useRef, useState } from "react";
@@ -37,7 +37,7 @@ const slideList: Variants = {
   hidden: (direction: number) => ({ opacity: 0, x: direction * 24 }),
   visible: {
     opacity: 1,
-    transition: { ...easeOut, staggerChildren: 0.03 },
+    transition: easeOut,
     x: 0,
   },
 };
@@ -79,9 +79,9 @@ function TripCard({ trip, isYearShown, onOpen }: TripCardProps): ReactNode {
       : dates;
 
   return (
-    <m.li className="trip-list__item" variants={staggerItem}>
+    <li className="trip-list__item">
       <TripPhotoCard meta={meta} onOpen={() => onOpen(trip)} trip={trip} />
-    </m.li>
+    </li>
   );
 }
 
