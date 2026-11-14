@@ -9,7 +9,7 @@ import { formatDateRangeShort } from "@travelmap/ui/i18n/date";
 import { formatDuration, formatMileage } from "@travelmap/ui/i18n/format";
 import { classNames } from "@travelmap/ui/lib/classNames";
 import { MODE_COLORS } from "@travelmap/ui/lib/modeColors";
-import { staggerItem, staggerList } from "@travelmap/ui/lib/motion";
+import { listReveal } from "@travelmap/ui/lib/motion";
 import { m } from "framer-motion";
 import { BedDouble, Flag, Moon } from "lucide-react";
 import { CSSProperties, ReactNode } from "react";
@@ -504,16 +504,15 @@ export function TripItinerary({
       animate="visible"
       className="itinerary"
       initial="hidden"
-      variants={staggerList}
+      variants={listReveal}
     >
       {buildItinerary(trip).map((item) => {
         switch (item.kind) {
           case "endpoint":
             return (
-              <m.li
+              <li
                 className="itinerary__item itinerary__item--endpoint"
                 key={`${item.role}-${item.city.id}`}
-                variants={staggerItem}
               >
                 <span aria-hidden="true" className="itinerary__node">
                   <Flag className="itinerary__node-icon" />
@@ -527,28 +526,26 @@ export function TripItinerary({
                     {formatDays(item.date, item.date, currLanguage)}
                   </span>
                 </p>
-              </m.li>
+              </li>
             );
           case "move":
             return (
-              <m.li
+              <li
                 className="itinerary__item itinerary__item--move"
                 key={item.key}
-                variants={staggerItem}
               >
                 <MoveBlock
                   legs={item.legs}
                   onFocusCity={onFocusCity}
                   onHoverCity={onHoverCity}
                 />
-              </m.li>
+              </li>
             );
           case "stay":
             return (
-              <m.li
+              <li
                 className="itinerary__item itinerary__item--stay"
                 key={item.key}
-                variants={staggerItem}
               >
                 <span aria-hidden="true" className="itinerary__node">
                   <BedDouble className="itinerary__node-icon" />
@@ -559,7 +556,7 @@ export function TripItinerary({
                   outings={item.outings}
                   stay={item.stay}
                 />
-              </m.li>
+              </li>
             );
         }
       })}

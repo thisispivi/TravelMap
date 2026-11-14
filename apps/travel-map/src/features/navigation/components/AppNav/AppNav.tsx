@@ -12,7 +12,7 @@ import {
   Settings,
 } from "lucide-react";
 import { ReactNode } from "react";
-import { useLocation, useNavigate } from "react-router";
+import { useLocation, useNavigate, useNavigation } from "react-router";
 
 import { NavTabId, useAppRoute } from "@/shared/context/AppRoute.context";
 import { usePanel } from "@/shared/context/Panel.context";
@@ -98,6 +98,7 @@ interface AppNavProps {
 export function AppNav({ responsive }: AppNavProps): ReactNode {
   const { t } = useLanguage(["home"]);
   const navigate = useNavigate();
+  const navigation = useNavigation();
   const { pathname } = useLocation();
   const { activeTab } = useAppRoute();
   const { isPanelOpen, setIsPanelOpen } = usePanel();
@@ -115,8 +116,14 @@ export function AppNav({ responsive }: AppNavProps): ReactNode {
    */
   const handleSelectTab = (id: string): void => {
     const tab = tabs.find((candidate) => candidate.id === id);
-    if (!tab || (id === "journal" && activeId === "journal")) return;
-    if (pathname === tab.path) {
+    if (!tab) return;
+    if (
+      navigation.state === "idle" &&
+      id === "journal" &&
+      activeId === "journal"
+    )
+      return;
+    if (navigation.state === "idle" && pathname === tab.path) {
       setIsPanelOpen(!isPanelOpen);
       return;
     }

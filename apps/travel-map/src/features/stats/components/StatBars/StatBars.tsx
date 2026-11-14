@@ -58,7 +58,7 @@ export function StatBars({ bars }: StatBarsProps): ReactNode {
         viewport={{ once: true }}
         whileInView="visible"
       >
-        {bars.map((bar, index) => (
+        {bars.map((bar) => (
           <li
             className="stat-bars__row"
             key={bar.key}
@@ -89,7 +89,7 @@ export function StatBars({ bars }: StatBarsProps): ReactNode {
                     width: `${(bar.value / max) * 100}%`,
                   } as CSSProperties
                 }
-                transition={{ ...easeOut, delay: index * 0.03, duration: 0.6 }}
+                transition={easeOut}
                 variants={{ hidden: { scaleX: 0 }, visible: { scaleX: 1 } }}
               />
             </span>

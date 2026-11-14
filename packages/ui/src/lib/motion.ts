@@ -27,14 +27,8 @@ export const menuVariants: Variants = {
   exit: { opacity: 0, scale: 0.96, transition: easeOut, y: -4 },
 };
 
-/** A list whose children reveal one after another. */
-export const staggerList: Variants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.035, delayChildren: 0.04 } },
-};
-
-/** One child of a `staggerList`. */
-export const staggerItem: Variants = {
-  hidden: { opacity: 0, y: 8 },
-  visible: { opacity: 1, y: 0, transition: easeOut },
+/** A list revealed as one surface, independent of how many rows it contains. */
+export const listReveal: Variants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: easeOut },
 };

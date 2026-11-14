@@ -5,7 +5,6 @@ import { TravelType } from "@travelmap/core/typings/Travel";
 import { CountryFlag } from "@travelmap/ui/components/CountryFlag/CountryFlag";
 import { EmptyState } from "@travelmap/ui/components/EmptyState/EmptyState";
 import { PanelFrame } from "@travelmap/ui/components/PanelFrame/PanelFrame";
-import { PanelHeader } from "@travelmap/ui/components/PanelHeader/PanelHeader";
 import { Popover } from "@travelmap/ui/components/Popover/Popover";
 import { TransportModeIcon } from "@travelmap/ui/components/TransportModeIcon/TransportModeIcon";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
@@ -13,7 +12,7 @@ import { formatDuration, formatMileage } from "@travelmap/ui/i18n/format";
 import { classNames } from "@travelmap/ui/lib/classNames";
 import { MODE_COLORS } from "@travelmap/ui/lib/modeColors";
 import { easeOut } from "@travelmap/ui/lib/motion";
-import { animate, m, useInView, useReducedMotionConfig } from "framer-motion";
+import { m, useReducedMotionConfig } from "framer-motion";
 import {
   BedDouble,
   Building2,
@@ -35,14 +34,13 @@ import {
   Sunrise,
   TrainFront,
 } from "lucide-react";
-import { CSSProperties, ReactNode, useEffect, useRef, useState } from "react";
+import { CSSProperties, ReactNode, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router";
 
 import ContinentsMap from "@/assets/icons/Continents.svg?react";
 import EarthFlat from "@/assets/icons/EarthFlat.svg?react";
 import MoonFlat from "@/assets/icons/MoonFlat.svg?react";
 import { resolveCompany } from "@/data/companies";
-import { JournalSwitcher } from "@/shared/components/JournalSwitcher/JournalSwitcher";
 import { SegmentedControl } from "@/shared/components/SegmentedControl/SegmentedControl";
 import { Tooltip, TooltipBody } from "@/shared/components/Tooltip/Tooltip";
 import { useMapInteraction } from "@/shared/context/MapInteraction.context";
@@ -82,76 +80,41 @@ type TileArea =
 type FigureArea = "f1" | "f2" | "f3" | "f4" | "f5" | "f6" | "h1" | "h2" | "h3";
 
 /**
- * Properties accepted by the CountUp component.
- * @property {number} value - The number to count up to
+ * Properties accepted by the StatNumber component.
+ * @property {number} value - The number to display
  * @property {string} locale - The locale to group digits for
  * @property {number} [decimals] - Digits after the decimal separator
  */
-interface CountUpProps {
+interface StatNumberProps {
   value: number;
   locale: string;
   decimals?: number;
 }
 
 /**
- * CountUp component
- * A number that counts up from zero the first time it scrolls into view. It
- * writes straight to the DOM, so the count costs no React renders.
+ * StatNumber component
+ * Prints the final value immediately, so reading a statistic never waits for
+ * a counter animation or schedules per-frame text layout.
  * @component
- * @param {CountUpProps} props - The number props
- * @param {number} props.value - The number to count up to
+ * @param {StatNumberProps} props - The number props
+ * @param {number} props.value - The number to display
  * @param {string} props.locale - The locale to group digits for
  * @param {number} [props.decimals=0] - Digits after the decimal separator
  * @returns {ReactNode} The number
  */
-function CountUp({ value, locale, decimals = 0 }: CountUpProps): ReactNode {
-  const ref = useRef<HTMLSpanElement>(null);
-  const hasCountedRef = useRef(false);
-  const isInView = useInView(ref, { once: true });
-  const isReduced = useReducedMotionConfig() ?? false;
-  const digits = {
-    maximumFractionDigits: decimals,
-    minimumFractionDigits: decimals,
-  };
-
-  useEffect(() => {
-    const node = ref.current;
-    if (!node || !isInView) return;
-
-    /**
-     * Writes a number in the active locale.
-     * @param {number} latest - The number to show
-     * @returns {void}
-     */
-    const write = (latest: number): void => {
-      node.textContent = latest.toLocaleString(locale, {
+function StatNumber({
+  value,
+  locale,
+  decimals = 0,
+}: StatNumberProps): ReactNode {
+  return (
+    <span>
+      {value.toLocaleString(locale, {
         maximumFractionDigits: decimals,
         minimumFractionDigits: decimals,
-      });
-    };
-    /*
-     * The count runs once, on the first reveal, and only counts as done once
-     * it finishes: an effect re-run mid-count, as StrictMode's double mount
-     * does, starts it over. The animation writes to the DOM behind React's
-     * back, so a later change — a new language — is written the same way,
-     * straight to its final value, as is every number under Reduce motion.
-     */
-    if (hasCountedRef.current || isReduced) {
-      write(value);
-      return;
-    }
-    const controls = animate(0, value, {
-      duration: 0.9,
-      ease: [0.22, 1, 0.36, 1],
-      onComplete: () => {
-        hasCountedRef.current = true;
-      },
-      onUpdate: write,
-    });
-    return () => controls.stop();
-  }, [decimals, isInView, isReduced, locale, value]);
-
-  return <span ref={ref}>{value.toLocaleString(locale, digits)}</span>;
+      })}
+    </span>
+  );
 }
 
 /**
@@ -215,7 +178,7 @@ function Figure({
         {label}
       </p>
       <p className="stats-tile__value">
-        <CountUp locale={currLanguage} value={value} />
+        <StatNumber locale={currLanguage} value={value} />
         {suffix ? <span className="stats-tile__suffix">{suffix}</span> : null}
       </p>
     </m.section>
@@ -430,7 +393,7 @@ function YearChart({ years, unit }: YearChartProps): ReactNode {
         viewport={{ once: true }}
         whileInView="visible"
       >
-        {years.map(({ year, value }, index) => (
+        {years.map(({ year, value }) => (
           <li
             className="stats-tile__year"
             key={year}
@@ -454,7 +417,7 @@ function YearChart({ years, unit }: YearChartProps): ReactNode {
               {value > 0 ? (
                 <m.span
                   className="stats-tile__year-value"
-                  transition={{ ...easeOut, delay: index * 0.03 + 0.4 }}
+                  transition={easeOut}
                   variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
                 >
                   {value}
@@ -464,11 +427,7 @@ function YearChart({ years, unit }: YearChartProps): ReactNode {
                 <m.span
                   className="stats-tile__year-bar"
                   style={{ height: `calc((100% - 1rem) * ${value / max})` }}
-                  transition={{
-                    ...easeOut,
-                    delay: index * 0.03,
-                    duration: 0.6,
-                  }}
+                  transition={easeOut}
                   variants={{ hidden: { scaleY: 0 }, visible: { scaleY: 1 } }}
                 />
               ) : null}
@@ -487,11 +446,9 @@ function YearChart({ years, unit }: YearChartProps): ReactNode {
 /**
  * Properties accepted by the Planet component.
  * @property {"earth" | "moon"} body - Which picture to draw
- * @property {number} [delay] - Seconds to wait before it rolls in
  */
 interface PlanetProps {
   body: "earth" | "moon";
-  delay?: number;
 }
 
 /**
@@ -500,16 +457,15 @@ interface PlanetProps {
  * @component
  * @param {PlanetProps} props - The planet props
  * @param {"earth" | "moon"} props.body - Which picture to draw
- * @param {number} [props.delay=0] - Seconds to wait before it rolls in
  * @returns {ReactNode} The planet
  */
-function Planet({ body, delay = 0 }: PlanetProps): ReactNode {
+function Planet({ body }: PlanetProps): ReactNode {
   const Picture = body === "earth" ? EarthFlat : MoonFlat;
   return (
     <m.span
       className="stats-tile__planet"
       initial={{ opacity: 0, rotate: -90, scale: 0.5 }}
-      transition={{ ...easeOut, delay, duration: 0.8 }}
+      transition={easeOut}
       viewport={{ once: true }}
       whileInView={{ opacity: 1, rotate: 0, scale: 1 }}
     >
@@ -585,7 +541,7 @@ function DistanceTile(): ReactNode {
   return (
     <Card area="distance" title={t("stats.distance")}>
       <p className="stats-tile__distance">
-        <CountUp locale={currLanguage} value={stats.km} />
+        <StatNumber locale={currLanguage} value={stats.km} />
         <span className="stats-tile__suffix">km</span>
       </p>
       <div className="stats-tile__journey">
@@ -595,17 +551,17 @@ function DistanceTile(): ReactNode {
             className="stats-tile__journey-fill"
             initial={{ scaleX: 0 }}
             style={{ width: `${moonShare * 100}%` }}
-            transition={{ ...easeOut, delay: 0.3, duration: 1.2 }}
+            transition={easeOut}
             viewport={{ once: true }}
             whileInView={{ scaleX: 1 }}
           />
         </span>
-        <Planet body="moon" delay={0.15} />
+        <Planet body="moon" />
       </div>
       <div className="stats-tile__journey-captions">
         <p className="stats-tile__journey-caption">
           <span className="stats-tile__journey-value">
-            <CountUp
+            <StatNumber
               decimals={1}
               locale={currLanguage}
               value={stats.aroundEarth}
@@ -618,14 +574,14 @@ function DistanceTile(): ReactNode {
           {stats.toMoon < 1 ? (
             <>
               <span className="stats-tile__journey-value">
-                <CountUp locale={currLanguage} value={stats.toMoon * 100} />%
+                <StatNumber locale={currLanguage} value={stats.toMoon * 100} />%
               </span>
               {t("stats.wayToMoon")}
             </>
           ) : (
             <>
               <span className="stats-tile__journey-value">
-                <CountUp
+                <StatNumber
                   decimals={2}
                   locale={currLanguage}
                   value={stats.toMoon}
@@ -666,18 +622,14 @@ function WorldTile(): ReactNode {
             cy="60"
             initial={{ pathLength: 0 }}
             r="52"
-            transition={
-              isReduced
-                ? { duration: 0 }
-                : { ...easeOut, delay: 0.2, duration: 1.2 }
-            }
+            transition={isReduced ? { duration: 0 } : easeOut}
             viewport={{ once: true }}
             whileInView={{ pathLength: stats.countryShare }}
           />
         </svg>
         <p className="stats-tile__world-share">
           <span className="stats-tile__world-value">
-            <CountUp
+            <StatNumber
               decimals={1}
               locale={currLanguage}
               value={stats.countryShare * 100}
@@ -786,9 +738,7 @@ function FlightTypesTile(): ReactNode {
                   onMouseEnter={() => setActiveType(type)}
                   onMouseLeave={() => setActiveType(null)}
                   r="52"
-                  transition={
-                    isReduced ? { duration: 0 } : { ...easeOut, duration: 0.9 }
-                  }
+                  transition={isReduced ? { duration: 0 } : easeOut}
                   viewport={{ once: true }}
                   whileInView={{
                     pathLength: segment.length,
@@ -800,7 +750,7 @@ function FlightTypesTile(): ReactNode {
           </svg>
           <p className="stats-tile__donut-total">
             <span className="stats-tile__world-value">
-              <CountUp locale={currLanguage} value={count} />
+              <StatNumber locale={currLanguage} value={count} />
             </span>
             <span className="stats-tile__world-label">
               {t("stats.flightTypes.flights", { count })}
@@ -825,11 +775,11 @@ function FlightTypesTile(): ReactNode {
                 <span aria-hidden="true" className="stats-tile__flight-dot" />
                 <span className="stats-tile__flight-name">{name}</span>
                 <span className="stats-tile__flight-count">
-                  <CountUp locale={currLanguage} value={flights} />
+                  <StatNumber locale={currLanguage} value={flights} />
                 </span>
                 <span className="stats-tile__flight-detail">
-                  <CountUp locale={currLanguage} value={share} />%{" · "}
-                  <CountUp locale={currLanguage} value={km} /> km
+                  <StatNumber locale={currLanguage} value={share} />%{" · "}
+                  <StatNumber locale={currLanguage} value={km} /> km
                 </span>
               </button>
             </li>
@@ -1482,7 +1432,7 @@ function ClockTile(): ReactNode {
               <m.span
                 className="stats-tile__clock-bar stats-tile__clock-bar--departures"
                 style={{ height: `${(left / max) * 100}%` }}
-                transition={{ ...easeOut, delay: hour * 0.015, duration: 0.5 }}
+                transition={easeOut}
                 variants={{ hidden: { scaleY: 0 }, visible: { scaleY: 1 } }}
               />
             </span>
@@ -1490,7 +1440,7 @@ function ClockTile(): ReactNode {
               <m.span
                 className="stats-tile__clock-bar stats-tile__clock-bar--arrivals"
                 style={{ height: `${(arrived / max) * 100}%` }}
-                transition={{ ...easeOut, delay: hour * 0.015, duration: 0.5 }}
+                transition={easeOut}
                 variants={{ hidden: { scaleY: 0 }, visible: { scaleY: 1 } }}
               />
             </span>
@@ -1620,13 +1570,7 @@ export function StatsPage(): ReactNode {
 
   if (stats.trips === 0)
     return (
-      <PanelFrame
-        header={
-          <PanelHeader surface="page" title={t("stats.title")}>
-            <JournalSwitcher />
-          </PanelHeader>
-        }
-      >
+      <PanelFrame>
         <div className="stats-page">
           <EmptyState message={t("stats.empty")} />
         </div>
@@ -1634,13 +1578,7 @@ export function StatsPage(): ReactNode {
     );
 
   return (
-    <PanelFrame
-      header={
-        <PanelHeader surface="page" title={t("stats.title")}>
-          <JournalSwitcher />
-        </PanelHeader>
-      }
-    >
+    <PanelFrame>
       <div className="stats-page">
         <div className="stats-page__bento">
           <Figure
