@@ -4,7 +4,6 @@ import { Continent, Country, findCountry } from "@travelmap/core";
 import { CountryFlag } from "@travelmap/ui/components/CountryFlag/CountryFlag";
 import { EmptyState } from "@travelmap/ui/components/EmptyState/EmptyState";
 import { PanelFrame } from "@travelmap/ui/components/PanelFrame/PanelFrame";
-import { PanelHeader } from "@travelmap/ui/components/PanelHeader/PanelHeader";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { formatDateRangeShort, formatMonthYear } from "@travelmap/ui/i18n/date";
 import { classNames } from "@travelmap/ui/lib/classNames";
@@ -26,7 +25,6 @@ import {
   siteConfig,
   visitedTrips,
 } from "@/data/world";
-import { JournalSwitcher } from "@/shared/components/JournalSwitcher/JournalSwitcher";
 import { Tooltip } from "@/shared/components/Tooltip/Tooltip";
 import { useResponsive } from "@/shared/hooks/useResponsive";
 import { useTooltip } from "@/shared/hooks/useTooltip";
@@ -558,13 +556,7 @@ export function PassportPage(): ReactNode {
   };
 
   return (
-    <PanelFrame
-      header={
-        <PanelHeader surface="page" title={t("nav.passport")}>
-          <JournalSwitcher />
-        </PanelHeader>
-      }
-    >
+    <PanelFrame>
       <div
         className={`passport-page passport-page--${nationality?.passportCover ?? "red"}`}
         ref={pageRef}

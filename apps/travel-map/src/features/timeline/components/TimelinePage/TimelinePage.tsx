@@ -5,7 +5,6 @@ import { CountryFlag } from "@travelmap/ui/components/CountryFlag/CountryFlag";
 import { CoverImage } from "@travelmap/ui/components/CoverImage/CoverImage";
 import { EmptyState } from "@travelmap/ui/components/EmptyState/EmptyState";
 import { PanelFrame } from "@travelmap/ui/components/PanelFrame/PanelFrame";
-import { PanelHeader } from "@travelmap/ui/components/PanelHeader/PanelHeader";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { formatDateRangeShort } from "@travelmap/ui/i18n/date";
 import { classNames } from "@travelmap/ui/lib/classNames";
@@ -13,7 +12,6 @@ import { ReactNode, useRef } from "react";
 import { useNavigate } from "react-router";
 
 import { visitedTrips } from "@/data/world";
-import { JournalSwitcher } from "@/shared/components/JournalSwitcher/JournalSwitcher";
 import { useMapInteraction } from "@/shared/context/MapInteraction.context";
 import { useResponsive } from "@/shared/hooks/useResponsive";
 
@@ -140,14 +138,7 @@ export function TimelinePage(): ReactNode {
   };
 
   return (
-    <PanelFrame
-      bodyRef={bodyRef}
-      header={
-        <PanelHeader surface="page" title={t("timeline.title")}>
-          <JournalSwitcher />
-        </PanelHeader>
-      }
-    >
+    <PanelFrame bodyRef={bodyRef}>
       <div className="timeline-page">
         {stops.length === 0 ? (
           <EmptyState message={t("timeline.empty")} />

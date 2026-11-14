@@ -10,7 +10,7 @@ import { PanelHeader } from "@travelmap/ui/components/PanelHeader/PanelHeader";
 import { Popover } from "@travelmap/ui/components/Popover/Popover";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { classNames } from "@travelmap/ui/lib/classNames";
-import { staggerItem, staggerList } from "@travelmap/ui/lib/motion";
+import { listReveal } from "@travelmap/ui/lib/motion";
 import { m } from "framer-motion";
 import { ChevronDown, Images, ListFilter } from "lucide-react";
 import { ReactNode, useRef, useState } from "react";
@@ -72,7 +72,7 @@ function CityCard({ city, filter, onFocus }: CityCardProps): ReactNode {
   const { visits, nights } = cityVisits(city, visitedTrips);
 
   return (
-    <m.li className="city-card" variants={staggerItem}>
+    <li className="city-card">
       <button
         aria-label={t("places.showOnMap", { city: name })}
         className="city-card__main"
@@ -112,7 +112,7 @@ function CityCard({ city, filter, onFocus }: CityCardProps): ReactNode {
           {photoCount}
         </button>
       ) : null}
-    </m.li>
+    </li>
   );
 }
 
@@ -346,7 +346,7 @@ export function PlacesPanel(): ReactNode {
                 animate="visible"
                 className="places-panel__grid"
                 initial="hidden"
-                variants={staggerList}
+                variants={listReveal}
               >
                 {cities.map((city) => (
                   <CityCard
