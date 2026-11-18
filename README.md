@@ -198,7 +198,7 @@ for local and CDN examples.
 Publish the site to the repository's `gh-pages` branch from your machine:
 
 ```bash
-pnpm --filter travel-map deploygh
+pnpm deploy:pages
 ```
 
 The deploy refuses to run unless `main` is clean, in sync with `origin/main`,
@@ -232,7 +232,7 @@ Every pull request that changes code bumps the version in
 [AGENTS.md](./AGENTS.md#versioning-and-releases) describes. When CI passes on
 `main`, the Release workflow tags the new version and publishes the
 [GitHub release](https://github.com/thisispivi/TravelMap/releases). Then
-`pnpm --filter travel-map deploygh` publishes the site from a clean, released
+`pnpm deploy:pages` publishes the site from a clean, released
 `main`. Dependabot alerts and security updates are on, and the
 `fix-vulnerabilities` skill triages them.
 
