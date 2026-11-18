@@ -7,6 +7,8 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    cooldown:
+      default-days: 3
     commit-message:
       prefix: chore
       include: scope
@@ -23,6 +25,8 @@ updates:
     directory: /scripts/uploader
     schedule:
       interval: weekly
+    cooldown:
+      default-days: 3
     commit-message:
       prefix: chore
       include: scope
@@ -39,6 +43,8 @@ updates:
     directory: /docker
     schedule:
       interval: weekly
+    cooldown:
+      default-days: 3
     commit-message:
       prefix: chore
       include: scope
@@ -55,6 +61,8 @@ updates:
     directory: /docker
     schedule:
       interval: weekly
+    cooldown:
+      default-days: 3
     commit-message:
       prefix: chore
       include: scope
@@ -71,6 +79,8 @@ updates:
     directory: /
     schedule:
       interval: monthly
+    cooldown:
+      default-days: 3
     commit-message:
       prefix: chore
       include: scope

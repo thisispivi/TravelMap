@@ -17,12 +17,12 @@
     "./typings/Travel": "./src/typings/Travel.ts"
   },
   "dependencies": {
-    "remeda": "^2.58.0",
+    "remeda": "^2.61.0",
     "zod": "4.6.7"
   },
   "devDependencies": {
     "@types/node": "^26.6.6",
-    "knip": "^6.44.1",
+    "knip": "^6.45.1",
     "typescript": "^6.0.3",
     "vitest": "^5.1.0"
   }

@@ -1,5 +1,5 @@
 /*
- * Runs before `deploygh`: GitHub Pages only ever serves a released main, so the
+ * Runs at the start of `deploy:pages`: GitHub Pages only ever serves a released main, so the
  * checkout must be a clean, up-to-date main whose version the Release workflow
  * has already tagged.
  */

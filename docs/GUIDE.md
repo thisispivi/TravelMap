@@ -371,7 +371,7 @@ docker compose -f docker/compose.yml up --build
 ## 13. Publishing to GitHub Pages
 
 ```bash
-pnpm --filter travel-map deploygh
+pnpm deploy:pages
 ```
 
 This builds the site and pushes it to the `gh-pages` branch. The custom domain
@@ -399,7 +399,7 @@ Run these from the repository root unless noted.
 | `pnpm build`                                      | Build the production site into `apps/travel-map/dist`      |
 | `pnpm check`                                      | Verify the code is healthy; run before committing          |
 | `pnpm --filter travel-map preview`                | Preview the built site locally                             |
-| `pnpm --filter travel-map deploygh`               | Publish to GitHub Pages                                    |
+| `pnpm deploy:pages`                               | Publish to GitHub Pages                                    |
 | `docker compose -f docker/compose.yml up --build` | Run the built site plus your photos                        |
 | `python main.py -c <City> -C <Country> --local`   | Process photos locally (from `scripts/uploader/`)          |
 | `python main.py -c <City> -C <Country>`           | Process photos and upload to BunnyCDN                      |
