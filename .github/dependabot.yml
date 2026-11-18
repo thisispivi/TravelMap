@@ -20,6 +20,11 @@ updates:
         applies-to: version-updates
         patterns: ["*"]
         update-types: [minor, patch]
+    # typescript-eslint does not support TypeScript 7 yet. Drop this rule once it
+    # does.
+    ignore:
+      - dependency-name: typescript
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: pip
     directory: /scripts/uploader
