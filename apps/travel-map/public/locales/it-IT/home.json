@@ -273,6 +273,39 @@
     "language": {
       "title": "Lingua"
     },
+    "kiosk": {
+      "title": "Modalità chiosco",
+      "hint": "Per un touchscreen o uno schermo: dopo un po' che nessuno lo usa, la mappa lascia il posto a una presentazione delle foto dei viaggi. Un tocco, un clic o un tasto riportano la mappa esattamente com'era.",
+      "idle": "Avvia la presentazione dopo",
+      "minutes_one": "{{count}} min",
+      "minutes_other": "{{count}} min",
+      "photoTime": "Durata di ogni foto",
+      "seconds_one": "{{count}} s",
+      "seconds_other": "{{count}} s",
+      "order": "Ordine",
+      "orders": {
+        "shuffle": "Casuale",
+        "trips": "Ordine dei viaggi"
+      },
+      "trips": "Viaggi",
+      "selections": {
+        "all": "Tutti i viaggi",
+        "selected": "Viaggi scelti"
+      },
+      "photos_one": "{{count}} foto",
+      "photos_other": "{{count}} foto",
+      "toggles": {
+        "hasCaptions": "Mostra il luogo e il viaggio",
+        "hasTransitions": "Dissolvenza tra le foto",
+        "isFullscreen": "Schermo intero",
+        "restoresOnReload": "Resta in modalità chiosco dopo un ricaricamento"
+      },
+      "noPhotos": "I viaggi scelti non hanno foto da mostrare, quindi la presentazione non può partire.",
+      "enable": "Attiva la modalità chiosco",
+      "disable": "Disattiva la modalità chiosco",
+      "slideshow": "Presentazione delle foto dei viaggi",
+      "wake": "Torna alla mappa"
+    },
     "about": {
       "title": "Informazioni",
       "version": "Versione",

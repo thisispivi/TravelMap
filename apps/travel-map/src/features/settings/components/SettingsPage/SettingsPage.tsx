@@ -7,12 +7,14 @@ import { ComponentType, ReactNode } from "react";
 
 import { AboutSection } from "../AboutSection/AboutSection";
 import { AppearanceSection } from "../AppearanceSection/AppearanceSection";
+import { KioskSection } from "../KioskSection/KioskSection";
 import { LanguageSection } from "../LanguageSection/LanguageSection";
 
 /* The page, in order. A new section is one component and one line here. */
 const SECTIONS: { id: string; Section: ComponentType }[] = [
   { id: "appearance", Section: AppearanceSection },
   { id: "language", Section: LanguageSection },
+  { id: "kiosk", Section: KioskSection },
   { id: "about", Section: AboutSection },
 ];
 

@@ -52,10 +52,12 @@ covers the full setup and authoring workflow.
 - Trip and place lists, grouped into views.
 - Photo galleries and a full-screen lightbox.
 - A chronological timeline, and travel statistics for distance, transport,
-  countries, continents, currencies, time zones, companies, UNESCO sites, and
-  media.
+  countries, continents, currencies, time zones, companies, UNESCO sites, the
+  Wonders of the World, and media.
 - A passport page: a booklet with an original stamp for every country on the
   map, inked for the ones you have entered.
+- A kiosk mode for a touchscreen or a display: when nobody is using the site,
+  it shows a slideshow of trip photos.
 - Responsive mobile and desktop layouts, light and dark themes, and English and
   Italian interfaces.
 

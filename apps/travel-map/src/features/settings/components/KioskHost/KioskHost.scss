@@ -1,0 +1,50 @@
+@use "variables" as v;
+@use "mixins" as m;
+
+/* Near-black whatever the theme, as the lightbox is: photographs read best on it. */
+.kiosk-slideshow {
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: rgb(8, 12, 20);
+
+  &__wake {
+    @include m.bare-button();
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    cursor: default;
+  }
+
+  &__photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  &__caption {
+    position: absolute;
+    bottom: v.$space6;
+    left: v.$space6;
+    display: flex;
+    flex-direction: column;
+    gap: v.$space1;
+    max-width: calc(100% - 2 * #{v.$space6});
+    color: #ffffff;
+    font-size: v.$bodySm;
+    text-align: left;
+    text-shadow: 0 0.0625rem 0.5rem rgb(0 0 0 / 70%);
+  }
+
+  &__place {
+    font-size: v.$headingLg;
+    font-weight: 700;
+  }
+}
