@@ -10,8 +10,9 @@
 
   &__trigger {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.25rem 0.5rem;
     width: 100%;
     padding-right: 2rem;
     text-align: left;
@@ -25,7 +26,10 @@
     color: v.$ink2;
   }
 
+  /* The date keeps its width and the time drops below it in a narrow column. */
   &__value {
+    flex: none;
+    max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

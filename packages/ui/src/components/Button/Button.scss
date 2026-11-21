@@ -9,14 +9,17 @@
   align-items: center;
   justify-content: center;
   gap: v.$space2;
+  max-width: 100%;
   min-height: 2.5rem;
-  padding: 0 v.$space4;
+  padding: v.$space2 v.$space4;
   border-radius: v.$radiusPill;
   font-size: v.$bodySm;
   font-weight: 650;
-  line-height: 1;
+  line-height: 1.2;
+  text-align: center;
   text-decoration: none;
-  white-space: nowrap;
+  /* A long label (Italian runs far longer than English) wraps instead of pushing its panel sideways. */
+  overflow-wrap: anywhere;
 
   svg {
     width: 1rem;
