@@ -10,7 +10,9 @@ import { assertLocalRequest, sendError, sendJson } from "./http.ts";
  * Adds every regular file under a directory to a zip, keyed by its path inside
  * `data/`. Links are never followed, so one cannot pull a file from outside the
  * dataset into the archive; `readdir`'s own `recursive` option does follow
- * them. The `.tmp` files an interrupted atomic write leaves behind are skipped.
+ * them. Hidden entries (a `.DS_Store`, a tool's cache) and the `.tmp` files an
+ * interrupted atomic write leaves behind are not the author's data, so they
+ * are skipped.
  * @param {string} dataRoot - Absolute dataset directory
  * @param {string} directory - Absolute directory being walked
  * @param {Zippable} files - The archive's entries, filled in place
@@ -22,6 +24,7 @@ async function addDirectory(
   files: Zippable,
 ): Promise<void> {
   for (const entry of await readdir(directory, { withFileTypes: true })) {
+    if (entry.name.startsWith(".")) continue;
     const path = join(directory, entry.name);
     if (entry.isDirectory()) await addDirectory(dataRoot, path, files);
     else if (entry.isFile() && !entry.name.endsWith(".tmp"))

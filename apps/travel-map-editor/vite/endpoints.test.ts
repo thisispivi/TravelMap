@@ -127,7 +127,7 @@ describe("local editor endpoints", () => {
     expect(response.status).toBe(200);
   });
 
-  it("exports the data folder with its logos as a zip, leaving links and partial writes out", async () => {
+  it("exports the data folder with its logos as a zip, leaving links, hidden files and partial writes out", async () => {
     await post("/__data/write", {
       path: "site.config.json",
       value: { site: { name: "Map" } },
@@ -136,6 +136,7 @@ describe("local editor endpoints", () => {
     await mkdir(join(root, "logos"), { recursive: true });
     await writeFile(join(root, "logos", "airline.svg"), "<svg/>");
     await writeFile(join(root, "half-written.json.tmp"), "{");
+    await writeFile(join(root, ".DS_Store"), "");
     const outside = await mkdtemp(join(tmpdir(), "travelmap-outside-"));
     await writeFile(join(outside, "secret.txt"), "secret");
     await symlink(outside, join(root, "linked"), "junction");
