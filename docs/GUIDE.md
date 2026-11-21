@@ -154,6 +154,11 @@ in local time (the editor shows which time zone), distance, duration, airline
 and flight number. If you leave distance or duration empty, the site shows an
 estimate marked "about".
 
+A stay in a country with one of the Wonders of the World (the Colosseum in
+Italy, Petra in Jordan, and so on) shows a **Wonder of the World** checkbox.
+Tick it if you saw the wonder during that stay; the statistics page only counts
+the wonders you tick, never a visit to the city alone.
+
 ### Future trips
 
 A trip whose start date is in the future counts as planned:
@@ -344,10 +349,13 @@ Because `data/` is not in git, the editor keeps its own backups. Every risky
 action writes a full snapshot to `.data-snapshots/`, and the editor keeps the
 last 30.
 
-Open **Settings → Backups** to take one by hand, restore an earlier one, or
-download one as a single file. Snapshots cover everything you have authored
-(trips, cities, countries, settings, photo lists) but not the image files
-themselves. Keep your own copy of `media/` and your original photos.
+Open **Settings → Backups** to take one by hand or restore an earlier one.
+Snapshots cover everything you have authored (trips, cities, countries,
+settings, photo lists) but not the image files themselves.
+
+**Download everything as a zip** saves the whole `data/` folder, transport
+logos included, as one file you can keep somewhere else. It still leaves out
+the photos, so keep your own copy of `media/` and your original photos.
 
 ## 12. Running the finished site with Docker
 

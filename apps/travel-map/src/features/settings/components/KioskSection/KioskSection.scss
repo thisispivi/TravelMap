@@ -1,0 +1,68 @@
+@use "variables" as v;
+@use "mixins" as m;
+
+.kiosk-section {
+  &__hint {
+    color: v.$ink2;
+    font-size: v.$bodySm;
+  }
+
+  &__setting {
+    display: flex;
+    flex-direction: column;
+    gap: v.$space2;
+  }
+
+  &__label {
+    @include m.eyebrow();
+  }
+
+  &__trips {
+    display: flex;
+    flex-direction: column;
+    gap: v.$space1;
+    max-height: 16rem;
+    padding: v.$space2;
+    overflow-y: auto;
+    border-radius: v.$radiusSm;
+    background: v.$cardSunken;
+    list-style: none;
+  }
+
+  &__toggles {
+    display: flex;
+    flex-direction: column;
+    gap: v.$space2;
+  }
+
+  &__check {
+    display: flex;
+    align-items: center;
+    gap: v.$space2;
+    min-height: 2.25rem;
+    font-size: v.$bodySm;
+    cursor: pointer;
+  }
+
+  &__input {
+    width: 1.125rem;
+    height: 1.125rem;
+    flex: none;
+    accent-color: v.$accent;
+  }
+
+  &__count {
+    margin-left: auto;
+    color: v.$ink3;
+    font-size: v.$caption;
+  }
+
+  &__warning {
+    color: v.$visitedInk;
+    font-size: v.$bodySm;
+  }
+
+  &__action {
+    align-self: flex-start;
+  }
+}
