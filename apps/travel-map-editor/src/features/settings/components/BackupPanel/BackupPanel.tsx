@@ -6,8 +6,6 @@ import { Download, RotateCcw, ShieldPlus } from "lucide-react";
 import { ReactNode, useEffect, useState } from "react";
 
 import {
-  buildBundle,
-  downloadBundle,
   listSnapshots,
   readSnapshot,
   restoreSnapshot,
@@ -15,7 +13,6 @@ import {
 } from "@/data/snapshots";
 import { useConfirm } from "@/shared/components/ConfirmDialog/ConfirmDialog";
 import { useToast } from "@/shared/components/Toast/Toast";
-import { useDataset } from "@/shared/hooks/useDataset";
 
 /**
  * Turns a snapshot file name back into something readable.
@@ -41,7 +38,6 @@ function describeSnapshot(name: string): string {
 export function BackupPanel(): ReactNode {
   const { t } = useLanguage(["editor"]);
   const { showToast } = useToast();
-  const dataset = useDataset();
   const [names, setNames] = useState<string[]>([]);
   const [message, setMessage] = useState("");
   const { confirm, confirmDialog } = useConfirm();
@@ -106,10 +102,11 @@ export function BackupPanel(): ReactNode {
           <ShieldPlus aria-hidden="true" />
           {t("backup.takeSnapshot")}
         </Button>
-        <Button onClick={() => downloadBundle(buildBundle(dataset, "export"))}>
+        {/* The dev server zips data/ itself, so logos travel with the JSON. */}
+        <a className="button button--neutral" download href="/__export">
           <Download aria-hidden="true" />
           {t("backup.download")}
-        </Button>
+        </a>
         <output className="editor-form__message">{message}</output>
       </div>
       {names.length === 0 ? (

@@ -1,4 +1,5 @@
 import {
+  mkdir,
   mkdtemp,
   readdir,
   readFile,
@@ -10,11 +11,13 @@ import { createServer, type Server } from "node:http";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
+import { unzipSync } from "fflate";
 import { createServer as createViteServer, type ViteDevServer } from "vite";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
 import { assetWriter } from "./assetWriter.ts";
 import { cityIndex } from "./cityIndex.ts";
+import { dataExport } from "./dataExport.ts";
 import { dataWriter } from "./dataWriter.ts";
 import { snapshots } from "./snapshots.ts";
 
@@ -31,6 +34,7 @@ beforeEach(async () => {
     server: { middlewareMode: true, watch: null },
     plugins: [
       dataWriter(root),
+      dataExport(root),
       assetWriter(join(root, "logos")),
       snapshots(join(root, "snapshots")),
       cityIndex(),
@@ -121,6 +125,34 @@ describe("local editor endpoints", () => {
       value: {},
     });
     expect(response.status).toBe(200);
+  });
+
+  it("exports the data folder with its logos as a zip, leaving links, hidden files and partial writes out", async () => {
+    await post("/__data/write", {
+      path: "site.config.json",
+      value: { site: { name: "Map" } },
+      base: null,
+    });
+    await mkdir(join(root, "logos"), { recursive: true });
+    await writeFile(join(root, "logos", "airline.svg"), "<svg/>");
+    await writeFile(join(root, "half-written.json.tmp"), "{");
+    await writeFile(join(root, ".DS_Store"), "");
+    const outside = await mkdtemp(join(tmpdir(), "travelmap-outside-"));
+    await writeFile(join(outside, "secret.txt"), "secret");
+    await symlink(outside, join(root, "linked"), "junction");
+
+    const response = await fetch(`${origin}/__export`);
+    expect(response.status).toBe(200);
+    expect(response.headers.get("content-type")).toBe("application/zip");
+    const files = unzipSync(new Uint8Array(await response.arrayBuffer()));
+    expect(Object.keys(files).toSorted()).toEqual([
+      "data/logos/airline.svg",
+      "data/site.config.json",
+    ]);
+    expect(new TextDecoder().decode(files["data/logos/airline.svg"])).toBe(
+      "<svg/>",
+    );
+    await rm(outside, { recursive: true, force: true });
   });
 
   it("rejects cross-origin requests and returns responses for unsupported methods", async () => {

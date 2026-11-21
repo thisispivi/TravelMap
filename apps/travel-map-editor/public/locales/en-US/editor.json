@@ -361,7 +361,7 @@
     "title": "Backups",
     "hint": "data/ is not in git, so these snapshots are the only second copy of your content. One is taken automatically before every delete and import.",
     "takeSnapshot": "Take a snapshot",
-    "download": "Download a copy",
+    "download": "Download everything as a zip",
     "snapshotTaken": "Snapshot taken.",
     "restored": "Snapshot restored.",
     "failed": "That did not work.",

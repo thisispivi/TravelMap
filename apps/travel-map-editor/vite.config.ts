@@ -5,6 +5,7 @@ import { defineConfig, mergeConfig } from "vite";
 
 import { assetWriter } from "./vite/assetWriter.ts";
 import { cityIndex } from "./vite/cityIndex.ts";
+import { dataExport } from "./vite/dataExport.ts";
 import { dataWriter } from "./vite/dataWriter.ts";
 import { mediaUploader } from "./vite/mediaUploader.ts";
 import { snapshots } from "./vite/snapshots.ts";
@@ -13,6 +14,7 @@ export default defineConfig(
   mergeConfig(sharedViteConfig(import.meta.dirname), {
     plugins: [
       dataWriter(resolve(import.meta.dirname, "../../data")),
+      dataExport(resolve(import.meta.dirname, "../../data")),
       assetWriter(resolve(import.meta.dirname, "../../data/logos")),
       cityIndex(),
       mediaUploader(

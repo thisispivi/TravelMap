@@ -15,7 +15,7 @@ import { applyWrites, DatasetSnapshot, getDataset } from "./store";
  * @param {string} reason - Why the snapshot is being taken
  * @returns {SnapshotBundle} The bundle
  */
-export function buildBundle(
+function buildBundle(
   dataset: DatasetSnapshot,
   reason: string,
 ): SnapshotBundle {
@@ -114,21 +114,4 @@ export async function readSnapshot(name: string): Promise<SnapshotBundle> {
 export async function restoreSnapshot(bundle: SnapshotBundle): Promise<void> {
   await snapshotBeforeChange("before restore");
   await applyWrites(bundle.documents, { isOverwrite: true });
-}
-
-/**
- * Downloads a bundle as a file, so a backup can live somewhere other than this
- * machine. `data/` is gitignored, so nothing else carries content off it.
- * @param {SnapshotBundle} bundle - The bundle to download
- * @returns {void}
- */
-export function downloadBundle(bundle: SnapshotBundle): void {
-  const url = URL.createObjectURL(
-    new Blob([JSON.stringify(bundle, null, 2)], { type: "application/json" }),
-  );
-  const link = document.createElement("a");
-  link.download = snapshotName(bundle.createdAt, bundle.reason);
-  link.href = url;
-  link.click();
-  URL.revokeObjectURL(url);
 }
