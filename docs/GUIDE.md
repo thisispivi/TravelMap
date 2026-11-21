@@ -316,6 +316,7 @@ The editor's **Settings** screen holds every global setting:
 | Setting                                | What it does                                                                                                     |
 | -------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
 | Site name, domain, description, author | Page title, search metadata, and the custom domain used when publishing                                          |
+| Offer kiosk mode                       | Off by default. When on, the site's Settings page gets a Kiosk mode section for running the site on a display    |
 | Locales                                | Extra languages you can write translated names in                                                                |
 | Home city                              | Your own city, shown with its own marker                                                                         |
 | Nationality                            | Colours the passport page's cover like your own passport. Without one, the home city's country is used           |

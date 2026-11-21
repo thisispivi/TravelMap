@@ -5,6 +5,8 @@ import { PanelHeader } from "@travelmap/ui/components/PanelHeader/PanelHeader";
 import { useLanguage } from "@travelmap/ui/hooks/useLanguage";
 import { ComponentType, ReactNode } from "react";
 
+import { siteConfig } from "@/data/world";
+
 import { AboutSection } from "../AboutSection/AboutSection";
 import { AppearanceSection } from "../AppearanceSection/AppearanceSection";
 import { KioskSection } from "../KioskSection/KioskSection";
@@ -14,7 +16,7 @@ import { LanguageSection } from "../LanguageSection/LanguageSection";
 const SECTIONS: { id: string; Section: ComponentType }[] = [
   { id: "appearance", Section: AppearanceSection },
   { id: "language", Section: LanguageSection },
-  { id: "kiosk", Section: KioskSection },
+  ...(siteConfig?.kioskMode ? [{ id: "kiosk", Section: KioskSection }] : []),
   { id: "about", Section: AboutSection },
 ];
 
