@@ -12,6 +12,7 @@ import { Combobox, MultiCombobox } from "@/shared/components/Combobox/Combobox";
 import { useConfirm } from "@/shared/components/ConfirmDialog/ConfirmDialog";
 import { DocumentScreen } from "@/shared/components/DocumentScreen/DocumentScreen";
 import {
+  CheckboxField,
   NumberField,
   StringListField,
   TextField,
@@ -157,6 +158,11 @@ export function SettingsScreen({ file }: SettingsScreenProps): ReactNode {
             })
           }
           value={site.keywords?.join(", ") ?? ""}
+        />
+        <CheckboxField
+          label={t("configScreen.kioskMode")}
+          onChange={(kioskMode) => setValue({ ...value, kioskMode })}
+          value={value.kioskMode}
         />
       </section>
       <section className="editor-panel">

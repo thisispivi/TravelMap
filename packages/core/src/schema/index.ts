@@ -280,6 +280,8 @@ export const SiteConfigSchema = z.strictObject({
   companies: z.record(z.string().min(1), CompanySchema).optional(),
   futureCityIds: z.array(idSchema).optional(),
   homeCityId: idSchema.nullable().optional(),
+  /* Off unless set: only a site shown on a display needs the kiosk settings. */
+  kioskMode: z.boolean().optional(),
   livedCityIds: z.array(idSchema).optional(),
   locales: z.array(z.string().trim().min(1)).optional(),
   map: z

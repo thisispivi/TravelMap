@@ -189,6 +189,7 @@
     "author": "Author",
     "authorPlaceholder": "Your name",
     "commaSeparated": "Comma separated.",
+    "kioskMode": "Offer kiosk mode in the site settings",
     "keywords": "Keywords",
     "locales": "Locales",
     "localesHint": "Every country, city, and trip can carry a translated name for each locale listed here.",

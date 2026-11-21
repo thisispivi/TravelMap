@@ -8,6 +8,7 @@ import { PanelLeftOpen } from "lucide-react";
 import { lazy, ReactNode, Suspense, useEffect, useState } from "react";
 import { useLocation, useNavigation } from "react-router";
 
+import { siteConfig } from "@/data/world";
 import { AppNav } from "@/features/navigation/components/AppNav/AppNav";
 import { KioskHost } from "@/features/settings/components/KioskHost/KioskHost";
 import { BottomSheet } from "@/shared/components/BottomSheet/BottomSheet";
@@ -321,7 +322,7 @@ export function MapShellLayout({
         </BottomSheet>
       ) : null}
       {!isJournalNavigation ? <PendingNavigation /> : null}
-      <KioskHost />
+      {siteConfig?.kioskMode ? <KioskHost /> : null}
     </div>
   );
 }
