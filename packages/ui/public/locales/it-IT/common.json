@@ -36,5 +36,15 @@
     "switchToLight": "Passa alla modalità chiara",
     "switchToDark": "Passa alla modalità scura"
   },
-  "language": "Cambia lingua"
+  "language": "Cambia lingua",
+  "wonders": {
+    "greatWall": "Grande Muraglia cinese",
+    "petra": "Petra",
+    "colosseum": "Colosseo",
+    "chichenItza": "Chichén Itzá",
+    "machuPicchu": "Machu Picchu",
+    "tajMahal": "Taj Mahal",
+    "christTheRedeemer": "Cristo Redentore",
+    "gizaPyramid": "Grande Piramide di Giza"
+  }
 }

@@ -273,6 +273,7 @@ function resolveTrip(
       targetRowHeight: step.targetRowHeight,
       type: "stay",
       visitIndex: 0,
+      wonders: step.wonders ?? [],
     };
   });
 

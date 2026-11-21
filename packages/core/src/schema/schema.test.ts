@@ -141,6 +141,29 @@ describe("authored stays and moves", () => {
     ).toBe(false);
   });
 
+  it("accepts a stay tagged with a wonder and rejects a landmark off the list", () => {
+    /**
+     * Parses a trip whose only stay is tagged with the given wonders.
+     * @param {string[]} wonders - The tags
+     * @returns {boolean} Whether the trip passed
+     */
+    const parses = (wonders: string[]): boolean =>
+      TripJsonSchema.safeParse({
+        ...trip,
+        steps: [
+          {
+            checkIn: "2026-05-01",
+            checkOut: "2026-05-03",
+            cityId: "rome",
+            type: "stay",
+            wonders,
+          },
+        ],
+      }).success;
+    expect(parses(["colosseum"])).toBe(true);
+    expect(parses(["eiffelTower"])).toBe(false);
+  });
+
   it("accepts a photo range and rejects one that ends before it starts", () => {
     /**
      * Builds a trip with one stay owning part of a shared gallery.

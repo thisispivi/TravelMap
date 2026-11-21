@@ -532,7 +532,8 @@
     },
     "dayTripCount_one": "{{count}} gita",
     "dayTripCount_other": "{{count}} gite",
-    "drawHint": "Tocca un puntino sulla mappa per andarci, o un punto vuoto per aggiungere un posto nuovo."
+    "drawHint": "Tocca un puntino sulla mappa per andarci, o un punto vuoto per aggiungere un posto nuovo.",
+    "wonder": "Meraviglia del mondo: {{name}}"
   },
   "upload": {
     "open": "Carica foto",

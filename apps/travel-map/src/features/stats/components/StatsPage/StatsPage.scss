@@ -31,6 +31,7 @@
       "edges edges"
       "hemispheres hemispheres"
       "lines lines"
+      "wonders wonders"
       "days days"
       "h1 h1"
       "h2 h2"
@@ -60,6 +61,7 @@
         "records records records clock clock clock"
         "edges edges edges hemispheres hemispheres hemispheres"
         "lines lines lines lines lines lines"
+        "wonders wonders wonders wonders wonders wonders"
         "days days days days days days"
         "h1 h1 h2 h2 h3 h3"
         "trips trips trips trips trips trips"
@@ -81,6 +83,7 @@
         "days days days days days days days days h2 h2 h2 h2"
         "days days days days days days days days h3 h3 h3 h3"
         "trips trips trips trips trips trips trips trips currencies currencies currencies currencies"
+        "wonders wonders wonders wonders wonders wonders wonders wonders wonders wonders wonders wonders"
         "operators operators operators operators operators operators operators operators operators operators operators operators";
       grid-template-columns: repeat(12, minmax(0, 1fr));
     }
@@ -101,7 +104,7 @@
 
   @each $area in f1, f2, f3, f4, f5, f6, h1, h2, h3, continents, countries,
     distance, world, modes, flightTypes, records, topTrips, topPlaces, clock,
-    edges, hemispheres, lines, days, trips, currencies, operators
+    edges, hemispheres, lines, wonders, days, trips, currencies, operators
   {
     &--#{$area} {
       grid-area: $area;
@@ -270,6 +273,82 @@
     flex-direction: column;
     gap: v.$space1;
     list-style: none;
+  }
+
+  &__wonders-count {
+    @include m.figure();
+    color: v.$ink;
+    font-size: v.$headingLg;
+  }
+
+  &__wonders {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+    gap: v.$space2;
+    list-style: none;
+  }
+
+  &__wonders-heading {
+    @include m.eyebrow();
+  }
+
+  &__wonder {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: v.$space1 v.$space3;
+    padding: v.$space2 v.$space3;
+    border-radius: v.$radiusSm;
+    background: v.$cardSunken;
+    color: v.$ink2;
+
+    &--seen {
+      background: v.$greenSoft;
+      color: v.$ink;
+    }
+  }
+
+  &__wonder-icon {
+    width: 1rem;
+    height: 1rem;
+    color: v.$ink3;
+
+    .stats-tile__wonder--seen & {
+      color: v.$greenInk;
+    }
+  }
+
+  &__wonder-name {
+    display: inline-flex;
+    align-items: center;
+    gap: v.$space2;
+    min-width: 0;
+    font-weight: 650;
+  }
+
+  &__wonder-status {
+    font-size: v.$caption;
+    color: v.$ink3;
+
+    .stats-tile__wonder--seen & {
+      color: v.$greenInk;
+    }
+  }
+
+  &__wonder-trips {
+    display: flex;
+    flex-wrap: wrap;
+    grid-column: 2 / -1;
+    gap: v.$space1 v.$space3;
+    font-size: v.$caption;
+  }
+
+  &__wonder-trip {
+    color: inherit;
+
+    &:focus-visible {
+      @include m.focus-ring();
+    }
   }
 
   /* Two rows side by side when there is room, one over the other when not. */
