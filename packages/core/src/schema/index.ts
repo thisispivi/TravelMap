@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import { COUNTRIES } from "../countries/catalogue.ts";
+import { WONDERS } from "../countries/wonders.ts";
 
 /** A finite number used by authored coordinates, dimensions, and map settings. */
 const finiteNumberSchema = z.number().finite();
@@ -188,6 +189,9 @@ export const TripOutingJsonSchema = z.strictObject({
   legs: LegsSchema,
 });
 
+/** One of the Wonders of the World a stay's visit included. */
+export const WonderIdSchema = z.enum(WONDERS.map(({ id }) => id));
+
 /**
  * A place the traveller slept. Nights are `checkOut - checkIn`, so a stay is
  * the one thing that answers "where did I sleep on the 24th".
@@ -203,6 +207,11 @@ export const TripStayJsonSchema = z
     rowConstraints: RowConstraintsSchema.optional(),
     targetRowHeight: finiteNumberSchema.positive().optional(),
     type: z.literal("stay"),
+    /*
+     * Tagged by hand: sleeping in Rome does not mean seeing the Colosseum, so
+     * the city alone never ticks a wonder off.
+     */
+    wonders: z.array(WonderIdSchema).optional(),
   })
   .refine((stay) => stay.checkOut >= stay.checkIn, {
     error: "A stay cannot check out before it checks in.",

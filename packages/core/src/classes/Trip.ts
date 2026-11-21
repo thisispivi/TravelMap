@@ -1,5 +1,6 @@
 import { unique } from "remeda";
 
+import { WonderId } from "../countries/wonders";
 import { CompanyId, PhotoRange, TransportMode } from "../schema";
 import { localize } from "../typings/Localized";
 import { daysBetween, formatLocalDate, parseLocalDate } from "../world/date";
@@ -111,6 +112,7 @@ export interface TripOuting {
  * @property {number} [targetRowHeight] - Gallery row height override
  * @property {TripOuting[]} outings - Day trips taken from here
  * @property {number} visitIndex - How many earlier stays this city has had, across all trips
+ * @property {WonderId[]} wonders - Wonders of the World seen while staying here
  */
 export interface TripStay {
   type: "stay";
@@ -123,6 +125,7 @@ export interface TripStay {
   targetRowHeight?: number;
   outings: TripOuting[];
   visitIndex: number;
+  wonders: WonderId[];
 }
 
 /**

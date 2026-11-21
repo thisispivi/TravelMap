@@ -244,6 +244,14 @@
       "arrivals_other": "{{count}} arrivals",
       "flights_one": "{{count}} flight",
       "flights_other": "{{count}} flights"
+    },
+    "wonders": {
+      "title": "Wonders of the World",
+      "count_one": "{{count}} of {{total}} New7Wonders seen",
+      "count_other": "{{count}} of {{total}} New7Wonders seen",
+      "seen": "Seen",
+      "notSeen": "Not seen yet",
+      "ancient": "The surviving ancient wonder"
     }
   },
   "settings": {

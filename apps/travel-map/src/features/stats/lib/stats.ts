@@ -25,6 +25,7 @@ import {
   getOperatorGroups,
   getTransportModeStats,
 } from "./transport";
+import { getWonderVisits } from "./wonders";
 
 /**
  * One year of travel.
@@ -128,6 +129,7 @@ function computeStats() {
     visitedContinents: new Set(
       visitedCountries.map((country) => country.continent),
     ).size,
+    wonders: getWonderVisits(visitedTrips),
     yearsTraveling:
       visitedTrips.length > 0
         ? new Date().getFullYear() -

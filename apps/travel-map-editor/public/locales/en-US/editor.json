@@ -532,7 +532,8 @@
     },
     "dayTripCount_one": "{{count}} day trip",
     "dayTripCount_other": "{{count}} day trips",
-    "drawHint": "Tap a dot on the map to travel there, or an empty spot to add a new place."
+    "drawHint": "Tap a dot on the map to travel there, or an empty spot to add a new place.",
+    "wonder": "Wonder of the World: {{name}}"
   },
   "upload": {
     "open": "Upload photos",

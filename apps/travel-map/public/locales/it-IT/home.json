@@ -244,6 +244,14 @@
       "arrivals_other": "{{count}} arrivi",
       "flights_one": "{{count}} volo",
       "flights_other": "{{count}} voli"
+    },
+    "wonders": {
+      "title": "Meraviglie del mondo",
+      "count_one": "{{count}} delle {{total}} nuove sette meraviglie vista",
+      "count_other": "{{count}} delle {{total}} nuove sette meraviglie viste",
+      "seen": "Vista",
+      "notSeen": "Non ancora vista",
+      "ancient": "L'unica meraviglia antica ancora in piedi"
     }
   },
   "settings": {

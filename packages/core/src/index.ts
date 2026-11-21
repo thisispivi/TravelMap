@@ -7,6 +7,7 @@ export * from "./classes/Stamp";
 export * from "./classes/Travel";
 export * from "./classes/Trip";
 export * from "./countries/catalogue";
+export * from "./countries/wonders";
 export * from "./schema";
 export * from "./schema/document";
 export * from "./typings/Continent";

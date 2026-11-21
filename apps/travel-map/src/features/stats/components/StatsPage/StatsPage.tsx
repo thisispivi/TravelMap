@@ -18,6 +18,8 @@ import {
   Building2,
   CalendarDays,
   Camera,
+  Check,
+  Circle,
   Clock,
   Compass,
   Earth,
@@ -54,6 +56,7 @@ import { PlaceMeasure, TripMeasure } from "../../lib/rankings";
 import { RecordHolder, RecordId, TravelRecord } from "../../lib/records";
 import { stats } from "../../lib/stats";
 import { OperatorGroup as OperatorGroupStat } from "../../lib/transport";
+import { WonderVisit } from "../../lib/wonders";
 import { StatBars } from "../StatBars/StatBars";
 
 /** Which tile of the bento a card is, which decides how many columns it spans. */
@@ -74,6 +77,7 @@ type TileArea =
   | "topPlaces"
   | "topTrips"
   | "trips"
+  | "wonders"
   | "world";
 
 /** A figure's place in the bento: a headline number or a habit. */
@@ -1556,6 +1560,99 @@ function OperatorsTile(): ReactNode {
 }
 
 /**
+ * Properties accepted by the WonderRow component.
+ * @property {WonderVisit} wonder - The wonder and the trips that saw it
+ */
+interface WonderRowProps {
+  wonder: WonderVisit;
+}
+
+/**
+ * WonderRow component
+ * One line of the wonders checklist: a tick or an empty circle, the wonder and
+ * its flag, whether it was seen in words, and a link to every trip that saw it.
+ * @component
+ * @param {WonderRowProps} props - The row props
+ * @param {WonderVisit} props.wonder - The wonder and the trips that saw it
+ * @returns {ReactNode} The checklist row
+ */
+function WonderRow({ wonder }: WonderRowProps): ReactNode {
+  const { t, currLanguage } = useLanguage(["home", "common"]);
+  const isSeen = wonder.trips.length > 0;
+  const Icon = isSeen ? Check : Circle;
+
+  return (
+    <li
+      className={classNames(
+        "stats-tile__wonder",
+        isSeen && "stats-tile__wonder--seen",
+      )}
+    >
+      <Icon aria-hidden="true" className="stats-tile__wonder-icon" />
+      <span className="stats-tile__wonder-name">
+        {t(`common:wonders.${wonder.id}`)}
+        <CountryFlag countryId={wonder.countryId} />
+      </span>
+      <span className="stats-tile__wonder-status">
+        {t(isSeen ? "stats.wonders.seen" : "stats.wonders.notSeen")}
+      </span>
+      {isSeen ? (
+        <span className="stats-tile__wonder-trips">
+          {wonder.trips.map((trip) => (
+            <Link
+              className="stats-tile__wonder-trip"
+              key={trip.id}
+              to={`/trip/${encodeURIComponent(trip.id)}`}
+            >
+              {trip.getLocalizedTitle(currLanguage)}
+            </Link>
+          ))}
+        </span>
+      ) : null}
+    </li>
+  );
+}
+
+/**
+ * WondersTile component
+ * One tile of the statistics bento: the New7Wonders ticked off out of seven,
+ * then the Great Pyramid of Giza on its own as the surviving ancient wonder. A
+ * wonder counts only when a stay was tagged with it, never for being in the
+ * same city, so every entry is listed whether or not any trip saw it.
+ * @component
+ * @returns {ReactNode} The tile
+ */
+function WondersTile(): ReactNode {
+  const { t } = useLanguage(["home"]);
+  const modern = stats.wonders.filter(({ isAncient }) => !isAncient);
+  const ancient = stats.wonders.filter(({ isAncient }) => isAncient);
+
+  return (
+    <Card area="wonders" title={t("stats.wonders.title")}>
+      <p className="stats-tile__wonders-count">
+        {t("stats.wonders.count", {
+          count: modern.filter(({ trips }) => trips.length > 0).length,
+          total: modern.length,
+        })}
+      </p>
+      <ul className="stats-tile__wonders">
+        {modern.map((wonder) => (
+          <WonderRow key={wonder.id} wonder={wonder} />
+        ))}
+      </ul>
+      <h3 className="stats-tile__wonders-heading">
+        {t("stats.wonders.ancient")}
+      </h3>
+      <ul className="stats-tile__wonders">
+        {ancient.map((wonder) => (
+          <WonderRow key={wonder.id} wonder={wonder} />
+        ))}
+      </ul>
+    </Card>
+  );
+}
+
+/**
  * StatsPage component
  * The record in numbers as one bento grid: every figure and chart is a tile
  * on the same columns, so their edges line up, laid out unevenly on purpose —
@@ -1715,6 +1812,8 @@ export function StatsPage(): ReactNode {
           <HemispheresTile />
 
           <LinesTile />
+
+          <WondersTile />
 
           <Card area="days" title={t("stats.daysPerYear")}>
             <YearChart

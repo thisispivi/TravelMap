@@ -6,6 +6,7 @@ import {
   IssueSeverity,
   TripLegJson,
   TripStayJson,
+  WONDERS,
 } from "@travelmap/core";
 import { Button } from "@travelmap/ui/components/Button/Button";
 import { CountryFlag } from "@travelmap/ui/components/CountryFlag/CountryFlag";
@@ -18,7 +19,7 @@ import { DatasetSnapshot } from "@/data/store";
 import { Combobox } from "@/shared/components/Combobox/Combobox";
 import { useConfirm } from "@/shared/components/ConfirmDialog/ConfirmDialog";
 import { DatePicker } from "@/shared/components/DatePicker/DatePicker";
-import { NumberField } from "@/shared/components/Fields/Fields";
+import { CheckboxField, NumberField } from "@/shared/components/Fields/Fields";
 import { cityOptions } from "@/shared/lib/placeOptions";
 
 import { formatStoryDays } from "../../lib/storyDates";
@@ -97,13 +98,14 @@ export function StayCard({
   problems,
   severity,
 }: StayCardProps): ReactNode {
-  const { t, currLanguage: lang } = useLanguage(["editor"]);
+  const { t, currLanguage: lang } = useLanguage(["editor", "common"]);
   const nights = daysBetween(stay.checkIn, stay.checkOut);
   const cityJson = dataset.cities.find(
     ({ value }) => value.id === stay.cityId,
   )?.value;
   const city = cityJson?.name ?? stay.cityId;
   const outings = stay.outings ?? [];
+  const wonders = stay.wonders ?? [];
   const { confirm, confirmDialog } = useConfirm();
 
   /**
@@ -223,6 +225,22 @@ export function StayCard({
           }
           value={nights}
         />
+        {/* Only the wonders standing in the stay's own country are offered. */}
+        {WONDERS.filter(
+          ({ countryId }) => countryId === cityJson?.countryId,
+        ).map(({ id }) => (
+          <CheckboxField
+            key={id}
+            label={t("story.wonder", { name: t(`common:wonders.${id}`) })}
+            onChange={(isSeen) => {
+              const next = isSeen
+                ? [...wonders, id]
+                : wonders.filter((wonder) => wonder !== id);
+              onChange({ ...stay, wonders: next.length ? next : undefined });
+            }}
+            value={wonders.includes(id)}
+          />
+        ))}
       </div>
       <PhotosField
         dataset={dataset}

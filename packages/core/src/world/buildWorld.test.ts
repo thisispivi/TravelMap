@@ -219,6 +219,26 @@ describe("buildWorld", () => {
     expect(flight!.duration).toEqual({ estimated: false, value: 70 });
   });
 
+  it("keeps the wonders a stay is tagged with, and none for an untagged one", () => {
+    const world = buildWorld({
+      ...sources,
+      trips: sources.trips.map((trip) => ({
+        ...trip,
+        steps: trip.steps.map((step) =>
+          step.type === "stay" && step.cityId === "rome"
+            ? { ...step, wonders: ["colosseum" as const] }
+            : step,
+        ),
+      })),
+    });
+    expect(
+      world.trips[0]!.stays.map(({ city, wonders }) => [city.id, wonders]),
+    ).toEqual([
+      ["rome", ["colosseum"]],
+      ["florence", []],
+    ]);
+  });
+
   it("fails at the boundary for malformed documents", () => {
     expect(() =>
       buildWorld({
