@@ -1,1 +1,0 @@
-import{v as e}from"./src-B_2izkmF.js";function t(e,t){let n=new Intl.DisplayNames([t],{type:`currency`}).of(e)??e;return n.charAt(0).toLocaleUpperCase(t)+n.slice(1)}function n(t,n){let r=new Intl.NumberFormat(n,{currency:t,currencyDisplay:`narrowSymbol`,style:`currency`}).formatToParts(0).find(({type:e})=>e===`currency`)?.value;return r&&r!==t?r:e[t]}export{n,t};
