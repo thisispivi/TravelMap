@@ -361,7 +361,7 @@
     "title": "Backup",
     "hint": "data/ non è in git, quindi queste istantanee sono l'unica seconda copia dei tuoi contenuti. Una viene presa automaticamente prima di ogni eliminazione e importazione.",
     "takeSnapshot": "Crea un'istantanea",
-    "download": "Scarica una copia",
+    "download": "Scarica tutto in un file zip",
     "snapshotTaken": "Istantanea creata.",
     "restored": "Istantanea ripristinata.",
     "failed": "Non ha funzionato.",
