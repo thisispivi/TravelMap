@@ -244,6 +244,14 @@
       "arrivals_other": "{{count}} arrivals",
       "flights_one": "{{count}} flight",
       "flights_other": "{{count}} flights"
+    },
+    "wonders": {
+      "title": "Wonders of the World",
+      "count_one": "{{count}} of {{total}} New7Wonders seen",
+      "count_other": "{{count}} of {{total}} New7Wonders seen",
+      "seen": "Seen",
+      "notSeen": "Not seen yet",
+      "ancient": "The surviving ancient wonder"
     }
   },
   "settings": {
@@ -264,6 +272,39 @@
     },
     "language": {
       "title": "Language"
+    },
+    "kiosk": {
+      "title": "Kiosk mode",
+      "hint": "For a touchscreen or a display: after a while with nobody using it, the map gives way to a slideshow of trip photos. A tap, click, or key press brings the map back exactly as it was.",
+      "idle": "Start the slideshow after",
+      "minutes_one": "{{count}} min",
+      "minutes_other": "{{count}} min",
+      "photoTime": "Time per photo",
+      "seconds_one": "{{count}} s",
+      "seconds_other": "{{count}} s",
+      "order": "Order",
+      "orders": {
+        "shuffle": "Shuffle",
+        "trips": "Trip order"
+      },
+      "trips": "Trips",
+      "selections": {
+        "all": "All trips",
+        "selected": "Selected trips"
+      },
+      "photos_one": "{{count}} photo",
+      "photos_other": "{{count}} photos",
+      "toggles": {
+        "hasCaptions": "Show the place and trip",
+        "hasTransitions": "Fade between photos",
+        "isFullscreen": "Go full screen",
+        "restoresOnReload": "Stay in kiosk mode after a reload"
+      },
+      "noPhotos": "The chosen trips have no photos to show, so the slideshow cannot start.",
+      "enable": "Enable kiosk mode",
+      "disable": "Disable kiosk mode",
+      "slideshow": "Trip photo slideshow",
+      "wake": "Back to the map"
     },
     "about": {
       "title": "About",
